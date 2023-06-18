@@ -24,6 +24,7 @@ namespace Nox.Generator;
              Debugger.Launch(); 
         }
 #endif  
+        var compilation = context.CompilationProvider.Select((ctx,token) => ctx.GlobalNamespace);
 
         var solutionDeclaration = context.AdditionalTextsProvider
             .Where(text => text.Path.EndsWith(".solution.nox.yaml", System.StringComparison.OrdinalIgnoreCase))
@@ -34,12 +35,6 @@ namespace Nox.Generator;
 
     }
 
-    private void Initialize(CompilationStartAnalysisContext context)
-    {
-        var compilation = context.Compilation;
-        var referencedAssemblyNames = compilation.ReferencedAssemblyNames;
-    }
-
     private void GenerateSource(SourceProductionContext context, ImmutableArray<string> solutionFilePaths)
     {
 
@@ -47,8 +42,6 @@ namespace Nox.Generator;
             return;
 
         var solutionFile = Path.GetFullPath(solutionFilePaths.First());
-
-        
 
         try
         {
