@@ -3,13 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "ConsoleApp\ConsoleApp.csproj", "{94F5868D-DC56-4E50-B5B5-40D37B982AE7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleApp", "..\samples\ConsoleApp\ConsoleApp.csproj", "{94F5868D-DC56-4E50-B5B5-40D37B982AE7}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoxSourceGenerator", "NoxSourceGenerator\NoxSourceGenerator.csproj", "{D51EC17D-12C3-4101-BCF1-4EC65822CC5B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Generator", "Nox.Generator\Nox.Generator.csproj", "{D51EC17D-12C3-4101-BCF1-4EC65822CC5B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoxSourceGeneratorTests", "NoxSourceGeneratorTests\NoxSourceGeneratorTests.csproj", "{2387D8FA-F665-4ACB-AAC8-692929BBA396}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestConsoleApp", "TestConsoleApp\TestConsoleApp.csproj", "{EFCFAED0-D11B-4F80-AB4E-374E2D42531E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoxSourceGeneratorTests", "..\tests\NoxSourceGeneratorTests\NoxSourceGeneratorTests.csproj", "{2387D8FA-F665-4ACB-AAC8-692929BBA396}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

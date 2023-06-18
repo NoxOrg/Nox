@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace NoxSourceGenerator;
+﻿namespace Nox.Generator;
 
 internal static class StringExtensions
 {

@@ -1,6 +1,6 @@
 ﻿using System.Text;
 
-namespace NoxSourceGenerator;
+namespace Nox.Generator;
 
 internal class CodeBuilder
 {

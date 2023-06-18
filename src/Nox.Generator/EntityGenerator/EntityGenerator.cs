@@ -5,7 +5,7 @@ using Nox.Types;
 using System;
 using System.Text;
 
-namespace NoxSourceGenerator;
+namespace Nox.Generator;
 
 internal class EntityGenerator
 {

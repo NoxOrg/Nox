@@ -5,7 +5,7 @@ using System.Linq;
 using System.Reflection;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using NoxSourceGenerator;
+using Nox.Generator;
 using Xunit;
 using Xunit.Abstractions;
 
