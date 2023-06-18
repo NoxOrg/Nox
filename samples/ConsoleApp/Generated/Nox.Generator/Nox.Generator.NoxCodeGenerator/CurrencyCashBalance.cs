@@ -1,14 +1,14 @@
 ﻿// Generated
 
 using Nox.Types;
+using System.Collections.Generic;
 
 namespace SampleService.Domain;
-
 
 /// <summary>
 /// The cash balance in Store.
 /// </summary>
-public partial class CurrencyCashBalance
+public partial class CurrencyCashBalance : AuditableEntityBase
 {
     
     /// <summary>

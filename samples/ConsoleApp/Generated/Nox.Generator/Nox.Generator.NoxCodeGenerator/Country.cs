@@ -1,19 +1,19 @@
 ﻿// Generated
 
 using Nox.Types;
+using System.Collections.Generic;
 
 namespace SampleService.Domain;
 
 /// <summary>
 /// The identifier (primary key) for a Country.
-/// <summary>
+/// </summary>
 public class CountryId : ValueObject<Text,CountryId> {}
-
 
 /// <summary>
 /// A nation with its own government, occupying a particular territory.
 /// </summary>
-public partial class Country
+public partial class Country : AuditableEntityBase
 {
     
     /// <summary>
@@ -95,4 +95,14 @@ public partial class Country
     /// The top level internet domains regitered to the country (comma-delimited) (optional).
     /// </summary>
     public Text? TopLevelDomains { get; set; } = null!;
+    
+    /// <summary>
+    /// Country accepts as legal tender OneOrMany Currencies
+    /// </summary>
+    public Currency Currencies { get; set; } = null!;
+    
+    /// <summary>
+    /// Country is also know as OneOrMany CountryLocalNames
+    /// </summary>
+    public CountryLocalNames CountryLocalNames { get; set; } = null!;
 }

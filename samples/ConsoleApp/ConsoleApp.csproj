@@ -12,9 +12,13 @@
     <CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
   </PropertyGroup>
 
+  <Target Name="CleanSourceGeneratedFiles" BeforeTargets="BeforeBuild" DependsOnTargets="$(BeforeBuildDependsOn)">
+    <RemoveDir Directories="Generated" />
+  </Target>
+
   <ItemGroup>
-    <!-- Exclude the output of source generators from the compilation -->
-    <Compile Remove="$(CompilerGeneratedFilesOutputPath)/**/*.cs" />
+    <Compile Remove="Generated\**" />
+    <Content Include="Generated\**" />
   </ItemGroup>
 
   <ItemGroup>

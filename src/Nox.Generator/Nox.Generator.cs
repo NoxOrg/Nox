@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using FluentValidation;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
 using Nox.Solution;
 using YamlDotNet.Core;
@@ -20,29 +21,34 @@ namespace Nox.Generator;
 #if DEBUG
         if (!Debugger.IsAttached)
         {
-            // Debugger.Launch(); 
+             Debugger.Launch(); 
         }
-#endif 
+#endif  
+
         var solutionDeclaration = context.AdditionalTextsProvider
             .Where(text => text.Path.EndsWith(".solution.nox.yaml", System.StringComparison.OrdinalIgnoreCase))
             .Select((text, token) => text.Path)
             .Collect();
         
         context.RegisterSourceOutput(solutionDeclaration, GenerateSource);
+
+    }
+
+    private void Initialize(CompilationStartAnalysisContext context)
+    {
+        var compilation = context.Compilation;
+        var referencedAssemblyNames = compilation.ReferencedAssemblyNames;
     }
 
     private void GenerateSource(SourceProductionContext context, ImmutableArray<string> solutionFilePaths)
     {
 
-        var sb = new StringBuilder();
-        sb.AppendLine($"// Nox Generator - {DateTime.Now:dddd, dd MMMM yyyy HH:mm:ss}");
-
         if (solutionFilePaths.Length != 1)
             return;
 
         var solutionFile = Path.GetFullPath(solutionFilePaths.First());
-        sb.AppendLine($"// File: {solutionFile}");
-        sb.AppendLine($"//");
+
+        
 
         try
         {
@@ -53,20 +59,27 @@ namespace Nox.Generator;
             if (solution.Domain is null)
                 return;
 
+            context.CancellationToken.ThrowIfCancellationRequested();
+
+            EntityBaseGenerator.Generate(context, solutionNameSpace);
+
+            context.CancellationToken.ThrowIfCancellationRequested();
+
+            AuditableEntityBaseGenerator.Generate(context, solutionNameSpace);
+
             foreach (var entity in solution.Domain.Entities)
             {
-                sb.AppendLine($"// Entity: {entity.Name}");
+                context.CancellationToken.ThrowIfCancellationRequested();
 
-                EntityGenerator.Generate(context, solutionNameSpace, entity);
+                EntitiesGenerator.Generate(context, solutionNameSpace, entity);
             }
 
         }
-        catch (YamlException e)
+        catch (YamlException)
         {
-            sb.AppendLine($"// ERROR: {e.Message} - {e.InnerException?.Message}");
+            // write to notimessage here.
         }
 
-        context.AddSource($"Nox.Generator.Info.cs", SourceText.From(sb.ToString(), Encoding.UTF8));
     }
 }
 
