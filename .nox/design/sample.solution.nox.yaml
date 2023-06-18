@@ -1,0 +1,485 @@
+#
+# workplace.solution.nox.yaml
+#
+
+name: SampleService
+
+description: Sample Nox solution yaml configuration
+
+variables:
+  DATABASE_PROVIDER: slqServer
+  DATABASE_SERVER: localhost
+  DATABASE_USER: sa
+  DATABASE_PASSWORD: Developer*123
+  DATABASE_PORT: "5432"
+
+environments:
+
+  - name: dev
+    description: Used for development and testing
+
+  - name: test
+    description: Test environment
+
+  - name: uat
+    description: For them end users to check it works
+
+  - name: prod
+    description: Production environment used for, well - the real thing!
+    isProduction: true
+
+versionControl:
+  provider: azureDevops
+  host: https://dev.azure.com/iwgplc
+  folders:
+    sourceCode: /src
+    containers: /docker
+
+team:
+
+  - name: Andre Sharpe
+    userName: andre.sharpe@iwgplc.com
+    roles: [architect, owner, administrator, developer, manager]
+
+  - name: Jan Schutte
+    userName: jan.schutte@iwgplc.com
+    roles: [architect, administrator, developer, devOpsEngineer]
+
+  - name: Anton Du Plessis
+    userName: anton.duplessis@iwgplc.com
+    roles: [projectManager]
+
+  - name: Morne Van Zyl
+    userName: morne.vanzyl@iwgplc.com
+    roles: [technicalWriter]
+
+  - name: Dmytro Dorodnykh
+    userName: dmytro.dorodnykh@iwgplc.com
+    roles: [developer]
+
+  - name: Oleksandr Vlasenko
+    userName: oleksandr.vlasenko@regus.com
+    roles: [architect, developer]
+
+domain:
+
+  entities:
+
+    - name: Country
+      description: A nation with its own government, occupying a particular territory 
+      
+      userInterface:
+        icon: world
+
+      persistence:
+        isVersioned: true
+        tableName: Country
+        schema: dbo
+        create:
+          isEnabled: true
+          raiseEvents: true
+        read:
+          isEnabled: true
+        update:
+          isEnabled: true
+          raiseEvents: true
+        delete:
+          isEnabled: true
+          raiseEvents: true
+          useSoftDelete: true
+
+      relationships:
+
+        - name: CountryAcceptsCurrency
+          description: accepts as legal tender
+          relationship: oneOrMany
+          entity: Currency
+          canNavigate: true
+          
+      ownedRelationships:
+
+        - name: CountryLocalNames
+          description: is also know as
+          relationship: oneOrMany
+          entity: CountryLocalNames
+
+      queries:
+
+        - name: GetCountriesByContinent
+          description: Returns a list of countries for a given continent
+
+          requestInput:
+            - name: continentName
+              description: Africa, Europe, Asia, Australia, North America, or South America
+              type: text
+              textTypeOptions:
+                isUnicode: false
+          
+          responseOutput:
+            name: countriesByContinentDto
+            type: collection
+            collectionTypeOptions:
+              name: countryInfo
+              type: object
+              objectTypeOptions:
+                attributes:
+
+                  - name: CountryId
+                    description: The country's Id
+                    type: countryCode2
+
+                  - name: CountryName
+                    description: The country name
+                    type: text
+      
+      commands:
+
+        - name: UpdatePopulationStatistics
+          description: Instructs the service to collect updated population statistics
+          type: object
+          objectTypeOptions:
+            attributes:
+              - name: CountryCode
+                type: countryCode2
+          emitEvents: [CountryUpdatedEvent]
+
+      keys:
+
+        - name: Id
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: Name
+          description: The country's common name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+        - name: FormalName
+          description: The country's official name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+        - name: AlphaCode3
+          description: The country's official ISO 4217 alpha-3 code
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 3
+            maxLength: 3
+          isRequired: true
+
+        - name: AlphaCode2
+          description: The country's official ISO 4217 alpha-2 code
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+          isRequired: true
+
+        - name: NumericCode
+          description: The country's official ISO 4217 alpha-3 code
+          type: number
+          numberTypeOptions:
+            minValue: 4
+            maxValue: 894
+          isRequired: true
+
+        - name: DialingCodes
+          description: The country's phone dialing codes (comma-delimited)
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            maxLength: 31
+
+        - name: Capital
+          description: The capital city of the country
+          type: text
+          textTypeOptions:
+            maxLength: 63
+
+        - name: Demonym
+          description: Noun denoting the natives of the country
+          type: text
+          textTypeOptions:
+            maxLength: 63
+
+        - name: AreaInSquareKilometres
+          description: Country area in square kilometers
+          type: number
+          numberTypeOptions:
+            minValue: 0
+            maxValue: 20000000 # 20,000,000 > Russia
+          isRequired: true
+
+        - name: GeoCoord
+          description: The the position of the workplace's point on the surface of the Earth
+          type: latlong
+
+        - name: GeoRegion
+          description: The region the country is in
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            maxLength: 8
+          isRequired: true
+
+        - name: GeoSubRegion
+          description: The sub-region the country is in
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            maxLength: 32
+          isRequired: true
+
+        - name: GeoWorldRegion
+          description: The world region the country is in
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            maxLength: 4
+          isRequired: true
+
+        - name: Population
+          description: The estimated population of the country
+          type: number
+          numberTypeOptions:
+            minValue: 0
+
+        - name: TopLevelDomains
+          description: The top level internet domains regitered to the country (comma-delimited)
+          type: text
+          textTypeOptions:
+            maxLength: 31
+
+    - name: Currency
+      description: The list of currencies
+
+      relationships:
+
+        - name: CurrencyIsLegalTenderForCountry
+          description: is legal tender for
+          relationship: zeroOrMany
+          entity: Country
+
+    - name: CountryLocalNames
+      description: The name of a country in other languages
+
+    - name: CurrencyCashBalance
+
+      description: The cash balance in Store
+
+      keys:
+
+        - name: Store
+          type: entity
+          entityTypeOptions:
+            entity: Store
+          isRequired: true
+
+        - name: Currency
+          type: entity
+          entityTypeOptions:
+            entity: Currency
+          isRequired: true
+
+      attributes:
+
+        - name: Amount
+          description: The amount
+          type: number
+          numberTypeOptions:
+            minValue: 0
+            decimalDigits: 4
+          isRequired: true
+
+        - name: OperationLimit
+          description: The Operation Limit
+          type: number
+          numberTypeOptions:
+            minValue: 0
+            decimalDigits: 4
+          isRequired: false
+
+application:
+  dataTransferObjects:
+    - name: CountryDto
+      description: Dto for country information
+      attributes:
+        - name: Id
+          description: The identity of the country, the Iso Alpha 2 code
+          type: text
+          textTypeOptions:
+            casing: lower
+            maxLength: 2
+            minLength: 2
+
+  integrations:
+    - name: SampleEtl
+      description: a Sample Etl
+      source:
+        name: CountryJsonSeed
+        description: Sources Country data from a json file
+        dataConnection: CountryJsonData
+        fileOptions: 
+          filename: country-seed-data.json
+        schedule:
+          start: every day at 2am
+          retry:
+            limit: 5
+            delaySeconds: 5
+            doubleDelayLimit: 10
+          runOnStartup: true
+        watermark:
+          dateColumns:
+            - "CreateDate"
+            - "EditDate"
+          sequentialKeyColumn: CountryId
+      transform:
+        mappings:
+          - sourceColumn: IsoAlpha2Code
+            targetAttribute: Id
+            converter: upperCase
+          - sourceColumn: CountryName
+            targetAttribute: Name
+          - sourceColumn: CountryFullName
+            targetAttribute: FormalName
+        lookups:
+          - sourceColumn: RegionId
+            match:
+              table: GeoRegions
+              lookupColumn: Id
+              returnColumn: Name
+            targetAttribute: GeoRegion
+      target:
+        name: Country
+        targetType: entity
+
+infrastructure:
+  
+  persistence:
+
+    databaseServer:
+      name: SampleCurrencyDb
+
+      # Sql Server
+      serverUri: sqlserver.iwgplc.com
+      provider: sqlServer
+      port: 1433
+      user: sqluser
+      password: sqlpassword
+
+      ### Postgres
+      #provider: postgres
+
+      ### MySql  
+      #provider: mySql
+
+    cacheServer:
+      name: SampleCache
+      provider: azureRedis
+      serverUri: redis.iwgplc.com
+      user: RedisUser
+      password: RedisPassword
+    
+    searchServer:
+      name: SampleSearch
+      provider: elasticSearch
+      serverUri: elastic.igwplc.com
+      user: ElasticUser
+      password: ElasticPassword
+    
+    eventSourceServer:
+      name: SampleEvtSrc
+      serverUri: SampleEvt.iwgplc.com
+      provider: eventStoreDb
+      user: EvtUser
+      password: EvtPassword
+
+  messaging:
+
+    integrationEventServer:
+      name: IntegrationBus
+      provider: rabbitMq
+      serverUri: rabbitmq://localhost
+      port: 5672
+      user: guest
+      password: guest
+
+  endpoints:
+    
+    apiServer:
+      name: SampleApiServer
+      provider: oData
+      serverUri: workplace.iwgplc.com
+      port: 8080
+    
+    bffServer:
+      name: SampleBffServer
+      provider: blazor
+      serverUri: SampleBff.iwgplc.com
+      port: 8080
+
+  dependencies:
+    notifications:
+      emailServer:
+        name: SampleEmailServer
+        provider: sendGrid
+        serverUri: sendgrid.igwplc.com
+        user: SendGridUser
+        password: SendGridPassword
+      smsServer:
+        name: SampleSmsServer
+        provider: twilio
+        serverUri: https://twilio.com
+        port: 8080
+        user: TwilioUser
+        password: TwilioPassword
+      imServer:
+        name: SampleImServer
+        provider: whatsApp
+        serverUri: https://whatsapp.com
+        port: 8080
+        user: whatsappUser
+        password: whatsappPassword
+
+    monitoring:
+      name: SampleObservabiity
+      provider: elasticApm
+      serverUri: localhost
+      port: 8200
+
+    translations:
+      name: SampleTranslationService
+      serverUri: translator.iwgplc.com
+      port: 443
+
+    dataConnections:
+      - name: CountryJsonData
+        provider: jsonFile
+        serverUri: file:///C:/my-data-files
+        options: Source=File;Filename=country-data.json;
+
+  security:
+    secrets:
+      secretsServer:
+        name: SampleSecretServer
+        provider: azureKeyVault
+        serverUri: kv.iwgplc.com
+        user: secrets@iwgplc.com
+        password: SecretPassword
+      validFor:
+        minutes: 10
+
+
