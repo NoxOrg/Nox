@@ -36,12 +36,10 @@
     <Folder Include="Domain\ValueObjectGenerator\" />
     <Folder Include="Application\CqrsGenerator\" />
     <Folder Include="Infrastructure\Persistence\ModelConfigGenerator\" />
-    <Folder Include="Presentation\Api\ApiGenerator.OData\" />
     <Folder Include="Presentation\Api\ApiGenerator.Rest\" />
     <Folder Include="Presentation\Api\ApiGenerator.Grpc\" />
     <Folder Include="Presentation\Api\ApiGenerator.GraphQl\" />
     <Folder Include="Application\IntegrationEventGenerator\" />
-    <Folder Include="Presentation\Api\" />
     <Folder Include="Presentation\Ui\" />
   </ItemGroup>
   
