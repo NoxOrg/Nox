@@ -67,6 +67,9 @@ namespace Nox.Generator;
                 EntitiesGenerator.Generate(context, solutionNameSpace, entity);
             }
 
+            context.CancellationToken.ThrowIfCancellationRequested();
+
+            DbContextGenerator.Generate(context, solutionNameSpace);
         }
         catch (YamlException)
         {

@@ -29,6 +29,21 @@
     <PackageReference Include="Nox.Types" Version="1.0.5" PrivateAssets="all" GeneratePathProperty="true" />
     <PackageReference Include="Nox.Solution" Version="1.0.8" PrivateAssets="all" GeneratePathProperty="true" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Application\DtoGenerator\" />
+    <Folder Include="Domain\DomainEventGenerator\" />
+    <Folder Include="Domain\ValueObjectGenerator\" />
+    <Folder Include="Application\CqrsGenerator\" />
+    <Folder Include="Infrastructure\Persistence\ModelConfigGenerator\" />
+    <Folder Include="Presentation\Api\ApiGenerator.OData\" />
+    <Folder Include="Presentation\Api\ApiGenerator.Rest\" />
+    <Folder Include="Presentation\Api\ApiGenerator.Grpc\" />
+    <Folder Include="Presentation\Api\ApiGenerator.GraphQl\" />
+    <Folder Include="Application\IntegrationEventGenerator\" />
+    <Folder Include="Presentation\Api\" />
+    <Folder Include="Presentation\Ui\" />
+  </ItemGroup>
   
   <PropertyGroup>
     <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>

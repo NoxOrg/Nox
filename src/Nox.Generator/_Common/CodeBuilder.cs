@@ -20,6 +20,18 @@ internal class CodeBuilder
         _stringBuider.Append(text);
     }
 
+    public void StartBlock()
+    {
+        AppendLine($"{{");
+        Indent();
+    }
+
+    public void EndBlock()
+    {
+        AppendLine($"}}");
+        UnIndent();
+    }
+
     public override string ToString()
     {
         return _stringBuider.ToString();
