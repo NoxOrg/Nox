@@ -16,6 +16,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
+    <PackageReference Include="Nox.Core" Version="6.0.48" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -29,6 +30,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="Nox.Types">
+      <HintPath>..\..\..\..\..\.nuget\packages\nox.types\1.0.5\lib\netstandard2.0\Nox.Types.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

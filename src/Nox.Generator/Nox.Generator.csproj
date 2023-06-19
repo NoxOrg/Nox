@@ -31,7 +31,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Application\DtoGenerator\" />
     <Folder Include="Domain\DomainEventGenerator\" />
     <Folder Include="Domain\ValueObjectGenerator\" />
     <Folder Include="Application\CqrsGenerator\" />
