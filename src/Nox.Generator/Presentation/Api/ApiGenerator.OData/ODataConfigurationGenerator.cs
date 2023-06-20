@@ -10,21 +10,20 @@ internal static class ODataConfigurationGenerator
 {
     public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
     {
+        context.CancellationToken.ThrowIfCancellationRequested();
+
         if (solution.Domain is null ||
             !solution.Domain.Entities.Any())
         {
             return;
         }
 
-        var code = new CodeBuilder();
-
-        code.AppendLine($"// Generated");
-        code.AppendLine();
+        var code = new CodeBuilder($"Presentation/OData/ODataConfiguration.g.cs", context);
 
         // Namespace
-        code.AppendLine($"using Microsoft.AspNet.OData.Builder;");
-        code.AppendLine($"using Microsoft.AspNet.OData.Extensions;");
-        code.AppendLine($"using System.Web.Http;");
+        code.AppendLine($"using Microsoft.OData.ModelBuilder;");
+        code.AppendLine($"Microsoft.OData.Edm;");
+        code.AppendLine($"using Microsoft.AspNetCore.Http;");
         code.AppendLine($"using SampleService.Domain;");
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Presentation.Api.OData;");
@@ -60,6 +59,7 @@ internal static class ODataConfigurationGenerator
         // End class
         code.EndBlock();
 
-        context.AddSource($"ODataConfiguration.cs", SourceText.From(code.ToString(), Encoding.UTF8));
+        code.GenerateSourceCode();
+
     }
 }

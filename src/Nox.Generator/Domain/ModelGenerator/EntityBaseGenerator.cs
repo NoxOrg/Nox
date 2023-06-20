@@ -8,10 +8,10 @@ internal class EntityBaseGenerator
 {
     public static void Generate(SourceProductionContext context, string solutionNameSpace)
     {
-        var code = new CodeBuilder();
+        context.CancellationToken.ThrowIfCancellationRequested();
 
-        code.AppendLine($"// Generated");
-        code.AppendLine();
+        var code = new CodeBuilder($"Domain/Base/EntityBase.g.cs", context);
+
         code.AppendLine($"using System;");
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Domain;");
@@ -20,19 +20,17 @@ internal class EntityBaseGenerator
         code.AppendLine($"/// The base class for all domain entities.");
         code.AppendLine($"/// </summary>");
         code.AppendLine($"public partial class EntityBase");
-        code.AppendLine($"{{");
 
-        code.Indent();
+        code.StartBlock();
 
         code.AppendLine($"/// <summary>");
         code.AppendLine($"/// The state of the entity as at this date.");
         code.AppendLine($"/// </summary>");
         code.AppendLine($"public DateTime AsAt {{get; set;}}");
 
-        code.UnIndent();
+        code.EndBlock();
 
-        code.AppendLine($"}}");
+        code.GenerateSourceCode();
 
-        context.AddSource($"EntityBase.cs", SourceText.From(code.ToString(), Encoding.UTF8));
     }
 }

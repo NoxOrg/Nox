@@ -10,35 +10,40 @@ internal static class ODataApiGenerator
 {
     public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
     {
+        context.CancellationToken.ThrowIfCancellationRequested();
+
         if (solution.Domain is null ||
             !solution.Domain.Entities.Any())
         {
             return;
         }
 
-        var code = new CodeBuilder();
 
         foreach (var entity in solution.Domain.Entities)
         {
+
+            context.CancellationToken.ThrowIfCancellationRequested();
+
             var entityName = entity.Name;
             var pluralName = entity.PluralName;
             var variableName = entity.Name.ToLower();
             var dbContextName = $"{solution.Name}DbContext";
             var controllerName = $"{pluralName}Controller";
-            var persistenceNotSpecified = entity.Persistence == null;
 
-            context.CancellationToken.ThrowIfCancellationRequested();
-            code.AppendLine($"// Generated");
-            code.AppendLine();
+            var code = new CodeBuilder($"Presentation/OData/Controllers/{pluralName}Controller.g.cs",context);
 
             // Namespace
             code.AppendLine($"using System.Linq;");
-            code.AppendLine($"using System.Web.Http;");
-            code.AppendLine($"using Microsoft.AspNet.OData;");
-            code.AppendLine($"using SampleService.Domain;");
+            code.AppendLine($"using Microsoft.AspNetCore.Http;");
+            code.AppendLine($"using Microsoft.AspNetCore.OData;");
+            code.AppendLine($"using Microsoft.AspNetCore.OData.Extensions;");
+            code.AppendLine($"using Microsoft.AspNetCore.OData.Query;");
+            code.AppendLine($"using Microsoft.AspNetCore.OData.Results;");
+            code.AppendLine($"using Microsoft.OData.UriParser;");
             code.AppendLine($"using System.Threading.Tasks;"); 
             code.AppendLine($"using System.Net;");
             code.AppendLine($"using Microsoft.EntityFrameworkCore;");
+            code.AppendLine($"using SampleService.Domain;");
             code.AppendLine($"using SampleService.Infrastructure.Persistence;");
             code.AppendLine();
             code.AppendLine($"namespace {solutionNameSpace}.Presentation.Api.OData;");
@@ -63,7 +68,7 @@ internal static class ODataApiGenerator
                 code.AppendLine();
 
             
-                if (persistenceNotSpecified ||
+                if (entity.Persistence is null ||
                     entity.Persistence.Read.IsEnabled)
                 {
                     // Method Get
@@ -92,7 +97,7 @@ internal static class ODataApiGenerator
                     code.AppendLine();
                 }
             
-                if (persistenceNotSpecified || 
+                if (entity.Persistence is null || 
                     entity.Persistence.Create.IsEnabled)
                 {
                     // Method Post
@@ -114,7 +119,7 @@ internal static class ODataApiGenerator
                     code.AppendLine();
                 }
             
-                if (persistenceNotSpecified || 
+                if (entity.Persistence is null || 
                     entity.Persistence.Update.IsEnabled)
                 {
                     // Method Patch
@@ -202,7 +207,7 @@ internal static class ODataApiGenerator
                     code.AppendLine();
                 }
             
-                if (persistenceNotSpecified || 
+                if (entity.Persistence is null || 
                     entity.Persistence.Delete.IsEnabled)
                 {
                     // Method Delete
@@ -238,8 +243,8 @@ internal static class ODataApiGenerator
             // End class
             code.EndBlock();
 
-            context.AddSource($"Controllers/{pluralName}Controller.cs", SourceText.From(code.ToString(), Encoding.UTF8));
-            code = new CodeBuilder();
+            code.GenerateSourceCode();
+
         }
     }
 }

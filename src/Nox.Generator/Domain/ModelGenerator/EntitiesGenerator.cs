@@ -9,12 +9,25 @@ namespace Nox.Generator;
 
 internal class EntitiesGenerator
 {
-    public static void Generate(SourceProductionContext context, string solutionNameSpace, Entity entity)
-    {
-        var code = new CodeBuilder();
 
-        code.AppendLine($"// Generated");
-        code.AppendLine();
+    public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
+    {
+        context.CancellationToken.ThrowIfCancellationRequested();
+
+        if (solution.Domain is null) return;
+
+        foreach (var entity in solution.Domain.Entities)
+        {
+            context.CancellationToken.ThrowIfCancellationRequested();
+
+            GenerateEntity(context, solutionNameSpace, entity);
+        }
+    }
+
+    private static void GenerateEntity(SourceProductionContext context, string solutionNameSpace, Entity entity)
+    {
+        var code = new CodeBuilder($"Domain/Models/{entity.Name}.g.cs", context);
+
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine();
@@ -27,23 +40,19 @@ internal class EntitiesGenerator
         var baseClass = (entity.Persistence?.IsVersioned ?? true) ? "AuditableEntityBase" : "EntityBase";
 
         code.AppendLine($"public partial class {entity.Name} : {baseClass}");
-        code.AppendLine($"{{");
+        code.StartBlock();
 
-        code.Indent();
+            GenerateKeyProperties(context, code, entity);
 
-        GenerateKeyProperties(context, code, entity);
+            GenerateProperties(context, code, entity);
 
-        GenerateProperties(context, code, entity);
+            GenerateRelationships(context, code, entity);
 
-        GenerateRelationships(context, code, entity);
+            GenerateOwnedRelationships(context, code, entity);
 
-        GenerateOwnedRelationships(context, code, entity);
+        code.EndBlock();
 
-        code.UnIndent();
-
-        code.AppendLine($"}}");
-
-        context.AddSource($"{entity.Name}.cs", SourceText.From(code.ToString(), Encoding.UTF8));
+        code.GenerateSourceCode();
     }
 
     private static void GenerateStrongIdClassIfRequired(SourceProductionContext context, CodeBuilder code, Entity entity)

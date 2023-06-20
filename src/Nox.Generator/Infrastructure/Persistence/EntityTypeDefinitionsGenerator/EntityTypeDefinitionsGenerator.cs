@@ -12,6 +12,8 @@ internal class EntityTypeDefinitionsGenerator
 
     public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
     {
+        context.CancellationToken.ThrowIfCancellationRequested();
+
         if (solution.Domain == null)
             return;
 
@@ -29,10 +31,8 @@ internal class EntityTypeDefinitionsGenerator
         if (entity.Attributes is null)
             return;
 
-        var code = new CodeBuilder();
+        var code = new CodeBuilder($"Infrastructure/Persistence/EntityTypeConfiguration/{entity.Name}Configuration.g.cs",context);
 
-        code.AppendLine($"// Generated");
-        code.AppendLine();
         code.AppendLine($"using Nox.Types.EntityFramework;");
         code.AppendLine($"using Microsoft.EntityFrameworkCore.Metadata.Builders;");
         code.AppendLine($"using Microsoft.EntityFrameworkCore;");
@@ -72,7 +72,7 @@ internal class EntityTypeDefinitionsGenerator
         code.EndBlock();
 
         code.EndBlock();
-        
+
         /*
 
 class CountryConfiguration : IEntityTypeConfiguration<Country>
@@ -89,8 +89,8 @@ public void Configure(EntityTypeBuilder<Country> builder)
 }
         */
 
+        code.GenerateSourceCode();
 
-        context.AddSource($"{entity.Name}Configuration.cs", SourceText.From(code.ToString(), Encoding.UTF8));
 
     }
 

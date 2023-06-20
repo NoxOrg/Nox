@@ -9,16 +9,16 @@ internal class DbContextGenerator
 {
     public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
     {
+        context.CancellationToken.ThrowIfCancellationRequested();
+
         if (solution.Domain is null)
         {
             return;
         }
-
-        var code = new CodeBuilder();
+        
         var dbContextName = $"{solution.Name}DbContext";
 
-        code.AppendLine($"// Generated");
-        code.AppendLine();
+        var code = new CodeBuilder($"Infrastructure/Persistence/{dbContextName}.g.cs",context);
 
         // Namespace
         code.AppendLine(@"using Microsoft.EntityFrameworkCore;");
@@ -97,6 +97,7 @@ internal class DbContextGenerator
         // End class
         code.EndBlock();
 
-        context.AddSource($"DbContext/{dbContextName}.cs", SourceText.From(code.ToString(), Encoding.UTF8));
+        code.GenerateSourceCode();
+
     }
 }
