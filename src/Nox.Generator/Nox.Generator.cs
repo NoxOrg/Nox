@@ -8,6 +8,7 @@ using FluentValidation;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
+using Nox.Generator.Application.DtoGenerator;
 using Nox.Solution;
 using YamlDotNet.Core;
 
@@ -67,6 +68,20 @@ namespace Nox.Generator;
                 EntitiesGenerator.Generate(context, solutionNameSpace, entity);
             }
 
+            context.CancellationToken.ThrowIfCancellationRequested();
+
+            DbContextGenerator.Generate(context, solutionNameSpace, solution);
+            
+            context.CancellationToken.ThrowIfCancellationRequested();
+
+            if (solution.Application is { DataTransferObjects: not null })
+            {
+                foreach (var dto in solution.Application.DataTransferObjects)
+                {
+                    DtoGenerator.Generate(context, solutionNameSpace, dto);
+                }    
+            }
+            
         }
         catch (YamlException)
         {
