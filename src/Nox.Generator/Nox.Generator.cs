@@ -1,15 +1,11 @@
-﻿using System;
+﻿using FluentValidation;
+using Microsoft.CodeAnalysis;
+using Nox.Generator.Infrastructure.Persistence.ModelConfigGenerator;
+using Nox.Solution;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using FluentValidation;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Diagnostics;
-using Microsoft.CodeAnalysis.Text;
-using Nox.Generator.Infrastructure.Persistence.ModelConfigGenerator;
-using Nox.Solution;
 using YamlDotNet.Core;
 
 namespace Nox.Generator;
@@ -75,6 +71,10 @@ namespace Nox.Generator;
             context.CancellationToken.ThrowIfCancellationRequested();
 
             DbContextGenerator.Generate(context, solutionNameSpace, solution);
+
+            ODataConfigurationGenerator.Generate(context, solutionNameSpace, solution);
+
+            ODataApiGenerator.Generate(context, solutionNameSpace, solution);
         }
         catch (YamlException)
         {

@@ -2,7 +2,6 @@
 using Microsoft.CodeAnalysis.Text;
 using Nox.Solution;
 using Nox.Types;
-using System;
 using System.Linq;
 using System.Text;
 
@@ -102,7 +101,7 @@ public void Configure(EntityTypeBuilder<Country> builder)
         // else 
         // builder.OwnsOne(e => e.LatLong).Ignore(p => p.Value);
 
-        attribute.Type;
+        //attribute.Type;
 
         if (attribute.IsRequired)
             code.Append($".IsRequired()");
