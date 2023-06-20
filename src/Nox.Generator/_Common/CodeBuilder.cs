@@ -28,8 +28,8 @@ internal class CodeBuilder
 
     public void EndBlock()
     {
-        AppendLine($"}}");
         UnIndent();
+        AppendLine($"}}");
     }
 
     public override string ToString()

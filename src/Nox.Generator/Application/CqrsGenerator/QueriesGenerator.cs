@@ -36,9 +36,7 @@ internal class QueriesGenerator
         GenerateDocs(code, query.Description);
 
         code.AppendLine($"public abstract partial class {className}");
-        code.AppendLine($"{{");
-
-        code.Indent();
+        code.StartBlock();
 
         var dbContextName = $"{solutionNameSpace}{DbContextName}";
         AddProperty(code, dbContextName, DbContextName, "Represents the DB context.");
@@ -58,9 +56,7 @@ internal class QueriesGenerator
 
         code.AppendLine($@"public abstract Task<{typeDefinition}> ExecuteAsync({parameters});");
 
-        code.UnIndent();
-
-        code.AppendLine($"}}");
+        code.EndBlock();
 
         context.AddSource($"{className}.cs", SourceText.From(code.ToString(), Encoding.UTF8));
     }

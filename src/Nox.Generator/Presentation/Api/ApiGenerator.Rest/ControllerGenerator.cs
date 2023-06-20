@@ -40,9 +40,8 @@ internal class ControllerGenerator
         code.AppendLine();
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
-        code.AppendLine($"using Microsoft.AspNetCore.Mvc;");
-        code.AppendLine($"using Microsoft.Extensions.DependencyInjection;");
-        code.AppendLine($"using Microsoft.AspNetCore.Http;");
+        code.AppendLine($"using System.Threading.Tasks;");
+        code.AppendLine($"using System.Web.Mvc;");
         code.AppendLine($"using {solutionNameSpace}.Application;");
         code.AppendLine($"using {solutionNameSpace}.Domain;");
         code.AppendLine();
@@ -50,10 +49,12 @@ internal class ControllerGenerator
 
         GenerateDocs(code, $"Controller for {entity.Name} entity. {entity.Description}");
 
-        code.AppendLine($"public partial class {className}");
-        code.AppendLine($"{{");
+        code.AppendLine($"[ApiController]");
+        // TODO: configure routs
+        //code.AppendLine($"[Route("[controller]")]\");
+        code.AppendLine($"public partial class {className} : ControllerBase");
 
-        code.Indent();
+        code.StartBlock();
 
         var constructorParameters = new Dictionary<string, string>();
         foreach (var query in queries)
@@ -77,32 +78,28 @@ internal class ControllerGenerator
         foreach (var query in queries)
         {
             code.AppendLine();
-            code.AppendLine($"public async Task<IActionResult> Get{query.Name}Async({GetParametersString(query.RequestInput)})");
-            code.AppendLine(@"{");
-            code.Indent();
+            code.AppendLine("[HttpGet]");
+            code.AppendLine($"public async Task<IResult> Get{query.Name}Async({GetParametersString(query.RequestInput)})");
+            code.StartBlock();
             code.AppendLine($"var result = await {query.Name}Query.ExecuteAsync({GetParametersExecuteString(query.RequestInput)});");
             // TODO: Extend to NotFound and other codes
             code.AppendLine(@"return Results.Ok(result);");
-            code.UnIndent();
-            code.AppendLine(@"}");
+            code.EndBlock();
         }
 
         // Generate POST request mapping for Command Handlers
         foreach (var command in commands)
         {
             code.AppendLine();
-            code.AppendLine($"public async Task<IActionResult> {command.Name}(Nox.Commands.{command.Name}{NamingConstants.CommandSuffix} command)");
-            code.AppendLine(@"{");
-            code.Indent();
-            code.AppendLine($"var result = await {command.Name}CommandHandlerBase>.ExecuteAsync(command);");
+            code.AppendLine("[HttpPost]");
+            code.AppendLine($"public async Task<IResult> {command.Name}(Nox.Commands.{command.Name}{NamingConstants.CommandSuffix} command)");
+            code.StartBlock();
+            code.AppendLine($"var result = await {command.Name}.ExecuteAsync(command);");
             code.AppendLine(@"return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);");
-            code.UnIndent();
-            code.AppendLine(@"}");
+            code.EndBlock();
         }
 
-        code.UnIndent();
-
-        code.AppendLine($"}}");
+        code.EndBlock();
 
         context.AddSource($"{className}.cs", SourceText.From(code.ToString(), Encoding.UTF8));
     }

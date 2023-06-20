@@ -34,9 +34,7 @@ internal class CommandsGenerator
         GenerateDocs(code, command.Description);
 
         code.AppendLine($"public abstract partial class {className}");
-        code.AppendLine($"{{");
-
-        code.Indent();
+        code.StartBlock();
 
         // Add Db Context
         var dbContextName = $"{solutionNameSpace}{DbContextName}";
@@ -63,9 +61,7 @@ internal class CommandsGenerator
             }
         }
 
-        code.UnIndent();
-
-        code.AppendLine($"}}");
+        code.EndBlock();
 
         context.AddSource($"{className}.cs", SourceText.From(code.ToString(), Encoding.UTF8));
     }
@@ -74,10 +70,8 @@ internal class CommandsGenerator
     {
         code.AppendLine();
         code.AppendLine($@"public async Task Send{eventName}DomainEventAsync({eventName}DomainEvent domainEvent)");
-        code.AppendLine($@"{{");
-        code.Indent();
+        code.StartBlock();
         code.AppendLine($@"await Messenger.SendMessageAsync(new string[] {{ ""{DefaultMessagingProvider}"" }}, domainEvent);");
-        code.UnIndent();
-        code.AppendLine($@"}}");
+        code.EndBlock();
     }
 }
