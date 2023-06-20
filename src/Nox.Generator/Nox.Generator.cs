@@ -8,6 +8,7 @@ using FluentValidation;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
+using Nox.Generator.Infrastructure.Persistence.ModelConfigGenerator;
 using Nox.Solution;
 using YamlDotNet.Core;
 
@@ -21,7 +22,7 @@ namespace Nox.Generator;
 #if DEBUG
         if (!Debugger.IsAttached)
         {
-             Debugger.Launch(); 
+             // Debugger.Launch(); 
         }
 #endif  
         var compilation = context.CompilationProvider.Select((ctx,token) => ctx.GlobalNamespace);
@@ -69,7 +70,11 @@ namespace Nox.Generator;
 
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            DbContextGenerator.Generate(context, solutionNameSpace);
+            EntityTypeDefinitionsGenerator.Generate(context, solutionNameSpace, solution);
+
+            context.CancellationToken.ThrowIfCancellationRequested();
+
+            DbContextGenerator.Generate(context, solutionNameSpace, solution);
         }
         catch (YamlException)
         {

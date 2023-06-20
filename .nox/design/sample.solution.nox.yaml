@@ -1,6 +1,7 @@
 #
 # workplace.solution.nox.yaml
 #
+# yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
 #
 
 name: SampleService
@@ -67,7 +68,7 @@ domain:
   entities:
 
     - name: Country
-      description: A nation with its own government, occupying a particular territory 
+      description: The list of countries
       
       userInterface:
         icon: world
@@ -143,6 +144,7 @@ domain:
               - name: CountryCode
                 type: countryCode2
           emitEvents: [CountryUpdatedEvent]
+
 
       keys:
 
@@ -226,7 +228,7 @@ domain:
 
         - name: GeoCoord
           description: The the position of the workplace's point on the surface of the Earth
-          type: latlong
+          type: latLong
 
         - name: GeoRegion
           description: The region the country is in
@@ -330,9 +332,9 @@ application:
     - name: SampleEtl
       description: a Sample Etl
       source:
-        name: CountryJsonSeed
+        name: CountryJsonSource
         description: Sources Country data from a json file
-        dataConnection: CountryJsonData
+        dataConnectionName: CountryJsonData
         fileOptions: 
           filename: country-seed-data.json
         schedule:
@@ -482,5 +484,3 @@ infrastructure:
         password: SecretPassword
       validFor:
         minutes: 10
-
-

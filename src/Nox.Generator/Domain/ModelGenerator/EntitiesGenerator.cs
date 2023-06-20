@@ -3,10 +3,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Nox.Solution;
 using Nox.Types;
-using System;
-using System.Data.SqlTypes;
 using System.Text;
-using System.Threading;
 
 namespace Nox.Generator;
 
@@ -92,7 +89,7 @@ internal class EntitiesGenerator
         GeneratePropertyDocs(context, code, key);
 
         var propType = $"{entity.Name}{key.Name}";
-        var propName = MapType(key.Type);
+        var propName = key.Name;
 
         code.AppendLine($"public {propType} {propName} {{ get; set; }} = null!;");
     }
@@ -202,7 +199,6 @@ internal class EntitiesGenerator
     {
         return noxType switch
         {
-            NoxType.Latlong => "LatLong",
             _ => noxType.ToString(),
         };
     }
