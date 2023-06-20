@@ -34,43 +34,43 @@ internal class DbContextGenerator
 
         // Class
         code.StartBlock();
-        // Constructor
-        code.AppendLine("#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.");
-        code.AppendLine($"public {dbContextName}(");
+            // Constructor
+            code.AppendLine("#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.");
+            code.AppendLine($"public {dbContextName}(");
 
-        // Constructor content
-        code.Indent();
-        code.AppendLine($"DbContextOptions<{dbContextName}> options");
-        code.AppendLine($") : base(options) {{ }}");
-        code.UnIndent();
-        code.AppendLine("#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.");
-        code.AppendLine();
+            // Constructor content
+            code.Indent();
+                code.AppendLine($"DbContextOptions<{dbContextName}> options");
+                code.AppendLine($") : base(options) {{ }}");
+            code.UnIndent();
+            code.AppendLine("#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.");
+            code.AppendLine();
 
-        // Method RegisterDbContext
-        code.AppendLine($"public static void RegisterDbContext(IServiceCollection services)");
+            // Method RegisterDbContext
+            code.AppendLine($"public static void RegisterDbContext(IServiceCollection services)");
 
-        // Method content
-        code.StartBlock();
-        code.AppendLine($"services.AddDbContext<{dbContextName}>();");
+            // Method content
+            code.StartBlock();
+                code.AppendLine($"services.AddDbContext<{dbContextName}>();");
 
-        // End method
-        code.EndBlock();
-        code.AppendLine();
+            // End method
+            code.EndBlock();
+            code.AppendLine();
 
-        // Method OnModelCreating
-        code.AppendLine($"protected override void OnModelCreating(ModelBuilder modelBuilder)");
+            // Method OnModelCreating
+            code.AppendLine($"protected override void OnModelCreating(ModelBuilder modelBuilder)");
 
-        // Method content
-        code.StartBlock();
-        code.AppendLine($"var configurations = Assembly.GetExecutingAssembly();");
-        code.AppendLine($"modelBuilder.ApplyConfigurationsFromAssembly(configurations);");
-        code.AppendLine();
-        code.AppendLine($"base.OnModelCreating(modelBuilder);");
+            // Method content
+            code.StartBlock();
+                code.AppendLine($"var configurations = Assembly.GetExecutingAssembly();");
+                code.AppendLine($"modelBuilder.ApplyConfigurationsFromAssembly(configurations);");
+                code.AppendLine();
+                code.AppendLine($"base.OnModelCreating(modelBuilder);");
 
-        // End method
-        code.EndBlock();
+            // End method
+            code.EndBlock();
 
-        // End class
+            // End class
         code.EndBlock();
         code.AppendLine();
 
@@ -80,19 +80,19 @@ internal class DbContextGenerator
         // Class MysqlEntityFrameworkDesignTimeServices
         code.StartBlock();
 
-        // Method RegisterContext
-        code.AppendLine($"public void ConfigureDesignTimeServices(IServiceCollection serviceCollection)");
+            // Method RegisterContext
+            code.AppendLine($"public void ConfigureDesignTimeServices(IServiceCollection serviceCollection)");
 
-        // Method content
-        code.StartBlock();
-        code.AppendLine($"serviceCollection.AddEntityFrameworkMySQL();");
-        code.AppendLine($"new EntityFrameworkRelationalDesignServicesBuilder(serviceCollection)");
-        code.Indent();
-        code.AppendLine($".TryAddCoreServices();");
-        code.UnIndent();
+            // Method content
+            code.StartBlock();
+                code.AppendLine($"serviceCollection.AddEntityFrameworkMySQL();");
+                code.AppendLine($"new EntityFrameworkRelationalDesignServicesBuilder(serviceCollection)");
+                code.Indent();
+                    code.AppendLine($".TryAddCoreServices();");
+                code.UnIndent();
 
-        // End method
-        code.EndBlock();
+            // End method
+            code.EndBlock();
 
         // End class
         code.EndBlock();
