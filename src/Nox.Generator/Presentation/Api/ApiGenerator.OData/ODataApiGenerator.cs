@@ -39,6 +39,7 @@ internal static class ODataApiGenerator
             code.AppendLine($"using System.Threading.Tasks;"); 
             code.AppendLine($"using System.Net;");
             code.AppendLine($"using Microsoft.EntityFrameworkCore;");
+            code.AppendLine($"using SampleService.Infrastructure.Persistence;");
             code.AppendLine();
             code.AppendLine($"namespace {solutionNameSpace}.Presentation.Api.OData;");
             code.AppendLine();

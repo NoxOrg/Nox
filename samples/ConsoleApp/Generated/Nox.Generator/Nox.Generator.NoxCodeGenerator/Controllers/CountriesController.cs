@@ -7,6 +7,7 @@ using SampleService.Domain;
 using System.Threading.Tasks;
 using System.Net;
 using Microsoft.EntityFrameworkCore;
+using SampleService.Infrastructure.Persistence;
 
 namespace SampleService.Presentation.Api.OData;
 
