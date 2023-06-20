@@ -50,7 +50,6 @@ internal static class ODataApiGenerator
                 // db context
                 code.AppendLine($"{dbContextName} _databaseContext = new {dbContextName}();\r\n");
 
-                // Constructor
                 // Method Get
                 code.AppendLine($"public {controllerName}({dbContextName} databaseContext)");
 
