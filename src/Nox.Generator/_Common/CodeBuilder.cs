@@ -15,6 +15,13 @@ internal class CodeBuilder
         _stringBuider.Append(new string(' ', _spacing * _indentation));
         _stringBuider.AppendLine(text);
     }
+
+    public void AppendIndented(string text = "")
+    {
+        _stringBuider.Append(new string(' ', _spacing * _indentation));
+        _stringBuider.Append(text);
+    }
+
     public void Append(string text = "")
     {
         _stringBuider.Append(text);
