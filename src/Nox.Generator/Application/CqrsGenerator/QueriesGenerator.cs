@@ -43,7 +43,7 @@ internal class QueriesGenerator
 
         // Add constructor
         AddConstructor(code, className, new Dictionary<string, string> {
-                { dbContextName, "dbContext" }
+                { dbContextName, "DbContext" }
             });
 
         // Add params (which can be DTO)

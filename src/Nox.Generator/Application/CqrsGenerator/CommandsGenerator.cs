@@ -46,8 +46,8 @@ internal class CommandsGenerator
 
         // Add constructor
         AddConstructor(code, className, new Dictionary<string, string> {
-                { dbContextName, "dbContext" },
-                { "INoxMessenger", "messenger" }
+                { dbContextName, "DbContext" },
+                { "INoxMessenger", "Messenger" }
             });
 
         // Add params
