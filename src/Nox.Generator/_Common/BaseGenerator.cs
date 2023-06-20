@@ -25,12 +25,16 @@ namespace Nox.Generator._Common
             code.AppendLine($"protected {type} {name} {{ get; set; }} = null!;");
         }
 
-        internal static string GetParametersString(IEnumerable<DomainQueryRequestInput> input, bool withDefaults = true)
+        internal static string GetParametersString(IEnumerable<DomainQueryRequestInput> input)
         {
             // TODO: switch to a general type resolver and error processing
-            // TODO: implement default values
             return string.Join(", ", input
                 .Select(parameter => $"{(parameter.Type != NoxType.Entity ? MapType(parameter.Type) : parameter.EntityTypeOptions.Entity)} {parameter.Name}"));
+        }
+
+        internal static string GetParametersExecuteString(IReadOnlyList<DomainQueryRequestInput> input)
+        {
+            return string.Join(", ", input.Select(parameter => $"{parameter.Name}"));
         }
 
         internal static string MapType(NoxType noxType)

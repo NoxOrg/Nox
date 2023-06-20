@@ -8,6 +8,7 @@ using FluentValidation;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
+using Nox.Generator.Presentation.Rest;
 using Nox.Solution;
 using YamlDotNet.Core;
 
@@ -65,6 +66,8 @@ namespace Nox.Generator;
                 context.CancellationToken.ThrowIfCancellationRequested();
 
                 EntitiesGenerator.Generate(context, solutionNameSpace, entity);
+
+                ControllerGenerator.Generate(context, solutionNameSpace, entity);
 
                 if (entity.Commands is not null)
                 {

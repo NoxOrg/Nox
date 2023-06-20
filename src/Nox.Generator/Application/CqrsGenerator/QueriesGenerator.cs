@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Text;
 
 using static Nox.Generator._Common.BaseGenerator;
+using static Nox.Generator._Common.NamingConstants;
 
 namespace Nox.Generator;
 
@@ -28,22 +29,23 @@ internal class QueriesGenerator
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine($"using System.Threading.Tasks;");
+        code.AppendLine($"using {solutionNameSpace}.Domain;");
         code.AppendLine();
-        code.AppendLine($"namespace {solutionNameSpace}.Domain;");
+        code.AppendLine($"namespace {solutionNameSpace}.Application;");
 
         GenerateDocs(code, query.Description);
 
-        code.AppendLine($"public partial class {className}");
+        code.AppendLine($"public abstract partial class {className}");
         code.AppendLine($"{{");
 
         code.Indent();
 
-        var dbContextName = $"{solutionNameSpace}DbContext";
-        AddProperty(code, dbContextName, "DbContext", "Represents the DB context.");
+        var dbContextName = $"{solutionNameSpace}{DbContextName}";
+        AddProperty(code, dbContextName, DbContextName, "Represents the DB context.");
 
         // Add constructor
         AddConstructor(code, className, new Dictionary<string, string> {
-                { dbContextName, "DbContext" }
+                { dbContextName, DbContextName }
             });
 
         // Add params (which can be DTO)
