@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="FluentAssertions" Version="6.11.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -17,6 +18,8 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.1.0" />
     <PackageReference Include="Nox.Core" Version="6.0.48" />
+    <PackageReference Include="Nox.Solution" Version="1.0.9" />
+    <PackageReference Include="Nox.Types" Version="1.0.6" />
     <PackageReference Include="xunit" Version="2.4.1" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.3">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -36,6 +39,10 @@
     <Reference Include="Nox.Types">
       <HintPath>..\..\..\..\..\.nuget\packages\nox.types\1.0.5\lib\netstandard2.0\Nox.Types.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Files\TestExecutable\Program.cs" />
   </ItemGroup>
 
 </Project>

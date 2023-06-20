@@ -8,7 +8,7 @@ public static class TypeExtensions
     {
         return noxType switch
         {
-            NoxType.Latlong => "LatLong",
+            NoxType.LatLong => "LatLong",
             _ => noxType.ToString(),
         };
     }

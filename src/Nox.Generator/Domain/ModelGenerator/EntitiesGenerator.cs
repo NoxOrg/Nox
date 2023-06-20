@@ -65,7 +65,7 @@ internal class EntitiesGenerator
     private static void GenerateStrongSingleKeyClass(SourceProductionContext context, CodeBuilder code, Entity entity, NoxSimpleTypeDefinition key)
     {
         var className = $"{entity.Name}{key.Name}";
-        var underlyingType = MapType(key.Type);
+        var underlyingType = key.Type;
 
         code.AppendLine();
         code.AppendLine($"/// <summary>");
@@ -92,7 +92,7 @@ internal class EntitiesGenerator
         GeneratePropertyDocs(context, code, key);
 
         var propType = $"{entity.Name}{key.Name}";
-        var propName = MapType(key.Type);
+        var propName = key.Type;
 
         code.AppendLine($"public {propType} {propName} {{ get; set; }} = null!;");
     }
@@ -109,7 +109,7 @@ internal class EntitiesGenerator
 
             GeneratePropertyDocs(context, code, attribute);
 
-            var propType = MapType(attribute.Type);
+            var propType = attribute.Type;
             var propName = attribute.Name;
             var nullable = attribute.IsRequired ? string.Empty : "?";
 
@@ -198,12 +198,12 @@ internal class EntitiesGenerator
         code.AppendLine($"/// </summary>");
     }
 
-    private static string MapType(NoxType noxType)
-    {
-        return noxType switch
-        {
-            NoxType.Latlong => "LatLong",
-            _ => noxType.ToString(),
-        };
-    }
+    // private static string MapType(NoxType noxType)
+    // {
+    //     return noxType switch
+    //     {
+    //         NoxType.Latlong => "LatLong",
+    //         _ => noxType.ToString(),
+    //     };
+    // }
 }
