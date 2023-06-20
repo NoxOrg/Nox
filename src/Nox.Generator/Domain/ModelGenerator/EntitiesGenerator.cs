@@ -1,16 +1,13 @@
 ﻿using Humanizer;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
+using Nox.Generator._Common;
 using Nox.Solution;
-using Nox.Types;
-using System;
-using System.Data.SqlTypes;
 using System.Text;
-using System.Threading;
 
 namespace Nox.Generator;
 
-internal class EntitiesGenerator
+internal class EntitiesGenerator : BaseGenerator
 {
     public static void Generate(SourceProductionContext context, string solutionNameSpace, Entity entity)
     {
@@ -190,20 +187,12 @@ internal class EntitiesGenerator
             code.AppendLine($"/// </summary>");
         }
     }
+
     private static void GenerateRelationshipDocs(SourceProductionContext context, CodeBuilder code, Entity entity, EntityRelationship relationship)
     {
         code.AppendLine();
         code.AppendLine($"/// <summary>");
         code.AppendLine($"/// {entity.Name} {relationship.Description} {relationship.Relationship} {relationship.Entity.Pluralize()}");
         code.AppendLine($"/// </summary>");
-    }
-
-    private static string MapType(NoxType noxType)
-    {
-        return noxType switch
-        {
-            NoxType.Latlong => "LatLong",
-            _ => noxType.ToString(),
-        };
     }
 }

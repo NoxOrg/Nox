@@ -34,7 +34,6 @@
     <Folder Include="Application\DtoGenerator\" />
     <Folder Include="Domain\DomainEventGenerator\" />
     <Folder Include="Domain\ValueObjectGenerator\" />
-    <Folder Include="Application\CqrsGenerator\" />
     <Folder Include="Infrastructure\Persistence\ModelConfigGenerator\" />
     <Folder Include="Presentation\Api\ApiGenerator.OData\" />
     <Folder Include="Presentation\Api\ApiGenerator.Rest\" />

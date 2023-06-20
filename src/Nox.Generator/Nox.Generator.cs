@@ -65,11 +65,27 @@ namespace Nox.Generator;
                 context.CancellationToken.ThrowIfCancellationRequested();
 
                 EntitiesGenerator.Generate(context, solutionNameSpace, entity);
+
+                if (entity.Commands is not null)
+                {
+                    foreach (var command in entity.Commands)
+                    {
+                        CommandsGenerator.Generate(context, solutionNameSpace, command);
+                    }
+                }
+
+                if (entity.Queries is not null)
+                {
+                    foreach (var query in entity.Queries)
+                    {
+                        QueriesGenerator.Generate(context, solutionNameSpace, query);
+                    }
+                }
             }
 
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            DbContextGenerator.Generate(context, solutionNameSpace);
+            //DbContextGenerator.Generate(context, solutionNameSpace);
         }
         catch (YamlException)
         {
