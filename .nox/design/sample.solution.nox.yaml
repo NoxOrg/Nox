@@ -266,15 +266,7 @@ domain:
           textTypeOptions:
             maxLength: 31
 
-    - name: Currency
-      description: The list of currencies
-
-      relationships:
-
-        - name: CurrencyIsLegalTenderForCountry
-          description: is legal tender for
-          relationship: zeroOrMany
-          entity: Country
+    - ref$: Currency.entity.nox.yaml
 
     - name: CountryLocalNames
       description: The name of a country in other languages
