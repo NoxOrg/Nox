@@ -48,33 +48,41 @@ namespace Nox.Generator;
         _debug.AppendLine("// Found files ->");
         foreach (var (path, _) in noxYamls) {_debug.AppendLine($"//  - {Path.GetFileName(path)}");}
 
-        if (TryGetGeneratorConfig(noxYamls, out var generate) && TryGetNoxSolution(noxYamls, out var solution))
+        try
         {
-            var solutionNameSpace = solution.Name;
-
-            if (generate.Domain)
+            if (TryGetGeneratorConfig(noxYamls, out var generate) && TryGetNoxSolution(noxYamls, out var solution))
             {
-                EntityBaseGenerator.Generate(context, solutionNameSpace);
+                var solutionNameSpace = solution.Name;
 
-                AuditableEntityBaseGenerator.Generate(context, solutionNameSpace);
+                if (generate.Domain)
+                {
+                    EntityBaseGenerator.Generate(context, solutionNameSpace);
 
-                EntitiesGenerator.Generate(context, solutionNameSpace, solution);
-            }
+                    AuditableEntityBaseGenerator.Generate(context, solutionNameSpace);
 
-            if (generate.Infrastructure)
-            {
-                DbContextGenerator.Generate(context, solutionNameSpace, solution);
+                    EntitiesGenerator.Generate(context, solutionNameSpace, solution);
+                }
 
-                EntityTypeDefinitionsGenerator.Generate(context, solutionNameSpace, solution);
-            }
+                if (generate.Infrastructure)
+                {
+                    DbContextGenerator.Generate(context, solutionNameSpace, solution);
 
-            if (generate.Presentation)
-            {
-                ODataConfigurationGenerator.Generate(context, solutionNameSpace, solution);
+                    EntityTypeDefinitionsGenerator.Generate(context, solutionNameSpace, solution);
+                }
 
-                ODataApiGenerator.Generate(context, solutionNameSpace, solution);
+                if (generate.Presentation)
+                {
+                    ODataConfigurationGenerator.Generate(context, solutionNameSpace, solution);
+
+                    ODataApiGenerator.Generate(context, solutionNameSpace, solution);
+                }
             }
         }
+        catch (Exception e)
+        {
+            _errors.Add(e.Message);
+        }
+
 
         if (_errors.Any())
         {
