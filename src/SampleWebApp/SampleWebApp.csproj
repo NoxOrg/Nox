@@ -47,12 +47,6 @@
     <Compile Remove="Controller_Sample.cs" />
   </ItemGroup>
 
-  <ItemGroup>
-    <AdditionalFiles Include="Samples\Controller_Sample.cs" />
-    <Compile Remove="ODataConfiguration_Sample.cs" />
-    <Compile Remove="SampleServiceDbContext_Sample.cs" />
-    <AdditionalFiles Include="Samples\ODataConfiguration_Sample.cs" />
-    <AdditionalFiles Include="Samples\SampleServiceDbContext_Sample.cs" />
-  </ItemGroup>
+ 
 
 </Project>
