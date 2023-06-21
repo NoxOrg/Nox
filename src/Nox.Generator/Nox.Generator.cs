@@ -44,7 +44,7 @@ namespace Nox.Generator;
 
         foreach (var (path, _) in noxYamls) {_debug.AppendLine($"// {Path.GetFileName(path)}");}
 
-        if (TryGetNoxSolution(noxYamls, out var solution) && TryGetGeneratorConfig(noxYamls, out var generate))
+        if (TryGetGeneratorConfig(noxYamls, out var generate) && TryGetNoxSolution(noxYamls, out var solution))
         {
             var solutionNameSpace = solution.Name;
 
