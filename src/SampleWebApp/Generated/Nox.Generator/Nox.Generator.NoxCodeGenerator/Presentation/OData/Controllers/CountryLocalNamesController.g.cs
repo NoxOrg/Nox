@@ -15,13 +15,13 @@ using Microsoft.EntityFrameworkCore;
 using SampleService.Domain;
 using SampleService.Infrastructure.Persistence;
 
-namespace SampleService.Presentation.Api.OData;
+namespace SampleWebApp.Presentation.Api.OData;
 
 public class CountryLocalNamesController : ODataController
 {
-    SampleServiceDbContext _databaseContext = new SampleServiceDbContext();
+    SampleWebAppDbContext _databaseContext = new SampleWebAppDbContext();
 
-    public CountryLocalNamesController(SampleServiceDbContext databaseContext)
+    public CountryLocalNamesController(SampleWebAppDbContext databaseContext)
     {
         _databaseContext = databaseContext;
     }

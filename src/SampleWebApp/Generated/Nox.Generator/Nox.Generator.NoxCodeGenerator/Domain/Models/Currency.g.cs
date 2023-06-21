@@ -5,7 +5,7 @@
 using Nox.Types;
 using System.Collections.Generic;
 
-namespace SampleService.Domain;
+namespace SampleWebApp.Domain;
 
 /// <summary>
 /// The identifier (primary key) for a Currency.

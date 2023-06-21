@@ -3,9 +3,9 @@
 
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
-using SampleService.Domain;
+using SampleWebApp.Domain;
 
-namespace SampleService.Presentation.Api.OData;
+namespace SampleWebApp.Presentation.Api.OData;
 
 public partial class ODataConfiguration_Sample
 {
