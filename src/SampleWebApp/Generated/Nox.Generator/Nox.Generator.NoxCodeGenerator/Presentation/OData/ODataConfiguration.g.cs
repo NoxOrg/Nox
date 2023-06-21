@@ -3,7 +3,7 @@
 #nullable enable
 
 using Microsoft.OData.ModelBuilder;
-Microsoft.OData.Edm;
+using Microsoft.OData.Edm;
 using Microsoft.AspNetCore.Http;
 using SampleService.Domain;
 

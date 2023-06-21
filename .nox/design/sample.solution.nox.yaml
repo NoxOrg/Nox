@@ -266,7 +266,7 @@ domain:
           textTypeOptions:
             maxLength: 31
 
-    - $ref: Country.entity.nox.yaml
+    - $ref: currency.entity.nox.yaml
     
     - name: CountryLocalNames
       description: The name of a country in other languages

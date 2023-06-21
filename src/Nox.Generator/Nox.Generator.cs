@@ -45,6 +45,7 @@ namespace Nox.Generator;
     private void GenerateSource(SourceProductionContext context, ImmutableArray<(string Path,SourceText? Source)> noxYamls)
     {
         var _debug = new CodeBuilder($"Debug/Generator.g.cs", context);
+        _errors.Clear();
 
         _debug.AppendLine("// Found files ->");
         foreach (var (path, _) in noxYamls) {_debug.AppendLine($"//  - {Path.GetFileName(path)}");}
