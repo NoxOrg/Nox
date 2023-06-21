@@ -44,11 +44,11 @@ namespace Nox.Generator;
 
         foreach (var (path, _) in noxYamls) {_debug.AppendLine($"// {Path.GetFileName(path)}");}
 
-        if (TryGetNoxSolution(noxYamls, out var solution) && TryGetGeneratorConfig(noxYamls, out var config))
+        if (TryGetNoxSolution(noxYamls, out var solution) && TryGetGeneratorConfig(noxYamls, out var generate))
         {
             var solutionNameSpace = solution.Name;
 
-            if (config.Domain)
+            if (generate.Domain)
             {
                 EntityBaseGenerator.Generate(context, solutionNameSpace);
 
@@ -57,14 +57,14 @@ namespace Nox.Generator;
                 EntitiesGenerator.Generate(context, solutionNameSpace, solution);
             }
 
-            if (config.Infrastructure)
+            if (generate.Infrastructure)
             {
                 DbContextGenerator.Generate(context, solutionNameSpace, solution);
 
                 EntityTypeDefinitionsGenerator.Generate(context, solutionNameSpace, solution);
             }
 
-            if (config.Presentation)
+            if (generate.Presentation)
             {
                 ODataConfigurationGenerator.Generate(context, solutionNameSpace, solution);
 
