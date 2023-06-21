@@ -1,4 +1,6 @@
-﻿using Nox.Solution;
+﻿using Microsoft.CodeAnalysis;
+using Nox.Generator.Application.DtoGenerator;
+using Nox.Solution;
 using Nox.Types;
 using System.Collections.Generic;
 using System.Linq;
@@ -68,6 +70,43 @@ namespace Nox.Generator._Common
             code.UnIndent();
             code.AppendLine($@"}}");
             code.AppendLine($@"");
+        }
+
+        public static string GenerateTypeDefinition(SourceProductionContext context, string solutionNameSpace, NoxComplexTypeDefinition typeDefinition)
+        {
+            string stringTypeDefinition;
+            string typeName;
+
+            switch (typeDefinition.Type)
+            {
+                case NoxType.Array:
+                    var options = typeDefinition.ArrayTypeOptions;
+                    typeName = options.Name;
+                    stringTypeDefinition = $"{typeName}[]";
+                    if (options.Type == NoxType.Object && options.ObjectTypeOptions != null)
+                    {
+                        DtoGenerator.GenerateDto(context, solutionNameSpace, typeName, options.Description, options.ObjectTypeOptions.Attributes);
+                    }
+                    break;
+                case NoxType.Collection:
+                    var collection = typeDefinition.CollectionTypeOptions;
+                    typeName = collection.Name;
+                    stringTypeDefinition = $"IEnumerable<{typeName}>";
+                    if (collection.Type == NoxType.Object && collection.ObjectTypeOptions != null)
+                    {
+                        DtoGenerator.GenerateDto(context, solutionNameSpace, typeName, collection.Description, collection.ObjectTypeOptions.Attributes);
+                    }
+                    break;
+                case NoxType.Object:
+                    stringTypeDefinition = typeDefinition.Name;
+                    DtoGenerator.GenerateDto(context, solutionNameSpace, typeDefinition.Name, typeDefinition.Description, typeDefinition.ObjectTypeOptions.Attributes);
+                    break;
+                default:
+                    stringTypeDefinition = MapType(typeDefinition.Type);
+                    break;
+            }
+
+            return stringTypeDefinition;
         }
     }
 }

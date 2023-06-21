@@ -1,6 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Solution;
-using Nox.Types;
 using System;
 using System.Collections.Generic;
 
@@ -18,6 +17,8 @@ internal class QueriesGenerator
             throw new ArgumentNullException(nameof(query));
         }
 
+        context.CancellationToken.ThrowIfCancellationRequested();
+
         var className = $"{query.Name}Query";
 
         var code = new CodeBuilder($"Application/Queries/{className}.cs", context);
@@ -26,6 +27,7 @@ internal class QueriesGenerator
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine($"using System.Threading.Tasks;");
         code.AppendLine($"using {solutionNameSpace}.Domain;");
+        code.AppendLine($"using {solutionNameSpace}.Application.DataTransferObjects;");
         code.AppendLine($"using SampleService.Infrastructure.Persistence;");
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Application;");
@@ -45,11 +47,8 @@ internal class QueriesGenerator
 
         // Add params (which can be DTO)
         string parameters = GetParametersString(query.RequestInput);
-
-        bool isMany = query.ResponseOutput.Type == NoxType.Array || query.ResponseOutput.Type == NoxType.Collection;
-        var dto = query.ResponseOutput.Name;
-
-        var typeDefinition = isMany ? $"IEnumerable<{dto}>" : $"{dto}";
+                
+        var typeDefinition = GenerateTypeDefinition(context, solutionNameSpace, query.ResponseOutput);
 
         code.AppendLine($@"public abstract Task<{typeDefinition}> ExecuteAsync({parameters});");
 

@@ -15,7 +15,9 @@ internal class CommandsGenerator
         if (command is null)
         {
             throw new ArgumentNullException(nameof(command));
-        }       
+        }
+
+        context.CancellationToken.ThrowIfCancellationRequested();
 
         var className = $"{command.Name}CommandHandlerBase";
 
@@ -24,8 +26,9 @@ internal class CommandsGenerator
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine($"using Nox.Core.Interfaces.Messaging;");
-        code.AppendLine($"using Nox.Core.Interfaces.Entity.Commands;");        
+        code.AppendLine($"using Nox.Core.Interfaces.Entity.Commands;");
         code.AppendLine($"using {solutionNameSpace}.Domain;");
+        code.AppendLine($"using {solutionNameSpace}.Application.DataTransferObjects;");
         code.AppendLine($"using SampleService.Infrastructure.Persistence;");
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Application;");
@@ -46,10 +49,12 @@ internal class CommandsGenerator
         AddConstructor(code, className, new Dictionary<string, string> {
                 { dbContextName, DbContextName },
                 { "INoxMessenger", "Messenger" }
-            });
+        });
+
+        var typeDefinition = GenerateTypeDefinition(context, solutionNameSpace, command);
 
         // Add params
-        code.AppendLine($@"public abstract Task<INoxCommandResult> ExecuteAsync({command.Name}{CommandSuffix} command);");
+        code.AppendLine($@"public abstract Task<INoxCommandResult> ExecuteAsync({typeDefinition} command);");
 
         // Add Events
         if (command.EmitEvents != null)
