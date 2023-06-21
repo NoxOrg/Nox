@@ -10,12 +10,18 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using YamlDotNet.Core;
+using YamlDotNet.Serialization.NamingConventions;
+using YamlDotNet.Serialization;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Nox.Generator;
 
 [Generator]
 	public class NoxCodeGenerator : IIncrementalGenerator
 	{
+
+        private readonly CodeBuilder? _debug;
+
 		public void Initialize(IncrementalGeneratorInitializationContext context)
 		{
 #if DEBUG
@@ -28,7 +34,7 @@ namespace Nox.Generator;
 
         var noxYamls = context.AdditionalTextsProvider
             .Where(text => text.Path.EndsWithIgnoreCase(".nox.yaml"))
-            .Select((text, token) => (Path: text.Path, Source: text.GetText(token)))
+            .Select((text, token) => (Path: Path.GetFullPath(text.Path), Source: text.GetText(token)))
             .Collect();
         
         context.RegisterSourceOutput(noxYamls, GenerateSource);
@@ -37,37 +43,39 @@ namespace Nox.Generator;
 
     private void GenerateSource(SourceProductionContext context, ImmutableArray<(string Path,SourceText? Source)> noxYamls)
     {
-        GenerateDebugInfo(context, noxYamls);
+        var _debug = new CodeBuilder($"Debug/Generator.g.cs", context);
 
-        if (TryGetNoxSolution(noxYamls, out var solution))
+        foreach (var (path, _) in noxYamls) {_debug.AppendLine($"// {Path.GetFileName(path)}");}
+
+        if (TryGetNoxSolution(noxYamls, out var solution) && TryGetGeneratorConfig(noxYamls, out var config))
         {
             var solutionNameSpace = solution.Name;
 
-            EntityBaseGenerator.Generate(context, solutionNameSpace);
+            if (config.Domain)
+            {
+                EntityBaseGenerator.Generate(context, solutionNameSpace);
 
-            AuditableEntityBaseGenerator.Generate(context, solutionNameSpace);
+                AuditableEntityBaseGenerator.Generate(context, solutionNameSpace);
 
-            EntitiesGenerator.Generate(context, solutionNameSpace, solution);
+                EntitiesGenerator.Generate(context, solutionNameSpace, solution);
+            }
 
-            EntityTypeDefinitionsGenerator.Generate(context, solutionNameSpace, solution);
+            if (config.Infrastructure)
+            {
+                DbContextGenerator.Generate(context, solutionNameSpace, solution);
 
-            DbContextGenerator.Generate(context, solutionNameSpace, solution);
+                EntityTypeDefinitionsGenerator.Generate(context, solutionNameSpace, solution);
+            }
 
-            ODataConfigurationGenerator.Generate(context, solutionNameSpace, solution);
+            if (config.Presentation)
+            {
+                ODataConfigurationGenerator.Generate(context, solutionNameSpace, solution);
 
-            ODataApiGenerator.Generate(context, solutionNameSpace, solution);
+                ODataApiGenerator.Generate(context, solutionNameSpace, solution);
+            }
         }
 
-    }
-
-    private static void GenerateDebugInfo(SourceProductionContext context, ImmutableArray<(string Path, SourceText? Source)> noxYamls)
-    {
-        var code = new CodeBuilder($"Debug/Generator.g.cs",context);
-        foreach (var (path, _) in noxYamls)
-        {
-            code.AppendLine($"// {path}");
-        }
-        code.GenerateSourceCode();
+        _debug.GenerateSourceCode();
     }
 
     private static bool TryGetNoxSolution(ImmutableArray<(string Path, SourceText? Source)> noxYamls, out NoxSolution solution)
@@ -82,7 +90,7 @@ namespace Nox.Generator;
         if (solutionFilePaths.Length != 1)
             return false;
 
-        var solutionFile = Path.GetFullPath(solutionFilePaths.First());
+        var solutionFile = solutionFilePaths.First();
 
         try
         {
@@ -95,5 +103,44 @@ namespace Nox.Generator;
 
         return true;
     }
+
+    private static bool TryGetGeneratorConfig(ImmutableArray<(string Path, SourceText? Source)> noxYamls, out GeneratorConfig config)
+    {
+        config = null!;
+
+        var configFilesAndContent = noxYamls
+            .Where(p => p.Path.EndsWithIgnoreCase("generator.nox.yaml"))
+            .ToImmutableArray();
+
+        if (configFilesAndContent.Length == 0)
+        {
+            config = new GeneratorConfig();
+            return true;
+        }
+
+        if (configFilesAndContent.Length != 1)
+            return false;
+
+        var configContent = configFilesAndContent.First().Source?.ToString();
+
+        if (configContent is null)
+            return false;
+
+        try
+        {
+            var deserializer = new DeserializerBuilder()
+                .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                .Build();
+            
+            config = deserializer.Deserialize<GeneratorConfig>(configContent);
+        }
+        catch (YamlException)
+        {
+            return false;
+        }
+
+        return true;
+    }
+
 }
 
