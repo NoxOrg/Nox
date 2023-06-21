@@ -12,15 +12,12 @@ using System.Text;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace Nox.Generator;
 
 [Generator]
 	public class NoxCodeGenerator : IIncrementalGenerator
 	{
-
-        private readonly CodeBuilder? _debug;
 
 		public void Initialize(IncrementalGeneratorInitializationContext context)
 		{
