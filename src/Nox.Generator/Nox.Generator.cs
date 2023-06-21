@@ -12,12 +12,15 @@ using System.Text;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
+using System.Collections.Generic;
 
 namespace Nox.Generator;
 
 [Generator]
 	public class NoxCodeGenerator : IIncrementalGenerator
 	{
+
+        private static readonly List<string> _errors = new();
 
 		public void Initialize(IncrementalGeneratorInitializationContext context)
 		{
@@ -42,36 +45,54 @@ namespace Nox.Generator;
     {
         var _debug = new CodeBuilder($"Debug/Generator.g.cs", context);
 
-        foreach (var (path, _) in noxYamls) {_debug.AppendLine($"// {Path.GetFileName(path)}");}
+        _debug.AppendLine("// Found files ->");
+        foreach (var (path, _) in noxYamls) {_debug.AppendLine($"//  - {Path.GetFileName(path)}");}
 
-        if (TryGetGeneratorConfig(noxYamls, out var generate) && TryGetNoxSolution(noxYamls, out var solution))
+        try
         {
-            var solutionNameSpace = solution.Name;
-
-            if (generate.Domain)
+            if (TryGetGeneratorConfig(noxYamls, out var generate) && TryGetNoxSolution(noxYamls, out var solution))
             {
-                EntityBaseGenerator.Generate(context, solutionNameSpace);
+                var solutionNameSpace = solution.Name;
 
-                AuditableEntityBaseGenerator.Generate(context, solutionNameSpace);
+                if (generate.Domain)
+                {
+                    EntityBaseGenerator.Generate(context, solutionNameSpace);
 
-                EntitiesGenerator.Generate(context, solutionNameSpace, solution);
-            }
+                    AuditableEntityBaseGenerator.Generate(context, solutionNameSpace);
 
-            if (generate.Infrastructure)
-            {
-                DbContextGenerator.Generate(context, solutionNameSpace, solution);
+                    EntitiesGenerator.Generate(context, solutionNameSpace, solution);
+                }
 
-                EntityTypeDefinitionsGenerator.Generate(context, solutionNameSpace, solution);
-            }
+                if (generate.Infrastructure)
+                {
+                    DbContextGenerator.Generate(context, solutionNameSpace, solution);
 
-            if (generate.Presentation)
-            {
-                ODataConfigurationGenerator.Generate(context, solutionNameSpace, solution);
+                    EntityTypeDefinitionsGenerator.Generate(context, solutionNameSpace, solution);
+                }
 
-                ODataApiGenerator.Generate(context, solutionNameSpace, solution);
+                if (generate.Presentation)
+                {
+                    ODataConfigurationGenerator.Generate(context, solutionNameSpace, solution);
+
+                    ODataApiGenerator.Generate(context, solutionNameSpace, solution);
+                }
             }
         }
+        catch (Exception e)
+        {
+            _errors.Add(e.Message);
+        }
 
+
+        if (_errors.Any())
+        {
+            _debug.AppendLine("// Errors ->");
+            foreach (var e in _errors) { _debug.AppendLine($"//  - {e}"); }
+        }
+        else
+        {
+            _debug.AppendLine("// SUCCESS.");
+        }
         _debug.GenerateSourceCode();
     }
 
@@ -85,7 +106,10 @@ namespace Nox.Generator;
             .ToImmutableArray();
 
         if (solutionFilePaths.Length != 1)
+        {
+            _errors.Add("More than one *.solution.nox.yaml found.");
             return false;
+        }
 
         var solutionFile = solutionFilePaths.First();
 
@@ -93,8 +117,14 @@ namespace Nox.Generator;
         {
             solution = new NoxSolutionBuilder().UseYamlFile(solutionFile).Build();
         }
-        catch (YamlException)
+        catch (YamlException e)
         {
+            _errors.Add(e.Message);
+            if (e.InnerException is not null)
+            {
+                _errors.Add(e.InnerException.Message);
+
+            }
             return false;
         }
 
@@ -116,12 +146,18 @@ namespace Nox.Generator;
         }
 
         if (configFilesAndContent.Length != 1)
+        {
+            _errors.Add("More than one *generator.nox.yaml found in project.");
             return false;
+        }
 
         var configContent = configFilesAndContent.First().Source?.ToString();
 
         if (configContent is null)
+        {
+            _errors.Add($"Error loading config file contents from {configFilesAndContent.First().Path}.");
             return false;
+        }
 
         try
         {
@@ -131,8 +167,13 @@ namespace Nox.Generator;
             
             config = deserializer.Deserialize<GeneratorConfig>(configContent);
         }
-        catch (YamlException)
+        catch (YamlException e)
         {
+            _errors.Add(e.Message);
+            if (e.InnerException is not null)
+            {
+                _errors.Add(e.InnerException.Message);
+            }
             return false;
         }
 
