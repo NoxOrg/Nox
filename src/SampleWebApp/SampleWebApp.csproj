@@ -19,6 +19,9 @@
   <ItemGroup>
     <Compile Remove="Generated\**" />
     <Content Include="Generated\**" />
+    <Compile Remove="Samples\Controller_Sample.cs" />
+    <Compile Remove="Samples\ODataConfiguration_Sample.cs" />
+    <Compile Remove="Samples\SampleServiceDbContext_Sample.cs" />
   </ItemGroup>
 
 
@@ -39,12 +42,20 @@
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.7" />
     <PackageReference Include="Microsoft.OData.Core" Version="7.16.0" />
+    <PackageReference Include="Nox.Core" Version="6.0.48" />
     <PackageReference Include="Nox.Types" Version="1.0.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
 
   <ItemGroup>
     <Compile Remove="Controller_Sample.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Generated\Nox.Generator\Nox.Generator.NoxCodeGenerator\Domain\Base\" />
+    <Folder Include="Generated\Nox.Generator\Nox.Generator.NoxCodeGenerator\Domain\Models\" />
+    <Folder Include="Generated\Nox.Generator\Nox.Generator.NoxCodeGenerator\Presentation\OData\Controllers\" />
+    <Folder Include="Samples\" />
   </ItemGroup>
 
  

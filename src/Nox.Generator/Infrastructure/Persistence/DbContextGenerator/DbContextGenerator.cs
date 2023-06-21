@@ -73,29 +73,29 @@ internal class DbContextGenerator
             // End class
         code.EndBlock();
         code.AppendLine();
-
-        code.AppendLine("// https://www.svrz.com/unable-to-resolve-service-for-type-microsoft-entityframeworkcore-storage-typemappingsourcedependencies/");
-        code.AppendLine($"public partial class MysqlEntityFrameworkDesignTimeServices : IDesignTimeServices");
-
-        // Class MysqlEntityFrameworkDesignTimeServices
-        code.StartBlock();
-
-            // Method RegisterContext
-            code.AppendLine($"public void ConfigureDesignTimeServices(IServiceCollection serviceCollection)");
-
-            // Method content
-            code.StartBlock();
-                code.AppendLine($"serviceCollection.AddEntityFrameworkMySQL();");
-                code.AppendLine($"new EntityFrameworkRelationalDesignServicesBuilder(serviceCollection)");
-                code.Indent();
-                    code.AppendLine($".TryAddCoreServices();");
-                code.UnIndent();
-
-            // End method
-            code.EndBlock();
-
-        // End class
-        code.EndBlock();
+        //
+        // code.AppendLine("// https://www.svrz.com/unable-to-resolve-service-for-type-microsoft-entityframeworkcore-storage-typemappingsourcedependencies/");
+        // code.AppendLine($"public partial class MysqlEntityFrameworkDesignTimeServices : IDesignTimeServices");
+        //
+        // // Class MysqlEntityFrameworkDesignTimeServices
+        // code.StartBlock();
+        //
+        //     // Method RegisterContext
+        //     code.AppendLine($"public void ConfigureDesignTimeServices(IServiceCollection serviceCollection)");
+        //
+        //     // Method content
+        //     code.StartBlock();
+        //         code.AppendLine($"serviceCollection.AddEntityFrameworkMySQL();");
+        //         code.AppendLine($"new EntityFrameworkRelationalDesignServicesBuilder(serviceCollection)");
+        //         code.Indent();
+        //             code.AppendLine($".TryAddCoreServices();");
+        //         code.UnIndent();
+        //
+        //     // End method
+        //     code.EndBlock();
+        //
+        // // End class
+        // code.EndBlock();
 
         code.GenerateSourceCode();
 

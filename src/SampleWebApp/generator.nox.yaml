@@ -16,7 +16,7 @@ domain: true
 application: true
 
 # Generates persistence, DbContext and model configuration and mapping
-infrastructure: true
+infrastructure: false
 
 # Generates APi's and UI's
-presentation: true
+presentation: false
