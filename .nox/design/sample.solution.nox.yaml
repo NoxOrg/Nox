@@ -1,6 +1,7 @@
 #
 # workplace.solution.nox.yaml
 #
+# yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
 #
 
 name: SampleService
@@ -67,7 +68,7 @@ domain:
   entities:
 
     - name: Country
-      description: A nation with its own government, occupying a particular territory 
+      description: The list of countries
       
       userInterface:
         icon: world
@@ -142,23 +143,9 @@ domain:
             attributes:
               - name: CountryCode
                 type: countryCode2
-          emitEvents: [CountryNameUpdatedEvent]
-          
-      events:
-        - name: CountryNameUpdatedEvent
-          description: a Domain event which is raised when the name of a country changes
-          type: object
-          objectTypeOptions:
-            attributes:
-              
-              - name: CountryId
-                description: The identity of the country, the Iso Alpha 2 code.
-                type: countryCode2
-              
-              - name: CountryName
-                description: The new name of the country
-                type: text      
-      
+          emitEvents: [CountryUpdatedEvent]
+
+
       keys:
 
         - name: Id
@@ -274,7 +261,7 @@ domain:
             minValue: 0
 
         - name: TopLevelDomains
-          description: The top level internet domains registered to the country (comma-delimited)
+          description: The top level internet domains regitered to the country (comma-delimited)
           type: text
           textTypeOptions:
             maxLength: 31
@@ -330,22 +317,22 @@ domain:
 
 application:
   dataTransferObjects:
-    - name: CountryInfo
+    - name: CountryDto
       description: Dto for country information
       attributes:
-        - name: CountryId
+        - name: Id
           description: The identity of the country, the Iso Alpha 2 code
-          type: countryCode2
-
-        - name: CountryName
-          description: The name of the country
           type: text
+          textTypeOptions:
+            casing: lower
+            maxLength: 2
+            minLength: 2
 
   integrations:
     - name: SampleEtl
       description: a Sample Etl
       source:
-        name: CountryJsonSeed
+        name: CountryJsonSource
         description: Sources Country data from a json file
         dataConnectionName: CountryJsonData
         fileOptions: 
@@ -497,5 +484,3 @@ infrastructure:
         password: SecretPassword
       validFor:
         minutes: 10
-
-
