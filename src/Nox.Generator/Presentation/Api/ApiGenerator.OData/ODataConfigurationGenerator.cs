@@ -1,8 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
 using Nox.Solution;
 using System.Linq;
-using System.Text;
 
 namespace Nox.Generator;
 
@@ -21,10 +19,10 @@ internal static class ODataConfigurationGenerator
         var code = new CodeBuilder($"Presentation/OData/ODataConfiguration.g.cs", context);
 
         // Namespace
-        code.AppendLine($"using Microsoft.OData.ModelBuilder;");
-        code.AppendLine($"Microsoft.OData.Edm;");
         code.AppendLine($"using Microsoft.AspNetCore.Http;");
-        code.AppendLine($"using SampleService.Domain;");
+        code.AppendLine($"using Microsoft.AspNetCore.OData;");
+        code.AppendLine($"using Microsoft.OData.ModelBuilder;");
+        code.AppendLine($"using SampleService.Domain;"); 
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Presentation.Api.OData;");
         code.AppendLine();
@@ -34,7 +32,7 @@ internal static class ODataConfigurationGenerator
         // Class
         code.StartBlock();
             // Method
-            code.AppendLine($"public static void Register(HttpConfiguration config)");
+            code.AppendLine($"public static void Register(IServiceCollection services)");
         
             // Method content
             code.StartBlock();
@@ -48,18 +46,26 @@ internal static class ODataConfigurationGenerator
                 }
 
                 code.AppendLine();
-                code.AppendLine($"config.MapODataServiceRoute(");
+                code.AppendLine($"services.AddControllers()");
                 code.Indent();
-                    code.AppendLine($"routeName: \"api\",");
-                    code.AppendLine($"routePrefix: null,");
-                    code.AppendLine($"model: builder.GetEdmModel());");
+                    code.AppendLine($".AddOData(options => options");
+                    code.Indent();
+                        code.AppendLine($".Select()");
+                        code.AppendLine($".Filter()");
+                        code.AppendLine($".OrderBy()");
+                        code.AppendLine($".Count()");
+                        code.AppendLine($".Expand()");
+                        code.AppendLine($".SkipToken()");
+                        code.AppendLine($".SetMaxTop(100)");
+                        code.AppendLine($".AddRouteComponents(\"api\", builder.GetEdmModel())");
                     code.UnIndent();
+                    code.AppendLine($");");
+                code.UnIndent();
             // End method
             code.EndBlock();
         // End class
         code.EndBlock();
 
         code.GenerateSourceCode();
-
     }
 }

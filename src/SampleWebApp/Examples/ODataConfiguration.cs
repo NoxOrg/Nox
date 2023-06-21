@@ -5,9 +5,9 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using SampleService.Domain;
 
-namespace SampleService.Presentation.Api.OData;
+namespace SampleWebApp.Examples;
 
-public partial class ODataConfiguration_Sample
+public partial class ODataConfiguration
 {
     public static void Register(IServiceCollection services)
     {

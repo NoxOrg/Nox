@@ -1,11 +1,9 @@
-﻿// generated
+﻿// Generated
 
 #nullable enable
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.DependencyInjection;
-using MySql.Data.EntityFrameworkCore.Extensions;
+using SampleService.Domain;
 using System.Reflection;
 
 namespace SampleService.Infrastructure.Persistence;
@@ -17,6 +15,14 @@ public partial class SampleServiceDbContext : DbContext
         DbContextOptions<SampleServiceDbContext> options
         ) : base(options) { }
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    
+    public DbSet<Country> Countries;
+    
+    public DbSet<Currency> Currencies;
+    
+    public DbSet<CountryLocalNames> CountryLocalNames;
+    
+    public DbSet<CurrencyCashBalance> CurrencyCashBalances;
     
     public static void RegisterDbContext(IServiceCollection services)
     {
@@ -32,13 +38,3 @@ public partial class SampleServiceDbContext : DbContext
     }
 }
 
-// https://www.svrz.com/unable-to-resolve-service-for-type-microsoft-entityframeworkcore-storage-typemappingsourcedependencies/
-public partial class MysqlEntityFrameworkDesignTimeServices : IDesignTimeServices
-{
-    public void ConfigureDesignTimeServices(IServiceCollection serviceCollection)
-    {
-        serviceCollection.AddEntityFrameworkMySQL();
-        new EntityFrameworkRelationalDesignServicesBuilder(serviceCollection)
-            .TryAddCoreServices();
-    }
-}

@@ -12,28 +12,28 @@ using SampleService.Infrastructure.Persistence;
 using System.Net;
 using Nox.Types;
 
-namespace SampleService.Presentation.Api.OData;
+namespace SampleService.Examples;
 
-public class CurrenciesController : ODataController
+public class CountriesController : ODataController
 {
     SampleServiceDbContext _databaseContext;
 
-    public CurrenciesController(SampleServiceDbContext databaseContext)
+    public CountriesController(SampleServiceDbContext databaseContext)
     {
         _databaseContext = databaseContext;
     }
     
     [EnableQuery]
-    public ActionResult<IQueryable<Currency>> Get()
+    public ActionResult<IQueryable<Country>> Get()
     {
-        return Ok(_databaseContext.Currencies);
+        return Ok(_databaseContext.Countries);
     }
     
     [EnableQuery]
-    public ActionResult<Currency> Get([FromRoute] string key)
+    public ActionResult<Country> Get([FromRoute] string key)
     {
-        var parsedKey = CurrencyId.From(key);
-        var item = _databaseContext.Currencies.SingleOrDefault(d => d.Id.Equals(parsedKey));
+        var parsedKey = CountryId.From(Text.From(key));
+        var item = _databaseContext.Countries.SingleOrDefault(d => d.Id.Equals(parsedKey));
         
         if (item == null)
         {
@@ -42,40 +42,40 @@ public class CurrenciesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post(Currency currency)
+    public async Task<ActionResult> Post(Country country)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        _databaseContext.Currencies.Add(currency);
+        _databaseContext.Countries.Add(country);
         
         await _databaseContext.SaveChangesAsync();
         
-        return Created(currency);
+        return Created(country);
     }
     
-    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] Currency updatedCurrency)
+    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] Country updatedCountry)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var parsedKey = CurrencyId.From(key);
-        if (parsedKey != updatedCurrency.Id)
+        var parsedKey = CountryId.From(Text.From(key));
+        if (parsedKey != updatedCountry.Id)
         {
             return BadRequest();
         }
-        _databaseContext.Entry(updatedCurrency).State = EntityState.Modified;
+        _databaseContext.Entry(updatedCountry).State = EntityState.Modified;
         try
         {
             await _databaseContext.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!CurrencyExists(key))
+            if (!CountryExists(key))
             {
                 return NotFound();
             }
@@ -84,30 +84,30 @@ public class CurrenciesController : ODataController
                 throw;
             }
         }
-        return Updated(updatedCurrency);
+        return Updated(updatedCountry);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string key, [FromBody] Delta<Currency> currency)
+    public async Task<ActionResult> Patch([FromRoute] string key, [FromBody] Delta<Country> country)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var parsedKey = CurrencyId.From(key);
-        var entity = await _databaseContext.Currencies.FindAsync(parsedKey);
+        var parsedKey = CountryId.From(Text.From(key));
+        var entity = await _databaseContext.Countries.FindAsync(parsedKey);
         if (entity == null)
         {
             return NotFound();
         }
-        currency.Patch(entity);
+        country.Patch(entity);
         try
         {
             await _databaseContext.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!CurrencyExists(key))
+            if (!CountryExists(key))
             {
                 return NotFound();
             }
@@ -119,22 +119,22 @@ public class CurrenciesController : ODataController
         return Updated(entity);
     }
     
-    private bool CurrencyExists(string key)
+    private bool CountryExists(string key)
     {
-        var parsedKey = CurrencyId.From(key);
-        return _databaseContext.Currencies.Any(p => p.Id == parsedKey);
+        var parsedKey = CountryId.From(Text.From(key));
+        return _databaseContext.Countries.Any(p => p.Id == parsedKey);
     }
     
     public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var parsedKey = CurrencyId.From(key);
-        var currency = await _databaseContext.Currencies.FindAsync(parsedKey);
-        if (currency == null)
+        var parsedKey = CountryId.From(Text.From(key));
+        var country = await _databaseContext.Countries.FindAsync(parsedKey);
+        if (country == null)
         {
             return NotFound();
         }
         
-        _databaseContext.Currencies.Remove(currency);
+        _databaseContext.Countries.Remove(country);
         await _databaseContext.SaveChangesAsync();
         return StatusCode((int)HttpStatusCode.NoContent);
     }

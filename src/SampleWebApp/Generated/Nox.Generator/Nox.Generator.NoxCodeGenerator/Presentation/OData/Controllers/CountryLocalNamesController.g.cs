@@ -1,25 +1,22 @@
-﻿// generated
+﻿// Generated
 
 #nullable enable
 
-using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.OData;
-using Microsoft.AspNetCore.OData.Extensions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.AspNetCore.OData.Results;
-using Microsoft.OData.UriParser;
-using System.Threading.Tasks;
-using System.Net;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using SampleService.Domain;
 using SampleService.Infrastructure.Persistence;
+using System.Net;
+using Nox.Types;
 
 namespace SampleService.Presentation.Api.OData;
 
 public class CountryLocalNamesController : ODataController
 {
-    SampleServiceDbContext _databaseContext = new SampleServiceDbContext();
+    SampleServiceDbContext _databaseContext;
 
     public CountryLocalNamesController(SampleServiceDbContext databaseContext)
     {
@@ -27,19 +24,25 @@ public class CountryLocalNamesController : ODataController
     }
     
     [EnableQuery]
-    public IQueryable<CountryLocalNames> Get()
+    public ActionResult<IQueryable<CountryLocalNames>> Get()
     {
-        return _databaseContext.CountryLocalNames;
+        return Ok(_databaseContext.CountryLocalNames);
     }
     
     [EnableQuery]
-    public SingleResult<CountryLocalNames> Get([FromODataUri] int key)
+    public ActionResult<CountryLocalNames> Get([FromRoute] string key)
     {
-        IQueryable<CountryLocalNames> result = _databaseContext.CountryLocalNames.Where(p => p.Id == key);
-        return SingleResult.Create(result);
+        var parsedKey = CountryLocalNamesId.From(key);
+        var item = _databaseContext.CountryLocalNames.SingleOrDefault(d => d.Id.Equals(parsedKey));
+        
+        if (item == null)
+        {
+            return NotFound();
+        }
+        return Ok(item);
     }
     
-    public async Task<IHttpActionResult> Post(CountryLocalNames countrylocalnames)
+    public async Task<ActionResult> Post(CountryLocalNames countrylocalnames)
     {
         if (!ModelState.IsValid)
         {
@@ -47,18 +50,52 @@ public class CountryLocalNamesController : ODataController
         }
         
         _databaseContext.CountryLocalNames.Add(countrylocalnames);
+        
         await _databaseContext.SaveChangesAsync();
+        
         return Created(countrylocalnames);
     }
     
-    public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<CountryLocalNames> countrylocalnames)
+    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] CountryLocalNames updatedCountryLocalNames)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = await _databaseContext.CountryLocalNames.FindAsync(key);
+        var parsedKey = CountryLocalNamesId.From(key);
+        if (parsedKey != updatedCountryLocalNames.Id)
+        {
+            return BadRequest();
+        }
+        _databaseContext.Entry(updatedCountryLocalNames).State = EntityState.Modified;
+        try
+        {
+            await _databaseContext.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!CountryLocalNamesExists(key))
+            {
+                return NotFound();
+            }
+            else
+            {
+                throw;
+            }
+        }
+        return Updated(updatedCountryLocalNames);
+    }
+    
+    public async Task<ActionResult> Patch([FromRoute] string key, [FromBody] Delta<CountryLocalNames> countrylocalnames)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var parsedKey = CountryLocalNamesId.From(key);
+        var entity = await _databaseContext.CountryLocalNames.FindAsync(parsedKey);
         if (entity == null)
         {
             return NotFound();
@@ -82,44 +119,16 @@ public class CountryLocalNamesController : ODataController
         return Updated(entity);
     }
     
-    public async Task<IHttpActionResult> Put([FromODataUri] int key, CountryLocalNames update)
+    private bool CountryLocalNamesExists(string key)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        if (key != update.Id)
-        {
-            return BadRequest();
-        }
-        _databaseContext.Entry(update).State = EntityState.Modified;
-        try
-        {
-            await _databaseContext.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!CountryLocalNamesExists(key))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
-        return Updated(update);
+        var parsedKey = CountryLocalNamesId.From(key);
+        return _databaseContext.CountryLocalNames.Any(p => p.Id == parsedKey);
     }
     
-    private bool CountryLocalNamesExists(int key)
+    public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        return _databaseContext.CountryLocalNames.Any(p => p.Id == key);
-    }
-    
-    public async Task<IHttpActionResult> Delete([FromODataUri] int key)
-    {
-        var countrylocalnames = await _databaseContext.CountryLocalNames.FindAsync(key);
+        var parsedKey = CountryLocalNamesId.From(key);
+        var countrylocalnames = await _databaseContext.CountryLocalNames.FindAsync(parsedKey);
         if (countrylocalnames == null)
         {
             return NotFound();
@@ -127,12 +136,6 @@ public class CountryLocalNamesController : ODataController
         
         _databaseContext.CountryLocalNames.Remove(countrylocalnames);
         await _databaseContext.SaveChangesAsync();
-        return StatusCode(HttpStatusCode.NoContent);
-    }
-    
-    protected override void Dispose(bool disposing)
-    {
-        _databaseContext.Dispose();
-        base.Dispose(disposing);
+        return StatusCode((int)HttpStatusCode.NoContent);
     }
 }

@@ -1,17 +1,17 @@
-﻿// generated
+﻿// Generated
 
 #nullable enable
 
-using Microsoft.OData.ModelBuilder;
-Microsoft.OData.Edm;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.OData;
+using Microsoft.OData.ModelBuilder;
 using SampleService.Domain;
 
 namespace SampleService.Presentation.Api.OData;
 
 public partial class ODataConfiguration
 {
-    public static void Register(HttpConfiguration config)
+    public static void Register(IServiceCollection services)
     {
         ODataModelBuilder builder = new ODataConventionModelBuilder();
         
@@ -20,9 +20,16 @@ public partial class ODataConfiguration
         builder.EntitySet<CountryLocalNames>("CountryLocalNames");
         builder.EntitySet<CurrencyCashBalance>("CurrencyCashBalances");
         
-        config.MapODataServiceRoute(
-            routeName: "api",
-            routePrefix: null,
-            model: builder.GetEdmModel());
+        services.AddControllers()
+            .AddOData(options => options
+                .Select()
+                .Filter()
+                .OrderBy()
+                .Count()
+                .Expand()
+                .SkipToken()
+                .SetMaxTop(100)
+                .AddRouteComponents("api", builder.GetEdmModel())
+            );
     }
 }

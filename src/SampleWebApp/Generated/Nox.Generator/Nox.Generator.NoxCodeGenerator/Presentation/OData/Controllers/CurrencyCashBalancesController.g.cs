@@ -1,25 +1,22 @@
-﻿// generated
+﻿// Generated
 
 #nullable enable
 
-using System.Linq;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.OData;
-using Microsoft.AspNetCore.OData.Extensions;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
-using Microsoft.AspNetCore.OData.Results;
-using Microsoft.OData.UriParser;
-using System.Threading.Tasks;
-using System.Net;
+using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using SampleService.Domain;
 using SampleService.Infrastructure.Persistence;
+using System.Net;
+using Nox.Types;
 
 namespace SampleService.Presentation.Api.OData;
 
 public class CurrencyCashBalancesController : ODataController
 {
-    SampleServiceDbContext _databaseContext = new SampleServiceDbContext();
+    SampleServiceDbContext _databaseContext;
 
     public CurrencyCashBalancesController(SampleServiceDbContext databaseContext)
     {
@@ -27,19 +24,25 @@ public class CurrencyCashBalancesController : ODataController
     }
     
     [EnableQuery]
-    public IQueryable<CurrencyCashBalance> Get()
+    public ActionResult<IQueryable<CurrencyCashBalance>> Get()
     {
-        return _databaseContext.CurrencyCashBalances;
+        return Ok(_databaseContext.CurrencyCashBalances);
     }
     
     [EnableQuery]
-    public SingleResult<CurrencyCashBalance> Get([FromODataUri] int key)
+    public ActionResult<CurrencyCashBalance> Get([FromRoute] string key)
     {
-        IQueryable<CurrencyCashBalance> result = _databaseContext.CurrencyCashBalances.Where(p => p.Id == key);
-        return SingleResult.Create(result);
+        var parsedKey = CurrencyCashBalanceId.From(Entity.From(key));
+        var item = _databaseContext.CurrencyCashBalances.SingleOrDefault(d => d.Id.Equals(parsedKey));
+        
+        if (item == null)
+        {
+            return NotFound();
+        }
+        return Ok(item);
     }
     
-    public async Task<IHttpActionResult> Post(CurrencyCashBalance currencycashbalance)
+    public async Task<ActionResult> Post(CurrencyCashBalance currencycashbalance)
     {
         if (!ModelState.IsValid)
         {
@@ -47,18 +50,52 @@ public class CurrencyCashBalancesController : ODataController
         }
         
         _databaseContext.CurrencyCashBalances.Add(currencycashbalance);
+        
         await _databaseContext.SaveChangesAsync();
+        
         return Created(currencycashbalance);
     }
     
-    public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<CurrencyCashBalance> currencycashbalance)
+    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] CurrencyCashBalance updatedCurrencyCashBalance)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = await _databaseContext.CurrencyCashBalances.FindAsync(key);
+        var parsedKey = CurrencyCashBalanceId.From(Entity.From(key));
+        if (parsedKey != updatedCurrencyCashBalance.Id)
+        {
+            return BadRequest();
+        }
+        _databaseContext.Entry(updatedCurrencyCashBalance).State = EntityState.Modified;
+        try
+        {
+            await _databaseContext.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!CurrencyCashBalanceExists(key))
+            {
+                return NotFound();
+            }
+            else
+            {
+                throw;
+            }
+        }
+        return Updated(updatedCurrencyCashBalance);
+    }
+    
+    public async Task<ActionResult> Patch([FromRoute] string key, [FromBody] Delta<CurrencyCashBalance> currencycashbalance)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var parsedKey = CurrencyCashBalanceId.From(Entity.From(key));
+        var entity = await _databaseContext.CurrencyCashBalances.FindAsync(parsedKey);
         if (entity == null)
         {
             return NotFound();
@@ -82,44 +119,16 @@ public class CurrencyCashBalancesController : ODataController
         return Updated(entity);
     }
     
-    public async Task<IHttpActionResult> Put([FromODataUri] int key, CurrencyCashBalance update)
+    private bool CurrencyCashBalanceExists(string key)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        if (key != update.Id)
-        {
-            return BadRequest();
-        }
-        _databaseContext.Entry(update).State = EntityState.Modified;
-        try
-        {
-            await _databaseContext.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!CurrencyCashBalanceExists(key))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
-        return Updated(update);
+        var parsedKey = CurrencyCashBalanceId.From(Entity.From(key));
+        return _databaseContext.CurrencyCashBalances.Any(p => p.Id == parsedKey);
     }
     
-    private bool CurrencyCashBalanceExists(int key)
+    public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        return _databaseContext.CurrencyCashBalances.Any(p => p.Id == key);
-    }
-    
-    public async Task<IHttpActionResult> Delete([FromODataUri] int key)
-    {
-        var currencycashbalance = await _databaseContext.CurrencyCashBalances.FindAsync(key);
+        var parsedKey = CurrencyCashBalanceId.From(Entity.From(key));
+        var currencycashbalance = await _databaseContext.CurrencyCashBalances.FindAsync(parsedKey);
         if (currencycashbalance == null)
         {
             return NotFound();
@@ -127,12 +136,6 @@ public class CurrencyCashBalancesController : ODataController
         
         _databaseContext.CurrencyCashBalances.Remove(currencycashbalance);
         await _databaseContext.SaveChangesAsync();
-        return StatusCode(HttpStatusCode.NoContent);
-    }
-    
-    protected override void Dispose(bool disposing)
-    {
-        _databaseContext.Dispose();
-        base.Dispose(disposing);
+        return StatusCode((int)HttpStatusCode.NoContent);
     }
 }

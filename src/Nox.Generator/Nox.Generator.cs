@@ -3,12 +3,10 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Nox.Generator.Infrastructure.Persistence.ModelConfigGenerator;
 using Nox.Solution;
-using System;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using YamlDotNet.Core;
 
 namespace Nox.Generator;

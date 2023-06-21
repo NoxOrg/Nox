@@ -1,4 +1,4 @@
-﻿// generated
+﻿// Generated
 
 #nullable enable
 

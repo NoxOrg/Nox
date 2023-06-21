@@ -1,7 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
 using Nox.Solution;
-using System.Text;
 
 namespace Nox.Generator;
 
@@ -22,10 +20,8 @@ internal class DbContextGenerator
 
         // Namespace
         code.AppendLine(@"using Microsoft.EntityFrameworkCore;");
-        code.AppendLine(@"using Microsoft.EntityFrameworkCore.Design;");
-        code.AppendLine(@"using Microsoft.Extensions.DependencyInjection;");
-        code.AppendLine(@"using MySql.Data.EntityFrameworkCore.Extensions;");
-        code.AppendLine($"using System.Reflection;");
+        code.AppendLine(@"using SampleService.Domain;");
+        code.AppendLine(@"using System.Reflection;");
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Infrastructure.Persistence;");
         code.AppendLine();
@@ -45,6 +41,12 @@ internal class DbContextGenerator
             code.UnIndent();
             code.AppendLine("#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.");
             code.AppendLine();
+
+            foreach (var entity in solution.Domain.Entities)
+            {
+                code.AppendLine($"public DbSet<{entity.Name}> {entity.PluralName};");
+                code.AppendLine();
+            }
 
             // Method RegisterDbContext
             code.AppendLine($"public static void RegisterDbContext(IServiceCollection services)");
@@ -73,29 +75,6 @@ internal class DbContextGenerator
             // End class
         code.EndBlock();
         code.AppendLine();
-
-        code.AppendLine("// https://www.svrz.com/unable-to-resolve-service-for-type-microsoft-entityframeworkcore-storage-typemappingsourcedependencies/");
-        code.AppendLine($"public partial class MysqlEntityFrameworkDesignTimeServices : IDesignTimeServices");
-
-        // Class MysqlEntityFrameworkDesignTimeServices
-        code.StartBlock();
-
-            // Method RegisterContext
-            code.AppendLine($"public void ConfigureDesignTimeServices(IServiceCollection serviceCollection)");
-
-            // Method content
-            code.StartBlock();
-                code.AppendLine($"serviceCollection.AddEntityFrameworkMySQL();");
-                code.AppendLine($"new EntityFrameworkRelationalDesignServicesBuilder(serviceCollection)");
-                code.Indent();
-                    code.AppendLine($".TryAddCoreServices();");
-                code.UnIndent();
-
-            // End method
-            code.EndBlock();
-
-        // End class
-        code.EndBlock();
 
         code.GenerateSourceCode();
 
