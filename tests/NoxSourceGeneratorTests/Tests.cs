@@ -1,11 +1,10 @@
-using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Reflection;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Nox.Generator;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -13,15 +12,15 @@ namespace SourceGeneratorTests
 {
     public class Tests
     {
-	private readonly ITestOutputHelper _output;
+        private readonly ITestOutputHelper _output;
 
-	public Tests(ITestOutputHelper output)
-	{
+        public Tests(ITestOutputHelper output)
+        {
             _output = output;
-	}
+        }
 
         [Fact]
-        public void Test1()
+         public void Test1()
         {
             string source = @"
 namespace Foo
@@ -54,7 +53,8 @@ namespace Foo
                 }
             }
 
-            var compilation = CSharpCompilation.Create("foo", new SyntaxTree[] { syntaxTree }, references, new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
+            var compilation = CSharpCompilation.Create("foo", new SyntaxTree[] { syntaxTree }, references,
+                new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
 
             // TODO: Uncomment this line if you want to fail tests when the injected program isn't valid _before_ running generators
             // var compileDiagnostics = compilation.GetDiagnostics();
@@ -63,8 +63,10 @@ namespace Foo
             IIncrementalGenerator generator = new NoxCodeGenerator();
 
             var driver = CSharpGeneratorDriver.Create(generator);
-            driver.RunGeneratorsAndUpdateCompilation(compilation, out var outputCompilation, out var generateDiagnostics);
-            Assert.False(generateDiagnostics.Any(d => d.Severity == DiagnosticSeverity.Error), "Failed: " + generateDiagnostics.FirstOrDefault()?.GetMessage());
+            driver.RunGeneratorsAndUpdateCompilation(compilation, out var outputCompilation,
+                out var generateDiagnostics);
+            Assert.False(generateDiagnostics.Any(d => d.Severity == DiagnosticSeverity.Error),
+                "Failed: " + generateDiagnostics.FirstOrDefault()?.GetMessage());
 
             string output = outputCompilation.SyntaxTrees.Last().ToString();
 

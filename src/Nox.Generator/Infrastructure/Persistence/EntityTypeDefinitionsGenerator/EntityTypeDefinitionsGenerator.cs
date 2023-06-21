@@ -1,9 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
 using Nox.Solution;
 using Nox.Types;
 using System.Linq;
-using System.Text;
 
 namespace Nox.Generator.Infrastructure.Persistence.ModelConfigGenerator;
 

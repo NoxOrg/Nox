@@ -20,7 +20,7 @@ internal class DbContextGenerator
 
         // Namespace
         code.AppendLine(@"using Microsoft.EntityFrameworkCore;");
-        code.AppendLine(@"using SampleService.Domain;");
+        code.AppendLine(@"using SampleWebApp.Domain;");
         code.AppendLine(@"using System.Reflection;");
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Infrastructure.Persistence;");

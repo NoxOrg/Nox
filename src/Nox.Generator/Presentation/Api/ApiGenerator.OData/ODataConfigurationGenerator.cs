@@ -22,7 +22,7 @@ internal static class ODataConfigurationGenerator
         code.AppendLine($"using Microsoft.AspNetCore.Http;");
         code.AppendLine($"using Microsoft.AspNetCore.OData;");
         code.AppendLine($"using Microsoft.OData.ModelBuilder;");
-        code.AppendLine($"using SampleService.Domain;"); 
+        code.AppendLine($"using SampleWebApp.Domain;"); 
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Presentation.Api.OData;");
         code.AppendLine();

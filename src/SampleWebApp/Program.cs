@@ -1,4 +1,4 @@
-using SampleService.Presentation.Api.OData;
+using SampleWebApp.Presentation.Api.OData;
 
 var builder = WebApplication.CreateBuilder(args);
 

@@ -7,18 +7,18 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
-using SampleService.Domain;
-using SampleService.Infrastructure.Persistence;
+using SampleWebApp.Domain;
+using SampleWebApp.Infrastructure.Persistence;
 using System.Net;
 using Nox.Types;
 
-namespace SampleService.Presentation.Api.OData;
+namespace SampleWebApp.Presentation.Api.OData;
 
 public class CurrenciesController : ODataController
 {
-    SampleServiceDbContext _databaseContext;
+    SampleWebAppDbContext _databaseContext;
 
-    public CurrenciesController(SampleServiceDbContext databaseContext)
+    public CurrenciesController(SampleWebAppDbContext databaseContext)
     {
         _databaseContext = databaseContext;
     }
@@ -32,7 +32,7 @@ public class CurrenciesController : ODataController
     [EnableQuery]
     public ActionResult<Currency> Get([FromRoute] string key)
     {
-        var parsedKey = CurrencyId.From(key);
+        var parsedKey = CurrencyId.From(Text.From(key));
         var item = _databaseContext.Currencies.SingleOrDefault(d => d.Id.Equals(parsedKey));
         
         if (item == null)
@@ -63,7 +63,7 @@ public class CurrenciesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var parsedKey = CurrencyId.From(key);
+        var parsedKey = CurrencyId.From(Text.From(key));
         if (parsedKey != updatedCurrency.Id)
         {
             return BadRequest();
@@ -94,7 +94,7 @@ public class CurrenciesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var parsedKey = CurrencyId.From(key);
+        var parsedKey = CurrencyId.From(Text.From(key));
         var entity = await _databaseContext.Currencies.FindAsync(parsedKey);
         if (entity == null)
         {
@@ -121,13 +121,13 @@ public class CurrenciesController : ODataController
     
     private bool CurrencyExists(string key)
     {
-        var parsedKey = CurrencyId.From(key);
+        var parsedKey = CurrencyId.From(Text.From(key));
         return _databaseContext.Currencies.Any(p => p.Id == parsedKey);
     }
     
     public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var parsedKey = CurrencyId.From(key);
+        var parsedKey = CurrencyId.From(Text.From(key));
         var currency = await _databaseContext.Currencies.FindAsync(parsedKey);
         if (currency == null)
         {

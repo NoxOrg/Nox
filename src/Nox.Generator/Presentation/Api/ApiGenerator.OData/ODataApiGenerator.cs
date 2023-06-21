@@ -42,8 +42,8 @@ internal static class ODataApiGenerator
             code.AppendLine($"using Microsoft.AspNetCore.OData.Query;");
             code.AppendLine($"using Microsoft.AspNetCore.OData.Routing.Controllers;");
             code.AppendLine($"using Microsoft.EntityFrameworkCore;");
-            code.AppendLine($"using SampleService.Domain;");
-            code.AppendLine($"using SampleService.Infrastructure.Persistence;");
+            code.AppendLine($"using SampleWebApp.Domain;");
+            code.AppendLine($"using SampleWebApp.Infrastructure.Persistence;");
             code.AppendLine($"using System.Net;");
             code.AppendLine($"using Nox.Types;");
             code.AppendLine();

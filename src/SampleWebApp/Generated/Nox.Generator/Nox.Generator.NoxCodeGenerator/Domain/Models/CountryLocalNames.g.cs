@@ -5,7 +5,7 @@
 using Nox.Types;
 using System.Collections.Generic;
 
-namespace SampleService.Domain;
+namespace SampleWebApp.Domain;
 
 /// <summary>
 /// The name of a country in other languages.

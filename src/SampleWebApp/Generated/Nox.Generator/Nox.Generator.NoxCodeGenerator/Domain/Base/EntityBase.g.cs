@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SampleService.Domain;
+namespace SampleWebApp.Domain;
 
 /// <summary>
 /// The base class for all domain entities.

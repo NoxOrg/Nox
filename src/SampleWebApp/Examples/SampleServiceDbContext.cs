@@ -3,7 +3,7 @@
 #nullable enable
 
 using Microsoft.EntityFrameworkCore;
-using SampleService.Domain;
+using SampleWebApp.Domain;
 using System.Reflection;
 
 namespace SampleWebApp.Examples;

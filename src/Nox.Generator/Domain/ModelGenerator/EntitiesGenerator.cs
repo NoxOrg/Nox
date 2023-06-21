@@ -1,9 +1,7 @@
 ﻿using Humanizer;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
 using Nox.Solution;
 using Nox.Types;
-using System.Text;
 
 namespace Nox.Generator;
 

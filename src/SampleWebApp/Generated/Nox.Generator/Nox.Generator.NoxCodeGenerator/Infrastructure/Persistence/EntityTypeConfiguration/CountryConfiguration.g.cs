@@ -1,4 +1,4 @@
-﻿// generated
+﻿// Generated
 
 #nullable enable
 
@@ -6,7 +6,7 @@ using Nox.Types.EntityFramework;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
 
-namespace SampleService.Domain;
+namespace SampleWebApp.Domain;
 
 public partial class CountryConfiguration : IEntityTypeConfiguration<Country>
 {

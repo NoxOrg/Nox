@@ -7,18 +7,18 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
-using SampleService.Domain;
-using SampleService.Infrastructure.Persistence;
+using SampleWebApp.Domain;
+using SampleWebApp.Infrastructure.Persistence;
 using System.Net;
 using Nox.Types;
 
-namespace SampleService.Presentation.Api.OData;
+namespace SampleWebApp.Presentation.Api.OData;
 
 public class CountryLocalNamesController : ODataController
 {
-    SampleServiceDbContext _databaseContext;
+    SampleWebAppDbContext _databaseContext;
 
-    public CountryLocalNamesController(SampleServiceDbContext databaseContext)
+    public CountryLocalNamesController(SampleWebAppDbContext databaseContext)
     {
         _databaseContext = databaseContext;
     }

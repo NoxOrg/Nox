@@ -4,7 +4,7 @@
 
 using System;
 
-namespace SampleService.Domain;
+namespace SampleWebApp.Domain;
 
 public partial class AuditableEntityBase
 {

@@ -1,9 +1,8 @@
 ﻿// generated
 
-
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
-using SampleService.Domain;
+using SampleWebApp.Domain;
 
 namespace SampleWebApp.Examples;
 

@@ -7,12 +7,11 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
-using SampleService.Domain;
-using SampleService.Infrastructure.Persistence;
-using System.Net;
 using Nox.Types;
+using SampleWebApp.Domain;
+using System.Net;
 
-namespace SampleService.Examples;
+namespace SampleWebApp.Examples;
 
 public class CountriesController : ODataController
 {
