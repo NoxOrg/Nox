@@ -7,7 +7,7 @@ Microsoft.OData.Edm;
 using Microsoft.AspNetCore.Http;
 using SampleService.Domain;
 
-namespace SampleService.Presentation.Api.OData;
+namespace SampleWebApp.Presentation.Api.OData;
 
 public partial class ODataConfiguration
 {
