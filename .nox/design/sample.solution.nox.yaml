@@ -142,8 +142,23 @@ domain:
             attributes:
               - name: CountryCode
                 type: countryCode2
-          emitEvents: [CountryUpdatedEvent]
-
+          emitEvents: [CountryNameUpdatedEvent]
+          
+      events:
+        - name: CountryNameUpdatedEvent
+          description: a Domain event which is raised when the name of a country changes
+          type: object
+          objectTypeOptions:
+            attributes:
+              
+              - name: CountryId
+                description: The identity of the country, the Iso Alpha 2 code.
+                type: countryCode2
+              
+              - name: CountryName
+                description: The new name of the country
+                type: text      
+      
       keys:
 
         - name: Id
@@ -226,7 +241,7 @@ domain:
 
         - name: GeoCoord
           description: The the position of the workplace's point on the surface of the Earth
-          type: latlong
+          type: latLong
 
         - name: GeoRegion
           description: The region the country is in
@@ -259,7 +274,7 @@ domain:
             minValue: 0
 
         - name: TopLevelDomains
-          description: The top level internet domains regitered to the country (comma-delimited)
+          description: The top level internet domains registered to the country (comma-delimited)
           type: text
           textTypeOptions:
             maxLength: 31
@@ -332,7 +347,7 @@ application:
       source:
         name: CountryJsonSeed
         description: Sources Country data from a json file
-        dataConnection: CountryJsonData
+        dataConnectionName: CountryJsonData
         fileOptions: 
           filename: country-seed-data.json
         schedule:

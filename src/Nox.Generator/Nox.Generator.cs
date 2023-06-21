@@ -9,6 +9,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Text;
 using Nox.Generator.Application.DtoGenerator;
+using Nox.Generator.Domain.DomainEventGenerator;
 using Nox.Solution;
 using YamlDotNet.Core;
 
@@ -66,6 +67,15 @@ namespace Nox.Generator;
                 context.CancellationToken.ThrowIfCancellationRequested();
 
                 EntitiesGenerator.Generate(context, solutionNameSpace, entity);
+
+                if (entity.Events != null && entity.Events.Any())
+                {
+                    foreach (var evt in entity.Events)
+                    {
+                        context.CancellationToken.ThrowIfCancellationRequested();
+                        DomainEventGenerator.Generate(context, solutionNameSpace, evt);
+                    }
+                }
             }
 
             context.CancellationToken.ThrowIfCancellationRequested();
@@ -73,7 +83,7 @@ namespace Nox.Generator;
             DbContextGenerator.Generate(context, solutionNameSpace, solution);
             
             context.CancellationToken.ThrowIfCancellationRequested();
-
+            
             if (solution.Application is { DataTransferObjects: not null })
             {
                 foreach (var dto in solution.Application.DataTransferObjects)

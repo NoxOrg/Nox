@@ -28,7 +28,7 @@
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="6.0.12" />
     <PackageReference Include="Nox.Core" Version="6.0.48" />
-    <PackageReference Include="Nox.Types" Version="1.0.6" />
+    <PackageReference Include="Nox.Types" Version="1.0.7" />
   </ItemGroup>
 
   <ItemGroup>

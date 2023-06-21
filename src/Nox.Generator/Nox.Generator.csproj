@@ -27,12 +27,11 @@
     <PackageReference Include="YamlDotNet" Version="13.1.0" PrivateAssets="all" GeneratePathProperty="true" />
     <PackageReference Include="Humanizer.Core" Version="2.14.1" PrivateAssets="all" GeneratePathProperty="true" />
     <PackageReference Include="FluentValidation" Version="11.5.2" PrivateAssets="all" GeneratePathProperty="true" />
-    <PackageReference Include="Nox.Types" Version="1.0.6" PrivateAssets="all" GeneratePathProperty="true" />
-    <PackageReference Include="Nox.Solution" Version="1.0.9" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="Nox.Types" Version="1.0.7" PrivateAssets="all" GeneratePathProperty="true" />
+    <PackageReference Include="Nox.Solution" Version="1.0.12-BETA1" PrivateAssets="all" GeneratePathProperty="true" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Domain\DomainEventGenerator\" />
     <Folder Include="Domain\ValueObjectGenerator\" />
     <Folder Include="Application\CqrsGenerator\" />
     <Folder Include="Infrastructure\Persistence\ModelConfigGenerator\" />
@@ -40,7 +39,7 @@
     <Folder Include="Presentation\Api\ApiGenerator.Rest\" />
     <Folder Include="Presentation\Api\ApiGenerator.Grpc\" />
     <Folder Include="Presentation\Api\ApiGenerator.GraphQl\" />
-    <Folder Include="Application\IntegrationEventGenerator\" />
+    <Folder Include="Application\ApplicationEventGenerator\" />
     <Folder Include="Presentation\Api\" />
     <Folder Include="Presentation\Ui\" />
   </ItemGroup>
