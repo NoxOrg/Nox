@@ -8,19 +8,19 @@ using Microsoft.Extensions.DependencyInjection;
 using MySql.Data.EntityFrameworkCore.Extensions;
 using System.Reflection;
 
-namespace SampleService.Infrastructure.Persistence;
+namespace SampleWebApp.Infrastructure.Persistence;
 
-public partial class SampleServiceDbContext : DbContext
+public partial class SampleWebAppDbContext : DbContext
 {
     #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public SampleServiceDbContext(
-        DbContextOptions<SampleServiceDbContext> options
+    public SampleWebAppDbContext(
+        DbContextOptions<SampleWebAppDbContext> options
         ) : base(options) { }
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     
     public static void RegisterDbContext(IServiceCollection services)
     {
-        services.AddDbContext<SampleServiceDbContext>();
+        services.AddDbContext<SampleWebAppDbContext>();
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)

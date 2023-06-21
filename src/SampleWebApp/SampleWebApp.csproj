@@ -21,6 +21,7 @@
     <Content Include="Generated\**" />
   </ItemGroup>
 
+
   <ItemGroup>
     <AdditionalFiles Include="..\..\.nox\design\**\*.yaml" LinkBase="Design" />
   </ItemGroup>
@@ -40,5 +41,11 @@
     <PackageReference Include="Nox.Types" Version="1.0.7" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="Controller_Sample.cs" />
+  </ItemGroup>
+
+ 
 
 </Project>

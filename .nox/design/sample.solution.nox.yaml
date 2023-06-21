@@ -4,7 +4,7 @@
 # yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
 #
 
-name: SampleService
+name: SampleWebApp
 
 description: Sample Nox solution yaml configuration
 
@@ -266,16 +266,8 @@ domain:
           textTypeOptions:
             maxLength: 31
 
-    - name: Currency
-      description: The list of currencies
-
-      relationships:
-
-        - name: CurrencyIsLegalTenderForCountry
-          description: is legal tender for
-          relationship: zeroOrMany
-          entity: Country
-
+    - $ref: currency.entity.nox.yaml
+    
     - name: CountryLocalNames
       description: The name of a country in other languages
 
@@ -368,6 +360,9 @@ application:
       target:
         name: Country
         targetType: entity
+        
+  
+    
 
 infrastructure:
   

@@ -7,15 +7,15 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 
-using SampleService.Infrastructure.Persistence;
-using SampleService.Domain;
+using SampleWebApp.Infrastructure.Persistence;
+using SampleWebApp.Domain;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.OData.Formatter;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 using System.Net;
 
-namespace SampleService.Presentation.Api.OData;
+namespace SampleWebApp.Presentation.Api.OData;
 
 public partial class CountriesController_Sample : ODataController
 {

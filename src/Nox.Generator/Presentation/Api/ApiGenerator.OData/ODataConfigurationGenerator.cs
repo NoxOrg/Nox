@@ -22,7 +22,7 @@ internal static class ODataConfigurationGenerator
 
         // Namespace
         code.AppendLine($"using Microsoft.OData.ModelBuilder;");
-        code.AppendLine($"Microsoft.OData.Edm;");
+        code.AppendLine($"using Microsoft.OData.Edm;");
         code.AppendLine($"using Microsoft.AspNetCore.Http;");
         code.AppendLine($"using SampleService.Domain;");
         code.AppendLine();

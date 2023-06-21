@@ -1,3 +1,22 @@
-﻿domain: true
+﻿#
+# generator.nox.yaml
+#
+# This file configures which layers of code the Nox generator will generate in this project.
+# 
+# Please mark this as a C# analyzer addition file by including the following in your .csproj
+#
+#  <ItemGroup>
+#    <AdditionalFiles Include="generator.nox.yaml" />
+#  </ItemGroup>
+
+# Genrates momain models, events and related types
+domain: true
+
+# Generates application logic and events
+application: true
+
+# Generates persistence, DbContext and model configuration and mapping
 infrastructure: true
+
+# Generates APi's and UI's
 presentation: true
