@@ -26,6 +26,7 @@ internal class QueriesGenerator
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine($"using System.Threading.Tasks;");
         code.AppendLine($"using {solutionNameSpace}.Domain;");
+        code.AppendLine($"using SampleService.Infrastructure.Persistence;");
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Application;");
 

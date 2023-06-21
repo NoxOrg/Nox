@@ -73,7 +73,7 @@ internal class ControllerGenerator
         {
             code.AppendLine();
             code.AppendLine("[HttpGet]");
-            code.AppendLine($"public async Task<IResult> Get{query.Name}Async({GetParametersString(query.RequestInput)})");
+            code.AppendLine($"public async Task<IResult> {query.Name}Async({GetParametersString(query.RequestInput)})");
             code.StartBlock();
             code.AppendLine($"var result = await {query.Name}Query.ExecuteAsync({GetParametersExecuteString(query.RequestInput)});");
             // TODO: Extend to NotFound and other codes
@@ -86,7 +86,7 @@ internal class ControllerGenerator
         {
             code.AppendLine();
             code.AppendLine("[HttpPost]");
-            code.AppendLine($"public async Task<IResult> Post{command.Name}({command.Name}{NamingConstants.CommandSuffix} command)");
+            code.AppendLine($"public async Task<IResult> {command.Name}Async({command.Name}{NamingConstants.CommandSuffix} command)");
             code.StartBlock();
             code.AppendLine($"var result = await {command.Name}.ExecuteAsync(command);");
             code.AppendLine(@"return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);");

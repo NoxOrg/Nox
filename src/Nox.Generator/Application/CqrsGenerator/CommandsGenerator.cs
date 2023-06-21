@@ -23,7 +23,10 @@ internal class CommandsGenerator
 
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
+        code.AppendLine($"using Nox.Core.Interfaces.Messaging;");
+        code.AppendLine($"using Nox.Core.Interfaces.Entity.Commands;");        
         code.AppendLine($"using {solutionNameSpace}.Domain;");
+        code.AppendLine($"using SampleService.Infrastructure.Persistence;");
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Application;");
 
