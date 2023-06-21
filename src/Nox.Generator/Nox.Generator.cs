@@ -9,6 +9,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using Nox.Generator.Application.DtoGenerator;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
@@ -76,7 +77,14 @@ namespace Nox.Generator;
 
                     ODataApiGenerator.Generate(context, solutionNameSpace, solution);
                 }
+                
+                if (generate.Application)
+                {
+                    DtoGenerator.Generate(context, solutionNameSpace, solution);
+                }
             }
+
+            
         }
         catch (Exception e)
         {

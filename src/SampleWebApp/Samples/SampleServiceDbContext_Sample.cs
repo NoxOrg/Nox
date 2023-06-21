@@ -4,9 +4,9 @@
 
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
-using SampleService.Domain;
+using SampleWebApp.Domain;
 
-namespace SampleService.Infrastructure.Persistence;
+namespace SampleWebApp.Infrastructure.Persistence;
 
 public partial class SampleServiceDbContext_Sample : DbContext
 {

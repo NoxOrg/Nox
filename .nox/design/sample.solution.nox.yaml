@@ -4,7 +4,7 @@
 # yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
 #
 
-name: SampleService
+name: SampleWebApp
 
 description: Sample Nox solution yaml configuration
 
@@ -360,6 +360,9 @@ application:
       target:
         name: Country
         targetType: entity
+        
+  
+    
 
 infrastructure:
   
