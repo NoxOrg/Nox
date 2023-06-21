@@ -39,7 +39,7 @@ internal class ControllerGenerator
         code.AppendLine($"using {solutionNameSpace}.Application;");
         code.AppendLine($"using {solutionNameSpace}.Domain;");
         code.AppendLine();
-        code.AppendLine($"namespace {solutionNameSpace}.Presentation.Api;");
+        code.AppendLine($"namespace {solutionNameSpace}.Presentation.Rest;");
 
         GenerateDocs(code, $"Controller for {entity.Name} entity. {entity.Description}");
 
@@ -75,7 +75,7 @@ internal class ControllerGenerator
             code.AppendLine("[HttpGet]");
             code.AppendLine($"public async Task<IResult> {query.Name}Async({GetParametersString(query.RequestInput)})");
             code.StartBlock();
-            code.AppendLine($"var result = await {query.Name}Query.ExecuteAsync({GetParametersExecuteString(query.RequestInput)});");
+            code.AppendLine($"var result = await {query.Name}.ExecuteAsync({GetParametersExecuteString(query.RequestInput)});");
             // TODO: Extend to NotFound and other codes
             code.AppendLine(@"return Results.Ok(result);");
             code.EndBlock();
