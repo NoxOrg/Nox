@@ -1,4 +1,6 @@
-﻿// Generated
+﻿// generated
+
+#nullable enable
 
 using Nox.Types;
 using System.Collections.Generic;
@@ -11,7 +13,7 @@ namespace SampleService.Domain;
 public class CountryId : ValueObject<Text,CountryId> {}
 
 /// <summary>
-/// A nation with its own government, occupying a particular territory.
+/// The list of countries.
 /// </summary>
 public partial class Country : AuditableEntityBase
 {
@@ -19,7 +21,7 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     /// (Optional)
     /// </summary>
-    public CountryId Text { get; set; } = null!;
+    public CountryId Id { get; set; } = null!;
     
     /// <summary>
     /// The country's common name (required).

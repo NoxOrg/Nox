@@ -2,19 +2,52 @@
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Nox.Generator._Common;
+using Nox.Generator.Presentation.Rest;
 using Nox.Solution;
+using Nox.Types;
 using System.Text;
 
 namespace Nox.Generator;
 
 internal class EntitiesGenerator : BaseGenerator
 {
-    public static void Generate(SourceProductionContext context, string solutionNameSpace, Entity entity)
-    {
-        var code = new CodeBuilder();
 
-        code.AppendLine($"// Generated");
-        code.AppendLine();
+    public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
+    {
+        context.CancellationToken.ThrowIfCancellationRequested();
+
+        if (solution.Domain is null) return;
+
+        foreach (var entity in solution.Domain.Entities)
+        {
+            context.CancellationToken.ThrowIfCancellationRequested();
+
+            GenerateEntity(context, solutionNameSpace, entity);
+
+            ControllerGenerator.Generate(context, solutionNameSpace, entity);
+
+            if (entity.Commands is not null)
+            {
+                foreach (var command in entity.Commands)
+                {
+                    CommandsGenerator.Generate(context, solutionNameSpace, command);
+                }
+            }
+
+            if (entity.Queries is not null)
+            {
+                foreach (var query in entity.Queries)
+                {
+                    QueriesGenerator.Generate(context, solutionNameSpace, query);
+                }
+            }
+        }
+    }
+
+    private static void GenerateEntity(SourceProductionContext context, string solutionNameSpace, Entity entity)
+    {
+        var code = new CodeBuilder($"Domain/Models/{entity.Name}.g.cs", context);
+
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine();
@@ -27,23 +60,19 @@ internal class EntitiesGenerator : BaseGenerator
         var baseClass = (entity.Persistence?.IsVersioned ?? true) ? "AuditableEntityBase" : "EntityBase";
 
         code.AppendLine($"public partial class {entity.Name} : {baseClass}");
-        code.AppendLine($"{{");
+        code.StartBlock();
 
-        code.Indent();
+            GenerateKeyProperties(context, code, entity);
 
-        GenerateKeyProperties(context, code, entity);
+            GenerateProperties(context, code, entity);
 
-        GenerateProperties(context, code, entity);
+            GenerateRelationships(context, code, entity);
 
-        GenerateRelationships(context, code, entity);
+            GenerateOwnedRelationships(context, code, entity);
 
-        GenerateOwnedRelationships(context, code, entity);
+        code.EndBlock();
 
-        code.UnIndent();
-
-        code.AppendLine($"}}");
-
-        context.AddSource($"{entity.Name}.cs", SourceText.From(code.ToString(), Encoding.UTF8));
+        code.GenerateSourceCode();
     }
 
     private static void GenerateStrongIdClassIfRequired(SourceProductionContext context, CodeBuilder code, Entity entity)
@@ -89,7 +118,7 @@ internal class EntitiesGenerator : BaseGenerator
         GeneratePropertyDocs(context, code, key);
 
         var propType = $"{entity.Name}{key.Name}";
-        var propName = MapType(key.Type);
+        var propName = key.Name;
 
         code.AppendLine($"public {propType} {propName} {{ get; set; }} = null!;");
     }

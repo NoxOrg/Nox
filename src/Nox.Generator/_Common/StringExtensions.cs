@@ -18,6 +18,11 @@ internal static class StringExtensions
         return text + suffix;
     }
 
+    public static bool EndsWithIgnoreCase(this string text, string value) 
+    {
+        return text.EndsWith(value, System.StringComparison.OrdinalIgnoreCase);
+    }
+
     public static string ToLowerFirstChar(this string input)
     {
         if (string.IsNullOrEmpty(input))

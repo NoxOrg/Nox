@@ -1,4 +1,6 @@
-﻿// Generated
+﻿// generated
+
+#nullable enable
 
 using System;
 

@@ -1,10 +1,8 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
 using Nox.Solution;
 using Nox.Types;
 using System;
 using System.Collections.Generic;
-using System.Text;
 
 using static Nox.Generator._Common.BaseGenerator;
 using static Nox.Generator._Common.NamingConstants;
@@ -20,12 +18,10 @@ internal class QueriesGenerator
             throw new ArgumentNullException(nameof(query));
         }
 
-        var code = new CodeBuilder();
-
         var className = $"{query.Name}Query";
 
-        code.AppendLine($"// Generated");
-        code.AppendLine();
+        var code = new CodeBuilder($"Application/Queries/{className}.cs", context);
+
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine($"using System.Threading.Tasks;");
@@ -58,6 +54,6 @@ internal class QueriesGenerator
 
         code.EndBlock();
 
-        context.AddSource($"{className}.cs", SourceText.From(code.ToString(), Encoding.UTF8));
+        code.GenerateSourceCode();
     }
 }

@@ -1,11 +1,9 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
 using Nox.Generator._Common;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 
 using static Nox.Generator._Common.BaseGenerator;
 
@@ -23,9 +21,9 @@ internal class ControllerGenerator
             throw new ArgumentNullException(nameof(entity));
         }
 
-        var code = new CodeBuilder();
-
         var className = $"{entity.Name}Controller";
+
+        var code = new CodeBuilder($"Presentation/Rest/{className}.cs", context);
 
         IReadOnlyCollection<DomainQuery> queries = entity.Queries ?? new List<DomainQuery>();
         IReadOnlyCollection<DomainCommand> commands = entity.Commands ?? new List<DomainCommand>();
@@ -36,12 +34,8 @@ internal class ControllerGenerator
             return;
         }
 
-        code.AppendLine($"// Generated");
-        code.AppendLine();
         code.AppendLine($"using Nox.Types;");
-        code.AppendLine($"using System.Collections.Generic;");
-        code.AppendLine($"using System.Threading.Tasks;");
-        code.AppendLine($"using System.Web.Mvc;");
+        code.AppendLine($"using Microsoft.AspNetCore.Mvc;");
         code.AppendLine($"using {solutionNameSpace}.Application;");
         code.AppendLine($"using {solutionNameSpace}.Domain;");
         code.AppendLine();
@@ -92,7 +86,7 @@ internal class ControllerGenerator
         {
             code.AppendLine();
             code.AppendLine("[HttpPost]");
-            code.AppendLine($"public async Task<IResult> {command.Name}(Nox.Commands.{command.Name}{NamingConstants.CommandSuffix} command)");
+            code.AppendLine($"public async Task<IResult> Post{command.Name}({command.Name}{NamingConstants.CommandSuffix} command)");
             code.StartBlock();
             code.AppendLine($"var result = await {command.Name}.ExecuteAsync(command);");
             code.AppendLine(@"return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);");
@@ -101,6 +95,6 @@ internal class ControllerGenerator
 
         code.EndBlock();
 
-        context.AddSource($"{className}.cs", SourceText.From(code.ToString(), Encoding.UTF8));
+        code.GenerateSourceCode();
     }
 }

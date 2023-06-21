@@ -1,4 +1,6 @@
-﻿// Generated
+﻿// generated
+
+#nullable enable
 
 using Nox.Types;
 using System.Collections.Generic;
