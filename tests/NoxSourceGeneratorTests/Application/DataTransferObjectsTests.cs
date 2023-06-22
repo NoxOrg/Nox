@@ -1,19 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Nox.Generator;
 using Xunit;
 
 namespace NoxSourceGeneratorTests;
 
-public class ApplicationGeneratorTests: IClassFixture<GeneratorFixture>
+public class DataTransferObjectsTests: IClassFixture<GeneratorFixture>
 {
     private readonly GeneratorFixture _fixture;
 
-    public ApplicationGeneratorTests(GeneratorFixture fixture)
+    public DataTransferObjectsTests(GeneratorFixture fixture)
     {
         _fixture = fixture;
     }
@@ -22,9 +20,10 @@ public class ApplicationGeneratorTests: IClassFixture<GeneratorFixture>
     [Fact]
     public void Can_generate_a_dto_file()
     {
+        var path = "files/yaml/application/";
         var additionalFiles = new List<AdditionalSourceText>();
-        additionalFiles.Add(new AdditionalSourceText(File.ReadAllText("./files/yaml/application/generator.nox.yaml"), "files/yaml/application/generator.nox.yaml"));
-        additionalFiles.Add(new AdditionalSourceText(File.ReadAllText("./files/yaml/application/dto.solution.nox.yaml"), "files/yaml/application/dto.solution.nox.yaml"));
+        additionalFiles.Add(new AdditionalSourceText(File.ReadAllText($"./{path}generator.nox.yaml"), $"{path}/generator.nox.yaml"));
+        additionalFiles.Add(new AdditionalSourceText(File.ReadAllText($"./{path}dto.solution.nox.yaml"), $"{path}/dto.solution.nox.yaml"));
         
         // trackIncrementalGeneratorSteps allows to report info about each step of the generator
         GeneratorDriver driver = CSharpGeneratorDriver.Create(

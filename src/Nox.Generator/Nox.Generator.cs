@@ -14,6 +14,7 @@ using YamlDotNet.Core;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
 using System.Collections.Generic;
+using Nox.Generator.Domain.DomainEventGenerator;
 
 namespace Nox.Generator;
 
@@ -64,6 +65,8 @@ public class NoxCodeGenerator : IIncrementalGenerator
                     AuditableEntityBaseGenerator.Generate(context, solutionNameSpace);
 
                     EntitiesGenerator.Generate(context, solutionNameSpace, solution);
+                    
+                    DomainEventGenerator.Generate(context, solutionNameSpace, solution);
                 }
 
                 if (generate.Infrastructure)
