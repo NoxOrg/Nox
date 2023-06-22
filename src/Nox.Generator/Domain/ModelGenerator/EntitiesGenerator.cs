@@ -26,7 +26,7 @@ internal class EntitiesGenerator
 
     private static void GenerateEntity(SourceProductionContext context, string solutionNameSpace, Entity entity)
     {
-        var code = new CodeBuilder($"Domain/Models/{entity.Name}.g.cs", context);
+        var code = new CodeBuilder($"{entity.Name}.g.cs", context);
 
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");

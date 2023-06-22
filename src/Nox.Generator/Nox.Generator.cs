@@ -14,41 +14,44 @@ using YamlDotNet.Core;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
 using System.Collections.Generic;
+using Nox.Generator.Application.EventGenerator;
+using Nox.Generator.Domain.DomainEventGenerator;
 
 namespace Nox.Generator;
 
 [Generator]
-	public class NoxCodeGenerator : IIncrementalGenerator
-	{
+public class NoxCodeGenerator : IIncrementalGenerator
+{
+    private static readonly List<string> _errors = new();
 
-        private static readonly List<string> _errors = new();
-
-		public void Initialize(IncrementalGeneratorInitializationContext context)
-		{
+    public void Initialize(IncrementalGeneratorInitializationContext context)
+    {
 #if DEBUG
         if (!Debugger.IsAttached)
         {
-             // Debugger.Launch(); 
+            // Debugger.Launch(); 
         }
-#endif  
+#endif
         // var compilation = context.CompilationProvider.Select((ctx,token) => ctx.GlobalNamespace);
 
         var noxYamls = context.AdditionalTextsProvider
             .Where(text => text.Path.EndsWithIgnoreCase(".nox.yaml"))
             .Select((text, token) => (Path: Path.GetFullPath(text.Path), Source: text.GetText(token)))
             .Collect();
-        
-        context.RegisterSourceOutput(noxYamls, GenerateSource);
 
+        context.RegisterSourceOutput(noxYamls, GenerateSource);
     }
 
-    private void GenerateSource(SourceProductionContext context, ImmutableArray<(string Path,SourceText? Source)> noxYamls)
+    private void GenerateSource(SourceProductionContext context, ImmutableArray<(string Path, SourceText? Source)> noxYamls)
     {
-        var _debug = new CodeBuilder($"Debug/Generator.g.cs", context);
+        var _debug = new CodeBuilder($"Generator.g.cs", context);
         _errors.Clear();
 
         _debug.AppendLine("// Found files ->");
-        foreach (var (path, _) in noxYamls) {_debug.AppendLine($"//  - {Path.GetFileName(path)}");}
+        foreach (var (path, _) in noxYamls)
+        {
+            _debug.AppendLine($"//  - {Path.GetFileName(path)}");
+        }
 
         try
         {
@@ -63,6 +66,8 @@ namespace Nox.Generator;
                     AuditableEntityBaseGenerator.Generate(context, solutionNameSpace);
 
                     EntitiesGenerator.Generate(context, solutionNameSpace, solution);
+                    
+                    DomainEventGenerator.Generate(context, solutionNameSpace, solution);
                 }
 
                 if (generate.Infrastructure)
@@ -78,14 +83,15 @@ namespace Nox.Generator;
 
                     ODataApiGenerator.Generate(context, solutionNameSpace, solution);
                 }
-                
+
                 if (generate.Application)
                 {
                     DtoGenerator.Generate(context, solutionNameSpace, solution);
+                    ApplicationEventGenerator.Generate(context, solutionNameSpace, solution);
                 }
             }
 
-            
+
         }
         catch (Exception e)
         {
@@ -96,16 +102,21 @@ namespace Nox.Generator;
         if (_errors.Any())
         {
             _debug.AppendLine("// Errors ->");
-            foreach (var e in _errors) { _debug.AppendLine($"//  - {e}"); }
+            foreach (var e in _errors)
+            {
+                _debug.AppendLine($"//  - {e}");
+            }
         }
         else
         {
             _debug.AppendLine("// SUCCESS.");
         }
+
         _debug.GenerateSourceCode();
     }
 
-    private static bool TryGetNoxSolution(ImmutableArray<(string Path, SourceText? Source)> noxYamls, out NoxSolution solution)
+    private static bool TryGetNoxSolution(ImmutableArray<(string Path, SourceText? Source)> noxYamls,
+        out NoxSolution solution)
     {
         solution = null!;
 
@@ -114,7 +125,13 @@ namespace Nox.Generator;
             .Where(p => p.EndsWithIgnoreCase(".solution.nox.yaml"))
             .ToImmutableArray();
 
-        if (solutionFilePaths.Length != 1)
+        if (solutionFilePaths.Length == 0)
+        {
+            _errors.Add("No *.solution.nox.yaml files found.");
+            return false;
+        }
+
+        if (solutionFilePaths.Length > 1)
         {
             _errors.Add("More than one *.solution.nox.yaml found.");
             return false;
@@ -134,13 +151,15 @@ namespace Nox.Generator;
                 _errors.Add(e.InnerException.Message);
 
             }
+
             return false;
         }
 
         return true;
     }
 
-    private static bool TryGetGeneratorConfig(ImmutableArray<(string Path, SourceText? Source)> noxYamls, out GeneratorConfig config)
+    private static bool TryGetGeneratorConfig(ImmutableArray<(string Path, SourceText? Source)> noxYamls,
+        out GeneratorConfig config)
     {
         config = null!;
 
@@ -173,7 +192,7 @@ namespace Nox.Generator;
             var deserializer = new DeserializerBuilder()
                 .WithNamingConvention(CamelCaseNamingConvention.Instance)
                 .Build();
-            
+
             config = deserializer.Deserialize<GeneratorConfig>(configContent);
         }
         catch (YamlException e)
@@ -183,6 +202,7 @@ namespace Nox.Generator;
             {
                 _errors.Add(e.InnerException.Message);
             }
+
             return false;
         }
 

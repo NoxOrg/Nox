@@ -30,7 +30,7 @@ internal static class ODataApiGenerator
             var dbContextName = $"{solution.Name}DbContext";
             var controllerName = $"{pluralName}Controller";
 
-            var code = new CodeBuilder($"Presentation/OData/Controllers/{pluralName}Controller.g.cs",context);
+            var code = new CodeBuilder($"{pluralName}Controller.g.cs",context);
 
             // Namespace
             code.AppendLine($"using System.Linq;");

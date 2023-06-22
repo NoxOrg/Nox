@@ -10,7 +10,7 @@ internal class EntityBaseGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        var code = new CodeBuilder($"Domain/Base/EntityBase.g.cs", context);
+        var code = new CodeBuilder($"EntityBase.g.cs", context);
 
         code.AppendLine($"using System;");
         code.AppendLine();
