@@ -7,6 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Basic.Reference.Assemblies.Net70" Version="1.4.2" />
     <PackageReference Include="FluentAssertions" Version="6.11.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
       <PrivateAssets>all</PrivateAssets>
@@ -43,6 +44,30 @@
 
   <ItemGroup>
     <Compile Remove="Files\TestExecutable\Program.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="yaml\application\generator.nox.yaml" />
+    <None Remove="yaml\domain\generator.nox.yaml" />
+    <None Update="files\yaml\application\generator.nox.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="files\yaml\application\dto.solution.nox.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="files\yaml\domain\generator.nox.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Remove="files\Program.cs" />
+    <None Include="files\Program.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>
