@@ -10,13 +10,13 @@
 #  </ItemGroup>
 
 # Genrates momain models, events and related types
-domain: false
+domain: true
 
 # Generates application logic and events
 application: true
 
 # Generates persistence, DbContext and model configuration and mapping
-infrastructure: false
+infrastructure: true
 
 # Generates APi's and UI's
-presentation: false
+presentation: true

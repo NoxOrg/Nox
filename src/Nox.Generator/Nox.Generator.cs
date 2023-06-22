@@ -42,7 +42,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
 
     private void GenerateSource(SourceProductionContext context, ImmutableArray<(string Path, SourceText? Source)> noxYamls)
     {
-        var _debug = new CodeBuilder($"Debug_Generator.g.cs", context);
+        var _debug = new CodeBuilder($"Generator.g.cs", context);
         _errors.Clear();
 
         _debug.AppendLine("// Found files ->");

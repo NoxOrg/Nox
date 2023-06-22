@@ -43,8 +43,8 @@ public class ApplicationGeneratorTests: IClassFixture<GeneratorFixture>
 
         var generatedSources = result.GeneratedSources;
         Assert.Equal(2, generatedSources.Length);
-        Assert.True(generatedSources.Any(s => s.HintName == "Debug_Generator.g.cs"));
-        Assert.True(generatedSources.Any(s => s.HintName == "Application_DataTransferObjects_CountryDto.g.cs"));
+        Assert.True(generatedSources.Any(s => s.HintName == "Generator.g.cs"));
+        Assert.True(generatedSources.Any(s => s.HintName == "CountryDto.g.cs"));
         //can further extend this test to verify contents of source files.
     }
 }

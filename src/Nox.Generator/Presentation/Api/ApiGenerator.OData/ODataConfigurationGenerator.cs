@@ -18,7 +18,7 @@ internal static class ODataConfigurationGenerator
             return;
         }
 
-        var code = new CodeBuilder($"Presentation/OData/ODataConfiguration.g.cs", context);
+        var code = new CodeBuilder($"ODataConfiguration.g.cs", context);
 
         // Namespace
         code.AppendLine($"using Microsoft.OData.ModelBuilder;");
