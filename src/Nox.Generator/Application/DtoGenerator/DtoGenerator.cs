@@ -10,7 +10,7 @@ public class DtoGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (solution.Application == null || solution.Application.DataTransferObjects == null) return;
+        if (solution.Application?.DataTransferObjects == null) return;
 
         foreach (var dto in solution.Application.DataTransferObjects)
         {

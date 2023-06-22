@@ -7,23 +7,23 @@ using Xunit;
 
 namespace NoxSourceGeneratorTests.Application;
 
-public class DataTransferObjectsTests: IClassFixture<GeneratorFixture>
+public class ApplicationEventTests: IClassFixture<GeneratorFixture>
 {
     private readonly GeneratorFixture _fixture;
 
-    public DataTransferObjectsTests(GeneratorFixture fixture)
+    public ApplicationEventTests(GeneratorFixture fixture)
     {
         _fixture = fixture;
     }
     
     
     [Fact]
-    public void Can_generate_a_dto_file()
+    public void Can_generate_a_domain_event_file()
     {
         var path = "files/yaml/application/";
         var additionalFiles = new List<AdditionalSourceText>();
         additionalFiles.Add(new AdditionalSourceText(File.ReadAllText($"./{path}generator.nox.yaml"), $"{path}/generator.nox.yaml"));
-        additionalFiles.Add(new AdditionalSourceText(File.ReadAllText($"./{path}dto.solution.nox.yaml"), $"{path}/dto.solution.nox.yaml"));
+        additionalFiles.Add(new AdditionalSourceText(File.ReadAllText($"./{path}app-event.solution.nox.yaml"), $"{path}/app-event.solution.nox.yaml"));
         
         // trackIncrementalGeneratorSteps allows to report info about each step of the generator
         GeneratorDriver driver = CSharpGeneratorDriver.Create(
@@ -43,7 +43,7 @@ public class DataTransferObjectsTests: IClassFixture<GeneratorFixture>
         var generatedSources = result.GeneratedSources;
         Assert.Equal(2, generatedSources.Length);
         Assert.True(generatedSources.Any(s => s.HintName == "Generator.g.cs"));
-        Assert.True(generatedSources.Any(s => s.HintName == "CountryDto.g.cs"));
+        Assert.True(generatedSources.Any(s => s.HintName == "CountryNameChangedAppEvent.g.cs"));
         //can further extend this test to verify contents of source files.
     }
 }

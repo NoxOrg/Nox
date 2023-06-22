@@ -14,6 +14,7 @@ using YamlDotNet.Core;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
 using System.Collections.Generic;
+using Nox.Generator.Application.EventGenerator;
 using Nox.Generator.Domain.DomainEventGenerator;
 
 namespace Nox.Generator;
@@ -86,6 +87,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
                 if (generate.Application)
                 {
                     DtoGenerator.Generate(context, solutionNameSpace, solution);
+                    ApplicationEventGenerator.Generate(context, solutionNameSpace, solution);
                 }
             }
 
