@@ -38,18 +38,15 @@ public class CommandGenerator
 
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
-        code.AppendLine($"using Nox.Core.Interfaces.Messaging;");
-        code.AppendLine($"using Nox.Core.Interfaces.Entity.Commands;");
+        //NOTE: this must point to Nox abstractions
+        code.AppendLine($"using Nox.Abstraction.Stubs;");
         code.AppendLine($"using {solutionNameSpace}.Domain;");
         code.AppendLine($"using {solutionNameSpace}.Application.DataTransferObjects;");
-        code.AppendLine($"using SampleService.Infrastructure.Persistence;");
+        code.AppendLine($"using {solutionNameSpace}.Infrastructure.Persistence;");
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Application;");
 
-        if (!string.IsNullOrWhiteSpace(cmd.Description))
-        {
-            GenerateDocs(code, cmd.Description!);
-        }
+        GenerateDocs(code, cmd.Description!);
 
         code.AppendLine($"public abstract partial class {className}");
         code.StartBlock();
@@ -59,7 +56,7 @@ public class CommandGenerator
         AddProperty(code, dbContextName, DbContextName, "Represents the DB context.");
 
         // Add Messanger
-        AddProperty(code, "INoxMessenger", "Messenger", "Represents the Nox messanger.");
+        AddProperty(code, "INoxMessenger", "Messenger", "Represents the Nox messenger.");
 
         // Add constructor
         AddConstructor(code, className, new Dictionary<string, string>

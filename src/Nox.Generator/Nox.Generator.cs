@@ -16,6 +16,7 @@ using YamlDotNet.Serialization;
 using System.Collections.Generic;
 using Nox.Generator._Common;
 using Nox.Generator.Application.EventGenerator;
+using Nox.Generator.Domain.CqrsGenerators;
 using Nox.Generator.Domain.DomainEventGenerator;
 
 namespace Nox.Generator;
@@ -69,6 +70,10 @@ public class NoxCodeGenerator : IIncrementalGenerator
                     EntitiesGenerator.Generate(context, solutionNameSpace, solution);
                     
                     DomainEventGenerator.Generate(context, solutionNameSpace, solution);
+                    
+                    CommandGenerator.Generate(context, solutionNameSpace, solution);
+                    
+                    QueryGenerator.Generate(context, solutionNameSpace, solution);
                 }
 
                 if (generate.Infrastructure)

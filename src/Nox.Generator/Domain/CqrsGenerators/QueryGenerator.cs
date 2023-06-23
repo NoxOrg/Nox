@@ -2,7 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using Nox.Generator._Common;
 using Nox.Solution;
+
+using static Nox.Generator._Common.BaseGenerator;
+using static Nox.Generator._Common.NamingConstants;
 
 namespace Nox.Generator.Domain.CqrsGenerators;
 
@@ -28,20 +32,20 @@ public class QueryGenerator
 
     private static void GenerateQuery(SourceProductionContext context, string solutionNameSpace, DomainQuery qry)
     {
-        var className = $"{qry.Name}Query";
+        var className = qry.Name.EnsureEndsWith("Query");
 
-        var code = new CodeBuilder($"Application/Queries/{className}.cs", context);
+        var code = new CodeBuilder($"{className}.cs", context);
 
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine($"using System.Threading.Tasks;");
         code.AppendLine($"using {solutionNameSpace}.Domain;");
         code.AppendLine($"using {solutionNameSpace}.Application.DataTransferObjects;");
-        code.AppendLine($"using SampleService.Infrastructure.Persistence;");
+        code.AppendLine($"using {solutionNameSpace}.Infrastructure.Persistence;");
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Application;");
 
-        GenerateDocs(code, query.Description);
+        GenerateDocs(code, qry.Description!);
 
         code.AppendLine($"public abstract partial class {className}");
         code.StartBlock();
@@ -55,9 +59,9 @@ public class QueryGenerator
         });
 
         // Add params (which can be DTO)
-        string parameters = GetParametersString(query.RequestInput);
+        var parameters = GetParametersString(qry.RequestInput);
 
-        var typeDefinition = GenerateTypeDefinition(context, solutionNameSpace, query.ResponseOutput);
+        var typeDefinition = GenerateTypeDefinition(context, solutionNameSpace, qry.ResponseOutput);
 
         code.AppendLine($@"public abstract Task<{typeDefinition}> ExecuteAsync({parameters});");
 

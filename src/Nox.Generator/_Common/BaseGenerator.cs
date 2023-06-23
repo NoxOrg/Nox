@@ -9,13 +9,13 @@ namespace Nox.Generator._Common;
 
 internal class BaseGenerator
 {
-    internal static void GenerateDocs(CodeBuilder code, string description)
+    internal static void GenerateDocs(CodeBuilder code, string? description)
     {
         if (!string.IsNullOrWhiteSpace(description))
         {
             code.AppendLine();
             code.AppendLine($"/// <summary>");
-            code.AppendLine($"/// {description.EnsureEndsWith('.')}");
+            code.AppendLine($"/// {description!.EnsureEndsWith('.')}");
             code.AppendLine($"/// </summary>");
         }
     }
@@ -27,12 +27,17 @@ internal class BaseGenerator
         code.AppendLine($"protected {type} {name} {{ get; set; }} = null!;");
     }
 
-    internal static string GetParametersString(IEnumerable<DomainQueryRequestInput> input)
+    internal static string GetParametersString(IEnumerable<DomainQueryRequestInput>? input)
     {
-        // TODO: switch to a general type resolver and error processing
-        return string.Join(", ", input
-            .Select(parameter =>
-                $"{(parameter.Type != NoxType.Entity ? MapType(parameter.Type) : parameter.EntityTypeOptions.Entity)} {parameter.Name}"));
+        if (input != null)
+        {
+            // TODO: switch to a general type resolver and error processing
+            return string.Join(", ", input
+                .Select(parameter =>
+                    $"{(parameter.Type != NoxType.Entity ? MapType(parameter.Type) : parameter.EntityTypeOptions!.Entity)} {parameter.Name}"));    
+        }
+
+        return "";
     }
 
     internal static string GetParametersExecuteString(IReadOnlyList<DomainQueryRequestInput> input)
@@ -97,9 +102,9 @@ internal class BaseGenerator
                 break;
             case NoxType.Collection:
                 var collection = typeDefinition.CollectionTypeOptions;
-                typeName = collection.Name;
+                typeName = collection!.Name;
                 stringTypeDefinition = $"IEnumerable<{typeName}>";
-                if (collection.Type == NoxType.Object && collection.ObjectTypeOptions != null)
+                if (collection is { Type: NoxType.Object, ObjectTypeOptions: not null })
                 {
                     DtoGenerator.GenerateDto(context, solutionNameSpace, typeName, collection.Description,
                         collection.ObjectTypeOptions.Attributes);
@@ -109,7 +114,7 @@ internal class BaseGenerator
             case NoxType.Object:
                 stringTypeDefinition = typeDefinition.Name;
                 DtoGenerator.GenerateDto(context, solutionNameSpace, typeDefinition.Name,
-                    typeDefinition.Description, typeDefinition.ObjectTypeOptions.Attributes);
+                    typeDefinition.Description, typeDefinition.ObjectTypeOptions!.Attributes);
                 break;
             default:
                 stringTypeDefinition = MapType(typeDefinition.Type);
