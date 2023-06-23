@@ -83,11 +83,9 @@ internal class EntitiesGenerator
         if (entity.Keys is null)
             return;
 
-        // Only for single key entities
-
-        if (entity.Keys.Count == 1)
+        foreach (var key in entity.Keys)
         {
-            GenerateStrongSingleKeyProperty(context, code, entity, entity.Keys[0]);
+            GenerateStrongSingleKeyProperty(context, code, entity, key);
         }
     }
 
@@ -97,6 +95,12 @@ internal class EntitiesGenerator
 
         var propType = $"{entity.Name}{key.Name}";
         var propName = key.Name;
+
+        if (key.Type == NoxType.Entity)
+        {
+            propType = $"{key.EntityTypeOptions!.Entity}Id";
+            propName = key.EntityTypeOptions.Entity;
+        }
 
         code.AppendLine($"public {propType} {propName} {{ get; set; }} = null!;");
     }
@@ -210,3 +214,5 @@ internal class EntitiesGenerator
         };
     }
 }
+
+// TODO: generate relationships properties

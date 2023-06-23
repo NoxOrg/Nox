@@ -14,6 +14,16 @@ public partial class CurrencyCashBalance : AuditableEntityBase
 {
     
     /// <summary>
+    /// (Required)
+    /// </summary>
+    public StoreId Store { get; set; } = null!;
+    
+    /// <summary>
+    /// (Required)
+    /// </summary>
+    public CurrencyId Currency { get; set; } = null!;
+    
+    /// <summary>
     /// The amount (required).
     /// </summary>
     public Number Amount { get; set; } = null!;
