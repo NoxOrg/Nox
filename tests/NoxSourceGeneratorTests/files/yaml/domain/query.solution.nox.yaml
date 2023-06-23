@@ -1,4 +1,4 @@
-﻿name: SampleWebApp
+name: SampleWebApp
 
 description: Sample Nox solution yaml configuration
 
@@ -29,19 +29,34 @@ domain:
           raiseEvents: true
           useSoftDelete: true
 
-      events:
-        - name: CountryNameUpdatedEvent
-          description: Raised when the name of a country is changes
-          type: object
-          objectTypeOptions:
-            attributes:
-              - name: CountryId
-                description: The identifier of the country. The Iso Alpha2 code of the country
-                type: countryCode2
-                
-              - name: NewCountryName
-                description: The new name of the country
-                type: text
+      queries:
+
+        - name: GetCountriesByContinent
+          description: Returns a list of countries for a given continent
+
+          requestInput:
+            - name: continentName
+              description: Africa, Europe, Asia, Australia, North America, or South America
+              type: text
+              textTypeOptions:
+                isUnicode: false
+          
+          responseOutput:
+            name: countriesByContinentDto
+            type: collection
+            collectionTypeOptions:
+              name: countryInfo
+              type: object
+              objectTypeOptions:
+                attributes:
+
+                  - name: CountryId
+                    description: The country's Id
+                    type: countryCode2
+
+                  - name: CountryName
+                    description: The country name
+                    type: text
       
       keys:
 

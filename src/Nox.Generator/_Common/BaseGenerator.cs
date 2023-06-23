@@ -81,8 +81,7 @@ internal class BaseGenerator
         code.AppendLine($@"");
     }
 
-    public static string GenerateTypeDefinition(SourceProductionContext context, string solutionNameSpace,
-        NoxComplexTypeDefinition typeDefinition)
+    public static string GenerateTypeDefinition(SourceProductionContext context, string solutionNameSpace, NoxComplexTypeDefinition typeDefinition)
     {
         string stringTypeDefinition;
         string typeName;
@@ -95,7 +94,7 @@ internal class BaseGenerator
                 stringTypeDefinition = $"{typeName}[]";
                 if (options is { Type: NoxType.Object, ObjectTypeOptions: not null })
                 {
-                    DtoGenerator.GenerateDto(context, solutionNameSpace, typeName, options.Description,
+                    DtoGenerator.GenerateDto(context, solutionNameSpace, typeName.ToUpperFirstChar(), options.Description,
                         options.ObjectTypeOptions.Attributes);
                 }
 
@@ -106,7 +105,7 @@ internal class BaseGenerator
                 stringTypeDefinition = $"IEnumerable<{typeName}>";
                 if (collection is { Type: NoxType.Object, ObjectTypeOptions: not null })
                 {
-                    DtoGenerator.GenerateDto(context, solutionNameSpace, typeName, collection.Description,
+                    DtoGenerator.GenerateDto(context, solutionNameSpace, typeName.ToUpperFirstChar(), collection.Description,
                         collection.ObjectTypeOptions.Attributes);
                 }
 

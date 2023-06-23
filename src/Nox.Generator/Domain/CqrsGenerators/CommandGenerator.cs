@@ -34,7 +34,7 @@ public class CommandGenerator
     {
         var className = cmd.Name.EnsureEndsWith("CommandHandlerBase");
 
-        var code = new CodeBuilder($"{className}.cs", context);
+        var code = new CodeBuilder($"{className}.g.cs", context);
 
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
