@@ -18,7 +18,7 @@ public class DomainEventTests: IClassFixture<GeneratorFixture>
     
     
     [Fact]
-    public void Can_generate_a_domain_event_file()
+    public void Can_generate_domain_event_files()
     {
         var path = "files/yaml/domain/";
         var additionalFiles = new List<AdditionalSourceText>();
@@ -42,11 +42,11 @@ public class DomainEventTests: IClassFixture<GeneratorFixture>
 
         var generatedSources = result.GeneratedSources;
         Assert.Equal(5, generatedSources.Length);
-        Assert.True(generatedSources.Any(s => s.HintName == "Generator.g.cs"));
-        Assert.True(generatedSources.Any(s => s.HintName == "EntityBase.g.cs"));
-        Assert.True(generatedSources.Any(s => s.HintName == "AuditableEntityBase.g.cs"));
-        Assert.True(generatedSources.Any(s => s.HintName == "Country.g.cs"));
-        Assert.True(generatedSources.Any(s => s.HintName == "CountryNameUpdatedEvent.g.cs"));
+        Assert.True(generatedSources.Any(s => s.HintName == "Generator.g.cs"), "Generator.g.cs not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == "EntityBase.g.cs"), "EntityBase.g.cs not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == "AuditableEntityBase.g.cs"), "AuditableEntityBase.g.cs not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == "Country.g.cs"), "Country.g.cs not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == "CountryNameUpdatedEvent.g.cs"), "CountryNameUpdatedEvent.g.cs not generated");
         //can further extend this test to verify contents of source files.
     }
 }

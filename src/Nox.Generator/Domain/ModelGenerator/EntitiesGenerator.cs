@@ -4,6 +4,7 @@ using Microsoft.CodeAnalysis.Text;
 using Nox.Solution;
 using Nox.Types;
 using System.Text;
+using Nox.Generator._Common;
 
 namespace Nox.Generator;
 

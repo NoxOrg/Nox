@@ -1,4 +1,4 @@
-﻿name: SampleWebApp
+name: SampleWebApp
 
 description: Sample Nox solution yaml configuration
 
@@ -29,19 +29,16 @@ domain:
           raiseEvents: true
           useSoftDelete: true
 
-      events:
-        - name: CountryNameUpdatedEvent
-          description: Raised when the name of a country is changes
+      commands:
+
+        - name: UpdatePopulationStatistics
+          description: Instructs the service to collect updated population statistics
           type: object
           objectTypeOptions:
             attributes:
-              - name: CountryId
-                description: The identifier of the country. The Iso Alpha2 code of the country
+              - name: CountryCode
                 type: countryCode2
-                
-              - name: NewCountryName
-                description: The new name of the country
-                type: text
+          emitEvents: [ CountryUpdatedEvent ]
       
       keys:
 
