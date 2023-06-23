@@ -143,7 +143,21 @@ domain:
             attributes:
               - name: CountryCode
                 type: countryCode2
-          emitEvents: [CountryUpdatedEvent]
+          emitEvents: [CountryNameUpdatedEvent]
+          
+      events:
+        - name: CountryNameUpdatedEvent
+          description: Raised when the name of a country is changes
+          type: object
+          objectTypeOptions:
+            attributes:
+              - name: CountryId
+                description: The identifier of the country. The Iso Alpha2 code of the country
+                type: countryCode2
+
+              - name: NewCountryName
+                description: The new name of the country
+                type: text          
 
 
       keys:
@@ -319,6 +333,20 @@ application:
             casing: lower
             maxLength: 2
             minLength: 2
+            
+  events:
+    - name: CountryNameChangedAppEvent
+      description: An application event raised when the name of a country changes
+      type: object
+      objectTypeOptions:
+        attributes:
+          - name: CountryId
+            type: countryCode2
+            description: The identifier of the country. The Iso alpha 2 code
+
+          - name: CountryName
+            description: The new name of the country
+            type: text            
 
   integrations:
     - name: SampleEtl

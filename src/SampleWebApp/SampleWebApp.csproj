@@ -19,6 +19,9 @@
   <ItemGroup>
     <Compile Remove="Generated\**" />
     <Content Include="Generated\**" />
+    <Compile Remove="Samples\Controller_Sample.cs" />
+    <Compile Remove="Samples\ODataConfiguration_Sample.cs" />
+    <Compile Remove="Samples\SampleServiceDbContext_Sample.cs" />
   </ItemGroup>
 
 
@@ -46,6 +49,10 @@
 
   <ItemGroup>
     <Compile Remove="Controller_Sample.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Samples\" />
   </ItemGroup>
 
  

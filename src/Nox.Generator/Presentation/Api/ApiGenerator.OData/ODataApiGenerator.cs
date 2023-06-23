@@ -34,7 +34,7 @@ internal static class ODataApiGenerator
                 parsingLogic = $"var parsedKey = {keyType}.From(key);";
             }
 
-            var code = new CodeBuilder($"Presentation/OData/Controllers/{pluralName}Controller.g.cs",context);
+            var code = new CodeBuilder($"{pluralName}Controller.g.cs",context);
 
             // Namespace
             code.AppendLine($"using Microsoft.AspNetCore.Mvc;");

@@ -16,7 +16,7 @@ internal class DbContextGenerator
         
         var dbContextName = $"{solution.Name}DbContext";
 
-        var code = new CodeBuilder($"Infrastructure/Persistence/{dbContextName}.g.cs",context);
+        var code = new CodeBuilder($"{dbContextName}.g.cs",context);
 
         // Namespace
         code.AppendLine(@"using Microsoft.EntityFrameworkCore;");

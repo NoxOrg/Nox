@@ -8,7 +8,7 @@ internal class AuditableEntityBaseGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        var code = new CodeBuilder($"Domain/Base/AuditableEntityBase.g.cs",context);
+        var code = new CodeBuilder($"AuditableEntityBase.g.cs",context);
 
         code.AppendLine($"using System;");
         code.AppendLine();

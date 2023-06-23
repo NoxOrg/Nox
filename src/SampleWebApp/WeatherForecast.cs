@@ -1,5 +1,3 @@
-using SampleWebApp.Domain;
-
 namespace SampleWebApp
 {
     public class WeatherForecast

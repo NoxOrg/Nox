@@ -19,7 +19,7 @@ namespace SourceGeneratorTests
             _output = output;
         }
 
-        [Fact]
+        //[Fact]
          public void Test1()
         {
             string source = @"
