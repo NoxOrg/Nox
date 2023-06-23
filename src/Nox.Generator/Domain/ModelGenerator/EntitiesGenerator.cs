@@ -86,6 +86,8 @@ internal class EntitiesGenerator
 
         foreach (var key in entity.Keys)
         {
+            context.CancellationToken.ThrowIfCancellationRequested();
+
             GenerateStrongSingleKeyProperty(context, code, entity, key);
         }
     }
@@ -128,7 +130,7 @@ internal class EntitiesGenerator
 
     private static void GenerateRelationships(SourceProductionContext context, CodeBuilder code, Entity entity)
     {
-        if(entity.Relationships is null) 
+        if (entity.Relationships is null) 
             return;
 
         foreach(var relationship in entity.Relationships)
@@ -158,7 +160,7 @@ internal class EntitiesGenerator
 
         var targetEntity = relationship.Entity;
 
-        var propType = relationship.Relationship == EntityRelationshipType.ZeroOrMany || relationship.Relationship == EntityRelationshipType.ZeroOrMany
+        var propType = relationship.Relationship == EntityRelationshipType.ZeroOrMany || relationship.Relationship == EntityRelationshipType.OneOrMany
                         ? $"List<{targetEntity}>"
                         : targetEntity;
 
@@ -167,6 +169,12 @@ internal class EntitiesGenerator
         var nullable = relationship.Relationship == EntityRelationshipType.ZeroOrOne ? "?" : string.Empty;
 
         code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }} = null!;");
+        
+        if (propName != relationship.Name)
+        {
+            code.AppendLine();
+            code.AppendLine($"public {propType}{nullable} {relationship.Name} => {propName};");
+        }
     }
 
     private static void GeneratePropertyDocs(SourceProductionContext context, CodeBuilder code, NoxSimpleTypeDefinition prop)
@@ -215,5 +223,3 @@ internal class EntitiesGenerator
         };
     }
 }
-
-// TODO: generate relationships properties

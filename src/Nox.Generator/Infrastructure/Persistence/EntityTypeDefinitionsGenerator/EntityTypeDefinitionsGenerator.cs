@@ -72,6 +72,8 @@ internal class EntityTypeDefinitionsGenerator
 
                 foreach (var attribute in entity.Attributes)
                 {
+                    context.CancellationToken.ThrowIfCancellationRequested();
+
                     code.AppendLine();
 
                     code.AppendIndented("");
@@ -81,7 +83,6 @@ internal class EntityTypeDefinitionsGenerator
                     code.Append($";");
 
                     code.AppendLine();
-
                 }
 
             code.EndBlock();
