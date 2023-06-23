@@ -1,7 +1,9 @@
-﻿using System.Reflection;
+﻿using System.Linq;
+using System.Reflection;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
+using Nox.Generator._Common;
 using Nox.Solution;
 using Nox.Solution.Events;
 
@@ -18,7 +20,7 @@ public class DomainEventGenerator
         foreach (var entity in solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
-            if (entity.Events == null) continue;
+            if (entity.Events == null || !entity.Events.Any()) continue;
             foreach (var evt in entity.Events)
             {
                 context.CancellationToken.ThrowIfCancellationRequested();

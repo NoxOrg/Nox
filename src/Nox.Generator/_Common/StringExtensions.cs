@@ -1,4 +1,4 @@
-﻿namespace Nox.Generator;
+﻿namespace Nox.Generator._Common;
 
 internal static class StringExtensions
 {
@@ -17,10 +17,21 @@ internal static class StringExtensions
 
         return text + suffix;
     }
+    
 
     public static bool EndsWithIgnoreCase(this string text, string value) 
     {
         return text.EndsWith(value, System.StringComparison.OrdinalIgnoreCase);
+    }
+    
+    public static string ToLowerFirstChar(this string input)
+    {
+        if (string.IsNullOrEmpty(input))
+        {
+            return input;
+        }
+
+        return char.ToLower(input[0]) + input.Substring(1);
     }
 }
 

@@ -14,6 +14,7 @@ using YamlDotNet.Core;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
 using System.Collections.Generic;
+using Nox.Generator._Common;
 using Nox.Generator.Application.EventGenerator;
 using Nox.Generator.Domain.DomainEventGenerator;
 
