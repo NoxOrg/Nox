@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using Humanizer;
+using Microsoft.CodeAnalysis;
 using Nox.Solution;
 using Nox.Types;
 using System;
@@ -6,6 +7,7 @@ using System.Linq;
 
 namespace Nox.Generator.Infrastructure.Persistence.ModelConfigGenerator;
 
+// TODO: check and handle composite keys in this and Entity generators.
 internal class EntityTypeDefinitionsGenerator
 {
 
@@ -65,7 +67,7 @@ internal class EntityTypeDefinitionsGenerator
                 var keyClassName = $"{entity.Name}{key.Name}";
                 var keyName = key.Name;
 
-                code.AppendLine($"builder.HasKey(e => e.{keyName});"); // TODO: Multi Key entities
+                code.AppendLine($"builder.HasKey(e => e.{keyName});"); // TODO: Multi Key entities should be handled here
                 code.AppendLine();
 
                 code.AppendLine($"builder.Property(e => e.{keyName}).IsRequired(true).ValueGeneratedOnAdd().HasConversion(v => v.Value, v => {keyClassName}.From(v));");
@@ -85,11 +87,36 @@ internal class EntityTypeDefinitionsGenerator
                     code.AppendLine();
                 }
 
+                foreach (var relationship in entity.Relationships)
+                {
+                    context.CancellationToken.ThrowIfCancellationRequested();
+
+                    code.AppendLine();
+
+                    code.AppendIndented("");
+
+                    GetRelationshipConfiguration(code, relationship);
+
+                    code.Append($";");
+
+                    code.AppendLine();
+                }
+
             code.EndBlock();
 
         code.EndBlock();
 
         code.GenerateSourceCode();
+    }
+
+    private static void GetRelationshipConfiguration(CodeBuilder code, EntityRelationship relationship)
+    {
+        if (relationship.Relationship == EntityRelationshipType.ZeroOrMany || relationship.Relationship == EntityRelationshipType.OneOrMany)
+        {
+            code.Append($"builder.HasMany(x => x.{relationship.Entity.Pluralize()}).WithMany()");
+        }
+
+        // TODO: add EntityRelationshipType.ZeroOrOne or EntityRelationshipType.ExactlyOne
     }
 
     public static void GetAttributeTypeConfiguration(CodeBuilder code, NoxSimpleTypeDefinition attribute)
