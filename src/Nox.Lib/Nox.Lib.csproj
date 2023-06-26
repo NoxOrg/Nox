@@ -4,6 +4,7 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
         <RootNamespace>Nox</RootNamespace>
     </PropertyGroup>
     <PropertyGroup>
@@ -15,7 +16,7 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <AssemblyVersion>7.0.0.0</AssemblyVersion>
         <FileVersion>7.0.0.0</FileVersion>
-        <PackageVersion>7.0.0</PackageVersion>
+        <PackageVersion>7.0.0-BETA7</PackageVersion>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
         <RepositoryUrl>https://github.com/NoxOrg/Nox.git</RepositoryUrl>
@@ -59,8 +60,16 @@
             <Pack>true</Pack>
             <PackagePath>analyzers\dotnet\cs</PackagePath>
         </Content>
+        <Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\Humanizer.dll">
+            <Pack>true</Pack>
+            <PackagePath>analyzers\dotnet\cs</PackagePath>
+        </Content>
+        <Content Include="$(OutputPath)\Nox.Types.dll">
+            <Pack>true</Pack>
+            <PackagePath>lib\$(TargetFramework)</PackagePath>
+        </Content>
     </ItemGroup>
     <ItemGroup>
-      <PackageReference Include="Nox.Types" Version="1.0.8" />
+      <PackageReference Include="Nox.Types" Version="1.0.8"/>
     </ItemGroup>
 </Project>
