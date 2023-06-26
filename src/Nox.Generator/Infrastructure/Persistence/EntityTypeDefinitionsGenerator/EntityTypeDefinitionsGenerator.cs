@@ -63,43 +63,76 @@ internal class EntityTypeDefinitionsGenerator
             code.AppendLine($"public void Configure(EntityTypeBuilder<{entity.Name}> builder)");
             code.StartBlock();
 
-                var key = entity.Keys.First();
-                var keyClassName = $"{entity.Name}{key.Name}";
-                var keyName = key.Name;
-
-                code.AppendLine($"builder.HasKey(e => e.{keyName});"); // TODO: Multi Key entities should be handled here
-                code.AppendLine();
-
-                code.AppendLine($"builder.Property(e => e.{keyName}).IsRequired(true).ValueGeneratedOnAdd().HasConversion(v => v.Value, v => {keyClassName}.From(v));");
-
-                foreach (var attribute in entity.Attributes)
+                if (entity.Keys.Count > 1)
                 {
-                    context.CancellationToken.ThrowIfCancellationRequested();
+                    var keyString = string.Empty;
 
+                    foreach (var key in entity.Keys)
+                    {
+#pragma warning disable S1643 // Strings should not be concatenated using '+' in a loop
+                        keyString += $"e.{key.Name}, ";
+#pragma warning restore S1643 // Strings should not be concatenated using '+' in a loop
+                    }
+
+                    code.AppendLine($"builder.HasKey(e => new {{ {keyString.TrimEnd().TrimEnd(',')} }});");
                     code.AppendLine();
 
-                    code.AppendIndented("");
-
-                    GetAttributeTypeConfiguration(code, attribute);
-
-                    code.Append($";");
-
-                    code.AppendLine();
+                    foreach (var key in entity.Keys)
+                    {
+                        var keyClassName = $"{entity.Name}{key.Name}";
+                        var keyName = key.Name;
+                
+                        code.AppendLine($"builder.Property(e => e.{keyName}).IsRequired(true).HasConversion(v => v.Value, v => {keyClassName}.From(v));");
+                    }
                 }
-
-                foreach (var relationship in entity.Relationships)
+                else
                 {
-                    context.CancellationToken.ThrowIfCancellationRequested();
+                    var key = entity.Keys.First();
+                    var keyClassName = $"{entity.Name}{key.Name}";
+                    var keyName = key.Name;
 
+                    code.AppendLine($"builder.HasKey(e => e.{keyName});");
                     code.AppendLine();
 
-                    code.AppendIndented("");
+                    code.AppendLine($"builder.Property(e => e.{keyName}).IsRequired(true).ValueGeneratedOnAdd().HasConversion(v => v.Value, v => {keyClassName}.From(v));");
+                }
+                
+                if (entity.Attributes != null &&
+                    entity.Attributes.Any())
+                {
+                    foreach (var attribute in entity.Attributes)
+                    {
+                        context.CancellationToken.ThrowIfCancellationRequested();
 
-                    GetRelationshipConfiguration(code, relationship);
+                        code.AppendLine();
 
-                    code.Append($";");
+                        code.AppendIndented("");
 
-                    code.AppendLine();
+                        GetAttributeTypeConfiguration(code, attribute);
+
+                        code.Append($";");
+
+                        code.AppendLine();
+                    }
+                }
+                
+                if (entity.Relationships != null &&
+                    entity.Relationships.Any())
+                {
+                    foreach (var relationship in entity.Relationships)
+                    {
+                        context.CancellationToken.ThrowIfCancellationRequested();
+
+                        code.AppendLine();
+
+                        code.AppendIndented("");
+
+                        GetRelationshipConfiguration(code, relationship);
+
+                        code.Append($";");
+
+                        code.AppendLine();
+                    }
                 }
 
             code.EndBlock();
@@ -116,7 +149,10 @@ internal class EntityTypeDefinitionsGenerator
             code.Append($"builder.HasMany(x => x.{relationship.Entity.Pluralize()}).WithMany()");
         }
 
-        // TODO: add EntityRelationshipType.ZeroOrOne or EntityRelationshipType.ExactlyOne
+        if (relationship.Relationship == EntityRelationshipType.ZeroOrOne || relationship.Relationship == EntityRelationshipType.ExactlyOne)
+        {
+            code.Append($"builder.HasOne(x => x.{relationship.Entity}).WithMany()");
+        }
     }
 
     public static void GetAttributeTypeConfiguration(CodeBuilder code, NoxSimpleTypeDefinition attribute)

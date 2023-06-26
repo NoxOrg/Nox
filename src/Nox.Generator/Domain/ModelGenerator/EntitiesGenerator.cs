@@ -164,7 +164,9 @@ internal class EntitiesGenerator
                         ? $"List<{targetEntity}>"
                         : targetEntity;
 
-        var propName = targetEntity.Pluralize();
+        var propName = relationship.Relationship == EntityRelationshipType.ZeroOrMany || relationship.Relationship == EntityRelationshipType.OneOrMany
+                        ? targetEntity.Pluralize()
+                        : targetEntity;
 
         var nullable = relationship.Relationship == EntityRelationshipType.ZeroOrOne ? "?" : string.Empty;
 
