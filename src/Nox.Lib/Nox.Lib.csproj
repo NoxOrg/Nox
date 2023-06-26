@@ -4,6 +4,63 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>Nox</RootNamespace>
     </PropertyGroup>
-
+    <PropertyGroup>
+        <PackageId>Nox.Lib</PackageId>
+        <Authors>Andre Sharpe,Jan Schutte</Authors>
+        <Description>Nox microservice library</Description>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <Copyright>Copyright (c) Andre Sharpe 2022</Copyright>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <AssemblyVersion>7.0.0.0</AssemblyVersion>
+        <FileVersion>7.0.0.0</FileVersion>
+        <PackageVersion>7.0.0</PackageVersion>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/NoxOrg/Nox.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageIcon>nox.png</PackageIcon>
+    </PropertyGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" PrivateAssets="all" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="tools/install.ps1">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <Pack>true</Pack>
+        </None>
+        <None Update="tools/uninstall.ps1">
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <Pack>true</Pack>
+        </None>
+    </ItemGroup>
+    <ItemGroup>
+        <None Include="../../docs/images/nox.png" Pack="true" PackagePath="" />
+    </ItemGroup>
+    <ItemGroup>
+        <None Update="tools\*.ps1" CopyToOutputDirectory="Always" Pack="true" PackagePath="" />
+        <None Include="$(OutputPath)\Nox.Generator.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    </ItemGroup>
+    <ItemGroup>
+        <Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\YamlDotNet.dll">
+            <Pack>true</Pack>
+            <PackagePath>analyzers\dotnet\cs</PackagePath>
+        </Content>
+        <Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\Nox.Solution.dll">
+            <Pack>true</Pack>
+            <PackagePath>analyzers\dotnet\cs</PackagePath>
+        </Content>
+        <Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\Nox.Types.dll">
+            <Pack>true</Pack>
+            <PackagePath>analyzers\dotnet\cs</PackagePath>
+        </Content>
+        <Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\FluentValidation.dll">
+            <Pack>true</Pack>
+            <PackagePath>analyzers\dotnet\cs</PackagePath>
+        </Content>
+    </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="Nox.Types" Version="1.0.8" />
+    </ItemGroup>
 </Project>

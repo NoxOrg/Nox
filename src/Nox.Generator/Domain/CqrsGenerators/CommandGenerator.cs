@@ -39,7 +39,7 @@ public class CommandGenerator
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
         //NOTE: this must point to Nox abstractions
-        code.AppendLine($"using Nox.Abstraction.Stubs;");
+        code.AppendLine($"using Nox.Abstractions;");
         code.AppendLine($"using {solutionNameSpace}.Domain;");
         code.AppendLine($"using {solutionNameSpace}.Application.DataTransferObjects;");
         code.AppendLine($"using {solutionNameSpace}.Infrastructure.Persistence;");
