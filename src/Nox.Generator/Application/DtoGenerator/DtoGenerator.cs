@@ -84,7 +84,7 @@ public class DtoGenerator
             var attribute = attributesList[i];
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            GeneratePropertyDocs(context, code, attribute);
+            GenerateDocs(code, attribute.Description);
 
             var propType = attribute.Type;
             var propName = attribute.Name;
@@ -96,16 +96,6 @@ public class DtoGenerator
             {
                 code.AppendLine();
             }
-        }
-    }
-    
-    private static void GeneratePropertyDocs(SourceProductionContext context, CodeBuilder code, NoxSimpleTypeDefinition prop)
-    {
-        if (!string.IsNullOrWhiteSpace(prop.Description))
-        {
-            code.AppendLine($"/// <summary>");
-            code.AppendLine($"/// {prop.Description!.TrimEnd('.')}.");
-            code.AppendLine($"/// </summary>"); 
         }
     }
 }

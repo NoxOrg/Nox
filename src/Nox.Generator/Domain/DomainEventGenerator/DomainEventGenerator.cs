@@ -5,6 +5,8 @@ using System.Linq;
 using System.Reflection;
 using Nox.Generator.Common;
 
+using static Nox.Generator.Common.BaseGenerator;
+
 namespace Nox.Generator.Domain.DomainEventGenerator;
 
 public class DomainEventGenerator
@@ -23,8 +25,7 @@ public class DomainEventGenerator
             {
                 context.CancellationToken.ThrowIfCancellationRequested();
                 GenerateEvent(context, solutionNameSpace, evt);    
-            }
-            
+            }            
         }
     }
     
@@ -40,7 +41,7 @@ public class DomainEventGenerator
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Domain;");
 
-        GenerateClassDocs(context, code, evt);
+        GenerateDocs(code, evt.Description);
 
         code.AppendLine($"public partial class {evt.Name} : INoxDomainEvent");
         code.StartBlock();
@@ -52,17 +53,6 @@ public class DomainEventGenerator
         code.GenerateSourceCode();
     }
     
-    private static void GenerateClassDocs(SourceProductionContext context, CodeBuilder code, DomainEvent evt)
-    {
-        if (evt.Description is not null)
-        {
-            code.AppendLine();
-            code.AppendLine($"/// <summary>");
-            code.AppendLine($"/// {evt.Description.EnsureEndsWith('.')}");
-            code.AppendLine($"/// </summary>");
-        }
-    }
-    
     private static void GenerateProperties(SourceProductionContext context, CodeBuilder code, DomainEvent evt)
     {
         if (evt.ObjectTypeOptions != null)
@@ -71,7 +61,7 @@ public class DomainEventGenerator
             {
                 context.CancellationToken.ThrowIfCancellationRequested();
         
-                GeneratePropertyDocs(context, code, attribute);
+                GenerateDocs(code, attribute.Description);
         
                 var propType = attribute.Type;
                 var propName = attribute.Name;
@@ -79,17 +69,6 @@ public class DomainEventGenerator
         
                 code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }} = null!;");
             }
-        }
-    }
-    
-    private static void GeneratePropertyDocs(SourceProductionContext context, CodeBuilder code, NoxSimpleTypeDefinition prop)
-    {
-        if (!string.IsNullOrWhiteSpace(prop.Description))
-        {
-            code.AppendLine();
-            code.AppendLine($"/// <summary>");
-            code.AppendLine($"/// {prop.Description!.TrimEnd('.')}.");
-            code.AppendLine($"/// </summary>"); 
         }
     }
 }

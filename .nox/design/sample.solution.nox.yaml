@@ -121,7 +121,7 @@ domain:
             name: countriesByContinentDto
             type: collection
             collectionTypeOptions:
-              name: countryInfo
+              name: CountryInfo
               type: object
               objectTypeOptions:
                 attributes:
