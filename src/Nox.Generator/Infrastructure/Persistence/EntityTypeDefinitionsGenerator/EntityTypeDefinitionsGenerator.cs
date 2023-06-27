@@ -159,7 +159,6 @@ internal class EntityTypeDefinitionsGenerator
     {
         if (IsCompoundType(attribute.Type))
         {
-            // TODO: improve owns relationship using underlying Value object
             code.Append($"builder.OwnsOne(e => e.{attribute.Name}).Ignore(p => p.Value);");
             return;
         }
