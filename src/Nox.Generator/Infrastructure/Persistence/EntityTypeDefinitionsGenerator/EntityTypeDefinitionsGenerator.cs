@@ -33,7 +33,7 @@ internal class EntityTypeDefinitionsGenerator
         if (entity.Attributes is null)
             return;
 
-        var code = new CodeBuilder($"Infrastructure/Persistence/EntityTypeConfiguration/{entity.Name}Configuration.g.cs", context);
+        var code = new CodeBuilder($"{entity.Name}Configuration.g.cs", context);
 
         code.AppendLine($"using Microsoft.EntityFrameworkCore.Metadata.Builders;");
         code.AppendLine($"using Microsoft.EntityFrameworkCore;");
