@@ -15,7 +15,8 @@ public partial class ODataConfiguration
         builder.EntitySet<Country>("Countries");
         builder.EntitySet<Currency>("Currencies");
         builder.EntitySet<CountryLocalNames>("CountryLocalNames");
-        builder.EntitySet<CurrencyCashBalance>("CurrencyCashBalances");
+        //TODO Solve Composite Keys for Entities, that do not have an Id
+        // builder.EntitySet<CurrencyCashBalance>("CurrencyCashBalances");
 
         services.AddControllers()
             .AddOData(options => options
