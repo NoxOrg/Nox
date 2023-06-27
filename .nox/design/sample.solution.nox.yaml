@@ -287,6 +287,15 @@ domain:
     - name: CountryLocalNames
       description: The name of a country in other languages
 
+      keys:
+
+        - name: Id
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
     - name: CurrencyCashBalance
 
       description: The cash balance in Store

@@ -168,6 +168,7 @@ internal class EntityTypeDefinitionsGenerator
         code.Append($"builder.Property(e => e.{attribute.Name})");
         code.Append($".IsRequired({attribute.IsRequired.ToString().ToLower()})");
         
+        //TODO Open Close Principle, how to add a Nox.Type without updating this code?
         if (attribute.Type == NoxType.Text)
         {
             AppendTextTypeConfiguration(code, attribute.TextTypeOptions ?? new TextTypeOptions());
@@ -188,7 +189,7 @@ internal class EntityTypeDefinitionsGenerator
 
     private static void AppendNumberTypeConfiguration(CodeBuilder code, NumberTypeOptions options)
     {
-        code.Append($".HasColumnType(_dbProvider.ToDatabaseColumnType<Number>(new NumberTypeOptions() {{ MinValue = {options.MinValue}, MaxValue = {options.MaxValue}, DecimalDigits = {options.DecimalDigits} }}))");
+        code.Append($".HasColumnType(_dbProvider.ToDatabaseColumnType<Number,NumberTypeOptions>(new NumberTypeOptions() {{ MinValue = {options.MinValue}, MaxValue = {options.MaxValue}, DecimalDigits = {options.DecimalDigits} }}))");
     }
 
     private static void AppendTextTypeConfiguration(CodeBuilder code, TextTypeOptions options)
@@ -199,6 +200,6 @@ internal class EntityTypeDefinitionsGenerator
 
         code.Append($".HasMaxLength({options.MaxLength})");
 
-        code.Append($".HasColumnType(_dbProvider.ToDatabaseColumnType<Text>(new TextTypeOptions() {{ MinLength = {options.MinLength}, MaxLength = {options.MaxLength}, IsUnicode = {isUniCode}, Casing = {options.Casing.GetType().Name}.{options.Casing} }}))");
+        code.Append($".HasColumnType(_dbProvider.ToDatabaseColumnType<Text,TextTypeOptions>(new TextTypeOptions() {{ MinLength = {options.MinLength}, MaxLength = {options.MaxLength}, IsUnicode = {isUniCode}, Casing = {options.Casing.GetType().Name}.{options.Casing} }}))");
     }
 }
