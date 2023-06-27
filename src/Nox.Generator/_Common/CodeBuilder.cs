@@ -25,7 +25,7 @@ internal class CodeBuilder
 
         _context = context;
 
-        _stringBuilder.AppendLine("// generated");
+        _stringBuilder.AppendLine("// Generated");
         _stringBuilder.AppendLine();
         _stringBuilder.AppendLine("#nullable enable");
         _stringBuilder.AppendLine();

@@ -1,11 +1,9 @@
-﻿using System.Linq;
-using System.Reflection;
-using System.Text;
-using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
+﻿using Microsoft.CodeAnalysis;
 using Nox.Generator._Common;
 using Nox.Solution;
 using Nox.Solution.Events;
+using System.Linq;
+using System.Reflection;
 
 namespace Nox.Generator.Domain.DomainEventGenerator;
 

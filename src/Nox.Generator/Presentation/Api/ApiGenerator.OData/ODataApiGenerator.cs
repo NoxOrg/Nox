@@ -1,8 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
 using Nox.Solution;
 using System.Linq;
-using System.Text;
 
 namespace Nox.Generator;
 
@@ -18,10 +16,8 @@ internal static class ODataApiGenerator
             return;
         }
 
-
         foreach (var entity in solution.Domain.Entities)
         {
-
             context.CancellationToken.ThrowIfCancellationRequested();
 
             var entityName = entity.Name;
@@ -29,22 +25,27 @@ internal static class ODataApiGenerator
             var variableName = entity.Name.ToLower();
             var dbContextName = $"{solution.Name}DbContext";
             var controllerName = $"{pluralName}Controller";
+            // TODO: fix composite key
+            var keyType = entityName + "Id";
+            var keyUnderlyingType = entity.Keys?.FirstOrDefault()?.Type;
+            var parsingLogic = $"var parsedKey = {keyType}.From({keyUnderlyingType}.From(key));";
+            if (!keyUnderlyingType.HasValue)
+            {
+                parsingLogic = $"var parsedKey = {keyType}.From(key);";
+            }
 
             var code = new CodeBuilder($"{pluralName}Controller.g.cs",context);
 
             // Namespace
-            code.AppendLine($"using System.Linq;");
-            code.AppendLine($"using Microsoft.AspNetCore.Http;");
-            code.AppendLine($"using Microsoft.AspNetCore.OData;");
-            code.AppendLine($"using Microsoft.AspNetCore.OData.Extensions;");
+            code.AppendLine($"using Microsoft.AspNetCore.Mvc;");
+            code.AppendLine($"using Microsoft.AspNetCore.OData.Deltas;");
             code.AppendLine($"using Microsoft.AspNetCore.OData.Query;");
-            code.AppendLine($"using Microsoft.AspNetCore.OData.Results;");
-            code.AppendLine($"using Microsoft.OData.UriParser;");
-            code.AppendLine($"using System.Threading.Tasks;"); 
-            code.AppendLine($"using System.Net;");
+            code.AppendLine($"using Microsoft.AspNetCore.OData.Routing.Controllers;");
             code.AppendLine($"using Microsoft.EntityFrameworkCore;");
-            code.AppendLine($"using SampleService.Domain;");
-            code.AppendLine($"using SampleService.Infrastructure.Persistence;");
+            code.AppendLine($"using SampleWebApp.Domain;");
+            code.AppendLine($"using SampleWebApp.Infrastructure.Persistence;");
+            code.AppendLine($"using System.Net;");
+            code.AppendLine($"using Nox.Types;");
             code.AppendLine();
             code.AppendLine($"namespace {solutionNameSpace}.Presentation.Api.OData;");
             code.AppendLine();
@@ -54,9 +55,9 @@ internal static class ODataApiGenerator
             // Class
             code.StartBlock();
                 // db context
-                code.AppendLine($"{dbContextName} _databaseContext = new {dbContextName}();\r\n");
+                code.AppendLine($"{dbContextName} _databaseContext;\r\n");
 
-                // Method Get
+                // Constructor
                 code.AppendLine($"public {controllerName}({dbContextName} databaseContext)");
 
                 // Method content
@@ -73,11 +74,11 @@ internal static class ODataApiGenerator
                 {
                     // Method Get
                     code.AppendLine($"[EnableQuery]");
-                    code.AppendLine($"public IQueryable<{entityName}> Get()");
+                    code.AppendLine($"public ActionResult<IQueryable<{entityName}>> Get()");
 
                     // Method content
                     code.StartBlock();
-                        code.AppendLine($"return _databaseContext.{pluralName};");
+                        code.AppendLine($"return Ok(_databaseContext.{pluralName});");
 
                     // End method
                     code.EndBlock();
@@ -85,12 +86,18 @@ internal static class ODataApiGenerator
             
                     // Method Get
                     code.AppendLine($"[EnableQuery]");
-                    code.AppendLine($"public SingleResult<{entityName}> Get([FromODataUri] int key)");
+                    code.AppendLine($"public ActionResult<{entityName}> Get([FromRoute] string key)");
 
                     // Method content
                     code.StartBlock();
-                        code.AppendLine($"IQueryable<{entityName}> result = _databaseContext.{pluralName}.Where(p => p.Id == key);");
-                        code.AppendLine($"return SingleResult.Create(result);");
+                        code.AppendLine(parsingLogic);
+                        code.AppendLine($"var item = _databaseContext.{pluralName}.SingleOrDefault(d => d.Id.Equals(parsedKey));");
+                        code.AppendLine();
+                        code.AppendLine($"if (item == null)");
+                        code.StartBlock();
+                            code.AppendLine($"return NotFound();");
+                        code.EndBlock();
+                        code.AppendLine($"return Ok(item);");
 
                     // End method
                     code.EndBlock();
@@ -101,7 +108,7 @@ internal static class ODataApiGenerator
                     entity.Persistence.Create.IsEnabled)
                 {
                     // Method Post
-                    code.AppendLine($"public async Task<IHttpActionResult> Post({entityName} {variableName})");
+                    code.AppendLine($"public async Task<ActionResult> Post({entityName} {variableName})");
 
                     // Method content
                     code.StartBlock();
@@ -111,7 +118,9 @@ internal static class ODataApiGenerator
                         code.EndBlock();
                         code.AppendLine();
                         code.AppendLine($"_databaseContext.{pluralName}.Add({variableName});");
+                        code.AppendLine();
                         code.AppendLine($"await _databaseContext.SaveChangesAsync();");
+                        code.AppendLine();
                         code.AppendLine($"return Created({variableName});");
 
                     // End method
@@ -122,8 +131,8 @@ internal static class ODataApiGenerator
                 if (entity.Persistence is null || 
                     entity.Persistence.Update.IsEnabled)
                 {
-                    // Method Patch
-                    code.AppendLine($"public async Task<IHttpActionResult> Patch([FromODataUri] int key, Delta<{entityName}> {variableName})");
+                    // Method Put
+                    code.AppendLine($"public async Task<ActionResult> Put([FromRoute] string key, [FromBody] {entityName} updated{entityName})");
 
                     // Method content
                     code.StartBlock();
@@ -132,7 +141,45 @@ internal static class ODataApiGenerator
                             code.AppendLine($"return BadRequest(ModelState);");
                         code.EndBlock();
                         code.AppendLine();
-                        code.AppendLine($"var entity = await _databaseContext.{pluralName}.FindAsync(key);");
+                        code.AppendLine(parsingLogic);
+                        code.AppendLine($"if (parsedKey != updated{entityName}.Id)");
+                        code.StartBlock();
+                            code.AppendLine($"return BadRequest();");
+                        code.EndBlock();
+                        code.AppendLine($"_databaseContext.Entry(updated{entityName}).State = EntityState.Modified;");
+                        code.AppendLine($"try");
+                        code.StartBlock();
+                            code.AppendLine($"await _databaseContext.SaveChangesAsync();");
+                        code.EndBlock();
+                        code.AppendLine($"catch (DbUpdateConcurrencyException)");
+                        code.StartBlock();
+                            code.AppendLine($"if (!{entityName}Exists(key))");
+                            code.StartBlock();
+                                code.AppendLine($"return NotFound();");
+                            code.EndBlock();
+                            code.AppendLine($"else");
+                            code.StartBlock();
+                                code.AppendLine($"throw;");
+                            code.EndBlock();
+                        code.EndBlock();
+                        code.AppendLine($"return Updated(updated{entityName});");
+
+                    // End method
+                    code.EndBlock();
+                    code.AppendLine();
+                
+                    // Method Patch
+                    code.AppendLine($"public async Task<ActionResult> Patch([FromRoute] string key, [FromBody] Delta<{entityName}> {variableName})");
+
+                    // Method content
+                    code.StartBlock();
+                        code.AppendLine($"if (!ModelState.IsValid)");
+                        code.StartBlock();
+                            code.AppendLine($"return BadRequest(ModelState);");
+                        code.EndBlock();
+                        code.AppendLine();
+                        code.AppendLine(parsingLogic);
+                        code.AppendLine($"var entity = await _databaseContext.{entity.PluralName}.FindAsync(parsedKey);");
                         code.AppendLine($"if (entity == null)");
                         code.StartBlock();
                             code.AppendLine($"return NotFound();");
@@ -158,49 +205,14 @@ internal static class ODataApiGenerator
                     // End method
                     code.EndBlock();
                     code.AppendLine();
-
-                    // Method Put
-                    code.AppendLine($"public async Task<IHttpActionResult> Put([FromODataUri] int key, {entityName} update)");
-
-                    // Method content
-                    code.StartBlock();
-                        code.AppendLine($"if (!ModelState.IsValid)");
-                        code.StartBlock();
-                            code.AppendLine($"return BadRequest(ModelState);");
-                        code.EndBlock();
-                        code.AppendLine();
-                        code.AppendLine($"if (key != update.Id)");
-                        code.StartBlock();
-                            code.AppendLine($"return BadRequest();");
-                        code.EndBlock();
-                        code.AppendLine($"_databaseContext.Entry(update).State = EntityState.Modified;");
-                        code.AppendLine($"try");
-                        code.StartBlock();
-                            code.AppendLine($"await _databaseContext.SaveChangesAsync();");
-                        code.EndBlock();
-                        code.AppendLine($"catch (DbUpdateConcurrencyException)");
-                        code.StartBlock();
-                            code.AppendLine($"if (!{entityName}Exists(key))");
-                            code.StartBlock();
-                                code.AppendLine($"return NotFound();");
-                            code.EndBlock();
-                            code.AppendLine($"else");
-                            code.StartBlock();
-                                code.AppendLine($"throw;");
-                            code.EndBlock();
-                        code.EndBlock();
-                        code.AppendLine($"return Updated(update);");
-
-                    // End method
-                    code.EndBlock();
-                    code.AppendLine();
                 
                     // Method Exists
-                    code.AppendLine($"private bool {entityName}Exists(int key)");
+                    code.AppendLine($"private bool {entityName}Exists(string key)");
 
                     // Method content
                     code.StartBlock();
-                        code.AppendLine($"return _databaseContext.{pluralName}.Any(p => p.Id == key);");
+                        code.AppendLine(parsingLogic);
+                        code.AppendLine($"return _databaseContext.{pluralName}.Any(p => p.Id == parsedKey);");
 
                     // End method
                     code.EndBlock();
@@ -211,11 +223,12 @@ internal static class ODataApiGenerator
                     entity.Persistence.Delete.IsEnabled)
                 {
                     // Method Delete
-                    code.AppendLine($"public async Task<IHttpActionResult> Delete([FromODataUri] int key)");
+                    code.AppendLine($"public async Task<ActionResult> Delete([FromRoute] string key)");
 
                     // Method content
                     code.StartBlock();
-                        code.AppendLine($"var {variableName} = await _databaseContext.{pluralName}.FindAsync(key);");
+                        code.AppendLine(parsingLogic);
+                        code.AppendLine($"var {variableName} = await _databaseContext.{pluralName}.FindAsync(parsedKey);");
                         code.AppendLine($"if ({variableName} == null)");
                         code.StartBlock();
                             code.AppendLine($"return NotFound();");
@@ -223,28 +236,15 @@ internal static class ODataApiGenerator
                         code.AppendLine();
                         code.AppendLine($"_databaseContext.{pluralName}.Remove({variableName});");
                         code.AppendLine($"await _databaseContext.SaveChangesAsync();");
-                        code.AppendLine($"return StatusCode(HttpStatusCode.NoContent);");
+                        code.AppendLine($"return StatusCode((int)HttpStatusCode.NoContent);");
 
                     // End method
                     code.EndBlock();
-                    code.AppendLine();
                 }
-                
-                // Method Dispose
-                code.AppendLine($"protected override void Dispose(bool disposing)");
-
-                // Method content
-                code.StartBlock();
-                    code.AppendLine($"_databaseContext.Dispose();");
-                    code.AppendLine($"base.Dispose(disposing);");
-
-                // End method
-                code.EndBlock();
             // End class
             code.EndBlock();
 
             code.GenerateSourceCode();
-
         }
     }
 }

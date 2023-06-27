@@ -1,9 +1,9 @@
-using System.Collections.Generic;
-using System.Reflection;
 using Microsoft.CodeAnalysis;
 using Nox.Generator._Common;
 using Nox.Solution;
-
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
 using static Nox.Generator._Common.BaseGenerator;
 
 namespace Nox.Generator.Application.DtoGenerator;
@@ -35,6 +35,7 @@ public class DtoGenerator
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Application.DataTransferObjects;");
+        code.AppendLine();
 
         GenerateDocs(code, description);
 
@@ -77,8 +78,10 @@ public class DtoGenerator
     
     private static void GenerateProperties(SourceProductionContext context, CodeBuilder code, IEnumerable<NoxSimpleTypeDefinition> attributes)
     {
-        foreach (var attribute in attributes)
+        var attributesList = attributes.ToList();
+        for (int i = 0; i < attributesList.Count; i++)
         {
+            var attribute = attributesList[i];
             context.CancellationToken.ThrowIfCancellationRequested();
 
             GeneratePropertyDocs(context, code, attribute);
@@ -88,6 +91,11 @@ public class DtoGenerator
             var nullable = attribute.IsRequired ? string.Empty : "?";
 
             code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }} = null!;");
+            
+            if (i != attributesList.Count - 1)
+            {
+                code.AppendLine();
+            }
         }
     }
     
@@ -95,7 +103,6 @@ public class DtoGenerator
     {
         if (!string.IsNullOrWhiteSpace(prop.Description))
         {
-            code.AppendLine();
             code.AppendLine($"/// <summary>");
             code.AppendLine($"/// {prop.Description!.TrimEnd('.')}.");
             code.AppendLine($"/// </summary>"); 

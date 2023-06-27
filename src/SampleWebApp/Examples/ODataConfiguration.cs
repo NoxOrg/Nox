@@ -1,13 +1,12 @@
 ﻿// generated
 
-
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using SampleWebApp.Domain;
 
-namespace SampleWebApp.Presentation.Api.OData;
+namespace SampleWebApp.Examples;
 
-public partial class ODataConfiguration_Sample
+public partial class ODataConfiguration
 {
     public static void Register(IServiceCollection services)
     {

@@ -1,10 +1,8 @@
 ﻿using Humanizer;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
+using Nox.Generator._Common;
 using Nox.Solution;
 using Nox.Types;
-using System.Text;
-using Nox.Generator._Common;
 
 namespace Nox.Generator;
 
@@ -27,7 +25,7 @@ internal class EntitiesGenerator
 
     private static void GenerateEntity(SourceProductionContext context, string solutionNameSpace, Entity entity)
     {
-        var code = new CodeBuilder($"{entity.Name}.g.cs", context);
+        var code = new CodeBuilder($"Domain/Models/{entity.Name}.g.cs", context);
 
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
@@ -86,11 +84,11 @@ internal class EntitiesGenerator
         if (entity.Keys is null)
             return;
 
-        // Only for single key entities
-
-        if (entity.Keys.Count == 1)
+        foreach (var key in entity.Keys)
         {
-            GenerateStrongSingleKeyProperty(context, code, entity, entity.Keys[0]);
+            context.CancellationToken.ThrowIfCancellationRequested();
+
+            GenerateStrongSingleKeyProperty(context, code, entity, key);
         }
     }
 
@@ -100,6 +98,12 @@ internal class EntitiesGenerator
 
         var propType = $"{entity.Name}{key.Name}";
         var propName = key.Name;
+
+        if (key.Type == NoxType.Entity)
+        {
+            propType = $"{key.EntityTypeOptions!.Entity}Id";
+            propName = key.EntityTypeOptions.Entity;
+        }
 
         code.AppendLine($"public {propType} {propName} {{ get; set; }} = null!;");
     }
@@ -126,7 +130,7 @@ internal class EntitiesGenerator
 
     private static void GenerateRelationships(SourceProductionContext context, CodeBuilder code, Entity entity)
     {
-        if(entity.Relationships is null) 
+        if (entity.Relationships is null) 
             return;
 
         foreach(var relationship in entity.Relationships)
@@ -156,15 +160,23 @@ internal class EntitiesGenerator
 
         var targetEntity = relationship.Entity;
 
-        var propType = relationship.Relationship == EntityRelationshipType.ZeroOrMany || relationship.Relationship == EntityRelationshipType.ZeroOrMany
+        var propType = relationship.Relationship == EntityRelationshipType.ZeroOrMany || relationship.Relationship == EntityRelationshipType.OneOrMany
                         ? $"List<{targetEntity}>"
                         : targetEntity;
 
-        var propName = targetEntity.Pluralize();
+        var propName = relationship.Relationship == EntityRelationshipType.ZeroOrMany || relationship.Relationship == EntityRelationshipType.OneOrMany
+                        ? targetEntity.Pluralize()
+                        : targetEntity;
 
         var nullable = relationship.Relationship == EntityRelationshipType.ZeroOrOne ? "?" : string.Empty;
 
         code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }} = null!;");
+        
+        if (propName != relationship.Name)
+        {
+            code.AppendLine();
+            code.AppendLine($"public {propType}{nullable} {relationship.Name} => {propName};");
+        }
     }
 
     private static void GeneratePropertyDocs(SourceProductionContext context, CodeBuilder code, NoxSimpleTypeDefinition prop)

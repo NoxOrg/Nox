@@ -1,23 +1,22 @@
 ﻿using FluentValidation;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
+using Nox.Generator._Common;
+using Nox.Generator.Application.DtoGenerator;
+using Nox.Generator.Application.EventGenerator;
+using Nox.Generator.Domain.CqrsGenerators;
+using Nox.Generator.Domain.DomainEventGenerator;
 using Nox.Generator.Infrastructure.Persistence.ModelConfigGenerator;
 using Nox.Solution;
 using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
-using Nox.Generator.Application.DtoGenerator;
 using YamlDotNet.Core;
-using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
-using System.Collections.Generic;
-using Nox.Generator._Common;
-using Nox.Generator.Application.EventGenerator;
-using Nox.Generator.Domain.CqrsGenerators;
-using Nox.Generator.Domain.DomainEventGenerator;
+using YamlDotNet.Serialization.NamingConventions;
 
 namespace Nox.Generator;
 
