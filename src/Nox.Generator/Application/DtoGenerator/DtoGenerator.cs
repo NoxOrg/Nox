@@ -1,10 +1,10 @@
 using Microsoft.CodeAnalysis;
-using Nox.Generator._Common;
 using Nox.Solution;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using static Nox.Generator._Common.BaseGenerator;
+using Nox.Generator.Common;
+using static Nox.Generator.Common.BaseGenerator;
 
 namespace Nox.Generator.Application.DtoGenerator;
 

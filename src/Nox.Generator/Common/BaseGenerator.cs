@@ -5,7 +5,7 @@ using Nox.Generator.Application.DtoGenerator;
 using Nox.Solution;
 using Nox.Types;
 
-namespace Nox.Generator._Common;
+namespace Nox.Generator.Common;
 
 internal class BaseGenerator
 {

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
-using Nox.Generator._Common;
+using Nox.Generator.Common;
 using Nox.Solution;
 
-using static Nox.Generator._Common.BaseGenerator;
-using static Nox.Generator._Common.NamingConstants;
+using static Nox.Generator.Common.BaseGenerator;
+using static Nox.Generator.Common.NamingConstants;
 
 namespace Nox.Generator.Domain.CqrsGenerators;
 

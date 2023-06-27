@@ -1,7 +1,6 @@
 ﻿using FluentValidation;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
-using Nox.Generator._Common;
 using Nox.Generator.Application.DtoGenerator;
 using Nox.Generator.Application.EventGenerator;
 using Nox.Generator.Domain.CqrsGenerators;
@@ -14,6 +13,7 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Nox.Generator.Common;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;

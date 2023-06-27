@@ -1,6 +1,6 @@
 ﻿using Humanizer;
 using Microsoft.CodeAnalysis;
-using Nox.Generator._Common;
+using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types;
 

@@ -1,4 +1,4 @@
-﻿namespace Nox.Generator._Common;
+﻿namespace Nox.Generator.Common;
 
 internal static class StringExtensions
 {

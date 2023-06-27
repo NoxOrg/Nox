@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using Nox.Generator.Common;
 
 namespace Nox.Generator;
 

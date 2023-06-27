@@ -1,6 +1,6 @@
 using Nox.Types;
 
-namespace Nox.Generator;
+namespace Nox.Generator.Common;
 
 public static class TypeExtensions
 {

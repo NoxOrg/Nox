@@ -1,6 +1,6 @@
 ﻿using System.Reflection;
 using Microsoft.CodeAnalysis;
-using Nox.Generator._Common;
+using Nox.Generator.Common;
 using Nox.Solution;
 
 namespace Nox.Generator.Application.EventGenerator;

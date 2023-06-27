@@ -1,4 +1,4 @@
-﻿namespace Nox.Generator
+﻿namespace Nox.Generator.Common
 {
     internal class GeneratorConfig
     {

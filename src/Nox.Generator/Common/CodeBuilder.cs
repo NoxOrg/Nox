@@ -1,9 +1,8 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Text;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
-using System;
-using System.Text;
 
-namespace Nox.Generator;
+namespace Nox.Generator.Common;
 
 internal class CodeBuilder 
 {

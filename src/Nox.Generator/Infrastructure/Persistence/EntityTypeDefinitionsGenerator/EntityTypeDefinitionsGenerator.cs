@@ -4,6 +4,7 @@ using Nox.Solution;
 using Nox.Types;
 using System;
 using System.Linq;
+using Nox.Generator.Common;
 
 namespace Nox.Generator.Infrastructure.Persistence.ModelConfigGenerator;
 
@@ -37,6 +38,7 @@ internal class EntityTypeDefinitionsGenerator
         code.AppendLine($"using Microsoft.EntityFrameworkCore.Metadata.Builders;");
         code.AppendLine($"using Microsoft.EntityFrameworkCore;");
         code.AppendLine($"using Nox.Types;");
+        code.AppendLine($"using Nox.Abstractions.Infrastructure.Persistence;");
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Domain;");
         code.AppendLine();
@@ -45,11 +47,11 @@ internal class EntityTypeDefinitionsGenerator
         code.StartBlock();
 
             // db context
-            code.AppendLine($"IDatabaseProvider _dbProvider {{ get; set; }}");
+            code.AppendLine($"INoxDatabaseProvider _dbProvider {{ get; set; }}");
             code.AppendLine();
 
             // Constructor
-            code.AppendLine($"public {entity.Name}Configuration(IDatabaseProvider dbProvider)");
+            code.AppendLine($"public {entity.Name}Configuration(INoxDatabaseProvider dbProvider)");
 
             // Method content
             code.StartBlock();
