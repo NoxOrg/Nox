@@ -287,41 +287,51 @@ domain:
     - name: CountryLocalNames
       description: The name of a country in other languages
 
-    - name: CurrencyCashBalance
-
-      description: The cash balance in Store
-
       keys:
 
-        - name: Store
-          type: entity
-          entityTypeOptions:
-            entity: Store
-          isRequired: true
+        - name: Id
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
 
-        - name: Currency
-          type: entity
-          entityTypeOptions:
-            entity: Currency
-          isRequired: true
+    ### //TODO Solve Composite Keys for Entities, that do not have an Id
+    #- name: CurrencyCashBalance
 
-      attributes:
+    #  description: The cash balance in Store
 
-        - name: Amount
-          description: The amount
-          type: number
-          numberTypeOptions:
-            minValue: 0
-            decimalDigits: 4
-          isRequired: true
+    #  keys:
 
-        - name: OperationLimit
-          description: The Operation Limit
-          type: number
-          numberTypeOptions:
-            minValue: 0
-            decimalDigits: 4
-          isRequired: false
+    #    - name: Store
+    #      type: entity
+    #      entityTypeOptions:
+    #        entity: Store
+    #      isRequired: true
+
+    #    - name: Currency
+    #      type: entity
+    #      entityTypeOptions:
+    #        entity: Currency
+    #      isRequired: true
+
+    #  attributes:
+
+    #    - name: Amount
+    #      description: The amount
+    #      type: number
+    #      numberTypeOptions:
+    #        minValue: 0
+    #        decimalDigits: 4
+    #      isRequired: true
+
+    #    - name: OperationLimit
+    #      description: The Operation Limit
+    #      type: number
+    #      numberTypeOptions:
+    #        minValue: 0
+    #        decimalDigits: 4
+    #      isRequired: false
 
 application:
   dataTransferObjects:

@@ -15,7 +15,8 @@ public partial class SampleServiceDbContext : DbContext
 
     public DbSet<Currency> Currencies;
 
-    public DbSet<CurrencyCashBalance> CurrencyCashBalances;
+    //TODO Solve Composite Keys for Entities, that do not have an Id
+    //public DbSet<CurrencyCashBalance> CurrencyCashBalances;
 
     // ...
 
