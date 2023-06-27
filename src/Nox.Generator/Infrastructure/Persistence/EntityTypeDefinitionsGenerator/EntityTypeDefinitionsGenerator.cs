@@ -65,7 +65,7 @@ internal class EntityTypeDefinitionsGenerator
             code.AppendLine($"public void Configure(EntityTypeBuilder<{entity.Name}> builder)");
             code.StartBlock();
 
-                if (entity.Keys.Count > 1)
+                if (entity.Keys is { Count: > 1 })
                 {
                     var keyString = string.Empty;
 
