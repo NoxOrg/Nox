@@ -1,0 +1,26 @@
+# country.entity.nox.yaml
+
+name: Store
+
+description: Stores
+
+keys:
+
+  - name: Id
+    description: Store Primary Key
+    type: text
+    textTypeOptions:
+      isUnicode: false
+      minLength: 3
+      maxLength: 3
+
+attributes:
+
+  - name: Name
+    description: Store Name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+    

@@ -1,9 +1,10 @@
 #
 # workplace.solution.nox.yaml
 #
+# yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
 #
 
-name: SampleService
+name: SampleWebApp
 
 description: Sample Nox solution yaml configuration
 
@@ -67,7 +68,7 @@ domain:
   entities:
 
     - name: Country
-      description: A nation with its own government, occupying a particular territory 
+      description: The list of countries
       
       userInterface:
         icon: world
@@ -142,7 +143,22 @@ domain:
             attributes:
               - name: CountryCode
                 type: countryCode2
-          emitEvents: [CountryUpdatedEvent]
+          emitEvents: [CountryNameUpdatedEvent]
+          
+      events:
+        - name: CountryNameUpdatedEvent
+          description: Raised when the name of a country is changes
+          type: object
+          objectTypeOptions:
+            attributes:
+              - name: CountryId
+                description: The identifier of the country. The Iso Alpha2 code of the country
+                type: countryCode2
+
+              - name: NewCountryName
+                description: The new name of the country
+                type: text          
+
 
       keys:
 
@@ -226,7 +242,7 @@ domain:
 
         - name: GeoCoord
           description: The the position of the workplace's point on the surface of the Earth
-          type: latlong
+          type: latLong
 
         - name: GeoRegion
           description: The region the country is in
@@ -264,75 +280,93 @@ domain:
           textTypeOptions:
             maxLength: 31
 
-    - name: Currency
-      description: The list of currencies
-
-      relationships:
-
-        - name: CurrencyIsLegalTenderForCountry
-          description: is legal tender for
-          relationship: zeroOrMany
-          entity: Country
-
+    - $ref: currency.entity.nox.yaml
+  
+    - $ref: store.entity.nox.yaml
+    
     - name: CountryLocalNames
       description: The name of a country in other languages
 
-    - name: CurrencyCashBalance
-
-      description: The cash balance in Store
-
       keys:
 
-        - name: Store
-          type: entity
-          entityTypeOptions:
-            entity: Store
-          isRequired: true
+        - name: Id
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
 
-        - name: Currency
-          type: entity
-          entityTypeOptions:
-            entity: Currency
-          isRequired: true
+    ### //TODO Solve Composite Keys for Entities, that do not have an Id
+    #- name: CurrencyCashBalance
 
-      attributes:
+    #  description: The cash balance in Store
 
-        - name: Amount
-          description: The amount
-          type: number
-          numberTypeOptions:
-            minValue: 0
-            decimalDigits: 4
-          isRequired: true
+    #  keys:
 
-        - name: OperationLimit
-          description: The Operation Limit
-          type: number
-          numberTypeOptions:
-            minValue: 0
-            decimalDigits: 4
-          isRequired: false
+    #    - name: Store
+    #      type: entity
+    #      entityTypeOptions:
+    #        entity: Store
+    #      isRequired: true
+
+    #    - name: Currency
+    #      type: entity
+    #      entityTypeOptions:
+    #        entity: Currency
+    #      isRequired: true
+
+    #  attributes:
+
+    #    - name: Amount
+    #      description: The amount
+    #      type: number
+    #      numberTypeOptions:
+    #        minValue: 0
+    #        decimalDigits: 4
+    #      isRequired: true
+
+    #    - name: OperationLimit
+    #      description: The Operation Limit
+    #      type: number
+    #      numberTypeOptions:
+    #        minValue: 0
+    #        decimalDigits: 4
+    #      isRequired: false
 
 application:
   dataTransferObjects:
-    - name: CountryInfo
+    - name: CountryDto
       description: Dto for country information
       attributes:
-        - name: CountryId
+        - name: Id
           description: The identity of the country, the Iso Alpha 2 code
-          type: countryCode2
-
-        - name: CountryName
-          description: The name of the country
           type: text
+          textTypeOptions:
+            casing: lower
+            maxLength: 2
+            minLength: 2
+            
+  events:
+    - name: CountryNameChangedAppEvent
+      description: An application event raised when the name of a country changes
+      type: object
+      objectTypeOptions:
+        attributes:
+          - name: CountryId
+            type: countryCode2
+            description: The identifier of the country. The Iso alpha 2 code
+
+          - name: CountryName
+            description: The new name of the country
+            type: text            
 
   integrations:
     - name: SampleEtl
       description: a Sample Etl
       source:
-        name: CountryJsonSeed
+        name: CountryJsonSource
         description: Sources Country data from a json file
-        dataConnection: CountryJsonData
+        dataConnectionName: CountryJsonData
         fileOptions: 
           filename: country-seed-data.json
         schedule:
@@ -366,6 +400,9 @@ application:
       target:
         name: Country
         targetType: entity
+        
+  
+    
 
 infrastructure:
   
@@ -456,7 +493,7 @@ infrastructure:
         password: whatsappPassword
 
     monitoring:
-      name: SampleObservabiity
+      name: SampleObservability
       provider: elasticApm
       serverUri: localhost
       port: 8200
@@ -482,5 +519,3 @@ infrastructure:
         password: SecretPassword
       validFor:
         minutes: 10
-
-

@@ -1,23 +1,32 @@
 ﻿using Humanizer;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Text;
+using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types;
-using System;
-using System.Data.SqlTypes;
-using System.Text;
-using System.Threading;
 
 namespace Nox.Generator;
 
 internal class EntitiesGenerator
 {
-    public static void Generate(SourceProductionContext context, string solutionNameSpace, Entity entity)
-    {
-        var code = new CodeBuilder();
 
-        code.AppendLine($"// Generated");
-        code.AppendLine();
+    public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
+    {
+        context.CancellationToken.ThrowIfCancellationRequested();
+
+        if (solution.Domain is null) return;
+
+        foreach (var entity in solution.Domain.Entities)
+        {
+            context.CancellationToken.ThrowIfCancellationRequested();
+
+            GenerateEntity(context, solutionNameSpace, entity);
+        }
+    }
+
+    private static void GenerateEntity(SourceProductionContext context, string solutionNameSpace, Entity entity)
+    {
+        var code = new CodeBuilder($"{entity.Name}.g.cs", context);
+
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine();
@@ -30,23 +39,19 @@ internal class EntitiesGenerator
         var baseClass = (entity.Persistence?.IsVersioned ?? true) ? "AuditableEntityBase" : "EntityBase";
 
         code.AppendLine($"public partial class {entity.Name} : {baseClass}");
-        code.AppendLine($"{{");
+        code.StartBlock();
 
-        code.Indent();
+            GenerateKeyProperties(context, code, entity);
 
-        GenerateKeyProperties(context, code, entity);
+            GenerateProperties(context, code, entity);
 
-        GenerateProperties(context, code, entity);
+            GenerateRelationships(context, code, entity);
 
-        GenerateRelationships(context, code, entity);
+            GenerateOwnedRelationships(context, code, entity);
 
-        GenerateOwnedRelationships(context, code, entity);
+        code.EndBlock();
 
-        code.UnIndent();
-
-        code.AppendLine($"}}");
-
-        context.AddSource($"{entity.Name}.cs", SourceText.From(code.ToString(), Encoding.UTF8));
+        code.GenerateSourceCode();
     }
 
     private static void GenerateStrongIdClassIfRequired(SourceProductionContext context, CodeBuilder code, Entity entity)
@@ -65,7 +70,7 @@ internal class EntitiesGenerator
     private static void GenerateStrongSingleKeyClass(SourceProductionContext context, CodeBuilder code, Entity entity, NoxSimpleTypeDefinition key)
     {
         var className = $"{entity.Name}{key.Name}";
-        var underlyingType = key.Type;
+        var underlyingType = MapType(key.Type);
 
         code.AppendLine();
         code.AppendLine($"/// <summary>");
@@ -79,11 +84,11 @@ internal class EntitiesGenerator
         if (entity.Keys is null)
             return;
 
-        // Only for single key entities
-
-        if (entity.Keys.Count == 1)
+        foreach (var key in entity.Keys)
         {
-            GenerateStrongSingleKeyProperty(context, code, entity, entity.Keys[0]);
+            context.CancellationToken.ThrowIfCancellationRequested();
+
+            GenerateStrongSingleKeyProperty(context, code, entity, key);
         }
     }
 
@@ -92,7 +97,13 @@ internal class EntitiesGenerator
         GeneratePropertyDocs(context, code, key);
 
         var propType = $"{entity.Name}{key.Name}";
-        var propName = key.Type;
+        var propName = key.Name;
+
+        if (key.Type == NoxType.Entity)
+        {
+            propType = $"{key.EntityTypeOptions!.Entity}Id";
+            propName = key.EntityTypeOptions.Entity;
+        }
 
         code.AppendLine($"public {propType} {propName} {{ get; set; }} = null!;");
     }
@@ -109,7 +120,7 @@ internal class EntitiesGenerator
 
             GeneratePropertyDocs(context, code, attribute);
 
-            var propType = attribute.Type;
+            var propType = MapType(attribute.Type);
             var propName = attribute.Name;
             var nullable = attribute.IsRequired ? string.Empty : "?";
 
@@ -119,7 +130,7 @@ internal class EntitiesGenerator
 
     private static void GenerateRelationships(SourceProductionContext context, CodeBuilder code, Entity entity)
     {
-        if(entity.Relationships is null) 
+        if (entity.Relationships is null) 
             return;
 
         foreach(var relationship in entity.Relationships)
@@ -149,15 +160,23 @@ internal class EntitiesGenerator
 
         var targetEntity = relationship.Entity;
 
-        var propType = relationship.Relationship == EntityRelationshipType.ZeroOrMany || relationship.Relationship == EntityRelationshipType.ZeroOrMany
+        var propType = relationship.Relationship == EntityRelationshipType.ZeroOrMany || relationship.Relationship == EntityRelationshipType.OneOrMany
                         ? $"List<{targetEntity}>"
                         : targetEntity;
 
-        var propName = targetEntity.Pluralize();
+        var propName = relationship.Relationship == EntityRelationshipType.ZeroOrMany || relationship.Relationship == EntityRelationshipType.OneOrMany
+                        ? targetEntity.Pluralize()
+                        : targetEntity;
 
         var nullable = relationship.Relationship == EntityRelationshipType.ZeroOrOne ? "?" : string.Empty;
 
         code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }} = null!;");
+        
+        if (propName != relationship.Name)
+        {
+            code.AppendLine();
+            code.AppendLine($"public {propType}{nullable} {relationship.Name} => {propName};");
+        }
     }
 
     private static void GeneratePropertyDocs(SourceProductionContext context, CodeBuilder code, NoxSimpleTypeDefinition prop)
@@ -198,12 +217,11 @@ internal class EntitiesGenerator
         code.AppendLine($"/// </summary>");
     }
 
-    // private static string MapType(NoxType noxType)
-    // {
-    //     return noxType switch
-    //     {
-    //         NoxType.Latlong => "LatLong",
-    //         _ => noxType.ToString(),
-    //     };
-    // }
+    private static string MapType(NoxType noxType)
+    {
+        return noxType switch
+        {
+            _ => noxType.ToString(),
+        };
+    }
 }

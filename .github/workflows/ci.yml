@@ -1,0 +1,36 @@
+name: Build & Test
+
+on:
+  workflow_dispatch:
+  pull_request:
+    branches: [ main ]
+    paths:
+      - src/**
+      - tests/**
+      - .github/workflows/ci.yaml
+  push:
+    branches: [ main ]
+    paths:
+      - src/**
+      - tests/**
+      - .github/workflows/ci.yaml
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        dotnet-version: ['6.0.x']
+
+    steps:
+      - uses: actions/checkout@v3
+      - name: Setup .NET Core SDK ${{ matrix.dotnet-version }}
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: ${{ matrix.dotnet-version }}
+      - name: Restore
+        run: dotnet restore ./src/Nox.Generator.sln
+      - name: Build
+        run: dotnet build ./src/Nox.Generator.sln --warnaserror --configuration Release --no-restore
+      - name: Run Tests
+        run: dotnet test ./tests/NoxSourceGeneratorTests --no-restore --verbosity minimal --configuration Release
