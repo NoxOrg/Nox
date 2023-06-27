@@ -1,4 +1,4 @@
-﻿namespace Nox.Abstraction.Stubs;
+﻿namespace Nox.Abstractions;
 
 public interface INoxApplicationEvent
 {
