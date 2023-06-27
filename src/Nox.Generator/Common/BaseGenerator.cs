@@ -102,7 +102,7 @@ internal class BaseGenerator
             case NoxType.Collection:
                 var collection = typeDefinition.CollectionTypeOptions;
                 typeName = collection!.Name;
-                stringTypeDefinition = $"IEnumerable<{typeName}>";
+                stringTypeDefinition = $"IEnumerable<{typeName.ToUpperFirstChar()}>";
                 if (collection is { Type: NoxType.Object, ObjectTypeOptions: not null })
                 {
                     DtoGenerator.GenerateDto(context, solutionNameSpace, typeName.ToUpperFirstChar(), collection.Description,

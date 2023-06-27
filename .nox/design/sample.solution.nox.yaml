@@ -281,6 +281,8 @@ domain:
             maxLength: 31
 
     - $ref: currency.entity.nox.yaml
+  
+    - $ref: store.entity.nox.yaml
     
     - name: CountryLocalNames
       description: The name of a country in other languages
