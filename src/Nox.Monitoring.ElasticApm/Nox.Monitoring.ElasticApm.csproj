@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+    <PropertyGroup>
+        <PackageId>Nox.Monitoring.ElasticApm</PackageId>
+        <Authors>The Nox Factory</Authors>
+        <Description>Nox Elastic Apm monitoring library</Description>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <Copyright>Copyright (c) Andre Sharpe 2022</Copyright>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <FileVersion>1.0.0.0</FileVersion>
+        <PackageVersion>1.0.0</PackageVersion>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/NoxOrg/Nox.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+    </PropertyGroup>
+    <ItemGroup>
+        <PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.22.0" />
+        <PackageReference Include="Elastic.Apm.SerilogEnricher" Version="8.6.0" />
+        <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.6.0" />
+    </ItemGroup>
+    <ItemGroup>
+      <ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
+    </ItemGroup>
+</Project>

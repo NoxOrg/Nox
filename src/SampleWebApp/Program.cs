@@ -1,3 +1,5 @@
+using System.Diagnostics.Metrics;
+using Nox;
 using SampleWebApp.Presentation.Api.OData;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,6 +12,8 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //ODataConfiguration.Register(builder.Services);
+
+builder.Services.AddNox();
 
 var app = builder.Build();
 

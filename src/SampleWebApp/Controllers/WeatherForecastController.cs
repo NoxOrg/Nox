@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Nox.Abstractions.Infrastructure.Monitoring;
 
 namespace SampleWebApp.Controllers
 {
@@ -6,6 +7,9 @@ namespace SampleWebApp.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        private readonly INoxMonitor _monitor;
+        
+        
         private static readonly string[] Summaries = new[]
         {
         "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -13,14 +17,16 @@ namespace SampleWebApp.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, INoxMonitor monitor)
         {
             _logger = logger;
+            _monitor = monitor;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
         public IEnumerable<WeatherForecast> Get()
         {
+            _monitor.Install();
             return Enumerable.Range(1, 5).Select(index => new WeatherForecast
             {
                 Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
