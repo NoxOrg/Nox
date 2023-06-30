@@ -413,7 +413,7 @@ infrastructure:
 
       # Sql Server
       serverUri: sqlserver.iwgplc.com
-      provider: sqlServer
+      provider: sqLite
       port: 1433
       user: sqluser
       password: sqlpassword

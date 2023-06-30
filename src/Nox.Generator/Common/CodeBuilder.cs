@@ -12,6 +12,9 @@ internal class CodeBuilder
 
     private readonly StringBuilder _stringBuilder;
 
+    private static readonly string _trueString = true.ToString().ToLower();
+    private static readonly string _falseString = false.ToString().ToLower();
+
     private int _indentation = 0;
 
     private readonly SourceProductionContext _context;
@@ -45,6 +48,11 @@ internal class CodeBuilder
     public void Append(string text = "")
     {
         _stringBuilder.Append(text);
+    }
+
+    public void Append(bool value)
+    {
+        _stringBuilder.Append(From(value));
     }
 
     public void StartBlock()
@@ -86,5 +94,10 @@ internal class CodeBuilder
     public void GenerateSourceCode()
     {
         _context.AddSource(_sourceFileName, SourceText.From(_stringBuilder.ToString(), Encoding.UTF8));
+    }
+
+    public string From(bool value)
+    {
+        return value ? _trueString : _falseString;
     }
 }

@@ -5,7 +5,6 @@ using Nox.Generator.Application.DtoGenerator;
 using Nox.Generator.Application.EventGenerator;
 using Nox.Generator.Domain.CqrsGenerators;
 using Nox.Generator.Domain.DomainEventGenerator;
-using Nox.Generator.Infrastructure.Persistence.ModelConfigGenerator;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
@@ -14,6 +13,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Nox.Generator.Common;
+using Nox.Generator.Infrastructure.Persistence.EntityTypeDefinitionsGenerator;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -30,7 +30,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
 #if DEBUG
         if (!Debugger.IsAttached)
         {
-            // Debugger.Launch(); 
+             Debugger.Launch(); 
         }
 #endif
         // var compilation = context.CompilationProvider.Select((ctx,token) => ctx.GlobalNamespace);

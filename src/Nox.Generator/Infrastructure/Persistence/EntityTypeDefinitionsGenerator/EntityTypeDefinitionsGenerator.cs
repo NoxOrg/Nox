@@ -1,12 +1,12 @@
-﻿using Humanizer;
-using Microsoft.CodeAnalysis;
-using Nox.Solution;
-using Nox.Types;
-using System;
+﻿using System;
 using System.Linq;
+using Humanizer;
+using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
+using Nox.Generator.Infrastructure.Persistence.DatabaseConfiguration;
+using Nox.Solution;
 
-namespace Nox.Generator.Infrastructure.Persistence.ModelConfigGenerator;
+namespace Nox.Generator.Infrastructure.Persistence.EntityTypeDefinitionsGenerator;
 
 // TODO: check and handle composite keys in this and Entity generators.
 internal class EntityTypeDefinitionsGenerator
@@ -46,16 +46,11 @@ internal class EntityTypeDefinitionsGenerator
 
         code.StartBlock();
 
-            // db context
-            code.AppendLine($"INoxDatabaseProvider _dbProvider {{ get; set; }}");
-            code.AppendLine();
-
             // Constructor
-            code.AppendLine($"public {entity.Name}Configuration(INoxDatabaseProvider dbProvider)");
+            code.AppendLine($"public {entity.Name}Configuration()");
 
             // Method content
             code.StartBlock();
-                code.AppendLine($"_dbProvider = dbProvider;");
 
             // End method
             code.EndBlock();
@@ -112,8 +107,6 @@ internal class EntityTypeDefinitionsGenerator
 
                         GetAttributeTypeConfiguration(code, attribute);
 
-                        code.Append($";");
-
                         code.AppendLine();
                     }
                 }
@@ -159,47 +152,37 @@ internal class EntityTypeDefinitionsGenerator
 
     public static void GetAttributeTypeConfiguration(CodeBuilder code, NoxSimpleTypeDefinition attribute)
     {
-        if (IsCompoundType(attribute.Type))
+        //TODO input database provider
+        string databaseProvider = "sqLite";
+        if (!DatabaseAttributeConfigurationInstances.Map.TryGetValue(databaseProvider, out var databaseConfiguration))
+        {
+            throw new Exception($"Could not find database configuration for provider {databaseProvider}");
+        }
+
+        var config = databaseConfiguration.GetConfig(attribute);
+
+        if (!config.IsSingleProperty)
         {
             code.Append($"builder.OwnsOne(e => e.{attribute.Name}).Ignore(p => p.Value);");
             return;
         }
 
         code.Append($"builder.Property(e => e.{attribute.Name})");
-        code.Append($".IsRequired({attribute.IsRequired.ToString().ToLower()})");
-        
-        //TODO Open Close Principle, how to add a Nox.Type without updating this code?
-        if (attribute.Type == NoxType.Text)
+        code.Append($".IsRequired({code.From(attribute.IsRequired)})");
+        code.Append($".IsUnicode({code.From(config.IsUnicode)})");
+
+        if (config.HasColumnType != null)
         {
-            AppendTextTypeConfiguration(code, attribute.TextTypeOptions ?? new TextTypeOptions());
+            code.Append($".HasColumnType({config.HasColumnType})");
         }
-        else if (attribute.Type == NoxType.Number)
+        if (config.HasMaxLength != null)
         {
-            AppendNumberTypeConfiguration(code, attribute.NumberTypeOptions ?? new NumberTypeOptions());
+            code.Append($".HasMaxLength({config.HasMaxLength})");
         }
-    }
-
-    public static bool IsCompoundType(Enum value)
-    {
-        var fi = value.GetType().GetField(value.ToString());
-        var attributes = (CompoundTypeAttribute[])
-            fi.GetCustomAttributes(typeof(CompoundTypeAttribute), false);
-        return (attributes != null && attributes.Length > 0);
-    }
-
-    private static void AppendNumberTypeConfiguration(CodeBuilder code, NumberTypeOptions options)
-    {
-        code.Append($".HasColumnType(_dbProvider.ToDatabaseColumnType<Number,NumberTypeOptions>(new NumberTypeOptions() {{ MinValue = {options.MinValue}, MaxValue = {options.MaxValue}, DecimalDigits = {options.DecimalDigits} }}))");
-    }
-
-    private static void AppendTextTypeConfiguration(CodeBuilder code, TextTypeOptions options)
-    {
-        var isUniCode = options.IsUnicode ? "true" : "false";
-
-        code.Append($".IsUnicode({isUniCode})");
-
-        code.Append($".HasMaxLength({options.MaxLength})");
-
-        code.Append($".HasColumnType(_dbProvider.ToDatabaseColumnType<Text,TextTypeOptions>(new TextTypeOptions() {{ MinLength = {options.MinLength}, MaxLength = {options.MaxLength}, IsUnicode = {isUniCode}, Casing = {options.Casing.GetType().Name}.{options.Casing} }}))");
+        if (config.HasConversionTypeFullName != null)
+        {
+            code.Append($".HasConversion<{config.HasConversionTypeFullName}>()");
+        }
+        code.Append($";");
     }
 }
