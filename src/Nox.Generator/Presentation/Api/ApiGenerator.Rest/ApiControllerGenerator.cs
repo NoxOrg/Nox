@@ -42,7 +42,7 @@ internal class ApiControllerGenerator
 
         var className = $"{entity.PluralName}ApiController";
 
-        var code = new CodeBuilder($"{className}.cs", context);
+        var code = new CodeBuilder($"{className}.g.cs", context);
 
         IReadOnlyCollection<DomainQuery> queries = entity.Queries ?? new List<DomainQuery>();
         IReadOnlyCollection<DomainCommand> commands = entity.Commands ?? new List<DomainCommand>();
