@@ -60,7 +60,7 @@ public class QueryGenerator
         // Add params (which can be DTO)
         var parameters = GetParametersString(qry.RequestInput);
 
-        var typeDefinition = GenerateTypeDefinition(context, solutionNameSpace, qry.ResponseOutput);
+        var typeDefinition = GenerateTypeDefinition(context, solutionNameSpace, qry.ResponseOutput, generateDto: true);
 
         code.AppendLine($@"public abstract Task<{typeDefinition}> ExecuteAsync({parameters});");
 

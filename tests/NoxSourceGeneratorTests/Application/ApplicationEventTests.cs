@@ -21,10 +21,12 @@ public class ApplicationEventTests: IClassFixture<GeneratorFixture>
     public void Can_generate_a_domain_event_file()
     {
         var path = "files/yaml/application/";
-        var additionalFiles = new List<AdditionalSourceText>();
-        additionalFiles.Add(new AdditionalSourceText(File.ReadAllText($"./{path}generator.nox.yaml"), $"{path}/generator.nox.yaml"));
-        additionalFiles.Add(new AdditionalSourceText(File.ReadAllText($"./{path}app-event.solution.nox.yaml"), $"{path}/app-event.solution.nox.yaml"));
-        
+        var additionalFiles = new List<AdditionalSourceText>
+        {
+            new AdditionalSourceText(File.ReadAllText($"./{path}generator.nox.yaml"), $"{path}/generator.nox.yaml"),
+            new AdditionalSourceText(File.ReadAllText($"./{path}app-event.solution.nox.yaml"), $"{path}/app-event.solution.nox.yaml")
+        };
+
         // trackIncrementalGeneratorSteps allows to report info about each step of the generator
         GeneratorDriver driver = CSharpGeneratorDriver.Create(
             generators: new [] { _fixture.TestGenerator },

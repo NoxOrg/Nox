@@ -64,9 +64,10 @@ public class CommandGenerator
             { "INoxMessenger", "Messenger" }
         });
 
-        var typeDefinition = GenerateTypeDefinition(context, solutionNameSpace, cmd);
-
         // Add params
+        var typeDefinition = GenerateTypeDefinition(context, solutionNameSpace, cmd, generateDto: true);
+
+        GenerateDocs(code, $"Executes {cmd.Name}");
         code.AppendLine($@"public abstract Task<INoxCommandResult> ExecuteAsync({typeDefinition} command);");
 
         // Add Events
@@ -85,7 +86,7 @@ public class CommandGenerator
 
     private static void AddDomainEvent(CodeBuilder code, string eventName)
     {
-        code.AppendLine();
+        GenerateDocs(code, $"Sends {eventName}");
         code.AppendLine($@"public async Task Send{eventName}DomainEventAsync({eventName} domainEvent)");
         code.StartBlock();
         code.AppendLine(

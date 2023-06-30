@@ -21,10 +21,12 @@ public class DataTransferObjectsTests: IClassFixture<GeneratorFixture>
     public void Can_generate_a_dto_file()
     {
         var path = "files/yaml/application/";
-        var additionalFiles = new List<AdditionalSourceText>();
-        additionalFiles.Add(new AdditionalSourceText(File.ReadAllText($"./{path}generator.nox.yaml"), $"{path}/generator.nox.yaml"));
-        additionalFiles.Add(new AdditionalSourceText(File.ReadAllText($"./{path}dto.solution.nox.yaml"), $"{path}/dto.solution.nox.yaml"));
-        
+        var additionalFiles = new List<AdditionalSourceText>
+        {
+            new AdditionalSourceText(File.ReadAllText($"./{path}generator.nox.yaml"), $"{path}/generator.nox.yaml"),
+            new AdditionalSourceText(File.ReadAllText($"./{path}dto.solution.nox.yaml"), $"{path}/dto.solution.nox.yaml")
+        };
+
         // trackIncrementalGeneratorSteps allows to report info about each step of the generator
         GeneratorDriver driver = CSharpGeneratorDriver.Create(
             generators: new [] { _fixture.TestGenerator },

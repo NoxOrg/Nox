@@ -2,6 +2,7 @@
 using Nox.Generator.Common;
 using Nox.Solution;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -88,7 +89,7 @@ internal class ApiControllerGenerator
         // Generate GET request mapping for Queries
         foreach (var query in queries)
         {
-            code.AppendLine();
+            GenerateDocs(code, query.Description);
             code.AppendLine("[HttpGet]");
             code.AppendLine($"public async Task<IResult> {query.Name}Async({GetParametersString(query.RequestInput)})");
             code.StartBlock();
@@ -101,9 +102,11 @@ internal class ApiControllerGenerator
         // Generate POST request mapping for Command Handlers
         foreach (var command in commands)
         {
-            code.AppendLine();
+            var typeDefinition = GenerateTypeDefinition(context, solutionNameSpace, command);
+
+            GenerateDocs(code, command.Description);
             code.AppendLine("[HttpPost]");
-            code.AppendLine($"public async Task<IResult> {command.Name}Async({command.Name} command)");
+            code.AppendLine($"public async Task<IResult> {command.Name}Async({typeDefinition} command)");
             code.StartBlock();
             code.AppendLine($"var result = await {command.Name}.ExecuteAsync(command);");
             code.AppendLine(@"return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);");

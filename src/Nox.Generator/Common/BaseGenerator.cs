@@ -22,7 +22,6 @@ internal class BaseGenerator
 
     internal static void AddProperty(CodeBuilder code, string type, string name, string? description)
     {
-        code.AppendLine();
         GenerateDocs(code, description);
         code.AppendLine($"protected {type} {name} {{ get; set; }} = null!;");
     }
@@ -74,10 +73,9 @@ internal class BaseGenerator
 
         code.UnIndent();
         code.AppendLine($@"}}");
-        code.AppendLine($@"");
     }
 
-    public static string GenerateTypeDefinition(SourceProductionContext context, string solutionNameSpace, NoxComplexTypeDefinition typeDefinition)
+    public static string GenerateTypeDefinition(SourceProductionContext context, string solutionNameSpace, NoxComplexTypeDefinition typeDefinition, bool generateDto = false)
     {
         string stringTypeDefinition;
         string typeName;
@@ -89,7 +87,7 @@ internal class BaseGenerator
                 typeName = options!.Name;
                 stringTypeDefinition = $"{typeName}[]";
 
-                if (options is { Type: NoxType.Object, ObjectTypeOptions: not null })
+                if (generateDto && options is { Type: NoxType.Object, ObjectTypeOptions: not null })
                 {
                     GenerateDtoFromDefinition(context, solutionNameSpace, typeName, options);
                 }
@@ -101,7 +99,7 @@ internal class BaseGenerator
                 typeName = collection!.Name;
                 stringTypeDefinition = $"IEnumerable<{typeName}>";
 
-                if (collection is { Type: NoxType.Object, ObjectTypeOptions: not null })
+                if (generateDto && collection is { Type: NoxType.Object, ObjectTypeOptions: not null })
                 {
                     GenerateDtoFromDefinition(context, solutionNameSpace, typeName, collection);
                 }
@@ -110,11 +108,16 @@ internal class BaseGenerator
 
             case NoxType.Object:
                 stringTypeDefinition = typeDefinition.Name;
-                DtoGenerator.GenerateDto(context,
-                    solutionNameSpace,
-                    typeDefinition.Name,
-                    typeDefinition.Description,
-                    typeDefinition.ObjectTypeOptions!.Attributes);
+                
+                if (generateDto)
+                {
+                    DtoGenerator.GenerateDto(context,
+                        solutionNameSpace,
+                        typeDefinition.Name,
+                        typeDefinition.Description,
+                        typeDefinition.ObjectTypeOptions!.Attributes);
+                }
+                
                 break;
 
             default:
