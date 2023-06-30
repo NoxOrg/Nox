@@ -26,7 +26,7 @@
     <ItemGroup>
         <ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
         <ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" PrivateAssets="all" />
-        <ProjectReference Include="..\Nox.PackageManager\Nox.PackageManager.csproj" />
+        <ProjectReference Include="..\Nox.Monitoring.ElasticApm\Nox.Monitoring.ElasticApm.csproj" />
     </ItemGroup>
     <ItemGroup>
         <None Update="tools/install.ps1">
