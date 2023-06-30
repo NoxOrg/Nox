@@ -1,6 +1,4 @@
-﻿using System;
-using System.IO;
-using MassTransit.Futures.Contracts;
+﻿using System.IO;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Nox.Generator;
