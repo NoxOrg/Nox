@@ -40,6 +40,36 @@ domain:
                 type: countryCode2
           emitEvents: [CountryUpdatedEvent]
       
+    
+      queries:
+
+        - name: GetCountriesByContinent
+          description: Returns a list of countries for a given continent
+
+          requestInput:
+            - name: continentName
+              description: Africa, Europe, Asia, Australia, North America, or South America
+              type: text
+              textTypeOptions:
+                isUnicode: false
+          
+          responseOutput:
+            name: countriesByContinentDto
+            type: collection
+            collectionTypeOptions:
+              name: countryInfo
+              type: object
+              objectTypeOptions:
+                attributes:
+
+                  - name: CountryId
+                    description: The country's Id
+                    type: countryCode2
+
+                  - name: CountryName
+                    description: The country name
+                    type: text
+
       keys:
 
         - name: Id

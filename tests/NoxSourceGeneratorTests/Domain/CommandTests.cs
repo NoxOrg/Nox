@@ -7,24 +7,25 @@ using Xunit;
 
 namespace NoxSourceGeneratorTests.Domain;
 
-public class CommandTests: IClassFixture<GeneratorFixture>
+public class CommandTests : IClassFixture<GeneratorFixture>
 {
     private readonly GeneratorFixture _fixture;
 
     public CommandTests(GeneratorFixture fixture)
     {
         _fixture = fixture;
-    }
-    
+    }    
     
     [Fact]
     public void Can_generate_domain_command_files()
     {
         var path = "files/yaml/domain/";
-        var additionalFiles = new List<AdditionalSourceText>();
-        additionalFiles.Add(new AdditionalSourceText(File.ReadAllText($"./{path}generator.nox.yaml"), $"{path}/generator.nox.yaml"));
-        additionalFiles.Add(new AdditionalSourceText(File.ReadAllText($"./{path}command.solution.nox.yaml"), $"{path}/command.solution.nox.yaml"));
-        
+        var additionalFiles = new List<AdditionalSourceText>
+        {
+            new AdditionalSourceText(File.ReadAllText($"./{path}generator.nox.yaml"), $"{path}/generator.nox.yaml"),
+            new AdditionalSourceText(File.ReadAllText($"./{path}command.solution.nox.yaml"), $"{path}/command.solution.nox.yaml")
+        };
+
         // trackIncrementalGeneratorSteps allows to report info about each step of the generator
         GeneratorDriver driver = CSharpGeneratorDriver.Create(
             generators: new [] { _fixture.TestGenerator },
