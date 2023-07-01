@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 
@@ -35,7 +36,13 @@ internal class CodeBuilder
         _stringBuilder.Append(new string(' ', _spacing * _indentation));
         _stringBuilder.AppendLine(text);
     }
-
+    public void AppendLines(string[] strings)
+    {
+        for (int i = 0; i <  strings.Length; i++)
+        {
+            AppendLine(strings[i]);
+        }
+    }
     public void AppendIndented(string text = "")
     {
         _stringBuilder.Append(new string(' ', _spacing * _indentation));
@@ -86,5 +93,22 @@ internal class CodeBuilder
     public void GenerateSourceCode()
     {
         _context.AddSource(_sourceFileName, SourceText.From(_stringBuilder.ToString(), Encoding.UTF8));
+    }
+    
+}
+
+internal sealed class CodeBlock: IDisposable
+{
+    private readonly CodeBuilder _codeBuilder;
+
+    public CodeBlock(CodeBuilder codeBuilder)
+    {
+        _codeBuilder = codeBuilder;
+        _codeBuilder.StartBlock();
+    }
+
+    public void Dispose()
+    {
+        _codeBuilder.EndBlock();
     }
 }
