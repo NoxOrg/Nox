@@ -17,6 +17,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Abstractions", "Nox.Abs
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Monitoring", "Nox.Monitoring\Nox.Monitoring.csproj", "{E054D012-2AA7-4B70-9CDC-253FF510B0C8}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Logging", "Nox.Logging\Nox.Logging.csproj", "{DBA5FE1B-100F-460F-B192-320B5C85949C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Logging.Serilog", "Nox.Logging.Serilog\Nox.Logging.Serilog.csproj", "{7BD651E7-3B5C-4118-963C-629C34F30258}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +55,14 @@ Global
 		{E054D012-2AA7-4B70-9CDC-253FF510B0C8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E054D012-2AA7-4B70-9CDC-253FF510B0C8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E054D012-2AA7-4B70-9CDC-253FF510B0C8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DBA5FE1B-100F-460F-B192-320B5C85949C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DBA5FE1B-100F-460F-B192-320B5C85949C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DBA5FE1B-100F-460F-B192-320B5C85949C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DBA5FE1B-100F-460F-B192-320B5C85949C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7BD651E7-3B5C-4118-963C-629C34F30258}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7BD651E7-3B5C-4118-963C-629C34F30258}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7BD651E7-3B5C-4118-963C-629C34F30258}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7BD651E7-3B5C-4118-963C-629C34F30258}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
