@@ -5,11 +5,11 @@ VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Generator", "Nox.Generator\Nox.Generator.csproj", "{D51EC17D-12C3-4101-BCF1-4EC65822CC5B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NoxSourceGeneratorTests", "..\tests\NoxSourceGeneratorTests\NoxSourceGeneratorTests.csproj", "{2387D8FA-F665-4ACB-AAC8-692929BBA396}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Generator.Test", "..\tests\NoxSourceGeneratorTests\Nox.Generator.Test.csproj", "{2387D8FA-F665-4ACB-AAC8-692929BBA396}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApp", "SampleWebApp\SampleWebApp.csproj", "{8FC400B5-B768-4712-BDBA-359BC2606B1B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Lib", "Nox.Lib\Nox.Lib.csproj", "{15AAEF8D-469F-4EA3-80D3-8D746A53E18A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Lib", "Nox.Lib\Nox.Lib.csproj", "{15AAEF8D-469F-4EA3-80D3-8D746A53E18A}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Monitoring.ElasticApm", "Nox.Monitoring.ElasticApm\Nox.Monitoring.ElasticApm.csproj", "{23D83C90-BC4D-4D55-982E-67A55EE97D0D}"
 EndProject
