@@ -1,8 +1,6 @@
 ﻿using Humanizer;
 using Microsoft.CodeAnalysis;
 using Nox.Solution;
-using Nox.Types;
-using System;
 using System.Linq;
 using Nox.Generator.Common;
 
@@ -27,18 +25,26 @@ internal class EntityTypeDefinitionsGenerator
         }
     }
 
+    private static readonly string[] _entityConfigurationUsings = new[]
+    {
+        "using Microsoft.EntityFrameworkCore.Metadata.Builders;",
+        "using Microsoft.EntityFrameworkCore;",
+        "using Nox.Types;",
+        "using Nox.Solution;",
+        "using Nox.Types.EntityFramework.Sqlite.ToMoveEF;"
+    };
     private static void GenerateEntityConfiguration(SourceProductionContext context, string solutionNameSpace, Entity entity)
     {
 
         if (entity.Attributes is null)
             return;
 
-        var code = new CodeBuilder($"{entity.Name}Configuration.g.cs", context);
+        var code = new CodeBuilder($"{entity.Name}Configuration.g.cs", context); 
+        
 
-        code.AppendLine($"using Microsoft.EntityFrameworkCore.Metadata.Builders;");
-        code.AppendLine($"using Microsoft.EntityFrameworkCore;");
-        code.AppendLine($"using Nox.Types;");
-        code.AppendLine($"using Nox.Abstractions.Infrastructure.Persistence;");
+        code.AppendLines(_entityConfigurationUsings);
+        
+        // TODO Will be defined Nox.Types.EntityFramework
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Domain;");
         code.AppendLine();
@@ -47,25 +53,34 @@ internal class EntityTypeDefinitionsGenerator
         code.StartBlock();
 
             // db context
-            code.AppendLine($"INoxDatabaseProvider _dbProvider {{ get; set; }}");
+            code.AppendLine($"INoxDatabaseConfiguration _databaseConfiguration {{ get; set; }}");
+            code.AppendLine($"NoxSolution _noxSolution {{ get; set; }}");
             code.AppendLine();
 
             // Constructor
-            code.AppendLine($"public {entity.Name}Configuration(INoxDatabaseProvider dbProvider)");
+            code.AppendLine($"public {entity.Name}Configuration(NoxSolution noxSolution, INoxDatabaseConfiguration databaseConfiguration)");
 
             // Method content
             code.StartBlock();
-                code.AppendLine($"_dbProvider = dbProvider;");
+            code.AppendLine($"_databaseConfiguration = databaseConfiguration;");
+            code.AppendLine($"_noxSolution = noxSolution;");
 
-            // End method
+        // End method
             code.EndBlock();
             code.AppendLine();
 
             // Method configure
             code.AppendLine($"public void Configure(EntityTypeBuilder<{entity.Name}> builder)");
-            code.StartBlock();
-
-                if (entity.Keys is { Count: > 1 })
+            using(new CodeBlock(code))
+            {
+            /*
+             //This is a sneak peak of what we can do. We can actually invest some more time and this call should be enough
+            
+            code.Append($"_databaseConfiguration.ConfigureEntity(_noxSolution, builder);");
+            return;
+            // The NoxSolution + builder has everything that we need to configure a full entity
+             */
+            if (entity.Keys is { Count: > 1 })
                 {
                     var keyString = string.Empty;
 
@@ -99,8 +114,7 @@ internal class EntityTypeDefinitionsGenerator
                     code.AppendLine($"builder.Property(e => e.{keyName}).IsRequired(true).ValueGeneratedOnAdd().HasConversion(v => v.Value, v => {keyClassName}.From(v));");
                 }
                 
-                if (entity.Attributes != null &&
-                    entity.Attributes.Any())
+                if (entity.Attributes != null && entity.Attributes.Any())
                 {
                     foreach (var attribute in entity.Attributes)
                     {
@@ -110,11 +124,10 @@ internal class EntityTypeDefinitionsGenerator
 
                         code.AppendIndented("");
 
-                        GetAttributeTypeConfiguration(code, attribute);
+                        code.Append(
+                            $"_databaseConfiguration.ConfigureEntityProperty(_noxSolution,\"{attribute.Name}\", builder, e => e.{attribute.Name});");
 
-                        code.Append($";");
-
-                        code.AppendLine();
+                    code.AppendLine();
                     }
                 }
                 
@@ -136,8 +149,8 @@ internal class EntityTypeDefinitionsGenerator
                         code.AppendLine();
                     }
                 }
+            }
 
-            code.EndBlock();
 
         code.EndBlock();
 
@@ -155,51 +168,5 @@ internal class EntityTypeDefinitionsGenerator
         {
             code.Append($"builder.HasOne(x => x.{relationship.Entity}).WithMany()");
         }
-    }
-
-    public static void GetAttributeTypeConfiguration(CodeBuilder code, NoxSimpleTypeDefinition attribute)
-    {
-        if (IsCompoundType(attribute.Type))
-        {
-            code.Append($"builder.OwnsOne(e => e.{attribute.Name}).Ignore(p => p.Value);");
-            return;
-        }
-
-        code.Append($"builder.Property(e => e.{attribute.Name})");
-        code.Append($".IsRequired({attribute.IsRequired.ToString().ToLower()})");
-        
-        //TODO Open Close Principle, how to add a Nox.Type without updating this code?
-        if (attribute.Type == NoxType.Text)
-        {
-            AppendTextTypeConfiguration(code, attribute.TextTypeOptions ?? new TextTypeOptions());
-        }
-        else if (attribute.Type == NoxType.Number)
-        {
-            AppendNumberTypeConfiguration(code, attribute.NumberTypeOptions ?? new NumberTypeOptions());
-        }
-    }
-
-    public static bool IsCompoundType(Enum value)
-    {
-        var fi = value.GetType().GetField(value.ToString());
-        var attributes = (CompoundTypeAttribute[])
-            fi.GetCustomAttributes(typeof(CompoundTypeAttribute), false);
-        return (attributes != null && attributes.Length > 0);
-    }
-
-    private static void AppendNumberTypeConfiguration(CodeBuilder code, NumberTypeOptions options)
-    {
-        code.Append($".HasColumnType(_dbProvider.ToDatabaseColumnType<Number,NumberTypeOptions>(new NumberTypeOptions() {{ MinValue = {options.MinValue}, MaxValue = {options.MaxValue}, DecimalDigits = {options.DecimalDigits} }}))");
-    }
-
-    private static void AppendTextTypeConfiguration(CodeBuilder code, TextTypeOptions options)
-    {
-        var isUniCode = options.IsUnicode ? "true" : "false";
-
-        code.Append($".IsUnicode({isUniCode})");
-
-        code.Append($".HasMaxLength({options.MaxLength})");
-
-        code.Append($".HasColumnType(_dbProvider.ToDatabaseColumnType<Text,TextTypeOptions>(new TextTypeOptions() {{ MinLength = {options.MinLength}, MaxLength = {options.MaxLength}, IsUnicode = {isUniCode}, Casing = {options.Casing.GetType().Name}.{options.Casing} }}))");
     }
 }

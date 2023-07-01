@@ -17,8 +17,6 @@
   </Target>
 
   <ItemGroup>
-    <Compile Remove="Generated\**" />
-    <Content Include="Generated\**" />
     <Compile Remove="Samples\Controller_Sample.cs" />
     <Compile Remove="Samples\ODataConfiguration_Sample.cs" />
     <Compile Remove="Samples\SampleServiceDbContext_Sample.cs" />
@@ -37,13 +35,16 @@
     <ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
     <ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
     <ProjectReference Include="..\Nox.Lib\Nox.Lib.csproj" />
+    <ProjectReference Include="..\Nox.Types.EntityFramework.Sqlite\Nox.Types.EntityFramework.Sqlite.csproj" />
   </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.5" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.7" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.7" />
     <PackageReference Include="Microsoft.OData.Core" Version="7.16.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
   </ItemGroup>

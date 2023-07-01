@@ -23,4 +23,10 @@ attributes:
       minLength: 4
       maxLength: 63
     isRequired: true
-    
+
+  - name: CashInStore
+    description: Physical Cash available on the Physical Store
+    type: Money #Money is missting type Options on Nox.Types
+    moneyTypeOptions:
+        integerDigits: 5
+        decimalDigits: 3
