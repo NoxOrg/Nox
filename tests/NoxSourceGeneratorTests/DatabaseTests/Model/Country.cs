@@ -3,9 +3,11 @@
 #nullable enable
 
 using Nox.Types;
-using System.ComponentModel.DataAnnotations.Schema;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
 
-namespace Nox.Generator.Test.DatabaseTests.Model;
+namespace SampleWebApp.Domain;
 
 /// <summary>
 /// The identifier (primary key) for a Country.
@@ -15,7 +17,6 @@ public class CountryId : ValueObject<Text, CountryId> { }
 /// <summary>
 /// The list of countries.
 /// </summary>
-[Table("Countries")]
 public partial class Country
 {
 
@@ -65,11 +66,6 @@ public partial class Country
     public Text? Demonym { get; set; } = null!;
 
     /// <summary>
-    /// Country area in square kilometers (required).
-    /// </summary>
-    public Number AreaInSquareKilometres { get; set; } = null!;
-
-    /// <summary>
     /// The the position of the workplace's point on the surface of the Earth (optional).
     /// </summary>
     public LatLong? GeoCoord { get; set; } = null!;
@@ -95,7 +91,27 @@ public partial class Country
     public Number? Population { get; set; } = null!;
 
     /// <summary>
-    /// The top level internet domains regitered to the country (comma-delimited) (optional).
+    /// The top level internet domains registered to the country (comma-delimited) (optional).
     /// </summary>
     public Text? TopLevelDomains { get; set; } = null!;
+
+    /// <summary>
+    /// Area test field (required).
+    /// </summary>
+    public Area AreaTestField { get; set; } = null!;
+
+    /// <summary>
+    /// Boolean test field (required).
+    /// </summary>
+    public Boolean? BooleanTestField { get; set; } = null!;
+
+    /// <summary>
+    /// Country code 3 test field (required).
+    /// </summary>
+    public CountryCode3 CountryCode3TestField { get; set; } = null!;
+
+    /// <summary>
+    /// Country number test field (required).
+    /// </summary>
+    public CountryNumber CountryNumberTestField { get; set; } = null!;
 }

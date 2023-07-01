@@ -4,10 +4,10 @@
 
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Nox.Generator.Test.DatabaseTests.Model;
+using SampleWebApp.Domain;
 using System.Reflection;
 
-namespace Nox.Generator.Test.DatabaseTests;
+namespace SampleWebApp.Infrastructure.Persistence;
 
 public partial class SampleWebAppDbContext : DbContext
 {
@@ -32,3 +32,4 @@ public partial class SampleWebAppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
     }
 }
+

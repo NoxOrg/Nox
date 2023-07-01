@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
-using Nox.Generator.Test.DatabaseTests.Model;
 using Nox.Types;
 using NoxSourceGeneratorTests.DatabaseTests;
+using SampleWebApp.Domain;
 using System.Linq;
 using Xunit;
 
@@ -19,7 +19,6 @@ public class EntityFrameworkTests : SqliteTestBase
         var numbericCode = 123;
         var latitude = 46.802496;
         var longitude = 8.234392;
-        var area = 41_290_000;
         var testCapital = "TestCapital";
         var testDenonym = "TestDenonym";
         var testDialingCode = "+380";
@@ -28,25 +27,32 @@ public class EntityFrameworkTests : SqliteTestBase
         var geoWorldRegion = "North";
         var population = 40000;
         var topLevelDomain = ".ua";
+        var area = 100_000;
+        var boolean = true;
+        var countryCode3 = "UKR";
+        short countryNumber = 804;
 
         var newItem = new Country()
         {
             Id = CountryId.From(Text.From(alphaCode2)),
+            AlphaCode3 = Text.From(alphaCode3),
             Name = Text.From(name),
             FormalName = Text.From(formalName),
-            AlphaCode3 = Text.From(alphaCode3),
-            AlphaCode2 = CountryCode2.From(alphaCode2),
             NumericCode = Number.From(numbericCode),
             DialingCodes = Text.From(testDialingCode),
             Capital = Text.From(testCapital),
             Demonym = Text.From(testDenonym),
-            AreaInSquareKilometres = Number.From(area),
             GeoCoord = LatLong.From(latitude, longitude),
             GeoRegion = Text.From(geoRegion),
             GeoSubRegion = Text.From(geoSubRegion),
             GeoWorldRegion = Text.From(geoWorldRegion),
             Population = Number.From(population),
-            TopLevelDomains = Text.From(topLevelDomain)
+            TopLevelDomains = Text.From(topLevelDomain),
+            AreaTestField = Area.From(area),
+            BooleanTestField = boolean,
+            AlphaCode2 = CountryCode2.From(alphaCode2),
+            CountryCode3TestField = CountryCode3.From(countryCode3),
+            CountryNumberTestField = CountryNumber.From(countryNumber)
         };
         DbContext.Countries.Add(newItem);
         DbContext.SaveChanges();
@@ -66,7 +72,6 @@ public class EntityFrameworkTests : SqliteTestBase
         country.DialingCodes.Value.Should().Be(testDialingCode);
         country.Capital.Value.Should().Be(testCapital);
         country.Demonym.Value.Should().Be(testDenonym);
-        country.AreaInSquareKilometres.Value.Should().Be(area);
         country.GeoRegion.Value.Should().Be(geoRegion);
         country.GeoSubRegion.Value.Should().Be(geoSubRegion);
         country.GeoWorldRegion.Value.Should().Be(geoWorldRegion);
@@ -74,5 +79,9 @@ public class EntityFrameworkTests : SqliteTestBase
         country.TopLevelDomains.Value.Should().Be(topLevelDomain);
         country.GeoCoord.Latitude.Should().Be(latitude);
         country.GeoCoord.Longitude.Should().Be(longitude);
+        country.AreaTestField.Value.Should().Be(area);
+        country.BooleanTestField.Should().Be(boolean);
+        country.CountryCode3TestField.Value.Should().Be(countryCode3);
+        country.CountryNumberTestField.Value.Should().Be(countryNumber);
     }
 }

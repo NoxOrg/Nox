@@ -1,6 +1,6 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Nox.Generator.Test.DatabaseTests;
+using SampleWebApp.Infrastructure.Persistence;
 using System;
 
 namespace NoxSourceGeneratorTests.DatabaseTests;
@@ -39,6 +39,7 @@ public abstract class SqliteTestBase : IDisposable
 
     public void Dispose()
     {
+        GC.SuppressFinalize(this);
         DbContext?.Dispose();
         _connection.Dispose();
     }

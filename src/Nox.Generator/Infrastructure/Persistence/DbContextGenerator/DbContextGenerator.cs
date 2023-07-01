@@ -45,7 +45,7 @@ internal class DbContextGenerator
 
             foreach (var entity in solution.Domain.Entities)
             {
-                code.AppendLine($"public DbSet<{entity.Name}> {entity.PluralName} {{ get; set; }};");
+                code.AppendLine($"public DbSet<{entity.Name}> {entity.PluralName} {{ get; set; }}");
                 code.AppendLine();
             }
 
