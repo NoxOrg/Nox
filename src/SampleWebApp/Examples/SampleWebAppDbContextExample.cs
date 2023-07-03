@@ -49,7 +49,7 @@ public partial class SampleWebAppDbContextExample : DbContext
 
                 if (type != null)
                 {
-                    _databaseConfigurator.ConfigureEntity(modelBuilder.Entity(Type.GetType("SampleWebApp.Domain." + entity.Name)), entity);
+                    _databaseConfigurator.ConfigureEntity(modelBuilder.Entity(type), entity);
                 }
             }
 
