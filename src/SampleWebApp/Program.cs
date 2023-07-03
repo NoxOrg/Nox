@@ -16,7 +16,7 @@ builder.Services.AddSwaggerGen();
 
 //ODataConfiguration.Register(builder.Services);
 
-builder.Services.AddNox().AddNoxSolution();
+builder.Services.AddNox();
 
 var app = builder.Build();
 
