@@ -19,7 +19,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Monitoring", "Nox.Monit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Types.EntityFramework.Sqlite", "Nox.Types.EntityFramework.Sqlite\Nox.Types.EntityFramework.Sqlite.csproj", "{18BFFAE7-E697-4BA8-91D8-DA725F5C8188}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DatabaseProviders", "DatabaseProviders", "{631CE917-1F5D-42D9-81A4-575C13B84826}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DatabaseConfigurators", "DatabaseConfigurators", "{631CE917-1F5D-42D9-81A4-575C13B84826}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Types.EntityFramework.SqlServer", "Nox.Types.EntityFramework.SqlServer\Nox.Types.EntityFramework.SqlServer.csproj", "{F59896AE-4A84-4AA8-BB45-7BFED102D14E}"
 EndProject
