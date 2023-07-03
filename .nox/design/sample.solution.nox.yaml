@@ -493,10 +493,7 @@ infrastructure:
         password: whatsappPassword
 
     monitoring:
-      name: SampleObservability
-      provider: elasticApm
-      serverUri: localhost
-      port: 8200
+      $ref: elastic.monitoring.nox.yaml
 
     translations:
       name: SampleTranslationService
