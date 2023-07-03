@@ -26,13 +26,13 @@ public partial class SampleWebAppDbContext : DbContext
         _databaseConfigurator = databaseConfigurator;
     }
     
-    public DbSet<Country> Countries;
+    public DbSet<Country> Countries {get; set;} = null!;
     
-    public DbSet<Currency> Currencies;
+    public DbSet<Currency> Currencies {get; set;} = null!;
     
-    public DbSet<Store> Stores;
+    public DbSet<Store> Stores {get; set;} = null!;
     
-    public DbSet<CountryLocalNames> CountryLocalNames;
+    public DbSet<CountryLocalNames> CountryLocalNames {get; set;} = null!;
     
     public static void RegisterDbContext(IServiceCollection services)
     {

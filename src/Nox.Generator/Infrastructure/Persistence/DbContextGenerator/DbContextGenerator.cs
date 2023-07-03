@@ -59,12 +59,12 @@ internal class DbContextGenerator
 
             foreach (var entity in solution.Domain.Entities)
             {
-                code.AppendLine($"public DbSet<{entity.Name}> {entity.PluralName};");
+                code.AppendLine($"public DbSet<{entity.Name}> {entity.PluralName} {{get; set;}} = null!;");
                 code.AppendLine();
             }
 
             // Method RegisterDbContext
-            code.AppendLine($"public static void RegisterDbContext(IServiceCollection services)");
+            code.AppendLine("public static void RegisterDbContext(IServiceCollection services)");
 
             // Method content
             code.StartBlock();
@@ -83,7 +83,7 @@ internal class DbContextGenerator
                 code.StartBlock();
                     code.AppendLine($"foreach (var entity in _noxSolution.Domain.Entities)");
                     code.StartBlock();
-                        code.AppendLine("var type = Type.GetType(\"SampleWebApp.Domain.\" + entity.Name);");
+                        code.AppendLine($"var type = Type.GetType(\"{solution.Name}.Domain.\" + entity.Name);");
                         code.AppendLine();
                         code.AppendLine("if (type != null)");
                         code.StartBlock();
