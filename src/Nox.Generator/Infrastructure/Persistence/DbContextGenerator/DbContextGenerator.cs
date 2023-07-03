@@ -87,7 +87,7 @@ internal class DbContextGenerator
                         code.AppendLine();
                         code.AppendLine("if (type != null)");
                         code.StartBlock();
-                            code.AppendLine($"_databaseConfigurator.ConfigureEntity(modelBuilder.Entity(type, entity);");
+                            code.AppendLine($"_databaseConfigurator.ConfigureEntity(modelBuilder.Entity(type), entity);");
                         code.EndBlock();
                     code.EndBlock();
                     code.AppendLine();
