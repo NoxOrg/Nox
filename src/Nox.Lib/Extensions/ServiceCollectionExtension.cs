@@ -16,18 +16,12 @@ public static class ServiceCollectionExtension
             return _solution!;
         }
     }
-
-    public static IServiceCollection AddNoxSolution(this IServiceCollection services)
-    {
-        if (_solution == null) CreateSolution();
-        services.AddSingleton(_solution!);
-        return services;
-    } 
     
     public static IServiceCollection AddNox(this IServiceCollection services)
     {
         var solution = new NoxSolutionBuilder()
             .Build();
+        services.AddSingleton(_solution!);
 
         return services;
     }
