@@ -5,9 +5,10 @@ namespace Nox.Monitoring.ElasticApm;
 
 public static class MiddlewareExtension
 {
-    public static IApplicationBuilder UseElasticMonitoring(this IApplicationBuilder builder)
+    public static IApplicationBuilder UseElasticMonitoring(this IApplicationBuilder builder, Solution.Monitoring? monitoringDefinition = null)
     {
-        builder.UseAllElasticApm();
+        var config = monitoringDefinition.ToConfiguration();
+        builder.UseAllElasticApm(config);
         return builder;
     }
     

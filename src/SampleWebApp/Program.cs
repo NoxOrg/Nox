@@ -1,6 +1,4 @@
-using System.Diagnostics.Metrics;
 using Nox;
-using SampleWebApp.Presentation.Api.OData;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddNox();
