@@ -6,7 +6,6 @@ public class PostgresTextDatabaseConfiguration : TextDatabaseConfiguration
 {
     public override string? GetColumnType(TextTypeOptions typeOptions)
     {
-        
-        return $"VARCHAR({typeOptions.MaxLength})";
+        return typeOptions.MaxLength == typeOptions.MinLength ? $"CHAR({typeOptions.MaxLength})" : $"VARCHAR({typeOptions.MaxLength})";
     }
 }
