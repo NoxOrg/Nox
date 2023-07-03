@@ -1,0 +1,20 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.7" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.7" />
+		<PackageReference Include="Nox.Solution" Version="1.0.13" />
+		<PackageReference Include="Nox.Types.EntityFramework" Version="1.0.10" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Nox.Types.EntityFramework.vNext\Nox.Types.EntityFramework.vNext.csproj" />
+	</ItemGroup>
+
+</Project>
