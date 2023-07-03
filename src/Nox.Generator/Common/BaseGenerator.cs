@@ -20,9 +20,8 @@ internal class BaseGenerator
         }
     }
 
-    internal static void AddProperty(CodeBuilder code, string type, string name, string description)
+    internal static void AddProperty(CodeBuilder code, string type, string name, string? description)
     {
-        code.AppendLine();
         GenerateDocs(code, description);
         code.AppendLine($"protected {type} {name} {{ get; set; }} = null!;");
     }
@@ -34,24 +33,20 @@ internal class BaseGenerator
             // TODO: switch to a general type resolver and error processing
             return string.Join(", ", input
                 .Select(parameter =>
-                    $"{(parameter.Type != NoxType.Entity ? MapType(parameter.Type) : parameter.EntityTypeOptions!.Entity)} {parameter.Name}"));    
+                    $"{(parameter.Type != NoxType.Entity ? parameter.Type.ToString() : parameter.EntityTypeOptions!.Entity)} {parameter.Name}"));
         }
 
-        return "";
+        return string.Empty;
     }
 
-    internal static string GetParametersExecuteString(IReadOnlyList<DomainQueryRequestInput> input)
+    internal static string GetParametersExecuteString(IReadOnlyList<DomainQueryRequestInput>? input)
     {
-        return string.Join(", ", input.Select(parameter => $"{parameter.Name}"));
-    }
-
-    internal static string MapType(NoxType noxType)
-    {
-        return noxType switch
+        if (input != null)
         {
-            NoxType.LatLong => "LatLong",
-            _ => noxType.ToString(),
-        };
+            return string.Join(", ", input.Select(parameter => $"{parameter.Name}"));
+        }
+
+        return string.Empty;
     }
 
     internal static void AddConstructor(CodeBuilder code, string className, Dictionary<string, string> parameters)
@@ -78,10 +73,9 @@ internal class BaseGenerator
 
         code.UnIndent();
         code.AppendLine($@"}}");
-        code.AppendLine($@"");
     }
 
-    public static string GenerateTypeDefinition(SourceProductionContext context, string solutionNameSpace, NoxComplexTypeDefinition typeDefinition)
+    public static string GenerateTypeDefinition(SourceProductionContext context, string solutionNameSpace, NoxComplexTypeDefinition typeDefinition, bool generateDto = false)
     {
         string stringTypeDefinition;
         string typeName;
@@ -92,34 +86,54 @@ internal class BaseGenerator
                 var options = typeDefinition.ArrayTypeOptions;
                 typeName = options!.Name;
                 stringTypeDefinition = $"{typeName}[]";
-                if (options is { Type: NoxType.Object, ObjectTypeOptions: not null })
+
+                if (generateDto && options is { Type: NoxType.Object, ObjectTypeOptions: not null })
                 {
-                    DtoGenerator.GenerateDto(context, solutionNameSpace, typeName.ToUpperFirstChar(), options.Description,
-                        options.ObjectTypeOptions.Attributes);
+                    GenerateDtoFromDefinition(context, solutionNameSpace, typeName, options);
                 }
 
                 break;
+
             case NoxType.Collection:
                 var collection = typeDefinition.CollectionTypeOptions;
                 typeName = collection!.Name;
-                stringTypeDefinition = $"IEnumerable<{typeName.ToUpperFirstChar()}>";
-                if (collection is { Type: NoxType.Object, ObjectTypeOptions: not null })
+                stringTypeDefinition = $"IEnumerable<{typeName}>";
+
+                if (generateDto && collection is { Type: NoxType.Object, ObjectTypeOptions: not null })
                 {
-                    DtoGenerator.GenerateDto(context, solutionNameSpace, typeName.ToUpperFirstChar(), collection.Description,
-                        collection.ObjectTypeOptions.Attributes);
+                    GenerateDtoFromDefinition(context, solutionNameSpace, typeName, collection);
                 }
 
                 break;
+
             case NoxType.Object:
                 stringTypeDefinition = typeDefinition.Name;
-                DtoGenerator.GenerateDto(context, solutionNameSpace, typeDefinition.Name,
-                    typeDefinition.Description, typeDefinition.ObjectTypeOptions!.Attributes);
+                
+                if (generateDto)
+                {
+                    DtoGenerator.GenerateDto(context,
+                        solutionNameSpace,
+                        typeDefinition.Name,
+                        typeDefinition.Description,
+                        typeDefinition.ObjectTypeOptions!.Attributes);
+                }
+                
                 break;
+
             default:
-                stringTypeDefinition = MapType(typeDefinition.Type);
+                stringTypeDefinition = typeDefinition.Type.ToString();
                 break;
         }
 
         return stringTypeDefinition;
+    }
+
+    private static void GenerateDtoFromDefinition(SourceProductionContext context, string solutionNameSpace, string typeName, ArrayTypeOptions options)
+    {
+        DtoGenerator.GenerateDto(context,
+                                solutionNameSpace,
+                                typeName.ToUpperFirstChar(),
+                                options.Description,
+                                options.ObjectTypeOptions!.Attributes);
     }
 }

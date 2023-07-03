@@ -8,7 +8,6 @@ namespace Nox.Generator;
 
 internal class EntitiesGenerator
 {
-
     public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
@@ -32,9 +31,9 @@ internal class EntitiesGenerator
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Domain;");
 
-        GenerateStrongIdClassIfRequired(context, code, entity);
+        GenerateStrongIdClassIfRequired(code, entity);
 
-        GenerateClassDocs(context, code, entity);
+        GenerateClassDocs(code, entity);
 
         var baseClass = (entity.Persistence?.IsVersioned ?? true) ? "AuditableEntityBase" : "EntityBase";
 
@@ -54,7 +53,7 @@ internal class EntitiesGenerator
         code.GenerateSourceCode();
     }
 
-    private static void GenerateStrongIdClassIfRequired(SourceProductionContext context, CodeBuilder code, Entity entity)
+    private static void GenerateStrongIdClassIfRequired(CodeBuilder code, Entity entity)
     {
         if (entity.Keys is null)
             return;
@@ -63,14 +62,14 @@ internal class EntitiesGenerator
 
         if (entity.Keys.Count == 1)
         {
-            GenerateStrongSingleKeyClass(context, code, entity, entity.Keys[0]);
+            GenerateStrongSingleKeyClass(code, entity, entity.Keys[0]);
         }
     }
 
-    private static void GenerateStrongSingleKeyClass(SourceProductionContext context, CodeBuilder code, Entity entity, NoxSimpleTypeDefinition key)
+    private static void GenerateStrongSingleKeyClass(CodeBuilder code, Entity entity, NoxSimpleTypeDefinition key)
     {
         var className = $"{entity.Name}{key.Name}";
-        var underlyingType = MapType(key.Type);
+        var underlyingType = key.Type.ToString();
 
         code.AppendLine();
         code.AppendLine($"/// <summary>");
@@ -88,13 +87,13 @@ internal class EntitiesGenerator
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            GenerateStrongSingleKeyProperty(context, code, entity, key);
+            GenerateStrongSingleKeyProperty(code, entity, key);
         }
     }
 
-    private static void GenerateStrongSingleKeyProperty(SourceProductionContext context, CodeBuilder code, Entity entity, NoxSimpleTypeDefinition key)
+    private static void GenerateStrongSingleKeyProperty(CodeBuilder code, Entity entity, NoxSimpleTypeDefinition key)
     {
-        GeneratePropertyDocs(context, code, key);
+        GeneratePropertyDocs(code, key);
 
         var propType = $"{entity.Name}{key.Name}";
         var propName = key.Name;
@@ -110,17 +109,18 @@ internal class EntitiesGenerator
 
     private static void GenerateProperties(SourceProductionContext context, CodeBuilder code, Entity entity)
     {
-
         if (entity.Attributes is null)
+        {
             return;
+        }
 
         foreach (var attribute in entity.Attributes)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            GeneratePropertyDocs(context, code, attribute);
+            GeneratePropertyDocs(code, attribute);
 
-            var propType = MapType(attribute.Type);
+            var propType = attribute.Type.ToString();
             var propName = attribute.Name;
             var nullable = attribute.IsRequired ? string.Empty : "?";
 
@@ -133,11 +133,11 @@ internal class EntitiesGenerator
         if (entity.Relationships is null) 
             return;
 
-        foreach(var relationship in entity.Relationships)
+        foreach (var relationship in entity.Relationships)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            GenerateRelationshipProperty(context, code, entity, relationship);
+            GenerateRelationshipProperty(code, entity, relationship);
         }
     }
 
@@ -150,13 +150,13 @@ internal class EntitiesGenerator
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            GenerateRelationshipProperty(context, code, entity, relationship);
+            GenerateRelationshipProperty(code, entity, relationship);
         }
     }
 
-    private static void GenerateRelationshipProperty(SourceProductionContext context, CodeBuilder code, Entity entity, EntityRelationship relationship)
+    private static void GenerateRelationshipProperty(CodeBuilder code, Entity entity, EntityRelationship relationship)
     {
-        GenerateRelationshipDocs(context, code, entity, relationship);
+        GenerateRelationshipDocs(code, entity, relationship);
 
         var targetEntity = relationship.Entity;
 
@@ -179,7 +179,7 @@ internal class EntitiesGenerator
         }
     }
 
-    private static void GeneratePropertyDocs(SourceProductionContext context, CodeBuilder code, NoxSimpleTypeDefinition prop)
+    private static void GeneratePropertyDocs(CodeBuilder code, NoxSimpleTypeDefinition prop)
     {
         var optionalText = prop.IsRequired ? "Required" : "Optional";
 
@@ -199,7 +199,7 @@ internal class EntitiesGenerator
         }
     }
 
-    private static void GenerateClassDocs(SourceProductionContext context, CodeBuilder code, Entity entity)
+    private static void GenerateClassDocs(CodeBuilder code, Entity entity)
     {
         if (entity.Description is not null)
         {
@@ -209,19 +209,11 @@ internal class EntitiesGenerator
             code.AppendLine($"/// </summary>");
         }
     }
-    private static void GenerateRelationshipDocs(SourceProductionContext context, CodeBuilder code, Entity entity, EntityRelationship relationship)
+    private static void GenerateRelationshipDocs(CodeBuilder code, Entity entity, EntityRelationship relationship)
     {
         code.AppendLine();
         code.AppendLine($"/// <summary>");
         code.AppendLine($"/// {entity.Name} {relationship.Description} {relationship.Relationship} {relationship.Entity.Pluralize()}");
         code.AppendLine($"/// </summary>");
-    }
-
-    private static string MapType(NoxType noxType)
-    {
-        return noxType switch
-        {
-            _ => noxType.ToString(),
-        };
     }
 }
