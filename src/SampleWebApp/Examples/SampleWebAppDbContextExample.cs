@@ -41,11 +41,20 @@ public partial class SampleWebAppDbContextExample : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        foreach (var entity in _noxSolution.Domain.Entities)
+        if (_noxSolution.Domain != null)
         {
-            _databaseConfigurator.ConfigureEntity(modelBuilder.Entity(Type.GetType("SampleWebApp.Domain." + entity.Name)), entity);
-        }
+            foreach (var entity in _noxSolution.Domain.Entities)
+            {
+                var type = Type.GetType("SampleWebApp.Domain." + entity.Name);
 
-        base.OnModelCreating(modelBuilder);
+                if (type != null)
+                {
+                    _databaseConfigurator.ConfigureEntity(modelBuilder.Entity(Type.GetType("SampleWebApp.Domain." + entity.Name)), entity);
+                }
+            }
+
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
+
