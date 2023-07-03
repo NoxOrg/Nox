@@ -1,15 +1,12 @@
-﻿// Generated
-
-#nullable enable
-
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
 using Nox.Types.EntityFramework.vNext;
 using SampleWebApp.Domain;
+using SampleWebApp.Infrastructure.Persistence;
 
-namespace SampleWebApp.Infrastructure.Persistence;
+namespace SampleWebApp.Examples;
 
-public partial class SampleWebAppDbContextExample : DbContext
+public class SampleWebAppDbContextExample : DbContext
 {
     private NoxSolution _noxSolution { get; set; }
     private INoxDatabaseConfigurator _databaseConfigurator { get; set; }
@@ -19,7 +16,7 @@ public partial class SampleWebAppDbContextExample : DbContext
         DbContextOptions<SampleWebAppDbContext> options,
         NoxSolution noxSolution,
         INoxDatabaseConfigurator databaseConfigurator
-        ) : base(options)
+    ) : base(options)
 #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
         _noxSolution = noxSolution;
@@ -57,4 +54,3 @@ public partial class SampleWebAppDbContextExample : DbContext
         }
     }
 }
-

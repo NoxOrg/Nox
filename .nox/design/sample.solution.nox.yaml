@@ -90,20 +90,20 @@ domain:
           raiseEvents: true
           useSoftDelete: true
 
-      relationships:
+      #relationships:
 
-        - name: CountryAcceptsCurrency
-          description: accepts as legal tender
-          relationship: oneOrMany
-          entity: Currency
-          canNavigate: true
+      #  - name: CountryAcceptsCurrency
+      #    description: accepts as legal tender
+      #    relationship: oneOrMany
+      #    entity: Currency
+      #    canNavigate: true
           
-      ownedRelationships:
+      #ownedRelationships:
 
-        - name: CountryLocalNames
-          description: is also know as
-          relationship: oneOrMany
-          entity: CountryLocalNames
+      #  - name: CountryLocalNames
+      #    description: is also know as
+      #    relationship: oneOrMany
+      #    entity: CountryLocalNames
 
       queries:
 
@@ -240,9 +240,9 @@ domain:
             maxValue: 20000000 # 20,000,000 > Russia
           isRequired: true
 
-        - name: GeoCoord
-          description: The the position of the workplace's point on the surface of the Earth
-          type: latLong
+        #- name: GeoCoord
+        #  description: The the position of the workplace's point on the surface of the Earth
+        #  type: latLong
 
         - name: GeoRegion
           description: The region the country is in

@@ -31,7 +31,7 @@ public class CountriesController : ODataController
     [EnableQuery]
     public ActionResult<Country> Get([FromRoute] string key)
     {
-        var parsedKey = CountryId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         var item = _databaseContext.Countries.SingleOrDefault(d => d.Id.Equals(parsedKey));
         
         if (item == null)
@@ -62,7 +62,7 @@ public class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var parsedKey = CountryId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         if (parsedKey != updatedCountry.Id)
         {
             return BadRequest();
@@ -93,7 +93,7 @@ public class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var parsedKey = CountryId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         var entity = await _databaseContext.Countries.FindAsync(parsedKey);
         if (entity == null)
         {
@@ -120,13 +120,13 @@ public class CountriesController : ODataController
     
     private bool CountryExists(string key)
     {
-        var parsedKey = CountryId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         return _databaseContext.Countries.Any(p => p.Id == parsedKey);
     }
     
     public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var parsedKey = CountryId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         var country = await _databaseContext.Countries.FindAsync(parsedKey);
         if (country == null)
         {

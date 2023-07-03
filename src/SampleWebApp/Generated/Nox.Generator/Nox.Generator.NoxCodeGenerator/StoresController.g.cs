@@ -31,7 +31,7 @@ public class StoresController : ODataController
     [EnableQuery]
     public ActionResult<Store> Get([FromRoute] string key)
     {
-        var parsedKey = StoreId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         var item = _databaseContext.Stores.SingleOrDefault(d => d.Id.Equals(parsedKey));
         
         if (item == null)
@@ -62,7 +62,7 @@ public class StoresController : ODataController
             return BadRequest(ModelState);
         }
         
-        var parsedKey = StoreId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         if (parsedKey != updatedStore.Id)
         {
             return BadRequest();
@@ -93,7 +93,7 @@ public class StoresController : ODataController
             return BadRequest(ModelState);
         }
         
-        var parsedKey = StoreId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         var entity = await _databaseContext.Stores.FindAsync(parsedKey);
         if (entity == null)
         {
@@ -120,13 +120,13 @@ public class StoresController : ODataController
     
     private bool StoreExists(string key)
     {
-        var parsedKey = StoreId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         return _databaseContext.Stores.Any(p => p.Id == parsedKey);
     }
     
     public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var parsedKey = StoreId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         var store = await _databaseContext.Stores.FindAsync(parsedKey);
         if (store == null)
         {

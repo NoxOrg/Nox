@@ -22,48 +22,48 @@ public class CountriesController : ODataController
     {
         _databaseContext = databaseContext;
     }
-    
+
     [EnableQuery]
     public ActionResult<IQueryable<Country>> Get()
     {
         return Ok(_databaseContext.Countries);
     }
-    
+
     [EnableQuery]
     public ActionResult<Country> Get([FromRoute] string key)
     {
-        var parsedKey = CountryId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         var item = _databaseContext.Countries.SingleOrDefault(d => d.Id.Equals(parsedKey));
-        
+
         if (item == null)
         {
             return NotFound();
         }
         return Ok(item);
     }
-    
+
     public async Task<ActionResult> Post(Country country)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        
+
         _databaseContext.Countries.Add(country);
-        
+
         await _databaseContext.SaveChangesAsync();
-        
+
         return Created(country);
     }
-    
+
     public async Task<ActionResult> Put([FromRoute] string key, [FromBody] Country updatedCountry)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        
-        var parsedKey = CountryId.From(Text.From(key));
+
+        var parsedKey = Text.From(key);
         if (parsedKey != updatedCountry.Id)
         {
             return BadRequest();
@@ -86,15 +86,15 @@ public class CountriesController : ODataController
         }
         return Updated(updatedCountry);
     }
-    
+
     public async Task<ActionResult> Patch([FromRoute] string key, [FromBody] Delta<Country> country)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        
-        var parsedKey = CountryId.From(Text.From(key));
+
+        var parsedKey = Text.From(key);
         var entity = await _databaseContext.Countries.FindAsync(parsedKey);
         if (entity == null)
         {
@@ -118,24 +118,24 @@ public class CountriesController : ODataController
         }
         return Updated(entity);
     }
-    
+
     private bool CountryExists(string key)
     {
-        var parsedKey = CountryId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         return _databaseContext.Countries.Any(p => p.Id == parsedKey);
     }
-    
+
     public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var parsedKey = CountryId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         var country = await _databaseContext.Countries.FindAsync(parsedKey);
         if (country == null)
         {
             return NotFound();
         }
-        
+
         _databaseContext.Countries.Remove(country);
         await _databaseContext.SaveChangesAsync();
-        return StatusCode((int)HttpStatusCode.NoContent);
+        return NoContent();
     }
 }

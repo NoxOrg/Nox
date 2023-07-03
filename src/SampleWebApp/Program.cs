@@ -23,7 +23,7 @@ var app = builder.Build();
 /*===================== Enable for Tests Purposes Only*/
 
 //SqliteConnection connection = new SqliteConnection("DataSource=:memory:");
-////SqliteConnection connection = new SqliteConnection(@"DataSource=test.db");
+//SqliteConnection connection = new SqliteConnection(@"DataSource=test.db");
 
 //connection.Open();
 

@@ -31,7 +31,7 @@ public class CurrenciesController : ODataController
     [EnableQuery]
     public ActionResult<Currency> Get([FromRoute] string key)
     {
-        var parsedKey = CurrencyId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         var item = _databaseContext.Currencies.SingleOrDefault(d => d.Id.Equals(parsedKey));
         
         if (item == null)
@@ -62,7 +62,7 @@ public class CurrenciesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var parsedKey = CurrencyId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         if (parsedKey != updatedCurrency.Id)
         {
             return BadRequest();
@@ -93,7 +93,7 @@ public class CurrenciesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var parsedKey = CurrencyId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         var entity = await _databaseContext.Currencies.FindAsync(parsedKey);
         if (entity == null)
         {
@@ -120,13 +120,13 @@ public class CurrenciesController : ODataController
     
     private bool CurrencyExists(string key)
     {
-        var parsedKey = CurrencyId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         return _databaseContext.Currencies.Any(p => p.Id == parsedKey);
     }
     
     public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var parsedKey = CurrencyId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         var currency = await _databaseContext.Currencies.FindAsync(parsedKey);
         if (currency == null)
         {

@@ -62,7 +62,8 @@ internal class EntitiesGenerator
 
         if (entity.Keys.Count == 1)
         {
-            GenerateStrongSingleKeyClass(code, entity, entity.Keys[0]);
+            // TODO Evaluate how to generate a Named ID Type
+            //GenerateStrongSingleKeyClass(code, entity, entity.Keys[0]);
         }
     }
 
@@ -95,16 +96,17 @@ internal class EntitiesGenerator
     {
         GeneratePropertyDocs(code, key);
 
-        var propType = $"{entity.Name}{key.Name}";
+        // TODO Evaluate how to generate a Named ID Type
+        //var propType = $"{entity.Name}{key.Name}";
         var propName = key.Name;
 
         if (key.Type == NoxType.Entity)
         {
-            propType = $"{key.EntityTypeOptions!.Entity}Id";
+           // propType = $"{key.EntityTypeOptions!.Entity}Id";
             propName = key.EntityTypeOptions.Entity;
         }
 
-        code.AppendLine($"public {propType} {propName} {{ get; set; }} = null!;");
+        code.AppendLine($"public {key.Type} {propName} {{ get; set; }} = null!;");
     }
 
     private static void GenerateProperties(SourceProductionContext context, CodeBuilder code, Entity entity)

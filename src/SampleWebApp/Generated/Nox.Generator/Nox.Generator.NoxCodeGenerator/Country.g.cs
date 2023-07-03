@@ -8,11 +8,6 @@ using System.Collections.Generic;
 namespace SampleWebApp.Domain;
 
 /// <summary>
-/// The identifier (primary key) for a Country.
-/// </summary>
-public class CountryId : ValueObject<Text,CountryId> {}
-
-/// <summary>
 /// The list of countries.
 /// </summary>
 public partial class Country : AuditableEntityBase
@@ -21,7 +16,7 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     /// (Optional)
     /// </summary>
-    public CountryId Id { get; set; } = null!;
+    public Text Id { get; set; } = null!;
     
     /// <summary>
     /// The country's common name (required).

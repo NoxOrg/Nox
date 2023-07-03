@@ -31,7 +31,7 @@ public class CountryLocalNamesController : ODataController
     [EnableQuery]
     public ActionResult<CountryLocalNames> Get([FromRoute] string key)
     {
-        var parsedKey = CountryLocalNamesId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         var item = _databaseContext.CountryLocalNames.SingleOrDefault(d => d.Id.Equals(parsedKey));
         
         if (item == null)
@@ -62,7 +62,7 @@ public class CountryLocalNamesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var parsedKey = CountryLocalNamesId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         if (parsedKey != updatedCountryLocalNames.Id)
         {
             return BadRequest();
@@ -93,7 +93,7 @@ public class CountryLocalNamesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var parsedKey = CountryLocalNamesId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         var entity = await _databaseContext.CountryLocalNames.FindAsync(parsedKey);
         if (entity == null)
         {
@@ -120,13 +120,13 @@ public class CountryLocalNamesController : ODataController
     
     private bool CountryLocalNamesExists(string key)
     {
-        var parsedKey = CountryLocalNamesId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         return _databaseContext.CountryLocalNames.Any(p => p.Id == parsedKey);
     }
     
     public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var parsedKey = CountryLocalNamesId.From(Text.From(key));
+        var parsedKey = Text.From(key);
         var countrylocalnames = await _databaseContext.CountryLocalNames.FindAsync(parsedKey);
         if (countrylocalnames == null)
         {

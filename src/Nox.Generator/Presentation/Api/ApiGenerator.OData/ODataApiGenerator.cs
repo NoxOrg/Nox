@@ -29,11 +29,13 @@ internal static class ODataApiGenerator
             // TODO: fix composite key
             var keyType = entityName + "Id";
             var keyUnderlyingType = entity.Keys?.FirstOrDefault()?.Type;
-            var parsingLogic = $"var parsedKey = {keyType}.From({keyUnderlyingType}.From(key));";
-            if (!keyUnderlyingType.HasValue)
-            {
-                parsingLogic = $"var parsedKey = {keyType}.From(key);";
-            }
+            // TODO Evaluate how to generate a Named ID Type
+            //var parsingLogic = $"var parsedKey = {keyType}.From({keyUnderlyingType}.From(key));";
+            var parsingLogic = $"var parsedKey = {keyUnderlyingType}.From(key);";
+            //if (!keyUnderlyingType.HasValue)
+            //{
+            //    parsingLogic = $"var parsedKey = {keyType}.From(key);";
+            //}
 
             var code = new CodeBuilder($"{pluralName}Controller.g.cs",context);
 
