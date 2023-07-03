@@ -69,11 +69,6 @@ public partial class Country : AuditableEntityBase
     public Number AreaInSquareKilometres { get; set; } = null!;
     
     /// <summary>
-    /// The the position of the workplace's point on the surface of the Earth (optional).
-    /// </summary>
-    public LatLong? GeoCoord { get; set; } = null!;
-    
-    /// <summary>
     /// The region the country is in (required).
     /// </summary>
     public Text GeoRegion { get; set; } = null!;
@@ -97,16 +92,4 @@ public partial class Country : AuditableEntityBase
     /// The top level internet domains regitered to the country (comma-delimited) (optional).
     /// </summary>
     public Text? TopLevelDomains { get; set; } = null!;
-    
-    /// <summary>
-    /// Country accepts as legal tender OneOrMany Currencies
-    /// </summary>
-    public List<Currency> Currencies { get; set; } = null!;
-    
-    public List<Currency> CountryAcceptsCurrency => Currencies;
-    
-    /// <summary>
-    /// Country is also know as OneOrMany CountryLocalNames
-    /// </summary>
-    public List<CountryLocalNames> CountryLocalNames { get; set; } = null!;
 }

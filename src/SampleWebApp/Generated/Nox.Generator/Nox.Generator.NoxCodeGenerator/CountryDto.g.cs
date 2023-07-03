@@ -15,6 +15,7 @@ namespace SampleWebApp.Application.DataTransferObjects;
 /// </summary>
 public partial class CountryDto : IDynamicDto
 {
+    
     /// <summary>
     /// The identity of the country, the Iso Alpha 2 code.
     /// </summary>

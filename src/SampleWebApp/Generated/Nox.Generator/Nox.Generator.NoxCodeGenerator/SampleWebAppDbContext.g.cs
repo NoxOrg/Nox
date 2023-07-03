@@ -3,18 +3,28 @@
 #nullable enable
 
 using Microsoft.EntityFrameworkCore;
+using Nox.Solution;
+using Nox.Types.EntityFramework.vNext;
 using SampleWebApp.Domain;
-using System.Reflection;
 
 namespace SampleWebApp.Infrastructure.Persistence;
 
 public partial class SampleWebAppDbContext : DbContext
 {
+    private NoxSolution _noxSolution { get; set; }
+    private INoxDatabaseConfigurator _databaseConfigurator { get; set; }
+    
     #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public SampleWebAppDbContext(
-        DbContextOptions<SampleWebAppDbContext> options
-        ) : base(options) { }
+        DbContextOptions<SampleWebAppDbContext> options,
+        NoxSolution noxSolution,
+        INoxDatabaseConfigurator databaseConfigurator
+        ) : base(options)
     #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+    {
+        _noxSolution = noxSolution;
+        _databaseConfigurator = databaseConfigurator;
+    }
     
     public DbSet<Country> Countries;
     
@@ -31,10 +41,20 @@ public partial class SampleWebAppDbContext : DbContext
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        var configurations = Assembly.GetExecutingAssembly();
-        modelBuilder.ApplyConfigurationsFromAssembly(configurations);
-        
-        base.OnModelCreating(modelBuilder);
+        if (_noxSolution.Domain != null)
+        {
+            foreach (var entity in _noxSolution.Domain.Entities)
+            {
+                var type = Type.GetType("SampleWebApp.Domain." + entity.Name);
+                
+                if (type != null)
+                {
+                    _databaseConfigurator.ConfigureEntity(modelBuilder.Entity(type), entity);
+                }
+            }
+            
+            base.OnModelCreating(modelBuilder);
+        }
     }
 }
 

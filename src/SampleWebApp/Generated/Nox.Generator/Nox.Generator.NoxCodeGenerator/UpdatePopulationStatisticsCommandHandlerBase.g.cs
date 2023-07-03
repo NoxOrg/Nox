@@ -17,12 +17,10 @@ namespace SampleWebApp.Application;
 public abstract partial class UpdatePopulationStatisticsCommandHandlerBase
 {
     
-    
     /// <summary>
     /// Represents the DB context.
     /// </summary>
     protected SampleWebAppDbContext DbContext { get; set; } = null!;
-    
     
     /// <summary>
     /// Represents the Nox messenger.
@@ -38,8 +36,14 @@ public abstract partial class UpdatePopulationStatisticsCommandHandlerBase
         Messenger = messenger;
     }
     
+    /// <summary>
+    /// Executes UpdatePopulationStatistics.
+    /// </summary>
     public abstract Task<INoxCommandResult> ExecuteAsync(UpdatePopulationStatistics command);
     
+    /// <summary>
+    /// Sends CountryNameUpdatedEvent.
+    /// </summary>
     public async Task SendCountryNameUpdatedEventDomainEventAsync(CountryNameUpdatedEvent domainEvent)
     {
         await Messenger.SendMessageAsync(new string[] { "Mediator" }, domainEvent);

@@ -16,11 +16,6 @@
     <RemoveDir Directories="Generated" />
   </Target>
 
-  <ItemGroup>
-    <Compile Remove="Generated\**" />
-    <Content Include="Generated\**" />
-  </ItemGroup>
-
 
   <ItemGroup>
     <AdditionalFiles Include="..\..\.nox\design\**\*.yaml" LinkBase="Design" />
@@ -37,6 +32,7 @@
     <ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
     <ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
     <ProjectReference Include="..\Nox.Lib\Nox.Lib.csproj" />
+    <ProjectReference Include="..\Nox.Types.EntityFramework.Sqlite\Nox.Types.EntityFramework.Sqlite.csproj" />
     <ProjectReference Include="..\Nox.Types.EntityFramework.vNext\Nox.Types.EntityFramework.vNext.csproj" />
   </ItemGroup>
 
@@ -47,6 +43,8 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.7" />
     <PackageReference Include="Microsoft.OData.Core" Version="7.16.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.7" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.7" />
   </ItemGroup>
 
   <ItemGroup>

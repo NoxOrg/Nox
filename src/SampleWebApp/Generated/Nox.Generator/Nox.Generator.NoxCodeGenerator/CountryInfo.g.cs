@@ -12,10 +12,12 @@ namespace SampleWebApp.Application.DataTransferObjects;
 
 public partial class CountryInfo : IDynamicDto
 {
+    
     /// <summary>
     /// The country's Id.
     /// </summary>
     public CountryCode2? CountryId { get; set; } = null!;
+    
     
     /// <summary>
     /// The country name.

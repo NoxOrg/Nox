@@ -17,7 +17,6 @@ namespace SampleWebApp.Application;
 public abstract partial class GetCountriesByContinentQuery
 {
     
-    
     /// <summary>
     /// Represents the DB context.
     /// </summary>
@@ -29,6 +28,5 @@ public abstract partial class GetCountriesByContinentQuery
     {
         DbContext = dbContext;
     }
-    
     public abstract Task<IEnumerable<CountryInfo>> ExecuteAsync(Text continentName);
 }
