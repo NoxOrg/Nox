@@ -1,5 +1,6 @@
 ﻿namespace Nox.Types.EntityFramework.vNext
 {
+    [Serializable]
     public class NoxEntityFrameworkException : Exception
     {
         public NoxEntityFrameworkException()
