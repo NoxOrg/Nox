@@ -19,9 +19,7 @@ public static class ServiceCollectionExtension
     
     public static IServiceCollection AddNox(this IServiceCollection services)
     {
-        var solution = new NoxSolutionBuilder()
-            .Build();
-        services.AddSingleton(_solution!);
+        services.AddSingleton(Solution);
 
         return services;
     }
