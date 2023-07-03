@@ -21,8 +21,9 @@ internal class DbContextGenerator
 
         // Namespace
         code.AppendLine(@"using Microsoft.EntityFrameworkCore;");
+        code.AppendLine(@"using Nox.Solution;");
+        code.AppendLine(@"using Nox.Types.EntityFramework.vNext;");
         code.AppendLine(@"using SampleWebApp.Domain;");
-        code.AppendLine(@"using System.Reflection;");
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Infrastructure.Persistence;");
         code.AppendLine();
@@ -31,16 +32,29 @@ internal class DbContextGenerator
 
         // Class
         code.StartBlock();
+
+            code.AppendLine($"private NoxSolution _noxSolution {{ get; set; }}");
+            code.AppendLine($"private INoxDatabaseConfigurator _databaseConfigurator {{ get; set; }}");
+            code.AppendLine();
+            
             // Constructor
             code.AppendLine("#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.");
             code.AppendLine($"public {dbContextName}(");
 
             // Constructor content
             code.Indent();
-                code.AppendLine($"DbContextOptions<{dbContextName}> options");
-                code.AppendLine($") : base(options) {{ }}");
+                code.AppendLine($"DbContextOptions<{dbContextName}> options,");
+                code.AppendLine($"NoxSolution noxSolution,");
+                code.AppendLine($"INoxDatabaseConfigurator databaseConfigurator");
+                code.AppendLine($") : base(options)");
             code.UnIndent();
             code.AppendLine("#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.");
+            code.AppendLine($"{{");
+            code.Indent();
+                code.AppendLine($"_noxSolution = noxSolution;");
+                code.AppendLine($"_databaseConfigurator = databaseConfigurator;");
+            code.UnIndent();
+            code.AppendLine($"}}");
             code.AppendLine();
 
             foreach (var entity in solution.Domain.Entities)
@@ -65,15 +79,17 @@ internal class DbContextGenerator
 
             // Method content
             code.StartBlock();
-                code.AppendLine($"var configurations = Assembly.GetExecutingAssembly();");
-                code.AppendLine($"modelBuilder.ApplyConfigurationsFromAssembly(configurations);");
+                code.AppendLine($"foreach (var entity in _noxSolution.Domain.Entities)");
+                code.StartBlock();
+                    code.AppendLine($"_databaseConfigurator.ConfigureEntity(modelBuilder.Entity(Type.GetType(\"SampleWebApp.Domain.\" + entity.Name)), entity);");
+                code.EndBlock();
                 code.AppendLine();
                 code.AppendLine($"base.OnModelCreating(modelBuilder);");
 
             // End method
             code.EndBlock();
 
-            // End class
+        // End class
         code.EndBlock();
         code.AppendLine();
 

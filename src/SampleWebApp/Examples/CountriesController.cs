@@ -9,15 +9,16 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using Nox.Types;
 using SampleWebApp.Domain;
+using SampleWebApp.Infrastructure.Persistence;
 using System.Net;
 
 namespace SampleWebApp.Examples;
 
 public class CountriesController : ODataController
 {
-    SampleServiceDbContext _databaseContext;
+    SampleWebAppDbContextExample _databaseContext;
 
-    public CountriesController(SampleServiceDbContext databaseContext)
+    public CountriesController(SampleWebAppDbContextExample databaseContext)
     {
         _databaseContext = databaseContext;
     }
