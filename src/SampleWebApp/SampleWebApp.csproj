@@ -19,9 +19,6 @@
   <ItemGroup>
     <Compile Remove="Generated\**" />
     <Content Include="Generated\**" />
-    <Compile Remove="Samples\Controller_Sample.cs" />
-    <Compile Remove="Samples\ODataConfiguration_Sample.cs" />
-    <Compile Remove="Samples\SampleServiceDbContext_Sample.cs" />
   </ItemGroup>
 
 
@@ -40,6 +37,7 @@
     <ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
     <ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
     <ProjectReference Include="..\Nox.Lib\Nox.Lib.csproj" />
+    <ProjectReference Include="..\Nox.Types.EntityFramework.vNext\Nox.Types.EntityFramework.vNext.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -58,11 +56,5 @@
   <ItemGroup>
     <Content Include="Examples\CountriesApiController.cs" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Samples\" />
-  </ItemGroup>
-
- 
 
 </Project>

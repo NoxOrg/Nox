@@ -3,9 +3,10 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Nox.Generator.Application.DtoGenerator;
 using Nox.Generator.Application.EventGenerator;
+using Nox.Generator.Common;
 using Nox.Generator.Domain.CqrsGenerators;
 using Nox.Generator.Domain.DomainEventGenerator;
-using Nox.Generator.Infrastructure.Persistence.ModelConfigGenerator;
+using Nox.Generator.Presentation.Rest;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
@@ -13,11 +14,9 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Nox.Generator.Common;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
-using Nox.Generator.Presentation.Rest;
 
 namespace Nox.Generator;
 
@@ -79,8 +78,6 @@ public class NoxCodeGenerator : IIncrementalGenerator
                 if (generate.Infrastructure)
                 {
                     DbContextGenerator.Generate(context, solutionNameSpace, solution);
-
-                    EntityTypeDefinitionsGenerator.Generate(context, solutionNameSpace, solution);
                 }
 
                 if (generate.Presentation)
