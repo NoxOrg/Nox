@@ -16,7 +16,7 @@
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
         <AssemblyVersion>7.0.0.0</AssemblyVersion>
         <FileVersion>7.0.0.0</FileVersion>
-        <PackageVersion>7.0.0-BETA7</PackageVersion>
+        <PackageVersion>7.0.0</PackageVersion>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
         <RepositoryUrl>https://github.com/NoxOrg/Nox.git</RepositoryUrl>
