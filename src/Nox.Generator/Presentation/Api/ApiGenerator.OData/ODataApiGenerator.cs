@@ -43,9 +43,8 @@ internal static class ODataApiGenerator
             code.AppendLine($"using Microsoft.AspNetCore.OData.Query;");
             code.AppendLine($"using Microsoft.AspNetCore.OData.Routing.Controllers;");
             code.AppendLine($"using Microsoft.EntityFrameworkCore;");
-            code.AppendLine($"using SampleWebApp.Domain;");
-            code.AppendLine($"using SampleWebApp.Infrastructure.Persistence;");
-            code.AppendLine($"using System.Net;");
+            code.AppendLine($"using {solutionNameSpace}.Domain;");
+            code.AppendLine($"using {solutionNameSpace}.Infrastructure.Persistence;"); 
             code.AppendLine($"using Nox.Types;");
             code.AppendLine();
             code.AppendLine($"namespace {solutionNameSpace}.Presentation.Api.OData;");
@@ -237,7 +236,7 @@ internal static class ODataApiGenerator
                         code.AppendLine();
                         code.AppendLine($"_databaseContext.{pluralName}.Remove({variableName});");
                         code.AppendLine($"await _databaseContext.SaveChangesAsync();");
-                        code.AppendLine($"return StatusCode((int)HttpStatusCode.NoContent);");
+                        code.AppendLine($"return NoContent();");
 
                     // End method
                     code.EndBlock();
