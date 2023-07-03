@@ -14,8 +14,7 @@ public sealed class SqlServerDatabaseConfigurator : NoxDatabaseConfigurator
             { NoxType.Money, new MoneyDatabaseConfigurator() } // use default implementation
         };
 
-    public SqlServerDatabaseConfigurator() : base(
-        _typesConfiguration)
+    public SqlServerDatabaseConfigurator() : base(_typesConfiguration)
     {
     }
 }

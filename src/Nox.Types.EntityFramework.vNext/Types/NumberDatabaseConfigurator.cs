@@ -4,10 +4,6 @@ using Nox.Types.EntityFramework.Types;
 
 namespace Nox.Types.EntityFramework.vNext.Types;
 
-
-/// <summary>
-/// This will move to Nox.Types.EntityFramework, default implementation for Number
-/// </summary>
 public class NumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
     public void ConfigureEntityProperty(EntityTypeBuilder builder, NoxSimpleTypeDefinition property, bool isKey)
@@ -15,20 +11,15 @@ public class NumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
         //Todo Default values from static property in the Nox.Type
         var typeOptions = property.NumberTypeOptions ?? new NumberTypeOptions();
 
-
         if (isKey)
         {
             builder.HasKey(property.Name);
-            // TODO Define Rules and expectations for keys
-            // TODO throw new Exception("Use AutoNumber Instead")
         }
 
         builder
             .Property(property.Name)
             .IsRequired(property.IsRequired)
             .HasConversion(GetConverter(typeOptions));
-        // TODO use AutoNumber
-        //.If(isKey, p => p.ValueGeneratedOnAdd());
     }
 
     public Type GetConverter(NumberTypeOptions typeOptions)
@@ -58,15 +49,8 @@ public class NumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
         }
 
         //See https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/floating-point-numeric-types
-        //Opt by Decimal, if precision is higher then 17
-        if (typeOptions is { DecimalDigits: > 17 })
-        {
-            return typeof(NumberToDecimalConverter);
-        }
-
-        //Fall back to double, more range less precision
-        return typeof(NumberToDoubleConverter);
+        
+        //Fall back to decimal
+        return typeof(NumberToDecimalConverter);
     }
-
-
 }

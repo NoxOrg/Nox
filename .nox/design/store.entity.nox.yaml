@@ -23,4 +23,11 @@ attributes:
       minLength: 4
       maxLength: 63
     isRequired: true
+
+  - name: PhysicalMoney
+    description: Physical Money in the Physical Store
+    type: money
+    #moneyTypeOptions:
+    #  defaultCurrency: CurrencyCode.GBP      
+    isRequired: true
     

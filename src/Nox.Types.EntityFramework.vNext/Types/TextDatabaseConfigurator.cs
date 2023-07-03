@@ -5,9 +5,6 @@ using Nox.Types.EntityFramework.Types;
 
 namespace Nox.Types.EntityFramework.vNext.Types;
 
-/// <summary>
-/// This will move to Nox.Types.EntityFramework, default implementation for Number
-/// </summary>
 public class TextDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
     public void ConfigureEntityProperty(EntityTypeBuilder builder, NoxSimpleTypeDefinition property, bool isKey)

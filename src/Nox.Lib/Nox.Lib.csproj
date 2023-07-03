@@ -23,6 +23,15 @@
         <RepositoryType>git</RepositoryType>
         <PackageIcon>nox.png</PackageIcon>
     </PropertyGroup>
+	
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	</PropertyGroup>
+
     <ItemGroup>
         <ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
         <ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" PrivateAssets="all" />

@@ -5,8 +5,6 @@ namespace Nox.Types.EntityFramework.Sqlite;
 
 public sealed class SqliteDatabaseConfigurator : NoxDatabaseConfigurator
 {
-    //We could use the container to manage this
-
     private static readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> _typesConfiguration = new()
     {
         // Use default implementation for all types
@@ -15,8 +13,7 @@ public sealed class SqliteDatabaseConfigurator : NoxDatabaseConfigurator
         { NoxType.Money, new MoneyDatabaseConfigurator() }
     };
 
-    public SqliteDatabaseConfigurator() : base(
-        _typesConfiguration)
+    public SqliteDatabaseConfigurator() : base(_typesConfiguration)
     {
     }
 }

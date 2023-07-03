@@ -13,16 +13,11 @@ public class MoneyDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
         if (isKey)
         {
-            throw new NoxEntityFrameworkException("Money type can not be used as a key");
+            builder.HasKey(property.Name);
         }
 
-        //TODO Implement OwnsOne  
-        //builder
-        //    .OwnsOne(property.Name, )
-        //    .Property(property.Name)
-        //    .IsRequired(property.IsRequired)
-        //    .HasConversion(GetConverter(typeOptions));
-        //.HasPrecision(typeOptions.DecimalDigits + typeOptions.IntegerDigits, typeOptions.DecimalDigits);
+        builder
+            .OwnsOne(typeof(Money), property.Name)
+            .Ignore(nameof(Money.Value));
     }
-
 }
