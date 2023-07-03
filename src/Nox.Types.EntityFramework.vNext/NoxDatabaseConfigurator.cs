@@ -5,15 +5,15 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
-using Nox.Types.EntityFramework.vNext.TypesConfiguration;
+using Nox.Types.EntityFramework.vNext.Types;
 
 namespace Nox.Types.EntityFramework.vNext
 {
-    public abstract class NoxDatabaseProvider : INoxDatabaseProvider
+    public abstract class NoxDatabaseConfigurator : INoxDatabaseConfigurator
     {
-        private readonly Dictionary<NoxType, INoxTypeDatabaseConfiguration> _typesDatabaseConfigurations;
+        private readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> _typesDatabaseConfigurations;
 
-        protected NoxDatabaseProvider(Dictionary<NoxType, INoxTypeDatabaseConfiguration> typesConfiguration)
+        protected NoxDatabaseConfigurator(Dictionary<NoxType, INoxTypeDatabaseConfigurator> typesConfiguration)
         {
             _typesDatabaseConfigurations = typesConfiguration;
         }

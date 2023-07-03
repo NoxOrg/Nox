@@ -4,7 +4,7 @@ using Nox.Solution;
 
 namespace Nox.Types.EntityFramework.vNext
 {
-    public interface INoxDatabaseProvider
+    public interface INoxDatabaseConfigurator
     {
         void ConfigureEntity(EntityTypeBuilder builder, Entity entity);
     }

@@ -1,8 +1,8 @@
-﻿using Nox.Types.EntityFramework.vNext.TypesConfiguration;
+﻿using Nox.Types.EntityFramework.vNext.Types;
 
 namespace Nox.Types.EntityFramework.SqlServer;
 
-public class SqlServerTextDatabaseConfiguration : TextDatabaseConfiguration
+public class SqlServerTextDatabaseConfigurator : TextDatabaseConfigurator
 {
     public override string? GetColumnType(TextTypeOptions typeOptions)
     {

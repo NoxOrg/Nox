@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 
-namespace Nox.Types.EntityFramework.vNext.TypesConfiguration;
+namespace Nox.Types.EntityFramework.vNext.Types;
 
-public class MoneyDatabaseConfiguration : INoxTypeDatabaseConfiguration
+public class MoneyDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
 
     public void ConfigureEntityProperty(EntityTypeBuilder builder, NoxSimpleTypeDefinition property, bool isKey)
