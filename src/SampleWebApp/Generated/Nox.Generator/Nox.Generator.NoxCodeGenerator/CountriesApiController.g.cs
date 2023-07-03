@@ -13,7 +13,7 @@ namespace SampleWebApp.Presentation.Rest;
 /// Controller for Country entity. The list of countries.
 /// </summary>
 [ApiController]
-[Route("[controller]")]
+[Route("Countries")]
 public partial class CountriesApiController : ControllerBase
 {
     

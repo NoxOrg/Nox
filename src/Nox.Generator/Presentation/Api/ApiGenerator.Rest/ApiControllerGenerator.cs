@@ -62,7 +62,7 @@ internal class ApiControllerGenerator
         GenerateDocs(code, $"Controller for {entity.Name} entity. {entity.Description}");
 
         code.AppendLine($"[ApiController]");
-        code.AppendLine($"[Route(\"[controller]\")]");
+        code.AppendLine($"[Route(\"{entity.PluralName}\")]");
         code.AppendLine($"public partial class {className} : ControllerBase");
 
         code.StartBlock();
