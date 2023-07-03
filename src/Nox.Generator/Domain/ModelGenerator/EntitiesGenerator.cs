@@ -103,7 +103,7 @@ internal class EntitiesGenerator
         if (key.Type == NoxType.Entity)
         {
            // propType = $"{key.EntityTypeOptions!.Entity}Id";
-            propName = key.EntityTypeOptions.Entity;
+            propName = key.EntityTypeOptions!.Entity;
         }
 
         code.AppendLine($"public {key.Type} {propName} {{ get; set; }} = null!;");
