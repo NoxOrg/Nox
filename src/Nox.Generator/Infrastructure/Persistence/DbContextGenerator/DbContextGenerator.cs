@@ -79,12 +79,20 @@ internal class DbContextGenerator
 
             // Method content
             code.StartBlock();
-                code.AppendLine($"foreach (var entity in _noxSolution.Domain.Entities)");
+                code.AppendLine("if (_noxSolution.Domain != null)");
                 code.StartBlock();
-                    code.AppendLine($"_databaseConfigurator.ConfigureEntity(modelBuilder.Entity(Type.GetType(\"SampleWebApp.Domain.\" + entity.Name)), entity);");
+                    code.AppendLine($"foreach (var entity in _noxSolution.Domain.Entities)");
+                    code.StartBlock();
+                        code.AppendLine("var type = Type.GetType(\"SampleWebApp.Domain.\" + entity.Name);");
+                        code.AppendLine();
+                        code.AppendLine("if (type != null)");
+                        code.StartBlock();
+                            code.AppendLine($"_databaseConfigurator.ConfigureEntity(modelBuilder.Entity(type, entity);");
+                        code.EndBlock();
+                    code.EndBlock();
+                    code.AppendLine();
+                    code.AppendLine($"base.OnModelCreating(modelBuilder);");
                 code.EndBlock();
-                code.AppendLine();
-                code.AppendLine($"base.OnModelCreating(modelBuilder);");
 
             // End method
             code.EndBlock();
