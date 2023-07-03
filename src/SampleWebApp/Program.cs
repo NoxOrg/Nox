@@ -1,11 +1,9 @@
-using System.Diagnostics.Metrics;
 using Nox;
-using SampleWebApp.Presentation.Api.OData;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.AddNox();
 
 // Add services to the container.
-
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -29,5 +27,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseNox();
 
 app.Run();

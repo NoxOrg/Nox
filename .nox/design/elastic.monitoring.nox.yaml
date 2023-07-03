@@ -1,0 +1,4 @@
+name: SampleObservability
+provider: elasticApm
+serverUri: localhost
+port: 8200
