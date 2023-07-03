@@ -39,7 +39,7 @@ public partial class CountriesApiController : ControllerBase
     /// <summary>
     /// Returns a list of countries for a given continent.
     /// </summary>
-    [HttpGet]
+    [HttpGet("GetCountriesByContinent")]
     public async Task<IResult> GetCountriesByContinentAsync(Text continentName)
     {
         var result = await GetCountriesByContinent.ExecuteAsync(continentName);
@@ -49,7 +49,7 @@ public partial class CountriesApiController : ControllerBase
     /// <summary>
     /// Instructs the service to collect updated population statistics.
     /// </summary>
-    [HttpPost]
+    [HttpPost("UpdatePopulationStatistics")]
     public async Task<IResult> UpdatePopulationStatisticsAsync(UpdatePopulationStatistics command)
     {
         var result = await UpdatePopulationStatistics.ExecuteAsync(command);
