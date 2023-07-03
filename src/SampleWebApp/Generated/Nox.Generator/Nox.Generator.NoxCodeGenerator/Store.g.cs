@@ -22,4 +22,9 @@ public partial class Store : AuditableEntityBase
     /// Store Name (required).
     /// </summary>
     public Text Name { get; set; } = null!;
+    
+    /// <summary>
+    /// Physical Money in the Physical Store (required).
+    /// </summary>
+    public Money PhysicalMoney { get; set; } = null!;
 }
