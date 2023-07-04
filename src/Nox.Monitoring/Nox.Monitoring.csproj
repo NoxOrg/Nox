@@ -7,7 +7,6 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Microsoft.AspNetCore.Http.Abstractions" Version="2.2.0" />
       <PackageReference Include="Nox.Solution" Version="1.0.13" />
     </ItemGroup>
 

@@ -2,7 +2,6 @@
 using Nox.Generator.Common;
 using Nox.Solution;
 using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -63,7 +62,7 @@ internal class ApiControllerGenerator
         GenerateDocs(code, $"Controller for {entity.Name} entity. {entity.Description}");
 
         code.AppendLine($"[ApiController]");
-        code.AppendLine($"[Route(\"[controller]\")]");
+        code.AppendLine($"[Route(\"{entity.PluralName}\")]");
         code.AppendLine($"public partial class {className} : ControllerBase");
 
         code.StartBlock();
@@ -90,7 +89,7 @@ internal class ApiControllerGenerator
         foreach (var query in queries)
         {
             GenerateDocs(code, query.Description);
-            code.AppendLine("[HttpGet]");
+            code.AppendLine($"[HttpGet(\"{query.Name}\")]");
             code.AppendLine($"public async Task<IResult> {query.Name}Async({GetParametersString(query.RequestInput)})");
             code.StartBlock();
             code.AppendLine($"var result = await {query.Name}.ExecuteAsync({GetParametersExecuteString(query.RequestInput)});");
@@ -105,7 +104,7 @@ internal class ApiControllerGenerator
             var typeDefinition = GenerateTypeDefinition(context, solutionNameSpace, command);
 
             GenerateDocs(code, command.Description);
-            code.AppendLine("[HttpPost]");
+            code.AppendLine($"[HttpPost(\"{command.Name}\")]");
             code.AppendLine($"public async Task<IResult> {command.Name}Async({typeDefinition} command)");
             code.StartBlock();
             code.AppendLine($"var result = await {command.Name}.ExecuteAsync(command);");

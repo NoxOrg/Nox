@@ -15,8 +15,8 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.7" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.7" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.8" />
 		<PackageReference Include="Nox.Solution" Version="1.0.13" />
 		<PackageReference Include="Nox.Types.EntityFramework" Version="1.0.10" />
 	</ItemGroup>
