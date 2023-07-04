@@ -1,0 +1,17 @@
+#
+# variables.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: TestService
+
+description: Yaml file for testing variables
+
+variables:
+  VARIABLE1: value1
+  VARIABLE2: value2
+
+
+

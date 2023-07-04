@@ -1,0 +1,89 @@
+#
+# dumplicate-domain-event.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: TestService
+
+description: Yaml file for testing domain events
+
+overview: https://regusit.atlassian.net/wiki/spaces/IE/pages/2546237453/QUARK+-+IWG+Engineering
+
+domain:
+
+  entities:
+
+    - name: Country
+      description: The list of countries
+ 
+      commands:
+
+        - name: UpdateCountryName
+          description: Update the name of a country
+          type: object
+          objectTypeOptions:
+            attributes:
+              - name: CountryCode
+                type: countryCode2
+              - name: NewName
+                type: text
+          emitEvents: [CountryNameUpdatedDomainEvent]
+      
+      events:
+        - name: CountryNameUpdatedDomainEvent
+          description: Raised when the name of a country is changed
+          type: object
+          objectTypeOptions:
+            attributes:
+
+              - name: CountryId
+                type: countryCode2
+
+              - name: CountryName
+                type: text
+      
+      keys:
+
+        - name: Id
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: Name
+          description: The country's common name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+        - name: AlphaCode2
+          description: The country's official ISO 4217 alpha-2 code
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+          isRequired: true
+
+application:
+  events:
+    - name: CountryNameUpdatedDomainEvent
+      description: This must raise a validation exception, event names must be unique
+      type: object
+      objectTypeOptions:
+        attributes:
+
+          - name: CountryId
+            type: countryCode2
+
+          - name: CountryName
+            type: text
+
+    

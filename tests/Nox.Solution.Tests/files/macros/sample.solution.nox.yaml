@@ -1,0 +1,105 @@
+#
+# workplace.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../../schemas/solution.json
+#
+
+
+name: SampleServiceWithMacros
+
+description: Sample Nox solution yaml configuration
+
+variables:
+  DATABASE_PROVIDER: slqServer
+  DATABASE_SERVER: localhost
+  DATABASE_PORT: "5432"
+
+environments:
+
+  - name: dev
+    description: Used for development and testing
+
+  - name: test
+    description: Test environment
+
+  - name: uat
+    description: For them end users to check it works
+
+  - name: prod
+    description: Production environment used for, well - the real thing!
+    isProduction: true
+
+versionControl:
+  provider: azureDevops
+  host: https://dev.azure.com/iwgplc
+  folders:
+    sourceCode: /src
+    containers: /docker
+
+team:
+
+  - name: Andre Sharpe
+    userName: andre.sharpe@iwgplc.com
+    roles: [architect, owner, administrator, developer, manager]
+
+  - name: Jan Schutte
+    userName: jan.schutte@iwgplc.com
+    roles: [architect, administrator, developer, devOpsEngineer]
+
+  - name: Anton Du Plessis
+    userName: anton.duplessis@iwgplc.com
+    roles: [projectManager]
+
+  - name: Morne Van Zyl
+    userName: morne.vanzyl@iwgplc.com
+    roles: [technicalWriter]
+
+  - name: Dmytro Dorodnykh
+    userName: dmytro.dorodnykh@iwgplc.com
+    roles: [developer]
+
+  - name: Oleksandr Vlasenko
+    userName: oleksandr.vlasenko@regus.com
+    roles: [architect, developer]
+
+infrastructure:
+  
+  persistence:
+
+    databaseServer:
+      name: SampleCurrencyDb
+      serverUri: sqlserver.iwgplc.com
+      provider: sqlServer
+      port: 1433
+      user: ${{ env.DB_USER }}
+      password: ${{env.DB_PASSWORD }}
+
+    cacheServer:
+      name: SampleCache
+      provider: azureRedis
+      serverUri: redis.iwgplc.com
+      user: ${{      env.CACHE_USER         }}
+      password: ${{ env.CACHE_PASSWORD}}
+
+  messaging:
+
+    integrationEventServer:
+      name: IntegrationBus
+      provider: rabbitMq
+      serverUri: rabbitmq://localhost
+      port: 5672
+      user: guest
+      password: guest
+
+  security:
+    secrets:
+      secretsServer:
+        name: SampleSecretServer
+        provider: azureKeyVault
+        serverUri: kv.iwgplc.com
+        user: ${{   env.SECRETS_USER }}
+        password: ${{ env.SECRETS_PASSWORD   }}
+      validFor:
+        minutes: 10
+
+
