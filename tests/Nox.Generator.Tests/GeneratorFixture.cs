@@ -1,9 +1,8 @@
 ﻿using System.IO;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Nox.Generator;
 
-namespace NoxSourceGeneratorTests;
+namespace Nox.Generator.Tests;
 
 public class GeneratorFixture
 {

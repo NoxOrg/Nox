@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Xunit;
 
-namespace NoxSourceGeneratorTests.Application;
+namespace Nox.Generator.Tests.Application;
 
 public class ApplicationEventTests: IClassFixture<GeneratorFixture>
 {

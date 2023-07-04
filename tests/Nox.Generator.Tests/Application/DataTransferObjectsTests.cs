@@ -1,30 +1,30 @@
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Xunit;
 
-namespace NoxSourceGeneratorTests.Domain;
+namespace Nox.Generator.Tests.Application;
 
-public class QueryTests: IClassFixture<GeneratorFixture>
+public class DataTransferObjectsTests: IClassFixture<GeneratorFixture>
 {
     private readonly GeneratorFixture _fixture;
 
-    public QueryTests(GeneratorFixture fixture)
+    public DataTransferObjectsTests(GeneratorFixture fixture)
     {
         _fixture = fixture;
     }
     
     
     [Fact]
-    public void Can_generate_domain_query_files()
+    public void Can_generate_a_dto_file()
     {
-        var path = "files/yaml/domain/";
+        var path = "files/yaml/application/";
         var additionalFiles = new List<AdditionalSourceText>
         {
             new AdditionalSourceText(File.ReadAllText($"./{path}generator.nox.yaml"), $"{path}/generator.nox.yaml"),
-            new AdditionalSourceText(File.ReadAllText($"./{path}query.solution.nox.yaml"), $"{path}/query.solution.nox.yaml")
+            new AdditionalSourceText(File.ReadAllText($"./{path}dto.solution.nox.yaml"), $"{path}/dto.solution.nox.yaml")
         };
 
         // trackIncrementalGeneratorSteps allows to report info about each step of the generator
@@ -43,12 +43,9 @@ public class QueryTests: IClassFixture<GeneratorFixture>
         Assert.Single(allOutputs);
 
         var generatedSources = result.GeneratedSources;
-        Assert.Equal(6, generatedSources.Length);
-        Assert.True(generatedSources.Any(s => s.HintName == "Generator.g.cs"), "Generator.g.cs not generated");
-        Assert.True(generatedSources.Any(s => s.HintName == "EntityBase.g.cs"), "EntityBase.g.cs not generated");
-        Assert.True(generatedSources.Any(s => s.HintName == "AuditableEntityBase.g.cs"), "AuditableEntityBase.g.cs not generated");
-        Assert.True(generatedSources.Any(s => s.HintName == "CountryInfo.g.cs"), "CountryInfo.g.cs not generated");
-        Assert.True(generatedSources.Any(s => s.HintName == "GetCountriesByContinentQuery.g.cs"), "GetCountriesByContinentQuery.g.cs not generated");
+        Assert.Equal(2, generatedSources.Length);
+        Assert.True(generatedSources.Any(s => s.HintName == "Generator.g.cs"), "Generator not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == "CountryDto.g.cs"), "CountryDto not generated");
         //can further extend this test to verify contents of source files.
     }
 }

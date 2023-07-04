@@ -1,9 +1,8 @@
-﻿using System.Text;
-using System.Threading;
+﻿using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 
-namespace NoxSourceGeneratorTests;
+namespace Nox.Generator.Tests;
 
 public class AdditionalSourceText: AdditionalText
 {
