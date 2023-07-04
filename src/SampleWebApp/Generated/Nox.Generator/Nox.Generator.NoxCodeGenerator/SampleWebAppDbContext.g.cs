@@ -14,13 +14,11 @@ public partial class SampleWebAppDbContext : DbContext
     private NoxSolution _noxSolution { get; set; }
     private INoxDatabaseConfigurator _databaseConfigurator { get; set; }
     
-    #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public SampleWebAppDbContext(
         DbContextOptions<SampleWebAppDbContext> options,
         NoxSolution noxSolution,
         INoxDatabaseConfigurator databaseConfigurator
         ) : base(options)
-    #pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
         _noxSolution = noxSolution;
         _databaseConfigurator = databaseConfigurator;
@@ -34,11 +32,12 @@ public partial class SampleWebAppDbContext : DbContext
     
     public DbSet<CountryLocalNames> CountryLocalNames {get; set;} = null!;
     
+    
     public static void RegisterDbContext(IServiceCollection services)
     {
         services.AddDbContext<SampleWebAppDbContext>();
     }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         if (_noxSolution.Domain != null)

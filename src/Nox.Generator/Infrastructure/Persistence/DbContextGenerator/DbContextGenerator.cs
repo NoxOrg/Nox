@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Text;
+using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
 
@@ -38,7 +39,6 @@ internal class DbContextGenerator
             code.AppendLine();
             
             // Constructor
-            code.AppendLine("#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.");
             code.AppendLine($"public {dbContextName}(");
 
             // Constructor content
@@ -48,7 +48,6 @@ internal class DbContextGenerator
                 code.AppendLine($"INoxDatabaseConfigurator databaseConfigurator");
                 code.AppendLine($") : base(options)");
             code.UnIndent();
-            code.AppendLine("#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.");
             code.AppendLine($"{{");
             code.Indent();
                 code.AppendLine($"_noxSolution = noxSolution;");
@@ -63,45 +62,32 @@ internal class DbContextGenerator
                 code.AppendLine();
             }
 
-            // Method RegisterDbContext
-            code.AppendLine("public static void RegisterDbContext(IServiceCollection services)");
+        // Method content
+        code.AppendLine(@"
+    public static void RegisterDbContext(IServiceCollection services)
+    {
+        services.AddDbContext<" + dbContextName + @">();
+    }
 
-            // Method content
-            code.StartBlock();
-                code.AppendLine($"services.AddDbContext<{dbContextName}>();");
-
-            // End method
-            code.EndBlock();
-            code.AppendLine();
-
-            // Method OnModelCreating
-            code.AppendLine($"protected override void OnModelCreating(ModelBuilder modelBuilder)");
-
-            // Method content
-            code.StartBlock();
-                code.AppendLine("if (_noxSolution.Domain != null)");
-                code.StartBlock();
-                    code.AppendLine($"foreach (var entity in _noxSolution.Domain.Entities)");
-                    code.StartBlock();
-                        code.AppendLine($"var type = Type.GetType(\"{solution.Name}.Domain.\" + entity.Name);");
-                        code.AppendLine();
-                        code.AppendLine("if (type != null)");
-                        code.StartBlock();
-                            code.AppendLine($"_databaseConfigurator.ConfigureEntity(modelBuilder.Entity(type), entity);");
-                        code.EndBlock();
-                    code.EndBlock();
-                    code.AppendLine();
-                    code.AppendLine($"base.OnModelCreating(modelBuilder);");
-                code.EndBlock();
-
-            // End method
-            code.EndBlock();
-
-        // End class
-        code.EndBlock();
-        code.AppendLine();
-
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        if (_noxSolution.Domain != null)
+        {
+            foreach (var entity in _noxSolution.Domain.Entities)
+            {
+                var type = Type.GetType(""" + solutionNameSpace + @".Domain."" + entity.Name);
+                
+                if (type != null)
+                {
+                    _databaseConfigurator.ConfigureEntity(modelBuilder.Entity(type), entity);
+                }
+            }
+            
+            base.OnModelCreating(modelBuilder);
+        }
+    }
+}
+");
         code.GenerateSourceCode();
-
     }
 }
