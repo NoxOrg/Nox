@@ -3,6 +3,7 @@
 #nullable enable
 
 using Microsoft.EntityFrameworkCore;
+using Nox.DatabaseProvider;
 using Nox.Solution;
 using Nox.Types.EntityFramework.vNext;
 using SampleWebApp.Domain;
@@ -11,17 +12,20 @@ namespace SampleWebApp.Infrastructure.Persistence;
 
 public partial class SampleWebAppDbContext : DbContext
 {
-    private NoxSolution _noxSolution { get; set; }
-    private INoxDatabaseConfigurator _databaseConfigurator { get; set; }
+    private readonly NoxSolution _noxSolution;
+    private readonly INoxDatabaseConfigurator _databaseConfigurator;
+    private readonly INoxDatabaseProvider _dbProvider;
     
     public SampleWebAppDbContext(
         DbContextOptions<SampleWebAppDbContext> options,
         NoxSolution noxSolution,
-        INoxDatabaseConfigurator databaseConfigurator
-        ) : base(options)
+        INoxDatabaseConfigurator databaseConfigurator,
+        INoxDatabaseProvider databaseProvider
+    ) : base(options)
     {
-        _noxSolution = noxSolution;
-        _databaseConfigurator = databaseConfigurator;
+            _noxSolution = noxSolution;
+            _databaseConfigurator = databaseConfigurator;
+            _dbProvider = databaseProvider;
     }
     
     public DbSet<Country> Countries {get; set;} = null!;
@@ -32,14 +36,18 @@ public partial class SampleWebAppDbContext : DbContext
     
     public DbSet<CountryLocalNames> CountryLocalNames {get; set;} = null!;
     
-    
-    public static void RegisterDbContext(IServiceCollection services)
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        services.AddDbContext<SampleWebAppDbContext>();
+        base.OnConfiguring(optionsBuilder);
+        if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
+        {
+            _dbProvider.ConfigureDbContext(optionsBuilder, "SampleWebApp", _noxSolution.Infrastructure!.Persistence.DatabaseServer); 
+        }
     }
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         if (_noxSolution.Domain != null)
         {
             foreach (var entity in _noxSolution.Domain.Entities)
@@ -52,7 +60,6 @@ public partial class SampleWebAppDbContext : DbContext
                 }
             }
             
-            base.OnModelCreating(modelBuilder);
         }
     }
 }

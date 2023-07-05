@@ -1,5 +1,6 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Nox.DatabaseProvider;
 using Nox.Solution;
 
 namespace Nox;
@@ -17,10 +18,10 @@ public static class ServiceCollectionExtension
         }
     }
     
-    public static IServiceCollection AddNox(this IServiceCollection services)
+    public static IServiceCollection AddNoxLib(this IServiceCollection services)
     {
         services.AddSingleton(Solution);
-
+        
         return services;
     }
 

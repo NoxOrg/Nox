@@ -412,11 +412,12 @@ infrastructure:
       name: SampleCurrencyDb
 
       # Sql Server
-      serverUri: sqlserver.iwgplc.com
+      serverUri: localhost
       provider: sqlServer
       port: 1433
-      user: sqluser
-      password: sqlpassword
+      user: sa
+      password: Developer*123
+      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;
 
       ### Postgres
       #provider: postgres

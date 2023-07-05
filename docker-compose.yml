@@ -42,9 +42,9 @@ services:
          -E apm-server.kibana.host=kibana:5601
          -E output.elasticsearch.hosts=["elasticsearch:9200"]
          -E apm-server.kibana.username=elastic
-         -E apm-server.kibana.password=$ELASTIC_PASSWORD
+         -E apm-server.kibana.password=Developer*123
          -E output.elasticsearch.username=elastic
-         -E output.elasticsearch.password=$ELASTIC_PASSWORD
+         -E output.elasticsearch.password=Developer*123
     healthcheck:
       interval: 10s
       retries: 12
@@ -59,9 +59,9 @@ services:
     - cluster.routing.allocation.disk.threshold_enabled=false
     - discovery.type=single-node
     - ES_JAVA_OPTS=-XX:UseAVX=2 -Xms1g -Xmx1g
-    - xpack.security.enabled=$ELASTIC_SECURITY
+    - xpack.security.enabled=true
     - xpack.security.authc.api_key.enabled=true
-    - ELASTIC_PASSWORD=$ELASTIC_PASSWORD
+    - ELASTIC_PASSWORD=Developer*123
     ulimits:
       memlock:
         hard: -1
@@ -87,7 +87,7 @@ services:
       ELASTICSEARCH_URL: http://elasticsearch:9200
       ELASTICSEARCH_HOSTS: http://elasticsearch:9200
       ELASTICSEARCH_USERNAME: elastic
-      ELASTICSEARCH_PASSWORD: $ELASTIC_PASSWORD
+      ELASTICSEARCH_PASSWORD: Developer*123
     ports:
     - 5601:5601
     networks:
