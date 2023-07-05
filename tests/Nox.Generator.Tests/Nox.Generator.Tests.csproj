@@ -35,8 +35,8 @@
     <ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" />
     <ProjectReference Include="..\..\src\Nox.Types.EntityFramework.Sqlite\Nox.Types.EntityFramework.Sqlite.csproj" />
     <ProjectReference Include="..\..\src\Nox.Types.EntityFramework.vNext\Nox.Types.EntityFramework.vNext.csproj" />
-	<ProjectReference Include="..\..\src\Nox.Solution\Nox.Solution.csproj" />
-	<ProjectReference Include="..\..\src\Nox.Types\Nox.Types.csproj" />
+    <ProjectReference Include="..\..\src\Nox.Solution\Nox.Solution.csproj" />
+    <ProjectReference Include="..\..\src\Nox.Types\Nox.Types.csproj" />
   </ItemGroup>
 
   <ItemGroup>
