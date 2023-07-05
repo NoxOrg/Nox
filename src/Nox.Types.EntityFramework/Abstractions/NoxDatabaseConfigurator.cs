@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
-using Nox.Types.EntityFramework.Abstractions;
 
-namespace Nox.Types.EntityFramework.Configurators
+namespace Nox.Types.EntityFramework.Abstractions
 {
     public abstract class NoxDatabaseConfigurator : INoxDatabaseConfigurator
     {
@@ -12,7 +11,7 @@ namespace Nox.Types.EntityFramework.Configurators
         {
             _typesDatabaseConfigurations = typesConfiguration;
         }
-        
+
         public virtual void ConfigureEntity(EntityTypeBuilder builder, Entity entity)
         {
             //TODO Composite Keys

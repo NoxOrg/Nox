@@ -1,50 +1,73 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <LangVersion>10.0</LangVersion>
-    <Nullable>enable</Nullable>
-    <IncludeBuildOutput>true</IncludeBuildOutput>
-    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<LangVersion>10.0</LangVersion>
+		<Nullable>enable</Nullable>
+		<IncludeBuildOutput>true</IncludeBuildOutput>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+	</PropertyGroup>
+	<PropertyGroup>
+		<PackageId>Nox.Generator</PackageId>
+		<Authors>Andre Sharpe,Jan Schutte</Authors>
+		<Description>Nox generators library</Description>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<Copyright>Copyright (c) Andre Sharpe 2023</Copyright>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/NoxOrg/Nox.Generator.git</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageIcon>nox.png</PackageIcon>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <DebugType>none</DebugType>
-    <DebugSymbols>false</DebugSymbols>
-    <PlatformTarget>AnyCPU</PlatformTarget>
-  </PropertyGroup>
-  
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.6.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
+	</ItemGroup>
 
-  <ItemGroup>
-	  <PackageReference Include="YamlDotNet" Version="13.1.1" PrivateAssets="all" GeneratePathProperty="true" />
-    <PackageReference Include="Humanizer.Core" Version="2.14.1" PrivateAssets="all" GeneratePathProperty="true" />
-    <PackageReference Include="FluentValidation" Version="11.6.0" PrivateAssets="all" GeneratePathProperty="true" />
-  </ItemGroup>
- 
-  <ItemGroup>
-    <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
-  </ItemGroup>
-  
-  <PropertyGroup>
-    <GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
-  </PropertyGroup>
-  
-  <Target Name="GetDependencyTargetPaths">
-    <ItemGroup>
-      <TargetPathWithTargetPlatformMoniker Include="$(PKGYamlDotNet)\lib\netstandard2.0\YamlDotNet.dll" IncludeRuntimeDependency="false" />
-      <TargetPathWithTargetPlatformMoniker Include="$(PKGHumanizer_Core)\lib\netstandard2.0\Humanizer.dll" IncludeRuntimeDependency="false" />
-      <TargetPathWithTargetPlatformMoniker Include="$(PKGFluentValidation)\lib\netstandard2.0\FluentValidation.dll" IncludeRuntimeDependency="false" />
-      <TargetPathWithTargetPlatformMoniker Include="..\..\src\Nox.Solution\bin\$(Configuration)\netstandard2.0\Nox.Solution.dll" IncludeRuntimeDependency="false" />
-      <TargetPathWithTargetPlatformMoniker Include="..\..\src\Nox.Types\bin\$(Configuration)\netstandard2.0\Nox.Types.dll" IncludeRuntimeDependency="false" />
-    </ItemGroup>
-  </Target>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DebugType>none</DebugType>
+		<DebugSymbols>false</DebugSymbols>
+		<PlatformTarget>AnyCPU</PlatformTarget>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.6.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="YamlDotNet" Version="13.1.1" PrivateAssets="all" GeneratePathProperty="true" />
+		<PackageReference Include="Humanizer.Core" Version="2.14.1" PrivateAssets="all" GeneratePathProperty="true" />
+		<PackageReference Include="FluentValidation" Version="11.6.0" PrivateAssets="all" GeneratePathProperty="true" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
+	</ItemGroup>
+
+	<PropertyGroup>
+		<GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
+	</PropertyGroup>
+
+	<Target Name="GetDependencyTargetPaths">
+		<ItemGroup>
+			<TargetPathWithTargetPlatformMoniker Include="$(PKGYamlDotNet)\lib\netstandard2.0\YamlDotNet.dll"
+			                                     IncludeRuntimeDependency="false" />
+			<TargetPathWithTargetPlatformMoniker Include="$(PKGHumanizer_Core)\lib\netstandard2.0\Humanizer.dll"
+			                                     IncludeRuntimeDependency="false" />
+			<TargetPathWithTargetPlatformMoniker Include="$(PKGFluentValidation)\lib\netstandard2.0\FluentValidation.dll"
+			                                     IncludeRuntimeDependency="false" />
+			<TargetPathWithTargetPlatformMoniker
+				Include="..\..\src\Nox.Solution\bin\$(Configuration)\netstandard2.0\Nox.Solution.dll"
+				IncludeRuntimeDependency="false" />
+			<TargetPathWithTargetPlatformMoniker Include="..\..\src\Nox.Types\bin\$(Configuration)\netstandard2.0\Nox.Types.dll"
+			                                     IncludeRuntimeDependency="false" />
+		</ItemGroup>
+	</Target>
 
 </Project>

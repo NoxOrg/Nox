@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-using Nox.Types.EntityFramework.Types;
 
-namespace Nox.Types.EntityFramework.Configurators;
+namespace Nox.Types.EntityFramework.Types;
 
 public class NumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
@@ -50,7 +49,7 @@ public class NumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
         }
 
         //See https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/floating-point-numeric-types
-        
+
         //Fall back to decimal
         return typeof(NumberToDecimalConverter);
     }
