@@ -17,11 +17,11 @@
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.8" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.8" />
-		<PackageReference Include="Nox.Types.EntityFramework" Version="1.0.10" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
+	  <ProjectReference Include="..\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
 	</ItemGroup>
 
 </Project>
