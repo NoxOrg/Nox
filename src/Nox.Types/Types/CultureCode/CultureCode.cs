@@ -7,8 +7,19 @@ namespace Nox.Types;
 /// </summary>
 public class CultureCode : ValueObject<string, CultureCode>
 {
+    /// <summary>
+    /// The two letters culture code.
+    /// </summary>
     private const string TwoLettersCultureCode = @"^[a-z]{2}$";
+
+    /// <summary>
+    /// The five letters culture code
+    /// </summary>
     private const string FiveLettersCultureCode = @"^[a-z]{2}-[A-Z]{2}$";
+
+    /// <summary>
+    /// The ten letters culture code
+    /// </summary>
     private const string TenLettersCultureCode = @"^[a-z]{2}-[A-Z]{2}-[A-Z][a-z]{3}$";
 
     /// <summary>
