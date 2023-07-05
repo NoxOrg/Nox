@@ -38,7 +38,7 @@ public class YamlFileValidationTests
     {
         var yaml = File.ReadAllText("./files/invalid-sample.solution.nox.yaml");
 
-        var exception = Assert.Throws<NoxSolutionConfigurationException>(() => NoxYamlSerializer.Deserialize<NoxSolution>(yaml));
+        var exception = Assert.Throws<NoxSolutionConfigurationException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(yaml));
 
         var errorCount = exception.Message.Split('\n').Length;
 
@@ -63,7 +63,7 @@ public class YamlFileValidationTests
     {
         var yaml = File.ReadAllText($"./files/{yamlFile}");
 
-        var model = NoxYamlSerializer.Deserialize<NoxSolution>(yaml)!;
+        var model = NoxSchemaValidator.Deserialize<NoxSolution>(yaml)!;
 
         model.Name.Should().Be(expectedServiceName);
     }

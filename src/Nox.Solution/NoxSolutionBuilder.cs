@@ -55,7 +55,7 @@ namespace Nox.Solution
             var yamlRef = resolver.ResolveReferences();
             var yaml = ExpandMacros(yamlRef);
 
-            var config = NoxYamlSerializer.Deserialize<NoxSolution>(yaml);
+            var config = NoxSchemaValidator.Deserialize<NoxSolution>(yaml);
 
             config.RootYamlFile = _yamlFilePath;
             return config;
