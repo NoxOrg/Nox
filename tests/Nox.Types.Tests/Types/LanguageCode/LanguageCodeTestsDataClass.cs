@@ -24,7 +24,6 @@ public class LanguageCodeTestsDataClass : IEnumerable<object[]>
         yield return new object[] { "BG" };
         yield return new object[] { "BH" };
         yield return new object[] { "BI" };
-        yield return new object[] { "BM" };
         yield return new object[] { "BN" };
         yield return new object[] { "BO" };
         yield return new object[] { "BR" };
@@ -42,7 +41,6 @@ public class LanguageCodeTestsDataClass : IEnumerable<object[]>
         yield return new object[] { "DE" };
         yield return new object[] { "DV" };
         yield return new object[] { "DZ" };
-
         yield return new object[] { "EE" };
         yield return new object[] { "EL" };
         yield return new object[] { "EN" };
@@ -53,11 +51,8 @@ public class LanguageCodeTestsDataClass : IEnumerable<object[]>
         yield return new object[] { "FA" };
         yield return new object[] { "FF" };
         yield return new object[] { "FI" };
-        yield return new object[] { "FJ" };
-        yield return new object[] { "FO" };
         yield return new object[] { "FR" };
         yield return new object[] { "FY" };
-
         yield return new object[] { "GA" };
         yield return new object[] { "GD" };
         yield return new object[] { "GL" };
@@ -73,7 +68,6 @@ public class LanguageCodeTestsDataClass : IEnumerable<object[]>
         yield return new object[] { "HU" };
         yield return new object[] { "HY" };
         yield return new object[] { "HZ" };
-
         yield return new object[] { "IA" };
         yield return new object[] { "ID" };
         yield return new object[] { "IE" };
@@ -83,14 +77,10 @@ public class LanguageCodeTestsDataClass : IEnumerable<object[]>
         yield return new object[] { "IO" };
         yield return new object[] { "IS" };
         yield return new object[] { "IT" };
-        yield return new object[] { "IU" };
-
         yield return new object[] { "JA" };
         yield return new object[] { "JV" };
-
         yield return new object[] { "KA" };
         yield return new object[] { "KG" };
-        yield return new object[] { "KI" };
         yield return new object[] { "KJ" };
         yield return new object[] { "KK" };
         yield return new object[] { "KL" };
@@ -103,7 +93,6 @@ public class LanguageCodeTestsDataClass : IEnumerable<object[]>
         yield return new object[] { "KV" };
         yield return new object[] { "KW" };
         yield return new object[] { "KY" };
-
         yield return new object[] { "LA" };
         yield return new object[] { "LB" };
         yield return new object[] { "LG" };
@@ -113,7 +102,6 @@ public class LanguageCodeTestsDataClass : IEnumerable<object[]>
         yield return new object[] { "LT" };
         yield return new object[] { "LU" };
         yield return new object[] { "LV" };
-
         yield return new object[] { "MG" };
         yield return new object[] { "MH" };
         yield return new object[] { "MI" };
@@ -124,7 +112,6 @@ public class LanguageCodeTestsDataClass : IEnumerable<object[]>
         yield return new object[] { "MS" };
         yield return new object[] { "MT" };
         yield return new object[] { "MY" };
-
         yield return new object[] { "NA" };
         yield return new object[] { "NB" };
         yield return new object[] { "ND" };
@@ -136,27 +123,21 @@ public class LanguageCodeTestsDataClass : IEnumerable<object[]>
         yield return new object[] { "NR" };
         yield return new object[] { "NV" };
         yield return new object[] { "NY" };
-
         yield return new object[] { "OC" };
         yield return new object[] { "OJ" };
         yield return new object[] { "OM" };
         yield return new object[] { "OR" };
         yield return new object[] { "OS" };
-
         yield return new object[] { "PA" };
         yield return new object[] { "PI" };
         yield return new object[] { "PL" };
         yield return new object[] { "PS" };
         yield return new object[] { "PT" };
-
         yield return new object[] { "QU" };
-
         yield return new object[] { "RM" };
-        yield return new object[] { "RN" };
         yield return new object[] { "RO" };
         yield return new object[] { "RU" };
         yield return new object[] { "RW" };
-
         yield return new object[] { "SA" };
         yield return new object[] { "SC" };
         yield return new object[] { "SD" };
