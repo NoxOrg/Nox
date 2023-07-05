@@ -83,8 +83,9 @@ internal class DbContextGenerator
                 }
             }
             
-            base.OnModelCreating(modelBuilder);
         }
+
+        base.OnModelCreating(modelBuilder);
     }
 }
 ");

@@ -1,35 +1,33 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿// Generated
+
+#nullable enable
+
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Nox.Solution;
 using Nox.Types.EntityFramework.vNext;
 using SampleWebApp.Domain;
-using SampleWebApp.Infrastructure.Persistence;
+using System;
 
-namespace SampleWebApp.Examples;
+namespace SampleWebApp.Infrastructure.Persistence;
 
-public class SampleWebAppDbContextExample : DbContext
+public partial class SampleWebAppDbContext : DbContext
 {
     private NoxSolution _noxSolution { get; set; }
     private INoxDatabaseConfigurator _databaseConfigurator { get; set; }
 
-#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
-    public SampleWebAppDbContextExample(
+    public SampleWebAppDbContext(
         DbContextOptions<SampleWebAppDbContext> options,
         NoxSolution noxSolution,
         INoxDatabaseConfigurator databaseConfigurator
-    ) : base(options)
-#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
+        ) : base(options)
     {
         _noxSolution = noxSolution;
         _databaseConfigurator = databaseConfigurator;
     }
 
-    public DbSet<Country> Countries;
+    public DbSet<TestEntity> TestEntities { get; set; } = null!;
 
-    public DbSet<Currency> Currencies;
-
-    public DbSet<Store> Stores;
-
-    public DbSet<CountryLocalNames> CountryLocalNames;
 
     public static void RegisterDbContext(IServiceCollection services)
     {
@@ -54,3 +52,4 @@ public class SampleWebAppDbContextExample : DbContext
         base.OnModelCreating(modelBuilder);
     }
 }
+
