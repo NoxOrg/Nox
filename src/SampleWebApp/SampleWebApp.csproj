@@ -55,4 +55,8 @@
 		<Compile Remove="Controller_Sample.cs" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Generated\" />
+	</ItemGroup>
+
 </Project>

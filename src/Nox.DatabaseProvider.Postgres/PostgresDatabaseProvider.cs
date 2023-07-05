@@ -4,7 +4,7 @@ using Npgsql;
 
 namespace Nox.DatabaseProvider.Postgres;
 
-public class PostgresDatabaseProvider
+public class PostgresDatabaseProvider: INoxDatabaseProvider
 {
     private string _connectionString = string.Empty;
 
@@ -21,9 +21,9 @@ public class PostgresDatabaseProvider
             Host = dbServer.ServerUri,
             Port = dbServer.Port ?? 5432,
             Username = dbServer.User,
-            Password = dbServer.User,
+            Password = dbServer.Password,
             Database = dbServer.Name,
-            ApplicationName = applicationName
+            ApplicationName = applicationName,
         };
         SetConnectionString(csb.ConnectionString);
 

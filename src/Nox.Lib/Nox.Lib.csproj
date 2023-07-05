@@ -44,6 +44,7 @@
 		<ProjectReference Include="..\Nox.Logging\Nox.Logging.csproj" />
 		<ProjectReference Include="..\Nox.Monitoring\Nox.Monitoring.csproj" />
 		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" PrivateAssets="all" />
+		<ProjectReference Include="..\Nox.Types.EntityFramework.Postgres\Nox.Types.EntityFramework.Postgres.csproj" />
 		<ProjectReference Include="..\Nox.Types.EntityFramework.SqlServer\Nox.Types.EntityFramework.SqlServer.csproj" />
 		<ProjectReference Include="..\Nox.Types\Nox.Types.csproj" />
 	</ItemGroup>

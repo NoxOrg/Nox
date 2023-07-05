@@ -412,16 +412,20 @@ infrastructure:
       name: SampleCurrencyDb
 
       # Sql Server
+      #serverUri: localhost
+      #provider: sqlServer
+      #port: 1433
+      #user: sa
+      #password: Developer*123
+      #options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;
+
+      # Postgres
       serverUri: localhost
-      provider: sqlServer
-      port: 1433
+      provider: postgres
+      port: 54320
       user: sa
-      password: Developer*123
-      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;
-
-      ### Postgres
-      #provider: postgres
-
+      password: Developer*123      
+      
       ### MySql  
       #provider: mySql
 

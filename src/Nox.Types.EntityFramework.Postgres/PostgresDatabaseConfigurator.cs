@@ -3,7 +3,7 @@ using Nox.Types.EntityFramework.vNext.Types;
 
 namespace Nox.Types.EntityFramework.Postgres;
 
-public class PostgresDatabaseConfigurator: NoxDatabaseConfigurator
+public sealed class PostgresDatabaseConfigurator: NoxDatabaseConfigurator
 {
     private static readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesConfiguration =
         new()
@@ -13,7 +13,7 @@ public class PostgresDatabaseConfigurator: NoxDatabaseConfigurator
             { NoxType.Money, new MoneyDatabaseConfigurator() } // use default implementation
         };
     
-    public PostgresDatabaseConfigurator(Dictionary<NoxType, INoxTypeDatabaseConfigurator> typesConfiguration) : base(TypesConfiguration)
+    public PostgresDatabaseConfigurator() : base(TypesConfiguration)
     {
     }
 }
