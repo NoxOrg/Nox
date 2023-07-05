@@ -9,8 +9,8 @@ namespace NoxSourceGeneratorTests.DatabaseTests;
 
 public abstract class SqliteTestBase : IDisposable
 {
-    //private const string InMemoryConnectionString = "DataSource=:memory:";
-    private const string _inMemoryConnectionStringTemplate = @"DataSource=test_database_{0}.db";
+    private const string _inMemoryConnectionStringTemplate = "DataSource=:memory:";
+    //private const string _inMemoryConnectionStringTemplate = @"DataSource=test_database_{0}.db";
     private static string _inMemoryConnectionString = string.Empty;
     private const string _testSolutionFile = @"../../../Database/Design/test.solution.nox.yaml";
     private readonly SqliteConnection _connection;
