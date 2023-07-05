@@ -34,14 +34,45 @@ public class MacAddressTests
         macAddress.Value.Should().Be(expectedResult);
     }
 
-    [Theory]
-    [InlineData(new byte[] { 0xD3, 0x20, 0x77, 0xE1, 0x2D, 0x32 }, "D32077E12D32")]
-    [InlineData(new byte[] { 0xFF }, "0000000000FF")]
-    public void From_WithByteArrayInputType_ReturnsValue(byte[] input, string expectedResult)
+    [Fact]
+    public void From_WithByteArrayInputType_ReturnsValue()
     {
-        var macAddress = MacAddress.From(input);
+        var macAddress = MacAddress.From(new byte[] { 0xD3, 0x20, 0x77, 0xE1, 0x2D, 0x32 });
 
-        macAddress.Value.Should().Be(expectedResult);
+        macAddress.Value.Should().Be("D32077E12D32");
+    }
+
+    [Theory]
+    [InlineData("test")]
+    [InlineData("AA AA AA AA AA AA")]    // issue with space separator
+    [InlineData("AA-AA-AA-AA-AA-AA-AA")] // too many bytes
+    [InlineData("AA-AA-AA-AA-AA")]       // missing bytes
+    public void From_WithDifferentInvalidFormats_ThrowsValidationException(string input)
+    {
+        var action = () => MacAddress.From(input);
+
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox MAC Address type as value {input} is not a valid MAC Address.") });
+    }
+
+    [Fact]
+    public void From_WithInvalidDataOfLongInputType_ThrowsValidationException()
+    {
+        var action = () => MacAddress.From(0xFFFFFFFFFFFFF); // too many bytes
+
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox MAC Address type as value FFFFFFFFFFFFF is not a valid MAC Address.") });
+    }
+
+    [Theory]
+    [InlineData(new byte[] { 0xFF }, "FF")]                                                  // missing bytes
+    [InlineData(new byte[] { 0xD3, 0x20, 0x77, 0xE1, 0x2D, 0x32, 0x32 }, "D32077E12D3232")]  // too many bites
+    public void From_WithInvalidDataOfByteArrayInputType_ReturnsValue(byte[] input, string expectedOutput)
+    {
+        var action = () => MacAddress.From(input);
+
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox MAC Address type as value {expectedOutput} is not a valid MAC Address.") });
     }
 
     [Theory]

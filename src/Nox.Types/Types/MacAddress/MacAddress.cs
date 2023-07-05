@@ -59,7 +59,7 @@ public sealed class MacAddress : ValueObject<string, MacAddress>
     /// <exception cref="TypeValidationException"></exception>
     public static MacAddress From(byte[] value)
     {
-        var macAddressValue = FormatAsMacAddressHexString(value);
+        var macAddressValue = ConvertToHexString(value);
         return From(macAddressValue);
     }
 
@@ -105,22 +105,22 @@ public sealed class MacAddress : ValueObject<string, MacAddress>
 
     private static bool TryParse(string inputValue, out string macAddressValue)
     {
+        macAddressValue = inputValue;
         try
         {
             var macAddress = PhysicalAddress.Parse(inputValue);
             var bytes = macAddress.GetAddressBytes();
-            macAddressValue = FormatAsMacAddressHexString(bytes);
-
-            if (bytes.Length > MacAddressLengthInBytes)
+            if (bytes.Length != MacAddressLengthInBytes)
             {
                 return false;
             }
+
+            macAddressValue = FormatAsMacAddressHexString(bytes);
 
             return true;
         }
         catch (Exception)
         {
-            macAddressValue = inputValue;
             return false;
         }
     }
@@ -129,11 +129,12 @@ public sealed class MacAddress : ValueObject<string, MacAddress>
         => Enumerable.Range(0, Value.Length / chunkSize).Select(i => Value.Substring(i * chunkSize, chunkSize));
 
     /// <summary>
-    /// Formats byte array as upper case hexadecimal digits and pads it to 12 characters
+    /// Converts to byte array to string of hexadecimal digits.
     /// </summary>
     /// <param name="input">The input.</param>
-    private static string FormatAsMacAddressHexString(byte[] input)
-        => PadToMacAddressLength(string.Join(string.Empty, input.Select(x => x.ToString("X2", CultureInfo.InvariantCulture)).ToArray()).ToUpperInvariant());
+    /// <returns></returns>
+    private static string ConvertToHexString(byte[] input)
+        => string.Join(string.Empty, input.Select(x => x.ToString("X2", CultureInfo.InvariantCulture)).ToArray());
 
     /// <summary>
     /// Pads the string to the length of to mac address.
@@ -141,4 +142,11 @@ public sealed class MacAddress : ValueObject<string, MacAddress>
     /// <param name="input">The input.</param>
     private static string PadToMacAddressLength(string input)
         => input.PadLeft(2 * MacAddressLengthInBytes, '0');
+
+    /// <summary>
+    /// Formats byte array as upper case hexadecimal digits and pads it to 12 characters
+    /// </summary>
+    /// <param name="input">The input.</param>
+    private static string FormatAsMacAddressHexString(byte[] input)
+        => PadToMacAddressLength(ConvertToHexString(input)).ToUpperInvariant();
 }
