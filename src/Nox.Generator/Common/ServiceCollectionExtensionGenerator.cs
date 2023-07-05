@@ -1,0 +1,47 @@
+using Microsoft.CodeAnalysis;
+using Nox.Solution;
+
+namespace Nox.Generator.Common;
+
+public class ServiceCollectionExtensionGenerator
+{
+    public static void Generate(SourceProductionContext context, NoxSolution solution)
+    {
+        context.CancellationToken.ThrowIfCancellationRequested();
+
+        var code = new CodeBuilder($"NoxServiceCollectionExtension.g.cs", context);
+        
+        code.AppendLine("using Microsoft.EntityFrameworkCore;");
+        code.AppendLine("using Nox;");
+        code.AppendLine("using Nox.DatabaseProvider;");
+        code.AppendLine("using Nox.DatabaseProvider.SqlServer;");
+        code.AppendLine("using Nox.Types.EntityFramework.SqlServer;");
+        code.AppendLine("using Nox.Types.EntityFramework.vNext;");
+        code.AppendLine("using SampleWebApp.Infrastructure.Persistence;");
+        code.AppendLine();
+
+        code.AppendLine("public static class NoxServiceCollectionExtension");
+        code.StartBlock();
+        code.AppendLine("public static IServiceCollection AddNox(this IServiceCollection services)");
+        code.StartBlock();
+        code.AppendLine("services.AddNoxLib();");
+        if (solution.Infrastructure is { Persistence.DatabaseServer: not null })
+        {
+            var dbContextName = $"{solution.Name}DbContext";
+            code.AppendLine($"services.AddSingleton<DbContextOptions<{dbContextName}>>();");
+            code.AppendLine("services.AddSingleton<INoxDatabaseConfigurator, SqlServerDatabaseConfigurator>();");
+            code.AppendLine("services.AddSingleton<INoxDatabaseProvider, SqlServerDatabaseProvider>();");
+            code.AppendLine($"services.AddDbContext<{dbContextName}>();");
+            code.AppendLine("var tmpProvider = services.BuildServiceProvider();");
+            code.AppendLine($"var dbContext = tmpProvider.GetRequiredService<{dbContextName}>();");
+            code.AppendLine("dbContext.Database.EnsureCreated();");
+        }
+        
+        code.AppendLine("return services;");
+        code.EndBlock();
+        code.EndBlock();
+
+        code.GenerateSourceCode();
+
+    }
+}

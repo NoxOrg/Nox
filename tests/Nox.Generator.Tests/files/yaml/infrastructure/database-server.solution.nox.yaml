@@ -1,0 +1,59 @@
+name: SampleWebApp
+
+description: Sample Nox solution yaml configuration
+
+domain:
+
+  entities:
+
+    - name: Country
+      description: The list of countries
+      
+      keys:
+
+        - name: Id
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: Name
+          description: The country's common name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+        - name: FormalName
+          description: The country's official name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+infrastructure:
+  
+  persistence:
+
+    databaseServer:
+      name: SampleCurrencyDb
+
+      # Sql Server
+      serverUri: localhost
+      provider: sqlServer
+      port: 1433
+      user: sa
+      password: Developer*123
+      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;
+      
+# bug in Nox.Solution cannot create infrastructure without integrationEventServer 
+  messaging: 
+    integrationEventServer: 
+      name: SampleEventServer
+      provider: inMemory
+      serverUri: localhost
