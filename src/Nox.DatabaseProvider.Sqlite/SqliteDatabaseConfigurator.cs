@@ -1,9 +1,10 @@
-﻿using Nox.Types.EntityFramework.vNext;
-using Nox.Types.EntityFramework.vNext.Types;
+﻿using Nox.Types;
+using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Configurators;
 
-namespace Nox.Types.EntityFramework.Sqlite;
+namespace Nox.DatabaseProvider.Sqlite;
 
-public sealed class SqliteDatabaseConfigurator : NoxDatabaseConfigurator
+public sealed class SqliteDatabaseConfigurator : NoxDatabaseConfigurator 
 {
     private static readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> _typesConfiguration = new()
     {

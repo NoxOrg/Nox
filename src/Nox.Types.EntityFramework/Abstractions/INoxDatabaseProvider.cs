@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
 
-namespace Nox.DatabaseProvider
+namespace Nox.Types.EntityFramework.Abstractions
 {
     public interface INoxDatabaseProvider
     {

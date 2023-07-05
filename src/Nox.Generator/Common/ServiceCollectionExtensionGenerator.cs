@@ -22,13 +22,11 @@ public class ServiceCollectionExtensionGenerator
             switch (dbServer.Provider)
             {
                 case DatabaseServerProvider.SqlServer:
-                    usings.Add("using Nox.DatabaseProvider.SqlServer;");
                     usings.Add("using Nox.Types.EntityFramework.SqlServer;");
                     dbConfigurator = "SqlServerDatabaseConfigurator";
                     dbProvider = "SqlServerDatabaseProvider";
                     break;
                 case DatabaseServerProvider.Postgres:
-                    usings.Add("using Nox.DatabaseProvider.Postgres;");
                     usings.Add("using Nox.Types.EntityFramework.Postgres;");
                     dbConfigurator = "PostgresDatabaseConfigurator";
                     dbProvider = "PostgresDatabaseProvider";
@@ -38,7 +36,6 @@ public class ServiceCollectionExtensionGenerator
         
         code.AppendLine("using Microsoft.EntityFrameworkCore;");
         code.AppendLine("using Nox;");
-        code.AppendLine("using Nox.DatabaseProvider;");
         code.AppendLines(usings.ToArray());
         code.AppendLine("using Nox.Types.EntityFramework.vNext;");
         code.AppendLine("using SampleWebApp.Infrastructure.Persistence;");

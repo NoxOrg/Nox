@@ -1,8 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
-using Nox.Types.EntityFramework.vNext.Types;
+using Nox.Types.EntityFramework.Abstractions;
 
-namespace Nox.Types.EntityFramework.vNext
+namespace Nox.Types.EntityFramework.Configurators
 {
     public abstract class NoxDatabaseConfigurator : INoxDatabaseConfigurator
     {

@@ -1,4 +1,4 @@
-﻿﻿using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
 
@@ -30,7 +30,6 @@ internal static class DbContextGenerator
     private static void AddUsing(CodeBuilder code, string solutionNameSpace)
     {
         code.AppendLine(@"using Microsoft.EntityFrameworkCore;");
-        code.AppendLine(@"using Nox.DatabaseProvider;");
         code.AppendLine(@"using Nox.Solution;");
         code.AppendLine(@"using Nox.Types.EntityFramework.vNext;");
         code.AppendLine(@"using SampleWebApp.Domain;");

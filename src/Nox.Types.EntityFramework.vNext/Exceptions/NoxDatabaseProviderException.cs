@@ -1,4 +1,4 @@
-namespace Nox.DatabaseProvider;
+namespace Nox.Types.EntityFramework.vNext.Exceptions;
 
 [Serializable]
 public class NoxDatabaseProviderException : Exception

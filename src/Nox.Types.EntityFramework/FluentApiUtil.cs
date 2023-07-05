@@ -1,4 +1,4 @@
-﻿namespace Nox.Types.EntityFramework.vNext;
+﻿namespace Nox.Types.EntityFramework;
 
 public static class FluentApiUtil
 {

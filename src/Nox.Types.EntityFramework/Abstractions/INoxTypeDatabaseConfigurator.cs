@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 
-namespace Nox.Types.EntityFramework.vNext.Types;
+namespace Nox.Types.EntityFramework.Abstractions;
 
 public interface INoxTypeDatabaseConfigurator
 {

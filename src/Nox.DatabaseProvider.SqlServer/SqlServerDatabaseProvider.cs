@@ -1,17 +1,34 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
+using Nox.Types;
+using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Configurators;
 
 namespace Nox.DatabaseProvider.SqlServer;
 
-public class SqlServerDatabaseProvider: INoxDatabaseProvider
+public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProvider 
 {
+    //We could use the container to manage this
+    private static readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesConfiguration =
+        new()
+        {
+            { NoxType.Text, new SqlServerTextDatabaseConfigurator() }, //Use MySql Implementation
+            { NoxType.Number, new NumberDatabaseConfigurator() }, // use default implementation
+            { NoxType.Money, new MoneyDatabaseConfigurator() } // use default implementation
+        };
+    
     private string _connectionString = string.Empty;
 
     public string ConnectionString
     {
         get => _connectionString;
         set => SetConnectionString(value);
+    }
+    
+    public SqlServerDatabaseProvider(): base(TypesConfiguration)
+    {
+        
     }
 
     public DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)

@@ -36,16 +36,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Nox.DatabaseProvider.Postgres\Nox.DatabaseProvider.Postgres.csproj" />
-		<ProjectReference Include="..\Nox.DatabaseProvider.SqlServer\Nox.DatabaseProvider.SqlServer.csproj" />
-		<ProjectReference Include="..\Nox.DatabaseProvider\Nox.DatabaseProvider.csproj" />
 		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
 		<ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
 		<ProjectReference Include="..\Nox.Logging\Nox.Logging.csproj" />
 		<ProjectReference Include="..\Nox.Monitoring\Nox.Monitoring.csproj" />
 		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" PrivateAssets="all" />
-		<ProjectReference Include="..\Nox.Types.EntityFramework.Postgres\Nox.Types.EntityFramework.Postgres.csproj" />
-		<ProjectReference Include="..\Nox.Types.EntityFramework.SqlServer\Nox.Types.EntityFramework.SqlServer.csproj" />
 		<ProjectReference Include="..\Nox.Types\Nox.Types.csproj" />
 	</ItemGroup>
 

@@ -1,7 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
+using Nox.Types.EntityFramework.Abstractions;
 
-namespace Nox.Types.EntityFramework.vNext.Types;
+namespace Nox.Types.EntityFramework.Configurators;
 
 public class MoneyDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
