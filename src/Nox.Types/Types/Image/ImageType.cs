@@ -2,9 +2,9 @@ using System.Collections.Generic;
 
 namespace Nox.Types;
 
-public static class ImageType
+internal static class ImageType
 {
-    public static IList<string> AllowedExtensions { get; } = new List<string>
+    internal static IList<string> AllowedExtensions { get; } = new List<string>
     {
         ".jpg",
         ".jpeg",
