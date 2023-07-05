@@ -15,7 +15,7 @@ namespace Nox.Solution.Resolvers;
 /// <summary>
 /// Deserialize yaml configuration with validation.
 /// </summary>
-internal static class NoxYamlSerializer
+internal static class NoxSchemaValidator
 {
     /// <summary>
     /// Deserialize yaml content to T object.
