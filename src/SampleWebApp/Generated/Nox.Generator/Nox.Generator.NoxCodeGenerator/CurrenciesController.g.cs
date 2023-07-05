@@ -7,19 +7,23 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
+using SampleWebApp.Application;
+using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 using SampleWebApp.Infrastructure.Persistence;
 using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-public class CurrenciesController : ODataController
+public partial class CurrenciesController : ODataController
 {
-    SampleWebAppDbContext _databaseContext;
-
-    public CurrenciesController(SampleWebAppDbContext databaseContext)
+    protected readonly ODataDbContext _databaseContext;
+    
+    public CurrenciesController(
+        ODataDbContext databaseContext
+    )
     {
-        _databaseContext = databaseContext;
+        databaseContext = databaseContext;
     }
     
     [EnableQuery]
@@ -31,13 +35,13 @@ public class CurrenciesController : ODataController
     [EnableQuery]
     public ActionResult<Currency> Get([FromRoute] string key)
     {
-        var parsedKey = Text.From(key);
-        var item = _databaseContext.Currencies.SingleOrDefault(d => d.Id.Equals(parsedKey));
+        var item = _databaseContext.Currencies.SingleOrDefault(d => d.Id.Equals(key));
         
         if (item == null)
         {
             return NotFound();
         }
+        
         return Ok(item);
     }
     
@@ -62,12 +66,13 @@ public class CurrenciesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var parsedKey = Text.From(key);
-        if (parsedKey != updatedCurrency.Id)
+        if (key != updatedCurrency.Id)
         {
             return BadRequest();
         }
+        
         _databaseContext.Entry(updatedCurrency).State = EntityState.Modified;
+        
         try
         {
             await _databaseContext.SaveChangesAsync();
@@ -83,6 +88,7 @@ public class CurrenciesController : ODataController
                 throw;
             }
         }
+        
         return Updated(updatedCurrency);
     }
     
@@ -93,13 +99,15 @@ public class CurrenciesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var parsedKey = Text.From(key);
-        var entity = await _databaseContext.Currencies.FindAsync(parsedKey);
+        var entity = await _databaseContext.Currencies.FindAsync(key);
+        
         if (entity == null)
         {
             return NotFound();
         }
+        
         currency.Patch(entity);
+        
         try
         {
             await _databaseContext.SaveChangesAsync();
@@ -115,19 +123,18 @@ public class CurrenciesController : ODataController
                 throw;
             }
         }
+        
         return Updated(entity);
     }
     
     private bool CurrencyExists(string key)
     {
-        var parsedKey = Text.From(key);
-        return _databaseContext.Currencies.Any(p => p.Id == parsedKey);
+        return _databaseContext.Currencies.Any(p => p.Id == key);
     }
     
     public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var parsedKey = Text.From(key);
-        var currency = await _databaseContext.Currencies.FindAsync(parsedKey);
+        var currency = await _databaseContext.Currencies.FindAsync(key);
         if (currency == null)
         {
             return NotFound();

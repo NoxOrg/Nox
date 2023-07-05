@@ -5,7 +5,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
-using SampleWebApp.Domain;
+
 namespace SampleWebApp.Presentation.Api.OData;
 
 public partial class ODataConfiguration
