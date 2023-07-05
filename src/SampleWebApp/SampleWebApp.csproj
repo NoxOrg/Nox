@@ -5,6 +5,7 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>10.0</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
+		<UserSecretsId>d3ab7cc3-3b79-49dd-bd9e-9d3ad2c7aaa4</UserSecretsId>
 	</PropertyGroup>
 
 	<PropertyGroup>
@@ -33,11 +34,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj" />
 		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
 		<ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
 		<ProjectReference Include="..\Nox.Lib\Nox.Lib.csproj" />
-		<ProjectReference Include="..\Nox.Types.EntityFramework.Sqlite\Nox.Types.EntityFramework.Sqlite.csproj" />
-		<ProjectReference Include="..\Nox.Types.EntityFramework.vNext\Nox.Types.EntityFramework.vNext.csproj" />
+		<ProjectReference Include="..\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>

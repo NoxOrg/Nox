@@ -1,11 +1,11 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using System;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Nox.EntityFramework.Sqlite;
 using Nox.Solution;
-using Nox.Types.EntityFramework.Sqlite;
-using System;
 using TestDatabaseWebApp.Infrastructure.Persistence;
 
-namespace NoxSourceGeneratorTests.DatabaseTests;
+namespace Nox.Generator.Tests.Database;
 
 public abstract class SqliteTestBase : IDisposable
 {
@@ -27,7 +27,7 @@ public abstract class SqliteTestBase : IDisposable
 
     private static TestDatabaseWebAppDbContext CreateDbContext(SqliteConnection connection)
     {
-        var databaseConfigurator = new SqliteDatabaseConfigurator();
+        var databaseConfigurator = new SqliteDatabaseProvider();
         var solution = new NoxSolutionBuilder()
             .UseYamlFile(_testSolutionFile)
             .Build();

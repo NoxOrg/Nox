@@ -43,7 +43,8 @@ public class DataTransferObjectsTests: IClassFixture<GeneratorFixture>
         Assert.Single(allOutputs);
 
         var generatedSources = result.GeneratedSources;
-        Assert.Equal(2, generatedSources.Length);
+        Assert.Equal(3, generatedSources.Length);
+        Assert.True(generatedSources.Any(s => s.HintName == "NoxServiceCollectionExtension.g.cs"), "NoxServiceCollectionExtension.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "Generator.g.cs"), "Generator not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "CountryDto.g.cs"), "CountryDto not generated");
         //can further extend this test to verify contents of source files.

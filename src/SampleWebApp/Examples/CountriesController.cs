@@ -16,9 +16,9 @@ namespace SampleWebApp.Examples;
 
 public class CountriesController : ODataController
 {
-    SampleWebAppDbContextExample _databaseContext;
+    SampleWebAppDbContext _databaseContext;
 
-    public CountriesController(SampleWebAppDbContextExample databaseContext)
+    public CountriesController(SampleWebAppDbContext databaseContext)
     {
         _databaseContext = databaseContext;
     }

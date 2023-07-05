@@ -7,6 +7,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="7.0.4" />
     </ItemGroup>
 

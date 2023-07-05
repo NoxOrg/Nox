@@ -1,7 +1,7 @@
 ﻿using FluentAssertions;
 using Nox.Types;
-using NoxSourceGeneratorTests.DatabaseTests;
 using System.Linq;
+using Nox.Generator.Tests.Database;
 using TestDatabaseWebApp.Domain;
 using Xunit;
 
