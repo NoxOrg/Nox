@@ -1,7 +1,7 @@
 using Nox.Types;
 using Nox.Types.EntityFramework.Configurators;
 
-namespace Nox.DatabaseProvider.Postgres;
+namespace Nox.EntityFramework.Postgres;
 
 public class PostgresTextDatabaseConfiguration : TextDatabaseConfigurator
 {

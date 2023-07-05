@@ -1,7 +1,7 @@
 ﻿using Nox.Types;
 using Nox.Types.EntityFramework.Configurators;
 
-namespace Nox.DatabaseProvider.SqlServer;
+namespace Nox.EntityFramework.SqlServer;
 
 public class SqlServerTextDatabaseConfigurator : TextDatabaseConfigurator
 {

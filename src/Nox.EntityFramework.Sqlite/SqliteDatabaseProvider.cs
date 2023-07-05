@@ -4,7 +4,7 @@ using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurators;
 
-namespace Nox.DatabaseProvider.Sqlite;
+namespace Nox.EntityFramework.Sqlite;
 
 public sealed class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDatabaseProvider
 {

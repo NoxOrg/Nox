@@ -32,7 +32,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Nox.DatabaseProvider.Sqlite\Nox.DatabaseProvider.Sqlite.csproj" />
+    <ProjectReference Include="..\..\src\Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj" />
     <ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" />
     <ProjectReference Include="..\..\src\Nox.Solution\Nox.Solution.csproj" />
     <ProjectReference Include="..\..\src\Nox.Types\Nox.Types.csproj" />

@@ -1,49 +1,49 @@
-using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurators;
+using Npgsql;
 
-namespace Nox.DatabaseProvider.SqlServer;
+namespace Nox.EntityFramework.Postgres;
 
-public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProvider 
+public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProvider 
 {
-    //We could use the container to manage this
+    private string _connectionString = string.Empty;
+    
     private static readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesConfiguration =
         new()
         {
-            { NoxType.Text, new SqlServerTextDatabaseConfigurator() }, //Use SqlServer Implementation
+            { NoxType.Text, new PostgresTextDatabaseConfiguration() }, //Use Postgres Implementation
             { NoxType.Number, new NumberDatabaseConfigurator() }, // use default implementation
             { NoxType.Money, new MoneyDatabaseConfigurator() } // use default implementation
         };
-    
-    private string _connectionString = string.Empty;
+
+    public PostgresDatabaseProvider(): base(TypesConfiguration)
+    {
+        
+    }
 
     public string ConnectionString
     {
         get => _connectionString;
         set => SetConnectionString(value);
     }
-    
-    public SqlServerDatabaseProvider(): base(TypesConfiguration)
-    {
-        
-    }
 
     public DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
     {
-        var csb = new SqlConnectionStringBuilder(dbServer.Options)
+        var csb = new NpgsqlConnectionStringBuilder(dbServer.Options)
         {
-            DataSource = $"{dbServer.ServerUri},{dbServer.Port ?? 1433}",
-            UserID = dbServer.User,
+            Host = dbServer.ServerUri,
+            Port = dbServer.Port ?? 5432,
+            Username = dbServer.User,
             Password = dbServer.Password,
-            InitialCatalog = dbServer.Name,
-            ApplicationName = applicationName
+            Database = dbServer.Name,
+            ApplicationName = applicationName,
         };
         SetConnectionString(csb.ConnectionString);
 
-        return optionsBuilder.UseSqlServer(_connectionString, opts =>
+        return optionsBuilder.UseNpgsql(_connectionString, opts =>
         {
             opts.MigrationsHistoryTable("MigrationsHistory", "migrations");
         });

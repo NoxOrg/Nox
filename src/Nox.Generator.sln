@@ -49,11 +49,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Types.Tests", "..\tests
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DatabaseProviders", "DatabaseProviders", "{873BFCC4-435D-44D7-8287-1FB1574B2319}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.DatabaseProvider.Postgres", "Nox.DatabaseProvider.Postgres\Nox.DatabaseProvider.Postgres.csproj", "{55D717E8-6043-487C-83A9-8AE2E92086D7}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.EntityFramework.Postgres", "Nox.EntityFramework.Postgres\Nox.EntityFramework.Postgres.csproj", "{55D717E8-6043-487C-83A9-8AE2E92086D7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.DatabaseProvider.SqlServer", "Nox.DatabaseProvider.SqlServer\Nox.DatabaseProvider.SqlServer.csproj", "{A851D896-AC63-4DC0-98FC-9E1EEA5DACE5}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.EntityFramework.SqlServer", "Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj", "{A851D896-AC63-4DC0-98FC-9E1EEA5DACE5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.DatabaseProvider.Sqlite", "Nox.DatabaseProvider.Sqlite\Nox.DatabaseProvider.Sqlite.csproj", "{049C94B7-EC09-4511-B6BC-21DE2C9C54E1}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.EntityFramework.Sqlite", "Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj", "{049C94B7-EC09-4511-B6BC-21DE2C9C54E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

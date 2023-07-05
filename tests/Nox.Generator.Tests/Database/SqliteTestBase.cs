@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
-using Nox.DatabaseProvider.Sqlite;
+using Nox.EntityFramework.Sqlite;
 using Nox.Solution;
 using TestDatabaseWebApp.Infrastructure.Persistence;
 
