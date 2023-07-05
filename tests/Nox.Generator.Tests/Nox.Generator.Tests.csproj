@@ -81,7 +81,9 @@
 
   <ItemGroup>
     <Compile Remove="files\Program.cs" />
-    <AdditionalFiles Include="Database\Design\test.solution.nox.yaml" />
+    <AdditionalFiles Include="Database\Design\test.solution.nox.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
     <None Include="files\Program.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -2,20 +2,20 @@
 using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Sqlite;
-using SampleWebApp.Infrastructure.Persistence;
 using System;
+using TestDatabaseWebApp.Infrastructure.Persistence;
 
 namespace NoxSourceGeneratorTests.DatabaseTests;
 
 public abstract class SqliteTestBase : IDisposable
 {
-    private const string _inMemoryConnectionStringTemplate = "DataSource=:memory:";
-    //private const string _inMemoryConnectionStringTemplate = @"DataSource=test_database_{0}.db";
+    //private const string _inMemoryConnectionStringTemplate = "DataSource=:memory:";
+    private const string _inMemoryConnectionStringTemplate = @"DataSource=test_database_{0}.db";
     private static string _inMemoryConnectionString = string.Empty;
-    private const string _testSolutionFile = @"../../../Database/Design/test.solution.nox.yaml";
+    private const string _testSolutionFile = @"./test.solution.nox.yaml";
     private readonly SqliteConnection _connection;
 
-    protected SampleWebAppDbContext DbContext;
+    protected TestDatabaseWebAppDbContext DbContext;
 
     protected SqliteTestBase()
     {
@@ -25,16 +25,16 @@ public abstract class SqliteTestBase : IDisposable
         DbContext = CreateDbContext(_connection);
     }
 
-    private static SampleWebAppDbContext CreateDbContext(SqliteConnection connection)
+    private static TestDatabaseWebAppDbContext CreateDbContext(SqliteConnection connection)
     {
         var databaseConfigurator = new SqliteDatabaseConfigurator();
         var solution = new NoxSolutionBuilder()
             .UseYamlFile(_testSolutionFile)
             .Build();
-        var options = new DbContextOptionsBuilder<SampleWebAppDbContext>()
+        var options = new DbContextOptionsBuilder<TestDatabaseWebAppDbContext>()
             .UseSqlite(connection)
             .Options;
-        var dbContext = new SampleWebAppDbContext(options, solution, databaseConfigurator);
+        var dbContext = new TestDatabaseWebAppDbContext(options, solution, databaseConfigurator);
         dbContext.Database.EnsureCreated();
         return dbContext;
     }

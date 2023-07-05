@@ -4,7 +4,7 @@
 # yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
 #
 
-name: SampleWebApp
+name: TestDatabaseWebApp
 
 description: Sample Nox solution yaml configuration
 
@@ -118,6 +118,9 @@ domain:
         - name: MoneyTestField
           type: money
 
+        #- name: CountryCode2TestField
+        #  type: countryCode2
+
         #- name: GeoCoordTestField
         #  type: latLong
 
@@ -126,9 +129,6 @@ domain:
 
         #- name: BooleanTestField
         #  type: boolean
-
-        #- name: CountryCode2TestField
-        #  type: countryCode2
 
         #- name: CountryCode3TestField
         #  type: countryCode3

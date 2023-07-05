@@ -6,7 +6,7 @@ using Nox.Types;
 using System;
 using System.Collections.Generic;
 
-namespace SampleWebApp.Domain;
+namespace TestDatabaseWebApp.Domain;
 
 /// <summary>
 /// Entity created for testing database.

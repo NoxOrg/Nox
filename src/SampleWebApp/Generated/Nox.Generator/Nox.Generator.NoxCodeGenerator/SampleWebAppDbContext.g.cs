@@ -52,8 +52,9 @@ public partial class SampleWebAppDbContext : DbContext
                 }
             }
             
-            base.OnModelCreating(modelBuilder);
         }
+
+        base.OnModelCreating(modelBuilder);
     }
 }
 

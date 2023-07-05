@@ -1,13 +1,13 @@
 ﻿using FluentAssertions;
 using Nox.Types;
 using NoxSourceGeneratorTests.DatabaseTests;
-using SampleWebApp.Domain;
 using System.Linq;
+using TestDatabaseWebApp.Domain;
 using Xunit;
 
 namespace Nox.Generator.Test.DatabaseTests;
 
-public class EntityFrameworkTests : SqliteTestBase
+public class EntityFrameworkSqliteTests : SqliteTestBase
 {
     [Fact]
     public void GeneratedEntity_CanSaveAndReadFields_AllTypes()
@@ -54,7 +54,7 @@ public class EntityFrameworkTests : SqliteTestBase
             Id = Text.From(text),
             TextTestField = Text.From(text),
             NumberTestField = Number.From(number),
-            MoneyTestField = Money.From(money, currencyCode)
+            MoneyTestField = Money.From(money, currencyCode),
         };
         DbContext.TestEntities.Add(newItem);
         DbContext.SaveChanges();
