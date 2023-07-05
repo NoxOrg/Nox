@@ -4,7 +4,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Nox;
-using Nox.DatabaseProvider.Postgres;
+using Nox.DatabaseProvider.SqlServer;
 using Nox.Types.EntityFramework.Abstractions;
 using SampleWebApp.Infrastructure.Persistence;
 
@@ -14,8 +14,8 @@ public static class NoxServiceCollectionExtension
     {
         services.AddNoxLib();
         services.AddSingleton<DbContextOptions<SampleWebAppDbContext>>();
-        services.AddSingleton<INoxDatabaseConfigurator, PostgresDatabaseProvider>();
-        services.AddSingleton<INoxDatabaseProvider, PostgresDatabaseProvider>();
+        services.AddSingleton<INoxDatabaseConfigurator, SqlServerDatabaseProvider>();
+        services.AddSingleton<INoxDatabaseProvider, SqlServerDatabaseProvider>();
         services.AddDbContext<SampleWebAppDbContext>();
         var tmpProvider = services.BuildServiceProvider();
         var dbContext = tmpProvider.GetRequiredService<SampleWebAppDbContext>();
