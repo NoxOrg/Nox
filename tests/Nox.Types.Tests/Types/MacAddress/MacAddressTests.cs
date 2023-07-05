@@ -3,9 +3,117 @@ namespace Nox.Types.Tests.Types;
 
 public class MacAddressTests
 {
-    [Fact]
-    public void When_Create_Should()
+    [Theory]
+    [InlineData("D3:20:77:E1:2D:32")]
+    [InlineData("d3:20:77:e1:2d:32")]
+    [InlineData("D3-20-77-E1-2D-32")]
+    [InlineData("d3-20-77-e1-2d-32")]
+    [InlineData("D32077E12D32")]
+    [InlineData("d32077e12d32")]
+    [InlineData("D320.77E1.2D32")]
+    [InlineData("d320.77e1.2d32")]
+    [InlineData("D320:77E1:2D32")]
+    [InlineData("d320:77e1:2d32")]
+    public void From_WithDifferentValidFormats_ReturnsValue(string input)
     {
+        var macAddress = MacAddress.From(input);
 
+        Assert.Equal("D32077E12D32", macAddress.Value);
+    }
+
+    [Theory]
+    [InlineData(0xD32077E12D32, "D32077E12D32")]
+    [InlineData(0xFFFFFFFFFFFF, "FFFFFFFFFFFF")]
+    [InlineData(15, "00000000000F")]
+    public void From_WithLongInputType_ReturnsValue(ulong input, string expectedResult)
+    {
+        var macAddress = MacAddress.From(input);
+
+        Assert.Equal(expectedResult, macAddress.Value);
+    }
+
+    [Theory]
+    [InlineData(new byte[] { 0xD3, 0x20, 0x77, 0xE1, 0x2D, 0x32 }, "D32077E12D32")]
+    [InlineData(new byte[] { 0xFF }, "0000000000FF")]
+    public void From_WithByteArrayInputType_ReturnsValue(byte[] input, string expectedResult)
+    {
+        var macAddress = MacAddress.From(input);
+
+        Assert.Equal(expectedResult, macAddress.Value);
+    }
+
+    [Theory]
+    [InlineData(MacAddressFormat.NoSeparator, "AA1122334455")]
+    [InlineData(MacAddressFormat.ByteGroupWithColon, "AA:11:22:33:44:55")]
+    [InlineData(MacAddressFormat.ByteGroupWithDash, "AA-11-22-33-44-55")]
+    [InlineData(MacAddressFormat.DoubleByteGroupWithColon, "AA11:2233:4455")]
+    [InlineData(MacAddressFormat.DoubleByteGroupWithDot, "AA11.2233.4455")]
+    public void ToString_WithVariousFormats_ReturnsFormattedString(MacAddressFormat format, string expected)
+    {
+        var macAddress = MacAddress.From("AA:11:22:33:44:55");
+
+        Assert.Equal(expected, macAddress.ToString(format));
+    }
+
+    [Fact]
+    public void ToString_WithoutParameters_ReturnsStringInByteGroupWithColonSeparatorFormat()
+    {
+        var macAddress = MacAddress.From("AA:11:22:33:44:55");
+
+        Assert.Equal("AA:11:22:33:44:55", macAddress.ToString());
+    }
+
+    [Theory]
+    [InlineData("D3:20:77:E1:2D:32", "D3:20:77:E1:2D:32")]
+    [InlineData("D3:20:77:E1:2D:32", "d3:20:77:e1:2d:32")]
+    [InlineData("D3:20:77:E1:2D:32", "D3-20-77-E1-2D-32")]
+    [InlineData("D3:20:77:E1:2D:32", "d3-20-77-e1-2d-32")]
+    [InlineData("D3:20:77:E1:2D:32", "D32077E12D32")]
+    [InlineData("D3:20:77:E1:2D:32", "d32077e12d32")]
+    [InlineData("D3:20:77:E1:2D:32", "D320.77E1.2D32")]
+    [InlineData("D3:20:77:E1:2D:32", "d320.77e1.2d32")]
+    [InlineData("D3:20:77:E1:2D:32", "D320:77E1:2D32")]
+    [InlineData("D3:20:77:E1:2D:32", "d320:77e1:2d32")]
+    public void Equality_WithDifferentInputFormats_ShouldBeEquivalent(string macAddressStr1, string macAddressStr2)
+    {
+        var macAddress1 = MacAddress.From(macAddressStr1);
+        var macAddress2 = MacAddress.From(macAddressStr2);
+
+        AssertAreEquivalent(macAddress1, macAddress2);
+    }
+
+    [Fact]
+    public void NonEquality_WithDifferentAddresses_ShouldNotBeEquivalent()
+    {
+        var macAddress1 = MacAddress.From("D3:20:77:E1:2D:32");
+        var macAddress2 = MacAddress.From("AA:11:22:33:44:55");
+
+        AssertAreNotEquivalent(macAddress1, macAddress2);
+    }
+
+    private static void AssertAreEquivalent(MacAddress macAddress1, MacAddress macAddress2)
+    {
+        Assert.Equal(macAddress1, macAddress2);
+
+        Assert.True(macAddress1.Equals(macAddress2));
+
+        Assert.True(macAddress2.Equals(macAddress1));
+
+        Assert.True(macAddress1 == macAddress2);
+
+        Assert.False(macAddress1 != macAddress2);
+    }
+
+    private static void AssertAreNotEquivalent(MacAddress macAddress1, MacAddress macAddress2)
+    {
+        Assert.NotEqual(macAddress1, macAddress2);
+
+        Assert.False(macAddress1.Equals(macAddress2));
+
+        Assert.False(macAddress2.Equals(macAddress1));
+
+        Assert.False(macAddress1 == macAddress2);
+
+        Assert.True(macAddress1 != macAddress2);
     }
 }
