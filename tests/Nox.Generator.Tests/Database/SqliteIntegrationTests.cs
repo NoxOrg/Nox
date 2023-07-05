@@ -7,7 +7,7 @@ using Xunit;
 
 namespace Nox.Generator.Test.DatabaseTests;
 
-public class EntityFrameworkSqliteTests : SqliteTestBase
+public class SqliteIntegrationTests : SqliteTestBase
 {
     [Fact]
     public void GeneratedEntity_CanSaveAndReadFields_AllTypes()
