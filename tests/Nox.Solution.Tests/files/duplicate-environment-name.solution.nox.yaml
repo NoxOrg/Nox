@@ -1,0 +1,19 @@
+#
+# duplicate-environment-name.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+name: TestService
+
+description: Yaml file for testing duplicate environment name
+
+environments:
+  - name: dev
+    description: Used for development and testing
+
+  - name: test
+    description: Test environment
+
+  - name: test
+    description: a duplicate Test environment

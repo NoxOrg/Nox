@@ -41,6 +41,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Monitoring", "Monitoring", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Generator.Tests", "..\tests\Nox.Generator.Tests\Nox.Generator.Tests.csproj", "{58599385-98BD-44A4-9990-A7AEDCAFC8A0}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0SolutionItems", "0SolutionItems", "{820129FF-6448-42E2-8792-ABE1A8CBF722}"
+	ProjectSection(SolutionItems) = preProject
+		..\nuget.config = ..\nuget.config
+		..\readme.md = ..\readme.md
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Solution", "Nox.Solution\Nox.Solution.csproj", "{6E3F2DD4-6AE5-49B2-B5E4-04B21E073B4F}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Solution.Tests", "..\tests\Nox.Solution.Tests\Nox.Solution.Tests.csproj", "{FAF13809-A3BA-417D-AC25-B682011AB655}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -103,6 +113,14 @@ Global
 		{58599385-98BD-44A4-9990-A7AEDCAFC8A0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{58599385-98BD-44A4-9990-A7AEDCAFC8A0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{58599385-98BD-44A4-9990-A7AEDCAFC8A0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6E3F2DD4-6AE5-49B2-B5E4-04B21E073B4F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6E3F2DD4-6AE5-49B2-B5E4-04B21E073B4F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6E3F2DD4-6AE5-49B2-B5E4-04B21E073B4F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6E3F2DD4-6AE5-49B2-B5E4-04B21E073B4F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FAF13809-A3BA-417D-AC25-B682011AB655}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FAF13809-A3BA-417D-AC25-B682011AB655}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FAF13809-A3BA-417D-AC25-B682011AB655}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FAF13809-A3BA-417D-AC25-B682011AB655}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -119,6 +137,8 @@ Global
 		{7BD651E7-3B5C-4118-963C-629C34F30258} = {FCAB2F70-846A-4C13-8332-48B70C792256}
 		{9FFE063D-3093-4C0A-AFAA-85D34E5E4AE1} = {631CE917-1F5D-42D9-81A4-575C13B84826}
 		{8AA4B104-864A-4188-A1AE-481E71D4D533} = {631CE917-1F5D-42D9-81A4-575C13B84826}
+		{6E3F2DD4-6AE5-49B2-B5E4-04B21E073B4F} = {4A930AE8-3A32-48A4-BCDB-0F55FA53AE4B}
+		{FAF13809-A3BA-417D-AC25-B682011AB655} = {4A930AE8-3A32-48A4-BCDB-0F55FA53AE4B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E72B357-9E1E-43B5-9868-8D2B74CB2AF0}

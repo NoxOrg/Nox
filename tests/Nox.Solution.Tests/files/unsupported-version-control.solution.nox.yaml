@@ -1,0 +1,10 @@
+name: TestService
+
+description: Yaml file for testing version control
+
+versionControl:
+  provider: github
+  host: https://dev.azure.com/iwgplc
+  folders:
+    sourceCode: /src
+    containers: /docker

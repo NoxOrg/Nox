@@ -1,0 +1,125 @@
+#
+# infrastructure.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: TestService
+
+description: Yaml file for testing infrastructure
+
+infrastructure:
+  
+  persistence:
+
+    databaseServer:
+      name: SampleCurrencyDb
+
+      # Sql Server
+      serverUri: sqlserver.iwgplc.com
+      provider: sqlServer
+      port: 1433
+      user: sqluser
+      password: sqlpassword
+
+      ### Postgres
+      #provider: postgres
+
+      ### MySql  
+      #provider: mySql
+
+    cacheServer:
+      name: SampleCache
+      provider: azureRedis
+      serverUri: redis.iwgplc.com
+      user: RedisUser
+      password: RedisPassword
+    
+    searchServer:
+      name: SampleSearch
+      provider: elasticSearch
+      serverUri: elastic.igwplc.com
+      user: ElasticUser
+      password: ElasticPassword
+    
+    eventSourceServer:
+      name: SampleEvtSrc
+      serverUri: SampleEvt.iwgplc.com
+      provider: eventStoreDb
+      user: EvtUser
+      password: EvtPassword
+
+  messaging:
+    integrationEventServer:
+      name: IntegrationBus
+      provider: rabbitMq
+      serverUri: rabbitmq://localhost
+      port: 5672
+      user: guest
+      password: guest
+
+  endpoints:
+    
+    apiServer:
+      name: SampleApiServer
+      provider: oData
+      serverUri: workplace.iwgplc.com
+      port: 8080
+
+    bffServer:
+      name: SampleBffServer
+      provider: blazor
+      serverUri: SampleBff.iwgplc.com
+      port: 8080
+
+  dependencies:
+    notifications:
+      emailServer:
+        name: SampleEmailServer
+        provider: sendGrid
+        serverUri: sendgrid.igwplc.com
+        user: SendGridUser
+        password: SendGridPassword
+      smsServer:
+        name: SampleSmsServer
+        provider: twilio
+        serverUri: https://twilio.com
+        port: 8080
+        user: TwilioUser
+        password: TwilioPassword
+      imServer:
+        name: SampleImServer
+        provider: whatsApp
+        serverUri: https://whatsapp.com
+        port: 8080
+        user: whatsappUser
+        password: whatsappPassword
+
+    monitoring:
+      name: SampleObservabiity
+      serverUri: localhost
+      provider: elasticApm
+      port: 8200
+
+    translations:
+      name: SampleTranslationService
+      serverUri: translator.iwgplc.com
+      port: 443
+
+    dataConnections:
+      - name: CountryJsonData
+        provider: jsonFile
+        serverUri: file:///C:/my-data-files
+        options: Source=File;Filename=country-data.json;
+
+  security:
+    secrets:
+      secretsServer:
+        name: SampleSecretServer
+        provider: azureKeyVault
+        serverUri: kv.iwgplc.com
+        user: secrets@iwgplc.com
+        password: SecretPassword
+      validFor:
+        minutes: 10

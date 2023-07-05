@@ -1,0 +1,14 @@
+﻿#
+# minimal.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../../schemas/solution.json
+#
+
+name: EnvTestService
+
+# one of these should be replaced on Windows/Linux
+
+description: ${{ env.TEMP }} ${{ env.TMPDIR }}
+
+
+

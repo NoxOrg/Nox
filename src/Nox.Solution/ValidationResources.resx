@@ -1,0 +1,336 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+        <data name="SolutionNameEmpty" xml:space="preserve">
+        <value>Solution name missing. a Name must be specified for the solution.</value>
+    </data>
+    <data name="EnvironmentNameEmpty" xml:space="preserve">
+        <value>an Environment is missing a name. a Name must be specified for each environment.</value>
+    </data>
+    <data name="EnvironmentNameDuplicate" xml:space="preserve">
+        <value>The environment name '{0}' is duplicated. Environment names must be unique in a solution.</value>
+    </data>
+    <data name="VersionControlProviderEmpty" xml:space="preserve">
+        <value>Version Control provider missing. a Version Control Provider must be specified in a solution.</value>
+    </data>
+    <data name="VersionControlHostEmpty" xml:space="preserve">
+        <value>Version Control host missing. a Host must be specified for Version Control.</value>
+    </data>
+    <data name="VersionControlSourceFolderEmpty" xml:space="preserve">
+        <value> Source code folder missing. a Source Code folder must be specified under versionControl::folders.</value>
+    </data>
+    <data name="VersionControlContainersFolderEmpty" xml:space="preserve">
+        <value>Containers folder missing. a Containers folder must be specified under versionControl::folders.</value>
+    </data>
+    <data name="TeamUserNameEmpty" xml:space="preserve">
+        <value>a Team member is missing a username. a UserName must be specified for all team members.</value>
+    </data>
+    <data name="TeamRolesEmpty" xml:space="preserve">
+        <value>Team Member '{0}' has no roles defined. Each member in the solution team must have at least one role.</value>
+    </data>
+    <data name="DomainEntitiesEmpty" xml:space="preserve">
+        <value>No entities found in domain definition. a Nox domain must contain at least one entity.</value>
+    </data>
+    <data name="EntityNameEmpty" xml:space="preserve">
+        <value>an Entity has been specified without a name. All Nox entities in a Nox domain must have a unique name.</value>
+    </data>
+    <data name="EntityNameDuplicate" xml:space="preserve">
+        <value>The entity name: {0} is duplicated. Entity names must be unique in a solution.</value>
+    </data>
+    <data name="TeamUserNameDuplicate" xml:space="preserve">
+        <value>The team member user name '{0}' is duplicated. Team user names must be unique in a solution.</value>
+    </data>
+    <data name="EntityRelationshipNameEmpty" xml:space="preserve">
+        <value>an Entity relationship for entity '{0}' does not have a name. All entity relationships must have a unique name.</value>
+    </data>
+    <data name="EntityRelationshipNameDuplicate" xml:space="preserve">
+        <value>The Entity relationship '{0}' is duplicated. Entity relationships must be unique in a domain definition.</value>
+    </data>
+    <data name="EntityRelationshipDescriptionEmpty" xml:space="preserve">
+        <value>The Relationship '{0}' for entity '{1}' does not have a description. All entity relationships must have a description.</value>
+    </data>
+    <data name="EntityRelationshipRelationshipEmpty" xml:space="preserve">
+        <value>The Relationship '{0}' for entity '{1}' does not have a relationship specified. All entity relationships must have a relationship ({2}).</value>
+    </data>
+    <data name="EntityRelationshipEntityEmpty" xml:space="preserve">
+        <value>The Relationship '{0}' for entity '{1}' does not have an entity it refers to. All entity relationships must refer to an existing entity in the domain definition.</value>
+    </data>
+    <data name="EntityRelationshipEntityMissing" xml:space="preserve">
+        <value>The Relationship '{0}' for entity '{1}' refers to an entity '{2}' that does not exist in the domain definition. Entity relationships must refer to entities that exist in the domain definition.</value>
+    </data>
+    <data name="EntityOwnedRelationshipNameEmpty" xml:space="preserve">
+        <value>an Owned relationship for entity '{0}' does not have a name. All owned relationships must have a unique name.</value>
+    </data>
+    <data name="EntityOwnedRelationshipNameDuplicate" xml:space="preserve">
+        <value>The owned relationship '{0}' is duplicated. Owned relationships must be unique in a domain definition.</value>
+    </data>
+    <data name="EntityOwnedRelationshipDescriptionEmpty" xml:space="preserve">
+        <value>The owned relationship '{0}' for entity '{1}' does not have a description. All owned relationships must have a description.</value>
+    </data>
+    <data name="EntityOwnedRelationshipRelationshipEmpty" xml:space="preserve">
+        <value>The owned relationship '{0}' for entity '{1}' does not have a relationship specified. All owned relationships must have a relationship ({2}).</value>
+    </data>
+    <data name="EntityOwnedRelationshipEntityEmpty" xml:space="preserve">
+        <value>The onwed relationship '{0}' for entity '{1}' does not have an entity it refers to. All owned relationships must refer to an existing entity in the domain definition.</value>
+    </data>
+    <data name="EntityOwnedRelationshipEntityMissing" xml:space="preserve">
+        <value>The owned relationship '{0}' for entity '{1}' refers to an entity '{2}' that does not exist in the domain definition. Owned relationships must refer to entities that exist in the domain definition.</value>
+    </data>
+    <data name="DomainQueryNameEmpty" xml:space="preserve">
+        <value>a Domain query for entity '{0}' is missing a name. All domain queries must have a unique name.</value>
+    </data>
+    <data name="DomainQueryResponseOutputEmpty" xml:space="preserve">
+        <value>Domain query '{0}' for entity '{1}' is missing a Response Output. All domain queries must have a response output.</value>
+    </data>
+    <data name="DomainQueryRequestNameEmpty" xml:space="preserve">
+        <value>a Request Input for domain query '{0}' is missing a name. Domain query request inputs must all have a unique name.</value>
+    </data>
+    <data name="DomainQueryRequestTypeEmpty" xml:space="preserve">
+        <value>a Request Input for domain query '{0}' is missing a type. Domain query request inputs must all have a type specified.</value>
+    </data>
+    <data name="DomainQueryNameDuplicate" xml:space="preserve">
+        <value>Domain query '{0}' for entity '{1}' has a duplicate name. Domain query names must be unique in the solution.</value>
+    </data>
+    <data name="DomainQueryResponseNameEmpty" xml:space="preserve">
+        <value>a Response Output for domain query '{0}' is missing a name. Domain query response outputs must all have a unique name.</value>
+    </data>
+    <data name="DomainQueryResponseTypeEmpty" xml:space="preserve">
+        <value>a Response Output for domain query '{0}' is missing a type. Domain query response outputs must all have a type specified.</value>
+    </data>
+    <data name="CollectionTypeOptionsNameEmpty" xml:space="preserve">
+        <value>Collection type options for {0} does not have a name specified.</value>
+    </data>
+    <data name="CollectionTypeOptionsTypeEmpty" xml:space="preserve">
+        <value>Collection type options for {0} does not have a type specified.</value>
+    </data>
+    <data name="ObjectTypeOptionsAttributesEmpty" xml:space="preserve">
+        <value>The attributes for {0} are missing. {1} must have at least one attribute specified.</value>
+    </data>
+    <data name="DomainCommandNameEmpty" xml:space="preserve">
+        <value>a Domain command for entity '{0}' does not have a name specified. All domain commands must have a unique name.</value>
+    </data>
+    <data name="DomainCommandNameDuplicate" xml:space="preserve">
+        <value>Domain command '{0}' for entity '{1}' has a duplicate name. Domain command names must be unique in the solution.</value>
+    </data>
+    <data name="DomainCommandTypeEmpty" xml:space="preserve">
+        <value>Domain command '{0}' for entity '{1}' is missing a type. Domain commands must all have a type specified.</value>
+    </data>
+    <data name="SimpleTypeNameEmpty" xml:space="preserve">
+        <value>{0} is missing a name. All {1} must have a name specified.</value>
+    </data>
+    <data name="SimpleTypeTypeEmpty" xml:space="preserve">
+        <value>{0} is missing a type. All {1} must have a type specified.</value>
+    </data>
+    <data name="EntityAttributesEmpty" xml:space="preserve">
+        <value>The entity '{0}' does not have any attributes. a Nox entity must have at least one attribute.</value>
+    </data>
+    <data name="DtoNameEmpty" xml:space="preserve">
+        <value>a Dto in the application does not have a name specified. All dtos must have a unique name specified.</value>
+    </data>
+    <data name="DtoAttributesEmpty" xml:space="preserve">
+        <value>The dto '{0}' does not have any attributes defined. All dto's must have at least one attribute.</value>
+    </data>
+    <data name="DtoNameDuplicate" xml:space="preserve">
+        <value>a Data transfer object '{0}' has a duplicate name. All dtos must have a unique name in the solution.</value>
+    </data>
+    <data name="IntegrationNameEmpty" xml:space="preserve">
+        <value>an Integration in the application definition is missing a name. All integrations must have a unique name.</value>
+    </data>
+    <data name="IntegrationNameDuplicate" xml:space="preserve">
+        <value>The integration '{0}' has a duplicate name. Integration names must be unique in the solution.</value>
+    </data>
+    <data name="IntegrationSourceMissing" xml:space="preserve">
+        <value>The integration '{0}' does not have a source specified. All integrations must have a source and target specified.</value>
+    </data>
+    <data name="IntegrationTargetMissing" xml:space="preserve">
+        <value>The integration '{0}' does not have a target specified. All integrations must have a source and target specified.</value>
+    </data>
+    <data name="IntegrationSourceNameEmpty" xml:space="preserve">
+        <value>The source for integration '{0}' does not have a name specified. All integration sources must have a name specified.</value>
+    </data>
+    <data name="IntegrationSourceDataConnectionEmpty" xml:space="preserve">
+        <value>The source '{0}' for integration '{1}' does not have a data connection specified. All integration sources must have a data connection specified in the Infrastructure section of your yaml definition..</value>
+    </data>
+    <data name="IntegrationScheduleStartEmpty" xml:space="preserve">
+        <value>The source '{0}' for integration '{1}' does not have a start specified for its schedule. All scheduled integrations must have a start defined.</value>
+    </data>
+    <data name="IntegrationSourceDataConnectionMissing" xml:space="preserve">
+        <value>The data connection for source '{0}' for integration '{1}' is not defined. All data connections must be defined in the Infrastructure section of your yaml definition.</value>
+    </data>
+    <data name="IntegrationTargetNameEmpty" xml:space="preserve">
+        <value>The target of integration '{0}' does not have a name specified. All integration targets must have a name.</value>
+    </data>
+    <data name="IntegrationTargetTypeEmpty" xml:space="preserve">
+        <value>The target '{0}' of integration '{1}' does not have a valid target type specified. Valid target types are one of {2}.</value>
+    </data>
+    <data name="IntegrationTargetDataConnectionMissing" xml:space="preserve">
+        <value>The target '{0}' for integration '{1}' refers to a data connection '{2}' that is not defined. All data connections must be defined in the Infrastructure section of your yaml definition.</value>
+    </data>
+    <data name="IntegrationMappingSourceColumnMissing" xml:space="preserve">
+        <value>a Mapping for integration '{0}' does not have a source column specified. All integration mappings must have a source column.</value>
+    </data>
+    <data name="IntegrationMappingTargetAttributeMissing" xml:space="preserve">
+        <value>a Mapping for integration '{0}' does not have a target attribute specified. All integration mappings must have a target attribute.</value>
+    </data>
+    <data name="IntegrationMatchTableEmpty" xml:space="preserve">
+        <value>a Lookup for integration '{0}' does not have a table specified. All integration lookups must have a table.</value>
+    </data>
+    <data name="IntegrationMatchLookupColumnEmpty" xml:space="preserve">
+        <value>a Lookup for integration '{0}' does not have a lookup column specified. All integration lookups must have a source column.</value>
+    </data>
+    <data name="IntegrationMatchReturnColumnEmpty" xml:space="preserve">
+        <value>a Lookup for integration '{0}' does not have a return column specified. All integration lookups must have a return column.</value>
+    </data>
+    <data name="IntegrationLookupSourceColumnEmpty" xml:space="preserve">
+        <value>a Lookup for integration '{0}' does not have a source column specified. All integration lookups must have a source column.</value>
+    </data>
+    <data name="IntegrationLookupMatchEmpty" xml:space="preserve">
+        <value>a Lookup for integration '{0}' does not have a match section specified. All integration lookups must have a match.</value>
+    </data>
+    <data name="IntegrationLookupTargetAttributeEmpty" xml:space="preserve">
+        <value>a Lookup for integration '{0}' does not have a target attribute specified. All integration lookups must have a target attribute.</value>
+    </data>
+    <data name="InfrastructurePersistenceEmpty" xml:space="preserve">
+        <value>The persistence section of the infrastructure definition is missing. Infrastructure persistence is required in a Nox solution definition.</value>
+    </data>
+    <data name="InfrastructureMessagingEmpty" xml:space="preserve">
+        <value>The messaging section of the infrastructure definition is missing. Infrastructure messaging is required in a Nox solution definition.</value>
+    </data>
+    <data name="ServerNameEmpty" xml:space="preserve">
+        <value>The server definition for {0} is missing a name. All server definitions must have a unique name in a Nox solution.</value>
+    </data>
+    <data name="ServerNameDuplicate" xml:space="preserve">
+        <value>The name '{0}' of the server definition for '{1}' is duplicated elsewhere in the solution definition. Server names must be unique in a Nox solution definition.</value>
+    </data>
+    <data name="PersistenceDatabaseServerEmpty" xml:space="preserve">
+        <value>The database server for infrastructure persistence has not been specified. a Nox solution must always have a database definition.</value>
+    </data>
+    <data name="SecretsValidForInvalidTimespan" xml:space="preserve">
+        <value>The secrets valid for in {0} must have a valid time span specified.</value>
+    </data>
+    <data name="DataConnectionProviderEmpty" xml:space="preserve">
+        <value>The data connection '{0}' must have a valid provider specified. Valid providers are one of {1}</value>
+    </data>
+    <data name="EmailServerProviderEmpty" xml:space="preserve">
+        <value>The infrastructure, dependencies, notifications, email server '{0}' must have a valid provider specified. Valid providers are one of {1}</value>
+    </data>
+    <data name="SmsServerProviderEmpty" xml:space="preserve">
+        <value>The infrastructure, dependencies, notifications, sms server '{0}' must have a valid provider specified. Valid providers are one of {1}</value>
+    </data>
+    <data name="ImServerProviderEmpty" xml:space="preserve">
+        <value>The infrastructure, dependencies, notifications, im server '{0}' must have a valid provider specified. Valid providers are one of {1}</value>
+    </data>
+    <data name="SecretsServerProviderEmpty" xml:space="preserve">
+        <value>The infrastructure, dependencies, security, secrets, secrets server '{0}' must have a valid provider specified. Valid providers are one of {1}</value>
+    </data>
+    <data name="EntityDefaultsFalse" xml:space="preserve">
+        <value>Unable to apply defaults for entity '{0}'.</value>
+    </data>
+    <data name="EntityPersistenceDefaultsFalse" xml:space="preserve">
+        <value>Unable to apply persistence defaults for entity '{0}'.</value>
+    </data>
+    <data name="EntityPersistenceTableNameEmpty" xml:space="preserve">
+        <value>The table name for persistence of entity '{0}' is not specified. All Nox entities must persist to a table.</value>
+    </data>
+    <data name="ServerUriEmpty" xml:space="preserve">
+        <value>The server definition for {0} is missing a uri. All server definitions must have a hostname, IP address or URI specified in the ServerUri attribute.</value>
+    </data>
+    <data name="ServerUriInvalid" xml:space="preserve">
+        <value>The server definition for {0} has an invalid configuration. Unable to build a proper uri from the available attributes.</value>
+    </data>
+    <data name="ServerUriInvalidScheme" xml:space="preserve">
+        <value>The server definition for {0} has an invalid serverUri scheme, should be {1}. Unable to build a proper uri from the available attributes.</value>
+    </data>
+    <data name="IntegrationEventsServerDefaultsFalse" xml:space="preserve">
+        <value>Unable to apply defaults for infrastructure, messaging, integrationEventServer.</value>
+    </data>
+    <data name="DatabaseServerProviderEmpty" xml:space="preserve">
+        <value>The infrastructure, persistence, database server '{0}' must have a valid provider specified. Valid providers are one of {1}</value>
+    </data>
+    <data name="EventSourceServerProviderEmpty" xml:space="preserve">
+        <value>The infrastructure, persistence, event source server '{0}' must have a valid provider specified. Valid providers are one of {1}</value>
+    </data>
+    <data name="CacheServerProviderEmpty" xml:space="preserve">
+        <value>The infrastructure, persistence, cache server '{0}' must have a valid provider specified. Valid providers are one of {1}</value>
+    </data>
+    <data name="SearchServerProviderEmpty" xml:space="preserve">
+        <value>The infrastructure, persistence, search server '{0}' must have a valid provider specified. Valid providers are one of {1}</value>
+    </data>
+    <data name="ApiServerProviderEmpty" xml:space="preserve">
+        <value>The infrastructure, endpoints, API server '{0}' must have a valid provider specified. Valid providers are one of {1}</value>
+    </data>
+    <data name="BffServerProviderEmpty" xml:space="preserve">
+        <value>The infrastructure, endpoints, bff server '{0}' must have a valid provider specified. Valid providers are one of {1}</value>
+    </data>
+    <data name="IntegrationSourceDatabaseOptionsEmpty" xml:space="preserve">
+        <value>The source for integration {0} does not specify database options. When an integration sources data from a database, database options must be specified.</value>
+    </data>
+    <data name="IntegrationSourceDatabaseOptionsQueryEmpty" xml:space="preserve">
+        <value>The query in the database options of the source for integration {0} has not been specified. Database sources must have a query specified.</value>
+    </data>
+    <data name="IntegrationSourceDatabaseOptionsMinExptectedRecordsInvalid" xml:space="preserve">
+        <value>The database options for the source of integration {0} has an invalid MinimumExpectedRecords setting. MinimumExpectedRecords must be equal to or greater than 1.</value>
+    </data>
+    <data name="IntegrationSourceFileOptionsEmpty" xml:space="preserve">
+        <value>The source for integration {0} does not specify file options. When an integration sources data from a file, file options must be specified.</value>
+    </data>
+    <data name="IntegrationSourceMsgQueueOptionsEmpty" xml:space="preserve">
+        <value>The source for integration {0} does not specify message queue options. When an integration sources data from a message queue, message queue options must be specified.</value>
+    </data>
+    <data name="IntegrationSourceHttpOptionsEmpty" xml:space="preserve">
+        <value>The source for integration {0} does not specify Http options. When an integration sources data from an http endpoint, http options must be specified.</value>
+    </data>
+    <data name="IntegrationSourceFileOptionsFilenameEmpty" xml:space="preserve">
+        <value>The filename in the file options of the source for integration {0} has not been specified. File sources must have a filename specified.</value>
+    </data>
+    <data name="IntegrationSourceFileOptionsMinExptectedRecordsInvalid" xml:space="preserve">
+        <value>The file options for the source of integration {0} has an invalid MinimumExpectedRecords setting. MinimumExpectedRecords must be equal to or greater than 1.</value>
+    </data>
+    <data name="IntegrationSourceHttpOptionsRouteEmpty" xml:space="preserve">
+        <value>The route in the http options of the source for integration {0} has not been specified. Http sources must have a route specified.</value>
+    </data>
+    <data name="IntegrationSourceHttpOptionsFormatEmpty" xml:space="preserve">
+        <value>The format in the http options of the source for integration {0} has not been specified. Http sources must have a format specified.</value>
+    </data>
+    <data name="IntegrationSourceHttpOptionsVerbEmpty" xml:space="preserve">
+        <value>The verb in the http options of the source for integration {0} has not been specified. Http sources must have a verb specified.</value>
+    </data>
+    <data name="IntegrationSourceMsgQueueOptionsSourceEmpty" xml:space="preserve">
+        <value>The source in the message queue options of the source for integration {0} has not been specified. Message queue sources must have a source specified.</value>
+    </data>
+    <data name="DomainEventNameEmpty" xml:space="preserve">
+        <value>One of the events for entity {0} in the domain definition does not have a name specified. All domain events must have a unique name.</value>
+    </data>
+    <data name="ApplicationEventNameEmpty" xml:space="preserve">
+        <value>One of the events in the application definition does not have a name specified. All application events must have a unique name.</value>
+    </data>
+    <data name="DomainEventNameDuplicate" xml:space="preserve">
+        <value>Domain event '{0}' for entity '{1}' has a duplicate name. Domain event names must be unique in the solution.</value>
+    </data>
+    <data name="DomainEventTypeEmpty" xml:space="preserve">
+        <value>Domain event '{0}' for entity '{1}' is missing a type. Domain events must all have a type specified.</value>
+    </data>
+    <data name="ApplicationEventNameDuplicate" xml:space="preserve">
+        <value>Application event '{0}' has a duplicate name. Application event names must be unique in the solution.</value>
+    </data>
+    <data name="ApplicationEventTypeEmpty" xml:space="preserve">
+        <value>Application event '{0}' is missing a type. Application events must all have a type specified.</value>
+    </data>
+</root>

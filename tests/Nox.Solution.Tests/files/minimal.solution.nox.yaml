@@ -1,0 +1,12 @@
+#
+# minimal.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+name: MinimalService
+
+description: Minimal yaml file for tests
+
+
+

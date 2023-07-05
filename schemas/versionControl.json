@@ -1,0 +1,71 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "type": "object",
+  "properties": {
+    "$ref": {
+      "type": "string",
+      "format": "uri"
+    },
+    "provider": {
+      "enum": [
+        "azureDevops"
+      ],
+      "title": "The source code and repository provider or service.",
+      "description": "The name of the provider or service for source code and version control"
+    },
+    "host": {
+      "type": "string",
+      "format": "uri",
+      "title": "The URI for the host of the version control service.",
+      "description": "The URI for the person or organization\u0027s projects and repositories. Usually https://dev.azure.com/\u003Corganization\u003E"
+    },
+    "folders": {
+      "type": "object",
+      "properties": {
+        "$ref": {
+          "type": "string",
+          "format": "uri"
+        },
+        "sourceCode": {
+          "type": "string",
+          "title": "The path or relative path to the source code root.",
+          "description": "The path or relative path that contains your source code. Allows auto-configuration of build pipelines."
+        },
+        "tests": {
+          "type": "string",
+          "title": "The path or relative path to the solution tests.",
+          "description": "The path or relative path that contains your solution tests. Allows auto-configuration of build pipelines."
+        },
+        "containers": {
+          "type": "string",
+          "title": "The path or relative path to the docker containers.",
+          "description": "The path or relative path that contains your solution docker containers."
+        },
+        "samples": {
+          "type": "string",
+          "title": "The path or relative path to the samples folder.",
+          "description": "The path or relative path that contains your solution samples."
+        },
+        "docs": {
+          "type": "string",
+          "title": "The path or relative path to the solution documentation.",
+          "description": "The path or relative path that contains your solution documentation."
+        }
+      },
+      "required": [
+        "sourceCode",
+        "containers"
+      ],
+      "title": "A list of well-known folders pertaining to version control for the solution.",
+      "description": "The relative path to source code, tests, containers and other well-known code assets.",
+      "additionalProperties": false
+    }
+  },
+  "required": [
+    "provider",
+    "host"
+  ],
+  "title": "Source code repository and related info for the solution.",
+  "description": "Contains information about where source code is kept and the folders of the main components thereof.",
+  "additionalProperties": false
+}
