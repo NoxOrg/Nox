@@ -18,7 +18,7 @@ public class SqlServerDatabaseProvider: INoxDatabaseProvider
     {
         var csb = new SqlConnectionStringBuilder(dbServer.Options)
         {
-            DataSource = $"{dbServer.ServerUri},{dbServer.Port}",
+            DataSource = $"{dbServer.ServerUri},{dbServer.Port ?? 1433}",
             UserID = dbServer.User,
             Password = dbServer.Password,
             InitialCatalog = dbServer.Name,

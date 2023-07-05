@@ -63,6 +63,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.DatabaseProvider", "Nox
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.DatabaseProvider.SqlServer", "Nox.DatabaseProvider.SqlServer\Nox.DatabaseProvider.SqlServer.csproj", "{7435EFBA-471C-4BFB-A306-EB9CDF375585}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.DatabaseProvider.Postgres", "Nox.DatabaseProvider.Postgres\Nox.DatabaseProvider.Postgres.csproj", "{3AED54D4-4674-46E0-9289-099019E82A70}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -153,6 +155,10 @@ Global
 		{7435EFBA-471C-4BFB-A306-EB9CDF375585}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7435EFBA-471C-4BFB-A306-EB9CDF375585}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7435EFBA-471C-4BFB-A306-EB9CDF375585}.Release|Any CPU.Build.0 = Release|Any CPU
+		{3AED54D4-4674-46E0-9289-099019E82A70}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3AED54D4-4674-46E0-9289-099019E82A70}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3AED54D4-4674-46E0-9289-099019E82A70}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{3AED54D4-4674-46E0-9289-099019E82A70}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -176,6 +182,7 @@ Global
 		{A1C3BA6A-7055-4AFD-9EB3-3B9019D3E7A4} = {110C16ED-A11D-4B5A-ABB2-0E0F4692C77A}
 		{1D6D928A-AA0F-40F6-8930-47B695919104} = {137019F4-2B62-4DD8-B2F8-0F5067205101}
 		{7435EFBA-471C-4BFB-A306-EB9CDF375585} = {137019F4-2B62-4DD8-B2F8-0F5067205101}
+		{3AED54D4-4674-46E0-9289-099019E82A70} = {137019F4-2B62-4DD8-B2F8-0F5067205101}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E72B357-9E1E-43B5-9868-8D2B74CB2AF0}
