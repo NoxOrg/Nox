@@ -49,8 +49,8 @@ public class SampleWebAppDbContextExample : DbContext
                     _databaseConfigurator.ConfigureEntity(modelBuilder.Entity(type), entity);
                 }
             }
-
-            base.OnModelCreating(modelBuilder);
         }
+
+        base.OnModelCreating(modelBuilder);
     }
 }

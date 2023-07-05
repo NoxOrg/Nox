@@ -3,19 +3,21 @@
 #nullable enable
 
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Nox.Solution;
 using Nox.Types.EntityFramework.vNext;
-using SampleWebApp.Domain;
+using System;
+using TestDatabaseWebApp.Domain;
 
-namespace SampleWebApp.Infrastructure.Persistence;
+namespace TestDatabaseWebApp.Infrastructure.Persistence;
 
-public partial class SampleWebAppDbContext : DbContext
+public partial class TestDatabaseWebAppDbContext : DbContext
 {
     private NoxSolution _noxSolution { get; set; }
     private INoxDatabaseConfigurator _databaseConfigurator { get; set; }
-    
-    public SampleWebAppDbContext(
-        DbContextOptions<SampleWebAppDbContext> options,
+
+    public TestDatabaseWebAppDbContext(
+        DbContextOptions<TestDatabaseWebAppDbContext> options,
         NoxSolution noxSolution,
         INoxDatabaseConfigurator databaseConfigurator
         ) : base(options)
@@ -23,19 +25,13 @@ public partial class SampleWebAppDbContext : DbContext
         _noxSolution = noxSolution;
         _databaseConfigurator = databaseConfigurator;
     }
-    
-    public DbSet<Country> Countries {get; set;} = null!;
-    
-    public DbSet<Currency> Currencies {get; set;} = null!;
-    
-    public DbSet<Store> Stores {get; set;} = null!;
-    
-    public DbSet<CountryLocalNames> CountryLocalNames {get; set;} = null!;
-    
-    
+
+    public DbSet<TestEntity> TestEntities { get; set; } = null!;
+
+
     public static void RegisterDbContext(IServiceCollection services)
     {
-        services.AddDbContext<SampleWebAppDbContext>();
+        services.AddDbContext<TestDatabaseWebAppDbContext>();
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -44,14 +40,14 @@ public partial class SampleWebAppDbContext : DbContext
         {
             foreach (var entity in _noxSolution.Domain.Entities)
             {
-                var type = Type.GetType("SampleWebApp.Domain." + entity.Name);
-                
+                var type = Type.GetType("TestDatabaseWebApp.Domain." + entity.Name);
+
                 if (type != null)
                 {
                     _databaseConfigurator.ConfigureEntity(modelBuilder.Entity(type), entity);
                 }
             }
-            
+
         }
 
         base.OnModelCreating(modelBuilder);

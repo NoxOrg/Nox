@@ -24,7 +24,7 @@ internal class DbContextGenerator
         code.AppendLine(@"using Microsoft.EntityFrameworkCore;");
         code.AppendLine(@"using Nox.Solution;");
         code.AppendLine(@"using Nox.Types.EntityFramework.vNext;");
-        code.AppendLine(@"using SampleWebApp.Domain;");
+        code.AppendLine($@"using {solutionNameSpace}.Domain;");
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Infrastructure.Persistence;");
         code.AppendLine();
@@ -83,8 +83,9 @@ internal class DbContextGenerator
                 }
             }
             
-            base.OnModelCreating(modelBuilder);
         }
+
+        base.OnModelCreating(modelBuilder);
     }
 }
 ");
