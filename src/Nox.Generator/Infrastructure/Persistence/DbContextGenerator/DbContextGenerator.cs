@@ -31,7 +31,7 @@ internal static class DbContextGenerator
     {
         code.AppendLine(@"using Microsoft.EntityFrameworkCore;");
         code.AppendLine(@"using Nox.Solution;");
-        code.AppendLine(@"using Nox.Types.EntityFramework.vNext;");
+        code.AppendLine(@"using Nox.Types.EntityFramework.Abstractions;");
         code.AppendLine(@"using SampleWebApp.Domain;");
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Infrastructure.Persistence;");
@@ -46,19 +46,16 @@ internal static class DbContextGenerator
         code.StartBlock();
 
         code.AppendLine("private readonly NoxSolution _noxSolution;");
-        code.AppendLine("private readonly INoxDatabaseConfigurator _databaseConfigurator;");
         code.AppendLine("private readonly INoxDatabaseProvider _dbProvider;");
         code.AppendLine();
 
         code.AppendLine($"public {dbContextName}(");
         code.AppendLine($"    DbContextOptions<{dbContextName}> options,");
         code.AppendLine("    NoxSolution noxSolution,");
-        code.AppendLine("    INoxDatabaseConfigurator databaseConfigurator,");
         code.AppendLine("    INoxDatabaseProvider databaseProvider");
         code.AppendLine(") : base(options)");
         code.StartBlock();
         code.AppendLine("    _noxSolution = noxSolution;");
-        code.AppendLine("    _databaseConfigurator = databaseConfigurator;");
         code.AppendLine("    _dbProvider = databaseProvider;");
         code.EndBlock();
         code.AppendLine();
@@ -114,7 +111,7 @@ internal static class DbContextGenerator
         code.AppendLine();
         code.AppendLine("if (type != null)");
         code.StartBlock();
-        code.AppendLine("_databaseConfigurator.ConfigureEntity(modelBuilder.Entity(type), entity);");
+        code.AppendLine("((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(modelBuilder.Entity(type), entity);");
         code.EndBlock();
         code.EndBlock();
         code.AppendLine();

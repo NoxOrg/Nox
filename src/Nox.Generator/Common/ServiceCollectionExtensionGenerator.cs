@@ -13,7 +13,6 @@ public class ServiceCollectionExtensionGenerator
         var code = new CodeBuilder($"NoxServiceCollectionExtension.g.cs", context);
 
         var usings = new List<string>();
-        var dbConfigurator = "";
         var dbProvider = "";
         
         if (solution.Infrastructure?.Persistence is { DatabaseServer: not null })
@@ -22,13 +21,11 @@ public class ServiceCollectionExtensionGenerator
             switch (dbServer.Provider)
             {
                 case DatabaseServerProvider.SqlServer:
-                    usings.Add("using Nox.Types.EntityFramework.SqlServer;");
-                    dbConfigurator = "SqlServerDatabaseConfigurator";
+                    usings.Add("using Nox.DatabaseProvider.SqlServer;");
                     dbProvider = "SqlServerDatabaseProvider";
                     break;
                 case DatabaseServerProvider.Postgres:
-                    usings.Add("using Nox.Types.EntityFramework.Postgres;");
-                    dbConfigurator = "PostgresDatabaseConfigurator";
+                    usings.Add("using Nox.DatabaseProvider.Postgres;");
                     dbProvider = "PostgresDatabaseProvider";
                     break;
             }
@@ -37,7 +34,7 @@ public class ServiceCollectionExtensionGenerator
         code.AppendLine("using Microsoft.EntityFrameworkCore;");
         code.AppendLine("using Nox;");
         code.AppendLines(usings.ToArray());
-        code.AppendLine("using Nox.Types.EntityFramework.vNext;");
+        code.AppendLine("using Nox.Types.EntityFramework.Abstractions;");
         code.AppendLine("using SampleWebApp.Infrastructure.Persistence;");
         code.AppendLine();
 
@@ -50,7 +47,7 @@ public class ServiceCollectionExtensionGenerator
         {
             var dbContextName = $"{solution.Name}DbContext";
             code.AppendLine($"services.AddSingleton<DbContextOptions<{dbContextName}>>();");
-            code.AppendLine($"services.AddSingleton<INoxDatabaseConfigurator, {dbConfigurator}>();");
+            code.AppendLine($"services.AddSingleton<INoxDatabaseConfigurator, {dbProvider}>();");
             code.AppendLine($"services.AddSingleton<INoxDatabaseProvider, {dbProvider}>();");
             code.AppendLine($"services.AddDbContext<{dbContextName}>();");
             code.AppendLine("var tmpProvider = services.BuildServiceProvider();");

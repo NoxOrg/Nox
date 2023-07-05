@@ -33,9 +33,11 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Nox.DatabaseProvider.SqlServer\Nox.DatabaseProvider.SqlServer.csproj" />
 		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
 		<ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
 		<ProjectReference Include="..\Nox.Lib\Nox.Lib.csproj" />
+		<ProjectReference Include="..\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -51,10 +53,6 @@
 
 	<ItemGroup>
 		<Compile Remove="Controller_Sample.cs" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Generated\" />
 	</ItemGroup>
 
 </Project>

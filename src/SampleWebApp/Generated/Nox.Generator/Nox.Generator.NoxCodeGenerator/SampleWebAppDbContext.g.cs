@@ -3,9 +3,8 @@
 #nullable enable
 
 using Microsoft.EntityFrameworkCore;
-using Nox.DatabaseProvider;
 using Nox.Solution;
-using Nox.Types.EntityFramework.vNext;
+using Nox.Types.EntityFramework.Abstractions;
 using SampleWebApp.Domain;
 
 namespace SampleWebApp.Infrastructure.Persistence;
@@ -13,18 +12,15 @@ namespace SampleWebApp.Infrastructure.Persistence;
 public partial class SampleWebAppDbContext : DbContext
 {
     private readonly NoxSolution _noxSolution;
-    private readonly INoxDatabaseConfigurator _databaseConfigurator;
     private readonly INoxDatabaseProvider _dbProvider;
     
     public SampleWebAppDbContext(
         DbContextOptions<SampleWebAppDbContext> options,
         NoxSolution noxSolution,
-        INoxDatabaseConfigurator databaseConfigurator,
         INoxDatabaseProvider databaseProvider
     ) : base(options)
     {
             _noxSolution = noxSolution;
-            _databaseConfigurator = databaseConfigurator;
             _dbProvider = databaseProvider;
     }
     
@@ -56,7 +52,7 @@ public partial class SampleWebAppDbContext : DbContext
                 
                 if (type != null)
                 {
-                    _databaseConfigurator.ConfigureEntity(modelBuilder.Entity(type), entity);
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(modelBuilder.Entity(type), entity);
                 }
             }
             
