@@ -430,7 +430,7 @@ infrastructure:
       provider: azureRedis
       serverUri: redis.iwgplc.com
       user: RedisUser
-      password: RedisPassword
+      password: RedisPassword*123
     
     searchServer:
       name: SampleSearch
