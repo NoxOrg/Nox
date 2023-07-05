@@ -1,4 +1,6 @@
 ﻿// ReSharper disable once CheckNamespace
+using FluentAssertions;
+
 namespace Nox.Types.Tests.Types;
 
 public class MacAddressTests
@@ -18,7 +20,7 @@ public class MacAddressTests
     {
         var macAddress = MacAddress.From(input);
 
-        Assert.Equal("D32077E12D32", macAddress.Value);
+        macAddress.Value.Should().Be("D32077E12D32");
     }
 
     [Theory]
@@ -29,7 +31,7 @@ public class MacAddressTests
     {
         var macAddress = MacAddress.From(input);
 
-        Assert.Equal(expectedResult, macAddress.Value);
+        macAddress.Value.Should().Be(expectedResult);
     }
 
     [Theory]
@@ -39,7 +41,7 @@ public class MacAddressTests
     {
         var macAddress = MacAddress.From(input);
 
-        Assert.Equal(expectedResult, macAddress.Value);
+        macAddress.Value.Should().Be(expectedResult);
     }
 
     [Theory]
@@ -52,7 +54,7 @@ public class MacAddressTests
     {
         var macAddress = MacAddress.From("AA:11:22:33:44:55");
 
-        Assert.Equal(expected, macAddress.ToString(format));
+        macAddress.ToString(format).Should().Be(expected);
     }
 
     [Fact]
@@ -60,7 +62,7 @@ public class MacAddressTests
     {
         var macAddress = MacAddress.From("AA:11:22:33:44:55");
 
-        Assert.Equal("AA:11:22:33:44:55", macAddress.ToString());
+        macAddress.ToString().Should().Be("AA:11:22:33:44:55");
     }
 
     [Theory]
@@ -93,27 +95,27 @@ public class MacAddressTests
 
     private static void AssertAreEquivalent(MacAddress macAddress1, MacAddress macAddress2)
     {
-        Assert.Equal(macAddress1, macAddress2);
+        macAddress1.Should().Be(macAddress2);
 
-        Assert.True(macAddress1.Equals(macAddress2));
+        macAddress1.Equals(macAddress2).Should().BeTrue();
 
-        Assert.True(macAddress2.Equals(macAddress1));
+        macAddress2.Equals(macAddress1).Should().BeTrue();
 
-        Assert.True(macAddress1 == macAddress2);
+        (macAddress1 == macAddress2).Should().BeTrue();
 
-        Assert.False(macAddress1 != macAddress2);
+        (macAddress1 != macAddress2).Should().BeFalse();
     }
 
     private static void AssertAreNotEquivalent(MacAddress macAddress1, MacAddress macAddress2)
     {
-        Assert.NotEqual(macAddress1, macAddress2);
+        macAddress1.Should().NotBe(macAddress2);
 
-        Assert.False(macAddress1.Equals(macAddress2));
+        macAddress1.Equals(macAddress2).Should().BeFalse();
 
-        Assert.False(macAddress2.Equals(macAddress1));
+        macAddress2.Equals(macAddress1).Should().BeFalse();
 
-        Assert.False(macAddress1 == macAddress2);
+        (macAddress1 == macAddress2).Should().BeFalse();
 
-        Assert.True(macAddress1 != macAddress2);
+        (macAddress1 != macAddress2).Should().BeTrue();
     }
 }

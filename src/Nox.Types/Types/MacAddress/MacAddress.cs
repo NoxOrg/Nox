@@ -12,8 +12,14 @@ namespace Nox.Types;
 /// <remarks>Placeholder, needs to be implemented</remarks>
 public sealed class MacAddress : ValueObject<string, MacAddress>
 {
-    private static readonly int MacAddressLengthInBytes = 6;
+    private const int MacAddressLengthInBytes = 6;
 
+    /// <summary>
+    /// Creates a new instance of <see cref="MacAddress"/> object.
+    /// </summary>
+    /// <param name="value">The string value to create the <see cref="MacAddress"/> with</param>
+    /// <returns></returns>
+    /// <exception cref="TypeValidationException"></exception>
     public new static MacAddress From(string value)
     {
         TryParse(value, out string macAddressValue);
@@ -33,21 +39,43 @@ public sealed class MacAddress : ValueObject<string, MacAddress>
         return newObject;
     }
 
+    /// <summary>
+    /// Creates a new instance of <see cref="MacAddress"/> object.
+    /// </summary>
+    /// <param name="value">The ulong value to create the <see cref="MacAddress"/> with</param>
+    /// <returns></returns>
+    /// <exception cref="TypeValidationException"></exception>
     public static MacAddress From(ulong value)
     {
         var macAddressValue = PadToMacAddressLength(value.ToString("X2", CultureInfo.InvariantCulture));
         return From(macAddressValue);
     }
 
+    /// <summary>
+    /// Creates a new instance of <see cref="MacAddress"/> object.
+    /// </summary>
+    /// <param name="value">The byte array value to create the <see cref="MacAddress"/> with</param>
+    /// <returns></returns>
+    /// <exception cref="TypeValidationException"></exception>
     public static MacAddress From(byte[] value)
     {
         var macAddressValue = FormatAsMacAddressHexString(value);
         return From(macAddressValue);
     }
 
+    /// <summary>
+    /// Converts the instance to string and formats it in <see cref="MacAddressFormat.ByteGroupWithColon"/> format
+    /// </summary>
+    /// <returns>
+    /// A <see cref="string" /> that represents this instance.
+    /// </returns>
     public new string ToString()
         => ToString(MacAddressFormat.ByteGroupWithColon);
 
+    /// <summary>
+    /// Converts the instance to string in specified <see cref="MacAddressFormat"/> format.
+    /// </summary>
+    /// <param name="format">The format.</param>
     public string ToString(MacAddressFormat format)
         => format switch
         {
