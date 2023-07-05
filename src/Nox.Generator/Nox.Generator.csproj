@@ -46,6 +46,7 @@
       <TargetPathWithTargetPlatformMoniker Include="$(PKGHumanizer_Core)\lib\netstandard2.0\Humanizer.dll" IncludeRuntimeDependency="false" />
       <TargetPathWithTargetPlatformMoniker Include="$(PKGFluentValidation)\lib\netstandard2.0\FluentValidation.dll" IncludeRuntimeDependency="false" />
       <TargetPathWithTargetPlatformMoniker Include="..\..\src\Nox.Solution\bin\$(Configuration)\netstandard2.0\Nox.Solution.dll" IncludeRuntimeDependency="false" />
+      <TargetPathWithTargetPlatformMoniker Include="..\..\src\Nox.Types\bin\$(Configuration)\netstandard2.0\Nox.Types.dll" IncludeRuntimeDependency="false" />
       <TargetPathWithTargetPlatformMoniker Include="$(PKGJsonSchema_Net)\lib\netstandard2.0\JsonSchema.Net.dll" IncludeRuntimeDependency="false" />
       <TargetPathWithTargetPlatformMoniker Include="$(PKGSystem_Text_Json)\lib\netstandard2.0\System.Text.Json.dll" IncludeRuntimeDependency="false" />
       <TargetPathWithTargetPlatformMoniker Include="$(PKGJsonSchema_Net_Generation)\lib\netstandard2.0\JsonSchema.Net.Generation.dll" IncludeRuntimeDependency="false" />

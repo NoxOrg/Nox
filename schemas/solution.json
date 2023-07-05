@@ -512,11 +512,13 @@
                               "array",
                               "collection",
                               "object",
+                              "vatNumber",
                               "entity",
                               "latLong",
                               "money",
                               "streetAddress",
                               "translatedText",
+                              "dateTimeRange",
                               "area",
                               "autoNumber",
                               "boolean",
@@ -533,7 +535,6 @@
                               "year",
                               "dateTime",
                               "dateTimeDuration",
-                              "dateTimeRange",
                               "dateTimeSchedule",
                               "distance",
                               "email",
@@ -931,10 +932,6 @@
                           "objectTypeOptions": {
                             "type": "object",
                             "properties": {
-                              "$ref": {
-                                "type": "string",
-                                "format": "uri"
-                              },
                               "attributes": {
                                 "type": "array",
                                 "items": {
@@ -960,11 +957,13 @@
                                         "array",
                                         "collection",
                                         "object",
+                                        "vatNumber",
                                         "entity",
                                         "latLong",
                                         "money",
                                         "streetAddress",
                                         "translatedText",
+                                        "dateTimeRange",
                                         "area",
                                         "autoNumber",
                                         "boolean",
@@ -981,7 +980,6 @@
                                         "year",
                                         "dateTime",
                                         "dateTimeDuration",
-                                        "dateTimeRange",
                                         "dateTimeSchedule",
                                         "distance",
                                         "email",
@@ -1382,6 +1380,10 @@
                                     "type"
                                   ]
                                 }
+                              },
+                              "$ref": {
+                                "type": "string",
+                                "format": "uri"
                               }
                             },
                             "required": [
@@ -1411,11 +1413,13 @@
                                   "array",
                                   "collection",
                                   "object",
+                                  "vatNumber",
                                   "entity",
                                   "latLong",
                                   "money",
                                   "streetAddress",
                                   "translatedText",
+                                  "dateTimeRange",
                                   "area",
                                   "autoNumber",
                                   "boolean",
@@ -1432,7 +1436,6 @@
                                   "year",
                                   "dateTime",
                                   "dateTimeDuration",
-                                  "dateTimeRange",
                                   "dateTimeSchedule",
                                   "distance",
                                   "email",
@@ -1830,10 +1833,6 @@
                               "objectTypeOptions": {
                                 "type": "object",
                                 "properties": {
-                                  "$ref": {
-                                    "type": "string",
-                                    "format": "uri"
-                                  },
                                   "attributes": {
                                     "type": "array",
                                     "items": {
@@ -1859,11 +1858,13 @@
                                             "array",
                                             "collection",
                                             "object",
+                                            "vatNumber",
                                             "entity",
                                             "latLong",
                                             "money",
                                             "streetAddress",
                                             "translatedText",
+                                            "dateTimeRange",
                                             "area",
                                             "autoNumber",
                                             "boolean",
@@ -1880,7 +1881,6 @@
                                             "year",
                                             "dateTime",
                                             "dateTimeDuration",
-                                            "dateTimeRange",
                                             "dateTimeSchedule",
                                             "distance",
                                             "email",
@@ -2281,6 +2281,10 @@
                                         "type"
                                       ]
                                     }
+                                  },
+                                  "$ref": {
+                                    "type": "string",
+                                    "format": "uri"
                                   }
                                 },
                                 "required": [
@@ -2319,11 +2323,13 @@
                                   "array",
                                   "collection",
                                   "object",
+                                  "vatNumber",
                                   "entity",
                                   "latLong",
                                   "money",
                                   "streetAddress",
                                   "translatedText",
+                                  "dateTimeRange",
                                   "area",
                                   "autoNumber",
                                   "boolean",
@@ -2340,7 +2346,6 @@
                                   "year",
                                   "dateTime",
                                   "dateTimeDuration",
-                                  "dateTimeRange",
                                   "dateTimeSchedule",
                                   "distance",
                                   "email",
@@ -2738,10 +2743,6 @@
                               "objectTypeOptions": {
                                 "type": "object",
                                 "properties": {
-                                  "$ref": {
-                                    "type": "string",
-                                    "format": "uri"
-                                  },
                                   "attributes": {
                                     "type": "array",
                                     "items": {
@@ -2767,11 +2768,13 @@
                                             "array",
                                             "collection",
                                             "object",
+                                            "vatNumber",
                                             "entity",
                                             "latLong",
                                             "money",
                                             "streetAddress",
                                             "translatedText",
+                                            "dateTimeRange",
                                             "area",
                                             "autoNumber",
                                             "boolean",
@@ -2788,7 +2791,6 @@
                                             "year",
                                             "dateTime",
                                             "dateTimeDuration",
-                                            "dateTimeRange",
                                             "dateTimeSchedule",
                                             "distance",
                                             "email",
@@ -3189,6 +3191,10 @@
                                         "type"
                                       ]
                                     }
+                                  },
+                                  "$ref": {
+                                    "type": "string",
+                                    "format": "uri"
                                   }
                                 },
                                 "required": [
@@ -3240,11 +3246,13 @@
                             "array",
                             "collection",
                             "object",
+                            "vatNumber",
                             "entity",
                             "latLong",
                             "money",
                             "streetAddress",
                             "translatedText",
+                            "dateTimeRange",
                             "area",
                             "autoNumber",
                             "boolean",
@@ -3261,7 +3269,6 @@
                             "year",
                             "dateTime",
                             "dateTimeDuration",
-                            "dateTimeRange",
                             "dateTimeSchedule",
                             "distance",
                             "email",
@@ -3659,10 +3666,6 @@
                         "objectTypeOptions": {
                           "type": "object",
                           "properties": {
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
-                            },
                             "attributes": {
                               "type": "array",
                               "items": {
@@ -3688,11 +3691,13 @@
                                       "array",
                                       "collection",
                                       "object",
+                                      "vatNumber",
                                       "entity",
                                       "latLong",
                                       "money",
                                       "streetAddress",
                                       "translatedText",
+                                      "dateTimeRange",
                                       "area",
                                       "autoNumber",
                                       "boolean",
@@ -3709,7 +3714,6 @@
                                       "year",
                                       "dateTime",
                                       "dateTimeDuration",
-                                      "dateTimeRange",
                                       "dateTimeSchedule",
                                       "distance",
                                       "email",
@@ -4110,6 +4114,10 @@
                                   "type"
                                 ]
                               }
+                            },
+                            "$ref": {
+                              "type": "string",
+                              "format": "uri"
                             }
                           },
                           "required": [
@@ -4139,11 +4147,13 @@
                                 "array",
                                 "collection",
                                 "object",
+                                "vatNumber",
                                 "entity",
                                 "latLong",
                                 "money",
                                 "streetAddress",
                                 "translatedText",
+                                "dateTimeRange",
                                 "area",
                                 "autoNumber",
                                 "boolean",
@@ -4160,7 +4170,6 @@
                                 "year",
                                 "dateTime",
                                 "dateTimeDuration",
-                                "dateTimeRange",
                                 "dateTimeSchedule",
                                 "distance",
                                 "email",
@@ -4558,10 +4567,6 @@
                             "objectTypeOptions": {
                               "type": "object",
                               "properties": {
-                                "$ref": {
-                                  "type": "string",
-                                  "format": "uri"
-                                },
                                 "attributes": {
                                   "type": "array",
                                   "items": {
@@ -4587,11 +4592,13 @@
                                           "array",
                                           "collection",
                                           "object",
+                                          "vatNumber",
                                           "entity",
                                           "latLong",
                                           "money",
                                           "streetAddress",
                                           "translatedText",
+                                          "dateTimeRange",
                                           "area",
                                           "autoNumber",
                                           "boolean",
@@ -4608,7 +4615,6 @@
                                           "year",
                                           "dateTime",
                                           "dateTimeDuration",
-                                          "dateTimeRange",
                                           "dateTimeSchedule",
                                           "distance",
                                           "email",
@@ -5009,6 +5015,10 @@
                                       "type"
                                     ]
                                   }
+                                },
+                                "$ref": {
+                                  "type": "string",
+                                  "format": "uri"
                                 }
                               },
                               "required": [
@@ -5047,11 +5057,13 @@
                                 "array",
                                 "collection",
                                 "object",
+                                "vatNumber",
                                 "entity",
                                 "latLong",
                                 "money",
                                 "streetAddress",
                                 "translatedText",
+                                "dateTimeRange",
                                 "area",
                                 "autoNumber",
                                 "boolean",
@@ -5068,7 +5080,6 @@
                                 "year",
                                 "dateTime",
                                 "dateTimeDuration",
-                                "dateTimeRange",
                                 "dateTimeSchedule",
                                 "distance",
                                 "email",
@@ -5466,10 +5477,6 @@
                             "objectTypeOptions": {
                               "type": "object",
                               "properties": {
-                                "$ref": {
-                                  "type": "string",
-                                  "format": "uri"
-                                },
                                 "attributes": {
                                   "type": "array",
                                   "items": {
@@ -5495,11 +5502,13 @@
                                           "array",
                                           "collection",
                                           "object",
+                                          "vatNumber",
                                           "entity",
                                           "latLong",
                                           "money",
                                           "streetAddress",
                                           "translatedText",
+                                          "dateTimeRange",
                                           "area",
                                           "autoNumber",
                                           "boolean",
@@ -5516,7 +5525,6 @@
                                           "year",
                                           "dateTime",
                                           "dateTimeDuration",
-                                          "dateTimeRange",
                                           "dateTimeSchedule",
                                           "distance",
                                           "email",
@@ -5917,6 +5925,10 @@
                                       "type"
                                     ]
                                   }
+                                },
+                                "$ref": {
+                                  "type": "string",
+                                  "format": "uri"
                                 }
                               },
                               "required": [
@@ -5979,11 +5991,13 @@
                         "array",
                         "collection",
                         "object",
+                        "vatNumber",
                         "entity",
                         "latLong",
                         "money",
                         "streetAddress",
                         "translatedText",
+                        "dateTimeRange",
                         "area",
                         "autoNumber",
                         "boolean",
@@ -6000,7 +6014,6 @@
                         "year",
                         "dateTime",
                         "dateTimeDuration",
-                        "dateTimeRange",
                         "dateTimeSchedule",
                         "distance",
                         "email",
@@ -6398,10 +6411,6 @@
                     "objectTypeOptions": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "attributes": {
                           "type": "array",
                           "items": {
@@ -6427,11 +6436,13 @@
                                   "array",
                                   "collection",
                                   "object",
+                                  "vatNumber",
                                   "entity",
                                   "latLong",
                                   "money",
                                   "streetAddress",
                                   "translatedText",
+                                  "dateTimeRange",
                                   "area",
                                   "autoNumber",
                                   "boolean",
@@ -6448,7 +6459,6 @@
                                   "year",
                                   "dateTime",
                                   "dateTimeDuration",
-                                  "dateTimeRange",
                                   "dateTimeSchedule",
                                   "distance",
                                   "email",
@@ -6849,6 +6859,10 @@
                               "type"
                             ]
                           }
+                        },
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
                         }
                       },
                       "required": [
@@ -6878,11 +6892,13 @@
                             "array",
                             "collection",
                             "object",
+                            "vatNumber",
                             "entity",
                             "latLong",
                             "money",
                             "streetAddress",
                             "translatedText",
+                            "dateTimeRange",
                             "area",
                             "autoNumber",
                             "boolean",
@@ -6899,7 +6915,6 @@
                             "year",
                             "dateTime",
                             "dateTimeDuration",
-                            "dateTimeRange",
                             "dateTimeSchedule",
                             "distance",
                             "email",
@@ -7297,10 +7312,6 @@
                         "objectTypeOptions": {
                           "type": "object",
                           "properties": {
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
-                            },
                             "attributes": {
                               "type": "array",
                               "items": {
@@ -7326,11 +7337,13 @@
                                       "array",
                                       "collection",
                                       "object",
+                                      "vatNumber",
                                       "entity",
                                       "latLong",
                                       "money",
                                       "streetAddress",
                                       "translatedText",
+                                      "dateTimeRange",
                                       "area",
                                       "autoNumber",
                                       "boolean",
@@ -7347,7 +7360,6 @@
                                       "year",
                                       "dateTime",
                                       "dateTimeDuration",
-                                      "dateTimeRange",
                                       "dateTimeSchedule",
                                       "distance",
                                       "email",
@@ -7748,6 +7760,10 @@
                                   "type"
                                 ]
                               }
+                            },
+                            "$ref": {
+                              "type": "string",
+                              "format": "uri"
                             }
                           },
                           "required": [
@@ -7786,11 +7802,13 @@
                             "array",
                             "collection",
                             "object",
+                            "vatNumber",
                             "entity",
                             "latLong",
                             "money",
                             "streetAddress",
                             "translatedText",
+                            "dateTimeRange",
                             "area",
                             "autoNumber",
                             "boolean",
@@ -7807,7 +7825,6 @@
                             "year",
                             "dateTime",
                             "dateTimeDuration",
-                            "dateTimeRange",
                             "dateTimeSchedule",
                             "distance",
                             "email",
@@ -8205,10 +8222,6 @@
                         "objectTypeOptions": {
                           "type": "object",
                           "properties": {
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
-                            },
                             "attributes": {
                               "type": "array",
                               "items": {
@@ -8234,11 +8247,13 @@
                                       "array",
                                       "collection",
                                       "object",
+                                      "vatNumber",
                                       "entity",
                                       "latLong",
                                       "money",
                                       "streetAddress",
                                       "translatedText",
+                                      "dateTimeRange",
                                       "area",
                                       "autoNumber",
                                       "boolean",
@@ -8255,7 +8270,6 @@
                                       "year",
                                       "dateTime",
                                       "dateTimeDuration",
-                                      "dateTimeRange",
                                       "dateTimeSchedule",
                                       "distance",
                                       "email",
@@ -8656,6 +8670,10 @@
                                   "type"
                                 ]
                               }
+                            },
+                            "$ref": {
+                              "type": "string",
+                              "format": "uri"
                             }
                           },
                           "required": [
@@ -8715,11 +8733,13 @@
                         "array",
                         "collection",
                         "object",
+                        "vatNumber",
                         "entity",
                         "latLong",
                         "money",
                         "streetAddress",
                         "translatedText",
+                        "dateTimeRange",
                         "area",
                         "autoNumber",
                         "boolean",
@@ -8736,7 +8756,6 @@
                         "year",
                         "dateTime",
                         "dateTimeDuration",
-                        "dateTimeRange",
                         "dateTimeSchedule",
                         "distance",
                         "email",
@@ -9134,10 +9153,6 @@
                     "objectTypeOptions": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "attributes": {
                           "type": "array",
                           "items": {
@@ -9163,11 +9178,13 @@
                                   "array",
                                   "collection",
                                   "object",
+                                  "vatNumber",
                                   "entity",
                                   "latLong",
                                   "money",
                                   "streetAddress",
                                   "translatedText",
+                                  "dateTimeRange",
                                   "area",
                                   "autoNumber",
                                   "boolean",
@@ -9184,7 +9201,6 @@
                                   "year",
                                   "dateTime",
                                   "dateTimeDuration",
-                                  "dateTimeRange",
                                   "dateTimeSchedule",
                                   "distance",
                                   "email",
@@ -9585,6 +9601,10 @@
                               "type"
                             ]
                           }
+                        },
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
                         }
                       },
                       "required": [
@@ -9614,11 +9634,13 @@
                             "array",
                             "collection",
                             "object",
+                            "vatNumber",
                             "entity",
                             "latLong",
                             "money",
                             "streetAddress",
                             "translatedText",
+                            "dateTimeRange",
                             "area",
                             "autoNumber",
                             "boolean",
@@ -9635,7 +9657,6 @@
                             "year",
                             "dateTime",
                             "dateTimeDuration",
-                            "dateTimeRange",
                             "dateTimeSchedule",
                             "distance",
                             "email",
@@ -10033,10 +10054,6 @@
                         "objectTypeOptions": {
                           "type": "object",
                           "properties": {
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
-                            },
                             "attributes": {
                               "type": "array",
                               "items": {
@@ -10062,11 +10079,13 @@
                                       "array",
                                       "collection",
                                       "object",
+                                      "vatNumber",
                                       "entity",
                                       "latLong",
                                       "money",
                                       "streetAddress",
                                       "translatedText",
+                                      "dateTimeRange",
                                       "area",
                                       "autoNumber",
                                       "boolean",
@@ -10083,7 +10102,6 @@
                                       "year",
                                       "dateTime",
                                       "dateTimeDuration",
-                                      "dateTimeRange",
                                       "dateTimeSchedule",
                                       "distance",
                                       "email",
@@ -10484,6 +10502,10 @@
                                   "type"
                                 ]
                               }
+                            },
+                            "$ref": {
+                              "type": "string",
+                              "format": "uri"
                             }
                           },
                           "required": [
@@ -10522,11 +10544,13 @@
                             "array",
                             "collection",
                             "object",
+                            "vatNumber",
                             "entity",
                             "latLong",
                             "money",
                             "streetAddress",
                             "translatedText",
+                            "dateTimeRange",
                             "area",
                             "autoNumber",
                             "boolean",
@@ -10543,7 +10567,6 @@
                             "year",
                             "dateTime",
                             "dateTimeDuration",
-                            "dateTimeRange",
                             "dateTimeSchedule",
                             "distance",
                             "email",
@@ -10941,10 +10964,6 @@
                         "objectTypeOptions": {
                           "type": "object",
                           "properties": {
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
-                            },
                             "attributes": {
                               "type": "array",
                               "items": {
@@ -10970,11 +10989,13 @@
                                       "array",
                                       "collection",
                                       "object",
+                                      "vatNumber",
                                       "entity",
                                       "latLong",
                                       "money",
                                       "streetAddress",
                                       "translatedText",
+                                      "dateTimeRange",
                                       "area",
                                       "autoNumber",
                                       "boolean",
@@ -10991,7 +11012,6 @@
                                       "year",
                                       "dateTime",
                                       "dateTimeDuration",
-                                      "dateTimeRange",
                                       "dateTimeSchedule",
                                       "distance",
                                       "email",
@@ -11392,6 +11412,10 @@
                                   "type"
                                 ]
                               }
+                            },
+                            "$ref": {
+                              "type": "string",
+                              "format": "uri"
                             }
                           },
                           "required": [
@@ -11445,11 +11469,13 @@
                         "array",
                         "collection",
                         "object",
+                        "vatNumber",
                         "entity",
                         "latLong",
                         "money",
                         "streetAddress",
                         "translatedText",
+                        "dateTimeRange",
                         "area",
                         "autoNumber",
                         "boolean",
@@ -11466,7 +11492,6 @@
                         "year",
                         "dateTime",
                         "dateTimeDuration",
-                        "dateTimeRange",
                         "dateTimeSchedule",
                         "distance",
                         "email",
@@ -11897,11 +11922,13 @@
                         "array",
                         "collection",
                         "object",
+                        "vatNumber",
                         "entity",
                         "latLong",
                         "money",
                         "streetAddress",
                         "translatedText",
+                        "dateTimeRange",
                         "area",
                         "autoNumber",
                         "boolean",
@@ -11918,7 +11945,6 @@
                         "year",
                         "dateTime",
                         "dateTimeDuration",
-                        "dateTimeRange",
                         "dateTimeSchedule",
                         "distance",
                         "email",
@@ -13728,11 +13754,13 @@
                         "array",
                         "collection",
                         "object",
+                        "vatNumber",
                         "entity",
                         "latLong",
                         "money",
                         "streetAddress",
                         "translatedText",
+                        "dateTimeRange",
                         "area",
                         "autoNumber",
                         "boolean",
@@ -13749,7 +13777,6 @@
                         "year",
                         "dateTime",
                         "dateTimeDuration",
-                        "dateTimeRange",
                         "dateTimeSchedule",
                         "distance",
                         "email",
@@ -14195,11 +14222,13 @@
                   "array",
                   "collection",
                   "object",
+                  "vatNumber",
                   "entity",
                   "latLong",
                   "money",
                   "streetAddress",
                   "translatedText",
+                  "dateTimeRange",
                   "area",
                   "autoNumber",
                   "boolean",
@@ -14216,7 +14245,6 @@
                   "year",
                   "dateTime",
                   "dateTimeDuration",
-                  "dateTimeRange",
                   "dateTimeSchedule",
                   "distance",
                   "email",
@@ -14614,10 +14642,6 @@
               "objectTypeOptions": {
                 "type": "object",
                 "properties": {
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
-                  },
                   "attributes": {
                     "type": "array",
                     "items": {
@@ -14643,11 +14667,13 @@
                             "array",
                             "collection",
                             "object",
+                            "vatNumber",
                             "entity",
                             "latLong",
                             "money",
                             "streetAddress",
                             "translatedText",
+                            "dateTimeRange",
                             "area",
                             "autoNumber",
                             "boolean",
@@ -14664,7 +14690,6 @@
                             "year",
                             "dateTime",
                             "dateTimeDuration",
-                            "dateTimeRange",
                             "dateTimeSchedule",
                             "distance",
                             "email",
@@ -15065,6 +15090,10 @@
                         "type"
                       ]
                     }
+                  },
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
                   }
                 },
                 "required": [
@@ -15094,11 +15123,13 @@
                       "array",
                       "collection",
                       "object",
+                      "vatNumber",
                       "entity",
                       "latLong",
                       "money",
                       "streetAddress",
                       "translatedText",
+                      "dateTimeRange",
                       "area",
                       "autoNumber",
                       "boolean",
@@ -15115,7 +15146,6 @@
                       "year",
                       "dateTime",
                       "dateTimeDuration",
-                      "dateTimeRange",
                       "dateTimeSchedule",
                       "distance",
                       "email",
@@ -15513,10 +15543,6 @@
                   "objectTypeOptions": {
                     "type": "object",
                     "properties": {
-                      "$ref": {
-                        "type": "string",
-                        "format": "uri"
-                      },
                       "attributes": {
                         "type": "array",
                         "items": {
@@ -15542,11 +15568,13 @@
                                 "array",
                                 "collection",
                                 "object",
+                                "vatNumber",
                                 "entity",
                                 "latLong",
                                 "money",
                                 "streetAddress",
                                 "translatedText",
+                                "dateTimeRange",
                                 "area",
                                 "autoNumber",
                                 "boolean",
@@ -15563,7 +15591,6 @@
                                 "year",
                                 "dateTime",
                                 "dateTimeDuration",
-                                "dateTimeRange",
                                 "dateTimeSchedule",
                                 "distance",
                                 "email",
@@ -15964,6 +15991,10 @@
                             "type"
                           ]
                         }
+                      },
+                      "$ref": {
+                        "type": "string",
+                        "format": "uri"
                       }
                     },
                     "required": [
@@ -16002,11 +16033,13 @@
                       "array",
                       "collection",
                       "object",
+                      "vatNumber",
                       "entity",
                       "latLong",
                       "money",
                       "streetAddress",
                       "translatedText",
+                      "dateTimeRange",
                       "area",
                       "autoNumber",
                       "boolean",
@@ -16023,7 +16056,6 @@
                       "year",
                       "dateTime",
                       "dateTimeDuration",
-                      "dateTimeRange",
                       "dateTimeSchedule",
                       "distance",
                       "email",
@@ -16421,10 +16453,6 @@
                   "objectTypeOptions": {
                     "type": "object",
                     "properties": {
-                      "$ref": {
-                        "type": "string",
-                        "format": "uri"
-                      },
                       "attributes": {
                         "type": "array",
                         "items": {
@@ -16450,11 +16478,13 @@
                                 "array",
                                 "collection",
                                 "object",
+                                "vatNumber",
                                 "entity",
                                 "latLong",
                                 "money",
                                 "streetAddress",
                                 "translatedText",
+                                "dateTimeRange",
                                 "area",
                                 "autoNumber",
                                 "boolean",
@@ -16471,7 +16501,6 @@
                                 "year",
                                 "dateTime",
                                 "dateTimeDuration",
-                                "dateTimeRange",
                                 "dateTimeSchedule",
                                 "distance",
                                 "email",
@@ -16872,6 +16901,10 @@
                             "type"
                           ]
                         }
+                      },
+                      "$ref": {
+                        "type": "string",
+                        "format": "uri"
                       }
                     },
                     "required": [
