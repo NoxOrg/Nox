@@ -1,5 +1,5 @@
 ﻿using Nox.Types;
-using Nox.Types.EntityFramework.Configurators;
+using Nox.Types.EntityFramework.Types;
 
 namespace Nox.EntityFramework.SqlServer;
 

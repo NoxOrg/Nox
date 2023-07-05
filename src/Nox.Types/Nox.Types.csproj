@@ -11,7 +11,7 @@
         <Authors>Andre Sharpe,Jan Schutte</Authors>
         <Description>Nox types library</Description>
         <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        <Copyright>Copyright (c) Andre Sharpe 2022</Copyright>
+        <Copyright>Copyright (c) Andre Sharpe 2023</Copyright>
         <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 	    <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>

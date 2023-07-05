@@ -2,7 +2,7 @@
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
-namespace Nox.Types.EntityFramework.Configurators;
+namespace Nox.Types.EntityFramework.Types;
 
 public class MoneyDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
