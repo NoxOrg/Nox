@@ -32,7 +32,6 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
-		<PackageReference Include="Nox.Types" Version="1.0.10" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
 	</ItemGroup>
 
@@ -42,6 +41,7 @@
 		<ProjectReference Include="..\Nox.Logging\Nox.Logging.csproj" />
 		<ProjectReference Include="..\Nox.Monitoring\Nox.Monitoring.csproj" />
 		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" PrivateAssets="all" />
+		<ProjectReference Include="..\Nox.Types\Nox.Types.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
