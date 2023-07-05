@@ -2,6 +2,7 @@ version: '3.7'
 
 volumes:
   sqlserver: 
+  postgres:
   esdata:
     driver: local
   
@@ -18,6 +19,20 @@ services:
       MSSQL_PID: "Developer"
     volumes:
       - sqlserver:/var/opt/mssql/data
+
+  postgres:
+    container_name: postgres_container
+    image: postgres:14-alpine
+    restart: always
+    environment:
+      POSTGRES_DB: SampleCurrencyDb
+      POSTGRES_USER: "sa"
+      POSTGRES_PASSWORD: "Developer*123"
+      PGDATA: ./data
+    ports:
+      - "54320:5432"
+    volumes:
+      - postgres:/var/lib/postgresql/data      
 
   apm-server:
     container_name: apm-server
