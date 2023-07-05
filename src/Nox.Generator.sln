@@ -55,6 +55,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.EntityFramework.SqlServ
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.EntityFramework.Sqlite", "Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj", "{049C94B7-EC09-4511-B6BC-21DE2C9C54E1}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "NewFolder1", "NewFolder1", "{154B838E-65DE-479F-80B7-D48CF9862306}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
