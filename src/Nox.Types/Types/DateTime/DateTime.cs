@@ -3,44 +3,47 @@ using System.Collections.Generic;
 using System.Globalization;
 
 namespace Nox.Types;
-public class DateTime : ValueObject<System.DateTime, DateTime>
+public sealed class DateTime : ValueObject<System.DateTime, DateTime>
 {
     public int Year
     {
         get { return Value.Year; }
-        protected set { Value = new System.DateTime(value, Value.Month, Value.Day, Value.Hour, Value.Minute, Value.Second); }
+        private set { Value = new System.DateTime(value, Value.Month, Value.Day, Value.Hour, Value.Minute, Value.Second); }
     }
     public int Month
     {
         get { return Value.Month; }
-        protected set { Value = new System.DateTime(Value.Year, value, Value.Day, Value.Hour, Value.Minute, Value.Second); }
+        private set => Value = new System.DateTime(Value.Year, value, Value.Day, Value.Hour, Value.Minute, Value.Second);
     }
     public int Day
     {
         get { return Value.Day; }
-        protected set { Value = new System.DateTime(Value.Year, Value.Month, value, Value.Hour, Value.Minute, Value.Second); }
+        private set { Value = new System.DateTime(Value.Year, Value.Month, value, Value.Hour, Value.Minute, Value.Second); }
     }
     public int Hour
     {
         get { return Value.Hour; }
-        protected set { Value = new System.DateTime(Value.Year, Value.Month, Value.Day, value, Value.Minute, Value.Second); }
+        private set { Value = new System.DateTime(Value.Year, Value.Month, Value.Day, value, Value.Minute, Value.Second); }
     }
     public int Minute
     {
         get { return Value.Minute; }
-        protected set { Value = new System.DateTime(Value.Year, Value.Month, Value.Day, Value.Hour, value, Value.Second); }
+        private set { Value = new System.DateTime(Value.Year, Value.Month, Value.Day, Value.Hour, value, Value.Second); }
     }
     public int Second
     {
         get { return Value.Second; }
-        protected set { Value = new System.DateTime(Value.Year, Value.Month, Value.Day, Value.Hour, Value.Minute, value); }
+        private set { Value = new System.DateTime(Value.Year, Value.Month, Value.Day, Value.Hour, Value.Minute, value); }
     }
 
     public DateTime() { Value = System.DateTime.MinValue; }
 
-    public static DateTime From(int year, int month, int day, int hour = 0, int minute = 0, int second = 0)
+    public static DateTime From(int year, int month, int day, int hour = 0, int minute = 0, int second = 0) => From(new YearTypeOptions(), year, month, day, hour, minute, second);
+
+
+    public static DateTime From(YearTypeOptions options, int year, int month, int day, int hour = 0, int minute = 0, int second = 0)
     {
-        var yearObject = Types.Year.From((ushort)year);
+        var yearObject = Types.Year.From((ushort)year, options);
         var validationResultYear = yearObject.Validate();
         var monthObject = Types.Month.From((byte)month);
         var validationResultMonth = monthObject.Validate();
@@ -51,7 +54,7 @@ public class DateTime : ValueObject<System.DateTime, DateTime>
             throw new TypeValidationException(validationResultYear.Errors);
         }
 
-        if(!IsValidDate(year, month, day, hour, minute, second))
+        if (!IsValidDate(year, month, day, hour, minute, second))
         {
             throw new TypeValidationException(new List<ValidationFailure>
             {
