@@ -68,7 +68,7 @@ public class EnvironmentVariableMacroParserTest
         environmentProvider.Setup(service => service.GetEnvironmentVariable("DB_PASSWORD")).Returns("unknown");
         
         var noxConfig = new NoxSolutionBuilder()
-            .UseYamlFile("./files/macros/sample.solution.nox.yaml")
+            .UseYamlFile("./files/macros/overrides.solution.nox.yaml")
             .UseEnvironmentMacroParser(new EnvironmentVariableMacroParser(environmentProvider.Object))
             .Build();
 

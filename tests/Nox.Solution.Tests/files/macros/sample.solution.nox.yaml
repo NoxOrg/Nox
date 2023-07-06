@@ -9,11 +9,6 @@ name: SampleServiceWithMacros
 
 description: Sample Nox solution yaml configuration
 
-variables:
-  CACHE_USER: redisUser
-  CACHE_PASSWORD: redisPassword
-  DB_PASSWORD: dbPassword
-
 environments:
 
   - name: dev
