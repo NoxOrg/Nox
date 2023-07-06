@@ -5,7 +5,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Solution;
-using System;
 using Nox.Types.EntityFramework.Abstractions;
 using TestDatabaseWebApp.Domain;
 

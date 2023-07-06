@@ -9,7 +9,7 @@ public class MoneyDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public void ConfigureEntityProperty(EntityTypeBuilder builder, NoxSimpleTypeDefinition property, bool isKey)
     {
-        //Todo Default values from static property in the Nox.Type
+        // TODO: Default values from static property in the Nox.Type
         var typeOptions = property.MoneyTypeOptions ?? new MoneyTypeOptions();
 
         if (isKey)

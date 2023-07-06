@@ -1,18 +1,17 @@
-﻿using System;
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Nox.EntityFramework.Sqlite;
 using Nox.Solution;
 using TestDatabaseWebApp.Infrastructure.Persistence;
 
-namespace Nox.Generator.Tests.Database;
+namespace Nox.Tests.DatabaseIntegrationTests;
 
 public abstract class SqliteTestBase : IDisposable
 {
     //private const string _inMemoryConnectionStringTemplate = "DataSource=:memory:";
     private const string _inMemoryConnectionStringTemplate = @"DataSource=test_database_{0}.db";
     private static string _inMemoryConnectionString = string.Empty;
-    private const string _testSolutionFile = @"./Database/Design/test.solution.nox.yaml";
+    private const string _testSolutionFile = @"./DatabaseIntegrationTests/Design/test.solution.nox.yaml";
     private readonly SqliteConnection _connection;
 
     protected TestDatabaseWebAppDbContext DbContext;

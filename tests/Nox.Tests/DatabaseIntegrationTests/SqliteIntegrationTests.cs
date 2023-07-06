@@ -1,11 +1,8 @@
 ﻿using FluentAssertions;
 using Nox.Types;
-using System.Linq;
-using Nox.Generator.Tests.Database;
 using TestDatabaseWebApp.Domain;
-using Xunit;
 
-namespace Nox.Generator.Test.DatabaseTests;
+namespace Nox.Tests.DatabaseIntegrationTests;
 
 public class SqliteIntegrationTests : SqliteTestBase
 {
@@ -48,6 +45,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var number = 123;
         var money = 10;
         var currencyCode = CurrencyCode.UAH;
+        var countryCode2 = "UA";
 
         var newItem = new TestEntity()
         {
@@ -55,6 +53,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             TextTestField = Text.From(text),
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
+            CountryCode2TestField = CountryCode2.From(countryCode2)
         };
         DbContext.TestEntities.Add(newItem);
         DbContext.SaveChanges();
@@ -70,5 +69,6 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.NumberTestField.Value.Should().Be(number);
         testEntity.MoneyTestField.Value.Amount.Should().Be(money);
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
+        testEntity.CountryCode2TestField.Value.Should().Be(countryCode2);
     }
 }

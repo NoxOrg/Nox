@@ -13,9 +13,6 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.6.0" />
-    <PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.8" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.8" />
   </ItemGroup>
 
   <ItemGroup>
@@ -32,7 +29,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj" />
     <ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" />
     <ProjectReference Include="..\..\src\Nox.Solution\Nox.Solution.csproj" />
     <ProjectReference Include="..\..\src\Nox.Types\Nox.Types.csproj" />
@@ -43,7 +39,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Database\Design\test.solution.nox.yaml" />
     <None Remove="yaml\application\generator.nox.yaml" />
     <None Remove="yaml\domain\generator.nox.yaml" />
     <None Update="files\yaml\application\generator.nox.yaml">
@@ -86,9 +81,6 @@
 
   <ItemGroup>
     <Compile Remove="files\Program.cs" />
-    <AdditionalFiles Include="Database\Design\test.solution.nox.yaml">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </AdditionalFiles>
     <None Include="files\Program.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
