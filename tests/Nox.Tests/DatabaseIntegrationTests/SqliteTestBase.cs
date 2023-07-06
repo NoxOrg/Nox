@@ -8,8 +8,8 @@ namespace Nox.Tests.DatabaseIntegrationTests;
 
 public abstract class SqliteTestBase : IDisposable
 {
-    //private const string _inMemoryConnectionStringTemplate = "DataSource=:memory:";
-    private const string _inMemoryConnectionStringTemplate = @"DataSource=test_database_{0}.db";
+    private const string _inMemoryConnectionStringTemplate = "DataSource=:memory:";
+    //private const string _inMemoryConnectionStringTemplate = @"DataSource=test_database_{0}.db";
     private static string _inMemoryConnectionString = string.Empty;
     private const string _relativeTestSolutionFile = @"./DatabaseIntegrationTests/Design/test.solution.nox.yaml";
     private static string _absoluteTestSolutionFile = string.Empty;
