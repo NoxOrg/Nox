@@ -74,4 +74,14 @@ public class ImageTests
         
     }
     
+    [Fact]
+    public void ToString_WithValidValues_ShouldReturnString()
+    {
+        // Arrange & Act
+        var image = Image.From("https://example.com/image.jpg", "Image1", 100);
+
+        // Assert
+        Assert.Equal("Image1", image.ToString());
+    }
+    
 }

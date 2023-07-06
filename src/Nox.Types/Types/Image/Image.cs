@@ -8,7 +8,7 @@ namespace Nox.Types;
 /// <summary>
 /// Represents an image value object that encapsulates image-related information.
 /// </summary>
-public class Image : ValueObject<(string Url, string PrettyName, int Size), Image>
+public sealed class Image : ValueObject<(string Url, string PrettyName, int Size), Image>
 {
     /// <summary>
     /// Gets or sets the URL of the image.
