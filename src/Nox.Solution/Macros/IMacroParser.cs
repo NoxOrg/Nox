@@ -1,3 +1,5 @@
+using System.Collections.Generic;
+
 namespace Nox.Solution.Macros;
 
 public interface IMacroParser
@@ -5,5 +7,5 @@ public interface IMacroParser
     /// <summary>
     /// Looks and Expands Macros found in the Text
     /// </summary>
-    string Parse(string text);
+    string Parse(string text, IReadOnlyDictionary<string, string>? overrides = null);
 }

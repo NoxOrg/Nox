@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Nox.Solution.Utils;
@@ -46,6 +47,8 @@ public class EnvironmentVariableMacroParser: IMacroParser
             //var variableName = match.Value[3..^2].Trim(); (in .Net Standard 2.1 we can use Range)
             //Remove "env."
             variableName = variableName.Substring(4);
+            
+            
 
             var environmentValue = _environmentProvider.GetEnvironmentVariable(variableName);
 
