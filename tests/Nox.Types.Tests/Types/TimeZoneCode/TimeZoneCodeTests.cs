@@ -36,6 +36,16 @@ public class TimeZoneCodeTests
     }
 
     [Fact]
+    public void TimeZoneCode_CaseInsensiticeEquality_Tests()
+    {
+        var timeZoneCode_1 = Nox.Types.TimeZoneCode.From("PKT");
+
+        var timeZoneCode_2 = Nox.Types.TimeZoneCode.From("pkt");
+
+        Assert.Equal(timeZoneCode_1, timeZoneCode_2);
+    }
+
+    [Fact]
     public void TimeZoneCode_NotEqual_Tests()
     {
         var timeZoneCode_1 = Nox.Types.TimeZoneCode.From("PKT");
