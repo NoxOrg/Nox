@@ -7,11 +7,13 @@ namespace Nox.Types;
 /// </summary>
 public sealed class LanguageCode : ValueObject<string, LanguageCode>
 {
-    private static readonly Regex _languageCodeRegex = new(@"^([A][F]|SQ|AM|[A]R|[H]Y|AS|EU|[B]E|[B]N|[B]S|[B]R|[B]G|[M]Y|[K]M|[C]A|[C]H|[C]E|[N]Y|[Z]H|[C]O|[H]R|[C]S|[D]A|[N]L|[D]Z|[E]N|[E]T|[T]L|[F]I|[F]R|[F]Y|[G]L|[K]A|[D]E|[E]L|[G]U|[H]T|[H]A|[H]E|[H]I|[H]U|[I]S|[I]O|[G]A|[I]T|[J]A|[J]V|[K]N|[K]K|[R]W|[K]Y|[K]O|[K]U|[L]O|[L]V|[L]T|[L]B|[M]K|[M]G|[M]S|[M]L|[M]T|[M]I|[M]R|[M]N|[N]E|[N]O|[O]R|[P]S|[F]A|[P]L|[P]T|[P]A|[R]O|[R]U|[G]D|[S]R|[G]D|[S]I|[S]K|[S]L|[S]O|[S]O|[E]S|[S]W|[S]V|[T]A|[T]E|[T]H|[T]R|[U]K|[U]R|[V]I|[C]Y|[X]H|YI|ZU)$", RegexOptions.Compiled | RegexOptions.IgnoreCase);
+    private static readonly Regex _languageCodeRegex = new(@"^([a][f]|sq|am|[a]r|[h]y|as|eu|[b]e|[b]n|[b]s|[b]r|[b]g|[m]y|[k]m|[c]a|[c]h|[c]e|[n]y|[z]h|[c]o|[h]r|[c]s|[d]a|[n]l|[d]z|[e]n|[e]t|[t]l|[f]i|[f]r|[f]y|[g]l|[k]a|[d]e|[e]l|[g]u|[h]t|[h]a|[h]e|[h]i|[h]u|[i]s|[i]o|[g]a|[i]t|[j]a|[j]v|[k]n|[k]k|[r]w|[k]y|[k]o|[k]u|[l]o|[l]v|[l]t|[l]b|[m]k|[m]g|[m]s|[m]l|[m]t|[m]i|[m]r|[m]n|[n]e|[n]o|[o]r|[p]s|[f]a|[p]l|[p]t|[p]a|[r]o|[r]u|[g]d|[s]r|[g]d|[s]i|[s]k|[s]l|[s]o|[s]o|[e]s|[s]w|[s]v|[t]a|[t]e|[t]h|[t]r|[u]k|[u]r|[v]i|[c]y|[x]h|yi|zu)$", RegexOptions.Compiled);
 
     internal override ValidationResult Validate()
     {
         var result = base.Validate();
+
+        Value = Value.ToLowerInvariant();
 
         if (!_languageCodeRegex.IsMatch(Value))
         {
