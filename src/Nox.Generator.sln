@@ -59,6 +59,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generator", "Generator", "{
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Tests", "..\tests\Nox.Tests\Nox.Tests.csproj", "{749A8B24-397E-4794-B647-3557E19FBA41}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Secrets", "Nox.Secrets\Nox.Secrets.csproj", "{5A884FCB-BD50-4C38-B692-030F3BA0AB0F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -141,6 +143,10 @@ Global
 		{749A8B24-397E-4794-B647-3557E19FBA41}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{749A8B24-397E-4794-B647-3557E19FBA41}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{749A8B24-397E-4794-B647-3557E19FBA41}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5A884FCB-BD50-4C38-B692-030F3BA0AB0F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5A884FCB-BD50-4C38-B692-030F3BA0AB0F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5A884FCB-BD50-4C38-B692-030F3BA0AB0F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5A884FCB-BD50-4C38-B692-030F3BA0AB0F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -163,6 +169,7 @@ Global
 		{55D717E8-6043-487C-83A9-8AE2E92086D7} = {873BFCC4-435D-44D7-8287-1FB1574B2319}
 		{A851D896-AC63-4DC0-98FC-9E1EEA5DACE5} = {873BFCC4-435D-44D7-8287-1FB1574B2319}
 		{049C94B7-EC09-4511-B6BC-21DE2C9C54E1} = {873BFCC4-435D-44D7-8287-1FB1574B2319}
+		{5A884FCB-BD50-4C38-B692-030F3BA0AB0F} = {672E561C-44EA-43EE-8C9D-9E70D8DFB80F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E72B357-9E1E-43B5-9868-8D2B74CB2AF0}

@@ -1,5 +1,7 @@
+using System;
 using System.IO;
 using System.Linq;
+using Nox.Solution.Events;
 using Nox.Solution.Resolvers;
 using Nox.Solution.Exceptions;
 using Nox.Solution.Macros;
@@ -14,6 +16,9 @@ namespace Nox.Solution
         private string _yamlFilePath = string.Empty;
 
         private IMacroParser _environmentVariableParser = new EnvironmentVariableMacroParser(new EnvironmentProvider());
+        
+        public event EventHandler<INoxSolutionYamlEventArgs>? ReferencesResolvedEvent;
+        public event EventHandler<INoxSolutionYamlEventArgs>? MacrosExpandedEvent;
 
         public NoxSolutionBuilder UseYamlFile(string yamlFilePath)
         {
@@ -24,6 +29,18 @@ namespace Nox.Solution
         public NoxSolutionBuilder UseEnvironmentMacroParser(EnvironmentVariableMacroParser parser)
         {
             _environmentVariableParser = parser;
+            return this;
+        }
+
+        public NoxSolutionBuilder OnReferencesResolved(EventHandler<INoxSolutionYamlEventArgs> handler)
+        {
+            ReferencesResolvedEvent += handler;
+            return this;
+        }
+        
+        public NoxSolutionBuilder OnMacrosExpanded(EventHandler<INoxSolutionYamlEventArgs> handler)
+        {
+            MacrosExpandedEvent += handler;
             return this;
         }
 
@@ -53,10 +70,10 @@ namespace Nox.Solution
         {
             var resolver = new YamlReferenceResolver(_yamlFilePath);
             var yamlRef = resolver.ResolveReferences();
+            RaiseReferencesResolvedEvent(yamlRef);
             var yaml = ExpandMacros(yamlRef);
-
+            RaiseMacrosExpandedEvent(yaml);
             var config = NoxSchemaValidator.Deserialize<NoxSolution>(yaml);
-
             config.RootYamlFile = _yamlFilePath;
             return config;
         }
@@ -143,6 +160,16 @@ namespace Nox.Solution
             yaml = _environmentVariableParser.Parse(yaml, variables);
 
             return yaml;
+        }
+
+        private void RaiseReferencesResolvedEvent(string yaml)
+        {
+            ReferencesResolvedEvent?.Invoke(this, new NoxSolutionYamlEventArgs(yaml));
+        }
+
+        private void RaiseMacrosExpandedEvent(string yaml)
+        {
+            MacrosExpandedEvent?.Invoke(this, new NoxSolutionYamlEventArgs(yaml));
         }
     }
 }

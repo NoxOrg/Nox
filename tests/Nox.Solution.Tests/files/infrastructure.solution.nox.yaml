@@ -115,11 +115,20 @@ infrastructure:
 
   security:
     secrets:
-      secretsServer:
-        name: SampleSecretServer
+      organizationSecretsServer:
+        name: SampleOrgSecretServer
         provider: azureKeyVault
         serverUri: kv.iwgplc.com
         user: secrets@iwgplc.com
         password: SecretPassword
-      validFor:
-        minutes: 10
+        validFor:
+          minutes: 10
+          
+      projectSecretsServer:
+        name: SampleSlnSecretServer
+        provider: azureKeyVault
+        serverUri: kv.iwgplc.com
+        user: secrets@iwgplc.com
+        password: SecretPassword
+        validFor:
+          minutes: 10

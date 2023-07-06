@@ -30,8 +30,8 @@ public class EnvironmentVariableMacroParserTest
         Assert.Equal("cachepwd1",noxConfig.Infrastructure?.Persistence.CacheServer?.Password);
         Assert.Equal("dbuser1",noxConfig.Infrastructure?.Persistence.DatabaseServer?.User);
         Assert.Equal(@"#{}$%@'\\",noxConfig.Infrastructure?.Persistence.DatabaseServer?.Password);
-        Assert.Equal("secretuser1",noxConfig.Infrastructure?.Security?.Secrets?.SecretsServer?.User);
-        Assert.Equal("secretpwd1",noxConfig.Infrastructure?.Security?.Secrets?.SecretsServer?.Password);
+        Assert.Equal("secretuser1",noxConfig.Infrastructure?.Security?.Secrets?.OrgSecretsServer?.User);
+        Assert.Equal("secretpwd1",noxConfig.Infrastructure?.Security?.Secrets?.OrgSecretsServer?.Password);
 
     }
 
