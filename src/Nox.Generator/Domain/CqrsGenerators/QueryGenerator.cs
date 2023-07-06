@@ -50,7 +50,7 @@ public class QueryGenerator
         code.StartBlock();
 
         var dbContextName = $"{solutionNameSpace}{DbContextName}";
-        AddProperty(code, dbContextName, DbContextName, "Represents the DB context.");
+        AddField(code, dbContextName, DbContextName, "Represents the DB context.");
 
         // Add constructor
         AddConstructor(code, className, new Dictionary<string, string> {

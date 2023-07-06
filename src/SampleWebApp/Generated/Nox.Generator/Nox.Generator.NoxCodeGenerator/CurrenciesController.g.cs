@@ -23,7 +23,7 @@ public partial class CurrenciesController : ODataController
         ODataDbContext databaseContext
     )
     {
-        databaseContext = databaseContext;
+        _databaseContext = databaseContext;
     }
     
     [EnableQuery]

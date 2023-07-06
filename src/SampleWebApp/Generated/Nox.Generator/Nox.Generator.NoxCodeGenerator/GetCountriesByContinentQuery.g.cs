@@ -20,13 +20,13 @@ public abstract partial class GetCountriesByContinentQuery
     /// <summary>
     /// Represents the DB context.
     /// </summary>
-    protected SampleWebAppDbContext DbContext { get; set; } = null!;
+    protected readonly SampleWebAppDbContext _dbContext;
     
     public GetCountriesByContinentQuery(
         SampleWebAppDbContext dbContext
     )
     {
-        DbContext = dbContext;
+        _dbContext = dbContext;
     }
     public abstract Task<IEnumerable<CountryInfo>> ExecuteAsync(Text continentName);
 }

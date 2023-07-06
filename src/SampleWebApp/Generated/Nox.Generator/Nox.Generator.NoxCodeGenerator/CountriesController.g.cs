@@ -22,12 +22,12 @@ public partial class CountriesController : ODataController
     /// <summary>
     /// Returns a list of countries for a given continent.
     /// </summary>
-    protected GetCountriesByContinentQuery GetCountriesByContinent { get; set; } = null!;
+    protected readonly GetCountriesByContinentQuery _getCountriesByContinent;
     
     /// <summary>
     /// Instructs the service to collect updated population statistics.
     /// </summary>
-    protected UpdatePopulationStatisticsCommandHandlerBase UpdatePopulationStatistics { get; set; } = null!;
+    protected readonly UpdatePopulationStatisticsCommandHandlerBase _updatePopulationStatistics;
     
     public CountriesController(
         ODataDbContext databaseContext,
@@ -35,9 +35,9 @@ public partial class CountriesController : ODataController
         UpdatePopulationStatisticsCommandHandlerBase updatePopulationStatistics
     )
     {
-        databaseContext = databaseContext;
-        GetCountriesByContinent = getCountriesByContinent;
-        UpdatePopulationStatistics = updatePopulationStatistics;
+        _databaseContext = databaseContext;
+        _getCountriesByContinent = getCountriesByContinent;
+        _updatePopulationStatistics = updatePopulationStatistics;
     }
     
     [EnableQuery]
@@ -165,7 +165,7 @@ public partial class CountriesController : ODataController
     [HttpGet("GetCountriesByContinent")]
     public async Task<IResult> GetCountriesByContinentAsync(Text continentName)
     {
-        var result = await GetCountriesByContinent.ExecuteAsync(continentName);
+        var result = await _getCountriesByContinent.ExecuteAsync(continentName);
         return Results.Ok(result);
     }
     
@@ -175,7 +175,7 @@ public partial class CountriesController : ODataController
     [HttpPost("UpdatePopulationStatistics")]
     public async Task<IResult> UpdatePopulationStatisticsAsync(UpdatePopulationStatistics command)
     {
-        var result = await UpdatePopulationStatistics.ExecuteAsync(command);
+        var result = await _updatePopulationStatistics.ExecuteAsync(command);
         return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);
     }
 }

@@ -73,19 +73,17 @@ internal static class ApiGenerator
                     { dbContextName, "databaseContext" }
                 };
 
-            // TODO: unify to protected readonly fields
-
             foreach (var query in queries)
             {
                 var queryType = $"{query.Name}Query";
-                AddProperty(code, queryType, query.Name, query.Description);
+                AddField(code, queryType, query.Name, query.Description);
                 constructorParameters.Add(queryType, query.Name);
             }
 
             foreach (var command in commands)
             {
                 var commandType = $"{command.Name}CommandHandlerBase";
-                AddProperty(code, commandType, command.Name, command.Description);
+                AddField(code, commandType, command.Name, command.Description);
                 constructorParameters.Add(commandType, command.Name);
             }
 
@@ -127,7 +125,7 @@ internal static class ApiGenerator
                 code.AppendLine($"[HttpGet(\"{query.Name}\")]");
                 code.AppendLine($"public async Task<IResult> {query.Name}Async({GetParametersString(query.RequestInput)})");
                 code.StartBlock();
-                code.AppendLine($"var result = await {query.Name}.ExecuteAsync({GetParametersExecuteString(query.RequestInput)});");
+                code.AppendLine($"var result = await {query.Name.ToLowerFirstCharAndAddUnderscore()}.ExecuteAsync({GetParametersExecuteString(query.RequestInput)});");
                 // TODO: Extend to NotFound and other codes
                 code.AppendLine(@"return Results.Ok(result);");
                 code.EndBlock();
@@ -142,7 +140,7 @@ internal static class ApiGenerator
                 code.AppendLine($"[HttpPost(\"{command.Name}\")]");
                 code.AppendLine($"public async Task<IResult> {command.Name}Async({typeDefinition} command)");
                 code.StartBlock();
-                code.AppendLine($"var result = await {command.Name}.ExecuteAsync(command);");
+                code.AppendLine($"var result = await {command.Name.ToLowerFirstCharAndAddUnderscore()}.ExecuteAsync(command);");
                 code.AppendLine(@"return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);");
                 code.EndBlock();
             }

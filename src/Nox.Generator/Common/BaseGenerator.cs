@@ -26,6 +26,12 @@ internal class BaseGenerator
         code.AppendLine($"protected {type} {name} {{ get; set; }} = null!;");
     }
 
+    internal static void AddField(CodeBuilder code, string type, string name, string? description)
+    {
+        GenerateDocs(code, description);
+        code.AppendLine($"protected readonly {type} {name.ToLowerFirstCharAndAddUnderscore()};");
+    }
+
     internal static string GetParametersString(IEnumerable<DomainQueryRequestInput>? input)
     {
         if (input != null)
@@ -68,7 +74,7 @@ internal class BaseGenerator
         code.Indent();
         foreach (var value in parameters.Select(p => p.Value))
         {
-            code.AppendLine($@"{value} = {value.ToLowerFirstChar()};");
+            code.AppendLine($@"{value.ToLowerFirstCharAndAddUnderscore()} = {value.ToLowerFirstChar()};");
         }
 
         code.UnIndent();
