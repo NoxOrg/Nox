@@ -1,4 +1,5 @@
 using FluentAssertions;
+using System.Text.Json;
 
 using System;
 
@@ -23,6 +24,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
     {
         double latitude = 46.802496;
         double longitude = 8.234392;
+        var streetAddress = CreateStreetAddress();
 
         var newItem = new Country()
         {
@@ -41,9 +43,10 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             IPAddress = IpAddress.From("102.129.143.255"),
             DateTimeRange = DateTimeRange.From(new DateTime(2023, 01, 01), new DateTime(2023, 02, 01)),
             LongestHikingTrailInMeters = Length.From(390_000),
-            StreetAddress = CreateStreetAddress(),
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
+            StreetAddress = streetAddress,
+            StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress))
         };
         DbContext.Countries.Add(newItem);
         DbContext.SaveChanges();
@@ -81,6 +84,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddress = streetAddress,
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
+            StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress))
         };
         DbContext.Countries.Add(newItem);
         DbContext.SaveChanges();
@@ -118,6 +122,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal("AED4322CCFEF", item.MACAddress.Value);
         Assert.Equal(new DateTime(2023, 11, 25).Date, item.Date.Value);
         AssertStreetAddress(streetAddress, item.StreetAddress);
+        Assert.Equal(JsonSerializer.Serialize(streetAddress), item.StreetAddressJson.Value);
     }
 
     private static StreetAddress CreateStreetAddress()
