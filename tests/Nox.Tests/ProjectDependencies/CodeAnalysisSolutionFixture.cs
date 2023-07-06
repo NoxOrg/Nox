@@ -1,7 +1,7 @@
-using System.Reflection;
 using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
+using System.Reflection;
 
 namespace Nox.Tests.ProjectDependencies;
 
@@ -9,7 +9,7 @@ public class CodeAnalysisSolutionFixture : IAsyncLifetime
 {
     private const string SolutionPath = "src/Nox.Generator.sln";
 
-    public Solution Solution { get; private set; } = null!;
+    public Microsoft.CodeAnalysis.Solution Solution { get; private set; } = null!;
     public Project NoxTypesProject { get; private set; } = null!;
     public Project NoxSolutionNet7 { get; private set; } = null!;
     public Project NoxSolutionNetStd20 { get; private set; } = null!;
