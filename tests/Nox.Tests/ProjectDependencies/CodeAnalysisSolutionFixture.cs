@@ -3,7 +3,7 @@ using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.MSBuild;
 
-namespace Nox.Tests;
+namespace Nox.Tests.ProjectDependencies;
 
 public class CodeAnalysisSolutionFixture : IAsyncLifetime
 {

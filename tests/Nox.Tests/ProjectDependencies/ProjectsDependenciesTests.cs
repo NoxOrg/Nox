@@ -1,8 +1,8 @@
 using FluentAssertions;
 
-namespace Nox.Tests
+namespace Nox.Tests.ProjectDependencies
 {
-    public class ProjectsDependenciesTests: IClassFixture<CodeAnalysisSolutionFixture>
+    public class ProjectsDependenciesTests : IClassFixture<CodeAnalysisSolutionFixture>
     {
         private readonly CodeAnalysisSolutionFixture _fixture;
 
