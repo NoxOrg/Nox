@@ -32,6 +32,16 @@ public class CurrencyCode3Tests
     }
 
     [Fact]
+    public void CurrencyCode3_CaseInsensitiveEquality_Tests()
+    {
+        var currencyCode3_1 = CurrencyCode3.From("usd");
+
+        var currencyCode3_2 = CurrencyCode3.From("USD");
+
+        currencyCode3_1.Should().Be(currencyCode3_2);
+    }
+
+    [Fact]
     public void CurrencyCode3_NotEqual_Tests()
     {
         var currencyCode3_1 = CurrencyCode3.From("RWF");
