@@ -49,7 +49,10 @@ public class DateTimeRange : ValueObject<(DateTime Start, DateTime End), DateTim
     /// <returns></returns>
     /// <exception cref="ValidationException"></exception>
     public static DateTimeRange From(DateTime start, TimeSpan duration)
-        => From((start, start.Add(duration)));
+    {
+        var end = DateTime.From(start.Value.Add(duration));
+        return From((start, end));
+    }
 
     internal override ValidationResult Validate()
     {
@@ -57,7 +60,7 @@ public class DateTimeRange : ValueObject<(DateTime Start, DateTime End), DateTim
 
         if (Value.Start > Value.End)
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DateTimeRange type with Start value {Value.Start} and End value {Value.End} as start of the time range must be the same or after the end of the time range."));
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DateTimeRange type with Start value {Value.Start.ToString()} and End value {Value.End.ToString()} as start of the time range must be the same or after the end of the time range."));
         }
 
         return result;

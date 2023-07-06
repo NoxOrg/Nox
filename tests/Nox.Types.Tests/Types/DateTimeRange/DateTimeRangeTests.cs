@@ -7,8 +7,8 @@ public class DateTimeRangeTests
     [Fact]
     public void From_WithValidStartAndEnd_ReturnsValue()
     {
-        var start = DateTime.UtcNow;
-        var end = start.AddDays(1);
+        var start = DateTime.From(System.DateTime.UtcNow);
+        var end = DateTime.From(start.Value.AddDays(1));
 
         var dateTimeRange = DateTimeRange.From(start, end);
 
@@ -20,7 +20,7 @@ public class DateTimeRangeTests
     [Fact]
     public void From_WithSameStartAndEnd_ReturnsValue()
     {
-        var start = DateTime.UtcNow;
+        var start = DateTime.From(System.DateTime.UtcNow);
         var end = start;
 
         var dateTimeRange = DateTimeRange.From(start, end);
@@ -33,7 +33,7 @@ public class DateTimeRangeTests
     [Fact]
     public void From_WithTimeSpan_ReturnsValue()
     {
-        var start = DateTime.UtcNow;
+        var start = DateTime.From(System.DateTime.UtcNow);
         var timeSpan = TimeSpan.FromDays(20);
 
         var dateTimeRange = DateTimeRange.From(start, timeSpan);
@@ -48,13 +48,13 @@ public class DateTimeRangeTests
     {
         void Test()
         {
-            var start = new DateTime(2023, 05, 01);
-            var end = new DateTime(2023, 04, 01);
+            var start = DateTime.From(2023, 05, 01);
+            var end = DateTime.From(2023, 04, 01);
             var exception = Assert.Throws<TypeValidationException>(() => _ =
               DateTimeRange.From(start, end)
             );
 
-            Assert.Equal("Could not create a Nox DateTimeRange type with Start value 01/05/2023 00:00:00 and End value 01/04/2023 00:00:00 as start of the time range must be the same or after the end of the time range.", exception.Errors.First().ErrorMessage);
+            Assert.Equal("Could not create a Nox DateTimeRange type with Start value 05/01/2023 00:00:00 and End value 04/01/2023 00:00:00 as start of the time range must be the same or after the end of the time range.", exception.Errors.First().ErrorMessage);
         }
 
         TestUtility.RunInCulture(Test, "en-GB");
@@ -63,8 +63,8 @@ public class DateTimeRangeTests
     [Fact]
     public void Equality_WithSameStartAndEnd_ShouldBeEquivalent()
     {
-        var start = new DateTime(2020, 5, 1);
-        var end = new DateTime(2020, 8, 1);
+        var start = DateTime.From(2020, 5, 1);
+        var end = DateTime.From(2020, 8, 1);
 
         var dateTimeRange1 = DateTimeRange.From(start, end);
         var dateTimeRange2 = DateTimeRange.From(start, end);
@@ -75,8 +75,8 @@ public class DateTimeRangeTests
     [Fact]
     public void Equality_WithRegularAndWithTimeSpanConstructors_ShouldBeEquivalent()
     {
-        var start = DateTime.UtcNow;
-        var end = start.AddDays(1);
+        var start = DateTime.From(System.DateTime.UtcNow);
+        var end = DateTime.From(start.Value.AddDays(1));
         var timeSpan = TimeSpan.FromDays(1);
 
         var dateTimeRange1 = DateTimeRange.From(start, end);
@@ -88,8 +88,8 @@ public class DateTimeRangeTests
     [Fact]
     public void Equality_WithRegularAndWithTupleConstructors_ShouldBeEquivalent()
     {
-        var start = DateTime.UtcNow;
-        var end = start.AddDays(1);
+        var start = DateTime.From(System.DateTime.UtcNow);
+        var end = DateTime.From(start.Value.AddDays(1));
 
         var dateTimeRange1 = DateTimeRange.From(start, end);
         var dateTimeRange2 = DateTimeRange.From((start, end));
@@ -104,11 +104,11 @@ public class DateTimeRangeTests
     [InlineData("2021-01-01", "2021-05-01", "2020-01-01", "2021-05-01")]
     public void NonEquality_WithDifferentStartAndEnd_ShouldNotBeEquivalent(string startStr1, string endStr1, string startStr2, string endStr2)
     {
-        var start1 = DateTime.Parse(startStr1);
-        var end1 = DateTime.Parse(endStr1);
+        var start1 = DateTime.From(startStr1);
+        var end1 = DateTime.From(endStr1);
 
-        var start2 = DateTime.Parse(startStr2);
-        var end2 = DateTime.Parse(endStr2);
+        var start2 = DateTime.From(startStr2);
+        var end2 = DateTime.From(endStr2);
 
         var dateTimeRange1 = DateTimeRange.From(start1, end1);
         var dateTimeRange2 = DateTimeRange.From(start2, end2);
@@ -119,8 +119,8 @@ public class DateTimeRangeTests
     [Fact]
     public void NonEquality_WithRegularAndWithTimeSpanConstructors_ShouldNotBeEquivalent()
     {
-        var start = DateTime.UtcNow;
-        var end = start.AddDays(1);
+        var start = DateTime.From(System.DateTime.UtcNow);
+        var end = DateTime.From(start.Value.AddDays(1));
         var timeSpan = TimeSpan.FromDays(3);
 
         var dateTimeRange1 = DateTimeRange.From(start, end);
@@ -135,11 +135,11 @@ public class DateTimeRangeTests
     [InlineData("2021-01-01", "2021-05-01", "2020-01-01", "2021-05-01")]
     public void NonEquality_WithRegularAndWithTupleConstructors_ShouldNotBeEquivalent(string startStr1, string endStr1, string startStr2, string endStr2)
     {
-        var start1 = DateTime.Parse(startStr1);
-        var end1 = DateTime.Parse(endStr1);
+        var start1 = DateTime.From(startStr1);
+        var end1 = DateTime.From(endStr1);
 
-        var start2 = DateTime.Parse(startStr2);
-        var end2 = DateTime.Parse(endStr2);
+        var start2 = DateTime.From(startStr2);
+        var end2 = DateTime.From(endStr2);
 
         var dateTimeRange1 = DateTimeRange.From(start1, end1);
         var dateTimeRange2 = DateTimeRange.From((start2, end2));
@@ -150,8 +150,8 @@ public class DateTimeRangeTests
     [Fact]
     public void Duration_WithValidStarnAndEnd_ReturnsValue()
     {
-        var start = new DateTime(2023, 01, 01);
-        var end = new DateTime(2023, 01, 20);
+        var start = DateTime.From(2023, 01, 01);
+        var end = DateTime.From(2023, 01, 20);
         var duration = TimeSpan.FromDays(19);
 
         var dateTimeRange = DateTimeRange.From(start, end);
@@ -165,8 +165,8 @@ public class DateTimeRangeTests
     [InlineData("2023-06-06")]
     public void Contains_WithDateWithinTheRange_ReturnsTrue(string dateTimeStr)
     {
-        var dateTime = DateTime.Parse(dateTimeStr);
-        var dateTimeRange = DateTimeRange.From(new DateTime(2023, 01, 01), new DateTime(2024, 01, 01));
+        var dateTime = DateTime.From(dateTimeStr);
+        var dateTimeRange = DateTimeRange.From(DateTime.From(2023, 01, 01), DateTime.From(2024, 01, 01));
 
         Assert.True(dateTimeRange.Contains(dateTime));
     }
@@ -177,8 +177,8 @@ public class DateTimeRangeTests
     [InlineData("2021-06-06")]
     public void Contains_WithDateOutsideTheRange_ReturnsFalse(string dateTimeStr)
     {
-        var dateTime = DateTime.Parse(dateTimeStr);
-        var dateTimeRange = DateTimeRange.From(new DateTime(2023, 01, 01), new DateTime(2024, 01, 01));
+        var dateTime = DateTime.From(dateTimeStr);
+        var dateTimeRange = DateTimeRange.From(DateTime.From(2023, 01, 01), DateTime.From(2024, 01, 01));
 
         Assert.False(dateTimeRange.Contains(dateTime));
     }
@@ -190,14 +190,14 @@ public class DateTimeRangeTests
     [InlineData("2023-01-01", "2023-02-01", "2023-02-01", "2023-04-01", "2023-02-01", "2023-02-01")]
     public void Intersect_WithOverlappingRanges_ReturnsIntersectedDateTimeRange(string startStr1, string endStr1, string startStr2, string endStr2, string expectedStartStr, string expectedEndStr)
     {
-        var start1 = DateTime.Parse(startStr1);
-        var end1 = DateTime.Parse(endStr1);
+        var start1 = DateTime.From(startStr1);
+        var end1 = DateTime.From(endStr1);
 
-        var start2 = DateTime.Parse(startStr2);
-        var end2 = DateTime.Parse(endStr2);
+        var start2 = DateTime.From(startStr2);
+        var end2 = DateTime.From(endStr2);
 
-        var expectedStart = DateTime.Parse(expectedStartStr);
-        var expectedEnd = DateTime.Parse(expectedEndStr);
+        var expectedStart = DateTime.From(expectedStartStr);
+        var expectedEnd = DateTime.From(expectedEndStr);
 
         var dateTimeRange1 = DateTimeRange.From(start1, end1);
         var dateTimeRange2 = DateTimeRange.From(start2, end2);
@@ -214,11 +214,11 @@ public class DateTimeRangeTests
     [Fact]
     public void Intersect_WithNonOverlappingRanges_ReturnsNull()
     {
-        var start1 = new DateTime(2023, 01, 01);
-        var end1 = new DateTime(2023, 02, 01);
+        var start1 = DateTime.From(2023, 01, 01);
+        var end1 = DateTime.From(2023, 02, 01);
 
-        var start2 = new DateTime(2021, 03, 01);
-        var end2 = new DateTime(2021, 04, 01);
+        var start2 = DateTime.From(2021, 03, 01);
+        var end2 = DateTime.From(2021, 04, 01);
 
         var dateTimeRange1 = DateTimeRange.From(start1, end1);
         var dateTimeRange2 = DateTimeRange.From(start2, end2);
@@ -237,8 +237,8 @@ public class DateTimeRangeTests
     {
         void Test()
         {
-            var start = new DateTime(2023, 6, 20, 10, 5, 0);
-            var end = new DateTime(2023, 8, 20, 10, 5, 0);
+            var start = DateTime.From(2023, 6, 20, 10, 5, 0);
+            var end = DateTime.From(2023, 8, 20, 10, 5, 0);
 
             var dateTimeRange = DateTimeRange.From(start, end);
             var dateTimeRangeString = dateTimeRange.ToString();
@@ -259,8 +259,8 @@ public class DateTimeRangeTests
     {
         void Test()
         {
-            var start = new DateTime(2023, 6, 20, 10, 5, 0);
-            var end = new DateTime(2023, 8, 20, 10, 5, 0);
+            var start = DateTime.From(2023, 6, 20, 10, 5, 0);
+            var end = DateTime.From(2023, 8, 20, 10, 5, 0);
 
             var dateTimeRange = DateTimeRange.From(start, end);
             var dateTimeRangeString = dateTimeRange.ToString(format);
@@ -276,8 +276,8 @@ public class DateTimeRangeTests
     [InlineData("en-US", "6/20/2023 10:05:00 AM - 8/20/2023 10:05:00 AM")]
     public void ToString_WithCultureParameter_ReturnsFormattedString(string culture, string expectedResult)
     {
-        var start = new DateTime(2023, 6, 20, 10, 5, 0);
-        var end = new DateTime(2023, 8, 20, 10, 5, 0);
+        var start = DateTime.From(2023, 6, 20, 10, 5, 0);
+        var end = DateTime.From(2023, 8, 20, 10, 5, 0);
 
         var dateTimeRange = DateTimeRange.From(start, end);
         var dateTimeRangeString = dateTimeRange.ToString(new CultureInfo(culture));
@@ -293,8 +293,8 @@ public class DateTimeRangeTests
     [InlineData("en-GB", "dd MMM HH:mm:ss", "20 Jun 10:05:00 - 20 Aug 10:05:00")]
     public void ToString_WithCultureAndFormatParameters_ReturnsFormattedString(string culture, string format, string expectedResult)
     {
-        var start = new DateTime(2023, 6, 20, 10, 5, 0);
-        var end = new DateTime(2023, 8, 20, 10, 5, 0);
+        var start = DateTime.From(2023, 6, 20, 10, 5, 0);
+        var end = DateTime.From(2023, 8, 20, 10, 5, 0);
 
         var dateTimeRange = DateTimeRange.From(start, end);
         var dateTimeRangeString = dateTimeRange.ToString(format, new CultureInfo(culture));

@@ -37,7 +37,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             InternetDomain = InternetDomain.From("admin.ch"),
             CountryCode3 = CountryCode3.From("CHE"),
             IPAddress = IpAddress.From("102.129.143.255"),
-            DateTimeRange = DateTimeRange.From(new DateTime(2023, 01, 01), new DateTime(2023, 02, 01)),
+            DateTimeRange = DateTimeRange.From(DateTime.From(2023, 01, 01), DateTime.From(2023, 02, 01)),
             LongestHikingTrailInMeters = Length.From(390_000),
             StreetAddress = CreateStreetAddress()
         };
@@ -69,12 +69,13 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             CountryNumber = CountryNumber.From(756),
             MonthOfPeakTourism = Month.From(7),
             DistanceInKm = Distance.From(129.522785),
-            DateTimeRange = DateTimeRange.From(new DateTime(2023, 01, 01), new DateTime(2023, 02, 01)),
+            DateTimeRange = DateTimeRange.From(DateTime.From(2023, 01, 01), DateTime.From(2023, 02, 01)),
             InternetDomain = InternetDomain.From("admin.ch"),
             CountryCode3 = CountryCode3.From("CHE"),
             IPAddress = IpAddress.From("102.129.143.255"),
             LongestHikingTrailInMeters = Length.From(390_000),
-            StreetAddress = streetAddress
+            StreetAddress = streetAddress,
+            CreateDate = DateTime.From(2023, 01, 01)
         };
         DbContext.Countries.Add(newItem);
         DbContext.SaveChanges();
@@ -105,10 +106,11 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal("admin.ch", item.InternetDomain.Value);
         Assert.Equal("CHE", item.CountryCode3.Value);
         Assert.Equal("102.129.143.255", item.IPAddress.Value);
-        Assert.Equal(new DateTime(2023, 01, 01), item.DateTimeRange.Start);
-        Assert.Equal(new DateTime(2023, 02, 01), item.DateTimeRange.End);
+        Assert.Equal(DateTime.From(2023, 02, 01), item.DateTimeRange.End);
+        Assert.Equal(DateTime.From(2023, 01, 01), item.DateTimeRange.Start);
         Assert.Equal(390_000, item.LongestHikingTrailInMeters.Value);
         Assert.Equal(LengthTypeUnit.Meter, item.LongestHikingTrailInMeters.Unit);
+        Assert.Equal(DateTime.From(2023, 01, 01), item.CreateDate);
 
         AssertStreetAddress(streetAddress, item.StreetAddress);
     }

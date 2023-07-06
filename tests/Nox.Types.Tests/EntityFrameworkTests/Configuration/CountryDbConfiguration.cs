@@ -33,5 +33,8 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
             .Ignore(p => p.Value)
             .Property(x => x.CountryId)
             .HasConversion<CountryCode2Converter>();
+        builder.OwnsOne(e => e.DateTimeRange).Ignore(p => p.Value).OwnsOne(a => a.Start);
+        builder.OwnsOne(e => e.DateTimeRange).Ignore(p => p.Value).OwnsOne(a => a.End);
+        builder.OwnsOne(e => e.CreateDate).Ignore(p => p.Value);
     }
 }
