@@ -67,8 +67,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.Id.Value.Should().Be(text);
         testEntity.TextTestField.Value.Should().Be(text);
         testEntity.NumberTestField.Value.Should().Be(number);
-        testEntity.MoneyTestField.Value.Amount.Should().Be(money);
+        testEntity.MoneyTestField!.Value.Amount.Should().Be(money);
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
-        testEntity.CountryCode2TestField.Value.Should().Be(countryCode2);
+        testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
     }
 }
