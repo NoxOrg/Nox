@@ -17,10 +17,10 @@ public static class ServiceCollectionExtension
         }
     }
     
-    public static IServiceCollection AddNox(this IServiceCollection services)
+    public static IServiceCollection AddNoxLib(this IServiceCollection services)
     {
         services.AddSingleton(Solution);
-
+        
         return services;
     }
 

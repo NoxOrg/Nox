@@ -27,6 +27,7 @@ internal class EntitiesGenerator
         var code = new CodeBuilder($"{entity.Name}.g.cs", context);
 
         code.AppendLine($"using Nox.Types;");
+        code.AppendLine($"using System;");
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Domain;");

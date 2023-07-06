@@ -55,7 +55,7 @@ namespace Nox.Solution
             var yamlRef = resolver.ResolveReferences();
             var yaml = ExpandMacros(yamlRef);
 
-            var config = NoxYamlSerializer.Deserialize<NoxSolution>(yaml);
+            var config = NoxSchemaValidator.Deserialize<NoxSolution>(yaml);
 
             config.RootYamlFile = _yamlFilePath;
             return config;
@@ -137,7 +137,10 @@ namespace Nox.Solution
 
         private string ExpandMacros(string yaml)
         {
-            yaml = _environmentVariableParser.Parse(yaml);
+            var definitionVariableParser = new DefinitionVariableParser();
+            var variables = definitionVariableParser.Parse(yaml);
+            
+            yaml = _environmentVariableParser.Parse(yaml, variables);
 
             return yaml;
         }

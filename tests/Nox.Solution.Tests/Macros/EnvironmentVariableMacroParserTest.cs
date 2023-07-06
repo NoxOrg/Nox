@@ -57,8 +57,6 @@ public class EnvironmentVariableMacroParserTest
             System.Environment.SetEnvironmentVariable("MyTemp",null);
             System.Environment.SetEnvironmentVariable("MyTempDir",null);
         }
-
-
     }
 
 }

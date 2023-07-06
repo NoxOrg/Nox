@@ -1,13 +1,12 @@
-﻿using System.Text;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
 
-namespace Nox.Generator;
+namespace Nox.Generator.Infrastructure.Persistence.DbContextGenerator;
 
-internal class DbContextGenerator
+internal static class DbContextGenerator
 {
-    public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
+    public static void Generate(SourceProductionContext context, NoxSolution solution)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -21,73 +20,103 @@ internal class DbContextGenerator
         var code = new CodeBuilder($"{dbContextName}.g.cs",context);
 
         // Namespace
+        AddUsing(code, solution.Name);
+        AddClass(code, solution, dbContextName);
+
+        code.GenerateSourceCode();
+
+    }
+
+    private static void AddUsing(CodeBuilder code, string solutionNameSpace)
+    {
         code.AppendLine(@"using Microsoft.EntityFrameworkCore;");
         code.AppendLine(@"using Nox.Solution;");
-        code.AppendLine(@"using Nox.Types.EntityFramework.vNext;");
+        code.AppendLine(@"using Nox.Types.EntityFramework.Abstractions;");
         code.AppendLine(@"using SampleWebApp.Domain;");
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Infrastructure.Persistence;");
         code.AppendLine();
+    }
 
+    private static void AddClass(CodeBuilder code, NoxSolution solution, string dbContextName)
+    {
         code.AppendLine($"public partial class {dbContextName} : DbContext");
 
         // Class
         code.StartBlock();
 
-            code.AppendLine($"private NoxSolution _noxSolution {{ get; set; }}");
-            code.AppendLine($"private INoxDatabaseConfigurator _databaseConfigurator {{ get; set; }}");
-            code.AppendLine();
-            
-            // Constructor
-            code.AppendLine($"public {dbContextName}(");
+        code.AppendLine("private readonly NoxSolution _noxSolution;");
+        code.AppendLine("private readonly INoxDatabaseProvider _dbProvider;");
+        code.AppendLine();
 
-            // Constructor content
-            code.Indent();
-                code.AppendLine($"DbContextOptions<{dbContextName}> options,");
-                code.AppendLine($"NoxSolution noxSolution,");
-                code.AppendLine($"INoxDatabaseConfigurator databaseConfigurator");
-                code.AppendLine($") : base(options)");
-            code.UnIndent();
-            code.AppendLine($"{{");
-            code.Indent();
-                code.AppendLine($"_noxSolution = noxSolution;");
-                code.AppendLine($"_databaseConfigurator = databaseConfigurator;");
-            code.UnIndent();
-            code.AppendLine($"}}");
-            code.AppendLine();
+        code.AppendLine($"public {dbContextName}(");
+        code.AppendLine($"    DbContextOptions<{dbContextName}> options,");
+        code.AppendLine("    NoxSolution noxSolution,");
+        code.AppendLine("    INoxDatabaseProvider databaseProvider");
+        code.AppendLine(") : base(options)");
+        code.StartBlock();
+        code.AppendLine("    _noxSolution = noxSolution;");
+        code.AppendLine("    _dbProvider = databaseProvider;");
+        code.EndBlock();
+        code.AppendLine();
 
-            foreach (var entity in solution.Domain.Entities)
-            {
-                code.AppendLine($"public DbSet<{entity.Name}> {entity.PluralName} {{get; set;}} = null!;");
-                code.AppendLine();
-            }
+        AddDbSets(code, solution);
 
-        // Method content
-        code.AppendLine(@"
-    public static void RegisterDbContext(IServiceCollection services)
-    {
-        services.AddDbContext<" + dbContextName + @">();
+        AddOnConfiguring(code, solution.Name);
+        
+        AddOnModelCreating(code, solution.Name);
+
+        // End class
+        code.EndBlock();
+        code.AppendLine();
     }
 
-    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    private static void AddDbSets(CodeBuilder code, NoxSolution solution)
     {
-        if (_noxSolution.Domain != null)
+        foreach (var entity in solution.Domain!.Entities)
         {
-            foreach (var entity in _noxSolution.Domain.Entities)
-            {
-                var type = Type.GetType(""" + solutionNameSpace + @".Domain."" + entity.Name);
-                
-                if (type != null)
-                {
-                    _databaseConfigurator.ConfigureEntity(modelBuilder.Entity(type), entity);
-                }
-            }
-            
-            base.OnModelCreating(modelBuilder);
+            AddDbSet(code, entity);
         }
     }
-}
-");
-        code.GenerateSourceCode();
+
+    private static void AddDbSet(CodeBuilder code, Entity entity)
+    {
+        code.AppendLine($"public DbSet<{entity.Name}> {entity.PluralName} {{get; set;}} = null!;");
+        code.AppendLine();
+    }
+
+    private static void AddOnConfiguring(CodeBuilder code, string solutionName)
+    {
+        code.AppendLine("protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)");
+        code.StartBlock();
+        code.AppendLine("base.OnConfiguring(optionsBuilder);");
+        code.AppendLine("if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })");
+        code.StartBlock();
+        code.AppendLine($"_dbProvider.ConfigureDbContext(optionsBuilder, \"{solutionName}\", _noxSolution.Infrastructure!.Persistence.DatabaseServer); ");
+        code.EndBlock();
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+    private static void AddOnModelCreating(CodeBuilder code, string solutionName)
+    {
+        code.AppendLine("protected override void OnModelCreating(ModelBuilder modelBuilder)");
+        code.StartBlock();
+        code.AppendLine("base.OnModelCreating(modelBuilder);");
+        code.AppendLine("if (_noxSolution.Domain != null)");
+        code.StartBlock();
+        code.AppendLine("foreach (var entity in _noxSolution.Domain.Entities)");
+        code.StartBlock();
+        code.AppendLine($"var type = Type.GetType(\"{solutionName}.Domain.\" + entity.Name);");
+        code.AppendLine();
+        code.AppendLine("if (type != null)");
+        code.StartBlock();
+        code.AppendLine("((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(modelBuilder.Entity(type), entity);");
+        code.EndBlock();
+        code.EndBlock();
+        code.AppendLine();
+        code.EndBlock();
+        code.EndBlock();
     }
 }
+

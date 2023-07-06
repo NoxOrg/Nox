@@ -1,5 +1,4 @@
-﻿using FluentValidation;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Nox.Generator.Application.DtoGenerator;
 using Nox.Generator.Application.EventGenerator;
@@ -14,6 +13,7 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Nox.Generator.Infrastructure.Persistence.DbContextGenerator;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -59,6 +59,8 @@ public class NoxCodeGenerator : IIncrementalGenerator
             if (TryGetGeneratorConfig(noxYamls, out var generate) && TryGetNoxSolution(noxYamls, out var solution))
             {
                 var solutionNameSpace = solution.Name;
+                
+                ServiceCollectionExtensionGenerator.Generate(context, solution);
 
                 if (generate.Domain)
                 {
@@ -77,7 +79,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
 
                 if (generate.Infrastructure)
                 {
-                    DbContextGenerator.Generate(context, solutionNameSpace, solution);
+                    DbContextGenerator.Generate(context, solution);
                 }
 
                 if (generate.Presentation)

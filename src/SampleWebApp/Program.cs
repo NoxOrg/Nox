@@ -2,7 +2,6 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Nox;
 using Nox.Solution;
-using Nox.Types.EntityFramework.Sqlite;
 using SampleWebApp.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
