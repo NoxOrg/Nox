@@ -14,77 +14,77 @@ namespace SampleWebApp.Presentation.Api.OData;
 /// </summary>
 public class Country
 {
-    public System.String Id { get; set; }
+    public System.String Id { get; set; } = default!;
     
     /// <summary>
     /// The country's common name.
     /// </summary>
-    public System.String Name { get; set; }
+    public System.String Name { get; set; } = default!;
     
     /// <summary>
     /// The country's official name.
     /// </summary>
-    public System.String FormalName { get; set; }
+    public System.String FormalName { get; set; } = default!;
     
     /// <summary>
     /// The country's official ISO 4217 alpha-3 code.
     /// </summary>
-    public System.String AlphaCode3 { get; set; }
+    public System.String AlphaCode3 { get; set; } = default!;
     
     /// <summary>
     /// The country's official ISO 4217 alpha-2 code.
     /// </summary>
-    public System.String AlphaCode2 { get; set; }
+    public System.String AlphaCode2 { get; set; } = default!;
     
     /// <summary>
     /// The country's official ISO 4217 alpha-3 code.
     /// </summary>
-    public System.Int32 NumericCode { get; set; }
+    public System.Int32 NumericCode { get; set; } = default!;
     
     /// <summary>
     /// The country's phone dialing codes (comma-delimited).
     /// </summary>
-    public System.String? DialingCodes { get; set; }
+    public System.String? DialingCodes { get; set; } = default!;
     
     /// <summary>
     /// The capital city of the country.
     /// </summary>
-    public System.String? Capital { get; set; }
+    public System.String? Capital { get; set; } = default!;
     
     /// <summary>
     /// Noun denoting the natives of the country.
     /// </summary>
-    public System.String? Demonym { get; set; }
+    public System.String? Demonym { get; set; } = default!;
     
     /// <summary>
     /// Country area in square kilometers.
     /// </summary>
-    public System.Int32 AreaInSquareKilometres { get; set; }
+    public System.Int32 AreaInSquareKilometres { get; set; } = default!;
     
     /// <summary>
     /// The region the country is in.
     /// </summary>
-    public System.String GeoRegion { get; set; }
+    public System.String GeoRegion { get; set; } = default!;
     
     /// <summary>
     /// The sub-region the country is in.
     /// </summary>
-    public System.String GeoSubRegion { get; set; }
+    public System.String GeoSubRegion { get; set; } = default!;
     
     /// <summary>
     /// The world region the country is in.
     /// </summary>
-    public System.String GeoWorldRegion { get; set; }
+    public System.String GeoWorldRegion { get; set; } = default!;
     
     /// <summary>
     /// The estimated population of the country.
     /// </summary>
-    public System.Int32? Population { get; set; }
+    public System.Int32? Population { get; set; } = default!;
     
     /// <summary>
     /// The top level internet domains regitered to the country (comma-delimited).
     /// </summary>
-    public System.String? TopLevelDomains { get; set; }
+    public System.String? TopLevelDomains { get; set; } = default!;
 }
 
 /// <summary>
@@ -96,12 +96,12 @@ public class Currency
     /// <summary>
     /// The currency's primary key / identifier.
     /// </summary>
-    public System.String Id { get; set; }
+    public System.String Id { get; set; } = default!;
     
     /// <summary>
     /// The currency's name.
     /// </summary>
-    public System.String Name { get; set; }
+    public System.String Name { get; set; } = default!;
     
     /// <summary>
     /// is legal tender for.
@@ -118,17 +118,17 @@ public class Store
     /// <summary>
     /// Store Primary Key.
     /// </summary>
-    public System.String Id { get; set; }
+    public System.String Id { get; set; } = default!;
     
     /// <summary>
     /// Store Name.
     /// </summary>
-    public System.String Name { get; set; }
+    public System.String Name { get; set; } = default!;
     
     /// <summary>
     /// Physical Money in the Physical Store.
     /// </summary>
-    public string PhysicalMoney { get; set; }
+    public string PhysicalMoney { get; set; } = default!;
 }
 
 /// <summary>
@@ -136,5 +136,5 @@ public class Store
 /// </summary>
 public class CountryLocalNames
 {
-    public System.String Id { get; set; }
+    public System.String Id { get; set; } = default!;
 }

@@ -101,7 +101,7 @@ internal static class ODataModelGenerator
         var propName = attribute.Name;
         var nullable = (attribute.IsRequired || forceRequired) ? string.Empty : "?";
 
-        code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }}");
+        code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }} = default!;");
     }
 
     private static string GetType(NoxType type)
