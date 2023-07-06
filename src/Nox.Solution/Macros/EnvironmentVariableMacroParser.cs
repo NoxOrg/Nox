@@ -23,7 +23,7 @@ public class EnvironmentVariableMacroParser: IMacroParser
             .Build();
     }
 
-    public string Parse(string text, IReadOnlyDictionary<string, string>? overrides = null)
+    public string Parse(string text, IReadOnlyDictionary<string, string>? locals = null)
     {
         var parsed = text;
         MatchCollection? matched = default;
@@ -48,16 +48,11 @@ public class EnvironmentVariableMacroParser: IMacroParser
             //Remove "env."
             variableName = variableName.Substring(4);
 
-            string? environmentValue;
+            var environmentValue = _environmentProvider.GetEnvironmentVariable(variableName);
             
-            //override any values with value from 'overrides'
-            if (overrides != null && overrides.ContainsKey(variableName))
+            if (string.IsNullOrWhiteSpace(environmentValue) && locals != null && locals.ContainsKey(variableName))
             {
-                environmentValue = overrides[variableName];
-            }
-            else
-            {
-                environmentValue = _environmentProvider.GetEnvironmentVariable(variableName);    
+                environmentValue = locals[variableName];
             }
 
             if (environmentValue != null)
