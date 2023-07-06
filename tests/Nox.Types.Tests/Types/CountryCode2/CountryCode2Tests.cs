@@ -1,6 +1,4 @@
-﻿using Nox.Types.Tests.Types.CountryCode2;
-
-namespace Nox.Types.Tests.Types;
+﻿namespace Nox.Types.Tests.Types;
 
 public class CountryCode2Tests
 {

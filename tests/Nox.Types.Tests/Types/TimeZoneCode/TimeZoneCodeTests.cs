@@ -1,6 +1,5 @@
 ﻿// ReSharper disable once CheckNamespace
-using Nox.Types.Tests.Types.CountryCode2;
-using Nox.Types.Tests.Types.CountryCode3;
+using FluentAssertions;
 
 namespace Nox.Types.Tests.Types;
 
@@ -12,7 +11,7 @@ public class TimeZoneCodeTests
     {
         var timeZoneCode = Nox.Types.TimeZoneCode.From(timeZoneCodeString);
 
-        Assert.Equal(timeZoneCodeString, timeZoneCode.Value);
+        timeZoneCode.Value.Should().Be(timeZoneCodeString);
     }
 
     [Fact]
@@ -22,7 +21,7 @@ public class TimeZoneCodeTests
           Nox.Types.TimeZoneCode.From("ABC")
         );
 
-        Assert.Equal("Could not create a Nox TimeZoneCode type with unsupported value 'ABC'.", exception.Errors.First().ErrorMessage);
+        exception.Errors.First().ErrorMessage.Should().Be("Could not create a Nox TimeZoneCode type with unsupported value 'ABC'.");
     }
 
     [Fact]
@@ -32,17 +31,17 @@ public class TimeZoneCodeTests
 
         var timeZoneCode_2 = Nox.Types.TimeZoneCode.From("PKT");
 
-        Assert.Equal(timeZoneCode_1, timeZoneCode_2);
+        timeZoneCode_1.Should().BeEquivalentTo(timeZoneCode_2);
     }
 
     [Fact]
-    public void TimeZoneCode_CaseInsensiticeEquality_Tests()
+    public void TimeZoneCode_CaseInsensitiveEquality_Tests()
     {
         var timeZoneCode_1 = Nox.Types.TimeZoneCode.From("PKT");
 
         var timeZoneCode_2 = Nox.Types.TimeZoneCode.From("pkt");
 
-        Assert.Equal(timeZoneCode_1, timeZoneCode_2);
+        timeZoneCode_1.Should().BeEquivalentTo(timeZoneCode_2);
     }
 
     [Fact]
@@ -52,7 +51,7 @@ public class TimeZoneCodeTests
 
         var timeZoneCode_2 = Nox.Types.TimeZoneCode.From("PST");
 
-        Assert.NotEqual(timeZoneCode_1, timeZoneCode_2);
+        timeZoneCode_1.Should().NotBeEquivalentTo(timeZoneCode_2);
     }
 
     [Fact]
@@ -60,6 +59,6 @@ public class TimeZoneCodeTests
     {
         var timeZoneCode = Nox.Types.TimeZoneCode.From("PKT");
 
-        Assert.Equal("PKT", timeZoneCode.ToString());
+        timeZoneCode.ToString().Should().BeEquivalentTo("PKT");
     }
 }

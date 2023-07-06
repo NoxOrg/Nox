@@ -6,9 +6,7 @@ namespace Nox.Types;
     /// <summary>
     /// Represents a Nox <see cref="TimeZoneCode"/> type and value object.
     /// </summary>
-    /// <remarks>Placeholder, needs to be implemented</remarks>
-    // TODO Keep the List of Codes, find the proper ISO
-    public sealed class TimeZoneCode : ValueObject<string, TimeZoneCode>
+public sealed class TimeZoneCode : ValueObject<string, TimeZoneCode>
 {
     private static readonly HashSet<string> _timeZoneCodes = new() { 
                                                         "ACDT",
@@ -203,6 +201,11 @@ namespace Nox.Types;
                                                         "WST",
                                                         "YAKT",
                                                         "YEKT"};
+
+    /// <summary>
+    /// Sets the value to upper case with invariant culture.
+    /// </summary>
+    public override string Value { protected set => base.Value = value.ToUpperInvariant(); }
 
 
     /// <summary>
