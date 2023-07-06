@@ -8,32 +8,32 @@ public class DateTime : ValueObject<System.DateTime, DateTime>
     public int Year
     {
         get { return Value.Year; }
-        set { Value = new System.DateTime(value, Value.Month, Value.Day, Value.Hour, Value.Minute, Value.Second); }
+        protected set { Value = new System.DateTime(value, Value.Month, Value.Day, Value.Hour, Value.Minute, Value.Second); }
     }
     public int Month
     {
         get { return Value.Month; }
-        set { Value = new System.DateTime(Value.Year, value, Value.Day, Value.Hour, Value.Minute, Value.Second); }
+        protected set { Value = new System.DateTime(Value.Year, value, Value.Day, Value.Hour, Value.Minute, Value.Second); }
     }
     public int Day
     {
         get { return Value.Day; }
-        set { Value = new System.DateTime(Value.Year, Value.Month, value, Value.Hour, Value.Minute, Value.Second); }
+        protected set { Value = new System.DateTime(Value.Year, Value.Month, value, Value.Hour, Value.Minute, Value.Second); }
     }
     public int Hour
     {
         get { return Value.Hour; }
-        set { Value = new System.DateTime(Value.Year, Value.Month, Value.Day, value, Value.Minute, Value.Second); }
+        protected set { Value = new System.DateTime(Value.Year, Value.Month, Value.Day, value, Value.Minute, Value.Second); }
     }
     public int Minute
     {
         get { return Value.Minute; }
-        set { Value = new System.DateTime(Value.Year, Value.Month, Value.Day, Value.Hour, value, Value.Second); }
+        protected set { Value = new System.DateTime(Value.Year, Value.Month, Value.Day, Value.Hour, value, Value.Second); }
     }
     public int Second
     {
         get { return Value.Second; }
-        set { Value = new System.DateTime(Value.Year, Value.Month, Value.Day, Value.Hour, Value.Minute, value); }
+        protected set { Value = new System.DateTime(Value.Year, Value.Month, Value.Day, Value.Hour, Value.Minute, value); }
     }
 
     public DateTime() { Value = System.DateTime.MinValue; }
