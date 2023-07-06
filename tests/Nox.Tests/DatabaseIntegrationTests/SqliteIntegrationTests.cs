@@ -7,7 +7,7 @@ namespace Nox.Tests.DatabaseIntegrationTests;
 public class SqliteIntegrationTests : SqliteTestBase
 {
     [Fact]
-    public void GeneratedEntity_CanSaveAndReadFields_AllTypes()
+    public void GeneratedEntity_Sqlite_CanSaveAndReadFields_AllTypes()
     {
         // TODO:
         // array

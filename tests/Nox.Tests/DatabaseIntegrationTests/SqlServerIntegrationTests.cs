@@ -8,7 +8,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
 {
     // TODO: uncomment when automated and included into pipeline
     //[Fact]
-    public void GeneratedEntity_CanSaveAndReadFields_AllTypes()
+    public void GeneratedEntity_SqlServer_CanSaveAndReadFields_AllTypes()
     {
         var text = "TestTextValue";
         var number = 123;
