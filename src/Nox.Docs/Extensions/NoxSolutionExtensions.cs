@@ -60,7 +60,15 @@ public static class NoxSolutionExtensions
                 throw new Exception($"The solution definition is invalid. {key} relationship is not defined in entity {value.Left!.Entity}");
             }
 
-            sb.Append($"    {value.Right.Entity}{RelationshipSymbol(value.Left!.Relationship, Side.Left)}--{RelationshipSymbol(value.Right.Relationship, Side.Right)}{value.Left.Entity} : {value.Left!.Name}");
+            sb.Append("    ");
+            sb.Append(value.Right.Entity);
+            sb.Append(RelationshipSymbol(value.Right.Relationship, Side.Left));
+            sb.Append("--");
+            sb.Append(RelationshipSymbol(value.Left!.Relationship, Side.Right));
+            sb.Append(value.Left.Entity);
+            sb.Append(" : ");
+            sb.Append(value.Left!.Description.Replace(' ', '_'));
+            sb.AppendLine();
         }
 
         return sb.ToString();
