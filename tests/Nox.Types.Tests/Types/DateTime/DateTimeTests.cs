@@ -15,6 +15,25 @@ public class DateTimeTests
         datetime.Day.Should().Be(datetimeExpected.Day);
     }
 
+
+    [Fact]
+    public void ValueObjectsAreImmutable_This_Should_Not_Compile()
+    {
+        /*
+         * 
+         * All Value Objects should always be immutable!
+         * 
+         */
+
+
+        var datetimeExpected = System.DateTime.Now;
+        var datetime = DateTime.From(datetimeExpected);
+
+        datetime.Year = 1972;
+
+        Assert.Fail("This should not compile!");
+    }
+
     [Fact]
     public void From_WithValidDateTime_ReturnsValue()
     {
