@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Nox.Solution.Utils;
@@ -22,7 +23,7 @@ public class EnvironmentVariableMacroParser: IMacroParser
             .Build();
     }
 
-    public string Parse(string text)
+    public string Parse(string text, IReadOnlyDictionary<string, string>? overrides = null)
     {
         var parsed = text;
         MatchCollection? matched = default;
@@ -47,7 +48,17 @@ public class EnvironmentVariableMacroParser: IMacroParser
             //Remove "env."
             variableName = variableName.Substring(4);
 
-            var environmentValue = _environmentProvider.GetEnvironmentVariable(variableName);
+            string? environmentValue;
+            
+            //override any values with value from 'overrides'
+            if (overrides != null && overrides.ContainsKey(variableName))
+            {
+                environmentValue = overrides[variableName];
+            }
+            else
+            {
+                environmentValue = _environmentProvider.GetEnvironmentVariable(variableName);    
+            }
 
             if (environmentValue != null)
             {
