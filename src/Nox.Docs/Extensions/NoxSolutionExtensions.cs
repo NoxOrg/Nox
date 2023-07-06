@@ -5,9 +5,17 @@ using System.Text;
 
 namespace Nox.Docs.Extensions;
 
+public enum ErdDetail
+{
+    Summary,
+    Normal,
+    Detailed,
+}
+
 public static class NoxSolutionExtensions
 {
-    public static string ToMermaidErd(this NoxSolution noxSolution)
+
+    public static string ToMermaidErd(this NoxSolution noxSolution, ErdDetail detail = ErdDetail.Normal)
     {
         var sb = new StringBuilder();
 
@@ -40,15 +48,20 @@ public static class NoxSolutionExtensions
                 }
             }
 
-            if (entity.Attributes is null)
+            if (entity.Attributes is null || detail == ErdDetail.Summary)
             {
+                sb.AppendLine($"    {entity.Name} {{");
+                sb.AppendLine($"    }}");
                 continue;
             }
 
             sb.AppendLine($"    {entity.Name} {{");
             foreach (var attr in entity.Attributes)
             {
-                sb.AppendLine($"        {attr.Type.ToString()} {attr.Name}");
+                var required = attr.IsRequired ? "(Required)" : "";
+                var description = detail == ErdDetail.Detailed ? $" \"{attr.Description} {required}\"": "";
+
+                sb.AppendLine($"        {attr.Type.ToString()} {attr.Name}{description}");
             }
             sb.AppendLine($"    }}");
         }
@@ -66,9 +79,9 @@ public static class NoxSolutionExtensions
             sb.Append("--");
             sb.Append(MermaidRelationshipSymbol(value.Left!.Relationship, Side.Right));
             sb.Append(value.Left.Entity);
-            sb.Append(" : ");
-            sb.Append(value.Left.Description.Replace(' ', '_'));
-            sb.AppendLine();
+            sb.Append(" : \"");
+            sb.Append(value.Left.Description);
+            sb.AppendLine("\"");
         }
 
         return sb.ToString();
@@ -95,6 +108,7 @@ public static class NoxSolutionExtensions
     private class RelationshipPair
     {
         public EntityRelationship Left;
+
         public EntityRelationship? Right;
         public RelationshipPair(EntityRelationship left)
         {
