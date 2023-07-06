@@ -33,7 +33,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Generator.Tests", "..\t
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0SolutionItems", "0SolutionItems", "{820129FF-6448-42E2-8792-ABE1A8CBF722}"
 	ProjectSection(SolutionItems) = preProject
-		..\nuget.config = ..\nuget.config
+		..\docker-compose.elastic.yml = ..\docker-compose.elastic.yml
+		..\GitVersion.yml = ..\GitVersion.yml
 		..\readme.md = ..\readme.md
 	EndProjectSection
 EndProject
@@ -58,6 +59,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Generator", "Generator", "{154B838E-65DE-479F-80B7-D48CF9862306}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Tests", "..\tests\Nox.Tests\Nox.Tests.csproj", "{749A8B24-397E-4794-B647-3557E19FBA41}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dockerfiles", "dockerfiles", "{0B013153-526C-4B3B-8363-2D8ECA36AFFC}"
+	ProjectSection(SolutionItems) = preProject
+		..\docker-compose.elastic.yml = ..\docker-compose.elastic.yml
+		..\docker-compose.postgres.yml = ..\docker-compose.postgres.yml
+		..\docker-compose.sqlServer.yml = ..\docker-compose.sqlServer.yml
+		..\docker-compose.yml = ..\docker-compose.yml
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -163,6 +172,7 @@ Global
 		{55D717E8-6043-487C-83A9-8AE2E92086D7} = {873BFCC4-435D-44D7-8287-1FB1574B2319}
 		{A851D896-AC63-4DC0-98FC-9E1EEA5DACE5} = {873BFCC4-435D-44D7-8287-1FB1574B2319}
 		{049C94B7-EC09-4511-B6BC-21DE2C9C54E1} = {873BFCC4-435D-44D7-8287-1FB1574B2319}
+		{0B013153-526C-4B3B-8363-2D8ECA36AFFC} = {820129FF-6448-42E2-8792-ABE1A8CBF722}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E72B357-9E1E-43B5-9868-8D2B74CB2AF0}
