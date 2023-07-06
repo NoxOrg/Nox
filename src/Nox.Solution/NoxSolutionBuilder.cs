@@ -137,7 +137,10 @@ namespace Nox.Solution
 
         private string ExpandMacros(string yaml)
         {
-            yaml = _environmentVariableParser.Parse(yaml);
+            var definitionVariableParser = new DefinitionVariableParser();
+            var variables = definitionVariableParser.Parse(yaml);
+            
+            yaml = _environmentVariableParser.Parse(yaml, variables);
 
             return yaml;
         }

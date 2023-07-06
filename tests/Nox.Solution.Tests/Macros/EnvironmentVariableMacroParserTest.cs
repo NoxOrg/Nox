@@ -57,8 +57,25 @@ public class EnvironmentVariableMacroParserTest
             System.Environment.SetEnvironmentVariable("MyTemp",null);
             System.Environment.SetEnvironmentVariable("MyTempDir",null);
         }
+    }
 
+    [Fact]
+    public void When_Parsing_Macros_Should_Replace_EnvironmentVariables_with_Definition_variables()
+    {
+        var environmentProvider = new Mock<IEnvironmentProvider>();
+        environmentProvider.Setup(service => service.GetEnvironmentVariable("CACHE_USER")).Returns("unknown");
+        environmentProvider.Setup(service => service.GetEnvironmentVariable("CACHE_PASSWORD")).Returns("unknown");
+        environmentProvider.Setup(service => service.GetEnvironmentVariable("DB_PASSWORD")).Returns("unknown");
+        
+        var noxConfig = new NoxSolutionBuilder()
+            .UseYamlFile("./files/macros/sample.solution.nox.yaml")
+            .UseEnvironmentMacroParser(new EnvironmentVariableMacroParser(environmentProvider.Object))
+            .Build();
 
+        Assert.NotNull(noxConfig);
+        Assert.Equal("redisUser", noxConfig.Infrastructure!.Persistence.CacheServer!.User);
+        Assert.Equal("redisPassword", noxConfig.Infrastructure!.Persistence.CacheServer!.Password);
+        Assert.Equal("dbPassword", noxConfig.Infrastructure!.Persistence.DatabaseServer.Password);
     }
 
 }
