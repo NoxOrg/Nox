@@ -8,7 +8,30 @@ namespace Nox.Types;
 /// </summary>
 public sealed class CurrencyCode3 : ValueObject<string, CurrencyCode3>
 {
-    private readonly string[] CurrencyCodes = Enum.GetNames(typeof(CurrencyCode));
+    private readonly static string[] _currencyCodes = Enum.GetNames(typeof(CurrencyCode));
+
+    /// <summary>
+    /// Creates a new instance of <see cref="CurrencyCode3"/>
+    /// </summary>
+    /// <param name="value">The string to create the <see cref="CurrencyCode3"/> with</param>
+    /// <returns></returns>
+    /// <exception cref="ValidationException">If the currencyCode3 is invalid.</exception>
+    public static new CurrencyCode3 From(string value)
+    {
+        var newObject = new CurrencyCode3
+        {
+            Value = value.ToUpperInvariant()
+        };
+
+        var validationResult = newObject.Validate();
+
+        if (!validationResult.IsValid)
+        {
+            throw new TypeValidationException(validationResult.Errors);
+        }
+
+        return newObject;
+    }
 
     /// <summary>
     /// Validates the <see cref="CurrencyCode3"/> object.
@@ -18,7 +41,7 @@ public sealed class CurrencyCode3 : ValueObject<string, CurrencyCode3>
     {
         var result = base.Validate();
 
-        if (!CurrencyCodes.Contains(Value))
+        if (!_currencyCodes.Contains(Value.ToUpperInvariant()))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox CurrencyCode3 type with unsupported value '{Value}'."));
         }
