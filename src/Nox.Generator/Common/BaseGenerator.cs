@@ -133,6 +133,18 @@ internal class BaseGenerator
 
         return stringTypeDefinition;
     }
+    internal static void AddDbContextOnConfiguring(CodeBuilder code, string solutionName)
+    {
+        code.AppendLine("protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)");
+        code.StartBlock();
+        code.AppendLine("base.OnConfiguring(optionsBuilder);");
+        code.AppendLine("if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })");
+        code.StartBlock();
+        code.AppendLine($"_dbProvider.ConfigureDbContext(optionsBuilder, \"{solutionName}\", _noxSolution.Infrastructure!.Persistence.DatabaseServer); ");
+        code.EndBlock();
+        code.EndBlock();
+        code.AppendLine();
+    }
 
     private static void GenerateDtoFromDefinition(SourceProductionContext context, string solutionNameSpace, string typeName, ArrayTypeOptions options)
     {

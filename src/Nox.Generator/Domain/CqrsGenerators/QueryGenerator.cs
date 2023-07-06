@@ -31,7 +31,7 @@ public class QueryGenerator
 
     private static void GenerateQuery(SourceProductionContext context, string solutionNameSpace, DomainQuery qry)
     {
-        var className = qry.Name.EnsureEndsWith("Query");
+        var className = qry.Name.EnsureEndsWith("QueryBase");
 
         var code = new CodeBuilder($"{className}.g.cs", context);
 

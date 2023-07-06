@@ -17,12 +17,16 @@ namespace SampleWebApp.Presentation.Api.OData;
 
 public partial class CountriesController : ODataController
 {
+    
+    /// <summary>
+    /// The OData DbContext for CRUD operations.
+    /// </summary>
     protected readonly ODataDbContext _databaseContext;
     
     /// <summary>
     /// Returns a list of countries for a given continent.
     /// </summary>
-    protected readonly GetCountriesByContinentQuery _getCountriesByContinent;
+    protected readonly GetCountriesByContinentQueryBase _getCountriesByContinent;
     
     /// <summary>
     /// Instructs the service to collect updated population statistics.
@@ -31,7 +35,7 @@ public partial class CountriesController : ODataController
     
     public CountriesController(
         ODataDbContext databaseContext,
-        GetCountriesByContinentQuery getCountriesByContinent,
+        GetCountriesByContinentQueryBase getCountriesByContinent,
         UpdatePopulationStatisticsCommandHandlerBase updatePopulationStatistics
     )
     {

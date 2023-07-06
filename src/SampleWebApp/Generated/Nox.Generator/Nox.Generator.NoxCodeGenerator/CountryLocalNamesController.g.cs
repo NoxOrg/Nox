@@ -17,6 +17,10 @@ namespace SampleWebApp.Presentation.Api.OData;
 
 public partial class CountryLocalNamesController : ODataController
 {
+    
+    /// <summary>
+    /// The OData DbContext for CRUD operations.
+    /// </summary>
     protected readonly ODataDbContext _databaseContext;
     
     public CountryLocalNamesController(

@@ -12,7 +12,7 @@ namespace SampleWebApp.Presentation.Api.OData;
 /// <summary>
 /// The list of countries.
 /// </summary>
-public class Country
+public class Country : SampleWebApp.Domain.AuditableEntityBase
 {
     public System.String Id { get; set; } = default!;
     
@@ -90,7 +90,7 @@ public class Country
 /// <summary>
 /// The list of currencies.
 /// </summary>
-public class Currency
+public class Currency : SampleWebApp.Domain.AuditableEntityBase
 {
     
     /// <summary>
@@ -112,7 +112,7 @@ public class Currency
 /// <summary>
 /// Stores.
 /// </summary>
-public class Store
+public class Store : SampleWebApp.Domain.AuditableEntityBase
 {
     
     /// <summary>
@@ -128,13 +128,18 @@ public class Store
     /// <summary>
     /// Physical Money in the Physical Store.
     /// </summary>
-    public string PhysicalMoney { get; set; } = default!;
+    public System.Decimal PhysicalMoney_Amount { get; set; } = default!;
+    
+    /// <summary>
+    /// Physical Money in the Physical Store.
+    /// </summary>
+    public System.String PhysicalMoney_CurrencyCode { get; set; } = default!;
 }
 
 /// <summary>
 /// The name of a country in other languages.
 /// </summary>
-public class CountryLocalNames
+public class CountryLocalNames : SampleWebApp.Domain.AuditableEntityBase
 {
     public System.String Id { get; set; } = default!;
 }

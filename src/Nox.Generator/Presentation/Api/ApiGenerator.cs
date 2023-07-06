@@ -5,6 +5,7 @@ using Nox.Generator.Common;
 using System.Collections.Generic;
 
 using static Nox.Generator.Common.BaseGenerator;
+using System.Collections;
 
 namespace Nox.Generator.Presentation.Api;
 
@@ -66,7 +67,7 @@ internal static class ApiGenerator
             code.StartBlock();
 
             // db context
-            code.AppendLine($"protected readonly {dbContextName} _databaseContext;");
+            AddField(code, dbContextName, "databaseContext", "The OData DbContext for CRUD operations");
 
             var constructorParameters = new Dictionary<string, string>
                 {
@@ -75,7 +76,7 @@ internal static class ApiGenerator
 
             foreach (var query in queries)
             {
-                var queryType = $"{query.Name}Query";
+                var queryType = $"{query.Name}QueryBase";
                 AddField(code, queryType, query.Name, query.Description);
                 constructorParameters.Add(queryType, query.Name);
             }

@@ -14,7 +14,7 @@ namespace SampleWebApp.Application;
 /// <summary>
 /// Returns a list of countries for a given continent.
 /// </summary>
-public abstract partial class GetCountriesByContinentQuery
+public abstract partial class GetCountriesByContinentQueryBase
 {
     
     /// <summary>
@@ -22,7 +22,7 @@ public abstract partial class GetCountriesByContinentQuery
     /// </summary>
     protected readonly SampleWebAppDbContext _dbContext;
     
-    public GetCountriesByContinentQuery(
+    public GetCountriesByContinentQueryBase(
         SampleWebAppDbContext dbContext
     )
     {

@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types;
+using System;
 using System.Linq;
 
 using static Nox.Generator.Common.BaseGenerator;
@@ -30,13 +31,15 @@ internal static class ODataModelGenerator
 
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Presentation.Api.OData;");
-        code.AppendLine();        
+        code.AppendLine();
 
         foreach (var entity in solution.Domain.Entities)
         {
             GenerateDocs(code, entity.Description);
 
-            code.AppendLine($"public class {entity.Name}");
+            var baseClass = (entity.Persistence?.IsVersioned ?? true) ? "AuditableEntityBase" : "EntityBase";
+
+            code.AppendLine($"public class {entity.Name} : {solutionNameSpace}.Domain.{baseClass}");
             code.StartBlock();
 
             if (entity.Keys != null)
@@ -95,23 +98,46 @@ internal static class ODataModelGenerator
 
     private static void GenerateProperty(CodeBuilder code, NoxSimpleTypeDefinition attribute, bool forceRequired = false)
     {
-        GenerateDocs(code, attribute.Description);
+        var fields = GetType(attribute.Type);
 
-        var propType = GetType(attribute.Type);
-        var propName = attribute.Name;
-        var nullable = (attribute.IsRequired || forceRequired) ? string.Empty : "?";
+        foreach (var field in fields)
+        {
+            GenerateDocs(code, attribute.Description);
 
-        code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }} = default!;");
+            var propType = field.Item2;
+            var propName = string.IsNullOrEmpty(field.Item1) ? attribute.Name : $"{attribute.Name}_{field.Item1}";
+            var nullable = (attribute.IsRequired || forceRequired) ? string.Empty : "?";
+
+            code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }} = default!;");
+        }
     }
 
-    private static string GetType(NoxType type)
+    // TODO: refactor the structure
+    private static Tuple<string, string>[] GetType(NoxType type)
     {
         // TODO: add other types
         return type switch
         {
-            NoxType.Text => new Text().GetUnderlyingType().ToString(),
-            NoxType.Number => new Number().GetUnderlyingType().ToString(),
-            _ => "string",
+            NoxType.Text => GetSimpleTypeDefinition(new Text()),
+            NoxType.Number => GetSimpleTypeDefinition(new Number()),
+
+            NoxType.Money => GetMoneyDefinition(),
+
+            _ => new[] { new Tuple<string, string>(string.Empty, "string") },
+        };
+    }
+
+    private static Tuple<string, string>[] GetSimpleTypeDefinition<T, TValueObject>(ValueObject<T, TValueObject> instance) where TValueObject : ValueObject<T, TValueObject>, new()
+    {
+        return new[] { new Tuple<string, string>(string.Empty, instance.GetUnderlyingType().ToString()) };
+    }
+
+    private static Tuple<string, string>[] GetMoneyDefinition()
+    {
+        var money = new Money();
+        return new[] {
+            new Tuple<string, string>(nameof(money.Amount), money.Amount.GetType().ToString()),
+            new Tuple<string, string>(nameof(money.CurrencyCode), money.CurrencyCode.GetType().ToString())
         };
     }
 }
