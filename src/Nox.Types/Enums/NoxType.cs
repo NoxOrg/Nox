@@ -16,6 +16,7 @@ public enum NoxType
     [CompoundType] StreetAddress,
     [CompoundType] TranslatedText,
     [CompoundType] DateTimeRange,
+    [CompoundType] HashedText,
 
     // Simple Types
     Area,
@@ -41,7 +42,6 @@ public enum NoxType
     File,
     Formula,
     Guid,
-    HashedText,
     Html,
     Image,
     ImageJpg,

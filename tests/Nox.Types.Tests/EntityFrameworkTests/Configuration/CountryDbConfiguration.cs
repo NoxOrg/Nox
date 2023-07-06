@@ -33,5 +33,6 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
             .Ignore(p => p.Value)
             .Property(x => x.CountryId)
             .HasConversion<CountryCode2Converter>();
+        builder.OwnsOne(e => e.HashedText).Ignore(p => p.Value);
     }
 }
