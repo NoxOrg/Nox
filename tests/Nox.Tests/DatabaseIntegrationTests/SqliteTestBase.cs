@@ -11,13 +11,18 @@ public abstract class SqliteTestBase : IDisposable
     //private const string _inMemoryConnectionStringTemplate = "DataSource=:memory:";
     private const string _inMemoryConnectionStringTemplate = @"DataSource=test_database_{0}.db";
     private static string _inMemoryConnectionString = string.Empty;
-    private const string _testSolutionFile = @"./DatabaseIntegrationTests/Design/test.solution.nox.yaml";
+    private const string _relativeTestSolutionFile = @"./DatabaseIntegrationTests/Design/test.solution.nox.yaml";
+    private static string _absoluteTestSolutionFile = string.Empty;
     private readonly SqliteConnection _connection;
 
     protected TestDatabaseWebAppDbContext DbContext;
 
     protected SqliteTestBase()
     {
+        // Save absolute path one time so during re-creation
+        // path won't change
+        _absoluteTestSolutionFile = Path.GetFullPath(_relativeTestSolutionFile);
+
         _inMemoryConnectionString = string.Format(_inMemoryConnectionStringTemplate, DateTime.UtcNow.Ticks);
         _connection = new SqliteConnection(_inMemoryConnectionString);
         _connection.Open();
@@ -28,7 +33,7 @@ public abstract class SqliteTestBase : IDisposable
     {
         var databaseConfigurator = new SqliteDatabaseProvider();
         var solution = new NoxSolutionBuilder()
-            .UseYamlFile(_testSolutionFile)
+            .UseYamlFile(_absoluteTestSolutionFile)
             .Build();
         var options = new DbContextOptionsBuilder<TestDatabaseWebAppDbContext>()
             .UseSqlite(connection)
