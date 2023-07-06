@@ -35,7 +35,7 @@ public static class NoxSolutionExtensions
                     }
                     else
                     {
-                        relationshipPairs[key] = new RelationshipPair { Left = relationship };
+                        relationshipPairs[key] = new RelationshipPair(left: relationship);
                     }
                 }
             }
@@ -62,12 +62,12 @@ public static class NoxSolutionExtensions
 
             sb.Append("    ");
             sb.Append(value.Right.Entity);
-            sb.Append(RelationshipSymbol(value.Right.Relationship, Side.Left));
+            sb.Append(MermaidRelationshipSymbol(value.Right.Relationship, Side.Left));
             sb.Append("--");
-            sb.Append(RelationshipSymbol(value.Left!.Relationship, Side.Right));
+            sb.Append(MermaidRelationshipSymbol(value.Left!.Relationship, Side.Right));
             sb.Append(value.Left.Entity);
             sb.Append(" : ");
-            sb.Append(value.Left!.Description.Replace(' ', '_'));
+            sb.Append(value.Left.Description.Replace(' ', '_'));
             sb.AppendLine();
         }
 
@@ -80,7 +80,7 @@ public static class NoxSolutionExtensions
         Right,
     }
 
-    private static string RelationshipSymbol(EntityRelationshipType type, Side side)
+    private static string MermaidRelationshipSymbol(EntityRelationshipType type, Side side)
     {
         return type switch
         {
@@ -94,7 +94,11 @@ public static class NoxSolutionExtensions
 
     private class RelationshipPair
     {
-        public EntityRelationship? Left;
+        public EntityRelationship Left;
         public EntityRelationship? Right;
+        public RelationshipPair(EntityRelationship left)
+        {
+            Left = left;
+        }
     }
 }
