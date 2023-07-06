@@ -34,6 +34,18 @@ public class LanguageCodeTests
         languageCode2.Should().Be(languageCode1);
     }
 
+
+    [Fact]
+    public void CreatingLanguageCode_CaseDifferentLanguageCode_ReturnsEqual()
+    {
+        var languageCode1 = LanguageCode.From("en");
+
+        var languageCode2 = LanguageCode.From("EN");
+
+        languageCode2.Should().Be(languageCode1);
+    }
+
+
     [Fact]
     public void CreatingLanguageCode_DifferentLanguageCode_ReturnsUnEqual()
     {
