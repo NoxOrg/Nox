@@ -2,6 +2,7 @@
 
 using Nox.Solution;
 using System.Text;
+using YamlDotNet.Core.Tokens;
 
 namespace Nox.Docs.Extensions;
 
@@ -26,62 +27,52 @@ public static class NoxSolutionExtensions
 
         sb.AppendLine("erDiagram");
 
-        var relationshipPairs = new Dictionary<string, RelationshipPair>();
 
         foreach (var entity in noxSolution.Domain.Entities)
         {
 
+            sb.AppendLine($"    {entity.Name} {{");
+
+            if (entity.Attributes is not null && detail != ErdDetail.Summary)
+            {
+                foreach (var key in entity.Keys!)
+                {
+                    var required = " (Required)";
+                    var description = detail == ErdDetail.Detailed ? $" \"{key.Description}{required}\"" : "";
+
+                    sb.AppendLine($"        {key.Type.ToString()} {key.Name} PK{description}");
+                }
+
+                foreach (var attr in entity.Attributes)
+                {
+                    var required = attr.IsRequired ? " (Required)" : "";
+                    var description = detail == ErdDetail.Detailed ? $" \"{attr.Description}{required}\"" : "";
+
+                    sb.AppendLine($"        {attr.Type.ToString()} {attr.Name}{description}");
+                }
+
+            }
+
+            sb.AppendLine($"    }}");
+
             if (entity.Relationships is not null)
             {
-                foreach(var relationship in entity.Relationships) 
+                foreach (var relationship in entity.Relationships)
                 {
-                    var key = string.Join(',',(new [] { entity.Name, relationship.Entity }).Order().ToArray());
-
-                    if (relationshipPairs.ContainsKey(key))
+                    if (entity.Name.CompareTo(relationship.Other.Entity.Name) > 0)
                     {
-                        relationshipPairs[key].Right = relationship;
-                    }
-                    else
-                    {
-                        relationshipPairs[key] = new RelationshipPair(left: relationship);
+                        sb.Append("    ");
+                        sb.Append(entity.Name);
+                        sb.Append(MermaidRelationshipSymbol(relationship.Other.EntityRelationship.Relationship, Side.Left));
+                        sb.Append("--");
+                        sb.Append(MermaidRelationshipSymbol(relationship.Relationship, Side.Right));
+                        sb.Append(relationship.Other.Entity.Name);
+                        sb.Append(" : \"");
+                        sb.Append(relationship.Description);
+                        sb.AppendLine("\"");
                     }
                 }
             }
-
-            if (entity.Attributes is null || detail == ErdDetail.Summary)
-            {
-                sb.AppendLine($"    {entity.Name} {{");
-                sb.AppendLine($"    }}");
-                continue;
-            }
-
-            sb.AppendLine($"    {entity.Name} {{");
-            foreach (var attr in entity.Attributes)
-            {
-                var required = attr.IsRequired ? "(Required)" : "";
-                var description = detail == ErdDetail.Detailed ? $" \"{attr.Description} {required}\"": "";
-
-                sb.AppendLine($"        {attr.Type.ToString()} {attr.Name}{description}");
-            }
-            sb.AppendLine($"    }}");
-        }
-
-        foreach(var (key,value) in relationshipPairs)
-        {
-            if (value.Right is null)
-            {
-                throw new Exception($"The solution definition is invalid. {key} relationship is not defined in entity {value.Left!.Entity}");
-            }
-
-            sb.Append("    ");
-            sb.Append(value.Right.Entity);
-            sb.Append(MermaidRelationshipSymbol(value.Right.Relationship, Side.Left));
-            sb.Append("--");
-            sb.Append(MermaidRelationshipSymbol(value.Left!.Relationship, Side.Right));
-            sb.Append(value.Left.Entity);
-            sb.Append(" : \"");
-            sb.Append(value.Left.Description);
-            sb.AppendLine("\"");
         }
 
         return sb.ToString();
@@ -103,16 +94,5 @@ public static class NoxSolutionExtensions
             EntityRelationshipType.OneOrMany => side == Side.Left ? "}|" : "|{",
             _ => throw new NotImplementedException(),
         };
-    }
-
-    private class RelationshipPair
-    {
-        public EntityRelationship Left;
-
-        public EntityRelationship? Right;
-        public RelationshipPair(EntityRelationship left)
-        {
-            Left = left;
-        }
     }
 }

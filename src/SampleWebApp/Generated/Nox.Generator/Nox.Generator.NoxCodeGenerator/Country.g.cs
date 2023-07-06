@@ -87,4 +87,16 @@ public partial class Country : AuditableEntityBase
     /// The top level internet domains regitered to the country (comma-delimited) (optional).
     /// </summary>
     public Text? TopLevelDomains { get; set; } = null!;
+    
+    /// <summary>
+    /// Country accepts as legal tender OneOrMany Currencies
+    /// </summary>
+    public List<Currency> Currencies { get; set; } = null!;
+    
+    public List<Currency> CountryAcceptsCurrency => Currencies;
+    
+    /// <summary>
+    /// Country is also know as OneOrMany CountryLocalNames
+    /// </summary>
+    public List<CountryLocalNames> CountryLocalNames { get; set; } = null!;
 }

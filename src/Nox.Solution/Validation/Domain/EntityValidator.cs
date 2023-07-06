@@ -29,7 +29,7 @@ namespace Nox.Solution.Validation
                 .SetValidator(e => new EntityRelationshipValidator(e.Name, e.Relationships, _entities));
 
             RuleForEach(e => e.OwnedRelationships)
-                .SetValidator(v => new EntityRelationshipValidator(v.Name, v.OwnedRelationships, _entities));
+                .SetValidator(e => new EntityRelationshipValidator(e.Name, e.OwnedRelationships, _entities, bindToOther: false));
 
             RuleForEach(e => e.Queries)
                 .SetValidator(e => new DomainQueryValidator(e.Queries, e.Name));
@@ -58,11 +58,13 @@ namespace Nox.Solution.Validation
             
             RuleForEach(e => e.Events)
                 .SetValidator(e => new DomainEventValidator(domainEvents, appEvents, e.Name));
+
         }
         
         private bool MustHaveUniqueName(Entity toEvaluate, string name)
         {
             return _entities!.All(entity => entity.Equals(toEvaluate) || entity.Name != name);
         }
+
     }
 }

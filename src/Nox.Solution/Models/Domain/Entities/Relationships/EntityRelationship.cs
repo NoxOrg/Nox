@@ -1,5 +1,8 @@
-﻿using System;
+﻿#if !NETSTANDARD
+using System.Text.Json.Serialization;
+#endif
 using Json.Schema.Generation;
+using Nox.Solution;
 
 namespace Nox.Solution
 {
@@ -32,5 +35,16 @@ namespace Nox.Solution
         [Title("Determines whether this side of the relationship is exposed in the generated code and ODATA endpoints.")]
         [Description("This boolean controls whether this side of the relationship is exposed in the generated code and ODATA endpoints.")]
         public bool CanNavigate { get; internal set; } = true;
+
+#if !NETSTANDARD
+        [JsonIgnore]
+#endif
+        public Other Other { get; internal set; } = new();
     }
+}
+
+public class Other
+{
+    public Entity Entity { get; internal set; } = null!;
+    public EntityRelationship EntityRelationship { get; set; } = null!;
 }
