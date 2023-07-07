@@ -8,6 +8,7 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a Nox <see cref="Area"/> type and value object.
 /// </summary>
+[NoxType(NoxType.Area)]
 public class Area : ValueObject<QuantityValue, Area>
 {
     private const int QuantityValueDecimalPrecision = 6;
