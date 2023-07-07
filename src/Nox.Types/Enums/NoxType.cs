@@ -40,6 +40,7 @@ public enum NoxType
     DateTime = 25,
     DateTimeDuration = 26,
     DateTimeSchedule = 27,
+    DayOfTheWeek = 60,
     Distance = 28,
     Email = 29,
     EncryptedText = 30,
