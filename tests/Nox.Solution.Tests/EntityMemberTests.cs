@@ -15,7 +15,9 @@ public class EntityMemberTests
         var country = noxConfig.Domain.Entities[0];
         Assert.Equal("Country", country.Name);
 
-        var countryMembers = country.GetMembers().ToList();
+        var countryMembers = country.GetAllMembers().ToList();
+
+        Assert.Equal(17, countryMembers.Count);
 
     }
 

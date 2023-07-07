@@ -288,6 +288,15 @@ domain:
           relationship: zeroOrMany
           entity: Country
 
+      keys:
+
+      - name: Id
+        type: text
+        textTypeOptions:
+          isUnicode: false
+          minLength: 3
+          maxLength: 3
+
     - name: CountryLocalNames
       description: The name of a country in other languages
 

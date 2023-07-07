@@ -10,7 +10,7 @@ namespace Nox.Solution.Validation
         private readonly IEnumerable<EntityRelationship>? _relationships;
         private readonly IEnumerable<Entity>? _entities;
 
-        public EntityRelationshipValidator(string entityName, IEnumerable<EntityRelationship>? relationships, IEnumerable<Entity>? entities, bool bindToOther = true)
+        public EntityRelationshipValidator(string entityName, IEnumerable<EntityRelationship>? relationships, IEnumerable<Entity>? entities, bool bindToOtherRelationship = true)
         {
             if (relationships == null) return;
             if (entities == null) return;
@@ -39,7 +39,7 @@ namespace Nox.Solution.Validation
             RuleFor(er => er.Entity!).Must(ReferenceExistingEntity)
                 .WithMessage(er => string.Format(ValidationResources.EntityRelationshipEntityMissing, er.Name, entityName, er.Entity));
 
-            if (bindToOther)
+            if (bindToOtherRelationship)
             {
                 RuleFor(er => entityName).Must(HaveReverseRelationship)
                     .WithMessage(er => string.Format(ValidationResources.CorrespondingRelationshipMissing, er.Name, entityName, er.Entity));
@@ -53,20 +53,18 @@ namespace Nox.Solution.Validation
             return _relationships!.All(rel => rel.Equals(toEvaluate) || rel.Name != name);
         }
 
-        private bool ReferenceExistingEntity(EntityRelationship toEvaluate, string otherEntity)
+        private bool ReferenceExistingEntity(EntityRelationship toEvaluate, string otherEntityName)
         {
-           return _entities!.Any(e => e.Name == otherEntity);
+            var otherEntity = _entities?.FirstOrDefault(e => e.Name == otherEntityName);
+            toEvaluate.Related.Entity = otherEntity!;
+            return otherEntity is not null;
         }
 
         private bool HaveReverseRelationship(EntityRelationship toEvaluate, string thisEntity)
         {
-            var otherEntity = _entities?.FirstOrDefault(e => e.Name == toEvaluate.Entity);
-            toEvaluate.Related.Entity = otherEntity!;
-
             var otherRelationship = toEvaluate.Related.Entity?.Relationships?.FirstOrDefault(e => e.Entity == thisEntity);
             toEvaluate.Related.EntityRelationship = otherRelationship!;
-
-            return otherEntity is not null && otherRelationship is not null;
+            return otherRelationship is not null;
         }
     }
 }

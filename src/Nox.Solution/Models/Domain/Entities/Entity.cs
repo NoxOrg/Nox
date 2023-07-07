@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Humanizer;
 using Nox.Solution.Events;
+using YamlDotNet.Core.Tokens;
 
 namespace Nox.Solution
 {
@@ -69,13 +70,25 @@ namespace Nox.Solution
             return true;
         }
 
-        public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetMembers()
+        public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()
         {
-            if (Keys is not null)
+            if (Keys is null)
+            {
+                var key = new NoxSimpleTypeDefinition()
+                {
+                    Name = "Id",
+                    Description = $"A unique identifier for a {Name}.",
+                    Type = Types.NoxType.AutoNumber,
+                    IsRequired = true,
+                    IsReadonly = true,
+                };
+                yield return new(EntityMemberType.Key, key);
+            }
+            else
             {
                 foreach (var key in Keys)
                 {
-                    yield return new KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>(EntityMemberType.Key, key);
+                    yield return new (EntityMemberType.Key, key);
                 }
             }
 
@@ -83,7 +96,52 @@ namespace Nox.Solution
             { 
                 foreach (var attribute in Attributes)
                 {
-                    yield return new KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>(EntityMemberType.Attribute, attribute);
+                    yield return new (EntityMemberType.Attribute, attribute);
+                }
+            }
+
+            if (OwnedRelationships is not null)
+            {
+                foreach (var relationship in OwnedRelationships)
+                {
+                    if (relationship.Related.Entity?.Keys is null)
+                    {
+                        if (relationship.Relationship == EntityRelationshipType.OneOrMany || relationship.Relationship == EntityRelationshipType.ZeroOrMany)
+                        {
+                            var foreignKeyName = $"{relationship.Related.Entity!.PluralName}";
+                            var foreignKey = new NoxSimpleTypeDefinition()
+                            {
+                                Name = foreignKeyName,
+                                Description = $"A unique identifier for a {relationship.Related.Entity!.Name}.",
+                                Type = Types.NoxType.Collection,
+                                IsRequired = true,
+                                IsReadonly = true,
+                            };
+                            yield return new(EntityMemberType.OwnedRelationship, foreignKey);
+                        }
+                        else
+                        {
+                            var foreignKeyName = $"{relationship.Related.Entity!.Name}Id";
+                            var foreignKey = new NoxSimpleTypeDefinition()
+                            {
+                                Name = foreignKeyName,
+                                Description = $"A unique identifier for a {relationship.Related.Entity!.Name}.",
+                                Type = Types.NoxType.AutoNumber,
+                                IsRequired = true,
+                                IsReadonly = true,
+                            };
+                            yield return new(EntityMemberType.OwnedRelationship, foreignKey);
+                        }
+                    }
+                    else
+                    {
+                        foreach (var key in relationship.Related.Entity.Keys)
+                        {
+                            var foreignKey = key.ShallowCopy();
+                            foreignKey.Name = $"{relationship.Entity}{key.Name}";
+                            yield return new(EntityMemberType.OwnedRelationship, foreignKey);
+                        }
+                    }
                 }
             }
 
@@ -95,26 +153,34 @@ namespace Nox.Solution
                     {
                         foreach (var key in relationship.Related.Entity.Keys)
                         {
-                            yield return new KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>(EntityMemberType.Relationship, key);
+                            var foreignKey = key.ShallowCopy();
+                            foreignKey.Name = $"{relationship.Entity}{key.Name}";
+                            yield return new (EntityMemberType.Relationship, foreignKey);
                         }
                     }
                 }
             }
+        }
 
+        public IEnumerable<KeyValuePair<EntityMemberType, EntityRelationship>> GetAllRelationships()
+        {
             if (OwnedRelationships is not null)
             {
                 foreach (var relationship in OwnedRelationships)
                 {
-                    if (relationship.Related.Entity?.Keys is not null)
-                    {
-                        foreach (var key in relationship.Related.Entity.Keys)
-                        {
-                            yield return new KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>(EntityMemberType.Relationship, key);
-                        }
-                    }
+                    yield return new(EntityMemberType.OwnedRelationship, relationship);
                 }
             }
 
+            if (Relationships is not null)
+            {
+                foreach (var relationship in Relationships)
+                {
+                    yield return new(EntityMemberType.Relationship, relationship);
+                }
+            }
         }
+
     }
+
 }

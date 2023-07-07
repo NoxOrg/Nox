@@ -29,7 +29,7 @@ namespace Nox.Solution.Validation
                 .SetValidator(e => new EntityRelationshipValidator(e.Name, e.Relationships, _entities));
 
             RuleForEach(e => e.OwnedRelationships)
-                .SetValidator(e => new EntityRelationshipValidator(e.Name, e.OwnedRelationships, _entities, bindToOther: false));
+                .SetValidator(e => new EntityRelationshipValidator(e.Name, e.OwnedRelationships, _entities, bindToOtherRelationship: false));
 
             RuleForEach(e => e.Queries)
                 .SetValidator(e => new DomainQueryValidator(e.Queries, e.Name));

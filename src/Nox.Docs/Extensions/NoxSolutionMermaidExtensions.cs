@@ -14,7 +14,7 @@ public enum ErdDetail
     Detailed,
 }
 
-public static class NoxSolutionExtensions
+public static class NoxSolutionMermaidExtensions
 {
 
     public static string ToMermaidErd(this NoxSolution noxSolution, ErdDetail detail = ErdDetail.Normal)
@@ -36,7 +36,7 @@ public static class NoxSolutionExtensions
 
             if (detail != ErdDetail.Summary)
             {
-                foreach ((var type, var member) in entity.GetMembers())
+                foreach ((var type, var member) in entity.GetAllMembers())
                 {
                     string memberType = member.Type.ToString();
                     string memberName = member.Name;

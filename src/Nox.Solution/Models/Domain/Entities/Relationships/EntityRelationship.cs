@@ -39,11 +39,11 @@ namespace Nox.Solution
 #if !NETSTANDARD
         [JsonIgnore]
 #endif
-        public Other Related { get; internal set; } = new();
+        public RelatedEntityInfo Related { get; internal set; } = new();
     }
 }
 
-public class Other
+public class RelatedEntityInfo
 {
     public Entity Entity { get; internal set; } = null!;
     public EntityRelationship EntityRelationship { get; set; } = null!;
