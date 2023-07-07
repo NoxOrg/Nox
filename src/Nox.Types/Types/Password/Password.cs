@@ -11,6 +11,7 @@ namespace Nox.Types;
 /// <remarks>Placeholder, needs to be implemented</remarks>
 public sealed class Password : ValueObject<HashedText, Password>
 {
+    public Password() { Value = HashedText.From(string.Empty); }
 
     public static Password From(string value, PasswordTypeOptions options)
     {

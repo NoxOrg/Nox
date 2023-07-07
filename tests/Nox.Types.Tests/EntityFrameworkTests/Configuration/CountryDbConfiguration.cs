@@ -34,5 +34,6 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
             .Property(x => x.CountryId)
             .HasConversion<CountryCode2Converter>();
         builder.OwnsOne(e => e.HashedText).Ignore(p => p.Value);
+        builder.OwnsOne(e => e.Password).Ignore(p => p.Value).OwnsOne(e => e.Value).Ignore(p => p.Value);
     }
 }

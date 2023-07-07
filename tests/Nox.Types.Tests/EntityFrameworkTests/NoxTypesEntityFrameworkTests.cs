@@ -41,6 +41,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             LongestHikingTrailInMeters = Length.From(390_000),
             StreetAddress = CreateStreetAddress(),
             HashedText = HashedText.From("Test123."),
+            Password = Password.From("Test123."),
         };
         DbContext.Countries.Add(newItem);
         DbContext.SaveChanges();
@@ -76,7 +77,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             IPAddress = IpAddress.From("102.129.143.255"),
             LongestHikingTrailInMeters = Length.From(390_000),
             StreetAddress = streetAddress,
-            HashedText = HashedText.From(("Test123.", "salt"))
+            HashedText = HashedText.From("Test123."),
+            Password = Password.From("Test123.")
         };
         DbContext.Countries.Add(newItem);
         DbContext.SaveChanges();
@@ -113,6 +115,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(LengthTypeUnit.Meter, item.LongestHikingTrailInMeters.Unit);
         Assert.Equal(newItem.HashedText.HashText, item.HashedText.HashText);
         Assert.Equal(newItem.HashedText.Salt, item.HashedText.Salt);
+        Assert.Equal(newItem.Password, item.Password);
 
         AssertStreetAddress(streetAddress, item.StreetAddress);
     }
