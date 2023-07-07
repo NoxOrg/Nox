@@ -8,7 +8,7 @@ namespace Nox.Secrets.Tests;
 public class CacheTests
 {
     [Fact]
-    public async Task Can_Save_and_retrieve_a_secret()
+    public void Can_Save_and_retrieve_a_secret()
     {
         var services = new ServiceCollection();
         services.AddPersistedSecretStore();
@@ -16,15 +16,15 @@ public class CacheTests
         var store = provider.GetRequiredService<IPersistedSecretStore>();
         var key = "my-secret";
         var secret = "This is no secret!";
-        await store.SaveAsync(key, secret);
+        store.Save(key, secret);
         var path = Path.Combine(WellKnownPaths.SecretsCachePath, $".{key}");
         Assert.True(File.Exists(path));
-        var loaded = await store.LoadAsync(key, new TimeSpan(0, 0, 1));
+        var loaded = store.Load(key, new TimeSpan(0, 0, 1));
         Assert.Equal(loaded, secret);
     }
     
     [Fact]
-    public async Task Must_not_retrieve_an_expired_secret()
+    public void Must_not_retrieve_an_expired_secret()
     {
         var services = new ServiceCollection();
         services.AddPersistedSecretStore();
@@ -32,11 +32,11 @@ public class CacheTests
         var store = provider.GetRequiredService<IPersistedSecretStore>();
         var key = "my-secret";
         var secret = "This is no secret!";
-        await store.SaveAsync(key, secret);
+        store.Save(key, secret);
         var path = Path.Combine(WellKnownPaths.SecretsCachePath, $".{key}");
         Assert.True(File.Exists(path));
         Thread.Sleep(1000);
-        var loaded = await store.LoadAsync(key, new TimeSpan(0, 0, 1));
+        var loaded = store.Load(key, new TimeSpan(0, 0, 1));
         Assert.Null(loaded);
     }
 }

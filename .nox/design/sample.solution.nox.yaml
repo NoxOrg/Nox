@@ -10,9 +10,9 @@ description: Sample Nox solution yaml configuration
 
 variables:
   DATABASE_PROVIDER: slqServer
-  DATABASE_SERVER: localhost
+  DATABASE_SERVER: ${{ secrets.database_server }}
   DATABASE_USER: sa
-  DATABASE_PASSWORD: ${{ user.secrets.database_password }}
+  DATABASE_PASSWORD: ${{ secrets.database_password }}
   DATABASE_PORT: "5432"
 
 environments:
@@ -412,11 +412,11 @@ infrastructure:
       name: SampleCurrencyDb
 
       # Sql Server
-      serverUri: localhost
+      serverUri: ${{ env.DATABASE_SERVER }}
       provider: sqlServer
       port: 1433
       user: sa
-      password: Developer*123
+      password: ${{ env.DATABASE_PASSWORD}}
       options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;
 
       # Postgres

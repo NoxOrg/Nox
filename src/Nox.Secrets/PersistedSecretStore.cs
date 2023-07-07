@@ -44,36 +44,6 @@ public class PersistedSecretStore: IPersistedSecretStore
         return _protector.Unprotect(content);
     }
 
-#if NET7_0    
-    public Task SaveAsync(string key, string secret)
-    {
-        return File.WriteAllTextAsync(GetSecretPath(key), _protector.Protect(secret));
-    }
-
-    public async Task<string?> LoadAsync(string key, TimeSpan? validFor = null)
-    {
-        validFor ??= new TimeSpan(0, 10, 0);
-
-        var secretPath = GetSecretPath(key);
-        
-        if (!File.Exists(secretPath))
-        {
-            return null;
-        }
-
-        var fileInfo = new FileInfo(secretPath);
-        
-        if (fileInfo.CreationTime.Add(validFor.Value) < DateTime.Now)
-        {
-            File.Delete(secretPath);
-            return null;
-        }
-
-        var content = await File.ReadAllTextAsync(secretPath);
-        return _protector.Unprotect(content);
-    }
-#endif
-
     private string GetSecretPath(string key)
     {
         var path = WellKnownPaths.SecretsCachePath;

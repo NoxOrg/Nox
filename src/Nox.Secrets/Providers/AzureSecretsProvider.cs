@@ -3,13 +3,13 @@ using Azure.Security.KeyVault.Secrets;
 using Nox.Secrets.Abstractions;
 using Nox.Secrets.Helpers;
 
-namespace Nox.Secrets.Resolvers;
+namespace Nox.Secrets.Providers;
 
-public class AzureSecretResolver: ISecretResolver
+public class AzureSecretsProvider: ISecretsProvider
 {
     private readonly Uri _vaultUri;
 
-    public AzureSecretResolver(string vaultUrl)
+    public AzureSecretsProvider(string vaultUrl)
     {
         if (Uri.IsWellFormedUriString(vaultUrl, UriKind.Absolute))
         {
@@ -21,21 +21,21 @@ public class AzureSecretResolver: ISecretResolver
         }
     }
 
-    public int Precedence => 1;
-    
-    public async Task ResolveAsync(IDictionary<string, string?> secrets)
+    public async Task<IReadOnlyDictionary<string, string?>> GetSecretsAsync(string[] keys)
     {
+        var result = new Dictionary<string, string?>();
+        //todo replace this with credentials from yaml config
         var credential = await CredentialHelper.GetCredentialFromCacheOrBrowser();
 
         var secretClient = new SecretClient(_vaultUri, credential.Credential);
         try
         {
-            foreach (var key in secrets.Keys)
+            foreach (var key in keys)
             {
                 try
                 {
                     var secret = await secretClient.GetSecretAsync(key.Replace(":", "--").Replace("_", "-"));
-                    secrets[key] = secret.Value.Value;
+                    result[key] = secret.Value.Value;
                 }
                 catch 
                 {
@@ -59,11 +59,13 @@ public class AzureSecretResolver: ISecretResolver
             var errorMessage = InterpolateError();
             throw new Exception(errorMessage);
         }
+
+        return result;
     }
 
-    public void Resolve(IDictionary<string, string?> secrets)
+    public IReadOnlyDictionary<string, string?> GetSecrets(string[] keys)
     {
-        throw new Exception("Asynchronous 'ResolveAsync' method must be used for Azure secrets.");
+        throw new Exception("Asynchronous 'GetSecretsAsync' method must be used for Azure secrets.");
     }
 
 }

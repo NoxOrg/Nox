@@ -1,7 +1,8 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Secrets;
-using Nox.Secrets.Resolvers;
+using Nox.Secrets.Helpers;
+using Nox.Secrets.Providers;
 using Nox.Solution;
 
 namespace Nox;
@@ -9,7 +10,7 @@ namespace Nox;
 public static class ServiceCollectionExtension
 {
     private static NoxSolution? _solution;
-    private static UserSecretResolver? _userSecretResolver;
+    private static UserSecretsProvider? _userSecretResolver;
 
     public static NoxSolution Solution
     {
@@ -22,9 +23,10 @@ public static class ServiceCollectionExtension
     
     public static IServiceCollection AddNoxLib(this IServiceCollection services)
     {
-        //Add secret providers and resolvers
+        //Add user secret resolver
         services.AddPersistedSecretStore();
         _userSecretResolver = services.AddUserSecretResolver(Assembly.GetEntryAssembly()!);
+        
         services.AddSingleton(Solution);
         return services;
     }
@@ -35,9 +37,17 @@ public static class ServiceCollectionExtension
             .OnResolveSecrets((_, args) =>
             {
                 var yaml = args.Yaml;
+                var secretsConfig = args.SecretsConfiguration;
+
+                
+                
                 var secrets = new Dictionary<string, string?>();
                 //Resolve org secrets if any
+                
+                
                 //Resolve solution secrets if any
+                
+                
                 //Resolve the user secrets if any
                 if (_userSecretResolver != null)
                 {
@@ -48,7 +58,7 @@ public static class ServiceCollectionExtension
                     }
                 }
                 
-                _userSecretResolver!.Resolve(secrets);
+                _userSecretResolver!.GetSecrets(secrets);
                 
                 args.Secrets = secrets;
             })

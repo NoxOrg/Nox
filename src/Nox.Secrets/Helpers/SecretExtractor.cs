@@ -1,13 +1,13 @@
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 
-namespace Nox.Secrets;
+namespace Nox.Secrets.Helpers;
 
 public static class SecretExtractor
 {
-    public static List<string>? Extract(string prefix, string sourceText)
+    public static string[]? Extract(string sourceText)
     {
-        var regex = new Regex($@"\$\{{{{\s*{prefix}\.secrets\.\S+\s*\}}}}", RegexOptions.Compiled, TimeSpan.FromMilliseconds(10000));
+        var regex = new Regex(@"\$\{\{\s*secrets\.(?<variable>[\w\.\-_:]+)\s*\}\}", RegexOptions.Compiled, TimeSpan.FromMilliseconds(10000));
         MatchCollection? matched = default;
         try
         {
@@ -23,11 +23,10 @@ public static class SecretExtractor
         var result = new List<string>();
         for (var index = 0; index < matched.Count; index++)
         {
-            var match = matched[index];
-            var secretName = match.Value.Substring(3, match.Value.Length - 3 - 2).Trim();
-            result.Add(secretName);
+            var secretKey = matched[index].Groups["variable"].Value;
+            result.Add(secretKey);
         }
 
-        return result;
+        return result.ToArray();
     }
 }
