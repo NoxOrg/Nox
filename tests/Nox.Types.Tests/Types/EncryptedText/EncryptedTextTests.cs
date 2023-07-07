@@ -9,16 +9,17 @@ public class EncryptedTextTests
 {
     private readonly EncryptedTextOptions _options;
     private const string PlainText = "plain text";
+    private readonly Aes _aesAlg;
 
     public EncryptedTextTests()
     {
-        var aesAlg = Aes.Create();
+        _aesAlg = Aes.Create();
 
         _options = new EncryptedTextOptions
         {
-            PublicKey = aesAlg.Key,
+            PublicKey = _aesAlg.Key,
             EncryptionAlgorithm = EncryptionAlgorithm.Aes,
-            Iv = aesAlg.IV
+            Iv = _aesAlg.IV
         };
     }
 
@@ -54,24 +55,22 @@ public class EncryptedTextTests
     [Fact]
     public void DifferentEncryptParameters_Returns_DifferentEncryptedValue()
     {
-        var aesAlg = Aes.Create();
-
         // Change key
-        aesAlg.GenerateKey();
+        _aesAlg.GenerateKey();
         var encryptOptions1 = new EncryptedTextOptions
         {
             EncryptionAlgorithm = EncryptionAlgorithm.Aes,
-            PublicKey = aesAlg.Key,
-            Iv = aesAlg.IV
+            PublicKey = _aesAlg.Key,
+            Iv = _aesAlg.IV
         };
 
         // Change IV
-        aesAlg.GenerateIV();
+        _aesAlg.GenerateIV();
         var encryptOptions2 = new EncryptedTextOptions
         {
             EncryptionAlgorithm = EncryptionAlgorithm.Aes,
-            PublicKey = aesAlg.Key,
-            Iv = aesAlg.IV
+            PublicKey = _aesAlg.Key,
+            Iv = _aesAlg.IV
         };
 
         var encryptedText = EncryptedText.FromPlainText(PlainText, _options);
@@ -85,39 +84,6 @@ public class EncryptedTextTests
     }
 
     [Fact]
-    public void Decryption_With_DifferentOptions_ThrowsCryptographicException()
-    {
-        var aesAlg = Aes.Create();
-
-        var encryptedText = EncryptedText.FromPlainText(PlainText, _options);
-
-        aesAlg.GenerateKey();
-        var encryptOptions1 = new EncryptedTextOptions
-        {
-            EncryptionAlgorithm = EncryptionAlgorithm.Aes,
-            PublicKey = aesAlg.Key,
-            Iv = aesAlg.IV
-        };
-
-        aesAlg.GenerateIV();
-        var encryptOptions2 = new EncryptedTextOptions
-        {
-            EncryptionAlgorithm = EncryptionAlgorithm.Aes,
-            PublicKey = aesAlg.Key,
-            Iv = aesAlg.IV
-        };
-
-        var decryptedText = encryptedText.ToString(_options);
-        // Changing key
-        var actDecrypt1 = () => encryptedText.ToString(encryptOptions1);
-        // Changing IV
-        var actDecrypt2 = () => encryptedText.ToString(encryptOptions2);
-
-        actDecrypt1.Should().Throw<CryptographicException>();
-        actDecrypt2.Should().Throw<CryptographicException>();
-    }
-
-    [Fact]
     public void EncryptedText_Equals_ReturnsFalse()
     {
         var encryptedText = EncryptedText.FromPlainText(PlainText, _options);
@@ -126,5 +92,82 @@ public class EncryptedTextTests
         encryptedText.Should().NotBeNull();
         encryptedText2.Should().NotBeNull();
         encryptedText.Equals(encryptedText2).Should().BeFalse();
+    }
+
+    [Fact]
+    public void Decryption_With_DifferentOptions_ThrowsCryptographicException()
+    {
+        var encryptedText = EncryptedText.FromPlainText(PlainText, _options);
+
+        _aesAlg.GenerateKey();
+        var encryptOptionsChangingKey = new EncryptedTextOptions
+        {
+            EncryptionAlgorithm = EncryptionAlgorithm.Aes,
+            PublicKey = _aesAlg.Key,
+            Iv = _aesAlg.IV
+        };
+
+        _aesAlg.GenerateIV();
+        var encryptOptionsChangingIv = new EncryptedTextOptions
+        {
+            EncryptionAlgorithm = EncryptionAlgorithm.Aes,
+            PublicKey = _aesAlg.Key,
+            Iv = _aesAlg.IV
+        };
+
+        var decryptedText = encryptedText.ToString(_options);
+        // Changing key
+        var actDecryptChangingKey = () => encryptedText.ToString(encryptOptionsChangingKey);
+        // Changing IV
+        var actDecryptChangingIv = () => encryptedText.ToString(encryptOptionsChangingIv);
+
+        actDecryptChangingKey.Should().Throw<CryptographicException>();
+        actDecryptChangingIv.Should().Throw<CryptographicException>();
+    }
+
+    [Fact]
+    public void EncryptText_With_InvalidOptions_ThrowsArgumentException()
+    {
+        var encryptOptionsWithoutKey = new EncryptedTextOptions
+        {
+            EncryptionAlgorithm = EncryptionAlgorithm.Aes,
+            Iv = _aesAlg.IV
+        };
+
+        var encryptOptionsWithoutIv = new EncryptedTextOptions
+        {
+            EncryptionAlgorithm = EncryptionAlgorithm.Aes,
+            PublicKey = _aesAlg.Key
+        };
+
+        var actDecrypt1 = () => EncryptedText.FromPlainText(PlainText, encryptOptionsWithoutKey);
+        var actDecrypt2 = () => EncryptedText.FromPlainText(PlainText, encryptOptionsWithoutIv);
+
+        actDecrypt1.Should().Throw<ArgumentNullException>();
+        actDecrypt2.Should().Throw<ArgumentNullException>();
+    }
+
+    [Fact]
+    public void DecryptText_With_InvalidOptions_ThrowsArgumentException()
+    {
+        var encryptedText = EncryptedText.FromPlainText(PlainText, _options);
+
+        var encryptOptionsWithoutKey = new EncryptedTextOptions
+        {
+            EncryptionAlgorithm = EncryptionAlgorithm.Aes,
+            Iv = _aesAlg.IV
+        };
+
+        var encryptOptionsWithoutIv = new EncryptedTextOptions
+        {
+            EncryptionAlgorithm = EncryptionAlgorithm.Aes,
+            PublicKey = _aesAlg.Key
+        };
+
+        var actDecrypt1 = () => encryptedText.ToString(encryptOptionsWithoutKey);
+        var actDecrypt2 = () => encryptedText.ToString(encryptOptionsWithoutIv);
+
+        actDecrypt1.Should().Throw<ArgumentNullException>();
+        actDecrypt2.Should().Throw<ArgumentNullException>();
     }
 }
