@@ -22,11 +22,11 @@ public class HashedTextTests
     public void HashedText_Constructor_WithOptions_ReturnsHashedValue()
     {
         string text = "Text to hash";
+        var hashedText = HashedText.From(text, new HashedTextTypeOptions() { HashingAlgorithm = HashingAlgorithm.SHA512, SaltLength = 0 });
+
         byte[] textData = System.Text.Encoding.UTF8.GetBytes(text);
         byte[] hash = SHA512.HashData(textData);
         var textHashedExpected = Convert.ToBase64String(hash);
-
-        var hashedText = HashedText.From(text, new HashedTextTypeOptions() { HashingAlgorithm = HashingAlgorithm.SHA512, Salt = 0 });
 
         hashedText.Value.HashText.Should().Be(textHashedExpected);
     }
@@ -35,11 +35,12 @@ public class HashedTextTests
     public void HashedText_Equals_ReturnsTrue()
     {
         string text = "Text to hash";
+        var hashedText = HashedText.From(text, new HashedTextTypeOptions() { HashingAlgorithm = HashingAlgorithm.SHA512, SaltLength = 0 });
+
         byte[] textBytes = System.Text.Encoding.UTF8.GetBytes(text);
         byte[] hash = SHA512.HashData(textBytes);
         var textHashedExpected = Convert.ToBase64String(hash);
 
-        var hashedText = HashedText.From(text, new HashedTextTypeOptions() { HashingAlgorithm = HashingAlgorithm.SHA512, Salt = 0 });
         var expectedHashedText = HashedText.From((textHashedExpected, ""));
 
         hashedText.Equals(expectedHashedText).Should().BeTrue();
@@ -49,7 +50,8 @@ public class HashedTextTests
     public void HashedText_Equals_ReturnsFalse_Salting()
     {
         string text = "Text to hash";
-        var hashedText = HashedText.From(text, new HashedTextTypeOptions() { HashingAlgorithm = HashingAlgorithm.SHA512, Salt = 0 });
+
+        var hashedText = HashedText.From(text, new HashedTextTypeOptions() { HashingAlgorithm = HashingAlgorithm.SHA512, SaltLength = 0 });
         var hashedTextNoSalting = HashedText.From(text);
 
         hashedText.Equals(hashedTextNoSalting).Should().BeFalse();

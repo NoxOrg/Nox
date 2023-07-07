@@ -22,6 +22,13 @@ public sealed class HashedText : ValueObject<(string HashText, string Salt), Has
 
     public HashedText() { Value = (string.Empty, string.Empty); }
 
+    /// <summary>
+    /// Creates a new instance of <see cref="HashedText"/> object with sent <see cref="HashedTextTypeOptions"/>.
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="options"></param>
+    /// <returns>New instance of <see cref="HashedText"/></returns>
+    /// <exception cref="TypeValidationException"></exception>
     public static HashedText From(string value, HashedTextTypeOptions options)
     {
         options ??= new HashedTextTypeOptions();
@@ -38,9 +45,17 @@ public sealed class HashedText : ValueObject<(string HashText, string Salt), Has
         return newObject;
     }
 
+    /// <summary>
+    ///  Creates a new instance of <see cref="HashedText"/> object default <see cref="HashedTextTypeOptions"/>.
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns>New instance of <see cref="HashedText"/></returns>
     public static HashedText From(string value)
         => From(value, new HashedTextTypeOptions());
 
+    /// <summary>
+    /// Returns string value of HashText
+    /// </summary>
     public override string ToString() => $"{Value.HashText}";
 
     /// <summary>
@@ -56,7 +71,7 @@ public sealed class HashedText : ValueObject<(string HashText, string Salt), Has
 
         using (var hasher = CreateHasher(hashedTextTypeOptions.HashingAlgorithm))
         {
-            byte[] saltBytes = GetSalt(hashedTextTypeOptions.Salt);
+            byte[] saltBytes = GetSalt(hashedTextTypeOptions.SaltLength);
             byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
             AppendBytes(ref plainTextBytes, saltBytes);
             byte[] hashBytes = hasher.ComputeHash(plainTextBytes);
@@ -89,8 +104,10 @@ public sealed class HashedText : ValueObject<(string HashText, string Salt), Has
     private static byte[] GetSalt(int byteCount)
     {
         byte[] salt = new byte[byteCount];
-        RNGCryptoServiceProvider rng = new();
-        rng.GetBytes(salt);
+        using (var rng = RandomNumberGenerator.Create())
+        {
+            rng.GetBytes(salt);
+        }
 
         return salt;
     }
