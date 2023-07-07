@@ -497,7 +497,7 @@ infrastructure:
         validFor:
           minutes: 10
       
-      projectSecretsServer:
+      solutionSecretsServer:
         name: SampleSlnSecretServer
         provider: azureKeyVault
         serverUri: kv.iwgplc.com

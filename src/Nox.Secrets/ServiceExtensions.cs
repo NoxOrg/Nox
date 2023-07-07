@@ -1,7 +1,7 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Secrets.Abstractions;
-using Nox.Secrets.Providers;
+using Nox.Secrets.Resolvers;
 
 namespace Nox.Secrets;
 
@@ -14,17 +14,17 @@ public static class ServiceExtensions
         return services;
     }
 
-    public static IServiceCollection AddAzureSecretProvider(this IServiceCollection services, string vaultUrl)
+    public static IServiceCollection AddAzureSecretResolver(this IServiceCollection services, string vaultUrl)
     {
-        var provider = new AzureSecretProvider(vaultUrl);
-        services.AddSingleton<ISecretProvider>(provider);
+        var resolver = new AzureSecretResolver(vaultUrl);
+        services.AddSingleton<ISecretResolver>(resolver);
         return services;
     }
 
-    public static IServiceCollection AddUserSecretProvider(this IServiceCollection services, Assembly executingAssembly)
+    public static UserSecretResolver AddUserSecretResolver(this IServiceCollection services, Assembly executingAssembly)
     {
-        var provider = new UserSecretProvider(executingAssembly);
-        services.AddSingleton<ISecretProvider>(provider);
-        return services;
+        var resolver = new UserSecretResolver(executingAssembly);
+        services.AddSingleton<ISecretResolver>(resolver);
+        return resolver;
     }
 }

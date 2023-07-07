@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using Nox.Solution.Events;
@@ -16,10 +17,11 @@ namespace Nox.Solution
         private string _yamlFilePath = string.Empty;
 
         private IMacroParser _environmentVariableParser = new EnvironmentVariableMacroParser(new EnvironmentProvider());
-        
-        public event EventHandler<INoxSolutionYamlEventArgs>? ReferencesResolvedEvent;
-        public event EventHandler<INoxSolutionYamlEventArgs>? MacrosExpandedEvent;
+        private IMacroParser _userSecretParser = new UserSecretMacroParser();
 
+        public delegate void ResolveSecretsEventHandler(object sender, INoxSolutionSecretsEventArgs args);
+        public event ResolveSecretsEventHandler? OnResolveSecretsEvent;
+        
         public NoxSolutionBuilder UseYamlFile(string yamlFilePath)
         {
             _yamlFilePath = Path.GetFullPath(yamlFilePath);
@@ -32,15 +34,15 @@ namespace Nox.Solution
             return this;
         }
 
-        public NoxSolutionBuilder OnReferencesResolved(EventHandler<INoxSolutionYamlEventArgs> handler)
+        public NoxSolutionBuilder UseUserSecretMacroParser(UserSecretMacroParser parser)
         {
-            ReferencesResolvedEvent += handler;
+            _userSecretParser = parser;
             return this;
         }
-        
-        public NoxSolutionBuilder OnMacrosExpanded(EventHandler<INoxSolutionYamlEventArgs> handler)
+
+        public NoxSolutionBuilder OnResolveSecrets(ResolveSecretsEventHandler handler)
         {
-            MacrosExpandedEvent += handler;
+            OnResolveSecretsEvent += handler;
             return this;
         }
 
@@ -70,9 +72,10 @@ namespace Nox.Solution
         {
             var resolver = new YamlReferenceResolver(_yamlFilePath);
             var yamlRef = resolver.ResolveReferences();
-            RaiseReferencesResolvedEvent(yamlRef);
-            var yaml = ExpandMacros(yamlRef);
-            RaiseMacrosExpandedEvent(yaml);
+            var resolveSecretsArgs = new NoxSolutionSecretsEventArgs(yamlRef);
+            RaiseResolveSecretsEvent(resolveSecretsArgs);
+            var yaml = _userSecretParser.Parse(yamlRef, resolveSecretsArgs.Secrets);
+            yaml = ExpandEnvironmentMacros(yaml);
             var config = NoxSchemaValidator.Deserialize<NoxSolution>(yaml);
             config.RootYamlFile = _yamlFilePath;
             return config;
@@ -152,7 +155,7 @@ namespace Nox.Solution
             return null;
         }
 
-        private string ExpandMacros(string yaml)
+        private string ExpandEnvironmentMacros(string yaml)
         {
             var definitionVariableParser = new DefinitionVariableParser();
             var variables = definitionVariableParser.Parse(yaml);
@@ -161,15 +164,22 @@ namespace Nox.Solution
 
             return yaml;
         }
-
-        private void RaiseReferencesResolvedEvent(string yaml)
+        
+        private string ExpandOrganizationSecrets(string yaml)
         {
-            ReferencesResolvedEvent?.Invoke(this, new NoxSolutionYamlEventArgs(yaml));
+            return yaml;
         }
 
-        private void RaiseMacrosExpandedEvent(string yaml)
+        private string ExpandSolutionSecrets(string yaml)
         {
-            MacrosExpandedEvent?.Invoke(this, new NoxSolutionYamlEventArgs(yaml));
+            return yaml;
         }
+ 
+
+        private void RaiseResolveSecretsEvent(NoxSolutionSecretsEventArgs args)
+        {
+            OnResolveSecretsEvent?.Invoke(this, args);
+        }
+
     }
 }

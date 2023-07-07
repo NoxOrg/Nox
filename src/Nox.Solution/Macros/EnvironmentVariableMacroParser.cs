@@ -23,7 +23,7 @@ public class EnvironmentVariableMacroParser: IMacroParser
             .Build();
     }
 
-    public string Parse(string text, IReadOnlyDictionary<string, string>? locals = null)
+    public string Parse(string text, IReadOnlyDictionary<string, string?>? values = null)
     {
         var parsed = text;
         MatchCollection? matched = default;
@@ -50,9 +50,9 @@ public class EnvironmentVariableMacroParser: IMacroParser
 
             var environmentValue = _environmentProvider.GetEnvironmentVariable(variableName);
             
-            if (string.IsNullOrWhiteSpace(environmentValue) && locals != null && locals.ContainsKey(variableName))
+            if (string.IsNullOrWhiteSpace(environmentValue) && values != null && values.ContainsKey(variableName))
             {
-                environmentValue = locals[variableName];
+                environmentValue = values[variableName];
             }
 
             if (environmentValue != null)

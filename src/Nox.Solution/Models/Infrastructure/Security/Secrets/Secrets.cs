@@ -12,7 +12,7 @@ namespace Nox.Solution
         [Title("The organization secrets server.")]
         [Description("Specify the provider and server attributes for secrets stored at an organizational level (org.secret.<secret_key>).")]
         [AdditionalProperties(false)]
-        public SecretsServer? OrgSecretsServer { get; internal set; }
+        public SecretsServer? OrganizationSecretsServer { get; internal set; }
         
         [Title("The solution secrets server.")]
         [Description("Specify the provider and server attributes for secrets stored at a solution level (solution.secret.<secret_key>).")]

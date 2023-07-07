@@ -7,8 +7,8 @@ namespace Nox.Solution.Validation
     {
         public SecretsValidator(IEnumerable<ServerBase>? servers)
         {
-            RuleFor(p => p.OrgSecretsServer!)
-                .SetValidator(v => new SecretsServerValidator(servers, v.OrgSecretsServer!.Name));
+            RuleFor(p => p.OrganizationSecretsServer!)
+                .SetValidator(v => new SecretsServerValidator(servers, v.OrganizationSecretsServer!.Name));
 
             RuleFor(p => p.SolutionSecretsServer!)
                 .SetValidator(v => new SecretsServerValidator(servers, v.SolutionSecretsServer!.Name));

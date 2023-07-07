@@ -351,14 +351,14 @@ public class SolutionDeserializationTests
         
         Assert.NotNull(noxConfig.Infrastructure.Security);
         Assert.NotNull(noxConfig.Infrastructure.Security.Secrets);
-        Assert.NotNull(noxConfig.Infrastructure.Security.Secrets!.OrgSecretsServer);
-        Assert.Equal("SampleOrgSecretServer", noxConfig.Infrastructure.Security.Secrets!.OrgSecretsServer!.Name);
-        Assert.Equal(SecretsServerProvider.AzureKeyVault, noxConfig.Infrastructure.Security.Secrets!.OrgSecretsServer!.Provider);
-        Assert.Equal("kv.iwgplc.com", noxConfig.Infrastructure.Security.Secrets!.OrgSecretsServer!.ServerUri);
-        Assert.Equal("secrets@iwgplc.com", noxConfig.Infrastructure.Security.Secrets!.OrgSecretsServer!.User);
-        Assert.Equal("SecretPassword", noxConfig.Infrastructure.Security.Secrets!.OrgSecretsServer!.Password);
-        Assert.NotNull(noxConfig.Infrastructure.Security.Secrets!.OrgSecretsServer!.ValidFor);
-        Assert.Equal(10, noxConfig.Infrastructure.Security.Secrets!.OrgSecretsServer!.ValidFor!.Minutes);
+        Assert.NotNull(noxConfig.Infrastructure.Security.Secrets!.OrganizationSecretsServer);
+        Assert.Equal("SampleOrgSecretServer", noxConfig.Infrastructure.Security.Secrets!.OrganizationSecretsServer!.Name);
+        Assert.Equal(SecretsServerProvider.AzureKeyVault, noxConfig.Infrastructure.Security.Secrets!.OrganizationSecretsServer!.Provider);
+        Assert.Equal("kv.iwgplc.com", noxConfig.Infrastructure.Security.Secrets!.OrganizationSecretsServer!.ServerUri);
+        Assert.Equal("secrets@iwgplc.com", noxConfig.Infrastructure.Security.Secrets!.OrganizationSecretsServer!.User);
+        Assert.Equal("SecretPassword", noxConfig.Infrastructure.Security.Secrets!.OrganizationSecretsServer!.Password);
+        Assert.NotNull(noxConfig.Infrastructure.Security.Secrets!.OrganizationSecretsServer!.ValidFor);
+        Assert.Equal(10, noxConfig.Infrastructure.Security.Secrets!.OrganizationSecretsServer!.ValidFor!.Minutes);
         
         Assert.NotNull(noxConfig.Infrastructure.Security.Secrets!.SolutionSecretsServer);
         Assert.Equal("SampleSlnSecretServer", noxConfig.Infrastructure.Security.Secrets!.SolutionSecretsServer!.Name);

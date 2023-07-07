@@ -12,7 +12,7 @@ variables:
   DATABASE_PROVIDER: slqServer
   DATABASE_SERVER: localhost
   DATABASE_USER: sa
-  DATABASE_PASSWORD: Developer*123
+  DATABASE_PASSWORD: ${{ user.secrets.database_password }}
   DATABASE_PORT: "5432"
 
 environments:
@@ -522,7 +522,7 @@ infrastructure:
         validFor:
           minutes: 10
       
-      projectSecretsServer:
+      solutionSecretsServer:
         name: SampleSlnSecretServer
         provider: azureKeyVault
         serverUri: kv.iwgplc.com

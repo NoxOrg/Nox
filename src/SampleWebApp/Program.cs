@@ -2,10 +2,11 @@ using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Nox;
 using Nox.Solution;
+using SampleWebApp;
+using SampleWebApp.Examples;
 using SampleWebApp.Infrastructure.Persistence;
 
 var builder = WebApplication.CreateBuilder(args);
-builder.AddNox();
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -15,7 +16,7 @@ builder.Services.AddSwaggerGen();
 
 //ODataConfiguration.Register(builder.Services);
 
-builder.Services.AddNox();
+builder.AddNox();
 
 var app = builder.Build();
 
