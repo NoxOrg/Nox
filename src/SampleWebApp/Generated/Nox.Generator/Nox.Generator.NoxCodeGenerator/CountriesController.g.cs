@@ -7,19 +7,41 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
+using SampleWebApp.Application;
+using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 using SampleWebApp.Infrastructure.Persistence;
 using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-public class CountriesController : ODataController
+public partial class CountriesController : ODataController
 {
-    SampleWebAppDbContext _databaseContext;
-
-    public CountriesController(SampleWebAppDbContext databaseContext)
+    
+    /// <summary>
+    /// The OData DbContext for CRUD operations.
+    /// </summary>
+    protected readonly ODataDbContext _databaseContext;
+    
+    /// <summary>
+    /// Returns a list of countries for a given continent.
+    /// </summary>
+    protected readonly GetCountriesByContinentQueryBase _getCountriesByContinent;
+    
+    /// <summary>
+    /// Instructs the service to collect updated population statistics.
+    /// </summary>
+    protected readonly UpdatePopulationStatisticsCommandHandlerBase _updatePopulationStatistics;
+    
+    public CountriesController(
+        ODataDbContext databaseContext,
+        GetCountriesByContinentQueryBase getCountriesByContinent,
+        UpdatePopulationStatisticsCommandHandlerBase updatePopulationStatistics
+    )
     {
         _databaseContext = databaseContext;
+        _getCountriesByContinent = getCountriesByContinent;
+        _updatePopulationStatistics = updatePopulationStatistics;
     }
     
     [EnableQuery]
@@ -31,13 +53,13 @@ public class CountriesController : ODataController
     [EnableQuery]
     public ActionResult<Country> Get([FromRoute] string key)
     {
-        var parsedKey = Text.From(key);
-        var item = _databaseContext.Countries.SingleOrDefault(d => d.Id.Equals(parsedKey));
+        var item = _databaseContext.Countries.SingleOrDefault(d => d.Id.Equals(key));
         
         if (item == null)
         {
             return NotFound();
         }
+        
         return Ok(item);
     }
     
@@ -62,12 +84,13 @@ public class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var parsedKey = Text.From(key);
-        if (parsedKey != updatedCountry.Id)
+        if (key != updatedCountry.Id)
         {
             return BadRequest();
         }
+        
         _databaseContext.Entry(updatedCountry).State = EntityState.Modified;
+        
         try
         {
             await _databaseContext.SaveChangesAsync();
@@ -83,6 +106,7 @@ public class CountriesController : ODataController
                 throw;
             }
         }
+        
         return Updated(updatedCountry);
     }
     
@@ -93,13 +117,15 @@ public class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var parsedKey = Text.From(key);
-        var entity = await _databaseContext.Countries.FindAsync(parsedKey);
+        var entity = await _databaseContext.Countries.FindAsync(key);
+        
         if (entity == null)
         {
             return NotFound();
         }
+        
         country.Patch(entity);
+        
         try
         {
             await _databaseContext.SaveChangesAsync();
@@ -115,19 +141,18 @@ public class CountriesController : ODataController
                 throw;
             }
         }
+        
         return Updated(entity);
     }
     
     private bool CountryExists(string key)
     {
-        var parsedKey = Text.From(key);
-        return _databaseContext.Countries.Any(p => p.Id == parsedKey);
+        return _databaseContext.Countries.Any(p => p.Id == key);
     }
     
     public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var parsedKey = Text.From(key);
-        var country = await _databaseContext.Countries.FindAsync(parsedKey);
+        var country = await _databaseContext.Countries.FindAsync(key);
         if (country == null)
         {
             return NotFound();
@@ -136,5 +161,25 @@ public class CountriesController : ODataController
         _databaseContext.Countries.Remove(country);
         await _databaseContext.SaveChangesAsync();
         return NoContent();
+    }
+    
+    /// <summary>
+    /// Returns a list of countries for a given continent.
+    /// </summary>
+    [HttpGet("GetCountriesByContinent")]
+    public async Task<IResult> GetCountriesByContinentAsync(Text continentName)
+    {
+        var result = await _getCountriesByContinent.ExecuteAsync(continentName);
+        return Results.Ok(result);
+    }
+    
+    /// <summary>
+    /// Instructs the service to collect updated population statistics.
+    /// </summary>
+    [HttpPost("UpdatePopulationStatistics")]
+    public async Task<IResult> UpdatePopulationStatisticsAsync(UpdatePopulationStatistics command)
+    {
+        var result = await _updatePopulationStatistics.ExecuteAsync(command);
+        return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);
     }
 }

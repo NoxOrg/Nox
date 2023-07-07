@@ -49,7 +49,7 @@ public class QueryTests: IClassFixture<GeneratorFixture>
         Assert.True(generatedSources.Any(s => s.HintName == "EntityBase.g.cs"), "EntityBase.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "AuditableEntityBase.g.cs"), "AuditableEntityBase.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "CountryInfo.g.cs"), "CountryInfo.g.cs not generated");
-        Assert.True(generatedSources.Any(s => s.HintName == "GetCountriesByContinentQuery.g.cs"), "GetCountriesByContinentQuery.g.cs not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == "GetCountriesByContinentQueryBase.g.cs"), "GetCountriesByContinentQuery.g.cs not generated");
         //can further extend this test to verify contents of source files.
     }
 }

@@ -3,6 +3,12 @@ using Microsoft.EntityFrameworkCore;
 using Nox;
 using Nox.Solution;
 using SampleWebApp.Infrastructure.Persistence;
+using SampleWebApp.Presentation.Api.OData;
+
+using SampleWebApp.Application;
+using SampleWebApp.Application.DataTransferObjects;
+using SampleWebApp.Domain;
+using Nox.Abstractions;
 
 var builder = WebApplication.CreateBuilder(args);
 builder.AddNox();
@@ -13,9 +19,13 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-//ODataConfiguration.Register(builder.Services);
-
 builder.Services.AddNox();
+
+builder.Services.AddScoped<GetCountriesByContinentQueryBase, GetCountriesByContinentQuery>();
+builder.Services.AddScoped<UpdatePopulationStatisticsCommandHandlerBase, UpdatePopulationStatisticsCommandHandler>();
+builder.Services.AddScoped<INoxMessenger, NoxMessenger>();
+
+ODataConfiguration.Register(builder.Services);
 
 var app = builder.Build();
 
