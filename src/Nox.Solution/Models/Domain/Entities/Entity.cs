@@ -68,5 +68,53 @@ namespace Nox.Solution
             if (string.IsNullOrWhiteSpace(PluralName)) PluralName = Name.Pluralize();
             return true;
         }
+
+        public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetMembers()
+        {
+            if (Keys is not null)
+            {
+                foreach (var key in Keys)
+                {
+                    yield return new KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>(EntityMemberType.Key, key);
+                }
+            }
+
+            if (Attributes is not null ) 
+            { 
+                foreach (var attribute in Attributes)
+                {
+                    yield return new KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>(EntityMemberType.Attribute, attribute);
+                }
+            }
+
+            if (Relationships is not null)
+            {
+                foreach (var relationship in Relationships)
+                {
+                    if (relationship.Related.Entity?.Keys is not null)
+                    {
+                        foreach (var key in relationship.Related.Entity.Keys)
+                        {
+                            yield return new KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>(EntityMemberType.Relationship, key);
+                        }
+                    }
+                }
+            }
+
+            if (OwnedRelationships is not null)
+            {
+                foreach (var relationship in OwnedRelationships)
+                {
+                    if (relationship.Related.Entity?.Keys is not null)
+                    {
+                        foreach (var key in relationship.Related.Entity.Keys)
+                        {
+                            yield return new KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>(EntityMemberType.Relationship, key);
+                        }
+                    }
+                }
+            }
+
+        }
     }
 }

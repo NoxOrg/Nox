@@ -61,10 +61,10 @@ namespace Nox.Solution.Validation
         private bool HaveReverseRelationship(EntityRelationship toEvaluate, string thisEntity)
         {
             var otherEntity = _entities?.FirstOrDefault(e => e.Name == toEvaluate.Entity);
-            toEvaluate.Other.Entity = otherEntity!;
+            toEvaluate.Related.Entity = otherEntity!;
 
-            var otherRelationship = toEvaluate.Other.Entity?.Relationships?.FirstOrDefault(e => e.Entity == thisEntity);
-            toEvaluate.Other.EntityRelationship = otherRelationship!;
+            var otherRelationship = toEvaluate.Related.Entity?.Relationships?.FirstOrDefault(e => e.Entity == thisEntity);
+            toEvaluate.Related.EntityRelationship = otherRelationship!;
 
             return otherEntity is not null && otherRelationship is not null;
         }

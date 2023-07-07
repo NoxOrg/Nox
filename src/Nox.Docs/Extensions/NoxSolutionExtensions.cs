@@ -1,6 +1,7 @@
 ﻿
 
 using Nox.Solution;
+using System;
 using System.Text;
 using YamlDotNet.Core.Tokens;
 
@@ -33,24 +34,18 @@ public static class NoxSolutionExtensions
 
             sb.AppendLine($"    {entity.Name} {{");
 
-            if (entity.Attributes is not null && detail != ErdDetail.Summary)
+            if (detail != ErdDetail.Summary)
             {
-                foreach (var key in entity.Keys!)
+                foreach ((var type, var member) in entity.GetMembers())
                 {
-                    var required = " (Required)";
-                    var description = detail == ErdDetail.Detailed ? $" \"{key.Description}{required}\"" : "";
+                    string memberType = member.Type.ToString();
+                    string memberName = member.Name;
+                    string required = member.IsRequired ? " (Required)" : string.Empty; ;
+                    string description = detail == ErdDetail.Detailed ? $" \"{member.Description}{required}\"" : string.Empty; ;
+                    string keyType = type == EntityMemberType.Key ? " PK" : (keyType = type == EntityMemberType.Relationship ? " FK": string.Empty );
 
-                    sb.AppendLine($"        {key.Type.ToString()} {key.Name} PK{description}");
+                    sb.AppendLine($"        {memberType} {memberName}{keyType}{description}");
                 }
-
-                foreach (var attr in entity.Attributes)
-                {
-                    var required = attr.IsRequired ? " (Required)" : "";
-                    var description = detail == ErdDetail.Detailed ? $" \"{attr.Description}{required}\"" : "";
-
-                    sb.AppendLine($"        {attr.Type.ToString()} {attr.Name}{description}");
-                }
-
             }
 
             sb.AppendLine($"    }}");
@@ -59,14 +54,15 @@ public static class NoxSolutionExtensions
             {
                 foreach (var relationship in entity.Relationships)
                 {
-                    if (entity.Name.CompareTo(relationship.Other.Entity.Name) > 0)
+                    // Just pick one of the two sides arbritarily - using sort order here
+                    if (entity.Name.CompareTo(relationship.Related.Entity.Name) > 0)
                     {
                         sb.Append("    ");
                         sb.Append(entity.Name);
-                        sb.Append(MermaidRelationshipSymbol(relationship.Other.EntityRelationship.Relationship, Side.Left));
+                        sb.Append(MermaidRelationshipSymbol(relationship.Related.EntityRelationship.Relationship, Side.Left));
                         sb.Append("--");
                         sb.Append(MermaidRelationshipSymbol(relationship.Relationship, Side.Right));
-                        sb.Append(relationship.Other.Entity.Name);
+                        sb.Append(relationship.Related.Entity.Name);
                         sb.Append(" : \"");
                         sb.Append(relationship.Description);
                         sb.AppendLine("\"");

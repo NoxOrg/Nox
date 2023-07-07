@@ -281,6 +281,11 @@ domain:
     - name: Currency
       description: The list of currencies
 
+      keys:
+
+        - name: Id
+          type: currencyCode
+
       relationships:
 
         - name: CurrencyIsLegalTenderForCountry

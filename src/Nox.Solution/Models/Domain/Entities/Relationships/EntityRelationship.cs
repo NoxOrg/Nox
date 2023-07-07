@@ -39,7 +39,7 @@ namespace Nox.Solution
 #if !NETSTANDARD
         [JsonIgnore]
 #endif
-        public Other Other { get; internal set; } = new();
+        public Other Related { get; internal set; } = new();
     }
 }
 
