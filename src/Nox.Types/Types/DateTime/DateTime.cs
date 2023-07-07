@@ -161,6 +161,11 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
         var result = base.Validate();
 
         // validate date by options
+        if(_dateTimeTypeOptions.AllowFutureOnly && Value < System.DateTime.Now)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DateTime type as value {Value} is in the past"));
+        }
+
         if (Value < _dateTimeTypeOptions.MinValue)
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DateTime type as value {Value} is less than the minimum specified value of {_dateTimeTypeOptions.MinValue}"));
@@ -174,12 +179,6 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
         return result;
     }
 
-    /// <summary>
-    /// 
-    /// </summary>
-    /// <param name="dt"></param>
-    /// <param name="ts"></param>
-    /// <returns></returns>
     public static DateTime operator +(DateTime dt, TimeSpan ts)
     {
         System.DateTime newDateTime = dt.Value.Add(ts);

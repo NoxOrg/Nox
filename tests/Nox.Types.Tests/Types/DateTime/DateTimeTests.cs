@@ -16,6 +16,15 @@ public class DateTimeTests
     }
 
     [Fact]
+    public void From_WithDateTimeTypeOptions_InvalidValue_ThrowsException()
+    {
+        DateTimeTypeOptions dateTimeTypeOptions = new() { AllowFutureOnly = true };
+        Action comparison = () => DateTime.From(dateTimeTypeOptions, 2000, 01, 01);
+
+        comparison.Should().Throw<TypeValidationException>();
+    }
+
+    [Fact]
     public void From_WithYearTypeOptions_InvalidValue_ThrowsException()
     {
         DateTimeTypeOptions dateTimeTypeOptions = new() { MaxValue = new System.DateTime(2022, 01, 01) };
