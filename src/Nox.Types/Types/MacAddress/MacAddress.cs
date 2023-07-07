@@ -9,7 +9,6 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a Nox <see cref="MacAddress"/> type and value object.
 /// </summary>
-/// <remarks>Placeholder, needs to be implemented</remarks>
 public sealed class MacAddress : ValueObject<string, MacAddress>
 {
     private const int MacAddressLengthInBytes = 6;
@@ -17,12 +16,12 @@ public sealed class MacAddress : ValueObject<string, MacAddress>
     /// <summary>
     /// Creates a new instance of <see cref="MacAddress"/> object.
     /// </summary>
-    /// <param name="value">The string value to create the <see cref="MacAddress"/> with</param>
+    /// <param name="macAddressText">The string value to create the <see cref="MacAddress"/> with</param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
-    public new static MacAddress From(string value)
+    public new static MacAddress From(string macAddressText)
     {
-        TryParse(value, out string macAddressValue);
+        TryParse(macAddressText, out string macAddressValue);
 
         var newObject = new MacAddress
         {
@@ -42,24 +41,24 @@ public sealed class MacAddress : ValueObject<string, MacAddress>
     /// <summary>
     /// Creates a new instance of <see cref="MacAddress"/> object.
     /// </summary>
-    /// <param name="value">The ulong value to create the <see cref="MacAddress"/> with</param>
+    /// <param name="macAddressHexNumber">The ulong value to create the <see cref="MacAddress"/> with</param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
-    public static MacAddress From(ulong value)
+    public static MacAddress From(ulong macAddressHexNumber)
     {
-        var macAddressValue = PadToMacAddressLength(value.ToString("X2", CultureInfo.InvariantCulture));
+        var macAddressValue = PadToMacAddressLength(macAddressHexNumber.ToString("X2", CultureInfo.InvariantCulture));
         return From(macAddressValue);
     }
 
     /// <summary>
     /// Creates a new instance of <see cref="MacAddress"/> object.
     /// </summary>
-    /// <param name="value">The byte array value to create the <see cref="MacAddress"/> with</param>
+    /// <param name="macAddressBytes">The byte array value to create the <see cref="MacAddress"/> with</param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
-    public static MacAddress From(byte[] value)
+    public static MacAddress From(byte[] macAddressBytes)
     {
-        var macAddressValue = ConvertToHexString(value);
+        var macAddressValue = ConvertToHexString(macAddressBytes);
         return From(macAddressValue);
     }
 
