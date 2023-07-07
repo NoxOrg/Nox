@@ -18,8 +18,8 @@ public class DateTimeTests
     [Fact]
     public void From_WithYearTypeOptions_InvalidValue_ThrowsException()
     {
-        YearTypeOptions yearTypeOptions = new() { MaxValue = 2022 };
-        Action comparison = () => DateTime.From(yearTypeOptions, 2023, 01, 01);
+        DateTimeTypeOptions dateTimeTypeOptions = new() { MaxValue = new System.DateTime(2022, 01, 01) };
+        Action comparison = () => DateTime.From(dateTimeTypeOptions, 2023, 01, 01);
 
         comparison.Should().Throw<TypeValidationException>();
     }
@@ -101,7 +101,6 @@ public class DateTimeTests
     [Fact]
     public void OperatorPlus_ReturnsValue_TestCopy()
     {
-
         var datetimeOriginalExpected = System.DateTime.UtcNow;
         var datetimeOriginal = DateTime.From(System.DateTime.UtcNow);
         var timeSpan = TimeSpan.FromDays(20);
@@ -127,11 +126,11 @@ public class DateTimeTests
     [Fact]
     public void Add_ReturnsCorrcetValueValue()
     {
-        var datetimeOriginal = DateTime.From(System.DateTime.UtcNow);
+        var datetime = DateTime.From(System.DateTime.UtcNow);
         var timeSpan = TimeSpan.FromDays(20);
 
-        var datetimeExpected = datetimeOriginal + timeSpan;
-        var datetime = datetimeOriginal.Add(timeSpan);
+        var datetimeExpected = datetime + timeSpan;
+        datetime.Add(timeSpan);
 
         datetime.Year.Should().Be(datetimeExpected.Year);
         datetime.Month.Should().Be(datetimeExpected.Month);
@@ -144,11 +143,12 @@ public class DateTimeTests
     [Fact]
     public void Add_NegativeValue_ReturnsCorrcetValueValue()
     {
-        var datetimeOriginal = DateTime.From(System.DateTime.UtcNow);
+        var datetimeExpectedOriginal = System.DateTime.UtcNow;
+        var datetime = DateTime.From(datetimeExpectedOriginal);
         var timeSpan = TimeSpan.FromDays(-20);
 
-        var datetimeExpected = datetimeOriginal.Add(timeSpan);
-        var datetime = datetimeOriginal.Add(timeSpan);
+        var datetimeExpected = datetimeExpectedOriginal.Add(timeSpan);
+        datetime.Add(timeSpan);
 
         datetime.Year.Should().Be(datetimeExpected.Year);
         datetime.Month.Should().Be(datetimeExpected.Month);
