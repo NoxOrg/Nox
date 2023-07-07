@@ -1,6 +1,6 @@
 using Azure.Core;
 using Azure.Identity;
-using Nox.Utilities.Configuration;
+using Nox.Abstractions.Configuration;
 
 namespace Nox.Secrets.Helpers;
 

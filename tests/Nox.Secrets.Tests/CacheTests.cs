@@ -1,4 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
+using Nox.Abstractions.Configuration;
+using Nox.Secrets.Abstractions;
+using File = System.IO.File;
 
 namespace Nox.Secrets.Tests;
 
@@ -14,8 +17,7 @@ public class CacheTests
         var key = "my-secret";
         var secret = "This is no secret!";
         await store.SaveAsync(key, secret);
-        var nuid = new Nuid(key).ToHex();
-        var path = Path.Combine(WellKnownPaths.SecretsCachePath, $".{nuid}");
+        var path = Path.Combine(WellKnownPaths.SecretsCachePath, $".{key}");
         Assert.True(File.Exists(path));
         var loaded = await store.LoadAsync(key, new TimeSpan(0, 0, 1));
         Assert.Equal(loaded, secret);
@@ -31,8 +33,7 @@ public class CacheTests
         var key = "my-secret";
         var secret = "This is no secret!";
         await store.SaveAsync(key, secret);
-        var nuid = new Nuid(key).ToHex();
-        var path = Path.Combine(WellKnownPaths.SecretsCachePath, $".{nuid}");
+        var path = Path.Combine(WellKnownPaths.SecretsCachePath, $".{key}");
         Assert.True(File.Exists(path));
         Thread.Sleep(1000);
         var loaded = await store.LoadAsync(key, new TimeSpan(0, 0, 1));

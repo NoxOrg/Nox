@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.DataProtection;
+using Nox.Abstractions.Configuration;
 using Nox.Secrets.Abstractions;
-using Nox.Utilities.Configuration;
-using Nox.Utilities.Identifier;
+using File = System.IO.File;
 
 namespace Nox.Secrets;
 
@@ -18,79 +18,70 @@ public class PersistedSecretStore: IPersistedSecretStore
 
     public void Save(string key, string secret)
     {
-        var path = WellKnownPaths.SecretsCachePath;
-     
-        Directory.CreateDirectory(path);
-        
-        var keyNuid = new Nuid(key).ToHex();
-        
-        path = Path.Combine(path, $".{keyNuid}");
-
-        File.WriteAllText(path, _protector.Protect(secret));
+        File.WriteAllText(GetSecretPath(key), _protector.Protect(secret));
     }
 
     public string? Load(string key, TimeSpan? validFor = null)
     {
         validFor ??= new TimeSpan(0, 10, 0);
 
-        var keyNuid = new Nuid(key).ToHex();
+        var secretPath = GetSecretPath(key);
         
-        var path = Path.Combine(WellKnownPaths.SecretsCachePath, $".{keyNuid}");
-        
-        if (!File.Exists(path))
+        if (!File.Exists(secretPath))
         {
             return null;
         }
 
-        var fileInfo = new FileInfo(path);
+        var fileInfo = new FileInfo(secretPath);
         
         if (fileInfo.CreationTime.Add(validFor.Value) < DateTime.Now)
         {
-            File.Delete(path);
+            File.Delete(secretPath);
             return null;
         }
 
-        var content = File.ReadAllText(path);
+        var content = File.ReadAllText(secretPath);
         return _protector.Unprotect(content);
     }
 
 #if NET7_0    
     public Task SaveAsync(string key, string secret)
     {
-        var path = WellKnownPaths.SecretsCachePath;
-     
-        Directory.CreateDirectory(path);
-        
-        var keyNuid = new Nuid(key).ToHex();
-        
-        path = Path.Combine(path, $".{keyNuid}");
-        
-        return File.WriteAllTextAsync(path, _protector.Protect(secret));
+        return File.WriteAllTextAsync(GetSecretPath(key), _protector.Protect(secret));
     }
 
     public async Task<string?> LoadAsync(string key, TimeSpan? validFor = null)
     {
         validFor ??= new TimeSpan(0, 10, 0);
 
-        var keyNuid = new Nuid(key).ToHex();
+        var secretPath = GetSecretPath(key);
         
-        var path = Path.Combine(WellKnownPaths.SecretsCachePath, $".{keyNuid}");
-        
-        if (!File.Exists(path))
+        if (!File.Exists(secretPath))
         {
             return null;
         }
 
-        var fileInfo = new FileInfo(path);
+        var fileInfo = new FileInfo(secretPath);
         
         if (fileInfo.CreationTime.Add(validFor.Value) < DateTime.Now)
         {
-            File.Delete(path);
+            File.Delete(secretPath);
             return null;
         }
 
-        var content = await File.ReadAllTextAsync(path);
+        var content = await File.ReadAllTextAsync(secretPath);
         return _protector.Unprotect(content);
     }
 #endif
+
+    private string GetSecretPath(string key)
+    {
+        var path = WellKnownPaths.SecretsCachePath;
+        Directory.CreateDirectory(path);
+        //Todo implement once Nuid Nox type is available
+        //var keyNuid = Nuid.From(key);
+        //path = Path.Combine(path, $".{keyNuid}");
+
+        return Path.Combine(path, $".{key}");
+    }
 }
