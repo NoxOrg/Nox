@@ -104,4 +104,9 @@ public sealed class Country
     /// Gets or sets the Local Time Zone.
     /// </summary>
     public TimeZoneCode LocalTimeZone { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the AverageTemperature.
+    /// </summary>
+    public Temperature? AverageTemperature { get; set; } = null!;
 }

@@ -37,5 +37,6 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
             .Ignore(p => p.Value)
             .Property(x => x.CountryId)
             .HasConversion<CountryCode2Converter>();
+        builder.OwnsOne(e => e.AverageTemperature).Ignore(p => p.Value);
     }
 }
