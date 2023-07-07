@@ -12354,7 +12354,8 @@
               }
             },
             "required": [
-              "name"
+              "name",
+              "keys"
             ],
             "title": "The entities that describe the domain.",
             "description": "The collection of entities and their relationships with each other.",
