@@ -10,9 +10,13 @@ public class CodeAnalysisSolutionFixture : IAsyncLifetime
     private const string SolutionPath = "src/Nox.Generator.sln";
 
     public Microsoft.CodeAnalysis.Solution Solution { get; private set; } = null!;
+    public ProjectDependencyGraph ProjectDependencyGraph { get; private set; } = null!;
+
     public Project NoxTypesProject { get; private set; } = null!;
     public Project NoxSolutionNet7 { get; private set; } = null!;
     public Project NoxSolutionNetStd20 { get; private set; } = null!;
+    public Project NoxGenerator { get; private set; } = null!;
+
 
     public async Task InitializeAsync()
     {
@@ -22,9 +26,12 @@ public class CodeAnalysisSolutionFixture : IAsyncLifetime
 
         Solution = await workspace.OpenSolutionAsync(GetSolutionFile());
 
+        ProjectDependencyGraph = Solution.GetProjectDependencyGraph();
+
         NoxTypesProject = Solution.Projects.Single(project => project.Name == "Nox.Types");
         NoxSolutionNet7 = Solution.Projects.Single(project => project.Name == "Nox.Solution(net7.0)");
         NoxSolutionNetStd20 = Solution.Projects.Single(project => project.Name == "Nox.Solution(netstandard2.0)");
+        NoxGenerator = Solution.Projects.Single(project => project.Name == "Nox.Generator");
     }
 
     public Task DisposeAsync()
