@@ -17,7 +17,7 @@ public class ImageTests
         // Assert
         Assert.Equal(url, image.Url);
         Assert.Equal(prettyName, image.PrettyName);
-        Assert.Equal(size, image.Size);
+        Assert.Equal(size, image.SizeInBytes);
     }
 
     [Theory]
@@ -43,7 +43,53 @@ public class ImageTests
 
         // Assert
         Assert.NotNull(exception);
-        Assert.Equal($"Could not create a Nox Image type with an image having an invalid extension '{url}'.", exception.Errors[0].ErrorMessage);
+        Assert.Equal($"Could not create a Nox Image type with an image having an unsupported extension '{url}'.", exception.Errors[0].ErrorMessage);
+    }
+    
+    [Fact]
+    public void Image_WithInvalidUrl_ShouldBeInvalid()
+    {
+        // Arrange & Act
+        var exception = Assert.Throws<TypeValidationException>(() => _ = Image.From("invalid url", "Image1", 100));
+
+        // Assert
+        Assert.NotNull(exception);
+        Assert.Equal($"Could not create a Nox Image type with an invalid Url 'invalid url'.", exception.Errors[0].ErrorMessage);
+    }
+    
+    [Fact]
+    public void Image_With_Unsupported_Extension_ShouldBeInvalid()
+    {
+        // Arrange &
+        
+        var imageTypeOptions = new ImageTypeOptions
+        {
+            ImageFormatTypes = new List<ImageFormatType> { ImageFormatType.Jpeg, ImageFormatType.Bmp }
+        };
+        // Act
+        var exception = Assert.Throws<TypeValidationException>(() => _ = Image.From("https://example.com/image.png", "Image1", 100, imageTypeOptions));
+
+        // Assert
+        Assert.NotNull(exception);
+        Assert.Equal($"Could not create a Nox Image type with an image having an unsupported extension 'https://example.com/image.png'.", exception.Errors[0].ErrorMessage);
+    }
+    
+    [Fact]
+    public void Image_With_Supported_Extension_ShouldBeValid()
+    {
+        // Arrange &
+        
+        var imageTypeOptions = new ImageTypeOptions
+        {
+            ImageFormatTypes = new() { ImageFormatType.Jpeg, ImageFormatType.Bmp }
+        };
+        // Act
+        var image = Image.From("https://example.com/image.jpg", "Image1", 100, imageTypeOptions);
+        var image2 = Image.From("https://example.com/image.bmp", "Image2", 100, imageTypeOptions);
+
+        // Assert
+        Assert.NotNull(image);
+        Assert.NotNull(image2);
     }
     
     [Fact]
@@ -77,11 +123,12 @@ public class ImageTests
     [Fact]
     public void ToString_WithValidValues_ShouldReturnString()
     {
+
         // Arrange & Act
         var image = Image.From("https://example.com/image.jpg", "Image1", 100);
 
         // Assert
-        Assert.Equal("Image1", image.ToString());
+        Assert.Equal("Image1: https://example.com/image.jpg", image.ToString());
     }
     
 }

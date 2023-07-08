@@ -113,7 +113,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(LengthTypeUnit.Meter, item.LongestHikingTrailInMeters.Unit);
         Assert.Equal("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/320px-Flag_of_Switzerland.svg.png", item.Flag.Url);
         Assert.Equal("Switzerland Flag", item.Flag.PrettyName);
-        Assert.Equal(512, item.Flag.Size);
+        Assert.Equal(512, item.Flag.SizeInBytes);
 
         AssertStreetAddress(streetAddress, item.StreetAddress);
     }
