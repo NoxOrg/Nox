@@ -1,0 +1,12 @@
+using FluentAssertions;
+namespace Nox.Types.Tests.Types;
+public class NoxUriTests
+{
+    [Fact]
+    public void NoxUri_ShouldBe_SameAs_SystemUri()
+    {
+        var expected = new Uri("http://www.regus.com");
+        var actual = NoxUri.From(expected);
+        actual.Value.Should().Be(expected);
+    }
+}
