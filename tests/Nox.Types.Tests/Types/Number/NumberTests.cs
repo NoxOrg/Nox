@@ -95,39 +95,24 @@ public class NumberTests
         Assert.Equal(testDecimal, number.Value);
     }
 
-    [Fact]
-    public void Number_Constructor_UsingIntegralNumberTypes_ReturnsBestUnderlyingType()
+    // NOTE: Created from 'long' but will fit in 'int' based on NumberTypeOptions.DefaultMaxValue and NumberTypeOptions.DefaultMinValue
+    [Theory]
+    [InlineData((byte)42, typeof(decimal))]
+    [InlineData((short)3, typeof(decimal))]
+    [InlineData(3, typeof(decimal))]
+    [InlineData((long)3, typeof(decimal))]
+    [InlineData(long.MaxValue - 3, typeof(decimal))]
+    [InlineData(3.141592, typeof(double))]
+    public void Number_Constructor_UsingIntegralNumberTypes_ReturnsBestUnderlyingType(dynamic testValue, Type expectedType)
     {
-        Number number;
+        var number = Number.From(testValue);
+        Assert.Equal(expectedType, number.GetUnderlyingType());
+    }
 
-        byte testByte = 42;
-        number = Number.From(testByte);
-        Assert.Equal(typeof(decimal), number.GetUnderlyingType());
-
-        short testShort = 3;
-        number = Number.From(testShort);
-        Assert.Equal(typeof(decimal), number.GetUnderlyingType());
-
-        int testInt32 = 3;
-        number = Number.From(testInt32);
-        Assert.Equal(typeof(decimal), number.GetUnderlyingType());
-
-        // NOTE: Created from 'long' but will fit in 'int' based on NumberTypeOptions.DefaultMaxValue and NumberTypeOptions.DefaultMinValue
-        long testInt64 = 3;
-        number = Number.From(testInt64);
-        Assert.Equal(typeof(decimal), number.GetUnderlyingType());
-
-        long testInt64_big = long.MaxValue - 3;
-        number = Number.From(testInt64_big);
-        Assert.Equal(typeof(decimal), number.GetUnderlyingType());
-
-        // NOTE: double will become decimal
-        double testDouble = 3.141592;
-        number = Number.From(testDouble);
-        Assert.Equal(typeof(decimal), number.GetUnderlyingType());
-
-        decimal testDecimal = 3.14m;
-        number = Number.From(testDecimal);
+    [Fact]
+    public void Number_Constructor_UsingIntegralNumberTypesDecimal_ReturnsBestUnderlyingType()
+    {
+        var number = Number.From(3.14m);
         Assert.Equal(typeof(decimal), number.GetUnderlyingType());
     }
 }

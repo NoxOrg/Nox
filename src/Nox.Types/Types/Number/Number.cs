@@ -65,25 +65,21 @@ public sealed class Number : ValueObject<QuantityValue, Number>
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Number type a value {Value} is greater than than the maximum specified value of {_numberTypeOptions.MaxValue}"));
         }
 
-        Value = Math.Round(((decimal)Value), (int)_numberTypeOptions.DecimalDigits);
+        var decimalDigits = (int)_numberTypeOptions.DecimalDigits;
+        if (Value.IsDecimal)
+        {
+            Value = Math.Round((decimal)Value, decimalDigits);
+        }
+        else
+        {
+            Value = Math.Round((double)Value, decimalDigits);
+        }
 
         return result;
     }
 
     public override Type GetUnderlyingType()
     {
-        if (_numberTypeOptions.DecimalDigits == 0)
-        {
-            if (_numberTypeOptions.MaxValue <= byte.MaxValue && _numberTypeOptions.MinValue >= byte.MinValue)
-                return typeof(byte);
-
-            if (_numberTypeOptions.MaxValue <= short.MaxValue && _numberTypeOptions.MinValue >= short.MinValue)
-                return typeof(short);
-            else if (_numberTypeOptions.MaxValue <= int.MaxValue && _numberTypeOptions.MinValue >= int.MinValue)
-                return typeof(int);
-            else if (_numberTypeOptions.MaxValue <= long.MaxValue && _numberTypeOptions.MinValue >= long.MinValue)
-                return typeof(long);
-        }
         return Value.Type switch
         {
             QuantityValue.UnderlyingDataType.Double => typeof(double),
