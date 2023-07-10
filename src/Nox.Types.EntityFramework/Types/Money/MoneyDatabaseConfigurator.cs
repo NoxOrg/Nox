@@ -12,13 +12,10 @@ public class MoneyDatabaseConfigurator : INoxTypeDatabaseConfigurator
         // TODO: Default values from static property in the Nox.Type
         var typeOptions = property.MoneyTypeOptions ?? new MoneyTypeOptions();
 
-        if (isKey)
-        {
-            builder.HasKey(property.Name);
-        }
-
         builder
             .OwnsOne(typeof(Money), property.Name)
             .Ignore(nameof(Money.Value));
     }
+
+    public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
 }

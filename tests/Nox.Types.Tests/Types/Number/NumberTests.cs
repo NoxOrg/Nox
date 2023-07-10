@@ -97,20 +97,20 @@ public class NumberTests
 
     // NOTE: Created from 'long' but will fit in 'int' based on NumberTypeOptions.DefaultMaxValue and NumberTypeOptions.DefaultMinValue
     [Theory]
-    [InlineData((byte)42, typeof(decimal))]
-    [InlineData((short)3, typeof(decimal))]
-    [InlineData(3, typeof(decimal))]
-    [InlineData((long)3, typeof(decimal))]
-    [InlineData(long.MaxValue - 3, typeof(decimal))]
-    [InlineData(3.141592, typeof(double))]
-    public void Number_Constructor_UsingIntegralNumberTypes_ReturnsBestUnderlyingType(dynamic testValue, Type expectedType)
+    [InlineData((byte)42)]
+    [InlineData((short)3)]
+    [InlineData(3)]
+    [InlineData((long)3)]
+    [InlineData(long.MaxValue - 3)]
+    [InlineData(3.141592)]
+    public void Number_Constructor_UsingIntegralNumberTypes_ReturnsDoubleUnderlyingType(dynamic testValue)
     {
         var number = Number.From(testValue);
-        Assert.Equal(expectedType, number.GetUnderlyingType());
+        Assert.Equal(typeof(double), number.GetUnderlyingType());
     }
 
     [Fact]
-    public void Number_Constructor_UsingIntegralNumberTypesDecimal_ReturnsBestUnderlyingType()
+    public void Number_Constructor_UsingIntegralNumberTypesDecimal_ReturnsDecimalUnderlyingType()
     {
         var number = Number.From(3.14m);
         Assert.Equal(typeof(decimal), number.GetUnderlyingType());
