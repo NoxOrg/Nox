@@ -95,19 +95,26 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
     // If we later change to use decimal more, we should revisit this.
     /// <summary>Implicit cast from <see cref="byte"/> to <see cref="QuantityValue"/>.</summary>
     public static implicit operator QuantityValue(byte val) => new QuantityValue((double)val);
+
     /// <summary>Implicit cast from <see cref="short"/> to <see cref="QuantityValue"/>.</summary>
     public static implicit operator QuantityValue(short val) => new QuantityValue((double)val);
+
     /// <summary>Implicit cast from <see cref="int"/> to <see cref="QuantityValue"/>.</summary>
     public static implicit operator QuantityValue(int val) => new QuantityValue((double)val);
+
     /// <summary>Implicit cast from <see cref="long"/> to <see cref="QuantityValue"/>.</summary>
     public static implicit operator QuantityValue(long val) => new QuantityValue((double)val);
+
     /// <summary>Implicit cast from <see cref="float"/> to <see cref="QuantityValue"/>.</summary>
     public static implicit operator QuantityValue(float val) => new QuantityValue(val); // double
+
     /// <summary>Implicit cast from <see cref="double"/> to <see cref="QuantityValue"/>.</summary>
     public static implicit operator QuantityValue(double val) => new QuantityValue(val); // double
+
     /// <summary>Implicit cast from <see cref="decimal"/> to <see cref="QuantityValue"/>.</summary>
     public static implicit operator QuantityValue(decimal val) => new QuantityValue(val); // decimal
-    #endregion
+
+    #endregion To QuantityValue
 
     #region To Numeric types
 
@@ -165,7 +172,7 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
             _ => throw new NotImplementedException()
         };
 
-    #endregion
+    #endregion To Numeric types
 
     #region Operators and Comparators
 
@@ -273,7 +280,7 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
     public int CompareTo(object? obj)
     {
         if (obj is null) throw new ArgumentNullException(nameof(obj));
-        if (!(obj is QuantityValue other)) throw new ArgumentException("Expected type QuantityValue.", nameof(obj));
+        if (obj is not QuantityValue other) throw new ArgumentException("Expected type QuantityValue.", nameof(obj));
 
         return CompareTo(other);
     }
@@ -321,7 +328,7 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
         }
     }
 
-    #endregion
+    #endregion Operators and Comparators
 
     internal ValidationResult Validate()
     {
@@ -407,6 +414,7 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
     {
         /// <summary><see cref="Decimal"/> must have the value 0 due to the bit structure of <see cref="decimal"/>.</summary>
         Decimal = 0,
+
         /// <inheritdoc cref="double"/>
         Double = 1
     }

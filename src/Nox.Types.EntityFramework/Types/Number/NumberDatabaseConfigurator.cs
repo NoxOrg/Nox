@@ -22,27 +22,27 @@ public class NumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
             .HasConversion(GetConverter(typeOptions));
     }
 
-    public Type GetConverter(NumberTypeOptions typeOptions)
+    private static Type GetConverter(NumberTypeOptions typeOptions)
     {
         if (typeOptions.DecimalDigits == 0) // integer
         {
             //see https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/integral-numeric-types
-            if (typeOptions is { MaxValue: <= byte.MaxValue, MinValue: >= byte.MinValue })
+            if (typeOptions.MaxValue <= byte.MaxValue && typeOptions.MinValue >= byte.MinValue)
             {
                 return typeof(NumberToByteConverter);
             }
 
-            if (typeOptions is { MaxValue: <= short.MaxValue, MinValue: >= short.MinValue })
+            if (typeOptions.MaxValue <= short.MaxValue && typeOptions.MinValue >= short.MinValue)
             {
                 return typeof(NumberToShortConverter);
             }
 
-            if (typeOptions is { MaxValue: <= int.MaxValue, MinValue: >= int.MinValue })
+            if (typeOptions.MaxValue <= int.MaxValue && typeOptions.MinValue >= int.MinValue)
             {
                 return typeof(NumberToInt32Converter);
             }
 
-            if (typeOptions is { MaxValue: <= long.MaxValue, MinValue: >= long.MinValue })
+            if (typeOptions.MaxValue <= long.MaxValue && typeOptions.MinValue >= long.MinValue)
             {
                 return typeof(NumberToInt64Converter);
             }

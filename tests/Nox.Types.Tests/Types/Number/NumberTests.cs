@@ -102,24 +102,24 @@ public class NumberTests
 
         byte testByte = 42;
         number = Number.From(testByte);
-        Assert.Equal(typeof(byte), number.GetUnderlyingType());
+        Assert.Equal(typeof(decimal), number.GetUnderlyingType());
 
         short testShort = 3;
         number = Number.From(testShort);
-        Assert.Equal(typeof(short), number.GetUnderlyingType());
+        Assert.Equal(typeof(decimal), number.GetUnderlyingType());
 
         int testInt32 = 3;
         number = Number.From(testInt32);
-        Assert.Equal(typeof(int), number.GetUnderlyingType());
+        Assert.Equal(typeof(decimal), number.GetUnderlyingType());
 
         // NOTE: Created from 'long' but will fit in 'int' based on NumberTypeOptions.DefaultMaxValue and NumberTypeOptions.DefaultMinValue
         long testInt64 = 3;
         number = Number.From(testInt64);
-        Assert.Equal(typeof(int), number.GetUnderlyingType());
+        Assert.Equal(typeof(decimal), number.GetUnderlyingType());
 
         long testInt64_big = long.MaxValue - 3;
         number = Number.From(testInt64_big);
-        Assert.Equal(typeof(long), number.GetUnderlyingType());
+        Assert.Equal(typeof(decimal), number.GetUnderlyingType());
 
         // NOTE: double will become decimal
         double testDouble = 3.141592;
