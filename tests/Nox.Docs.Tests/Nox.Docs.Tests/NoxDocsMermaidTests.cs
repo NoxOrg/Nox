@@ -33,7 +33,7 @@ public class NoxDocsMermaidTests
                     Text GeoWorldRegion
                     Number Population
                     Text TopLevelDomains
-                    Collection CountryLocalNames
+                    Text CountryLocalNamesId
                     Text CurrencyId FK
                 }
                 Currency {
@@ -42,7 +42,7 @@ public class NoxDocsMermaidTests
                 }
                 Currency}|--o{Country : "is legal tender for"
                 CountryLocalNames {
-                    AutoNumber Id PK
+                    Text Id PK
                 }
                 CurrencyCashBalance {
                     Entity Store PK
