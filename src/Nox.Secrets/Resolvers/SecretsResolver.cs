@@ -3,24 +3,30 @@ using Nox.Secrets.Abstractions;
 using Nox.Secrets.Providers;
 using Nox.Secrets.Resolvers;
 using Nox.Solution;
+using Nox.Solution.Exceptions;
 
 namespace Nox.Secrets;
 
 public class SecretsResolver: ISecretsResolver
 {
-    private readonly ISecretsProvider? _userSecretsProvider;
     private readonly IPersistedSecretStore _store;
-    private readonly Solution.Secrets _secretsConfig;
+    private ISecretsProvider? _userSecretsProvider;
+    private Solution.Secrets? _secretsConfig;
 
-    public SecretsResolver(IPersistedSecretStore store, Solution.Secrets secretsConfig, Assembly executingAssembly)
+    public SecretsResolver(IPersistedSecretStore store)
     {
         _store = store;
-        _userSecretsProvider = new UserSecretsProvider(executingAssembly);
-        _secretsConfig = secretsConfig;
+    }
+
+    public void Configure(Solution.Secrets configuration, Assembly? assemblyWithSecrets = null)
+    {
+        _secretsConfig = configuration;
+        _userSecretsProvider = new UserSecretsProvider(assemblyWithSecrets ?? Assembly.GetExecutingAssembly());
     }
 
     public IReadOnlyDictionary<string, string?> Resolve(string[] keys)
     {
+        if (_secretsConfig == null) throw new Exception("Secrets resolver has not been initialized. Please call the ISecretResolver.Initialize method before attempting to resolve any secrets.");
         var result = new Dictionary<string, string?>();
         var orgSecrets = ResolveOrganizationSecrets(keys);
         if (orgSecrets != null) SetSecrets(orgSecrets!, result);
@@ -33,7 +39,7 @@ public class SecretsResolver: ISecretsResolver
 
     private IReadOnlyDictionary<string, string?>? ResolveOrganizationSecrets(string[] keys)
     {
-        if (_secretsConfig.OrganizationSecretsServer != null)
+        if (_secretsConfig!.OrganizationSecretsServer != null)
         {
             switch (_secretsConfig.OrganizationSecretsServer.Provider)
             {
@@ -48,7 +54,7 @@ public class SecretsResolver: ISecretsResolver
 
     private IReadOnlyDictionary<string, string?>? ResolveSolutionSecrets(string[] keys)
     {
-        if (_secretsConfig.SolutionSecretsServer != null)
+        if (_secretsConfig!.SolutionSecretsServer != null)
         {
             switch (_secretsConfig.SolutionSecretsServer.Provider)
             {

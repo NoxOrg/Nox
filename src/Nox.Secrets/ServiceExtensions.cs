@@ -1,5 +1,6 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 using Nox.Secrets.Abstractions;
 using Nox.Secrets.Providers;
 using Nox.Secrets.Resolvers;
@@ -9,21 +10,17 @@ namespace Nox.Secrets;
 
 public static class ServiceExtensions
 {
-    public static IServiceCollection AddPersistedSecretStore(this IServiceCollection services)
+    internal static IServiceCollection AddPersistedSecretStore(this IServiceCollection services)
     {
         services.AddDataProtection();
         services.AddSingleton<IPersistedSecretStore, PersistedSecretStore>();
         return services;
     }
 
-    
-    
-    
-
-    public static UserSecretsProvider AddUserSecretResolver(this IServiceCollection services, Assembly executingAssembly)
+    public static IServiceCollection AddSecretsResolver(this IServiceCollection services)
     {
-        var resolver = new UserSecretsProvider(executingAssembly);
-        services.AddSingleton<ISecretsProvider>(resolver);
-        return resolver;
+        services.AddPersistedSecretStore();
+        services.TryAddSingleton<ISecretsResolver, SecretsResolver>();
+        return services;
     }
 }
