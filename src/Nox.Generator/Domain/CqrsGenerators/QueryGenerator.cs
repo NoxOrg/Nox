@@ -31,7 +31,7 @@ public class QueryGenerator
 
     private static void GenerateQuery(SourceProductionContext context, string solutionNameSpace, DomainQuery qry)
     {
-        var className = qry.Name.EnsureEndsWith("Query");
+        var className = qry.Name.EnsureEndsWith("QueryBase");
 
         var code = new CodeBuilder($"{className}.g.cs", context);
 
@@ -50,7 +50,7 @@ public class QueryGenerator
         code.StartBlock();
 
         var dbContextName = $"{solutionNameSpace}{DbContextName}";
-        AddProperty(code, dbContextName, DbContextName, "Represents the DB context.");
+        AddField(code, dbContextName, DbContextName, "Represents the DB context.");
 
         // Add constructor
         AddConstructor(code, className, new Dictionary<string, string> {

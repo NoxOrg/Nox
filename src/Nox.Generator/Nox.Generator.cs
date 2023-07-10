@@ -1,12 +1,10 @@
-﻿using FluentValidation;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Nox.Generator.Application.DtoGenerator;
 using Nox.Generator.Application.EventGenerator;
 using Nox.Generator.Common;
 using Nox.Generator.Domain.CqrsGenerators;
 using Nox.Generator.Domain.DomainEventGenerator;
-using Nox.Generator.Presentation.Rest;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
@@ -14,9 +12,11 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using Nox.Generator.Infrastructure.Persistence.DbContextGenerator;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
+using Nox.Generator.Presentation.Api;
 
 namespace Nox.Generator;
 
@@ -59,6 +59,8 @@ public class NoxCodeGenerator : IIncrementalGenerator
             if (TryGetGeneratorConfig(noxYamls, out var generate) && TryGetNoxSolution(noxYamls, out var solution))
             {
                 var solutionNameSpace = solution.Name;
+                
+                ServiceCollectionExtensionGenerator.Generate(context, solution);
 
                 if (generate.Domain)
                 {
@@ -77,16 +79,14 @@ public class NoxCodeGenerator : IIncrementalGenerator
 
                 if (generate.Infrastructure)
                 {
-                    DbContextGenerator.Generate(context, solutionNameSpace, solution);
+                    DbContextGenerator.Generate(context, solution);
                 }
 
                 if (generate.Presentation)
                 {
                     ODataConfigurationGenerator.Generate(context, solutionNameSpace, solution);
 
-                    ODataApiGenerator.Generate(context, solutionNameSpace, solution);
-
-                    ApiControllerGenerator.Generate(context, solutionNameSpace, solution);
+                    ApiGenerator.Generate(context, solutionNameSpace, solution);
                 }
 
                 if (generate.Application)
@@ -95,14 +95,11 @@ public class NoxCodeGenerator : IIncrementalGenerator
                     ApplicationEventGenerator.Generate(context, solutionNameSpace, solution);
                 }
             }
-
-
         }
         catch (Exception e)
         {
             _errors.Add(e.Message);
         }
-
 
         if (_errors.Any())
         {

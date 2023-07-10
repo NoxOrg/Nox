@@ -1,0 +1,57 @@
+#
+# workplace.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../../schemas/solution.json
+#
+
+
+name: SampleServiceWithMacrosAndLocalVariables
+
+description: Sample Nox solution yaml configuration
+
+variables:
+  CACHE_USER: redisUser
+  CACHE_PASSWORD: redisPassword
+  DB_PASSWORD: dbPassword
+
+infrastructure:
+  
+  persistence:
+
+    databaseServer:
+      name: SampleCurrencyDb
+      serverUri: sqlserver.iwgplc.com
+      provider: sqlServer
+      port: 1433
+      user: ${{ env.DB_USER }}
+      password: ${{env.DB_PASSWORD }}
+
+    cacheServer:
+      name: SampleCache
+      provider: azureRedis
+      serverUri: redis.iwgplc.com
+      user: ${{      env.CACHE_USER         }}
+      password: ${{ env.CACHE_PASSWORD}}
+
+  messaging:
+
+    integrationEventServer:
+      name: IntegrationBus
+      provider: rabbitMq
+      serverUri: rabbitmq://localhost
+      port: 5672
+      user: guest
+      password: guest
+
+  security:
+    secrets:
+      secretsServer:
+        name: SampleSecretServer
+        provider: azureKeyVault
+        serverUri: kv.iwgplc.com
+        user: ${{   env.SECRETS_USER }}
+        password: ${{ env.SECRETS_PASSWORD   }}
+      validFor:
+        minutes: 10
+
+

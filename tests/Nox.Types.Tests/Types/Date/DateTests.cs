@@ -143,7 +143,7 @@ public class DateTests
     {
         var date = Date.From(2023, 07, 10, new());
 
-        date.DayOfWeek.Should().Be(DayOfWeek.Monday);
+        date.DayOfWeek.Should().Be(System.DayOfWeek.Monday);
         date.DayOfYear.Should().Be(191);
     }
 

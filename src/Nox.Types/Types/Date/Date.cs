@@ -72,11 +72,29 @@ public class Date : ValueObject<DateTime, Date>
         return result;
     }
 
+    /// <summary>
+    /// Gets the year of the date.
+    /// </summary>
     public int Year => Value.Year;
+
+    /// <summary>
+    /// Gets the month of the date.
+    /// </summary>
     public int Month => Value.Month;
+
+    /// <summary>
+    /// Gets the day of the date.
+    /// </summary>
     public int Day => Value.Day;
 
-    public DayOfWeek DayOfWeek => Value.DayOfWeek;
+    /// <summary>
+    /// Gets the day of week.
+    /// </summary>
+    public System.DayOfWeek DayOfWeek => Value.DayOfWeek;
+
+    /// <summary>
+    /// Gets the day of year.
+    /// </summary>
     public int DayOfYear => Value.DayOfYear;
 
     public override string ToString()
