@@ -69,7 +69,7 @@ public class NoxDocsMermaidTests
         var expectedResult = """
             erDiagram
                 Country {
-                    Text Id PK " (Required)"
+                    Text Id PK ""
                     Text Name "The country's common name (Required)"
                     Text FormalName "The country's official name (Required)"
                     Text AlphaCode3 "The country's official ISO 4217 alpha-3 code (Required)"
@@ -85,11 +85,16 @@ public class NoxDocsMermaidTests
                     Text GeoWorldRegion "The world region the country is in (Required)"
                     Number Population "The estimated population of the country"
                     Text TopLevelDomains "The top level internet domains regitered to the country (comma-delimited)"
+                    Text CountryLocalNamesId ""
+                    Text CurrencyId FK ""
                 }
                 Currency {
+                    Text Id PK ""
+                    Text CountryId FK ""
                 }
                 Currency}|--o{Country : "is legal tender for"
                 CountryLocalNames {
+                    Text Id PK ""
                 }
                 CurrencyCashBalance {
                     Entity Store PK " (Required)"
