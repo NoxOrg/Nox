@@ -30,11 +30,9 @@ public class LanguageCodeBenchmarks
 
     [Benchmark]
     [Arguments("aa")]  // first in set
-    [Arguments("af")]  // middle of set
-    [Arguments("en")]  // last in set
-    [Arguments("ki")]  // not in set
-    [Arguments("zu")]
-    [Arguments("zz")] // Not in set
+    [Arguments("ki")]  // middle of set
+    [Arguments("zu")]  // last in set
+    [Arguments("zz")]  // not in set
     public bool ValidateLanguageCode_WithHasgSet(string code) => _languageCodes.Contains(code);
 }
 
