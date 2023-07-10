@@ -73,26 +73,11 @@ namespace Nox.Solution
 
         public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()
         {
-            if (Keys is null)
+            foreach (var key in Keys!)
             {
-                var key = new NoxSimpleTypeDefinition()
-                {
-                    Name = "Id",
-                    Description = $"A unique identifier for a {Name}.",
-                    Type = Types.NoxType.AutoNumber,
-                    IsRequired = true,
-                    IsReadonly = true,
-                };
-                yield return new(EntityMemberType.Key, key);
+                yield return new (EntityMemberType.Key, key);
             }
-            else
-            {
-                foreach (var key in Keys)
-                {
-                    yield return new (EntityMemberType.Key, key);
-                }
-            }
-
+            
             if (Attributes is not null ) 
             { 
                 foreach (var attribute in Attributes)
