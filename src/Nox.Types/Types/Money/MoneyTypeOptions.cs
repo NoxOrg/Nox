@@ -1,11 +1,8 @@
-﻿using Json.Schema.Generation;
-using Nox.Types;
-
-namespace Nox.Solution
+﻿
+namespace Nox.Types
 {
 
-    [AdditionalProperties(false)]
-    public class MoneyTypeOptions : DefinitionBase
+    public class MoneyTypeOptions 
     {
         public int DecimalDigits { get; internal set; } = 4;
 

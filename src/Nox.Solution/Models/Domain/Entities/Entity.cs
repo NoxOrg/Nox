@@ -55,6 +55,7 @@ namespace Nox.Solution
         [AdditionalProperties(false)]
         public IReadOnlyList<DomainEvent>? Events { get; internal set; }
 
+        [Required]
         [Title("Keys for this entity.")]
         [Description("Define one or more keys for this entity.")]
         public IReadOnlyList<NoxSimpleTypeDefinition>? Keys { get; internal set; }

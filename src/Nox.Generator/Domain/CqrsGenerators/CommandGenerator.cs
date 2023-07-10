@@ -52,10 +52,10 @@ public class CommandGenerator
 
         // Add Db Context
         var dbContextName = $"{solutionNameSpace}{DbContextName}";
-        AddProperty(code, dbContextName, DbContextName, "Represents the DB context.");
+        AddField(code, dbContextName, DbContextName, "Represents the DB context.");
 
         // Add Messanger
-        AddProperty(code, "INoxMessenger", "Messenger", "Represents the Nox messenger.");
+        AddField(code, "INoxMessenger", "Messenger", "Represents the Nox messenger.");
 
         // Add constructor
         AddConstructor(code, className, new Dictionary<string, string>
@@ -90,7 +90,7 @@ public class CommandGenerator
         code.AppendLine($@"public async Task Send{eventName}DomainEventAsync({eventName} domainEvent)");
         code.StartBlock();
         code.AppendLine(
-            $@"await Messenger.SendMessageAsync(new string[] {{ ""{DefaultMessagingProvider}"" }}, domainEvent);");
+            $@"await _messenger.SendMessageAsync(new string[] {{ ""{DefaultMessagingProvider}"" }}, domainEvent);");
         code.EndBlock();
     }
 }
