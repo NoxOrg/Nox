@@ -30,7 +30,7 @@ public class DateTests
     [Fact]
     public void From_WithYearMonthDayInput_ReturnsValue()
     {
-        var date = Date.From(2023, 4, 12);
+        var date = Date.From(2023, 4, 12, new());
 
         date.Value.Should().Be(new DateTime(2023, 4, 12).Date);
         date.Value.Hour.Should().Be(0);
@@ -131,7 +131,7 @@ public class DateTests
     [Fact]
     public void YearMonthDayProperties_WithValidDateObject_ShouldReturnValue()
     {
-        var date = Date.From(2023, 07, 10);
+        var date = Date.From(2023, 07, 10, new());
 
         date.Day.Should().Be(10);
         date.Month.Should().Be(7);
@@ -141,7 +141,7 @@ public class DateTests
     [Fact]
     public void DayOfWeekAndDayOfYearProperties_WithValidDateObject_ShouldReturnValue()
     {
-        var date = Date.From(2023, 07, 10);
+        var date = Date.From(2023, 07, 10, new());
 
         date.DayOfWeek.Should().Be(DayOfWeek.Monday);
         date.DayOfYear.Should().Be(191);

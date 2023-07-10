@@ -41,15 +41,6 @@ public class Date : ValueObject<DateTime, Date>
         return newObject;
     }
 
-    public new static Date From(DateTime dateTime)
-        => From(dateTime, CreateateTypeOptionsThatFitValue(dateTime));
-
-    public static Date From(int year, int month, int day)
-    {
-        var dateTime = new DateTime(year, month, day);
-        return From(dateTime, CreateateTypeOptionsThatFitValue(dateTime));
-    }
-
     /// <summary>
     /// Creates a new instance of <see cref="Date"/> object.
     /// </summary>
@@ -137,11 +128,4 @@ public class Date : ValueObject<DateTime, Date>
 
     private bool IsValidDateOnlyFormat(string format)
         => format.IndexOfAny(TimeComponentsInDateTimeFormat) == -1;
-
-    private static DateTypeOptions CreateateTypeOptionsThatFitValue(DateTime dateTime)
-        => new()
-        {
-            MinValue = dateTime < DateTypeOptions.DefaultMinValue ? dateTime : DateTypeOptions.DefaultMinValue,
-            MaxValue = dateTime > DateTypeOptions.DefaultMaxValue ? dateTime : DateTypeOptions.DefaultMaxValue
-        };
 }
