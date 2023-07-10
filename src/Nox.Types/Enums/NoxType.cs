@@ -11,7 +11,6 @@ public enum NoxType
     Array = 822289380,
     Collection = 2120066569,
     Object = 377382163,
-    VatNumber = 1091856386,
 
 
     // Compound Types - requires multiple fields to persist
@@ -21,7 +20,7 @@ public enum NoxType
     [CompoundType] StreetAddress = 1648304363,
     [CompoundType] TranslatedText = 1180214618,
     [CompoundType] DateTimeRange = 1690445408,
-
+    [CompoundType] VatNumber = 1091856386,
 
     // Simple Types
     Area = 1149179623,
