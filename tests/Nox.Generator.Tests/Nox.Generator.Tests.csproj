@@ -89,9 +89,6 @@
 
   <ItemGroup>
     <Compile Remove="files\Program.cs" />
-    <AdditionalFiles Include="..\..\.nox\design\currency.entity.nox.yaml">
-      <LinkBase>$([MSBuild]::EnsureTrailingSlash(%(LinkBase)))</LinkBase>
-    </AdditionalFiles>
     <None Include="files\Program.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
