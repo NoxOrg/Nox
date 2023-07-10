@@ -5,7 +5,7 @@ using Nox.Solution;
 using Nox.Types;
 using System;
 using System.Linq;
-
+using System.Reflection;
 using static Nox.Generator.Common.BaseGenerator;
 
 namespace Nox.Generator;
@@ -104,40 +104,52 @@ internal static class ODataModelGenerator
         {
             GenerateDocs(code, attribute.Description);
 
-            var propType = field.Item2;
-            var propName = string.IsNullOrEmpty(field.Item1) ? attribute.Name : $"{attribute.Name}_{field.Item1}";
+            var propType = field.Type;
+            var propName = string.IsNullOrEmpty(field.FieldName) ? attribute.Name : $"{attribute.Name}_{field.Item1}";
             var nullable = (attribute.IsRequired || forceRequired) ? string.Empty : "?";
 
             code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }} = default!;");
         }
     }
 
-    // TODO: refactor the structure
-    private static Tuple<string, string>[] GetType(NoxType type)
+    private static (string FieldName, string Type)[] GetType(NoxType type)
     {
-        // TODO: add other types
-        return type switch
+        // Assume objects and collections are represented as strings
+        if (type == NoxType.Object || type == NoxType.Array || type == NoxType.Collection)
         {
-            NoxType.Text => GetSimpleTypeDefinition(new Text()),
-            NoxType.Number => GetSimpleTypeDefinition(new Number()),
+            return new[] { (string.Empty, "string") };
+        }
 
-            NoxType.Money => GetMoneyDefinition(),
+        var typeName = type.ToString(); // Assume that Enum member name can be used as type name
+        var typeImplementation = Type.GetType($"Nox.Types.{typeName}, Nox.Types");
 
-            _ => new[] { new Tuple<string, string>(string.Empty, "string") },
-        };
-    }
+        // Check compound attribute
+        var compoundType = typeof(NoxType)
+            .GetField(typeName)
+            .GetCustomAttribute<CompoundTypeAttribute>(false);
 
-    private static Tuple<string, string>[] GetSimpleTypeDefinition<T, TValueObject>(ValueObject<T, TValueObject> instance) where TValueObject : ValueObject<T, TValueObject>, new()
-    {
-        return new[] { new Tuple<string, string>(string.Empty, instance.GetUnderlyingType().ToString()) };
-    }
+        if (typeImplementation != null)
+        {
+            if (compoundType != null)
+            {
+                // Return all compound properties
+                return typeImplementation
+                    .GetProperties()
+                    .Where(p => p.Name != "Value")
+                    .Select(p => (p.Name, p.PropertyType.ToString()))
+                    .ToArray();
+            }
+            else
+            {
+                // Try to create an instance and retrieve the underlying type
+                if (Activator.CreateInstance(typeImplementation) is INoxType instance)
+                {
+                    return new[] { (string.Empty, instance.GetUnderlyingType().ToString()) };
+                }
+            }
+        }
 
-    private static Tuple<string, string>[] GetMoneyDefinition()
-    {
-        var money = new Money();
-        return new[] {
-            new Tuple<string, string>(nameof(money.Amount), money.Amount.GetType().ToString()),
-            new Tuple<string, string>(nameof(money.CurrencyCode), money.CurrencyCode.GetType().ToString())
-        };
+        // Use string by default
+        return new[] { (string.Empty, "string") };
     }
 }
