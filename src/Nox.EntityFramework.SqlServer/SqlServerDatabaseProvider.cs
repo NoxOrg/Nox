@@ -13,9 +13,11 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
     private static readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesConfiguration =
         new()
         {
-            { NoxType.Text, new SqlServerTextDatabaseConfigurator() }, //Use SqlServer Implementation
-            { NoxType.Number, new NumberDatabaseConfigurator() }, // use default implementation
-            { NoxType.Money, new MoneyDatabaseConfigurator() } // use default implementation
+            // Use default implementation for all types
+            { NoxType.Text, new SqlServerTextDatabaseConfigurator() },
+            { NoxType.Number, new NumberDatabaseConfigurator() },
+            { NoxType.Money, new MoneyDatabaseConfigurator() },
+            { NoxType.CountryCode2, new CountryCode2Configurator() }
         };
     
     private string _connectionString = string.Empty;

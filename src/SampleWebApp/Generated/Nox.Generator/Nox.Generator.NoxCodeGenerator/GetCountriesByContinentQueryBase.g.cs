@@ -14,19 +14,19 @@ namespace SampleWebApp.Application;
 /// <summary>
 /// Returns a list of countries for a given continent.
 /// </summary>
-public abstract partial class GetCountriesByContinentQuery
+public abstract partial class GetCountriesByContinentQueryBase
 {
     
     /// <summary>
     /// Represents the DB context.
     /// </summary>
-    protected SampleWebAppDbContext DbContext { get; set; } = null!;
+    protected readonly SampleWebAppDbContext _dbContext;
     
-    public GetCountriesByContinentQuery(
+    public GetCountriesByContinentQueryBase(
         SampleWebAppDbContext dbContext
     )
     {
-        DbContext = dbContext;
+        _dbContext = dbContext;
     }
     public abstract Task<IEnumerable<CountryInfo>> ExecuteAsync(Text continentName);
 }

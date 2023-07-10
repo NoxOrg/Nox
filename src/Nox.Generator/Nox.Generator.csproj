@@ -30,6 +30,7 @@
 		<DebugType>none</DebugType>
 		<DebugSymbols>false</DebugSymbols>
 		<PlatformTarget>AnyCPU</PlatformTarget>
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -52,6 +53,10 @@
 
 	<PropertyGroup>
 		<GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>
 
 	<Target Name="GetDependencyTargetPaths">

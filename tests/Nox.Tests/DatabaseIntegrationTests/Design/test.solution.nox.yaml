@@ -118,8 +118,8 @@ domain:
         - name: MoneyTestField
           type: money
 
-        #- name: CountryCode2TestField
-        #  type: countryCode2
+        - name: CountryCode2TestField
+          type: countryCode2
 
         #- name: GeoCoordTestField
         #  type: latLong

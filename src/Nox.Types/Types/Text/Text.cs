@@ -73,5 +73,4 @@ public sealed class Text : ValueObject<string,Text>
 
         return result;
     }
-
 }
