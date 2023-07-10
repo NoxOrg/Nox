@@ -14,26 +14,47 @@ namespace Nox.Types.EntityFramework.Abstractions
 
         public virtual void ConfigureEntity(EntityTypeBuilder builder, Entity entity)
         {
-            //TODO Composite Keys
             //TODO Relations
-            if (entity.Keys != null && entity.Keys.Any())
+            
+            ConfigureKeys(builder, entity);
+
+            ConfigureAttributes(builder, entity);
+        }
+
+        private void ConfigureKeys(EntityTypeBuilder builder, Entity entity)
+        {
+            if (entity.Keys is { Count: > 0 })
             {
-                foreach (var property in entity.Keys)
+                var keysPropertyNames = new List<string>(entity.Keys.Count);
+                foreach (var key in entity.Keys)
                 {
-                    if (_typesDatabaseConfigurations.TryGetValue(property.Type,
+                    if (_typesDatabaseConfigurations.TryGetValue(key.Type,
                             out var databaseConfiguration))
                     {
-                        databaseConfiguration.ConfigureEntityProperty(builder, property, true);
+                        keysPropertyNames.Add(databaseConfiguration.GetKeyPropertyName(key));
+                    }
+
+                }
+                builder.HasKey(keysPropertyNames.ToArray());
+
+                foreach (var key in entity.Keys)
+                {
+                    if (_typesDatabaseConfigurations.TryGetValue(key.Type,
+                            out var databaseConfiguration))
+                    {
+                        databaseConfiguration.ConfigureEntityProperty(builder, key, true);
                     }
                     else
                     {
-
-                        Console.WriteLine($"Type {property.Type} not found");
+                        Console.WriteLine($"Type {key.Type} not found");
                     }
                 }
             }
+        }
 
-            if (entity.Attributes != null && entity.Attributes.Any())
+        private void ConfigureAttributes(EntityTypeBuilder builder, Entity entity)
+        {
+            if (entity.Attributes is { Count: > 0 })
             {
                 foreach (var property in entity.Attributes)
                 {
