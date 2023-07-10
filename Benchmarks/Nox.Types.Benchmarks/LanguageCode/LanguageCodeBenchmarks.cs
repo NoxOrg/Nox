@@ -33,7 +33,7 @@ public class LanguageCodeBenchmarks
     [Arguments("ki")]  // middle of set
     [Arguments("zu")]  // last in set
     [Arguments("zz")]  // not in set
-    public bool ValidateLanguageCode_WithHasgSet(string code) => _languageCodes.Contains(code);
+    public bool ValidateLanguageCode_WithHashSet(string code) => _languageCodes.Contains(code);
 }
 
 
