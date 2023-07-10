@@ -1,4 +1,5 @@
-﻿using Nox.Types;
+﻿using FluentAssertions;
+using Nox.Types;
 
 namespace Nox.Solution.Tests;
 
@@ -10,14 +11,29 @@ public class EntityMemberTests
         var noxConfig = new NoxSolutionBuilder()
             .UseYamlFile("./files/sample.solution.nox.yaml")
             .Build();
-        Assert.NotNull(noxConfig?.Domain?.Entities);
 
-        var country = noxConfig.Domain.Entities[0];
-        Assert.Equal("Country", country.Name);
-
+        var country = noxConfig.Domain!.Entities[0];
         var countryMembers = country.GetAllMembers().ToList();
 
-        Assert.Equal(17, countryMembers.Count);
+
+        (noxConfig?.Domain?.Entities).Should().NotBeNull();
+        country.Name.Should().Be("Country");
+        
+        countryMembers
+            .Count(member => member.Key == EntityMemberType.Key)
+            .Should().Be(1);
+
+        countryMembers
+            .Count(member => member.Key == EntityMemberType.Attribute)
+            .Should().Be(15);
+
+        countryMembers
+            .Count(member => member.Key == EntityMemberType.Relationship)
+            .Should().Be(1);
+
+        countryMembers
+            .Count(member => member.Key == EntityMemberType.OwnedRelationship)
+            .Should().Be(1);
 
     }
 
