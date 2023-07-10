@@ -16,17 +16,9 @@ public static class ServiceExtensions
         return services;
     }
 
-    public static IServiceCollection AddAzureSecretResolver(this IServiceCollection services, SecretsServer serverConfig)
-    {
-        var provider = new AzureSecretsProvider(serverConfig.ServerUri);
-        services.AddSingleton<ISecretsProvider>(provider);
-        services.AddSingleton(serviceProvider =>
-        {
-            var store = serviceProvider.GetRequiredService<IPersistedSecretStore>();
-            return new AzureSecretsResolver(store, serverConfig);
-        });
-        return services;
-    }
+    
+    
+    
 
     public static UserSecretsProvider AddUserSecretResolver(this IServiceCollection services, Assembly executingAssembly)
     {

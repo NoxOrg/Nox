@@ -19,20 +19,20 @@ public class UserSecretsProvider: ISecretsProvider
         throw new Exception("Synchronous 'GetSecrets' must be used for user secrets.");
     }
 
-    public IReadOnlyDictionary<string, string?> GetSecrets(string[] keys)
+    public IReadOnlyDictionary<string, string?>? GetSecrets(string[] keys)
     {
-        var result = new Dictionary<string, string?>();
-        
         var configuration = new ConfigurationBuilder()
             .AddUserSecrets(_executingAssembly)
             .Build();
-        
+
+        var result = new Dictionary<string, string?>();
         foreach (var key in keys)
         {
             var secretValue = configuration[key.ToFlattenedKey("user").Replace('.', ':')]; 
-            if (!string.IsNullOrWhiteSpace(secretValue)) result[key] = secretValue;
+            if (!string.IsNullOrWhiteSpace(secretValue)) result.Add(key, secretValue);
+            if (result.Any()) return result;
         }
 
-        return result;
+        return null;
     }
 }

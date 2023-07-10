@@ -8,16 +8,19 @@ public class AzureSecretsResolver
 {
     private readonly IPersistedSecretStore _store;
     private readonly SecretsServer _secretsServer;
+    private readonly string _storePrefix;
 
-    public AzureSecretsResolver(IPersistedSecretStore store, SecretsServer secretsServer)
+    public AzureSecretsResolver(IPersistedSecretStore store, SecretsServer secretsServer, string? storePrefix = null)
     {
         _store = store;
+        _storePrefix = "";
+        if (!string.IsNullOrWhiteSpace(storePrefix)) _storePrefix = storePrefix + '.';
         _secretsServer = secretsServer;
     }
 
     public IReadOnlyDictionary<string, string?> Resolve(string[] keys)
     {
-        var result = new Dictionary<string, string?>();
+        var unresolvedKeys = new List<string>();
         var ttl = TimeSpan.Zero;
         if (_secretsServer.ValidFor != null)
         {
@@ -33,35 +36,35 @@ public class AzureSecretsResolver
         var resolvedSecrets = new List<KeyValuePair<string, string?>>();
         foreach (var key in keys)
         {
-            var cachedSecret = _store.Load(key, ttl); 
-            resolvedSecrets.Add(new KeyValuePair<string, string?>(key, cachedSecret));
+            var cachedSecret = _store.Load($"{_storePrefix}{key}", ttl);
+            if (!string.IsNullOrWhiteSpace(cachedSecret))
+            {
+                resolvedSecrets.Add(new KeyValuePair<string, string?>(key, cachedSecret));
+            }
+            else
+            {
+                unresolvedKeys.Add(key);
+            }
         }
         
-        var unresolvedSecrets = resolvedSecrets.Where(s => string.IsNullOrWhiteSpace(s.Value)).ToList();
-        if (unresolvedSecrets.Any())
+        if (unresolvedKeys.Any())
         {
             switch (_secretsServer.Provider)
             {
                 case SecretsServerProvider.AzureKeyVault:
                     var azureVault = new AzureSecretsProvider(_secretsServer.ServerUri);
-                    var azureSecrets = azureVault.GetSecretsAsync(unresolvedSecrets.Select(k => k.Key).ToArray()).Result;
+                    var azureSecrets = azureVault.GetSecretsAsync(unresolvedKeys.ToArray()).Result;
                     if (azureSecrets.Any())
                     {
                         resolvedSecrets.AddRange(azureSecrets);
                     }
                     foreach (var azureSecret in azureSecrets)
                     {
-                        if (azureSecret.Value != null) _store.Save(azureSecret.Key, azureSecret.Value);
+                        if (azureSecret.Value != null) _store.Save($"{_storePrefix}{azureSecret.Key}", azureSecret.Value);
                     }
                     break;
             }
         }
-
-        foreach (var kv in resolvedSecrets)
-        {
-            result.Add(kv.Key, kv.Value);
-        }
-
-        return result;
+        return resolvedSecrets.ToDictionary(k => k.Key, v => v.Value);
     }
 }
