@@ -49,7 +49,7 @@ public class SolutionDeserializationTests
         Assert.NotNull(noxConfig);
         Assert.NotNull(noxConfig.VersionControl);
         Assert.Equal(VersionControlProvider.AzureDevops, noxConfig.VersionControl.Provider);
-        Assert.Equal(new Uri("https://dev.azure.com/iwgplc"), noxConfig.VersionControl.Host);
+        Assert.Equal(new System.Uri("https://dev.azure.com/iwgplc"), noxConfig.VersionControl.Host);
         Assert.NotNull(noxConfig.VersionControl.Folders);
         Assert.Equal("/src", noxConfig.VersionControl.Folders.SourceCode);
         Assert.Equal("/docker", noxConfig.VersionControl.Folders.Containers);
