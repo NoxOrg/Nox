@@ -9,11 +9,6 @@ public class CountryCode2Configurator : INoxTypeDatabaseConfigurator
 {
     public void ConfigureEntityProperty(EntityTypeBuilder builder, NoxSimpleTypeDefinition property, bool isKey)
     {
-        if (isKey)
-        {
-            builder.HasKey(property.Name);
-        }
-
         builder
             .Property(property.Name)
             .IsRequired(isKey || property.IsRequired)
@@ -22,4 +17,6 @@ public class CountryCode2Configurator : INoxTypeDatabaseConfigurator
             .HasMaxLength(2)
             .HasConversion<CountryCode2Converter>();
     }
+
+    public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
 }

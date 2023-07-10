@@ -105,7 +105,7 @@ internal static class ODataModelGenerator
             GenerateDocs(code, attribute.Description);
 
             var propType = field.Type;
-            var propName = string.IsNullOrEmpty(field.FieldName) ? attribute.Name : $"{attribute.Name}_{field.Item1}";
+            var propName = string.IsNullOrEmpty(field.FieldName) ? attribute.Name : $"{attribute.Name}_{field.FieldName}";
             var nullable = (attribute.IsRequired || forceRequired) ? string.Empty : "?";
 
             code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }} = default!;");

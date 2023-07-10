@@ -11,16 +11,13 @@ public class NumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
         //Todo Default values from static property in the Nox.Type
         var typeOptions = property.NumberTypeOptions ?? new NumberTypeOptions();
 
-        if (isKey)
-        {
-            builder.HasKey(property.Name);
-        }
-
         builder
             .Property(property.Name)
             .IsRequired(property.IsRequired)
             .HasConversion(GetConverter(typeOptions));
     }
+
+    public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
 
     public Type GetConverter(NumberTypeOptions typeOptions)
     {
