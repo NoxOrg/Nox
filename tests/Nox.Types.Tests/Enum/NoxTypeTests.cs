@@ -17,14 +17,14 @@ namespace Nox.Types.Tests.Enum
                     var id = Utilities.Identifier.Nuid.ToInt32(string.Format(noxTypeFormatNuid, noxType.ToString()));
 
 
-                    ((uint)noxType).Should().Be(ToUint32(id));
-                    //Console.WriteLine($"{noxType.ToString()} = {ToUint32(id)},");
+                    ((uint)noxType).Should().Be(ToUInt32(id));
+                    //Console.WriteLine($"{noxType.ToString()} = {ToUInt32(id)},");
                 }
             }
         }
-        private static uint ToUint32(int nuid)
+        private static uint ToUInt32(int nuid)
         {
-            return (uint)nuid + int.MaxValue;
+            return (uint)(nuid + int.MaxValue + 1);
         }
     }
 }
