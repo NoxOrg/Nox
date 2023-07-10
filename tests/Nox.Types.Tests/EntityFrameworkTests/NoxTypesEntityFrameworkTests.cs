@@ -13,7 +13,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
     [Fact]
     public void TableShouldGetCreated()
     {
-        Assert.False(DbContext.Countries.Any());
+        Assert.False(DbContext.Countries!.Any());
     }
 
     [Fact]
@@ -42,7 +42,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddress = CreateStreetAddress(),
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
         };
-        DbContext.Countries.Add(newItem);
+        DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
 
         //Force the recreation of DBContext and ensure we have fresh data from database
@@ -78,7 +78,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddress = streetAddress,
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
         };
-        DbContext.Countries.Add(newItem);
+        DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
 
         //Force the recreation of DBContext and ensure we have fresh data from database

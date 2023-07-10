@@ -1,18 +1,12 @@
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
 using Nox;
-using Nox.Solution;
 using SampleWebApp;
-using SampleWebApp.Examples;
-using SampleWebApp.Infrastructure.Persistence;
-using SampleWebApp.Presentation.Api.OData;
-
 using SampleWebApp.Application;
-using SampleWebApp.Application.DataTransferObjects;
-using SampleWebApp.Domain;
 using Nox.Abstractions;
+using ODataConfiguration = SampleWebApp.Presentation.Api.OData.ODataConfiguration;
 
 var builder = WebApplication.CreateBuilder(args);
+
+builder.AddNox();
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -21,9 +15,6 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 //ODataConfiguration.Register(builder.Services);
-
-builder.AddNox();
-builder.Services.AddNox();
 
 builder.Services.AddScoped<GetCountriesByContinentQueryBase, GetCountriesByContinentQuery>();
 builder.Services.AddScoped<UpdatePopulationStatisticsCommandHandlerBase, UpdatePopulationStatisticsCommandHandler>();

@@ -40,7 +40,7 @@ public static class ServiceCollectionExtension
                 var secretKeys = SecretExtractor.Extract(yaml);
                 var interimServiceProvider = _interimServices!.BuildServiceProvider();
                 var resolver = interimServiceProvider.GetRequiredService<ISecretsResolver>();
-                resolver.Configure(secretsConfig!);
+                resolver.Configure(secretsConfig!, Assembly.GetEntryAssembly());
                 args.Secrets = resolver.Resolve(secretKeys!);
             })
             .Build();

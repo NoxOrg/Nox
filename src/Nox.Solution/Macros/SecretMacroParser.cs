@@ -8,12 +8,12 @@ using YamlDotNet.Serialization.NamingConventions;
 
 namespace Nox.Solution.Macros;
 
-public class UserSecretMacroParser: IMacroParser
+public class SecretMacroParser: IMacroParser
 {
-    private readonly Regex _regex = new Regex(@"\$\{{\s*user\.secrets\.\S+\s*\}}", RegexOptions.Compiled, TimeSpan.FromMilliseconds(10000));
+    private readonly Regex _regex = new Regex(@"\$\{\{\s*secrets\.(?<variable>[\w\.\-_:]+)\s*\}\}", RegexOptions.Compiled, TimeSpan.FromMilliseconds(10000));
     private readonly ISerializer _serializer;
 
-    public UserSecretMacroParser()
+    public SecretMacroParser()
     {
         _serializer = new SerializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
@@ -40,7 +40,7 @@ public class UserSecretMacroParser: IMacroParser
         for (int count = 0; count < matched.Count; count++)
         {
             var match = matched[count];
-            var secretName = match.Value.Substring(3, match.Value.Length - 3 - 2).Trim();
+            var secretName = match.Groups["variable"].Value;
 
             if (values != null)
             {

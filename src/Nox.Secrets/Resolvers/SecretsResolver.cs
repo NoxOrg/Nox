@@ -29,11 +29,11 @@ public class SecretsResolver: ISecretsResolver
         if (_secretsConfig == null) throw new Exception("Secrets resolver has not been initialized. Please call the ISecretResolver.Initialize method before attempting to resolve any secrets.");
         var result = new Dictionary<string, string?>();
         var orgSecrets = ResolveOrganizationSecrets(keys);
-        if (orgSecrets != null) SetSecrets(orgSecrets!, result);
+        if (orgSecrets != null && orgSecrets.Any()) SetSecrets(orgSecrets!, result);
         var slnSecrets = ResolveSolutionSecrets(keys);
-        if (slnSecrets != null) SetSecrets(slnSecrets!, result);
+        if (slnSecrets != null && slnSecrets.Any()) SetSecrets(slnSecrets!, result);
         var userSecrets = _userSecretsProvider!.GetSecrets(keys);
-        if (userSecrets != null) SetSecrets(userSecrets, result);
+        if (userSecrets != null && userSecrets.Any()) SetSecrets(userSecrets, result);
         return result;
     }
 
