@@ -13,7 +13,8 @@ public sealed class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDataba
         // Use default implementation for all types
         { NoxType.Text, new TextDatabaseConfigurator() },
         { NoxType.Number, new NumberDatabaseConfigurator() },
-        { NoxType.Money, new MoneyDatabaseConfigurator() }
+        { NoxType.Money, new MoneyDatabaseConfigurator() },
+        { NoxType.CountryCode2, new CountryCode2Configurator() }
     };
 
     public SqliteDatabaseProvider() : base(TypesConfiguration)

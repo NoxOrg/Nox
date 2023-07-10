@@ -87,6 +87,11 @@ public sealed class Country
     /// Gets or sets the StreetAddress.
     /// </summary>
     public StreetAddress StreetAddress { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the mac address.
+    /// </summary>
+    public MacAddress MACAddress { get; set; } = null!;
     
     /// <summary>
     /// Gets or sets the Flag.

@@ -2,6 +2,8 @@
 using Nox.Generator.Common;
 using Nox.Solution;
 
+using static Nox.Generator.Common.BaseGenerator;
+
 namespace Nox.Generator.Infrastructure.Persistence.DbContextGenerator;
 
 internal static class DbContextGenerator
@@ -62,7 +64,7 @@ internal static class DbContextGenerator
 
         AddDbSets(code, solution);
 
-        AddOnConfiguring(code, solution.Name);
+        AddDbContextOnConfiguring(code, solution.Name);
         
         AddOnModelCreating(code, solution.Name);
 
@@ -82,19 +84,6 @@ internal static class DbContextGenerator
     private static void AddDbSet(CodeBuilder code, Entity entity)
     {
         code.AppendLine($"public DbSet<{entity.Name}> {entity.PluralName} {{get; set;}} = null!;");
-        code.AppendLine();
-    }
-
-    private static void AddOnConfiguring(CodeBuilder code, string solutionName)
-    {
-        code.AppendLine("protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)");
-        code.StartBlock();
-        code.AppendLine("base.OnConfiguring(optionsBuilder);");
-        code.AppendLine("if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })");
-        code.StartBlock();
-        code.AppendLine($"_dbProvider.ConfigureDbContext(optionsBuilder, \"{solutionName}\", _noxSolution.Infrastructure!.Persistence.DatabaseServer); ");
-        code.EndBlock();
-        code.EndBlock();
         code.AppendLine();
     }
 

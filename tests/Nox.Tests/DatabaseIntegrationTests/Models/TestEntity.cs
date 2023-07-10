@@ -33,4 +33,9 @@ public partial class TestEntity : AuditableEntityBase
     /// (Optional)
     /// </summary>
     public Money? MoneyTestField { get; set; } = null!;
+
+    /// <summary>
+    /// (Optional)
+    /// </summary>
+    public CountryCode2? CountryCode2TestField { get; set; } = null!;
 }

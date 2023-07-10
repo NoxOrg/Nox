@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 using Nox.Solution.Utils;
@@ -22,7 +23,7 @@ public class EnvironmentVariableMacroParser: IMacroParser
             .Build();
     }
 
-    public string Parse(string text)
+    public string Parse(string text, IReadOnlyDictionary<string, string>? locals = null)
     {
         var parsed = text;
         MatchCollection? matched = default;
@@ -48,6 +49,11 @@ public class EnvironmentVariableMacroParser: IMacroParser
             variableName = variableName.Substring(4);
 
             var environmentValue = _environmentProvider.GetEnvironmentVariable(variableName);
+            
+            if (string.IsNullOrWhiteSpace(environmentValue) && locals != null && locals.ContainsKey(variableName))
+            {
+                environmentValue = locals[variableName];
+            }
 
             if (environmentValue != null)
             {

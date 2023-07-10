@@ -23,7 +23,17 @@ internal static class StringExtensions
     {
         return text.EndsWith(value, System.StringComparison.OrdinalIgnoreCase);
     }
-    
+
+    public static string ToLowerFirstCharAndAddUnderscore(this string input)
+    {
+        if (string.IsNullOrEmpty(input))
+        {
+            return input;
+        }
+
+        return string.Concat("_", char.ToLower(input[0]), input.Substring(1));
+    }
+
     public static string ToLowerFirstChar(this string input)
     {
         if (string.IsNullOrEmpty(input))
