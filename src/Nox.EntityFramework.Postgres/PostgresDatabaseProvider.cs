@@ -16,7 +16,8 @@ public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProv
         {
             { NoxType.Text, new PostgresTextDatabaseConfiguration() }, //Use Postgres Implementation
             { NoxType.Number, new NumberDatabaseConfigurator() }, // use default implementation
-            { NoxType.Money, new MoneyDatabaseConfigurator() } // use default implementation
+            { NoxType.Money, new MoneyDatabaseConfigurator() }, // use default implementation
+            { NoxType.CountryCode2, new CountryCode2Configurator() } // use default implementation
         };
 
     public PostgresDatabaseProvider(): base(TypesConfiguration)
