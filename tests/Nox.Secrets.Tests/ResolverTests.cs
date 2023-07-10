@@ -5,7 +5,7 @@ using Nox.Solution;
 
 namespace Nox.Secrets.Tests;
 
-////These tests can only be run if you have access to the nox-EDA1DB500EBCEB02, we-key-nox-test key vaults with your azure login
+////These tests can only be run if you have access to the Azure nox-EDA1DB500EBCEB02, we-key-nox-test key vaults with your azure login
 public class ResolverTests: IClassFixture<SecretsFixture>
 {
     private readonly SecretsFixture _fixture;

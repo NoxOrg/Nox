@@ -7,7 +7,7 @@ namespace Nox.Secrets.Tests;
 
 public class AzureTests
 {
-    //This test can only be run if you have access to the nox-EDA1DB500EBCEB02 key vault with your azure login
+    //This test can only be run if you have access to the Azure nox-EDA1DB500EBCEB02 key vault with your azure login
     [Fact]
     public void Can_Retrieve_a_secret()
     {

@@ -488,7 +488,6 @@
                     "autoNumber",
                     "boolean",
                     "color",
-                    "colour",
                     "countryCode2",
                     "countryCode3",
                     "countryNumber",
@@ -501,6 +500,7 @@
                     "dateTime",
                     "dateTimeDuration",
                     "dateTimeSchedule",
+                    "dayOfWeek",
                     "distance",
                     "email",
                     "encryptedText",
@@ -510,9 +510,6 @@
                     "hashedText",
                     "html",
                     "image",
-                    "imageJpg",
-                    "imagePng",
-                    "imageSvg",
                     "internetDomain",
                     "ipAddress",
                     "json",
@@ -581,10 +578,6 @@
                 "moneyTypeOptions": {
                   "type": "object",
                   "properties": {
-                    "$ref": {
-                      "type": "string",
-                      "format": "uri"
-                    },
                     "decimalDigits": {
                       "type": [
                         "integer",
@@ -770,23 +763,15 @@
                         "WON"
                       ]
                     }
-                  },
-                  "additionalProperties": false
+                  }
                 },
                 "entityTypeOptions": {
                   "type": "object",
                   "properties": {
-                    "$ref": {
-                      "type": "string",
-                      "format": "uri"
-                    },
                     "entity": {
                       "type": "string"
                     }
-                  },
-                  "required": [
-                    "entity"
-                  ]
+                  }
                 },
                 "isRequired": {
                   "type": "boolean",
@@ -956,7 +941,6 @@
               "autoNumber",
               "boolean",
               "color",
-              "colour",
               "countryCode2",
               "countryCode3",
               "countryNumber",
@@ -969,6 +953,7 @@
               "dateTime",
               "dateTimeDuration",
               "dateTimeSchedule",
+              "dayOfWeek",
               "distance",
               "email",
               "encryptedText",
@@ -978,9 +963,6 @@
               "hashedText",
               "html",
               "image",
-              "imageJpg",
-              "imagePng",
-              "imageSvg",
               "internetDomain",
               "ipAddress",
               "json",
@@ -1049,10 +1031,6 @@
           "moneyTypeOptions": {
             "type": "object",
             "properties": {
-              "$ref": {
-                "type": "string",
-                "format": "uri"
-              },
               "decimalDigits": {
                 "type": [
                   "integer",
@@ -1238,23 +1216,15 @@
                   "WON"
                 ]
               }
-            },
-            "additionalProperties": false
+            }
           },
           "entityTypeOptions": {
             "type": "object",
             "properties": {
-              "$ref": {
-                "type": "string",
-                "format": "uri"
-              },
               "entity": {
                 "type": "string"
               }
-            },
-            "required": [
-              "entity"
-            ]
+            }
           },
           "isRequired": {
             "type": "boolean",
@@ -1365,6 +1335,10 @@
           "objectTypeOptions": {
             "type": "object",
             "properties": {
+              "$ref": {
+                "type": "string",
+                "format": "uri"
+              },
               "attributes": {
                 "type": "array",
                 "items": {
@@ -1401,7 +1375,6 @@
                         "autoNumber",
                         "boolean",
                         "color",
-                        "colour",
                         "countryCode2",
                         "countryCode3",
                         "countryNumber",
@@ -1414,6 +1387,7 @@
                         "dateTime",
                         "dateTimeDuration",
                         "dateTimeSchedule",
+                        "dayOfWeek",
                         "distance",
                         "email",
                         "encryptedText",
@@ -1423,9 +1397,6 @@
                         "hashedText",
                         "html",
                         "image",
-                        "imageJpg",
-                        "imagePng",
-                        "imageSvg",
                         "internetDomain",
                         "ipAddress",
                         "json",
@@ -1494,10 +1465,6 @@
                     "moneyTypeOptions": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "decimalDigits": {
                           "type": [
                             "integer",
@@ -1683,23 +1650,15 @@
                             "WON"
                           ]
                         }
-                      },
-                      "additionalProperties": false
+                      }
                     },
                     "entityTypeOptions": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "entity": {
                           "type": "string"
                         }
-                      },
-                      "required": [
-                        "entity"
-                      ]
+                      }
                     },
                     "isRequired": {
                       "type": "boolean",
@@ -1816,10 +1775,6 @@
                   "description": "Nox simple types definition used throughout Nox.Solution project.",
                   "additionalProperties": false
                 }
-              },
-              "$ref": {
-                "type": "string",
-                "format": "uri"
               }
             },
             "required": [
@@ -1860,7 +1815,6 @@
                   "autoNumber",
                   "boolean",
                   "color",
-                  "colour",
                   "countryCode2",
                   "countryCode3",
                   "countryNumber",
@@ -1873,6 +1827,7 @@
                   "dateTime",
                   "dateTimeDuration",
                   "dateTimeSchedule",
+                  "dayOfWeek",
                   "distance",
                   "email",
                   "encryptedText",
@@ -1882,9 +1837,6 @@
                   "hashedText",
                   "html",
                   "image",
-                  "imageJpg",
-                  "imagePng",
-                  "imageSvg",
                   "internetDomain",
                   "ipAddress",
                   "json",
@@ -1953,10 +1905,6 @@
               "moneyTypeOptions": {
                 "type": "object",
                 "properties": {
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
-                  },
                   "decimalDigits": {
                     "type": [
                       "integer",
@@ -2142,23 +2090,15 @@
                       "WON"
                     ]
                   }
-                },
-                "additionalProperties": false
+                }
               },
               "entityTypeOptions": {
                 "type": "object",
                 "properties": {
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
-                  },
                   "entity": {
                     "type": "string"
                   }
-                },
-                "required": [
-                  "entity"
-                ]
+                }
               },
               "isRequired": {
                 "type": "boolean",
@@ -2269,6 +2209,10 @@
               "objectTypeOptions": {
                 "type": "object",
                 "properties": {
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
+                  },
                   "attributes": {
                     "type": "array",
                     "items": {
@@ -2305,7 +2249,6 @@
                             "autoNumber",
                             "boolean",
                             "color",
-                            "colour",
                             "countryCode2",
                             "countryCode3",
                             "countryNumber",
@@ -2318,6 +2261,7 @@
                             "dateTime",
                             "dateTimeDuration",
                             "dateTimeSchedule",
+                            "dayOfWeek",
                             "distance",
                             "email",
                             "encryptedText",
@@ -2327,9 +2271,6 @@
                             "hashedText",
                             "html",
                             "image",
-                            "imageJpg",
-                            "imagePng",
-                            "imageSvg",
                             "internetDomain",
                             "ipAddress",
                             "json",
@@ -2398,10 +2339,6 @@
                         "moneyTypeOptions": {
                           "type": "object",
                           "properties": {
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
-                            },
                             "decimalDigits": {
                               "type": [
                                 "integer",
@@ -2587,23 +2524,15 @@
                                 "WON"
                               ]
                             }
-                          },
-                          "additionalProperties": false
+                          }
                         },
                         "entityTypeOptions": {
                           "type": "object",
                           "properties": {
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
-                            },
                             "entity": {
                               "type": "string"
                             }
-                          },
-                          "required": [
-                            "entity"
-                          ]
+                          }
                         },
                         "isRequired": {
                           "type": "boolean",
@@ -2720,10 +2649,6 @@
                       "description": "Nox simple types definition used throughout Nox.Solution project.",
                       "additionalProperties": false
                     }
-                  },
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
                   }
                 },
                 "required": [
@@ -2773,7 +2698,6 @@
                   "autoNumber",
                   "boolean",
                   "color",
-                  "colour",
                   "countryCode2",
                   "countryCode3",
                   "countryNumber",
@@ -2786,6 +2710,7 @@
                   "dateTime",
                   "dateTimeDuration",
                   "dateTimeSchedule",
+                  "dayOfWeek",
                   "distance",
                   "email",
                   "encryptedText",
@@ -2795,9 +2720,6 @@
                   "hashedText",
                   "html",
                   "image",
-                  "imageJpg",
-                  "imagePng",
-                  "imageSvg",
                   "internetDomain",
                   "ipAddress",
                   "json",
@@ -2866,10 +2788,6 @@
               "moneyTypeOptions": {
                 "type": "object",
                 "properties": {
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
-                  },
                   "decimalDigits": {
                     "type": [
                       "integer",
@@ -3055,23 +2973,15 @@
                       "WON"
                     ]
                   }
-                },
-                "additionalProperties": false
+                }
               },
               "entityTypeOptions": {
                 "type": "object",
                 "properties": {
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
-                  },
                   "entity": {
                     "type": "string"
                   }
-                },
-                "required": [
-                  "entity"
-                ]
+                }
               },
               "isRequired": {
                 "type": "boolean",
@@ -3182,6 +3092,10 @@
               "objectTypeOptions": {
                 "type": "object",
                 "properties": {
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
+                  },
                   "attributes": {
                     "type": "array",
                     "items": {
@@ -3218,7 +3132,6 @@
                             "autoNumber",
                             "boolean",
                             "color",
-                            "colour",
                             "countryCode2",
                             "countryCode3",
                             "countryNumber",
@@ -3231,6 +3144,7 @@
                             "dateTime",
                             "dateTimeDuration",
                             "dateTimeSchedule",
+                            "dayOfWeek",
                             "distance",
                             "email",
                             "encryptedText",
@@ -3240,9 +3154,6 @@
                             "hashedText",
                             "html",
                             "image",
-                            "imageJpg",
-                            "imagePng",
-                            "imageSvg",
                             "internetDomain",
                             "ipAddress",
                             "json",
@@ -3311,10 +3222,6 @@
                         "moneyTypeOptions": {
                           "type": "object",
                           "properties": {
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
-                            },
                             "decimalDigits": {
                               "type": [
                                 "integer",
@@ -3500,23 +3407,15 @@
                                 "WON"
                               ]
                             }
-                          },
-                          "additionalProperties": false
+                          }
                         },
                         "entityTypeOptions": {
                           "type": "object",
                           "properties": {
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
-                            },
                             "entity": {
                               "type": "string"
                             }
-                          },
-                          "required": [
-                            "entity"
-                          ]
+                          }
                         },
                         "isRequired": {
                           "type": "boolean",
@@ -3633,10 +3532,6 @@
                       "description": "Nox simple types definition used throughout Nox.Solution project.",
                       "additionalProperties": false
                     }
-                  },
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
                   }
                 },
                 "required": [
