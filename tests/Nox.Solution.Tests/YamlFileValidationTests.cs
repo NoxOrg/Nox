@@ -46,7 +46,7 @@ public class YamlFileValidationTests
         Assert.Contains("[\"name\"]", exception.Message);
         Assert.Contains("[\"serverUri\"]", exception.Message);
         Assert.Contains("dataConnection", exception.Message);
-        Assert.Equal(11, errorCount);
+        Assert.Equal(12, errorCount);
     }
 
     [Theory]
