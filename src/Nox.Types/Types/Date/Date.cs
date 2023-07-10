@@ -10,7 +10,7 @@ namespace Nox.Types;
 /// <remarks>
 /// Contains only the date component, without time.
 /// </remarks>
-public class Date : ValueObject<DateTime, Date>
+public sealed class Date : ValueObject<DateTime, Date>
 {
     // List of time components taken from .NET source
     private static readonly char[] TimeComponentsInDateTimeFormat = new char[] { ':', 't', 'f', 'F', 'h', 'H', 'm', 's', 'z', 'K' };
