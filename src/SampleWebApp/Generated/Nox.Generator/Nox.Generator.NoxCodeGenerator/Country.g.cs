@@ -92,12 +92,12 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     /// Country accepts as legal tender OneOrMany Currencies
     /// </summary>
-    public List<Currency> Currencies { get; set; } = null!;
+    public virtual List<Currency> Currencies { get; set; } = null!;
     
     public List<Currency> CountryAcceptsCurrency => Currencies;
     
     /// <summary>
     /// Country is also know as OneOrMany CountryLocalNames
     /// </summary>
-    public List<CountryLocalNames> CountryLocalNames { get; set; } = null!;
+    public virtual List<CountryLocalNames> CountryLocalNames { get; set; } = null!;
 }

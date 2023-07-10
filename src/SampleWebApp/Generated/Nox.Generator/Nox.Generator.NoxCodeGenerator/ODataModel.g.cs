@@ -85,6 +85,16 @@ public class Country : SampleWebApp.Domain.AuditableEntityBase
     /// The top level internet domains regitered to the country (comma-delimited).
     /// </summary>
     public System.String? TopLevelDomains { get; set; } = default!;
+    
+    /// <summary>
+    /// accepts as legal tender.
+    /// </summary>
+    public List<Currency> Currencies { get; set; } = null!;
+    
+    /// <summary>
+    /// is also know as.
+    /// </summary>
+    public List<CountryLocalNames> CountryLocalNames { get; set; } = null!;
 }
 
 /// <summary>
