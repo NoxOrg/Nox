@@ -1,14 +1,13 @@
 using System.Reflection;
 using Nox.Secrets.Abstractions;
 using Nox.Secrets.Providers;
+using Nox.Secrets.Resolvers;
 
 namespace Nox.Secrets;
 
 public class SecretsResolver: ISecretsResolver
 {
     private readonly ISecretsProvider? _userSecretsProvider;
-    // private readonly ISecretsProvider? _organizationSecretsProvider;
-    // private readonly ISecretsProvider? _solutionSecretsProvider;
     private readonly IPersistedSecretStore _store;
     private readonly Solution.Secrets _secretsConfig;
 
@@ -27,7 +26,6 @@ public class SecretsResolver: ISecretsResolver
             result.Add(key, null);
         }
         
-        //Resolve the user secrets
         ResolveUserSecrets(result);                        
         
         
@@ -42,7 +40,21 @@ public class SecretsResolver: ISecretsResolver
         {
             secrets[resolvedSecret.Key] = resolvedSecret.Value;
         }
-
     }
+
+    private void ResolveOrganizationSecrets(IDictionary<string, string?> secrets)
+    {
+        if (_secretsConfig.OrganizationSecretsServer != null)
+        {
+            switch (_secretsConfig.OrganizationSecretsServer.Provider)
+            {
+                case SecretsServerProvider.AzureKeyVault:
+                    
+                    break;
+            }
+        }
+    }
+    
+    
 }
 

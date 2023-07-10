@@ -1,3 +1,5 @@
+using System.Reflection;
+using System.Text.Json;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Secrets.Abstractions;
 using Nox.Solution;
@@ -11,18 +13,30 @@ public class AzureTests
     public void Can_Retrieve_a_secret()
     {
         var services = new ServiceCollection();
-        var azureConfig = new MockSecretsServer
+        services.AddPersistedSecretStore();
+
+        var secretsConfig = new Solution.Secrets
         {
-            Name = "AzureKeyVault",
-            Provider = SecretsServerProvider.AzureKeyVault,
-            ServerUri = "https://nox-EDA1DB500EBCEB02.vault.azure.net/",
-            ValidFor = new MockSecretsValidFor
+            OrganizationSecretsServer = new SecretsServer
             {
-                Seconds = 10
+                Name = "AzureKeyVault",
+                Provider = SecretsServerProvider.AzureKeyVault,
+                ServerUri = "https://nox-EDA1DB500EBCEB02.vault.azure.net/",
+                ValidFor = new SecretsValidFor
+                {
+                    Seconds = 10
+                }    
             }
         };
+
+        services.AddSingleton<ISecretsResolver, SecretsResolver>(provider =>
+        {
+            var persistedSecretStore = provider.GetRequiredService<IPersistedSecretStore>();
+
+            return new SecretsResolver(persistedSecretStore, secretsConfig, Assembly.GetExecutingAssembly());
+        });
         
-        services.AddAzureSecretResolver(azureConfig);
+        
         var provider = services.BuildServiceProvider();
         var resolver = provider.GetRequiredService<ISecretsResolver>();
         var keys = new string[]
