@@ -131,4 +131,15 @@ public class ImageTests
         Assert.Equal("Image1: https://example.com/image.jpg", image.ToString());
     }
     
+    [Fact]
+    public void GetImageExtension_WithValidValues_ShouldReturnString()
+    {
+
+        // Arrange & Act
+        var image = Image.From("https://example.com/image.jpg", "Image1", 100);
+
+        // Assert
+        Assert.Equal(".jpg", image.GetImageExtension());
+    }
+    
 }

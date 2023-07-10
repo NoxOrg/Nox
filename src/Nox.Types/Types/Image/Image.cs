@@ -78,6 +78,12 @@ public sealed class Image : ValueObject<(string Url, string PrettyName, int Size
     }
 
     /// <summary>
+    /// Retrieves the image format type extension from the URL.
+    /// </summary>
+    /// <returns>String representing the image format type extension.</returns>
+    public string GetImageExtension() => Path.GetExtension(Url); 
+
+    /// <summary>
     /// Retrieves the equality components for the image value object.
     /// </summary>
     /// <returns>An enumerable collection of key-value pairs representing the equality components.</returns>
