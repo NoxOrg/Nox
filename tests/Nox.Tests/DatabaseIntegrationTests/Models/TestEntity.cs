@@ -13,7 +13,6 @@ namespace TestDatabaseWebApp.Domain;
 /// </summary>
 public partial class TestEntity : AuditableEntityBase
 {
-
     /// <summary>
     /// (Optional)
     /// </summary>
@@ -38,4 +37,9 @@ public partial class TestEntity : AuditableEntityBase
     /// (Optional)
     /// </summary>
     public CountryCode2? CountryCode2TestField { get; set; } = null!;
+
+    /// <summary>
+    /// (Optional)
+    /// </summary>
+    public StreetAddress? StreetAddressTestField { get; set; } = null!;
 }

@@ -14,7 +14,8 @@ public sealed class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDataba
         { NoxType.Text, new TextDatabaseConfigurator() },
         { NoxType.Number, new NumberDatabaseConfigurator() },
         { NoxType.Money, new MoneyDatabaseConfigurator() },
-        { NoxType.CountryCode2, new CountryCode2Configurator() }
+        { NoxType.CountryCode2, new CountryCode2Configurator() },
+        { NoxType.StreetAddress, new StreetAddressDatabaseConfigurator() }
     };
 
     public SqliteDatabaseProvider() : base(TypesConfiguration)
@@ -22,6 +23,7 @@ public sealed class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDataba
     }
 
     public string ConnectionString { get; set; } = string.Empty;
+
     public DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
     {
         throw new NotImplementedException();
