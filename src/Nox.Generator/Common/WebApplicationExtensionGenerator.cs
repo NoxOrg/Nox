@@ -6,7 +6,7 @@ namespace Nox.Generator.Common;
 
 public class WebApplicationExtensionGenerator
 {
-    public static void Generate(SourceProductionContext context, NoxSolution solution)
+    public static void Generate(SourceProductionContext context, NoxSolution solution, bool generatePresentation)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -36,7 +36,8 @@ public class WebApplicationExtensionGenerator
         code.AppendLines(usings.ToArray());
         code.AppendLine("using Nox.Types.EntityFramework.Abstractions;");
         code.AppendLine($"using {solution.Name}.Infrastructure.Persistence;");
-        code.AppendLine($"using {solution.Name}.Presentation.Api.OData;");
+        if(generatePresentation)
+            code.AppendLine($"using {solution.Name}.Presentation.Api.OData;");
         code.AppendLine();
         code.AppendLine($"namespace {solution.Name};");
         code.AppendLine();
@@ -60,7 +61,8 @@ public class WebApplicationExtensionGenerator
             code.AppendLine($"services.AddSingleton<INoxDatabaseConfigurator, {dbProvider}>();");
             code.AppendLine($"services.AddSingleton<INoxDatabaseProvider, {dbProvider}>();");
             code.AppendLine($"services.AddDbContext<{dbContextName}>();");
-            code.AppendLine($"services.AddDbContext<ODataDbContext>();");
+            if(generatePresentation)
+                code.AppendLine($"services.AddDbContext<ODataDbContext>();");
             code.AppendLine("var tmpProvider = services.BuildServiceProvider();");
             code.AppendLine($"var dbContext = tmpProvider.GetRequiredService<{dbContextName}>();");
             code.AppendLine("dbContext.Database.EnsureCreated();");            
