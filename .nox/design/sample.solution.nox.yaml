@@ -513,15 +513,17 @@ infrastructure:
   security:
     secrets:
       organizationSecretsServer:
-        name: SampleOrgSecretServer
-        provider: azureKeyVault
-        serverUri: https://nox-EDA1DB500EBCEB02.vault.azure.net
+        name: org-vault
+        provider: hashicorpVault
+        serverUri: http://localhost:8300
+        password: root
         validFor:
           minutes: 10
       
       solutionSecretsServer:
-        name: SampleSlnSecretServer
-        provider: azureKeyVault
-        serverUri: https://we-key-nox-test.vault.azure.net
+        name: sln-vault
+        provider: hashicorpVault
+        serverUri: http://localhost:8300
+        password: root
         validFor:
           minutes: 10
