@@ -20,8 +20,8 @@ public partial class SampleWebAppDbContext : DbContext
         INoxDatabaseProvider databaseProvider
     ) : base(options)
     {
-        _noxSolution = noxSolution;
-        _dbProvider = databaseProvider;
+            _noxSolution = noxSolution;
+            _dbProvider = databaseProvider;
     }
     
     public DbSet<Country> Countries {get; set;} = null!;
