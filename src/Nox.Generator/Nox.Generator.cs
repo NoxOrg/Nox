@@ -60,7 +60,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
             {
                 var solutionNameSpace = solution.Name;
                 
-                WebApplicationExtensionGenerator.Generate(context, solution);
+                WebApplicationExtensionGenerator.Generate(context, solution, generate.Presentation);
 
                 if (generate.Domain)
                 {
