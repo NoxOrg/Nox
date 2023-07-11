@@ -22,6 +22,10 @@
     "folders": {
       "type": "object",
       "properties": {
+        "$ref": {
+          "type": "string",
+          "format": "uri"
+        },
         "sourceCode": {
           "type": "string",
           "title": "The path or relative path to the source code root.",
@@ -46,10 +50,6 @@
           "type": "string",
           "title": "The path or relative path to the solution documentation.",
           "description": "The path or relative path that contains your solution documentation."
-        },
-        "$ref": {
-          "type": "string",
-          "format": "uri"
         }
       },
       "required": [
