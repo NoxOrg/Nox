@@ -1,5 +1,4 @@
-﻿
-namespace Nox.Types;
+﻿namespace Nox.Types;
 
 public class NumberTypeOptions
 {
