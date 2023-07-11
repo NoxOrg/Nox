@@ -1,11 +1,19 @@
 ﻿
 using FluentAssertions;
 using Nox.Types.Tests.Types.LanguageCode;
+using Xunit.Abstractions;
 
 namespace Nox.Types.Tests;
 
 public class LanguageCodeTests
 {
+    private readonly ITestOutputHelper _output;
+
+    public LanguageCodeTests(ITestOutputHelper output)
+    {
+        _output = output;
+    }
+
     [Theory]
     [ClassData(typeof(LanguageCodeTestsDataClass))]
     public void CreatingLanguageCode_From_IsValid(string languageCodeString)
@@ -75,11 +83,42 @@ public class LanguageCodeTests
         "su","sv","sw","ta","te","tg","th","ti","tk","tl","tn","to","tr","ts","tt","tw","ty","ug","uk","ur","uz","ve","vi","wa","wo","xh","yi","yo","za",
         "zh","zu",
     };
+
     [Fact]
-    public void LanguageCode_TestAllKnownLanguageCodes_Passes()
+    public void LanguageCode_TestAllKnownLanguageCodes_DoesNotThrowValidationException()
     {
         var action = () => _languageCodes.Select(code => LanguageCode.From(code));
 
         action.Should().NotThrow<TypeValidationException>();
+    }
+
+    [Fact]
+    public void LanguageCode_TestAllKnownLanguageCodes_ThrowValidationException()
+    {
+
+        // create all two letter lower case permutations of strings
+        var nonLanguageCodes = new List<string>();
+
+        string[] letters = { "a","b","c","d","e","f","g","h","i","j","k","l","m","n","o","p","q","r","s","t","u","v","w","x","y","z"};
+        foreach (var firstLetter in letters)
+        {
+            foreach (var secondLetter in letters)
+            {
+                var candidateCode = $"{firstLetter}{secondLetter}";
+                if (!_languageCodes.Contains(candidateCode))
+                {
+                    nonLanguageCodes.Add(candidateCode);
+                }
+            }
+        }
+
+        foreach (var nonLanguageCode in nonLanguageCodes) 
+        {
+            var action = () => LanguageCode.From(nonLanguageCode);
+            _output.WriteLine($"Testing invalid code {nonLanguageCode}..");
+            action.Should().Throw<TypeValidationException>();
+        }
+
+
     }
 }
