@@ -71,3 +71,7 @@ run `dotnet-gitversion /updateprojectfiles` to update csproject files
 
 Just Create a release in GitHub, tag it properly, and that is all. In the future we want to automate this process.
 
+# Nox Solution
+
+**Until we automate this process** whenever you change the Nox Solution you need: to run the test in > **NoxSolutionSchemaGenerate**. This test will generate the new schema files that needs to be also added to the commit. The CI pipeline will publish the new schemas. 
+
