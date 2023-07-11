@@ -90,20 +90,20 @@ domain:
           raiseEvents: true
           useSoftDelete: true
 
-      relationships:
+      #relationships:
 
-        - name: CountryAcceptsCurrency
-          description: accepts as legal tender
-          relationship: oneOrMany
-          entity: Currency
-          canNavigate: true
+      #  - name: CountryAcceptsCurrency
+      #    description: accepts as legal tender
+      #    relationship: oneOrMany
+      #    entity: Currency
+      #    canNavigate: true
           
-      ownedRelationships:
+      #ownedRelationships:
 
-        - name: CountryLocalNames
-          description: is also know as
-          relationship: oneOrMany
-          entity: CountryLocalNames
+      #  - name: CountryLocalNames
+      #    description: is also know as
+      #    relationship: oneOrMany
+      #    entity: CountryLocalNames
 
       queries:
 

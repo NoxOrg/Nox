@@ -1,16 +1,21 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
+using Nox.Types.EntityFramework.Types;
 
 namespace Nox.Types.EntityFramework.Abstractions
 {
     public abstract class NoxDatabaseConfigurator : INoxDatabaseConfigurator
     {
-        private readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> _typesDatabaseConfigurations;
-
-        protected NoxDatabaseConfigurator(Dictionary<NoxType, INoxTypeDatabaseConfigurator> typesConfiguration)
-        {
-            _typesDatabaseConfigurations = typesConfiguration;
-        }
+        //We could use the container to manage this
+        protected readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesDatabaseConfigurations =
+            new()
+            {
+                // Use default implementation for all types
+                { NoxType.Text, new TextDatabaseConfigurator() },
+                { NoxType.Number, new NumberDatabaseConfigurator() },
+                { NoxType.Money, new MoneyDatabaseConfigurator() },
+                { NoxType.CountryCode2, new CountryCode2Configurator() }
+            };
 
         public virtual void ConfigureEntity(EntityTypeBuilder builder, Entity entity)
         {
@@ -28,7 +33,7 @@ namespace Nox.Types.EntityFramework.Abstractions
                 var keysPropertyNames = new List<string>(entity.Keys.Count);
                 foreach (var key in entity.Keys)
                 {
-                    if (_typesDatabaseConfigurations.TryGetValue(key.Type,
+                    if (TypesDatabaseConfigurations.TryGetValue(key.Type,
                             out var databaseConfiguration))
                     {
                         keysPropertyNames.Add(databaseConfiguration.GetKeyPropertyName(key));
@@ -39,7 +44,7 @@ namespace Nox.Types.EntityFramework.Abstractions
 
                 foreach (var key in entity.Keys)
                 {
-                    if (_typesDatabaseConfigurations.TryGetValue(key.Type,
+                    if (TypesDatabaseConfigurations.TryGetValue(key.Type,
                             out var databaseConfiguration))
                     {
                         databaseConfiguration.ConfigureEntityProperty(builder, key, true);
@@ -58,7 +63,7 @@ namespace Nox.Types.EntityFramework.Abstractions
             {
                 foreach (var property in entity.Attributes)
                 {
-                    if (_typesDatabaseConfigurations.TryGetValue(property.Type,
+                    if (TypesDatabaseConfigurations.TryGetValue(property.Type,
                             out var databaseConfiguration))
                     {
                         databaseConfiguration.ConfigureEntityProperty(builder, property, false);
