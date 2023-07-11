@@ -74,4 +74,17 @@ public class YamlFileValidationTests
 
         model.Name.Should().Be(expectedServiceName);
     }
+
+    [Fact]
+    public void Deserialize_Solution_ThatDoesntHaveKeysForEntity_Exception()
+    {
+        var yaml = File.ReadAllText($"./files/has-no-keys-for-entity.solution.nox.yaml");
+
+        var exception = Assert.Throws<NoxSolutionConfigurationException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(yaml));
+
+        var errorCount = exception.Message.Split('\n').Length;
+
+        Assert.Contains("[\"keys\"]", exception.Message);
+        Assert.Equal(1, errorCount);
+    }
 }

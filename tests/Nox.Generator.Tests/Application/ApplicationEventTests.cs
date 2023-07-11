@@ -46,7 +46,10 @@ public class ApplicationEventTests: IClassFixture<GeneratorFixture>
         Assert.Equal(3, generatedSources.Length);
         Assert.True(generatedSources.Any(s => s.HintName == "NoxWebApplicationBuilderExtension.g.cs"), "NoxWebApplicationBuilderExtension.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "Generator.g.cs"), "Generator not generated");
-        Assert.True(generatedSources.Any(s => s.HintName == "CountryNameChangedAppEvent.g.cs"), "CountryNameChangedAppEvent not generated");
+
+        var countryNameChangedAppEvent = "CountryNameChangedAppEvent.g.cs";
+        Assert.True(generatedSources.Any(s => s.HintName == countryNameChangedAppEvent), $"{countryNameChangedAppEvent} not generated");
+        Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/CountryNameChangedAppEvent.expected.g.cs"), generatedSources.First(s => s.HintName == countryNameChangedAppEvent).SourceText.ToString());
         //can further extend this test to verify contents of source files.
     }
 }

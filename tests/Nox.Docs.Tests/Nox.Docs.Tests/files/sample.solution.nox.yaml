@@ -281,11 +281,6 @@ domain:
     - name: Currency
       description: The list of currencies
 
-      keys:
-
-        - name: Id
-          type: currencyCode
-
       relationships:
 
         - name: CurrencyIsLegalTenderForCountry
@@ -293,17 +288,27 @@ domain:
           relationship: zeroOrMany
           entity: Country
 
+      keys:
+
+      - name: Id
+        type: text
+        textTypeOptions:
+          isUnicode: false
+          minLength: 3
+          maxLength: 3
+
     - name: CountryLocalNames
       description: The name of a country in other languages
 
       keys:
 
-        - name: Id
-          type: number
-          numberTypeOptions:
-            minValue: 0
-            decimalDigits: 0
-
+      - name: Id
+        type: text
+        textTypeOptions:
+          isUnicode: false
+          minLength: 3
+          maxLength: 3
+          
     - name: CurrencyCashBalance
 
       description: The cash balance in Store
@@ -501,22 +506,13 @@ infrastructure:
 
   security:
     secrets:
-      organizationSecretsServer:
-        name: SampleOrgSecretServer
+      secretsServer:
+        name: SampleSecretServer
         provider: azureKeyVault
         serverUri: kv.iwgplc.com
         user: secrets@iwgplc.com
         password: SecretPassword
-        validFor:
-          minutes: 10
-      
-      solutionSecretsServer:
-        name: SampleSlnSecretServer
-        provider: azureKeyVault
-        serverUri: kv.iwgplc.com
-        user: secrets@iwgplc.com
-        password: SecretPassword
-        validFor:
-          minutes: 10
+      validFor:
+        minutes: 10
 
 

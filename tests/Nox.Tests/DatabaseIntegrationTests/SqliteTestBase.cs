@@ -23,7 +23,9 @@ public abstract class SqliteTestBase : IDisposable
         // path won't change
         _absoluteTestSolutionFile = Path.GetFullPath(_relativeTestSolutionFile);
 
+#pragma warning disable S3457 // Composite format strings should be used correctly
         _inMemoryConnectionString = string.Format(_inMemoryConnectionStringTemplate, DateTime.UtcNow.Ticks);
+#pragma warning restore S3457 // Composite format strings should be used correctly
         _connection = new SqliteConnection(_inMemoryConnectionString);
         _connection.Open();
         DbContext = CreateDbContext(_connection);

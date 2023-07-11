@@ -46,8 +46,14 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
         Assert.True(generatedSources.Any(s => s.HintName == "Generator.g.cs"), "Generator.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "EntityBase.g.cs"), "EntityBase.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "AuditableEntityBase.g.cs"), "AuditableEntityBase.g.cs not generated");
-        Assert.True(generatedSources.Any(s => s.HintName == "Country.g.cs"), "Country.g.cs not generated");
-        Assert.True(generatedSources.Any(s => s.HintName == "SampleWebAppDbContext.g.cs"), "SampleWebAppDbContext.g.cs not generated");
+
+        var countryFileName = "Country.g.cs";
+        Assert.True(generatedSources.Any(s => s.HintName == countryFileName), $"{countryFileName} not generated");
+        Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/Country.expected.g.cs"), generatedSources.First(s => s.HintName == countryFileName).SourceText.ToString());
+
+        var dbContextFileName = "SampleWebAppDbContext.g.cs";
+        Assert.True(generatedSources.Any(s => s.HintName == dbContextFileName), $"{dbContextFileName} not generated");
+        Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/SampleWebAppDbContext.expected.g.cs"), generatedSources.First(s => s.HintName == dbContextFileName).SourceText.ToString());
         //can further extend this test to verify contents of source files.
     }
 }

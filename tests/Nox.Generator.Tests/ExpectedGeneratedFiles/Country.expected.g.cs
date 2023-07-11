@@ -9,18 +9,23 @@ using System.Collections.Generic;
 namespace SampleWebApp.Domain;
 
 /// <summary>
-/// The list of currencies.
+/// The list of countries.
 /// </summary>
-public partial class Currency : AuditableEntityBase
+public partial class Country : AuditableEntityBase
 {
     
     /// <summary>
-    /// The currency's primary key / identifier (optional).
+    /// (Optional)
     /// </summary>
     public Text Id { get; set; } = null!;
     
     /// <summary>
-    /// The currency's name (required).
+    /// The country's common name (required).
     /// </summary>
     public Text Name { get; set; } = null!;
+    
+    /// <summary>
+    /// The country's official name (required).
+    /// </summary>
+    public Text FormalName { get; set; } = null!;
 }

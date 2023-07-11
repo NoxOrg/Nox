@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
-using Nox.Types.EntityFramework.Types;
 using Npgsql;
 
 namespace Nox.EntityFramework.Postgres;
@@ -11,17 +10,10 @@ public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProv
 {
     private string _connectionString = string.Empty;
     
-    private static readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesConfiguration =
-        new()
-        {
-            { NoxType.Text, new PostgresTextDatabaseConfiguration() }, //Use Postgres Implementation
-            { NoxType.Number, new NumberDatabaseConfigurator() }, // use default implementation
-            { NoxType.Money, new MoneyDatabaseConfigurator() } // use default implementation
-        };
-
-    public PostgresDatabaseProvider(): base(TypesConfiguration)
+    public PostgresDatabaseProvider()
     {
-        
+        // Override Text Configurator
+        TypesDatabaseConfigurations[NoxType.Text] = new PostgresTextDatabaseConfiguration();
     }
 
     public string ConnectionString
