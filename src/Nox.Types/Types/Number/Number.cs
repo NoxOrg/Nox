@@ -43,8 +43,8 @@ public sealed class Number : ValueObject<QuantityValue, Number>
         => From(value, new NumberTypeOptions
         {
             DecimalDigits = 6,
-            MinValue = value.CompareTo(NumberTypeOptions.DefaultMinValue) < 0 ? value : NumberTypeOptions.DefaultMinValue,
-            MaxValue = value.CompareTo(NumberTypeOptions.DefaultMaxValue) > 0 ? value : NumberTypeOptions.DefaultMaxValue,
+            MinValue = Math.Min((decimal)value, NumberTypeOptions.DefaultMinValue),
+            MaxValue = Math.Max((decimal)value, NumberTypeOptions.DefaultMaxValue)
         });
 
     /// <summary>
