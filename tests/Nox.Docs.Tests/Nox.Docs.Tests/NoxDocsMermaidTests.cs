@@ -14,6 +14,8 @@ public class NoxDocsMermaidTests
 
         var mermaidText = noxSolution.ToMermaidErd();
 
+        noxSolution.ToMarkdown(mermaidText, $"./files/{noxSolution.Name}");
+
         var expectedResult = """
             erDiagram
                 Country {
@@ -66,6 +68,8 @@ public class NoxDocsMermaidTests
 
         var mermaidText = noxSolution.ToMermaidErd(ErdDetail.Detailed);
 
+        noxSolution.ToMarkdown(mermaidText, $"./files/{noxSolution.Name}_{ErdDetail.Detailed}");
+
         var expectedResult = """
             erDiagram
                 Country {
@@ -117,6 +121,8 @@ public class NoxDocsMermaidTests
             .Build();
 
         var mermaidText = noxSolution.ToMermaidErd(ErdDetail.Summary);
+
+        noxSolution.ToMarkdown(mermaidText, $"./files/{noxSolution.Name}_{ErdDetail.Summary}");
 
         var expectedResult = """
             erDiagram

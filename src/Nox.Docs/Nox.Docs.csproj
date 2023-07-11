@@ -15,6 +15,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Grynwald.MarkdownGenerator" Version="3.0.106" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
   </ItemGroup>
 

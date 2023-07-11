@@ -1,9 +1,8 @@
-﻿
-
-using Nox.Solution;
+﻿using Nox.Solution;
 using System;
 using System.Text;
 using YamlDotNet.Core.Tokens;
+using Grynwald.MarkdownGenerator;
 
 namespace Nox.Docs.Extensions;
 
@@ -90,5 +89,17 @@ public static class NoxSolutionMermaidExtensions
             EntityRelationshipType.OneOrMany => side == Side.Left ? "}|" : "|{",
             _ => throw new NotImplementedException(),
         };
+    }
+
+    public static void ToMarkdown(this NoxSolution noxSolution, string mermaidContent, string outputFile = "")
+    {
+        if (String.IsNullOrEmpty(outputFile))
+        {
+            outputFile = $"./{noxSolution.Name}";
+        }
+        var document = new MdDocument();
+        document.Root.Add(new MdHeading(noxSolution.Name, 1));
+        document.Root.Add(new MdCodeBlock(mermaidContent, "mermaid"));
+        document.Save($"{outputFile.Replace(".md", "")}.md");
     }
 }
