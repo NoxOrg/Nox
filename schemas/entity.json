@@ -11497,7 +11497,8 @@
     }
   },
   "required": [
-    "name"
+    "name",
+    "keys"
   ],
   "title": "Defines an entity or aggregate root",
   "description": "The declaration of an entity, its attributes, commands and queries. See https://noxorg.dev for more.",

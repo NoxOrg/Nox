@@ -173,7 +173,7 @@ internal class EntitiesGenerator
 
         var nullable = relationship.Relationship == EntityRelationshipType.ZeroOrOne ? "?" : string.Empty;
 
-        code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }} = null!;");
+        code.AppendLine($"public virtual {propType}{nullable} {propName} {{ get; set; }} = null!;");
         
         if (propName != relationship.Name)
         {

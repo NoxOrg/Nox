@@ -27,7 +27,7 @@ public partial class Currency : AuditableEntityBase
     /// <summary>
     /// Currency is legal tender for ZeroOrMany Countries
     /// </summary>
-    public List<Country> Countries { get; set; } = null!;
+    public virtual List<Country> Countries { get; set; } = null!;
     
     public List<Country> CurrencyIsLegalTenderForCountry => Countries;
 }
