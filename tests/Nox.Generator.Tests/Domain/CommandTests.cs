@@ -42,13 +42,17 @@ public class CommandTests : IClassFixture<GeneratorFixture>
         Assert.Single(allOutputs);
 
         var generatedSources = result.GeneratedSources;
-        Assert.Equal(6, generatedSources.Length);
+        Assert.Equal(7, generatedSources.Length);
+        Assert.True(generatedSources.Any(s => s.HintName == "NoxServiceCollectionExtension.g.cs"), "NoxServiceCollectionExtension.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "Generator.g.cs"), "Generator.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "EntityBase.g.cs"), "EntityBase.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "AuditableEntityBase.g.cs"), "AuditableEntityBase.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "Country.g.cs"), "Country.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "UpdatePopulationStatistics.g.cs"), "UpdatePopulationStatistics.g.cs not generated");
-        Assert.True(generatedSources.Any(s => s.HintName == "UpdatePopulationStatisticsCommandHandlerBase.g.cs"), "UpdatePopulationStatisticsCommandHandlerBase.g.cs not generated");
+
+        var queryFileName = "UpdatePopulationStatisticsCommandHandlerBase.g.cs";
+        Assert.True(generatedSources.Any(s => s.HintName == queryFileName), $"{queryFileName} not generated");
+        Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/UpdatePopulationStatisticsCommandHandlerBase.expected.g.cs"), generatedSources.First(s => s.HintName == queryFileName).SourceText.ToString());
         //can further extend this test to verify contents of source files.
     }
 }

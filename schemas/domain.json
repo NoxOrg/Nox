@@ -285,68 +285,65 @@
                       },
                       "type": {
                         "enum": [
-                          "array",
-                          "collection",
-                          "object",
-                          "vatNumber",
-                          "entity",
-                          "latLong",
-                          "money",
-                          "streetAddress",
-                          "translatedText",
-                          "dateTimeRange",
-                          "area",
                           "autoNumber",
-                          "boolean",
-                          "color",
-                          "colour",
-                          "countryCode2",
-                          "countryCode3",
-                          "countryNumber",
-                          "cultureCode",
-                          "currencyCode",
-                          "currencyNumber",
-                          "date",
-                          "month",
-                          "year",
-                          "dateTime",
-                          "dateTimeDuration",
-                          "dateTimeSchedule",
-                          "distance",
-                          "email",
-                          "encryptedText",
-                          "file",
-                          "formula",
-                          "guid",
-                          "hashedText",
-                          "html",
-                          "image",
-                          "imageJpg",
-                          "imagePng",
-                          "imageSvg",
-                          "internetDomain",
-                          "ipAddress",
-                          "json",
-                          "jwtToken",
-                          "languageCode",
-                          "length",
+                          "collection",
                           "macAddress",
-                          "markdown",
-                          "nuid",
-                          "number",
-                          "password",
-                          "percentage",
-                          "phoneNumber",
-                          "temperature",
-                          "text",
-                          "time",
-                          "timeZoneCode",
-                          "uri",
-                          "url",
-                          "user",
-                          "volume",
+                          "ipAddress",
+                          "date",
+                          "dayOfWeek",
+                          "streetAddress",
+                          "file",
                           "weight",
-                          "yaml"
+                          "timeZoneCode",
+                          "translatedText",
+                          "area",
+                          "length",
+                          "guid",
+                          "vatNumber",
+                          "currencyCode",
+                          "countryCode3",
+                          "array",
+                          "text",
+                          "distance",
+                          "color",
+                          "countryCode2",
+                          "cultureCode",
+                          "volume",
+                          "temperature",
+                          "password",
+                          "internetDomain",
+                          "encryptedText",
+                          "url",
+                          "dateTimeDuration",
+                          "boolean",
+                          "entity",
+                          "time",
+                          "uri",
+                          "currencyNumber",
+                          "html",
+                          "jwtToken",
+                          "object",
+                          "formula",
+                          "countryNumber",
+                          "markdown",
+                          "user",
+                          "dateTime",
+                          "json",
+                          "dateTimeSchedule",
+                          "nuid",
+                          "email",
+                          "money",
+                          "image",
+                          "languageCode",
+                          "phoneNumber",
+                          "hashedText",
+                          "year",
+                          "yaml",
+                          "dateTimeRange",
+                          "percentage",
+                          "latLong",
+                          "month",
+                          "number"
                         ],
                         "title": "The Nox type of this attribute.",
                         "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -389,10 +386,6 @@
                       "moneyTypeOptions": {
                         "type": "object",
                         "properties": {
-                          "$ref": {
-                            "type": "string",
-                            "format": "uri"
-                          },
                           "decimalDigits": {
                             "type": "integer"
                           },
@@ -572,23 +565,15 @@
                               "WON"
                             ]
                           }
-                        },
-                        "additionalProperties": false
+                        }
                       },
                       "entityTypeOptions": {
                         "type": "object",
                         "properties": {
-                          "$ref": {
-                            "type": "string",
-                            "format": "uri"
-                          },
                           "entity": {
                             "type": "string"
                           }
-                        },
-                        "required": [
-                          "entity"
-                        ]
+                        }
                       },
                       "isRequired": {
                         "type": "boolean",
@@ -699,6 +684,10 @@
                       "objectTypeOptions": {
                         "type": "object",
                         "properties": {
+                          "$ref": {
+                            "type": "string",
+                            "format": "uri"
+                          },
                           "attributes": {
                             "type": "array",
                             "items": {
@@ -721,68 +710,65 @@
                                 },
                                 "type": {
                                   "enum": [
-                                    "array",
-                                    "collection",
-                                    "object",
-                                    "vatNumber",
-                                    "entity",
-                                    "latLong",
-                                    "money",
-                                    "streetAddress",
-                                    "translatedText",
-                                    "dateTimeRange",
-                                    "area",
                                     "autoNumber",
-                                    "boolean",
-                                    "color",
-                                    "colour",
-                                    "countryCode2",
-                                    "countryCode3",
-                                    "countryNumber",
-                                    "cultureCode",
-                                    "currencyCode",
-                                    "currencyNumber",
-                                    "date",
-                                    "month",
-                                    "year",
-                                    "dateTime",
-                                    "dateTimeDuration",
-                                    "dateTimeSchedule",
-                                    "distance",
-                                    "email",
-                                    "encryptedText",
-                                    "file",
-                                    "formula",
-                                    "guid",
-                                    "hashedText",
-                                    "html",
-                                    "image",
-                                    "imageJpg",
-                                    "imagePng",
-                                    "imageSvg",
-                                    "internetDomain",
-                                    "ipAddress",
-                                    "json",
-                                    "jwtToken",
-                                    "languageCode",
-                                    "length",
+                                    "collection",
                                     "macAddress",
-                                    "markdown",
-                                    "nuid",
-                                    "number",
-                                    "password",
-                                    "percentage",
-                                    "phoneNumber",
-                                    "temperature",
-                                    "text",
-                                    "time",
-                                    "timeZoneCode",
-                                    "uri",
-                                    "url",
-                                    "user",
-                                    "volume",
+                                    "ipAddress",
+                                    "date",
+                                    "dayOfWeek",
+                                    "streetAddress",
+                                    "file",
                                     "weight",
-                                    "yaml"
+                                    "timeZoneCode",
+                                    "translatedText",
+                                    "area",
+                                    "length",
+                                    "guid",
+                                    "vatNumber",
+                                    "currencyCode",
+                                    "countryCode3",
+                                    "array",
+                                    "text",
+                                    "distance",
+                                    "color",
+                                    "countryCode2",
+                                    "cultureCode",
+                                    "volume",
+                                    "temperature",
+                                    "password",
+                                    "internetDomain",
+                                    "encryptedText",
+                                    "url",
+                                    "dateTimeDuration",
+                                    "boolean",
+                                    "entity",
+                                    "time",
+                                    "uri",
+                                    "currencyNumber",
+                                    "html",
+                                    "jwtToken",
+                                    "object",
+                                    "formula",
+                                    "countryNumber",
+                                    "markdown",
+                                    "user",
+                                    "dateTime",
+                                    "json",
+                                    "dateTimeSchedule",
+                                    "nuid",
+                                    "email",
+                                    "money",
+                                    "image",
+                                    "languageCode",
+                                    "phoneNumber",
+                                    "hashedText",
+                                    "year",
+                                    "yaml",
+                                    "dateTimeRange",
+                                    "percentage",
+                                    "latLong",
+                                    "month",
+                                    "number"
                                   ],
                                   "title": "The Nox type of this attribute.",
                                   "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -825,10 +811,6 @@
                                 "moneyTypeOptions": {
                                   "type": "object",
                                   "properties": {
-                                    "$ref": {
-                                      "type": "string",
-                                      "format": "uri"
-                                    },
                                     "decimalDigits": {
                                       "type": "integer"
                                     },
@@ -1008,23 +990,15 @@
                                         "WON"
                                       ]
                                     }
-                                  },
-                                  "additionalProperties": false
+                                  }
                                 },
                                 "entityTypeOptions": {
                                   "type": "object",
                                   "properties": {
-                                    "$ref": {
-                                      "type": "string",
-                                      "format": "uri"
-                                    },
                                     "entity": {
                                       "type": "string"
                                     }
-                                  },
-                                  "required": [
-                                    "entity"
-                                  ]
+                                  }
                                 },
                                 "isRequired": {
                                   "type": "boolean",
@@ -1138,10 +1112,6 @@
                                 "type"
                               ]
                             }
-                          },
-                          "$ref": {
-                            "type": "string",
-                            "format": "uri"
                           }
                         },
                         "required": [
@@ -1168,68 +1138,65 @@
                           },
                           "type": {
                             "enum": [
-                              "array",
-                              "collection",
-                              "object",
-                              "vatNumber",
-                              "entity",
-                              "latLong",
-                              "money",
-                              "streetAddress",
-                              "translatedText",
-                              "dateTimeRange",
-                              "area",
                               "autoNumber",
-                              "boolean",
-                              "color",
-                              "colour",
-                              "countryCode2",
-                              "countryCode3",
-                              "countryNumber",
-                              "cultureCode",
-                              "currencyCode",
-                              "currencyNumber",
-                              "date",
-                              "month",
-                              "year",
-                              "dateTime",
-                              "dateTimeDuration",
-                              "dateTimeSchedule",
-                              "distance",
-                              "email",
-                              "encryptedText",
-                              "file",
-                              "formula",
-                              "guid",
-                              "hashedText",
-                              "html",
-                              "image",
-                              "imageJpg",
-                              "imagePng",
-                              "imageSvg",
-                              "internetDomain",
-                              "ipAddress",
-                              "json",
-                              "jwtToken",
-                              "languageCode",
-                              "length",
+                              "collection",
                               "macAddress",
-                              "markdown",
-                              "nuid",
-                              "number",
-                              "password",
-                              "percentage",
-                              "phoneNumber",
-                              "temperature",
-                              "text",
-                              "time",
-                              "timeZoneCode",
-                              "uri",
-                              "url",
-                              "user",
-                              "volume",
+                              "ipAddress",
+                              "date",
+                              "dayOfWeek",
+                              "streetAddress",
+                              "file",
                               "weight",
-                              "yaml"
+                              "timeZoneCode",
+                              "translatedText",
+                              "area",
+                              "length",
+                              "guid",
+                              "vatNumber",
+                              "currencyCode",
+                              "countryCode3",
+                              "array",
+                              "text",
+                              "distance",
+                              "color",
+                              "countryCode2",
+                              "cultureCode",
+                              "volume",
+                              "temperature",
+                              "password",
+                              "internetDomain",
+                              "encryptedText",
+                              "url",
+                              "dateTimeDuration",
+                              "boolean",
+                              "entity",
+                              "time",
+                              "uri",
+                              "currencyNumber",
+                              "html",
+                              "jwtToken",
+                              "object",
+                              "formula",
+                              "countryNumber",
+                              "markdown",
+                              "user",
+                              "dateTime",
+                              "json",
+                              "dateTimeSchedule",
+                              "nuid",
+                              "email",
+                              "money",
+                              "image",
+                              "languageCode",
+                              "phoneNumber",
+                              "hashedText",
+                              "year",
+                              "yaml",
+                              "dateTimeRange",
+                              "percentage",
+                              "latLong",
+                              "month",
+                              "number"
                             ],
                             "title": "The Nox type of this attribute.",
                             "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -1272,10 +1239,6 @@
                           "moneyTypeOptions": {
                             "type": "object",
                             "properties": {
-                              "$ref": {
-                                "type": "string",
-                                "format": "uri"
-                              },
                               "decimalDigits": {
                                 "type": "integer"
                               },
@@ -1455,23 +1418,15 @@
                                   "WON"
                                 ]
                               }
-                            },
-                            "additionalProperties": false
+                            }
                           },
                           "entityTypeOptions": {
                             "type": "object",
                             "properties": {
-                              "$ref": {
-                                "type": "string",
-                                "format": "uri"
-                              },
                               "entity": {
                                 "type": "string"
                               }
-                            },
-                            "required": [
-                              "entity"
-                            ]
+                            }
                           },
                           "isRequired": {
                             "type": "boolean",
@@ -1582,6 +1537,10 @@
                           "objectTypeOptions": {
                             "type": "object",
                             "properties": {
+                              "$ref": {
+                                "type": "string",
+                                "format": "uri"
+                              },
                               "attributes": {
                                 "type": "array",
                                 "items": {
@@ -1604,68 +1563,65 @@
                                     },
                                     "type": {
                                       "enum": [
-                                        "array",
-                                        "collection",
-                                        "object",
-                                        "vatNumber",
-                                        "entity",
-                                        "latLong",
-                                        "money",
-                                        "streetAddress",
-                                        "translatedText",
-                                        "dateTimeRange",
-                                        "area",
                                         "autoNumber",
-                                        "boolean",
-                                        "color",
-                                        "colour",
-                                        "countryCode2",
-                                        "countryCode3",
-                                        "countryNumber",
-                                        "cultureCode",
-                                        "currencyCode",
-                                        "currencyNumber",
-                                        "date",
-                                        "month",
-                                        "year",
-                                        "dateTime",
-                                        "dateTimeDuration",
-                                        "dateTimeSchedule",
-                                        "distance",
-                                        "email",
-                                        "encryptedText",
-                                        "file",
-                                        "formula",
-                                        "guid",
-                                        "hashedText",
-                                        "html",
-                                        "image",
-                                        "imageJpg",
-                                        "imagePng",
-                                        "imageSvg",
-                                        "internetDomain",
-                                        "ipAddress",
-                                        "json",
-                                        "jwtToken",
-                                        "languageCode",
-                                        "length",
+                                        "collection",
                                         "macAddress",
-                                        "markdown",
-                                        "nuid",
-                                        "number",
-                                        "password",
-                                        "percentage",
-                                        "phoneNumber",
-                                        "temperature",
-                                        "text",
-                                        "time",
-                                        "timeZoneCode",
-                                        "uri",
-                                        "url",
-                                        "user",
-                                        "volume",
+                                        "ipAddress",
+                                        "date",
+                                        "dayOfWeek",
+                                        "streetAddress",
+                                        "file",
                                         "weight",
-                                        "yaml"
+                                        "timeZoneCode",
+                                        "translatedText",
+                                        "area",
+                                        "length",
+                                        "guid",
+                                        "vatNumber",
+                                        "currencyCode",
+                                        "countryCode3",
+                                        "array",
+                                        "text",
+                                        "distance",
+                                        "color",
+                                        "countryCode2",
+                                        "cultureCode",
+                                        "volume",
+                                        "temperature",
+                                        "password",
+                                        "internetDomain",
+                                        "encryptedText",
+                                        "url",
+                                        "dateTimeDuration",
+                                        "boolean",
+                                        "entity",
+                                        "time",
+                                        "uri",
+                                        "currencyNumber",
+                                        "html",
+                                        "jwtToken",
+                                        "object",
+                                        "formula",
+                                        "countryNumber",
+                                        "markdown",
+                                        "user",
+                                        "dateTime",
+                                        "json",
+                                        "dateTimeSchedule",
+                                        "nuid",
+                                        "email",
+                                        "money",
+                                        "image",
+                                        "languageCode",
+                                        "phoneNumber",
+                                        "hashedText",
+                                        "year",
+                                        "yaml",
+                                        "dateTimeRange",
+                                        "percentage",
+                                        "latLong",
+                                        "month",
+                                        "number"
                                       ],
                                       "title": "The Nox type of this attribute.",
                                       "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -1708,10 +1664,6 @@
                                     "moneyTypeOptions": {
                                       "type": "object",
                                       "properties": {
-                                        "$ref": {
-                                          "type": "string",
-                                          "format": "uri"
-                                        },
                                         "decimalDigits": {
                                           "type": "integer"
                                         },
@@ -1891,23 +1843,15 @@
                                             "WON"
                                           ]
                                         }
-                                      },
-                                      "additionalProperties": false
+                                      }
                                     },
                                     "entityTypeOptions": {
                                       "type": "object",
                                       "properties": {
-                                        "$ref": {
-                                          "type": "string",
-                                          "format": "uri"
-                                        },
                                         "entity": {
                                           "type": "string"
                                         }
-                                      },
-                                      "required": [
-                                        "entity"
-                                      ]
+                                      }
                                     },
                                     "isRequired": {
                                       "type": "boolean",
@@ -2021,10 +1965,6 @@
                                     "type"
                                   ]
                                 }
-                              },
-                              "$ref": {
-                                "type": "string",
-                                "format": "uri"
                               }
                             },
                             "required": [
@@ -2060,68 +2000,65 @@
                           },
                           "type": {
                             "enum": [
-                              "array",
-                              "collection",
-                              "object",
-                              "vatNumber",
-                              "entity",
-                              "latLong",
-                              "money",
-                              "streetAddress",
-                              "translatedText",
-                              "dateTimeRange",
-                              "area",
                               "autoNumber",
-                              "boolean",
-                              "color",
-                              "colour",
-                              "countryCode2",
-                              "countryCode3",
-                              "countryNumber",
-                              "cultureCode",
-                              "currencyCode",
-                              "currencyNumber",
-                              "date",
-                              "month",
-                              "year",
-                              "dateTime",
-                              "dateTimeDuration",
-                              "dateTimeSchedule",
-                              "distance",
-                              "email",
-                              "encryptedText",
-                              "file",
-                              "formula",
-                              "guid",
-                              "hashedText",
-                              "html",
-                              "image",
-                              "imageJpg",
-                              "imagePng",
-                              "imageSvg",
-                              "internetDomain",
-                              "ipAddress",
-                              "json",
-                              "jwtToken",
-                              "languageCode",
-                              "length",
+                              "collection",
                               "macAddress",
-                              "markdown",
-                              "nuid",
-                              "number",
-                              "password",
-                              "percentage",
-                              "phoneNumber",
-                              "temperature",
-                              "text",
-                              "time",
-                              "timeZoneCode",
-                              "uri",
-                              "url",
-                              "user",
-                              "volume",
+                              "ipAddress",
+                              "date",
+                              "dayOfWeek",
+                              "streetAddress",
+                              "file",
                               "weight",
-                              "yaml"
+                              "timeZoneCode",
+                              "translatedText",
+                              "area",
+                              "length",
+                              "guid",
+                              "vatNumber",
+                              "currencyCode",
+                              "countryCode3",
+                              "array",
+                              "text",
+                              "distance",
+                              "color",
+                              "countryCode2",
+                              "cultureCode",
+                              "volume",
+                              "temperature",
+                              "password",
+                              "internetDomain",
+                              "encryptedText",
+                              "url",
+                              "dateTimeDuration",
+                              "boolean",
+                              "entity",
+                              "time",
+                              "uri",
+                              "currencyNumber",
+                              "html",
+                              "jwtToken",
+                              "object",
+                              "formula",
+                              "countryNumber",
+                              "markdown",
+                              "user",
+                              "dateTime",
+                              "json",
+                              "dateTimeSchedule",
+                              "nuid",
+                              "email",
+                              "money",
+                              "image",
+                              "languageCode",
+                              "phoneNumber",
+                              "hashedText",
+                              "year",
+                              "yaml",
+                              "dateTimeRange",
+                              "percentage",
+                              "latLong",
+                              "month",
+                              "number"
                             ],
                             "title": "The Nox type of this attribute.",
                             "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -2164,10 +2101,6 @@
                           "moneyTypeOptions": {
                             "type": "object",
                             "properties": {
-                              "$ref": {
-                                "type": "string",
-                                "format": "uri"
-                              },
                               "decimalDigits": {
                                 "type": "integer"
                               },
@@ -2347,23 +2280,15 @@
                                   "WON"
                                 ]
                               }
-                            },
-                            "additionalProperties": false
+                            }
                           },
                           "entityTypeOptions": {
                             "type": "object",
                             "properties": {
-                              "$ref": {
-                                "type": "string",
-                                "format": "uri"
-                              },
                               "entity": {
                                 "type": "string"
                               }
-                            },
-                            "required": [
-                              "entity"
-                            ]
+                            }
                           },
                           "isRequired": {
                             "type": "boolean",
@@ -2474,6 +2399,10 @@
                           "objectTypeOptions": {
                             "type": "object",
                             "properties": {
+                              "$ref": {
+                                "type": "string",
+                                "format": "uri"
+                              },
                               "attributes": {
                                 "type": "array",
                                 "items": {
@@ -2496,68 +2425,65 @@
                                     },
                                     "type": {
                                       "enum": [
-                                        "array",
-                                        "collection",
-                                        "object",
-                                        "vatNumber",
-                                        "entity",
-                                        "latLong",
-                                        "money",
-                                        "streetAddress",
-                                        "translatedText",
-                                        "dateTimeRange",
-                                        "area",
                                         "autoNumber",
-                                        "boolean",
-                                        "color",
-                                        "colour",
-                                        "countryCode2",
-                                        "countryCode3",
-                                        "countryNumber",
-                                        "cultureCode",
-                                        "currencyCode",
-                                        "currencyNumber",
-                                        "date",
-                                        "month",
-                                        "year",
-                                        "dateTime",
-                                        "dateTimeDuration",
-                                        "dateTimeSchedule",
-                                        "distance",
-                                        "email",
-                                        "encryptedText",
-                                        "file",
-                                        "formula",
-                                        "guid",
-                                        "hashedText",
-                                        "html",
-                                        "image",
-                                        "imageJpg",
-                                        "imagePng",
-                                        "imageSvg",
-                                        "internetDomain",
-                                        "ipAddress",
-                                        "json",
-                                        "jwtToken",
-                                        "languageCode",
-                                        "length",
+                                        "collection",
                                         "macAddress",
-                                        "markdown",
-                                        "nuid",
-                                        "number",
-                                        "password",
-                                        "percentage",
-                                        "phoneNumber",
-                                        "temperature",
-                                        "text",
-                                        "time",
-                                        "timeZoneCode",
-                                        "uri",
-                                        "url",
-                                        "user",
-                                        "volume",
+                                        "ipAddress",
+                                        "date",
+                                        "dayOfWeek",
+                                        "streetAddress",
+                                        "file",
                                         "weight",
-                                        "yaml"
+                                        "timeZoneCode",
+                                        "translatedText",
+                                        "area",
+                                        "length",
+                                        "guid",
+                                        "vatNumber",
+                                        "currencyCode",
+                                        "countryCode3",
+                                        "array",
+                                        "text",
+                                        "distance",
+                                        "color",
+                                        "countryCode2",
+                                        "cultureCode",
+                                        "volume",
+                                        "temperature",
+                                        "password",
+                                        "internetDomain",
+                                        "encryptedText",
+                                        "url",
+                                        "dateTimeDuration",
+                                        "boolean",
+                                        "entity",
+                                        "time",
+                                        "uri",
+                                        "currencyNumber",
+                                        "html",
+                                        "jwtToken",
+                                        "object",
+                                        "formula",
+                                        "countryNumber",
+                                        "markdown",
+                                        "user",
+                                        "dateTime",
+                                        "json",
+                                        "dateTimeSchedule",
+                                        "nuid",
+                                        "email",
+                                        "money",
+                                        "image",
+                                        "languageCode",
+                                        "phoneNumber",
+                                        "hashedText",
+                                        "year",
+                                        "yaml",
+                                        "dateTimeRange",
+                                        "percentage",
+                                        "latLong",
+                                        "month",
+                                        "number"
                                       ],
                                       "title": "The Nox type of this attribute.",
                                       "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -2600,10 +2526,6 @@
                                     "moneyTypeOptions": {
                                       "type": "object",
                                       "properties": {
-                                        "$ref": {
-                                          "type": "string",
-                                          "format": "uri"
-                                        },
                                         "decimalDigits": {
                                           "type": "integer"
                                         },
@@ -2783,23 +2705,15 @@
                                             "WON"
                                           ]
                                         }
-                                      },
-                                      "additionalProperties": false
+                                      }
                                     },
                                     "entityTypeOptions": {
                                       "type": "object",
                                       "properties": {
-                                        "$ref": {
-                                          "type": "string",
-                                          "format": "uri"
-                                        },
                                         "entity": {
                                           "type": "string"
                                         }
-                                      },
-                                      "required": [
-                                        "entity"
-                                      ]
+                                      }
                                     },
                                     "isRequired": {
                                       "type": "boolean",
@@ -2913,10 +2827,6 @@
                                     "type"
                                   ]
                                 }
-                              },
-                              "$ref": {
-                                "type": "string",
-                                "format": "uri"
                               }
                             },
                             "required": [
@@ -2965,68 +2875,65 @@
                     },
                     "type": {
                       "enum": [
-                        "array",
-                        "collection",
-                        "object",
-                        "vatNumber",
-                        "entity",
-                        "latLong",
-                        "money",
-                        "streetAddress",
-                        "translatedText",
-                        "dateTimeRange",
-                        "area",
                         "autoNumber",
-                        "boolean",
-                        "color",
-                        "colour",
-                        "countryCode2",
-                        "countryCode3",
-                        "countryNumber",
-                        "cultureCode",
-                        "currencyCode",
-                        "currencyNumber",
-                        "date",
-                        "month",
-                        "year",
-                        "dateTime",
-                        "dateTimeDuration",
-                        "dateTimeSchedule",
-                        "distance",
-                        "email",
-                        "encryptedText",
-                        "file",
-                        "formula",
-                        "guid",
-                        "hashedText",
-                        "html",
-                        "image",
-                        "imageJpg",
-                        "imagePng",
-                        "imageSvg",
-                        "internetDomain",
-                        "ipAddress",
-                        "json",
-                        "jwtToken",
-                        "languageCode",
-                        "length",
+                        "collection",
                         "macAddress",
-                        "markdown",
-                        "nuid",
-                        "number",
-                        "password",
-                        "percentage",
-                        "phoneNumber",
-                        "temperature",
-                        "text",
-                        "time",
-                        "timeZoneCode",
-                        "uri",
-                        "url",
-                        "user",
-                        "volume",
+                        "ipAddress",
+                        "date",
+                        "dayOfWeek",
+                        "streetAddress",
+                        "file",
                         "weight",
-                        "yaml"
+                        "timeZoneCode",
+                        "translatedText",
+                        "area",
+                        "length",
+                        "guid",
+                        "vatNumber",
+                        "currencyCode",
+                        "countryCode3",
+                        "array",
+                        "text",
+                        "distance",
+                        "color",
+                        "countryCode2",
+                        "cultureCode",
+                        "volume",
+                        "temperature",
+                        "password",
+                        "internetDomain",
+                        "encryptedText",
+                        "url",
+                        "dateTimeDuration",
+                        "boolean",
+                        "entity",
+                        "time",
+                        "uri",
+                        "currencyNumber",
+                        "html",
+                        "jwtToken",
+                        "object",
+                        "formula",
+                        "countryNumber",
+                        "markdown",
+                        "user",
+                        "dateTime",
+                        "json",
+                        "dateTimeSchedule",
+                        "nuid",
+                        "email",
+                        "money",
+                        "image",
+                        "languageCode",
+                        "phoneNumber",
+                        "hashedText",
+                        "year",
+                        "yaml",
+                        "dateTimeRange",
+                        "percentage",
+                        "latLong",
+                        "month",
+                        "number"
                       ],
                       "title": "The Nox type of this attribute.",
                       "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -3069,10 +2976,6 @@
                     "moneyTypeOptions": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "decimalDigits": {
                           "type": "integer"
                         },
@@ -3252,23 +3155,15 @@
                             "WON"
                           ]
                         }
-                      },
-                      "additionalProperties": false
+                      }
                     },
                     "entityTypeOptions": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "entity": {
                           "type": "string"
                         }
-                      },
-                      "required": [
-                        "entity"
-                      ]
+                      }
                     },
                     "isRequired": {
                       "type": "boolean",
@@ -3379,6 +3274,10 @@
                     "objectTypeOptions": {
                       "type": "object",
                       "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
+                        },
                         "attributes": {
                           "type": "array",
                           "items": {
@@ -3401,68 +3300,65 @@
                               },
                               "type": {
                                 "enum": [
-                                  "array",
-                                  "collection",
-                                  "object",
-                                  "vatNumber",
-                                  "entity",
-                                  "latLong",
-                                  "money",
-                                  "streetAddress",
-                                  "translatedText",
-                                  "dateTimeRange",
-                                  "area",
                                   "autoNumber",
-                                  "boolean",
-                                  "color",
-                                  "colour",
-                                  "countryCode2",
-                                  "countryCode3",
-                                  "countryNumber",
-                                  "cultureCode",
-                                  "currencyCode",
-                                  "currencyNumber",
-                                  "date",
-                                  "month",
-                                  "year",
-                                  "dateTime",
-                                  "dateTimeDuration",
-                                  "dateTimeSchedule",
-                                  "distance",
-                                  "email",
-                                  "encryptedText",
-                                  "file",
-                                  "formula",
-                                  "guid",
-                                  "hashedText",
-                                  "html",
-                                  "image",
-                                  "imageJpg",
-                                  "imagePng",
-                                  "imageSvg",
-                                  "internetDomain",
-                                  "ipAddress",
-                                  "json",
-                                  "jwtToken",
-                                  "languageCode",
-                                  "length",
+                                  "collection",
                                   "macAddress",
-                                  "markdown",
-                                  "nuid",
-                                  "number",
-                                  "password",
-                                  "percentage",
-                                  "phoneNumber",
-                                  "temperature",
-                                  "text",
-                                  "time",
-                                  "timeZoneCode",
-                                  "uri",
-                                  "url",
-                                  "user",
-                                  "volume",
+                                  "ipAddress",
+                                  "date",
+                                  "dayOfWeek",
+                                  "streetAddress",
+                                  "file",
                                   "weight",
-                                  "yaml"
+                                  "timeZoneCode",
+                                  "translatedText",
+                                  "area",
+                                  "length",
+                                  "guid",
+                                  "vatNumber",
+                                  "currencyCode",
+                                  "countryCode3",
+                                  "array",
+                                  "text",
+                                  "distance",
+                                  "color",
+                                  "countryCode2",
+                                  "cultureCode",
+                                  "volume",
+                                  "temperature",
+                                  "password",
+                                  "internetDomain",
+                                  "encryptedText",
+                                  "url",
+                                  "dateTimeDuration",
+                                  "boolean",
+                                  "entity",
+                                  "time",
+                                  "uri",
+                                  "currencyNumber",
+                                  "html",
+                                  "jwtToken",
+                                  "object",
+                                  "formula",
+                                  "countryNumber",
+                                  "markdown",
+                                  "user",
+                                  "dateTime",
+                                  "json",
+                                  "dateTimeSchedule",
+                                  "nuid",
+                                  "email",
+                                  "money",
+                                  "image",
+                                  "languageCode",
+                                  "phoneNumber",
+                                  "hashedText",
+                                  "year",
+                                  "yaml",
+                                  "dateTimeRange",
+                                  "percentage",
+                                  "latLong",
+                                  "month",
+                                  "number"
                                 ],
                                 "title": "The Nox type of this attribute.",
                                 "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -3505,10 +3401,6 @@
                               "moneyTypeOptions": {
                                 "type": "object",
                                 "properties": {
-                                  "$ref": {
-                                    "type": "string",
-                                    "format": "uri"
-                                  },
                                   "decimalDigits": {
                                     "type": "integer"
                                   },
@@ -3688,23 +3580,15 @@
                                       "WON"
                                     ]
                                   }
-                                },
-                                "additionalProperties": false
+                                }
                               },
                               "entityTypeOptions": {
                                 "type": "object",
                                 "properties": {
-                                  "$ref": {
-                                    "type": "string",
-                                    "format": "uri"
-                                  },
                                   "entity": {
                                     "type": "string"
                                   }
-                                },
-                                "required": [
-                                  "entity"
-                                ]
+                                }
                               },
                               "isRequired": {
                                 "type": "boolean",
@@ -3818,10 +3702,6 @@
                               "type"
                             ]
                           }
-                        },
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
                         }
                       },
                       "required": [
@@ -3848,68 +3728,65 @@
                         },
                         "type": {
                           "enum": [
-                            "array",
-                            "collection",
-                            "object",
-                            "vatNumber",
-                            "entity",
-                            "latLong",
-                            "money",
-                            "streetAddress",
-                            "translatedText",
-                            "dateTimeRange",
-                            "area",
                             "autoNumber",
-                            "boolean",
-                            "color",
-                            "colour",
-                            "countryCode2",
-                            "countryCode3",
-                            "countryNumber",
-                            "cultureCode",
-                            "currencyCode",
-                            "currencyNumber",
-                            "date",
-                            "month",
-                            "year",
-                            "dateTime",
-                            "dateTimeDuration",
-                            "dateTimeSchedule",
-                            "distance",
-                            "email",
-                            "encryptedText",
-                            "file",
-                            "formula",
-                            "guid",
-                            "hashedText",
-                            "html",
-                            "image",
-                            "imageJpg",
-                            "imagePng",
-                            "imageSvg",
-                            "internetDomain",
-                            "ipAddress",
-                            "json",
-                            "jwtToken",
-                            "languageCode",
-                            "length",
+                            "collection",
                             "macAddress",
-                            "markdown",
-                            "nuid",
-                            "number",
-                            "password",
-                            "percentage",
-                            "phoneNumber",
-                            "temperature",
-                            "text",
-                            "time",
-                            "timeZoneCode",
-                            "uri",
-                            "url",
-                            "user",
-                            "volume",
+                            "ipAddress",
+                            "date",
+                            "dayOfWeek",
+                            "streetAddress",
+                            "file",
                             "weight",
-                            "yaml"
+                            "timeZoneCode",
+                            "translatedText",
+                            "area",
+                            "length",
+                            "guid",
+                            "vatNumber",
+                            "currencyCode",
+                            "countryCode3",
+                            "array",
+                            "text",
+                            "distance",
+                            "color",
+                            "countryCode2",
+                            "cultureCode",
+                            "volume",
+                            "temperature",
+                            "password",
+                            "internetDomain",
+                            "encryptedText",
+                            "url",
+                            "dateTimeDuration",
+                            "boolean",
+                            "entity",
+                            "time",
+                            "uri",
+                            "currencyNumber",
+                            "html",
+                            "jwtToken",
+                            "object",
+                            "formula",
+                            "countryNumber",
+                            "markdown",
+                            "user",
+                            "dateTime",
+                            "json",
+                            "dateTimeSchedule",
+                            "nuid",
+                            "email",
+                            "money",
+                            "image",
+                            "languageCode",
+                            "phoneNumber",
+                            "hashedText",
+                            "year",
+                            "yaml",
+                            "dateTimeRange",
+                            "percentage",
+                            "latLong",
+                            "month",
+                            "number"
                           ],
                           "title": "The Nox type of this attribute.",
                           "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -3952,10 +3829,6 @@
                         "moneyTypeOptions": {
                           "type": "object",
                           "properties": {
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
-                            },
                             "decimalDigits": {
                               "type": "integer"
                             },
@@ -4135,23 +4008,15 @@
                                 "WON"
                               ]
                             }
-                          },
-                          "additionalProperties": false
+                          }
                         },
                         "entityTypeOptions": {
                           "type": "object",
                           "properties": {
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
-                            },
                             "entity": {
                               "type": "string"
                             }
-                          },
-                          "required": [
-                            "entity"
-                          ]
+                          }
                         },
                         "isRequired": {
                           "type": "boolean",
@@ -4262,6 +4127,10 @@
                         "objectTypeOptions": {
                           "type": "object",
                           "properties": {
+                            "$ref": {
+                              "type": "string",
+                              "format": "uri"
+                            },
                             "attributes": {
                               "type": "array",
                               "items": {
@@ -4284,68 +4153,65 @@
                                   },
                                   "type": {
                                     "enum": [
-                                      "array",
-                                      "collection",
-                                      "object",
-                                      "vatNumber",
-                                      "entity",
-                                      "latLong",
-                                      "money",
-                                      "streetAddress",
-                                      "translatedText",
-                                      "dateTimeRange",
-                                      "area",
                                       "autoNumber",
-                                      "boolean",
-                                      "color",
-                                      "colour",
-                                      "countryCode2",
-                                      "countryCode3",
-                                      "countryNumber",
-                                      "cultureCode",
-                                      "currencyCode",
-                                      "currencyNumber",
-                                      "date",
-                                      "month",
-                                      "year",
-                                      "dateTime",
-                                      "dateTimeDuration",
-                                      "dateTimeSchedule",
-                                      "distance",
-                                      "email",
-                                      "encryptedText",
-                                      "file",
-                                      "formula",
-                                      "guid",
-                                      "hashedText",
-                                      "html",
-                                      "image",
-                                      "imageJpg",
-                                      "imagePng",
-                                      "imageSvg",
-                                      "internetDomain",
-                                      "ipAddress",
-                                      "json",
-                                      "jwtToken",
-                                      "languageCode",
-                                      "length",
+                                      "collection",
                                       "macAddress",
-                                      "markdown",
-                                      "nuid",
-                                      "number",
-                                      "password",
-                                      "percentage",
-                                      "phoneNumber",
-                                      "temperature",
-                                      "text",
-                                      "time",
-                                      "timeZoneCode",
-                                      "uri",
-                                      "url",
-                                      "user",
-                                      "volume",
+                                      "ipAddress",
+                                      "date",
+                                      "dayOfWeek",
+                                      "streetAddress",
+                                      "file",
                                       "weight",
-                                      "yaml"
+                                      "timeZoneCode",
+                                      "translatedText",
+                                      "area",
+                                      "length",
+                                      "guid",
+                                      "vatNumber",
+                                      "currencyCode",
+                                      "countryCode3",
+                                      "array",
+                                      "text",
+                                      "distance",
+                                      "color",
+                                      "countryCode2",
+                                      "cultureCode",
+                                      "volume",
+                                      "temperature",
+                                      "password",
+                                      "internetDomain",
+                                      "encryptedText",
+                                      "url",
+                                      "dateTimeDuration",
+                                      "boolean",
+                                      "entity",
+                                      "time",
+                                      "uri",
+                                      "currencyNumber",
+                                      "html",
+                                      "jwtToken",
+                                      "object",
+                                      "formula",
+                                      "countryNumber",
+                                      "markdown",
+                                      "user",
+                                      "dateTime",
+                                      "json",
+                                      "dateTimeSchedule",
+                                      "nuid",
+                                      "email",
+                                      "money",
+                                      "image",
+                                      "languageCode",
+                                      "phoneNumber",
+                                      "hashedText",
+                                      "year",
+                                      "yaml",
+                                      "dateTimeRange",
+                                      "percentage",
+                                      "latLong",
+                                      "month",
+                                      "number"
                                     ],
                                     "title": "The Nox type of this attribute.",
                                     "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -4388,10 +4254,6 @@
                                   "moneyTypeOptions": {
                                     "type": "object",
                                     "properties": {
-                                      "$ref": {
-                                        "type": "string",
-                                        "format": "uri"
-                                      },
                                       "decimalDigits": {
                                         "type": "integer"
                                       },
@@ -4571,23 +4433,15 @@
                                           "WON"
                                         ]
                                       }
-                                    },
-                                    "additionalProperties": false
+                                    }
                                   },
                                   "entityTypeOptions": {
                                     "type": "object",
                                     "properties": {
-                                      "$ref": {
-                                        "type": "string",
-                                        "format": "uri"
-                                      },
                                       "entity": {
                                         "type": "string"
                                       }
-                                    },
-                                    "required": [
-                                      "entity"
-                                    ]
+                                    }
                                   },
                                   "isRequired": {
                                     "type": "boolean",
@@ -4701,10 +4555,6 @@
                                   "type"
                                 ]
                               }
-                            },
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
                             }
                           },
                           "required": [
@@ -4740,68 +4590,65 @@
                         },
                         "type": {
                           "enum": [
-                            "array",
-                            "collection",
-                            "object",
-                            "vatNumber",
-                            "entity",
-                            "latLong",
-                            "money",
-                            "streetAddress",
-                            "translatedText",
-                            "dateTimeRange",
-                            "area",
                             "autoNumber",
-                            "boolean",
-                            "color",
-                            "colour",
-                            "countryCode2",
-                            "countryCode3",
-                            "countryNumber",
-                            "cultureCode",
-                            "currencyCode",
-                            "currencyNumber",
-                            "date",
-                            "month",
-                            "year",
-                            "dateTime",
-                            "dateTimeDuration",
-                            "dateTimeSchedule",
-                            "distance",
-                            "email",
-                            "encryptedText",
-                            "file",
-                            "formula",
-                            "guid",
-                            "hashedText",
-                            "html",
-                            "image",
-                            "imageJpg",
-                            "imagePng",
-                            "imageSvg",
-                            "internetDomain",
-                            "ipAddress",
-                            "json",
-                            "jwtToken",
-                            "languageCode",
-                            "length",
+                            "collection",
                             "macAddress",
-                            "markdown",
-                            "nuid",
-                            "number",
-                            "password",
-                            "percentage",
-                            "phoneNumber",
-                            "temperature",
-                            "text",
-                            "time",
-                            "timeZoneCode",
-                            "uri",
-                            "url",
-                            "user",
-                            "volume",
+                            "ipAddress",
+                            "date",
+                            "dayOfWeek",
+                            "streetAddress",
+                            "file",
                             "weight",
-                            "yaml"
+                            "timeZoneCode",
+                            "translatedText",
+                            "area",
+                            "length",
+                            "guid",
+                            "vatNumber",
+                            "currencyCode",
+                            "countryCode3",
+                            "array",
+                            "text",
+                            "distance",
+                            "color",
+                            "countryCode2",
+                            "cultureCode",
+                            "volume",
+                            "temperature",
+                            "password",
+                            "internetDomain",
+                            "encryptedText",
+                            "url",
+                            "dateTimeDuration",
+                            "boolean",
+                            "entity",
+                            "time",
+                            "uri",
+                            "currencyNumber",
+                            "html",
+                            "jwtToken",
+                            "object",
+                            "formula",
+                            "countryNumber",
+                            "markdown",
+                            "user",
+                            "dateTime",
+                            "json",
+                            "dateTimeSchedule",
+                            "nuid",
+                            "email",
+                            "money",
+                            "image",
+                            "languageCode",
+                            "phoneNumber",
+                            "hashedText",
+                            "year",
+                            "yaml",
+                            "dateTimeRange",
+                            "percentage",
+                            "latLong",
+                            "month",
+                            "number"
                           ],
                           "title": "The Nox type of this attribute.",
                           "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -4844,10 +4691,6 @@
                         "moneyTypeOptions": {
                           "type": "object",
                           "properties": {
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
-                            },
                             "decimalDigits": {
                               "type": "integer"
                             },
@@ -5027,23 +4870,15 @@
                                 "WON"
                               ]
                             }
-                          },
-                          "additionalProperties": false
+                          }
                         },
                         "entityTypeOptions": {
                           "type": "object",
                           "properties": {
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
-                            },
                             "entity": {
                               "type": "string"
                             }
-                          },
-                          "required": [
-                            "entity"
-                          ]
+                          }
                         },
                         "isRequired": {
                           "type": "boolean",
@@ -5154,6 +4989,10 @@
                         "objectTypeOptions": {
                           "type": "object",
                           "properties": {
+                            "$ref": {
+                              "type": "string",
+                              "format": "uri"
+                            },
                             "attributes": {
                               "type": "array",
                               "items": {
@@ -5176,68 +5015,65 @@
                                   },
                                   "type": {
                                     "enum": [
-                                      "array",
-                                      "collection",
-                                      "object",
-                                      "vatNumber",
-                                      "entity",
-                                      "latLong",
-                                      "money",
-                                      "streetAddress",
-                                      "translatedText",
-                                      "dateTimeRange",
-                                      "area",
                                       "autoNumber",
-                                      "boolean",
-                                      "color",
-                                      "colour",
-                                      "countryCode2",
-                                      "countryCode3",
-                                      "countryNumber",
-                                      "cultureCode",
-                                      "currencyCode",
-                                      "currencyNumber",
-                                      "date",
-                                      "month",
-                                      "year",
-                                      "dateTime",
-                                      "dateTimeDuration",
-                                      "dateTimeSchedule",
-                                      "distance",
-                                      "email",
-                                      "encryptedText",
-                                      "file",
-                                      "formula",
-                                      "guid",
-                                      "hashedText",
-                                      "html",
-                                      "image",
-                                      "imageJpg",
-                                      "imagePng",
-                                      "imageSvg",
-                                      "internetDomain",
-                                      "ipAddress",
-                                      "json",
-                                      "jwtToken",
-                                      "languageCode",
-                                      "length",
+                                      "collection",
                                       "macAddress",
-                                      "markdown",
-                                      "nuid",
-                                      "number",
-                                      "password",
-                                      "percentage",
-                                      "phoneNumber",
-                                      "temperature",
-                                      "text",
-                                      "time",
-                                      "timeZoneCode",
-                                      "uri",
-                                      "url",
-                                      "user",
-                                      "volume",
+                                      "ipAddress",
+                                      "date",
+                                      "dayOfWeek",
+                                      "streetAddress",
+                                      "file",
                                       "weight",
-                                      "yaml"
+                                      "timeZoneCode",
+                                      "translatedText",
+                                      "area",
+                                      "length",
+                                      "guid",
+                                      "vatNumber",
+                                      "currencyCode",
+                                      "countryCode3",
+                                      "array",
+                                      "text",
+                                      "distance",
+                                      "color",
+                                      "countryCode2",
+                                      "cultureCode",
+                                      "volume",
+                                      "temperature",
+                                      "password",
+                                      "internetDomain",
+                                      "encryptedText",
+                                      "url",
+                                      "dateTimeDuration",
+                                      "boolean",
+                                      "entity",
+                                      "time",
+                                      "uri",
+                                      "currencyNumber",
+                                      "html",
+                                      "jwtToken",
+                                      "object",
+                                      "formula",
+                                      "countryNumber",
+                                      "markdown",
+                                      "user",
+                                      "dateTime",
+                                      "json",
+                                      "dateTimeSchedule",
+                                      "nuid",
+                                      "email",
+                                      "money",
+                                      "image",
+                                      "languageCode",
+                                      "phoneNumber",
+                                      "hashedText",
+                                      "year",
+                                      "yaml",
+                                      "dateTimeRange",
+                                      "percentage",
+                                      "latLong",
+                                      "month",
+                                      "number"
                                     ],
                                     "title": "The Nox type of this attribute.",
                                     "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -5280,10 +5116,6 @@
                                   "moneyTypeOptions": {
                                     "type": "object",
                                     "properties": {
-                                      "$ref": {
-                                        "type": "string",
-                                        "format": "uri"
-                                      },
                                       "decimalDigits": {
                                         "type": "integer"
                                       },
@@ -5463,23 +5295,15 @@
                                           "WON"
                                         ]
                                       }
-                                    },
-                                    "additionalProperties": false
+                                    }
                                   },
                                   "entityTypeOptions": {
                                     "type": "object",
                                     "properties": {
-                                      "$ref": {
-                                        "type": "string",
-                                        "format": "uri"
-                                      },
                                       "entity": {
                                         "type": "string"
                                       }
-                                    },
-                                    "required": [
-                                      "entity"
-                                    ]
+                                    }
                                   },
                                   "isRequired": {
                                     "type": "boolean",
@@ -5593,10 +5417,6 @@
                                   "type"
                                 ]
                               }
-                            },
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
                             }
                           },
                           "required": [
@@ -5656,68 +5476,65 @@
                 },
                 "type": {
                   "enum": [
-                    "array",
-                    "collection",
-                    "object",
-                    "vatNumber",
-                    "entity",
-                    "latLong",
-                    "money",
-                    "streetAddress",
-                    "translatedText",
-                    "dateTimeRange",
-                    "area",
                     "autoNumber",
-                    "boolean",
-                    "color",
-                    "colour",
-                    "countryCode2",
-                    "countryCode3",
-                    "countryNumber",
-                    "cultureCode",
-                    "currencyCode",
-                    "currencyNumber",
-                    "date",
-                    "month",
-                    "year",
-                    "dateTime",
-                    "dateTimeDuration",
-                    "dateTimeSchedule",
-                    "distance",
-                    "email",
-                    "encryptedText",
-                    "file",
-                    "formula",
-                    "guid",
-                    "hashedText",
-                    "html",
-                    "image",
-                    "imageJpg",
-                    "imagePng",
-                    "imageSvg",
-                    "internetDomain",
-                    "ipAddress",
-                    "json",
-                    "jwtToken",
-                    "languageCode",
-                    "length",
+                    "collection",
                     "macAddress",
-                    "markdown",
-                    "nuid",
-                    "number",
-                    "password",
-                    "percentage",
-                    "phoneNumber",
-                    "temperature",
-                    "text",
-                    "time",
-                    "timeZoneCode",
-                    "uri",
-                    "url",
-                    "user",
-                    "volume",
+                    "ipAddress",
+                    "date",
+                    "dayOfWeek",
+                    "streetAddress",
+                    "file",
                     "weight",
-                    "yaml"
+                    "timeZoneCode",
+                    "translatedText",
+                    "area",
+                    "length",
+                    "guid",
+                    "vatNumber",
+                    "currencyCode",
+                    "countryCode3",
+                    "array",
+                    "text",
+                    "distance",
+                    "color",
+                    "countryCode2",
+                    "cultureCode",
+                    "volume",
+                    "temperature",
+                    "password",
+                    "internetDomain",
+                    "encryptedText",
+                    "url",
+                    "dateTimeDuration",
+                    "boolean",
+                    "entity",
+                    "time",
+                    "uri",
+                    "currencyNumber",
+                    "html",
+                    "jwtToken",
+                    "object",
+                    "formula",
+                    "countryNumber",
+                    "markdown",
+                    "user",
+                    "dateTime",
+                    "json",
+                    "dateTimeSchedule",
+                    "nuid",
+                    "email",
+                    "money",
+                    "image",
+                    "languageCode",
+                    "phoneNumber",
+                    "hashedText",
+                    "year",
+                    "yaml",
+                    "dateTimeRange",
+                    "percentage",
+                    "latLong",
+                    "month",
+                    "number"
                   ],
                   "title": "The Nox type of this attribute.",
                   "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -5760,10 +5577,6 @@
                 "moneyTypeOptions": {
                   "type": "object",
                   "properties": {
-                    "$ref": {
-                      "type": "string",
-                      "format": "uri"
-                    },
                     "decimalDigits": {
                       "type": "integer"
                     },
@@ -5943,23 +5756,15 @@
                         "WON"
                       ]
                     }
-                  },
-                  "additionalProperties": false
+                  }
                 },
                 "entityTypeOptions": {
                   "type": "object",
                   "properties": {
-                    "$ref": {
-                      "type": "string",
-                      "format": "uri"
-                    },
                     "entity": {
                       "type": "string"
                     }
-                  },
-                  "required": [
-                    "entity"
-                  ]
+                  }
                 },
                 "isRequired": {
                   "type": "boolean",
@@ -6070,6 +5875,10 @@
                 "objectTypeOptions": {
                   "type": "object",
                   "properties": {
+                    "$ref": {
+                      "type": "string",
+                      "format": "uri"
+                    },
                     "attributes": {
                       "type": "array",
                       "items": {
@@ -6092,68 +5901,65 @@
                           },
                           "type": {
                             "enum": [
-                              "array",
-                              "collection",
-                              "object",
-                              "vatNumber",
-                              "entity",
-                              "latLong",
-                              "money",
-                              "streetAddress",
-                              "translatedText",
-                              "dateTimeRange",
-                              "area",
                               "autoNumber",
-                              "boolean",
-                              "color",
-                              "colour",
-                              "countryCode2",
-                              "countryCode3",
-                              "countryNumber",
-                              "cultureCode",
-                              "currencyCode",
-                              "currencyNumber",
-                              "date",
-                              "month",
-                              "year",
-                              "dateTime",
-                              "dateTimeDuration",
-                              "dateTimeSchedule",
-                              "distance",
-                              "email",
-                              "encryptedText",
-                              "file",
-                              "formula",
-                              "guid",
-                              "hashedText",
-                              "html",
-                              "image",
-                              "imageJpg",
-                              "imagePng",
-                              "imageSvg",
-                              "internetDomain",
-                              "ipAddress",
-                              "json",
-                              "jwtToken",
-                              "languageCode",
-                              "length",
+                              "collection",
                               "macAddress",
-                              "markdown",
-                              "nuid",
-                              "number",
-                              "password",
-                              "percentage",
-                              "phoneNumber",
-                              "temperature",
-                              "text",
-                              "time",
-                              "timeZoneCode",
-                              "uri",
-                              "url",
-                              "user",
-                              "volume",
+                              "ipAddress",
+                              "date",
+                              "dayOfWeek",
+                              "streetAddress",
+                              "file",
                               "weight",
-                              "yaml"
+                              "timeZoneCode",
+                              "translatedText",
+                              "area",
+                              "length",
+                              "guid",
+                              "vatNumber",
+                              "currencyCode",
+                              "countryCode3",
+                              "array",
+                              "text",
+                              "distance",
+                              "color",
+                              "countryCode2",
+                              "cultureCode",
+                              "volume",
+                              "temperature",
+                              "password",
+                              "internetDomain",
+                              "encryptedText",
+                              "url",
+                              "dateTimeDuration",
+                              "boolean",
+                              "entity",
+                              "time",
+                              "uri",
+                              "currencyNumber",
+                              "html",
+                              "jwtToken",
+                              "object",
+                              "formula",
+                              "countryNumber",
+                              "markdown",
+                              "user",
+                              "dateTime",
+                              "json",
+                              "dateTimeSchedule",
+                              "nuid",
+                              "email",
+                              "money",
+                              "image",
+                              "languageCode",
+                              "phoneNumber",
+                              "hashedText",
+                              "year",
+                              "yaml",
+                              "dateTimeRange",
+                              "percentage",
+                              "latLong",
+                              "month",
+                              "number"
                             ],
                             "title": "The Nox type of this attribute.",
                             "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -6196,10 +6002,6 @@
                           "moneyTypeOptions": {
                             "type": "object",
                             "properties": {
-                              "$ref": {
-                                "type": "string",
-                                "format": "uri"
-                              },
                               "decimalDigits": {
                                 "type": "integer"
                               },
@@ -6379,23 +6181,15 @@
                                   "WON"
                                 ]
                               }
-                            },
-                            "additionalProperties": false
+                            }
                           },
                           "entityTypeOptions": {
                             "type": "object",
                             "properties": {
-                              "$ref": {
-                                "type": "string",
-                                "format": "uri"
-                              },
                               "entity": {
                                 "type": "string"
                               }
-                            },
-                            "required": [
-                              "entity"
-                            ]
+                            }
                           },
                           "isRequired": {
                             "type": "boolean",
@@ -6509,10 +6303,6 @@
                           "type"
                         ]
                       }
-                    },
-                    "$ref": {
-                      "type": "string",
-                      "format": "uri"
                     }
                   },
                   "required": [
@@ -6539,68 +6329,65 @@
                     },
                     "type": {
                       "enum": [
-                        "array",
-                        "collection",
-                        "object",
-                        "vatNumber",
-                        "entity",
-                        "latLong",
-                        "money",
-                        "streetAddress",
-                        "translatedText",
-                        "dateTimeRange",
-                        "area",
                         "autoNumber",
-                        "boolean",
-                        "color",
-                        "colour",
-                        "countryCode2",
-                        "countryCode3",
-                        "countryNumber",
-                        "cultureCode",
-                        "currencyCode",
-                        "currencyNumber",
-                        "date",
-                        "month",
-                        "year",
-                        "dateTime",
-                        "dateTimeDuration",
-                        "dateTimeSchedule",
-                        "distance",
-                        "email",
-                        "encryptedText",
-                        "file",
-                        "formula",
-                        "guid",
-                        "hashedText",
-                        "html",
-                        "image",
-                        "imageJpg",
-                        "imagePng",
-                        "imageSvg",
-                        "internetDomain",
-                        "ipAddress",
-                        "json",
-                        "jwtToken",
-                        "languageCode",
-                        "length",
+                        "collection",
                         "macAddress",
-                        "markdown",
-                        "nuid",
-                        "number",
-                        "password",
-                        "percentage",
-                        "phoneNumber",
-                        "temperature",
-                        "text",
-                        "time",
-                        "timeZoneCode",
-                        "uri",
-                        "url",
-                        "user",
-                        "volume",
+                        "ipAddress",
+                        "date",
+                        "dayOfWeek",
+                        "streetAddress",
+                        "file",
                         "weight",
-                        "yaml"
+                        "timeZoneCode",
+                        "translatedText",
+                        "area",
+                        "length",
+                        "guid",
+                        "vatNumber",
+                        "currencyCode",
+                        "countryCode3",
+                        "array",
+                        "text",
+                        "distance",
+                        "color",
+                        "countryCode2",
+                        "cultureCode",
+                        "volume",
+                        "temperature",
+                        "password",
+                        "internetDomain",
+                        "encryptedText",
+                        "url",
+                        "dateTimeDuration",
+                        "boolean",
+                        "entity",
+                        "time",
+                        "uri",
+                        "currencyNumber",
+                        "html",
+                        "jwtToken",
+                        "object",
+                        "formula",
+                        "countryNumber",
+                        "markdown",
+                        "user",
+                        "dateTime",
+                        "json",
+                        "dateTimeSchedule",
+                        "nuid",
+                        "email",
+                        "money",
+                        "image",
+                        "languageCode",
+                        "phoneNumber",
+                        "hashedText",
+                        "year",
+                        "yaml",
+                        "dateTimeRange",
+                        "percentage",
+                        "latLong",
+                        "month",
+                        "number"
                       ],
                       "title": "The Nox type of this attribute.",
                       "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -6643,10 +6430,6 @@
                     "moneyTypeOptions": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "decimalDigits": {
                           "type": "integer"
                         },
@@ -6826,23 +6609,15 @@
                             "WON"
                           ]
                         }
-                      },
-                      "additionalProperties": false
+                      }
                     },
                     "entityTypeOptions": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "entity": {
                           "type": "string"
                         }
-                      },
-                      "required": [
-                        "entity"
-                      ]
+                      }
                     },
                     "isRequired": {
                       "type": "boolean",
@@ -6953,6 +6728,10 @@
                     "objectTypeOptions": {
                       "type": "object",
                       "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
+                        },
                         "attributes": {
                           "type": "array",
                           "items": {
@@ -6975,68 +6754,65 @@
                               },
                               "type": {
                                 "enum": [
-                                  "array",
-                                  "collection",
-                                  "object",
-                                  "vatNumber",
-                                  "entity",
-                                  "latLong",
-                                  "money",
-                                  "streetAddress",
-                                  "translatedText",
-                                  "dateTimeRange",
-                                  "area",
                                   "autoNumber",
-                                  "boolean",
-                                  "color",
-                                  "colour",
-                                  "countryCode2",
-                                  "countryCode3",
-                                  "countryNumber",
-                                  "cultureCode",
-                                  "currencyCode",
-                                  "currencyNumber",
-                                  "date",
-                                  "month",
-                                  "year",
-                                  "dateTime",
-                                  "dateTimeDuration",
-                                  "dateTimeSchedule",
-                                  "distance",
-                                  "email",
-                                  "encryptedText",
-                                  "file",
-                                  "formula",
-                                  "guid",
-                                  "hashedText",
-                                  "html",
-                                  "image",
-                                  "imageJpg",
-                                  "imagePng",
-                                  "imageSvg",
-                                  "internetDomain",
-                                  "ipAddress",
-                                  "json",
-                                  "jwtToken",
-                                  "languageCode",
-                                  "length",
+                                  "collection",
                                   "macAddress",
-                                  "markdown",
-                                  "nuid",
-                                  "number",
-                                  "password",
-                                  "percentage",
-                                  "phoneNumber",
-                                  "temperature",
-                                  "text",
-                                  "time",
-                                  "timeZoneCode",
-                                  "uri",
-                                  "url",
-                                  "user",
-                                  "volume",
+                                  "ipAddress",
+                                  "date",
+                                  "dayOfWeek",
+                                  "streetAddress",
+                                  "file",
                                   "weight",
-                                  "yaml"
+                                  "timeZoneCode",
+                                  "translatedText",
+                                  "area",
+                                  "length",
+                                  "guid",
+                                  "vatNumber",
+                                  "currencyCode",
+                                  "countryCode3",
+                                  "array",
+                                  "text",
+                                  "distance",
+                                  "color",
+                                  "countryCode2",
+                                  "cultureCode",
+                                  "volume",
+                                  "temperature",
+                                  "password",
+                                  "internetDomain",
+                                  "encryptedText",
+                                  "url",
+                                  "dateTimeDuration",
+                                  "boolean",
+                                  "entity",
+                                  "time",
+                                  "uri",
+                                  "currencyNumber",
+                                  "html",
+                                  "jwtToken",
+                                  "object",
+                                  "formula",
+                                  "countryNumber",
+                                  "markdown",
+                                  "user",
+                                  "dateTime",
+                                  "json",
+                                  "dateTimeSchedule",
+                                  "nuid",
+                                  "email",
+                                  "money",
+                                  "image",
+                                  "languageCode",
+                                  "phoneNumber",
+                                  "hashedText",
+                                  "year",
+                                  "yaml",
+                                  "dateTimeRange",
+                                  "percentage",
+                                  "latLong",
+                                  "month",
+                                  "number"
                                 ],
                                 "title": "The Nox type of this attribute.",
                                 "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -7079,10 +6855,6 @@
                               "moneyTypeOptions": {
                                 "type": "object",
                                 "properties": {
-                                  "$ref": {
-                                    "type": "string",
-                                    "format": "uri"
-                                  },
                                   "decimalDigits": {
                                     "type": "integer"
                                   },
@@ -7262,23 +7034,15 @@
                                       "WON"
                                     ]
                                   }
-                                },
-                                "additionalProperties": false
+                                }
                               },
                               "entityTypeOptions": {
                                 "type": "object",
                                 "properties": {
-                                  "$ref": {
-                                    "type": "string",
-                                    "format": "uri"
-                                  },
                                   "entity": {
                                     "type": "string"
                                   }
-                                },
-                                "required": [
-                                  "entity"
-                                ]
+                                }
                               },
                               "isRequired": {
                                 "type": "boolean",
@@ -7392,10 +7156,6 @@
                               "type"
                             ]
                           }
-                        },
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
                         }
                       },
                       "required": [
@@ -7431,68 +7191,65 @@
                     },
                     "type": {
                       "enum": [
-                        "array",
-                        "collection",
-                        "object",
-                        "vatNumber",
-                        "entity",
-                        "latLong",
-                        "money",
-                        "streetAddress",
-                        "translatedText",
-                        "dateTimeRange",
-                        "area",
                         "autoNumber",
-                        "boolean",
-                        "color",
-                        "colour",
-                        "countryCode2",
-                        "countryCode3",
-                        "countryNumber",
-                        "cultureCode",
-                        "currencyCode",
-                        "currencyNumber",
-                        "date",
-                        "month",
-                        "year",
-                        "dateTime",
-                        "dateTimeDuration",
-                        "dateTimeSchedule",
-                        "distance",
-                        "email",
-                        "encryptedText",
-                        "file",
-                        "formula",
-                        "guid",
-                        "hashedText",
-                        "html",
-                        "image",
-                        "imageJpg",
-                        "imagePng",
-                        "imageSvg",
-                        "internetDomain",
-                        "ipAddress",
-                        "json",
-                        "jwtToken",
-                        "languageCode",
-                        "length",
+                        "collection",
                         "macAddress",
-                        "markdown",
-                        "nuid",
-                        "number",
-                        "password",
-                        "percentage",
-                        "phoneNumber",
-                        "temperature",
-                        "text",
-                        "time",
-                        "timeZoneCode",
-                        "uri",
-                        "url",
-                        "user",
-                        "volume",
+                        "ipAddress",
+                        "date",
+                        "dayOfWeek",
+                        "streetAddress",
+                        "file",
                         "weight",
-                        "yaml"
+                        "timeZoneCode",
+                        "translatedText",
+                        "area",
+                        "length",
+                        "guid",
+                        "vatNumber",
+                        "currencyCode",
+                        "countryCode3",
+                        "array",
+                        "text",
+                        "distance",
+                        "color",
+                        "countryCode2",
+                        "cultureCode",
+                        "volume",
+                        "temperature",
+                        "password",
+                        "internetDomain",
+                        "encryptedText",
+                        "url",
+                        "dateTimeDuration",
+                        "boolean",
+                        "entity",
+                        "time",
+                        "uri",
+                        "currencyNumber",
+                        "html",
+                        "jwtToken",
+                        "object",
+                        "formula",
+                        "countryNumber",
+                        "markdown",
+                        "user",
+                        "dateTime",
+                        "json",
+                        "dateTimeSchedule",
+                        "nuid",
+                        "email",
+                        "money",
+                        "image",
+                        "languageCode",
+                        "phoneNumber",
+                        "hashedText",
+                        "year",
+                        "yaml",
+                        "dateTimeRange",
+                        "percentage",
+                        "latLong",
+                        "month",
+                        "number"
                       ],
                       "title": "The Nox type of this attribute.",
                       "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -7535,10 +7292,6 @@
                     "moneyTypeOptions": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "decimalDigits": {
                           "type": "integer"
                         },
@@ -7718,23 +7471,15 @@
                             "WON"
                           ]
                         }
-                      },
-                      "additionalProperties": false
+                      }
                     },
                     "entityTypeOptions": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "entity": {
                           "type": "string"
                         }
-                      },
-                      "required": [
-                        "entity"
-                      ]
+                      }
                     },
                     "isRequired": {
                       "type": "boolean",
@@ -7845,6 +7590,10 @@
                     "objectTypeOptions": {
                       "type": "object",
                       "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
+                        },
                         "attributes": {
                           "type": "array",
                           "items": {
@@ -7867,68 +7616,65 @@
                               },
                               "type": {
                                 "enum": [
-                                  "array",
-                                  "collection",
-                                  "object",
-                                  "vatNumber",
-                                  "entity",
-                                  "latLong",
-                                  "money",
-                                  "streetAddress",
-                                  "translatedText",
-                                  "dateTimeRange",
-                                  "area",
                                   "autoNumber",
-                                  "boolean",
-                                  "color",
-                                  "colour",
-                                  "countryCode2",
-                                  "countryCode3",
-                                  "countryNumber",
-                                  "cultureCode",
-                                  "currencyCode",
-                                  "currencyNumber",
-                                  "date",
-                                  "month",
-                                  "year",
-                                  "dateTime",
-                                  "dateTimeDuration",
-                                  "dateTimeSchedule",
-                                  "distance",
-                                  "email",
-                                  "encryptedText",
-                                  "file",
-                                  "formula",
-                                  "guid",
-                                  "hashedText",
-                                  "html",
-                                  "image",
-                                  "imageJpg",
-                                  "imagePng",
-                                  "imageSvg",
-                                  "internetDomain",
-                                  "ipAddress",
-                                  "json",
-                                  "jwtToken",
-                                  "languageCode",
-                                  "length",
+                                  "collection",
                                   "macAddress",
-                                  "markdown",
-                                  "nuid",
-                                  "number",
-                                  "password",
-                                  "percentage",
-                                  "phoneNumber",
-                                  "temperature",
-                                  "text",
-                                  "time",
-                                  "timeZoneCode",
-                                  "uri",
-                                  "url",
-                                  "user",
-                                  "volume",
+                                  "ipAddress",
+                                  "date",
+                                  "dayOfWeek",
+                                  "streetAddress",
+                                  "file",
                                   "weight",
-                                  "yaml"
+                                  "timeZoneCode",
+                                  "translatedText",
+                                  "area",
+                                  "length",
+                                  "guid",
+                                  "vatNumber",
+                                  "currencyCode",
+                                  "countryCode3",
+                                  "array",
+                                  "text",
+                                  "distance",
+                                  "color",
+                                  "countryCode2",
+                                  "cultureCode",
+                                  "volume",
+                                  "temperature",
+                                  "password",
+                                  "internetDomain",
+                                  "encryptedText",
+                                  "url",
+                                  "dateTimeDuration",
+                                  "boolean",
+                                  "entity",
+                                  "time",
+                                  "uri",
+                                  "currencyNumber",
+                                  "html",
+                                  "jwtToken",
+                                  "object",
+                                  "formula",
+                                  "countryNumber",
+                                  "markdown",
+                                  "user",
+                                  "dateTime",
+                                  "json",
+                                  "dateTimeSchedule",
+                                  "nuid",
+                                  "email",
+                                  "money",
+                                  "image",
+                                  "languageCode",
+                                  "phoneNumber",
+                                  "hashedText",
+                                  "year",
+                                  "yaml",
+                                  "dateTimeRange",
+                                  "percentage",
+                                  "latLong",
+                                  "month",
+                                  "number"
                                 ],
                                 "title": "The Nox type of this attribute.",
                                 "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -7971,10 +7717,6 @@
                               "moneyTypeOptions": {
                                 "type": "object",
                                 "properties": {
-                                  "$ref": {
-                                    "type": "string",
-                                    "format": "uri"
-                                  },
                                   "decimalDigits": {
                                     "type": "integer"
                                   },
@@ -8154,23 +7896,15 @@
                                       "WON"
                                     ]
                                   }
-                                },
-                                "additionalProperties": false
+                                }
                               },
                               "entityTypeOptions": {
                                 "type": "object",
                                 "properties": {
-                                  "$ref": {
-                                    "type": "string",
-                                    "format": "uri"
-                                  },
                                   "entity": {
                                     "type": "string"
                                   }
-                                },
-                                "required": [
-                                  "entity"
-                                ]
+                                }
                               },
                               "isRequired": {
                                 "type": "boolean",
@@ -8284,10 +8018,6 @@
                               "type"
                             ]
                           }
-                        },
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
                         }
                       },
                       "required": [
@@ -8344,68 +8074,65 @@
                 },
                 "type": {
                   "enum": [
-                    "array",
-                    "collection",
-                    "object",
-                    "vatNumber",
-                    "entity",
-                    "latLong",
-                    "money",
-                    "streetAddress",
-                    "translatedText",
-                    "dateTimeRange",
-                    "area",
                     "autoNumber",
-                    "boolean",
-                    "color",
-                    "colour",
-                    "countryCode2",
-                    "countryCode3",
-                    "countryNumber",
-                    "cultureCode",
-                    "currencyCode",
-                    "currencyNumber",
-                    "date",
-                    "month",
-                    "year",
-                    "dateTime",
-                    "dateTimeDuration",
-                    "dateTimeSchedule",
-                    "distance",
-                    "email",
-                    "encryptedText",
-                    "file",
-                    "formula",
-                    "guid",
-                    "hashedText",
-                    "html",
-                    "image",
-                    "imageJpg",
-                    "imagePng",
-                    "imageSvg",
-                    "internetDomain",
-                    "ipAddress",
-                    "json",
-                    "jwtToken",
-                    "languageCode",
-                    "length",
+                    "collection",
                     "macAddress",
-                    "markdown",
-                    "nuid",
-                    "number",
-                    "password",
-                    "percentage",
-                    "phoneNumber",
-                    "temperature",
-                    "text",
-                    "time",
-                    "timeZoneCode",
-                    "uri",
-                    "url",
-                    "user",
-                    "volume",
+                    "ipAddress",
+                    "date",
+                    "dayOfWeek",
+                    "streetAddress",
+                    "file",
                     "weight",
-                    "yaml"
+                    "timeZoneCode",
+                    "translatedText",
+                    "area",
+                    "length",
+                    "guid",
+                    "vatNumber",
+                    "currencyCode",
+                    "countryCode3",
+                    "array",
+                    "text",
+                    "distance",
+                    "color",
+                    "countryCode2",
+                    "cultureCode",
+                    "volume",
+                    "temperature",
+                    "password",
+                    "internetDomain",
+                    "encryptedText",
+                    "url",
+                    "dateTimeDuration",
+                    "boolean",
+                    "entity",
+                    "time",
+                    "uri",
+                    "currencyNumber",
+                    "html",
+                    "jwtToken",
+                    "object",
+                    "formula",
+                    "countryNumber",
+                    "markdown",
+                    "user",
+                    "dateTime",
+                    "json",
+                    "dateTimeSchedule",
+                    "nuid",
+                    "email",
+                    "money",
+                    "image",
+                    "languageCode",
+                    "phoneNumber",
+                    "hashedText",
+                    "year",
+                    "yaml",
+                    "dateTimeRange",
+                    "percentage",
+                    "latLong",
+                    "month",
+                    "number"
                   ],
                   "title": "The Nox type of this attribute.",
                   "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -8448,10 +8175,6 @@
                 "moneyTypeOptions": {
                   "type": "object",
                   "properties": {
-                    "$ref": {
-                      "type": "string",
-                      "format": "uri"
-                    },
                     "decimalDigits": {
                       "type": "integer"
                     },
@@ -8631,23 +8354,15 @@
                         "WON"
                       ]
                     }
-                  },
-                  "additionalProperties": false
+                  }
                 },
                 "entityTypeOptions": {
                   "type": "object",
                   "properties": {
-                    "$ref": {
-                      "type": "string",
-                      "format": "uri"
-                    },
                     "entity": {
                       "type": "string"
                     }
-                  },
-                  "required": [
-                    "entity"
-                  ]
+                  }
                 },
                 "isRequired": {
                   "type": "boolean",
@@ -8758,6 +8473,10 @@
                 "objectTypeOptions": {
                   "type": "object",
                   "properties": {
+                    "$ref": {
+                      "type": "string",
+                      "format": "uri"
+                    },
                     "attributes": {
                       "type": "array",
                       "items": {
@@ -8780,68 +8499,65 @@
                           },
                           "type": {
                             "enum": [
-                              "array",
-                              "collection",
-                              "object",
-                              "vatNumber",
-                              "entity",
-                              "latLong",
-                              "money",
-                              "streetAddress",
-                              "translatedText",
-                              "dateTimeRange",
-                              "area",
                               "autoNumber",
-                              "boolean",
-                              "color",
-                              "colour",
-                              "countryCode2",
-                              "countryCode3",
-                              "countryNumber",
-                              "cultureCode",
-                              "currencyCode",
-                              "currencyNumber",
-                              "date",
-                              "month",
-                              "year",
-                              "dateTime",
-                              "dateTimeDuration",
-                              "dateTimeSchedule",
-                              "distance",
-                              "email",
-                              "encryptedText",
-                              "file",
-                              "formula",
-                              "guid",
-                              "hashedText",
-                              "html",
-                              "image",
-                              "imageJpg",
-                              "imagePng",
-                              "imageSvg",
-                              "internetDomain",
-                              "ipAddress",
-                              "json",
-                              "jwtToken",
-                              "languageCode",
-                              "length",
+                              "collection",
                               "macAddress",
-                              "markdown",
-                              "nuid",
-                              "number",
-                              "password",
-                              "percentage",
-                              "phoneNumber",
-                              "temperature",
-                              "text",
-                              "time",
-                              "timeZoneCode",
-                              "uri",
-                              "url",
-                              "user",
-                              "volume",
+                              "ipAddress",
+                              "date",
+                              "dayOfWeek",
+                              "streetAddress",
+                              "file",
                               "weight",
-                              "yaml"
+                              "timeZoneCode",
+                              "translatedText",
+                              "area",
+                              "length",
+                              "guid",
+                              "vatNumber",
+                              "currencyCode",
+                              "countryCode3",
+                              "array",
+                              "text",
+                              "distance",
+                              "color",
+                              "countryCode2",
+                              "cultureCode",
+                              "volume",
+                              "temperature",
+                              "password",
+                              "internetDomain",
+                              "encryptedText",
+                              "url",
+                              "dateTimeDuration",
+                              "boolean",
+                              "entity",
+                              "time",
+                              "uri",
+                              "currencyNumber",
+                              "html",
+                              "jwtToken",
+                              "object",
+                              "formula",
+                              "countryNumber",
+                              "markdown",
+                              "user",
+                              "dateTime",
+                              "json",
+                              "dateTimeSchedule",
+                              "nuid",
+                              "email",
+                              "money",
+                              "image",
+                              "languageCode",
+                              "phoneNumber",
+                              "hashedText",
+                              "year",
+                              "yaml",
+                              "dateTimeRange",
+                              "percentage",
+                              "latLong",
+                              "month",
+                              "number"
                             ],
                             "title": "The Nox type of this attribute.",
                             "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -8884,10 +8600,6 @@
                           "moneyTypeOptions": {
                             "type": "object",
                             "properties": {
-                              "$ref": {
-                                "type": "string",
-                                "format": "uri"
-                              },
                               "decimalDigits": {
                                 "type": "integer"
                               },
@@ -9067,23 +8779,15 @@
                                   "WON"
                                 ]
                               }
-                            },
-                            "additionalProperties": false
+                            }
                           },
                           "entityTypeOptions": {
                             "type": "object",
                             "properties": {
-                              "$ref": {
-                                "type": "string",
-                                "format": "uri"
-                              },
                               "entity": {
                                 "type": "string"
                               }
-                            },
-                            "required": [
-                              "entity"
-                            ]
+                            }
                           },
                           "isRequired": {
                             "type": "boolean",
@@ -9197,10 +8901,6 @@
                           "type"
                         ]
                       }
-                    },
-                    "$ref": {
-                      "type": "string",
-                      "format": "uri"
                     }
                   },
                   "required": [
@@ -9227,68 +8927,65 @@
                     },
                     "type": {
                       "enum": [
-                        "array",
-                        "collection",
-                        "object",
-                        "vatNumber",
-                        "entity",
-                        "latLong",
-                        "money",
-                        "streetAddress",
-                        "translatedText",
-                        "dateTimeRange",
-                        "area",
                         "autoNumber",
-                        "boolean",
-                        "color",
-                        "colour",
-                        "countryCode2",
-                        "countryCode3",
-                        "countryNumber",
-                        "cultureCode",
-                        "currencyCode",
-                        "currencyNumber",
-                        "date",
-                        "month",
-                        "year",
-                        "dateTime",
-                        "dateTimeDuration",
-                        "dateTimeSchedule",
-                        "distance",
-                        "email",
-                        "encryptedText",
-                        "file",
-                        "formula",
-                        "guid",
-                        "hashedText",
-                        "html",
-                        "image",
-                        "imageJpg",
-                        "imagePng",
-                        "imageSvg",
-                        "internetDomain",
-                        "ipAddress",
-                        "json",
-                        "jwtToken",
-                        "languageCode",
-                        "length",
+                        "collection",
                         "macAddress",
-                        "markdown",
-                        "nuid",
-                        "number",
-                        "password",
-                        "percentage",
-                        "phoneNumber",
-                        "temperature",
-                        "text",
-                        "time",
-                        "timeZoneCode",
-                        "uri",
-                        "url",
-                        "user",
-                        "volume",
+                        "ipAddress",
+                        "date",
+                        "dayOfWeek",
+                        "streetAddress",
+                        "file",
                         "weight",
-                        "yaml"
+                        "timeZoneCode",
+                        "translatedText",
+                        "area",
+                        "length",
+                        "guid",
+                        "vatNumber",
+                        "currencyCode",
+                        "countryCode3",
+                        "array",
+                        "text",
+                        "distance",
+                        "color",
+                        "countryCode2",
+                        "cultureCode",
+                        "volume",
+                        "temperature",
+                        "password",
+                        "internetDomain",
+                        "encryptedText",
+                        "url",
+                        "dateTimeDuration",
+                        "boolean",
+                        "entity",
+                        "time",
+                        "uri",
+                        "currencyNumber",
+                        "html",
+                        "jwtToken",
+                        "object",
+                        "formula",
+                        "countryNumber",
+                        "markdown",
+                        "user",
+                        "dateTime",
+                        "json",
+                        "dateTimeSchedule",
+                        "nuid",
+                        "email",
+                        "money",
+                        "image",
+                        "languageCode",
+                        "phoneNumber",
+                        "hashedText",
+                        "year",
+                        "yaml",
+                        "dateTimeRange",
+                        "percentage",
+                        "latLong",
+                        "month",
+                        "number"
                       ],
                       "title": "The Nox type of this attribute.",
                       "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -9331,10 +9028,6 @@
                     "moneyTypeOptions": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "decimalDigits": {
                           "type": "integer"
                         },
@@ -9514,23 +9207,15 @@
                             "WON"
                           ]
                         }
-                      },
-                      "additionalProperties": false
+                      }
                     },
                     "entityTypeOptions": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "entity": {
                           "type": "string"
                         }
-                      },
-                      "required": [
-                        "entity"
-                      ]
+                      }
                     },
                     "isRequired": {
                       "type": "boolean",
@@ -9641,6 +9326,10 @@
                     "objectTypeOptions": {
                       "type": "object",
                       "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
+                        },
                         "attributes": {
                           "type": "array",
                           "items": {
@@ -9663,68 +9352,65 @@
                               },
                               "type": {
                                 "enum": [
-                                  "array",
-                                  "collection",
-                                  "object",
-                                  "vatNumber",
-                                  "entity",
-                                  "latLong",
-                                  "money",
-                                  "streetAddress",
-                                  "translatedText",
-                                  "dateTimeRange",
-                                  "area",
                                   "autoNumber",
-                                  "boolean",
-                                  "color",
-                                  "colour",
-                                  "countryCode2",
-                                  "countryCode3",
-                                  "countryNumber",
-                                  "cultureCode",
-                                  "currencyCode",
-                                  "currencyNumber",
-                                  "date",
-                                  "month",
-                                  "year",
-                                  "dateTime",
-                                  "dateTimeDuration",
-                                  "dateTimeSchedule",
-                                  "distance",
-                                  "email",
-                                  "encryptedText",
-                                  "file",
-                                  "formula",
-                                  "guid",
-                                  "hashedText",
-                                  "html",
-                                  "image",
-                                  "imageJpg",
-                                  "imagePng",
-                                  "imageSvg",
-                                  "internetDomain",
-                                  "ipAddress",
-                                  "json",
-                                  "jwtToken",
-                                  "languageCode",
-                                  "length",
+                                  "collection",
                                   "macAddress",
-                                  "markdown",
-                                  "nuid",
-                                  "number",
-                                  "password",
-                                  "percentage",
-                                  "phoneNumber",
-                                  "temperature",
-                                  "text",
-                                  "time",
-                                  "timeZoneCode",
-                                  "uri",
-                                  "url",
-                                  "user",
-                                  "volume",
+                                  "ipAddress",
+                                  "date",
+                                  "dayOfWeek",
+                                  "streetAddress",
+                                  "file",
                                   "weight",
-                                  "yaml"
+                                  "timeZoneCode",
+                                  "translatedText",
+                                  "area",
+                                  "length",
+                                  "guid",
+                                  "vatNumber",
+                                  "currencyCode",
+                                  "countryCode3",
+                                  "array",
+                                  "text",
+                                  "distance",
+                                  "color",
+                                  "countryCode2",
+                                  "cultureCode",
+                                  "volume",
+                                  "temperature",
+                                  "password",
+                                  "internetDomain",
+                                  "encryptedText",
+                                  "url",
+                                  "dateTimeDuration",
+                                  "boolean",
+                                  "entity",
+                                  "time",
+                                  "uri",
+                                  "currencyNumber",
+                                  "html",
+                                  "jwtToken",
+                                  "object",
+                                  "formula",
+                                  "countryNumber",
+                                  "markdown",
+                                  "user",
+                                  "dateTime",
+                                  "json",
+                                  "dateTimeSchedule",
+                                  "nuid",
+                                  "email",
+                                  "money",
+                                  "image",
+                                  "languageCode",
+                                  "phoneNumber",
+                                  "hashedText",
+                                  "year",
+                                  "yaml",
+                                  "dateTimeRange",
+                                  "percentage",
+                                  "latLong",
+                                  "month",
+                                  "number"
                                 ],
                                 "title": "The Nox type of this attribute.",
                                 "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -9767,10 +9453,6 @@
                               "moneyTypeOptions": {
                                 "type": "object",
                                 "properties": {
-                                  "$ref": {
-                                    "type": "string",
-                                    "format": "uri"
-                                  },
                                   "decimalDigits": {
                                     "type": "integer"
                                   },
@@ -9950,23 +9632,15 @@
                                       "WON"
                                     ]
                                   }
-                                },
-                                "additionalProperties": false
+                                }
                               },
                               "entityTypeOptions": {
                                 "type": "object",
                                 "properties": {
-                                  "$ref": {
-                                    "type": "string",
-                                    "format": "uri"
-                                  },
                                   "entity": {
                                     "type": "string"
                                   }
-                                },
-                                "required": [
-                                  "entity"
-                                ]
+                                }
                               },
                               "isRequired": {
                                 "type": "boolean",
@@ -10080,10 +9754,6 @@
                               "type"
                             ]
                           }
-                        },
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
                         }
                       },
                       "required": [
@@ -10119,68 +9789,65 @@
                     },
                     "type": {
                       "enum": [
-                        "array",
-                        "collection",
-                        "object",
-                        "vatNumber",
-                        "entity",
-                        "latLong",
-                        "money",
-                        "streetAddress",
-                        "translatedText",
-                        "dateTimeRange",
-                        "area",
                         "autoNumber",
-                        "boolean",
-                        "color",
-                        "colour",
-                        "countryCode2",
-                        "countryCode3",
-                        "countryNumber",
-                        "cultureCode",
-                        "currencyCode",
-                        "currencyNumber",
-                        "date",
-                        "month",
-                        "year",
-                        "dateTime",
-                        "dateTimeDuration",
-                        "dateTimeSchedule",
-                        "distance",
-                        "email",
-                        "encryptedText",
-                        "file",
-                        "formula",
-                        "guid",
-                        "hashedText",
-                        "html",
-                        "image",
-                        "imageJpg",
-                        "imagePng",
-                        "imageSvg",
-                        "internetDomain",
-                        "ipAddress",
-                        "json",
-                        "jwtToken",
-                        "languageCode",
-                        "length",
+                        "collection",
                         "macAddress",
-                        "markdown",
-                        "nuid",
-                        "number",
-                        "password",
-                        "percentage",
-                        "phoneNumber",
-                        "temperature",
-                        "text",
-                        "time",
-                        "timeZoneCode",
-                        "uri",
-                        "url",
-                        "user",
-                        "volume",
+                        "ipAddress",
+                        "date",
+                        "dayOfWeek",
+                        "streetAddress",
+                        "file",
                         "weight",
-                        "yaml"
+                        "timeZoneCode",
+                        "translatedText",
+                        "area",
+                        "length",
+                        "guid",
+                        "vatNumber",
+                        "currencyCode",
+                        "countryCode3",
+                        "array",
+                        "text",
+                        "distance",
+                        "color",
+                        "countryCode2",
+                        "cultureCode",
+                        "volume",
+                        "temperature",
+                        "password",
+                        "internetDomain",
+                        "encryptedText",
+                        "url",
+                        "dateTimeDuration",
+                        "boolean",
+                        "entity",
+                        "time",
+                        "uri",
+                        "currencyNumber",
+                        "html",
+                        "jwtToken",
+                        "object",
+                        "formula",
+                        "countryNumber",
+                        "markdown",
+                        "user",
+                        "dateTime",
+                        "json",
+                        "dateTimeSchedule",
+                        "nuid",
+                        "email",
+                        "money",
+                        "image",
+                        "languageCode",
+                        "phoneNumber",
+                        "hashedText",
+                        "year",
+                        "yaml",
+                        "dateTimeRange",
+                        "percentage",
+                        "latLong",
+                        "month",
+                        "number"
                       ],
                       "title": "The Nox type of this attribute.",
                       "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -10223,10 +9890,6 @@
                     "moneyTypeOptions": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "decimalDigits": {
                           "type": "integer"
                         },
@@ -10406,23 +10069,15 @@
                             "WON"
                           ]
                         }
-                      },
-                      "additionalProperties": false
+                      }
                     },
                     "entityTypeOptions": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "entity": {
                           "type": "string"
                         }
-                      },
-                      "required": [
-                        "entity"
-                      ]
+                      }
                     },
                     "isRequired": {
                       "type": "boolean",
@@ -10533,6 +10188,10 @@
                     "objectTypeOptions": {
                       "type": "object",
                       "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
+                        },
                         "attributes": {
                           "type": "array",
                           "items": {
@@ -10555,68 +10214,65 @@
                               },
                               "type": {
                                 "enum": [
-                                  "array",
-                                  "collection",
-                                  "object",
-                                  "vatNumber",
-                                  "entity",
-                                  "latLong",
-                                  "money",
-                                  "streetAddress",
-                                  "translatedText",
-                                  "dateTimeRange",
-                                  "area",
                                   "autoNumber",
-                                  "boolean",
-                                  "color",
-                                  "colour",
-                                  "countryCode2",
-                                  "countryCode3",
-                                  "countryNumber",
-                                  "cultureCode",
-                                  "currencyCode",
-                                  "currencyNumber",
-                                  "date",
-                                  "month",
-                                  "year",
-                                  "dateTime",
-                                  "dateTimeDuration",
-                                  "dateTimeSchedule",
-                                  "distance",
-                                  "email",
-                                  "encryptedText",
-                                  "file",
-                                  "formula",
-                                  "guid",
-                                  "hashedText",
-                                  "html",
-                                  "image",
-                                  "imageJpg",
-                                  "imagePng",
-                                  "imageSvg",
-                                  "internetDomain",
-                                  "ipAddress",
-                                  "json",
-                                  "jwtToken",
-                                  "languageCode",
-                                  "length",
+                                  "collection",
                                   "macAddress",
-                                  "markdown",
-                                  "nuid",
-                                  "number",
-                                  "password",
-                                  "percentage",
-                                  "phoneNumber",
-                                  "temperature",
-                                  "text",
-                                  "time",
-                                  "timeZoneCode",
-                                  "uri",
-                                  "url",
-                                  "user",
-                                  "volume",
+                                  "ipAddress",
+                                  "date",
+                                  "dayOfWeek",
+                                  "streetAddress",
+                                  "file",
                                   "weight",
-                                  "yaml"
+                                  "timeZoneCode",
+                                  "translatedText",
+                                  "area",
+                                  "length",
+                                  "guid",
+                                  "vatNumber",
+                                  "currencyCode",
+                                  "countryCode3",
+                                  "array",
+                                  "text",
+                                  "distance",
+                                  "color",
+                                  "countryCode2",
+                                  "cultureCode",
+                                  "volume",
+                                  "temperature",
+                                  "password",
+                                  "internetDomain",
+                                  "encryptedText",
+                                  "url",
+                                  "dateTimeDuration",
+                                  "boolean",
+                                  "entity",
+                                  "time",
+                                  "uri",
+                                  "currencyNumber",
+                                  "html",
+                                  "jwtToken",
+                                  "object",
+                                  "formula",
+                                  "countryNumber",
+                                  "markdown",
+                                  "user",
+                                  "dateTime",
+                                  "json",
+                                  "dateTimeSchedule",
+                                  "nuid",
+                                  "email",
+                                  "money",
+                                  "image",
+                                  "languageCode",
+                                  "phoneNumber",
+                                  "hashedText",
+                                  "year",
+                                  "yaml",
+                                  "dateTimeRange",
+                                  "percentage",
+                                  "latLong",
+                                  "month",
+                                  "number"
                                 ],
                                 "title": "The Nox type of this attribute.",
                                 "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -10659,10 +10315,6 @@
                               "moneyTypeOptions": {
                                 "type": "object",
                                 "properties": {
-                                  "$ref": {
-                                    "type": "string",
-                                    "format": "uri"
-                                  },
                                   "decimalDigits": {
                                     "type": "integer"
                                   },
@@ -10842,23 +10494,15 @@
                                       "WON"
                                     ]
                                   }
-                                },
-                                "additionalProperties": false
+                                }
                               },
                               "entityTypeOptions": {
                                 "type": "object",
                                 "properties": {
-                                  "$ref": {
-                                    "type": "string",
-                                    "format": "uri"
-                                  },
                                   "entity": {
                                     "type": "string"
                                   }
-                                },
-                                "required": [
-                                  "entity"
-                                ]
+                                }
                               },
                               "isRequired": {
                                 "type": "boolean",
@@ -10972,10 +10616,6 @@
                               "type"
                             ]
                           }
-                        },
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
                         }
                       },
                       "required": [
@@ -11026,68 +10666,65 @@
                 },
                 "type": {
                   "enum": [
-                    "array",
-                    "collection",
-                    "object",
-                    "vatNumber",
-                    "entity",
-                    "latLong",
-                    "money",
-                    "streetAddress",
-                    "translatedText",
-                    "dateTimeRange",
-                    "area",
                     "autoNumber",
-                    "boolean",
-                    "color",
-                    "colour",
-                    "countryCode2",
-                    "countryCode3",
-                    "countryNumber",
-                    "cultureCode",
-                    "currencyCode",
-                    "currencyNumber",
-                    "date",
-                    "month",
-                    "year",
-                    "dateTime",
-                    "dateTimeDuration",
-                    "dateTimeSchedule",
-                    "distance",
-                    "email",
-                    "encryptedText",
-                    "file",
-                    "formula",
-                    "guid",
-                    "hashedText",
-                    "html",
-                    "image",
-                    "imageJpg",
-                    "imagePng",
-                    "imageSvg",
-                    "internetDomain",
-                    "ipAddress",
-                    "json",
-                    "jwtToken",
-                    "languageCode",
-                    "length",
+                    "collection",
                     "macAddress",
-                    "markdown",
-                    "nuid",
-                    "number",
-                    "password",
-                    "percentage",
-                    "phoneNumber",
-                    "temperature",
-                    "text",
-                    "time",
-                    "timeZoneCode",
-                    "uri",
-                    "url",
-                    "user",
-                    "volume",
+                    "ipAddress",
+                    "date",
+                    "dayOfWeek",
+                    "streetAddress",
+                    "file",
                     "weight",
-                    "yaml"
+                    "timeZoneCode",
+                    "translatedText",
+                    "area",
+                    "length",
+                    "guid",
+                    "vatNumber",
+                    "currencyCode",
+                    "countryCode3",
+                    "array",
+                    "text",
+                    "distance",
+                    "color",
+                    "countryCode2",
+                    "cultureCode",
+                    "volume",
+                    "temperature",
+                    "password",
+                    "internetDomain",
+                    "encryptedText",
+                    "url",
+                    "dateTimeDuration",
+                    "boolean",
+                    "entity",
+                    "time",
+                    "uri",
+                    "currencyNumber",
+                    "html",
+                    "jwtToken",
+                    "object",
+                    "formula",
+                    "countryNumber",
+                    "markdown",
+                    "user",
+                    "dateTime",
+                    "json",
+                    "dateTimeSchedule",
+                    "nuid",
+                    "email",
+                    "money",
+                    "image",
+                    "languageCode",
+                    "phoneNumber",
+                    "hashedText",
+                    "year",
+                    "yaml",
+                    "dateTimeRange",
+                    "percentage",
+                    "latLong",
+                    "month",
+                    "number"
                   ],
                   "title": "The Nox type of this attribute.",
                   "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -11130,10 +10767,6 @@
                 "moneyTypeOptions": {
                   "type": "object",
                   "properties": {
-                    "$ref": {
-                      "type": "string",
-                      "format": "uri"
-                    },
                     "decimalDigits": {
                       "type": "integer"
                     },
@@ -11313,23 +10946,15 @@
                         "WON"
                       ]
                     }
-                  },
-                  "additionalProperties": false
+                  }
                 },
                 "entityTypeOptions": {
                   "type": "object",
                   "properties": {
-                    "$ref": {
-                      "type": "string",
-                      "format": "uri"
-                    },
                     "entity": {
                       "type": "string"
                     }
-                  },
-                  "required": [
-                    "entity"
-                  ]
+                  }
                 },
                 "isRequired": {
                   "type": "boolean",
@@ -11470,68 +11095,65 @@
                 },
                 "type": {
                   "enum": [
-                    "array",
-                    "collection",
-                    "object",
-                    "vatNumber",
-                    "entity",
-                    "latLong",
-                    "money",
-                    "streetAddress",
-                    "translatedText",
-                    "dateTimeRange",
-                    "area",
                     "autoNumber",
-                    "boolean",
-                    "color",
-                    "colour",
-                    "countryCode2",
-                    "countryCode3",
-                    "countryNumber",
-                    "cultureCode",
-                    "currencyCode",
-                    "currencyNumber",
-                    "date",
-                    "month",
-                    "year",
-                    "dateTime",
-                    "dateTimeDuration",
-                    "dateTimeSchedule",
-                    "distance",
-                    "email",
-                    "encryptedText",
-                    "file",
-                    "formula",
-                    "guid",
-                    "hashedText",
-                    "html",
-                    "image",
-                    "imageJpg",
-                    "imagePng",
-                    "imageSvg",
-                    "internetDomain",
-                    "ipAddress",
-                    "json",
-                    "jwtToken",
-                    "languageCode",
-                    "length",
+                    "collection",
                     "macAddress",
-                    "markdown",
-                    "nuid",
-                    "number",
-                    "password",
-                    "percentage",
-                    "phoneNumber",
-                    "temperature",
-                    "text",
-                    "time",
-                    "timeZoneCode",
-                    "uri",
-                    "url",
-                    "user",
-                    "volume",
+                    "ipAddress",
+                    "date",
+                    "dayOfWeek",
+                    "streetAddress",
+                    "file",
                     "weight",
-                    "yaml"
+                    "timeZoneCode",
+                    "translatedText",
+                    "area",
+                    "length",
+                    "guid",
+                    "vatNumber",
+                    "currencyCode",
+                    "countryCode3",
+                    "array",
+                    "text",
+                    "distance",
+                    "color",
+                    "countryCode2",
+                    "cultureCode",
+                    "volume",
+                    "temperature",
+                    "password",
+                    "internetDomain",
+                    "encryptedText",
+                    "url",
+                    "dateTimeDuration",
+                    "boolean",
+                    "entity",
+                    "time",
+                    "uri",
+                    "currencyNumber",
+                    "html",
+                    "jwtToken",
+                    "object",
+                    "formula",
+                    "countryNumber",
+                    "markdown",
+                    "user",
+                    "dateTime",
+                    "json",
+                    "dateTimeSchedule",
+                    "nuid",
+                    "email",
+                    "money",
+                    "image",
+                    "languageCode",
+                    "phoneNumber",
+                    "hashedText",
+                    "year",
+                    "yaml",
+                    "dateTimeRange",
+                    "percentage",
+                    "latLong",
+                    "month",
+                    "number"
                   ],
                   "title": "The Nox type of this attribute.",
                   "description": "Select the Nox value object type that best represents this attribute and its functional requirements within the domain."
@@ -11574,10 +11196,6 @@
                 "moneyTypeOptions": {
                   "type": "object",
                   "properties": {
-                    "$ref": {
-                      "type": "string",
-                      "format": "uri"
-                    },
                     "decimalDigits": {
                       "type": "integer"
                     },
@@ -11757,23 +11375,15 @@
                         "WON"
                       ]
                     }
-                  },
-                  "additionalProperties": false
+                  }
                 },
                 "entityTypeOptions": {
                   "type": "object",
                   "properties": {
-                    "$ref": {
-                      "type": "string",
-                      "format": "uri"
-                    },
                     "entity": {
                       "type": "string"
                     }
-                  },
-                  "required": [
-                    "entity"
-                  ]
+                  }
                 },
                 "isRequired": {
                   "type": "boolean",
@@ -11896,7 +11506,8 @@
           }
         },
         "required": [
-          "name"
+          "name",
+          "keys"
         ],
         "title": "The entities that describe the domain.",
         "description": "The collection of entities and their relationships with each other.",

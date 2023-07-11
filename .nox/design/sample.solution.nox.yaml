@@ -157,8 +157,7 @@ domain:
 
               - name: NewCountryName
                 description: The new name of the country
-                type: text          
-
+                type: text
 
       keys:
 
@@ -412,15 +411,20 @@ infrastructure:
       name: SampleCurrencyDb
 
       # Sql Server
-      serverUri: sqlserver.iwgplc.com
+      serverUri: localhost
       provider: sqlServer
       port: 1433
-      user: sqluser
-      password: sqlpassword
+      user: sa
+      password: Developer*123
+      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;
 
-      ### Postgres
+      # Postgres
+      #serverUri: localhost
       #provider: postgres
-
+      #port: 54320
+      #user: sa
+      #password: Developer*123      
+      
       ### MySql  
       #provider: mySql
 
@@ -429,7 +433,7 @@ infrastructure:
       provider: azureRedis
       serverUri: redis.iwgplc.com
       user: RedisUser
-      password: RedisPassword
+      password: RedisPassword*123
     
     searchServer:
       name: SampleSearch

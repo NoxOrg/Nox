@@ -46,7 +46,7 @@ public class YamlFileValidationTests
         Assert.Contains("[\"name\"]", exception.Message);
         Assert.Contains("[\"serverUri\"]", exception.Message);
         Assert.Contains("dataConnection", exception.Message);
-        Assert.Equal(11, errorCount);
+        Assert.Equal(12, errorCount);
     }
 
     [Theory]
@@ -66,5 +66,18 @@ public class YamlFileValidationTests
         var model = NoxSchemaValidator.Deserialize<NoxSolution>(yaml)!;
 
         model.Name.Should().Be(expectedServiceName);
+    }
+
+    [Fact]
+    public void Deserialize_Solution_ThatDoesntHaveKeysForEntity_Exception()
+    {
+        var yaml = File.ReadAllText($"./files/has-no-keys-for-entity.solution.nox.yaml");
+
+        var exception = Assert.Throws<NoxSolutionConfigurationException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(yaml));
+
+        var errorCount = exception.Message.Split('\n').Length;
+
+        Assert.Contains("[\"keys\"]", exception.Message);
+        Assert.Equal(1, errorCount);
     }
 }

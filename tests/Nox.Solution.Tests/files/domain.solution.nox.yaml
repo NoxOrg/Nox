@@ -229,6 +229,15 @@ domain:
     - name: Currency
       description: The list of currencies
 
+      keys:
+
+        - name: Id
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 3
+            maxLength: 3
+
       relationships:
 
         - name: CurrencyIsLegalTenderForCountry
@@ -238,6 +247,14 @@ domain:
           
     - name: CountryLocalNames
       description: The name of a country in other languages
+
+      keys:
+
+        - name: Id
+          type: number
+          numberTypeOptions:
+            minValue: 0
+            decimalDigits: 0
 
     - name: CurrencyCashBalance
 
