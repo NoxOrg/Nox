@@ -52,9 +52,9 @@ public class HashicorpSecretsResolver: ISecretsResolver
         {
             switch (_secretsServer.Provider)
             {
-                case SecretsServerProvider.AzureKeyVault:
-                    var azureVault = new HashicorpSecretsProvider(_secretsServer.ServerUri, _secretsServer.Password!, _secretsServer.Name);
-                    var azureSecrets = azureVault.GetSecretsAsync(unresolvedKeys.ToArray()).Result;
+                case SecretsServerProvider.HashicorpVault:
+                    var vault = new HashicorpSecretsProvider(_secretsServer.ServerUri, _secretsServer.Password!, _secretsServer.Name);
+                    var azureSecrets = vault.GetSecretsAsync(unresolvedKeys.ToArray()).Result;
                     if (azureSecrets.Any())
                     {
                         resolvedSecrets.AddRange(azureSecrets);

@@ -13,9 +13,10 @@ public static class ResolverExtension
         {
             OrganizationSecretsServer = new SecretsServer
             {
-                Name = "OrgKeyVault",
-                Provider = SecretsServerProvider.AzureKeyVault,
-                ServerUri = "https://nox-EDA1DB500EBCEB02.vault.azure.net/",
+                Name = "org-vault",
+                Provider = SecretsServerProvider.HashicorpVault,
+                ServerUri = "http://localhost:8300",
+                Password = "root",
                 ValidFor = new SecretsValidFor
                 {
                     Seconds = 30
@@ -23,9 +24,10 @@ public static class ResolverExtension
             },
             SolutionSecretsServer = new SecretsServer
             {
-                Name = "SlnKeyVault",
-                Provider = SecretsServerProvider.AzureKeyVault,
-                ServerUri = "https://we-key-nox-test.vault.azure.net",
+                Name = "sln-vault",
+                Provider = SecretsServerProvider.HashicorpVault,
+                ServerUri = "http://localhost:8300",
+                Password = "root",
                 ValidFor = new SecretsValidFor
                 {
                     Seconds = 30

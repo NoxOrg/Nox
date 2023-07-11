@@ -5,6 +5,7 @@ using Nox.Solution;
 
 namespace Nox.Secrets.Tests;
 
+////These tests can only be run if you have started the hashicorp vault docker container
 public class HashicorpTests
 {
     [Fact]
@@ -18,7 +19,8 @@ public class HashicorpTests
         {
             Name = "org-vault",
             Provider = SecretsServerProvider.HashicorpVault,
-            ServerUri = "https://localhost:8200",
+            ServerUri = "http://localhost:8300",
+            Password = "root",
             ValidFor = new SecretsValidFor
             {
                 Seconds = 10
@@ -36,6 +38,6 @@ public class HashicorpTests
        
         var result = resolver.Resolve(keys);
         Assert.Single(result);
-        Assert.Equal("This is an Organization Secret", result["test-secret"]);
+        Assert.Equal("This is an organization only secret", result["org-only-secret"]);
     }
 }

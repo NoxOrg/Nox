@@ -2,6 +2,7 @@ using System.Reflection;
 using Nox.Abstractions;
 using Nox.Secrets.Abstractions;
 using Nox.Secrets.Azure;
+using Nox.Secrets.Hashicorp;
 
 namespace Nox.Secrets;
 
@@ -44,6 +45,9 @@ public class NoxSecretsResolver: INoxSecretsResolver
                 case SecretsServerProvider.AzureKeyVault:
                     var azResolver = new AzureSecretsResolver(_store, _secretsConfig.OrganizationSecretsServer, "org");
                     return azResolver.Resolve(keys);
+                case SecretsServerProvider.HashicorpVault:
+                    var hcResolver = new HashicorpSecretsResolver(_store, _secretsConfig.OrganizationSecretsServer, "org");
+                    return hcResolver.Resolve(keys);
             }
         }
 
@@ -59,6 +63,9 @@ public class NoxSecretsResolver: INoxSecretsResolver
                 case SecretsServerProvider.AzureKeyVault:
                     var azResolver = new AzureSecretsResolver(_store, _secretsConfig.SolutionSecretsServer, "sln");
                     return azResolver.Resolve(keys);
+                case SecretsServerProvider.HashicorpVault:
+                    var hcResolver = new HashicorpSecretsResolver(_store, _secretsConfig.SolutionSecretsServer, "sln");
+                    return hcResolver.Resolve(keys);
             }
         }
 
