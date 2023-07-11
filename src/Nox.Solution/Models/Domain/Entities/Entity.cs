@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using Humanizer;
 using Nox.Solution.Events;
+using YamlDotNet.Core.Tokens;
 
 namespace Nox.Solution
 {
@@ -69,5 +70,104 @@ namespace Nox.Solution
             if (string.IsNullOrWhiteSpace(PluralName)) PluralName = Name.Pluralize();
             return true;
         }
+
+        public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()
+        {
+            foreach (var key in Keys!)
+            {
+                yield return new (EntityMemberType.Key, key);
+            }
+            
+            if (Attributes is not null ) 
+            { 
+                foreach (var attribute in Attributes)
+                {
+                    yield return new (EntityMemberType.Attribute, attribute);
+                }
+            }
+
+            if (OwnedRelationships is not null)
+            {
+                foreach (var relationship in OwnedRelationships)
+                {
+                    NoxSimpleTypeDefinition foreignKeyDefinition;
+
+                    if (relationship.Related.Entity?.Keys is null)
+                    {
+                        string foreignKeyName;
+                        if (relationship.Relationship is EntityRelationshipType.OneOrMany or EntityRelationshipType.ZeroOrMany)
+                        {
+                            foreignKeyName = $"{relationship.Related.Entity!.PluralName}";
+                        }
+                        else
+                        {
+                            foreignKeyName = $"{relationship.Related.Entity!.Name}Id";
+                            
+                        }
+                        foreignKeyDefinition = CreateForeignKeyDefinition(foreignKeyName, relationship);
+                        yield return new(EntityMemberType.OwnedRelationship, foreignKeyDefinition);
+                    }
+                    else
+                    {
+                        foreach (var key in relationship.Related.Entity.Keys)
+                        {
+                            foreignKeyDefinition = key.ShallowCopy();
+                            foreignKeyDefinition.Name = $"{relationship.Entity}{key.Name}";
+                            yield return new(EntityMemberType.OwnedRelationship, foreignKeyDefinition);
+                        }
+                    }
+                }
+            }
+
+            if (Relationships is not null)
+            {
+                foreach (var relationship in Relationships)
+                {
+                    if (relationship.Related.Entity?.Keys is not null)
+                    {
+                        foreach (var key in relationship.Related.Entity.Keys)
+                        {
+                            var foreignKey = key.ShallowCopy();
+                            foreignKey.Name = $"{relationship.Entity}{key.Name}";
+                            yield return new (EntityMemberType.Relationship, foreignKey);
+                        }
+                    }
+                }
+            }
+        }
+
+        public IEnumerable<KeyValuePair<EntityMemberType, EntityRelationship>> GetAllRelationships()
+        {
+            if (OwnedRelationships is not null)
+            {
+                foreach (var relationship in OwnedRelationships)
+                {
+                    yield return new(EntityMemberType.OwnedRelationship, relationship);
+                }
+            }
+
+            if (Relationships is not null)
+            {
+                foreach (var relationship in Relationships)
+                {
+                    yield return new(EntityMemberType.Relationship, relationship);
+                }
+            }
+        }
+
+        private static NoxSimpleTypeDefinition CreateForeignKeyDefinition(string foreignKeyName,
+            EntityRelationship relationship)
+        {
+            var foreignKey = new NoxSimpleTypeDefinition()
+            {
+                Name = foreignKeyName,
+                Description = $"A unique identifier for a {relationship.Related.Entity!.Name}.",
+                Type = Types.NoxType.AutoNumber,
+                IsRequired = true,
+                IsReadonly = true,
+            };
+            return foreignKey;
+        }
     }
+
 }

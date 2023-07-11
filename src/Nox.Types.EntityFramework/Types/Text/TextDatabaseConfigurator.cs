@@ -12,11 +12,6 @@ public class TextDatabaseConfigurator : INoxTypeDatabaseConfigurator
         //Todo Default values from static property in the Nox.Type
         var textOptions = property.TextTypeOptions ?? new TextTypeOptions();
 
-        if (isKey)
-        {
-            builder.HasKey(property.Name);
-        }
-
         builder
             .Property(property.Name)
             .IsRequired(isKey || property.IsRequired)
@@ -24,6 +19,8 @@ public class TextDatabaseConfigurator : INoxTypeDatabaseConfigurator
             .IfNotNull(GetColumnType(textOptions), b => b.HasColumnType(GetColumnType(textOptions)))
             .HasConversion<TextConverter>();
     }
+
+    public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
     public virtual string? GetColumnType(TextTypeOptions typeOptions)
     {
         return null;
