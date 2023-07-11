@@ -284,11 +284,7 @@ domain:
       keys:
 
         - name: Id
-          type: text
-          textTypeOptions:
-            isUnicode: false
-            minLength: 3
-            maxLength: 3
+          type: currencyCode
 
       relationships:
 

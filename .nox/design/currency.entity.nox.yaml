@@ -4,12 +4,12 @@ name: Currency
 
 description: The list of currencies
 
-relationships:
+#relationships:
 
-  - name: CurrencyIsLegalTenderForCountry
-    description: is legal tender for
-    relationship: zeroOrMany
-    entity: Country
+#  - name: CurrencyIsLegalTenderForCountry
+#    description: is legal tender for
+#    relationship: zeroOrMany
+#    entity: Country
 
 keys:
 

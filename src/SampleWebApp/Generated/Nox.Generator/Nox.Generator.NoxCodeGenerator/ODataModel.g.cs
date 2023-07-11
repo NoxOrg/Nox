@@ -102,11 +102,6 @@ public class Currency : SampleWebApp.Domain.AuditableEntityBase
     /// The currency's name.
     /// </summary>
     public System.String Name { get; set; } = default!;
-    
-    /// <summary>
-    /// is legal tender for.
-    /// </summary>
-    public List<Country> Countries { get; set; } = null!;
 }
 
 /// <summary>
