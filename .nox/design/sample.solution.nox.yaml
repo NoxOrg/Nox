@@ -516,8 +516,6 @@ infrastructure:
         name: SampleOrgSecretServer
         provider: azureKeyVault
         serverUri: https://nox-EDA1DB500EBCEB02.vault.azure.net
-        user: secrets@iwgplc.com
-        password: SecretPassword
         validFor:
           minutes: 10
       
@@ -525,7 +523,5 @@ infrastructure:
         name: SampleSlnSecretServer
         provider: azureKeyVault
         serverUri: https://we-key-nox-test.vault.azure.net
-        user: secrets@iwgplc.com
-        password: SecretPassword
         validFor:
           minutes: 10
