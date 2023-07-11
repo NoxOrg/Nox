@@ -108,12 +108,14 @@ public sealed class Date : ValueObject<DateTime, Date>
 
     public string ToString(string format, IFormatProvider formatProvider)
     {
-        if (!IsValidDateOnlyFormat(format))
+        if (format.Length == 1)
         {
-            throw new FormatException("Input string was not in a correct format.");
+            return HandleStandardFormatString(format[0], formatProvider);
         }
-
-        return Value.Date.ToString(format, formatProvider);
+        else
+        {
+            return HandleCustomFormatString(format, formatProvider);
+        }
     }
 
     /// <summary>
@@ -144,6 +146,31 @@ public sealed class Date : ValueObject<DateTime, Date>
     /// <param name="right">The second object to compare.</param>
     public static bool operator <=(Date left, Date right) => left.Value <= right.Value;
 
-    private bool IsValidDateOnlyFormat(string format)
+    private string HandleCustomFormatString(string format, IFormatProvider formatProvider)
+    {
+        if (!IsValidCustomDateOnlyFormatString(format))
+        {
+            throw new FormatException("Input string was not in a correct format.");
+        }
+
+        return Value.Date.ToString(format, formatProvider);
+    }
+
+    private string HandleStandardFormatString(char standardFormatString, IFormatProvider formatProvider)
+        => standardFormatString switch
+        {
+            'o' or 'O' => FormatDateOnlyO(formatProvider),
+            'r' or 'R' => FormatDateOnlyR(formatProvider),
+            'm' or 'M' or 'd' or 'D' or 'y' or 'Y' => Value.Date.ToString(standardFormatString.ToString(), formatProvider),
+            _ => throw new FormatException("Input string was not in a correct format.")
+        };
+
+    private bool IsValidCustomDateOnlyFormatString(string format)
         => format.IndexOfAny(TimeComponentsInDateTimeFormat) == -1;
+
+    private string FormatDateOnlyO(IFormatProvider formatProvider)
+        => Value.Date.ToString("O", formatProvider).Substring(0, 10);
+
+    private string FormatDateOnlyR(IFormatProvider formatProvider)
+        => Value.Date.ToString("R", formatProvider).Substring(0, 16);
 }

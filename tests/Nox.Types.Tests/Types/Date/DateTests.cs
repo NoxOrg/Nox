@@ -152,7 +152,7 @@ public class DateTests
     [InlineData("en-GB")]
     public void ToString_WithoutParameters_ReturnsFormattedStringInInvariantCulture(string culture)
     {
-        void Test()
+        static void Test()
         {
             var date = Date.From(2023, 11, 23, new());
             
@@ -192,13 +192,42 @@ public class DateTests
     [Theory]
     [InlineData("en-GB", "d", "20/06/2023")]
     [InlineData("en-US", "d", "6/20/2023")]
+    [InlineData("en-GB", "D", "Tuesday, 20 June 2023")]
+    [InlineData("en-US", "D", "Tuesday, June 20, 2023")]
+    [InlineData("en-GB", "o", "2023-06-20")]
+    [InlineData("en-US", "o", "2023-06-20")]
+    [InlineData("en-GB", "O", "2023-06-20")]
+    [InlineData("en-US", "O", "2023-06-20")]
+    [InlineData("en-GB", "r", "Tue, 20 Jun 2023")]
+    [InlineData("en-US", "r", "Tue, 20 Jun 2023")]
+    [InlineData("en-GB", "R", "Tue, 20 Jun 2023")]
+    [InlineData("en-US", "R", "Tue, 20 Jun 2023")]
     [InlineData("en-US", "dd/MM/yy", "20/06/23")]
     [InlineData("en-GB", "dd/MM/yy", "20/06/23")]
     [InlineData("en-GB", "dd MMM", "20 Jun")]
     public void ToString_WithFormatAndCulture_ReturnsFormattedStringInCulture(string culture, string format, string expected)
     {
         var date = Date.From(2023, 6, 20, new());
+
         date.ToString(format, new CultureInfo(culture)).Should().Be(expected);
+    }
+
+    [Theory]
+    [InlineData("test")]
+    [InlineData("dd/MM/yyyy hh")]
+    [InlineData("dd/MM/yyyy HHs")]
+    [InlineData("dd/MM/yyyy mm")]
+    [InlineData("dd/MM/yyyy ss")]
+    [InlineData("dd/MM/yyyy hh:mm")]
+    [InlineData("dd/MM/yyyy ss.fffffffK")]
+    public void ToString_WithInvalidFormat_ThrowsFormatException(string format)
+    {
+        var date = Date.From(2023, 06, 01, new());
+
+        var action = () => date.ToString(format);
+
+        action.Should().Throw<FormatException>()
+            .WithMessage("Input string was not in a correct format.");
     }
 
     [Theory]
