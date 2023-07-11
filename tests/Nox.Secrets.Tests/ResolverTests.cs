@@ -1,7 +1,5 @@
-using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Secrets.Abstractions;
-using Nox.Solution;
 
 namespace Nox.Secrets.Tests;
 
@@ -18,7 +16,7 @@ public class ResolverTests: IClassFixture<SecretsFixture>
     [Fact]
     public void Result_Must_be_empty_if_secret_does_not_exist()
     {
-        var resolver = _fixture.ServiceProvider.GetRequiredService<ISecretsResolver>();
+        var resolver = _fixture.ServiceProvider.GetRequiredService<INoxSecretsResolver>();
         resolver.ConfigureForTest();
         
         var keys = new string[]
@@ -39,7 +37,7 @@ public class ResolverTests: IClassFixture<SecretsFixture>
     [InlineData("org-sln-user-secret", "This is a secret that exists in org, sln and user and this is the user value")]
     public void Must_honor_the_order_or_precedence(string key, string expectedValue)
     {
-        var resolver = _fixture.ServiceProvider.GetRequiredService<ISecretsResolver>();
+        var resolver = _fixture.ServiceProvider.GetRequiredService<INoxSecretsResolver>();
         resolver.ConfigureForTest();
         
         var keys = new string[]

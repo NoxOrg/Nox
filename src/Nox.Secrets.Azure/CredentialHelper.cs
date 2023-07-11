@@ -2,11 +2,11 @@ using Azure.Core;
 using Azure.Identity;
 using Nox.Abstractions.Configuration;
 
-namespace Nox.Secrets.Helpers;
+namespace Nox.Secrets.Azure;
 
 public static class CredentialHelper
 {
-    private const string TokenCacheName = "NoxCliToken";
+    private const string TokenCacheName = "NoxLibToken";
 
     public static async Task<(TokenCredential Credential, AuthenticationRecord AuthenticationRecord)> GetCredentialFromCacheOrBrowser()
     {

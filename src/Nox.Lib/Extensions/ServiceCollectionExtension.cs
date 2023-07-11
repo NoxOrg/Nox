@@ -1,9 +1,8 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
+using Nox.Abstractions;
 using Nox.Secrets;
 using Nox.Secrets.Abstractions;
-using Nox.Secrets.Helpers;
-using Nox.Secrets.Providers;
 using Nox.Solution;
 
 namespace Nox;
@@ -39,7 +38,7 @@ public static class ServiceCollectionExtension
                 var secretsConfig = args.SecretsConfiguration;
                 var secretKeys = SecretExtractor.Extract(yaml);
                 var interimServiceProvider = _interimServices!.BuildServiceProvider();
-                var resolver = interimServiceProvider.GetRequiredService<ISecretsResolver>();
+                var resolver = interimServiceProvider.GetRequiredService<INoxSecretsResolver>();
                 resolver.Configure(secretsConfig!, Assembly.GetEntryAssembly());
                 args.Secrets = resolver.Resolve(secretKeys!);
             })

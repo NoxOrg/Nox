@@ -1,9 +1,8 @@
 using System.Runtime.CompilerServices;
 using Azure.Security.KeyVault.Secrets;
 using Nox.Secrets.Abstractions;
-using Nox.Secrets.Helpers;
 
-namespace Nox.Secrets.Providers;
+namespace Nox.Secrets.Azure;
 
 public class AzureSecretsProvider: ISecretsProvider
 {
@@ -17,7 +16,7 @@ public class AzureSecretsProvider: ISecretsProvider
         }
         else
         {
-            throw new Exception("VaultUrl is not a well formed Uri!");
+            throw new NoxSecretsException("VaultUrl is not a well formed Uri!");
         }
     }
 

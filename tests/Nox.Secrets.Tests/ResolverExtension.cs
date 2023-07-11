@@ -1,4 +1,5 @@
 using System.Reflection;
+using Nox.Abstractions;
 using Nox.Secrets.Abstractions;
 using Nox.Solution;
 
@@ -6,7 +7,7 @@ namespace Nox.Secrets.Tests;
 
 public static class ResolverExtension
 {
-    public static void ConfigureForTest(this ISecretsResolver resolver)
+    public static void ConfigureForTest(this INoxSecretsResolver resolver)
     {
         var secretsConfig = new Solution.Secrets
         {

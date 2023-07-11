@@ -1,7 +1,7 @@
 using System.Diagnostics;
 using System.Text.RegularExpressions;
 
-namespace Nox.Secrets.Helpers;
+namespace Nox.Secrets;
 
 public static class SecretExtractor
 {

@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Nox.Abstractions;
 using Nox.Abstractions.Configuration;
 using Nox.Secrets.Abstractions;
 using File = System.IO.File;

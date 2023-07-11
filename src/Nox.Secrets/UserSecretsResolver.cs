@@ -1,25 +1,20 @@
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
+using Nox.Abstractions;
 using Nox.Secrets.Abstractions;
-using Nox.Secrets.Helpers;
 
-namespace Nox.Secrets.Providers;
+namespace Nox.Secrets;
 
-public class UserSecretsProvider: ISecretsProvider
+public class UserSecretsResolver: ISecretsResolver
 {
     private readonly Assembly _executingAssembly;
     
-    public UserSecretsProvider(Assembly executingAssembly)
+    public UserSecretsResolver(Assembly executingAssembly)
     {
         _executingAssembly = executingAssembly;
     }
 
-    public Task<IReadOnlyDictionary<string, string?>> GetSecretsAsync(string[] keys)
-    {
-        throw new Exception("Synchronous 'GetSecrets' must be used for user secrets.");
-    }
-
-    public IReadOnlyDictionary<string, string?>? GetSecrets(string[] keys)
+    public IReadOnlyDictionary<string, string?> Resolve(string[] keys)
     {
         var configuration = new ConfigurationBuilder()
             .AddUserSecrets(_executingAssembly)
@@ -33,6 +28,6 @@ public class UserSecretsProvider: ISecretsProvider
             if (result.Any()) return result;
         }
 
-        return null;
+        return result;
     }
 }

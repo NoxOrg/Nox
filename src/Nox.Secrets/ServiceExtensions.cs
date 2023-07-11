@@ -1,10 +1,7 @@
-using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Nox.Abstractions;
 using Nox.Secrets.Abstractions;
-using Nox.Secrets.Providers;
-using Nox.Secrets.Resolvers;
-using Nox.Solution;
 
 namespace Nox.Secrets;
 
@@ -20,7 +17,7 @@ public static class ServiceExtensions
     public static IServiceCollection AddSecretsResolver(this IServiceCollection services)
     {
         services.AddPersistedSecretStore();
-        services.TryAddSingleton<ISecretsResolver, SecretsResolver>();
+        services.TryAddSingleton<INoxSecretsResolver, NoxSecretsResolver>();
         return services;
     }
 }

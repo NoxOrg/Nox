@@ -39,6 +39,7 @@
 		<ProjectReference Include="..\Nox.EntityFramework.Postgres\Nox.EntityFramework.Postgres.csproj" />
 		<ProjectReference Include="..\Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj" />
 		<ProjectReference Include="..\Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj" />
+		<ProjectReference Include="..\Nox.Secrets.Abstractions\Nox.Secrets.Abstractions.csproj" />
 		<ProjectReference Include="..\Nox.Secrets\Nox.Secrets.csproj" />
 		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
 		<ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />

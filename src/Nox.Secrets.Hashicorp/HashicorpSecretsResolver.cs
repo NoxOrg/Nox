@@ -1,23 +1,24 @@
+using Nox.Abstractions;
 using Nox.Secrets.Abstractions;
-using Nox.Secrets.Providers;
 using Nox.Solution;
 
-namespace Nox.Secrets.Resolvers;
+namespace Nox.Secrets.Hashicorp;
 
-public class AzureSecretsResolver
+public class HashicorpSecretsResolver: ISecretsResolver
 {
     private readonly IPersistedSecretStore _store;
     private readonly SecretsServer _secretsServer;
     private readonly string _storePrefix;
 
-    public AzureSecretsResolver(IPersistedSecretStore store, SecretsServer secretsServer, string? storePrefix = null)
+    public HashicorpSecretsResolver(IPersistedSecretStore store, SecretsServer secretsServer, string? storePrefix = null)
     {
+        if (secretsServer.Provider != SecretsServerProvider.HashicorpVault) throw new NoxSecretsException("Hashicorp secrets resolver can only be instantiated if provider is set to HashicorpVault");
         _store = store;
         _storePrefix = "";
         if (!string.IsNullOrWhiteSpace(storePrefix)) _storePrefix = storePrefix + '.';
         _secretsServer = secretsServer;
     }
-
+    
     public IReadOnlyDictionary<string, string?> Resolve(string[] keys)
     {
         var unresolvedKeys = new List<string>();
@@ -52,7 +53,7 @@ public class AzureSecretsResolver
             switch (_secretsServer.Provider)
             {
                 case SecretsServerProvider.AzureKeyVault:
-                    var azureVault = new AzureSecretsProvider(_secretsServer.ServerUri);
+                    var azureVault = new HashicorpSecretsProvider(_secretsServer.ServerUri, _secretsServer.Password!, _secretsServer.Name);
                     var azureSecrets = azureVault.GetSecretsAsync(unresolvedKeys.ToArray()).Result;
                     if (azureSecrets.Any())
                     {
@@ -67,4 +68,5 @@ public class AzureSecretsResolver
         }
         return resolvedSecrets.ToDictionary(k => k.Key, v => v.Value);
     }
+    
 }

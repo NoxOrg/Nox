@@ -1,5 +1,3 @@
-using Nox.Secrets.Helpers;
-
 namespace Nox.Secrets.Tests;
 
 public class SecretExtractorTests

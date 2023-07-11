@@ -1,5 +1,4 @@
 using System.Reflection;
-using Nox.Secrets.Providers;
 
 namespace Nox.Secrets.Tests;
 
@@ -12,14 +11,14 @@ public class UserSecretTests
       public void Can_retrieve_a_secret(string key, string expectedResult)
       {
           //Arrange
-          var provider = new UserSecretsProvider(Assembly.GetExecutingAssembly());
+          var resolver = new UserSecretsResolver(Assembly.GetExecutingAssembly());
           var keys = new string[]
           {
               key
           };
           
           //Act
-          var result = provider.GetSecrets(keys);
+          var result = resolver.Resolve(keys);
           //Assert
           Assert.NotNull(result);
           Assert.Single(result);
