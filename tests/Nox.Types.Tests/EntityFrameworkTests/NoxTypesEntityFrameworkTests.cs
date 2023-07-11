@@ -13,7 +13,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
     [Fact]
     public void TableShouldGetCreated()
     {
-        Assert.False(DbContext.Countries.Any());
+        Assert.False(DbContext.Countries?.Any());
     }
 
     [Fact]
@@ -42,15 +42,15 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddress = CreateStreetAddress(),
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
         };
-        DbContext.Countries.Add(newItem);
+        DbContext.Countries?.Add(newItem);
         DbContext.SaveChanges();
 
         //Force the recreation of DBContext and ensure we have fresh data from database
         RecreateDbContext();
 
-        var country = DbContext.Countries.First();
+        var country = DbContext.Countries?.First();
 
-        country.LatLong.Latitude.Should().Be(latitude);
+        country!.LatLong.Latitude.Should().Be(latitude);
         country.LatLong.Longitude.Should().Be(longitude);
     }
 
@@ -78,7 +78,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddress = streetAddress,
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
         };
-        DbContext.Countries.Add(newItem);
+        DbContext.Countries?.Add(newItem);
         DbContext.SaveChanges();
 
         //Force the recreation of DBContext and ensure we have fresh data from database
@@ -86,9 +86,9 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
 
         Assert.Equal(CountryId.From(1), newItem.Id);
 
-        var item = DbContext.Countries.First();
+        var item = DbContext.Countries?.First();
 
-        Assert.Equal(1, item.Id.Value);
+        Assert.Equal(1, item!.Id.Value);
         Assert.Equal("Switzerland", item.Name.Value);
         Assert.Equal(46.802496, item.LatLong.Latitude);
         Assert.Equal(8.234392, item.LatLong.Longitude);

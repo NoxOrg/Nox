@@ -40,4 +40,25 @@
     <ProjectReference Include="..\..\src\Nox.Types\Nox.Types.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Update="Types\Yaml\Samples\simple-invalid.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Types\Yaml\Samples\simple.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Types\Yaml\Samples\complex-object-invalid.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Types\Yaml\Samples\complex-object.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Types\Yaml\Samples\complex-invalid.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Types\Yaml\Samples\complex.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
