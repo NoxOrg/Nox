@@ -23,9 +23,6 @@ namespace Nox.Solution.Validation
                 .Must(HaveValidDataConnection)
                 .WithMessage(source => string.Format(ValidationResources.IntegrationSourceDataConnectionMissing, source!.Name, integrationName));
 
-            RuleFor(source => source!.Schedule!)
-                .SetValidator(source => new IntegrationScheduleValidator(source!.Name, integrationName));
-            
             var dataConnection = _dataConnections!.First(dc => dc.Name.Equals(dataConnectionName));
 
             RuleFor(source => source!.DatabaseOptions)

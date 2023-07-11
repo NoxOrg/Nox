@@ -268,7 +268,7 @@
     <value>The source '{0}' for integration '{1}' does not have a data connection specified. All integration sources must have a data connection specified in the Infrastructure section of your yaml definition..</value>
   </data>
   <data name="IntegrationScheduleStartEmpty" xml:space="preserve">
-    <value>The source '{0}' for integration '{1}' does not have a start specified for its schedule. All scheduled integrations must have a start defined.</value>
+    <value>The integration '{0}' does not have a start specified for its schedule. All scheduled integrations must have a start defined.</value>
   </data>
   <data name="IntegrationSourceDataConnectionMissing" xml:space="preserve">
     <value>The data connection for source '{0}' for integration '{1}' is not defined. All data connections must be defined in the Infrastructure section of your yaml definition.</value>

@@ -19,6 +19,9 @@ namespace Nox.Solution.Validation
 
             RuleFor(p => p.Name).Must(HaveUniqueName)
                 .WithMessage(m => string.Format(ValidationResources.IntegrationNameDuplicate, m.Name));
+            
+            RuleFor(i => i!.Schedule!)
+                .SetValidator(i => new IntegrationScheduleValidator(i!.Name));
 
             RuleFor(p => p.Source)
                 .NotEmpty()

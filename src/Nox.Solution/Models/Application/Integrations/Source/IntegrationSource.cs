@@ -17,16 +17,12 @@ namespace Nox.Solution
         [Description("A phrase describing the source component of the ETL. Think about describing the what/where of this data source.")]
         public string? Description { get; internal set; }
 
-        public IntegrationSchedule? Schedule { get; internal set; }
-
         [Required]
         [Title("The name of the integration source. Contains no spaces.")]
         [Description("The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections.")]
         [Pattern(@"^[^\s]*$")]
         [AdditionalProperties(false)]
         public string DataConnectionName { get; internal set; } = null!;
-
-        public IntegrationSourceDatabaseWatermark? Watermark { get; internal set; }
 
         public IntegrationSourceDatabaseOptions? DatabaseOptions { get; set; }
 

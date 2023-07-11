@@ -17,11 +17,20 @@ namespace Nox.Solution
         [Title("A phrase describing the objective of the ETL data integration.")]
         [Description("A phrase describing the high-level objective of the ETL. A reference to data source and format is especially useful.")]
         public string? Description { get; set; }
+        
+        [AdditionalProperties(false)]
+        public IntegrationSchedule? Schedule { get; internal set; }
+        
+        [AdditionalProperties(false)]
+        public IntegrationWatermark? Watermark { get; internal set; }
 
+        [AdditionalProperties(false)]
         public IntegrationSource? Source { get; internal set; }
 
+        [AdditionalProperties(false)]
         public IntegrationTransform? Transform { get; internal set; }
 
+        [AdditionalProperties(false)]
         public IntegrationTarget? Target { get; internal set; }
     }
 }

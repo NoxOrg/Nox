@@ -360,12 +360,13 @@ application:
             type: text            
 
   integrations:
-    - name: SampleEtl
-      description: a Sample Etl
+    - name: CountryJsonLoader
+      description: an ETL integration that seeds the Countries table with data from a json file
       source:
         name: CountryJsonSource
         description: Sources Country data from a json file
         dataConnectionName: CountryJsonData
+        # file options might not be relevant        
         fileOptions: 
           filename: country-seed-data.json
         schedule:
@@ -397,9 +398,8 @@ application:
               returnColumn: Name
             targetAttribute: GeoRegion
       target:
-        name: Country
         targetType: entity
-        
+        name: Country
   
     
 
@@ -507,8 +507,8 @@ infrastructure:
     dataConnections:
       - name: CountryJsonData
         provider: jsonFile
-        serverUri: file:///C:/my-data-files
-        options: Source=File;Filename=country-data.json;
+        serverUri: file:../../docs/sample-data
+        options: Source=File
 
   security:
     secrets:
