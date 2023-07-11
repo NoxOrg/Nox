@@ -90,42 +90,30 @@ namespace Nox.Solution
             {
                 foreach (var relationship in OwnedRelationships)
                 {
+                    NoxSimpleTypeDefinition foreignKeyDefinition;
+
                     if (relationship.Related.Entity?.Keys is null)
                     {
-                        if (relationship.Relationship == EntityRelationshipType.OneOrMany || relationship.Relationship == EntityRelationshipType.ZeroOrMany)
+                        string foreignKeyName;
+                        if (relationship.Relationship is EntityRelationshipType.OneOrMany or EntityRelationshipType.ZeroOrMany)
                         {
-                            var foreignKeyName = $"{relationship.Related.Entity!.PluralName}";
-                            var foreignKey = new NoxSimpleTypeDefinition()
-                            {
-                                Name = foreignKeyName,
-                                Description = $"A unique identifier for a {relationship.Related.Entity!.Name}.",
-                                Type = Types.NoxType.Collection,
-                                IsRequired = true,
-                                IsReadonly = true,
-                            };
-                            yield return new(EntityMemberType.OwnedRelationship, foreignKey);
+                            foreignKeyName = $"{relationship.Related.Entity!.PluralName}";
                         }
                         else
                         {
-                            var foreignKeyName = $"{relationship.Related.Entity!.Name}Id";
-                            var foreignKey = new NoxSimpleTypeDefinition()
-                            {
-                                Name = foreignKeyName,
-                                Description = $"A unique identifier for a {relationship.Related.Entity!.Name}.",
-                                Type = Types.NoxType.AutoNumber,
-                                IsRequired = true,
-                                IsReadonly = true,
-                            };
-                            yield return new(EntityMemberType.OwnedRelationship, foreignKey);
+                            foreignKeyName = $"{relationship.Related.Entity!.Name}Id";
+                            
                         }
+                        foreignKeyDefinition = CreateForeignKeyDefinition(foreignKeyName, relationship);
+                        yield return new(EntityMemberType.OwnedRelationship, foreignKeyDefinition);
                     }
                     else
                     {
                         foreach (var key in relationship.Related.Entity.Keys)
                         {
-                            var foreignKey = key.ShallowCopy();
-                            foreignKey.Name = $"{relationship.Entity}{key.Name}";
-                            yield return new(EntityMemberType.OwnedRelationship, foreignKey);
+                            foreignKeyDefinition = key.ShallowCopy();
+                            foreignKeyDefinition.Name = $"{relationship.Entity}{key.Name}";
+                            yield return new(EntityMemberType.OwnedRelationship, foreignKeyDefinition);
                         }
                     }
                 }
@@ -167,6 +155,19 @@ namespace Nox.Solution
             }
         }
 
+        private static NoxSimpleTypeDefinition CreateForeignKeyDefinition(string foreignKeyName,
+            EntityRelationship relationship)
+        {
+            var foreignKey = new NoxSimpleTypeDefinition()
+            {
+                Name = foreignKeyName,
+                Description = $"A unique identifier for a {relationship.Related.Entity!.Name}.",
+                Type = Types.NoxType.AutoNumber,
+                IsRequired = true,
+                IsReadonly = true,
+            };
+            return foreignKey;
+        }
     }
 
 }
