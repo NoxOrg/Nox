@@ -109,6 +109,7 @@ public sealed class Country
     /// </summary>
     public Json StreetAddressJson { get; set; } = null!;
 
+    /// <summary>
     /// Gets or sets the Local Time Zone.
     /// </summary>
     public TimeZoneCode LocalTimeZone { get; set; } = null!;
@@ -153,4 +154,9 @@ public sealed class Country
     /// Gets or sets the name in Arabic Locale.
     /// </summary>
     public TranslatedText ArabicName { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the current time.
+    /// </summary>
+    public Time CurrentTime { get; set; } = null!;
 }
