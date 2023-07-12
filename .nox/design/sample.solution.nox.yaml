@@ -447,7 +447,8 @@ infrastructure:
       serverUri: SampleEvt.iwgplc.com
       provider: eventStoreDb
       user: EvtUser
-      password: EvtPassword
+      password: EvtPasswordls
+      
 
   messaging:
 

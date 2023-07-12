@@ -340,7 +340,7 @@ public class SolutionDeserializationTests
         
         
         Assert.NotNull(noxConfig.Infrastructure.Dependencies.Monitoring);
-        Assert.Equal("SampleObservabiity", noxConfig.Infrastructure.Dependencies.Monitoring!.Name);
+        Assert.Equal("SampleObservability", noxConfig.Infrastructure.Dependencies.Monitoring!.Name);
         Assert.Equal("localhost", noxConfig.Infrastructure.Dependencies.Monitoring!.ServerUri);
         Assert.Equal(8200, noxConfig.Infrastructure.Dependencies.Monitoring!.Port);
         
