@@ -1,5 +1,7 @@
+using System.Net.Sockets;
 using Nox.Abstractions;
 using Nox.Secrets.Abstractions;
+using Nox.Secrets.Exceptions;
 using Nox.Solution;
 
 namespace Nox.Secrets.Hashicorp;
@@ -12,7 +14,7 @@ public class HashicorpSecretsResolver: ISecretsResolver
 
     public HashicorpSecretsResolver(IPersistedSecretStore store, SecretsServer secretsServer, string? storePrefix = null)
     {
-        if (secretsServer.Provider != SecretsServerProvider.HashicorpVault) throw new NoxSecretsException("Hashicorp secrets resolver can only be instantiated if provider is set to HashicorpVault");
+        if (secretsServer.Provider != SecretsServerProvider.HashicorpVault) throw new NoxSecretsException(ExceptionResources.InvalidProvider);
         _store = store;
         _storePrefix = "";
         if (!string.IsNullOrWhiteSpace(storePrefix)) _storePrefix = storePrefix + '.';
@@ -53,16 +55,26 @@ public class HashicorpSecretsResolver: ISecretsResolver
             switch (_secretsServer.Provider)
             {
                 case SecretsServerProvider.HashicorpVault:
-                    var vault = new HashicorpSecretsProvider(_secretsServer.ServerUri, _secretsServer.Password!, _secretsServer.Name);
-                    var azureSecrets = vault.GetSecretsAsync(unresolvedKeys.ToArray()).Result;
-                    if (azureSecrets.Any())
+                    try
                     {
-                        resolvedSecrets.AddRange(azureSecrets);
+                        var vault = new HashicorpSecretsProvider(_secretsServer.ServerUri, _secretsServer.Password!, _secretsServer.Name);
+                        var secrets = vault.GetSecretsAsync(unresolvedKeys.ToArray()).Result;
+                        if (secrets.Any())
+                        {
+                            resolvedSecrets.AddRange(secrets);
+                        }
+
+                        foreach (var secret in secrets)
+                        {
+                            if (secret.Value != null) _store.Save($"{_storePrefix}{secret.Key}", secret.Value);
+                        }
                     }
-                    foreach (var azureSecret in azureSecrets)
+                    catch (Exception ex)
                     {
-                        if (azureSecret.Value != null) _store.Save($"{_storePrefix}{azureSecret.Key}", azureSecret.Value);
+                        
+                        throw new NoxSecretsException(ExceptionResources.VaultUnavailable, ex);                        
                     }
+
                     break;
             }
         }

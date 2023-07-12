@@ -71,6 +71,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dockerfiles", "dockerfiles"
 		..\docker-compose.postgres.yml = ..\docker-compose.postgres.yml
 		..\docker-compose.sqlServer.yml = ..\docker-compose.sqlServer.yml
 		..\docker-compose.yml = ..\docker-compose.yml
+		..\docker-compose.hashicorp.yml = ..\docker-compose.hashicorp.yml
+		..\init_org_vault.json = ..\init_org_vault.json
+		..\init_sln_vault.json = ..\init_sln_vault.json
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Secrets", "Nox.Secrets\Nox.Secrets.csproj", "{5A884FCB-BD50-4C38-B692-030F3BA0AB0F}"
