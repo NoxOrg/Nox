@@ -356,19 +356,19 @@ application:
   integrations:
     - name: SampleEtl
       description: a Sample Etl
+      schedule:
+        start: every day at 2am
+        retry:
+          limit: 5
+          delaySeconds: 5
+          doubleDelayLimit: 10
+        runOnStartup: true
       source:
         name: CountryJsonSource
         description: Sources Country data from a json file
         dataConnectionName: CountryJsonData
         fileOptions: 
           filename: country-seed-data.json
-        schedule:
-          start: every day at 2am
-          retry:
-            limit: 5
-            delaySeconds: 5
-            doubleDelayLimit: 10
-          runOnStartup: true
         watermark:
           dateColumns:
             - "CreateDate"

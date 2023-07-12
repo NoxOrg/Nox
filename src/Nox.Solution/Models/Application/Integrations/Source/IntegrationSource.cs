@@ -23,6 +23,9 @@ namespace Nox.Solution
         [Pattern(@"^[^\s]*$")]
         [AdditionalProperties(false)]
         public string DataConnectionName { get; internal set; } = null!;
+        
+        [AdditionalProperties(false)]
+        public IntegrationSourceWatermark? Watermark { get; internal set; }
 
         public IntegrationSourceDatabaseOptions? DatabaseOptions { get; set; }
 

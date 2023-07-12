@@ -6,6 +6,6 @@ public class EtlExecutor: IEtlExecutor
 {
     public async Task<bool> ExecuteAsync(string integrationName)
     {
-        
+        return false;
     }
 }

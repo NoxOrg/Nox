@@ -97,7 +97,7 @@ infrastructure:
         password: whatsappPassword
 
     monitoring:
-      name: SampleObservabiity
+      name: SampleObservability
       serverUri: localhost
       provider: elasticApm
       port: 8200

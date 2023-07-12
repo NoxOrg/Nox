@@ -212,13 +212,13 @@ public class SolutionDeserializationTests
         Assert.Equal("CountryJsonSource", noxConfig.Application.Integrations[0].Source!.Name);
         Assert.Equal("Sources Country data from a json file", noxConfig.Application.Integrations[0].Source!.Description);
         Assert.Equal("CountryJsonData", noxConfig.Application.Integrations[0].Source!.DataConnectionName);
-        Assert.NotNull(noxConfig.Application.Integrations[0].Source!.Schedule);
-        Assert.Equal("every day at 2am", noxConfig.Application.Integrations[0].Source!.Schedule!.Start);
-        Assert.NotNull(noxConfig.Application.Integrations[0].Source!.Schedule!.Retry);
-        Assert.Equal(5, noxConfig.Application.Integrations[0].Source!.Schedule!.Retry!.Limit);
-        Assert.Equal(5, noxConfig.Application.Integrations[0].Source!.Schedule!.Retry!.DelaySeconds);
-        Assert.Equal(10, noxConfig.Application.Integrations[0].Source!.Schedule!.Retry!.DoubleDelayLimit);
-        Assert.True(noxConfig.Application.Integrations[0].Source!.Schedule!.RunOnStartup);
+        Assert.NotNull(noxConfig.Application.Integrations[0].Schedule);
+        Assert.Equal("every day at 2am", noxConfig.Application.Integrations[0].Schedule!.Start);
+        Assert.NotNull(noxConfig.Application.Integrations[0].Schedule!.Retry);
+        Assert.Equal(5, noxConfig.Application.Integrations[0].Schedule!.Retry!.Limit);
+        Assert.Equal(5, noxConfig.Application.Integrations[0].Schedule!.Retry!.DelaySeconds);
+        Assert.Equal(10, noxConfig.Application.Integrations[0].Schedule!.Retry!.DoubleDelayLimit);
+        Assert.True(noxConfig.Application.Integrations[0].Schedule!.RunOnStartup);
         
         Assert.NotNull(noxConfig.Application.Integrations[0].Source!.Watermark);
         Assert.NotNull(noxConfig.Application.Integrations[0].Source!.Watermark!.DateColumns);

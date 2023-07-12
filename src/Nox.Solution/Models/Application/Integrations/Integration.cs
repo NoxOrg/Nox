@@ -22,9 +22,6 @@ namespace Nox.Solution
         public IntegrationSchedule? Schedule { get; internal set; }
         
         [AdditionalProperties(false)]
-        public IntegrationWatermark? Watermark { get; internal set; }
-
-        [AdditionalProperties(false)]
         public IntegrationSource? Source { get; internal set; }
 
         [AdditionalProperties(false)]

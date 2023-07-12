@@ -14845,6 +14845,54 @@
                 "title": "A phrase describing the objective of the ETL data integration.",
                 "description": "A phrase describing the high-level objective of the ETL. A reference to data source and format is especially useful."
               },
+              "schedule": {
+                "type": "object",
+                "properties": {
+                  "start": {
+                    "type": "string",
+                    "title": "Start time to check the ETL source for updates.",
+                    "description": "Specify the start time to check the ETL source for updates. This is a \u0027speak-friendly\u0027 phrase that comprises the trigger time as well as the frequency. Translated into a cron expression."
+                  },
+                  "retry": {
+                    "type": "object",
+                    "properties": {
+                      "limit": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
+                      },
+                      "delaySeconds": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
+                      },
+                      "doubleDelayLimit": {
+                        "type": [
+                          "integer",
+                          "null"
+                        ]
+                      }
+                    },
+                    "title": "Retry policy applying to the ETL source updates.",
+                    "description": "This outlines the retry configuration in the case of ETL engine being unable to connect to the ETL data source. Includes limit and delay before retry.",
+                    "additionalProperties": false
+                  },
+                  "runOnStartup": {
+                    "type": [
+                      "boolean",
+                      "null"
+                    ],
+                    "title": "Check the ETL source for updates at appliation startup.",
+                    "description": "Specify here whether the ETL source is checked for updates when the application starts."
+                  }
+                },
+                "required": [
+                  "start"
+                ],
+                "additionalProperties": false
+              },
               "source": {
                 "type": "object",
                 "properties": {
@@ -14858,56 +14906,6 @@
                     "type": "string",
                     "title": "A description of the ETL source.",
                     "description": "A phrase describing the source component of the ETL. Think about describing the what/where of this data source."
-                  },
-                  "schedule": {
-                    "type": "object",
-                    "properties": {
-                      "start": {
-                        "type": "string",
-                        "title": "Start time to check the ETL source for updates.",
-                        "description": "Specify the start time to check the ETL source for updates. This is a \u0027speak-friendly\u0027 phrase that comprises the trigger time as well as the frequency. Translated into a cron expression."
-                      },
-                      "retry": {
-                        "type": "object",
-                        "properties": {
-                          "limit": {
-                            "type": [
-                              "integer",
-                              "null"
-                            ]
-                          },
-                          "delaySeconds": {
-                            "type": [
-                              "integer",
-                              "null"
-                            ]
-                          },
-                          "doubleDelayLimit": {
-                            "type": [
-                              "integer",
-                              "null"
-                            ]
-                          }
-                        },
-                        "title": "Retry policy applying to the ETL source updates.",
-                        "description": "This outlines the retry configuration in the case of ETL engine being unable to connect to the ETL data source. Includes limit and delay before retry.",
-                        "additionalProperties": false
-                      },
-                      "runOnStartup": {
-                        "type": [
-                          "boolean",
-                          "null"
-                        ],
-                        "title": "Check the ETL source for updates at appliation startup.",
-                        "description": "Specify here whether the ETL source is checked for updates when the application starts."
-                      }
-                    },
-                    "required": [
-                      "start"
-                    ],
-                    "title": "Scheduling of the ETL source.",
-                    "description": "Specify when and how frequently the ETL source is checked for updates, as well as the retry policy in case of failure. Includes a switch to indicate whether update is triggered at application startup.",
-                    "additionalProperties": false
                   },
                   "dataConnectionName": {
                     "type": "string",
@@ -14935,8 +14933,6 @@
                         "description": "Specify a sequential key columns to be compared to target data to indicate if data has changed."
                       }
                     },
-                    "title": "Definition namespace for watermark columns on the ETL source data.",
-                    "description": "This section lists the column(s) on the source data used to compare to the target data to indicate whether the source data has been updated.",
                     "additionalProperties": false
                   },
                   "databaseOptions": {
@@ -15037,8 +15033,6 @@
                   "name",
                   "dataConnectionName"
                 ],
-                "title": "Definition namespace for attributes describing the source component of an ETL integration.",
-                "description": "This section details ETL source attributes like name, description, scheduling and watermark specifications.",
                 "additionalProperties": false
               },
               "transform": {
@@ -15138,8 +15132,6 @@
                     "additionalProperties": false
                   }
                 },
-                "title": "Definition namespace for attributes describing the transform component of an ETL integration.",
-                "description": "This section details ETL transform attributes like field mapping and value lookups.",
                 "additionalProperties": false
               },
               "target": {
@@ -15243,8 +15235,6 @@
                   "name",
                   "targetType"
                 ],
-                "title": "Definition namespace for attributes describing the target component of an ETL integration.",
-                "description": "This section details ETL target attributes like name, description and type among other.",
                 "additionalProperties": false
               }
             },

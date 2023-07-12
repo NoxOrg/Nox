@@ -362,6 +362,13 @@ application:
   integrations:
     - name: CountryJsonLoader
       description: an ETL integration that seeds the Countries table with data from a json file
+      schedule:
+        start: every day at 2am
+        retry:
+          limit: 5
+          delaySeconds: 5
+          doubleDelayLimit: 10
+        runOnStartup: true
       source:
         name: CountryJsonSource
         description: Sources Country data from a json file
@@ -369,13 +376,6 @@ application:
         # file options might not be relevant        
         fileOptions: 
           filename: country-seed-data.json
-        schedule:
-          start: every day at 2am
-          retry:
-            limit: 5
-            delaySeconds: 5
-            doubleDelayLimit: 10
-          runOnStartup: true
         watermark:
           dateColumns:
             - "CreateDate"
