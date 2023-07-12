@@ -49,14 +49,17 @@ public class Area : Measurement<Area, AreaUnit>
     {
         var result = Value.Validate();
 
-        if (Value < 0 && !double.IsNaN((double)Value) && !double.IsInfinity((double)Value))
+        if (!double.IsNaN((double)Value) && !double.IsInfinity((double)Value))
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Area type as negative area value {Value} is not allowed."));
-        }
+            if (Value < 0)
+            {
+                result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Area type as negative area value {Value} is not allowed."));
+            }
 
-        if (ToSquareMeters() > EarthsSurfaceAreaInSquareMeters)
-        {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Area type as value {Value} is greater than the surface area of the Earth."));
+            if (ToSquareMeters() > EarthsSurfaceAreaInSquareMeters)
+            {
+                result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Area type as value {Value} is greater than the surface area of the Earth."));
+            }
         }
 
         return result;

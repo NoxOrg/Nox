@@ -1,3 +1,4 @@
+using FluentAssertions;
 using System.Globalization;
 
 namespace Nox.Types.Tests.Types;
@@ -9,8 +10,8 @@ public class AreaTests
     {
         var area = Area.From(12.5);
 
-        Assert.Equal(12.5, area.Value);
-        Assert.Equal(AreaUnit.SquareMeter, area.Unit);
+        area.Value.Should().Be(12.5);
+        area.Unit.Should().Be(AreaUnit.SquareMeter);
     }
 
     [Fact]
@@ -18,8 +19,8 @@ public class AreaTests
     {
         var area = Area.From(12.54888020887151);
 
-        Assert.Equal(12.548880, area.Value);
-        Assert.Equal(AreaUnit.SquareMeter, area.Unit);
+        area.Value.Should().Be(12.548880);
+        area.Unit.Should().Be(AreaUnit.SquareMeter);
     }
 
     [Fact]
@@ -27,8 +28,8 @@ public class AreaTests
     {
         var area = Area.From(12.5, AreaUnit.SquareMeter);
 
-        Assert.Equal(12.5, area.Value);
-        Assert.Equal(AreaUnit.SquareMeter, area.Unit);
+        area.Value.Should().Be(12.5);
+        area.Unit.Should().Be(AreaUnit.SquareMeter);
     }
 
     [Fact]
@@ -36,8 +37,8 @@ public class AreaTests
     {
         var area = Area.FromSquareMeters(12.5);
 
-        Assert.Equal(12.5, area.Value);
-        Assert.Equal(AreaUnit.SquareMeter, area.Unit);
+        area.Value.Should().Be(12.5);
+        area.Unit.Should().Be(AreaUnit.SquareMeter);
     }
 
     [Fact]
@@ -45,8 +46,8 @@ public class AreaTests
     {
         var area = Area.FromSquareFeet(134.548880);
 
-        Assert.Equal(134.548880, area.Value);
-        Assert.Equal(AreaUnit.SquareFoot, area.Unit);
+        area.Value.Should().Be(134.548880);
+        area.Unit.Should().Be(AreaUnit.SquareFoot);
     }
 
     [Fact]
@@ -54,11 +55,10 @@ public class AreaTests
     {
         void Test()
         {
-            var exception = Assert.Throws<TypeValidationException>(() => _ =
-                Area.From(-12.5)
-            );
+            var action = () => Area.From(-12.5);
 
-            Assert.Equal("Could not create a Nox Area type as negative area value -12.5 is not allowed.", exception.Errors.First().ErrorMessage);
+            action.Should().Throw<TypeValidationException>()
+                .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Area type as negative area value -12.5 is not allowed.") });
         }
 
         TestUtility.RunInInvariantCulture(Test);
@@ -67,45 +67,37 @@ public class AreaTests
     [Fact]
     public void Area_Constructor_WithNaNValueInput_ThrowsException()
     {
-        var exception = Assert.Throws<TypeValidationException>(() => _ =
-            Area.From(double.NaN)
-        );
+        var action = () => Area.From(double.NaN);
 
-        Assert.Equal("Could not create a Nox type as value NaN is not allowed.", exception.Errors.First().ErrorMessage);
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value NaN is not allowed.") });
     }
 
     [Fact]
     public void Area_Constructor_WithPositiveInfinityValueInput_ThrowsException()
     {
-        var exception = Assert.Throws<TypeValidationException>(() => _ =
-            Area.From(double.PositiveInfinity)
-        );
+        var action = () => Area.From(double.PositiveInfinity);
 
-        Assert.Equal("Could not create a Nox type as value Infinity is not allowed.",
-            exception.Errors.First().ErrorMessage);
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
     }
 
     [Fact]
     public void Area_Constructor_WithNegativeInfinityValueInput_ThrowsException()
     {
-        var exception = Assert.Throws<TypeValidationException>(() => _ =
-            Area.From(double.NegativeInfinity)
-        );
+        var action = () => Area.From(double.NegativeInfinity);
 
-        Assert.Equal("Could not create a Nox type as value Infinity is not allowed.",
-            exception.Errors.First().ErrorMessage);
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
     }
 
     [Fact]
     public void Area_Constructor_WithNotAllowedValueInput_ThrowsException()
     {
-        var exception = Assert.Throws<TypeValidationException>(() => _ =
-            Area.From(510_072_000_000_001)
-        );
+        var action = () => Area.From(510_072_000_000_001);
 
-        Assert.Equal(
-            $"Could not create a Nox Area type as value 510072000000001 is greater than the surface area of the Earth.",
-            exception.Errors.First().ErrorMessage);
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Area type as value 510072000000001 is greater than the surface area of the Earth.") });
     }
 
     [Fact]
@@ -115,7 +107,7 @@ public class AreaTests
 
         var area = Area.From(squareMeters);
 
-        Assert.Equal(12.5, area.ToSquareMeters());
+        area.ToSquareMeters().Should().Be(12.5);
     }
 
     [Fact]
@@ -125,7 +117,7 @@ public class AreaTests
 
         var area = Area.From(squareMeters);
 
-        Assert.Equal(134.54888, area.ToSquareFeet());
+        area.ToSquareFeet().Should().Be(134.54888);
     }
 
     [Theory]
@@ -136,7 +128,7 @@ public class AreaTests
         void Test()
         {
             var area = Area.FromSquareMeters(12.5);
-            Assert.Equal("12.5 m²", area.ToString());
+            area.ToString().Should().Be("12.5 m²");
         }
 
         TestUtility.RunInCulture(Test, culture);
@@ -150,7 +142,7 @@ public class AreaTests
         void Test()
         {
             var area = Area.FromSquareMeters(12.5);
-            Assert.Equal(expected, area.ToString(new CultureInfo(culture)));
+            area.ToString(new CultureInfo(culture)).Should().Be(expected);
         }
 
         TestUtility.RunInCulture(Test, culture);
@@ -164,7 +156,7 @@ public class AreaTests
         void Test()
         {
             var area = Area.FromSquareFeet(134.548880);
-            Assert.Equal("134.54888 ft²", area.ToString());
+            area.ToString().Should().Be("134.54888 ft²");
         }
 
         TestUtility.RunInCulture(Test, culture);
@@ -178,7 +170,7 @@ public class AreaTests
         void Test()
         {
             var area = Area.FromSquareFeet(134.548880);
-            Assert.Equal(expected, area.ToString(new CultureInfo(culture)));
+            area.ToString(new CultureInfo(culture)).Should().Be(expected);
         }
 
         TestUtility.RunInCulture(Test, culture);
@@ -234,27 +226,27 @@ public class AreaTests
 
     private static void AssertAreEquivalent(Area expected, Area actual)
     {
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
 
-        Assert.True(expected.Equals(actual));
+        expected.Equals(actual).Should().BeTrue();
 
-        Assert.True(actual.Equals(expected));
+        actual.Equals(expected).Should().BeTrue();
 
-        Assert.True(expected == actual);
+        (expected == actual).Should().BeTrue();
 
-        Assert.False(expected != actual);
+        (expected != actual).Should().BeFalse();
     }
 
     private static void AssertAreNotEquivalent(Area expected, Area actual)
     {
-        Assert.NotEqual(expected, actual);
+        actual.Should().NotBe(expected);
 
-        Assert.False(expected.Equals(actual));
+        expected.Equals(actual).Should().BeFalse();
 
-        Assert.False(actual.Equals(expected));
+        actual.Equals(expected).Should().BeFalse();
 
-        Assert.False(expected == actual);
+        (expected == actual).Should().BeFalse();
 
-        Assert.True(expected != actual);
+        (expected != actual).Should().BeTrue();
     }
 }

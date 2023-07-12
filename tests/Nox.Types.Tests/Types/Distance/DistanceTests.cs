@@ -1,4 +1,5 @@
-﻿using System.Globalization;
+﻿using FluentAssertions;
+using System.Globalization;
 
 namespace Nox.Types.Tests.Types;
 
@@ -9,8 +10,8 @@ public class DistanceTests
     {
         var distance = Distance.From(314.159);
 
-        Assert.Equal(314.159, distance.Value);
-        Assert.Equal(DistanceUnit.Kilometer, distance.Unit);
+        distance.Value.Should().Be(314.159);
+        distance.Unit.Should().Be(DistanceUnit.Kilometer);
     }
 
     [Fact]
@@ -18,8 +19,8 @@ public class DistanceTests
     {
         var distance = Distance.From(195.209, DistanceUnit.Mile);
 
-        Assert.Equal(195.209, distance.Value);
-        Assert.Equal(DistanceUnit.Mile, distance.Unit);
+        distance.Value.Should().Be(195.209);
+        distance.Unit.Should().Be(DistanceUnit.Mile);
     }
 
     [Fact]
@@ -27,8 +28,8 @@ public class DistanceTests
     {
         var distance = Distance.FromKilometers(314.159);
 
-        Assert.Equal(314.159, distance.Value);
-        Assert.Equal(DistanceUnit.Kilometer, distance.Unit);
+        distance.Value.Should().Be(314.159);
+        distance.Unit.Should().Be(DistanceUnit.Kilometer);
     }
 
     [Fact]
@@ -39,8 +40,8 @@ public class DistanceTests
 
         var distance = Distance.FromKilometers(origin, destination);
 
-        Assert.Equal(129.522785, distance.Value);
-        Assert.Equal(DistanceUnit.Kilometer, distance.Unit);
+        distance.Value.Should().Be(129.522785);
+        distance.Unit.Should().Be(DistanceUnit.Kilometer);
     }
 
     [Fact]
@@ -48,8 +49,8 @@ public class DistanceTests
     {
         var distance = Distance.FromMiles(195.209);
 
-        Assert.Equal(195.209, distance.Value);
-        Assert.Equal(DistanceUnit.Mile, distance.Unit);
+        distance.Value.Should().Be(195.209);
+        distance.Unit.Should().Be(DistanceUnit.Mile);
     }
 
     [Fact]
@@ -60,48 +61,44 @@ public class DistanceTests
 
         var distance = Distance.FromMiles(origin, destination);
 
-        Assert.Equal(80.481727, distance.Value);
-        Assert.Equal(DistanceUnit.Mile, distance.Unit);
+        distance.Value.Should().Be(80.481727);
+        distance.Unit.Should().Be(DistanceUnit.Mile);
     }
 
     [Fact]
     public void Distance_Constructor_WithNegativeValueInput_ThrowsException()
     {
-        var exception = Assert.Throws<TypeValidationException>(() => _ =
-            Distance.From(-100)
-        );
+        var action = () => Distance.From(-100);
 
-        Assert.Equal("Could not create a Nox Distance type as negative distance value -100 is not allowed.", exception.Errors.First().ErrorMessage);
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Distance type as negative distance value -100 is not allowed.") });
     }
 
     [Fact]
     public void Distance_Constructor_WithNaNValueInput_ThrowsException()
     {
-        var exception = Assert.Throws<TypeValidationException>(() => _ =
-            Distance.From(double.NaN)
-        );
+        var action = () => Distance.From(double.NaN);
 
-        Assert.Equal("Could not create a Nox type as value NaN is not allowed.", exception.Errors.First().ErrorMessage);
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value NaN is not allowed.") });
     }
 
     [Fact]
     public void Distance_Constructor_WithPositiveInfinityValueInput_ThrowsException()
     {
-        var exception = Assert.Throws<TypeValidationException>(() => _ =
-            Distance.From(double.PositiveInfinity)
-        );
+        var action = () => Distance.From(double.PositiveInfinity);
 
-        Assert.Equal("Could not create a Nox type as value Infinity is not allowed.", exception.Errors.First().ErrorMessage);
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
     }
 
     [Fact]
     public void Distance_Constructor_WithNegativeInfinityValueInput_ThrowsException()
     {
-        var exception = Assert.Throws<TypeValidationException>(() => _ =
-            Distance.From(double.NegativeInfinity)
-        );
+        var action = () => Distance.From(double.NegativeInfinity);
 
-        Assert.Equal("Could not create a Nox type as value Infinity is not allowed.", exception.Errors.First().ErrorMessage);
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
     }
 
     [Fact]
@@ -109,7 +106,7 @@ public class DistanceTests
     {
         var distance = Distance.FromKilometers(314.159);
 
-        Assert.Equal(314.159, distance.ToKilometers());
+        distance.ToKilometers().Should().Be(314.159);
     }
 
     [Fact]
@@ -117,7 +114,7 @@ public class DistanceTests
     {
         var distance = Distance.FromKilometers(314.159);
 
-        Assert.Equal(195.209352, distance.ToMiles());
+        distance.ToMiles().Should().Be(195.209352);
     }
 
     [Theory]
@@ -128,7 +125,7 @@ public class DistanceTests
         void Test()
         {
             var distance = Distance.FromKilometers(314.159);
-            Assert.Equal("314.159 km", distance.ToString());
+            distance.ToString().Should().Be("314.159 km");
         }
 
         TestUtility.RunInCulture(Test, culture);
@@ -142,7 +139,7 @@ public class DistanceTests
         void Test()
         {
             var distance = Distance.FromKilometers(314.159);
-            Assert.Equal(expected, distance.ToString(new CultureInfo(culture)));
+            distance.ToString(new CultureInfo(culture)).Should().Be(expected);
         }
 
         TestUtility.RunInCulture(Test, culture);
@@ -156,7 +153,7 @@ public class DistanceTests
         void Test()
         {
             var distance = Distance.FromMiles(195.209);
-            Assert.Equal("195.209 mi", distance.ToString());
+            distance.ToString().Should().Be("195.209 mi");
         }
 
         TestUtility.RunInCulture(Test, culture);
@@ -170,7 +167,7 @@ public class DistanceTests
         void Test()
         {
             var distance = Distance.FromMiles(195.209);
-            Assert.Equal(expected, distance.ToString(new CultureInfo(culture)));
+            distance.ToString(new CultureInfo(culture)).Should().Be(expected);
         }
 
         TestUtility.RunInCulture(Test, culture);
@@ -218,27 +215,27 @@ public class DistanceTests
 
     private static void AssertAreEquivalent(Distance expected, Distance actual)
     {
-        Assert.Equal(expected, actual);
+        actual.Should().Be(expected);
 
-        Assert.True(expected.Equals(actual));
+        expected.Equals(actual).Should().BeTrue();
 
-        Assert.True(actual.Equals(expected));
+        actual.Equals(expected).Should().BeTrue();
 
-        Assert.True(expected == actual);
+        (expected == actual).Should().BeTrue();
 
-        Assert.False(expected != actual);
+        (expected != actual).Should().BeFalse();
     }
 
     private static void AssertAreNotEquivalent(Distance expected, Distance actual)
     {
-        Assert.NotEqual(expected, actual);
+        actual.Should().NotBe(expected);
 
-        Assert.False(expected.Equals(actual));
+        expected.Equals(actual).Should().BeFalse();
 
-        Assert.False(actual.Equals(expected));
+        actual.Equals(expected).Should().BeFalse();
 
-        Assert.False(expected == actual);
+        (expected == actual).Should().BeFalse();
 
-        Assert.True(expected != actual);
+        (expected != actual).Should().BeTrue();
     }
 }
