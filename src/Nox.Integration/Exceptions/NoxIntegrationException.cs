@@ -1,4 +1,4 @@
-namespace Nox.Etl.Abstractions.Exceptions;
+namespace Nox.Integration.Exceptions;
 
 [Serializable]
 public class NoxIntegrationException : Exception

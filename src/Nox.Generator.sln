@@ -86,17 +86,29 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Secrets.Azure", "Nox.Se
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Secrets.Hashicorp", "Nox.Secrets.Hashicorp\Nox.Secrets.Hashicorp.csproj", "{0B3974A4-121C-486B-964F-9037DAD3C5E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Secrets.Abstractions", "Nox.Secrets.Abstractions\Nox.Secrets.Abstractions.csproj", "{B77B8B5E-A0FD-45BB-9644-61878079149A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Integration", "Integration", "{2BECBA35-E0A9-4638-9411-92BC55B59DFC}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Etl", "Etl", "{2BECBA35-E0A9-4638-9411-92BC55B59DFC}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Etl.Abstractions", "Nox.Etl.Abstractions\Nox.Etl.Abstractions.csproj", "{366AA129-37DD-431E-AA3A-81F30A127E99}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Etl", "Nox.Etl\Nox.Etl.csproj", "{00D5742A-A4A3-4543-BE51-7C626CCDB8AF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Integration", "Nox.Integration\Nox.Integration.csproj", "{00D5742A-A4A3-4543-BE51-7C626CCDB8AF}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Sources", "Sources", "{8B591AF0-0E41-479C-BE05-5967FB747CBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Etl.Source.File", "Etl.Source.File\Etl.Source.File.csproj", "{DD54A68D-FB9B-46D7-A115-D8892EA2F28E}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.IntegrationSource.File", "Nox.IntegrationSource.File\Nox.IntegrationSource.File.csproj", "{DD54A68D-FB9B-46D7-A115-D8892EA2F28E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DataConnections", "DataConnections", "{F3515DDC-5D87-4B59-A470-28AFDE111F58}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nox.Etlbox", "Nox.Etlbox", "{74A7BAFC-CCE0-4685-8200-CA52D48A3950}"
+	ProjectSection(SolutionItems) = preProject
+		Nox.Etlbox\ETLBox.Csv.dll = Nox.Etlbox\ETLBox.Csv.dll
+		Nox.Etlbox\ETLBox.dll = Nox.Etlbox\ETLBox.dll
+		Nox.Etlbox\ETLBox.Excel.dll = Nox.Etlbox\ETLBox.Excel.dll
+		Nox.Etlbox\ETLBox.Json.dll = Nox.Etlbox\ETLBox.Json.dll
+		Nox.Etlbox\ETLBox.MySql.dll = Nox.Etlbox\ETLBox.MySql.dll
+		Nox.Etlbox\ETLBox.Parquet.dll = Nox.Etlbox\ETLBox.Parquet.dll
+		Nox.Etlbox\ETLBox.Postgres.dll = Nox.Etlbox\ETLBox.Postgres.dll
+		Nox.Etlbox\ETLBox.SQLite.dll = Nox.Etlbox\ETLBox.SQLite.dll
+		Nox.Etlbox\ETLBox.SqlServer.dll = Nox.Etlbox\ETLBox.SqlServer.dll
+		Nox.Etlbox\ETLBox.Xml.dll = Nox.Etlbox\ETLBox.Xml.dll
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -204,14 +216,6 @@ Global
 		{0B3974A4-121C-486B-964F-9037DAD3C5E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B3974A4-121C-486B-964F-9037DAD3C5E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B3974A4-121C-486B-964F-9037DAD3C5E8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{B77B8B5E-A0FD-45BB-9644-61878079149A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{B77B8B5E-A0FD-45BB-9644-61878079149A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{B77B8B5E-A0FD-45BB-9644-61878079149A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{B77B8B5E-A0FD-45BB-9644-61878079149A}.Release|Any CPU.Build.0 = Release|Any CPU
-		{366AA129-37DD-431E-AA3A-81F30A127E99}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{366AA129-37DD-431E-AA3A-81F30A127E99}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{366AA129-37DD-431E-AA3A-81F30A127E99}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{366AA129-37DD-431E-AA3A-81F30A127E99}.Release|Any CPU.Build.0 = Release|Any CPU
 		{00D5742A-A4A3-4543-BE51-7C626CCDB8AF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{00D5742A-A4A3-4543-BE51-7C626CCDB8AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{00D5742A-A4A3-4543-BE51-7C626CCDB8AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -249,11 +253,11 @@ Global
 		{9C5DF8EC-0F0C-4FF0-86CC-3BE5181E6292} = {2B151195-53F6-45CD-84D5-F1E18CDFF1B0}
 		{D017DD5E-2DE1-462A-A891-CAB16C8BF940} = {2B151195-53F6-45CD-84D5-F1E18CDFF1B0}
 		{0B3974A4-121C-486B-964F-9037DAD3C5E8} = {2B151195-53F6-45CD-84D5-F1E18CDFF1B0}
-		{B77B8B5E-A0FD-45BB-9644-61878079149A} = {2B151195-53F6-45CD-84D5-F1E18CDFF1B0}
-		{366AA129-37DD-431E-AA3A-81F30A127E99} = {2BECBA35-E0A9-4638-9411-92BC55B59DFC}
 		{00D5742A-A4A3-4543-BE51-7C626CCDB8AF} = {2BECBA35-E0A9-4638-9411-92BC55B59DFC}
 		{8B591AF0-0E41-479C-BE05-5967FB747CBB} = {2BECBA35-E0A9-4638-9411-92BC55B59DFC}
 		{DD54A68D-FB9B-46D7-A115-D8892EA2F28E} = {8B591AF0-0E41-479C-BE05-5967FB747CBB}
+		{F3515DDC-5D87-4B59-A470-28AFDE111F58} = {2BECBA35-E0A9-4638-9411-92BC55B59DFC}
+		{74A7BAFC-CCE0-4685-8200-CA52D48A3950} = {820129FF-6448-42E2-8792-ABE1A8CBF722}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E72B357-9E1E-43B5-9868-8D2B74CB2AF0}
