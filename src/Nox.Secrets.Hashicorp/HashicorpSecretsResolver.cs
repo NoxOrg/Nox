@@ -1,3 +1,4 @@
+using System.Net.Sockets;
 using Nox.Abstractions;
 using Nox.Secrets.Abstractions;
 using Nox.Solution;
@@ -53,16 +54,25 @@ public class HashicorpSecretsResolver: ISecretsResolver
             switch (_secretsServer.Provider)
             {
                 case SecretsServerProvider.HashicorpVault:
-                    var vault = new HashicorpSecretsProvider(_secretsServer.ServerUri, _secretsServer.Password!, _secretsServer.Name);
-                    var azureSecrets = vault.GetSecretsAsync(unresolvedKeys.ToArray()).Result;
-                    if (azureSecrets.Any())
+                    try
                     {
-                        resolvedSecrets.AddRange(azureSecrets);
+                        var vault = new HashicorpSecretsProvider(_secretsServer.ServerUri, _secretsServer.Password!, _secretsServer.Name);
+                        var secrets = vault.GetSecretsAsync(unresolvedKeys.ToArray()).Result;
+                        if (secrets.Any())
+                        {
+                            resolvedSecrets.AddRange(secrets);
+                        }
+
+                        foreach (var secret in secrets)
+                        {
+                            if (secret.Value != null) _store.Save($"{_storePrefix}{secret.Key}", secret.Value);
+                        }
                     }
-                    foreach (var azureSecret in azureSecrets)
+                    catch (Exception ex)
                     {
-                        if (azureSecret.Value != null) _store.Save($"{_storePrefix}{azureSecret.Key}", azureSecret.Value);
+                        throw new NoxSecretsException("Unable to retrieve secrets from the Hashicorp vault, are you connected to the internet and is the vault available?", ex);                        
                     }
+
                     break;
             }
         }
