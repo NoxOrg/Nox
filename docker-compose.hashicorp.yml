@@ -2,7 +2,7 @@ version: "3.3"
 
 services:
   vault:
-    container_name: hashi-vault
+    container_name: vault
     image: hashicorp/vault:latest
     restart: always
     volumes:
@@ -25,8 +25,8 @@ services:
     depends_on:
       - vault
     volumes:
-      - ./init_org_vault.sh:/usr/local/bin/init_vault.sh
-    command: ["sh", "-c", "/usr/local/bin/init_vault.sh"]
+      - ./init_org_vault.json:/usr/local/bin/init_vault.json
+    command: "CURL -v -X POST 'http://vault:8300/v1/secret/data/org-vault' --header 'X-Vault-Token: root' --data-binary @/usr/local/bin/init_vault.json"
     networks:
       - vault-network
   
@@ -36,8 +36,8 @@ services:
     depends_on:
       - vault
     volumes:
-      - ./init_sln_vault.sh:/usr/local/bin/init_vault.sh
-    command: ["sh", "-c", "/usr/local/bin/init_vault.sh"]
+      - ./init_sln_vault.json:/usr/local/bin/init_vault.json
+    command: "CURL -v -X POST 'http://vault:8300/v1/secret/data/org-vault' --header 'X-Vault-Token: root' --data-binary @/usr/local/bin/init_vault.json"
     networks:
       - vault-network
       
