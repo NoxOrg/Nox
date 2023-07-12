@@ -2,7 +2,7 @@
 using System.Globalization;
 using Nox.Types;
 
-namespace Nox.Common;
+namespace Nox.Types.Common;
 
 public abstract class Measurement<TValueObject, TUnitType> : ValueObject<QuantityValue, TValueObject>
     where TValueObject : Measurement<TValueObject, TUnitType>, new()

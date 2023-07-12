@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nox.Common;
+namespace Nox.Types.Common;
 
 public abstract class MeasurementUnit : IComparable
 {

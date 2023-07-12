@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using Nox.Types;
 
-namespace Nox.Common;
+namespace Nox.Types.Common;
 
 public abstract class MeasurementConversionFactor<TUnitType> where TUnitType : MeasurementUnit
 {

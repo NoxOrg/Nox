@@ -1,4 +1,4 @@
-﻿using Nox.Common;
+﻿using Nox.Types.Common;
 using System.Collections.Generic;
 
 namespace Nox.Types;

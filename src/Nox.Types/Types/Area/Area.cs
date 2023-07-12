@@ -1,7 +1,5 @@
-﻿using Nox.Common;
-using System;
+﻿using Nox.Types.Common;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace Nox.Types;
 

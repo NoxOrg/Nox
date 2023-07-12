@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Nox.Types.Common;
+using System;
 
 namespace Nox.Types;
 

@@ -1,3 +1,5 @@
+using Nox.Types.Common;
+
 namespace Nox.Types;
 
     /// <summary>
