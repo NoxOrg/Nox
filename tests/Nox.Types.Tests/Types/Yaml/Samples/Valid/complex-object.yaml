@@ -4,12 +4,10 @@ people:
     address:
       street: 123 Main Street
       city: Anytown
-      state: CA
-      zipcode: 12345
+     
   - name: Jane Doe
     age: 25
     address:
       street: 456 Elm Street
       city: Anytown
-      state: CA
-      zipcode: 54321
+      
