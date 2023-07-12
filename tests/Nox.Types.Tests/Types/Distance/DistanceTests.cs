@@ -10,16 +10,16 @@ public class DistanceTests
         var distance = Distance.From(314.159);
 
         Assert.Equal(314.159, distance.Value);
-        Assert.Equal(DistanceTypeUnit.Kilometer, distance.Unit);
+        Assert.Equal(DistanceUnit.Kilometer, distance.Unit);
     }
 
     [Fact]
     public void Distance_Constructor_WithUnit_ReturnsSameValueAndUnit()
     {
-        var distance = Distance.From(195.209, DistanceTypeUnit.Mile);
+        var distance = Distance.From(195.209, DistanceUnit.Mile);
 
         Assert.Equal(195.209, distance.Value);
-        Assert.Equal(DistanceTypeUnit.Mile, distance.Unit);
+        Assert.Equal(DistanceUnit.Mile, distance.Unit);
     }
 
     [Fact]
@@ -28,7 +28,7 @@ public class DistanceTests
         var distance = Distance.FromKilometers(314.159);
 
         Assert.Equal(314.159, distance.Value);
-        Assert.Equal(DistanceTypeUnit.Kilometer, distance.Unit);
+        Assert.Equal(DistanceUnit.Kilometer, distance.Unit);
     }
 
     [Fact]
@@ -40,7 +40,7 @@ public class DistanceTests
         var distance = Distance.FromKilometers(origin, destination);
 
         Assert.Equal(129.522785, distance.Value);
-        Assert.Equal(DistanceTypeUnit.Kilometer, distance.Unit);
+        Assert.Equal(DistanceUnit.Kilometer, distance.Unit);
     }
 
     [Fact]
@@ -49,7 +49,7 @@ public class DistanceTests
         var distance = Distance.FromMiles(195.209);
 
         Assert.Equal(195.209, distance.Value);
-        Assert.Equal(DistanceTypeUnit.Mile, distance.Unit);
+        Assert.Equal(DistanceUnit.Mile, distance.Unit);
     }
 
     [Fact]
@@ -61,7 +61,7 @@ public class DistanceTests
         var distance = Distance.FromMiles(origin, destination);
 
         Assert.Equal(80.481727, distance.Value);
-        Assert.Equal(DistanceTypeUnit.Mile, distance.Unit);
+        Assert.Equal(DistanceUnit.Mile, distance.Unit);
     }
 
     [Fact]
@@ -102,16 +102,6 @@ public class DistanceTests
         );
 
         Assert.Equal("Could not create a Nox type as value Infinity is not allowed.", exception.Errors.First().ErrorMessage);
-    }
-
-    [Fact]
-    public void Distance_Constructor_WithWithUnsupportedUnitInput_ThrowsException()
-    {
-        var exception = Assert.Throws<TypeValidationException>(() => _ =
-            Distance.From(314.159, (DistanceTypeUnit)1001)
-        );
-
-        Assert.Equal("Could not create a Nox Distance type as unit 1001 is not supported.", exception.Errors.First().ErrorMessage);
     }
 
     [Fact]

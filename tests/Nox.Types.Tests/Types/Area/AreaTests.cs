@@ -5,21 +5,12 @@ namespace Nox.Types.Tests.Types;
 public class AreaTests
 {
     [Fact]
-    public void Area_Constructor_ReturnsDefaultValueAndUnit()
-    {
-        var area = new Area();
-
-        Assert.Equal(0, area.Value);
-        Assert.Equal(AreaTypeUnit.SquareMeter, area.Unit);
-    }
-
-    [Fact]
     public void Area_Constructor_ReturnsSameValueAndDefaultUnit()
     {
         var area = Area.From(12.5);
 
         Assert.Equal(12.5, area.Value);
-        Assert.Equal(AreaTypeUnit.SquareMeter, area.Unit);
+        Assert.Equal(AreaUnit.SquareMeter, area.Unit);
     }
 
     [Fact]
@@ -28,16 +19,16 @@ public class AreaTests
         var area = Area.From(12.54888020887151);
 
         Assert.Equal(12.548880, area.Value);
-        Assert.Equal(AreaTypeUnit.SquareMeter, area.Unit);
+        Assert.Equal(AreaUnit.SquareMeter, area.Unit);
     }
 
     [Fact]
     public void Area_Constructor_WithUnit_ReturnsSameValueAndUnit()
     {
-        var area = Area.From(12.5, AreaTypeUnit.SquareMeter);
+        var area = Area.From(12.5, AreaUnit.SquareMeter);
 
         Assert.Equal(12.5, area.Value);
-        Assert.Equal(AreaTypeUnit.SquareMeter, area.Unit);
+        Assert.Equal(AreaUnit.SquareMeter, area.Unit);
     }
 
     [Fact]
@@ -46,7 +37,7 @@ public class AreaTests
         var area = Area.FromSquareMeters(12.5);
 
         Assert.Equal(12.5, area.Value);
-        Assert.Equal(AreaTypeUnit.SquareMeter, area.Unit);
+        Assert.Equal(AreaUnit.SquareMeter, area.Unit);
     }
 
     [Fact]
@@ -55,7 +46,7 @@ public class AreaTests
         var area = Area.FromSquareFeet(134.548880);
 
         Assert.Equal(134.548880, area.Value);
-        Assert.Equal(AreaTypeUnit.SquareFoot, area.Unit);
+        Assert.Equal(AreaUnit.SquareFoot, area.Unit);
     }
 
     [Fact]
@@ -103,16 +94,6 @@ public class AreaTests
 
         Assert.Equal("Could not create a Nox type as value Infinity is not allowed.",
             exception.Errors.First().ErrorMessage);
-    }
-
-    [Fact]
-    public void Area_Constructor_WithWithUnsupportedUnitInput_ThrowsException()
-    {
-        var exception = Assert.Throws<NotImplementedException>(() => _ =
-            Area.From(12.5, (AreaTypeUnit)1001)
-        );
-
-        Assert.Equal("No conversion defined from 1001 to SquareMeter.", exception.Message);
     }
 
     [Fact]
@@ -208,9 +189,9 @@ public class AreaTests
     {
         var squareMeters = 12.5;
 
-        var area1 = Area.From(squareMeters, AreaTypeUnit.SquareMeter);
+        var area1 = Area.From(squareMeters, AreaUnit.SquareMeter);
 
-        var area2 = Area.From(squareMeters, AreaTypeUnit.SquareMeter);
+        var area2 = Area.From(squareMeters, AreaUnit.SquareMeter);
 
         AssertAreEquivalent(area1, area2);
     }
@@ -219,10 +200,10 @@ public class AreaTests
     public void Area_Equality_WithDifferentAreaUnit_Tests()
     {
         var squareMeters = 12.5;
-        var area1 = Area.From(squareMeters, AreaTypeUnit.SquareMeter);
+        var area1 = Area.From(squareMeters, AreaUnit.SquareMeter);
 
         var squareFeetValue = 134.54888; // 12.5 m²
-        var area2 = Area.From(squareFeetValue, AreaTypeUnit.SquareFoot);
+        var area2 = Area.From(squareFeetValue, AreaUnit.SquareFoot);
 
         AssertAreEquivalent(area1, area2);
     }
@@ -231,10 +212,10 @@ public class AreaTests
     public void Area_NonEquality_SpecifyingAreaUnit_WithSameUnit_Tests()
     {
         var squareMeters1 = 12.5;
-        var area1 = Area.From(squareMeters1, AreaTypeUnit.SquareMeter);
+        var area1 = Area.From(squareMeters1, AreaUnit.SquareMeter);
 
         var squareMeters2 = 13.0;
-        var area2 = Area.From(squareMeters2, AreaTypeUnit.SquareMeter);
+        var area2 = Area.From(squareMeters2, AreaUnit.SquareMeter);
 
         AssertAreNotEquivalent(area1, area2);
     }
@@ -243,10 +224,10 @@ public class AreaTests
     public void Area_NonEquality_SpecifyingAreaUnit_WithDifferentUnit_Tests()
     {
         var squareMeters = 12.5;
-        var area1 = Area.From(squareMeters, AreaTypeUnit.SquareMeter);
+        var area1 = Area.From(squareMeters, AreaUnit.SquareMeter);
 
         var squareFeet = 139.930835; // 13 m²
-        var area2 = Area.From(squareFeet, AreaTypeUnit.SquareFoot);
+        var area2 = Area.From(squareFeet, AreaUnit.SquareFoot);
 
         AssertAreNotEquivalent(area1, area2);
     }
