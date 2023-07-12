@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using SampleWebApp.Application;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
@@ -24,6 +25,11 @@ public partial class CountriesController : ODataController
     protected readonly ODataDbContext _databaseContext;
     
     /// <summary>
+    /// The Automapper.
+    /// </summary>
+    protected readonly IMapper _mapper;
+    
+    /// <summary>
     /// Returns a list of countries for a given continent.
     /// </summary>
     protected readonly GetCountriesByContinentQueryBase _getCountriesByContinent;
@@ -35,11 +41,13 @@ public partial class CountriesController : ODataController
     
     public CountriesController(
         ODataDbContext databaseContext,
+        IMapper mapper,
         GetCountriesByContinentQueryBase getCountriesByContinent,
         UpdatePopulationStatisticsCommandHandlerBase updatePopulationStatistics
     )
     {
         _databaseContext = databaseContext;
+        _mapper = mapper;
         _getCountriesByContinent = getCountriesByContinent;
         _updatePopulationStatistics = updatePopulationStatistics;
     }
@@ -50,7 +58,6 @@ public partial class CountriesController : ODataController
         return Ok(_databaseContext.Countries);
     }
     
-    [EnableQuery]
     public ActionResult<Country> Get([FromRoute] string key)
     {
         var item = _databaseContext.Countries.SingleOrDefault(d => d.Id.Equals(key));
@@ -63,18 +70,24 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post(Country country)
+    public async Task<ActionResult> Post(CountryDto country)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        _databaseContext.Countries.Add(country);
+        var entity = _mapper.Map<Country>(country);
+        
+        entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
+        entity.CreatedBy = "test";
+        entity.CreatedAtUtc = DateTime.UtcNow;
+        
+        _databaseContext.Countries.Add(entity);
         
         await _databaseContext.SaveChangesAsync();
         
-        return Created(country);
+        return Created(entity);
     }
     
     public async Task<ActionResult> Put([FromRoute] string key, [FromBody] Country updatedCountry)
@@ -110,21 +123,21 @@ public partial class CountriesController : ODataController
         return Updated(updatedCountry);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string key, [FromBody] Delta<Country> country)
+    public async Task<ActionResult> Patch([FromRoute] string country, [FromBody] Delta<Country> Id)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = await _databaseContext.Countries.FindAsync(key);
+        var entity = await _databaseContext.Countries.FindAsync(country);
         
         if (entity == null)
         {
             return NotFound();
         }
         
-        country.Patch(entity);
+        Id.Patch(entity);
         
         try
         {
@@ -132,7 +145,7 @@ public partial class CountriesController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!CountryExists(key))
+            if (!CountryExists(country))
             {
                 return NotFound();
             }
@@ -145,14 +158,14 @@ public partial class CountriesController : ODataController
         return Updated(entity);
     }
     
-    private bool CountryExists(string key)
+    private bool CountryExists(string country)
     {
-        return _databaseContext.Countries.Any(p => p.Id == key);
+        return _databaseContext.Countries.Any(p => p.Id == country);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] string key)
+    public async Task<ActionResult> Delete([FromRoute] string Id)
     {
-        var country = await _databaseContext.Countries.FindAsync(key);
+        var country = await _databaseContext.Countries.FindAsync(Id);
         if (country == null)
         {
             return NotFound();

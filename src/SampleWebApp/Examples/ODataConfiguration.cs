@@ -1,10 +1,9 @@
 ﻿// generated
-
+using SampleWebApp.Presentation.Api.OData;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
-using SampleWebApp.Domain;
 
-namespace SampleWebApp.Examples;
+namespace SampleWebApp.Examples2;
 
 public partial class ODataConfiguration
 {
@@ -12,22 +11,25 @@ public partial class ODataConfiguration
     {
         ODataModelBuilder builder = new ODataConventionModelBuilder();
 
+        builder.EntitySet<TenantWorkplace>("TenantWorkplaces");
+        builder.EntitySet<TenantWorkplaceContact>("TenantWorkplaceContacts");
         builder.EntitySet<Country>("Countries");
-        builder.EntitySet<Currency>("Currencies");
-        builder.EntitySet<CountryLocalNames>("CountryLocalNames");
-        //TODO Solve Composite Keys for Entities, that do not have an Id
-        // builder.EntitySet<CurrencyCashBalance>("CurrencyCashBalances");
 
         services.AddControllers()
-            .AddOData(options => options
-                .Select()
-                .Filter()
-                .OrderBy()
-                .Count()
-                .Expand()
-                .SkipToken()
-                .SetMaxTop(100)
-                .AddRouteComponents("api", builder.GetEdmModel())
+            .AddOData(options =>
+            {
+                options
+                    .Select()
+                    .Filter()
+                    .OrderBy()
+                    .Expand()
+                    .SkipToken()
+                    .SetMaxTop(100);
+
+                var routeOptions = options.AddRouteComponents("api", builder.GetEdmModel()).RouteOptions;
+                routeOptions.EnableKeyInParenthesis = false;
+                routeOptions.EnableDollarCountRouting = false;
+            }
             );
     }
 }

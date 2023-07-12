@@ -28,25 +28,48 @@ internal static class ODataModelGenerator
         code.AppendLine($"using Microsoft.AspNetCore.Http;");
         code.AppendLine($"using Microsoft.AspNetCore.OData;");
         code.AppendLine($"using Microsoft.OData.ModelBuilder;");
+        code.AppendLine($"using AutoMapper;");
 
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Presentation.Api.OData;");
         code.AppendLine();
 
-        foreach (var entity in solution.Domain.Entities)
+        GenerateModels(solutionNameSpace, solution, code, false);
+
+        GenerateModels(solutionNameSpace, solution, code, true);
+
+        code.GenerateSourceCode();
+    }
+
+    private static void GenerateModels(string solutionNameSpace, NoxSolution solution, CodeBuilder code, bool isDto)
+    {
+        foreach (var entity in solution!.Domain!.Entities)
         {
             GenerateDocs(code, entity.Description);
 
-            var baseClass = (entity.Persistence?.IsVersioned ?? true) ? "AuditableEntityBase" : "EntityBase";
+            if (isDto)
+            {
+                code.AppendLine($"public class {entity.Name}Dto");
+            }
+            else
+            {
+                var baseClass = (entity.Persistence?.IsVersioned ?? true) ? "AuditableEntityBase" : "EntityBase";
 
-            code.AppendLine($"public class {entity.Name} : {solutionNameSpace}.Domain.{baseClass}");
+                code.AppendLine($"[AutoMap(typeof({entity.Name}Dto))]");
+                code.AppendLine($"public class {entity.Name} : {solutionNameSpace}.Domain.{baseClass}");
+            }
+
             code.StartBlock();
 
             if (entity.Keys != null)
             {
                 foreach (var key in entity.Keys)
                 {
-                    GenerateProperty(code, key, forceRequired: true);
+                    // TODO: check auto generated keys
+                    if (!isDto)
+                    {
+                        GenerateProperty(code, key, forceRequired: true);
+                    }
                 }
             }
 
@@ -58,40 +81,47 @@ internal static class ODataModelGenerator
                 }
             }
 
-            if (entity.Relationships != null)
+            // TBD - logic for DTO
+            if (!isDto)
             {
-                foreach (var relationship in entity.Relationships)
+                if (entity.Relationships != null)
                 {
-                    GenerateRelationshipProperty(code, relationship);
+                    foreach (var relationship in entity.Relationships)
+                    {
+                        GenerateRelationshipProperty(code, relationship, isDto);
+                    }
                 }
-            }
 
-            if (entity.OwnedRelationships != null)
-            {
-                foreach (var relationship in entity.OwnedRelationships)
+                if (entity.OwnedRelationships != null)
                 {
-                    GenerateRelationshipProperty(code, relationship);
+                    foreach (var relationship in entity.OwnedRelationships)
+                    {
+                        GenerateRelationshipProperty(code, relationship, isDto);
+                    }
                 }
             }
 
             code.EndBlock();
         }
-
-        code.GenerateSourceCode();
     }
 
-    private static void GenerateRelationshipProperty(CodeBuilder code, EntityRelationship relationship)
+    private static void GenerateRelationshipProperty(CodeBuilder code, EntityRelationship relationship, bool isDto)
     {
         GenerateDocs(code, relationship.Description);
 
-        var targetEntity = relationship.Entity;
+        var targetEntity = isDto ? $"{relationship.Entity}Dto" : relationship.Entity;
 
         bool isMany = relationship.Relationship == EntityRelationshipType.ZeroOrMany || relationship.Relationship == EntityRelationshipType.OneOrMany;
 
         var propType = isMany ? $"List<{targetEntity}>" : targetEntity;
-        var propName = isMany ? targetEntity.Pluralize() : targetEntity;
+        var propName = relationship.Name;
 
         var nullable = relationship.Relationship == EntityRelationshipType.ZeroOrOne ? "?" : string.Empty;
+
+        if (isDto)
+        {
+            code.AppendLine($"[AutoExpand]");
+        }
 
         code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }} = null!;");
     }
@@ -114,8 +144,8 @@ internal static class ODataModelGenerator
 
     private static (string FieldName, string Type)[] GetType(NoxType type)
     {
-        // Assume objects and collections are represented as strings
-        if (type == NoxType.Object || type == NoxType.Array || type == NoxType.Collection)
+        // Assume objects and collections are represented as strings - TBD
+        if (type == NoxType.Object || type == NoxType.Collection || type == NoxType.Array)
         {
             return new[] { (string.Empty, "string") };
         }
