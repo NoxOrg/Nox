@@ -47,22 +47,13 @@ internal static class NoxSchemaValidator
             OutputFormat = OutputFormat.Hierarchical,
             EvaluateAs = SpecVersion.Draft7
         };
-        var jsonSerializerOptions = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            Converters = {
-                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase),
-                // It needs to check specific cases during deserialization.
-                new NoxEntityJsonConverter()
-            }
-        };
+
         // The purpose is to deserialize yaml to object is to validate content against json schema generated from properties annotations.
         // If deserialize content to certain type then value-type properties will be initilized by default and will exist in
         // futher json serialization during the validation.
         // However, to handle a case when value-type properties are required it's neccessary to validate json where these properties are not involved.
         var yamlObjectInstance = deserializer.Deserialize<object>(yamlContent);
-        var errorsFromObjectValidation = Validate(yamlObjectInstance, jsonSerializerOptions, schema, evaluateOptions);
+        var errorsFromObjectValidation = Validate(yamlObjectInstance, schema, evaluateOptions);
         errors.AddRange(errorsFromObjectValidation);
 #endif
 
@@ -82,7 +73,7 @@ internal static class NoxSchemaValidator
         }
 
 #if !NETSTANDARD
-        var errorsFromTypedObjectValidation = Validate(yamlTypedObjectInstance, jsonSerializerOptions, schema, evaluateOptions);
+        var errorsFromTypedObjectValidation = Validate(yamlTypedObjectInstance, schema, evaluateOptions);
         errors.AddRange(errorsFromTypedObjectValidation);
 #endif
 
@@ -118,28 +109,37 @@ internal static class NoxSchemaValidator
 
     private static List<string> Validate<T>(
             T yamlObject,
-            JsonSerializerOptions jsonSerializerOptions,
             JsonSchema schema,
             EvaluationOptions evaluateOptions)
     {
         var errors = new List<string>();
-        JsonDocument jsonDocument;
-        try
-        {
-            // It's possible to fail deserialization if object's properties don't satisfy particular validation rules
-            // Validation rules implemented in custom Json converterters where it's possible to implement custom validation logic.
-            jsonDocument = JsonSerializer.SerializeToDocument(yamlObject, jsonSerializerOptions);
-        }
-        catch (NoxSolutionConfigurationException ex)
-        {
-            errors.Add(ex.Message);
-            return errors;
-        }
+        var jsonDocument = DeserializeWithCustomValidation(yamlObject, errors);
         var result = schema.Evaluate(jsonDocument, evaluateOptions);
 
         HandleErrorsRecursively(result, errors);
 
         return errors;
+    }
+
+    private static JsonDocument DeserializeWithCustomValidation<T>(
+        T yamlObject,
+        List<string> errors)
+    {
+        JsonSerializerOptions jsonSerializerOptions;
+        try
+        {
+            // It's possible to fail deserialization if object's properties don't satisfy particular validation rules
+            // Validation rules implemented in custom Json converters where it's possible to implement custom validation logic.
+            jsonSerializerOptions = CreateSerializerOptions(new NoxEntityListJsonConverter());
+            return JsonSerializer.SerializeToDocument(yamlObject, jsonSerializerOptions);
+        }
+        catch (NoxSolutionConfigurationException ex)
+        {
+            errors.Add(ex.Message);
+        }
+
+        jsonSerializerOptions = CreateSerializerOptions();
+        return JsonSerializer.SerializeToDocument(yamlObject, jsonSerializerOptions);
     }
 
     private static void HandleErrorsRecursively(EvaluationResults results, List<string> errors)
@@ -165,5 +165,25 @@ internal static class NoxSchemaValidator
         {
             HandleErrorsRecursively(detail, errors);
         }
+    }
+
+    private static JsonSerializerOptions CreateSerializerOptions(params JsonConverter[] converters)
+    {
+        var jsonSerializerOptions = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            Converters =
+            {
+                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+            }
+        };
+
+        foreach (var converter in converters)
+        {
+            jsonSerializerOptions.Converters.Add(converter);
+        }
+
+        return jsonSerializerOptions;
     }
 }

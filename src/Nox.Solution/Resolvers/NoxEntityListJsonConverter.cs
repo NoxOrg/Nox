@@ -10,7 +10,7 @@ namespace Nox.Solution.Resolvers;
 /// <summary>
 /// Deserialize and validates List of Entities
 /// </summary>
-public class NoxEntityJsonConverter : JsonConverter<IReadOnlyList<Entity>>
+public class NoxEntityListJsonConverter : JsonConverter<IReadOnlyList<Entity>>
 {
     public override IReadOnlyList<Entity> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
@@ -48,7 +48,10 @@ public class NoxEntityJsonConverter : JsonConverter<IReadOnlyList<Entity>>
                 }
             }
 
-            throw new NoxSolutionConfigurationException(string.Join("\n", messages));
+            if (messages.Count > 0)
+            {
+                throw new NoxSolutionConfigurationException(string.Join("\n", messages));
+            }
         }
 
         writer.WriteStringValue(JsonSerializer.Serialize(value));

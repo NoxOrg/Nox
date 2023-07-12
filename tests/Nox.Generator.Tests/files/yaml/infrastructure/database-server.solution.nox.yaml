@@ -12,6 +12,7 @@ domain:
       keys:
 
         - name: Id
+          isRequired: true
           type: text
           textTypeOptions:
             isUnicode: false

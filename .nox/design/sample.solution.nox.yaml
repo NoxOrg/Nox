@@ -163,6 +163,7 @@ domain:
 
         - name: Id
           type: text
+          isRequired: true
           textTypeOptions:
             isUnicode: false
             minLength: 2
@@ -289,6 +290,7 @@ domain:
       keys:
 
         - name: Id
+          isRequired: true
           type: text
           textTypeOptions:
             isUnicode: false
