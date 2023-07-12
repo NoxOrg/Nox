@@ -8,7 +8,7 @@ namespace Nox.Types.Tests.Types;
 public class UriTests
 {
 
-    private const string SAMPLE_URI = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
+    private const string Sample_Uri = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
     private readonly ITestOutputHelper _testOutputHelper;
 
 
@@ -20,7 +20,7 @@ public class UriTests
     [Fact]
     public void NoxUri_ShouldBe_SameAs_SystemUri()
     {
-        var expected = new System.Uri(SAMPLE_URI);
+        var expected = new System.Uri(Sample_Uri);
         var actual = Uri.From(expected);
 
         actual.Value.Should().Be(expected);
@@ -30,8 +30,8 @@ public class UriTests
     [Fact]
     public void NoxUriFromString_ShouldBe_SameAs_SystemUri()
     {
-        var expected = new System.Uri(SAMPLE_URI);
-        var actual = Uri.From(SAMPLE_URI);
+        var expected = new System.Uri(Sample_Uri);
+        var actual = Uri.From(Sample_Uri);
 
         actual.Value.Should().Be(expected);
 
@@ -80,5 +80,16 @@ public class UriTests
         _testOutputHelper.WriteLine($"Segments: {string.Join(", ", actual.Value.Segments)}");
         _testOutputHelper.WriteLine($"UserEscaped: {actual.Value.UserEscaped}");
         _testOutputHelper.WriteLine($"UserInfo: {actual.Value.UserInfo}");
+    }
+
+    [Theory]
+    [InlineData("abc")]
+    [InlineData("www.example.com")] //Missing Scheme
+    [InlineData("http://")] //Missing Authority
+    public void NoxUri_ShouldNotAllowBadUris(string badUri)
+    {
+        Action init = () => { var url = Uri.From(badUri); };
+
+        init.Should().Throw<TypeValidationException>();
     }
 }
