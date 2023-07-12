@@ -78,10 +78,6 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.MoneyTestField!.Value.Amount.Should().Be(money);
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
-
-        var actualAddress = JsonSerializer.Serialize(testEntity.StreetAddressTestField!.Value);
-        var expectedAddress = JsonSerializer.Serialize(addressItem);
-
-        actualAddress.Should().Be(expectedAddress);
+        testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
     }
 }
