@@ -495,9 +495,11 @@ infrastructure:
         port: 8080
         user: whatsappUser
         password: whatsappPassword
-
-    monitoring:
-      $ref: elastic.monitoring.nox.yaml
+    
+### This section is optional.
+### In order to use elastic monitoring in the sample you have to start the elastic stack docker instance by running 'docker-compose -f docker-compose.elastic.yaml up -d'
+#    monitoring:
+#      $ref: elastic.monitoring.nox.yaml
 
     translations:
       name: SampleTranslationService
@@ -510,20 +512,22 @@ infrastructure:
         serverUri: file:///C:/my-data-files
         options: Source=File;Filename=country-data.json;
 
-  security:
-    secrets:
-      organizationSecretsServer:
-        name: org-vault
-        provider: hashicorpVault
-        serverUri: http://localhost:8300
-        password: root
-        validFor:
-          minutes: 10
-
-      solutionSecretsServer:
-        name: sln-vault
-        provider: hashicorpVault
-        serverUri: http://localhost:8300
-        password: root
-        validFor:
-          minutes: 10
+### This section is optional.
+### In order to use secrets in the sample you have to start the hashicorp vault docker instance by running 'docker-compose -f docker-compose.hashicorp.yaml up -d'
+#  security:
+#    secrets:
+#      organizationSecretsServer:
+#        name: org-vault
+#        provider: hashicorpVault
+#        serverUri: http://localhost:8300
+#        password: root
+#        validFor:
+#          minutes: 10
+#
+#      solutionSecretsServer:
+#        name: sln-vault
+#        provider: hashicorpVault
+#        serverUri: http://localhost:8300
+#        password: root
+#        validFor:
+#          minutes: 10
