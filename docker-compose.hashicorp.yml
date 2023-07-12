@@ -37,7 +37,7 @@ services:
       - vault
     volumes:
       - ./init_sln_vault.json:/usr/local/bin/init_vault.json
-    command: "CURL -v -X POST 'http://vault:8300/v1/secret/data/org-vault' --header 'X-Vault-Token: root' --data-binary @/usr/local/bin/init_vault.json"
+    command: "CURL -v -X POST 'http://vault:8300/v1/secret/data/sln-vault' --header 'X-Vault-Token: root' --data-binary @/usr/local/bin/init_vault.json"
     networks:
       - vault-network
       

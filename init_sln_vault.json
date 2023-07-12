@@ -1,0 +1,7 @@
+{
+  "data": {
+    "sln-only-secret": "This is a solution only secret",
+    "org-sln-secret": "This is a secret that exists in org and sln and this is the solution value",
+    "org-sln-user-secret": "This is a secret that exists in org, sln and user and this is the solution value"
+  }
+}
