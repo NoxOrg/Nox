@@ -6,6 +6,33 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+	<PropertyGroup>
+		<PackageId>Nox.Monitoring</PackageId>
+		<Authors>Andre Sharpe,Jan Schutte</Authors>
+		<Description>Nox monitoring library</Description>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<Copyright>Copyright (c) Andre Sharpe 2023</Copyright>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/NoxOrg/Nox.Solution.git</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageIcon>nox.png</PackageIcon>
+	</PropertyGroup>
+
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
+	</ItemGroup>
+
     <ItemGroup>
       <ProjectReference Include="..\Nox.Monitoring.ElasticApm\Nox.Monitoring.ElasticApm.csproj" />
     </ItemGroup>

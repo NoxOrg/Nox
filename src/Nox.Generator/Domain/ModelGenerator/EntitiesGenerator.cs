@@ -27,6 +27,7 @@ internal class EntitiesGenerator
         var code = new CodeBuilder($"{entity.Name}.g.cs", context);
 
         code.AppendLine($"using Nox.Types;");
+        code.AppendLine($"using System;");
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Domain;");
@@ -172,7 +173,7 @@ internal class EntitiesGenerator
 
         var nullable = relationship.Relationship == EntityRelationshipType.ZeroOrOne ? "?" : string.Empty;
 
-        code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }} = null!;");
+        code.AppendLine($"public virtual {propType}{nullable} {propName} {{ get; set; }} = null!;");
         
         if (propName != relationship.Name)
         {

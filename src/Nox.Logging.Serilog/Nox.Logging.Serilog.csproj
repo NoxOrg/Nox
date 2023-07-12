@@ -6,6 +6,24 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+	<PropertyGroup>
+		<PackageId>Nox.Logging.Serilog</PackageId>
+		<Authors>The Nox Factory</Authors>
+		<Description>Nox loggin serilog library</Description>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<Copyright>Copyright (c) Andre Sharpe 2023</Copyright>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/NoxOrg/Nox.Solution.git</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageIcon>nox.png</PackageIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
+	</ItemGroup>
+
     <ItemGroup>
       <ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
     </ItemGroup>
@@ -20,4 +38,12 @@
         <PackageReference Include="Elastic.Apm.SerilogEnricher" Version="8.6.0" />
         <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.6.0" />
     </ItemGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	</PropertyGroup>
 </Project>

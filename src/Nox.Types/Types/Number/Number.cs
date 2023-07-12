@@ -3,13 +3,16 @@
 namespace Nox.Types;
 
 /// <summary>
-/// Represents a Nox <see cref="Number"/> type and value object. 
+/// Represents a Nox <see cref="Number"/> type and value object.
 /// </summary>
-public sealed class Number : ValueObject<decimal, Number>
+public sealed class Number : ValueObject<QuantityValue, Number>
 {
     private NumberTypeOptions _numberTypeOptions = new();
 
-    public Number() { Value = 0; }
+    public Number()
+    {
+        Value = QuantityValue.Zero;
+    }
 
     /// <summary>
     /// Creates a new instance of <see cref="Number"/> using the specified <see cref="NumberTypeOptions"/>
@@ -18,7 +21,7 @@ public sealed class Number : ValueObject<decimal, Number>
     /// <param name="options">The <see cref="NumberTypeOptions"/> containing constraints for the value object</param>
     /// <returns></returns>
     /// <exception cref="ValidationException"></exception>
-    public static Number From(decimal value, NumberTypeOptions options)
+    public static Number From(QuantityValue value, NumberTypeOptions options)
     {
         var newObject = new Number
         {
@@ -36,54 +39,13 @@ public sealed class Number : ValueObject<decimal, Number>
         return newObject;
     }
 
-    new public static Number From(decimal value)
-        => From(value, new NumberTypeOptions { 
-            DecimalDigits = 6,
-            MinValue = Math.Min(value, NumberTypeOptions.DefaultMinValue),
-            MaxValue = Math.Max(value, NumberTypeOptions.DefaultMaxValue),
-        });
-
-    public static Number From(byte value)
-    => From((decimal)value, new NumberTypeOptions { DecimalDigits = 0, MinValue = byte.MinValue, MaxValue = byte.MaxValue });
-
-    public static Number From(byte value, NumberTypeOptions options)
-        => From((decimal)value, options);
-
-    public static Number From(short value) 
-        => From((decimal)value, new NumberTypeOptions { DecimalDigits = 0, MinValue = short.MinValue, MaxValue = short.MaxValue });
-    
-    public static Number From(short value, NumberTypeOptions options)
-        => From((decimal)value, options);
-
-    public static Number From(int value)
-      => From((decimal)value, new NumberTypeOptions { 
-          DecimalDigits = 0, 
-          MinValue = Math.Min(value,NumberTypeOptions.DefaultMinValue),
-          MaxValue = Math.Max(value,NumberTypeOptions.DefaultMaxValue),
-      });
-
-    public static Number From(int value, NumberTypeOptions options)
-        => From((decimal)value, options);
-
-    public static Number From(long value)
-        => From((decimal)value, new NumberTypeOptions { 
-            DecimalDigits = 0,
-            MinValue = Math.Min(value, NumberTypeOptions.DefaultMinValue),
-            MaxValue = Math.Max(value, NumberTypeOptions.DefaultMaxValue),
-        });
-
-    public static Number From(long value, NumberTypeOptions options)
-        => From((decimal)value, options);
-
-    public static Number From(double value)
-        => From((decimal)value, new NumberTypeOptions { 
+    public new static Number From(QuantityValue value)
+        => From(value, new NumberTypeOptions
+        {
             DecimalDigits = 6,
             MinValue = Math.Min((decimal)value, NumberTypeOptions.DefaultMinValue),
-            MaxValue = Math.Max((decimal)value, NumberTypeOptions.DefaultMaxValue),
+            MaxValue = Math.Max((decimal)value, NumberTypeOptions.DefaultMaxValue)
         });
-
-    public static Number From(double value, NumberTypeOptions options)
-        => From((decimal)value, options);
 
     /// <summary>
     /// Validates a <see cref="Number"/> object.
@@ -103,51 +65,29 @@ public sealed class Number : ValueObject<decimal, Number>
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Number type a value {Value} is greater than than the maximum specified value of {_numberTypeOptions.MaxValue}"));
         }
 
-        Value = Math.Round(Value, (int)_numberTypeOptions.DecimalDigits);
+        var decimalDigits = (int)_numberTypeOptions.DecimalDigits;
+        if (Value.IsDecimal)
+        {
+            Value = Math.Round((decimal)Value, decimalDigits);
+        }
+        else
+        {
+            Value = Math.Round((double)Value, decimalDigits);
+        }
 
         return result;
     }
 
     public override Type GetUnderlyingType()
     {
-        if (_numberTypeOptions.DecimalDigits == 0)
+        return Value.Type switch
         {
-            if (_numberTypeOptions.MaxValue <= byte.MaxValue && _numberTypeOptions.MinValue >= byte.MinValue)
-                return typeof(byte);
-
-            if (_numberTypeOptions.MaxValue <= short.MaxValue && _numberTypeOptions.MinValue >= short.MinValue)
-                return typeof(short);
-
-            else if (_numberTypeOptions.MaxValue <= int.MaxValue && _numberTypeOptions.MinValue >= int.MinValue)
-                return typeof(int);
-            
-            else if (_numberTypeOptions.MaxValue <= long.MaxValue && _numberTypeOptions.MinValue >= long.MinValue) 
-                return typeof(long);
-        }
-        return typeof(decimal);
+            QuantityValue.UnderlyingDataType.Double => typeof(double),
+            QuantityValue.UnderlyingDataType.Decimal => typeof(decimal),
+            _ => throw new ArgumentOutOfRangeException($"{Value.Type} is out of range")
+        };
     }
-
-    public static Type GetUnderlyingType(NumberTypeOptions numberTypeOptions)
-    {
-        if (numberTypeOptions.DecimalDigits == 0)
-        {
-            if (numberTypeOptions.MaxValue <= byte.MaxValue && numberTypeOptions.MinValue >= byte.MinValue)
-                return typeof(byte);
-
-            if (numberTypeOptions.MaxValue <= short.MaxValue && numberTypeOptions.MinValue >= short.MinValue)
-                return typeof(short);
-
-            else if (numberTypeOptions.MaxValue <= int.MaxValue && numberTypeOptions.MinValue >= int.MinValue)
-                return typeof(int);
-
-            else if (numberTypeOptions.MaxValue <= long.MaxValue && numberTypeOptions.MinValue >= long.MinValue)
-                return typeof(long);
-        }
-        return typeof(decimal);
-    }
-
 }
-
 
 // int
 // Domain Concepts
@@ -156,5 +96,3 @@ public sealed class Number : ValueObject<decimal, Number>
 // Money (Currency and Amount)
 // Year (year)
 // AgeOfPerson (age)
-
-

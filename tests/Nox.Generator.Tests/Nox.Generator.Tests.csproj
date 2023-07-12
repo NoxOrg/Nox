@@ -2,7 +2,15 @@
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
-	  <IsPackable>false</IsPackable>
+    <IsPackable>false</IsPackable>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
   </PropertyGroup>
 
   <ItemGroup>
@@ -31,9 +39,19 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" />
     <ProjectReference Include="..\..\src\Nox.Solution\Nox.Solution.csproj" />
+    <ProjectReference Include="..\..\src\Nox.Types\Nox.Types.csproj" />
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="ExpectedGeneratedFiles\CountriesController.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Country.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\CountryDto.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\CountryNameChangedAppEvent.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\CountryNameUpdatedEvent.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\GetCountriesByContinentQueryBase.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\NoxServiceCollectionExtension.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\SampleWebAppDbContext.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\UpdatePopulationStatisticsCommandHandlerBase.expected.g.cs" />
     <Compile Remove="Files\TestExecutable\Program.cs" />
   </ItemGroup>
 
@@ -64,6 +82,12 @@
     <None Update="files\yaml\presentation\generator.nox.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="files\yaml\infrastructure\database-server.solution.nox.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="files\yaml\infrastructure\generator.nox.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -74,6 +98,33 @@
 
   <ItemGroup>
     <Compile Remove="files\Program.cs" />
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Country.expected.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\UpdatePopulationStatisticsCommandHandlerBase.expected.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\CountryNameUpdatedEvent.expected.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\CountriesController.expected.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\GetCountriesByContinentQueryBase.expected.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\CountryDto.expected.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\SampleWebAppDbContext.expected.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\CountryNameChangedAppEvent.expected.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <AdditionalFiles Include="ExpectedGeneratedFiles\NoxServiceCollectionExtension.expected.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
     <None Include="files\Program.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -1,5 +1,7 @@
 using FluentAssertions;
 
+using System;
+
 namespace Nox.Types.Tests.EntityFrameworkTests;
 
 public class NoxTypesEntityFrameworkTests : TestWithSqlite
@@ -13,7 +15,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
     [Fact]
     public void TableShouldGetCreated()
     {
-        Assert.False(DbContext.Countries.Any());
+        Assert.False(DbContext.Countries!.Any());
     }
 
     [Fact]
@@ -39,9 +41,11 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             IPAddress = IpAddress.From("102.129.143.255"),
             DateTimeRange = DateTimeRange.From(new DateTime(2023, 01, 01), new DateTime(2023, 02, 01)),
             LongestHikingTrailInMeters = Length.From(390_000),
-            StreetAddress = CreateStreetAddress()
+            StreetAddress = CreateStreetAddress(),
+            MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
+            Date = Date.From(new DateTime(2023, 11, 25), new()),
         };
-        DbContext.Countries.Add(newItem);
+        DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
 
         //Force the recreation of DBContext and ensure we have fresh data from database
@@ -74,9 +78,11 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             CountryCode3 = CountryCode3.From("CHE"),
             IPAddress = IpAddress.From("102.129.143.255"),
             LongestHikingTrailInMeters = Length.From(390_000),
-            StreetAddress = streetAddress
+            StreetAddress = streetAddress,
+            MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
+            Date = Date.From(new DateTime(2023, 11, 25), new()),
         };
-        DbContext.Countries.Add(newItem);
+        DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
 
         //Force the recreation of DBContext and ensure we have fresh data from database
@@ -109,7 +115,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(new DateTime(2023, 02, 01), item.DateTimeRange.End);
         Assert.Equal(390_000, item.LongestHikingTrailInMeters.Value);
         Assert.Equal(LengthTypeUnit.Meter, item.LongestHikingTrailInMeters.Unit);
-
+        Assert.Equal("AED4322CCFEF", item.MACAddress.Value);
+        Assert.Equal(new DateTime(2023, 11, 25).Date, item.Date.Value);
         AssertStreetAddress(streetAddress, item.StreetAddress);
     }
 

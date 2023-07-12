@@ -42,7 +42,8 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         Assert.Single(allOutputs);
 
         var generatedSources = result.GeneratedSources;
-        Assert.Equal(11, generatedSources.Length);
+        Assert.Equal(13, generatedSources.Length);
+        Assert.True(generatedSources.Any(s => s.HintName == "NoxWebApplicationBuilderExtension.g.cs"), "NoxWebApplicationBuilderExtension.g.cs not generated");
         
         // Check base files
         Assert.True(generatedSources.Any(s => s.HintName == "Generator.g.cs"), "Generator.g.cs not generated");
@@ -54,10 +55,12 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         Assert.True(generatedSources.Any(s => s.HintName == "UpdatePopulationStatistics.g.cs"), "UpdatePopulationStatistics.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "UpdatePopulationStatisticsCommandHandlerBase.g.cs"), "UpdatePopulationStatisticsCommandHandlerBase.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "CountryInfo.g.cs"), "CountryInfo.g.cs not generated");
-        Assert.True(generatedSources.Any(s => s.HintName == "GetCountriesByContinentQuery.g.cs"), "GetCountriesByContinentQuery.g.cs not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == "GetCountriesByContinentQueryBase.g.cs"), "GetCountriesByContinentQuery.g.cs not generated");
         
         // check controllers
-        Assert.True(generatedSources.Any(s => s.HintName == "CountriesApiController.g.cs"), "CountriesApiController.g.cs not generated");
+        var controllerFileName = "CountriesController.g.cs";
+        Assert.True(generatedSources.Any(s => s.HintName == controllerFileName), $"{controllerFileName} not generated");
+        Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/CountriesController.expected.g.cs"), generatedSources.First(s => s.HintName == controllerFileName).SourceText.ToString());
         //can further extend this test to verify contents of source files.
     }
 }

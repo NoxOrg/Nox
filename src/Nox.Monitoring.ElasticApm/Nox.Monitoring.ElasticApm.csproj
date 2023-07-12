@@ -5,25 +5,37 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
     </PropertyGroup>
-    <PropertyGroup>
-        <PackageId>Nox.Monitoring.ElasticApm</PackageId>
-        <Authors>The Nox Factory</Authors>
-        <Description>Nox Elastic Apm monitoring library</Description>
-        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        <Copyright>Copyright (c) Andre Sharpe 2022</Copyright>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <AssemblyVersion>1.0.0.0</AssemblyVersion>
-        <FileVersion>1.0.0.0</FileVersion>
-        <PackageVersion>1.0.0</PackageVersion>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/NoxOrg/Nox.git</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
-    </PropertyGroup>
+
+	<PropertyGroup>
+		<PackageId>Nox.Monitoring.ElasticApm</PackageId>
+		<Authors>The Nox Factory</Authors>
+		<Description>Nox Elastic Apm monitoring library</Description>
+		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+		<Copyright>Copyright (c) Andre Sharpe 2023</Copyright>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/NoxOrg/Nox.Solution.git</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageIcon>nox.png</PackageIcon>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
+	</ItemGroup>
+
     <ItemGroup>
         <PackageReference Include="Elastic.Apm.NetCoreAll" Version="1.22.0" />
     </ItemGroup>
     <ItemGroup>
       <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
     </ItemGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	</PropertyGroup>
 </Project>
