@@ -29,6 +29,11 @@ namespace Nox.Solution
         public NumberTypeOptions? NumberTypeOptions { get; set; }
         public MoneyTypeOptions? MoneyTypeOptions { get; set; }
         public EntityTypeOptions? EntityTypeOptions { get; set; }
+        public DateTypeOptions? DateTypeOptions { get; set; }
+        public PercentageTypeOptions? PercentageTypeOptions { get; set; }
+        public TranslatedTextTypeOptions? TranslatedTextTypeOptions { get; set; }
+        public YearTypeOptions? YearTypeOptions { get; set; }
+
 
         #endregion TypeOptions
 
