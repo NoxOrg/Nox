@@ -1,18 +1,17 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
-using Nox.Solution;
 using System.Linq;
 
 namespace Nox.Generator;
 
 internal static class ODataConfigurationGenerator
 {
-    public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
+    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (solution.Domain is null ||
-            !solution.Domain.Entities.Any())
+        if (codeGeneratorState.Solution.Domain is null ||
+            !codeGeneratorState.Solution.Domain.Entities.Any())
         {
             return;
         }
@@ -25,7 +24,7 @@ internal static class ODataConfigurationGenerator
         code.AppendLine($"using Microsoft.OData.ModelBuilder;");
 
         code.AppendLine();
-        code.AppendLine($"namespace {solutionNameSpace}.Presentation.Api.OData;");
+        code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
         code.AppendLine();
 
         code.AppendLine($"public partial class ODataConfiguration");
@@ -40,7 +39,7 @@ internal static class ODataConfigurationGenerator
         code.AppendLine($"ODataModelBuilder builder = new ODataConventionModelBuilder();");
         code.AppendLine();
 
-        foreach (var entity in solution.Domain.Entities)
+        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
             code.AppendLine($"builder.EntitySet<{entity.Name}>(\"{entity.PluralName}\");");
@@ -68,9 +67,9 @@ internal static class ODataConfigurationGenerator
         // End class
         code.EndBlock();
 
-        ODataModelGenerator.Generate(context, solutionNameSpace, solution);
+        ODataModelGenerator.Generate(context, codeGeneratorState);
 
-        ODataDbContextGenerator.Generate(context, solutionNameSpace, solution);
+        ODataDbContextGenerator.Generate(context, codeGeneratorState);
 
         code.GenerateSourceCode();
     }
