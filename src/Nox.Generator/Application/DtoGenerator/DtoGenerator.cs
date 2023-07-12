@@ -10,20 +10,20 @@ namespace Nox.Generator.Application.DtoGenerator;
 
 public class DtoGenerator
 {
-    public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
+    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (solution.Application?.DataTransferObjects == null) return;
+        if (codeGeneratorState.Solution.Application?.DataTransferObjects == null) return;
 
-        foreach (var dto in solution.Application.DataTransferObjects)
+        foreach (var dto in codeGeneratorState.Solution.Application.DataTransferObjects)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
-            GenerateDto(context, solutionNameSpace, dto);
+            GenerateDto(context, codeGeneratorState, dto);
         }
     }
 
-    public static void GenerateDto(SourceProductionContext context, string solutionNameSpace, string name, string? description, IReadOnlyList<NoxSimpleTypeDefinition> attributes)
+    public static void GenerateDto(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, string name, string? description, IReadOnlyList<NoxSimpleTypeDefinition> attributes)
     {
         var code = new CodeBuilder($"{name}.g.cs", context);
 
@@ -34,7 +34,7 @@ public class DtoGenerator
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine();
-        code.AppendLine($"namespace {solutionNameSpace}.Application.DataTransferObjects;");
+        code.AppendLine($"namespace {codeGeneratorState.DataTransferObjectsNameSpace};");
         code.AppendLine();
 
         GenerateDocs(code, description);
@@ -50,7 +50,7 @@ public class DtoGenerator
     }
     
 
-    private static void GenerateDto(SourceProductionContext context, string solutionNameSpace, DataTransferObject dto)
+    private static void GenerateDto(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, DataTransferObject dto)
     {
         var className = dto.Name.EnsureEndsWith("Dto");
         var code = new CodeBuilder($"{dto.Name}.g.cs", context);
@@ -62,7 +62,7 @@ public class DtoGenerator
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine();
-        code.AppendLine($"namespace {solutionNameSpace}.Application.DataTransferObjects;");
+        code.AppendLine($"namespace {codeGeneratorState.DataTransferObjectsNameSpace};");
 
         GenerateDocs(code, dto.Description ?? "It's good practice to give a proper description of your dto's");
 

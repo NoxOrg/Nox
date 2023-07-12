@@ -1,9 +1,8 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using TestDatabaseWebApp.Domain;
@@ -12,44 +11,46 @@ namespace TestDatabaseWebApp.Infrastructure.Persistence;
 
 public partial class TestDatabaseWebAppDbContext : DbContext
 {
-    private NoxSolution _noxSolution { get; set; }
-    private INoxDatabaseConfigurator _databaseConfigurator { get; set; }
-
+    private readonly NoxSolution _noxSolution;
+    private readonly INoxDatabaseProvider _dbProvider;
+    
     public TestDatabaseWebAppDbContext(
         DbContextOptions<TestDatabaseWebAppDbContext> options,
         NoxSolution noxSolution,
-        INoxDatabaseConfigurator databaseConfigurator
-        ) : base(options)
+        INoxDatabaseProvider databaseProvider
+    ) : base(options)
     {
         _noxSolution = noxSolution;
-        _databaseConfigurator = databaseConfigurator;
+        _dbProvider = databaseProvider;
     }
-
+    
     public DbSet<TestEntity> TestEntities { get; set; } = null!;
-
-
-    public static void RegisterDbContext(IServiceCollection services)
+    
+    protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        services.AddDbContext<TestDatabaseWebAppDbContext>();
+        base.OnConfiguring(optionsBuilder);
+        if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
+        {
+            _dbProvider.ConfigureDbContext(optionsBuilder, "TestDatabaseWebApp", _noxSolution.Infrastructure!.Persistence.DatabaseServer); 
+        }
     }
-
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+        base.OnModelCreating(modelBuilder);
         if (_noxSolution.Domain != null)
         {
             foreach (var entity in _noxSolution.Domain.Entities)
             {
                 var type = Type.GetType("TestDatabaseWebApp.Domain." + entity.Name);
-
+                
                 if (type != null)
                 {
-                    _databaseConfigurator.ConfigureEntity(modelBuilder.Entity(type), entity);
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(modelBuilder.Entity(type), entity);
                 }
             }
-
+            
         }
-
-        base.OnModelCreating(modelBuilder);
     }
 }
 
