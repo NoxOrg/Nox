@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -13,27 +13,27 @@ namespace TestDatabaseWebApp.Domain;
 /// </summary>
 public partial class TestEntity : AuditableEntityBase
 {
-
+    
     /// <summary>
     /// (Optional)
     /// </summary>
     public Text Id { get; set; } = null!;
-
+    
     /// <summary>
     /// (Required)
     /// </summary>
     public Text TextTestField { get; set; } = null!;
-
+    
     /// <summary>
     /// (Required)
     /// </summary>
     public Number NumberTestField { get; set; } = null!;
-
+    
     /// <summary>
     /// (Optional)
     /// </summary>
     public Money? MoneyTestField { get; set; } = null!;
-
+    
     /// <summary>
     /// (Optional)
     /// </summary>

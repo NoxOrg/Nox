@@ -59,7 +59,7 @@ internal static class ODataDbContextGenerator
 
         foreach (var entity in solution.Domain.Entities)
         {
-            code.AppendLine($"public DbSet<{entity.Name}> {entity.PluralName} {{get; set;}} = null!;");
+            code.AppendLine($"public DbSet<{entity.Name}> {entity.PluralName} {{ get; set; }} = null!;");
             code.AppendLine();
         }
 

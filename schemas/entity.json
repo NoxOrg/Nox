@@ -734,6 +734,10 @@
                 "objectTypeOptions": {
                   "type": "object",
                   "properties": {
+                    "$ref": {
+                      "type": "string",
+                      "format": "uri"
+                    },
                     "attributes": {
                       "type": "array",
                       "items": {
@@ -1217,10 +1221,6 @@
                           "type"
                         ]
                       }
-                    },
-                    "$ref": {
-                      "type": "string",
-                      "format": "uri"
                     }
                   },
                   "required": [
@@ -1705,6 +1705,10 @@
                     "objectTypeOptions": {
                       "type": "object",
                       "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
+                        },
                         "attributes": {
                           "type": "array",
                           "items": {
@@ -2188,10 +2192,6 @@
                               "type"
                             ]
                           }
-                        },
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
                         }
                       },
                       "required": [
@@ -2685,6 +2685,10 @@
                     "objectTypeOptions": {
                       "type": "object",
                       "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
+                        },
                         "attributes": {
                           "type": "array",
                           "items": {
@@ -3168,10 +3172,6 @@
                               "type"
                             ]
                           }
-                        },
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
                         }
                       },
                       "required": [
@@ -3678,6 +3678,10 @@
               "objectTypeOptions": {
                 "type": "object",
                 "properties": {
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
+                  },
                   "attributes": {
                     "type": "array",
                     "items": {
@@ -4161,10 +4165,6 @@
                         "type"
                       ]
                     }
-                  },
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
                   }
                 },
                 "required": [
@@ -4649,6 +4649,10 @@
                   "objectTypeOptions": {
                     "type": "object",
                     "properties": {
+                      "$ref": {
+                        "type": "string",
+                        "format": "uri"
+                      },
                       "attributes": {
                         "type": "array",
                         "items": {
@@ -5132,10 +5136,6 @@
                             "type"
                           ]
                         }
-                      },
-                      "$ref": {
-                        "type": "string",
-                        "format": "uri"
                       }
                     },
                     "required": [
@@ -5629,6 +5629,10 @@
                   "objectTypeOptions": {
                     "type": "object",
                     "properties": {
+                      "$ref": {
+                        "type": "string",
+                        "format": "uri"
+                      },
                       "attributes": {
                         "type": "array",
                         "items": {
@@ -6112,10 +6116,6 @@
                             "type"
                           ]
                         }
-                      },
-                      "$ref": {
-                        "type": "string",
-                        "format": "uri"
                       }
                     },
                     "required": [
@@ -6633,6 +6633,10 @@
           "objectTypeOptions": {
             "type": "object",
             "properties": {
+              "$ref": {
+                "type": "string",
+                "format": "uri"
+              },
               "attributes": {
                 "type": "array",
                 "items": {
@@ -7116,10 +7120,6 @@
                     "type"
                   ]
                 }
-              },
-              "$ref": {
-                "type": "string",
-                "format": "uri"
               }
             },
             "required": [
@@ -7604,6 +7604,10 @@
               "objectTypeOptions": {
                 "type": "object",
                 "properties": {
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
+                  },
                   "attributes": {
                     "type": "array",
                     "items": {
@@ -8087,10 +8091,6 @@
                         "type"
                       ]
                     }
-                  },
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
                   }
                 },
                 "required": [
@@ -8584,6 +8584,10 @@
               "objectTypeOptions": {
                 "type": "object",
                 "properties": {
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
+                  },
                   "attributes": {
                     "type": "array",
                     "items": {
@@ -9067,10 +9071,6 @@
                         "type"
                       ]
                     }
-                  },
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
                   }
                 },
                 "required": [
@@ -9585,6 +9585,10 @@
           "objectTypeOptions": {
             "type": "object",
             "properties": {
+              "$ref": {
+                "type": "string",
+                "format": "uri"
+              },
               "attributes": {
                 "type": "array",
                 "items": {
@@ -10068,10 +10072,6 @@
                     "type"
                   ]
                 }
-              },
-              "$ref": {
-                "type": "string",
-                "format": "uri"
               }
             },
             "required": [
@@ -10556,6 +10556,10 @@
               "objectTypeOptions": {
                 "type": "object",
                 "properties": {
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
+                  },
                   "attributes": {
                     "type": "array",
                     "items": {
@@ -11039,10 +11043,6 @@
                         "type"
                       ]
                     }
-                  },
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
                   }
                 },
                 "required": [
@@ -11536,6 +11536,10 @@
               "objectTypeOptions": {
                 "type": "object",
                 "properties": {
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
+                  },
                   "attributes": {
                     "type": "array",
                     "items": {
@@ -12019,10 +12023,6 @@
                         "type"
                       ]
                     }
-                  },
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
                   }
                 },
                 "required": [

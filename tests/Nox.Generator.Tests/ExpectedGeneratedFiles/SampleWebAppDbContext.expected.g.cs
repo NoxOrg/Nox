@@ -24,7 +24,7 @@ public partial class SampleWebAppDbContext : DbContext
         _dbProvider = databaseProvider;
     }
     
-    public DbSet<Country> Countries {get; set;} = null!;
+    public DbSet<Country> Countries { get; set; } = null!;
     
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

@@ -3,7 +3,7 @@ using Nox.Generator.Common;
 
 namespace Nox.Generator;
 
-internal class EntityBaseGenerator
+internal static class EntityBaseGenerator
 {
     public static void Generate(SourceProductionContext context, string solutionNameSpace)
     {
@@ -25,11 +25,10 @@ internal class EntityBaseGenerator
         code.AppendLine($"/// <summary>");
         code.AppendLine($"/// The state of the entity as at this date.");
         code.AppendLine($"/// </summary>");
-        code.AppendLine($"public DateTime AsAt {{get; set;}}");
+        code.AppendLine($"public DateTime AsAt {{ get; set; }}");
 
         code.EndBlock();
 
         code.GenerateSourceCode();
-
     }
 }
