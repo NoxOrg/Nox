@@ -14,7 +14,7 @@ namespace Nox.Types.EntityFramework.Abstractions
                 { NoxType.Text, new TextDatabaseConfigurator() },
                 { NoxType.Number, new NumberDatabaseConfigurator() },
                 { NoxType.Money, new MoneyDatabaseConfigurator() },
-                { NoxType.CountryCode2, new CountryCode2Configurator() },
+                { NoxType.CountryCode2, new CountryCode2DatabaseConfigurator() },
                 { NoxType.StreetAddress, new StreetAddressDatabaseConfigurator() }
             };
 
