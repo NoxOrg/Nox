@@ -1,17 +1,11 @@
 using FluentAssertions;
 using Nox.Solution.Exceptions;
 using Nox.Solution.Resolvers;
-using Xunit.Abstractions;
 
 namespace Nox.Solution.Tests;
 
 public class YamlFileValidationTests
 {
-    public YamlFileValidationTests(ITestOutputHelper testOutputHelper)
-    {
-        _testOutputHelper = testOutputHelper;
-    }
-
     [Theory]
     [InlineData("unsupported-version-control.solution.nox")]
     [InlineData("not-found.yaml")]
