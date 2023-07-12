@@ -1,6 +1,5 @@
 using System.Reflection;
 using Microsoft.Extensions.Configuration;
-using Nox.Abstractions;
 using Nox.Secrets.Abstractions;
 
 namespace Nox.Secrets;

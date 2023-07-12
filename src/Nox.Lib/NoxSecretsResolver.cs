@@ -1,10 +1,11 @@
 using System.Reflection;
-using Nox.Abstractions;
+using Nox.Secrets;
 using Nox.Secrets.Abstractions;
 using Nox.Secrets.Azure;
+using Nox.Secrets.Exceptions;
 using Nox.Secrets.Hashicorp;
 
-namespace Nox.Secrets;
+namespace Nox;
 
 public class NoxSecretsResolver: INoxSecretsResolver
 {
