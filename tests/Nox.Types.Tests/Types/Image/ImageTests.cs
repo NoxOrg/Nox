@@ -141,5 +141,25 @@ public class ImageTests
         // Assert
         Assert.Equal(".jpg", image.GetImageExtension());
     }
+
+
+    [Fact]
+    public void Correct_ImageFormatType_ShouldReturn()
+    {
+        // Arrange & Act
+        var imageFormatType = ImageFormatType.FromId<ImageFormatType>(0);
+        
+        // Assert
+        Assert.Equal(ImageFormatType.All, imageFormatType);
+    }
     
+    [Fact]
+    public void Correct_ImageFormatType_ShouldReturn_ByName()
+    {
+        // Arrange & Act
+        var imageFormatType = ImageFormatType.FromName<ImageFormatType>("Bmp");
+        
+        // Assert
+        Assert.Equal(ImageFormatType.Bmp, imageFormatType);
+    }
 }
