@@ -1,7 +1,7 @@
 ﻿
 namespace Nox.Types;
 
-public class YearTypeOptions
+public class YearTypeOptions : INoxTypeOptions
 {
     public static readonly ushort DefaultMinValue= 1900;
     public static readonly ushort DefaultMaxValue = 3000;

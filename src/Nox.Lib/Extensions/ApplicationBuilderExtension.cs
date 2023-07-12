@@ -6,7 +6,7 @@ namespace Nox;
 
 public static class ApplicationBuilderExtension
 {
-    public static WebApplicationBuilder AddNox(this WebApplicationBuilder appBuilder)
+    public static WebApplicationBuilder AddNoxApp(this WebApplicationBuilder appBuilder)
     {
         appBuilder.Logging.AddLogging(appBuilder.Configuration, ServiceCollectionExtension.Solution);
         return appBuilder;

@@ -15,7 +15,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
     [Fact]
     public void TableShouldGetCreated()
     {
-        Assert.False(DbContext.Countries.Any());
+        Assert.False(DbContext.Countries!.Any());
     }
 
     [Fact]
@@ -46,7 +46,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Date = Date.From(new DateTime(2023, 11, 25), new()),
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
         };
-        DbContext.Countries.Add(newItem);
+        DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
 
         //Force the recreation of DBContext and ensure we have fresh data from database
@@ -84,7 +84,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Date = Date.From(new DateTime(2023, 11, 25), new()),
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
         };
-        DbContext.Countries.Add(newItem);
+        DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
 
         //Force the recreation of DBContext and ensure we have fresh data from database

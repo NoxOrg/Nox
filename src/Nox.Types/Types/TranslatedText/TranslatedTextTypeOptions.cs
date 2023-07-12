@@ -1,8 +1,7 @@
-﻿
-namespace Nox.Types
+﻿namespace Nox.Types
 {
-
-    public class TranslatedTextTypeOptions {
+    public class TranslatedTextTypeOptions : INoxTypeOptions
+    {
         public int MinLength { get; internal set; } = 0;
 
         public int MaxLength { get; internal set; } = 511;

@@ -23,6 +23,9 @@
         <None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
 		<InternalsVisibleTo Include="Nox.Types.Tests" />
     </ItemGroup>
+    <ItemGroup>
+      <PackageReference Include="System.Text.Json" Version="7.0.3" />
+    </ItemGroup>
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>
