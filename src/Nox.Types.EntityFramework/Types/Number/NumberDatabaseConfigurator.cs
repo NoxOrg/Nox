@@ -6,7 +6,10 @@ namespace Nox.Types.EntityFramework.Types;
 
 public class NumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
-    public void ConfigureEntityProperty(EntityTypeBuilder builder, NoxSimpleTypeDefinition property, bool isKey)
+    public void ConfigureEntityProperty(EntityTypeBuilder builder,
+        NoxSimpleTypeDefinition property,
+        Entity entity,
+        bool singleKey)
     {
         //Todo Default values from static property in the Nox.Type
         var typeOptions = property.NumberTypeOptions ?? new NumberTypeOptions();

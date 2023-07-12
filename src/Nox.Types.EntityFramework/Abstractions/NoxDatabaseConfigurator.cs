@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using System.Diagnostics;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Types;
 
@@ -14,13 +15,14 @@ namespace Nox.Types.EntityFramework.Abstractions
                 { NoxType.Text, new TextDatabaseConfigurator() },
                 { NoxType.Number, new NumberDatabaseConfigurator() },
                 { NoxType.Money, new MoneyDatabaseConfigurator() },
-                { NoxType.CountryCode2, new CountryCode2Configurator() }
+                { NoxType.CountryCode2, new CountryCode2Configurator()},
+                { NoxType.Entity, new EntityDatabaseConfigurator()},
             };
 
         public virtual void ConfigureEntity(EntityTypeBuilder builder, Entity entity)
         {
             //TODO Relations
-            
+
             ConfigureKeys(builder, entity);
 
             ConfigureAttributes(builder, entity);
@@ -37,23 +39,17 @@ namespace Nox.Types.EntityFramework.Abstractions
                             out var databaseConfiguration))
                     {
                         keysPropertyNames.Add(databaseConfiguration.GetKeyPropertyName(key));
+                        databaseConfiguration.ConfigureEntityProperty(builder, key, entity,true);
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"Database Configurator not found for Type {key.Type}");
+                        // Fallback to default
+                        keysPropertyNames.Add(key.Name);
                     }
 
                 }
                 builder.HasKey(keysPropertyNames.ToArray());
-
-                foreach (var key in entity.Keys)
-                {
-                    if (TypesDatabaseConfigurations.TryGetValue(key.Type,
-                            out var databaseConfiguration))
-                    {
-                        databaseConfiguration.ConfigureEntityProperty(builder, key, true);
-                    }
-                    else
-                    {
-                        Console.WriteLine($"Type {key.Type} not found");
-                    }
-                }
             }
         }
 
@@ -66,12 +62,12 @@ namespace Nox.Types.EntityFramework.Abstractions
                     if (TypesDatabaseConfigurations.TryGetValue(property.Type,
                             out var databaseConfiguration))
                     {
-                        databaseConfiguration.ConfigureEntityProperty(builder, property, false);
+                        databaseConfiguration.ConfigureEntityProperty(builder, property, entity, false);
                     }
                     else
                     {
 
-                        Console.WriteLine($"Type {property.Type} not found");
+                        Debug.WriteLine($"Type {property.Type} not found");
                     }
                 }
             }

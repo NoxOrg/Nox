@@ -1,4 +1,5 @@
-﻿using Humanizer;
+﻿using System.Linq;
+using Humanizer;
 using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
@@ -18,11 +19,11 @@ internal class EntitiesGenerator
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            GenerateEntity(context, solutionNameSpace, entity);
+            GenerateEntity(context, solutionNameSpace, solution, entity);
         }
     }
 
-    private static void GenerateEntity(SourceProductionContext context, string solutionNameSpace, Entity entity)
+    private static void GenerateEntity(SourceProductionContext context, string solutionNameSpace, NoxSolution solution, Entity entity)
     {
         var code = new CodeBuilder($"{entity.Name}.g.cs", context);
 
@@ -32,7 +33,7 @@ internal class EntitiesGenerator
         code.AppendLine();
         code.AppendLine($"namespace {solutionNameSpace}.Domain;");
 
-        GenerateStrongIdClassIfRequired(code, entity);
+       // GenerateStrongIdClassIfRequired(code, entity);
 
         GenerateClassDocs(code, entity);
 
@@ -41,7 +42,7 @@ internal class EntitiesGenerator
         code.AppendLine($"public partial class {entity.Name} : {baseClass}");
         code.StartBlock();
 
-            GenerateKeyProperties(context, code, entity);
+            GenerateKeyProperties(context, code, solution, entity);
 
             GenerateProperties(context, code, entity);
 
@@ -80,7 +81,7 @@ internal class EntitiesGenerator
         code.AppendLine($"public class {className} : ValueObject<{underlyingType},{className}> {{}}");
     }
 
-    private static void GenerateKeyProperties(SourceProductionContext context, CodeBuilder code, Entity entity)
+    private static void GenerateKeyProperties(SourceProductionContext context, CodeBuilder code, NoxSolution noxSolution, Entity entity)
     {
         if (entity.Keys is null)
             return;
@@ -89,23 +90,50 @@ internal class EntitiesGenerator
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            GenerateStrongSingleKeyProperty(code, entity, key);
+            GeneratePropertyDocs(code, key);
+
+            if (key.Type == NoxType.Entity)
+            {
+                GenerateStrongSingleKeyEntityProperty(code, entity, key, noxSolution);
+            }
+            else
+            {
+                GenerateStrongSingleKeySimpleProperty(code, entity, key);
+            }
+            
         }
     }
-
-    private static void GenerateStrongSingleKeyProperty(CodeBuilder code, Entity entity, NoxSimpleTypeDefinition key)
+    private static void GenerateStrongSingleKeyEntityProperty(CodeBuilder code, Entity entity,
+        NoxSimpleTypeDefinition key, NoxSolution noxSolution)
     {
-        GeneratePropertyDocs(code, key);
+        // Generates foreign key simple type 
+        var propNameId = $"{key.EntityTypeOptions!.Entity}Id";
+        var foreignKeyDefinition = GetKeyForEntity( noxSolution, entity, key.EntityTypeOptions!.Entity);
+        var propTypeSimpleId = foreignKeyDefinition.Type;
 
-        // TODO Evaluate how to generate a Named ID Type
-        //var propType = $"{entity.Name}{key.Name}";
+        code.AppendLine($"public {propTypeSimpleId} {propNameId} {{ get; set; }} = null!;");
+
+        // Generates the Navigation Property
+        var propType = key.EntityTypeOptions!.Entity;
         var propName = key.Name;
+        code.AppendLine($"public {propType} {propName} {{ get; set; }} = null!;");
+    }
 
-        if (key.Type == NoxType.Entity)
-        {
-           // propType = $"{key.EntityTypeOptions!.Entity}Id";
-            propName = key.EntityTypeOptions!.Entity;
-        }
+    
+    private static NoxSimpleTypeDefinition GetKeyForEntity(NoxSolution noxSolution, Entity currentEntity, string foreignKeyEntityName)
+    {
+        // TODO Improve NoxSolution and add a Navigation between the Key  to the Key Entity
+        var foreignEntity = noxSolution.Domain!.Entities.Single(entity => entity.Name.Equals(foreignKeyEntityName));
+
+        // TODO support composite foreignKey keys
+        return foreignEntity.Keys!.Single();
+    }
+
+    
+    
+    private static void GenerateStrongSingleKeySimpleProperty(CodeBuilder code, Entity entity, NoxSimpleTypeDefinition key)
+    {
+        var propName = key.Name;
 
         code.AppendLine($"public {key.Type} {propName} {{ get; set; }} = null!;");
     }

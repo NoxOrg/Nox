@@ -27,8 +27,8 @@ public class ODataDbContext : DbContext
             INoxDatabaseProvider databaseProvider
         ) : base(options)
         {
-                _noxSolution = noxSolution;
-                _dbProvider = databaseProvider;
+            _noxSolution = noxSolution;
+            _dbProvider = databaseProvider;
         }
         
         public DbSet<Country> Countries {get; set;} = null!;
@@ -38,6 +38,8 @@ public class ODataDbContext : DbContext
         public DbSet<Store> Stores {get; set;} = null!;
         
         public DbSet<CountryLocalNames> CountryLocalNames {get; set;} = null!;
+        
+        public DbSet<CurrencyCashBalance> CurrencyCashBalances {get; set;} = null!;
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
