@@ -11,6 +11,7 @@ public class NoxSecretsResolver: INoxSecretsResolver
     private readonly IPersistedSecretStore _store;
     private ISecretsResolver? _userSecretsResolver;
     private Solution.Secrets? _secretsConfig;
+    private bool _isConfigured = false;
 
     public NoxSecretsResolver(IPersistedSecretStore store)
     {
@@ -21,16 +22,27 @@ public class NoxSecretsResolver: INoxSecretsResolver
     {
         _secretsConfig = configuration;
         _userSecretsResolver = new UserSecretsResolver(assemblyWithSecrets ?? Assembly.GetExecutingAssembly());
+        _isConfigured = true;
     }
 
     public IReadOnlyDictionary<string, string?> Resolve(string[] keys)
     {
-        if (_secretsConfig == null) throw new NoxSecretsException("Secrets resolver has not been initialized. Please call the ISecretResolver.Initialize method before attempting to resolve any secrets.");
+        if (!_isConfigured) throw new NoxSecretsException("Secrets resolver has not been configured. Please call the Configure method before attempting to resolve any secrets.");
         var result = new Dictionary<string, string?>();
-        var orgSecrets = ResolveOrganizationSecrets(keys);
-        if (orgSecrets != null && orgSecrets.Any()) SetSecrets(orgSecrets!, result);
-        var slnSecrets = ResolveSolutionSecrets(keys);
-        if (slnSecrets != null && slnSecrets.Any()) SetSecrets(slnSecrets!, result);
+        if (_secretsConfig != null)
+        {
+            if (_secretsConfig.OrganizationSecretsServer != null)
+            {
+                var orgSecrets = ResolveOrganizationSecrets(keys);
+                if (orgSecrets != null && orgSecrets.Any()) SetSecrets(orgSecrets!, result);    
+            }
+
+            if (_secretsConfig.SolutionSecretsServer != null)
+            {
+                var slnSecrets = ResolveSolutionSecrets(keys);
+                if (slnSecrets != null && slnSecrets.Any()) SetSecrets(slnSecrets!, result);
+            }
+        }
         var userSecrets = _userSecretsResolver!.Resolve(keys);
         if (userSecrets.Any()) SetSecrets(userSecrets, result);
         return result;

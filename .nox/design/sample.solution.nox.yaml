@@ -519,7 +519,7 @@ infrastructure:
         password: root
         validFor:
           minutes: 10
-      
+
       solutionSecretsServer:
         name: sln-vault
         provider: hashicorpVault
