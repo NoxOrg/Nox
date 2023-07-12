@@ -120,7 +120,7 @@ public sealed class Image : ValueObject<(string Url, string PrettyName, int Size
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Image type with an invalid Url '{Value.Url}'."));
         }
-        else if (!GetSupportedFormatTypeExtension().Contains(Path.GetExtension(Value.Url).ToLower()))
+        else if (!ImageFormatType.GetSupportedFormatTypeExtension(_imageTypeOptions.ImageFormatTypes).Contains(Path.GetExtension(Value.Url).ToLower()))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Image type with an image having an unsupported extension '{Value.Url}'."));
         }
@@ -140,19 +140,7 @@ public sealed class Image : ValueObject<(string Url, string PrettyName, int Size
 
 
     
-    /// <summary>
-    /// Retrieves the supported image format type extensions from the <see cref="ImageTypeOptions"/>.
-    /// </summary>
-    /// <returns>An enumerable collection of strings representing the supported image format type extensions.</returns>
-    private IList<string> GetSupportedFormatTypeExtension()
-    {
-        if(_imageTypeOptions.ImageFormatTypes.Exists(ft=>ft == ImageFormatType.All))
-        {
-            return ImageFormatType.All.Value;
-        }
-        
-        return _imageTypeOptions.ImageFormatTypes.SelectMany(ft => ft.Value).ToList();
-    }
+   
 
 
 }

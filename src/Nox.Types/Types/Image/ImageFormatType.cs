@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Nox.Types;
 
@@ -107,5 +108,16 @@ public class ImageFormatType : Enumeration<IList<string>>
     private ImageFormatType(int id, string name, IList<string> value) : base(id, name, value)
     {
 
+    }
+    
+    
+    /// <summary>
+    /// Retrieves the supported image format type extensions from the <see cref="ImageTypeOptions"/>.
+    /// <param name="imageFormatTypes">The image format types.</param>
+    /// </summary>
+    /// <returns>An enumerable collection of strings representing the supported image format type extensions.</returns>
+    internal static IList<string> GetSupportedFormatTypeExtension( List<ImageFormatType> imageFormatTypes)
+    {
+        return imageFormatTypes.Exists(ft=>ft == All) ? All.Value : imageFormatTypes.SelectMany(ft => ft.Value).ToList();
     }
 }
