@@ -42,7 +42,6 @@ internal static class NoxSchemaValidator
 #if !NETSTANDARD
         var schema = SchemaGenerator.Generate<T>();
 
-
         var evaluateOptions = new EvaluationOptions
         {
             OutputFormat = OutputFormat.Hierarchical,
@@ -52,7 +51,11 @@ internal static class NoxSchemaValidator
         {
             PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
             DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }
+            Converters = {
+                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase),
+                // It needs to check specific cases during deserialization.
+                new NoxEntityJsonConverter()
+            }
         };
         // The purpose is to deserialize yaml to object is to validate content against json schema generated from properties annotations.
         // If deserialize content to certain type then value-type properties will be initilized by default and will exist in
@@ -119,8 +122,19 @@ internal static class NoxSchemaValidator
             JsonSchema schema,
             EvaluationOptions evaluateOptions)
     {
-        var jsonDocument = JsonSerializer.SerializeToDocument(yamlObject, jsonSerializerOptions);
         var errors = new List<string>();
+        JsonDocument jsonDocument;
+        try
+        {
+            // It's possible to fail deserialization if object's properties don't satisfy particular validation rules
+            // Validation rules implemented in custom Json converterters where it's possible to implement custom validation logic.
+            jsonDocument = JsonSerializer.SerializeToDocument(yamlObject, jsonSerializerOptions);
+        }
+        catch (NoxSolutionConfigurationException ex)
+        {
+            errors.Add(ex.Message);
+            return errors;
+        }
         var result = schema.Evaluate(jsonDocument, evaluateOptions);
 
         HandleErrorsRecursively(result, errors);

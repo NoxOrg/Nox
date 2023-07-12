@@ -7,8 +7,6 @@ namespace Nox.Solution.Tests;
 
 public class YamlFileValidationTests
 {
-    private readonly ITestOutputHelper _testOutputHelper;
-
     public YamlFileValidationTests(ITestOutputHelper testOutputHelper)
     {
         _testOutputHelper = testOutputHelper;
@@ -86,5 +84,21 @@ public class YamlFileValidationTests
 
         Assert.Contains("[\"keys\"]", exception.Message);
         Assert.Equal(1, errorCount);
+    }
+
+    [Fact]
+    public void Deserialize_MissedIsRequiredInKeys_ThrowsException()
+    {
+        var yaml = File.ReadAllText("./files/missed-isRequired-keys-for-entity.solution.nox.yaml");
+
+        var exception = Assert.Throws<NoxSolutionConfigurationException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(yaml));
+
+        var errorCount = exception.Message.Split('\n').Length;
+
+        Assert.Contains("Currency, key: Id", exception.Message);
+        Assert.Contains("Currency, key: Name", exception.Message);
+        Assert.Contains("Country, key: Id", exception.Message);
+        Assert.Contains("Country, key: Name", exception.Message);
+        Assert.Equal(4, errorCount);
     }
 }
