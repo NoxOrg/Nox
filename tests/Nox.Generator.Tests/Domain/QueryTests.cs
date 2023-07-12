@@ -44,12 +44,15 @@ public class QueryTests: IClassFixture<GeneratorFixture>
 
         var generatedSources = result.GeneratedSources;
         Assert.Equal(7, generatedSources.Length);
-        Assert.True(generatedSources.Any(s => s.HintName == "NoxServiceCollectionExtension.g.cs"), "NoxServiceCollectionExtension.g.cs not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == "NoxWebApplicationBuilderExtension.g.cs"), "NoxWebApplicationBuilderExtension.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "Generator.g.cs"), "Generator.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "EntityBase.g.cs"), "EntityBase.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "AuditableEntityBase.g.cs"), "AuditableEntityBase.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "CountryInfo.g.cs"), "CountryInfo.g.cs not generated");
-        Assert.True(generatedSources.Any(s => s.HintName == "GetCountriesByContinentQueryBase.g.cs"), "GetCountriesByContinentQuery.g.cs not generated");
+
+        var queryFileName = "GetCountriesByContinentQueryBase.g.cs";
+        Assert.True(generatedSources.Any(s => s.HintName == queryFileName), $"{queryFileName} not generated");
+        Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/GetCountriesByContinentQueryBase.expected.g.cs"), generatedSources.First(s => s.HintName == queryFileName).SourceText.ToString());
         //can further extend this test to verify contents of source files.
     }
 }

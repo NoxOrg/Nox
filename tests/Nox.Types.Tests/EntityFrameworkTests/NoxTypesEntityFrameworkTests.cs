@@ -1,5 +1,7 @@
 using FluentAssertions;
 
+using System;
+
 namespace Nox.Types.Tests.EntityFrameworkTests;
 
 public class NoxTypesEntityFrameworkTests : TestWithSqlite
@@ -13,7 +15,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
     [Fact]
     public void TableShouldGetCreated()
     {
-        Assert.False(DbContext.Countries.Any());
+        Assert.False(DbContext.Countries!.Any());
     }
 
     [Fact]
@@ -42,8 +44,9 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddress = CreateStreetAddress(),
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Flag = Image.From("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/320px-Flag_of_Switzerland.svg.png", "Switzerland Flag", 512),
+            Date = Date.From(new DateTime(2023, 11, 25), new()),
         };
-        DbContext.Countries.Add(newItem);
+        DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
 
         //Force the recreation of DBContext and ensure we have fresh data from database
@@ -79,8 +82,9 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddress = streetAddress,
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Flag = Image.From("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/320px-Flag_of_Switzerland.svg.png", "Switzerland Flag", 512),
+            Date = Date.From(new DateTime(2023, 11, 25), new()),
         };
-        DbContext.Countries.Add(newItem);
+        DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
 
         //Force the recreation of DBContext and ensure we have fresh data from database
@@ -117,6 +121,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/320px-Flag_of_Switzerland.svg.png", item.Flag.Url);
         Assert.Equal("Switzerland Flag", item.Flag.PrettyName);
         Assert.Equal(512, item.Flag.SizeInBytes);
+        Assert.Equal(new DateTime(2023, 11, 25).Date, item.Date.Value);
         AssertStreetAddress(streetAddress, item.StreetAddress);
     }
 

@@ -1,7 +1,7 @@
 ﻿
 namespace Nox.Types;
 
-public class TextTypeOptions
+public class TextTypeOptions : INoxTypeOptions
 {
     public uint MinLength { get; set; } = 0;
     public uint MaxLength { get; set; } = 255;

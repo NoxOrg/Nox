@@ -9,9 +9,17 @@ using Nox.Types.EntityFramework.Abstractions;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Presentation.Api.OData;
 
-public static class NoxServiceCollectionExtension
+namespace SampleWebApp;
+
+public static class NoxWebApplicationBuilderExtension
 {
-    public static IServiceCollection AddNox(this IServiceCollection services)
+    public static WebApplicationBuilder AddNox(this WebApplicationBuilder appBuilder)
+    {
+        appBuilder.Services.AddNoxServices();
+        return appBuilder.AddNoxApp();
+    }
+    
+    private static void AddNoxServices(this IServiceCollection services)
     {
         services.AddNoxLib();
         services.AddSingleton<DbContextOptions<SampleWebAppDbContext>>();
@@ -22,6 +30,5 @@ public static class NoxServiceCollectionExtension
         var tmpProvider = services.BuildServiceProvider();
         var dbContext = tmpProvider.GetRequiredService<SampleWebAppDbContext>();
         dbContext.Database.EnsureCreated();
-        return services;
     }
 }
