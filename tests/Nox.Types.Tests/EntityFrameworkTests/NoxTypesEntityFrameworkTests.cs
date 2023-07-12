@@ -44,6 +44,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddress = CreateStreetAddress(),
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
+            DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
         };
         DbContext.Countries.Add(newItem);
         DbContext.SaveChanges();
@@ -81,6 +82,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddress = streetAddress,
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
+            DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
         };
         DbContext.Countries.Add(newItem);
         DbContext.SaveChanges();
@@ -117,6 +119,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(LengthTypeUnit.Meter, item.LongestHikingTrailInMeters.Unit);
         Assert.Equal("AED4322CCFEF", item.MACAddress.Value);
         Assert.Equal(new DateTime(2023, 11, 25).Date, item.Date.Value);
+        Assert.Equal(new TimeSpan(10, 5, 2, 1), item.DateTimeDuration.Value);
         AssertStreetAddress(streetAddress, item.StreetAddress);
     }
 
