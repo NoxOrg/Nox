@@ -39,10 +39,4 @@
     <ProjectReference Include="..\..\src\Nox.Types\Nox.Types.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Remove="Types\NoxUri\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Types\NoxUri\" />
-  </ItemGroup>
 </Project>

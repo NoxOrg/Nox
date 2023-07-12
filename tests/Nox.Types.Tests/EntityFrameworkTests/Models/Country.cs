@@ -92,4 +92,6 @@ public sealed class Country
     /// Gets or sets the mac address.
     /// </summary>
     public MacAddress MACAddress { get; set; } = null!;
+
+    public Uri Uri { get; set; } = null!;
 }
