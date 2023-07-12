@@ -1,4 +1,5 @@
 using FluentAssertions;
+using FluentValidation;
 using Nox.Solution.Exceptions;
 using Nox.Solution.Resolvers;
 
@@ -83,16 +84,17 @@ public class YamlFileValidationTests
     [Fact]
     public void Deserialize_MissedIsRequiredInKeys_ThrowsException()
     {
-        var yaml = File.ReadAllText("./files/missed-isRequired-keys-for-entity.solution.nox.yaml");
+        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
+            .UseYamlFile($"./files/missed-isRequired-keys-for-entity.solution.nox.yaml")
+            .Build());
 
-        var exception = Assert.Throws<NoxSolutionConfigurationException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(yaml));
+        var errors = exception.Errors.ToArray();
 
-        var errorCount = exception.Message.Split('\n').Length;
+        Assert.Equal(4, errors.Length);
 
-        Assert.Contains("Currency, key: Id", exception.Message);
-        Assert.Contains("Currency, key: Name", exception.Message);
-        Assert.Contains("Country, key: Id", exception.Message);
-        Assert.Contains("Country, key: Name", exception.Message);
-        Assert.Equal(4, errorCount);
+        Assert.Equal("Entity Currency: Key property IsRequired should be set to True explicitly in  Id", errors[0].ErrorMessage);
+        Assert.Equal("Entity Currency: Key property IsRequired should be set to True explicitly in  Name", errors[1].ErrorMessage);
+        Assert.Equal("Entity Country: Key property IsRequired should be set to True explicitly in  Id", errors[2].ErrorMessage);
+        Assert.Equal("Entity Country: Key property IsRequired should be set to True explicitly in  Name", errors[3].ErrorMessage);
     }
 }
