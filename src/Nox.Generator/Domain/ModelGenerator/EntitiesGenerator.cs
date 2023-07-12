@@ -8,21 +8,21 @@ namespace Nox.Generator;
 
 internal class EntitiesGenerator
 {
-    public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
+    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (solution.Domain is null) return;
+        if (codeGeneratorState.Solution.Domain is null) return;
 
-        foreach (var entity in solution.Domain.Entities)
+        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            GenerateEntity(context, solutionNameSpace, entity);
+            GenerateEntity(context, codeGeneratorState, entity);
         }
     }
 
-    private static void GenerateEntity(SourceProductionContext context, string solutionNameSpace, Entity entity)
+    private static void GenerateEntity(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, Entity entity)
     {
         var code = new CodeBuilder($"{entity.Name}.g.cs", context);
 
@@ -30,7 +30,7 @@ internal class EntitiesGenerator
         code.AppendLine($"using System;");
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine();
-        code.AppendLine($"namespace {solutionNameSpace}.Domain;");
+        code.AppendLine($"namespace {codeGeneratorState.DomainNameSpace};");
 
         GenerateStrongIdClassIfRequired(code, entity);
 

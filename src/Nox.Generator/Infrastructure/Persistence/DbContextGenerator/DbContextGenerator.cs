@@ -8,39 +8,38 @@ namespace Nox.Generator.Infrastructure.Persistence.DbContextGenerator;
 
 internal static class DbContextGenerator
 {
-    public static void Generate(SourceProductionContext context, NoxSolution solution)
+    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (solution.Domain is null)
+        if (codeGeneratorState.Solution.Domain is null)
         {
             return;
         }
         
-        var dbContextName = $"{solution.Name}DbContext";
+        var dbContextName = $"{codeGeneratorState.Solution.Name}DbContext";
 
         var code = new CodeBuilder($"{dbContextName}.g.cs",context);
 
-        // Namespace
-        AddUsing(code, solution.Name);
-        AddClass(code, solution, dbContextName);
+        AddUsing(code, codeGeneratorState);
+        AddClass(code, codeGeneratorState, dbContextName);
 
         code.GenerateSourceCode();
 
     }
 
-    private static void AddUsing(CodeBuilder code, string solutionNameSpace)
+    private static void AddUsing(CodeBuilder code, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
         code.AppendLine(@"using Microsoft.EntityFrameworkCore;");
         code.AppendLine(@"using Nox.Solution;");
         code.AppendLine(@"using Nox.Types.EntityFramework.Abstractions;");
-        code.AppendLine(@$"using {solutionNameSpace}.Domain;");
+        code.AppendLine(@$"using {codeGeneratorState.DomainNameSpace};");
         code.AppendLine();
-        code.AppendLine($"namespace {solutionNameSpace}.Infrastructure.Persistence;");
+        code.AppendLine($"namespace {codeGeneratorState.PersistenceNameSpace};");
         code.AppendLine();
     }
 
-    private static void AddClass(CodeBuilder code, NoxSolution solution, string dbContextName)
+    private static void AddClass(CodeBuilder code, NoxSolutionCodeGeneratorState codeGeneratorState, string dbContextName)
     {
         code.AppendLine($"public partial class {dbContextName} : DbContext");
 
@@ -62,11 +61,11 @@ internal static class DbContextGenerator
         code.EndBlock();
         code.AppendLine();
 
-        AddDbSets(code, solution);
+        AddDbSets(code, codeGeneratorState.Solution);
 
-        AddDbContextOnConfiguring(code, solution.Name);
+        AddDbContextOnConfiguring(code, codeGeneratorState);
         
-        AddOnModelCreating(code, solution.Name);
+        AddOnModelCreating(code, codeGeneratorState.Solution.Name);
 
         // End class
         code.EndBlock();
