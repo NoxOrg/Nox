@@ -4,6 +4,7 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <RootNamespace>Nox.IntegrationSource.File</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -13,5 +14,18 @@
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\Nox.Integration\Nox.Integration.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="ETLBox">
+        <HintPath>..\Nox.Etlbox\ETLBox.dll</HintPath>
+      </Reference>
+      <Reference Include="ETLBox.Csv">
+        <HintPath>..\Nox.Etlbox\ETLBox.Csv.dll</HintPath>
+      </Reference>
+    </ItemGroup>
     
 </Project>
