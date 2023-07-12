@@ -575,6 +575,65 @@
                           }
                         }
                       },
+                      "dateTypeOptions": {
+                        "type": "object",
+                        "properties": {
+                          "minValue": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "maxValue": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      },
+                      "percentageTypeOptions": {
+                        "type": "object",
+                        "properties": {
+                          "minValue": {
+                            "type": "number"
+                          },
+                          "maxValue": {
+                            "type": "number"
+                          },
+                          "digits": {
+                            "type": "integer"
+                          }
+                        }
+                      },
+                      "translatedTextTypeOptions": {
+                        "type": "object",
+                        "properties": {
+                          "minLength": {
+                            "type": "integer"
+                          },
+                          "maxLength": {
+                            "type": "integer"
+                          },
+                          "characterCasing": {
+                            "enum": [
+                              "normal",
+                              "lower",
+                              "upper"
+                            ]
+                          }
+                        }
+                      },
+                      "yearTypeOptions": {
+                        "type": "object",
+                        "properties": {
+                          "minValue": {
+                            "type": "integer"
+                          },
+                          "maxValue": {
+                            "type": "integer"
+                          },
+                          "allowFutureOnly": {
+                            "type": "boolean"
+                          }
+                        }
+                      },
                       "isRequired": {
                         "type": "boolean",
                         "title": "Is the attribute required? Boolean value.",
@@ -997,6 +1056,65 @@
                                   "properties": {
                                     "entity": {
                                       "type": "string"
+                                    }
+                                  }
+                                },
+                                "dateTypeOptions": {
+                                  "type": "object",
+                                  "properties": {
+                                    "minValue": {
+                                      "type": "string",
+                                      "format": "date-time"
+                                    },
+                                    "maxValue": {
+                                      "type": "string",
+                                      "format": "date-time"
+                                    }
+                                  }
+                                },
+                                "percentageTypeOptions": {
+                                  "type": "object",
+                                  "properties": {
+                                    "minValue": {
+                                      "type": "number"
+                                    },
+                                    "maxValue": {
+                                      "type": "number"
+                                    },
+                                    "digits": {
+                                      "type": "integer"
+                                    }
+                                  }
+                                },
+                                "translatedTextTypeOptions": {
+                                  "type": "object",
+                                  "properties": {
+                                    "minLength": {
+                                      "type": "integer"
+                                    },
+                                    "maxLength": {
+                                      "type": "integer"
+                                    },
+                                    "characterCasing": {
+                                      "enum": [
+                                        "normal",
+                                        "lower",
+                                        "upper"
+                                      ]
+                                    }
+                                  }
+                                },
+                                "yearTypeOptions": {
+                                  "type": "object",
+                                  "properties": {
+                                    "minValue": {
+                                      "type": "integer"
+                                    },
+                                    "maxValue": {
+                                      "type": "integer"
+                                    },
+                                    "allowFutureOnly": {
+                                      "type": "boolean"
                                     }
                                   }
                                 },
@@ -1428,6 +1546,65 @@
                               }
                             }
                           },
+                          "dateTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "maxValue": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            }
+                          },
+                          "percentageTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "number"
+                              },
+                              "maxValue": {
+                                "type": "number"
+                              },
+                              "digits": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "translatedTextTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minLength": {
+                                "type": "integer"
+                              },
+                              "maxLength": {
+                                "type": "integer"
+                              },
+                              "characterCasing": {
+                                "enum": [
+                                  "normal",
+                                  "lower",
+                                  "upper"
+                                ]
+                              }
+                            }
+                          },
+                          "yearTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "integer"
+                              },
+                              "maxValue": {
+                                "type": "integer"
+                              },
+                              "allowFutureOnly": {
+                                "type": "boolean"
+                              }
+                            }
+                          },
                           "isRequired": {
                             "type": "boolean",
                             "title": "Is the attribute required? Boolean value.",
@@ -1850,6 +2027,65 @@
                                       "properties": {
                                         "entity": {
                                           "type": "string"
+                                        }
+                                      }
+                                    },
+                                    "dateTypeOptions": {
+                                      "type": "object",
+                                      "properties": {
+                                        "minValue": {
+                                          "type": "string",
+                                          "format": "date-time"
+                                        },
+                                        "maxValue": {
+                                          "type": "string",
+                                          "format": "date-time"
+                                        }
+                                      }
+                                    },
+                                    "percentageTypeOptions": {
+                                      "type": "object",
+                                      "properties": {
+                                        "minValue": {
+                                          "type": "number"
+                                        },
+                                        "maxValue": {
+                                          "type": "number"
+                                        },
+                                        "digits": {
+                                          "type": "integer"
+                                        }
+                                      }
+                                    },
+                                    "translatedTextTypeOptions": {
+                                      "type": "object",
+                                      "properties": {
+                                        "minLength": {
+                                          "type": "integer"
+                                        },
+                                        "maxLength": {
+                                          "type": "integer"
+                                        },
+                                        "characterCasing": {
+                                          "enum": [
+                                            "normal",
+                                            "lower",
+                                            "upper"
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    "yearTypeOptions": {
+                                      "type": "object",
+                                      "properties": {
+                                        "minValue": {
+                                          "type": "integer"
+                                        },
+                                        "maxValue": {
+                                          "type": "integer"
+                                        },
+                                        "allowFutureOnly": {
+                                          "type": "boolean"
                                         }
                                       }
                                     },
@@ -2290,6 +2526,65 @@
                               }
                             }
                           },
+                          "dateTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "maxValue": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            }
+                          },
+                          "percentageTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "number"
+                              },
+                              "maxValue": {
+                                "type": "number"
+                              },
+                              "digits": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "translatedTextTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minLength": {
+                                "type": "integer"
+                              },
+                              "maxLength": {
+                                "type": "integer"
+                              },
+                              "characterCasing": {
+                                "enum": [
+                                  "normal",
+                                  "lower",
+                                  "upper"
+                                ]
+                              }
+                            }
+                          },
+                          "yearTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "integer"
+                              },
+                              "maxValue": {
+                                "type": "integer"
+                              },
+                              "allowFutureOnly": {
+                                "type": "boolean"
+                              }
+                            }
+                          },
                           "isRequired": {
                             "type": "boolean",
                             "title": "Is the attribute required? Boolean value.",
@@ -2712,6 +3007,65 @@
                                       "properties": {
                                         "entity": {
                                           "type": "string"
+                                        }
+                                      }
+                                    },
+                                    "dateTypeOptions": {
+                                      "type": "object",
+                                      "properties": {
+                                        "minValue": {
+                                          "type": "string",
+                                          "format": "date-time"
+                                        },
+                                        "maxValue": {
+                                          "type": "string",
+                                          "format": "date-time"
+                                        }
+                                      }
+                                    },
+                                    "percentageTypeOptions": {
+                                      "type": "object",
+                                      "properties": {
+                                        "minValue": {
+                                          "type": "number"
+                                        },
+                                        "maxValue": {
+                                          "type": "number"
+                                        },
+                                        "digits": {
+                                          "type": "integer"
+                                        }
+                                      }
+                                    },
+                                    "translatedTextTypeOptions": {
+                                      "type": "object",
+                                      "properties": {
+                                        "minLength": {
+                                          "type": "integer"
+                                        },
+                                        "maxLength": {
+                                          "type": "integer"
+                                        },
+                                        "characterCasing": {
+                                          "enum": [
+                                            "normal",
+                                            "lower",
+                                            "upper"
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    "yearTypeOptions": {
+                                      "type": "object",
+                                      "properties": {
+                                        "minValue": {
+                                          "type": "integer"
+                                        },
+                                        "maxValue": {
+                                          "type": "integer"
+                                        },
+                                        "allowFutureOnly": {
+                                          "type": "boolean"
                                         }
                                       }
                                     },
@@ -3165,6 +3519,65 @@
                         }
                       }
                     },
+                    "dateTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "maxValue": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    },
+                    "percentageTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "number"
+                        },
+                        "maxValue": {
+                          "type": "number"
+                        },
+                        "digits": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "translatedTextTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minLength": {
+                          "type": "integer"
+                        },
+                        "maxLength": {
+                          "type": "integer"
+                        },
+                        "characterCasing": {
+                          "enum": [
+                            "normal",
+                            "lower",
+                            "upper"
+                          ]
+                        }
+                      }
+                    },
+                    "yearTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "integer"
+                        },
+                        "maxValue": {
+                          "type": "integer"
+                        },
+                        "allowFutureOnly": {
+                          "type": "boolean"
+                        }
+                      }
+                    },
                     "isRequired": {
                       "type": "boolean",
                       "title": "Is the attribute required? Boolean value.",
@@ -3587,6 +4000,65 @@
                                 "properties": {
                                   "entity": {
                                     "type": "string"
+                                  }
+                                }
+                              },
+                              "dateTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  },
+                                  "maxValue": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  }
+                                }
+                              },
+                              "percentageTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "number"
+                                  },
+                                  "maxValue": {
+                                    "type": "number"
+                                  },
+                                  "digits": {
+                                    "type": "integer"
+                                  }
+                                }
+                              },
+                              "translatedTextTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minLength": {
+                                    "type": "integer"
+                                  },
+                                  "maxLength": {
+                                    "type": "integer"
+                                  },
+                                  "characterCasing": {
+                                    "enum": [
+                                      "normal",
+                                      "lower",
+                                      "upper"
+                                    ]
+                                  }
+                                }
+                              },
+                              "yearTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "integer"
+                                  },
+                                  "maxValue": {
+                                    "type": "integer"
+                                  },
+                                  "allowFutureOnly": {
+                                    "type": "boolean"
                                   }
                                 }
                               },
@@ -4018,6 +4490,65 @@
                             }
                           }
                         },
+                        "dateTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "minValue": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "maxValue": {
+                              "type": "string",
+                              "format": "date-time"
+                            }
+                          }
+                        },
+                        "percentageTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "minValue": {
+                              "type": "number"
+                            },
+                            "maxValue": {
+                              "type": "number"
+                            },
+                            "digits": {
+                              "type": "integer"
+                            }
+                          }
+                        },
+                        "translatedTextTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "minLength": {
+                              "type": "integer"
+                            },
+                            "maxLength": {
+                              "type": "integer"
+                            },
+                            "characterCasing": {
+                              "enum": [
+                                "normal",
+                                "lower",
+                                "upper"
+                              ]
+                            }
+                          }
+                        },
+                        "yearTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "minValue": {
+                              "type": "integer"
+                            },
+                            "maxValue": {
+                              "type": "integer"
+                            },
+                            "allowFutureOnly": {
+                              "type": "boolean"
+                            }
+                          }
+                        },
                         "isRequired": {
                           "type": "boolean",
                           "title": "Is the attribute required? Boolean value.",
@@ -4440,6 +4971,65 @@
                                     "properties": {
                                       "entity": {
                                         "type": "string"
+                                      }
+                                    }
+                                  },
+                                  "dateTypeOptions": {
+                                    "type": "object",
+                                    "properties": {
+                                      "minValue": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                      },
+                                      "maxValue": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                      }
+                                    }
+                                  },
+                                  "percentageTypeOptions": {
+                                    "type": "object",
+                                    "properties": {
+                                      "minValue": {
+                                        "type": "number"
+                                      },
+                                      "maxValue": {
+                                        "type": "number"
+                                      },
+                                      "digits": {
+                                        "type": "integer"
+                                      }
+                                    }
+                                  },
+                                  "translatedTextTypeOptions": {
+                                    "type": "object",
+                                    "properties": {
+                                      "minLength": {
+                                        "type": "integer"
+                                      },
+                                      "maxLength": {
+                                        "type": "integer"
+                                      },
+                                      "characterCasing": {
+                                        "enum": [
+                                          "normal",
+                                          "lower",
+                                          "upper"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "yearTypeOptions": {
+                                    "type": "object",
+                                    "properties": {
+                                      "minValue": {
+                                        "type": "integer"
+                                      },
+                                      "maxValue": {
+                                        "type": "integer"
+                                      },
+                                      "allowFutureOnly": {
+                                        "type": "boolean"
                                       }
                                     }
                                   },
@@ -4880,6 +5470,65 @@
                             }
                           }
                         },
+                        "dateTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "minValue": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "maxValue": {
+                              "type": "string",
+                              "format": "date-time"
+                            }
+                          }
+                        },
+                        "percentageTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "minValue": {
+                              "type": "number"
+                            },
+                            "maxValue": {
+                              "type": "number"
+                            },
+                            "digits": {
+                              "type": "integer"
+                            }
+                          }
+                        },
+                        "translatedTextTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "minLength": {
+                              "type": "integer"
+                            },
+                            "maxLength": {
+                              "type": "integer"
+                            },
+                            "characterCasing": {
+                              "enum": [
+                                "normal",
+                                "lower",
+                                "upper"
+                              ]
+                            }
+                          }
+                        },
+                        "yearTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "minValue": {
+                              "type": "integer"
+                            },
+                            "maxValue": {
+                              "type": "integer"
+                            },
+                            "allowFutureOnly": {
+                              "type": "boolean"
+                            }
+                          }
+                        },
                         "isRequired": {
                           "type": "boolean",
                           "title": "Is the attribute required? Boolean value.",
@@ -5302,6 +5951,65 @@
                                     "properties": {
                                       "entity": {
                                         "type": "string"
+                                      }
+                                    }
+                                  },
+                                  "dateTypeOptions": {
+                                    "type": "object",
+                                    "properties": {
+                                      "minValue": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                      },
+                                      "maxValue": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                      }
+                                    }
+                                  },
+                                  "percentageTypeOptions": {
+                                    "type": "object",
+                                    "properties": {
+                                      "minValue": {
+                                        "type": "number"
+                                      },
+                                      "maxValue": {
+                                        "type": "number"
+                                      },
+                                      "digits": {
+                                        "type": "integer"
+                                      }
+                                    }
+                                  },
+                                  "translatedTextTypeOptions": {
+                                    "type": "object",
+                                    "properties": {
+                                      "minLength": {
+                                        "type": "integer"
+                                      },
+                                      "maxLength": {
+                                        "type": "integer"
+                                      },
+                                      "characterCasing": {
+                                        "enum": [
+                                          "normal",
+                                          "lower",
+                                          "upper"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "yearTypeOptions": {
+                                    "type": "object",
+                                    "properties": {
+                                      "minValue": {
+                                        "type": "integer"
+                                      },
+                                      "maxValue": {
+                                        "type": "integer"
+                                      },
+                                      "allowFutureOnly": {
+                                        "type": "boolean"
                                       }
                                     }
                                   },
@@ -5766,6 +6474,65 @@
                     }
                   }
                 },
+                "dateTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "maxValue": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                },
+                "percentageTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "number"
+                    },
+                    "maxValue": {
+                      "type": "number"
+                    },
+                    "digits": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "translatedTextTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minLength": {
+                      "type": "integer"
+                    },
+                    "maxLength": {
+                      "type": "integer"
+                    },
+                    "characterCasing": {
+                      "enum": [
+                        "normal",
+                        "lower",
+                        "upper"
+                      ]
+                    }
+                  }
+                },
+                "yearTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "integer"
+                    },
+                    "maxValue": {
+                      "type": "integer"
+                    },
+                    "allowFutureOnly": {
+                      "type": "boolean"
+                    }
+                  }
+                },
                 "isRequired": {
                   "type": "boolean",
                   "title": "Is the attribute required? Boolean value.",
@@ -6188,6 +6955,65 @@
                             "properties": {
                               "entity": {
                                 "type": "string"
+                              }
+                            }
+                          },
+                          "dateTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "maxValue": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            }
+                          },
+                          "percentageTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "number"
+                              },
+                              "maxValue": {
+                                "type": "number"
+                              },
+                              "digits": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "translatedTextTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minLength": {
+                                "type": "integer"
+                              },
+                              "maxLength": {
+                                "type": "integer"
+                              },
+                              "characterCasing": {
+                                "enum": [
+                                  "normal",
+                                  "lower",
+                                  "upper"
+                                ]
+                              }
+                            }
+                          },
+                          "yearTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "integer"
+                              },
+                              "maxValue": {
+                                "type": "integer"
+                              },
+                              "allowFutureOnly": {
+                                "type": "boolean"
                               }
                             }
                           },
@@ -6619,6 +7445,65 @@
                         }
                       }
                     },
+                    "dateTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "maxValue": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    },
+                    "percentageTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "number"
+                        },
+                        "maxValue": {
+                          "type": "number"
+                        },
+                        "digits": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "translatedTextTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minLength": {
+                          "type": "integer"
+                        },
+                        "maxLength": {
+                          "type": "integer"
+                        },
+                        "characterCasing": {
+                          "enum": [
+                            "normal",
+                            "lower",
+                            "upper"
+                          ]
+                        }
+                      }
+                    },
+                    "yearTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "integer"
+                        },
+                        "maxValue": {
+                          "type": "integer"
+                        },
+                        "allowFutureOnly": {
+                          "type": "boolean"
+                        }
+                      }
+                    },
                     "isRequired": {
                       "type": "boolean",
                       "title": "Is the attribute required? Boolean value.",
@@ -7041,6 +7926,65 @@
                                 "properties": {
                                   "entity": {
                                     "type": "string"
+                                  }
+                                }
+                              },
+                              "dateTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  },
+                                  "maxValue": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  }
+                                }
+                              },
+                              "percentageTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "number"
+                                  },
+                                  "maxValue": {
+                                    "type": "number"
+                                  },
+                                  "digits": {
+                                    "type": "integer"
+                                  }
+                                }
+                              },
+                              "translatedTextTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minLength": {
+                                    "type": "integer"
+                                  },
+                                  "maxLength": {
+                                    "type": "integer"
+                                  },
+                                  "characterCasing": {
+                                    "enum": [
+                                      "normal",
+                                      "lower",
+                                      "upper"
+                                    ]
+                                  }
+                                }
+                              },
+                              "yearTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "integer"
+                                  },
+                                  "maxValue": {
+                                    "type": "integer"
+                                  },
+                                  "allowFutureOnly": {
+                                    "type": "boolean"
                                   }
                                 }
                               },
@@ -7481,6 +8425,65 @@
                         }
                       }
                     },
+                    "dateTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "maxValue": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    },
+                    "percentageTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "number"
+                        },
+                        "maxValue": {
+                          "type": "number"
+                        },
+                        "digits": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "translatedTextTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minLength": {
+                          "type": "integer"
+                        },
+                        "maxLength": {
+                          "type": "integer"
+                        },
+                        "characterCasing": {
+                          "enum": [
+                            "normal",
+                            "lower",
+                            "upper"
+                          ]
+                        }
+                      }
+                    },
+                    "yearTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "integer"
+                        },
+                        "maxValue": {
+                          "type": "integer"
+                        },
+                        "allowFutureOnly": {
+                          "type": "boolean"
+                        }
+                      }
+                    },
                     "isRequired": {
                       "type": "boolean",
                       "title": "Is the attribute required? Boolean value.",
@@ -7903,6 +8906,65 @@
                                 "properties": {
                                   "entity": {
                                     "type": "string"
+                                  }
+                                }
+                              },
+                              "dateTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  },
+                                  "maxValue": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  }
+                                }
+                              },
+                              "percentageTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "number"
+                                  },
+                                  "maxValue": {
+                                    "type": "number"
+                                  },
+                                  "digits": {
+                                    "type": "integer"
+                                  }
+                                }
+                              },
+                              "translatedTextTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minLength": {
+                                    "type": "integer"
+                                  },
+                                  "maxLength": {
+                                    "type": "integer"
+                                  },
+                                  "characterCasing": {
+                                    "enum": [
+                                      "normal",
+                                      "lower",
+                                      "upper"
+                                    ]
+                                  }
+                                }
+                              },
+                              "yearTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "integer"
+                                  },
+                                  "maxValue": {
+                                    "type": "integer"
+                                  },
+                                  "allowFutureOnly": {
+                                    "type": "boolean"
                                   }
                                 }
                               },
@@ -8364,6 +9426,65 @@
                     }
                   }
                 },
+                "dateTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "maxValue": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                },
+                "percentageTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "number"
+                    },
+                    "maxValue": {
+                      "type": "number"
+                    },
+                    "digits": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "translatedTextTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minLength": {
+                      "type": "integer"
+                    },
+                    "maxLength": {
+                      "type": "integer"
+                    },
+                    "characterCasing": {
+                      "enum": [
+                        "normal",
+                        "lower",
+                        "upper"
+                      ]
+                    }
+                  }
+                },
+                "yearTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "integer"
+                    },
+                    "maxValue": {
+                      "type": "integer"
+                    },
+                    "allowFutureOnly": {
+                      "type": "boolean"
+                    }
+                  }
+                },
                 "isRequired": {
                   "type": "boolean",
                   "title": "Is the attribute required? Boolean value.",
@@ -8786,6 +9907,65 @@
                             "properties": {
                               "entity": {
                                 "type": "string"
+                              }
+                            }
+                          },
+                          "dateTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "maxValue": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            }
+                          },
+                          "percentageTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "number"
+                              },
+                              "maxValue": {
+                                "type": "number"
+                              },
+                              "digits": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "translatedTextTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minLength": {
+                                "type": "integer"
+                              },
+                              "maxLength": {
+                                "type": "integer"
+                              },
+                              "characterCasing": {
+                                "enum": [
+                                  "normal",
+                                  "lower",
+                                  "upper"
+                                ]
+                              }
+                            }
+                          },
+                          "yearTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "integer"
+                              },
+                              "maxValue": {
+                                "type": "integer"
+                              },
+                              "allowFutureOnly": {
+                                "type": "boolean"
                               }
                             }
                           },
@@ -9217,6 +10397,65 @@
                         }
                       }
                     },
+                    "dateTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "maxValue": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    },
+                    "percentageTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "number"
+                        },
+                        "maxValue": {
+                          "type": "number"
+                        },
+                        "digits": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "translatedTextTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minLength": {
+                          "type": "integer"
+                        },
+                        "maxLength": {
+                          "type": "integer"
+                        },
+                        "characterCasing": {
+                          "enum": [
+                            "normal",
+                            "lower",
+                            "upper"
+                          ]
+                        }
+                      }
+                    },
+                    "yearTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "integer"
+                        },
+                        "maxValue": {
+                          "type": "integer"
+                        },
+                        "allowFutureOnly": {
+                          "type": "boolean"
+                        }
+                      }
+                    },
                     "isRequired": {
                       "type": "boolean",
                       "title": "Is the attribute required? Boolean value.",
@@ -9639,6 +10878,65 @@
                                 "properties": {
                                   "entity": {
                                     "type": "string"
+                                  }
+                                }
+                              },
+                              "dateTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  },
+                                  "maxValue": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  }
+                                }
+                              },
+                              "percentageTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "number"
+                                  },
+                                  "maxValue": {
+                                    "type": "number"
+                                  },
+                                  "digits": {
+                                    "type": "integer"
+                                  }
+                                }
+                              },
+                              "translatedTextTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minLength": {
+                                    "type": "integer"
+                                  },
+                                  "maxLength": {
+                                    "type": "integer"
+                                  },
+                                  "characterCasing": {
+                                    "enum": [
+                                      "normal",
+                                      "lower",
+                                      "upper"
+                                    ]
+                                  }
+                                }
+                              },
+                              "yearTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "integer"
+                                  },
+                                  "maxValue": {
+                                    "type": "integer"
+                                  },
+                                  "allowFutureOnly": {
+                                    "type": "boolean"
                                   }
                                 }
                               },
@@ -10079,6 +11377,65 @@
                         }
                       }
                     },
+                    "dateTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "maxValue": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    },
+                    "percentageTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "number"
+                        },
+                        "maxValue": {
+                          "type": "number"
+                        },
+                        "digits": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "translatedTextTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minLength": {
+                          "type": "integer"
+                        },
+                        "maxLength": {
+                          "type": "integer"
+                        },
+                        "characterCasing": {
+                          "enum": [
+                            "normal",
+                            "lower",
+                            "upper"
+                          ]
+                        }
+                      }
+                    },
+                    "yearTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "integer"
+                        },
+                        "maxValue": {
+                          "type": "integer"
+                        },
+                        "allowFutureOnly": {
+                          "type": "boolean"
+                        }
+                      }
+                    },
                     "isRequired": {
                       "type": "boolean",
                       "title": "Is the attribute required? Boolean value.",
@@ -10501,6 +11858,65 @@
                                 "properties": {
                                   "entity": {
                                     "type": "string"
+                                  }
+                                }
+                              },
+                              "dateTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  },
+                                  "maxValue": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  }
+                                }
+                              },
+                              "percentageTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "number"
+                                  },
+                                  "maxValue": {
+                                    "type": "number"
+                                  },
+                                  "digits": {
+                                    "type": "integer"
+                                  }
+                                }
+                              },
+                              "translatedTextTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minLength": {
+                                    "type": "integer"
+                                  },
+                                  "maxLength": {
+                                    "type": "integer"
+                                  },
+                                  "characterCasing": {
+                                    "enum": [
+                                      "normal",
+                                      "lower",
+                                      "upper"
+                                    ]
+                                  }
+                                }
+                              },
+                              "yearTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "integer"
+                                  },
+                                  "maxValue": {
+                                    "type": "integer"
+                                  },
+                                  "allowFutureOnly": {
+                                    "type": "boolean"
                                   }
                                 }
                               },
@@ -10956,6 +12372,65 @@
                     }
                   }
                 },
+                "dateTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "maxValue": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                },
+                "percentageTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "number"
+                    },
+                    "maxValue": {
+                      "type": "number"
+                    },
+                    "digits": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "translatedTextTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minLength": {
+                      "type": "integer"
+                    },
+                    "maxLength": {
+                      "type": "integer"
+                    },
+                    "characterCasing": {
+                      "enum": [
+                        "normal",
+                        "lower",
+                        "upper"
+                      ]
+                    }
+                  }
+                },
+                "yearTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "integer"
+                    },
+                    "maxValue": {
+                      "type": "integer"
+                    },
+                    "allowFutureOnly": {
+                      "type": "boolean"
+                    }
+                  }
+                },
                 "isRequired": {
                   "type": "boolean",
                   "title": "Is the attribute required? Boolean value.",
@@ -11382,6 +12857,65 @@
                   "properties": {
                     "entity": {
                       "type": "string"
+                    }
+                  }
+                },
+                "dateTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "maxValue": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                },
+                "percentageTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "number"
+                    },
+                    "maxValue": {
+                      "type": "number"
+                    },
+                    "digits": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "translatedTextTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minLength": {
+                      "type": "integer"
+                    },
+                    "maxLength": {
+                      "type": "integer"
+                    },
+                    "characterCasing": {
+                      "enum": [
+                        "normal",
+                        "lower",
+                        "upper"
+                      ]
+                    }
+                  }
+                },
+                "yearTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "integer"
+                    },
+                    "maxValue": {
+                      "type": "integer"
+                    },
+                    "allowFutureOnly": {
+                      "type": "boolean"
                     }
                   }
                 },

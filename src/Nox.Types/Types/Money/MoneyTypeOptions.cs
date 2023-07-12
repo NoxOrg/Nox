@@ -2,7 +2,7 @@
 namespace Nox.Types
 {
 
-    public class MoneyTypeOptions 
+    public class MoneyTypeOptions : INoxTypeOptions
     {
         public int DecimalDigits { get; internal set; } = 4;
 

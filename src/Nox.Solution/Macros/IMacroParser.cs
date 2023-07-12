@@ -7,5 +7,5 @@ public interface IMacroParser
     /// <summary>
     /// Looks and Expands Macros found in the Text
     /// </summary>
-    string Parse(string text, IReadOnlyDictionary<string, string>? locals = null);
+    string Parse(string text, IReadOnlyDictionary<string, string?>? values = null);
 }

@@ -88,13 +88,14 @@ infrastructure:
 
   security:
     secrets:
-      secretsServer:
+      organizationSecretsServer:
         name: SampleSecretServer
         provider: azureKeyVault
         serverUri: kv.iwgplc.com
         user: ${{   env.SECRETS_USER }}
         password: ${{ env.SECRETS_PASSWORD   }}
-      validFor:
-        minutes: 10
+        validFor:
+          minutes: 10
+           
 
 

@@ -2,7 +2,7 @@
 
 namespace Nox.Types;
 
-public class DateTypeOptions
+public class DateTypeOptions: INoxTypeOptions
 {
     public static readonly DateTime DefaultMinValue = new DateTime(1800, 1, 1);
     public static readonly DateTime DefaultMaxValue = new DateTime(3000, 12, 31);
