@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="IntegrationsDefinitionMissing" xml:space="preserve">
+        <value>Application definition not found. In order to execute an integration, the Nox yaml definition must contain an Application section with one or more Integration definitions.</value>
+    </data>
+    <data name="IntegrationDefinitionMissing" xml:space="preserve">
+        <value>The definition of integration '{0}' has not been supplied in the Nox yaml defintion. In order to execute an integration, the Nox yaml definition must contain an Application section with with an integration definition named '{0}'.</value>
+    </data>
+</root>
