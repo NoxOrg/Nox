@@ -37,11 +37,6 @@ services:
   apm-server:
     container_name: apm-server
     image: docker.elastic.co/apm/apm-server:7.17.10
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
-      kibana:
-        condition: service_healthy
     cap_add: ["CHOWN", "DAC_OVERRIDE", "SETGID", "SETUID"]
     cap_drop: ["ALL"]
     ports:
@@ -65,58 +60,47 @@ services:
       retries: 12
       test: curl --write-out 'HTTP %{http_code}' --fail --silent --output /dev/null http://localhost:8200/
 
-  elasticsearch:
-    container_name: elasticsearch
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.17.10
-    environment:
-    - bootstrap.memory_lock=true
-    - cluster.name=docker-cluster
-    - cluster.routing.allocation.disk.threshold_enabled=false
-    - discovery.type=single-node
-    - ES_JAVA_OPTS=-XX:UseAVX=2 -Xms1g -Xmx1g
-    - xpack.security.enabled=true
-    - xpack.security.authc.api_key.enabled=true
-    - ELASTIC_PASSWORD=Developer*123
-    ulimits:
-      memlock:
-        hard: -1
-        soft: -1
+  vault:
+    container_name: hashi-vault
+    image: hashicorp/vault:latest
+    restart: always
     volumes:
-    - esdata:/usr/share/elasticsearch/data
+      - /vault/data
+      - /etc/vault/logs
     ports:
-    - 9200:9200
-    networks:
-    - elastic
-    healthcheck:
-      interval: 20s
-      retries: 10
-      test: curl -s http://localhost:9200/_cluster/health | grep -vq '"status":"red"'
-
-  kibana:
-    container_name: kibana
-    image: docker.elastic.co/kibana/kibana:7.17.10
-    depends_on:
-      elasticsearch:
-        condition: service_healthy
+      - "8300:8300/tcp"
     environment:
-      ELASTICSEARCH_URL: http://elasticsearch:9200
-      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
-      ELASTICSEARCH_USERNAME: elastic
-      ELASTICSEARCH_PASSWORD: Developer*123
-    ports:
-    - 5601:5601
+      VAULT_DEV_ROOT_TOKEN_ID: "root"
+      VAULT_DEV_LISTEN_ADDRESS: "0.0.0.0:8300"
+    cap_add:
+      - IPC_LOCK
+    entrypoint: "vault server -dev"
     networks:
-    - elastic
-    healthcheck:
-      test:
-        [
-          "CMD-SHELL",
-          "curl -s -I http://localhost:5601 | grep -q 'HTTP/1.1 302 Found'",
-        ]
-      interval: 10s
-      timeout: 10s
-      retries: 120
+      - vault-network
+   
+  org-vault-init:
+    container_name: org-vault-init
+    image: alpine/curl
+    depends_on:
+      - vault
+    volumes:
+      - ./init_org_vault.sh:/usr/local/bin/init_vault.sh
+    command: ["sh", "-c", "/usr/local/bin/init_vault.sh"]
+    networks:
+      - vault-network
+  
+  sln-vault-init:
+    container_name: sln-vault-init
+    image: alpine/curl
+    depends_on:
+      - vault
+    volumes:
+      - ./init_sln_vault.sh:/usr/local/bin/init_vault.sh
+    command: ["sh", "-c", "/usr/local/bin/init_vault.sh"]
+    networks:
+      - vault-network
 
 networks:
   elastic:
     driver: bridge
+  vault-network:

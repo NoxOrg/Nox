@@ -52,8 +52,8 @@ internal static class ODataDbContextGenerator
         code.AppendLine("    INoxDatabaseProvider databaseProvider");
         code.AppendLine(") : base(options)");
         code.StartBlock();
-        code.AppendLine("    _noxSolution = noxSolution;");
-        code.AppendLine("    _dbProvider = databaseProvider;");
+        code.AppendLine("_noxSolution = noxSolution;");
+        code.AppendLine("_dbProvider = databaseProvider;");
         code.EndBlock();
         code.AppendLine();
 

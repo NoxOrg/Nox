@@ -29,6 +29,11 @@ namespace Nox.Solution
         public NumberTypeOptions? NumberTypeOptions { get; set; }
         public MoneyTypeOptions? MoneyTypeOptions { get; set; }
         public EntityTypeOptions? EntityTypeOptions { get; set; }
+        public DateTypeOptions? DateTypeOptions { get; set; }
+        public PercentageTypeOptions? PercentageTypeOptions { get; set; }
+        public TranslatedTextTypeOptions? TranslatedTextTypeOptions { get; set; }
+        public YearTypeOptions? YearTypeOptions { get; set; }
+
 
         #endregion TypeOptions
 
@@ -41,5 +46,11 @@ namespace Nox.Solution
         [Title("Is this attribute readonly? Boolean value.")]
         [Description("Indicates whether this attribute is readonly. Defaults to false.")]
         public bool IsReadonly { get; internal set; } = false;
+ 
+        public NoxSimpleTypeDefinition ShallowCopy()
+        {
+            return (NoxSimpleTypeDefinition)MemberwiseClone();
+        }
     }
+
 }

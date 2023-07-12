@@ -8,7 +8,7 @@
 
 	<PropertyGroup>
 		<PackageId>Nox.Logging.Serilog</PackageId>
-		<Authors>Andre Sharpe,Jan Schutte</Authors>
+		<Authors>The Nox Factory</Authors>
 		<Description>Nox loggin serilog library</Description>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
 		<Copyright>Copyright (c) Andre Sharpe 2023</Copyright>

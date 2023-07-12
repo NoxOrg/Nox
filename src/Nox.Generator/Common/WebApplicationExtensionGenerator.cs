@@ -4,13 +4,13 @@ using Nox.Solution;
 
 namespace Nox.Generator.Common;
 
-public class ServiceCollectionExtensionGenerator
+public class WebApplicationExtensionGenerator
 {
-    public static void Generate(SourceProductionContext context, NoxSolution solution)
+    public static void Generate(SourceProductionContext context, NoxSolution solution, bool generatePresentation)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        var code = new CodeBuilder($"NoxServiceCollectionExtension.g.cs", context);
+        var code = new CodeBuilder($"NoxWebApplicationBuilderExtension.g.cs", context);
 
         var usings = new List<string>();
         var dbProvider = "";
@@ -36,12 +36,22 @@ public class ServiceCollectionExtensionGenerator
         code.AppendLines(usings.ToArray());
         code.AppendLine("using Nox.Types.EntityFramework.Abstractions;");
         code.AppendLine($"using {solution.Name}.Infrastructure.Persistence;");
-        code.AppendLine($"using {solution.Name}.Presentation.Api.OData;");
+        if(generatePresentation)
+            code.AppendLine($"using {solution.Name}.Presentation.Api.OData;");
+        code.AppendLine();
+        code.AppendLine($"namespace {solution.Name};");
         code.AppendLine();
 
-        code.AppendLine("public static class NoxServiceCollectionExtension");
+        code.AppendLine("public static class NoxWebApplicationBuilderExtension");
         code.StartBlock();
-        code.AppendLine("public static IServiceCollection AddNox(this IServiceCollection services)");
+        code.AppendLine("public static WebApplicationBuilder AddNox(this WebApplicationBuilder appBuilder)");
+        code.StartBlock();
+        code.AppendLine("appBuilder.Services.AddNoxServices();");
+        code.AppendLine("return appBuilder.AddNoxApp();");
+        code.EndBlock();
+        code.AppendLine();
+        
+        code.AppendLine("private static void AddNoxServices(this IServiceCollection services)");
         code.StartBlock();
         code.AppendLine("services.AddNoxLib();");
         if (solution.Infrastructure is { Persistence.DatabaseServer: not null })
@@ -51,13 +61,12 @@ public class ServiceCollectionExtensionGenerator
             code.AppendLine($"services.AddSingleton<INoxDatabaseConfigurator, {dbProvider}>();");
             code.AppendLine($"services.AddSingleton<INoxDatabaseProvider, {dbProvider}>();");
             code.AppendLine($"services.AddDbContext<{dbContextName}>();");
-            code.AppendLine($"services.AddDbContext<ODataDbContext>();");
+            if(generatePresentation)
+                code.AppendLine($"services.AddDbContext<ODataDbContext>();");
             code.AppendLine("var tmpProvider = services.BuildServiceProvider();");
             code.AppendLine($"var dbContext = tmpProvider.GetRequiredService<{dbContextName}>();");
             code.AppendLine("dbContext.Database.EnsureCreated();");            
         }
-        
-        code.AppendLine("return services;");
         code.EndBlock();
         code.EndBlock();
 
