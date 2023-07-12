@@ -12,13 +12,20 @@ namespace Nox.Solution.Resolvers;
 /// </summary>
 public class NoxEntityListJsonConverter : JsonConverter<IReadOnlyList<Entity>>
 {
+    /// <summary>
+    /// Deserialize particular json token to IReadOnlyList<Entity>.
+    /// </summary>
+    /// <param name="reader">Utf8JsonReader</param>
+    /// <param name="typeToConvert">Type typeToConvert</param>
+    /// <param name="options">JsonSerializerOptions options</param>
+    /// <returns>IReadOnlyList<Entity> </returns>
     public override IReadOnlyList<Entity> Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
     {
         return JsonSerializer.Deserialize<IReadOnlyList<Entity>>(reader.GetString()!, options)!;
     }
 
     /// <summary>
-    ///
+    /// Serialize IReadOnlyList<Entity> to json.
     /// </summary>
     /// <param name="writer">Utf8JsonWriter writer</param>
     /// <param name="value">IReadOnlyList<Entity> value</param>
