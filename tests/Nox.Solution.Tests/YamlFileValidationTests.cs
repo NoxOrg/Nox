@@ -1,11 +1,18 @@
 using FluentAssertions;
 using Nox.Solution.Exceptions;
 using Nox.Solution.Resolvers;
+using Xunit.Abstractions;
 
 namespace Nox.Solution.Tests;
 
 public class YamlFileValidationTests
 {
+    private readonly ITestOutputHelper _testOutputHelper;
+
+    public YamlFileValidationTests(ITestOutputHelper testOutputHelper)
+    {
+        _testOutputHelper = testOutputHelper;
+    }
 
     [Theory]
     [InlineData("unsupported-version-control.solution.nox")]
@@ -46,7 +53,7 @@ public class YamlFileValidationTests
         Assert.Contains("[\"name\"]", exception.Message);
         Assert.Contains("[\"serverUri\"]", exception.Message);
         Assert.Contains("dataConnection", exception.Message);
-        Assert.Equal(12, errorCount);
+        Assert.Equal(13, errorCount);
     }
 
     [Theory]

@@ -15,7 +15,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
     [Fact]
     public void TableShouldGetCreated()
     {
-        Assert.False(DbContext.Countries.Any());
+        Assert.False(DbContext.Countries!.Any());
     }
 
     [Fact]
@@ -45,7 +45,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
         };
-        DbContext.Countries.Add(newItem);
+        DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
 
         //Force the recreation of DBContext and ensure we have fresh data from database
@@ -82,7 +82,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
         };
-        DbContext.Countries.Add(newItem);
+        DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
 
         //Force the recreation of DBContext and ensure we have fresh data from database
