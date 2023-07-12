@@ -34,10 +34,10 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
         };
         SetConnectionString(csb.ConnectionString);
 
-        return optionsBuilder.UseSqlServer(_connectionString, opts =>
-        {
-            opts.MigrationsHistoryTable("MigrationsHistory", "migrations");
-        });
+        return optionsBuilder
+            .UseLazyLoadingProxies()
+            .UseSqlServer(_connectionString,
+                opts => { opts.MigrationsHistoryTable("MigrationsHistory", "migrations"); });
     }
 
     public string ToTableNameForSql(string table, string schema)

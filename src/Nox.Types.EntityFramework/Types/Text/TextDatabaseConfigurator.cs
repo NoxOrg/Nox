@@ -7,7 +7,11 @@ namespace Nox.Types.EntityFramework.Types;
 
 public class TextDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
-    public void ConfigureEntityProperty(EntityTypeBuilder builder, NoxSimpleTypeDefinition property, bool isKey)
+    public void ConfigureEntityProperty(
+        EntityTypeBuilder builder,
+        NoxSimpleTypeDefinition property,
+        Entity entity,
+        bool isKey)
     {
         //Todo Default values from static property in the Nox.Type
         var textOptions = property.TextTypeOptions ?? new TextTypeOptions();
