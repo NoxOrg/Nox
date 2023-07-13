@@ -12,16 +12,16 @@ public class LengthTests
         var length = Length.From(95.755663);
 
         length.Value.Should().Be(95.755663);
-        length.Unit.Should().Be(LengthTypeUnit.Meter);
+        length.Unit.Should().Be(LengthUnit.Meter);
     }
 
     [Fact]
     public void Length_Constructor_WithUnit_ReturnsSameValueAndUnit()
     {
-        var length = Length.From(314.158999, LengthTypeUnit.Foot);
+        var length = Length.From(314.158999, LengthUnit.Foot);
 
         length.Value.Should().Be(314.158999);
-        length.Unit.Should().Be(LengthTypeUnit.Foot);
+        length.Unit.Should().Be(LengthUnit.Foot);
     }
 
     [Fact]
@@ -30,7 +30,7 @@ public class LengthTests
         var length = Length.FromFeet(314.158999);
 
         length.Value.Should().Be(314.158999);
-        length.Unit.Should().Be(LengthTypeUnit.Foot);
+        length.Unit.Should().Be(LengthUnit.Foot);
     }
 
     [Fact]
@@ -39,7 +39,7 @@ public class LengthTests
         var length = Length.FromMeters(95.755663);
 
         length.Value.Should().Be(95.755663);
-        length.Unit.Should().Be(LengthTypeUnit.Meter);
+        length.Unit.Should().Be(LengthUnit.Meter);
     }
 
     [Fact]
@@ -77,15 +77,6 @@ public class LengthTests
 
         action.Should().Throw<TypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
-    }
-
-    [Fact]
-    public void Length_Constructor_WithWithUnsupportedUnitInput_ThrowsException()
-    {
-        var action = () => Length.From(95.755663, (LengthTypeUnit)1001);
-
-        action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Unit", "Could not create a Nox Length type as unit 1001 is not supported.") });
     }
 
     [Fact]

@@ -1,6 +1,4 @@
-﻿
-
-using Nox.Solution;
+﻿using Nox.Solution;
 using System;
 using System.Text;
 using YamlDotNet.Core.Tokens;
@@ -16,7 +14,6 @@ public enum ErdDetail
 
 public static class NoxSolutionMermaidExtensions
 {
-
     public static string ToMermaidErd(this NoxSolution noxSolution, ErdDetail detail = ErdDetail.Normal)
     {
         var sb = new StringBuilder();
@@ -28,10 +25,8 @@ public static class NoxSolutionMermaidExtensions
 
         sb.AppendLine("erDiagram");
 
-
         foreach (var entity in noxSolution.Domain.Entities)
         {
-
             sb.AppendLine($"    {entity.Name} {{");
 
             if (detail != ErdDetail.Summary)
@@ -40,9 +35,11 @@ public static class NoxSolutionMermaidExtensions
                 {
                     string memberType = member.Type.ToString();
                     string memberName = member.Name;
-                    string required = member.IsRequired ? " (Required)" : string.Empty; ;
-                    string description = detail == ErdDetail.Detailed ? $" \"{member.Description}{required}\"" : string.Empty; ;
-                    string keyType = type == EntityMemberType.Key ? " PK" : (keyType = type == EntityMemberType.Relationship ? " FK": string.Empty );
+                    string required = member.IsRequired ? " (Required)" : string.Empty;
+                    string description = detail == ErdDetail.Detailed ? $" \"{member.Description}{required}\"" : string.Empty;
+                    string fkKind = type == EntityMemberType.Relationship ? " FK" : string.Empty;
+
+                    string keyType = type == EntityMemberType.Key ? " PK" : fkKind;
 
                     sb.AppendLine($"        {memberType} {memberName}{keyType}{description}");
                 }
