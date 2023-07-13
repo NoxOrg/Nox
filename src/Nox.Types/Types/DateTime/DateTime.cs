@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 
 namespace Nox.Types;
@@ -9,74 +8,57 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
 
     public int Year
     {
-        get { return Value.Year; }
-        private set { Value = new System.DateTime(value, Value.Month, Value.Day, Value.Hour, Value.Minute, Value.Second); }
+        get => Value.Year;
+        private set => Value = new System.DateTime(value, Value.Month, Value.Day, Value.Hour, Value.Minute, Value.Second);
     }
     public int Month
     {
-        get { return Value.Month; }
+        get => Value.Month;
         private set => Value = new System.DateTime(Value.Year, value, Value.Day, Value.Hour, Value.Minute, Value.Second);
     }
     public int Day
     {
-        get { return Value.Day; }
-        private set { Value = new System.DateTime(Value.Year, Value.Month, value, Value.Hour, Value.Minute, Value.Second); }
+        get => Value.Day;
+        private set => Value = new System.DateTime(Value.Year, Value.Month, value, Value.Hour, Value.Minute, Value.Second);
     }
     public int Hour
     {
-        get { return Value.Hour; }
-        private set { Value = new System.DateTime(Value.Year, Value.Month, Value.Day, value, Value.Minute, Value.Second); }
+        get => Value.Hour;
+        private set => Value = new System.DateTime(Value.Year, Value.Month, Value.Day, value, Value.Minute, Value.Second);
     }
     public int Minute
     {
-        get { return Value.Minute; }
-        private set { Value = new System.DateTime(Value.Year, Value.Month, Value.Day, Value.Hour, value, Value.Second); }
+        get => Value.Minute;
+        private set => Value = new System.DateTime(Value.Year, Value.Month, Value.Day, Value.Hour, value, Value.Second);
     }
     public int Second
     {
-        get { return Value.Second; }
-        private set { Value = new System.DateTime(Value.Year, Value.Month, Value.Day, Value.Hour, Value.Minute, value); }
+        get => Value.Second;
+        private set => Value = new System.DateTime(Value.Year, Value.Month, Value.Day, Value.Hour, Value.Minute, value);
     }
 
     public DateTime() { Value = System.DateTime.MinValue; }
 
     /// <summary>
-    /// Creates and validates a new instance of <see cref="DateTime"/>./>.
+    /// Creates and validates a new instance of <see cref="DateTime"/> from sent System.DateTime.
     /// </summary>
-    /// <param name="year"></param>
-    /// <param name="month"></param>
-    /// <param name="day"></param>
-    /// <param name="hour"></param>
-    /// <param name="minute"></param>
-    /// <param name="second"></param>
-    /// <returns>New <see cref="DateTime"/> object with default <see cref="DateTimeTypeOptions"/> .</returns> 
-    /// <exception cref="TypeValidationException"></exception>
-    public static DateTime From(int year, int month, int day, int hour = 0, int minute = 0, int second = 0) => From(new DateTimeTypeOptions(), year, month, day, hour, minute, second);
-    
-    /// <summary>
-    /// Creates and validates a new instance of <see cref="DateTime"/>./>.
-    /// </summary>
+    /// <param name="dateTime"></param>
     /// <param name="options"></param>
-    /// <param name="year"></param>
-    /// <param name="month"></param>
-    /// <param name="day"></param>
-    /// <param name="hour"></param>
-    /// <param name="minute"></param>
-    /// <param name="second"></param>
-    /// <returns>New <see cref="DateTime"/> object with sent <see cref="DateTimeTypeOptions"/>.</returns> 
-    /// <exception cref="TypeValidationException"></exception>
-    public static DateTime From(DateTimeTypeOptions options, int year, int month, int day, int hour = 0, int minute = 0, int second = 0)
+    /// <returns>New <see cref="DateTime"/> object using sent <see cref="System.DateTime"/>.</returns>
+    public static DateTime From(System.DateTime dateTime, DateTimeTypeOptions? options = null)
     {
+        options ??= new DateTimeTypeOptions();
+
         var newObject = new DateTime();
 
         // check if it is a valid System.DateTime
-        var validationResult = ValidateDateTime(year, month, day, hour, minute, second);
+        var validationResult = ValidateDateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
 
         if (validationResult.IsValid)
         {
             newObject = new DateTime
             {
-                Value = new System.DateTime(year, month, day, hour, minute, second),
+                Value = new System.DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second),
                 _dateTimeTypeOptions = options
             };
 
@@ -92,21 +74,9 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
     }
 
     /// <summary>
-    /// Creates and validates a new instance of <see cref="DateTime"/> from sent System.DateTime.
-    /// </summary>
-    /// <param name="dateTime"></param>
-    /// <param name="options"></param>
-    /// <returns>New <see cref="DateTime"/> object using sent <see cref="System.DateTime"/>.</returns>
-    public static DateTime From(System.DateTime dateTime, DateTimeTypeOptions? options = null)
-    {
-        options ??= new DateTimeTypeOptions();
-        return From(options, dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
-    }
-
-    /// <summary>
     /// Creates and validates a new instance of <see cref="DateTime"/> from parsed value of <see cref="datetime"/>.
     /// </summary>
-    /// <param name="dateTime"></param>
+    /// <param name="datetime"></param>
     /// <param name="options"></param>
     /// <returns>New <see cref="DateTime"/> object using sent <see cref="datetime"/>.</returns>
     public static DateTime From(string datetime, DateTimeTypeOptions? options = null)
@@ -126,7 +96,7 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
     /// <returns>A validation result indicating whether the <see cref="System.DateTime"/> is valid or not.</returns>
     private static ValidationResult ValidateDateTime(int year, int month, int day, int hour = 0, int minute = 0, int second = 0)
     {
-        var result = new ValidationResult() { };
+        var result = new ValidationResult();
 
         try
         {
@@ -256,6 +226,7 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
     /// <summary>
     /// Returns a string representation of the custom date and time using <see cref="IFormatProvider"/> and wanted format.
     /// </summary>
+    /// <param name="format"></param>
     /// <param name="formatProvider"></param>
     /// <returns></returns>
     public string ToString(string format, IFormatProvider formatProvider)
