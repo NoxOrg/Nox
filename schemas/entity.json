@@ -50,7 +50,7 @@
         },
         "isVersioned": {
           "type": "boolean",
-          "title": "Whether all changes to this entity is tracked fo versioning and auditing.",
+          "title": "Whether all changes to this entity is tracked for version and auditing.",
           "description": "Indicates to the storage engine that all changes to this entity must be tracked over time. Usually used to time-travel, track or audit an entity\u0027s state changes."
         },
         "tableName": {
