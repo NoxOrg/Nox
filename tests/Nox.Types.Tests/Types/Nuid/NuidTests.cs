@@ -4,8 +4,16 @@ namespace Nox.Types.Tests.Types;
 public class NuidTests
 {
     [Fact]
-    public void When_Create_Should()
+    public void StringValue_CreateManyInstances_ShouldBeEqual()
     {
+        const string testValue = "!#123TestValue456!#";
 
+        var nuidLeft = Nuid.From(testValue, new NuidTypeOptions());
+        var nuidRight = Nuid.From(testValue, new NuidTypeOptions());
+
+        Assert.Equal(nuidLeft, nuidRight);
+        Assert.Equal(nuidLeft.Value, nuidRight.Value);
+        Assert.Equal(nuidLeft.ToGuid(), nuidRight.ToGuid());
+        Assert.Equal(nuidLeft.ToHex(), nuidRight.ToHex());
     }
 }
