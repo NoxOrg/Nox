@@ -121,7 +121,8 @@ domain:
 
         - name: CountryCode2TestField
           type: countryCode2
-
+        - name: StreetAddressTestField
+          type: streetAddress
         #- name: GeoCoordTestField
         #  type: latLong
 
@@ -190,9 +191,6 @@ domain:
 
         #- name: PhoneNumberTestField
         #  type: phoneNumber
-
-        #- name: StreetAddressTestField
-        #  type: streetAddress
 
         #- name: TempratureTestField
         #  type: temperature

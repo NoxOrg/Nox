@@ -6,7 +6,7 @@ using Nox.Types.EntityFramework.Abstractions;
 
 namespace Nox.Types.EntityFramework.Types;
 
-public class CountryCode2Configurator : INoxTypeDatabaseConfigurator
+public class CountryCode2DatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
     public void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
