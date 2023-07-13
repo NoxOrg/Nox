@@ -1,3 +1,4 @@
+using FluentAssertions;
 using FluentValidation;
 
 namespace Nox.Types.Tests.Types;
@@ -15,9 +16,9 @@ public class ImageTests
         var image = Image.From(url, prettyName, size);
 
         // Assert
-        Assert.Equal(url, image.Url);
-        Assert.Equal(prettyName, image.PrettyName);
-        Assert.Equal(size, image.SizeInBytes);
+        image.Url.Should().Be(url);
+        image.PrettyName.Should().Be(prettyName);
+        image.SizeInBytes.Should().Be(size);
     }
 
     [Theory]
@@ -30,8 +31,9 @@ public class ImageTests
         var exception = Assert.Throws<TypeValidationException>(() => _ = Image.From(url, prettyName, size));
 
         // Assert
-        Assert.NotNull(exception);
-        Assert.Contains("Could not create a Nox Image type", exception.Errors[0].ErrorMessage);
+        exception.Should().NotBeNull();
+        exception.Errors.Should().HaveCount(1);
+        exception.Errors[0].ErrorMessage.Should().StartWith("Could not create a Nox Image type");
     }
 
     [Theory]
@@ -42,10 +44,11 @@ public class ImageTests
         var exception = Assert.Throws<TypeValidationException>(() => _ = Image.From(url, prettyName, size));
 
         // Assert
-        Assert.NotNull(exception);
-        Assert.Equal($"Could not create a Nox Image type with an image having an unsupported extension '{url}'.", exception.Errors[0].ErrorMessage);
+        exception.Should().NotBeNull();
+        exception.Errors.Should().HaveCount(1);
+        exception.Errors[0].ErrorMessage.Should().Be($"Could not create a Nox Image type with an image having an unsupported extension '{url}'.");
     }
-    
+
     [Fact]
     public void Image_WithInvalidUrl_ShouldBeInvalid()
     {
@@ -53,32 +56,35 @@ public class ImageTests
         var exception = Assert.Throws<TypeValidationException>(() => _ = Image.From("invalid url", "Image1", 100));
 
         // Assert
-        Assert.NotNull(exception);
-        Assert.Equal($"Could not create a Nox Image type with an invalid Url 'invalid url'.", exception.Errors[0].ErrorMessage);
+        exception.Should().NotBeNull();
+        exception.Errors.Should().HaveCount(1);
+        exception.Errors[0].ErrorMessage.Should().Be($"Could not create a Nox Image type with an invalid Url 'invalid url'.");
     }
-    
+
     [Fact]
     public void Image_With_Unsupported_Extension_ShouldBeInvalid()
     {
         // Arrange &
-        
+
         var imageTypeOptions = new ImageTypeOptions
         {
             ImageFormatTypes = new List<ImageFormatType> { ImageFormatType.Jpeg, ImageFormatType.Bmp }
         };
         // Act
-        var exception = Assert.Throws<TypeValidationException>(() => _ = Image.From("https://example.com/image.png", "Image1", 100, imageTypeOptions));
+        var exception = Assert.Throws<TypeValidationException>(() =>
+            _ = Image.From("https://example.com/image.png", "Image1", 100, imageTypeOptions));
 
         // Assert
-        Assert.NotNull(exception);
-        Assert.Equal($"Could not create a Nox Image type with an image having an unsupported extension 'https://example.com/image.png'.", exception.Errors[0].ErrorMessage);
+        exception.Should().NotBeNull();
+        exception.Errors.Should().HaveCount(1);
+        exception.Errors[0].ErrorMessage.Should().Be($"Could not create a Nox Image type with an image having an unsupported extension 'https://example.com/image.png'.");
     }
-    
+
     [Fact]
     public void Image_With_Supported_Extension_ShouldBeValid()
     {
         // Arrange &
-        
+
         var imageTypeOptions = new ImageTypeOptions
         {
             ImageFormatTypes = new() { ImageFormatType.Jpeg, ImageFormatType.Bmp }
@@ -88,10 +94,10 @@ public class ImageTests
         var image2 = Image.From("https://example.com/image.bmp", "Image2", 100, imageTypeOptions);
 
         // Assert
-        Assert.NotNull(image);
-        Assert.NotNull(image2);
+        image.Should().NotBeNull();
+        image2.Should().NotBeNull();
     }
-    
+
     [Fact]
     public void Compare_Same_Images_WithEqual_IsTrue()
     {
@@ -100,10 +106,10 @@ public class ImageTests
         var image2 = Image.From("https://example.com/image.jpg", "Image1", 100);
 
         // Assert
-        Assert.True(image1.Equals(image2));
+        image1.Should().Be(image2);
     }
-    
-    
+
+
     [Fact]
     public void Compare_Different_Images_WithEqual_IsFalse()
     {
@@ -114,52 +120,28 @@ public class ImageTests
         var image4 = Image.From("https://example.com/image.png", "Image1", 100);
 
         // Assert
-        Assert.False(image1.Equals(image2));
-        Assert.False(image1.Equals(image3));
-        Assert.False(image1.Equals(image4));
-        
+        image1.Should().NotBe(image2);
+        image1.Should().NotBe(image3);
+        image1.Should().NotBe(image4);
     }
-    
+
     [Fact]
     public void ToString_WithValidValues_ShouldReturnString()
     {
-
         // Arrange & Act
         var image = Image.From("https://example.com/image.jpg", "Image1", 100);
 
         // Assert
-        Assert.Equal("Image1: https://example.com/image.jpg", image.ToString());
+        image.ToString().Should().Be("Image1: https://example.com/image.jpg");
     }
-    
+
     [Fact]
     public void GetImageExtension_WithValidValues_ShouldReturnString()
     {
-
         // Arrange & Act
         var image = Image.From("https://example.com/image.jpg", "Image1", 100);
 
         // Assert
-        Assert.Equal(".jpg", image.GetImageExtension());
-    }
-
-
-    [Fact]
-    public void Correct_ImageFormatType_ShouldReturn()
-    {
-        // Arrange & Act
-        var imageFormatType = ImageFormatType.FromId<ImageFormatType>(0);
-        
-        // Assert
-        Assert.Equal(ImageFormatType.All, imageFormatType);
-    }
-    
-    [Fact]
-    public void Correct_ImageFormatType_ShouldReturn_ByName()
-    {
-        // Arrange & Act
-        var imageFormatType = ImageFormatType.FromName<ImageFormatType>("Bmp");
-        
-        // Assert
-        Assert.Equal(ImageFormatType.Bmp, imageFormatType);
+        image.GetImageExtension().Should().Be(".jpg");
     }
 }

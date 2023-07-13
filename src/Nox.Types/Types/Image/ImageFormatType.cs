@@ -1,13 +1,13 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
+using Nox.Common;
 
 namespace Nox.Types;
 
 /// <summary>
 /// Enumeration for image format types.
 /// </summary>
-public class ImageFormatType : Enumeration<IList<string>>
+public sealed class ImageFormatType : Enumeration<IList<string>>
 {
     /// <summary>
     /// Represents the "All" image format type, including various image file extensions.

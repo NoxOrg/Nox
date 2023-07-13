@@ -137,10 +137,4 @@ public sealed class Image : ValueObject<(string Url, string PrettyName, int Size
 
         return result;
     }
-
-
-    
-   
-
-
 }
