@@ -12,8 +12,9 @@ namespace Nox.Generator;
 
 internal static class ODataModelGenerator
 {
-    public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
+    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
+        NoxSolution solution = codeGeneratorState.Solution;
         context.CancellationToken.ThrowIfCancellationRequested();
 
         if (solution.Domain is null ||
@@ -30,7 +31,7 @@ internal static class ODataModelGenerator
         code.AppendLine($"using Microsoft.OData.ModelBuilder;");
 
         code.AppendLine();
-        code.AppendLine($"namespace {solutionNameSpace}.Presentation.Api.OData;");
+        code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
         code.AppendLine();
 
         foreach (var entity in solution.Domain.Entities)
@@ -39,7 +40,7 @@ internal static class ODataModelGenerator
 
             var baseClass = (entity.Persistence?.IsVersioned ?? true) ? "AuditableEntityBase" : "EntityBase";
 
-            code.AppendLine($"public class {entity.Name} : {solutionNameSpace}.Domain.{baseClass}");
+            code.AppendLine($"public class {entity.Name} : {codeGeneratorState.DomainNameSpace}.{baseClass}");
             code.StartBlock();
 
             if (entity.Keys != null)

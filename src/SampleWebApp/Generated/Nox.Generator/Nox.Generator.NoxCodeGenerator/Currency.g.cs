@@ -15,7 +15,7 @@ public partial class Currency : AuditableEntityBase
 {
     
     /// <summary>
-    /// The currency's primary key / identifier (optional).
+    /// The currency's primary key / identifier (required).
     /// </summary>
     public Text Id { get; set; } = null!;
     

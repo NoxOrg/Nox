@@ -1,4 +1,4 @@
-namespace Nox.Secrets;
+namespace Nox.Secrets.Exceptions;
 
 [Serializable]
 public class NoxSecretsException : Exception

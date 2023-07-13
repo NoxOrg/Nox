@@ -1,8 +1,10 @@
-namespace Nox.Abstractions.Configuration;
+using System.IO;
 
-public class WellKnownPaths
+namespace Nox.Solution.Constants;
+
+public static class WellKnownPaths
 {
-    private static readonly string UserApps = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+    private static readonly string UserApps = System.Environment.GetFolderPath(System.Environment.SpecialFolder.ApplicationData);
     public static readonly string CachePath = Path.Combine(UserApps, "nox");
     public static readonly string SecretsCachePath = Path.Combine(CachePath, "store");
     public static readonly string CacheTokenFile = Path.Combine(SecretsCachePath, "NoxCache-token.json");

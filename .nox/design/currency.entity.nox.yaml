@@ -14,6 +14,7 @@ description: The list of currencies
 keys:
 
   - name: Id
+    isRequired: true
     description: The currency's primary key / identifier
     type: text
     textTypeOptions:

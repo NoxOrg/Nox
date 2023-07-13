@@ -9,7 +9,7 @@ public interface INoxTypeDatabaseConfigurator
     /// Configure ModelBuilder Property for a Type
     /// </summary>
     
-    void ConfigureEntityProperty(EntityTypeBuilder builder, NoxSimpleTypeDefinition property, bool isKey);
+    void ConfigureEntityProperty(EntityTypeBuilder builder, NoxSimpleTypeDefinition property, Entity entity, bool isKey);
 
     /// <summary>
     /// Compute the Key Property Name for a Type.

@@ -93,6 +93,7 @@ domain:
       keys:
 
         - name: Id
+          isRequired: true
           type: text
           textTypeOptions:
             isUnicode: false
@@ -213,25 +214,3 @@ domain:
 
         #- name: LanguageCodeTestField
         #  type: languageCode
-
-infrastructure:
-  
-  persistence:
-    databaseServer:
-      name: SampleCurrencyDb
-
-      # Sql Server
-      serverUri: sqlserver.iwgplc.com
-      provider: sqlServer
-      port: 1433
-      user: sqluser
-      password: sqlpassword
-
-  messaging:
-    integrationEventServer:
-      name: IntegrationBus
-      provider: rabbitMq
-      serverUri: rabbitmq://localhost
-      port: 5672
-      user: guest
-      password: guest

@@ -7,7 +7,10 @@ namespace Nox.Types.EntityFramework.Types;
 
 public class CountryCode2Configurator : INoxTypeDatabaseConfigurator
 {
-    public void ConfigureEntityProperty(EntityTypeBuilder builder, NoxSimpleTypeDefinition property, bool isKey)
+    public void ConfigureEntityProperty(EntityTypeBuilder builder,
+        NoxSimpleTypeDefinition property,
+        Entity entity,
+        bool isKey)
     {
         builder
             .Property(property.Name)
