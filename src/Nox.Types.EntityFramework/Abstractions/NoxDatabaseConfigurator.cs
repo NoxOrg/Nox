@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Types;
 
@@ -17,7 +18,7 @@ namespace Nox.Types.EntityFramework.Abstractions
                 { NoxType.CountryCode2, new CountryCode2Configurator() }
             };
 
-        public virtual void ConfigureEntity(EntityTypeBuilder builder, Entity entity)
+        public virtual void ConfigureEntity(NoxSolutionCodeGeneratorState codeGeneratorState, EntityTypeBuilder builder, Entity entity)
         {
             //TODO Relations
             

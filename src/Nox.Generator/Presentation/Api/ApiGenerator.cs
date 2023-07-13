@@ -11,17 +11,17 @@ namespace Nox.Generator.Presentation.Api;
 
 internal static class ApiGenerator
 {
-    public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
+    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (solution.Domain is null ||
-            !solution.Domain.Entities.Any())
+        if (codeGeneratorState.Solution.Domain is null ||
+            !codeGeneratorState.Solution.Domain.Entities.Any())
         {
             return;
         }
 
-        foreach (var entity in solution.Domain.Entities)
+        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -51,14 +51,14 @@ internal static class ApiGenerator
             code.AppendLine($"using Microsoft.AspNetCore.OData.Routing.Controllers;");
             code.AppendLine($"using Microsoft.EntityFrameworkCore;");
 
-            code.AppendLine($"using {solutionNameSpace}.Application;");
-            code.AppendLine($"using {solutionNameSpace}.Application.DataTransferObjects;");
-            code.AppendLine($"using {solutionNameSpace}.Domain;");
-            code.AppendLine($"using {solutionNameSpace}.Infrastructure.Persistence;");
+            code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace};");
+            code.AppendLine($"using {codeGeneratorState.DataTransferObjectsNameSpace};");
+            code.AppendLine($"using {codeGeneratorState.DomainNameSpace};");
+            code.AppendLine($"using {codeGeneratorState.PersistenceNameSpace};");
 
             code.AppendLine($"using Nox.Types;");
             code.AppendLine();
-            code.AppendLine($"namespace {solutionNameSpace}.Presentation.Api.OData;");
+            code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
             code.AppendLine();
 
             code.AppendLine($"public partial class {controllerName} : ODataController");
@@ -135,7 +135,7 @@ internal static class ApiGenerator
             // Generate POST request mapping for Command Handlers
             foreach (var command in commands)
             {
-                var typeDefinition = GenerateTypeDefinition(context, solutionNameSpace, command);
+                var typeDefinition = GenerateTypeDefinition(context, codeGeneratorState, command);
 
                 GenerateDocs(code, command.Description);
                 code.AppendLine($"[HttpPost(\"{command.Name}\")]");
