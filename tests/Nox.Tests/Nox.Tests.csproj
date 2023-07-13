@@ -19,6 +19,9 @@
 
   <ItemGroup>
     <None Remove="DatabaseIntegrationTests\Design\test.solution.nox.yaml" />
+    <None Include="DatabaseIntegrationTests\files\Program.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -37,7 +40,7 @@
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.8" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.6.3" />
     <PackageReference Include="xunit" Version="2.4.2" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -54,6 +57,7 @@
     <ProjectReference Include="..\..\src\Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj" />
     <ProjectReference Include="..\..\src\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
     <ProjectReference Include="..\..\src\Nox.Types\Nox.Types.csproj" />
+    <ProjectReference Include="..\Nox.Generator.Tests\Nox.Generator.Tests.csproj" />
   </ItemGroup>
 
 </Project>

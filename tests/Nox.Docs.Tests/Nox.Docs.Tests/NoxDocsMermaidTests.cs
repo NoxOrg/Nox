@@ -54,7 +54,6 @@ public class NoxDocsMermaidTests
             """;
 
         Assert.Equal(mermaidText, expectedResult);
-
     }
 
     [Fact]
@@ -69,7 +68,7 @@ public class NoxDocsMermaidTests
         var expectedResult = """
             erDiagram
                 Country {
-                    Text Id PK ""
+                    Text Id PK " (Required)"
                     Text Name "The country's common name (Required)"
                     Text FormalName "The country's official name (Required)"
                     Text AlphaCode3 "The country's official ISO 4217 alpha-3 code (Required)"
@@ -85,16 +84,16 @@ public class NoxDocsMermaidTests
                     Text GeoWorldRegion "The world region the country is in (Required)"
                     Number Population "The estimated population of the country"
                     Text TopLevelDomains "The top level internet domains regitered to the country (comma-delimited)"
-                    Text CountryLocalNamesId ""
-                    Text CurrencyId FK ""
+                    Text CountryLocalNamesId " (Required)"
+                    Text CurrencyId FK " (Required)"
                 }
                 Currency {
-                    Text Id PK ""
-                    Text CountryId FK ""
+                    Text Id PK " (Required)"
+                    Text CountryId FK " (Required)"
                 }
                 Currency}|--o{Country : "is legal tender for"
                 CountryLocalNames {
-                    Text Id PK ""
+                    Text Id PK " (Required)"
                 }
                 CurrencyCashBalance {
                     Entity Store PK " (Required)"
@@ -106,7 +105,6 @@ public class NoxDocsMermaidTests
             """;
 
         Assert.Equal(mermaidText, expectedResult);
-
     }
 
     [Fact]
@@ -133,8 +131,5 @@ public class NoxDocsMermaidTests
             """;
 
         Assert.Equal(mermaidText, expectedResult);
-
     }
-
-
 }

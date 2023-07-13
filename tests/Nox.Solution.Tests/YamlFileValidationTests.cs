@@ -1,19 +1,12 @@
 using FluentAssertions;
+using FluentValidation;
 using Nox.Solution.Exceptions;
 using Nox.Solution.Resolvers;
-using Xunit.Abstractions;
 
 namespace Nox.Solution.Tests;
 
 public class YamlFileValidationTests
 {
-    private readonly ITestOutputHelper _testOutputHelper;
-
-    public YamlFileValidationTests(ITestOutputHelper testOutputHelper)
-    {
-        _testOutputHelper = testOutputHelper;
-    }
-
     [Theory]
     [InlineData("unsupported-version-control.solution.nox")]
     [InlineData("not-found.yaml")]
@@ -86,5 +79,22 @@ public class YamlFileValidationTests
 
         Assert.Contains("[\"keys\"]", exception.Message);
         Assert.Equal(1, errorCount);
+    }
+
+    [Fact]
+    public void Deserialize_MissedIsRequiredInKeys_ThrowsException()
+    {
+        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
+            .UseYamlFile($"./files/missed-isRequired-keys-for-entity.solution.nox.yaml")
+            .Build());
+
+        var errors = exception.Errors.ToArray();
+
+        Assert.Equal(4, errors.Length);
+
+        Assert.Equal("Entity Currency: Key property IsRequired should be set to True explicitly in  Id", errors[0].ErrorMessage);
+        Assert.Equal("Entity Currency: Key property IsRequired should be set to True explicitly in  Name", errors[1].ErrorMessage);
+        Assert.Equal("Entity Country: Key property IsRequired should be set to True explicitly in  Id", errors[2].ErrorMessage);
+        Assert.Equal("Entity Country: Key property IsRequired should be set to True explicitly in  Name", errors[3].ErrorMessage);
     }
 }
