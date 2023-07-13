@@ -99,6 +99,11 @@ public sealed class Country
     public Date Date { get; set; } = null!;
 
     /// <summary>
+    /// Gets or sets the Local Time Zone.
+    /// </summary>
+    public TimeZoneCode LocalTimeZone { get; set; } = null!;
+
+    /// <summary>
     /// Gets or sets the duration of the date time.
     /// </summary>
     public DateTimeDuration DateTimeDuration { get; set; } = null!;

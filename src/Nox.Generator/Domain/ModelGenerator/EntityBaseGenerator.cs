@@ -5,7 +5,7 @@ namespace Nox.Generator;
 
 internal static class EntityBaseGenerator
 {
-    public static void Generate(SourceProductionContext context, string solutionNameSpace)
+    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -13,7 +13,7 @@ internal static class EntityBaseGenerator
 
         code.AppendLine($"using System;");
         code.AppendLine();
-        code.AppendLine($"namespace {solutionNameSpace}.Domain;");
+        code.AppendLine($"namespace {codeGeneratorState.DomainNameSpace};");
         code.AppendLine();
         code.AppendLine($"/// <summary>");
         code.AppendLine($"/// The base class for all domain entities.");

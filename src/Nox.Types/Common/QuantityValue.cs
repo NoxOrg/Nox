@@ -7,7 +7,7 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Globalization;
 
-namespace Nox.Types;
+namespace Nox.Types.Common;
 
 /// <summary>
 ///     A type that supports implicit cast from all .NET numeric types, in order to avoid a large number of overloads

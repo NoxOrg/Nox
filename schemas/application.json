@@ -1477,10 +1477,6 @@
           "objectTypeOptions": {
             "type": "object",
             "properties": {
-              "$ref": {
-                "type": "string",
-                "format": "uri"
-              },
               "attributes": {
                 "type": "array",
                 "items": {
@@ -1988,6 +1984,10 @@
                   "description": "Nox simple types definition used throughout Nox.Solution project.",
                   "additionalProperties": false
                 }
+              },
+              "$ref": {
+                "type": "string",
+                "format": "uri"
               }
             },
             "required": [
@@ -2493,10 +2493,6 @@
               "objectTypeOptions": {
                 "type": "object",
                 "properties": {
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
-                  },
                   "attributes": {
                     "type": "array",
                     "items": {
@@ -3004,6 +3000,10 @@
                       "description": "Nox simple types definition used throughout Nox.Solution project.",
                       "additionalProperties": false
                     }
+                  },
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
                   }
                 },
                 "required": [
@@ -3518,10 +3518,6 @@
               "objectTypeOptions": {
                 "type": "object",
                 "properties": {
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
-                  },
                   "attributes": {
                     "type": "array",
                     "items": {
@@ -4029,6 +4025,10 @@
                       "description": "Nox simple types definition used throughout Nox.Solution project.",
                       "additionalProperties": false
                     }
+                  },
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
                   }
                 },
                 "required": [

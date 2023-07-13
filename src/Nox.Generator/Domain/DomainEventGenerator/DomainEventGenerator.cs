@@ -11,25 +11,25 @@ namespace Nox.Generator.Domain.DomainEventGenerator;
 
 public class DomainEventGenerator
 {
-    public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
+    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (solution.Domain == null) return;
+        if (codeGeneratorState.Solution.Domain == null) return;
 
-        foreach (var entity in solution.Domain.Entities)
+        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
             if (entity.Events == null || !entity.Events.Any()) continue;
             foreach (var evt in entity.Events)
             {
                 context.CancellationToken.ThrowIfCancellationRequested();
-                GenerateEvent(context, solutionNameSpace, evt);    
+                GenerateEvent(context, codeGeneratorState, evt);    
             }            
         }
     }
     
-    private static void GenerateEvent(SourceProductionContext context, string solutionNameSpace, DomainEvent evt)
+    private static void GenerateEvent(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, DomainEvent evt)
     {
         var code = new CodeBuilder($"{evt.Name}.g.cs", context);
 
@@ -39,7 +39,7 @@ public class DomainEventGenerator
         code.AppendLine($"using Nox.Abstractions;");
         code.AppendLine($"using Nox.Types;");
         code.AppendLine();
-        code.AppendLine($"namespace {solutionNameSpace}.Domain;");
+        code.AppendLine($"namespace {codeGeneratorState.DomainNameSpace};");
 
         GenerateDocs(code, evt.Description);
 
