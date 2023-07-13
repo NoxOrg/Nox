@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Exceptions;
@@ -8,7 +9,9 @@ namespace Nox.Types.EntityFramework.Types;
 public class EntityDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
 
-    public void ConfigureEntityProperty(EntityTypeBuilder builder,
+    public void ConfigureEntityProperty(
+        NoxSolutionCodeGeneratorState codeGeneratorState,
+        EntityTypeBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
         bool isKey)
@@ -21,7 +24,7 @@ public class EntityDatabaseConfigurator : INoxTypeDatabaseConfigurator
             .WithOne()
             .If(isKey,
                 b=> b.HasForeignKey($"{entity.Name}",
-                new[] { $"{typeOptions.Entity}Id" }));
+                new[] { codeGeneratorState.GetForeignKeyPropertyName(typeOptions.Entity) }));
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key)

@@ -19,6 +19,12 @@ namespace Nox.Generator.Common
         public string PersistenceNameSpace => $"{RootNameSpace}.Infrastructure.Persistence";
         public string ODataNameSpace => $"{RootNameSpace}.Presentation.Api.OData";
         public string Events => $"{RootNameSpace}.Application.Events";
-        
+
+
+        public string GetForeignKeyPropertyName(string foreignEntityName)
+        {
+            return $"{foreignEntityName}Id";
+        }
+
     }
 }

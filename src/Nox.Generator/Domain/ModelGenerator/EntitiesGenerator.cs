@@ -40,7 +40,7 @@ internal class EntitiesGenerator
         code.AppendLine($"public partial class {entity.Name} : {baseClass}");
         code.StartBlock();
 
-            GenerateKeyProperties(context, code, codeGeneratorState.Solution, entity);
+            GenerateKeyProperties(codeGeneratorState, context, code, entity);
 
             GenerateProperties(context, code, entity);
 
@@ -53,7 +53,11 @@ internal class EntitiesGenerator
         code.GenerateSourceCode();
     }
 
-    private static void GenerateKeyProperties(SourceProductionContext context, CodeBuilder code, NoxSolution noxSolution, Entity entity)
+    private static void GenerateKeyProperties(
+        NoxSolutionCodeGeneratorState codeGeneratorState,
+        SourceProductionContext context,
+        CodeBuilder code,
+        Entity entity)
     {
         if (entity.Keys is null)
             return;
@@ -66,7 +70,7 @@ internal class EntitiesGenerator
 
             if (key.Type == NoxType.Entity)
             {
-                GenerateStrongSingleKeyEntityProperty(code, entity, key, noxSolution);
+                GenerateStrongSingleKeyEntityProperty(codeGeneratorState, code, entity, key);
             }
             else
             {
@@ -75,12 +79,14 @@ internal class EntitiesGenerator
             
         }
     }
-    private static void GenerateStrongSingleKeyEntityProperty(CodeBuilder code, Entity entity,
-        NoxSimpleTypeDefinition key, NoxSolution noxSolution)
+    private static void GenerateStrongSingleKeyEntityProperty(
+        NoxSolutionCodeGeneratorState codeGeneratorState,
+        CodeBuilder code, Entity entity,
+        NoxSimpleTypeDefinition key)
     {
         // Generates foreign key simple type 
-        var propNameId = $"{key.EntityTypeOptions!.Entity}Id";
-        var foreignKeyDefinition = GetKeyForEntity( noxSolution, key.EntityTypeOptions!.Entity);
+        var propNameId = codeGeneratorState.GetForeignKeyPropertyName(key.EntityTypeOptions!.Entity);
+        var foreignKeyDefinition = GetKeyForEntity(codeGeneratorState.Solution, key.EntityTypeOptions!.Entity);
         var propTypeSimpleId = foreignKeyDefinition.Type;
 
         code.AppendLine($"public {propTypeSimpleId} {propNameId} {{ get; set; }} = null!;");

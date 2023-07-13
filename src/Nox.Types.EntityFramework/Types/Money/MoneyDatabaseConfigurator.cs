@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
@@ -8,9 +9,10 @@ public class MoneyDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
 
     public void ConfigureEntityProperty(
+        NoxSolutionCodeGeneratorState codeGeneratorState,
         EntityTypeBuilder builder,
         NoxSimpleTypeDefinition property,
-        Entity entity, 
+        Entity entity,
         bool singleKey)
     {
         // TODO: Default values from static property in the Nox.Type

@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
@@ -8,6 +9,7 @@ namespace Nox.Types.EntityFramework.Types;
 public class TextDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
     public void ConfigureEntityProperty(
+        NoxSolutionCodeGeneratorState codeGeneratorState,
         EntityTypeBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
@@ -18,7 +20,7 @@ public class TextDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
         builder
             .Property(property.Name)
-            .IsRequired(isKey || property.IsRequired)
+            .IsRequired(property.IsRequired)
             .IsUnicode(textOptions.IsUnicode)
             .IfNotNull(GetColumnType(textOptions), b => b.HasColumnType(GetColumnType(textOptions)))
             .HasConversion<TextConverter>();

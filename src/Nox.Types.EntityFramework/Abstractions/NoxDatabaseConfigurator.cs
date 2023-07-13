@@ -24,12 +24,15 @@ namespace Nox.Types.EntityFramework.Abstractions
         {
             //TODO Relations
 
-            ConfigureKeys(builder, entity);
+            ConfigureKeys(codeGeneratorState, builder, entity);
 
-            ConfigureAttributes(builder, entity);
+            ConfigureAttributes(codeGeneratorState ,builder, entity);
         }
 
-        private void ConfigureKeys(EntityTypeBuilder builder, Entity entity)
+        private void ConfigureKeys(
+            NoxSolutionCodeGeneratorState codeGeneratorState,
+            EntityTypeBuilder builder, 
+            Entity entity)
         {
             if (entity.Keys is { Count: > 0 })
             {
@@ -40,7 +43,7 @@ namespace Nox.Types.EntityFramework.Abstractions
                             out var databaseConfiguration))
                     {
                         keysPropertyNames.Add(databaseConfiguration.GetKeyPropertyName(key));
-                        databaseConfiguration.ConfigureEntityProperty(builder, key, entity,true);
+                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, key, entity,true);
                     }
                     else
                     {
@@ -54,7 +57,10 @@ namespace Nox.Types.EntityFramework.Abstractions
             }
         }
 
-        private void ConfigureAttributes(EntityTypeBuilder builder, Entity entity)
+        private void ConfigureAttributes(
+            NoxSolutionCodeGeneratorState codeGeneratorState,
+            EntityTypeBuilder builder,
+            Entity entity)
         {
             if (entity.Attributes is { Count: > 0 })
             {
@@ -63,7 +69,7 @@ namespace Nox.Types.EntityFramework.Abstractions
                     if (TypesDatabaseConfigurations.TryGetValue(property.Type,
                             out var databaseConfiguration))
                     {
-                        databaseConfiguration.ConfigureEntityProperty(builder, property, entity, false);
+                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity, false);
                     }
                     else
                     {

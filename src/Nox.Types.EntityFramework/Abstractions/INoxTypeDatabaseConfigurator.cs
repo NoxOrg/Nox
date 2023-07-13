@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nox.Generator.Common;
 using Nox.Solution;
 
 namespace Nox.Types.EntityFramework.Abstractions;
@@ -9,7 +10,8 @@ public interface INoxTypeDatabaseConfigurator
     /// Configure ModelBuilder Property for a Type
     /// </summary>
     
-    void ConfigureEntityProperty(EntityTypeBuilder builder, NoxSimpleTypeDefinition property, Entity entity, bool isKey);
+    void ConfigureEntityProperty(NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState, EntityTypeBuilder builder,
+        NoxSimpleTypeDefinition property, Entity entity, bool isKey);
 
     /// <summary>
     /// Compute the Key Property Name for a Type.
