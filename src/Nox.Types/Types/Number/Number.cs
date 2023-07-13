@@ -1,11 +1,12 @@
-﻿using System;
+﻿using Nox.Types.Common;
+using System;
 
 namespace Nox.Types;
 
 /// <summary>
 /// Represents a Nox <see cref="Number"/> type and value object.
 /// </summary>
-public sealed class Number : ValueObject<QuantityValue, Number>
+public class Number : ValueObject<QuantityValue, Number>
 {
     private NumberTypeOptions _numberTypeOptions = new();
 

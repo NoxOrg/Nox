@@ -4,6 +4,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
+using Nox.Generator.Common;
 using Nox.Types.EntityFramework.Abstractions;
 using SampleWebApp.Domain;
 
@@ -40,13 +41,15 @@ public partial class SampleWebAppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
         if (_noxSolution.Domain != null)
         {
+            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution);
+            
             foreach (var entity in _noxSolution.Domain.Entities)
             {
                 var type = Type.GetType("SampleWebApp.Domain." + entity.Name);
                 
                 if (type != null)
                 {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(modelBuilder.Entity(type), entity);
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity);
                 }
             }
             

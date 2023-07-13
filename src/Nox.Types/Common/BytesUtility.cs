@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Runtime.InteropServices;
 
-namespace Nox.Types;
+namespace Nox.Types.Common;
 
 /// <summary>
 ///     Utility methods for working with the byte representation of structs.

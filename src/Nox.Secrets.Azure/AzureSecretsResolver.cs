@@ -1,5 +1,6 @@
 using Nox.Abstractions;
 using Nox.Secrets.Abstractions;
+using Nox.Secrets.Exceptions;
 using Nox.Solution;
 
 namespace Nox.Secrets.Azure;
@@ -12,7 +13,7 @@ public class AzureSecretsResolver: ISecretsResolver
 
     public AzureSecretsResolver(IPersistedSecretStore store, SecretsServer secretsServer, string? storePrefix = null)
     {
-        if (secretsServer.Provider != SecretsServerProvider.AzureKeyVault) throw new NoxSecretsException("Azure secrets resolver can only be instantiated if provider is set to AzureKeyVault");
+        if (secretsServer.Provider != SecretsServerProvider.AzureKeyVault) throw new NoxSecretsException(ExceptionResources.InvalidProvider);
         _store = store;
         _storePrefix = "";
         if (!string.IsNullOrWhiteSpace(storePrefix)) _storePrefix = storePrefix + '.';
@@ -69,7 +70,7 @@ public class AzureSecretsResolver: ISecretsResolver
                     }
                     catch (Exception ex)
                     {
-                        throw new NoxSecretsException("Unable to retrieve secrets from the Azure vault, are you connected to the internet and is the vault available?", ex);                        
+                        throw new NoxSecretsException(ExceptionResources.VaultUnavailable, ex);                        
                     }
 
                     break;
