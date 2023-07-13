@@ -6,7 +6,7 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a Nox <see cref="Area"/> type and value object.
 /// </summary>
-public class Area : Measurement<Area, AreaUnit>
+public sealed class Area : Measurement<Area, AreaUnit>
 {
     private const long EarthsSurfaceAreaInSquareMeters = 510_072_000_000_000;
 
