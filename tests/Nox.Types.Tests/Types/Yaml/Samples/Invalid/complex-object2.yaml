@@ -4,18 +4,13 @@ people:
     address:
       street: 123 Main Street
       city: Anytown
-    children:
-      - name: Mary
-        age: 5
-      - name: Richard
-        age: 7
-     
+      state: CA
+      zipcode: 12345
+      state: CA
   - name: Jane Doe
     age: 25
     address:
       street: 456 Elm Street
       city: Anytown
-    children:
-      - name: Jane Jr
-        age: 2
-      
+      state: CA
+      zipcode: 54321

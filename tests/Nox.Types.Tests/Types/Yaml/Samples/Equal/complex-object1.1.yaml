@@ -10,7 +10,7 @@ people:
       - name: Richard
         age: 7
      
-  - name: Jane Doe
+  - name: John Doe
     age: 25
     address:
       street: 456 Elm Street

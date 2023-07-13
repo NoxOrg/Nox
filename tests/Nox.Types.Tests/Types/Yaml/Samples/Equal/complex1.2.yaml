@@ -1,0 +1,12 @@
+person:
+  phone:
+    - 555-666-7777
+    - 123-456-7890
+  age: 30
+  email: john.doe@example.com
+  address:
+    city: Anytown
+    street: 123 Main Street
+    country: USA
+    state: CA
+  name: John Doe

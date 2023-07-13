@@ -1,11 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 
 namespace Nox.Types;
 
 public class Yaml : ValueObject<string, Yaml>
 {
+    private List<YamlNode> _yamlNodes = new();
+    private bool _isValidated = false;
+
     internal override ValidationResult Validate()
     {
         var result = base.Validate();
@@ -21,231 +25,111 @@ public class Yaml : ValueObject<string, Yaml>
 
     protected override IEnumerable<KeyValuePair<string, object>> GetEqualityComponents()
     {
-        return ParseYamlString(Value);
+        var properties = GenerateKeyValuePairs();
+        foreach (var property in properties)
+        {
+            yield return property;
+        }
     }
 
-    // public override bool Equals(object obj)
-    // {
-    //     if (obj == null || obj.GetType() != GetType())
-    //     {
-    //         return false;
-    //     }
-    //
-    //     var other = (ValueObject<string, Yaml>)obj;
-    //
-    //     return AreYamlStringsEqual(Value, other.Value);
-    // }
-
-    
-    private static bool IsValidYaml(string yamlString)
+    private bool IsValidYaml(string yamlString)
     {
         var lines = yamlString.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).ToList();
         lines.Add(string.Empty);
-        var indentStack = new Stack<int>();
-        var indentStackExplicit = new List<YamlLine>();
+        var indentStackExplicit = new List<YamlNode>();
         int count = 0;
 
-        void AddLine(YamlLine line)
+        void AddLine(YamlNode line)
         {
             indentStackExplicit!.Add(line);
             count++;
         }
-   
-       
-          
-        indentStack.Push(0);
-        AddLine(new YamlLine(string.Empty));
 
-        // int? indentLevelPrevious = 0;
-        string previousValue = string.Empty;
-        string previousKey = string.Empty;
-        
-        // Final stack -1 and 0
-        // indentStack.Push(-1);
-        //
-        // int? indentLevelPrevious = -1;
-
-        foreach (var line in lines)
+        var isValid = true;
+        foreach (var yamlLine in lines.Select(line => new YamlNode(line))
+                     .Where(yamlLine => !yamlLine.IsComment && !yamlLine.IsEmpty))
         {
-            var yamlLine = new YamlLine(line);
-            
-            if (yamlLine.IsComment || yamlLine.IsEmpty)
-            {
-                continue;
-            }
-
-            // if(line.TrimStart().StartsWith("#"))
-            // {
-            //     continue;
-            // }
-            
-            var previousLine = indentStackExplicit[count - 1];
-            
             if (yamlLine.IsInvalid)
             {
-                return false;
+                isValid = false;
+                break;
             }
 
-            if (previousLine.IsEmpty)
+
+            if (indentStackExplicit.Count == 0)
             {
+                yamlLine.Parent = new YamlNode("default_nox_yaml_parent_node:");
                 AddLine(yamlLine);
             }
             else
             {
+                var previousLine = indentStackExplicit[count - 1];
                 if (yamlLine.IndentLevel > previousLine.IndentLevel)
                 {
-                    if(previousLine.Value == string.Empty || previousLine.IsArray)
+                    if ((previousLine.Value == string.Empty || previousLine.IsArray))
                     {
-                       AddLine(yamlLine);
-                    }
-                    else
-                    {
-                        // Invalid YAML: Indentation level must be consistent
-                        return false;
-                    }
-                }
-                else if(yamlLine.IndentLevel < previousLine.IndentLevel)
-                {
-                    var previousSameLevel = indentStackExplicit.LastOrDefault(s=>s.IndentLevel == yamlLine.IndentLevel);
-                    if(previousSameLevel != null && previousSameLevel.IsArray == yamlLine.IsArray )
-                    {
+                        yamlLine.Parent = previousLine;
+                        previousLine.Children.Add(yamlLine.IsArray ? "#" + count + "#" + yamlLine.Key : yamlLine.Key,
+                            yamlLine);
                         AddLine(yamlLine);
                     }
                     else
                     {
                         // Invalid YAML: Indentation level must be consistent
-                        return false;
+                        isValid = false;
+                        break;
+                    }
+                }
+                else if (yamlLine.IndentLevel < previousLine.IndentLevel)
+                {
+                    var previousSameLevel =
+                        indentStackExplicit.LastOrDefault(s => s.IndentLevel == yamlLine.IndentLevel);
+                    if (previousSameLevel != null && previousSameLevel.IsArray == yamlLine.IsArray &&
+                        previousSameLevel.Parent != null &&
+                        !previousSameLevel.Parent.Children.ContainsKey(yamlLine.Key))
+                    {
+                        yamlLine.Parent = previousSameLevel.Parent;
+                        previousSameLevel.Parent.Children.Add(
+                            yamlLine.IsArray ? "#" + count + "#" + yamlLine.Key : yamlLine.Key, yamlLine);
+                        AddLine(yamlLine);
+                    }
+                    else
+                    {
+                        // Invalid YAML: Indentation level must be consistent and keys must be unique
+                        isValid = false;
+                        break;
                     }
                 }
                 else
                 {
-                    if (previousLine.IsArray == yamlLine.IsArray)
+                    if (previousLine.IsArray == yamlLine.IsArray && previousLine.Parent != null &&
+                        !previousLine.Parent.Children.ContainsKey(yamlLine.Key))
                     {
+                        yamlLine.Parent = previousLine.Parent;
+                        previousLine.Parent.Children.Add(
+                            yamlLine.IsArray ? "#" + count + "#" + yamlLine.Key : yamlLine.Key, yamlLine);
                         AddLine(yamlLine);
                     }
                     else
                     {
-                        // Invalid YAML: Indentation level must be consistent
-                        return false;
+                        // Invalid YAML: Indentation level must be consistent and keys must be unique
+                        isValid = false;
+                        break;
                     }
                 }
-                
             }
-            
-            
-            
-            // if(previousLine.IndentLevel > yamlLine.IndentLevel)
-            // {
-            //     while (indentStackExplicit.Peek().IndentLevel > yamlLine.IndentLevel)
-            //     {
-            //         indentStackExplicit.Pop();
-            //     }
-            // }
-            // else if(previousLine.IndentLevel <= yamlLine.IndentLevel)
-            // {
-            //     if(previousLine.IsArray || string.IsNullOrEmpty(previousLine.Value))
-            //     {
-            //         indentStackExplicit.Push(yamlLine);
-            //     }
-            //     else
-            //     {
-            //         // Invalid YAML: Indentation level must be consistent
-            //         return false;
-            //     }
-            // }
-            // else if(previousLine.IndentLevel != yamlLine.IndentLevel)
-            // {
-            //     return false;
-            // }
-            
-            
-            // var indentLevel = line.Length - line.TrimStart().Length;
-            //
-            // if (indentStack.Count == 0 || indentLevel > indentStack.Peek())
-            // {
-            //     if (string.IsNullOrEmpty(previousValue) || previousKey.TrimStart().StartsWith("-"))
-            //     {
-            //         indentStack.Push(indentLevel);
-            //     }
-            //     else
-            //     {
-            //         // Invalid YAML: Indentation level must be consistent
-            //         return false;
-            //     }
-            // }
-            // else if (indentLevel < indentStack.Peek())
-            // {
-            //     while (indentStack.Count > 0 && indentLevel < indentStack.Peek())
-            //     {
-            //         indentStack.Pop();
-            //     }
-            // }
-            // else if(indentLevel != indentLevelPrevious)
-            // {
-            //     // Invalid YAML: Indentation level must be consistent
-            //     return false;
-            // }
-            
-            // indentLevelPrevious = indentLevel;
-            
-            // var lineWithoutIndent = line.TrimStart();
-            //
-            // //  Missing key-value separator (e.g., ':')
-            // if (!lineWithoutIndent.Contains(':'))
-            // {
-            //     // A line that starts with '-' is valid YAML (it's a primitive type list item) or it's end of file
-            //     if ( string.IsNullOrEmpty(lineWithoutIndent) || lineWithoutIndent.StartsWith("- "))
-            //     {
-            //         continue;
-            //     }
-            //     return false;
-            // }
-            
-            if(yamlLine.IsInvalid)
+
+            if (yamlLine is { IsEmpty: false, IsPrimitive: false } &&
+                (!IsValidKey(yamlLine.Key) || !IsValidValue(yamlLine.Value)))
             {
-                return false;
+                isValid = false;
+                break;
             }
-
-            // if (indentLevel < indentStack.Peek())
-            // {
-            //     return false;
-            // }
-            // else if (indentLevel > indentStack.Peek())
-            // {
-            //     indentStack.Push(indentLevel);
-            // }
-            // else if(indentLevel > 0)
-            // {
-            //     indentStack.Pop();
-            // }
-
-
-            
-
-            // var segments = lineWithoutIndent.Split(':');
-            // var key = segments[0].TrimEnd();
-            // var value = string.Join(":", segments.Skip(1)).TrimStart();
-            //
-            // // Invalid YAML: Invalid key or value format
-            // if (!IsValidKey(key) || !IsValidValue(value))
-            // {
-            //     return false;
-            // }
-            
-            if( yamlLine is { IsEmpty: false, IsPrimitive: false } && ( !IsValidKey(yamlLine.Key) || !IsValidValue(yamlLine.Value)))
-            {
-                return false;
-            }
-            
-            // previousValue = value;
-            // previousKey = key;
         }
 
-        return true;
-
-        // var isValid = indentStackExplicit.Count == 1 && indentStackExplicit.Peek().IndentLevel == 0;
-        // // Invalid YAML: Indentation level is not consistent across the entire YAML string
-        // return indentStack.Count == 1 && indentStack.Peek() == 0 && isValid;
+        _yamlNodes = indentStackExplicit;
+        _isValidated = true;
+        return isValid;
     }
 
     private static bool IsValidKey(string key)
@@ -260,59 +144,51 @@ public class Yaml : ValueObject<string, Yaml>
         return true;
     }
 
-    // private static bool AreYamlStringsEqual(string yamlString1, string yamlString2)
-    // {
-    //     var dictionary1 = ParseYamlString(yamlString1);
-    //     var dictionary2 = ParseYamlString(yamlString2);
-    //
-    //     return AreDictionariesEqual(dictionary1, dictionary2);
-    // }
 
-    private static Dictionary<string, object> ParseYamlString(string yamlString)
+    private static void KeyValueBuilder(YamlNode yamlNode, StringBuilder keyBuilder, StringBuilder valueBuilder)
     {
-        var lines = yamlString.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries);
-        var dictionary = new Dictionary<string, object>();
-
-        foreach (var line in lines)
+        while (true)
         {
-            var segments = line.Split(':');
-            var key = segments[0].TrimEnd();
-            var value = string.Join(":", segments.Skip(1)).TrimStart();
+            keyBuilder.Append(yamlNode.IsArray ? string.Concat(yamlNode.Key,yamlNode.Value) : yamlNode.Key);
+            keyBuilder.Append("#");
+            valueBuilder.Append(yamlNode.Value);
+            valueBuilder.Append("#");
 
-            if (!dictionary.ContainsKey(key))
+            if (yamlNode.Parent != null)
             {
-                dictionary.Add(key, value);
+                yamlNode = yamlNode.Parent;
+                continue;
+            }
+
+            break;
+        }
+    }
+
+    private List<KeyValuePair<string, object>> GenerateKeyValuePairs()
+    {
+        if (!_isValidated)
+        {
+            var validationResult = Validate();
+
+            if (!validationResult.IsValid)
+            {
+                throw new TypeValidationException(validationResult.Errors);
             }
         }
 
-        dictionary = dictionary.OrderBy(kvp => kvp.Key).ToDictionary(kvp => kvp.Key, kvp => kvp.Value);
+        List<KeyValuePair<string, object>> properties = new();
 
-        return dictionary;
+        foreach (var yamlNode in _yamlNodes.Where(n => n.Children.Count == 0))
+        {
+            StringBuilder keyBuilder = new();
+            StringBuilder valueBuilder = new();
+            KeyValueBuilder(yamlNode, keyBuilder, valueBuilder);
+            properties.Add(new KeyValuePair<string, object>(keyBuilder.ToString(), valueBuilder.ToString()));
+        }
+
+        properties = properties.OrderBy(kvp=>kvp.Key).ThenBy(kvp=>kvp.Value).ToList();
+        return properties;
+       
     }
 
-    // private static bool AreDictionariesEqual(Dictionary<string, string> dictionary1, Dictionary<string, string> dictionary2)
-    // {
-    //     if (dictionary1.Count != dictionary2.Count)
-    //     {
-    //         return false;
-    //     }
-    //
-    //     foreach (var kvp in dictionary1)
-    //     {
-    //         var key = kvp.Key;
-    //         var value1 = kvp.Value;
-    //
-    //         if (!dictionary2.TryGetValue(key, out var value2))
-    //         {
-    //             return false;
-    //         }
-    //
-    //         if (value1 != value2)
-    //         {
-    //             return false;
-    //         }
-    //     }
-    //
-    //     return true;
-    // }
 }

@@ -1,8 +1,9 @@
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Nox.Types;
 
-internal class YamlLine
+internal class YamlNode
 {
     public int IndentLevel { get; }
     public string Key { get; }
@@ -10,7 +11,11 @@ internal class YamlLine
     
     public string Line { get; }
     
-    public string LineWithoutIndent { get; }
+    public Dictionary<string,YamlNode> Children { get; } = new();
+    
+    public YamlNode? Parent { get; set; }
+
+    private string LineWithoutIndent { get; }
     
     public bool IsComment => LineWithoutIndent.StartsWith("#");
     public bool IsArray => LineWithoutIndent.StartsWith("-");
@@ -18,7 +23,7 @@ internal class YamlLine
     public bool IsPrimitive => LineWithoutIndent.StartsWith("-") && !LineWithoutIndent.Contains(":");
     public bool IsInvalid => !LineWithoutIndent.Contains(':') && !string.IsNullOrEmpty(LineWithoutIndent) && !LineWithoutIndent.StartsWith("- ");
 
-    public YamlLine(string line)
+    public YamlNode(string line)
     {
         IndentLevel = line.Length - line.TrimStart().Length;
         Line = line;
