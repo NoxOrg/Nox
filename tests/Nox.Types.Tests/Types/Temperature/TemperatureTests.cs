@@ -1,6 +1,5 @@
 ﻿// ReSharper disable once CheckNamespace
 using FluentAssertions;
-using YamlDotNet.Core.Tokens;
 
 namespace Nox.Types.Tests.Types;
 
@@ -20,7 +19,7 @@ public class TemperatureTests
     [Theory]
     [InlineData(-280, TemperatureTypeUnit.Celsius)]
     [InlineData(-460, TemperatureTypeUnit.Fahrenheit)]
-    public void From_TemperatureAbsoluteZerp_ThrowsException(float value, TemperatureTypeUnit unit)
+    public void From_TemperatureAbsoluteZero_ThrowsException(float value, TemperatureTypeUnit unit)
     {
         Action comparison = () => Temperature.From(value, unit);
 
@@ -38,7 +37,7 @@ public class TemperatureTests
     }
 
     [Fact]
-    public void FromCelsius_TemperatureAbsoluteZerp_ThrowsException()
+    public void FromCelsius_TemperatureAbsoluteZero_ThrowsException()
     {
         Action comparison = () => Temperature.FromCelsius(-300);
 
@@ -56,7 +55,7 @@ public class TemperatureTests
     }
 
     [Fact]
-    public void FromFahrenheit_TemperatureAbsoluteZerp_ThrowsException()
+    public void FromFahrenheit_TemperatureAbsoluteZero_ThrowsException()
     {
         Action comparison = () => Temperature.FromFahrenheit(-980);
 
@@ -67,16 +66,16 @@ public class TemperatureTests
     public void From_DefaultUnit_ReturnsValue()
     {
         float value = 30.8F;
-        var temperature = Temperature.From(value);
+        var temperature = Temperature.FromCelsius(value);
 
         temperature.TemperatureValue.Should().Be(value);
         temperature.Unit.Should().Be(TemperatureTypeUnit.Celsius);
     }
 
     [Fact]
-    public void From_DefaultUnit_TemperatureAbsoluteZerp_ThrowsException()
+    public void From_DefaultUnit_TemperatureAbsoluteZero_ThrowsException()
     {
-        Action comparison = () => Temperature.From(-300);
+        Action comparison = () => Temperature.FromCelsius(-300f);
 
         comparison.Should().Throw<TypeValidationException>();
     }

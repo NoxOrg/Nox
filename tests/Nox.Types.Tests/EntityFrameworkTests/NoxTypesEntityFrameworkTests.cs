@@ -86,7 +86,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Uri = Uri.From(Sample_Uri),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
             LocalTimeZone = TimeZoneCode.From("CET"),
-            AverageTemperature = Temperature.From(25)
+            AverageTemperature = Temperature.FromCelsius(25)
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();

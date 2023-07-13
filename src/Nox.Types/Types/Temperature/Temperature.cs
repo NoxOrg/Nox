@@ -1,6 +1,5 @@
 using System;
 using System.Globalization;
-using System.Security.Cryptography;
 
 namespace Nox.Types;
 
@@ -10,6 +9,15 @@ namespace Nox.Types;
 /// <remarks>Placeholder, needs to be implemented</remarks>
 public sealed class Temperature : ValueObject<(float TemperatureValue, TemperatureTypeUnit Unit), Temperature>
 {
+    /// <summary>
+    /// Absolute zero degrees represented in Fahrenheit.
+    /// </summary>
+    private const float MinimumValueFahrenheit = -273.15f;
+    /// <summary>
+    /// Absolute zero degrees represented in Celsius.
+    /// </summary>
+    private const float MinimumValueCelsius = -459.67f;
+
     public float TemperatureValue
     {
         get => Value.TemperatureValue;
@@ -26,7 +34,7 @@ public sealed class Temperature : ValueObject<(float TemperatureValue, Temperatu
     /// <summary>
     /// Creates a new instance of <see cref="Temperature"/> object in <see cref="TemperatureTypeUnit.Celsius"/>.
     /// </summary>
-    /// <param name="value">The value to create the <see cref="Temperature"/> with</param>
+    /// <param name="temperature">The value to create the <see cref="Temperature"/> with.</param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
     public static Temperature FromCelsius(float temperature) => From(temperature, TemperatureTypeUnit.Celsius);
@@ -34,23 +42,16 @@ public sealed class Temperature : ValueObject<(float TemperatureValue, Temperatu
     /// <summary>
     /// Creates a new instance of <see cref="Temperature"/> object in <see cref="TemperatureTypeUnit.Fahrenheit"/>.
     /// </summary>
-    /// <param name="value">The value to create the <see cref="Temperature"/> with</param>
+    /// <param name="temperature">The value to create the <see cref="Temperature"/> with.</param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
     public static Temperature FromFahrenheit(float temperature) => From(temperature, TemperatureTypeUnit.Fahrenheit);
 
     /// <summary>
-    /// Creates a new instance of <see cref="Temperature"/> object in <see cref="TemperatureTypeUnit.Celsius"/>.
+    /// Creates a new instance of <see cref="Temperature"/> object in sent TemperatureTypeUnit.
     /// </summary>
-    /// <param name="value">The value to create the <see cref="Temperature"/> with</param>
-    /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
-    public static Temperature From(float temperature) => From(temperature, TemperatureTypeUnit.Celsius);
-
-    /// <summary>
-    /// Creates a new instance of <see cref="Temperature"/> object in sent TemperatureTypeUnit/>.
-    /// </summary>
-    /// <param name="value">The value to create the <see cref="Temperature"/> with</param>
+    /// <param name="temperature">The value to create the <see cref="Temperature"/> with.</param>
+    /// <param name="temperatureTypeUnit">Unit type of the <paramref name="temperature"/>.</param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
     public static Temperature From(float temperature, TemperatureTypeUnit temperatureTypeUnit)
@@ -58,7 +59,7 @@ public sealed class Temperature : ValueObject<(float TemperatureValue, Temperatu
         var newObject = new Temperature
         {
             Value = (Round(temperature), temperatureTypeUnit),
-            Unit = temperatureTypeUnit,
+            Unit = temperatureTypeUnit
         };
 
         var validationResult = newObject.Validate();
@@ -79,8 +80,8 @@ public sealed class Temperature : ValueObject<(float TemperatureValue, Temperatu
     {
         var result = new ValidationResult();
 
-        if ((Value.Unit == TemperatureTypeUnit.Celsius && Value.TemperatureValue < -273.15) ||
-            (Value.Unit == TemperatureTypeUnit.Fahrenheit && Value.TemperatureValue < -459.67)) // Absolute zero 
+        if ((Value.Unit == TemperatureTypeUnit.Celsius && Value.TemperatureValue < MinimumValueFahrenheit) ||
+            (Value.Unit == TemperatureTypeUnit.Fahrenheit && Value.TemperatureValue < MinimumValueCelsius))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), "Temperature cannot be below absolute zero."));
         }
@@ -89,7 +90,7 @@ public sealed class Temperature : ValueObject<(float TemperatureValue, Temperatu
     }
 
     /// <summary>
-    /// Returns a string representation of the <see cref="Temperature"/> object./>.
+    /// Converts the this instance to its equivalent string representation using InvariantCulture format.
     /// </summary>
     /// <returns>A string representation of the <see cref="Temperature"/> object.</returns>
     public override string ToString()

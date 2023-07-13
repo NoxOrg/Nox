@@ -5,7 +5,7 @@ namespace Nox.Types;
 public enum TemperatureTypeUnit
 {
     Celsius,
-    Fahrenheit,
+    Fahrenheit
 }
 
 public static class TemperatureTypeUnitExtensions
