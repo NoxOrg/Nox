@@ -1,5 +1,5 @@
 ﻿namespace Nox.Types;
-public class PercentageTypeOptions
+public class PercentageTypeOptions: INoxTypeOptions
 {
     public static readonly float DefaultMinValue = 0;
     public static readonly float DefaultMaxValue = 1;

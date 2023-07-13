@@ -39,7 +39,7 @@ public class Country : SampleWebApp.Domain.AuditableEntityBase
     /// <summary>
     /// The country's official ISO 4217 alpha-3 code.
     /// </summary>
-    public System.Int32 NumericCode { get; set; } = default!;
+    public System.Double NumericCode { get; set; } = default!;
     
     /// <summary>
     /// The country's phone dialing codes (comma-delimited).
@@ -59,7 +59,7 @@ public class Country : SampleWebApp.Domain.AuditableEntityBase
     /// <summary>
     /// Country area in square kilometers.
     /// </summary>
-    public System.Int32 AreaInSquareKilometres { get; set; } = default!;
+    public System.Double AreaInSquareKilometres { get; set; } = default!;
     
     /// <summary>
     /// The region the country is in.
@@ -79,7 +79,7 @@ public class Country : SampleWebApp.Domain.AuditableEntityBase
     /// <summary>
     /// The estimated population of the country.
     /// </summary>
-    public System.Int32? Population { get; set; } = default!;
+    public System.Double? Population { get; set; } = default!;
     
     /// <summary>
     /// The top level internet domains regitered to the country (comma-delimited).
@@ -137,4 +137,23 @@ public class Store : SampleWebApp.Domain.AuditableEntityBase
 public class CountryLocalNames : SampleWebApp.Domain.AuditableEntityBase
 {
     public System.String Id { get; set; } = default!;
+}
+
+/// <summary>
+/// The cash balance in Store.
+/// </summary>
+public class CurrencyCashBalance : SampleWebApp.Domain.AuditableEntityBase
+{
+    public string Store { get; set; } = default!;
+    public string Currency { get; set; } = default!;
+    
+    /// <summary>
+    /// The amount.
+    /// </summary>
+    public System.Double Amount { get; set; } = default!;
+    
+    /// <summary>
+    /// The Operation Limit.
+    /// </summary>
+    public System.Double? OperationLimit { get; set; } = default!;
 }

@@ -85,7 +85,8 @@ namespace Nox.Solution.Validation
 
                 if (infra.Security != null)
                 {
-                    if (infra.Security.Secrets is { SecretsServer: { } }) servers.Add(infra.Security.Secrets.SecretsServer);
+                    if (infra.Security.Secrets is { OrganizationSecretsServer: not null }) servers.Add(infra.Security.Secrets.OrganizationSecretsServer);
+                    if (infra.Security.Secrets is { SolutionSecretsServer: not null }) servers.Add(infra.Security.Secrets.SolutionSecretsServer);
                 }
 
                 _servers = servers;

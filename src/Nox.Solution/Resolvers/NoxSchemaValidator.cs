@@ -42,24 +42,18 @@ internal static class NoxSchemaValidator
 #if !NETSTANDARD
         var schema = SchemaGenerator.Generate<T>();
 
-
         var evaluateOptions = new EvaluationOptions
         {
             OutputFormat = OutputFormat.Hierarchical,
             EvaluateAs = SpecVersion.Draft7
         };
-        var jsonSerializerOptions = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }
-        };
+        var jsonSerializerOptions = CreateSerializerOptions();
         // The purpose is to deserialize yaml to object is to validate content against json schema generated from properties annotations.
         // If deserialize content to certain type then value-type properties will be initilized by default and will exist in
         // futher json serialization during the validation.
         // However, to handle a case when value-type properties are required it's neccessary to validate json where these properties are not involved.
         var yamlObjectInstance = deserializer.Deserialize<object>(yamlContent);
-        var errorsFromObjectValidation = Validate(yamlObjectInstance, jsonSerializerOptions, schema, evaluateOptions);
+        var errorsFromObjectValidation = Validate(yamlObjectInstance, schema, evaluateOptions, jsonSerializerOptions);
         errors.AddRange(errorsFromObjectValidation);
 #endif
 
@@ -79,7 +73,7 @@ internal static class NoxSchemaValidator
         }
 
 #if !NETSTANDARD
-        var errorsFromTypedObjectValidation = Validate(yamlTypedObjectInstance, jsonSerializerOptions, schema, evaluateOptions);
+        var errorsFromTypedObjectValidation = Validate(yamlTypedObjectInstance, schema, evaluateOptions, jsonSerializerOptions);
         errors.AddRange(errorsFromTypedObjectValidation);
 #endif
 
@@ -115,12 +109,12 @@ internal static class NoxSchemaValidator
 
     private static List<string> Validate<T>(
             T yamlObject,
-            JsonSerializerOptions jsonSerializerOptions,
             JsonSchema schema,
-            EvaluationOptions evaluateOptions)
+            EvaluationOptions evaluateOptions,
+            JsonSerializerOptions jsonSerializerOptions)
     {
-        var jsonDocument = JsonSerializer.SerializeToDocument(yamlObject, jsonSerializerOptions);
         var errors = new List<string>();
+        var jsonDocument = JsonSerializer.SerializeToDocument(yamlObject, jsonSerializerOptions);
         var result = schema.Evaluate(jsonDocument, evaluateOptions);
 
         HandleErrorsRecursively(result, errors);
@@ -151,5 +145,25 @@ internal static class NoxSchemaValidator
         {
             HandleErrorsRecursively(detail, errors);
         }
+    }
+
+    private static JsonSerializerOptions CreateSerializerOptions(params JsonConverter[] converters)
+    {
+        var jsonSerializerOptions = new JsonSerializerOptions
+        {
+            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
+            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+            Converters =
+            {
+                new JsonStringEnumConverter(JsonNamingPolicy.CamelCase)
+            }
+        };
+
+        foreach (var converter in converters)
+        {
+            jsonSerializerOptions.Converters.Add(converter);
+        }
+
+        return jsonSerializerOptions;
     }
 }

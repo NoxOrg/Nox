@@ -161,6 +161,7 @@ domain:
       keys:
 
         - name: Id
+          isRequired: true
           type: text
           textTypeOptions:
             isUnicode: false
@@ -284,6 +285,7 @@ domain:
       keys:
 
         - name: Id
+          isRequired: true
           type: currencyCode
 
       relationships:
@@ -299,6 +301,7 @@ domain:
       keys:
 
         - name: Id
+          isRequired: true
           type: number
           numberTypeOptions:
             minValue: 0
@@ -501,13 +504,22 @@ infrastructure:
 
   security:
     secrets:
-      secretsServer:
-        name: SampleSecretServer
+      organizationSecretsServer:
+        name: SampleOrgSecretServer
         provider: azureKeyVault
         serverUri: kv.iwgplc.com
         user: secrets@iwgplc.com
         password: SecretPassword
-      validFor:
-        minutes: 10
+        validFor:
+          minutes: 10
+      
+      solutionSecretsServer:
+        name: SampleSlnSecretServer
+        provider: azureKeyVault
+        serverUri: kv.iwgplc.com
+        user: secrets@iwgplc.com
+        password: SecretPassword
+        validFor:
+          minutes: 10
 
 

@@ -575,6 +575,65 @@
                           }
                         }
                       },
+                      "dateTypeOptions": {
+                        "type": "object",
+                        "properties": {
+                          "minValue": {
+                            "type": "string",
+                            "format": "date-time"
+                          },
+                          "maxValue": {
+                            "type": "string",
+                            "format": "date-time"
+                          }
+                        }
+                      },
+                      "percentageTypeOptions": {
+                        "type": "object",
+                        "properties": {
+                          "minValue": {
+                            "type": "number"
+                          },
+                          "maxValue": {
+                            "type": "number"
+                          },
+                          "digits": {
+                            "type": "integer"
+                          }
+                        }
+                      },
+                      "translatedTextTypeOptions": {
+                        "type": "object",
+                        "properties": {
+                          "minLength": {
+                            "type": "integer"
+                          },
+                          "maxLength": {
+                            "type": "integer"
+                          },
+                          "characterCasing": {
+                            "enum": [
+                              "normal",
+                              "lower",
+                              "upper"
+                            ]
+                          }
+                        }
+                      },
+                      "yearTypeOptions": {
+                        "type": "object",
+                        "properties": {
+                          "minValue": {
+                            "type": "integer"
+                          },
+                          "maxValue": {
+                            "type": "integer"
+                          },
+                          "allowFutureOnly": {
+                            "type": "boolean"
+                          }
+                        }
+                      },
                       "isRequired": {
                         "type": "boolean",
                         "title": "Is the attribute required? Boolean value.",
@@ -684,10 +743,6 @@
                       "objectTypeOptions": {
                         "type": "object",
                         "properties": {
-                          "$ref": {
-                            "type": "string",
-                            "format": "uri"
-                          },
                           "attributes": {
                             "type": "array",
                             "items": {
@@ -1000,6 +1055,65 @@
                                     }
                                   }
                                 },
+                                "dateTypeOptions": {
+                                  "type": "object",
+                                  "properties": {
+                                    "minValue": {
+                                      "type": "string",
+                                      "format": "date-time"
+                                    },
+                                    "maxValue": {
+                                      "type": "string",
+                                      "format": "date-time"
+                                    }
+                                  }
+                                },
+                                "percentageTypeOptions": {
+                                  "type": "object",
+                                  "properties": {
+                                    "minValue": {
+                                      "type": "number"
+                                    },
+                                    "maxValue": {
+                                      "type": "number"
+                                    },
+                                    "digits": {
+                                      "type": "integer"
+                                    }
+                                  }
+                                },
+                                "translatedTextTypeOptions": {
+                                  "type": "object",
+                                  "properties": {
+                                    "minLength": {
+                                      "type": "integer"
+                                    },
+                                    "maxLength": {
+                                      "type": "integer"
+                                    },
+                                    "characterCasing": {
+                                      "enum": [
+                                        "normal",
+                                        "lower",
+                                        "upper"
+                                      ]
+                                    }
+                                  }
+                                },
+                                "yearTypeOptions": {
+                                  "type": "object",
+                                  "properties": {
+                                    "minValue": {
+                                      "type": "integer"
+                                    },
+                                    "maxValue": {
+                                      "type": "integer"
+                                    },
+                                    "allowFutureOnly": {
+                                      "type": "boolean"
+                                    }
+                                  }
+                                },
                                 "isRequired": {
                                   "type": "boolean",
                                   "title": "Is the attribute required? Boolean value.",
@@ -1112,6 +1226,10 @@
                                 "type"
                               ]
                             }
+                          },
+                          "$ref": {
+                            "type": "string",
+                            "format": "uri"
                           }
                         },
                         "required": [
@@ -1428,6 +1546,65 @@
                               }
                             }
                           },
+                          "dateTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "maxValue": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            }
+                          },
+                          "percentageTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "number"
+                              },
+                              "maxValue": {
+                                "type": "number"
+                              },
+                              "digits": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "translatedTextTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minLength": {
+                                "type": "integer"
+                              },
+                              "maxLength": {
+                                "type": "integer"
+                              },
+                              "characterCasing": {
+                                "enum": [
+                                  "normal",
+                                  "lower",
+                                  "upper"
+                                ]
+                              }
+                            }
+                          },
+                          "yearTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "integer"
+                              },
+                              "maxValue": {
+                                "type": "integer"
+                              },
+                              "allowFutureOnly": {
+                                "type": "boolean"
+                              }
+                            }
+                          },
                           "isRequired": {
                             "type": "boolean",
                             "title": "Is the attribute required? Boolean value.",
@@ -1537,10 +1714,6 @@
                           "objectTypeOptions": {
                             "type": "object",
                             "properties": {
-                              "$ref": {
-                                "type": "string",
-                                "format": "uri"
-                              },
                               "attributes": {
                                 "type": "array",
                                 "items": {
@@ -1853,6 +2026,65 @@
                                         }
                                       }
                                     },
+                                    "dateTypeOptions": {
+                                      "type": "object",
+                                      "properties": {
+                                        "minValue": {
+                                          "type": "string",
+                                          "format": "date-time"
+                                        },
+                                        "maxValue": {
+                                          "type": "string",
+                                          "format": "date-time"
+                                        }
+                                      }
+                                    },
+                                    "percentageTypeOptions": {
+                                      "type": "object",
+                                      "properties": {
+                                        "minValue": {
+                                          "type": "number"
+                                        },
+                                        "maxValue": {
+                                          "type": "number"
+                                        },
+                                        "digits": {
+                                          "type": "integer"
+                                        }
+                                      }
+                                    },
+                                    "translatedTextTypeOptions": {
+                                      "type": "object",
+                                      "properties": {
+                                        "minLength": {
+                                          "type": "integer"
+                                        },
+                                        "maxLength": {
+                                          "type": "integer"
+                                        },
+                                        "characterCasing": {
+                                          "enum": [
+                                            "normal",
+                                            "lower",
+                                            "upper"
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    "yearTypeOptions": {
+                                      "type": "object",
+                                      "properties": {
+                                        "minValue": {
+                                          "type": "integer"
+                                        },
+                                        "maxValue": {
+                                          "type": "integer"
+                                        },
+                                        "allowFutureOnly": {
+                                          "type": "boolean"
+                                        }
+                                      }
+                                    },
                                     "isRequired": {
                                       "type": "boolean",
                                       "title": "Is the attribute required? Boolean value.",
@@ -1965,6 +2197,10 @@
                                     "type"
                                   ]
                                 }
+                              },
+                              "$ref": {
+                                "type": "string",
+                                "format": "uri"
                               }
                             },
                             "required": [
@@ -2290,6 +2526,65 @@
                               }
                             }
                           },
+                          "dateTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "maxValue": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            }
+                          },
+                          "percentageTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "number"
+                              },
+                              "maxValue": {
+                                "type": "number"
+                              },
+                              "digits": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "translatedTextTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minLength": {
+                                "type": "integer"
+                              },
+                              "maxLength": {
+                                "type": "integer"
+                              },
+                              "characterCasing": {
+                                "enum": [
+                                  "normal",
+                                  "lower",
+                                  "upper"
+                                ]
+                              }
+                            }
+                          },
+                          "yearTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "integer"
+                              },
+                              "maxValue": {
+                                "type": "integer"
+                              },
+                              "allowFutureOnly": {
+                                "type": "boolean"
+                              }
+                            }
+                          },
                           "isRequired": {
                             "type": "boolean",
                             "title": "Is the attribute required? Boolean value.",
@@ -2399,10 +2694,6 @@
                           "objectTypeOptions": {
                             "type": "object",
                             "properties": {
-                              "$ref": {
-                                "type": "string",
-                                "format": "uri"
-                              },
                               "attributes": {
                                 "type": "array",
                                 "items": {
@@ -2715,6 +3006,65 @@
                                         }
                                       }
                                     },
+                                    "dateTypeOptions": {
+                                      "type": "object",
+                                      "properties": {
+                                        "minValue": {
+                                          "type": "string",
+                                          "format": "date-time"
+                                        },
+                                        "maxValue": {
+                                          "type": "string",
+                                          "format": "date-time"
+                                        }
+                                      }
+                                    },
+                                    "percentageTypeOptions": {
+                                      "type": "object",
+                                      "properties": {
+                                        "minValue": {
+                                          "type": "number"
+                                        },
+                                        "maxValue": {
+                                          "type": "number"
+                                        },
+                                        "digits": {
+                                          "type": "integer"
+                                        }
+                                      }
+                                    },
+                                    "translatedTextTypeOptions": {
+                                      "type": "object",
+                                      "properties": {
+                                        "minLength": {
+                                          "type": "integer"
+                                        },
+                                        "maxLength": {
+                                          "type": "integer"
+                                        },
+                                        "characterCasing": {
+                                          "enum": [
+                                            "normal",
+                                            "lower",
+                                            "upper"
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    "yearTypeOptions": {
+                                      "type": "object",
+                                      "properties": {
+                                        "minValue": {
+                                          "type": "integer"
+                                        },
+                                        "maxValue": {
+                                          "type": "integer"
+                                        },
+                                        "allowFutureOnly": {
+                                          "type": "boolean"
+                                        }
+                                      }
+                                    },
                                     "isRequired": {
                                       "type": "boolean",
                                       "title": "Is the attribute required? Boolean value.",
@@ -2827,6 +3177,10 @@
                                     "type"
                                   ]
                                 }
+                              },
+                              "$ref": {
+                                "type": "string",
+                                "format": "uri"
                               }
                             },
                             "required": [
@@ -3165,6 +3519,65 @@
                         }
                       }
                     },
+                    "dateTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "maxValue": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    },
+                    "percentageTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "number"
+                        },
+                        "maxValue": {
+                          "type": "number"
+                        },
+                        "digits": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "translatedTextTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minLength": {
+                          "type": "integer"
+                        },
+                        "maxLength": {
+                          "type": "integer"
+                        },
+                        "characterCasing": {
+                          "enum": [
+                            "normal",
+                            "lower",
+                            "upper"
+                          ]
+                        }
+                      }
+                    },
+                    "yearTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "integer"
+                        },
+                        "maxValue": {
+                          "type": "integer"
+                        },
+                        "allowFutureOnly": {
+                          "type": "boolean"
+                        }
+                      }
+                    },
                     "isRequired": {
                       "type": "boolean",
                       "title": "Is the attribute required? Boolean value.",
@@ -3274,10 +3687,6 @@
                     "objectTypeOptions": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "attributes": {
                           "type": "array",
                           "items": {
@@ -3590,6 +3999,65 @@
                                   }
                                 }
                               },
+                              "dateTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  },
+                                  "maxValue": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  }
+                                }
+                              },
+                              "percentageTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "number"
+                                  },
+                                  "maxValue": {
+                                    "type": "number"
+                                  },
+                                  "digits": {
+                                    "type": "integer"
+                                  }
+                                }
+                              },
+                              "translatedTextTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minLength": {
+                                    "type": "integer"
+                                  },
+                                  "maxLength": {
+                                    "type": "integer"
+                                  },
+                                  "characterCasing": {
+                                    "enum": [
+                                      "normal",
+                                      "lower",
+                                      "upper"
+                                    ]
+                                  }
+                                }
+                              },
+                              "yearTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "integer"
+                                  },
+                                  "maxValue": {
+                                    "type": "integer"
+                                  },
+                                  "allowFutureOnly": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              },
                               "isRequired": {
                                 "type": "boolean",
                                 "title": "Is the attribute required? Boolean value.",
@@ -3702,6 +4170,10 @@
                               "type"
                             ]
                           }
+                        },
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
                         }
                       },
                       "required": [
@@ -4018,6 +4490,65 @@
                             }
                           }
                         },
+                        "dateTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "minValue": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "maxValue": {
+                              "type": "string",
+                              "format": "date-time"
+                            }
+                          }
+                        },
+                        "percentageTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "minValue": {
+                              "type": "number"
+                            },
+                            "maxValue": {
+                              "type": "number"
+                            },
+                            "digits": {
+                              "type": "integer"
+                            }
+                          }
+                        },
+                        "translatedTextTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "minLength": {
+                              "type": "integer"
+                            },
+                            "maxLength": {
+                              "type": "integer"
+                            },
+                            "characterCasing": {
+                              "enum": [
+                                "normal",
+                                "lower",
+                                "upper"
+                              ]
+                            }
+                          }
+                        },
+                        "yearTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "minValue": {
+                              "type": "integer"
+                            },
+                            "maxValue": {
+                              "type": "integer"
+                            },
+                            "allowFutureOnly": {
+                              "type": "boolean"
+                            }
+                          }
+                        },
                         "isRequired": {
                           "type": "boolean",
                           "title": "Is the attribute required? Boolean value.",
@@ -4127,10 +4658,6 @@
                         "objectTypeOptions": {
                           "type": "object",
                           "properties": {
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
-                            },
                             "attributes": {
                               "type": "array",
                               "items": {
@@ -4443,6 +4970,65 @@
                                       }
                                     }
                                   },
+                                  "dateTypeOptions": {
+                                    "type": "object",
+                                    "properties": {
+                                      "minValue": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                      },
+                                      "maxValue": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                      }
+                                    }
+                                  },
+                                  "percentageTypeOptions": {
+                                    "type": "object",
+                                    "properties": {
+                                      "minValue": {
+                                        "type": "number"
+                                      },
+                                      "maxValue": {
+                                        "type": "number"
+                                      },
+                                      "digits": {
+                                        "type": "integer"
+                                      }
+                                    }
+                                  },
+                                  "translatedTextTypeOptions": {
+                                    "type": "object",
+                                    "properties": {
+                                      "minLength": {
+                                        "type": "integer"
+                                      },
+                                      "maxLength": {
+                                        "type": "integer"
+                                      },
+                                      "characterCasing": {
+                                        "enum": [
+                                          "normal",
+                                          "lower",
+                                          "upper"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "yearTypeOptions": {
+                                    "type": "object",
+                                    "properties": {
+                                      "minValue": {
+                                        "type": "integer"
+                                      },
+                                      "maxValue": {
+                                        "type": "integer"
+                                      },
+                                      "allowFutureOnly": {
+                                        "type": "boolean"
+                                      }
+                                    }
+                                  },
                                   "isRequired": {
                                     "type": "boolean",
                                     "title": "Is the attribute required? Boolean value.",
@@ -4555,6 +5141,10 @@
                                   "type"
                                 ]
                               }
+                            },
+                            "$ref": {
+                              "type": "string",
+                              "format": "uri"
                             }
                           },
                           "required": [
@@ -4880,6 +5470,65 @@
                             }
                           }
                         },
+                        "dateTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "minValue": {
+                              "type": "string",
+                              "format": "date-time"
+                            },
+                            "maxValue": {
+                              "type": "string",
+                              "format": "date-time"
+                            }
+                          }
+                        },
+                        "percentageTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "minValue": {
+                              "type": "number"
+                            },
+                            "maxValue": {
+                              "type": "number"
+                            },
+                            "digits": {
+                              "type": "integer"
+                            }
+                          }
+                        },
+                        "translatedTextTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "minLength": {
+                              "type": "integer"
+                            },
+                            "maxLength": {
+                              "type": "integer"
+                            },
+                            "characterCasing": {
+                              "enum": [
+                                "normal",
+                                "lower",
+                                "upper"
+                              ]
+                            }
+                          }
+                        },
+                        "yearTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "minValue": {
+                              "type": "integer"
+                            },
+                            "maxValue": {
+                              "type": "integer"
+                            },
+                            "allowFutureOnly": {
+                              "type": "boolean"
+                            }
+                          }
+                        },
                         "isRequired": {
                           "type": "boolean",
                           "title": "Is the attribute required? Boolean value.",
@@ -4989,10 +5638,6 @@
                         "objectTypeOptions": {
                           "type": "object",
                           "properties": {
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
-                            },
                             "attributes": {
                               "type": "array",
                               "items": {
@@ -5305,6 +5950,65 @@
                                       }
                                     }
                                   },
+                                  "dateTypeOptions": {
+                                    "type": "object",
+                                    "properties": {
+                                      "minValue": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                      },
+                                      "maxValue": {
+                                        "type": "string",
+                                        "format": "date-time"
+                                      }
+                                    }
+                                  },
+                                  "percentageTypeOptions": {
+                                    "type": "object",
+                                    "properties": {
+                                      "minValue": {
+                                        "type": "number"
+                                      },
+                                      "maxValue": {
+                                        "type": "number"
+                                      },
+                                      "digits": {
+                                        "type": "integer"
+                                      }
+                                    }
+                                  },
+                                  "translatedTextTypeOptions": {
+                                    "type": "object",
+                                    "properties": {
+                                      "minLength": {
+                                        "type": "integer"
+                                      },
+                                      "maxLength": {
+                                        "type": "integer"
+                                      },
+                                      "characterCasing": {
+                                        "enum": [
+                                          "normal",
+                                          "lower",
+                                          "upper"
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "yearTypeOptions": {
+                                    "type": "object",
+                                    "properties": {
+                                      "minValue": {
+                                        "type": "integer"
+                                      },
+                                      "maxValue": {
+                                        "type": "integer"
+                                      },
+                                      "allowFutureOnly": {
+                                        "type": "boolean"
+                                      }
+                                    }
+                                  },
                                   "isRequired": {
                                     "type": "boolean",
                                     "title": "Is the attribute required? Boolean value.",
@@ -5417,6 +6121,10 @@
                                   "type"
                                 ]
                               }
+                            },
+                            "$ref": {
+                              "type": "string",
+                              "format": "uri"
                             }
                           },
                           "required": [
@@ -5766,6 +6474,65 @@
                     }
                   }
                 },
+                "dateTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "maxValue": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                },
+                "percentageTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "number"
+                    },
+                    "maxValue": {
+                      "type": "number"
+                    },
+                    "digits": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "translatedTextTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minLength": {
+                      "type": "integer"
+                    },
+                    "maxLength": {
+                      "type": "integer"
+                    },
+                    "characterCasing": {
+                      "enum": [
+                        "normal",
+                        "lower",
+                        "upper"
+                      ]
+                    }
+                  }
+                },
+                "yearTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "integer"
+                    },
+                    "maxValue": {
+                      "type": "integer"
+                    },
+                    "allowFutureOnly": {
+                      "type": "boolean"
+                    }
+                  }
+                },
                 "isRequired": {
                   "type": "boolean",
                   "title": "Is the attribute required? Boolean value.",
@@ -5875,10 +6642,6 @@
                 "objectTypeOptions": {
                   "type": "object",
                   "properties": {
-                    "$ref": {
-                      "type": "string",
-                      "format": "uri"
-                    },
                     "attributes": {
                       "type": "array",
                       "items": {
@@ -6191,6 +6954,65 @@
                               }
                             }
                           },
+                          "dateTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "maxValue": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            }
+                          },
+                          "percentageTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "number"
+                              },
+                              "maxValue": {
+                                "type": "number"
+                              },
+                              "digits": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "translatedTextTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minLength": {
+                                "type": "integer"
+                              },
+                              "maxLength": {
+                                "type": "integer"
+                              },
+                              "characterCasing": {
+                                "enum": [
+                                  "normal",
+                                  "lower",
+                                  "upper"
+                                ]
+                              }
+                            }
+                          },
+                          "yearTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "integer"
+                              },
+                              "maxValue": {
+                                "type": "integer"
+                              },
+                              "allowFutureOnly": {
+                                "type": "boolean"
+                              }
+                            }
+                          },
                           "isRequired": {
                             "type": "boolean",
                             "title": "Is the attribute required? Boolean value.",
@@ -6303,6 +7125,10 @@
                           "type"
                         ]
                       }
+                    },
+                    "$ref": {
+                      "type": "string",
+                      "format": "uri"
                     }
                   },
                   "required": [
@@ -6619,6 +7445,65 @@
                         }
                       }
                     },
+                    "dateTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "maxValue": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    },
+                    "percentageTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "number"
+                        },
+                        "maxValue": {
+                          "type": "number"
+                        },
+                        "digits": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "translatedTextTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minLength": {
+                          "type": "integer"
+                        },
+                        "maxLength": {
+                          "type": "integer"
+                        },
+                        "characterCasing": {
+                          "enum": [
+                            "normal",
+                            "lower",
+                            "upper"
+                          ]
+                        }
+                      }
+                    },
+                    "yearTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "integer"
+                        },
+                        "maxValue": {
+                          "type": "integer"
+                        },
+                        "allowFutureOnly": {
+                          "type": "boolean"
+                        }
+                      }
+                    },
                     "isRequired": {
                       "type": "boolean",
                       "title": "Is the attribute required? Boolean value.",
@@ -6728,10 +7613,6 @@
                     "objectTypeOptions": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "attributes": {
                           "type": "array",
                           "items": {
@@ -7044,6 +7925,65 @@
                                   }
                                 }
                               },
+                              "dateTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  },
+                                  "maxValue": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  }
+                                }
+                              },
+                              "percentageTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "number"
+                                  },
+                                  "maxValue": {
+                                    "type": "number"
+                                  },
+                                  "digits": {
+                                    "type": "integer"
+                                  }
+                                }
+                              },
+                              "translatedTextTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minLength": {
+                                    "type": "integer"
+                                  },
+                                  "maxLength": {
+                                    "type": "integer"
+                                  },
+                                  "characterCasing": {
+                                    "enum": [
+                                      "normal",
+                                      "lower",
+                                      "upper"
+                                    ]
+                                  }
+                                }
+                              },
+                              "yearTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "integer"
+                                  },
+                                  "maxValue": {
+                                    "type": "integer"
+                                  },
+                                  "allowFutureOnly": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              },
                               "isRequired": {
                                 "type": "boolean",
                                 "title": "Is the attribute required? Boolean value.",
@@ -7156,6 +8096,10 @@
                               "type"
                             ]
                           }
+                        },
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
                         }
                       },
                       "required": [
@@ -7481,6 +8425,65 @@
                         }
                       }
                     },
+                    "dateTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "maxValue": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    },
+                    "percentageTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "number"
+                        },
+                        "maxValue": {
+                          "type": "number"
+                        },
+                        "digits": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "translatedTextTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minLength": {
+                          "type": "integer"
+                        },
+                        "maxLength": {
+                          "type": "integer"
+                        },
+                        "characterCasing": {
+                          "enum": [
+                            "normal",
+                            "lower",
+                            "upper"
+                          ]
+                        }
+                      }
+                    },
+                    "yearTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "integer"
+                        },
+                        "maxValue": {
+                          "type": "integer"
+                        },
+                        "allowFutureOnly": {
+                          "type": "boolean"
+                        }
+                      }
+                    },
                     "isRequired": {
                       "type": "boolean",
                       "title": "Is the attribute required? Boolean value.",
@@ -7590,10 +8593,6 @@
                     "objectTypeOptions": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "attributes": {
                           "type": "array",
                           "items": {
@@ -7906,6 +8905,65 @@
                                   }
                                 }
                               },
+                              "dateTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  },
+                                  "maxValue": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  }
+                                }
+                              },
+                              "percentageTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "number"
+                                  },
+                                  "maxValue": {
+                                    "type": "number"
+                                  },
+                                  "digits": {
+                                    "type": "integer"
+                                  }
+                                }
+                              },
+                              "translatedTextTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minLength": {
+                                    "type": "integer"
+                                  },
+                                  "maxLength": {
+                                    "type": "integer"
+                                  },
+                                  "characterCasing": {
+                                    "enum": [
+                                      "normal",
+                                      "lower",
+                                      "upper"
+                                    ]
+                                  }
+                                }
+                              },
+                              "yearTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "integer"
+                                  },
+                                  "maxValue": {
+                                    "type": "integer"
+                                  },
+                                  "allowFutureOnly": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              },
                               "isRequired": {
                                 "type": "boolean",
                                 "title": "Is the attribute required? Boolean value.",
@@ -8018,6 +9076,10 @@
                               "type"
                             ]
                           }
+                        },
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
                         }
                       },
                       "required": [
@@ -8364,6 +9426,65 @@
                     }
                   }
                 },
+                "dateTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "maxValue": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                },
+                "percentageTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "number"
+                    },
+                    "maxValue": {
+                      "type": "number"
+                    },
+                    "digits": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "translatedTextTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minLength": {
+                      "type": "integer"
+                    },
+                    "maxLength": {
+                      "type": "integer"
+                    },
+                    "characterCasing": {
+                      "enum": [
+                        "normal",
+                        "lower",
+                        "upper"
+                      ]
+                    }
+                  }
+                },
+                "yearTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "integer"
+                    },
+                    "maxValue": {
+                      "type": "integer"
+                    },
+                    "allowFutureOnly": {
+                      "type": "boolean"
+                    }
+                  }
+                },
                 "isRequired": {
                   "type": "boolean",
                   "title": "Is the attribute required? Boolean value.",
@@ -8473,10 +9594,6 @@
                 "objectTypeOptions": {
                   "type": "object",
                   "properties": {
-                    "$ref": {
-                      "type": "string",
-                      "format": "uri"
-                    },
                     "attributes": {
                       "type": "array",
                       "items": {
@@ -8789,6 +9906,65 @@
                               }
                             }
                           },
+                          "dateTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "string",
+                                "format": "date-time"
+                              },
+                              "maxValue": {
+                                "type": "string",
+                                "format": "date-time"
+                              }
+                            }
+                          },
+                          "percentageTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "number"
+                              },
+                              "maxValue": {
+                                "type": "number"
+                              },
+                              "digits": {
+                                "type": "integer"
+                              }
+                            }
+                          },
+                          "translatedTextTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minLength": {
+                                "type": "integer"
+                              },
+                              "maxLength": {
+                                "type": "integer"
+                              },
+                              "characterCasing": {
+                                "enum": [
+                                  "normal",
+                                  "lower",
+                                  "upper"
+                                ]
+                              }
+                            }
+                          },
+                          "yearTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "minValue": {
+                                "type": "integer"
+                              },
+                              "maxValue": {
+                                "type": "integer"
+                              },
+                              "allowFutureOnly": {
+                                "type": "boolean"
+                              }
+                            }
+                          },
                           "isRequired": {
                             "type": "boolean",
                             "title": "Is the attribute required? Boolean value.",
@@ -8901,6 +10077,10 @@
                           "type"
                         ]
                       }
+                    },
+                    "$ref": {
+                      "type": "string",
+                      "format": "uri"
                     }
                   },
                   "required": [
@@ -9217,6 +10397,65 @@
                         }
                       }
                     },
+                    "dateTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "maxValue": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    },
+                    "percentageTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "number"
+                        },
+                        "maxValue": {
+                          "type": "number"
+                        },
+                        "digits": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "translatedTextTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minLength": {
+                          "type": "integer"
+                        },
+                        "maxLength": {
+                          "type": "integer"
+                        },
+                        "characterCasing": {
+                          "enum": [
+                            "normal",
+                            "lower",
+                            "upper"
+                          ]
+                        }
+                      }
+                    },
+                    "yearTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "integer"
+                        },
+                        "maxValue": {
+                          "type": "integer"
+                        },
+                        "allowFutureOnly": {
+                          "type": "boolean"
+                        }
+                      }
+                    },
                     "isRequired": {
                       "type": "boolean",
                       "title": "Is the attribute required? Boolean value.",
@@ -9326,10 +10565,6 @@
                     "objectTypeOptions": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "attributes": {
                           "type": "array",
                           "items": {
@@ -9642,6 +10877,65 @@
                                   }
                                 }
                               },
+                              "dateTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  },
+                                  "maxValue": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  }
+                                }
+                              },
+                              "percentageTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "number"
+                                  },
+                                  "maxValue": {
+                                    "type": "number"
+                                  },
+                                  "digits": {
+                                    "type": "integer"
+                                  }
+                                }
+                              },
+                              "translatedTextTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minLength": {
+                                    "type": "integer"
+                                  },
+                                  "maxLength": {
+                                    "type": "integer"
+                                  },
+                                  "characterCasing": {
+                                    "enum": [
+                                      "normal",
+                                      "lower",
+                                      "upper"
+                                    ]
+                                  }
+                                }
+                              },
+                              "yearTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "integer"
+                                  },
+                                  "maxValue": {
+                                    "type": "integer"
+                                  },
+                                  "allowFutureOnly": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              },
                               "isRequired": {
                                 "type": "boolean",
                                 "title": "Is the attribute required? Boolean value.",
@@ -9754,6 +11048,10 @@
                               "type"
                             ]
                           }
+                        },
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
                         }
                       },
                       "required": [
@@ -10079,6 +11377,65 @@
                         }
                       }
                     },
+                    "dateTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "maxValue": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    },
+                    "percentageTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "number"
+                        },
+                        "maxValue": {
+                          "type": "number"
+                        },
+                        "digits": {
+                          "type": "integer"
+                        }
+                      }
+                    },
+                    "translatedTextTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minLength": {
+                          "type": "integer"
+                        },
+                        "maxLength": {
+                          "type": "integer"
+                        },
+                        "characterCasing": {
+                          "enum": [
+                            "normal",
+                            "lower",
+                            "upper"
+                          ]
+                        }
+                      }
+                    },
+                    "yearTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "minValue": {
+                          "type": "integer"
+                        },
+                        "maxValue": {
+                          "type": "integer"
+                        },
+                        "allowFutureOnly": {
+                          "type": "boolean"
+                        }
+                      }
+                    },
                     "isRequired": {
                       "type": "boolean",
                       "title": "Is the attribute required? Boolean value.",
@@ -10188,10 +11545,6 @@
                     "objectTypeOptions": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "attributes": {
                           "type": "array",
                           "items": {
@@ -10504,6 +11857,65 @@
                                   }
                                 }
                               },
+                              "dateTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  },
+                                  "maxValue": {
+                                    "type": "string",
+                                    "format": "date-time"
+                                  }
+                                }
+                              },
+                              "percentageTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "number"
+                                  },
+                                  "maxValue": {
+                                    "type": "number"
+                                  },
+                                  "digits": {
+                                    "type": "integer"
+                                  }
+                                }
+                              },
+                              "translatedTextTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minLength": {
+                                    "type": "integer"
+                                  },
+                                  "maxLength": {
+                                    "type": "integer"
+                                  },
+                                  "characterCasing": {
+                                    "enum": [
+                                      "normal",
+                                      "lower",
+                                      "upper"
+                                    ]
+                                  }
+                                }
+                              },
+                              "yearTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "minValue": {
+                                    "type": "integer"
+                                  },
+                                  "maxValue": {
+                                    "type": "integer"
+                                  },
+                                  "allowFutureOnly": {
+                                    "type": "boolean"
+                                  }
+                                }
+                              },
                               "isRequired": {
                                 "type": "boolean",
                                 "title": "Is the attribute required? Boolean value.",
@@ -10616,6 +12028,10 @@
                               "type"
                             ]
                           }
+                        },
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
                         }
                       },
                       "required": [
@@ -10953,6 +12369,65 @@
                   "properties": {
                     "entity": {
                       "type": "string"
+                    }
+                  }
+                },
+                "dateTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "maxValue": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                },
+                "percentageTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "number"
+                    },
+                    "maxValue": {
+                      "type": "number"
+                    },
+                    "digits": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "translatedTextTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minLength": {
+                      "type": "integer"
+                    },
+                    "maxLength": {
+                      "type": "integer"
+                    },
+                    "characterCasing": {
+                      "enum": [
+                        "normal",
+                        "lower",
+                        "upper"
+                      ]
+                    }
+                  }
+                },
+                "yearTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "integer"
+                    },
+                    "maxValue": {
+                      "type": "integer"
+                    },
+                    "allowFutureOnly": {
+                      "type": "boolean"
                     }
                   }
                 },
@@ -11382,6 +12857,65 @@
                   "properties": {
                     "entity": {
                       "type": "string"
+                    }
+                  }
+                },
+                "dateTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "string",
+                      "format": "date-time"
+                    },
+                    "maxValue": {
+                      "type": "string",
+                      "format": "date-time"
+                    }
+                  }
+                },
+                "percentageTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "number"
+                    },
+                    "maxValue": {
+                      "type": "number"
+                    },
+                    "digits": {
+                      "type": "integer"
+                    }
+                  }
+                },
+                "translatedTextTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minLength": {
+                      "type": "integer"
+                    },
+                    "maxLength": {
+                      "type": "integer"
+                    },
+                    "characterCasing": {
+                      "enum": [
+                        "normal",
+                        "lower",
+                        "upper"
+                      ]
+                    }
+                  }
+                },
+                "yearTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "minValue": {
+                      "type": "integer"
+                    },
+                    "maxValue": {
+                      "type": "integer"
+                    },
+                    "allowFutureOnly": {
+                      "type": "boolean"
                     }
                   }
                 },

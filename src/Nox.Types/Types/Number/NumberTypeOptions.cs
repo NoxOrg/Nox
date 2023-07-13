@@ -1,7 +1,6 @@
-﻿
-namespace Nox.Types;
+﻿namespace Nox.Types;
 
-public class NumberTypeOptions
+public class NumberTypeOptions: INoxTypeOptions
 {
     public static readonly decimal DefaultMinValue = -999999999;
     public static readonly decimal DefaultMaxValue = +999999999;

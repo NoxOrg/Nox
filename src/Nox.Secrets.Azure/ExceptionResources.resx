@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<root>
+    <xsd:schema id="root" xmlns="" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:msdata="urn:schemas-microsoft-com:xml-msdata">
+        <xsd:element name="root" msdata:IsDataSet="true">
+            
+        </xsd:element>
+    </xsd:schema>
+    <resheader name="resmimetype">
+        <value>text/microsoft-resx</value>
+    </resheader>
+    <resheader name="version">
+        <value>1.3</value>
+    </resheader>
+    <resheader name="reader">
+        <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <resheader name="writer">
+        <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+    </resheader>
+    <data name="ResolverNotConfigured" xml:space="preserve">
+        <value>Secrets resolver has not been configured. Please call the Configure method before attempting to resolve any secrets.</value>
+    </data>
+    <data name="VaultUnavailable" xml:space="preserve">
+        <value>Unable to retrieve secrets from the Azure vault, are you connected to the internet and is the vault available?</value>
+    </data>
+    <data name="InvalidProvider" xml:space="preserve">
+        <value>Azure secrets resolver can only be instantiated if provider is set to AzureKeyVault.</value>
+    </data>
+    <data name="MalformedVaultUri" xml:space="preserve">
+        <value>VaultUrl is not a well formed Uri!</value>
+    </data>
+</root>

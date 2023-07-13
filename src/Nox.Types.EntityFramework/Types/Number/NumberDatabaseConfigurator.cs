@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
@@ -6,7 +7,12 @@ namespace Nox.Types.EntityFramework.Types;
 
 public class NumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
-    public void ConfigureEntityProperty(EntityTypeBuilder builder, NoxSimpleTypeDefinition property, bool isKey)
+    public void ConfigureEntityProperty(
+        NoxSolutionCodeGeneratorState codeGeneratorState,
+        EntityTypeBuilder builder,
+        NoxSimpleTypeDefinition property,
+        Entity entity,
+        bool singleKey)
     {
         //Todo Default values from static property in the Nox.Type
         var typeOptions = property.NumberTypeOptions ?? new NumberTypeOptions();
@@ -24,22 +30,22 @@ public class NumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
         if (typeOptions.DecimalDigits == 0) // integer
         {
             //see https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/integral-numeric-types
-            if (typeOptions is { MaxValue: <= byte.MaxValue, MinValue: >= byte.MinValue })
+            if (typeOptions.MaxValue <= byte.MaxValue && typeOptions.MinValue >= byte.MinValue)
             {
                 return typeof(NumberToByteConverter);
             }
 
-            if (typeOptions is { MaxValue: <= short.MaxValue, MinValue: >= short.MinValue })
+            if (typeOptions.MaxValue <= short.MaxValue && typeOptions.MinValue >= short.MinValue)
             {
                 return typeof(NumberToShortConverter);
             }
 
-            if (typeOptions is { MaxValue: <= int.MaxValue, MinValue: >= int.MinValue })
+            if (typeOptions.MaxValue <= int.MaxValue && typeOptions.MinValue >= int.MinValue)
             {
                 return typeof(NumberToInt32Converter);
             }
 
-            if (typeOptions is { MaxValue: <= long.MaxValue, MinValue: >= long.MinValue })
+            if (typeOptions.MaxValue <= long.MaxValue && typeOptions.MinValue >= long.MinValue)
             {
                 return typeof(NumberToInt64Converter);
             }

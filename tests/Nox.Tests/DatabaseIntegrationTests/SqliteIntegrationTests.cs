@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Text.Json;
+using FluentAssertions;
 using Nox.Types;
 using TestDatabaseWebApp.Domain;
 
@@ -46,6 +47,12 @@ public class SqliteIntegrationTests : SqliteTestBase
         var money = 10;
         var currencyCode = CurrencyCode.UAH;
         var countryCode2 = "UA";
+        var addressItem = new StreetAddressItem
+        {
+            AddressLine1 = "AddressLine1",
+            CountryId = CountryCode2.From("UA"),
+            PostalCode = "61135"
+        };
 
         var newItem = new TestEntity()
         {
@@ -53,7 +60,8 @@ public class SqliteIntegrationTests : SqliteTestBase
             TextTestField = Text.From(text),
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
-            CountryCode2TestField = CountryCode2.From(countryCode2)
+            CountryCode2TestField = CountryCode2.From(countryCode2),
+            StreetAddressTestField = StreetAddress.From(addressItem)
         };
         DbContext.TestEntities.Add(newItem);
         DbContext.SaveChanges();
@@ -70,5 +78,6 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.MoneyTestField!.Value.Amount.Should().Be(money);
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
+        testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
     }
 }
