@@ -9,17 +9,27 @@ namespace Nox.Types;
 /// </summary>
 public sealed class HashedText : ValueObject<(string HashText, string Salt), HashedText>
 {
+    /// <summary>
+    /// Result of the hash operation
+    /// </summary>
     public string HashText
     {
         get => Value.HashText;
         private set => Value = (HashText: value, Value.Salt);
     }
+
+    /// <summary>
+    /// Salt byte array used in the hash operation
+    /// </summary>
     public string Salt
     {
         get => Value.Salt;
         private set => Value = (Value.HashText, Salt: value);
     }
 
+    /// <summary>
+    /// Base constructor for aa new empty <see cref="HashText"/> object
+    /// </summary>
     public HashedText() { Value = (string.Empty, string.Empty); }
 
     /// <summary>
@@ -104,10 +114,8 @@ public sealed class HashedText : ValueObject<(string HashText, string Salt), Has
     private static byte[] GetSalt(int byteCount)
     {
         byte[] salt = new byte[byteCount];
-        using (var rng = RandomNumberGenerator.Create())
-        {
-            rng.GetBytes(salt);
-        }
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(salt);
 
         return salt;
     }
