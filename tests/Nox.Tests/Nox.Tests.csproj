@@ -19,6 +19,9 @@
 
   <ItemGroup>
     <None Remove="DatabaseIntegrationTests\Design\test.solution.nox.yaml" />
+    <None Include="DatabaseIntegrationTests\files\Program.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>

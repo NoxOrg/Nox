@@ -214,9 +214,6 @@ public class VolumeTests
 
     private static void AssertAreNotEquivalent(Volume expected, Volume actual)
     {
-        var a =LengthUnit.Foot;
-        var b = DistanceUnit.Foot;
-
         actual.Should().NotBe(expected);
 
         expected.Equals(actual).Should().BeFalse();

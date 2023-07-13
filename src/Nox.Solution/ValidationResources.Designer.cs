@@ -340,6 +340,15 @@ namespace Nox.Solution {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Entity {0}: Key property IsRequired should be set to True explicitly in  {1}.
+        /// </summary>
+        internal static string EntityKeyIsRequired {
+            get {
+                return ResourceManager.GetString("EntityKeyIsRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The entity name: {0} is duplicated. Entity names must be unique in a solution..
         /// </summary>
         internal static string EntityNameDuplicate {

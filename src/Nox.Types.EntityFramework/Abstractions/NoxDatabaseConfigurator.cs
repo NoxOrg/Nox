@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Types;
 
@@ -16,18 +17,23 @@ namespace Nox.Types.EntityFramework.Abstractions
                 { NoxType.Money, new MoneyDatabaseConfigurator() },
                 { NoxType.CountryCode2, new CountryCode2DatabaseConfigurator() },
                 { NoxType.StreetAddress, new StreetAddressDatabaseConfigurator() }
+                { NoxType.CountryCode2, new CountryCode2Configurator()},
+                { NoxType.Entity, new EntityDatabaseConfigurator()},
             };
 
-        public virtual void ConfigureEntity(EntityTypeBuilder builder, Entity entity)
+        public virtual void ConfigureEntity(NoxSolutionCodeGeneratorState codeGeneratorState, EntityTypeBuilder builder, Entity entity)
         {
             //TODO Relations
 
-            ConfigureKeys(builder, entity);
+            ConfigureKeys(codeGeneratorState, builder, entity);
 
-            ConfigureAttributes(builder, entity);
+            ConfigureAttributes(codeGeneratorState ,builder, entity);
         }
 
-        private void ConfigureKeys(EntityTypeBuilder builder, Entity entity)
+        private void ConfigureKeys(
+            NoxSolutionCodeGeneratorState codeGeneratorState,
+            EntityTypeBuilder builder, 
+            Entity entity)
         {
             if (entity.Keys is { Count: > 0 })
             {
@@ -38,26 +44,24 @@ namespace Nox.Types.EntityFramework.Abstractions
                             out var databaseConfiguration))
                     {
                         keysPropertyNames.Add(databaseConfiguration.GetKeyPropertyName(key));
-                    }
-                }
-                builder.HasKey(keysPropertyNames.ToArray());
-
-                foreach (var key in entity.Keys)
-                {
-                    if (TypesDatabaseConfigurations.TryGetValue(key.Type,
-                            out var databaseConfiguration))
-                    {
-                        databaseConfiguration.ConfigureEntityProperty(builder, key, true);
+                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, key, entity,true);
                     }
                     else
                     {
-                        Console.WriteLine($"Type {key.Type} not found");
+                        Debug.WriteLine($"Database Configurator not found for Type {key.Type}");
+                        // Fallback to default
+                        keysPropertyNames.Add(key.Name);
                     }
+
                 }
+                builder.HasKey(keysPropertyNames.ToArray());
             }
         }
 
-        private void ConfigureAttributes(EntityTypeBuilder builder, Entity entity)
+        private void ConfigureAttributes(
+            NoxSolutionCodeGeneratorState codeGeneratorState,
+            EntityTypeBuilder builder,
+            Entity entity)
         {
             if (entity.Attributes is { Count: > 0 })
             {
@@ -66,11 +70,12 @@ namespace Nox.Types.EntityFramework.Abstractions
                     if (TypesDatabaseConfigurations.TryGetValue(property.Type,
                             out var databaseConfiguration))
                     {
-                        databaseConfiguration.ConfigureEntityProperty(builder, property, false);
+                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity, false);
                     }
                     else
                     {
-                        Console.WriteLine($"Type {property.Type} not found");
+
+                        Debug.WriteLine($"Type {property.Type} not found");
                     }
                 }
             }

@@ -32,6 +32,7 @@ internal static class DbContextGenerator
     {
         code.AppendLine(@"using Microsoft.EntityFrameworkCore;");
         code.AppendLine(@"using Nox.Solution;");
+        code.AppendLine(@"using Nox.Generator.Common;");
         code.AppendLine(@"using Nox.Types.EntityFramework.Abstractions;");
         code.AppendLine(@$"using {codeGeneratorState.DomainNameSpace};");
         code.AppendLine();
@@ -88,18 +89,21 @@ internal static class DbContextGenerator
 
     private static void AddOnModelCreating(CodeBuilder code, string solutionName)
     {
+        
         code.AppendLine("protected override void OnModelCreating(ModelBuilder modelBuilder)");
         code.StartBlock();
         code.AppendLine("base.OnModelCreating(modelBuilder);");
         code.AppendLine("if (_noxSolution.Domain != null)");
         code.StartBlock();
+        code.AppendLine("var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution);");
+        code.AppendLine();
         code.AppendLine("foreach (var entity in _noxSolution.Domain.Entities)");
         code.StartBlock();
         code.AppendLine($"var type = Type.GetType(\"{solutionName}.Domain.\" + entity.Name);");
         code.AppendLine();
         code.AppendLine("if (type != null)");
         code.StartBlock();
-        code.AppendLine("((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(modelBuilder.Entity(type), entity);");
+        code.AppendLine("((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity);");
         code.EndBlock();
         code.EndBlock();
         code.AppendLine();
