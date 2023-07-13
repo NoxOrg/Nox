@@ -36,7 +36,7 @@ public class EncryptedTextTests
     public void Decryption_ReturnsOriginalValue()
     {
         var encryptedText = EncryptedText.FromPlainText(PlainText, _typeOptions);
-        var decryptedText = encryptedText.ToString(_typeOptions);
+        var decryptedText = encryptedText.DecryptText(_typeOptions);
 
         PlainText.Should().Be(decryptedText);
     }
@@ -122,11 +122,11 @@ public class EncryptedTextTests
             Iv = _aesAlg.IV
         };
 
-        var decryptedText = encryptedText.ToString(_typeOptions);
+        var decryptedText = encryptedText.DecryptText(_typeOptions);
         // Changing key
-        var actDecryptChangingKey = () => encryptedText.ToString(encryptOptionsChangingKey);
+        var actDecryptChangingKey = () => encryptedText.DecryptText(encryptOptionsChangingKey);
         // Changing IV
-        var actDecryptChangingIv = () => encryptedText.ToString(encryptOptionsChangingIv);
+        var actDecryptChangingIv = () => encryptedText.DecryptText(encryptOptionsChangingIv);
 
         actDecryptChangingKey.Should().Throw<CryptographicException>();
         actDecryptChangingIv.Should().Throw<CryptographicException>();
@@ -171,8 +171,8 @@ public class EncryptedTextTests
             PublicKey = _aesAlg.Key
         };
 
-        var actDecrypt1 = () => encryptedText.ToString(encryptOptionsWithoutKey);
-        var actDecrypt2 = () => encryptedText.ToString(encryptOptionsWithoutIv);
+        var actDecrypt1 = () => encryptedText.DecryptText(encryptOptionsWithoutKey);
+        var actDecrypt2 = () => encryptedText.DecryptText(encryptOptionsWithoutIv);
 
         actDecrypt1.Should().Throw<ArgumentNullException>();
         actDecrypt2.Should().Throw<ArgumentNullException>();

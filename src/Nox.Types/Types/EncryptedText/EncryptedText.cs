@@ -60,16 +60,10 @@ public sealed class EncryptedText : ValueObject<byte[], EncryptedText>
     }
 
     /// <summary>
-    /// Returns the string representation of the <see cref="EncryptText"/>.
-    /// </summary>
-    /// <returns>Byte array encoded as UTF-8 string.</returns>
-    public override string ToString() => System.Text.Encoding.UTF8.GetString(Value);
-
-    /// <summary>
     /// Decrypts the value using the provided algorithm options.
     /// </summary>
     /// <returns>Decrypted text representation of the <see cref="EncryptedText"/> object.</returns>
-    public string ToString(EncryptedTextTypeOptions typeOptions) => DecryptText(Value, typeOptions);
+    public string DecryptText(EncryptedTextTypeOptions typeOptions) => DecryptText(Value, typeOptions);
 
     /// <inheritdoc />
     public override bool Equals(object? obj)
