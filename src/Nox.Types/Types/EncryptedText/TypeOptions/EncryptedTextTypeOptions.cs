@@ -2,7 +2,7 @@
 
 namespace Nox.Types;
 
-public class EncryptedTextOptions
+public class EncryptedTextTypeOptions
 {
     public EncryptionAlgorithm EncryptionAlgorithm { get; set; } = EncryptionAlgorithm.Aes;
 

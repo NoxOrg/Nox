@@ -14,21 +14,21 @@ public static class Aes
     /// Encrypt text using AES algorithm.
     /// </summary>
     /// <param name="plainText">Text to be encrypted</param>
-    /// <param name="options">Algorithm options.</param>
+    /// <param name="typeOptions">Algorithm options.</param>
     /// <returns>Encrypted text as a byte array.</returns>
-    public static byte[] EncryptStringToBytes(string plainText, EncryptedTextOptions options)
+    public static byte[] EncryptStringToBytes(string plainText, EncryptedTextTypeOptions typeOptions)
     {
         if (string.IsNullOrEmpty(plainText))
             throw new ArgumentNullException(nameof(plainText));
-        if (options.PublicKey is not { Length: > 0 })
-            throw new ArgumentNullException(nameof(options.PublicKey));
-        if (options.Iv is not { Length: > 0 })
-            throw new ArgumentNullException(nameof(options.Iv));
+        if (typeOptions.PublicKey is not { Length: > 0 })
+            throw new ArgumentNullException(nameof(typeOptions.PublicKey));
+        if (typeOptions.Iv is not { Length: > 0 })
+            throw new ArgumentNullException(nameof(typeOptions.Iv));
 
         using AesAlg aesAlg = AesAlg.Create();
 
         // Create a Crypto object with the specified key and IV.
-        using ICryptoTransform encryptor = aesAlg.CreateEncryptor(options.PublicKey, options.Iv);
+        using ICryptoTransform encryptor = aesAlg.CreateEncryptor(typeOptions.PublicKey, typeOptions.Iv);
 
         // Create the streams used for decryption.
         using MemoryStream msEncrypt = new MemoryStream();
@@ -44,21 +44,21 @@ public static class Aes
     /// Decrypt text using AES algorithm.
     /// </summary>
     /// <param name="encryptedText">Encrypted text as byte array.</param>
-    /// <param name="options">Algorithm options.</param>
+    /// <param name="typeOptions">Algorithm options.</param>
     /// <returns>Decrypted text.</returns>
-    public static string DecryptStringFromBytes(byte[] encryptedText, EncryptedTextOptions options)
+    public static string DecryptStringFromBytes(byte[] encryptedText, EncryptedTextTypeOptions typeOptions)
     {
         if (encryptedText is not { Length: > 0 })
             throw new ArgumentNullException(nameof(encryptedText));
-        if (options.PublicKey is not { Length: > 0 })
-            throw new ArgumentNullException(nameof(options.PublicKey));
-        if (options.Iv is not { Length: > 0 })
-            throw new ArgumentNullException(nameof(options.Iv));
+        if (typeOptions.PublicKey is not { Length: > 0 })
+            throw new ArgumentNullException(nameof(typeOptions.PublicKey));
+        if (typeOptions.Iv is not { Length: > 0 })
+            throw new ArgumentNullException(nameof(typeOptions.Iv));
 
         using AesAlg aesAlg = AesAlg.Create();
 
         // Create an Aes object with the specified Key and IV.
-        ICryptoTransform decryptor = aesAlg.CreateDecryptor(options.PublicKey, options.Iv);
+        ICryptoTransform decryptor = aesAlg.CreateDecryptor(typeOptions.PublicKey, typeOptions.Iv);
 
         // Create the streams used for decryption.
         using MemoryStream msDecrypt = new MemoryStream(encryptedText);
