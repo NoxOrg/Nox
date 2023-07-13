@@ -17,10 +17,10 @@ public class VolumeUnitTests
     [Fact]
     public void VolumeUnit_CubicFoot_ReturnsValidIdNameAndSymbol()
     {
-        var cubicMeter = VolumeUnit.CubicFoot;
+        var cubicFoot = VolumeUnit.CubicFoot;
 
-        cubicMeter.Id.Should().Be(2);
-        cubicMeter.Name.Should().Be("CubicFoot");
-        cubicMeter.Symbol.Should().Be("ft³");
+        cubicFoot.Id.Should().Be(2);
+        cubicFoot.Name.Should().Be("CubicFoot");
+        cubicFoot.Symbol.Should().Be("ft³");
     }
 }
