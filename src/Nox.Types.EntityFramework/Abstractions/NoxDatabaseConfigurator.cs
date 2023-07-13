@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using System.Diagnostics;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Types;
@@ -16,8 +17,7 @@ namespace Nox.Types.EntityFramework.Abstractions
                 { NoxType.Number, new NumberDatabaseConfigurator() },
                 { NoxType.Money, new MoneyDatabaseConfigurator() },
                 { NoxType.CountryCode2, new CountryCode2DatabaseConfigurator() },
-                { NoxType.StreetAddress, new StreetAddressDatabaseConfigurator() }
-                { NoxType.CountryCode2, new CountryCode2Configurator()},
+                { NoxType.StreetAddress, new StreetAddressDatabaseConfigurator() },
                 { NoxType.Entity, new EntityDatabaseConfigurator()},
             };
 
