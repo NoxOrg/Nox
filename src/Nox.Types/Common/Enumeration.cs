@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 
-namespace Nox.Common;
+namespace Nox.Types.Common;
 
 /// <summary>
 /// Enumeration base class.
 /// </summary>
-public abstract class Enumeration<T> : IComparable
+public abstract class Enumeration : IComparable
 {
     /// <summary>
     /// Gets the ID of the enumeration.
@@ -19,23 +19,17 @@ public abstract class Enumeration<T> : IComparable
     /// Gets the name of the enumeration.
     /// </summary>
     public string Name { get; }
+    
 
     /// <summary>
-    /// Gets the value of the enumeration.
-    /// </summary>
-    public T Value { get; }
-
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Enumeration{T}"/> class with the specified ID, name, and value.
+    /// Initializes a new instance of the <see cref="Enumeration"/> class with the specified ID, name, and value.
     /// </summary>
     /// <param name="id">The ID of the enumeration.</param>
     /// <param name="name">The name of the enumeration.</param>
-    /// <param name="value">The value of the enumeration.</param>
-    protected Enumeration(int id, string name, T value)
+    protected Enumeration(int id, string name)
     {
         Id = id;
         Name = name;
-        Value = value;
     }
 
     /// <summary>
@@ -44,7 +38,7 @@ public abstract class Enumeration<T> : IComparable
     /// <param name="obj">The object to compare with.</param>
     /// <returns>A value indicating the relative order of the objects being compared.</returns>
     public int CompareTo(object obj)
-        => Id.CompareTo(((Enumeration<T>)obj).Id);
+        => Id.CompareTo(((Enumeration)obj).Id);
 
     /// <summary>
     /// Determines whether the current enumeration is equal to another object.
@@ -53,7 +47,7 @@ public abstract class Enumeration<T> : IComparable
     /// <returns>True if the objects are equal; otherwise, false.</returns>
     public override bool Equals(object obj)
     {
-        if (obj is not Enumeration<T> otherValue)
+        if (obj is not Enumeration otherValue)
         {
             return false;
         }
@@ -82,7 +76,7 @@ public abstract class Enumeration<T> : IComparable
     /// <param name="a">The first enumeration to compare.</param>
     /// <param name="b">The second enumeration to compare.</param>
     /// <returns>True if the enumerations are equal; otherwise, false.</returns>
-    public static bool operator ==(Enumeration<T>? a, Enumeration<T>? b)
+    public static bool operator ==(Enumeration? a, Enumeration? b)
     {
         if (a is null && b is null)
             return true;
@@ -99,7 +93,7 @@ public abstract class Enumeration<T> : IComparable
     /// <param name="a">The first enumeration to compare.</param>
     /// <param name="b">The second enumeration to compare.</param>
     /// <returns>True if the enumerations are not equal; otherwise, false.</returns>
-    public static bool operator !=(Enumeration<T>? a, Enumeration<T>? b)
+    public static bool operator !=(Enumeration? a, Enumeration? b)
     {
         return !(a == b);
     }
@@ -107,35 +101,35 @@ public abstract class Enumeration<T> : IComparable
     /// <summary>
     /// Retrieves all instances of the specified enumeration type.
     /// </summary>
-    /// <typeparam name="TEType">The type of the enumeration.</typeparam>
+    /// <typeparam name="T">The type of the enumeration.</typeparam>
     /// <returns>An IEnumerable of the specified enumeration type containing all instances.</returns>
-    public static IEnumerable<TEType> GetAll<TEType>() where TEType : Enumeration<T> =>
-        typeof(TEType).GetFields(BindingFlags.Public |
+    public static IEnumerable<T> GetAll<T>() where T : Enumeration =>
+        typeof(T).GetFields(BindingFlags.Public |
                                  BindingFlags.Static |
                                  BindingFlags.DeclaredOnly)
             .Select(f => f.GetValue(null))
-            .Cast<TEType>();
+            .Cast<T>();
 
     /// <summary>
     /// Retrieves an instance of the specified enumeration type by its name.
     /// </summary>
-    /// <typeparam name="TEType">The type of the enumeration.</typeparam>
+    /// <typeparam name="T">The type of the enumeration.</typeparam>
     /// <param name="name">The name of the enumeration value.</param>
     /// <returns>An instance of the specified enumeration type with the given name.</returns>
     /// <exception cref="InvalidOperationException">Thrown if the name does not match any enumeration value.</exception>
-    public static TEType FromName<TEType>(string name) where TEType : Enumeration<T> =>
-        GetAll<TEType>().FirstOrDefault(e => e.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
-        ?? throw new InvalidOperationException($"'{name}' is not a valid name for {typeof(TEType)}");
+    public static T FromName<T>(string name) where T : Enumeration =>
+        GetAll<T>().FirstOrDefault(e => e.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
+        ?? throw new InvalidOperationException($"'{name}' is not a valid name for {typeof(T)}");
 
     /// <summary>
     /// Retrieves an instance of the specified enumeration type by its ID.
     /// </summary>
-    /// <typeparam name="TEType">The type of the enumeration.</typeparam>
+    /// <typeparam name="T">The type of the enumeration.</typeparam>
     /// <param name="id">The ID of the enumeration value.</param>
     /// <returns>An instance of the specified enumeration type with the given ID.</returns>
     /// <exception cref="InvalidOperationException">Thrown if the ID does not match any enumeration value.</exception>
-    public static TEType FromId<TEType>(int id) where TEType : Enumeration<T> =>
-        GetAll<TEType>().FirstOrDefault(e => e.Id.Equals(id))
-        ?? throw new InvalidOperationException($"'{id}' is not a valid ID for {typeof(TEType)}");
+    public static T FromId<T>(int id) where T : Enumeration =>
+        GetAll<T>().FirstOrDefault(e => e.Id.Equals(id))
+        ?? throw new InvalidOperationException($"'{id}' is not a valid ID for {typeof(T)}");
     
 }

@@ -1,14 +1,19 @@
 using System.Collections.Generic;
 using System.Linq;
-using Nox.Common;
+using Nox.Types.Common;
 
 namespace Nox.Types;
 
 /// <summary>
 /// Enumeration for image format types.
 /// </summary>
-public sealed class ImageFormatType : Enumeration<IList<string>>
+public sealed class ImageFormatType : Enumeration
 {
+    /// <summary>
+    /// Gets the list of file extensions associated with the image format type.
+    /// </summary>
+    public List<string> Extensions { get; }
+    
     /// <summary>
     /// Represents the "All" image format type, including various image file extensions.
     /// </summary>
@@ -22,8 +27,8 @@ public sealed class ImageFormatType : Enumeration<IList<string>>
         ".webp",
         ".svg",
         ".tiff",
+        ".tif",
         ".ico",
-        ".tif"
     });
 
     /// <summary>
@@ -76,11 +81,12 @@ public sealed class ImageFormatType : Enumeration<IList<string>>
     });
 
     /// <summary>
-    /// Represents the "Tiff" image format type, including the ".tiff" file extension.
+    /// Represents the "Tiff" image format type, including the ".tiff" and ".tif" file extensions.
     /// </summary>
     public static readonly ImageFormatType Tiff = new(7, nameof(Tiff), new List<string>
     {
-        ".tiff"
+        ".tiff",
+        ".tif",
     });
 
     /// <summary>
@@ -92,32 +98,24 @@ public sealed class ImageFormatType : Enumeration<IList<string>>
     });
 
     /// <summary>
-    /// Represents the "Tif" image format type, including the ".tif" file extension.
-    /// </summary>
-    public static readonly ImageFormatType Tif = new(9, nameof(Tif), new List<string>
-    {
-        ".tif"
-    });
-
-    /// <summary>
     /// Initializes a new instance of the <see cref="ImageFormatType"/> class with the specified ID, name, and value.
     /// </summary>
     /// <param name="id">The ID of the image format type.</param>
     /// <param name="name">The name of the image format type.</param>
-    /// <param name="value">The value of the image format type.</param>
-    private ImageFormatType(int id, string name, IList<string> value) : base(id, name, value)
+    /// <param name="extensions">The list of file extensions associated with the image format type.</param>
+    private ImageFormatType(int id, string name, IEnumerable<string> extensions) : base(id, name)
     {
-
+        Extensions = extensions.ToList();
     }
     
     
     /// <summary>
-    /// Retrieves the supported image format type extensions from the <see cref="ImageTypeOptions"/>.
+    /// Returns an enumerable collection of strings representing the supported image format type extensions.
     /// <param name="imageFormatTypes">The image format types.</param>
     /// </summary>
     /// <returns>An enumerable collection of strings representing the supported image format type extensions.</returns>
     internal static IList<string> GetSupportedFormatTypeExtension( List<ImageFormatType> imageFormatTypes)
     {
-        return imageFormatTypes.Exists(ft=>ft == All) ? All.Value : imageFormatTypes.SelectMany(ft => ft.Value).ToList();
+        return imageFormatTypes.Exists(ft=>ft == All) ? All.Extensions : imageFormatTypes.SelectMany(ft => ft.Extensions).ToList();
     }
 }
