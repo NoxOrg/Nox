@@ -16,7 +16,6 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
         _fixture = fixture;
     }
 
-
     [Fact]
     public void Can_generate_database_server_files()
     {

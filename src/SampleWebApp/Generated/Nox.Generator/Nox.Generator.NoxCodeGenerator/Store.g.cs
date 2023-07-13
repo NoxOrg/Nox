@@ -15,7 +15,7 @@ public partial class Store : AuditableEntityBase
 {
     
     /// <summary>
-    /// Store Primary Key (optional).
+    /// Store Primary Key (required).
     /// </summary>
     public Text Id { get; set; } = null!;
     
