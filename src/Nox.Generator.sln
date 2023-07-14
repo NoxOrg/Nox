@@ -108,6 +108,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Nox.Etlbox", "Nox.Etlbox", 
 		Nox.Etlbox\ETLBox.Xml.dll = Nox.Etlbox\ETLBox.Xml.dll
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.IntegrationSource.Tests", "..\tests\Nox.IntegrationSource.Tests\Nox.IntegrationSource.Tests.csproj", "{8FE25B65-5C57-4800-985C-23F5E07B098A}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -222,6 +224,10 @@ Global
 		{DD54A68D-FB9B-46D7-A115-D8892EA2F28E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DD54A68D-FB9B-46D7-A115-D8892EA2F28E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DD54A68D-FB9B-46D7-A115-D8892EA2F28E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FE25B65-5C57-4800-985C-23F5E07B098A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FE25B65-5C57-4800-985C-23F5E07B098A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FE25B65-5C57-4800-985C-23F5E07B098A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FE25B65-5C57-4800-985C-23F5E07B098A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -255,6 +261,7 @@ Global
 		{8B591AF0-0E41-479C-BE05-5967FB747CBB} = {2BECBA35-E0A9-4638-9411-92BC55B59DFC}
 		{DD54A68D-FB9B-46D7-A115-D8892EA2F28E} = {8B591AF0-0E41-479C-BE05-5967FB747CBB}
 		{74A7BAFC-CCE0-4685-8200-CA52D48A3950} = {820129FF-6448-42E2-8792-ABE1A8CBF722}
+		{8FE25B65-5C57-4800-985C-23F5E07B098A} = {2BECBA35-E0A9-4638-9411-92BC55B59DFC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E72B357-9E1E-43B5-9868-8D2B74CB2AF0}

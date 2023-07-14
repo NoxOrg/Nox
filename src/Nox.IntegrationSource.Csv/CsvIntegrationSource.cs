@@ -9,6 +9,7 @@ using Nox.Integration.Abstractions;
 using Nox.Integration.Constants;
 using Nox.Integration.Exceptions;
 using Nox.Solution;
+using Nox.Solution.Builders;
 using SqlKata.Compilers;
 
 namespace Nox.IntegrationSource.File;
@@ -31,8 +32,8 @@ public class CsvIntegrationSource: ISource
         _name = sourceConfig.Name;
         _dataConnection = dataConnection;
         _fileOptions = sourceConfig.FileOptions!;
-        var sourceUri = new Uri(dataConnection.ServerUri);
-        _resourceType = sourceUri.Scheme.ToLower() switch
+        var uriBuilder = new NoxUriBuilder(dataConnection, "file", $"infrastructure, dependencies, dataConnection: {dataConnection.Name}");
+        _resourceType = uriBuilder.Uri!.Scheme.ToLower() switch
         {
             "http" => ResourceType.Http,
             "https" => ResourceType.Http,
@@ -56,7 +57,7 @@ public class CsvIntegrationSource: ISource
             case ResourceType.File:
                 var uri = new Uri(_dataConnection.ServerUri);
                 
-                var filePath = Path.Combine(_folderPath, _sourceConfig.FileOptions!.Filename);
+                //var filePath = Path.Combine(_folderPath, _sourceConfig.FileOptions!.Filename);
                 
                 break;
             
