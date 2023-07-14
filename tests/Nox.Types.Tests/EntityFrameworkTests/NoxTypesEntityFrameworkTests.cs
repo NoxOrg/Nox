@@ -44,7 +44,6 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             LongestHikingTrailInMeters = Length.From(390_000),
             StreetAddress = CreateStreetAddress(),
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
-            Uri = Uri.From(Sample_Uri)
             Date = Date.From(new DateTime(2023, 11, 25), new()),
             LocalTimeZone = TimeZoneCode.From("CET"),
             Uri = Uri.From(Sample_Uri)
@@ -84,10 +83,9 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             LongestHikingTrailInMeters = Length.From(390_000),
             StreetAddress = streetAddress,
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
-            Uri = Uri.From(Sample_Uri)
+            Uri = Uri.From(Sample_Uri),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
             LocalTimeZone = TimeZoneCode.From("CET")
-            Uri = Uri.From(Sample_Uri)
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
