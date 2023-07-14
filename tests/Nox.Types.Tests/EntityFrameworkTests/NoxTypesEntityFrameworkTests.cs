@@ -47,6 +47,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Uri = Uri.From(Sample_Uri)
             Date = Date.From(new DateTime(2023, 11, 25), new()),
             LocalTimeZone = TimeZoneCode.From("CET"),
+            Uri = Uri.From(Sample_Uri)
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -86,6 +87,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Uri = Uri.From(Sample_Uri)
             Date = Date.From(new DateTime(2023, 11, 25), new()),
             LocalTimeZone = TimeZoneCode.From("CET")
+            Uri = Uri.From(Sample_Uri)
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -124,6 +126,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(new DateTime(2023, 11, 25).Date, item.Date.Value);
         Assert.Equal("CET", item.LocalTimeZone.Value);
 
+        Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         AssertStreetAddress(streetAddress, item.StreetAddress);
     }

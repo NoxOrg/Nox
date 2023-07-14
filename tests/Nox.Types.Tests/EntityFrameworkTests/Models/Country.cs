@@ -104,4 +104,6 @@ public sealed class Country
     /// Gets or sets the Local Time Zone.
     /// </summary>
     public TimeZoneCode LocalTimeZone { get; set; } = null!;
+
+    public Uri Uri { get; set; } = null!;
 }
