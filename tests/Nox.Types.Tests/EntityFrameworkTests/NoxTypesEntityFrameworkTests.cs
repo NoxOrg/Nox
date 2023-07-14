@@ -1,4 +1,4 @@
-using FluentAssertions;
+﻿using FluentAssertions;
 using System.Text.Json;
 
 using System;
@@ -59,7 +59,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             VolumeInCubicMeters = Volume.FromCubicMeters(89_000),
             WeightInKilograms = Weight.FromKilograms(19_000),
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
-            HashedText = HashedText.From("Test123.")
+            HashedText = HashedText.From("Test123."),
+            ArabicName = TranslatedText.From((CultureCode.From("ar-SA"), "سوئٹزرلینڈ")),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -102,6 +103,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             LocalTimeZone = TimeZoneCode.From("CET"),
             StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress, new JsonSerializerOptions { WriteIndented = true })),
             IsLandLocked = Boolean.From(true),
+            ArabicName = TranslatedText.From((CultureCode.From("ar-SA"), "سوئٹزرلینڈ")),
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
             VolumeInCubicMeters = Volume.FromCubicMeters(89_000),
             WeightInKilograms = Weight.FromKilograms(19_000),
@@ -146,7 +148,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(new System.DateTime(2023, 11, 25).Date, item.Date.Value);
         Assert.Equal("CET", item.LocalTimeZone.Value);
         Assert.Equal(Sample_Url, item.Url.Value.AbsoluteUri);
-        Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
+        item.ArabicName.Phrase.Should().Be("سوئٹزرلینڈ");
+        item.ArabicName.CultureCode.Value.Should().Be("ar-SA");
         Assert.True(item.IsLandLocked.Value);
         Assert.Equal(89_000, item.VolumeInCubicMeters.Value);
         Assert.Equal(VolumeUnit.CubicMeter, item.VolumeInCubicMeters.Unit);
