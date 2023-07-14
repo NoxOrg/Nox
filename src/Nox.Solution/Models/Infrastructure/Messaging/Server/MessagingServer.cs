@@ -18,7 +18,7 @@ namespace Nox.Solution
                 case MessagingServerProvider.RabbitMq:
                 case MessagingServerProvider.AzureServiceBus:
                     var builder = new NoxUriBuilder(this, MessagingServerProviderHelpers.GetProviderScheme(Provider), "infrastructure, messaging, integrationEventServer");
-                    ServerUri = builder.Uri!.ToString();
+                    ServerUri = builder.Uri.ToString();
                     break;
                 case MessagingServerProvider.AmazonSqs:
                     // ServerUri must contain explicit arn e.g. arn:aws:sqs:region:account-id:queue-name

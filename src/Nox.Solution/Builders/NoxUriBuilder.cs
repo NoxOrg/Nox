@@ -6,7 +6,7 @@ namespace Nox.Solution.Builders;
 
 public class NoxUriBuilder
 {
-    public Uri? Uri { get; }
+    public Uri Uri { get; }
 
     public NoxUriBuilder(ServerBase serverBase, string scheme, string description)
     {

@@ -11,18 +11,14 @@ public class CsvFileSourceTests
         var config = new Solution.IntegrationSource
         {
             Name = "TestCsvSource",
-            Description = "Test CSV source description",
-            FileOptions = new IntegrationSourceFileOptions
-            {
-                Filename = "test_file.csv"
-            }
+            Description = "Test CSV source description"
         };
 
         var dataConnection = new DataConnection
         {
             Name = "TestCsvConnection",
             Provider = DataConnectionProvider.CsvFile,
-            ServerUri = "../files"
+            ServerUri = "../files/test_file.csv"
         };
 
         var source = new CsvIntegrationSource(config, dataConnection);

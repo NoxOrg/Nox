@@ -31,12 +31,6 @@ namespace Nox.Solution.Validation
                 .SetValidator(source => new IntegrationSourceDatabaseOptionsValidator(integrationName))
                 .When(_ => dataConnection.Provider is DataConnectionProvider.Postgres or DataConnectionProvider.MySql or DataConnectionProvider.SqLite or DataConnectionProvider.SqlServer);
 
-            RuleFor(source => source!.FileOptions)
-                .NotNull()
-                .WithMessage(source => string.Format(ValidationResources.IntegrationSourceFileOptionsEmpty, source!.Name, integrationName))
-                .SetValidator(source => new IntegrationSourceFileOptionsValidator(integrationName))
-                .When(_ => dataConnection.Provider is DataConnectionProvider.CsvFile or DataConnectionProvider.ExcelFile or DataConnectionProvider.JsonFile or DataConnectionProvider.ParquetFile or DataConnectionProvider.XmlFile);
-            
             RuleFor(source => source!.MessageQueueOptions)
                 .NotNull()
                 .WithMessage(source => string.Format(ValidationResources.IntegrationSourceMsgQueueOptionsEmpty, source!.Name, integrationName))

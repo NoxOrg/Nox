@@ -29,8 +29,6 @@ namespace Nox.Solution
 
         public IntegrationSourceDatabaseOptions? DatabaseOptions { get; set; }
 
-        public IntegrationSourceFileOptions? FileOptions { get; set; }
-
         public IntegrationSourceMessageQueueOptions? MessageQueueOptions { get; set; }
 
         public IntegrationSourceWebApiOptions? WebApiOptions { get; set; }

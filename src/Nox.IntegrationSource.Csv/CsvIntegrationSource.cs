@@ -17,9 +17,7 @@ namespace Nox.IntegrationSource.File;
 public class CsvIntegrationSource: ISource
 {
     private readonly string _name;
-    private readonly ResourceType _resourceType;
-    private readonly DataConnection _dataConnection;
-    private readonly IntegrationSourceFileOptions _fileOptions;
+    private readonly Uri _sourceUri;
     
     public string Name => _name;
     
@@ -30,17 +28,8 @@ public class CsvIntegrationSource: ISource
     public CsvIntegrationSource(Solution.IntegrationSource sourceConfig, DataConnection dataConnection)
     {
         _name = sourceConfig.Name;
-        _dataConnection = dataConnection;
-        _fileOptions = sourceConfig.FileOptions!;
         var uriBuilder = new NoxUriBuilder(dataConnection, "file", $"infrastructure, dependencies, dataConnection: {dataConnection.Name}");
-        _resourceType = uriBuilder.Uri!.Scheme.ToLower() switch
-        {
-            "http" => ResourceType.Http,
-            "https" => ResourceType.Http,
-            "blob" => ResourceType.AzureBlob,
-            "file" => ResourceType.File,
-            _ => throw new NoxIntegrationException("Invalid Csv source specified in uri scheme. Available options are http, https, blob, file")
-        };
+        _sourceUri = uriBuilder.Uri;
     }
     
     public IDataFlowExecutableSource<ExpandoObject> DataFlowSource()
@@ -49,26 +38,17 @@ public class CsvIntegrationSource: ISource
         {
             Configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
         };
-        
-        dataFlowExecutableSource.ResourceType = _resourceType;
-        
-        switch (_resourceType)
-        {
-            case ResourceType.File:
-                var uri = new Uri(_dataConnection.ServerUri);
-                
-                //var filePath = Path.Combine(_folderPath, _sourceConfig.FileOptions!.Filename);
-                
-                break;
-            
-            case ResourceType.Http:
-                dataFlowExecutableSource.Uri = _dataConnection.ServerUri; 
-                break;
-            
-            case ResourceType.AzureBlob:
-                throw new NotImplementedException();
-        }
 
+        dataFlowExecutableSource.ResourceType = _sourceUri.Scheme.ToLower() switch
+        {
+            "http" => ResourceType.Http,
+            "https" => ResourceType.Http,
+            "blob" => ResourceType.AzureBlob,
+            "file" => ResourceType.File,
+            "filesystem" => ResourceType.File,
+            _ => throw new NotImplementedException( $"Resource type {_sourceUri.Scheme} has not been implemented on CSV integration sources.")
+        };
+        dataFlowExecutableSource.Uri = _sourceUri.ToString();
         return dataFlowExecutableSource;
     }
 
