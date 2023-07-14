@@ -46,7 +46,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
             LocalTimeZone = TimeZoneCode.From("CET"),
-            Uri = Uri.From(Sample_Uri)
+            Uri = Uri.From(Sample_Uri),
+            IsLandLocked = Boolean.From(false),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -85,7 +86,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Uri = Uri.From(Sample_Uri),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
-            LocalTimeZone = TimeZoneCode.From("CET")
+            LocalTimeZone = TimeZoneCode.From("CET"),
+            IsLandLocked = Boolean.From(true)
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -123,6 +125,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal("AED4322CCFEF", item.MACAddress.Value);
         Assert.Equal(new DateTime(2023, 11, 25).Date, item.Date.Value);
         Assert.Equal("CET", item.LocalTimeZone.Value);
+        Assert.True(item.IsLandLocked.Value);
 
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
