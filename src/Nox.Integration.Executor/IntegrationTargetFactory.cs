@@ -47,4 +47,6 @@ public class IntegrationTargetFactory: IIntegrationTargetFactory
         }
         throw new NoxIntegrationException(string.Format((string)ExceptionResources.TargetContructionFailure, targetName, integrationName));    
     }
+    
+    
 }
