@@ -4,7 +4,6 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
-        <RootNamespace>Nox.IntegrationSource.File</RootNamespace>
     </PropertyGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -16,20 +15,21 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Nox.Integration\Nox.Integration.csproj" />
+        <ProjectReference Include="..\Nox.Integration\Nox.Integration.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <Reference Include="ETLBox">
-        <HintPath>..\Nox.Etlbox\ETLBox.dll</HintPath>
-      </Reference>
-      <Reference Include="ETLBox.Csv">
-        <HintPath>..\Nox.Etlbox\ETLBox.Csv.dll</HintPath>
-      </Reference>
+        <Reference Include="ETLBox">
+            <HintPath>..\Nox.Etlbox\ETLBox.dll</HintPath>
+        </Reference>
+        <Reference Include="ETLBox.SqlServer">
+          <HintPath>..\Nox.Etlbox\ETLBox.SqlServer.dll</HintPath>
+        </Reference>
     </ItemGroup>
 
     <ItemGroup>
-      <PackageReference Include="CsvHelper" Version="28.0.0" />
+      <PackageReference Include="Microsoft.Data.SqlClient" Version="5.1.1" />
+      <PackageReference Include="System.Data.SqlClient" Version="4.8.5" />
     </ItemGroup>
-    
+
 </Project>

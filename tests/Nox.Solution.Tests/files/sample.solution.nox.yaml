@@ -370,6 +370,8 @@ application:
         name: CountryJsonSource
         description: Sources Country data from a json file
         dataConnectionName: CountryJsonData
+        fileOptions:
+          filename: sample.json
         watermark:
           dateColumns:
             - "CreateDate"

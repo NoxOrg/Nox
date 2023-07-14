@@ -1,6 +1,6 @@
 namespace Nox.Integration.Abstractions;
 
-public interface IExecutor
+public interface IIntegrationExecutor
 {
     Task<bool> ExecuteAsync(string integrationName);
 }

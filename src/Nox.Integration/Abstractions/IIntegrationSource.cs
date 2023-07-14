@@ -5,11 +5,10 @@ using SqlKata.Compilers;
 
 namespace Nox.Integration.Abstractions;
 
-public interface ISource
+public interface IIntegrationSource
 {
     string Name { get; }
     string Type { get; }
     Compiler SqlCompiler { get; }
     IDataFlowExecutableSource<ExpandoObject> DataFlowSource();
-    void ApplyMergeInfo(IntegrationMergeStates lastMergeInfo, string[] dateTimeStampColumns, string[] targetColumns);
 }

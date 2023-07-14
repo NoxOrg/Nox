@@ -8,9 +8,16 @@ public class NoxUriBuilder
 {
     public Uri Uri { get; }
 
-    public NoxUriBuilder(ServerBase serverBase, string scheme, string description)
+    public NoxUriBuilder(ServerBase serverBase, string scheme, string description, string path = "")
     {
         var uriString = serverBase.ServerUri;
+        if (!string.IsNullOrWhiteSpace(path))
+        {
+            if (uriString.EndsWith("/"))
+                uriString += path;
+            else
+                uriString += '/' + path;
+        };
         Uri? uri = null;
         var isValid = Uri.TryCreate(uriString, UriKind.Absolute, out uri);
         if (isValid) //contains at least a scheme and a host
@@ -22,21 +29,20 @@ public class NoxUriBuilder
         {
             UriBuilder builder;
 
-            if (serverBase.ServerUri.StartsWith(".")) //relative file location, create a proper file uri using absolute path
+            if (serverBase.ServerUri.StartsWith("file:.")) //relative file location, create a proper file uri using absolute path
             {
-                var absolutePath = Path.GetFullPath(serverBase.ServerUri);
+                var absolutePath = Path.GetFullPath(uriString.Replace("file:", ""));
                 builder = new UriBuilder("file", absolutePath);
             }
             else
             {
-
                 if (serverBase.Port.HasValue)
                 {
-                    builder = new UriBuilder(scheme, serverBase.ServerUri, serverBase.Port!.Value);
+                    builder = new UriBuilder(scheme, uriString, serverBase.Port!.Value);
                 }
                 else
                 {
-                    builder = new UriBuilder(scheme, serverBase.ServerUri);
+                    builder = new UriBuilder(scheme, uriString);
                 }
 
                 if (!string.IsNullOrWhiteSpace(serverBase.User)) builder.UserName = serverBase.User;

@@ -1,34 +1,32 @@
 using System.Dynamic;
 using System.Globalization;
 using CsvHelper.Configuration;
-using ETLBox.Connection;
 using ETLBox.DataFlow;
 using ETLBox.DataFlow.Connectors;
 using Nox.Integration;
 using Nox.Integration.Abstractions;
 using Nox.Integration.Constants;
-using Nox.Integration.Exceptions;
 using Nox.Solution;
 using Nox.Solution.Builders;
 using SqlKata.Compilers;
 
 namespace Nox.IntegrationSource.File;
 
-public class CsvIntegrationSource: ISource
+public class CsvIntegrationSource: IIntegrationSource
 {
     private readonly string _name;
     private readonly Uri _sourceUri;
     
     public string Name => _name;
     
-    public string Type => SourceType.Csv;
+    public string Type => IntegrationSourceTypeNames.Csv;
 
     public Compiler SqlCompiler { get; } = null!;
 
-    public CsvIntegrationSource(Solution.IntegrationSource sourceConfig, DataConnection dataConnection)
+    public CsvIntegrationSource(Solution.IntegrationSource sourceDefinition, DataConnection dataConnectionDefinition)
     {
-        _name = sourceConfig.Name;
-        var uriBuilder = new NoxUriBuilder(dataConnection, "file", $"infrastructure, dependencies, dataConnection: {dataConnection.Name}");
+        _name = sourceDefinition.Name;
+        var uriBuilder = new NoxUriBuilder(dataConnectionDefinition, "file", $"infrastructure, dependencies, dataConnection: {dataConnectionDefinition.Name}", sourceDefinition.FileOptions!.Filename);
         _sourceUri = uriBuilder.Uri;
     }
     
@@ -50,10 +48,5 @@ public class CsvIntegrationSource: ISource
         };
 
         return dataFlowExecutableSource;
-    }
-
-    public void ApplyMergeInfo(IntegrationMergeStates lastMergeInfo, string[] dateTimeStampColumns, string[] targetColumns)
-    {
-        throw new NotImplementedException();
     }
 }

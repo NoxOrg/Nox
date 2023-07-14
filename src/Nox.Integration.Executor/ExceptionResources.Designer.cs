@@ -56,5 +56,35 @@ namespace Nox.Integration.Executor {
                 return ResourceManager.GetString("IntegrationsDefinitionMissing", resourceCulture);
             }
         }
+        
+        internal static string SourceMissing {
+            get {
+                return ResourceManager.GetString("SourceMissing", resourceCulture);
+            }
+        }
+        
+        internal static string TargetMissing {
+            get {
+                return ResourceManager.GetString("TargetMissing", resourceCulture);
+            }
+        }
+        
+        internal static string DataConnectionMissing {
+            get {
+                return ResourceManager.GetString("DataConnectionMissing", resourceCulture);
+            }
+        }
+        
+        internal static string SourceContructionFailure {
+            get {
+                return ResourceManager.GetString("SourceContructionFailure", resourceCulture);
+            }
+        }
+        
+        internal static string TargetContructionFailure {
+            get {
+                return ResourceManager.GetString("TargetContructionFailure", resourceCulture);
+            }
+        }
     }
 }

@@ -26,11 +26,17 @@ namespace Nox.Solution
         
         [AdditionalProperties(false)]
         public IntegrationSourceWatermark? Watermark { get; internal set; }
+        
+        [AdditionalProperties(false)]
+        public IntegrationSourceFileOptions? FileOptions { get; set; }
 
+        [AdditionalProperties(false)]
         public IntegrationSourceDatabaseOptions? DatabaseOptions { get; set; }
 
+        [AdditionalProperties(false)]
         public IntegrationSourceMessageQueueOptions? MessageQueueOptions { get; set; }
 
+        [AdditionalProperties(false)]
         public IntegrationSourceWebApiOptions? WebApiOptions { get; set; }
     }
 }

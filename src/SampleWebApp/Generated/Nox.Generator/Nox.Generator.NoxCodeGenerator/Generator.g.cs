@@ -8,5 +8,4 @@
 //  - sample.solution.nox.yaml
 //  - store.entity.nox.yaml
 //  - generator.nox.yaml
-// Errors ->
-//  - Property 'fileOptions' not found on type 'Nox.Solution.IntegrationSource'.. Line 444, column 20.
+// SUCCESS.

@@ -112,6 +112,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.IntegrationSource.Tests
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Integration.Executor", "Nox.Integration.Executor\Nox.Integration.Executor.csproj", "{D2AA3E4F-7497-47DC-9FAA-2B850A68E8E8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Targets", "Targets", "{78B572B3-EE87-4BFE-86C9-626026A7573B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.IntegrationTarget.SqlServer", "Nox.IntegrationTarget.SqlServer\Nox.IntegrationTarget.SqlServer.csproj", "{A8566389-154B-4E55-BC29-666932DAA71F}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.IntegrationTarget.Tests", "..\tests\Nox.IntegrationTarget.Tests\Nox.IntegrationTarget.Tests.csproj", "{CDCD513F-BA3D-49E6-BB2D-F97D33178427}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Integration.Executor.Tests", "..\tests\Nox.Integration.Executor.Tests\Nox.Integration.Executor.Tests.csproj", "{DDC3427F-1E65-4B5D-A045-5A4533A861A9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -234,6 +242,18 @@ Global
 		{D2AA3E4F-7497-47DC-9FAA-2B850A68E8E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D2AA3E4F-7497-47DC-9FAA-2B850A68E8E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D2AA3E4F-7497-47DC-9FAA-2B850A68E8E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A8566389-154B-4E55-BC29-666932DAA71F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A8566389-154B-4E55-BC29-666932DAA71F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A8566389-154B-4E55-BC29-666932DAA71F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A8566389-154B-4E55-BC29-666932DAA71F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CDCD513F-BA3D-49E6-BB2D-F97D33178427}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CDCD513F-BA3D-49E6-BB2D-F97D33178427}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CDCD513F-BA3D-49E6-BB2D-F97D33178427}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CDCD513F-BA3D-49E6-BB2D-F97D33178427}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDC3427F-1E65-4B5D-A045-5A4533A861A9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDC3427F-1E65-4B5D-A045-5A4533A861A9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDC3427F-1E65-4B5D-A045-5A4533A861A9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDC3427F-1E65-4B5D-A045-5A4533A861A9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -269,6 +289,10 @@ Global
 		{74A7BAFC-CCE0-4685-8200-CA52D48A3950} = {820129FF-6448-42E2-8792-ABE1A8CBF722}
 		{8FE25B65-5C57-4800-985C-23F5E07B098A} = {2BECBA35-E0A9-4638-9411-92BC55B59DFC}
 		{D2AA3E4F-7497-47DC-9FAA-2B850A68E8E8} = {2BECBA35-E0A9-4638-9411-92BC55B59DFC}
+		{78B572B3-EE87-4BFE-86C9-626026A7573B} = {2BECBA35-E0A9-4638-9411-92BC55B59DFC}
+		{A8566389-154B-4E55-BC29-666932DAA71F} = {78B572B3-EE87-4BFE-86C9-626026A7573B}
+		{CDCD513F-BA3D-49E6-BB2D-F97D33178427} = {2BECBA35-E0A9-4638-9411-92BC55B59DFC}
+		{DDC3427F-1E65-4B5D-A045-5A4533A861A9} = {2BECBA35-E0A9-4638-9411-92BC55B59DFC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E72B357-9E1E-43B5-9868-8D2B74CB2AF0}

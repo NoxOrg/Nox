@@ -24,4 +24,19 @@
     <data name="IntegrationsDefinitionMissing" xml:space="preserve">
         <value>Application definition not found. In order to execute an integration, the Nox yaml definition must contain an Application section with one or more Integration definitions.</value>
     </data>
+    <data name="SourceMissing" xml:space="preserve">
+        <value>Integration source {0} does not exist in any integrations in the Nox solution definition.</value>
+    </data>
+    <data name="TargetMissing" xml:space="preserve">
+        <value>Integration target {0} does not exist in any integrations in the Nox solution definition.</value>
+    </data>
+    <data name="DataConnectionMissing" xml:space="preserve">
+        <value>Data connection ({0}) for the integration source ({1}) of integration {2} does not exist in the Nox solution definition.</value>
+    </data>
+    <data name="SourceContructionFailure" xml:space="preserve">
+        <value>Unable to create an integration source ({0}) for integration {1}.</value>
+    </data>
+    <data name="TargetContructionFailure" xml:space="preserve">
+        <value>Unable to create an integration target ({0}) for integration {1}.</value>
+    </data>
 </root>

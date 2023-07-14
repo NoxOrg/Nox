@@ -24,6 +24,12 @@ namespace Nox.Solution.Validation
                 .WithMessage(source => string.Format(ValidationResources.IntegrationSourceDataConnectionMissing, source!.Name, integrationName));
 
             var dataConnection = _dataConnections!.First(dc => dc.Name.Equals(dataConnectionName));
+            
+            RuleFor(source => source!.FileOptions)
+                .NotNull()
+                .WithMessage(source => string.Format(ValidationResources.IntegrationSourceFileOptionsEmpty, source!.Name, integrationName))
+                .SetValidator(source => new IntegrationSourceFileOptionsValidator(integrationName))
+                .When(_ => dataConnection.Provider is DataConnectionProvider.CsvFile or DataConnectionProvider.ExcelFile or DataConnectionProvider.JsonFile or DataConnectionProvider.ParquetFile or DataConnectionProvider.XmlFile);
 
             RuleFor(source => source!.DatabaseOptions)
                 .NotNull()

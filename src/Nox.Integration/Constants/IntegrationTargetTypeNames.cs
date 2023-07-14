@@ -1,6 +1,6 @@
 namespace Nox.Integration.Constants;
 
-public static class SourceType
+public class IntegrationTargetTypeNames
 {
     public const string SqlServer = @"sqlserver";
 
