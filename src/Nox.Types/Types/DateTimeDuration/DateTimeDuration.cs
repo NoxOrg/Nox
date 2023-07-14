@@ -5,16 +5,21 @@ namespace Nox.Types;
 
 public sealed class DateTimeDuration : ValueObject<TimeSpan, DateTimeDuration>
 {
+    private DateTimeDurationTypeOptions _dateTimeDurationTypeOptions = new();
+
     /// <summary>
     /// Creates a new instance of <see cref="DateTimeDuration"/> object.
     /// </summary>
-    /// <param name="dateTime">The time span to create date time duration from.</param>
-    /// <exception cref="TypeValidationException"></exception>
-    public new static DateTimeDuration From(TimeSpan value)
+    /// <param name="value">The time span to create date time duration from.</param>
+    /// <param name="options">The options.</param>
+    /// <returns></returns>
+    /// <exception cref="Nox.Types.TypeValidationException"></exception>
+    public static DateTimeDuration From(TimeSpan value, DateTimeDurationTypeOptions options)
     {
         var newObject = new DateTimeDuration
         {
-            Value = value.Duration()
+            Value = value.Duration(),
+            _dateTimeDurationTypeOptions = options
         };
 
         var validationResult = newObject.Validate();
@@ -28,6 +33,14 @@ public sealed class DateTimeDuration : ValueObject<TimeSpan, DateTimeDuration>
     }
 
     /// <summary>
+    /// Creates a new instance of <see cref="DateTimeDuration"/> object.
+    /// </summary>
+    /// <param name="value">The time span to create date time duration from.</param>
+    /// <exception cref="TypeValidationException"></exception>
+    public new static DateTimeDuration From(TimeSpan value)
+        => From(value, new());
+
+    /// <summary>
     /// Creates a new instance of <see cref="DateTimeDuration"/> object to a specified number of days, hours, minutes, seconds and milliseconds.
     /// </summary>
     /// <param name="days">The days.</param>
@@ -35,9 +48,10 @@ public sealed class DateTimeDuration : ValueObject<TimeSpan, DateTimeDuration>
     /// <param name="minutes">The minutes.</param>
     /// <param name="seconds">The seconds.</param>
     /// <param name="milliseconds">The milliseconds.</param>
+    /// <param name="options">The options.</param>
     /// <exception cref="TypeValidationException"></exception>
-    public static DateTimeDuration From(int days, int hours, int minutes, int seconds, int milliseconds)
-        => From(new TimeSpan(days, hours, minutes, seconds, milliseconds));
+    public static DateTimeDuration From(int days, int hours, int minutes, int seconds, int milliseconds, DateTimeDurationTypeOptions? options = null)
+        => From(new TimeSpan(days, hours, minutes, seconds, milliseconds), options ?? new());
 
     /// <summary>
     /// Creates a new instance of <see cref="DateTimeDuration"/> object to a specified number of days, hours, minutes and seconds.
@@ -46,9 +60,10 @@ public sealed class DateTimeDuration : ValueObject<TimeSpan, DateTimeDuration>
     /// <param name="hours">The hours.</param>
     /// <param name="minutes">The minutes.</param>
     /// <param name="seconds">The seconds.</param>
+    /// <param name="options">The options.</param>
     /// <exception cref="TypeValidationException"></exception>
-    public static DateTimeDuration From(int days, int hours, int minutes, int seconds)
-        => From(new TimeSpan(days, hours, minutes, seconds));
+    public static DateTimeDuration From(int days, int hours, int minutes, int seconds, DateTimeDurationTypeOptions? options = null)
+        => From(new TimeSpan(days, hours, minutes, seconds), options ?? new());
 
     /// <summary>
     /// Creates a new instance of <see cref="DateTimeDuration"/> object to a specified number of hours, minutes and seconds.
@@ -56,49 +71,55 @@ public sealed class DateTimeDuration : ValueObject<TimeSpan, DateTimeDuration>
     /// <param name="hours">The hours.</param>
     /// <param name="minutes">The minutes.</param>
     /// <param name="seconds">The seconds.</param>
+    /// <param name="options">The options.</param>
     /// <exception cref="TypeValidationException"></exception>
-    public static DateTimeDuration From(int hours, int minutes, int seconds)
-        => From(new TimeSpan(hours, minutes, seconds));
+    public static DateTimeDuration From(int hours, int minutes, int seconds, DateTimeDurationTypeOptions? options = null)
+        => From(new TimeSpan(hours, minutes, seconds), options ?? new());
 
     /// <summary>
     /// Creates a new instance of <see cref="DateTimeDuration"/> object to a specified number of days accurate to nearest millisecond.
     /// </summary>
     /// <param name="days">The days.</param>
+    /// <param name="options">The options.</param>
     /// <exception cref="TypeValidationException"></exception>
-    public static DateTimeDuration FromDays(double days)
-        => From(TimeSpan.FromDays(days));
+    public static DateTimeDuration FromDays(double days, DateTimeDurationTypeOptions? options = null)
+        => From(TimeSpan.FromDays(days), options ?? new());
 
     /// <summary>
-    /// Creates a new instance of <see cref="DateTimeDuration"/> object to a specified number of hours accurate to nearest millisecond.
+    /// Creates a new instance of <see cref="DateTimeDuration" /> object to a specified number of hours accurate to nearest millisecond.
     /// </summary>
     /// <param name="hours">The hours.</param>
+    /// <param name="options">The options.</param>
     /// <exception cref="TypeValidationException"></exception>
-    public static DateTimeDuration FromHours(double hours)
-        => From(TimeSpan.FromHours(hours));
+    public static DateTimeDuration FromHours(double hours, DateTimeDurationTypeOptions? options = null)
+        => From(TimeSpan.FromHours(hours), options ?? new());
 
     /// <summary>
-    /// Creates a new instance of <see cref="DateTimeDuration"/> object to a specified number of minutes accurate to nearest millisecond.
+    /// Creates a new instance of <see cref="DateTimeDuration" /> object to a specified number of minutes accurate to nearest millisecond.
     /// </summary>
     /// <param name="minutes">The minutes.</param>
+    /// <param name="options">The options.</param>
     /// <exception cref="TypeValidationException"></exception>
-    public static DateTimeDuration FromMinutes(double minutes)
-        => From(TimeSpan.FromMinutes(minutes));
+    public static DateTimeDuration FromMinutes(double minutes, DateTimeDurationTypeOptions? options = null)
+        => From(TimeSpan.FromMinutes(minutes), options ?? new());
 
     /// <summary>
     /// Creates a new instance of <see cref="DateTimeDuration"/> object to a specified number of seconds accurate to nearest millisecond.
     /// </summary>
     /// <param name="seconds">The seconds.</param>
+    /// <param name="options">The options.</param>
     /// <exception cref="TypeValidationException"></exception>
-    public static DateTimeDuration FromSeconds(double seconds)
-        => From(TimeSpan.FromSeconds(seconds));
+    public static DateTimeDuration FromSeconds(double seconds, DateTimeDurationTypeOptions? options = null)
+        => From(TimeSpan.FromSeconds(seconds), options ?? new());
 
     /// <summary>
     /// Creates a new instance of <see cref="DateTimeDuration"/> object to a specified number of milliseconds.
     /// </summary>
     /// <param name="milliseconds">The milliseconds.</param>
+    /// <param name="options">The options.</param>
     /// <exception cref="TypeValidationException"></exception>
-    public static DateTimeDuration FromMilliseconds(double milliseconds)
-        => From(TimeSpan.FromMilliseconds(milliseconds));
+    public static DateTimeDuration FromMilliseconds(double milliseconds, DateTimeDurationTypeOptions? options = null)
+        => From(TimeSpan.FromMilliseconds(milliseconds), options ?? new());
 
     /// <summary>
     /// Gets the days component of the duration.
@@ -221,4 +242,27 @@ public sealed class DateTimeDuration : ValueObject<TimeSpan, DateTimeDuration>
     /// </returns>
     public string ToString(string format, IFormatProvider formatProvider)
         => Value.ToString(format, formatProvider);
+
+    /// <summary>
+    /// Validates a <see cref="DateTimeDuration"/> object.
+    /// </summary>
+    /// <returns>
+    /// true if the <see cref="DateTimeDuration"/> value is valid.
+    /// </returns>
+    internal override ValidationResult Validate()
+    {
+        var result = base.Validate();
+
+        if (Value < _dateTimeDurationTypeOptions.GetMinDuration())
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DateTimeDuration type as value {Value.ToString("c", CultureInfo.InvariantCulture)} is less than than the minimum specified value of {_dateTimeDurationTypeOptions.GetMinDuration().ToString("c", CultureInfo.InvariantCulture)}"));
+        }
+
+        if (Value > _dateTimeDurationTypeOptions.GetMaxDuration())
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DateTimeDuration type as value {Value.ToString("c", CultureInfo.InvariantCulture)} is greater than than the maximum specified value of {_dateTimeDurationTypeOptions.GetMaxDuration().ToString("c", CultureInfo.InvariantCulture)}"));
+        }
+
+        return result;
+    }
 }

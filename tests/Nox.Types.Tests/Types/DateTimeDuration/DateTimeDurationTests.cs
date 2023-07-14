@@ -79,9 +79,9 @@ public class DateTimeDurationTests
     [InlineData(-11)]
     public void FromDays_WithVariousInputs_ReturnsValue(double days)
     {
-        var dateTimeDuraion = DateTimeDuration.FromDays(days);
+        var dateTimeDuration = DateTimeDuration.FromDays(days);
 
-        dateTimeDuraion.Value.TotalDays.Should().Be(Math.Abs(days));
+        dateTimeDuration.Value.TotalDays.Should().Be(Math.Abs(days));
     }
 
     [Theory]
@@ -90,9 +90,9 @@ public class DateTimeDurationTests
     [InlineData(-11)]
     public void FromHours_WithVariousInputs_ReturnsValue(double hours)
     {
-        var dateTimeDuraion = DateTimeDuration.FromHours(hours);
+        var dateTimeDuration = DateTimeDuration.FromHours(hours);
 
-        dateTimeDuraion.Value.TotalHours.Should().Be(Math.Abs(hours));
+        dateTimeDuration.Value.TotalHours.Should().Be(Math.Abs(hours));
     }
 
     [Theory]
@@ -101,9 +101,9 @@ public class DateTimeDurationTests
     [InlineData(-11)]
     public void FromMinutes_WithVariousInputs_ReturnsValue(double minutes)
     {
-        var dateTimeDuraion = DateTimeDuration.FromMinutes(minutes);
+        var dateTimeDuration = DateTimeDuration.FromMinutes(minutes);
 
-        dateTimeDuraion.Value.TotalMinutes.Should().Be(Math.Abs(minutes));
+        dateTimeDuration.Value.TotalMinutes.Should().Be(Math.Abs(minutes));
     }
 
     [Theory]
@@ -112,9 +112,9 @@ public class DateTimeDurationTests
     [InlineData(-11)]
     public void FromSeconds_WithVariousInputs_ReturnsValue(double seconds)
     {
-        var dateTimeDuraion = DateTimeDuration.FromSeconds(seconds);
+        var dateTimeDuration = DateTimeDuration.FromSeconds(seconds);
 
-        dateTimeDuraion.Value.TotalSeconds.Should().Be(Math.Abs(seconds));
+        dateTimeDuration.Value.TotalSeconds.Should().Be(Math.Abs(seconds));
     }
 
     [Theory]
@@ -123,9 +123,63 @@ public class DateTimeDurationTests
     [InlineData(-11)]
     public void FromMilliseconds_WithVariousInputs_ReturnsValue(double milliseconds)
     {
-        var dateTimeDuraion = DateTimeDuration.FromMilliseconds(milliseconds);
+        var dateTimeDuration = DateTimeDuration.FromMilliseconds(milliseconds);
 
-        dateTimeDuraion.Value.TotalMilliseconds.Should().Be(Math.Abs(milliseconds));
+        dateTimeDuration.Value.TotalMilliseconds.Should().Be(Math.Abs(milliseconds));
+    }
+
+    [Fact]
+    public void From_WithOptions_ReturnsValue()
+    {
+        var dateTimeDuration = DateTimeDuration.From(10, 5, 2, 1, new DateTimeDurationTypeOptions
+        {
+            MaxDurationDays = 20,
+            MaxDurationHours = 2
+        });
+
+        dateTimeDuration.Value.Days.Should().Be(10);
+        dateTimeDuration.Value.Hours.Should().Be(5);
+        dateTimeDuration.Value.Minutes.Should().Be(2);
+        dateTimeDuration.Value.Seconds.Should().Be(1);
+        dateTimeDuration.Value.Milliseconds.Should().Be(0);
+    }
+
+    [Fact]
+    public void From_WithValueLessThanMinimum_ThrowsValidationException()
+    {
+        var action = () => DateTimeDuration.From(10, 5, 2, 1, new DateTimeDurationTypeOptions
+        {
+            MaxDurationDays = 20,
+            MaxDurationHours = 2,
+            MaxDurationMinutes = 2,
+            MaxDurationSeconds = 1,
+            MaxDurationMilliseconds = 1,
+
+            MinDurationDays = 10,
+            MinDurationHours = 12,
+            MinDurationMinutes = 2,
+            MinDurationSeconds = 1,
+            MinDurationMilliseconds = 1,
+        });
+
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTimeDuration type as value 10.05:02:01 is less than than the minimum specified value of 10.12:02:01.0010000") });
+    }
+
+    [Fact]
+    public void From_WithValueGreaterThanMaximum_ThrowsValidationException()
+    {
+        var action = () => DateTimeDuration.From(10, 5, 2, 1, new DateTimeDurationTypeOptions
+        {
+            MaxDurationDays = 10,
+            MaxDurationHours = 2,
+            MaxDurationMinutes = 2,
+            MaxDurationSeconds = 1,
+            MaxDurationMilliseconds = 1,
+        });
+
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTimeDuration type as value 10.05:02:01 is greater than than the maximum specified value of 10.02:02:01.0010000") });
     }
 
     [Fact]
