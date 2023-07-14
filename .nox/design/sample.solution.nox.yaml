@@ -296,42 +296,43 @@ domain:
             isUnicode: false
             minLength: 2
             maxLength: 2
-    
-    - name: CurrencyCashBalance
 
-      description: The cash balance in Store
-
-      keys:
-
-        - name: Store
-          type: entity
-          entityTypeOptions:
-            entity: Store
-          isRequired: true
-
-        - name: Currency
-          type: entity
-          entityTypeOptions:
-            entity: Currency
-          isRequired: true
-
-      attributes:
-
-        - name: Amount
-          description: The amount
-          type: number
-          numberTypeOptions:
-            minValue: 0
-            decimalDigits: 4
-          isRequired: true
-
-        - name: OperationLimit
-          description: The Operation Limit
-          type: number
-          numberTypeOptions:
-            minValue: 0
-            decimalDigits: 4
-          isRequired: false
+# JS commented this out to get sample to run - complaining about no keys
+#    - name: CurrencyCashBalance
+#
+#      description: The cash balance in Store
+#
+#      keys:
+#
+#        - name: Store
+#          type: entity
+#          entityTypeOptions:
+#            entity: Store
+#          isRequired: true
+#
+#        - name: Currency
+#          type: entity
+#          entityTypeOptions:
+#            entity: Currency
+#          isRequired: true
+#
+#      attributes:
+#
+#        - name: Amount
+#          description: The amount
+#          type: number
+#          numberTypeOptions:
+#            minValue: 0
+#            decimalDigits: 4
+#          isRequired: true
+#
+#        - name: OperationLimit
+#          description: The Operation Limit
+#          type: number
+#          numberTypeOptions:
+#            minValue: 0
+#            decimalDigits: 4
+#          isRequired: false
 
 application:
   dataTransferObjects:

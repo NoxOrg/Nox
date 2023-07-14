@@ -18,7 +18,6 @@ public partial class ODataConfiguration
         builder.EntitySet<Currency>("Currencies");
         builder.EntitySet<Store>("Stores");
         builder.EntitySet<CountryLocalNames>("CountryLocalNames");
-        builder.EntitySet<CurrencyCashBalance>("CurrencyCashBalances");
         
         services.AddControllers()
             .AddOData(options => options
