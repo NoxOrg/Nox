@@ -6,49 +6,19 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
 {
     private DateTimeTypeOptions _dateTimeTypeOptions = new();
 
-    public int Year
-    {
-        get => Value.Year;
-        private set => Value = new System.DateTime(value, Value.Month, Value.Day, Value.Hour, Value.Minute, Value.Second);
-    }
-    public int Month
-    {
-        get => Value.Month;
-        private set => Value = new System.DateTime(Value.Year, value, Value.Day, Value.Hour, Value.Minute, Value.Second);
-    }
-    public int Day
-    {
-        get => Value.Day;
-        private set => Value = new System.DateTime(Value.Year, Value.Month, value, Value.Hour, Value.Minute, Value.Second);
-    }
-    public int Hour
-    {
-        get => Value.Hour;
-        private set => Value = new System.DateTime(Value.Year, Value.Month, Value.Day, value, Value.Minute, Value.Second);
-    }
-    public int Minute
-    {
-        get => Value.Minute;
-        private set => Value = new System.DateTime(Value.Year, Value.Month, Value.Day, Value.Hour, value, Value.Second);
-    }
-    public int Second
-    {
-        get => Value.Second;
-        private set => Value = new System.DateTime(Value.Year, Value.Month, Value.Day, Value.Hour, Value.Minute, value);
-    }
-
     public DateTime() { Value = System.DateTime.MinValue; }
 
+    /// <inheritdoc cref="From(System.DateTime,Nox.Types.DateTimeTypeOptions)"/>
+    public new static DateTime From(System.DateTime dateTime) => From(dateTime, new DateTimeTypeOptions());
+
     /// <summary>
-    /// Creates and validates a new instance of <see cref="DateTime"/> from sent System.DateTime.
+    /// Creates and validates a new instance of <see cref="DateTime"/> from parsed value of <paramref name="dateTime"/>.
     /// </summary>
     /// <param name="dateTime"></param>
     /// <param name="options"></param>
-    /// <returns>New <see cref="DateTime"/> object using sent <see cref="System.DateTime"/>.</returns>
-    public static DateTime From(System.DateTime dateTime, DateTimeTypeOptions? options = null)
+    /// <returns>New <see cref="DateTime"/> object from parsed value of <paramref name="dateTime"/>.</returns>
+    public static DateTime From(System.DateTime dateTime, DateTimeTypeOptions options)
     {
-        options ??= new DateTimeTypeOptions();
-
         var newObject = new DateTime();
 
         // check if it is a valid System.DateTime
@@ -74,24 +44,24 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
     }
 
     /// <summary>
-    /// Creates and validates a new instance of <see cref="DateTime"/> from parsed value of <see cref="datetime"/>.
+    /// Creates and validates a new instance of <see cref="DateTime"/> from parsed value of <paramref name="dateTime"/>.
     /// </summary>
-    /// <param name="datetime"></param>
+    /// <param name="dateTime"></param>
     /// <param name="options"></param>
-    /// <returns>New <see cref="DateTime"/> object using sent <see cref="datetime"/>.</returns>
-    public static DateTime From(string datetime, DateTimeTypeOptions? options = null)
+    /// <returns>New <see cref="DateTime"/> object parsed from <see cref="dateTime"/>.</returns>
+    public static DateTime From(string dateTime, DateTimeTypeOptions? options = null)
     {
         options ??= new DateTimeTypeOptions();
-        if (!System.DateTime.TryParse(datetime, out System.DateTime dateTimeParse))
+        if (!System.DateTime.TryParse(dateTime, out System.DateTime dateTimeParse))
         {
-            throw new ArgumentOutOfRangeException(nameof(datetime), datetime, "Invalid datetime");
+            throw new ArgumentOutOfRangeException(nameof(dateTime), dateTime, "Invalid datetime");
         }
 
         return From(dateTimeParse, options);
     }
 
     /// <summary>
-    /// Validates the if it is possible to create System.DateTime from sent parameters/> object.
+    /// Validates if it's possible to create a <see cref="System.DateTime"/> object.
     /// </summary>
     /// <returns>A validation result indicating whether the <see cref="System.DateTime"/> is valid or not.</returns>
     private static ValidationResult ValidateDateTime(int year, int month, int day, int hour = 0, int minute = 0, int second = 0)
@@ -189,7 +159,7 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
     }
 
     /// <summary>
-    /// Returns a string representation of the custom date and time using sent <see cref="CultureInfo"/>.
+    /// Returns a string representation of the custom date and time using the provided <paramref name="cultureInfo"/>.
     /// </summary>
     /// <param name="cultureInfo"></param>
     public string ToString(CultureInfo cultureInfo)
@@ -198,7 +168,7 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
     }
 
     /// <summary>
-    /// Returns a string representation of the custom date and time using sent <see cref="CultureInfo"/> and wanted format.
+    /// Returns a string representation of the custom date and time using the provided <paramref name="cultureInfo"/> and <paramref name="format"/>.
     /// </summary>
     /// <param name="format"></param>
     /// <param name="cultureInfo"></param>
@@ -208,7 +178,7 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
     }
 
     /// <summary>
-    /// Returns a string representation of the custom date and time using <see cref="CultureInfo.InvariantCulture"/> and wanted format.
+    /// Returns a string representation of the custom date and time using <see cref="CultureInfo.InvariantCulture"/> and the provided <paramref name="format"/>.
     /// </summary>
     /// <param name="format"></param>
     public string ToString(string format)

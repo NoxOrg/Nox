@@ -24,6 +24,7 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.CountryCode3).HasConversion<CountryCode3Converter>();
         builder.Property(e => e.IPAddress).HasConversion<IpAddressConverter>();
         builder.Property(e => e.LongestHikingTrailInMeters).HasConversion<LengthToMeterConverter>();
+        builder.Property(e => e.CreateDate).HasConversion<DateTimeConverter>();
 
         // Configure Multi-value ValueObjects
         builder.OwnsOne(e => e.LatLong).Ignore(p => p.Value);
@@ -35,6 +36,5 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
             .HasConversion<CountryCode2Converter>();
         builder.OwnsOne(e => e.DateTimeRange).Ignore(p => p.Value).OwnsOne(a => a.Start);
         builder.OwnsOne(e => e.DateTimeRange).Ignore(p => p.Value).OwnsOne(a => a.End);
-        builder.OwnsOne(e => e.CreateDate).Ignore(p => p.Value);
     }
 }
