@@ -625,6 +625,41 @@
                     }
                   }
                 },
+                "dateTimeDurationTypeOptions": {
+                  "type": "object",
+                  "properties": {
+                    "maxDurationDays": {
+                      "type": "integer"
+                    },
+                    "maxDurationHours": {
+                      "type": "integer"
+                    },
+                    "maxDurationMinutes": {
+                      "type": "integer"
+                    },
+                    "maxDurationSeconds": {
+                      "type": "integer"
+                    },
+                    "maxDurationMilliseconds": {
+                      "type": "integer"
+                    },
+                    "minDurationDays": {
+                      "type": "integer"
+                    },
+                    "minDurationHours": {
+                      "type": "integer"
+                    },
+                    "minDurationMinutes": {
+                      "type": "integer"
+                    },
+                    "minDurationSeconds": {
+                      "type": "integer"
+                    },
+                    "minDurationMilliseconds": {
+                      "type": "integer"
+                    }
+                  }
+                },
                 "isRequired": {
                   "type": "boolean",
                   "title": "Is the attribute required? Boolean value.",
@@ -734,6 +769,10 @@
                 "objectTypeOptions": {
                   "type": "object",
                   "properties": {
+                    "$ref": {
+                      "type": "string",
+                      "format": "uri"
+                    },
                     "attributes": {
                       "type": "array",
                       "items": {
@@ -1105,6 +1144,41 @@
                               }
                             }
                           },
+                          "dateTimeDurationTypeOptions": {
+                            "type": "object",
+                            "properties": {
+                              "maxDurationDays": {
+                                "type": "integer"
+                              },
+                              "maxDurationHours": {
+                                "type": "integer"
+                              },
+                              "maxDurationMinutes": {
+                                "type": "integer"
+                              },
+                              "maxDurationSeconds": {
+                                "type": "integer"
+                              },
+                              "maxDurationMilliseconds": {
+                                "type": "integer"
+                              },
+                              "minDurationDays": {
+                                "type": "integer"
+                              },
+                              "minDurationHours": {
+                                "type": "integer"
+                              },
+                              "minDurationMinutes": {
+                                "type": "integer"
+                              },
+                              "minDurationSeconds": {
+                                "type": "integer"
+                              },
+                              "minDurationMilliseconds": {
+                                "type": "integer"
+                              }
+                            }
+                          },
                           "isRequired": {
                             "type": "boolean",
                             "title": "Is the attribute required? Boolean value.",
@@ -1217,10 +1291,6 @@
                           "type"
                         ]
                       }
-                    },
-                    "$ref": {
-                      "type": "string",
-                      "format": "uri"
                     }
                   },
                   "required": [
@@ -1596,6 +1666,41 @@
                         }
                       }
                     },
+                    "dateTimeDurationTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "maxDurationDays": {
+                          "type": "integer"
+                        },
+                        "maxDurationHours": {
+                          "type": "integer"
+                        },
+                        "maxDurationMinutes": {
+                          "type": "integer"
+                        },
+                        "maxDurationSeconds": {
+                          "type": "integer"
+                        },
+                        "maxDurationMilliseconds": {
+                          "type": "integer"
+                        },
+                        "minDurationDays": {
+                          "type": "integer"
+                        },
+                        "minDurationHours": {
+                          "type": "integer"
+                        },
+                        "minDurationMinutes": {
+                          "type": "integer"
+                        },
+                        "minDurationSeconds": {
+                          "type": "integer"
+                        },
+                        "minDurationMilliseconds": {
+                          "type": "integer"
+                        }
+                      }
+                    },
                     "isRequired": {
                       "type": "boolean",
                       "title": "Is the attribute required? Boolean value.",
@@ -1705,6 +1810,10 @@
                     "objectTypeOptions": {
                       "type": "object",
                       "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
+                        },
                         "attributes": {
                           "type": "array",
                           "items": {
@@ -2076,6 +2185,41 @@
                                   }
                                 }
                               },
+                              "dateTimeDurationTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "maxDurationDays": {
+                                    "type": "integer"
+                                  },
+                                  "maxDurationHours": {
+                                    "type": "integer"
+                                  },
+                                  "maxDurationMinutes": {
+                                    "type": "integer"
+                                  },
+                                  "maxDurationSeconds": {
+                                    "type": "integer"
+                                  },
+                                  "maxDurationMilliseconds": {
+                                    "type": "integer"
+                                  },
+                                  "minDurationDays": {
+                                    "type": "integer"
+                                  },
+                                  "minDurationHours": {
+                                    "type": "integer"
+                                  },
+                                  "minDurationMinutes": {
+                                    "type": "integer"
+                                  },
+                                  "minDurationSeconds": {
+                                    "type": "integer"
+                                  },
+                                  "minDurationMilliseconds": {
+                                    "type": "integer"
+                                  }
+                                }
+                              },
                               "isRequired": {
                                 "type": "boolean",
                                 "title": "Is the attribute required? Boolean value.",
@@ -2188,10 +2332,6 @@
                               "type"
                             ]
                           }
-                        },
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
                         }
                       },
                       "required": [
@@ -2576,6 +2716,41 @@
                         }
                       }
                     },
+                    "dateTimeDurationTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "maxDurationDays": {
+                          "type": "integer"
+                        },
+                        "maxDurationHours": {
+                          "type": "integer"
+                        },
+                        "maxDurationMinutes": {
+                          "type": "integer"
+                        },
+                        "maxDurationSeconds": {
+                          "type": "integer"
+                        },
+                        "maxDurationMilliseconds": {
+                          "type": "integer"
+                        },
+                        "minDurationDays": {
+                          "type": "integer"
+                        },
+                        "minDurationHours": {
+                          "type": "integer"
+                        },
+                        "minDurationMinutes": {
+                          "type": "integer"
+                        },
+                        "minDurationSeconds": {
+                          "type": "integer"
+                        },
+                        "minDurationMilliseconds": {
+                          "type": "integer"
+                        }
+                      }
+                    },
                     "isRequired": {
                       "type": "boolean",
                       "title": "Is the attribute required? Boolean value.",
@@ -2685,6 +2860,10 @@
                     "objectTypeOptions": {
                       "type": "object",
                       "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
+                        },
                         "attributes": {
                           "type": "array",
                           "items": {
@@ -3056,6 +3235,41 @@
                                   }
                                 }
                               },
+                              "dateTimeDurationTypeOptions": {
+                                "type": "object",
+                                "properties": {
+                                  "maxDurationDays": {
+                                    "type": "integer"
+                                  },
+                                  "maxDurationHours": {
+                                    "type": "integer"
+                                  },
+                                  "maxDurationMinutes": {
+                                    "type": "integer"
+                                  },
+                                  "maxDurationSeconds": {
+                                    "type": "integer"
+                                  },
+                                  "maxDurationMilliseconds": {
+                                    "type": "integer"
+                                  },
+                                  "minDurationDays": {
+                                    "type": "integer"
+                                  },
+                                  "minDurationHours": {
+                                    "type": "integer"
+                                  },
+                                  "minDurationMinutes": {
+                                    "type": "integer"
+                                  },
+                                  "minDurationSeconds": {
+                                    "type": "integer"
+                                  },
+                                  "minDurationMilliseconds": {
+                                    "type": "integer"
+                                  }
+                                }
+                              },
                               "isRequired": {
                                 "type": "boolean",
                                 "title": "Is the attribute required? Boolean value.",
@@ -3168,10 +3382,6 @@
                               "type"
                             ]
                           }
-                        },
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
                         }
                       },
                       "required": [
@@ -3569,6 +3779,41 @@
                   }
                 }
               },
+              "dateTimeDurationTypeOptions": {
+                "type": "object",
+                "properties": {
+                  "maxDurationDays": {
+                    "type": "integer"
+                  },
+                  "maxDurationHours": {
+                    "type": "integer"
+                  },
+                  "maxDurationMinutes": {
+                    "type": "integer"
+                  },
+                  "maxDurationSeconds": {
+                    "type": "integer"
+                  },
+                  "maxDurationMilliseconds": {
+                    "type": "integer"
+                  },
+                  "minDurationDays": {
+                    "type": "integer"
+                  },
+                  "minDurationHours": {
+                    "type": "integer"
+                  },
+                  "minDurationMinutes": {
+                    "type": "integer"
+                  },
+                  "minDurationSeconds": {
+                    "type": "integer"
+                  },
+                  "minDurationMilliseconds": {
+                    "type": "integer"
+                  }
+                }
+              },
               "isRequired": {
                 "type": "boolean",
                 "title": "Is the attribute required? Boolean value.",
@@ -3678,6 +3923,10 @@
               "objectTypeOptions": {
                 "type": "object",
                 "properties": {
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
+                  },
                   "attributes": {
                     "type": "array",
                     "items": {
@@ -4049,6 +4298,41 @@
                             }
                           }
                         },
+                        "dateTimeDurationTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "maxDurationDays": {
+                              "type": "integer"
+                            },
+                            "maxDurationHours": {
+                              "type": "integer"
+                            },
+                            "maxDurationMinutes": {
+                              "type": "integer"
+                            },
+                            "maxDurationSeconds": {
+                              "type": "integer"
+                            },
+                            "maxDurationMilliseconds": {
+                              "type": "integer"
+                            },
+                            "minDurationDays": {
+                              "type": "integer"
+                            },
+                            "minDurationHours": {
+                              "type": "integer"
+                            },
+                            "minDurationMinutes": {
+                              "type": "integer"
+                            },
+                            "minDurationSeconds": {
+                              "type": "integer"
+                            },
+                            "minDurationMilliseconds": {
+                              "type": "integer"
+                            }
+                          }
+                        },
                         "isRequired": {
                           "type": "boolean",
                           "title": "Is the attribute required? Boolean value.",
@@ -4161,10 +4445,6 @@
                         "type"
                       ]
                     }
-                  },
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
                   }
                 },
                 "required": [
@@ -4540,6 +4820,41 @@
                       }
                     }
                   },
+                  "dateTimeDurationTypeOptions": {
+                    "type": "object",
+                    "properties": {
+                      "maxDurationDays": {
+                        "type": "integer"
+                      },
+                      "maxDurationHours": {
+                        "type": "integer"
+                      },
+                      "maxDurationMinutes": {
+                        "type": "integer"
+                      },
+                      "maxDurationSeconds": {
+                        "type": "integer"
+                      },
+                      "maxDurationMilliseconds": {
+                        "type": "integer"
+                      },
+                      "minDurationDays": {
+                        "type": "integer"
+                      },
+                      "minDurationHours": {
+                        "type": "integer"
+                      },
+                      "minDurationMinutes": {
+                        "type": "integer"
+                      },
+                      "minDurationSeconds": {
+                        "type": "integer"
+                      },
+                      "minDurationMilliseconds": {
+                        "type": "integer"
+                      }
+                    }
+                  },
                   "isRequired": {
                     "type": "boolean",
                     "title": "Is the attribute required? Boolean value.",
@@ -4649,6 +4964,10 @@
                   "objectTypeOptions": {
                     "type": "object",
                     "properties": {
+                      "$ref": {
+                        "type": "string",
+                        "format": "uri"
+                      },
                       "attributes": {
                         "type": "array",
                         "items": {
@@ -5020,6 +5339,41 @@
                                 }
                               }
                             },
+                            "dateTimeDurationTypeOptions": {
+                              "type": "object",
+                              "properties": {
+                                "maxDurationDays": {
+                                  "type": "integer"
+                                },
+                                "maxDurationHours": {
+                                  "type": "integer"
+                                },
+                                "maxDurationMinutes": {
+                                  "type": "integer"
+                                },
+                                "maxDurationSeconds": {
+                                  "type": "integer"
+                                },
+                                "maxDurationMilliseconds": {
+                                  "type": "integer"
+                                },
+                                "minDurationDays": {
+                                  "type": "integer"
+                                },
+                                "minDurationHours": {
+                                  "type": "integer"
+                                },
+                                "minDurationMinutes": {
+                                  "type": "integer"
+                                },
+                                "minDurationSeconds": {
+                                  "type": "integer"
+                                },
+                                "minDurationMilliseconds": {
+                                  "type": "integer"
+                                }
+                              }
+                            },
                             "isRequired": {
                               "type": "boolean",
                               "title": "Is the attribute required? Boolean value.",
@@ -5132,10 +5486,6 @@
                             "type"
                           ]
                         }
-                      },
-                      "$ref": {
-                        "type": "string",
-                        "format": "uri"
                       }
                     },
                     "required": [
@@ -5520,6 +5870,41 @@
                       }
                     }
                   },
+                  "dateTimeDurationTypeOptions": {
+                    "type": "object",
+                    "properties": {
+                      "maxDurationDays": {
+                        "type": "integer"
+                      },
+                      "maxDurationHours": {
+                        "type": "integer"
+                      },
+                      "maxDurationMinutes": {
+                        "type": "integer"
+                      },
+                      "maxDurationSeconds": {
+                        "type": "integer"
+                      },
+                      "maxDurationMilliseconds": {
+                        "type": "integer"
+                      },
+                      "minDurationDays": {
+                        "type": "integer"
+                      },
+                      "minDurationHours": {
+                        "type": "integer"
+                      },
+                      "minDurationMinutes": {
+                        "type": "integer"
+                      },
+                      "minDurationSeconds": {
+                        "type": "integer"
+                      },
+                      "minDurationMilliseconds": {
+                        "type": "integer"
+                      }
+                    }
+                  },
                   "isRequired": {
                     "type": "boolean",
                     "title": "Is the attribute required? Boolean value.",
@@ -5629,6 +6014,10 @@
                   "objectTypeOptions": {
                     "type": "object",
                     "properties": {
+                      "$ref": {
+                        "type": "string",
+                        "format": "uri"
+                      },
                       "attributes": {
                         "type": "array",
                         "items": {
@@ -6000,6 +6389,41 @@
                                 }
                               }
                             },
+                            "dateTimeDurationTypeOptions": {
+                              "type": "object",
+                              "properties": {
+                                "maxDurationDays": {
+                                  "type": "integer"
+                                },
+                                "maxDurationHours": {
+                                  "type": "integer"
+                                },
+                                "maxDurationMinutes": {
+                                  "type": "integer"
+                                },
+                                "maxDurationSeconds": {
+                                  "type": "integer"
+                                },
+                                "maxDurationMilliseconds": {
+                                  "type": "integer"
+                                },
+                                "minDurationDays": {
+                                  "type": "integer"
+                                },
+                                "minDurationHours": {
+                                  "type": "integer"
+                                },
+                                "minDurationMinutes": {
+                                  "type": "integer"
+                                },
+                                "minDurationSeconds": {
+                                  "type": "integer"
+                                },
+                                "minDurationMilliseconds": {
+                                  "type": "integer"
+                                }
+                              }
+                            },
                             "isRequired": {
                               "type": "boolean",
                               "title": "Is the attribute required? Boolean value.",
@@ -6112,10 +6536,6 @@
                             "type"
                           ]
                         }
-                      },
-                      "$ref": {
-                        "type": "string",
-                        "format": "uri"
                       }
                     },
                     "required": [
@@ -6524,6 +6944,41 @@
               }
             }
           },
+          "dateTimeDurationTypeOptions": {
+            "type": "object",
+            "properties": {
+              "maxDurationDays": {
+                "type": "integer"
+              },
+              "maxDurationHours": {
+                "type": "integer"
+              },
+              "maxDurationMinutes": {
+                "type": "integer"
+              },
+              "maxDurationSeconds": {
+                "type": "integer"
+              },
+              "maxDurationMilliseconds": {
+                "type": "integer"
+              },
+              "minDurationDays": {
+                "type": "integer"
+              },
+              "minDurationHours": {
+                "type": "integer"
+              },
+              "minDurationMinutes": {
+                "type": "integer"
+              },
+              "minDurationSeconds": {
+                "type": "integer"
+              },
+              "minDurationMilliseconds": {
+                "type": "integer"
+              }
+            }
+          },
           "isRequired": {
             "type": "boolean",
             "title": "Is the attribute required? Boolean value.",
@@ -6633,6 +7088,10 @@
           "objectTypeOptions": {
             "type": "object",
             "properties": {
+              "$ref": {
+                "type": "string",
+                "format": "uri"
+              },
               "attributes": {
                 "type": "array",
                 "items": {
@@ -7004,6 +7463,41 @@
                         }
                       }
                     },
+                    "dateTimeDurationTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "maxDurationDays": {
+                          "type": "integer"
+                        },
+                        "maxDurationHours": {
+                          "type": "integer"
+                        },
+                        "maxDurationMinutes": {
+                          "type": "integer"
+                        },
+                        "maxDurationSeconds": {
+                          "type": "integer"
+                        },
+                        "maxDurationMilliseconds": {
+                          "type": "integer"
+                        },
+                        "minDurationDays": {
+                          "type": "integer"
+                        },
+                        "minDurationHours": {
+                          "type": "integer"
+                        },
+                        "minDurationMinutes": {
+                          "type": "integer"
+                        },
+                        "minDurationSeconds": {
+                          "type": "integer"
+                        },
+                        "minDurationMilliseconds": {
+                          "type": "integer"
+                        }
+                      }
+                    },
                     "isRequired": {
                       "type": "boolean",
                       "title": "Is the attribute required? Boolean value.",
@@ -7116,10 +7610,6 @@
                     "type"
                   ]
                 }
-              },
-              "$ref": {
-                "type": "string",
-                "format": "uri"
               }
             },
             "required": [
@@ -7495,6 +7985,41 @@
                   }
                 }
               },
+              "dateTimeDurationTypeOptions": {
+                "type": "object",
+                "properties": {
+                  "maxDurationDays": {
+                    "type": "integer"
+                  },
+                  "maxDurationHours": {
+                    "type": "integer"
+                  },
+                  "maxDurationMinutes": {
+                    "type": "integer"
+                  },
+                  "maxDurationSeconds": {
+                    "type": "integer"
+                  },
+                  "maxDurationMilliseconds": {
+                    "type": "integer"
+                  },
+                  "minDurationDays": {
+                    "type": "integer"
+                  },
+                  "minDurationHours": {
+                    "type": "integer"
+                  },
+                  "minDurationMinutes": {
+                    "type": "integer"
+                  },
+                  "minDurationSeconds": {
+                    "type": "integer"
+                  },
+                  "minDurationMilliseconds": {
+                    "type": "integer"
+                  }
+                }
+              },
               "isRequired": {
                 "type": "boolean",
                 "title": "Is the attribute required? Boolean value.",
@@ -7604,6 +8129,10 @@
               "objectTypeOptions": {
                 "type": "object",
                 "properties": {
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
+                  },
                   "attributes": {
                     "type": "array",
                     "items": {
@@ -7975,6 +8504,41 @@
                             }
                           }
                         },
+                        "dateTimeDurationTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "maxDurationDays": {
+                              "type": "integer"
+                            },
+                            "maxDurationHours": {
+                              "type": "integer"
+                            },
+                            "maxDurationMinutes": {
+                              "type": "integer"
+                            },
+                            "maxDurationSeconds": {
+                              "type": "integer"
+                            },
+                            "maxDurationMilliseconds": {
+                              "type": "integer"
+                            },
+                            "minDurationDays": {
+                              "type": "integer"
+                            },
+                            "minDurationHours": {
+                              "type": "integer"
+                            },
+                            "minDurationMinutes": {
+                              "type": "integer"
+                            },
+                            "minDurationSeconds": {
+                              "type": "integer"
+                            },
+                            "minDurationMilliseconds": {
+                              "type": "integer"
+                            }
+                          }
+                        },
                         "isRequired": {
                           "type": "boolean",
                           "title": "Is the attribute required? Boolean value.",
@@ -8087,10 +8651,6 @@
                         "type"
                       ]
                     }
-                  },
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
                   }
                 },
                 "required": [
@@ -8475,6 +9035,41 @@
                   }
                 }
               },
+              "dateTimeDurationTypeOptions": {
+                "type": "object",
+                "properties": {
+                  "maxDurationDays": {
+                    "type": "integer"
+                  },
+                  "maxDurationHours": {
+                    "type": "integer"
+                  },
+                  "maxDurationMinutes": {
+                    "type": "integer"
+                  },
+                  "maxDurationSeconds": {
+                    "type": "integer"
+                  },
+                  "maxDurationMilliseconds": {
+                    "type": "integer"
+                  },
+                  "minDurationDays": {
+                    "type": "integer"
+                  },
+                  "minDurationHours": {
+                    "type": "integer"
+                  },
+                  "minDurationMinutes": {
+                    "type": "integer"
+                  },
+                  "minDurationSeconds": {
+                    "type": "integer"
+                  },
+                  "minDurationMilliseconds": {
+                    "type": "integer"
+                  }
+                }
+              },
               "isRequired": {
                 "type": "boolean",
                 "title": "Is the attribute required? Boolean value.",
@@ -8584,6 +9179,10 @@
               "objectTypeOptions": {
                 "type": "object",
                 "properties": {
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
+                  },
                   "attributes": {
                     "type": "array",
                     "items": {
@@ -8955,6 +9554,41 @@
                             }
                           }
                         },
+                        "dateTimeDurationTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "maxDurationDays": {
+                              "type": "integer"
+                            },
+                            "maxDurationHours": {
+                              "type": "integer"
+                            },
+                            "maxDurationMinutes": {
+                              "type": "integer"
+                            },
+                            "maxDurationSeconds": {
+                              "type": "integer"
+                            },
+                            "maxDurationMilliseconds": {
+                              "type": "integer"
+                            },
+                            "minDurationDays": {
+                              "type": "integer"
+                            },
+                            "minDurationHours": {
+                              "type": "integer"
+                            },
+                            "minDurationMinutes": {
+                              "type": "integer"
+                            },
+                            "minDurationSeconds": {
+                              "type": "integer"
+                            },
+                            "minDurationMilliseconds": {
+                              "type": "integer"
+                            }
+                          }
+                        },
                         "isRequired": {
                           "type": "boolean",
                           "title": "Is the attribute required? Boolean value.",
@@ -9067,10 +9701,6 @@
                         "type"
                       ]
                     }
-                  },
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
                   }
                 },
                 "required": [
@@ -9476,6 +10106,41 @@
               }
             }
           },
+          "dateTimeDurationTypeOptions": {
+            "type": "object",
+            "properties": {
+              "maxDurationDays": {
+                "type": "integer"
+              },
+              "maxDurationHours": {
+                "type": "integer"
+              },
+              "maxDurationMinutes": {
+                "type": "integer"
+              },
+              "maxDurationSeconds": {
+                "type": "integer"
+              },
+              "maxDurationMilliseconds": {
+                "type": "integer"
+              },
+              "minDurationDays": {
+                "type": "integer"
+              },
+              "minDurationHours": {
+                "type": "integer"
+              },
+              "minDurationMinutes": {
+                "type": "integer"
+              },
+              "minDurationSeconds": {
+                "type": "integer"
+              },
+              "minDurationMilliseconds": {
+                "type": "integer"
+              }
+            }
+          },
           "isRequired": {
             "type": "boolean",
             "title": "Is the attribute required? Boolean value.",
@@ -9585,6 +10250,10 @@
           "objectTypeOptions": {
             "type": "object",
             "properties": {
+              "$ref": {
+                "type": "string",
+                "format": "uri"
+              },
               "attributes": {
                 "type": "array",
                 "items": {
@@ -9956,6 +10625,41 @@
                         }
                       }
                     },
+                    "dateTimeDurationTypeOptions": {
+                      "type": "object",
+                      "properties": {
+                        "maxDurationDays": {
+                          "type": "integer"
+                        },
+                        "maxDurationHours": {
+                          "type": "integer"
+                        },
+                        "maxDurationMinutes": {
+                          "type": "integer"
+                        },
+                        "maxDurationSeconds": {
+                          "type": "integer"
+                        },
+                        "maxDurationMilliseconds": {
+                          "type": "integer"
+                        },
+                        "minDurationDays": {
+                          "type": "integer"
+                        },
+                        "minDurationHours": {
+                          "type": "integer"
+                        },
+                        "minDurationMinutes": {
+                          "type": "integer"
+                        },
+                        "minDurationSeconds": {
+                          "type": "integer"
+                        },
+                        "minDurationMilliseconds": {
+                          "type": "integer"
+                        }
+                      }
+                    },
                     "isRequired": {
                       "type": "boolean",
                       "title": "Is the attribute required? Boolean value.",
@@ -10068,10 +10772,6 @@
                     "type"
                   ]
                 }
-              },
-              "$ref": {
-                "type": "string",
-                "format": "uri"
               }
             },
             "required": [
@@ -10447,6 +11147,41 @@
                   }
                 }
               },
+              "dateTimeDurationTypeOptions": {
+                "type": "object",
+                "properties": {
+                  "maxDurationDays": {
+                    "type": "integer"
+                  },
+                  "maxDurationHours": {
+                    "type": "integer"
+                  },
+                  "maxDurationMinutes": {
+                    "type": "integer"
+                  },
+                  "maxDurationSeconds": {
+                    "type": "integer"
+                  },
+                  "maxDurationMilliseconds": {
+                    "type": "integer"
+                  },
+                  "minDurationDays": {
+                    "type": "integer"
+                  },
+                  "minDurationHours": {
+                    "type": "integer"
+                  },
+                  "minDurationMinutes": {
+                    "type": "integer"
+                  },
+                  "minDurationSeconds": {
+                    "type": "integer"
+                  },
+                  "minDurationMilliseconds": {
+                    "type": "integer"
+                  }
+                }
+              },
               "isRequired": {
                 "type": "boolean",
                 "title": "Is the attribute required? Boolean value.",
@@ -10556,6 +11291,10 @@
               "objectTypeOptions": {
                 "type": "object",
                 "properties": {
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
+                  },
                   "attributes": {
                     "type": "array",
                     "items": {
@@ -10927,6 +11666,41 @@
                             }
                           }
                         },
+                        "dateTimeDurationTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "maxDurationDays": {
+                              "type": "integer"
+                            },
+                            "maxDurationHours": {
+                              "type": "integer"
+                            },
+                            "maxDurationMinutes": {
+                              "type": "integer"
+                            },
+                            "maxDurationSeconds": {
+                              "type": "integer"
+                            },
+                            "maxDurationMilliseconds": {
+                              "type": "integer"
+                            },
+                            "minDurationDays": {
+                              "type": "integer"
+                            },
+                            "minDurationHours": {
+                              "type": "integer"
+                            },
+                            "minDurationMinutes": {
+                              "type": "integer"
+                            },
+                            "minDurationSeconds": {
+                              "type": "integer"
+                            },
+                            "minDurationMilliseconds": {
+                              "type": "integer"
+                            }
+                          }
+                        },
                         "isRequired": {
                           "type": "boolean",
                           "title": "Is the attribute required? Boolean value.",
@@ -11039,10 +11813,6 @@
                         "type"
                       ]
                     }
-                  },
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
                   }
                 },
                 "required": [
@@ -11427,6 +12197,41 @@
                   }
                 }
               },
+              "dateTimeDurationTypeOptions": {
+                "type": "object",
+                "properties": {
+                  "maxDurationDays": {
+                    "type": "integer"
+                  },
+                  "maxDurationHours": {
+                    "type": "integer"
+                  },
+                  "maxDurationMinutes": {
+                    "type": "integer"
+                  },
+                  "maxDurationSeconds": {
+                    "type": "integer"
+                  },
+                  "maxDurationMilliseconds": {
+                    "type": "integer"
+                  },
+                  "minDurationDays": {
+                    "type": "integer"
+                  },
+                  "minDurationHours": {
+                    "type": "integer"
+                  },
+                  "minDurationMinutes": {
+                    "type": "integer"
+                  },
+                  "minDurationSeconds": {
+                    "type": "integer"
+                  },
+                  "minDurationMilliseconds": {
+                    "type": "integer"
+                  }
+                }
+              },
               "isRequired": {
                 "type": "boolean",
                 "title": "Is the attribute required? Boolean value.",
@@ -11536,6 +12341,10 @@
               "objectTypeOptions": {
                 "type": "object",
                 "properties": {
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
+                  },
                   "attributes": {
                     "type": "array",
                     "items": {
@@ -11907,6 +12716,41 @@
                             }
                           }
                         },
+                        "dateTimeDurationTypeOptions": {
+                          "type": "object",
+                          "properties": {
+                            "maxDurationDays": {
+                              "type": "integer"
+                            },
+                            "maxDurationHours": {
+                              "type": "integer"
+                            },
+                            "maxDurationMinutes": {
+                              "type": "integer"
+                            },
+                            "maxDurationSeconds": {
+                              "type": "integer"
+                            },
+                            "maxDurationMilliseconds": {
+                              "type": "integer"
+                            },
+                            "minDurationDays": {
+                              "type": "integer"
+                            },
+                            "minDurationHours": {
+                              "type": "integer"
+                            },
+                            "minDurationMinutes": {
+                              "type": "integer"
+                            },
+                            "minDurationSeconds": {
+                              "type": "integer"
+                            },
+                            "minDurationMilliseconds": {
+                              "type": "integer"
+                            }
+                          }
+                        },
                         "isRequired": {
                           "type": "boolean",
                           "title": "Is the attribute required? Boolean value.",
@@ -12019,10 +12863,6 @@
                         "type"
                       ]
                     }
-                  },
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
                   }
                 },
                 "required": [
@@ -12419,6 +13259,41 @@
               },
               "allowFutureOnly": {
                 "type": "boolean"
+              }
+            }
+          },
+          "dateTimeDurationTypeOptions": {
+            "type": "object",
+            "properties": {
+              "maxDurationDays": {
+                "type": "integer"
+              },
+              "maxDurationHours": {
+                "type": "integer"
+              },
+              "maxDurationMinutes": {
+                "type": "integer"
+              },
+              "maxDurationSeconds": {
+                "type": "integer"
+              },
+              "maxDurationMilliseconds": {
+                "type": "integer"
+              },
+              "minDurationDays": {
+                "type": "integer"
+              },
+              "minDurationHours": {
+                "type": "integer"
+              },
+              "minDurationMinutes": {
+                "type": "integer"
+              },
+              "minDurationSeconds": {
+                "type": "integer"
+              },
+              "minDurationMilliseconds": {
+                "type": "integer"
               }
             }
           },
@@ -12907,6 +13782,41 @@
               },
               "allowFutureOnly": {
                 "type": "boolean"
+              }
+            }
+          },
+          "dateTimeDurationTypeOptions": {
+            "type": "object",
+            "properties": {
+              "maxDurationDays": {
+                "type": "integer"
+              },
+              "maxDurationHours": {
+                "type": "integer"
+              },
+              "maxDurationMinutes": {
+                "type": "integer"
+              },
+              "maxDurationSeconds": {
+                "type": "integer"
+              },
+              "maxDurationMilliseconds": {
+                "type": "integer"
+              },
+              "minDurationDays": {
+                "type": "integer"
+              },
+              "minDurationHours": {
+                "type": "integer"
+              },
+              "minDurationMinutes": {
+                "type": "integer"
+              },
+              "minDurationSeconds": {
+                "type": "integer"
+              },
+              "minDurationMilliseconds": {
+                "type": "integer"
               }
             }
           },

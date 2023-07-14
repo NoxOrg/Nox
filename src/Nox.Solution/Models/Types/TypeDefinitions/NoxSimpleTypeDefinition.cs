@@ -33,7 +33,7 @@ namespace Nox.Solution
         public PercentageTypeOptions? PercentageTypeOptions { get; set; }
         public TranslatedTextTypeOptions? TranslatedTextTypeOptions { get; set; }
         public YearTypeOptions? YearTypeOptions { get; set; }
-
+        public DateTimeDurationTypeOptions? DateTimeDurationTypeOptions { get; set; }
 
         #endregion TypeOptions
 

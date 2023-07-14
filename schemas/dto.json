@@ -384,6 +384,41 @@
               }
             }
           },
+          "dateTimeDurationTypeOptions": {
+            "type": "object",
+            "properties": {
+              "maxDurationDays": {
+                "type": "integer"
+              },
+              "maxDurationHours": {
+                "type": "integer"
+              },
+              "maxDurationMinutes": {
+                "type": "integer"
+              },
+              "maxDurationSeconds": {
+                "type": "integer"
+              },
+              "maxDurationMilliseconds": {
+                "type": "integer"
+              },
+              "minDurationDays": {
+                "type": "integer"
+              },
+              "minDurationHours": {
+                "type": "integer"
+              },
+              "minDurationMinutes": {
+                "type": "integer"
+              },
+              "minDurationSeconds": {
+                "type": "integer"
+              },
+              "minDurationMilliseconds": {
+                "type": "integer"
+              }
+            }
+          },
           "isRequired": {
             "type": "boolean",
             "title": "Is the attribute required? Boolean value.",
