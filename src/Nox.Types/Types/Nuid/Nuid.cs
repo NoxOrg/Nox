@@ -13,11 +13,15 @@ namespace Nox.Types;
 /// <remarks>Placeholder, needs to be implemented</remarks>
 public sealed class Nuid : ValueObject<uint, Nuid>, IComparable, IComparable<Nuid>, IEquatable<Nuid>
 {
+    public static Nuid From(string textToEncode)
+    {
+        return From(textToEncode, new NuidTypeOptions { });
+    }
+
     public static Nuid From(string textToEncode, NuidTypeOptions options)
     {
-        var integer = ToInt32(textToEncode);
-        var uintValue = ToUInt32(integer);
-        var nuid = From(uintValue);
+        var unsignedValue = ToUInt32(textToEncode);
+        var nuid = From(unsignedValue);
 
         return nuid;
     }
@@ -110,7 +114,7 @@ public sealed class Nuid : ValueObject<uint, Nuid>, IComparable, IComparable<Nui
         return rA == rB;
     }
 
-    private static int ToInt32(string input)
+    private static uint ToUInt32(string input)
     {
         var bytes = Encoding.UTF8.GetBytes(input);
         var hash = XxHash64
@@ -118,15 +122,8 @@ public sealed class Nuid : ValueObject<uint, Nuid>, IComparable, IComparable<Nui
             .Reverse()
             .ToArray();
 
-        return BitConverter.ToInt32(hash, 0);
-    }
+        var nuid = BitConverter.ToUInt32(hash, 0);
 
-    private static uint ToUInt32(int nuid)
-    {
-        return (uint)(nuid + int.MaxValue + 1);
+        return (nuid + uint.MaxValue + 1);
     }
-}
-
-public class NuidTypeOptions
-{
 }

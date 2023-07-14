@@ -8,8 +8,8 @@ public class NuidTests
     {
         const string testValue = "!#123TestValue456!#";
 
-        var nuidLeft = Nuid.From(testValue, new NuidTypeOptions());
-        var nuidRight = Nuid.From(testValue, new NuidTypeOptions());
+        var nuidLeft = Nuid.From(testValue);
+        var nuidRight = Nuid.From(testValue);
 
         Assert.Equal(nuidLeft, nuidRight);
         Assert.Equal(nuidLeft.Value, nuidRight.Value);
