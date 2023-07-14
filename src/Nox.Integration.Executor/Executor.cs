@@ -3,7 +3,7 @@ using Nox.Integration.Abstractions;
 using Nox.Integration.Exceptions;
 using Nox.Solution;
 
-namespace Nox.Integration;
+namespace Nox.Integration.Executor;
 
 public class Executor: IExecutor
 {

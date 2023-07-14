@@ -18,10 +18,10 @@
     <resheader name="writer">
         <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=2.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
     </resheader>
+    <data name="IntegrationDefinitionMissing" xml:space="preserve">
+        <value>The definition of integration '{0}' has not been supplied in the Nox yaml definition. In order to execute an integration, the Nox yaml definition must contain an Application section with with an integration definition named '{0}'.</value>
+    </data>
     <data name="IntegrationsDefinitionMissing" xml:space="preserve">
         <value>Application definition not found. In order to execute an integration, the Nox yaml definition must contain an Application section with one or more Integration definitions.</value>
-    </data>
-    <data name="IntegrationDefinitionMissing" xml:space="preserve">
-        <value>The definition of integration '{0}' has not been supplied in the Nox yaml defintion. In order to execute an integration, the Nox yaml definition must contain an Application section with with an integration definition named '{0}'.</value>
     </data>
 </root>

@@ -1,3 +1,5 @@
+using System.Dynamic;
+using ETLBox.DataFlow.Connectors;
 using Nox.IntegrationSource.File;
 using Nox.Solution;
 
@@ -23,6 +25,7 @@ public class CsvFileSourceTests
 
         var source = new CsvIntegrationSource(config, dataConnection);
         var dfSource = source.DataFlowSource();
-        
+        Assert.NotNull(dfSource);
+        Assert.IsType<CsvSource<ExpandoObject>>(dfSource);
     }
 }

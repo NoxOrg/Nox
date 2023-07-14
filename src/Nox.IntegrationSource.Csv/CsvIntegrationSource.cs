@@ -36,19 +36,19 @@ public class CsvIntegrationSource: ISource
     {
         var dataFlowExecutableSource = new CsvSource<ExpandoObject>
         {
-            Configuration = new CsvConfiguration(CultureInfo.InvariantCulture)
+            Configuration = new CsvConfiguration(CultureInfo.InvariantCulture),
+            ResourceType = _sourceUri.Scheme.ToLower() switch
+            {
+                "http" => ResourceType.Http,
+                "https" => ResourceType.Http,
+                "blob" => ResourceType.AzureBlob,
+                "file" => ResourceType.File,
+                "filesystem" => ResourceType.File,
+                _ => throw new NotImplementedException( $"Resource type {_sourceUri.Scheme} has not been implemented on CSV integration sources.")
+            },
+            Uri = _sourceUri.ToString()
         };
 
-        dataFlowExecutableSource.ResourceType = _sourceUri.Scheme.ToLower() switch
-        {
-            "http" => ResourceType.Http,
-            "https" => ResourceType.Http,
-            "blob" => ResourceType.AzureBlob,
-            "file" => ResourceType.File,
-            "filesystem" => ResourceType.File,
-            _ => throw new NotImplementedException( $"Resource type {_sourceUri.Scheme} has not been implemented on CSV integration sources.")
-        };
-        dataFlowExecutableSource.Uri = _sourceUri.ToString();
         return dataFlowExecutableSource;
     }
 

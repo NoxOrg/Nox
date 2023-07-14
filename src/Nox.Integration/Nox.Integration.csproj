@@ -36,21 +36,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <EmbeddedResource Update="ExceptionResources.resx">
-        <Generator>ResXFileCodeGenerator</Generator>
-        <LastGenOutput>IntegrationExceptionResources.Designer.cs</LastGenOutput>
-      </EmbeddedResource>
-    </ItemGroup>
-
-    <ItemGroup>
-      <Compile Update="ExceptionResources.Designer.cs">
-        <DesignTime>True</DesignTime>
-        <AutoGen>True</AutoGen>
-        <DependentUpon>ExceptionResources.resx</DependentUpon>
-      </Compile>
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
     </ItemGroup>
 

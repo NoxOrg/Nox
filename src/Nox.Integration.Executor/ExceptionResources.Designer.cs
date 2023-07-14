@@ -7,7 +7,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Nox.Integration {
+namespace Nox.Integration.Executor {
     using System;
     
     
@@ -28,7 +28,7 @@ namespace Nox.Integration {
         internal static System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.Equals(null, resourceMan)) {
-                    System.Resources.ResourceManager temp = new System.Resources.ResourceManager("Nox.Integration.ExceptionResources", typeof(ExceptionResources).Assembly);
+                    System.Resources.ResourceManager temp = new System.Resources.ResourceManager("Nox.Integration.Executor.ExceptionResources", typeof(ExceptionResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -45,15 +45,15 @@ namespace Nox.Integration {
             }
         }
         
-        internal static string IntegrationsDefinitionMissing {
-            get {
-                return ResourceManager.GetString("IntegrationsDefinitionMissing", resourceCulture);
-            }
-        }
-        
         internal static string IntegrationDefinitionMissing {
             get {
                 return ResourceManager.GetString("IntegrationDefinitionMissing", resourceCulture);
+            }
+        }
+        
+        internal static string IntegrationsDefinitionMissing {
+            get {
+                return ResourceManager.GetString("IntegrationsDefinitionMissing", resourceCulture);
             }
         }
     }
