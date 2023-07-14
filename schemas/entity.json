@@ -633,10 +633,6 @@
                 "userInterface": {
                   "type": "object",
                   "properties": {
-                    "$ref": {
-                      "type": "string",
-                      "format": "uri"
-                    },
                     "label": {
                       "type": "string",
                       "title": "A descriptive label for this attribute on the user interface.",
@@ -720,6 +716,10 @@
                       "type": "string",
                       "title": "Validation error message.",
                       "description": "The default error message displayed when text input validation fails."
+                    },
+                    "$ref": {
+                      "type": "string",
+                      "format": "uri"
                     }
                   },
                   "title": "The user interface display options for this attribute.",
@@ -734,6 +734,10 @@
                 "objectTypeOptions": {
                   "type": "object",
                   "properties": {
+                    "$ref": {
+                      "type": "string",
+                      "format": "uri"
+                    },
                     "attributes": {
                       "type": "array",
                       "items": {
@@ -1113,10 +1117,6 @@
                           "userInterface": {
                             "type": "object",
                             "properties": {
-                              "$ref": {
-                                "type": "string",
-                                "format": "uri"
-                              },
                               "label": {
                                 "type": "string",
                                 "title": "A descriptive label for this attribute on the user interface.",
@@ -1200,6 +1200,10 @@
                                 "type": "string",
                                 "title": "Validation error message.",
                                 "description": "The default error message displayed when text input validation fails."
+                              },
+                              "$ref": {
+                                "type": "string",
+                                "format": "uri"
                               }
                             },
                             "title": "The user interface display options for this attribute.",
@@ -1217,10 +1221,6 @@
                           "type"
                         ]
                       }
-                    },
-                    "$ref": {
-                      "type": "string",
-                      "format": "uri"
                     }
                   },
                   "required": [
@@ -1604,10 +1604,6 @@
                     "userInterface": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "label": {
                           "type": "string",
                           "title": "A descriptive label for this attribute on the user interface.",
@@ -1691,6 +1687,10 @@
                           "type": "string",
                           "title": "Validation error message.",
                           "description": "The default error message displayed when text input validation fails."
+                        },
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
                         }
                       },
                       "title": "The user interface display options for this attribute.",
@@ -1705,6 +1705,10 @@
                     "objectTypeOptions": {
                       "type": "object",
                       "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
+                        },
                         "attributes": {
                           "type": "array",
                           "items": {
@@ -2084,10 +2088,6 @@
                               "userInterface": {
                                 "type": "object",
                                 "properties": {
-                                  "$ref": {
-                                    "type": "string",
-                                    "format": "uri"
-                                  },
                                   "label": {
                                     "type": "string",
                                     "title": "A descriptive label for this attribute on the user interface.",
@@ -2171,6 +2171,10 @@
                                     "type": "string",
                                     "title": "Validation error message.",
                                     "description": "The default error message displayed when text input validation fails."
+                                  },
+                                  "$ref": {
+                                    "type": "string",
+                                    "format": "uri"
                                   }
                                 },
                                 "title": "The user interface display options for this attribute.",
@@ -2188,10 +2192,6 @@
                               "type"
                             ]
                           }
-                        },
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
                         }
                       },
                       "required": [
@@ -2584,10 +2584,6 @@
                     "userInterface": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "label": {
                           "type": "string",
                           "title": "A descriptive label for this attribute on the user interface.",
@@ -2671,6 +2667,10 @@
                           "type": "string",
                           "title": "Validation error message.",
                           "description": "The default error message displayed when text input validation fails."
+                        },
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
                         }
                       },
                       "title": "The user interface display options for this attribute.",
@@ -2685,6 +2685,10 @@
                     "objectTypeOptions": {
                       "type": "object",
                       "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
+                        },
                         "attributes": {
                           "type": "array",
                           "items": {
@@ -3064,10 +3068,6 @@
                               "userInterface": {
                                 "type": "object",
                                 "properties": {
-                                  "$ref": {
-                                    "type": "string",
-                                    "format": "uri"
-                                  },
                                   "label": {
                                     "type": "string",
                                     "title": "A descriptive label for this attribute on the user interface.",
@@ -3151,6 +3151,10 @@
                                     "type": "string",
                                     "title": "Validation error message.",
                                     "description": "The default error message displayed when text input validation fails."
+                                  },
+                                  "$ref": {
+                                    "type": "string",
+                                    "format": "uri"
                                   }
                                 },
                                 "title": "The user interface display options for this attribute.",
@@ -3168,10 +3172,6 @@
                               "type"
                             ]
                           }
-                        },
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
                         }
                       },
                       "required": [
@@ -3577,10 +3577,6 @@
               "userInterface": {
                 "type": "object",
                 "properties": {
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
-                  },
                   "label": {
                     "type": "string",
                     "title": "A descriptive label for this attribute on the user interface.",
@@ -3664,6 +3660,10 @@
                     "type": "string",
                     "title": "Validation error message.",
                     "description": "The default error message displayed when text input validation fails."
+                  },
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
                   }
                 },
                 "title": "The user interface display options for this attribute.",
@@ -3678,6 +3678,10 @@
               "objectTypeOptions": {
                 "type": "object",
                 "properties": {
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
+                  },
                   "attributes": {
                     "type": "array",
                     "items": {
@@ -4057,10 +4061,6 @@
                         "userInterface": {
                           "type": "object",
                           "properties": {
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
-                            },
                             "label": {
                               "type": "string",
                               "title": "A descriptive label for this attribute on the user interface.",
@@ -4144,6 +4144,10 @@
                               "type": "string",
                               "title": "Validation error message.",
                               "description": "The default error message displayed when text input validation fails."
+                            },
+                            "$ref": {
+                              "type": "string",
+                              "format": "uri"
                             }
                           },
                           "title": "The user interface display options for this attribute.",
@@ -4161,10 +4165,6 @@
                         "type"
                       ]
                     }
-                  },
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
                   }
                 },
                 "required": [
@@ -4548,10 +4548,6 @@
                   "userInterface": {
                     "type": "object",
                     "properties": {
-                      "$ref": {
-                        "type": "string",
-                        "format": "uri"
-                      },
                       "label": {
                         "type": "string",
                         "title": "A descriptive label for this attribute on the user interface.",
@@ -4635,6 +4631,10 @@
                         "type": "string",
                         "title": "Validation error message.",
                         "description": "The default error message displayed when text input validation fails."
+                      },
+                      "$ref": {
+                        "type": "string",
+                        "format": "uri"
                       }
                     },
                     "title": "The user interface display options for this attribute.",
@@ -4649,6 +4649,10 @@
                   "objectTypeOptions": {
                     "type": "object",
                     "properties": {
+                      "$ref": {
+                        "type": "string",
+                        "format": "uri"
+                      },
                       "attributes": {
                         "type": "array",
                         "items": {
@@ -5028,10 +5032,6 @@
                             "userInterface": {
                               "type": "object",
                               "properties": {
-                                "$ref": {
-                                  "type": "string",
-                                  "format": "uri"
-                                },
                                 "label": {
                                   "type": "string",
                                   "title": "A descriptive label for this attribute on the user interface.",
@@ -5115,6 +5115,10 @@
                                   "type": "string",
                                   "title": "Validation error message.",
                                   "description": "The default error message displayed when text input validation fails."
+                                },
+                                "$ref": {
+                                  "type": "string",
+                                  "format": "uri"
                                 }
                               },
                               "title": "The user interface display options for this attribute.",
@@ -5132,10 +5136,6 @@
                             "type"
                           ]
                         }
-                      },
-                      "$ref": {
-                        "type": "string",
-                        "format": "uri"
                       }
                     },
                     "required": [
@@ -5528,10 +5528,6 @@
                   "userInterface": {
                     "type": "object",
                     "properties": {
-                      "$ref": {
-                        "type": "string",
-                        "format": "uri"
-                      },
                       "label": {
                         "type": "string",
                         "title": "A descriptive label for this attribute on the user interface.",
@@ -5615,6 +5611,10 @@
                         "type": "string",
                         "title": "Validation error message.",
                         "description": "The default error message displayed when text input validation fails."
+                      },
+                      "$ref": {
+                        "type": "string",
+                        "format": "uri"
                       }
                     },
                     "title": "The user interface display options for this attribute.",
@@ -5629,6 +5629,10 @@
                   "objectTypeOptions": {
                     "type": "object",
                     "properties": {
+                      "$ref": {
+                        "type": "string",
+                        "format": "uri"
+                      },
                       "attributes": {
                         "type": "array",
                         "items": {
@@ -6008,10 +6012,6 @@
                             "userInterface": {
                               "type": "object",
                               "properties": {
-                                "$ref": {
-                                  "type": "string",
-                                  "format": "uri"
-                                },
                                 "label": {
                                   "type": "string",
                                   "title": "A descriptive label for this attribute on the user interface.",
@@ -6095,6 +6095,10 @@
                                   "type": "string",
                                   "title": "Validation error message.",
                                   "description": "The default error message displayed when text input validation fails."
+                                },
+                                "$ref": {
+                                  "type": "string",
+                                  "format": "uri"
                                 }
                               },
                               "title": "The user interface display options for this attribute.",
@@ -6112,10 +6116,6 @@
                             "type"
                           ]
                         }
-                      },
-                      "$ref": {
-                        "type": "string",
-                        "format": "uri"
                       }
                     },
                     "required": [
@@ -6532,10 +6532,6 @@
           "userInterface": {
             "type": "object",
             "properties": {
-              "$ref": {
-                "type": "string",
-                "format": "uri"
-              },
               "label": {
                 "type": "string",
                 "title": "A descriptive label for this attribute on the user interface.",
@@ -6619,6 +6615,10 @@
                 "type": "string",
                 "title": "Validation error message.",
                 "description": "The default error message displayed when text input validation fails."
+              },
+              "$ref": {
+                "type": "string",
+                "format": "uri"
               }
             },
             "title": "The user interface display options for this attribute.",
@@ -6633,6 +6633,10 @@
           "objectTypeOptions": {
             "type": "object",
             "properties": {
+              "$ref": {
+                "type": "string",
+                "format": "uri"
+              },
               "attributes": {
                 "type": "array",
                 "items": {
@@ -7012,10 +7016,6 @@
                     "userInterface": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "label": {
                           "type": "string",
                           "title": "A descriptive label for this attribute on the user interface.",
@@ -7099,6 +7099,10 @@
                           "type": "string",
                           "title": "Validation error message.",
                           "description": "The default error message displayed when text input validation fails."
+                        },
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
                         }
                       },
                       "title": "The user interface display options for this attribute.",
@@ -7116,10 +7120,6 @@
                     "type"
                   ]
                 }
-              },
-              "$ref": {
-                "type": "string",
-                "format": "uri"
               }
             },
             "required": [
@@ -7503,10 +7503,6 @@
               "userInterface": {
                 "type": "object",
                 "properties": {
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
-                  },
                   "label": {
                     "type": "string",
                     "title": "A descriptive label for this attribute on the user interface.",
@@ -7590,6 +7586,10 @@
                     "type": "string",
                     "title": "Validation error message.",
                     "description": "The default error message displayed when text input validation fails."
+                  },
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
                   }
                 },
                 "title": "The user interface display options for this attribute.",
@@ -7604,6 +7604,10 @@
               "objectTypeOptions": {
                 "type": "object",
                 "properties": {
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
+                  },
                   "attributes": {
                     "type": "array",
                     "items": {
@@ -7983,10 +7987,6 @@
                         "userInterface": {
                           "type": "object",
                           "properties": {
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
-                            },
                             "label": {
                               "type": "string",
                               "title": "A descriptive label for this attribute on the user interface.",
@@ -8070,6 +8070,10 @@
                               "type": "string",
                               "title": "Validation error message.",
                               "description": "The default error message displayed when text input validation fails."
+                            },
+                            "$ref": {
+                              "type": "string",
+                              "format": "uri"
                             }
                           },
                           "title": "The user interface display options for this attribute.",
@@ -8087,10 +8091,6 @@
                         "type"
                       ]
                     }
-                  },
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
                   }
                 },
                 "required": [
@@ -8483,10 +8483,6 @@
               "userInterface": {
                 "type": "object",
                 "properties": {
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
-                  },
                   "label": {
                     "type": "string",
                     "title": "A descriptive label for this attribute on the user interface.",
@@ -8570,6 +8566,10 @@
                     "type": "string",
                     "title": "Validation error message.",
                     "description": "The default error message displayed when text input validation fails."
+                  },
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
                   }
                 },
                 "title": "The user interface display options for this attribute.",
@@ -8584,6 +8584,10 @@
               "objectTypeOptions": {
                 "type": "object",
                 "properties": {
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
+                  },
                   "attributes": {
                     "type": "array",
                     "items": {
@@ -8963,10 +8967,6 @@
                         "userInterface": {
                           "type": "object",
                           "properties": {
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
-                            },
                             "label": {
                               "type": "string",
                               "title": "A descriptive label for this attribute on the user interface.",
@@ -9050,6 +9050,10 @@
                               "type": "string",
                               "title": "Validation error message.",
                               "description": "The default error message displayed when text input validation fails."
+                            },
+                            "$ref": {
+                              "type": "string",
+                              "format": "uri"
                             }
                           },
                           "title": "The user interface display options for this attribute.",
@@ -9067,10 +9071,6 @@
                         "type"
                       ]
                     }
-                  },
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
                   }
                 },
                 "required": [
@@ -9484,10 +9484,6 @@
           "userInterface": {
             "type": "object",
             "properties": {
-              "$ref": {
-                "type": "string",
-                "format": "uri"
-              },
               "label": {
                 "type": "string",
                 "title": "A descriptive label for this attribute on the user interface.",
@@ -9571,6 +9567,10 @@
                 "type": "string",
                 "title": "Validation error message.",
                 "description": "The default error message displayed when text input validation fails."
+              },
+              "$ref": {
+                "type": "string",
+                "format": "uri"
               }
             },
             "title": "The user interface display options for this attribute.",
@@ -9585,6 +9585,10 @@
           "objectTypeOptions": {
             "type": "object",
             "properties": {
+              "$ref": {
+                "type": "string",
+                "format": "uri"
+              },
               "attributes": {
                 "type": "array",
                 "items": {
@@ -9964,10 +9968,6 @@
                     "userInterface": {
                       "type": "object",
                       "properties": {
-                        "$ref": {
-                          "type": "string",
-                          "format": "uri"
-                        },
                         "label": {
                           "type": "string",
                           "title": "A descriptive label for this attribute on the user interface.",
@@ -10051,6 +10051,10 @@
                           "type": "string",
                           "title": "Validation error message.",
                           "description": "The default error message displayed when text input validation fails."
+                        },
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri"
                         }
                       },
                       "title": "The user interface display options for this attribute.",
@@ -10068,10 +10072,6 @@
                     "type"
                   ]
                 }
-              },
-              "$ref": {
-                "type": "string",
-                "format": "uri"
               }
             },
             "required": [
@@ -10455,10 +10455,6 @@
               "userInterface": {
                 "type": "object",
                 "properties": {
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
-                  },
                   "label": {
                     "type": "string",
                     "title": "A descriptive label for this attribute on the user interface.",
@@ -10542,6 +10538,10 @@
                     "type": "string",
                     "title": "Validation error message.",
                     "description": "The default error message displayed when text input validation fails."
+                  },
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
                   }
                 },
                 "title": "The user interface display options for this attribute.",
@@ -10556,6 +10556,10 @@
               "objectTypeOptions": {
                 "type": "object",
                 "properties": {
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
+                  },
                   "attributes": {
                     "type": "array",
                     "items": {
@@ -10935,10 +10939,6 @@
                         "userInterface": {
                           "type": "object",
                           "properties": {
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
-                            },
                             "label": {
                               "type": "string",
                               "title": "A descriptive label for this attribute on the user interface.",
@@ -11022,6 +11022,10 @@
                               "type": "string",
                               "title": "Validation error message.",
                               "description": "The default error message displayed when text input validation fails."
+                            },
+                            "$ref": {
+                              "type": "string",
+                              "format": "uri"
                             }
                           },
                           "title": "The user interface display options for this attribute.",
@@ -11039,10 +11043,6 @@
                         "type"
                       ]
                     }
-                  },
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
                   }
                 },
                 "required": [
@@ -11435,10 +11435,6 @@
               "userInterface": {
                 "type": "object",
                 "properties": {
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
-                  },
                   "label": {
                     "type": "string",
                     "title": "A descriptive label for this attribute on the user interface.",
@@ -11522,6 +11518,10 @@
                     "type": "string",
                     "title": "Validation error message.",
                     "description": "The default error message displayed when text input validation fails."
+                  },
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
                   }
                 },
                 "title": "The user interface display options for this attribute.",
@@ -11536,6 +11536,10 @@
               "objectTypeOptions": {
                 "type": "object",
                 "properties": {
+                  "$ref": {
+                    "type": "string",
+                    "format": "uri"
+                  },
                   "attributes": {
                     "type": "array",
                     "items": {
@@ -11915,10 +11919,6 @@
                         "userInterface": {
                           "type": "object",
                           "properties": {
-                            "$ref": {
-                              "type": "string",
-                              "format": "uri"
-                            },
                             "label": {
                               "type": "string",
                               "title": "A descriptive label for this attribute on the user interface.",
@@ -12002,6 +12002,10 @@
                               "type": "string",
                               "title": "Validation error message.",
                               "description": "The default error message displayed when text input validation fails."
+                            },
+                            "$ref": {
+                              "type": "string",
+                              "format": "uri"
                             }
                           },
                           "title": "The user interface display options for this attribute.",
@@ -12019,10 +12023,6 @@
                         "type"
                       ]
                     }
-                  },
-                  "$ref": {
-                    "type": "string",
-                    "format": "uri"
                   }
                 },
                 "required": [
@@ -12430,10 +12430,6 @@
           "userInterface": {
             "type": "object",
             "properties": {
-              "$ref": {
-                "type": "string",
-                "format": "uri"
-              },
               "label": {
                 "type": "string",
                 "title": "A descriptive label for this attribute on the user interface.",
@@ -12517,6 +12513,10 @@
                 "type": "string",
                 "title": "Validation error message.",
                 "description": "The default error message displayed when text input validation fails."
+              },
+              "$ref": {
+                "type": "string",
+                "format": "uri"
               }
             },
             "title": "The user interface display options for this attribute.",
@@ -12918,10 +12918,6 @@
           "userInterface": {
             "type": "object",
             "properties": {
-              "$ref": {
-                "type": "string",
-                "format": "uri"
-              },
               "label": {
                 "type": "string",
                 "title": "A descriptive label for this attribute on the user interface.",
@@ -13005,6 +13001,10 @@
                 "type": "string",
                 "title": "Validation error message.",
                 "description": "The default error message displayed when text input validation fails."
+              },
+              "$ref": {
+                "type": "string",
+                "format": "uri"
               }
             },
             "title": "The user interface display options for this attribute.",

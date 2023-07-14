@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using FluentValidation;
+using Nox.Solution.Builders;
 using Nox.Solution.Extensions;
 
 namespace Nox.Solution.Validation
@@ -28,15 +29,20 @@ namespace Nox.Solution.Validation
         private bool BeValidFileUri(DataConnection toEvaluate, string uriString)
         {
             var isValid = Uri.TryCreate(uriString, UriKind.Absolute, out var uri);
-            if (!isValid) return isValid;
-            return (uri!.Scheme.ToLower()) switch
+            if (isValid)
             {
-                "http" => true,
-                "https" => true,
-                "file" => true,
-                "blob" => true,
-                _ => false
-            };
+
+                return (uri!.Scheme.ToLower()) switch
+                {
+                    "http" => true,
+                    "https" => true,
+                    "file" => true,
+                    "blob" => true,
+                    _ => false
+                };
+            }
+
+            return uriString.StartsWith("file:.");
         }
     }
 }

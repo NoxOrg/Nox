@@ -127,22 +127,6 @@
           "description": "This section specified attributes related to an ETL source of type Database. Attributes include the database query as well as minimumexpected records.",
           "additionalProperties": false
         },
-        "fileOptions": {
-          "type": "object",
-          "properties": {
-            "filename": {
-              "type": "string",
-              "title": "The file name.",
-              "description": "The name of the file that will be ingested."
-            }
-          },
-          "required": [
-            "filename"
-          ],
-          "title": "Definition namespace for a file type ETL source.",
-          "description": "This section specified attributes related to an ETL source of type File. Attributes include the database query as well as minimumexpected records.",
-          "additionalProperties": false
-        },
         "messageQueueOptions": {
           "type": "object",
           "properties": {

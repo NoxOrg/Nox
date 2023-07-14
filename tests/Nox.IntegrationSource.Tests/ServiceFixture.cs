@@ -11,8 +11,9 @@ public class ServiceFixture
     public ServiceFixture()
     {
         var services = new ServiceCollection();
+        
         services
-            .AddCsvIntegrationSource()
+            //.AddCsvIntegrationSource()
             .AddIntegrationSourceFactory();
         
         ServiceProvider = services.BuildServiceProvider();

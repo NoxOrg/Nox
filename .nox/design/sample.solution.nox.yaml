@@ -374,9 +374,6 @@ application:
         name: CountryJsonSource
         description: Sources Country data from a json file
         dataConnectionName: CountryJsonData
-        # file options might not be relevant        
-        fileOptions: 
-          filename: country-seed-data.json
         watermark:
           dateColumns:
             - "CreateDate"
