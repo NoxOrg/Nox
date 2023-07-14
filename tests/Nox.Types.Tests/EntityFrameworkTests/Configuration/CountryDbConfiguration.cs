@@ -27,6 +27,7 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.MACAddress).HasConversion<MacAddressConverter>();
         builder.Property(e => e.Date).HasConversion<DateConverter>();
         builder.Property(e => e.LocalTimeZone).HasConversion<TimeZoneCodeConverter>();
+        builder.Property(e => e.Uri).HasConversion<UriConverter>();
         builder.Property(e => e.DateTimeDuration).HasConversion<DateTimeDurationConverter>();
 
         // Configure Multi-value ValueObjects

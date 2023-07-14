@@ -93,6 +93,8 @@ public sealed class Country
     /// </summary>
     public MacAddress MACAddress { get; set; } = null!;
 
+    public Uri Uri { get; set; } = null!;
+
     /// <summary>
     /// Gets or sets the date.
     /// </summary>
