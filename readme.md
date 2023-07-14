@@ -1,3 +1,10 @@
+# Local Development
+To run the SampleWebApp you need to have a SQL Server running, this is temporary until we provide the remain database providers.
+
+Using SQL Server on the root run `docker-compose -f .\docker-compose.sqlServer.yml up`
+
+Run the Sample the database should be provisioned and properly setup its model.
+
 # Nox.Solution
 
 ## Environment Variables for Sensitive Data
