@@ -429,12 +429,6 @@ namespace Nox.Solution {
             }
         }
         
-        internal static string InfrastructureMessagingEmpty {
-            get {
-                return ResourceManager.GetString("InfrastructureMessagingEmpty", resourceCulture);
-            }
-        }
-        
         internal static string ServerNameEmpty {
             get {
                 return ResourceManager.GetString("ServerNameEmpty", resourceCulture);
