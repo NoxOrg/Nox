@@ -7,7 +7,7 @@ namespace Nox.Types.EntityFramework.Types;
 
 public class MoneyDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
-    public NoxType ForNoxType => NoxType.Month;
+    public NoxType ForNoxType => NoxType.Money;
     public bool IsDefault => true;
 
     public void ConfigureEntityProperty(
