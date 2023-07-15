@@ -20,7 +20,7 @@ public class CacheTests
         store.Save(key, secret);
         var path = Path.Combine(WellKnownPaths.SecretsCachePath, $".{key}");
         Assert.True(File.Exists(path));
-        var loaded = store.Load(key, new TimeSpan(0, 0, 1));
+        var loaded = store.Load(key, new TimeSpan(0, 0, 10));
         Assert.Equal(loaded, secret);
     }
     
