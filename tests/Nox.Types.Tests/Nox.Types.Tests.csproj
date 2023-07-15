@@ -123,6 +123,9 @@
     <None Update="Types\Yaml\Samples\Equal\anchor1.2.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Types\Yaml\Samples\Invalid\anchor1.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
 </Project>

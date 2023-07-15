@@ -38,7 +38,8 @@ public class YamlTests
     [InlineData("complex-object1.yaml")]
     [InlineData("complex-object2.yaml")]
     [InlineData("array.yaml")]
-    [InlineData("anchor.yaml")] //#TODO: Add more tests for Anchor. Anchor needs to be defined before it can be referenced
+    [InlineData("anchor.yaml")]
+    [InlineData("anchor1.yaml")]
     public void Yaml_Constructor_ThrowsException_WhenInvalidYaml(string fileName)
     {
         string yamlString = System.IO.File.ReadAllText( Path.Combine(_fileRoot,_invalidFolder, fileName));
@@ -48,7 +49,7 @@ public class YamlTests
 
         // Assert
         exception.Errors.Should().HaveCount(1);
-        exception.Errors.First().ErrorMessage.Should().Be($"Could not create a Nox Yaml type with invalid yaml value '{yamlString}'.");
+        exception.Errors.First().ErrorMessage.Should().Contain($"Could not create a Nox Yaml type with invalid yaml value '{yamlString}'");
     }
     
     [Theory]
