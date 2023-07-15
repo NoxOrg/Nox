@@ -3,7 +3,7 @@ using System.Linq;
 using System.Text;
 using YamlDotNet.Core.Tokens;
 
-namespace Nox.Solution.Schema;
+namespace Nox.Solution.Schema.Serialization;
 
 internal class JsonBuilder
 {
@@ -24,7 +24,7 @@ internal class JsonBuilder
         _stringBuilder.AppendLine(text);
     }
 
-    public void AppendProperty(string name, string value) 
+    public void AppendProperty(string name, string value)
     {
         AppendLine($"{ToJson(name)}: {ToJson(value)},");
     }
@@ -39,7 +39,7 @@ internal class JsonBuilder
         AppendIndented($"{ToJson(name)}: ");
         StartBlock();
         var props = value.GetType().GetProperties();
-        foreach (var prop in props) 
+        foreach (var prop in props)
         {
             var propValue = prop.GetValue(value)?.ToString() ?? string.Empty;
             AppendProperty(prop.Name, propValue);
@@ -57,8 +57,8 @@ internal class JsonBuilder
     {
         AppendLine($"{ToJson(name)}: [");
         Indent();
-        foreach (var value in values) 
-        { 
+        foreach (var value in values)
+        {
             AppendLine($"{ToJson(value)},");
         }
         RemoveTrailingCommas();
@@ -78,7 +78,7 @@ internal class JsonBuilder
     {
         var lines = text.Replace("\r", "").Split('\n').Where(l => !string.IsNullOrWhiteSpace(l)).ToList();
 
-        if(writeFirstLineOutdented && lines.Count > 0) 
+        if (writeFirstLineOutdented && lines.Count > 0)
         {
             Append(lines[0]);
             AppendLine();
@@ -154,7 +154,7 @@ internal class JsonBuilder
 
     public string Build()
     {
-        return _stringBuilder.ToString() ;
+        return _stringBuilder.ToString();
     }
 
     private static string ToJson(bool input)
