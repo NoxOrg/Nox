@@ -309,9 +309,6 @@
   <data name="InfrastructurePersistenceEmpty" xml:space="preserve">
     <value>The persistence section of the infrastructure definition is missing. Infrastructure persistence is required in a Nox solution definition.</value>
   </data>
-  <data name="InfrastructureMessagingEmpty" xml:space="preserve">
-    <value>The messaging section of the infrastructure definition is missing. Infrastructure messaging is required in a Nox solution definition.</value>
-  </data>
   <data name="ServerNameEmpty" xml:space="preserve">
     <value>The server definition for {0} is missing a name. All server definitions must have a unique name in a Nox solution.</value>
   </data>
