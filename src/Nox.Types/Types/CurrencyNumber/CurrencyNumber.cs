@@ -46,7 +46,7 @@ public sealed class CurrencyNumber : ValueObject<(uint Amount, CurrencyCode Curr
     /// Returns a string representation of the <see cref="CurrencyNumber"/> object using the specified <paramref name="format"/>.
     /// </summary>
     /// <param name="format">The format specifier for the amount value.</param>
-    /// <returns>A string representation of the <see cref="CurrencyNumber"/> object with the amount formatted using the specified format and Invariant culture .</returns>
+    /// <returns>A string representation of the <see cref="CurrencyNumber"/> object with the amount formatted using the specified <paramref name="format"/> and <see cref="CultureInfo.InvariantCulture"/> .</returns>
     public string ToString(string format)
     {
         return ToString(format, Thread.CurrentThread.CurrentCulture);
