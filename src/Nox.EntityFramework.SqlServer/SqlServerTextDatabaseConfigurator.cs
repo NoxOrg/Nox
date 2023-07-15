@@ -1,9 +1,10 @@
-﻿using Nox.Types;
+﻿using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
+using Nox.Types;
 using Nox.Types.EntityFramework.Types;
 
 namespace Nox.EntityFramework.SqlServer;
 
-public class SqlServerTextDatabaseConfigurator : TextDatabaseConfigurator
+public class SqlServerTextDatabaseConfigurator : TextDatabaseConfigurator, ISqlServerNoxTypeDatabaseConfigurator
 {
     public override bool IsDefault => false;
 
