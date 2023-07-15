@@ -146,4 +146,19 @@ public static class KnownColor
         { "YellowGreen", System.Drawing.Color.YellowGreen },
     };
 
+    public static bool TryGetNamedColor(string text,  out System.Drawing.Color color)
+    {
+        color = System.Drawing.Color.Empty;
+
+        foreach (var c in Colors.Values)
+        {
+            if (c.Name == text)
+            {
+                color = c;
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

@@ -1,4 +1,6 @@
-﻿using System.Linq;
+﻿using System;
+using System.Globalization;
+using System.Linq;
 
 namespace Nox.Types;
 
@@ -18,19 +20,24 @@ public class Color : ValueObject<(byte Alpha, byte Red, byte Green, byte Blue), 
     public byte Red
     {
         get => Value.Red;
-        private set => Value = (Alpha: Value.Alpha, Red: value, Green: Value.Green, Blue: Value.Blue);
+        private set => Value = Value with { Red = value };
     }
 
     public byte Green
     {
         get => Value.Green;
-        private set => Value = (Alpha: Value.Alpha, Red: Value.Red, Green: value, Blue: Value.Blue);
+        private set => Value = Value with { Green = value };
     }
 
     public byte Blue
     {
         get => Value.Blue;
-        private set => Value = (Alpha: Value.Alpha, Red: Value.Red, Green: Value.Green, Blue: value);
+        private set => Value = Value with { Blue = value };
+    }
+
+    public static Color Empty
+    {
+        get => new();
     }
 
     /// <summary>
@@ -62,22 +69,7 @@ public class Color : ValueObject<(byte Alpha, byte Red, byte Green, byte Blue), 
     {
         var color = System.Drawing.Color.FromArgb(alpha, red, green, blue);
 
-        var newObject = new Color
-        {
-            Alpha = color.A,
-            Red = color.R,
-            Green = color.G,
-            Blue = color.B,
-        };
-
-        var validationResult = newObject.Validate();
-
-        if (!validationResult.IsValid)
-        {
-            throw new TypeValidationException(validationResult.Errors);
-        }
-
-        return newObject;
+        return CreateColor(color);
     }
 
     /// <summary>
@@ -90,24 +82,8 @@ public class Color : ValueObject<(byte Alpha, byte Red, byte Green, byte Blue), 
     {
         var color = System.Drawing.Color.FromName(name);
 
-        var newObject = new Color
-        {
-            Alpha = color.A,
-            Red = color.R,
-            Green = color.G,
-            Blue = color.B,
-        };
-
-        var validationResult = newObject.Validate();
-
-        if (!validationResult.IsValid)
-        {
-            throw new TypeValidationException(validationResult.Errors);
-        }
-
-        return newObject;
+        return CreateColor(color);
     }
-
 
     /// <summary>
     /// Creates a new instance of <see cref="Color"/> object
@@ -117,43 +93,16 @@ public class Color : ValueObject<(byte Alpha, byte Red, byte Green, byte Blue), 
     /// <exception cref="TypeValidationException"></exception>
     public static Color FromAlphaColor(string alphadecimal)
     {
-        alphadecimal = alphadecimal.TrimStart('#');
-
-        string alpha = alphadecimal.Substring(0, 2);
-        string red = alphadecimal.Substring(2, 2);
-        string green = alphadecimal.Substring(4, 2);
-        string blue = alphadecimal.Substring(6, 2);
-
-        int a = int.Parse(alpha, System.Globalization.NumberStyles.HexNumber);
-        int r = int.Parse(red, System.Globalization.NumberStyles.HexNumber);
-        int g = int.Parse(green, System.Globalization.NumberStyles.HexNumber);
-        int b = int.Parse(blue, System.Globalization.NumberStyles.HexNumber);
-
-        var color = System.Drawing.Color.FromArgb(a, r, g, b);
-
-        var newObject = new Color
-        {
-            Alpha = color.A,
-            Red = color.R,
-            Green = color.G,
-            Blue = color.B,
-        };
-
-        var validationResult = newObject.Validate();
-
-        if (!validationResult.IsValid)
-        {
-            throw new TypeValidationException(validationResult.Errors);
-        }
-
-        return newObject;
+        return ColorConverter.ConvertFromString(alphadecimal, CultureInfo.InvariantCulture);
     }
 
     public byte[] ToBytes() => new byte[] { Alpha, Red, Green, Blue };
 
-    public string ToHex() => $"#{Alpha:X2}{Red:X2}{Green:X2}{Blue:X2}";
+    public string ToHexa() => $"#{Alpha:X2}{Red:X2}{Green:X2}{Blue:X2}";
 
-    public string ToName() 
+    public string ToHex() => $"#{Red:X2}{Green:X2}{Blue:X2}";
+
+    public string ToName()
     {
         var color = System.Drawing.Color.FromArgb(Alpha, Red, Green, Blue);
 
@@ -171,9 +120,38 @@ public class Color : ValueObject<(byte Alpha, byte Red, byte Green, byte Blue), 
     {
         return format.ToLower() switch
         {
+            "hexa" => ToHexa(),
             "hex" => ToHex(),
             "name" => ToName(),
+            "rgb" => ToRgbString(),
+            "rgba" => ToRgbaString(),
             _ => ToString(),
         };
+    }
+
+    public string ToRgbString() => $"RGB({Red}, {Green}, {Blue})";
+
+    public string ToRgbaString() => $"RGBA({Red}, {Green}, {Blue}, {ToProportion(Alpha):N2})";
+
+    private static double ToProportion(byte b) => b / (double)Byte.MaxValue;
+
+    private static Color CreateColor(System.Drawing.Color color)
+    {
+        var newColor = new Color
+        {
+            Alpha = color.A,
+            Red = color.R,
+            Green = color.G,
+            Blue = color.B,
+        };
+
+        var validationResult = newColor.Validate();
+
+        if (!validationResult.IsValid)
+        {
+            throw new TypeValidationException(validationResult.Errors);
+        }
+
+        return newColor;
     }
 }
