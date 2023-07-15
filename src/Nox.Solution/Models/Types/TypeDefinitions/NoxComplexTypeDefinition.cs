@@ -11,6 +11,9 @@ namespace Nox.Solution;
 [AdditionalProperties(false)]
 public class NoxComplexTypeDefinition : NoxSimpleTypeDefinition
 {
+
+    #region TypeOptions
+
     [IfEquals("Type", NoxType.Object)]
     public ObjectTypeOptions? ObjectTypeOptions { get; internal set; }
 
@@ -19,5 +22,6 @@ public class NoxComplexTypeDefinition : NoxSimpleTypeDefinition
 
     [IfEquals("Type", NoxType.Array)]
     public ArrayTypeOptions? ArrayTypeOptions { get; internal set; }
-
+    
+    #endregion
 }

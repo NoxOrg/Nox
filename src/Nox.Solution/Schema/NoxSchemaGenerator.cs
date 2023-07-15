@@ -11,7 +11,7 @@ namespace Nox.Solution.Schema;
 /// <summary>
 /// Generates JSON schemas for type based on its class and property annotations.
 /// </summary>
-public static class SchemaGenerator
+public static class NoxSchemaGenerator
 {
     public static void GenerateJsonSchemas(Type type, string schemaPath)
     {
@@ -39,7 +39,7 @@ public static class SchemaGenerator
     /// </summary>
     /// <param name="inputType">The type to generate a root <see cref="SchemaProperty"/> for.</param>
     /// <returns>Returns a recursively built <see cref="SchemaProperty"/> object tree that matches JSON schema structure.</returns>
-    private static SchemaProperty GetSchemaInfo(Type inputType)
+    internal static SchemaProperty GetSchemaInfo(Type inputType)
     {
         var type = Nullable.GetUnderlyingType(inputType) ?? inputType;
 
@@ -67,11 +67,6 @@ public static class SchemaGenerator
             if (sp.Ignore)
             {
                 continue;
-            }
-
-            if (sp.IsRequired && sp.Name is not null)
-            {
-                schemaInfo.AddRequired(sp.Name);
             }
 
             if (sp.Type == "object")

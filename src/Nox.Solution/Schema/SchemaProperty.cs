@@ -8,10 +8,12 @@ using Nox.Solution.Extensions;
 namespace Nox.Solution.Schema;
 
 /// <summary>
-/// A class with a JSON schema structure for generating schema files with.
+/// JSON schema structure for generating schema files with. Matches schema keywords and 
+/// assigns supported JSON schema types and constraints.
 /// </summary>
 internal class SchemaProperty
 {
+    #region Properties matching JSON schema keywords
     public string? Name { get; private set; }
     public string? Title { get; private set; }
     public string? Description { get; private set; }
@@ -26,7 +28,9 @@ internal class SchemaProperty
     public Dictionary<string, SchemaProperty>? Properties { get; private set; }
     public List<SchemaProperty>? AnyOf { get; private set; }
     public SchemaProperty? Items { get; private set; }
+    #endregion
 
+    #region Properties to support JSON schema generation
     public bool IsRequired { get; private set; }
     public bool Ignore { get; private set; }
     public bool SuppressProperties { get; private set; }
@@ -36,6 +40,8 @@ internal class SchemaProperty
     public bool GenerateSchema { get; private set; }
     public string? SchemaName { get; private set; } 
     public IfEqualsAttribute? Conditional { get; private set; }
+    public bool IsAnyOfSchema { get; private set; }
+    #endregion
 
     /// <summary>
     /// Creates a SchemaProperty based on a supplied Type or <see cref="System.Reflection.MemberInfo"/> instance. 
@@ -81,9 +87,15 @@ internal class SchemaProperty
 
         Conditional = info.GetCustomAttribute<IfEqualsAttribute>(false);
 
+        IsAnyOfSchema = false;
+
     }
 
-    public void AddRequired(string propertyName)
+    /// <summary>
+    /// Adds a required property to a SchemaProprty
+    /// </summary>
+    /// <param name="propertyName">The name of the required property</param>
+    private void AddRequired(string propertyName)
     {
         if (Required is null)
         {
@@ -92,6 +104,10 @@ internal class SchemaProperty
         Required.Add(propertyName);
     }
 
+    /// <summary>
+    /// Adds a child <see cref="SchemaProperty"/> to a parent <see cref="SchemaProperty"/>.
+    /// </summary>
+    /// <param name="schemaProperty">The <see cref="SchemaProperty"/> to add.</param>
     public void AddProperty(SchemaProperty schemaProperty)
     {
         if (Properties is null)
@@ -99,13 +115,26 @@ internal class SchemaProperty
             Properties = new();
         }
         Properties.Add(schemaProperty.Name!, schemaProperty);
+
+        if (schemaProperty.IsRequired && schemaProperty.Name is not null)
+        {
+            AddRequired(schemaProperty.Name);
+        }
     }
 
+    /// <summary>
+    /// Sets the 'Items' keyword to a <see cref="SchemaProperty"/> for arrays and collections.
+    /// </summary>
+    /// <param name="schemaProperty"></param>
     public void SetItems(SchemaProperty schemaProperty)
     {
         Items = schemaProperty;
     }
 
+    /// <summary>
+    /// Copies selected properties from another <see cref="SchemaProperty"/>.
+    /// </summary>
+    /// <param name="other"></param>
     public void OverridePropertiesWith(SchemaProperty other)
     {
         Type = other.Type ?? Type;
@@ -142,6 +171,9 @@ internal class SchemaProperty
 
     }
 
+    /// <summary>
+    /// Creates an "AnyOf" structure to match conditional Attributes to their constant values.
+    /// </summary>
     public void CreateAnyOfFromConditionals()
     {
         if (Properties is null) return;
@@ -210,6 +242,7 @@ internal class SchemaProperty
             sp.Title = null;
             sp.Description = null;
             sp.Type = null;
+            sp.IsAnyOfSchema = true;
             AnyOf.Add(sp);
         }
 
@@ -243,12 +276,18 @@ internal class SchemaProperty
         spRest.IsRequired = true;
         spRest.Title = null;
         spRest.Description = null;
+        spRest.IsAnyOfSchema = true;
         AnyOf.Add(spRest);
 
         AdditionalProperties = true;
         Properties = null;
     }
 
+    /// <summary>
+    /// Converts a Type to its corresponding JSON schema type
+    /// </summary>
+    /// <param name="type">The .NET type to convert.</param>
+    /// <returns>A JSON schema type as a string.</returns>
     private static string ToJsonSchemaType(Type? type)
     {
 
@@ -317,6 +356,11 @@ internal class SchemaProperty
         }
     }
 
+    /// <summary>
+    /// Converts a .NET type to a JSON schema "Format" if applicable.
+    /// </summary>
+    /// <param name="type">The .NET type to inspect.</param>
+    /// <returns></returns>
     private static string? ToJsonSchemaFormat(Type? type)
     {
         if (type is null)
@@ -353,6 +397,11 @@ internal class SchemaProperty
         return null;
     }
 
+    /// <summary>
+    /// Handles "additionalProperties" JSON schema keyword for Dictionaries
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
     private static object? ToJsonSchemaAdditionalProperties(Type? type)
     {
         if (type is null)
@@ -374,6 +423,11 @@ internal class SchemaProperty
         _enumCache.Clear();
     }
 
+    /// <summary>
+    /// Converts enum values to JSON schema "enums". Converts them to camelCase if they don't look like codes or abbreviations.
+    /// </summary>
+    /// <param name="type">The .NET enumeration type.</param>
+    /// <returns>A list of JSON schema enumerators.</returns>
     private static List<string>? ToEnumValues(Type? type)
     {
         if (type is null)
@@ -415,5 +469,48 @@ internal class SchemaProperty
         _enumCache.Add(type, values);
         
         return values;
+    }
+
+    public IEnumerable<SchemaProperty> GetChildSchemaProperties(IDictionary<string,object> instance)
+    {
+        if (Properties is not null)
+        {
+            foreach(var property in Properties) yield return property.Value;
+        }
+
+        if (Items is not null)
+        {
+            yield return Items;
+        }
+
+        if (AnyOf is not null)
+        {
+            var found = false;
+            foreach (var property in AnyOf)
+            {
+                var constProp = property.Properties?
+                    .FirstOrDefault(kv => kv.Value.TypeConst is not null)
+                    .Value;
+
+                if (constProp is not null 
+                    && constProp.TypeConst is string constStr 
+                    && constProp.Name is not null)
+                {
+                   if (instance.TryGetValue(constProp.Name, out var value))
+                   {
+                        if (value.Equals(constStr))
+                        {
+                            yield return property;
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!found)
+            {
+                yield return AnyOf.Last();
+            }
+        }
     }
 }

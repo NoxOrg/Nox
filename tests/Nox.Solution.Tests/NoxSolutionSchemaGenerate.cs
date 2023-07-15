@@ -22,7 +22,7 @@ public class NoxSolutionSchemaGenerate
          *
          */
 
-        SchemaGenerator.GenerateJsonSchemas(typeof(Solution),_path);
+        NoxSchemaGenerator.GenerateJsonSchemas(typeof(Solution),_path);
 
     }
 
