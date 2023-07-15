@@ -97,4 +97,9 @@ public sealed class Country
     /// Gets or sets the date.
     /// </summary>
     public Date Date { get; set; } = null!;
+    
+    /// <summary>
+    /// Gets or sets the yaml.
+    /// </summary>
+    public Yaml Yaml { get; set; } = null!;
 }

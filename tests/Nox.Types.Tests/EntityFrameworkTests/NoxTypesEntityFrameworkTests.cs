@@ -44,6 +44,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddress = CreateStreetAddress(),
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
+            Yaml = Yaml.From("foo: bar"),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -81,6 +82,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddress = streetAddress,
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
+            Yaml = Yaml.From("foo: bar"),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -118,6 +120,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal("AED4322CCFEF", item.MACAddress.Value);
         Assert.Equal(new DateTime(2023, 11, 25).Date, item.Date.Value);
         AssertStreetAddress(streetAddress, item.StreetAddress);
+        Assert.Equal("foo: bar", item.Yaml.Value);
     }
 
     private static StreetAddress CreateStreetAddress()

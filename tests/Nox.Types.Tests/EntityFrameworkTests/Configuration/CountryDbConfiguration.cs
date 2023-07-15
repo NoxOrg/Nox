@@ -26,6 +26,7 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.LongestHikingTrailInMeters).HasConversion<LengthToMeterConverter>();
         builder.Property(e => e.MACAddress).HasConversion<MacAddressConverter>();
         builder.Property(e => e.Date).HasConversion<DateConverter>();
+        builder.Property(e=>e.Yaml).HasConversion<YamlConverter>();
 
         // Configure Multi-value ValueObjects
         builder.OwnsOne(e => e.LatLong).Ignore(p => p.Value);

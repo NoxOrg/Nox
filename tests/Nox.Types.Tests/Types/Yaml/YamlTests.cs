@@ -9,6 +9,7 @@ public class YamlTests
     private readonly string _validFolder = "Valid";
     private readonly string _invalidFolder = "Invalid";
     private readonly string _equalFolder = "Equal";
+    private readonly string _inequalFolder = "Inequal";
     [Theory]
     [InlineData("simple.yaml")]
     [InlineData("complex.yaml")]
@@ -70,5 +71,25 @@ public class YamlTests
 
         // Assert
         yaml1.Equals(yaml2).Should().BeTrue();
+    }
+    
+    [Theory]
+    [InlineData("simple1.1.yaml", "simple1.2.yaml")]
+    [InlineData("simple2.1.yaml", "simple2.2.yaml")]
+    [InlineData("complex1.1.yaml", "complex1.2.yaml")]
+    [InlineData("complex-object1.1.yaml", "complex-object1.2.yaml")]
+    [InlineData("array1.1.yaml", "array1.2.yaml")]
+    [InlineData("anchor1.1.yaml", "anchor1.2.yaml")]
+    public void Yaml_Equals_ReturnsFalse_WhenDifferentYaml(string fileName1, string fileName2)
+    {
+        string yamlString1 = System.IO.File.ReadAllText( Path.Combine(_fileRoot, _inequalFolder, fileName1));
+        string yamlString2 = System.IO.File.ReadAllText( Path.Combine(_fileRoot, _inequalFolder, fileName2));
+        
+        // Arrange & Act
+        var yaml1 = Yaml.From(yamlString1);
+        var yaml2 = Yaml.From(yamlString2);
+
+        // Assert
+        yaml1.Equals(yaml2).Should().BeFalse();
     }
 }
