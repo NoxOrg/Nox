@@ -1,7 +1,6 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
-using Nox.Abstractions;
 using Nox.Secrets;
 using Nox.Secrets.Abstractions;
 using Nox.Solution;
@@ -10,36 +9,24 @@ namespace Nox;
 
 public static class ServiceCollectionExtension
 {
-    private static NoxSolution? _solution;
-    private static IServiceCollection? _interimServices;
-
-    public static NoxSolution Solution
-    {
-        get
-        {
-            if (_solution == null) CreateSolution();
-            return _solution!;
-        }
-    }
-    
     public static IServiceCollection AddNoxLib(this IServiceCollection services)
     {
-        services.AddSecretsResolver();
-        _interimServices = services;
-        services.AddSingleton(Solution);
-        return services;
+        
+        return services
+            .AddSingleton(typeof(NoxSolution),CreateSolution)
+            .AddSecretsResolver()
+            .AddNoxTypesDatabaseConfigurator();
     }
 
-    private static void CreateSolution()
+    private static NoxSolution CreateSolution(IServiceProvider serviceProvider)
     {
-        _solution = new NoxSolutionBuilder()
+        return new NoxSolutionBuilder()
             .OnResolveSecrets((_, args) =>
             {
                 var yaml = args.Yaml;
                 var secretsConfig = args.SecretsConfiguration;
                 var secretKeys = SecretExtractor.Extract(yaml);
-                var interimServiceProvider = _interimServices!.BuildServiceProvider();
-                var resolver = interimServiceProvider.GetRequiredService<INoxSecretsResolver>();
+                var resolver = serviceProvider.GetRequiredService<INoxSecretsResolver>();
                 resolver.Configure(secretsConfig!, Assembly.GetEntryAssembly());
                 args.Secrets = resolver.Resolve(secretKeys!);
             })
@@ -57,6 +44,12 @@ public static class ServiceCollectionExtension
     {
         services.AddDataProtection();
         services.AddSingleton<IPersistedSecretStore, PersistedSecretStore>();
+        return services;
+    }
+
+    internal static IServiceCollection AddNoxTypesDatabaseConfigurator(this IServiceCollection services)
+    {
+       // TODO Scan and register Configurators
         return services;
     }
 }
