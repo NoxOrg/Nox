@@ -24,6 +24,7 @@ public class IntegrationTargetFactory: IIntegrationTargetFactory
             integrationName = integrationDef.Name;
             var targetDef = integrationDef.Target;
             if (targetDef == null) throw new NoxIntegrationException(string.Format((string)ExceptionResources.TargetMissing, targetName));
+            
             switch (targetDef.TargetType)
             {
                 case IntegrationTargetType.Entity:
@@ -47,6 +48,4 @@ public class IntegrationTargetFactory: IIntegrationTargetFactory
         }
         throw new NoxIntegrationException(string.Format((string)ExceptionResources.TargetContructionFailure, targetName, integrationName));    
     }
-    
-    
 }

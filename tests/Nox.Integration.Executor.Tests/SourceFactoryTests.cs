@@ -3,7 +3,6 @@ using ETLBox.DataFlow.Connectors;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Integration.Abstractions;
 using Nox.IntegrationSource.File;
-using Nox.IntegrationSource.Tests;
 
 namespace Nox.Integration.Executor.Tests;
 

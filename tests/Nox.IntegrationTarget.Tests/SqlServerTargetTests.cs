@@ -15,7 +15,8 @@ public class SqlServerTargetTests
         {
             Name = "TestSqlTarget",
             Description = "Test SqlServer source description",
-            DataConnectionName = "TestSqlConnection"
+            DataConnectionName = "TestSqlConnection",
+            TargetType = IntegrationTargetType.Database
         };
 
         var dataConnection = new DataConnection
@@ -39,6 +40,29 @@ public class SqlServerTargetTests
     [Fact]
     public void Can_Create_a_Sql_Target_to_Entity_store()
     {
-        
+        var config = new Solution.IntegrationTarget
+        {
+            Name = "TestSqlTarget",
+            Description = "Test SqlServer source description",
+            TargetType = IntegrationTargetType.Entity,
+            
+        };
+
+        var dataConnection = new DataConnection
+        {
+            Name = "TestSqlConnection",
+            Provider = DataConnectionProvider.SqlServer,
+            ServerUri = "localhost",
+            Port = 1433,
+            User = "sa",
+            Password = "Developer*123"
+        };
+
+        var target = new SqlServerIntegrationTarget(config.Name, dataConnection, "TestIntegration");
+        var dfSource = target.DataFlowSource();
+        Assert.NotNull(dfSource);
+        Assert.IsType<DbSource<ExpandoObject>>(dfSource);
+        Assert.NotNull(target.ConnectionManager);
+        Assert.IsType<SqlConnectionManager>(target.ConnectionManager);
     }
 }

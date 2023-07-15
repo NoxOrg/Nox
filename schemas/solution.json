@@ -14815,8 +14815,7 @@
         }
       },
       "required": [
-        "persistence",
-        "messaging"
+        "persistence"
       ],
       "title": "The definition namespace for infrastructure components pertaining to a Nox solution.",
       "description": "Define components pertinent to solution infrastructure here. Examples include persistence, messaging, dependencies and endpoints.",

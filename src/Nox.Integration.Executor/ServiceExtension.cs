@@ -9,8 +9,10 @@ public static class ServiceExtension
 {
     public static IServiceCollection AddIntegration(this IServiceCollection services)
     {
-        services.AddSingleton<IIntegrationSourceFactory, IntegrationSourceFactory>();
-        services.AddSingleton<IIntegrationExecutor, IntegrationExecutor>();
+        services
+            .AddSingleton<IIntegrationSourceFactory, IntegrationSourceFactory>()
+            .AddSingleton<IIntegrationTargetFactory, IntegrationTargetFactory>()
+            .AddSingleton<IIntegrationExecutor, IntegrationExecutor>();
         return services;
     }
 }

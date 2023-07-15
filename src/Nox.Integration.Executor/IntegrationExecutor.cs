@@ -9,15 +9,18 @@ public class IntegrationExecutor: IIntegrationExecutor
 {
     private readonly ILogger _logger;
     private readonly IIntegrationSourceFactory _sourceFactory;
+    private readonly IIntegrationTargetFactory _targetFactory;
     private readonly NoxSolution _solution;
 
     public IntegrationExecutor(
         ILogger<IIntegrationExecutor> logger,
         IIntegrationSourceFactory sourceFactory,
+        IIntegrationTargetFactory targetFactory,
         NoxSolution solution)
     {
         _logger = logger;
         _sourceFactory = sourceFactory;
+        _targetFactory = targetFactory;
         _solution = solution;
     }
     
@@ -28,12 +31,12 @@ public class IntegrationExecutor: IIntegrationExecutor
         var integration = _solution.Application.Integrations.FirstOrDefault(i => i.Name.Equals(integrationName, StringComparison.OrdinalIgnoreCase));
         if (integration == null) throw new NoxIntegrationException(ExceptionResources.IntegrationsDefinitionMissing);
         var source = _sourceFactory.Create(integration.Source!.Name);
-        var target = integration.Target!;
-        if (target.TargetType == IntegrationTargetType.Entity)
-        {
-            var entity = _solution.Domain!.Entities.First(e => e.Name == target.Name);
-            
-        }
+        var target = _targetFactory.Create(integration.Target!.Name);
+        // if (target.TargetType == IntegrationTargetType.Entity)
+        // {
+        //     var entity = _solution.Domain!.Entities.First(e => e.Name == target.Name);
+        //     
+        // }
         return Task.FromResult(false);
     }
 
