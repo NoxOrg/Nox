@@ -1,6 +1,5 @@
 using System;
 using System.Globalization;
-using System.Threading;
 
 namespace Nox.Types;
 
@@ -46,10 +45,11 @@ public sealed class CurrencyNumber : ValueObject<(uint Amount, CurrencyCode Curr
     /// Returns a string representation of the <see cref="CurrencyNumber"/> object using the specified <paramref name="format"/>.
     /// </summary>
     /// <param name="format">The format specifier for the amount value.</param>
-    /// <returns>A string representation of the <see cref="CurrencyNumber"/> object with the amount formatted using the specified <paramref name="format"/> and <see cref="CultureInfo.InvariantCulture"/> .</returns>
+    /// <returns>A string representation of the <see cref="CurrencyNumber"/> object with the amount formatted using the specified <paramref name="format"/> 
+    /// and <see cref="CultureInfo.InvariantCulture"/> .</returns>
     public string ToString(string format)
     {
-        return ToString(format, Thread.CurrentThread.CurrentCulture);
+        return ToString(format, CultureInfo.InvariantCulture);
     }
 
     /// <summary>
@@ -67,6 +67,6 @@ public sealed class CurrencyNumber : ValueObject<(uint Amount, CurrencyCode Curr
         if (format == "C")
             return CurrencySymbol.GetCurrencySymbol(Value.CurrencyCode) + Value.Amount.ToString("N");
 
-        return Value.CurrencyCode + " " + Value.Amount.ToString(format, cultureInfo);
+        return $"{Value.CurrencyCode} {Value.Amount.ToString(format, cultureInfo)}";
     }
 }

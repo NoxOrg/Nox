@@ -88,7 +88,7 @@ public class CurrencyNumberTests
     {
         var currencyNumber = CurrencyNumber.From(20000u, CurrencyCode.BRL);
 
-        Assert.Equal("BRL 20000", currencyNumber.ToString());
+        currencyNumber.ToString().Should().Be("BRL 20000");
     }
 
     [Fact]
@@ -99,8 +99,25 @@ public class CurrencyNumberTests
             var currencyNumber = CurrencyNumber.From(1455U, CurrencyCode.ZAR);
             var currencyNumber2 = CurrencyNumber.From(1455U, CurrencyCode.GBP);
 
-            Assert.Equal("R1,455.00", currencyNumber.ToString("C", new CultureInfo("en-ZA")));
-            Assert.Equal("£1,455.00", currencyNumber2.ToString("C", new CultureInfo("en-GB")));
+            currencyNumber.ToString("C", new CultureInfo("en-ZA")).Should().Be("R1,455.00");
+            currencyNumber2.ToString("C", new CultureInfo("en-GB")).Should().Be("£1,455.00");
+        }
+
+        TestUtility.RunInInvariantCulture(Test);
+    }
+
+    [Fact]
+    public void CurrencyNumber_ToString_SameCurrency_DifferentCulture_ReturnsSameCurrencySymbol()
+    {
+        void Test()
+        {
+            var currencyNumber = CurrencyNumber.From(1455U, CurrencyCode.BRL);
+
+            var resultWithUSCulture = currencyNumber.ToString("C", new CultureInfo("en-US"));
+            var resultWithBRCulture = currencyNumber.ToString("C", new CultureInfo("pt-BR"));
+
+            resultWithUSCulture.Should().Be("R$1,455.00");
+            resultWithBRCulture.Should().Be("R$1.455,00");
         }
 
         TestUtility.RunInInvariantCulture(Test);
