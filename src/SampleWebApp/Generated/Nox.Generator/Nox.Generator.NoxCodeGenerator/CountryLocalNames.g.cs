@@ -15,7 +15,7 @@ public partial class CountryLocalNames : AuditableEntityBase
 {
     
     /// <summary>
-    /// (Optional)
+    /// (Required)
     /// </summary>
     public Text Id { get; set; } = null!;
 }

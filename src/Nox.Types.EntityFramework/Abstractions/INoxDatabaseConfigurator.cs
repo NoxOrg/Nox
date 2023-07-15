@@ -1,9 +1,10 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nox.Generator.Common;
 using Nox.Solution;
 
 namespace Nox.Types.EntityFramework.Abstractions;
 
 public interface INoxDatabaseConfigurator
 {
-    void ConfigureEntity(EntityTypeBuilder builder, Entity entity);
+    void ConfigureEntity(NoxSolutionCodeGeneratorState codeGeneratorState, EntityTypeBuilder builder, Entity entity);
 }

@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.DataProtection;
-using Nox.Abstractions;
-using Nox.Abstractions.Configuration;
 using Nox.Secrets.Abstractions;
+using Nox.Solution.Constants;
 using File = System.IO.File;
 
 namespace Nox.Secrets;

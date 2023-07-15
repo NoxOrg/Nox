@@ -11,25 +11,25 @@ namespace Nox.Generator.Domain.CqrsGenerators;
 
 public class QueryGenerator
 {
-    public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
+    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (solution.Domain == null) return;
+        if (codeGeneratorState.Solution.Domain == null) return;
 
-        foreach (var entity in solution.Domain.Entities)
+        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
             if (entity.Queries == null || !entity.Queries.Any()) continue;
             foreach (var qry in entity.Queries)
             {
                 context.CancellationToken.ThrowIfCancellationRequested();
-                GenerateQuery(context, solutionNameSpace, qry);
+                GenerateQuery(context, codeGeneratorState, qry);
             }
         }
     }
 
-    private static void GenerateQuery(SourceProductionContext context, string solutionNameSpace, DomainQuery qry)
+    private static void GenerateQuery(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, DomainQuery qry)
     {
         var className = qry.Name.EnsureEndsWith("QueryBase");
 
@@ -38,18 +38,18 @@ public class QueryGenerator
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine($"using System.Threading.Tasks;");
-        code.AppendLine($"using {solutionNameSpace}.Domain;");
-        code.AppendLine($"using {solutionNameSpace}.Application.DataTransferObjects;");
-        code.AppendLine($"using {solutionNameSpace}.Infrastructure.Persistence;");
+        code.AppendLine($"using {codeGeneratorState.DomainNameSpace};");
+        code.AppendLine($"using {codeGeneratorState.DataTransferObjectsNameSpace};");
+        code.AppendLine($"using {codeGeneratorState.PersistenceNameSpace};");
         code.AppendLine();
-        code.AppendLine($"namespace {solutionNameSpace}.Application;");
+        code.AppendLine($"namespace {codeGeneratorState.ApplicationNameSpace};");
 
         GenerateDocs(code, qry.Description!);
 
         code.AppendLine($"public abstract partial class {className}");
         code.StartBlock();
 
-        var dbContextName = $"{solutionNameSpace}{DbContextName}";
+        var dbContextName = $"{codeGeneratorState.RootNameSpace}{DbContextName}";
         AddField(code, dbContextName, DbContextName, "Represents the DB context.");
 
         // Add constructor
@@ -60,7 +60,7 @@ public class QueryGenerator
         // Add params (which can be DTO)
         var parameters = GetParametersString(qry.RequestInput);
 
-        var typeDefinition = GenerateTypeDefinition(context, solutionNameSpace, qry.ResponseOutput, generateDto: true);
+        var typeDefinition = GenerateTypeDefinition(context, codeGeneratorState, qry.ResponseOutput, generateDto: true);
 
         code.AppendLine($@"public abstract Task<{typeDefinition}> ExecuteAsync({parameters});");
 

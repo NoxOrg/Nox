@@ -11,9 +11,5 @@ namespace Nox.Solution
         [Title("The file name.")]
         [Description("The name of the file that will be ingested.")]
         public string Filename { get; set; } = null!;
-
-        [Title("The minimum expected record count.")]
-        [Description("The minimum expected record count as a result of this data ingestion.")]
-        public int? MinimumExpectedRecords { get; set; } = 1;
     }
 }
