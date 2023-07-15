@@ -7,8 +7,7 @@
     "null"
   ],
   "required": [
-    "persistence",
-    "messaging"
+    "persistence"
   ],
   "properties": {
     "persistence": {    
@@ -29,7 +28,10 @@
     "messaging": {    
       "title": "The definition namespace for messaging settings pertaining to a Nox solution.",
       "description": "Defines settings pertinent to solution messaging here. These include IntegrationEventServer provider (RabbitMQ, Azure ServiceBus, Amazon SQS etc) and additional server connection details.",
-      "type": "object",
+      "type": [
+        "object",
+        "null"
+      ],
       "required": [
         "integrationEventServer"
       ],

@@ -177,14 +177,6 @@
           "title": "The file name.",
           "description": "The name of the file that will be ingested.",
           "type": "string"
-        },
-        "minimumExpectedRecords": {    
-          "title": "The minimum expected record count.",
-          "description": "The minimum expected record count as a result of this data ingestion.",
-          "type": [
-            "integer",
-            "null"
-          ]
         }
       },
       "additionalProperties": false
