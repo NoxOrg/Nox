@@ -20,7 +20,9 @@
 
     <ItemGroup>
       <ProjectReference Include="..\Nox.IntegrationSource.Csv\Nox.IntegrationSource.Csv.csproj" />
+      <ProjectReference Include="..\Nox.IntegrationTarget.SqlServer\Nox.IntegrationTarget.SqlServer.csproj" />
       <ProjectReference Include="..\Nox.Integration\Nox.Integration.csproj" />
+      <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
     </ItemGroup>
 
     <ItemGroup>

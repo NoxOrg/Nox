@@ -8,12 +8,14 @@ namespace Nox.Integration.Executor.Tests;
 
 public class ServiceFixture
 {
-    public IServiceProvider ServiceProvider { get; }
+    private IServiceProvider? _serviceProvider;
 
-    public ServiceFixture()
+    public IServiceProvider ServiceProvider => _serviceProvider!;
+
+    public void Configure(string noxDefinitionFilename)
     {
         var noxConfig = new NoxSolutionBuilder()
-            .UseYamlFile("./files/csv.solution.nox.yaml")
+            .UseYamlFile($"./files/{noxDefinitionFilename}")
             .Build();
         
         var services = new ServiceCollection();
@@ -24,6 +26,6 @@ public class ServiceFixture
 
         services.AddIntegration();
         
-        ServiceProvider = services.BuildServiceProvider();
+        _serviceProvider = services.BuildServiceProvider();
     }
 }

@@ -17,7 +17,7 @@ namespace Nox.Solution;
         [Title("The definition namespace for messaging settings pertaining to a Nox solution.")]
         [Description("Defines settings pertinent to solution messaging here. These include IntegrationEventServer provider (RabbitMQ, Azure ServiceBus, Amazon SQS etc) and additional server connection details.")]
         [AdditionalProperties(false)]
-        public Messaging Messaging { get; internal set; } = new();
+        public Messaging? Messaging { get; internal set; }
         
         public Endpoints? Endpoints { get; internal set; }
 

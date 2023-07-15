@@ -42,10 +42,13 @@
     </ItemGroup>
 
     <ItemGroup>
-      <None Update="files\csv.solution.nox.yaml">
+      <None Update="files\csv-source.solution.nox.yaml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="files\test_file.csv">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\sql-target.solution.nox.yaml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

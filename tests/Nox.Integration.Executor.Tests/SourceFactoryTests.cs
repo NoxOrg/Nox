@@ -13,6 +13,7 @@ public class SourceFactoryTests: IClassFixture<ServiceFixture>
     public SourceFactoryTests(ServiceFixture serviceFixture)
     {
         _serviceFixture = serviceFixture;
+        _serviceFixture.Configure("csv-source.solution.nox.yaml");
     }
     
     [Fact]

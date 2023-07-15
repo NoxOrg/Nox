@@ -1,12 +1,12 @@
 #
-# csv.solution.nox.yaml
+# csv-source.solution.nox.yaml
 #
 # yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
 #
 
-name: SampleCsvIntegration
+name: SampleCsvSourceIntegration
 
-description: Sample Csv integration Nox solution yaml configuration
+description: Sample Csv source integration Nox solution yaml configuration
 
 application:
   integrations:

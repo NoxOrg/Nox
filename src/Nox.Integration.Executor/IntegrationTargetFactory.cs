@@ -1,7 +1,9 @@
 using Nox.Integration.Abstractions;
 using Nox.Integration.Exceptions;
 using Nox.IntegrationSource.File;
+using Nox.IntegrationTarget.SqlServer;
 using Nox.Solution;
+using Nox.Solution.Extensions;
 
 namespace Nox.Integration.Executor;
 
@@ -28,24 +30,38 @@ public class IntegrationTargetFactory: IIntegrationTargetFactory
             switch (targetDef.TargetType)
             {
                 case IntegrationTargetType.Entity:
-                    
-                    break;
+                    var entityStoreDef = _solution.Infrastructure!.Persistence.DatabaseServer;
+                    return CreateEntityStoreTarget(integrationDef.Name, targetDef, entityStoreDef);
+                default:
+                    var dataConnectionDef = _solution.Infrastructure!.Dependencies!.DataConnections!.First(dc => dc.Name.Equals(targetDef.DataConnectionName, StringComparison.OrdinalIgnoreCase));
+                    return CreateTarget(integrationDef.Name, targetDef, dataConnectionDef);
             }
-            
-            
-            // var dataConnectionDef = _solution.Infrastructure!.Dependencies!.DataConnections!.FirstOrDefault(dc => dc.Name.Equals(targetDef.DataConnectionName, StringComparison.OrdinalIgnoreCase));
-            // if (dataConnectionDef == null) throw new NoxIntegrationException(string.Format((string)ExceptionResources.DataConnectionMissing, targetDef.DataConnectionName, targetName, integrationDef.Name));
-            // switch (dataConnectionDef.Provider)
-            // {
-            //     case DataConnectionProvider.CsvFile:
-            //         var csvTarget = new CsvIntegrationSource(targetDef, dataConnectionDef);
-            //         return csvTarget;
-            // }
         }
         catch (Exception ex)
         {
             throw new NoxIntegrationException(string.Format((string)ExceptionResources.TargetContructionFailure, targetName, integrationName), ex);    
         }
-        throw new NoxIntegrationException(string.Format((string)ExceptionResources.TargetContructionFailure, targetName, integrationName));    
+    }
+
+    private IIntegrationTarget CreateTarget(string integrationName, Solution.IntegrationTarget targetDef, DataConnection dataConnectionDef)
+    {
+        switch (dataConnectionDef.Provider)
+        {
+            case DataConnectionProvider.SqlServer:
+                return new SqlServerIntegrationTarget(targetDef.Name, dataConnectionDef, integrationName);
+            default:
+                throw new NotImplementedException($"Target provider Type {dataConnectionDef.Provider} has not been implemented yet.");
+        }
+    }
+    
+    private IIntegrationTarget CreateEntityStoreTarget(string integrationName, Solution.IntegrationTarget targetDef, DatabaseServer entityStoreDef)
+    {
+        switch (entityStoreDef.Provider)
+        {
+            case DatabaseServerProvider.SqlServer:
+                return new SqlServerIntegrationTarget(targetDef.Name, entityStoreDef, integrationName);
+            default:
+                throw new NotImplementedException($"Target provider Type {entityStoreDef.Provider} has not been implemented yet.");
+        }
     }
 }

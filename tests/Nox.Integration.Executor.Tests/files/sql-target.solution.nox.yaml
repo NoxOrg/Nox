@@ -1,0 +1,47 @@
+#
+# sql-target.solution.nox.yaml
+#
+# yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
+#
+
+name: SampleSqlTargetIntegration
+
+description: Sample Sql target integration Nox solution yaml configuration
+
+application:
+  integrations:
+    - name: TestIntegration
+      description: Sample seed
+      schedule:
+        start: first day of every month
+      source:
+        name: csvSource
+        dataConnectionName: csvDataConnection
+        fileOptions:
+          filename: test_file.csv
+      target:
+        name: SqlTarget
+        targetType: database
+        dataConnectionName: sqlDataConnection
+
+infrastructure:
+  persistence:
+    databaseServer:
+      name: sampleDb
+      serverUri: localhost
+      provider: sqlServer
+      user: sa
+      password: Developer*123
+  
+  dependencies:
+    dataConnections:
+      - name: csvDataConnection
+        serverUri: file:./
+        provider: csvFile
+        
+      - name: sqlDataConnection
+        serverUri: localhost
+        provider: sqlServer
+        user: sa
+        password: Developer*123
+        

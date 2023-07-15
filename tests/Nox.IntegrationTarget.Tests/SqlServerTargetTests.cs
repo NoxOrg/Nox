@@ -45,20 +45,19 @@ public class SqlServerTargetTests
             Name = "TestSqlTarget",
             Description = "Test SqlServer source description",
             TargetType = IntegrationTargetType.Entity,
-            
         };
 
-        var dataConnection = new DataConnection
+        var dbServer = new DatabaseServer
         {
-            Name = "TestSqlConnection",
-            Provider = DataConnectionProvider.SqlServer,
+            Name = "TestDb",
+            Provider = DatabaseServerProvider.SqlServer,
             ServerUri = "localhost",
             Port = 1433,
             User = "sa",
             Password = "Developer*123"
         };
 
-        var target = new SqlServerIntegrationTarget(config.Name, dataConnection, "TestIntegration");
+        var target = new SqlServerIntegrationTarget(config.Name, dbServer, "TestIntegration");
         var dfSource = target.DataFlowSource();
         Assert.NotNull(dfSource);
         Assert.IsType<DbSource<ExpandoObject>>(dfSource);
