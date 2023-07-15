@@ -1,6 +1,6 @@
 using FluentAssertions;
 using Nox.Solution.Exceptions;
-using Nox.Solution.Resolvers;
+using Nox.Solution.Schema;
 using Xunit.Abstractions;
 
 namespace Nox.Solution.Tests;

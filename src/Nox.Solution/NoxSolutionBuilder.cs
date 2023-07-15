@@ -2,7 +2,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using Nox.Solution.Events;
-using Nox.Solution.Resolvers;
+using Nox.Solution.Schema;
 using Nox.Solution.Exceptions;
 using Nox.Solution.Macros;
 using Nox.Solution.Utils;

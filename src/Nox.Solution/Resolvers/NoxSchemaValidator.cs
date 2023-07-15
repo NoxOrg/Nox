@@ -3,14 +3,12 @@ using System.IO;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
 using System.Text.Json;
-using Json.Schema;
 using Nox.Solution.Exceptions;
 using YamlDotNet.Core;
-using System.Text.Json.Serialization;
 using System.Linq;
 using System;
 
-namespace Nox.Solution.Resolvers;
+namespace Nox.Solution.Schema;
 
 /// <summary>
 /// Deserialize yaml configuration with validation.
@@ -39,29 +37,6 @@ internal static class NoxSchemaValidator
         var yamlContent = sr.ReadToEnd();
 
         var errors = new List<string>();
-#if !NETSTANDARD
-        var schema = SchemaGenerator.Generate<T>();
-
-
-        var evaluateOptions = new EvaluationOptions
-        {
-            OutputFormat = OutputFormat.Hierarchical,
-            EvaluateAs = SpecVersion.Draft7
-        };
-        var jsonSerializerOptions = new JsonSerializerOptions
-        {
-            PropertyNamingPolicy = JsonNamingPolicy.CamelCase,
-            DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
-            Converters = { new JsonStringEnumConverter(JsonNamingPolicy.CamelCase) }
-        };
-        // The purpose is to deserialize yaml to object is to validate content against json schema generated from properties annotations.
-        // If deserialize content to certain type then value-type properties will be initilized by default and will exist in
-        // futher json serialization during the validation.
-        // However, to handle a case when value-type properties are required it's neccessary to validate json where these properties are not involved.
-        var yamlObjectInstance = deserializer.Deserialize<object>(yamlContent);
-        var errorsFromObjectValidation = Validate(yamlObjectInstance, jsonSerializerOptions, schema, evaluateOptions);
-        errors.AddRange(errorsFromObjectValidation);
-#endif
 
         T yamlTypedObjectInstance;
         try
@@ -77,11 +52,6 @@ internal static class NoxSchemaValidator
 
             throw new NoxSolutionConfigurationException(message, ex);
         }
-
-#if !NETSTANDARD
-        var errorsFromTypedObjectValidation = Validate(yamlTypedObjectInstance, jsonSerializerOptions, schema, evaluateOptions);
-        errors.AddRange(errorsFromTypedObjectValidation);
-#endif
 
         if (errors.Count > 0)
         {
@@ -111,45 +81,5 @@ internal static class NoxSchemaValidator
 
         errors.Add(message);
         HandleYamlExceptionMessage(exception.InnerException, errors);
-    }
-
-    private static List<string> Validate<T>(
-            T yamlObject,
-            JsonSerializerOptions jsonSerializerOptions,
-            JsonSchema schema,
-            EvaluationOptions evaluateOptions)
-    {
-        var jsonDocument = JsonSerializer.SerializeToDocument(yamlObject, jsonSerializerOptions);
-        var errors = new List<string>();
-        var result = schema.Evaluate(jsonDocument, evaluateOptions);
-
-        HandleErrorsRecursively(result, errors);
-
-        return errors;
-    }
-
-    private static void HandleErrorsRecursively(EvaluationResults results, List<string> errors)
-    {
-        if (results.Errors != null)
-        {
-            foreach (var error in results.Errors)
-            {
-                if (results.EvaluationPath
-                    .ToString()
-                    .EndsWith("/$ref") || error.Key == "type")
-                {
-                    continue;
-                }
-
-                var evaluationPath = results.EvaluationPath.ToString();
-                var path = string.IsNullOrEmpty(evaluationPath) ? string.Empty : $"Path: {evaluationPath}. ";
-
-                errors.Add($"{path}{error.Value} ({error.Key.ToUpper()}).");
-            }
-        }
-        foreach (var detail in results.Details)
-        {
-            HandleErrorsRecursively(detail, errors);
-        }
     }
 }
