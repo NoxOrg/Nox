@@ -17,16 +17,11 @@ public static class SchemaGenerator
     {
         var schemaRoot = GetSchemaInfo(type);
  
-        WriteSchemas(schemaRoot, schemaPath);
+        WriteSchema(schemaRoot, schemaPath);
 
-        _schemaPropertyCache.Clear();
-        SchemaProperty.ClearEnumCache();
+        SchemaGenerator.ClearCache();
+        SchemaProperty.ClearCache();
 
-    }
-
-    private static void WriteSchemas(SchemaProperty schemaRoot, string schemaPath)
-    {
-        var ret = WriteSchema(schemaRoot, schemaPath);
     }
 
     private static readonly HashSet<Type> _generatedSchemas = new();
@@ -171,6 +166,11 @@ public static class SchemaGenerator
 
     private static readonly Dictionary<Type,SchemaProperty> _schemaPropertyCache = new();
 
+    private static void ClearCache()
+    {
+        _schemaPropertyCache.Clear();
+    }
+
     private static SchemaProperty GetSchemaInfo(Type inputType)
     {
         var type = Nullable.GetUnderlyingType(inputType) ?? inputType;
@@ -226,7 +226,7 @@ public static class SchemaGenerator
             schemaInfo.AddProperty(sp);
         }
 
-        schemaInfo.ProcessConditionals();
+        schemaInfo.CreateAnyOfFromConditionals();
         
         return schemaInfo;
     }

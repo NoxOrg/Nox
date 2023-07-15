@@ -24,7 +24,6 @@ internal class SchemaProperty
     public List<SchemaProperty>? AnyOf { get; private set; }
     public SchemaProperty? Items { get; private set; }
 
-    
     public bool IsRequired { get; private set; }
     public bool Ignore { get; private set; }
     public bool SuppressProperties { get; private set; }
@@ -133,9 +132,11 @@ internal class SchemaProperty
 
         Conditional = other.Conditional ?? Conditional;
 
+        AnyOf = other.AnyOf ?? AnyOf;
+
     }
 
-    public void ProcessConditionals()
+    public void CreateAnyOfFromConditionals()
     {
         if (Properties is null) return;
 
@@ -206,6 +207,8 @@ internal class SchemaProperty
             AnyOf.Add(sp);
         }
 
+        // Add default for unused enums
+
         var spRest = new SchemaProperty(ActualType);
 
         foreach (var nonConditional in nonConditionals)
@@ -235,7 +238,6 @@ internal class SchemaProperty
         spRest.Title = null;
         spRest.Description = null;
         AnyOf.Add(spRest);
-
 
         AdditionalProperties = true;
         Properties = null;
@@ -361,7 +363,7 @@ internal class SchemaProperty
 
     private static readonly Dictionary<Type, List<string>> _enumCache = new();
 
-    internal static void ClearEnumCache()
+    internal static void ClearCache()
     {
         _enumCache.Clear();
     }
@@ -391,13 +393,17 @@ internal class SchemaProperty
             if (firstLength < 4 && enumNames.All(n => n.Length == firstLength)) // abbreviations or codes probably
             {
                 values = enumNames.OrderBy(e => e).ToList();
+        
                 _enumCache.Add(type, values);
+                
                 return values;
             }
         }
 
         values = enumNames.Select(n => n.ToCamelCase()).OrderBy(e => e).ToList();
+
         _enumCache.Add(type, values);
+        
         return values;
     }
 
