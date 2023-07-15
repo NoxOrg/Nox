@@ -167,8 +167,6 @@ domain:
             minLength: 2
             maxLength: 2
         
-        - $ref: sample.yaml
-
       attributes:
 
         - name: Name
