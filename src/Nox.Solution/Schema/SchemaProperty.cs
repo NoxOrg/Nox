@@ -7,6 +7,9 @@ using Nox.Solution.Extensions;
 
 namespace Nox.Solution.Schema;
 
+/// <summary>
+/// A class with a JSON schema structure for generating schema files with.
+/// </summary>
 internal class SchemaProperty
 {
     public string? Name { get; private set; }
@@ -34,6 +37,9 @@ internal class SchemaProperty
     public string? SchemaName { get; private set; } 
     public IfEqualsAttribute? Conditional { get; private set; }
 
+    /// <summary>
+    /// Creates a SchemaProperty based on a supplied Type or <see cref="System.Reflection.MemberInfo"/> instance. 
+    /// </summary>
     public SchemaProperty(MemberInfo info, Type? type = null)
     {
         ActualType = type ?? (Type)info;
@@ -390,7 +396,11 @@ internal class SchemaProperty
         if(enumNames.Length > 1) 
         {
             var firstLength = enumNames[0].Length;
-            if (firstLength < 4 && enumNames.All(n => n.Length == firstLength)) // abbreviations or codes probably
+
+            // don't camelCase abbreviations or codes (i.e. enums where all string values are the same length
+            // and less than four characters long.
+
+            if (firstLength < 4 && enumNames.All(n => n.Length == firstLength)) 
             {
                 values = enumNames.OrderBy(e => e).ToList();
         
@@ -406,5 +416,4 @@ internal class SchemaProperty
         
         return values;
     }
-
 }

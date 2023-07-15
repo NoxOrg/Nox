@@ -9,7 +9,7 @@ namespace Nox.Solution.Schema;
 
 
 /// <summary>
-/// Generates schema for type according to data annotations.
+/// Generates JSON schemas for type based on its class and property annotations.
 /// </summary>
 public static class SchemaGenerator
 {
@@ -19,13 +19,92 @@ public static class SchemaGenerator
  
         WriteSchema(schemaRoot, schemaPath);
 
-        SchemaGenerator.ClearCache();
+        ClearCache();
         SchemaProperty.ClearCache();
 
     }
 
     private static readonly HashSet<Type> _generatedSchemas = new();
 
+    private static readonly Dictionary<Type, SchemaProperty> _schemaPropertyCache = new();
+
+    private static void ClearCache()
+    {
+        _schemaPropertyCache.Clear();
+        _generatedSchemas.Clear();
+    }
+
+    /// <summary>
+    /// Reads a type, its collections, dictionaries and properties and inspects its schema attributes. 
+    /// </summary>
+    /// <param name="inputType">The type to generate a root <see cref="SchemaProperty"/> for.</param>
+    /// <returns>Returns a recursively built <see cref="SchemaProperty"/> object tree that matches JSON schema structure.</returns>
+    private static SchemaProperty GetSchemaInfo(Type inputType)
+    {
+        var type = Nullable.GetUnderlyingType(inputType) ?? inputType;
+
+        if (_schemaPropertyCache.TryGetValue(type, out var schemaInfo))
+        {
+            return schemaInfo;
+        }
+
+        schemaInfo = new SchemaProperty(type);
+        _schemaPropertyCache.Add(type, schemaInfo);
+
+        if (schemaInfo.SuppressProperties)
+        {
+            return schemaInfo;
+        }
+
+        var properties = type.GetProperties(BindingFlags.FlattenHierarchy
+                | BindingFlags.Public
+                | BindingFlags.Instance);
+
+        foreach (var property in properties)
+        {
+            var sp = new SchemaProperty(property, property.PropertyType);
+
+            if (sp.Ignore)
+            {
+                continue;
+            }
+
+            if (sp.IsRequired && sp.Name is not null)
+            {
+                schemaInfo.AddRequired(sp.Name);
+            }
+
+            if (sp.Type == "object")
+            {
+                // Recurse
+                var childProperty = GetSchemaInfo(property.PropertyType);
+                sp.OverridePropertiesWith(childProperty);
+            }
+            else if (sp.Type == "array" && property.PropertyType.GenericTypeArguments.Length == 0)
+            {
+                var itemInfo = GetSchemaInfo(property.PropertyType.GetElementType()!);
+                sp.SetItems(itemInfo);
+            }
+            else if (sp.Type == "array")
+            {
+                var itemInfo = GetSchemaInfo(property.PropertyType.GenericTypeArguments[0]);
+                sp.SetItems(itemInfo);
+            }
+
+            schemaInfo.AddProperty(sp);
+        }
+
+        schemaInfo.CreateAnyOfFromConditionals();
+
+        return schemaInfo;
+    }
+
+    /// <summary>
+    /// Writes a schema and its subschema's to files. This is a recursive operation.
+    /// </summary>
+    /// <param name="schemaProperty">The property to generate a Json schema for.</param>
+    /// <param name="schemaPath">The path to write JSON schema files to.</param>
+    /// <returns>A schema snippet that is added to the parent schema.</returns>
     private static string WriteSchema(SchemaProperty schemaProperty, string schemaPath)
     {
 
@@ -143,6 +222,11 @@ public static class SchemaGenerator
 
     }
 
+    /// <summary>
+    /// Generates an "anyOf" JSON schema structure for sub-schemas to support "$ref" keys in Nox YAML files.
+    /// </summary>
+    /// <param name="schemaFile">The file containing the JSON schema to include in the "anyOf" structure.</param>
+    /// <returns></returns>
     private static string AnyOfWithSchemaAndReferenceSupport(string schemaFile)
     {
         return $$"""
@@ -163,72 +247,4 @@ public static class SchemaGenerator
           }
           """;
     }
-
-    private static readonly Dictionary<Type,SchemaProperty> _schemaPropertyCache = new();
-
-    private static void ClearCache()
-    {
-        _schemaPropertyCache.Clear();
-    }
-
-    private static SchemaProperty GetSchemaInfo(Type inputType)
-    {
-        var type = Nullable.GetUnderlyingType(inputType) ?? inputType;
-
-        if (_schemaPropertyCache.TryGetValue(type, out var schemaInfo))
-        {
-            return schemaInfo;
-        }
-
-        schemaInfo = new SchemaProperty(type);
-        _schemaPropertyCache.Add(type, schemaInfo);
-
-        if (schemaInfo.SuppressProperties)
-        {
-            return schemaInfo;
-        }
-
-        var properties = type.GetProperties(BindingFlags.FlattenHierarchy
-                | BindingFlags.Public
-                | BindingFlags.Instance);
-
-        foreach (var property in properties)
-        {
-            var sp = new SchemaProperty(property, property.PropertyType);
-
-            if (sp.Ignore)
-            {
-                continue;
-            }
-            
-            if (sp.IsRequired && sp.Name is not null)
-            {
-                schemaInfo.AddRequired(sp.Name);
-            }
-
-            if (sp.Type == "object")
-            {
-                // Recurse
-                var childProperty = GetSchemaInfo(property.PropertyType);
-                sp.OverridePropertiesWith(childProperty);
-            }
-            else if (sp.Type == "array" && property.PropertyType.GenericTypeArguments.Length == 0)
-            {
-                var itemInfo = GetSchemaInfo(property.PropertyType.GetElementType()!);
-                sp.SetItems(itemInfo);
-            }
-            else if (sp.Type == "array")
-            {
-                var itemInfo = GetSchemaInfo(property.PropertyType.GenericTypeArguments[0]);
-                sp.SetItems(itemInfo);
-            }
-            
-            schemaInfo.AddProperty(sp);
-        }
-
-        schemaInfo.CreateAnyOfFromConditionals();
-        
-        return schemaInfo;
-    }
-
 }
