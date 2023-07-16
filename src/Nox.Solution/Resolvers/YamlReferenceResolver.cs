@@ -102,12 +102,12 @@ internal class YamlReferenceResolver
 
                 childLineNumber++;
 
-                if (sourceLine.TrimStart().StartsWith("#") || string.IsNullOrWhiteSpace(sourceLine))
+                if (childLine.TrimStart().StartsWith("#") || string.IsNullOrWhiteSpace(childLine))
                 {
                     continue;
                 }
 
-                containsRef = containsRef || sourceLine.Contains("$ref:");
+                containsRef = containsRef || childLine.Contains("$ref:");
 
                 string output;
 
