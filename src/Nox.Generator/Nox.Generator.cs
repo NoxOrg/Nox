@@ -139,11 +139,15 @@ public class NoxCodeGenerator : IIncrementalGenerator
             return false;
         }
 
-        var solutionFile = solutionFilePaths.First();
+        var solutionFileAndContent = noxYamls
+            .Where(s => s.Source is not null)
+            .ToDictionary( s => s.Path, s=> s.Source!.ToString());
 
         try
         {
-            solution = new NoxSolutionBuilder().UseYamlFile(solutionFile).Build();
+            solution = new NoxSolutionBuilder()
+                .UseYamlFilesAndContent(solutionFileAndContent)
+                .Build();
         }
         catch (YamlException e)
         {
