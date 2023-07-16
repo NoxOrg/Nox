@@ -291,69 +291,35 @@ internal class SchemaProperty
     private static string ToJsonSchemaType(Type? type)
     {
 
-        if (type is null)
-        {
-            return "null";
-        }
+        if (type is null)                   return "null";
 
-        if (type == typeof(string))
-        {
-            return "string";
-        }
-        else if (type == typeof(bool))
-        {
-            return "boolean";
-        }
-        else if (type.IsIntegerType())
-        {
-            return "integer";
-        }
-        else if (type.IsDecimalType())
-        {
-            return "number";
-        }
-        else if (type == typeof(DateTime))
-        {
-            return "string";
-        }
+        else if (type == typeof(string))    return "string";
+
+        else if (type == typeof(bool))      return "boolean";
+
+        else if (type.IsIntegerType())      return "integer";
+
+        else if (type.IsDecimalType())      return "number";
+
+        else if (type == typeof(DateTime))  return "string";
 #if NET6_0_OR_GREATER
-        else if (type == typeof(DateOnly))
-        {
-            return "string";
-        }
-        else if (type == typeof(TimeOnly))
-        {
-            return "string";
-        }
+        else if (type == typeof(DateOnly))  return "string";
+
+        else if (type == typeof(TimeOnly))  return "string";
 #endif
-        else if (type == typeof(TimeSpan))
-        {
-            return "string";
-        }
-        else if (type == typeof(Guid))
-        {
-            return "string";
-        }
-        else if (type == typeof(Uri))
-        {
-            return "string";
-        }
-        else if (type.IsEnum)
-        {
-            return "string";
-        }
-        else if (type.IsDictionary())
-        {
-            return "object";
-        }
-        else if (type.IsEnumerable())
-        {
-            return "array";
-        }
-        else
-        {
-            return "object";
-        }
+        else if (type == typeof(TimeSpan))  return "string";
+
+        else if (type == typeof(Guid))      return "string";
+
+        else if (type == typeof(Uri))       return "string";
+ 
+        else if (type.IsEnum)               return "string";
+        
+        else if (type.IsDictionary())       return "object";
+        
+        else if (type.IsEnumerable())       return "array";
+        
+        return "object";
     }
 
     /// <summary>
@@ -363,37 +329,20 @@ internal class SchemaProperty
     /// <returns></returns>
     private static string? ToJsonSchemaFormat(Type? type)
     {
-        if (type is null)
-        {
-            return null;
-        }
+        if (type is null)                   return null;
 
-        if (type == typeof(Uri))
-        {
-            return "uri";
-        }
-        else if (type == typeof(DateTime))
-        {
-            return "date-time";
-        }
+        else if (type == typeof(Uri))       return "uri";
+
+        else if (type == typeof(DateTime))  return "date-time";
 #if NET6_0_OR_GREATER
-        else if (type == typeof(DateOnly))
-        {
-            return "date";
-        }
-        else if (type == typeof(TimeOnly))
-        {
-            return "time";
-        }
+        else if (type == typeof(DateOnly))  return "date";
+
+        else if (type == typeof(TimeOnly))  return "time";
 #endif
-        else if (type == typeof(TimeSpan))
-        {
-            return "duration";
-        }
-        else if (type == typeof(Guid))
-        {
-            return "uuid";
-        }
+        else if (type == typeof(TimeSpan))  return "duration";
+
+        else if (type == typeof(Guid))      return "uuid";
+
         return null;
     }
 
@@ -404,23 +353,11 @@ internal class SchemaProperty
     /// <returns></returns>
     private static object? ToJsonSchemaAdditionalProperties(Type? type)
     {
-        if (type is null)
-        {
-            return null;
-        }
+        if (type is null)               return null;
 
-        if (type.IsDictionary())
-        {
-            return new { Type = "string" };
-        }
+        else if (type.IsDictionary())   return new { Type = "string" };
+
         return null;
-    }
-
-    private static readonly Dictionary<Type, List<string>> _enumCache = new();
-
-    internal static void ClearCache()
-    {
-        _enumCache.Clear();
     }
 
     /// <summary>
@@ -430,20 +367,7 @@ internal class SchemaProperty
     /// <returns>A list of JSON schema enumerators.</returns>
     private static List<string>? ToEnumValues(Type? type)
     {
-        if (type is null)
-        {
-            return null;
-        }
-
-        if (!type.IsEnum)
-        {
-            return null;
-        }
-
-        if (_enumCache.TryGetValue(type, out var values))
-        {
-            return values;
-        }
+        if (type is null || !type.IsEnum) return null;
 
         var enumNames = System.Enum.GetNames(type);
 
@@ -456,21 +380,20 @@ internal class SchemaProperty
 
             if (firstLength < 4 && enumNames.All(n => n.Length == firstLength)) 
             {
-                values = enumNames.OrderBy(e => e).ToList();
-        
-                _enumCache.Add(type, values);
-                
-                return values;
+                return enumNames.OrderBy(e => e).ToList();
             }
         }
 
-        values = enumNames.Select(n => n.ToCamelCase()).OrderBy(e => e).ToList();
+      return enumNames.Select(n => n.ToCamelCase()).OrderBy(e => e).ToList();
 
-        _enumCache.Add(type, values);
-        
-        return values;
     }
 
+    /// <summary>
+    /// Return an enumerator to process child properties of a property based on an existing instance 
+    /// of a matching object.
+    /// </summary>
+    /// <param name="instance">The instance to match the AnyOf subschema and return applicable properties.</param>
+    /// <returns>An enumerator of <see cref="SchemaProperty"/></returns>
     public IEnumerable<SchemaProperty> GetChildSchemaProperties(IDictionary<string,object> instance)
     {
         if (Properties is not null)
@@ -483,18 +406,27 @@ internal class SchemaProperty
             yield return Items;
         }
 
-        if (AnyOf is not null)
+        if (AnyOf is not null && AnyOf.Count > 0 && AnyOf[0].Properties is not null)
         {
             var found = false;
-            foreach (var property in AnyOf)
-            {
-                var constProp = property.Properties?
-                    .FirstOrDefault(kv => kv.Value.TypeConst is not null)
-                    .Value;
 
-                if (constProp is not null 
-                    && constProp.TypeConst is string constStr 
-                    && constProp.Name is not null)
+            var constPropName = AnyOf[0].Properties!
+                .First(kv => kv.Value.TypeConst is not null)
+                .Value.Name;
+
+            for (var i = 0; i < AnyOf.Count-1; i++) 
+            {
+                var property = AnyOf[i];
+
+                if (property.Properties is null) continue;
+
+                var constProp = property.Properties[constPropName!];
+
+                if (constProp is null) continue;
+
+                if (constProp.Name is null) continue;
+                
+                if (constProp.TypeConst is string constStr)
                 {
                    if (instance.TryGetValue(constProp.Name, out var value))
                    {

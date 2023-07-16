@@ -36,7 +36,6 @@ internal static class NoxSchemaValidator
             .WithNodeTypeResolver(new ReadOnlyCollectionNodeTypeResolver())
             .Build();
 
-        var errors = new List<string>();
 
         T yamlTypedObjectInstance;
 
@@ -45,13 +44,18 @@ internal static class NoxSchemaValidator
             // Validate the schema first
             using var sr = new StringReader(yaml);
             var yamlObjectInstance = deserializer.Deserialize<IDictionary<string,object>>(sr);
-            var rootSchemaProperty = NoxSchemaGenerator.GetSchemaInfo(typeof(T));
-            ValidateInstanceAgainstSchema(yamlObjectInstance, rootSchemaProperty, errors);
+
+            // Read type's schema info
+            var rootSchemaProperty = new SchemaGenerator().GetSchemaInfo(typeof(T));
+
+            // Validate to schema
+            var validator = new SchemaValidator();
+            validator.Validate(yamlObjectInstance, rootSchemaProperty);
 
             // Then if schema is valid it's neccessary to check whether we can deserialize
-            if (errors.Any())
+            if (validator.Errors.Any())
             {
-                var message = string.Join("\n", errors.Distinct());
+                var message = string.Join("\n", validator.Errors.Distinct());
                 throw new NoxSolutionConfigurationException(message);
             }
 
@@ -60,7 +64,7 @@ internal static class NoxSchemaValidator
         }
         catch (YamlException ex)
         {
-            AddExceptionMessagesToErrors(ex, errors);
+            var errors = GetExceptionMessages(ex);
             var message = string.Join("\n", errors.Distinct());
             throw new NoxSolutionConfigurationException(message, ex);
         }
@@ -69,113 +73,14 @@ internal static class NoxSchemaValidator
         return yamlTypedObjectInstance;
     }
 
-    private static void ValidateInstanceAgainstSchema(IDictionary<string,object> objectInstance, SchemaProperty schemaProperty, List<string> errors)
+
+    private static IReadOnlyList<string> GetExceptionMessages(Exception exception, List<string>? errors = null)
     {
-        if (objectInstance is null || schemaProperty is null)
+        if (errors is null)
         {
-            return;
+            errors = new List<string>();
         }
 
-        var requiredProperties = schemaProperty.Required ?? Enumerable.Empty<string>();
-
-        // Check all required properties exist
-        foreach (var required in requiredProperties)
-        {
-            if (objectInstance.TryGetValue(required, out var val) && val is not null)
-                continue;
-
-            var instance = DictionaryToString(objectInstance);
-
-            errors.Add($"Missing property [\"{required}\"] on instance [{instance}] of type [{schemaProperty.ActualType}] is required.");
-        }
-
-        // Check for disallowed additionalProperties
-        if (schemaProperty.AdditionalProperties == false)
-        {
-            var allowedProperties = schemaProperty
-                .GetChildSchemaProperties(objectInstance)
-                .Select(p => p.Name) 
-                ?? Enumerable.Empty<string>(); 
-
-            foreach (var prop in objectInstance)
-            {
-                if (allowedProperties.Contains(prop.Key))
-                    continue;
-
-                var instance = DictionaryToString(objectInstance);
-
-                errors.Add($"Disallowed property [\"{prop.Key}\"] on instance [{instance}] of type [{schemaProperty.ActualType}].");
-            }
-        }
-
-        // Recurse
-        foreach (var property in schemaProperty.GetChildSchemaProperties(objectInstance))
-        {
-            if (property.Ignore)
-            {
-                continue;
-            }
-
-            if (property.IsAnyOfSchema)
-            {
-                ValidateInstanceAgainstSchema(objectInstance, property, errors);
-            }
-
-            if (!objectInstance.TryGetValue(property.Name!, out var obj))
-            {
-                continue;
-            }
-
-            if (property.Type == "object")
-            {
-                var obj2 = ((IDictionary<object,object>)obj).ToDictionary(o => o.Key.ToString()!, o => o.Value);
-                
-                ValidateInstanceAgainstSchema(obj2, property, errors);
-            }
-            else if (property.Type == "array" 
-                && property.UnderlyingType.IsGenericType 
-                && property.Items is not null
-                && property.Items.Type == "object")
-            {
-                foreach (var item in (IList)obj)
-                {
-                    var obj2 = ((IDictionary<object, object>)item).ToDictionary(o => o.Key.ToString()!, o => o.Value);
-
-                    ValidateInstanceAgainstSchema(obj2, property.Items, errors);
-                }
-            }
-
-            // Check for valid enumerators
-            else if (property.Enum is not null && property.Name is not null)
-            {
-                if (objectInstance.TryGetValue(property.Name, out var val) && val is string strVal)
-                {
-                    if (!property.Enum.Contains(strVal))
-                    {
-                        var instance = DictionaryToString(objectInstance);
-
-                        errors.Add($"Invalid value [\"{strVal}\"] for property [{property.Name}] on instance [{instance}] of type [{schemaProperty.ActualType}].");
-                    }
-                }
-            }
-
-        }
-    }
-
-    private static string DictionaryToString(IDictionary<string, object> instance)
-    {
-        var instanceValues = instance.Where(kv => kv.Value is not null)
-            .Where(kv => kv.Value is string)
-            .Select(kv => $"{kv.Key}: {kv.Value}")
-            .ToArray();
-
-        var asString = string.Join(",", instanceValues);
-
-        return asString.Length < 51 ? asString : asString.Substring(0, 50) + "...";
-    }
-
-    private static void AddExceptionMessagesToErrors(Exception exception, List<string> errors)
-    {
         if (exception is YamlException yamlException)
         {
             errors.Add($"[YamlException] {yamlException.Message}. Line {yamlException.End.Line}, column {yamlException.End.Column}.");
@@ -186,7 +91,9 @@ internal static class NoxSchemaValidator
         }
         if (exception.InnerException is not null)
         {
-            AddExceptionMessagesToErrors(exception.InnerException, errors);
+            GetExceptionMessages(exception.InnerException, errors);
         }
+
+        return errors;
     }
 }
