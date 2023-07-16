@@ -13,4 +13,7 @@ public interface IIntegrationTarget
     IDataFlowExecutableSource<ExpandoObject> DataFlowSource();
     IConnectionManager ConnectionManager { get; }
     void ApplyMergeInfo(IntegrationMergeStates lastMergeInfo, string[] dateTimeStampColumns, string[] targetColumns);
+    
+    string ToTableNameForSql(string table, string schema);
+    string ToTableNameForSqlRaw(string table, string schema);
 }

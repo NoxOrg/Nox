@@ -86,5 +86,11 @@ namespace Nox.Integration.Executor {
                 return ResourceManager.GetString("TargetContructionFailure", resourceCulture);
             }
         }
+        
+        internal static string ExecutorExecutionError {
+            get {
+                return ResourceManager.GetString("ExecutorExecutionError", resourceCulture);
+            }
+        }
     }
 }

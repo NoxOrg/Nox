@@ -35,6 +35,10 @@ public class SqlServerTargetTests
         Assert.IsType<DbSource<ExpandoObject>>(dfSource);
         Assert.NotNull(target.ConnectionManager);
         Assert.IsType<SqlConnectionManager>(target.ConnectionManager);
+        var tableName = target.ToTableNameForSql("TestTable", "TestSchema");
+        Assert.Equal("[TestSchema].[TestTable]", tableName);
+        var rawTableName = target.ToTableNameForSqlRaw("TestTable", "TestSchema");
+        Assert.Equal("TestSchema.TestTable", rawTableName);
     }
     
     [Fact]

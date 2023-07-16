@@ -39,4 +39,7 @@
     <data name="TargetContructionFailure" xml:space="preserve">
         <value>Unable to create an integration target ({0}) for integration {1}.</value>
     </data>
+    <data name="ExecutorExecutionError" xml:space="preserve">
+        <value>Error executing integration {0}.</value>
+    </data>
 </root>

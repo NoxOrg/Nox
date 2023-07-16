@@ -51,6 +51,9 @@
       <None Update="files\sql-target.solution.nox.yaml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
+      <None Update="files\entity-target.solution.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
     
 </Project>

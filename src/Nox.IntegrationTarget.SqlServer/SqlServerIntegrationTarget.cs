@@ -53,6 +53,16 @@ public class SqlServerIntegrationTarget: IIntegrationTarget
         throw new NotImplementedException();
     }
 
+    public string ToTableNameForSql(string table, string schema)
+    {
+        return $"[{schema}].[{table}]";
+    }
+
+    public string ToTableNameForSqlRaw(string table, string schema)
+    {
+        return $"{schema}.{table}";
+    }
+
     private void SetConnectionString(ServerBase serverDefinition, string integrationName)
     {
         var csb = new SqlConnectionStringBuilder(serverDefinition.Options)

@@ -39,5 +39,11 @@
         <DependentUpon>ExceptionResources.resx</DependentUpon>
       </Compile>
     </ItemGroup>
+
+    <ItemGroup>
+      <Reference Include="ETLBox">
+        <HintPath>..\Nox.Etlbox\ETLBox.dll</HintPath>
+      </Reference>
+    </ItemGroup>
     
 </Project>

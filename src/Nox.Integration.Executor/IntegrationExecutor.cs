@@ -24,7 +24,7 @@ public class IntegrationExecutor: IIntegrationExecutor
         _solution = solution;
     }
     
-    public Task<bool> ExecuteAsync(string integrationName)
+    public async Task ExecuteAsync(string integrationName)
     {
         if (_solution.Application?.Integrations == null || !_solution.Application.Integrations.Any()) 
             throw new NoxIntegrationException(ExceptionResources.IntegrationsDefinitionMissing);
@@ -32,17 +32,15 @@ public class IntegrationExecutor: IIntegrationExecutor
         if (integration == null) throw new NoxIntegrationException(ExceptionResources.IntegrationsDefinitionMissing);
         var source = _sourceFactory.Create(integration.Source!.Name);
         var target = _targetFactory.Create(integration.Target!.Name);
-        // if (target.TargetType == IntegrationTargetType.Entity)
-        // {
-        //     var entity = _solution.Domain!.Entities.First(e => e.Name == target.Name);
-        //     
-        // }
-        return Task.FromResult(false);
+        if (integration.Target.TargetType == IntegrationTargetType.Entity)
+        {
+            var entity = _solution.Domain!.Entities.First(e => e.Name == target.Name);
+            await new EntityExecutor(_logger, integrationName, integration.Source.Watermark!, source, target, entity)
+                .ExecuteAsync();
+        }
+        
+        
     }
 
-    private Task Execute(Solution.Integration integration, Entity entity)
-    {
-        //var sourceProvider = integration.Source
-        return Task.CompletedTask;
-    }
+    
 }
