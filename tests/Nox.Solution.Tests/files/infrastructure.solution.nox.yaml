@@ -28,6 +28,14 @@ infrastructure:
 
       ### MySql  
       #provider: mySql
+      
+    integrationDatabaseServer: 
+      name: SampleIntegrationDb
+      provider: sqlServer
+      serverUri: localhost
+      port: 1433
+      user: sa
+      password: Developer*123
 
     cacheServer:
       name: SampleCache

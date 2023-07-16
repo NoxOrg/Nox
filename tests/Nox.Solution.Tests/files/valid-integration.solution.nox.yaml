@@ -1,0 +1,78 @@
+#
+# valid-integration.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: TestService
+
+description: Yaml file for testing application
+
+application:
+
+  integrations:
+    - name: SampleEtl
+      description: a Sample Etl
+      schedule:
+        start: every day at 2am
+        retry:
+          limit: 5
+          delaySeconds: 5
+          doubleDelayLimit: 10
+        runOnStartup: true
+      source:
+        name: CountryJsonSource
+        description: Sources Country data from a json file
+        dataConnectionName: CountryJsonData
+        fileOptions:
+          filename: sample.json
+        watermark:
+          dateColumns:
+            - "CreateDate"
+            - "EditDate"
+          sequentialKeyColumn: CountryId
+      transform:
+        mappings:
+          - sourceColumn: IsoAlpha2Code
+            targetAttribute: Id
+            converter: upperCase
+          - sourceColumn: CountryName
+            targetAttribute: Name
+          - sourceColumn: CountryFullName
+            targetAttribute: FormalName
+        lookups:
+          - sourceColumn: RegionId
+            match:
+              table: GeoRegions
+              lookupColumn: Id
+              returnColumn: Name
+            targetAttribute: GeoRegion
+      target:
+        name: Country
+        targetType: entity
+
+infrastructure:
+  persistence:
+    databaseServer:
+      name: NoxEntityStore
+      serverUri: localhost
+      provider: sqlServer
+      user: sa
+      password: Developer*123
+      
+    integrationDatabaseServer:
+      name: NoxIntegrationStore
+      serverUri: localhost
+      provider: sqlServer
+      user: sa
+      password: Developer*123
+  
+  dependencies:
+    dataConnections:
+      - name: Nox
+        provider: sqlServer
+        serverUri: Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;
+      - name: CountryJsonData
+        provider: jsonFile
+        serverUri: file://foo/bar

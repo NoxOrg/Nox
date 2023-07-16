@@ -263,6 +263,7 @@ public class SolutionDeserializationTests
         Assert.NotNull(noxConfig.Infrastructure);
         
         Assert.NotNull(noxConfig.Infrastructure.Persistence);
+        
         Assert.NotNull(noxConfig.Infrastructure.Persistence.DatabaseServer);
         Assert.Equal("SampleCurrencyDb", noxConfig.Infrastructure.Persistence.DatabaseServer.Name);
         Assert.Equal("sqlserver.iwgplc.com", noxConfig.Infrastructure.Persistence.DatabaseServer.ServerUri);
@@ -270,6 +271,14 @@ public class SolutionDeserializationTests
         Assert.Equal(1433, noxConfig.Infrastructure.Persistence.DatabaseServer.Port);
         Assert.Equal("sqluser", noxConfig.Infrastructure.Persistence.DatabaseServer.User);
         Assert.Equal("sqlpassword", noxConfig.Infrastructure.Persistence.DatabaseServer.Password);
+        
+        Assert.NotNull(noxConfig.Infrastructure.Persistence.IntegrationDatabaseServer);
+        Assert.Equal("SampleIntegrationDb", noxConfig.Infrastructure.Persistence.IntegrationDatabaseServer.Name);
+        Assert.Equal("localhost", noxConfig.Infrastructure.Persistence.IntegrationDatabaseServer.ServerUri);
+        Assert.Equal(DatabaseServerProvider.SqlServer, noxConfig.Infrastructure.Persistence.IntegrationDatabaseServer.Provider);
+        Assert.Equal(1433, noxConfig.Infrastructure.Persistence.IntegrationDatabaseServer.Port);
+        Assert.Equal("sa", noxConfig.Infrastructure.Persistence.IntegrationDatabaseServer.User);
+        Assert.Equal("Developer*123", noxConfig.Infrastructure.Persistence.IntegrationDatabaseServer.Password);
         
         Assert.NotNull(noxConfig.Infrastructure.Persistence.CacheServer);
         Assert.Equal("SampleCache", noxConfig.Infrastructure.Persistence.CacheServer.Name);
