@@ -19,23 +19,18 @@ namespace Nox.Solution.Schema;
 internal static class NoxSchemaValidator
 {
     /// <summary>
-    /// Deserialize yaml content to T object.
-    /// It deserilizes data to string then serialize to json object to validate all properties against data annotation schema.
-    /// It should validate twice: first time it considers yaml content as json object to find missed required fields.
-    /// If object validation carries out then consider yaml content as certain T type to find corectness of properties, whether properties
-    /// match json content.
+    /// Deserialize a yaml string to a type and validates it against its annotated schema.
     /// </summary>
     /// <typeparam name="T">Any type corresponds to yaml content.</typeparam>
     /// <param name="yaml">Yaml file string content.</param>
-    /// <returns>Deserialized T instance.</returns>
-    /// <exception cref="NoxSolutionConfigurationException">Exception bring error messages caught during validation.</exception>
+    /// <returns>Deserialized instance of type T.</returns>
+    /// <exception cref="NoxSolutionConfigurationException">Errors containing all validation deserialization errors.</exception>
     public static T Deserialize<T>(string yaml)
     {
         var deserializer = new DeserializerBuilder()
             .WithNamingConvention(CamelCaseNamingConvention.Instance)
             .WithNodeTypeResolver(new ReadOnlyCollectionNodeTypeResolver())
             .Build();
-
 
         T yamlTypedObjectInstance;
 
@@ -48,7 +43,7 @@ internal static class NoxSchemaValidator
             // Read type's schema info
             var rootSchemaProperty = new SchemaGenerator().GetSchemaInfo(typeof(T));
 
-            // Validate to schema
+            // Validate object instance to schema
             var validator = new SchemaValidator();
             validator.Validate(yamlObjectInstance, rootSchemaProperty);
 
@@ -68,7 +63,6 @@ internal static class NoxSchemaValidator
             var message = string.Join("\n", errors.Distinct());
             throw new NoxSolutionConfigurationException(message, ex);
         }
-
 
         return yamlTypedObjectInstance;
     }
