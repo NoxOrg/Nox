@@ -12,7 +12,7 @@ namespace Nox.Solution
         [AdditionalProperties(false)]
         public DatabaseServer DatabaseServer { get; internal set; } = new();
         
-        public IntegrationDatabaseServer? IntegrationDatabaseServer { get; internal set; };
+        public IntegrationDatabaseServer? IntegrationDatabaseServer { get; internal set; }
 
         public CacheServer? CacheServer { get; internal set; }
 
