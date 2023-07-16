@@ -531,6 +531,18 @@ namespace Nox.Solution {
             }
         }
         
+        internal static string IntegrationDatabaseServerMissing {
+            get {
+                return ResourceManager.GetString("IntegrationDatabaseServerMissing", resourceCulture);
+            }
+        }
+        
+        internal static string IntegrationDatabaseServerProviderEmpty {
+            get {
+                return ResourceManager.GetString("IntegrationDatabaseServerProviderEmpty", resourceCulture);
+            }
+        }
+        
         internal static string EventSourceServerProviderEmpty {
             get {
                 return ResourceManager.GetString("EventSourceServerProviderEmpty", resourceCulture);

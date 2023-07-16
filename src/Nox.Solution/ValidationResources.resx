@@ -360,6 +360,12 @@
   <data name="DatabaseServerProviderEmpty" xml:space="preserve">
     <value>The infrastructure, persistence, database server '{0}' must have a valid provider specified. Valid providers are one of {1}</value>
   </data>
+  <data name="IntegrationDatabaseServerMissing" xml:space="preserve">
+    <value>The integration database server section of the infrastructure definition is missing. An Integration database is required in a Nox solution definition when there are integrations defined.</value>
+  </data>
+  <data name="IntegrationDatabaseServerProviderEmpty" xml:space="preserve">
+    <value>The infrastructure, persistence, integration database server '{0}' must have a valid provider specified. Valid providers are one of {1}</value>
+  </data>
   <data name="EventSourceServerProviderEmpty" xml:space="preserve">
     <value>The infrastructure, persistence, event source server '{0}' must have a valid provider specified. Valid providers are one of {1}</value>
   </data>
