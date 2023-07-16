@@ -20,7 +20,7 @@ namespace Nox.Solution
 
         private string? _yamlFilePath;
 
-        private IDictionary<string,string>? _yamlFilesAndContent;
+        private IDictionary<string,Func<TextReader>>? _yamlFilesAndContent;
 
         private string? _rootFileAndContentKey; 
 
@@ -36,7 +36,7 @@ namespace Nox.Solution
             return this;
         }
 
-        public NoxSolutionBuilder UseYamlFilesAndContent(IDictionary<string, string> yamlFilesAndContent)
+        public NoxSolutionBuilder UseYamlFilesAndContent(IDictionary<string, Func<TextReader>> yamlFilesAndContent)
         {
             _yamlFilesAndContent = yamlFilesAndContent
                 .ToDictionary(kv => Path.GetFileName(kv.Key), kv => kv.Value, StringComparer.OrdinalIgnoreCase);
@@ -108,7 +108,7 @@ namespace Nox.Solution
             }
         }
 
-        private IDictionary<string, string> LoadFromFileSystem()
+        private IDictionary<string, Func<TextReader>> LoadFromFileSystem()
         {
             //If a yaml root configuration has not been specified, search for one in the .nox/design folder in the solution root folder
             if (string.IsNullOrWhiteSpace(_yamlFilePath))
@@ -135,7 +135,11 @@ namespace Nox.Solution
 
             _rootFileAndContentKey = Path.GetFileName(_yamlFilePath);
 
-            return files.ToDictionary(f => Path.GetFileName(f), File.ReadAllText, StringComparer.OrdinalIgnoreCase);
+            return files.ToDictionary(
+                f => Path.GetFileName(f), 
+                f => new Func<TextReader>(() => new StreamReader(f)), 
+                StringComparer.OrdinalIgnoreCase
+            );
         }
 
         private NoxSolution ResolveAndLoadConfiguration()

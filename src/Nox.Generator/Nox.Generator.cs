@@ -139,9 +139,13 @@ public class NoxCodeGenerator : IIncrementalGenerator
             return false;
         }
 
+
         var solutionFileAndContent = noxYamls
             .Where(s => s.Source is not null)
-            .ToDictionary( s => s.Path, s=> s.Source!.ToString());
+            .ToDictionary( 
+                s => s.Path, 
+                s => new Func<TextReader>(() => new StringReader(s.Source!.ToString()) )
+            );
 
         try
         {
