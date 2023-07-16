@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using Nox.Solution.Schema;
 
 namespace Nox.Solution
@@ -9,7 +10,7 @@ namespace Nox.Solution
     {
         [Title("Column(s) in datetime format used for watermark purpose.")]
         [Description("List datetime columns to be compared to target data to indicate if data has changed.")]
-        public string[]? DateColumns { get; internal set; }
+        public IReadOnlyList<string>? DateColumns { get; internal set; }
 
         [Title("Sequential key column used for watermark purpose.")]
         [Description("Specify a sequential key columns to be compared to target data to indicate if data has changed.")]
