@@ -11,6 +11,8 @@ namespace Nox.Solution
         [Description("Specify properties pertinent to the solution Database server here. Examples include name, serverUri, Port and connection credentials")]
         [AdditionalProperties(false)]
         public DatabaseServer DatabaseServer { get; internal set; } = new();
+        
+        public IntegrationDatabaseServer? IntegrationDatabaseServer { get; internal set; };
 
         public CacheServer? CacheServer { get; internal set; }
 
