@@ -1,12 +1,12 @@
-﻿using Nox.Solution.Schema;
+﻿using Nox.Types.Schema;
 
-namespace Nox.Solution;
+namespace Nox.Types;
 
 [GenerateJsonSchema]
 [Title("The user interface display options for this attribute.")]
 [Description("Specify how this attribute is rendered on the user interface. Configuration options include label, icon, input/output masks, help hints among other.")]
 [AdditionalProperties(false)]
-public class TypeUserInterface : DefinitionBase
+public class TypeUserInterface
 {
     [Title("A descriptive label for this attribute on the user interface.")]
     [Description("The text label rendered on the user interface alongside the NoxTextInput component.")]

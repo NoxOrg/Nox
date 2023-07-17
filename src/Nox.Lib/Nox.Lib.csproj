@@ -68,7 +68,7 @@
             <Pack>true</Pack>
             <PackagePath>analyzers\dotnet\cs</PackagePath>
         </Content>
-		<Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\Nox.Types.dll">
+		<Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\Nox.Types.Abstractions.dll">
 			<Pack>true</Pack>
 			<PackagePath>analyzers\dotnet\cs</PackagePath>
 		</Content>
@@ -76,11 +76,15 @@
 			<Pack>true</Pack>
 			<PackagePath>analyzers\dotnet\cs</PackagePath>
 		</Content>
-		<Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\Humanizer.dll">
+    <Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\Humanizer.dll">
+      <Pack>true</Pack>
+      <PackagePath>analyzers\dotnet\cs</PackagePath>
+    </Content>
+		<Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\System.Text.Json.dll">
 			<Pack>true</Pack>
 			<PackagePath>analyzers\dotnet\cs</PackagePath>
 		</Content>
-		<Content Include="$(OutputPath)\Nox.Types.dll">
+    <Content Include="$(OutputPath)\Nox.Types.dll">
 			<Pack>true</Pack>
 			<PackagePath>lib\$(TargetFramework)</PackagePath>
 		</Content>

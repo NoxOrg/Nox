@@ -1,15 +1,16 @@
 ﻿using System;
 
-namespace Nox.Solution.Schema;
+namespace Nox.Types.Schema;
 
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field |
    AttributeTargets.Enum | AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface,
    AllowMultiple = true)]
-public class AdditionalPropertiesAttribute : Attribute
+public class PatternAttribute : Attribute
 {
-    public bool BoolValue { get; private set; }
-    public AdditionalPropertiesAttribute(bool boolValue)
+    public string Value { get; private set; }
+    public PatternAttribute(string value)
     {
-        BoolValue = boolValue;
+        Value = value;
     }
 }
+

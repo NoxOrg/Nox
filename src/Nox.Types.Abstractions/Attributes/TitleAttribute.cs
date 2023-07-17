@@ -1,16 +1,16 @@
 ﻿using System;
 
-namespace Nox.Solution.Schema;
+namespace Nox.Types.Schema;
 
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field |
    AttributeTargets.Enum | AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface,
    AllowMultiple = true)]
-public class DescriptionAttribute : Attribute
+public class TitleAttribute : Attribute
 {
-    public string Description { get; private set; }
+    public string Title { get; private set; }
 
-    public DescriptionAttribute(string description)
+    public TitleAttribute(string title)
     {
-        Description = description;
+        Title = title;
     }
 }

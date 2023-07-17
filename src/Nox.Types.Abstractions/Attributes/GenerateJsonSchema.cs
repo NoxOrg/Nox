@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace Nox.Solution.Schema;
+namespace Nox.Types.Schema;
 
 [AttributeUsage(AttributeTargets.Class)]
 public class GenerateJsonSchema : Attribute

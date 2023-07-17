@@ -1,16 +1,15 @@
 ﻿using System;
 
-namespace Nox.Solution.Schema;
+namespace Nox.Types.Schema;
 
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field |
    AttributeTargets.Enum | AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface,
    AllowMultiple = true)]
-public class TitleAttribute : Attribute
+public class AdditionalPropertiesAttribute : Attribute
 {
-    public string Title { get; private set; }
-
-    public TitleAttribute(string title)
+    public bool BoolValue { get; private set; }
+    public AdditionalPropertiesAttribute(bool boolValue)
     {
-        Title = title;
+        BoolValue = boolValue;
     }
 }

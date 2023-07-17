@@ -119,14 +119,16 @@ internal static class ODataModelGenerator
         // TODO: add other types
         return type switch
         {
-            NoxType.Text => GetSimpleTypeDefinition(new Text()),
-            NoxType.Number => GetSimpleTypeDefinition(new Number()),
+            //NoxType.Text => GetSimpleTypeDefinition(new Text()),
+            //NoxType.Number => GetSimpleTypeDefinition(new Number()),
 
-            NoxType.Money => GetMoneyDefinition(),
+            //NoxType.Money => GetMoneyDefinition(),
 
             _ => new[] { new Tuple<string, string>(string.Empty, "string") },
         };
     }
+
+    /*
 
     private static Tuple<string, string>[] GetSimpleTypeDefinition<T, TValueObject>(ValueObject<T, TValueObject> instance) where TValueObject : ValueObject<T, TValueObject>, new()
     {
@@ -141,4 +143,5 @@ internal static class ODataModelGenerator
             new Tuple<string, string>(nameof(money.CurrencyCode), money.CurrencyCode.GetType().ToString())
         };
     }
+    */
 }

@@ -1,0 +1,16 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Nox</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Nox.Types" />
+    <InternalsVisibleTo Include="Nox.Types.Tests" />
+    <InternalsVisibleTo Include="Nox.Solution" />
+  </ItemGroup>
+
+</Project>
