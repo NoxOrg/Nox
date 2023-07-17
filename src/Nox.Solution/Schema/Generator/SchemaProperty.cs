@@ -1,0 +1,448 @@
+﻿using System;
+using System.Reflection;
+using System.Linq;
+using System.Collections.Generic;
+using YamlDotNet.Serialization;
+using Nox.Solution.Extensions;
+
+namespace Nox.Solution.Schema;
+
+/// <summary>
+/// JSON schema structure for generating schema files with. Matches schema keywords and 
+/// assigns supported JSON schema types and constraints.
+/// </summary>
+internal class SchemaProperty
+{
+    #region Properties matching JSON schema keywords
+    public string? Name { get; private set; }
+    public string? Title { get; private set; }
+    public string? Description { get; private set; }
+    public string? Type { get; private set; }
+    public string? TypeConst { get; private set; }
+    public string? Format { get; private set; }
+    public List<string>? Enum { get; private set; }
+    public string? Pattern { get; private set; }
+    public bool? AdditionalProperties { get; private set; }
+    public object? AdditionalPropertiesObject { get; private set; }
+    public List<string>? Required { get; private set; }
+    public Dictionary<string, SchemaProperty>? Properties { get; private set; }
+    public List<SchemaProperty>? AnyOf { get; private set; }
+    public SchemaProperty? Items { get; private set; }
+    #endregion
+
+    #region Properties to support JSON schema generation
+    public bool IsRequired { get; private set; }
+    public bool Ignore { get; private set; }
+    public bool SuppressProperties { get; private set; }
+    public Type ActualType { get; private set; }
+    public Type UnderlyingType { get; private set; }
+    public bool IsNullable { get; private set; }
+    public bool GenerateSchema { get; private set; }
+    public string? SchemaName { get; private set; } 
+    public IfEqualsAttribute? Conditional { get; private set; }
+    public bool IsAnyOfSchema { get; private set; }
+    #endregion
+
+    /// <summary>
+    /// Creates a SchemaProperty based on a supplied Type or <see cref="System.Reflection.MemberInfo"/> instance. 
+    /// </summary>
+    public SchemaProperty(MemberInfo info, Type? type = null)
+    {
+        ActualType = type ?? (Type)info;
+
+        UnderlyingType = Nullable.GetUnderlyingType(ActualType) ?? ActualType;
+
+        IsNullable = ActualType.IsNullable();
+
+        GenerateSchema = info.GetCustomAttribute<GenerateJsonSchema>(false) != null;
+
+        if (GenerateSchema)
+        {
+            SchemaName = info.GetCustomAttribute<GenerateJsonSchema>(false)?.SchemaName ?? UnderlyingType.Name.ToCamelCase();
+        }
+
+        Name = (info.GetCustomAttribute<YamlMemberAttribute>()?.Alias ?? info.Name).ToCamelCase();
+        
+        Type = ToJsonSchemaType(UnderlyingType);
+
+        Format = ToJsonSchemaFormat(UnderlyingType);
+
+        Enum = ToEnumValues(UnderlyingType);
+
+        Title = info.GetCustomAttribute<TitleAttribute>(false)?.Title;
+
+        Description = info.GetCustomAttribute<DescriptionAttribute>(false)?.Description;
+
+        Pattern = info.GetCustomAttribute<PatternAttribute>(false)?.Value;
+
+        AdditionalProperties = info.GetCustomAttribute<AdditionalPropertiesAttribute>(false)?.BoolValue;
+        
+        AdditionalPropertiesObject = ToJsonSchemaAdditionalProperties(UnderlyingType);
+
+        SuppressProperties = AdditionalPropertiesObject is not null;
+
+        IsRequired = info.GetCustomAttribute<RequiredAttribute>(false) != null;
+        
+        Ignore = info.GetCustomAttribute<IgnoreAttribute>(false) != null;
+
+        Conditional = info.GetCustomAttribute<IfEqualsAttribute>(false);
+
+        IsAnyOfSchema = false;
+
+    }
+
+    /// <summary>
+    /// Adds a required property to a SchemaProprty
+    /// </summary>
+    /// <param name="propertyName">The name of the required property</param>
+    private void AddRequired(string propertyName)
+    {
+        if (Required is null)
+        {
+            Required = new();
+        }
+        Required.Add(propertyName);
+    }
+
+    /// <summary>
+    /// Adds a child <see cref="SchemaProperty"/> to a parent <see cref="SchemaProperty"/>.
+    /// </summary>
+    /// <param name="schemaProperty">The <see cref="SchemaProperty"/> to add.</param>
+    public void AddProperty(SchemaProperty schemaProperty)
+    {
+        if (Properties is null)
+        {
+            Properties = new();
+        }
+        Properties.Add(schemaProperty.Name!, schemaProperty);
+
+        if (schemaProperty.IsRequired && schemaProperty.Name is not null)
+        {
+            AddRequired(schemaProperty.Name);
+        }
+    }
+
+    /// <summary>
+    /// Sets the 'Items' keyword to a <see cref="SchemaProperty"/> for arrays and collections.
+    /// </summary>
+    /// <param name="schemaProperty"></param>
+    public void SetItems(SchemaProperty schemaProperty)
+    {
+        Items = schemaProperty;
+    }
+
+    /// <summary>
+    /// Copies selected properties from another <see cref="SchemaProperty"/>.
+    /// </summary>
+    /// <param name="other"></param>
+    public void OverridePropertiesWith(SchemaProperty other)
+    {
+        Type = other.Type ?? Type;
+
+        Format = other.Format ?? Format;
+        
+        Enum = other.Enum ?? Enum;
+
+        Title = other.Title ?? Title;
+        
+        Description = other.Description ?? Description;
+        
+        Pattern = other.Pattern ?? Pattern;
+        
+        Properties = other.Properties ?? Properties;
+        
+        AdditionalProperties = other.AdditionalProperties ?? AdditionalProperties;
+
+        AdditionalPropertiesObject = other.AdditionalPropertiesObject ?? AdditionalPropertiesObject;
+        
+        IsRequired = other.IsRequired || IsRequired;
+        
+        Required = other.Required ?? Required;
+        
+        Ignore = other.Ignore || Ignore;
+
+        GenerateSchema = other.GenerateSchema || GenerateSchema;
+
+        SchemaName = other.SchemaName ?? SchemaName;
+
+        Conditional = other.Conditional ?? Conditional;
+
+        AnyOf = other.AnyOf ?? AnyOf;
+
+    }
+
+    /// <summary>
+    /// Creates an "AnyOf" structure to match conditional Attributes to their constant values.
+    /// </summary>
+    public void CreateAnyOfFromConditionals()
+    {
+        if (Properties is null) return;
+
+        var conditionals = Properties.Where(p => p.Value.Conditional is not null);
+
+        if (conditionals.Count() == 0) return;
+
+        AnyOf = new();
+
+        var nonConditionals = Properties.Where(p => p.Value.Conditional is null);
+
+        var dependentProperties = conditionals.GroupBy(p => p.Value.Conditional!.Property);
+
+        if (dependentProperties.Count() > 1)
+        {
+            return;
+        }
+
+        var dependentFieldName = dependentProperties.First().Key.ToCamelCase();
+        var dependentField = nonConditionals.FirstOrDefault(p => p.Key == dependentFieldName).Value;
+
+        if (dependentField is null || dependentField.Enum is null)
+        {
+            return;
+        }
+
+        var enums = dependentField.Enum.ToList();
+
+        foreach (var conditional in conditionals) 
+        {
+            var sp = new SchemaProperty(ActualType);
+            var fieldValue = conditional.Value.Conditional!.Value.ToString()!.ToCamelCase();
+
+            foreach (var nonConditional in nonConditionals)
+            {
+                SchemaProperty propToAdd;
+
+                if (dependentFieldName == nonConditional.Key)
+                {
+                    propToAdd = new(nonConditional.Value.UnderlyingType);
+                    propToAdd.TypeConst = fieldValue;
+                    propToAdd.Name = dependentFieldName;
+                    propToAdd.Type = null;
+                    propToAdd.Enum = null;
+                    propToAdd.IsRequired = true;
+                    propToAdd.IsNullable = false;
+                    enums.Remove(fieldValue);
+                }
+                else
+                {
+                    propToAdd = nonConditional.Value;
+                }
+
+                sp.AddProperty(propToAdd);
+                
+                if (dependentFieldName == nonConditional.Key)
+                {
+                    sp.AddProperty(conditional.Value);
+                }
+            }
+            
+            sp.GenerateSchema = false;
+            sp.IsNullable = false;
+            sp.IsRequired = true;
+            sp.Title = null;
+            sp.Description = null;
+            sp.Type = null;
+            sp.IsAnyOfSchema = true;
+            AnyOf.Add(sp);
+        }
+
+        // Add default for unused enums
+
+        var spRest = new SchemaProperty(ActualType);
+
+        foreach (var nonConditional in nonConditionals)
+        {
+            SchemaProperty propToAdd;
+
+            if (dependentFieldName == nonConditional.Key)
+            {
+                propToAdd = new(nonConditional.Value.UnderlyingType);
+                propToAdd.Name = dependentFieldName;
+                propToAdd.Enum = enums;
+                propToAdd.IsNullable = false;
+                propToAdd.IsRequired = true;
+            }
+            else
+            {
+                propToAdd = nonConditional.Value;
+            }
+
+            spRest.AddProperty(propToAdd);
+
+        }
+
+        spRest.GenerateSchema = false;
+        spRest.IsNullable = false;
+        spRest.IsRequired = true;
+        spRest.Title = null;
+        spRest.Description = null;
+        spRest.IsAnyOfSchema = true;
+        AnyOf.Add(spRest);
+
+        AdditionalProperties = true;
+        Properties = null;
+    }
+
+    /// <summary>
+    /// Converts a Type to its corresponding JSON schema type
+    /// </summary>
+    /// <param name="type">The .NET type to convert.</param>
+    /// <returns>A JSON schema type as a string.</returns>
+    private static string ToJsonSchemaType(Type? type)
+    {
+
+        if (type is null)                   return "null";
+
+        else if (type == typeof(string))    return "string";
+
+        else if (type == typeof(bool))      return "boolean";
+
+        else if (type.IsIntegerType())      return "integer";
+
+        else if (type.IsDecimalType())      return "number";
+
+        else if (type == typeof(DateTime))  return "string";
+#if NET6_0_OR_GREATER
+        else if (type == typeof(DateOnly))  return "string";
+
+        else if (type == typeof(TimeOnly))  return "string";
+#endif
+        else if (type == typeof(TimeSpan))  return "string";
+
+        else if (type == typeof(Guid))      return "string";
+
+        else if (type == typeof(Uri))       return "string";
+ 
+        else if (type.IsEnum)               return "string";
+        
+        else if (type.IsDictionary())       return "object";
+        
+        else if (type.IsEnumerable())       return "array";
+        
+        return "object";
+    }
+
+    /// <summary>
+    /// Converts a .NET type to a JSON schema "Format" if applicable.
+    /// </summary>
+    /// <param name="type">The .NET type to inspect.</param>
+    /// <returns></returns>
+    private static string? ToJsonSchemaFormat(Type? type)
+    {
+        if (type is null)                   return null;
+
+        else if (type == typeof(Uri))       return "uri";
+
+        else if (type == typeof(DateTime))  return "date-time";
+#if NET6_0_OR_GREATER
+        else if (type == typeof(DateOnly))  return "date";
+
+        else if (type == typeof(TimeOnly))  return "time";
+#endif
+        else if (type == typeof(TimeSpan))  return "duration";
+
+        else if (type == typeof(Guid))      return "uuid";
+
+        return null;
+    }
+
+    /// <summary>
+    /// Handles "additionalProperties" JSON schema keyword for Dictionaries
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    private static object? ToJsonSchemaAdditionalProperties(Type? type)
+    {
+        if (type is null)               return null;
+
+        else if (type.IsDictionary())   return new { Type = "string" };
+
+        return null;
+    }
+
+    /// <summary>
+    /// Converts enum values to JSON schema "enums". Converts them to camelCase if they don't look like codes or abbreviations.
+    /// </summary>
+    /// <param name="type">The .NET enumeration type.</param>
+    /// <returns>A list of JSON schema enumerators.</returns>
+    private static List<string>? ToEnumValues(Type? type)
+    {
+        if (type is null || !type.IsEnum) return null;
+
+        var enumNames = System.Enum.GetNames(type);
+
+        if(enumNames.Length > 1) 
+        {
+            var firstLength = enumNames[0].Length;
+
+            // don't camelCase abbreviations or codes (i.e. enums where all string values are the same length
+            // and less than four characters long.
+
+            if (firstLength < 4 && enumNames.All(n => n.Length == firstLength)) 
+            {
+                return enumNames.OrderBy(e => e).ToList();
+            }
+        }
+
+      return enumNames.Select(n => n.ToCamelCase()).OrderBy(e => e).ToList();
+
+    }
+
+    /// <summary>
+    /// Return an enumerator to process child properties of a property based on an existing instance 
+    /// of a matching object.
+    /// </summary>
+    /// <param name="instance">The instance to match the AnyOf subschema and return applicable properties.</param>
+    /// <returns>An enumerator of <see cref="SchemaProperty"/></returns>
+    public IEnumerable<SchemaProperty> GetChildSchemaProperties(IDictionary<string,object> instance)
+    {
+        if (Properties is not null)
+        {
+            foreach(var property in Properties) yield return property.Value;
+        }
+
+        if (Items is not null)
+        {
+            yield return Items;
+        }
+
+        if (AnyOf is not null && AnyOf.Count > 0 && AnyOf[0].Properties is not null)
+        {
+            var found = false;
+
+            var constPropName = AnyOf[0].Properties!
+                .First(kv => kv.Value.TypeConst is not null)
+                .Value.Name;
+
+            for (var i = 0; i < AnyOf.Count-1; i++) 
+            {
+                var property = AnyOf[i];
+
+                if (property.Properties is null) continue;
+
+                var constProp = property.Properties[constPropName!];
+
+                if (constProp is null) continue;
+
+                if (constProp.Name is null) continue;
+                
+                if (constProp.TypeConst is string constStr)
+                {
+                   if (instance.TryGetValue(constProp.Name, out var value))
+                   {
+                        if (value.Equals(constStr))
+                        {
+                            yield return property;
+                            found = true;
+                            break;
+                        }
+                    }
+                }
+            }
+            if (!found)
+            {
+                yield return AnyOf.Last();
+            }
+        }
+    }
+}

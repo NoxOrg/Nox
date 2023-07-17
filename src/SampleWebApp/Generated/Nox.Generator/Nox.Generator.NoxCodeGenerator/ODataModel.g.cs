@@ -138,22 +138,3 @@ public class CountryLocalNames : SampleWebApp.Domain.AuditableEntityBase
 {
     public System.String Id { get; set; } = default!;
 }
-
-/// <summary>
-/// The cash balance in Store.
-/// </summary>
-public class CurrencyCashBalance : SampleWebApp.Domain.AuditableEntityBase
-{
-    public string Store { get; set; } = default!;
-    public string Currency { get; set; } = default!;
-    
-    /// <summary>
-    /// The amount.
-    /// </summary>
-    public System.Double Amount { get; set; } = default!;
-    
-    /// <summary>
-    /// The Operation Limit.
-    /// </summary>
-    public System.Double? OperationLimit { get; set; } = default!;
-}

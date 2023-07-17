@@ -1,13 +1,13 @@
-﻿using Json.Schema.Generation;
+﻿using Nox.Solution.Schema;
 
 
-namespace Nox.Solution
+namespace Nox.Solution;
+
+[GenerateJsonSchema]
+public class DatabaseServer : ServerBase
 {
-    public class DatabaseServer : ServerBase
-    {
-        [Required]
-        [Title("The database provider.")]
-        [Description("The provider used for this database server. Examples include SqlServer, Postgres and others.")]
-        public DatabaseServerProvider Provider { get; internal set; } = DatabaseServerProvider.SqlServer;
-    }
+    [Required]
+    [Title("The database provider.")]
+    [Description("The provider used for this database server. Examples include SqlServer, Postgres and others.")]
+    public DatabaseServerProvider Provider { get; internal set; } = DatabaseServerProvider.SqlServer;
 }

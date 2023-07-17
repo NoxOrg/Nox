@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.OData;
 using Nox;
 using SampleWebApp;
 using SampleWebApp.Application;
@@ -13,8 +14,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-//ODataConfiguration.Register(builder.Services);
 
 builder.Services.AddScoped<GetCountriesByContinentQueryBase, GetCountriesByContinentQuery>();
 builder.Services.AddScoped<UpdatePopulationStatisticsCommandHandlerBase, UpdatePopulationStatisticsCommandHandler>();
@@ -36,6 +35,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseODataRouteDebug();
 
 app.UseNox();
 
