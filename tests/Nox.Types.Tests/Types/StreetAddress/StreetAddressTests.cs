@@ -18,7 +18,7 @@ public class StreetAddressTests
         string administrativeArea1,
         string expectedAddress)
     {
-        var countryCode2 = CountryCode2.From(countryCode);
+        var countryCode2 = Nox.Types.CountryCode2.From(countryCode);
         var address = StreetAddress.From(new StreetAddressItem
         {
             StreetNumber = streetNumber,
@@ -44,7 +44,7 @@ public class StreetAddressTests
         var exception = Assert.Throws<TypeValidationException>(() => StreetAddress.From(new StreetAddressItem
         {
             PostalCode = "123456",
-            CountryId = CountryCode2.From(countryCode)
+            CountryId = Nox.Types.CountryCode2.From(countryCode)
         }));
 
         Assert.Contains(exception.Errors, t => t.Variable == "PostalCode");
@@ -60,7 +60,7 @@ public class StreetAddressTests
         var address = StreetAddress.From(new StreetAddressItem
         {
             PostalCode = postalCode,
-            CountryId = CountryCode2.From(countryCode)
+            CountryId = Nox.Types.CountryCode2.From(countryCode)
         });
 
         Assert.Equal(postalCode, address.PostalCode);

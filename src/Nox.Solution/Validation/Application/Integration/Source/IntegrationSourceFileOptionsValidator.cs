@@ -9,10 +9,5 @@ internal class IntegrationSourceFileOptionsValidator: AbstractValidator<Integrat
         RuleFor(opt => opt!.Filename)
             .NotEmpty()
             .WithMessage(opt => string.Format(ValidationResources.IntegrationSourceFileOptionsFilenameEmpty, integrationName));
-
-        RuleFor(opt => opt!.MinimumExpectedRecords)
-            .NotEmpty()
-            .GreaterThan(0)
-            .WithMessage(opt => string.Format(ValidationResources.IntegrationSourceFileOptionsMinExptectedRecordsInvalid, integrationName));
     }
 }

@@ -1,9 +1,16 @@
 using System.IO;
 using System.Linq;
-using Nox.Solution.Resolvers;
+using Nox.Solution.Events;
+using Nox.Solution.Schema;
 using Nox.Solution.Exceptions;
 using Nox.Solution.Macros;
 using Nox.Solution.Utils;
+using Nox.Solution.Yaml;
+using YamlDotNet.RepresentationModel;
+using YamlDotNet.Serialization;
+using YamlDotNet.Serialization.NamingConventions;
+using System.Collections.Generic;
+using System;
 
 namespace Nox.Solution
 {
@@ -11,15 +18,32 @@ namespace Nox.Solution
     {
         private const string DesignFolderBestPractice = "Best practice is to create a '.nox' folder in your solution folder and in there a 'design' folder which contains your <solution-name>.solution.nox.yaml";
 
-        private string _yamlFilePath = string.Empty;
+        private string? _yamlFilePath;
+
+        private IDictionary<string,Func<TextReader>>? _yamlFilesAndContent;
+
+        private string? _rootFileAndContentKey; 
 
         private IMacroParser _environmentVariableParser = new EnvironmentVariableMacroParser(new EnvironmentProvider());
+        private IMacroParser _secretParser = new SecretMacroParser();
 
+        public delegate void ResolveSecretsEventHandler(object sender, INoxSolutionSecretsEventArgs args);
+        public event ResolveSecretsEventHandler? OnResolveSecretsEvent;
+        
         public NoxSolutionBuilder UseYamlFile(string yamlFilePath)
         {
             _yamlFilePath = Path.GetFullPath(yamlFilePath);
             return this;
         }
+
+        public NoxSolutionBuilder UseYamlFilesAndContent(IDictionary<string, Func<TextReader>> yamlFilesAndContent)
+        {
+            _yamlFilesAndContent = yamlFilesAndContent
+                .ToDictionary(kv => Path.GetFileName(kv.Key), kv => kv.Value, StringComparer.OrdinalIgnoreCase);
+
+            return this;
+        }
+
 
         public NoxSolutionBuilder UseEnvironmentMacroParser(EnvironmentVariableMacroParser parser)
         {
@@ -27,7 +51,64 @@ namespace Nox.Solution
             return this;
         }
 
+        public NoxSolutionBuilder UseSecretMacroParser(SecretMacroParser parser)
+        {
+            _secretParser = parser;
+            return this;
+        }
+
+        public NoxSolutionBuilder OnResolveSecrets(ResolveSecretsEventHandler handler)
+        {
+            OnResolveSecretsEvent += handler;
+            return this;
+        }
+
         public NoxSolution Build()
+        {
+            ResolveAndValidateFilesAndContent();
+
+            var config = ResolveAndLoadConfiguration();
+
+            config.Validate();
+
+            return config;
+        }
+
+        private void ResolveAndValidateFilesAndContent()
+        {
+            if (_yamlFilesAndContent is null)
+            {
+                _yamlFilesAndContent = LoadFromFileSystem();
+            }
+
+            if (_yamlFilesAndContent is null || _yamlFilesAndContent.Count == 0)
+            {
+                throw new NoxSolutionConfigurationException("No yaml file(s) specified or found");
+            }
+
+            if (_rootFileAndContentKey is null)
+            {
+                var solutionFiles = _yamlFilesAndContent
+                    .Where(kv => kv.Key.ToLower().Contains(".solution.nox.yaml"))
+                    .Select(kv => kv.Key)
+                    .ToArray();
+
+                if (solutionFiles.Length == 0)
+                {
+                    throw new NoxSolutionConfigurationException("No solution yaml file(s) specified or found.");
+                }
+
+                if (solutionFiles.Length > 1)
+                {
+                    var fileNames = string.Join(",", solutionFiles);
+                    throw new NoxSolutionConfigurationException($"Multiple solution yaml file(s) specified or found. [{fileNames}]");
+                }
+
+                _rootFileAndContentKey = solutionFiles[0];
+            }
+        }
+
+        private IDictionary<string, Func<TextReader>> LoadFromFileSystem()
         {
             //If a yaml root configuration has not been specified, search for one in the .nox/design folder in the solution root folder
             if (string.IsNullOrWhiteSpace(_yamlFilePath))
@@ -43,20 +124,37 @@ namespace Nox.Solution
                 }
             }
 
-            var config = ResolveAndLoadConfiguration();
-            config.Validate();
+            var path = Path.GetDirectoryName(_yamlFilePath);
 
-            return config;
+            var files = Directory.GetFiles(path!, "*.yaml", SearchOption.AllDirectories);
+
+            if (files.Select(f => Path.GetFileName(f).ToLower()).Distinct().Count() < files.Length)
+            {
+                files = Directory.GetFiles(path!, "*.yaml", SearchOption.TopDirectoryOnly);
+            }
+
+            _rootFileAndContentKey = Path.GetFileName(_yamlFilePath);
+
+            return files.ToDictionary(
+                f => Path.GetFileName(f), 
+                f => new Func<TextReader>(() => new StreamReader(f)), 
+                StringComparer.OrdinalIgnoreCase
+            );
         }
 
         private NoxSolution ResolveAndLoadConfiguration()
         {
-            var resolver = new YamlReferenceResolver(_yamlFilePath);
+            var resolver = new YamlReferenceResolver(_yamlFilesAndContent!, _rootFileAndContentKey!);
             var yamlRef = resolver.ResolveReferences();
-            var yaml = ExpandMacros(yamlRef);
 
+            var secretsConfig = GetSecretsConfig(yamlRef);
+            
+            var resolveSecretsArgs = new NoxSolutionSecretsEventArgs(yamlRef, secretsConfig);
+            RaiseResolveSecretsEvent(resolveSecretsArgs);
+            
+            var yaml = _secretParser.Parse(yamlRef, resolveSecretsArgs.Secrets);
+            yaml = ExpandEnvironmentMacros(yaml);
             var config = NoxSchemaValidator.Deserialize<NoxSolution>(yaml);
-
             config.RootYamlFile = _yamlFilePath;
             return config;
         }
@@ -135,7 +233,7 @@ namespace Nox.Solution
             return null;
         }
 
-        private string ExpandMacros(string yaml)
+        private string ExpandEnvironmentMacros(string yaml)
         {
             var definitionVariableParser = new DefinitionVariableParser();
             var variables = definitionVariableParser.Parse(yaml);
@@ -144,5 +242,49 @@ namespace Nox.Solution
 
             return yaml;
         }
+        
+        private string ExpandSecrets(string yaml)
+        {
+            return yaml;
+        }
+
+        private void RaiseResolveSecretsEvent(NoxSolutionSecretsEventArgs args)
+        {
+            OnResolveSecretsEvent?.Invoke(this, args);
+        }
+
+        private Secrets? GetSecretsConfig(string yaml)
+        {
+            var source = new StringReader(yaml);
+            var yamlStream = new YamlStream();
+            yamlStream.Load(source);
+            if (yamlStream.Documents.Count == 0) return null;
+            var mappingNode = (YamlMappingNode)yamlStream.Documents[0].RootNode;
+            try
+            {
+                //infrastructure -> security -> secrets
+                var infraNode = mappingNode.Children[new YamlScalarNode("infrastructure")];
+                var securityNode = ((YamlMappingNode)infraNode).Children[new YamlScalarNode("security")];
+                var secretsNode = ((YamlMappingNode)securityNode).Children[new YamlScalarNode("secrets")];
+
+                var deserializer = new DeserializerBuilder()
+                    .WithNamingConvention(CamelCaseNamingConvention.Instance)
+                    .Build();
+                
+                var result = deserializer.Deserialize<Secrets>(
+                    new EventStreamParserAdapter(YamlNodeToEventStreamConverter.ConvertToEventStream(secretsNode))
+                );
+                
+                return result;
+
+            }
+            catch
+            {
+                //ignore as the infrastructure -> security -> secrets node does not exist in the yaml or is not valid
+            }
+
+            return null;
+        }
+
     }
 }

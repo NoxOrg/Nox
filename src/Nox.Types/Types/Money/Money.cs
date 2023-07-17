@@ -10,7 +10,7 @@ namespace Nox.Types;
 /// Represents a value object for representing monetary values.
 /// </summary>
 [Serializable]
-public sealed class Money : ValueObject<(decimal Amount, CurrencyCode CurrencyCode), Money>
+public class Money : ValueObject<(decimal Amount, CurrencyCode CurrencyCode), Money>
 {
     public decimal Amount
     {

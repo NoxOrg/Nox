@@ -9,6 +9,12 @@ public sealed class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDataba
 {
 
     public string ConnectionString { get; set; } = string.Empty;
+
+    public SqliteDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators) 
+        : base(configurators, typeof(ISqliteNoxTypeDatabaseConfigurator))
+    {
+
+    }
     public DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
     {
         throw new NotImplementedException();

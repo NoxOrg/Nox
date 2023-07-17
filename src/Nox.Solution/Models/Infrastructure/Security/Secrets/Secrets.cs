@@ -1,4 +1,5 @@
-using Json.Schema.Generation;
+using System.Security.Permissions;
+using Nox.Solution.Schema;
 
 namespace Nox.Solution
 {
@@ -7,7 +8,15 @@ namespace Nox.Solution
     [AdditionalProperties(false)]
     public class Secrets
     {
-        public SecretsServer? SecretsServer { get; internal set; }
-        public SecretsValidFor? ValidFor { get; internal set; }
+        
+        [Title("The organization secrets server.")]
+        [Description("Specify the provider and server attributes for secrets stored at an organizational level (org.secret.<secret_key>).")]
+        [AdditionalProperties(false)]
+        public SecretsServer? OrganizationSecretsServer { get; internal set; }
+        
+        [Title("The solution secrets server.")]
+        [Description("Specify the provider and server attributes for secrets stored at a solution level (solution.secret.<secret_key>).")]
+        [AdditionalProperties(false)]
+        public SecretsServer? SolutionSecretsServer { get; internal set; }
     }
 }

@@ -58,41 +58,41 @@ public class NoxCodeGenerator : IIncrementalGenerator
         {
             if (TryGetGeneratorConfig(noxYamls, out var generate) && TryGetNoxSolution(noxYamls, out var solution))
             {
-                var solutionNameSpace = solution.Name;
-                
-                ServiceCollectionExtensionGenerator.Generate(context, solution, generate.Presentation);
+                var codeGeneratorState = new NoxSolutionCodeGeneratorState(solution);
 
+                WebApplicationExtensionGenerator.Generate(context, solution, generate.Presentation);
+                
                 if (generate.Domain)
                 {
-                    EntityBaseGenerator.Generate(context, solutionNameSpace);
+                    EntityBaseGenerator.Generate(context, codeGeneratorState);
 
-                    AuditableEntityBaseGenerator.Generate(context, solutionNameSpace);
+                    AuditableEntityBaseGenerator.Generate(context, codeGeneratorState);
 
-                    EntitiesGenerator.Generate(context, solutionNameSpace, solution);
+                    EntitiesGenerator.Generate(context, codeGeneratorState);
                     
-                    DomainEventGenerator.Generate(context, solutionNameSpace, solution);
+                    DomainEventGenerator.Generate(context, codeGeneratorState);
                     
-                    CommandGenerator.Generate(context, solutionNameSpace, solution);
+                    CommandGenerator.Generate(context, codeGeneratorState);
                     
-                    QueryGenerator.Generate(context, solutionNameSpace, solution);
+                    QueryGenerator.Generate(context, codeGeneratorState);
                 }
 
                 if (generate.Infrastructure)
                 {
-                    DbContextGenerator.Generate(context, solution);
+                    DbContextGenerator.Generate(context, codeGeneratorState);
                 }
 
                 if (generate.Presentation)
                 {
-                    ODataConfigurationGenerator.Generate(context, solutionNameSpace, solution);
+                    ODataConfigurationGenerator.Generate(context, codeGeneratorState);
 
-                    ApiGenerator.Generate(context, solutionNameSpace, solution);
+                    ApiGenerator.Generate(context, codeGeneratorState);
                 }
 
                 if (generate.Application)
                 {
-                    DtoGenerator.Generate(context, solutionNameSpace, solution);
-                    ApplicationEventGenerator.Generate(context, solutionNameSpace, solution);
+                    DtoGenerator.Generate(context, codeGeneratorState);
+                    ApplicationEventGenerator.Generate(context, codeGeneratorState);
                 }
             }
         }
@@ -139,11 +139,19 @@ public class NoxCodeGenerator : IIncrementalGenerator
             return false;
         }
 
-        var solutionFile = solutionFilePaths.First();
+
+        var solutionFileAndContent = noxYamls
+            .Where(s => s.Source is not null)
+            .ToDictionary( 
+                s => s.Path, 
+                s => new Func<TextReader>(() => new StringReader(s.Source!.ToString()) )
+            );
 
         try
         {
-            solution = new NoxSolutionBuilder().UseYamlFile(solutionFile).Build();
+            solution = new NoxSolutionBuilder()
+                .UseYamlFilesAndContent(solutionFileAndContent)
+                .Build();
         }
         catch (YamlException e)
         {

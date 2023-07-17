@@ -1,16 +1,12 @@
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.OData;
 using Nox;
-using Nox.Solution;
-using SampleWebApp.Infrastructure.Persistence;
-using SampleWebApp.Presentation.Api.OData;
-
+using SampleWebApp;
 using SampleWebApp.Application;
-using SampleWebApp.Application.DataTransferObjects;
-using SampleWebApp.Domain;
 using Nox.Abstractions;
+using ODataConfiguration = SampleWebApp.Presentation.Api.OData.ODataConfiguration;
 
 var builder = WebApplication.CreateBuilder(args);
+
 builder.AddNox();
 
 // Add services to the container.
@@ -18,8 +14,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-builder.Services.AddNox();
 
 builder.Services.AddScoped<GetCountriesByContinentQueryBase, GetCountriesByContinentQuery>();
 builder.Services.AddScoped<UpdatePopulationStatisticsCommandHandlerBase, UpdatePopulationStatisticsCommandHandler>();
@@ -41,6 +35,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseODataRouteDebug();
 
 app.UseNox();
 

@@ -14,5 +14,5 @@ public partial class EntityBase
     /// <summary>
     /// The state of the entity as at this date.
     /// </summary>
-    public DateTime AsAt {get; set;}
+    public DateTime AsAt { get; set; }
 }
