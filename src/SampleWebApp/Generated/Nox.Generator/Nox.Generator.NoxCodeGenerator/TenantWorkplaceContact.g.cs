@@ -23,4 +23,9 @@ public partial class TenantWorkplaceContact : AuditableEntityBase
     /// The country's common name (required).
     /// </summary>
     public Text Name { get; set; } = null!;
+    
+    /// <summary>
+    /// The the position of the workplace's point on the surface of the Earth (optional).
+    /// </summary>
+    public Money? Balance { get; set; } = null!;
 }

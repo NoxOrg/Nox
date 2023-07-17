@@ -10,9 +10,9 @@ description: Sample Nox solution yaml configuration
 
 variables:
   DATABASE_PROVIDER: slqServer
-  DATABASE_SERVER: ${{ secrets.database_server }}
+  DATABASE_SERVER: localhost
   DATABASE_USER: sa
-  DATABASE_PASSWORD: ${{ secrets.database_password }}
+  DATABASE_PASSWORD: Developer*123
   DATABASE_PORT: "5432"
 
 environments:
@@ -66,6 +66,101 @@ team:
 domain:
 
   entities:
+
+    - name: TenantWorkplace
+      description: The tenant workplace.
+      
+      userInterface:
+        icon: world
+
+      persistence:
+        isVersioned: true
+        tableName: Country
+        schema: dbo
+        create:
+          isEnabled: true
+          raiseEvents: true
+        read:
+          isEnabled: true
+        update:
+          isEnabled: true
+          raiseEvents: true
+        delete:
+          isEnabled: true
+          raiseEvents: true
+          useSoftDelete: true
+      
+      keys:
+
+        - name: Id
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 5
+
+      attributes:
+
+        - name: Name
+          description: The country's common name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      ownedRelationships:
+
+        - name: Contacts
+          description: is also know as
+          relationship: zeroOrMany
+          entity: TenantWorkplaceContact
+
+    - name: TenantWorkplaceContact
+      description: The tenant workplace.
+      
+      userInterface:
+        icon: world
+
+      persistence:
+        isVersioned: true
+        tableName: Country
+        schema: dbo
+        create:
+          isEnabled: true
+          raiseEvents: true
+        read:
+          isEnabled: true
+        update:
+          isEnabled: true
+          raiseEvents: true
+        delete:
+          isEnabled: true
+          raiseEvents: true
+          useSoftDelete: true
+      
+      keys:
+
+        - name: Id
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 5
+
+      attributes:
+
+        - name: Name
+          description: The country's common name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+        - name: Balance
+          description: The the position of the workplace's point on the surface of the Earth
+          type: money
 
     - name: Country
       description: The list of countries
@@ -279,21 +374,21 @@ domain:
           textTypeOptions:
             maxLength: 31
 
-    - $ref: currency.entity.nox.yaml
+    #- $ref: currency.entity.nox.yaml
   
-    - $ref: store.entity.nox.yaml
+    #- $ref: store.entity.nox.yaml
     
-    - name: CountryLocalNames
-      description: The name of a country in other languages
+    #- name: CountryLocalNames
+    #  description: The name of a country in other languages
 
-      keys:
+    #  keys:
 
-        - name: Id
-          type: text
-          textTypeOptions:
-            isUnicode: false
-            minLength: 2
-            maxLength: 2
+    #    - name: Id
+    #      type: text
+    #      textTypeOptions:
+    #        isUnicode: false
+    #        minLength: 2
+    #        maxLength: 2
 
     ### //TODO Solve Composite Keys for Entities, that do not have an Id
     #- name: CurrencyCashBalance
@@ -408,7 +503,7 @@ infrastructure:
   persistence:
 
     databaseServer:
-      name: SampleCurrencyDb
+      name: SampleWorkplaceDb
 
       # Sql Server
       serverUri: ${{ env.DATABASE_SERVER }}

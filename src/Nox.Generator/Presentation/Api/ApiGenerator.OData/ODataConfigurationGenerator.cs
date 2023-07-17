@@ -52,6 +52,7 @@ internal static class ODataConfigurationGenerator
         code.AppendLine($".AddOData(options => ");
         code.StartBlock();
         code.AppendLine($"options.Select()");
+        code.AppendLine($".EnableQueryFeatures(null)");
         code.AppendLine($".Filter()");
         code.AppendLine($".OrderBy()");
         code.AppendLine($".Count()");
@@ -60,7 +61,6 @@ internal static class ODataConfigurationGenerator
         code.AppendLine($".SetMaxTop(100);");
         code.AppendLine($"var routeOptions = options.AddRouteComponents(\"api\", builder.GetEdmModel()).RouteOptions;");
         code.AppendLine($"routeOptions.EnableKeyInParenthesis = false;");
-        code.AppendLine($"routeOptions.EnableDollarCountRouting = false;");
         code.EndBlock();
         code.AppendLine($");");
         code.UnIndent();

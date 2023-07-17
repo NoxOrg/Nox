@@ -22,6 +22,7 @@ public partial class ODataConfiguration
             .AddOData(options => 
             {
                 options.Select()
+                .EnableQueryFeatures(null)
                 .Filter()
                 .OrderBy()
                 .Count()
@@ -30,7 +31,6 @@ public partial class ODataConfiguration
                 .SetMaxTop(100);
                 var routeOptions = options.AddRouteComponents("api", builder.GetEdmModel()).RouteOptions;
                 routeOptions.EnableKeyInParenthesis = false;
-                routeOptions.EnableDollarCountRouting = false;
             }
             );
     }
