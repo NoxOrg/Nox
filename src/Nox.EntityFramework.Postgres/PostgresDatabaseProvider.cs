@@ -9,11 +9,9 @@ namespace Nox.EntityFramework.Postgres;
 public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProvider 
 {
     private string _connectionString = string.Empty;
-    
-    public PostgresDatabaseProvider()
+
+    public PostgresDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators) : base(configurators, typeof(IPostgresNoxTypeDatabaseConfigurator))
     {
-        // Override Text Configurator
-        TypesDatabaseConfigurations[NoxType.Text] = new PostgresTextDatabaseConfiguration();
     }
 
     public string ConnectionString

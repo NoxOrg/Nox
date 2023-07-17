@@ -1,59 +1,72 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "type": "object",
+  "title": "Details pertaining to the API server settings in a Nox solution.",
+  "description": "Defines settings pertinent to an API server here. These include name, serverUri, Port, connection credentials and provider (OData, gRPC, GraphQL and AttributeRouting.",
+  "type": [
+    "object",
+    "null"
+  ],
+  "required": [
+    "provider",
+    "name",
+    "serverUri"
+  ],
   "properties": {
-    "name": {
+    "provider": {    
+      "title": "The API server provider.",
+      "description": "The provider used for this API server. Examples include OData, gRPC, GraphQL and others.",
       "type": "string",
-      "pattern": "^[^\\s]*$",
+      "enum": [
+        "attributeRouting",
+        "graphQl",
+        "grpc",
+        "oData"
+      ],
+      "additionalProperties": false
+    },
+    "name": {    
       "title": "The unique name of this server component in the solution.",
-      "description": "The name of this server component in the solution. The name must be unique in the solution configuration"
-    },
-    "serverUri": {
+      "description": "The name of this server component in the solution. The name must be unique in the solution configuration",
       "type": "string",
-      "title": "Hostname, IP address or URI.",
-      "description": "The name, address, URI or IP of the server to connect to."
+      "pattern": "^[^\\s]*$"
     },
-    "port": {
+    "serverUri": {    
+      "title": "Hostname, IP address or URI.",
+      "description": "The name, address, URI or IP of the server to connect to.",
+      "type": "string"
+    },
+    "port": {    
+      "title": "Server port",
+      "description": "The port to connect to.",
       "type": [
         "integer",
         "null"
-      ],
-      "title": "Server port",
-      "description": "The port to connect to."
+      ]
     },
-    "user": {
-      "type": "string",
+    "user": {    
       "title": "Username.",
-      "description": "The username to use when connecting to this server."
+      "description": "The username to use when connecting to this server.",
+      "type": [
+        "string",
+        "null"
+      ]
     },
-    "password": {
-      "type": "string",
+    "password": {    
       "title": "Password.",
-      "description": "The password to use when connecting to this server."
+      "description": "The password to use when connecting to this server.",
+      "type": [
+        "string",
+        "null"
+      ]
     },
-    "options": {
-      "type": "string",
+    "options": {    
       "title": "Additional options.",
-      "description": "A list of additional options to set when connecting to this server."
-    },
-    "provider": {
-      "enum": [
-        "attributeRouting",
-        "oData",
-        "grpc",
-        "graphQl"
-      ],
-      "title": "The API server provider.",
-      "description": "The provider used for this API server. Examples include OData, gRPC, GraphQL and others.",
-      "additionalProperties": false
+      "description": "A list of additional options to set when connecting to this server.",
+      "type": [
+        "string",
+        "null"
+      ]
     }
   },
-  "required": [
-    "name",
-    "serverUri",
-    "provider"
-  ],
-  "title": "Details pertaining to the API server settings in a Nox solution.",
-  "description": "Defines settings pertinent to an API server here. These include name, serverUri, Port, connection credentials and provider (OData, gRPC, GraphQL and AttributeRouting.",
   "additionalProperties": false
 }
