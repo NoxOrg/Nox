@@ -1,19 +1,31 @@
 ﻿// ReSharper disable once CheckNamespace
+using FluentAssertions;
+
 namespace Nox.Types.Tests.Types;
 
 public class NuidTests
 {
+    private const string TestStringValue = "!#123TestValue456!#";
+    private const uint ExpectedNuidValue = 598674021;
+    private const string ExpectedBase36 = "XTNFW9";
+    private readonly Guid ExpectedGuid = new("00000000-0000-0000-0000-000023af0a65");
+
     [Fact]
-    public void StringValue_CreateManyInstances_ShouldBeEqual()
+    public void CreateNuiidFromString_CheckImplementation_ShouldNotBeChanged()
     {
-        const string testValue = "!#123TestValue456!#";
+        var nuidLeft = Nuid.From(TestStringValue);
+        var nuidRight = Nuid.From(TestStringValue);
 
-        var nuidLeft = Nuid.From(testValue);
-        var nuidRight = Nuid.From(testValue);
+        nuidLeft.Should().Be(nuidRight);
+        nuidLeft.Value.Should().Be(ExpectedNuidValue);
+        nuidRight.Value.Should().Be(ExpectedNuidValue);
+        nuidRight.Value.Should().Be(nuidRight.Value);
 
-        Assert.Equal(nuidLeft, nuidRight);
-        Assert.Equal(nuidLeft.Value, nuidRight.Value);
-        Assert.Equal(nuidLeft.ToGuid(), nuidRight.ToGuid());
-        Assert.Equal(nuidLeft.ToHex(), nuidRight.ToHex());
+        nuidLeft.ToGuid().Should().Be(nuidRight.ToGuid());
+        nuidLeft.ToGuid().Should().Be(ExpectedGuid);
+        nuidLeft.ToHex().Should().Be(nuidRight.ToHex());
+
+        nuidLeft.ToBase36().Should().Be(nuidRight.ToBase36());
+        nuidLeft.ToBase36().Should().Be(ExpectedBase36);
     }
 }

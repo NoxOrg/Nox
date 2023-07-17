@@ -5,7 +5,7 @@ namespace Nox.Types.Common;
 /// <summary>
 /// Utility methods for converting value to Base36 string.
 /// </summary>
-public static class Base36Converter
+internal static class Base36Converter
 {
     private const int Base = 36;
     private const string Chars = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
