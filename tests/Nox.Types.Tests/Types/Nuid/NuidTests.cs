@@ -11,21 +11,25 @@ public class NuidTests
     private readonly Guid ExpectedGuid = new("00000000-0000-0000-0000-000023af0a65");
 
     [Fact]
-    public void CreateNuiidFromString_CheckImplementation_ShouldNotBeChanged()
+    public void FromString_ConstructionSameInstances_ShouldReturnEqualNuids()
     {
         var nuidLeft = Nuid.From(TestStringValue);
         var nuidRight = Nuid.From(TestStringValue);
 
         nuidLeft.Should().Be(nuidRight);
-        nuidLeft.Value.Should().Be(ExpectedNuidValue);
-        nuidRight.Value.Should().Be(ExpectedNuidValue);
         nuidRight.Value.Should().Be(nuidRight.Value);
-
         nuidLeft.ToGuid().Should().Be(nuidRight.ToGuid());
-        nuidLeft.ToGuid().Should().Be(ExpectedGuid);
         nuidLeft.ToHex().Should().Be(nuidRight.ToHex());
-
         nuidLeft.ToBase36().Should().Be(nuidRight.ToBase36());
-        nuidLeft.ToBase36().Should().Be(ExpectedBase36);
+    }
+
+    [Fact]
+    public void FromString_ConstructNuid_ShouldReturnCertainData()
+    {
+        var nuid = Nuid.From(TestStringValue);
+
+        nuid.Value.Should().Be(ExpectedNuidValue);
+        nuid.ToGuid().Should().Be(ExpectedGuid);
+        nuid.ToBase36().Should().Be(ExpectedBase36);
     }
 }
