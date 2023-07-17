@@ -14,7 +14,7 @@ public class Color : ValueObject<(byte Alpha, byte Red, byte Green, byte Blue), 
     public byte Alpha
     {
         get => Value.Alpha;
-        private set => Value = (Alpha: value, Red: Value.Red, Green: Value.Green, Blue: Value.Blue);
+        private set => Value = Value with { Alpha = value };
     }
 
     public byte Red
