@@ -125,6 +125,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Integration.Store", "No
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Integration.Service", "Nox.Integration.Service\Nox.Integration.Service.csproj", "{24F02BD8-8A98-4E5C-A0D6-F307E8285EFD}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Integration.Store.SqlServer", "Nox.Integration.Store.SqlServer\Nox.Integration.Store.SqlServer.csproj", "{973BD271-AC5E-4F0A-A6E5-6F9978DFCB72}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -267,6 +269,10 @@ Global
 		{24F02BD8-8A98-4E5C-A0D6-F307E8285EFD}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{24F02BD8-8A98-4E5C-A0D6-F307E8285EFD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{24F02BD8-8A98-4E5C-A0D6-F307E8285EFD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{973BD271-AC5E-4F0A-A6E5-6F9978DFCB72}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{973BD271-AC5E-4F0A-A6E5-6F9978DFCB72}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{973BD271-AC5E-4F0A-A6E5-6F9978DFCB72}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{973BD271-AC5E-4F0A-A6E5-6F9978DFCB72}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -308,6 +314,7 @@ Global
 		{DDC3427F-1E65-4B5D-A045-5A4533A861A9} = {2BECBA35-E0A9-4638-9411-92BC55B59DFC}
 		{2B7B2CAD-2ED4-4BEA-8F72-678845610A0D} = {2BECBA35-E0A9-4638-9411-92BC55B59DFC}
 		{24F02BD8-8A98-4E5C-A0D6-F307E8285EFD} = {2BECBA35-E0A9-4638-9411-92BC55B59DFC}
+		{973BD271-AC5E-4F0A-A6E5-6F9978DFCB72} = {2BECBA35-E0A9-4638-9411-92BC55B59DFC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E72B357-9E1E-43B5-9868-8D2B74CB2AF0}

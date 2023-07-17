@@ -429,6 +429,14 @@ infrastructure:
       
       ### MySql  
       #provider: mySql
+      
+    integrationDatabaseServer:
+      name: IntegrationStore
+      provider: sqlServer
+      serverUri: localhost
+      user: sa
+      password: Developer*123
+      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;
 
     cacheServer:
       name: SampleCache

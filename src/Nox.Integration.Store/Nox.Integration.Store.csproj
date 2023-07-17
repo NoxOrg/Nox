@@ -10,4 +10,9 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\Nox.Integration\Nox.Integration.csproj" />
+      <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
+    </ItemGroup>
+
 </Project>

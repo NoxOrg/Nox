@@ -37,6 +37,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\Nox.Integration.Executor\Nox.Integration.Executor.csproj" />
+      <ProjectReference Include="..\..\src\Nox.Integration.Service\Nox.Integration.Service.csproj" />
       <ProjectReference Include="..\..\src\Nox.IntegrationSource.Csv\Nox.IntegrationSource.Csv.csproj" />
       <ProjectReference Include="..\..\src\Nox.Integration\Nox.Integration.csproj" />
     </ItemGroup>
@@ -52,6 +53,9 @@
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
       <None Update="files\entity-target.solution.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\executor.solution.nox.yaml">
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       </None>
     </ItemGroup>

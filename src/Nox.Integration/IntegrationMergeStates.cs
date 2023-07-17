@@ -4,5 +4,4 @@ namespace Nox.Integration;
 
 public class IntegrationMergeStates: ConcurrentDictionary<string, IntegrationMergeState>
 {
-    
 }

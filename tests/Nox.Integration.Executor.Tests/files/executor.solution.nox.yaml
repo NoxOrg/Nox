@@ -1,34 +1,50 @@
 #
-# csv-source.solution.nox.yaml
+# executor.solution.nox.yaml
 #
 # yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
 #
 
-name: SampleCsvSourceIntegration
+name: SampleExecutor
 
-description: Sample Csv source integration Nox solution yaml configuration
+description: Sample executor Nox solution yaml configuration
+
+domain:
+  entities:
+    - name: Industry
+      
+      keys:
+
+        - name: Name
+          type: text
+          isRequired: true
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 50 
 
 application:
   integrations:
     - name: TestIntegration
-      description: Sample Csv seed
-      schedule: 
+      description: Sample seed
+      schedule:
         start: first day of every month
       source:
         name: csvSource
         dataConnectionName: csvDataConnection
-        fileOptions: 
+        fileOptions:
           filename: test_file.csv
-      target: 
-        name: CsvSeed
+      target:
+        name: Industry
         targetType: entity
-        
+
 infrastructure:
-  persistence: 
-    databaseServer: 
+  persistence:
+    databaseServer:
       name: sampleDb
       serverUri: localhost
       provider: sqlServer
+      user: sa
+      password: Developer*123
       
     integrationDatabaseServer:
       name: IntegrationStore
@@ -36,15 +52,11 @@ infrastructure:
       serverUri: localhost
       user: sa
       password: Developer*123
-
-  messaging: 
-    integrationEventServer: 
-      name: whyIsThisRequired
-      serverUri: localhost
-      provider: inMemory
-    
+      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;
+  
   dependencies:
     dataConnections:
       - name: csvDataConnection
         serverUri: file:./
         provider: csvFile
+        

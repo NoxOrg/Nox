@@ -11,5 +11,5 @@ public class Source
 
     public string Name { get; set; } = string.Empty;
 
-    public virtual MergeState? MergeState { get; set; }
+    public virtual ICollection<MergeState>? MergeStates { get; set; }
 }

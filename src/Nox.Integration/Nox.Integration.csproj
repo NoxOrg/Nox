@@ -6,22 +6,6 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
-
-    <PropertyGroup>
-        <PackageId>Nox.Integration</PackageId>
-        <Authors>The Nox Factory</Authors>
-        <Description>Nox integration library</Description>
-        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-        <Copyright>Copyright (c) Andre Sharpe 2023</Copyright>
-        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/NoxOrg/Nox.Integration.git</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
-        <PackageIcon>nox.png</PackageIcon>
-    </PropertyGroup>
-
-
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
     </PropertyGroup>
@@ -44,10 +28,6 @@
         <HintPath>..\Nox.Etlbox\ETLBox.dll</HintPath>
       </Reference>
 
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
     </ItemGroup>
 
 </Project>

@@ -20,7 +20,7 @@
     
     <ItemGroup>
       <ProjectReference Include="..\Nox.Integration.Executor\Nox.Integration.Executor.csproj" />
-      <ProjectReference Include="..\Nox.Integration.Store\Nox.Integration.Store.csproj" />
+      <ProjectReference Include="..\Nox.Integration.Store.SqlServer\Nox.Integration.Store.SqlServer.csproj" />
       <ProjectReference Include="..\Nox.Integration\Nox.Integration.csproj" />
     </ItemGroup>
 

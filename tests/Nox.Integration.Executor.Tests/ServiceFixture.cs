@@ -2,6 +2,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Logging.Abstractions;
 using Nox.Integration.Abstractions;
+using Nox.Integration.Service;
 using Nox.Solution;
 
 namespace Nox.Integration.Executor.Tests;
@@ -20,11 +21,11 @@ public class ServiceFixture
         
         var services = new ServiceCollection();
 
-        services.AddSingleton<ILogger<IIntegrationExecutor>, NullLogger<IIntegrationExecutor>>();
+        services.AddLogging();
         
         services.AddSingleton(noxConfig);
 
-        services.AddIntegration();
+        services.AddIntegration(noxConfig.Infrastructure!.Persistence.IntegrationDatabaseServer!);
         
         _serviceProvider = services.BuildServiceProvider();
     }

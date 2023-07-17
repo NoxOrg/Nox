@@ -4,13 +4,16 @@ using ETLBox.DataFlow.Connectors;
 using Microsoft.Extensions.Logging;
 using Nox.Integration.Abstractions;
 using Nox.Integration.Exceptions;
+using Nox.Integration.Store;
 using Nox.Solution;
 
 namespace Nox.Integration.Executor;
 
-public class EntityExecutor: IntegrationExecutorBase
+public class EntityExecutor
 {
+    private readonly ILogger _logger;
     private readonly string _name;
+    private readonly IStoreService _storeService;
     private readonly IntegrationSourceWatermark _watermark;
     private readonly IIntegrationSource _source;
     private readonly IIntegrationTarget _target;
@@ -19,12 +22,15 @@ public class EntityExecutor: IntegrationExecutorBase
     public EntityExecutor(
         ILogger logger,
         string name,
+        IStoreService storeService,
         IntegrationSourceWatermark watermark,
         IIntegrationSource source,
         IIntegrationTarget target,
-        Entity entity): base(logger)
+        Entity entity)
     {
+        _logger = logger;
         _name = name;
+        _storeService = storeService;
         _watermark = watermark;
         _source = source;
         _target = target;
@@ -35,7 +41,7 @@ public class EntityExecutor: IntegrationExecutorBase
     {
         try
         {
-            var lastMergeDateTimeStampInfo = GetAllLastMergeDateTimeStamps(_watermark, _target, _entity);
+            var lastMergeDateTimeStampInfo = await _storeService.GetAllLastMergeDateTimeStampsAsync(_name, _watermark, _entity);
             var targetColumns =
                 Array.Empty<string>()
                 .Concat(_entity.Keys!
@@ -71,14 +77,14 @@ public class EntityExecutor: IntegrationExecutorBase
                     inserts++;
                     //TODO implement messaging
                     //if(entityCreatedMsg is not null) SendChangeEvent(loader, row, entityCreatedMsg, NoxEventSource.EtlMerge);
-                    UpdateMergeStates(lastMergeDateTimeStampInfo, record);
+                    _storeService.UpdateMergeStates(lastMergeDateTimeStampInfo, record);
                 }
                 else if ((ChangeAction)record["ChangeAction"]! == ChangeAction.Update)
                 {
                     updates++;
                     //TODO implement messaging
                     //if (entityUpdatedMsg is not null) SendChangeEvent(loader, row, entityUpdatedMsg, NoxEventSource.EtlMerge);
-                    UpdateMergeStates(lastMergeDateTimeStampInfo, record);
+                    _storeService.UpdateMergeStates(lastMergeDateTimeStampInfo, record);
                 }
                 else if ((ChangeAction)record["ChangeAction"]! == ChangeAction.Exists)
                 {
@@ -94,21 +100,21 @@ public class EntityExecutor: IntegrationExecutorBase
             }
             catch (Exception ex)
             {
-                Logger.LogCritical("Failed to run Merge for Entity {entity}", _entity.Name);
-                Logger.LogError("{message}", ex.Message);
+                _logger.LogCritical("Failed to run Merge for Entity {entity}", _entity.Name);
+                _logger.LogError("{message}", ex.Message);
                 throw;
             }
 
-            LogMergeAnalytics(inserts, updates, unchanged, lastMergeDateTimeStampInfo);
+            _storeService.LogMergeAnalytics(inserts, updates, unchanged, lastMergeDateTimeStampInfo);
         }
         catch (Exception ex)
         {
-            Logger.LogCritical(ex, ExceptionResources.ExecutorExecutionError, _name);
+            _logger.LogCritical(ex, ExceptionResources.ExecutorExecutionError, _name);
             throw new NoxIntegrationException(string.Format(ExceptionResources.ExecutorExecutionError, _name), ex);
         }
     }
 
-    private IDataFlowDestination<ExpandoObject> CreateEntityDestinationDestination()
+    private DbMerge CreateEntityDestinationDestination()
     {
         return new DbMerge(_target.ConnectionManager, _target.ToTableNameForSql(_entity.Persistence!.TableName!, _entity.Persistence.Schema))
         {

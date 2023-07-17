@@ -32,6 +32,13 @@ infrastructure:
       provider: sqlServer
       user: sa
       password: Developer*123
+      
+    integrationDatabaseServer: 
+      name: IntegrationStore
+      provider: sqlServer
+      serverUri: localhost
+      user: sa
+      password: Developer*123
   
   dependencies:
     dataConnections:

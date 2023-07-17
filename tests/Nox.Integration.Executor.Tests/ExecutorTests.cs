@@ -13,10 +13,11 @@ public class ExecutorTests: IClassFixture<ServiceFixture>
     }
 
     [Fact]
-    public async Task Can_Execute_an_integration()
+    public void Can_Execute_an_integration()
     {
+        _serviceFixture.Configure("executor.solution.nox.yaml");
         var executor = _serviceFixture.ServiceProvider.GetRequiredService<IIntegrationExecutor>();
-        var result = await executor.ExecuteAsync("TestIntegration");
-        Assert.True(result);
+        var exception = Record.ExceptionAsync(async () => await executor.ExecuteAsync("TestIntegration"));
+        Assert.Null(exception);
     }
 }
