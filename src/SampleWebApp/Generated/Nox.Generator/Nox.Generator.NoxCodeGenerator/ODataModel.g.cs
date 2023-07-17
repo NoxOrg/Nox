@@ -14,7 +14,7 @@ namespace SampleWebApp.Presentation.Api.OData;
 /// The list of countries.
 /// </summary>
 [AutoMap(typeof(CountryDto))]
-public class Country : SampleWebApp.Domain.Domain.AuditableEntityBase
+public class Country : SampleWebApp.Domain.AuditableEntityBase
 {
     public System.String Id { get; set; } = default!;
     
@@ -93,7 +93,7 @@ public class Country : SampleWebApp.Domain.Domain.AuditableEntityBase
 /// The list of currencies.
 /// </summary>
 [AutoMap(typeof(CurrencyDto))]
-public class Currency : SampleWebApp.Domain.Domain.AuditableEntityBase
+public class Currency : SampleWebApp.Domain.AuditableEntityBase
 {
     
     /// <summary>
@@ -111,7 +111,7 @@ public class Currency : SampleWebApp.Domain.Domain.AuditableEntityBase
 /// Stores.
 /// </summary>
 [AutoMap(typeof(StoreDto))]
-public class Store : SampleWebApp.Domain.Domain.AuditableEntityBase
+public class Store : SampleWebApp.Domain.AuditableEntityBase
 {
     
     /// <summary>
@@ -139,7 +139,7 @@ public class Store : SampleWebApp.Domain.Domain.AuditableEntityBase
 /// The name of a country in other languages.
 /// </summary>
 [AutoMap(typeof(CountryLocalNamesDto))]
-public class CountryLocalNames : SampleWebApp.Domain.Domain.AuditableEntityBase
+public class CountryLocalNames : SampleWebApp.Domain.AuditableEntityBase
 {
     public System.String Id { get; set; } = default!;
 }

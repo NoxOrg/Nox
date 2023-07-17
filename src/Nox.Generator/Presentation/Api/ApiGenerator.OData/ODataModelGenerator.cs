@@ -56,7 +56,7 @@ internal static class ODataModelGenerator
                 var baseClass = (entity.Persistence?.IsVersioned ?? true) ? "AuditableEntityBase" : "EntityBase";
 
                 code.AppendLine($"[AutoMap(typeof({entity.Name}Dto))]");
-                code.AppendLine($"public class {entity.Name} : {codeGeneratorState.DomainNameSpace}.Domain.{baseClass}");
+                code.AppendLine($"public class {entity.Name} : {codeGeneratorState.DomainNameSpace}.{baseClass}");
             }
 
             code.StartBlock();
@@ -142,6 +142,11 @@ internal static class ODataModelGenerator
         }
     }
 
+    /// <summary>
+    /// Preferred Dynamic implementation - currently loading Nox.Types assembly randomly fails, need to be investigated.
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
     private static (string FieldName, string Type)[] GetTypeDynamic(NoxType type)
     {
         // Assume objects and collections are represented as strings - TBD
