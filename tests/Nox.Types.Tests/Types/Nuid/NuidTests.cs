@@ -11,7 +11,7 @@ public class NuidTests
     private readonly Guid ExpectedGuid = new("00000000-0000-0000-0000-000023af0a65");
 
     [Fact]
-    public void FromString_ConstructionSameInstances_ShouldReturnEqualNuids()
+    public void FromString_ConstructInstancesFromSameSource_ShouldReturnEqualNuids()
     {
         var nuidLeft = Nuid.From(TestStringValue);
         var nuidRight = Nuid.From(TestStringValue);
