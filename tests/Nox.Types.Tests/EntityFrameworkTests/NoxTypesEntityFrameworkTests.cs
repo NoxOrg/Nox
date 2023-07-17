@@ -54,6 +54,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Uri = Uri.From(Sample_Uri),
             IsLandLocked = Boolean.From(false),
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
+            Nuid = Nuid.From(NuidDefinition.NuidStringValue)
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
