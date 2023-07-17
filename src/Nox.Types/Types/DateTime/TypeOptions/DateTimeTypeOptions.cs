@@ -1,6 +1,6 @@
 ﻿
 namespace Nox.Types;
-public class DateTimeTypeOptions
+public class DateTimeTypeOptions : INoxTypeOptions
 {
     public static readonly System.DateTime DefaultMinValue = System.DateTime.MinValue;
     public static readonly System.DateTime DefaultMaxValue = System.DateTime.MaxValue;
