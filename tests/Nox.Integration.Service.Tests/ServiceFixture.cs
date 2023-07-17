@@ -1,11 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
-using Microsoft.Extensions.Logging.Abstractions;
-using Nox.Integration.Abstractions;
-using Nox.Integration.Service;
 using Nox.Solution;
 
-namespace Nox.Integration.Executor.Tests;
+namespace Nox.Integration.Service.Tests;
 
 public class ServiceFixture
 {

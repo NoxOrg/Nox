@@ -3,7 +3,7 @@ using Nox.Integration.Exceptions;
 using Nox.IntegrationSource.File;
 using Nox.Solution;
 
-namespace Nox.Integration.Executor;
+namespace Nox.Integration.Service;
 
 public class IntegrationSourceFactory: IIntegrationSourceFactory
 {

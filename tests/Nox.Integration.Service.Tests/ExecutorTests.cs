@@ -1,7 +1,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Integration.Abstractions;
 
-namespace Nox.Integration.Executor.Tests;
+namespace Nox.Integration.Service.Tests;
 
 public class ExecutorTests: IClassFixture<ServiceFixture>
 {

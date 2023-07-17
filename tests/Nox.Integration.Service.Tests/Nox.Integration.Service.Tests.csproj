@@ -11,6 +11,7 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.5.0" />
         <PackageReference Include="xunit" Version="2.4.2" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
@@ -24,21 +25,38 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Reference Include="ETLBox">
-            <HintPath>..\..\src\Nox.Etlbox\ETLBox.dll</HintPath>
-        </Reference>
-        <Reference Include="ETLBox.Csv">
-            <HintPath>..\..\src\Nox.Etlbox\ETLBox.Csv.dll</HintPath>
-        </Reference>
-        <Reference Include="ETLBox.SqlServer">
-            <HintPath>..\..\src\Nox.Etlbox\ETLBox.SqlServer.dll</HintPath>
-        </Reference>
+      <None Update="files\csv-source.solution.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\entity-target.solution.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\executor.solution.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\sql-target.solution.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="files\test_file.csv">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
     </ItemGroup>
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\Nox.Integration.Service\Nox.Integration.Service.csproj" />
-      <ProjectReference Include="..\..\src\Nox.IntegrationSource.Csv\Nox.IntegrationSource.Csv.csproj" />
       <ProjectReference Include="..\..\src\Nox.Integration\Nox.Integration.csproj" />
     </ItemGroup>
-    
+
+    <ItemGroup>
+      <Reference Include="ETLBox">
+        <HintPath>..\..\src\Nox.Etlbox\ETLBox.dll</HintPath>
+      </Reference>
+      <Reference Include="ETLBox.Csv">
+        <HintPath>..\..\src\Nox.Etlbox\ETLBox.Csv.dll</HintPath>
+      </Reference>
+      <Reference Include="ETLBox.SqlServer">
+        <HintPath>..\..\src\Nox.Etlbox\ETLBox.SqlServer.dll</HintPath>
+      </Reference>
+    </ItemGroup>
+
 </Project>

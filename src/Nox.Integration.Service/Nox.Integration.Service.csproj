@@ -19,9 +19,31 @@
     </ItemGroup>
     
     <ItemGroup>
-      <ProjectReference Include="..\Nox.Integration.Executor\Nox.Integration.Executor.csproj" />
       <ProjectReference Include="..\Nox.Integration.Store.SqlServer\Nox.Integration.Store.SqlServer.csproj" />
+      <ProjectReference Include="..\Nox.IntegrationSource.Csv\Nox.IntegrationSource.Csv.csproj" />
+      <ProjectReference Include="..\Nox.IntegrationTarget.SqlServer\Nox.IntegrationTarget.SqlServer.csproj" />
       <ProjectReference Include="..\Nox.Integration\Nox.Integration.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Reference Include="ETLBox">
+            <HintPath>..\Nox.Etlbox\ETLBox.dll</HintPath>
+        </Reference>
+    </ItemGroup>
+
+    <ItemGroup>
+      <EmbeddedResource Update="ExceptionResources.resx">
+        <Generator>ResXFileCodeGenerator</Generator>
+        <LastGenOutput>ExceptionResources.Designer.cs</LastGenOutput>
+      </EmbeddedResource>
+    </ItemGroup>
+
+    <ItemGroup>
+      <Compile Update="ExceptionResources.Designer.cs">
+        <DesignTime>True</DesignTime>
+        <AutoGen>True</AutoGen>
+        <DependentUpon>ExceptionResources.resx</DependentUpon>
+      </Compile>
     </ItemGroup>
 
 </Project>

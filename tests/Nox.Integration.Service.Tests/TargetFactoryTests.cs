@@ -3,10 +3,9 @@ using ETLBox.Connection;
 using ETLBox.DataFlow.Connectors;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Integration.Abstractions;
-using Nox.IntegrationSource.File;
 using Nox.IntegrationTarget.SqlServer;
 
-namespace Nox.Integration.Executor.Tests;
+namespace Nox.Integration.Service.Tests;
 
 public class TargetFactoryTests: IClassFixture<ServiceFixture>
 {

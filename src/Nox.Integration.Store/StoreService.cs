@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using Nox.Integration.Abstractions;
 using Nox.Integration.Constants;
 using Nox.Integration.Exceptions;
 using Nox.Solution;
@@ -9,11 +8,11 @@ namespace Nox.Integration.Store;
 
 public class StoreService: IStoreService
 {
-    private readonly ILogger _logger;
+    private readonly ILogger<StoreService> _logger;
     private readonly IntegrationDbContext _dbContext;
     
     public StoreService(
-        ILogger logger,
+        ILogger<StoreService> logger,
         IntegrationDbContext dbContext)
     {
         _logger = logger;

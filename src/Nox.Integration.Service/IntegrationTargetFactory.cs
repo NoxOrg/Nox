@@ -1,11 +1,9 @@
 using Nox.Integration.Abstractions;
 using Nox.Integration.Exceptions;
-using Nox.IntegrationSource.File;
 using Nox.IntegrationTarget.SqlServer;
 using Nox.Solution;
-using Nox.Solution.Extensions;
 
-namespace Nox.Integration.Executor;
+namespace Nox.Integration.Service;
 
 public class IntegrationTargetFactory: IIntegrationTargetFactory
 {

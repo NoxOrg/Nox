@@ -4,7 +4,7 @@ using Nox.Integration.Exceptions;
 using Nox.Integration.Store;
 using Nox.Solution;
 
-namespace Nox.Integration.Executor;
+namespace Nox.Integration.Service;
 
 public class IntegrationExecutor: IIntegrationExecutor
 {

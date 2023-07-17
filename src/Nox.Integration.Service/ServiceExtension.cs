@@ -1,6 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Integration.Abstractions;
-using Nox.Integration.Executor;
 using Nox.Integration.Store;
 using Nox.Integration.Store.SqlServer;
 using Nox.Solution;
