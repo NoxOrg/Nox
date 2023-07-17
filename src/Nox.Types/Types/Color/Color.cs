@@ -9,8 +9,6 @@ namespace Nox.Types;
 /// </summary>
 public class Color : ValueObject<(byte Alpha, byte Red, byte Green, byte Blue), Color>
 {
-    public Color() { Value = (Alpha = 0, Red = 0, Green = 0, Blue = 0); }
-
     public byte Alpha
     {
         get => Value.Alpha;
@@ -35,9 +33,11 @@ public class Color : ValueObject<(byte Alpha, byte Red, byte Green, byte Blue), 
         private set => Value = Value with { Blue = value };
     }
 
+    private bool _isEmpty { get; set; }
+
     public static Color Empty
     {
-        get => new();
+        get => new() { _isEmpty = true };
     }
 
     /// <summary>
@@ -48,7 +48,7 @@ public class Color : ValueObject<(byte Alpha, byte Red, byte Green, byte Blue), 
     {
         var result = base.Validate();
 
-        if (System.Drawing.Color.FromArgb(Alpha, Red, Green, Blue).IsEmpty)
+        if (_isEmpty)
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Color type as uninitialized color value {Value} is not allowed."));
         }

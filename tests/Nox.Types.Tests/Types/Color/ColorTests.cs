@@ -89,6 +89,5 @@ public class ColorTests
         colorBytes.ElementAt(2).Should().Be(154);
         colorBytes.ElementAt(3).Should().Be(107);
     }
-
 }
 

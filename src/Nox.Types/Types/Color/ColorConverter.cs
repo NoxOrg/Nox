@@ -42,7 +42,12 @@ public class ColorConverter
             {
                 try
                 {
-                    return PossibleKnownColor(System.Drawing.Color.FromArgb(Convert.ToInt32(text.Substring(text[0] == '#' ? 1 : 2), 16)));
+                    int argb = Convert.ToInt32(text.Substring(text[0] == '#' ? 1 : 2), 16);
+                    byte a = (byte)((argb >> 24) & 0xFF);
+                    byte r = (byte)((argb >> 16) & 0xFF);
+                    byte g = (byte)((argb >> 8) & 0xFF);
+                    byte b = (byte)(argb & 0xFF);
+                    return PossibleKnownColor(System.Drawing.Color.FromArgb(a, r, g, b));
                 }
                 catch (Exception)
                 {
