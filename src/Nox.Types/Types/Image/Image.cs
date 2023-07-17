@@ -120,7 +120,7 @@ public sealed class Image : ValueObject<(string Url, string PrettyName, int Size
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Image type with an invalid Url '{Value.Url}'."));
         }
-        else if (!ImageFormatType.GetSupportedFormatTypeExtension(_imageTypeOptions.ImageFormatTypes).Contains(Path.GetExtension(Value.Url).ToLower()))
+        else if (!ImageFormat.GetSupportedFormatTypeExtension(_imageTypeOptions.ImageFormatTypes).Contains(Path.GetExtension(Value.Url).ToLower()))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Image type with an image having an unsupported extension '{Value.Url}'."));
         }

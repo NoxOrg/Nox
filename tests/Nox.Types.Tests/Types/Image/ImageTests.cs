@@ -1,5 +1,4 @@
 using FluentAssertions;
-using FluentValidation;
 
 namespace Nox.Types.Tests.Types;
 

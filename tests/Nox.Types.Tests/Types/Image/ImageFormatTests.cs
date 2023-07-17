@@ -1,13 +1,15 @@
+using Microsoft.Extensions.Primitives;
+
 namespace Nox.Types.Tests.Types;
 
 using Nox.Types.Common;
 using FluentAssertions;
 using Xunit;
 
-public class ImageFormatTypeTests
+public class ImageFormatTests
 {
     [Fact]
-    public void ImageFormatType_All_ShouldHaveCorrectIdAndNameAndValue()
+    public void ImageFormat_All_ShouldHaveCorrectIdAndNameAndValue()
     {
         // Arrange
         var expectedId = 0;
@@ -15,31 +17,31 @@ public class ImageFormatTypeTests
         var expectedValue = new List<string> { ".jpg", ".jpeg", ".png", ".gif", ".bmp", ".webp", ".svg", ".tiff", ".ico", ".tif" };
 
         // Act
-        var imageFormatType = ImageFormatType.All;
+        var imageFormat = ImageFormat.All;
 
         // Assert
-        imageFormatType.Id.Should().Be(expectedId);
-        imageFormatType.Name.Should().Be(expectedName);
-        imageFormatType.Extensions.Should().BeEquivalentTo(expectedValue);
+        imageFormat.Id.Should().Be(expectedId);
+        imageFormat.Name.Should().Be(expectedName);
+        imageFormat.Extensions.Should().BeEquivalentTo(expectedValue);
     }
 
     
     
     [Fact]
-    public void ImageFormatType_FromId_ShouldReturn_Jpeg()
+    public void ImageFormat_FromId_ShouldReturn_Jpeg()
     {
         // Arrange
-        var expectedImageFormatType = ImageFormatType.Jpeg;
+        var expectedImageFormat = ImageFormat.Jpeg;
         var expectedId = 1;
         var expectedName = "Jpeg";
         var expectedExtensions = new List<string> { ".jpg", ".jpeg" };
         var id = 1;
 
         // Act
-        var result = Enumeration.FromId<ImageFormatType>(id);
+        var result = Enumeration.FromId<ImageFormat>(id);
 
         // Assert
-        result.Should().Be(expectedImageFormatType);
+        result.Should().Be(expectedImageFormat);
         result.Extensions.Should().BeEquivalentTo(expectedExtensions);
         result.Id.Should().Be(expectedId);
         result.Name.Should().Be(expectedName);
@@ -47,20 +49,20 @@ public class ImageFormatTypeTests
     }
     
     [Fact]
-    public void ImageFormatType_FromId_ShouldReturn_Png()
+    public void ImageFormat_FromId_ShouldReturn_Png()
     {
         // Arrange
-        var expectedImageFormatType = ImageFormatType.Png;
+        var expectedImageFormat = ImageFormat.Png;
         var expectedId = 2;
         var expectedName = "Png";
         var expectedExtensions = new List<string> { ".png" };
         var id = 2;
 
         // Act
-        var result = Enumeration.FromId<ImageFormatType>(id);
+        var result = Enumeration.FromId<ImageFormat>(id);
 
         // Assert
-        result.Should().Be(expectedImageFormatType);
+        result.Should().Be(expectedImageFormat);
         result.Extensions.Should().BeEquivalentTo(expectedExtensions);
         result.Id.Should().Be(expectedId);
         result.Name.Should().Be(expectedName);
@@ -68,20 +70,20 @@ public class ImageFormatTypeTests
     }
     
     [Fact]
-    public void ImageFormatType_FromId_ShouldReturn_Gif()
+    public void ImageFormat_FromId_ShouldReturn_Gif()
     {
         // Arrange
-        var expectedImageFormatType = ImageFormatType.Gif;
+        var expectedImageFormat = ImageFormat.Gif;
         var expectedId = 3;
         var expectedName = "Gif";
         var expectedExtensions = new List<string> { ".gif" };
         var id = 3;
 
         // Act
-        var result = Enumeration.FromId<ImageFormatType>(id);
+        var result = Enumeration.FromId<ImageFormat>(id);
 
         // Assert
-        result.Should().Be(expectedImageFormatType);
+        result.Should().Be(expectedImageFormat);
         result.Extensions.Should().BeEquivalentTo(expectedExtensions);
         result.Id.Should().Be(expectedId);
         result.Name.Should().Be(expectedName);
@@ -89,20 +91,20 @@ public class ImageFormatTypeTests
     }
     
     [Fact]
-    public void ImageFormatType_FromId_ShouldReturn_Bmp()
+    public void ImageFormat_FromId_ShouldReturn_Bmp()
     {
         // Arrange
-        var expectedImageFormatType = ImageFormatType.Bmp;
+        var expectedImageFormat = ImageFormat.Bmp;
         var expectedId = 4;
         var expectedName = "Bmp";
         var expectedExtensions = new List<string> { ".bmp" };
         var id = 4;
 
         // Act
-        var result = Enumeration.FromId<ImageFormatType>(id);
+        var result = Enumeration.FromId<ImageFormat>(id);
 
         // Assert
-        result.Should().Be(expectedImageFormatType);
+        result.Should().Be(expectedImageFormat);
         result.Extensions.Should().BeEquivalentTo(expectedExtensions);
         result.Id.Should().Be(expectedId);
         result.Name.Should().Be(expectedName);
@@ -110,20 +112,20 @@ public class ImageFormatTypeTests
     }
     
     [Fact]
-    public void ImageFormatType_FromId_ShouldReturn_Webp()
+    public void ImageFormat_FromId_ShouldReturn_Webp()
     {
         // Arrange
-        var expectedImageFormatType = ImageFormatType.Webp;
+        var expectedImageFormat = ImageFormat.Webp;
         var expectedId = 5;
         var expectedName = "Webp";
         var expectedExtensions = new List<string> { ".webp" };
         var id = 5;
 
         // Act
-        var result = Enumeration.FromId<ImageFormatType>(id);
+        var result = Enumeration.FromId<ImageFormat>(id);
 
         // Assert
-        result.Should().Be(expectedImageFormatType);
+        result.Should().Be(expectedImageFormat);
         result.Extensions.Should().BeEquivalentTo(expectedExtensions);
         result.Id.Should().Be(expectedId);
         result.Name.Should().Be(expectedName);
@@ -131,20 +133,20 @@ public class ImageFormatTypeTests
     }
     
     [Fact]
-    public void ImageFormatType_FromId_ShouldReturn_Svg()
+    public void ImageFormat_FromId_ShouldReturn_Svg()
     {
         // Arrange
-        var expectedImageFormatType = ImageFormatType.Svg;
+        var expectedImageFormat = ImageFormat.Svg;
         var expectedId = 6;
         var expectedName = "Svg";
         var expectedExtensions = new List<string> { ".svg" };
         var id = 6;
 
         // Act
-        var result = Enumeration.FromId<ImageFormatType>(id);
+        var result = Enumeration.FromId<ImageFormat>(id);
 
         // Assert
-        result.Should().Be(expectedImageFormatType);
+        result.Should().Be(expectedImageFormat);
         result.Extensions.Should().BeEquivalentTo(expectedExtensions);
         result.Id.Should().Be(expectedId);
         result.Name.Should().Be(expectedName);
@@ -152,20 +154,20 @@ public class ImageFormatTypeTests
     }
     
     [Fact]
-    public void ImageFormatType_FromId_ShouldReturn_Tiff()
+    public void ImageFormat_FromId_ShouldReturn_Tiff()
     {
         // Arrange
-        var expectedImageFormatType = ImageFormatType.Tiff;
+        var expectedImageFormat = ImageFormat.Tiff;
         var expectedId = 7;
         var expectedName = "Tiff";
         var expectedExtensions = new List<string> { ".tiff", ".tif" };
         var id = 7;
 
         // Act
-        var result = Enumeration.FromId<ImageFormatType>(id);
+        var result = Enumeration.FromId<ImageFormat>(id);
 
         // Assert
-        result.Should().Be(expectedImageFormatType);
+        result.Should().Be(expectedImageFormat);
         result.Extensions.Should().BeEquivalentTo(expectedExtensions);
         result.Id.Should().Be(expectedId);
         result.Name.Should().Be(expectedName);
@@ -173,20 +175,20 @@ public class ImageFormatTypeTests
     }
     
     [Fact]
-    public void ImageFormatType_FromId_ShouldReturn_Ico()
+    public void ImageFormat_FromId_ShouldReturn_Ico()
     {
         // Arrange
-        var expectedImageFormatType = ImageFormatType.Ico;
+        var expectedImageFormat = ImageFormat.Ico;
         var expectedId = 8;
         var expectedName = "Ico";
         var expectedExtensions = new List<string> { ".ico" };
         var id = 8;
 
         // Act
-        var result = Enumeration.FromId<ImageFormatType>(id);
+        var result = Enumeration.FromId<ImageFormat>(id);
 
         // Assert
-        result.Should().Be(expectedImageFormatType);
+        result.Should().Be(expectedImageFormat);
         result.Extensions.Should().BeEquivalentTo(expectedExtensions);
         result.Id.Should().Be(expectedId);
         result.Name.Should().Be(expectedName);
@@ -200,7 +202,7 @@ public class ImageFormatTypeTests
         var id = 99;
 
         // Act & Assert
-        FluentActions.Invoking(() => Enumeration.FromId<ImageFormatType>(id))
+        FluentActions.Invoking(() => Enumeration.FromId<ImageFormat>(id))
             .Should().Throw<InvalidOperationException>();
     }
 
@@ -208,11 +210,11 @@ public class ImageFormatTypeTests
     public void FromName_ExistingName_ShouldReturnCorrectImageFormatType()
     {
         // Arrange
-        var expectedImageFormatType = ImageFormatType.Png;
+        var expectedImageFormatType = ImageFormat.Png;
         var name = "Png";
 
         // Act
-        var result = Enumeration.FromName<ImageFormatType>(name);
+        var result = Enumeration.FromName<ImageFormat>(name);
 
         // Assert
         result.Should().Be(expectedImageFormatType);
@@ -225,20 +227,32 @@ public class ImageFormatTypeTests
         var name = "InvalidName";
 
         // Act & Assert
-        FluentActions.Invoking(() => Enumeration.FromName<ImageFormatType>(name))
+        FluentActions.Invoking(() => Enumeration.FromName<ImageFormat>(name))
             .Should().Throw<InvalidOperationException>();
     }
 
+
     [Fact]
-    public void GetAll_ShouldReturnAllImageFormatTypes()
+    public void All_ImageFormatType_Enum_ShouldMatch_CustomImageFormat()
     {
-        // Arrange
-        var expectedImageFormatTypesCount = 9;
+        // Arrange & Act & Assert
+        foreach (var imageFormatType in System.Enum.GetValues<ImageFormatType>())
+        {
+            var imageFormat = Enumeration.FromId<ImageFormat>((int)imageFormatType);
+            imageFormat.Id.Should().Be((int)imageFormatType);
+            imageFormat.Name.Should().Be(imageFormatType.ToString());
+        }
+    }
 
-        // Act
-        var result = Enumeration.GetAll<ImageFormatType>();
 
-        // Assert
-        result.Should().HaveCount(expectedImageFormatTypesCount);
+    [Fact]
+    public void All_ImageFormat_ShouldMatch_ImageFormatType_Enum()
+    {
+        // Arrange & Act & Assert
+        foreach (var imageFormat in Enumeration.GetAll<ImageFormat>())
+        {
+            var imageFormatType = (ImageFormatType)imageFormat.Id;
+            imageFormatType.ToString().Should().Be(imageFormat.Name);
+        }
     }
 }

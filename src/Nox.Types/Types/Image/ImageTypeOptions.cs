@@ -17,6 +17,6 @@ public class ImageTypeOptions
     /// <summary>
     /// Gets or sets the format types of the image.
     /// </summary>
-    public List<ImageFormatType> ImageFormatTypes { get; set; } = new() { DefaultFormatType };
+    public  List<ImageFormatType> ImageFormatTypes { get; set; } = new() { DefaultFormatType };
     
 }
