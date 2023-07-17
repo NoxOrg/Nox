@@ -96,7 +96,6 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             LocalTimeZone = TimeZoneCode.From("CET"),
             Url = Url.From(Sample_Url),
             StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress, new JsonSerializerOptions { WriteIndented = true })),
-            LocalTimeZone = TimeZoneCode.From("CET"),
             IsLandLocked = Boolean.From(true),
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
         };
