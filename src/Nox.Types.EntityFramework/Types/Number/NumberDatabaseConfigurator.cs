@@ -7,6 +7,9 @@ namespace Nox.Types.EntityFramework.Types;
 
 public class NumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
+    public NoxType ForNoxType => NoxType.Number;
+    public bool IsDefault => true;
+
     public void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState codeGeneratorState,
         EntityTypeBuilder builder,
