@@ -1,7 +1,7 @@
 using FluentAssertions;
 using FluentValidation;
 using Nox.Solution.Exceptions;
-using Nox.Solution.Resolvers;
+using Nox.Solution.Schema;
 
 namespace Nox.Solution.Tests;
 
@@ -46,7 +46,7 @@ public class YamlFileValidationTests
         Assert.Contains("[\"name\"]", exception.Message);
         Assert.Contains("[\"serverUri\"]", exception.Message);
         Assert.Contains("dataConnection", exception.Message);
-        Assert.Equal(13, errorCount);
+        Assert.Equal(19, errorCount);
     }
 
     [Theory]

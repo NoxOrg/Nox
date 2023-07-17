@@ -1,0 +1,137 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "The user interface display options for this attribute.",
+  "description": "Specify how this attribute is rendered on the user interface. Configuration options include label, icon, input/output masks, help hints among other.",
+  "type": [
+    "object",
+    "null"
+  ],
+  "properties": {
+    "label": {    
+      "title": "A descriptive label for this attribute on the user interface.",
+      "description": "The text label rendered on the user interface alongside the NoxTextInput component.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "translationId": {    
+      "title": "The multi-language translation identifier.",
+      "description": "A unique string/key to reference the translations for this attribute for multi-language translations.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "widget": {    
+      "title": "Widget used to render this attribute on the user interface.",
+      "description": "The user interface control type that is best suited to render the attribute on the screen.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "camera",
+        "checkbox",
+        "datePicker",
+        "dateRangePicker",
+        "fileUpload",
+        "gps",
+        "numberInput",
+        "numberSlider",
+        "radio",
+        "select",
+        "textArea",
+        "textInput",
+        "timePicker",
+        "timeRangePicker",
+        "toggleSwitch"
+      ]
+    },
+    "icon": {    
+      "title": "The icon representing the attribute on the user interface.",
+      "description": "A reference URI to the attribute icon file. Could be a CSS or Mudblazor reference, e.g. '@Icons.Material.Filled.Globe'.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "iconPosition": {    
+      "title": "The position of the attribute icon on the user interface.",
+      "description": "The postition of the attribute icon relative to the text input area on the user interface, e.g. begin or end.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "enum": [
+        "begin",
+        "end"
+      ]
+    },
+    "inputMask": {    
+      "title": "A mask expression used to validate and control text input.",
+      "description": "A string of characters that indicates the format of valid input values. For example '(000) 000-0000' could be used for a seven digit phone number with mandatory area code.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "outputMask": {    
+      "title": "A mask expression used to validate and control a value's output.",
+      "description": "A string of characters that indicates the format of valid output. Used to handle validation triggers for onSubmit and onChange events of the control.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "regex": {    
+      "title": "The regular expression against which input is validated.",
+      "description": "A regex string that indicates the format of valid input. For example '/^(\\([0-9]{3}\\) |[0-9]{3}-)[0-9]{3}-[0-9]{4}$/gm' could be used for a seven digit phone number with mandatory area code.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "pageGroup": {    
+      "title": "The user interface PageGroup identifier.",
+      "description": "Used to associate component with a PageGroup identifier on the user interface.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "fieldGroup": {    
+      "title": "The user interface FieldGroup identifier.",
+      "description": "Used to associate component with a FieldGroup identifier on the user interface.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "inputOrder": {    
+      "title": "Display/edit focus order within a FieldGroup on a user interface.",
+      "description": "The order within a group of user interface components (FieldGroup) in which this attribute will receive focus for display or edit purpose.",
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "helpHint": {    
+      "title": "Helper text for this component.",
+      "description": "The component default helper text used to aid the understanding of the component function to the user.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "errorMessage": {    
+      "title": "Validation error message.",
+      "description": "The default error message displayed when text input validation fails.",
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

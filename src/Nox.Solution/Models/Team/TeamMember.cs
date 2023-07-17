@@ -1,8 +1,9 @@
-﻿using Json.Schema.Generation;
+﻿using Nox.Solution.Schema;
 using System.Collections.Generic;
 
 namespace Nox.Solution
 {
+    [GenerateJsonSchema]
     [Title("Information about the team member working on this solution.")]
     [Description("Information of the team member including username and their respective role(s) of which their might me more than one.")]
     [AdditionalProperties(false)]

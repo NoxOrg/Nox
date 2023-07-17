@@ -250,8 +250,8 @@ domain:
         - name: Population
           description: The estimated population of the country
           type: number
-          numberTypeOptions:
-            minValue: 0
+          textTypeOptions:
+            maxLength:: 16
 
         - name: TopLevelDomains
           description: The top level internet domains regitered to the country (comma-delimited)
