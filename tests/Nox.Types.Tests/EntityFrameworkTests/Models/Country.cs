@@ -1,6 +1,7 @@
 namespace Nox.Types.Tests.EntityFrameworkTests;
 
-public class CountryId : ValueObject<int, CountryId> { }
+public class CountryId : ValueObject<int, CountryId>
+{ }
 
 public sealed class Country
 {
@@ -8,10 +9,12 @@ public sealed class Country
     /// Gets or sets the identifier.
     /// </summary>
     public CountryId Id { get; set; } = null!;
+
     /// <summary>
     /// Gets or sets the name.
     /// </summary>
     public Text Name { get; set; } = null!;
+
     /// <summary>
     /// Gets or sets the population.
     /// </summary>
@@ -36,7 +39,7 @@ public sealed class Country
     /// Gets or sets the area in square Kilometers.
     /// </summary>
     public Area AreaInSqKm { get; set; } = null!;
-    
+
     /// <summary>
     /// Gets or sets the culture.
     /// </summary>
@@ -46,12 +49,11 @@ public sealed class Country
     /// Gets or sets the country number.
     /// </summary>
     public CountryNumber CountryNumber { get; set; } = null!;
-    
+
     /// <summary>
     /// Gets or sets the month when the most tourists come to the country.
     /// </summary>
     public Month MonthOfPeakTourism { get; set; } = null!;
-    
 
     /// <summary>
     /// Gets or sets the distance in kilometers.
@@ -62,7 +64,7 @@ public sealed class Country
     /// Gets or sets the date time range.
     /// </summary>
     public DateTimeRange DateTimeRange { get; set; } = null!;
-    
+
     /// <summary>
     /// Gets or sets the internet domain associated with the country.
     /// </summary>
@@ -104,4 +106,9 @@ public sealed class Country
     /// Gets or sets the Local Time Zone.
     /// </summary>
     public TimeZoneCode LocalTimeZone { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the Nuid.
+    /// </summary>
+    public Nuid Nuid { get; set; } = null!;
 }

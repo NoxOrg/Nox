@@ -105,6 +105,11 @@ public sealed class Nuid : ValueObject<uint, Nuid>, IComparable, IComparable<Nui
 
     private static bool EqualsCore(in Nuid left, in Nuid right)
     {
+        if (left is null || right is null)
+        {
+            return false;
+        }
+
         uint leftVal = left.Value;
         uint rightVal = right.Value;
         ref uint rA = ref Unsafe.AsRef(in leftVal);

@@ -7,6 +7,8 @@ namespace Nox.Types.Tests.EntityFrameworkTests;
 public class NoxTypesEntityFrameworkTests : TestWithSqlite
 {
     private const string Sample_Uri = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
+    private readonly (string NuidStringValue, uint NuidValue) NuidDefinition = ("PropertyNamesWithSeparator", 3697780159);
+
     [Fact]
     public async Task DatabaseIsAvailableAndCanBeConnectedTo()
     {
@@ -85,7 +87,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Uri = Uri.From(Sample_Uri),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
-            LocalTimeZone = TimeZoneCode.From("CET")
+            LocalTimeZone = TimeZoneCode.From("CET"),
+            Nuid = Nuid.From(NuidDefinition.NuidStringValue)
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -126,6 +129,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
 
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
+        Assert.Equal(NuidDefinition.NuidValue, item.Nuid.Value);
         AssertStreetAddress(streetAddress, item.StreetAddress);
     }
 
