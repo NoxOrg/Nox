@@ -52,6 +52,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Uri = Uri.From(Sample_Uri),
             IsLandLocked = Boolean.From(false),
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
+            File = File.From("https://example.com/myfile.pdf", "MyFile", 512),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -94,6 +95,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             LocalTimeZone = TimeZoneCode.From("CET"),
             IsLandLocked = Boolean.From(true),
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
+            File = File.From("https://example.com/myfile.pdf", "MyFile", 512),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -137,6 +139,9 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(new TimeSpan(10, 5, 2, 1), item.DateTimeDuration.Value);
         AssertStreetAddress(streetAddress, item.StreetAddress);
         Assert.Equal(JsonSerializer.Serialize(streetAddress), item.StreetAddressJson.Value);
+        Assert.Equal("https://example.com/myfile.pdf", item.File.Url);
+        Assert.Equal("MyFile", item.File.PrettyName);
+        Assert.Equal(512UL, item.File.SizeInBytes);
     }
 
     private static StreetAddress CreateStreetAddress()

@@ -118,4 +118,9 @@ public sealed class Country
     /// Gets or sets the duration of the date time.
     /// </summary>
     public DateTimeDuration DateTimeDuration { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the file.
+    /// </summary>
+    public File File { get; set; } = null!;
 }

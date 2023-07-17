@@ -14,6 +14,7 @@ public enum NoxType : uint
     [CompoundType] StreetAddress = 499179285,
     [CompoundType] TranslatedText = 967269030,
     [CompoundType] DateTimeRange = 3837929056,
+    [CompoundType] File = 612041382,
     // This is complex, needs to include CountryCode 
     [CompoundType]  VatNumber = 1055627262,
 
@@ -38,7 +39,6 @@ public enum NoxType : uint
     Distance = 1460893529,
     Email = 3393987164,
     EncryptedText = 1841598137,
-    File = 612041382,
     Formula = 2602269623,
     Guid = 1043908053,
     HashedText = 3656553818,
