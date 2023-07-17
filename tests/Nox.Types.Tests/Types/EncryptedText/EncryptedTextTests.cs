@@ -80,7 +80,9 @@ public class EncryptedTextTests
         var encryptedText2 = EncryptedText.FromPlainText(PlainText, encryptOptions2);
 
         encryptedText.Value.Should().NotEqual(encryptedText1.Value);
+        encryptedText.Value.Should().NotEqual(encryptedText2.Value);
         encryptedText1.Value.Should().NotEqual(encryptedText2.Value);
+
     }
 
     [Fact]
