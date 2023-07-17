@@ -49,6 +49,9 @@ public class NoxSimpleTypeDefinition
     [IfEquals("Type", NoxType.Year)]
     public YearTypeOptions? YearTypeOptions { get; set; }
 
+    [IfEquals("Type", NoxType.DateTimeDuration)]
+    public DateTimeDurationTypeOptions? DateTimeDurationTypeOptions { get; set; }
+
     #endregion TypeOptions
 
     [Title("Is the attribute required? Boolean value.")]
