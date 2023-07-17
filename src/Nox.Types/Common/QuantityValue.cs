@@ -48,7 +48,6 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
     ///     as their value type.
     /// </summary>
     [FieldOffset(0)]
-    // bytes layout: 0-1 unused, 2 exponent, 3 sign (only highest bit), 4-15 number
     private readonly decimal _decimalValue;
 
     /// <summary>
@@ -87,6 +86,8 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
     /// Returns true if the underlying value is stored as a decimal
     /// </summary>
     public bool IsDecimal => Type == UnderlyingDataType.Decimal;
+
+    public double Value => _doubleValue;
 
     #region To QuantityValue
 

@@ -1,12 +1,11 @@
 ﻿using Nox;
 using System.Text.Json;
 using SampleWebApp.Infrastructure.Persistence;
-using SampleWebApp.Domain;
-using Nox.Types;
 
 namespace SampleWebApp.SeedData;
 
-internal abstract class SampleDataSeederBase<TEntity> : INoxDataSeeder
+internal abstract class SampleDataSeederBase<TModel, TEntity> : INoxDataSeeder
+    where TEntity : class
 {
     private readonly SampleWebAppDbContext _dbContext;
 
@@ -17,38 +16,24 @@ internal abstract class SampleDataSeederBase<TEntity> : INoxDataSeeder
 
     public void Seed()
     {
-        var list = new List<Country>();
-        for (var i = 0; i < 5; i++)
+        var dbSet = _dbContext.Set<TEntity>();
+        if (dbSet.Any())
         {
-            var country = new Country()
-            {
-                AlphaCode2 = Text.From("AlphaCode2_" + i),
-                AlphaCode3 = Text.From("AlphaCode3_" + i),
-                AreaInSquareKilometres = Number.From(12345 + i),
-                Capital = Text.From("Capital" + i),
-                Demonym = Text.From("Demonym" + i),
-                DialingCodes = Text.From("DialingCodes1" + i),
-                Name = Text.From("Name" + i),
-                FormalName = Text.From("FormalName" + i),
-                NumericCode = Number.From(12345 + i),
-                Population = Number.From(12345 + i),
-                TopLevelDomains = Text.From("TopLevelDomains" + i),
-                GeoRegion = Text.From("GeoRegion" + i),
-                GeoSubRegion = Text.From("GeoSubRegion" + i),
-                GeoWorldRegion = Text.From("GeoWorldRegion" + i)
-            };
-            list.Add(country);
+            return;
         }
 
-        var str = JsonSerializer.Serialize(list);
-
-        using var sr = new StreamReader(SourceFile);
+        using var sr = new StreamReader(Path.Combine("SeedData\\data\\", SourceFile));
         var jsonText = sr.ReadToEnd();
 
-        var entityData = JsonSerializer.Deserialize<IEnumerable<TEntity>>(jsonText)!;
+        var modelData = JsonSerializer.Deserialize<IEnumerable<TModel>>(jsonText)!;
+        var entities = TransformToEntities(modelData);
 
-        _dbContext.AddRange(entityData);
+        dbSet.AddRange(entities);
+
+        _dbContext.SaveChanges();
     }
 
     protected abstract string SourceFile { get; }
+
+    protected abstract IEnumerable<TEntity> TransformToEntities(IEnumerable<TModel> models);
 }

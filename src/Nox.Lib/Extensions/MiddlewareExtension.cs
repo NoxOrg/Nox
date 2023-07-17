@@ -18,13 +18,4 @@ public static class MiddlewareExtension
         NoxSolution noxSolution = builder.ApplicationServices.GetRequiredService<NoxSolution>();
         builder.UseMonitoring(noxSolution);
     }
-
-    public static void UseNoxSeedData(this IApplicationBuilder builder)
-    {
-        var dataSeeders = builder.ApplicationServices.GetServices<INoxDataSeeder>();
-        foreach (var dataSeeder in dataSeeders)
-        {
-            dataSeeder.Seed();
-        }
-    }
 }
