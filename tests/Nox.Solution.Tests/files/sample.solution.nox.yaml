@@ -161,6 +161,7 @@ domain:
       keys:
 
         - name: Id
+          isRequired: true
           type: text
           textTypeOptions:
             isUnicode: false
@@ -281,6 +282,12 @@ domain:
     - name: Currency
       description: The list of currencies
 
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: currencyCode
+
       relationships:
 
         - name: CurrencyIsLegalTenderForCountry
@@ -290,6 +297,15 @@ domain:
 
     - name: CountryLocalNames
       description: The name of a country in other languages
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: number
+          numberTypeOptions:
+            minValue: 0
+            decimalDigits: 0
 
     - name: CurrencyCashBalance
 
@@ -488,13 +504,22 @@ infrastructure:
 
   security:
     secrets:
-      secretsServer:
-        name: SampleSecretServer
+      organizationSecretsServer:
+        name: SampleOrgSecretServer
         provider: azureKeyVault
         serverUri: kv.iwgplc.com
         user: secrets@iwgplc.com
         password: SecretPassword
-      validFor:
-        minutes: 10
+        validFor:
+          minutes: 10
+      
+      solutionSecretsServer:
+        name: SampleSlnSecretServer
+        provider: azureKeyVault
+        serverUri: kv.iwgplc.com
+        user: secrets@iwgplc.com
+        password: SecretPassword
+        validFor:
+          minutes: 10
 
 

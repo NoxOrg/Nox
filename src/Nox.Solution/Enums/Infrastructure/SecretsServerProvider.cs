@@ -9,7 +9,6 @@ namespace Nox
         AwsKeyManagementService,
         AzureKeyVault,
         HashicorpVault
-
     }
 
 }

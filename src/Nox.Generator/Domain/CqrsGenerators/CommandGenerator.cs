@@ -11,25 +11,25 @@ namespace Nox.Generator.Domain.CqrsGenerators;
 
 public class CommandGenerator
 {
-    public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
+    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (solution.Domain == null) return;
+        if (codeGeneratorState.Solution.Domain == null) return;
 
-        foreach (var entity in solution.Domain.Entities)
+        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
             if (entity.Commands == null || !entity.Commands.Any()) continue;
             foreach (var cmd in entity.Commands)
             {
                 context.CancellationToken.ThrowIfCancellationRequested();
-                GenerateCommand(context, solutionNameSpace, cmd);
+                GenerateCommand(context, codeGeneratorState, cmd);
             }
         }
     }
 
-    private static void GenerateCommand(SourceProductionContext context, string solutionNameSpace, DomainCommand cmd)
+    private static void GenerateCommand(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, DomainCommand cmd)
     {
         var className = cmd.Name.EnsureEndsWith("CommandHandlerBase");
 
@@ -39,11 +39,11 @@ public class CommandGenerator
         code.AppendLine($"using System.Collections.Generic;");
         //NOTE: this must point to Nox abstractions
         code.AppendLine($"using Nox.Abstractions;");
-        code.AppendLine($"using {solutionNameSpace}.Domain;");
-        code.AppendLine($"using {solutionNameSpace}.Application.DataTransferObjects;");
-        code.AppendLine($"using {solutionNameSpace}.Infrastructure.Persistence;");
+        code.AppendLine($"using {codeGeneratorState.DomainNameSpace};");
+        code.AppendLine($"using {codeGeneratorState.RootNameSpace}.Application.DataTransferObjects;");
+        code.AppendLine($"using {codeGeneratorState.RootNameSpace}.Infrastructure.Persistence;");
         code.AppendLine();
-        code.AppendLine($"namespace {solutionNameSpace}.Application;");
+        code.AppendLine($"namespace {codeGeneratorState.ApplicationNameSpace};");
 
         GenerateDocs(code, cmd.Description!);
 
@@ -51,11 +51,11 @@ public class CommandGenerator
         code.StartBlock();
 
         // Add Db Context
-        var dbContextName = $"{solutionNameSpace}{DbContextName}";
-        AddProperty(code, dbContextName, DbContextName, "Represents the DB context.");
+        var dbContextName = $"{codeGeneratorState.RootNameSpace}{DbContextName}";
+        AddField(code, dbContextName, DbContextName, "Represents the DB context.");
 
         // Add Messanger
-        AddProperty(code, "INoxMessenger", "Messenger", "Represents the Nox messenger.");
+        AddField(code, "INoxMessenger", "Messenger", "Represents the Nox messenger.");
 
         // Add constructor
         AddConstructor(code, className, new Dictionary<string, string>
@@ -65,7 +65,7 @@ public class CommandGenerator
         });
 
         // Add params
-        var typeDefinition = GenerateTypeDefinition(context, solutionNameSpace, cmd, generateDto: true);
+        var typeDefinition = GenerateTypeDefinition(context, codeGeneratorState, cmd, generateDto: true);
 
         GenerateDocs(code, $"Executes {cmd.Name}");
         code.AppendLine($@"public abstract Task<INoxCommandResult> ExecuteAsync({typeDefinition} command);");
@@ -90,7 +90,7 @@ public class CommandGenerator
         code.AppendLine($@"public async Task Send{eventName}DomainEventAsync({eventName} domainEvent)");
         code.StartBlock();
         code.AppendLine(
-            $@"await Messenger.SendMessageAsync(new string[] {{ ""{DefaultMessagingProvider}"" }}, domainEvent);");
+            $@"await _messenger.SendMessageAsync(new string[] {{ ""{DefaultMessagingProvider}"" }}, domainEvent);");
         code.EndBlock();
     }
 }

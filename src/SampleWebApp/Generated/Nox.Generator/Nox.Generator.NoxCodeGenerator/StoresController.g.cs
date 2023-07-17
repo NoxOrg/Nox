@@ -7,17 +7,25 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
+using SampleWebApp.Application;
+using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 using SampleWebApp.Infrastructure.Persistence;
 using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-public class StoresController : ODataController
+public partial class StoresController : ODataController
 {
-    SampleWebAppDbContext _databaseContext;
-
-    public StoresController(SampleWebAppDbContext databaseContext)
+    
+    /// <summary>
+    /// The OData DbContext for CRUD operations.
+    /// </summary>
+    protected readonly ODataDbContext _databaseContext;
+    
+    public StoresController(
+        ODataDbContext databaseContext
+    )
     {
         _databaseContext = databaseContext;
     }
@@ -31,13 +39,13 @@ public class StoresController : ODataController
     [EnableQuery]
     public ActionResult<Store> Get([FromRoute] string key)
     {
-        var parsedKey = Text.From(key);
-        var item = _databaseContext.Stores.SingleOrDefault(d => d.Id.Equals(parsedKey));
+        var item = _databaseContext.Stores.SingleOrDefault(d => d.Id.Equals(key));
         
         if (item == null)
         {
             return NotFound();
         }
+        
         return Ok(item);
     }
     
@@ -62,12 +70,13 @@ public class StoresController : ODataController
             return BadRequest(ModelState);
         }
         
-        var parsedKey = Text.From(key);
-        if (parsedKey != updatedStore.Id)
+        if (key != updatedStore.Id)
         {
             return BadRequest();
         }
+        
         _databaseContext.Entry(updatedStore).State = EntityState.Modified;
+        
         try
         {
             await _databaseContext.SaveChangesAsync();
@@ -83,6 +92,7 @@ public class StoresController : ODataController
                 throw;
             }
         }
+        
         return Updated(updatedStore);
     }
     
@@ -93,13 +103,15 @@ public class StoresController : ODataController
             return BadRequest(ModelState);
         }
         
-        var parsedKey = Text.From(key);
-        var entity = await _databaseContext.Stores.FindAsync(parsedKey);
+        var entity = await _databaseContext.Stores.FindAsync(key);
+        
         if (entity == null)
         {
             return NotFound();
         }
+        
         store.Patch(entity);
+        
         try
         {
             await _databaseContext.SaveChangesAsync();
@@ -115,19 +127,18 @@ public class StoresController : ODataController
                 throw;
             }
         }
+        
         return Updated(entity);
     }
     
     private bool StoreExists(string key)
     {
-        var parsedKey = Text.From(key);
-        return _databaseContext.Stores.Any(p => p.Id == parsedKey);
+        return _databaseContext.Stores.Any(p => p.Id == key);
     }
     
     public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var parsedKey = Text.From(key);
-        var store = await _databaseContext.Stores.FindAsync(parsedKey);
+        var store = await _databaseContext.Stores.FindAsync(key);
         if (store == null)
         {
             return NotFound();

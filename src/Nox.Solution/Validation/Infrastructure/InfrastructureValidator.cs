@@ -13,12 +13,8 @@ namespace Nox.Solution.Validation
                 .NotEmpty()
                 .WithMessage(ValidationResources.InfrastructurePersistenceEmpty);
             
-            RuleFor(p => p.Persistence!)
+            RuleFor(p => p.Persistence)
                 .SetValidator(v => new PersistenceValidator(GetServerList(v)));
-            
-            RuleFor(p => p.Messaging)
-                .NotEmpty()
-                .WithMessage(ValidationResources.InfrastructureMessagingEmpty);
             
             RuleFor(p => p.Messaging!)
                 .SetValidator(v => new MessagingValidator(GetServerList(v)));
@@ -85,7 +81,8 @@ namespace Nox.Solution.Validation
 
                 if (infra.Security != null)
                 {
-                    if (infra.Security.Secrets is { SecretsServer: { } }) servers.Add(infra.Security.Secrets.SecretsServer);
+                    if (infra.Security.Secrets is { OrganizationSecretsServer: not null }) servers.Add(infra.Security.Secrets.OrganizationSecretsServer);
+                    if (infra.Security.Secrets is { SolutionSecretsServer: not null }) servers.Add(infra.Security.Secrets.SolutionSecretsServer);
                 }
 
                 _servers = servers;

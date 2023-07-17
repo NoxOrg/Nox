@@ -26,6 +26,12 @@ internal class BaseGenerator
         code.AppendLine($"protected {type} {name} {{ get; set; }} = null!;");
     }
 
+    internal static void AddField(CodeBuilder code, string type, string name, string? description)
+    {
+        GenerateDocs(code, description);
+        code.AppendLine($"protected readonly {type} {name.ToLowerFirstCharAndAddUnderscore()};");
+    }
+
     internal static string GetParametersString(IEnumerable<DomainQueryRequestInput>? input)
     {
         if (input != null)
@@ -68,14 +74,14 @@ internal class BaseGenerator
         code.Indent();
         foreach (var value in parameters.Select(p => p.Value))
         {
-            code.AppendLine($@"{value} = {value.ToLowerFirstChar()};");
+            code.AppendLine($@"{value.ToLowerFirstCharAndAddUnderscore()} = {value.ToLowerFirstChar()};");
         }
 
         code.UnIndent();
         code.AppendLine($@"}}");
     }
 
-    public static string GenerateTypeDefinition(SourceProductionContext context, string solutionNameSpace, NoxComplexTypeDefinition typeDefinition, bool generateDto = false)
+    public static string GenerateTypeDefinition(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, NoxComplexTypeDefinition typeDefinition, bool generateDto = false)
     {
         string stringTypeDefinition;
         string typeName;
@@ -89,7 +95,7 @@ internal class BaseGenerator
 
                 if (generateDto && options is { Type: NoxType.Object, ObjectTypeOptions: not null })
                 {
-                    GenerateDtoFromDefinition(context, solutionNameSpace, typeName, options);
+                    GenerateDtoFromDefinition(context, codeGeneratorState, typeName, options);
                 }
 
                 break;
@@ -101,7 +107,7 @@ internal class BaseGenerator
 
                 if (generateDto && collection is { Type: NoxType.Object, ObjectTypeOptions: not null })
                 {
-                    GenerateDtoFromDefinition(context, solutionNameSpace, typeName, collection);
+                    GenerateDtoFromDefinition(context, codeGeneratorState, typeName, collection);
                 }
 
                 break;
@@ -112,7 +118,7 @@ internal class BaseGenerator
                 if (generateDto)
                 {
                     DtoGenerator.GenerateDto(context,
-                        solutionNameSpace,
+                        codeGeneratorState,
                         typeDefinition.Name,
                         typeDefinition.Description,
                         typeDefinition.ObjectTypeOptions!.Attributes);
@@ -127,11 +133,23 @@ internal class BaseGenerator
 
         return stringTypeDefinition;
     }
+    internal static void AddDbContextOnConfiguring(CodeBuilder code, NoxSolutionCodeGeneratorState codeGeneratorState)
+    {
+        code.AppendLine("protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)");
+        code.StartBlock();
+        code.AppendLine("base.OnConfiguring(optionsBuilder);");
+        code.AppendLine("if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })");
+        code.StartBlock();
+        code.AppendLine($"_dbProvider.ConfigureDbContext(optionsBuilder, \"{codeGeneratorState.Solution.Name}\", _noxSolution.Infrastructure!.Persistence.DatabaseServer); ");
+        code.EndBlock();
+        code.EndBlock();
+        code.AppendLine();
+    }
 
-    private static void GenerateDtoFromDefinition(SourceProductionContext context, string solutionNameSpace, string typeName, ArrayTypeOptions options)
+    private static void GenerateDtoFromDefinition(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, string typeName, ArrayTypeOptions options)
     {
         DtoGenerator.GenerateDto(context,
-                                solutionNameSpace,
+            codeGeneratorState,
                                 typeName.ToUpperFirstChar(),
                                 options.Description,
                                 options.ObjectTypeOptions!.Attributes);

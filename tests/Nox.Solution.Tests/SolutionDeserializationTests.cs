@@ -49,7 +49,7 @@ public class SolutionDeserializationTests
         Assert.NotNull(noxConfig);
         Assert.NotNull(noxConfig.VersionControl);
         Assert.Equal(VersionControlProvider.AzureDevops, noxConfig.VersionControl.Provider);
-        Assert.Equal(new Uri("https://dev.azure.com/iwgplc"), noxConfig.VersionControl.Host);
+        Assert.Equal(new System.Uri("https://dev.azure.com/iwgplc"), noxConfig.VersionControl.Host);
         Assert.NotNull(noxConfig.VersionControl.Folders);
         Assert.Equal("/src", noxConfig.VersionControl.Folders.SourceCode);
         Assert.Equal("/docker", noxConfig.VersionControl.Folders.Containers);
@@ -351,17 +351,24 @@ public class SolutionDeserializationTests
         
         Assert.NotNull(noxConfig.Infrastructure.Security);
         Assert.NotNull(noxConfig.Infrastructure.Security.Secrets);
-        Assert.NotNull(noxConfig.Infrastructure.Security.Secrets!.SecretsServer);
-        Assert.Equal("SampleSecretServer", noxConfig.Infrastructure.Security.Secrets!.SecretsServer!.Name);
-        Assert.Equal(SecretsServerProvider.AzureKeyVault, noxConfig.Infrastructure.Security.Secrets!.SecretsServer!.Provider);
-        Assert.Equal("kv.iwgplc.com", noxConfig.Infrastructure.Security.Secrets!.SecretsServer!.ServerUri);
-        Assert.Equal("secrets@iwgplc.com", noxConfig.Infrastructure.Security.Secrets!.SecretsServer!.User);
-        Assert.Equal("SecretPassword", noxConfig.Infrastructure.Security.Secrets!.SecretsServer!.Password);
+        Assert.NotNull(noxConfig.Infrastructure.Security.Secrets!.OrganizationSecretsServer);
+        Assert.Equal("SampleOrgSecretServer", noxConfig.Infrastructure.Security.Secrets!.OrganizationSecretsServer!.Name);
+        Assert.Equal(SecretsServerProvider.AzureKeyVault, noxConfig.Infrastructure.Security.Secrets!.OrganizationSecretsServer!.Provider);
+        Assert.Equal("kv.iwgplc.com", noxConfig.Infrastructure.Security.Secrets!.OrganizationSecretsServer!.ServerUri);
+        Assert.Equal("secrets@iwgplc.com", noxConfig.Infrastructure.Security.Secrets!.OrganizationSecretsServer!.User);
+        Assert.Equal("SecretPassword", noxConfig.Infrastructure.Security.Secrets!.OrganizationSecretsServer!.Password);
+        Assert.NotNull(noxConfig.Infrastructure.Security.Secrets!.OrganizationSecretsServer!.ValidFor);
+        Assert.Equal(10, noxConfig.Infrastructure.Security.Secrets!.OrganizationSecretsServer!.ValidFor!.Minutes);
         
-        Assert.NotNull(noxConfig.Infrastructure.Security.Secrets!.ValidFor);
-        Assert.Equal(10, noxConfig.Infrastructure.Security.Secrets!.ValidFor!.Minutes);
-        
-        
+        Assert.NotNull(noxConfig.Infrastructure.Security.Secrets!.SolutionSecretsServer);
+        Assert.Equal("SampleSlnSecretServer", noxConfig.Infrastructure.Security.Secrets!.SolutionSecretsServer!.Name);
+        Assert.Equal(SecretsServerProvider.AzureKeyVault, noxConfig.Infrastructure.Security.Secrets!.SolutionSecretsServer!.Provider);
+        Assert.Equal("kv.iwgplc.com", noxConfig.Infrastructure.Security.Secrets!.SolutionSecretsServer!.ServerUri);
+        Assert.Equal("secrets@iwgplc.com", noxConfig.Infrastructure.Security.Secrets!.SolutionSecretsServer!.User);
+        Assert.Equal("SecretPassword", noxConfig.Infrastructure.Security.Secrets!.SolutionSecretsServer!.Password);
+        Assert.NotNull(noxConfig.Infrastructure.Security.Secrets!.SolutionSecretsServer!.ValidFor);
+        Assert.Equal(10, noxConfig.Infrastructure.Security.Secrets!.SolutionSecretsServer!.ValidFor!.Minutes);
+
         Assert.NotNull(noxConfig.Infrastructure.Dependencies.DataConnections);
         Assert.Single(noxConfig.Infrastructure.Dependencies.DataConnections);
         Assert.Equal("CountryJsonData", noxConfig.Infrastructure.Dependencies.DataConnections[0].Name);
