@@ -165,10 +165,10 @@ public class DateTimeRangeTests
     [InlineData("2023-06-06")]
     public void Contains_WithDateWithinTheRange_ReturnsTrue(string dateTimeStr)
     {
-        var DateTime = System.DateTime.Parse(dateTimeStr);
+        var dateTime = System.DateTime.Parse(dateTimeStr);
         var dateTimeRange = DateTimeRange.From(new System.DateTime(2023, 01, 01), new System.DateTime(2024, 01, 01));
 
-        Assert.True(dateTimeRange.Contains(DateTime));
+        Assert.True(dateTimeRange.Contains(dateTime));
     }
 
     [Theory]
@@ -177,10 +177,10 @@ public class DateTimeRangeTests
     [InlineData("2021-06-06")]
     public void Contains_WithDateOutsideTheRange_ReturnsFalse(string dateTimeStr)
     {
-        var DateTime = System.DateTime.Parse(dateTimeStr);
+        var dateTime = System.DateTime.Parse(dateTimeStr);
         var dateTimeRange = DateTimeRange.From(new System.DateTime(2023, 01, 01), new System.DateTime(2024, 01, 01));
 
-        Assert.False(dateTimeRange.Contains(DateTime));
+        Assert.False(dateTimeRange.Contains(dateTime));
     }
 
     [Theory]

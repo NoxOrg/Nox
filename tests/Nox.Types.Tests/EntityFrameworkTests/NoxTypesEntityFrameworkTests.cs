@@ -134,7 +134,6 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal("CET", item.LocalTimeZone.Value);
         Assert.True(item.IsLandLocked.Value);
         Assert.Equal(DateTime.From(new System.DateTime(2023, 01, 01)), item.CreateDate);
-
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(new TimeSpan(10, 5, 2, 1), item.DateTimeDuration.Value);
