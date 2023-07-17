@@ -1,4 +1,5 @@
 using FluentAssertions;
+using System.Text.Json;
 
 using System;
 
@@ -26,6 +27,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
     {
         double latitude = 46.802496;
         double longitude = 8.234392;
+        var streetAddress = CreateStreetAddress();
 
         var newItem = new Country()
         {
@@ -44,11 +46,13 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             IPAddress = IpAddress.From("102.129.143.255"),
             DateTimeRange = DateTimeRange.From(new DateTime(2023, 01, 01), new DateTime(2023, 02, 01)),
             LongestHikingTrailInMeters = Length.From(390_000),
-            StreetAddress = CreateStreetAddress(),
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
+            StreetAddress = streetAddress,
+            StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress)),
             LocalTimeZone = TimeZoneCode.From("CET"),
-            Uri = Uri.From(Sample_Uri)
+            Uri = Uri.From(Sample_Uri),
+            IsLandLocked = Boolean.From(false),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -87,7 +91,9 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Uri = Uri.From(Sample_Uri),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
+            StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress, new JsonSerializerOptions { WriteIndented = true })),
             LocalTimeZone = TimeZoneCode.From("CET"),
+            IsLandLocked = Boolean.From(true),
             Nuid = Nuid.From(NuidDefinition.NuidStringValue)
         };
         DbContext.Countries!.Add(newItem);
@@ -126,11 +132,13 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal("AED4322CCFEF", item.MACAddress.Value);
         Assert.Equal(new DateTime(2023, 11, 25).Date, item.Date.Value);
         Assert.Equal("CET", item.LocalTimeZone.Value);
+        Assert.True(item.IsLandLocked.Value);
 
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(NuidDefinition.NuidValue, item.Nuid.Value);
         AssertStreetAddress(streetAddress, item.StreetAddress);
+        Assert.Equal(JsonSerializer.Serialize(streetAddress), item.StreetAddressJson.Value);
     }
 
     private static StreetAddress CreateStreetAddress()
