@@ -49,8 +49,9 @@ public class YamlTests
         var exception = Assert.Throws<TypeValidationException>(() => Yaml.From(yamlString));
 
         // Assert
-        exception.Errors.Should().HaveCount(1);
-        exception.Errors.First().ErrorMessage.Should().Contain($"Could not create a Nox Yaml type with invalid yaml value '{yamlString}'");
+        exception.Errors.Should().NotHaveCount(0);
+            
+        exception.Errors.Should().Contain(e=>e.ErrorMessage.Contains($"Could not create a Nox Yaml type with invalid yaml value '{yamlString}'"));
     }
     
     [Theory]

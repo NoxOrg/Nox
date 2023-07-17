@@ -6,127 +6,18 @@ using System.Text.RegularExpressions;
 
 namespace Nox.Types;
 
+/// <summary>
+///  Represents a Nox <see cref="Yaml"/> type and value object.
+/// </summary>
 public class Yaml : ValueObject<string, Yaml>
 {
-    private List<YamlNode> _yamlNodes = new();
-    private bool _isValidated = false;
+    private readonly List<YamlNode> _yamlNodes = new();
+    private bool _isValidated;
 
-    internal override ValidationResult Validate()
-    {
-        var result = base.Validate();
-
-        
-        var lines = Value.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).ToList();
-        lines.Add(string.Empty);
-        var indentStackExplicit = new List<YamlNode>();
-        int count = 0;
-        List<string> anchors = new();
-
-        void AddLine(YamlNode line)
-        {
-            indentStackExplicit!.Add(line);
-            count++;
-        }
-
-        foreach (var yamlLine in lines.Select(line => new YamlNode(line))
-                     .Where(yamlLine => !yamlLine.IsComment && !yamlLine.IsEmpty))
-        {
-            if (yamlLine.IsInvalid && (yamlLine is { IsEmpty: false, IsPrimitive: false } &&
-                                       (!IsValidKey(yamlLine.Key) )))
-            {
-                result.Errors.Add(new ValidationFailure(nameof(Value),
-                         $"Could not create a Nox Yaml type with invalid yaml value '{Value}', yaml line is invalid '{yamlLine.Line}'."));
-                break;
-            }
-            
-            AddYamlAnchorIfExists(yamlLine.Line, anchors);
-            
-            string pattern = @"\*(\w+)\b";
-            Match match = Regex.Match(yamlLine.Line, pattern);
-
-            if (match.Success)
-            {
-                if (!anchors.Contains(match.Groups[1].Value))
-                {
-                    result.Errors.Add(new ValidationFailure(nameof(Value),
-                        $"Could not create a Nox Yaml type with invalid yaml value '{Value}', invalid yaml line '{yamlLine.Line}'. Anchor '{match.Groups[1].Value}' does not exist."));
-                    break;
-                }
-            }
-
-            if (indentStackExplicit.Count == 0)
-            {
-                yamlLine.Parent = new YamlNode("default_nox_yaml_parent_node:");
-                AddLine(yamlLine);
-            }
-            else
-            {
-                var previousLine = indentStackExplicit[count - 1];
-                if (yamlLine.IndentLevel > previousLine.IndentLevel)
-                {
-                    if ((previousLine.Value == string.Empty || previousLine.IsArray))
-                    {
-                        yamlLine.Parent = previousLine;
-                        previousLine.Children.Add(yamlLine.IsArray ? "#" + count + "#" + yamlLine.Key : yamlLine.Key,
-                            yamlLine);
-                        AddLine(yamlLine);
-                    }
-                    else
-                    {
-                        // Invalid YAML: Indentation level must be consistent
-                        result.Errors.Add(new ValidationFailure(nameof(Value),
-                            $"Could not create a Nox Yaml type with invalid yaml value '{Value}'. Yaml line '{yamlLine.Line}' indent must be consistent."));
-                        break;
-                    }
-                }
-                else if (yamlLine.IndentLevel < previousLine.IndentLevel)
-                {
-                    var previousSameLevel =
-                        indentStackExplicit.LastOrDefault(s => s.IndentLevel == yamlLine.IndentLevel);
-                    if (previousSameLevel != null && previousSameLevel.IsArray == yamlLine.IsArray &&
-                        previousSameLevel.Parent != null &&
-                        !previousSameLevel.Parent.Children.ContainsKey(yamlLine.Key))
-                    {
-                        yamlLine.Parent = previousSameLevel.Parent;
-                        previousSameLevel.Parent.Children.Add(
-                            yamlLine.IsArray ? "#" + count + "#" + yamlLine.Key : yamlLine.Key, yamlLine);
-                        AddLine(yamlLine);
-                    }
-                    else
-                    {
-                        // Invalid YAML: Indentation level must be consistent and keys must be unique
-                        result.Errors.Add(new ValidationFailure(nameof(Value),
-                            $"Could not create a Nox Yaml type with invalid yaml value '{Value}'.  Yaml line '{yamlLine.Line}' indent must be consistent and keys must be unique."));
-                     break;
-                    }
-                }
-                else
-                {
-                    if (previousLine.IsArray == yamlLine.IsArray && previousLine.Parent != null &&
-                        !previousLine.Parent.Children.ContainsKey(yamlLine.Key))
-                    {
-                        yamlLine.Parent = previousLine.Parent;
-                        previousLine.Parent.Children.Add(
-                            yamlLine.IsArray ? "#" + count + "#" + yamlLine.Key : yamlLine.Key, yamlLine);
-                        AddLine(yamlLine);
-                    }
-                    else
-                    {
-                        result.Errors.Add(new ValidationFailure(nameof(Value),
-                            $"Could not create a Nox Yaml type with invalid yaml value '{Value}'. Yaml line '{yamlLine.Line}' indent must be consistent and keys must be unique."));
-                        break;
-                    }
-                }
-            }
-
-            
-        }
-
-        _yamlNodes = indentStackExplicit;
-        _isValidated = true;
-        return result;
-    }
-
+    /// <summary>
+    /// Gets the equality components used for value comparison.
+    /// </summary>
+    /// <returns>The equality components.</returns>
     protected override IEnumerable<KeyValuePair<string, object>> GetEqualityComponents()
     {
         var properties = GenerateKeyValuePairs();
@@ -135,45 +26,183 @@ public class Yaml : ValueObject<string, Yaml>
             yield return property;
         }
     }
+    /// <summary>
+    /// Validates the YAML object and returns the validation result.
+    /// </summary>
+    /// <returns>The validation result.</returns>
+    internal override ValidationResult Validate()
+    {
+        var result = base.Validate();
+
+        
+        var lines = Value.Split(new[] { '\r', '\n' }, StringSplitOptions.RemoveEmptyEntries).ToList();
+        HashSet<string> anchors = new();
 
     
 
+        foreach (var yamlLine in lines.Select(line => new YamlNode(line))
+                     .Where(yamlLine => !yamlLine.IsComment && !yamlLine.IsEmpty))
+        {
+            ValidateYamlLine(yamlLine, result);
+            AddYamlAnchorIfExists(yamlLine.Line, anchors, result);
+            CheckAnchorUsage(yamlLine, anchors, result);
+
+            if (_yamlNodes.Count == 0)
+            {
+                yamlLine.Parent = new YamlNode("default_nox_yaml_parent_node:");
+                _yamlNodes.Add(yamlLine);
+            }
+            else
+            {
+                var previousLine = _yamlNodes[_yamlNodes.Count - 1];
+                if (yamlLine.IndentLevel > previousLine.IndentLevel)
+                {
+                    ValidateBiggerIndentLevel(previousLine, yamlLine, result);
+                }
+                else if (yamlLine.IndentLevel < previousLine.IndentLevel)
+                {
+                    ValidateSmallerIndentLevel(yamlLine, result);
+                }
+                else
+                {
+                    ValidateSameIndentLevel(previousLine, yamlLine, result);
+                }
+            }
+
+            
+        }
+
+        _isValidated = true;
+        return result;
+    }
+
+    /// <summary>
+    /// Validates that the YAML line has the same indentation level as the previous line and adds it to the YAML object.
+    /// </summary>
+    private void ValidateSameIndentLevel(YamlNode previousLine, YamlNode yamlLine, ValidationResult result)
+    {
+        if (previousLine.IsArray == yamlLine.IsArray && previousLine.Parent != null &&
+            !previousLine.Parent.Children.ContainsKey(yamlLine.Key))
+        {
+            yamlLine.Parent = previousLine.Parent;
+            previousLine.Parent.Children.Add(
+                yamlLine.IsArray ? "#" + _yamlNodes.Count + "#" + yamlLine.Key : yamlLine.Key, yamlLine);
+            _yamlNodes.Add(yamlLine);
+        }
+        else
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value),
+                $"Could not create a Nox Yaml type with invalid yaml value '{Value}'. Yaml line '{yamlLine.Line}' indent must be consistent and keys must be unique."));
+        }
+    }
+
+    /// <summary>
+    /// Validates that the YAML line has a smaller indentation level than the previous line and adds it to the YAML object.
+    /// </summary>
+    private void ValidateSmallerIndentLevel(YamlNode yamlLine, ValidationResult result)
+    {
+        var previousSameLevel =
+            _yamlNodes.LastOrDefault(s => s.IndentLevel == yamlLine.IndentLevel);
+        if (previousSameLevel != null && previousSameLevel.IsArray == yamlLine.IsArray &&
+            previousSameLevel.Parent != null &&
+            !previousSameLevel.Parent.Children.ContainsKey(yamlLine.Key))
+        {
+            yamlLine.Parent = previousSameLevel.Parent;
+            previousSameLevel.Parent.Children.Add(
+                yamlLine.IsArray ? "#" + _yamlNodes.Count + "#" + yamlLine.Key : yamlLine.Key, yamlLine);
+            _yamlNodes.Add(yamlLine);
+        }
+        else
+        {
+            // Invalid YAML: Indentation level must be consistent and keys must be unique
+            result.Errors.Add(new ValidationFailure(nameof(Value),
+                $"Could not create a Nox Yaml type with invalid yaml value '{Value}'.  Yaml line '{yamlLine.Line}' indent must be consistent and keys must be unique."));
+        }
+    }
+
+    /// <summary>
+    /// Validates that the YAML line has a bigger indentation level than the previous line and adds it to the YAML object.
+    /// </summary>
+    private void ValidateBiggerIndentLevel(YamlNode previousLine, YamlNode yamlLine, ValidationResult result)
+    {
+        if ((previousLine.Value == string.Empty || previousLine.IsArray))
+        {
+            yamlLine.Parent = previousLine;
+            previousLine.Children.Add(yamlLine.IsArray ? "#" + _yamlNodes.Count + "#" + yamlLine.Key : yamlLine.Key,
+                yamlLine);
+            _yamlNodes.Add(yamlLine);
+        }
+        else
+        {
+            // Invalid YAML: Indentation level must be consistent
+            result.Errors.Add(new ValidationFailure(nameof(Value),
+                $"Could not create a Nox Yaml type with invalid yaml value '{Value}'. Yaml line '{yamlLine.Line}' indent must be consistent."));
+        }
+    }
+
+    
+
+    /// <summary>
+    /// Validates that the YAML line is valid.
+    /// </summary>
+    private void ValidateYamlLine(YamlNode yamlLine, ValidationResult result)
+    {
+        if (yamlLine.IsInvalid && (yamlLine is { IsEmpty: false, IsPrimitive: false } &&
+                                   (!IsValidKey(yamlLine.Key))))
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value),
+                $"Could not create a Nox Yaml type with invalid yaml value '{Value}', yaml line is invalid '{yamlLine.Line}'."));
+        }
+    }
+
+    
+
+    
+    /// <summary>
+    /// Checks if the key is valid.
+    /// </summary>
     private static bool IsValidKey(string key)
     {
         // Validate key format (any non-empty string is considered valid)
         return !string.IsNullOrEmpty(key);
     }
 
-    private static void AddYamlAnchorIfExists(string line, List<string> anchors)
+    /// <summary>
+    /// Adds the YAML anchor to the set of anchors if it exists in the line.
+    /// </summary>
+    private static void AddYamlAnchorIfExists(string line, HashSet<string> anchors, ValidationResult result)
     {
         string pattern = @"&(\w+)\b";
         Match match = Regex.Match(line, pattern);
 
-        if (match.Success)
+        if (!match.Success) return;
+        if (!anchors.Add(match.Groups[1].Value))
         {
-            anchors.Add(match.Groups[1].Value);
+            result.Errors.Add(new ValidationFailure(nameof(Value),
+                $"Could not create a Nox Yaml type with invalid yaml value '{line}'. Anchor '{match.Groups[1].Value}' already exists."));
         }
     }
-
-    private static void KeyValueBuilder(YamlNode yamlNode, StringBuilder keyBuilder, StringBuilder valueBuilder)
+    
+    /// <summary>
+    /// Checks the usage of YAML anchors in the line.
+    /// </summary>
+    private void CheckAnchorUsage(YamlNode yamlLine, HashSet<string> anchors, ValidationResult result)
     {
-        while (true)
+        var pattern = @"\*(\w+)\b";
+        var match = Regex.Match(yamlLine.Line, pattern);
+
+        if (!match.Success) return;
+        if (!anchors.Contains(match.Groups[1].Value))
         {
-            keyBuilder.Append(yamlNode.IsArray ? string.Concat(yamlNode.Key,yamlNode.Value) : yamlNode.Key);
-            keyBuilder.Append("#");
-            valueBuilder.Append(yamlNode.Value);
-            valueBuilder.Append("#");
-
-            if (yamlNode.Parent != null)
-            {
-                yamlNode = yamlNode.Parent;
-                continue;
-            }
-
-            break;
+            result.Errors.Add(new ValidationFailure(nameof(Value),
+                $"Could not create a Nox Yaml type with invalid yaml value '{Value}', invalid yaml line '{yamlLine.Line}'. Anchor '{match.Groups[1].Value}' does not exist."));
         }
     }
 
+   
+    /// <summary>
+    /// Generates the key-value pairs representing the YAML object.
+    /// </summary>
     private List<KeyValuePair<string, object>> GenerateKeyValuePairs()
     {
         if (!_isValidated)
@@ -199,6 +228,27 @@ public class Yaml : ValueObject<string, Yaml>
         properties = properties.OrderBy(kvp=>kvp.Key).ThenBy(kvp=>kvp.Value).ToList();
         return properties;
        
+    }
+    /// <summary>
+    /// Builds the key and value of the YAML object.
+    /// </summary>
+    private static void KeyValueBuilder(YamlNode yamlNode, StringBuilder keyBuilder, StringBuilder valueBuilder)
+    {
+        while (true)
+        {
+            keyBuilder.Append(yamlNode.IsArray ? string.Concat(yamlNode.Key,yamlNode.Value) : yamlNode.Key);
+            keyBuilder.Append("#");
+            valueBuilder.Append(yamlNode.Value);
+            valueBuilder.Append("#");
+
+            if (yamlNode.Parent != null)
+            {
+                yamlNode = yamlNode.Parent;
+                continue;
+            }
+
+            break;
+        }
     }
 
 }
