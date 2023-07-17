@@ -95,6 +95,8 @@ public sealed class Country
 
     public Uri Uri { get; set; } = null!;
 
+    public Url Url { get; set; } = null!;
+
     /// <summary>
     /// Gets or sets the date.
     /// </summary>
