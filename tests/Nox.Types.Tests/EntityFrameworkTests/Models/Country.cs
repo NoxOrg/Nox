@@ -55,6 +55,7 @@ public sealed class Country
     /// </summary>
     public Month MonthOfPeakTourism { get; set; } = null!;
 
+
     /// <summary>
     /// Gets or sets the distance in kilometers.
     /// </summary>
@@ -115,6 +116,11 @@ public sealed class Country
     /// Gets or sets the IsLandlocked property.
     /// </summary>
     public Boolean IsLandLocked { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the duration of the date time.
+    /// </summary>
+    public DateTimeDuration DateTimeDuration { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the Nuid.

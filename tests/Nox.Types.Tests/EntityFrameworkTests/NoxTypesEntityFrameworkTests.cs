@@ -53,6 +53,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             LocalTimeZone = TimeZoneCode.From("CET"),
             Uri = Uri.From(Sample_Uri),
             IsLandLocked = Boolean.From(false),
+            DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -94,6 +95,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress, new JsonSerializerOptions { WriteIndented = true })),
             LocalTimeZone = TimeZoneCode.From("CET"),
             IsLandLocked = Boolean.From(true),
+            DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
             Nuid = Nuid.From(NuidDefinition.NuidStringValue)
         };
         DbContext.Countries!.Add(newItem);
@@ -133,9 +135,9 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(new DateTime(2023, 11, 25).Date, item.Date.Value);
         Assert.Equal("CET", item.LocalTimeZone.Value);
         Assert.True(item.IsLandLocked.Value);
-
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
+        Assert.Equal(new TimeSpan(10, 5, 2, 1), item.DateTimeDuration.Value);
         Assert.Equal(NuidDefinition.NuidValue, item.Nuid.Value);
         AssertStreetAddress(streetAddress, item.StreetAddress);
         Assert.Equal(JsonSerializer.Serialize(streetAddress), item.StreetAddressJson.Value);
