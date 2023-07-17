@@ -11,8 +11,9 @@ namespace Nox.Generator;
 
 internal static class ODataModelGenerator
 {
-    public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
+    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
+        NoxSolution solution = codeGeneratorState.Solution;
         context.CancellationToken.ThrowIfCancellationRequested();
 
         if (solution.Domain is null ||
@@ -30,17 +31,17 @@ internal static class ODataModelGenerator
         code.AppendLine($"using AutoMapper;");
 
         code.AppendLine();
-        code.AppendLine($"namespace {solutionNameSpace}.Presentation.Api.OData;");
+        code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
         code.AppendLine();
 
-        GenerateModels(solutionNameSpace, solution, code, false);
+        GenerateModels(codeGeneratorState, solution, code, false);
 
-        GenerateModels(solutionNameSpace, solution, code, true);
+        GenerateModels(codeGeneratorState, solution, code, true);
 
         code.GenerateSourceCode();
     }
 
-    private static void GenerateModels(string solutionNameSpace, NoxSolution solution, CodeBuilder code, bool isDto)
+    private static void GenerateModels(NoxSolutionCodeGeneratorState codeGeneratorState, NoxSolution solution, CodeBuilder code, bool isDto)
     {
         foreach (var entity in solution!.Domain!.Entities)
         {
@@ -55,7 +56,7 @@ internal static class ODataModelGenerator
                 var baseClass = (entity.Persistence?.IsVersioned ?? true) ? "AuditableEntityBase" : "EntityBase";
 
                 code.AppendLine($"[AutoMap(typeof({entity.Name}Dto))]");
-                code.AppendLine($"public class {entity.Name} : {solutionNameSpace}.Domain.{baseClass}");
+                code.AppendLine($"public class {entity.Name} : {codeGeneratorState.DomainNameSpace}.Domain.{baseClass}");
             }
 
             code.StartBlock();

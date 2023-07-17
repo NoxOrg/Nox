@@ -31,11 +31,13 @@ public class ODataDbContext : DbContext
             _dbProvider = databaseProvider;
         }
         
-        public DbSet<TenantWorkplace> TenantWorkplaces {get; set;} = null!;
+        public DbSet<Country> Countries { get; set; } = null!;
         
-        public DbSet<TenantWorkplaceContact> TenantWorkplaceContacts {get; set;} = null!;
+        public DbSet<Currency> Currencies { get; set; } = null!;
         
-        public DbSet<Country> Countries {get; set;} = null!;
+        public DbSet<Store> Stores { get; set; } = null!;
+        
+        public DbSet<CountryLocalNames> CountryLocalNames { get; set; } = null!;
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

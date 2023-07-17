@@ -1,7 +1,6 @@
 using Microsoft.AspNetCore.DataProtection;
-using Nox.Abstractions;
-using Nox.Abstractions.Configuration;
 using Nox.Secrets.Abstractions;
+using Nox.Solution.Constants;
 using File = System.IO.File;
 
 namespace Nox.Secrets;
@@ -35,7 +34,7 @@ public class PersistedSecretStore: IPersistedSecretStore
 
         var fileInfo = new FileInfo(secretPath);
         
-        if (fileInfo.CreationTime.Add(validFor.Value) < DateTime.Now)
+        if (fileInfo.LastWriteTime.Add(validFor.Value) < DateTime.Now)
         {
             File.Delete(secretPath);
             return null;

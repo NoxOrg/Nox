@@ -1,425 +1,74 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "type": "object",
-  "properties": {
-    "name": {
-      "type": "string",
-      "title": "The name of the ETL integration. Contains no spaces.",
-      "description": "The name of the ETL integration. It should be a commonly used singular noun and be unique within a solution.",
-      "pattern": "^[^\\s]*$"
-    },
-    "description": {
-      "type": "string",
-      "title": "A phrase describing the objective of the ETL data integration.",
-      "description": "A phrase describing the high-level objective of the ETL. A reference to data source and format is especially useful."
-    },
-    "source": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "title": "The name of the ETL source. Contains no spaces.",
-          "description": "The name should be a commonly used singular noun and be unique within a solution.",
-          "pattern": "^[^\\s]*$"
-        },
-        "description": {
-          "type": "string",
-          "title": "A description of the ETL source.",
-          "description": "A phrase describing the source component of the ETL. Think about describing the what/where of this data source."
-        },
-        "schedule": {
-          "type": "object",
-          "properties": {
-            "start": {
-              "type": "string",
-              "title": "Start time to check the ETL source for updates.",
-              "description": "Specify the start time to check the ETL source for updates. This is a \u0027speak-friendly\u0027 phrase that comprises the trigger time as well as the frequency. Translated into a cron expression."
-            },
-            "retry": {
-              "type": "object",
-              "properties": {
-                "limit": {
-                  "type": [
-                    "integer",
-                    "null"
-                  ]
-                },
-                "delaySeconds": {
-                  "type": [
-                    "integer",
-                    "null"
-                  ]
-                },
-                "doubleDelayLimit": {
-                  "type": [
-                    "integer",
-                    "null"
-                  ]
-                }
-              },
-              "title": "Retry policy applying to the ETL source updates.",
-              "description": "This outlines the retry configuration in the case of ETL engine being unable to connect to the ETL data source. Includes limit and delay before retry.",
-              "additionalProperties": false
-            },
-            "runOnStartup": {
-              "type": [
-                "boolean",
-                "null"
-              ],
-              "title": "Check the ETL source for updates at appliation startup.",
-              "description": "Specify here whether the ETL source is checked for updates when the application starts."
-            }
-          },
-          "required": [
-            "start"
-          ],
-          "title": "Scheduling of the ETL source.",
-          "description": "Specify when and how frequently the ETL source is checked for updates, as well as the retry policy in case of failure. Includes a switch to indicate whether update is triggered at application startup.",
-          "additionalProperties": false
-        },
-        "dataConnectionName": {
-          "type": "string",
-          "title": "The name of the integration source. Contains no spaces.",
-          "description": "The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections.",
-          "pattern": "^[^\\s]*$",
-          "additionalProperties": false
-        },
-        "watermark": {
-          "type": "object",
-          "properties": {
-            "dateColumns": {
-              "type": "array",
-              "items": {
-                "type": "string",
-                "title": "Column(s) in datetime format used for watermark purpose.",
-                "description": "List datetime columns to be compared to target data to indicate if data has changed."
-              },
-              "title": "Column(s) in datetime format used for watermark purpose.",
-              "description": "List datetime columns to be compared to target data to indicate if data has changed."
-            },
-            "sequentialKeyColumn": {
-              "type": "string",
-              "title": "Sequential key column used for watermark purpose.",
-              "description": "Specify a sequential key columns to be compared to target data to indicate if data has changed."
-            }
-          },
-          "title": "Definition namespace for watermark columns on the ETL source data.",
-          "description": "This section lists the column(s) on the source data used to compare to the target data to indicate whether the source data has been updated.",
-          "additionalProperties": false
-        },
-        "databaseOptions": {
-          "type": "object",
-          "properties": {
-            "query": {
-              "type": "string",
-              "title": "The query to execute.",
-              "description": "The query that will be executed on the source database."
-            },
-            "minimumExpectedRecords": {
-              "type": [
-                "integer",
-                "null"
-              ],
-              "title": "The minimum expected record count.",
-              "description": "The minimum expected record count as a result of this data ingestion."
-            }
-          },
-          "required": [
-            "query"
-          ],
-          "title": "Definition namespace for a database ETL source.",
-          "description": "This section specified attributes related to an ETL source of type Database. Attributes include the database query as well as minimumexpected records.",
-          "additionalProperties": false
-        },
-        "fileOptions": {
-          "type": "object",
-          "properties": {
-            "filename": {
-              "type": "string",
-              "title": "The file name.",
-              "description": "The name of the file that will be ingested."
-            },
-            "minimumExpectedRecords": {
-              "type": [
-                "integer",
-                "null"
-              ],
-              "title": "The minimum expected record count.",
-              "description": "The minimum expected record count as a result of this data ingestion."
-            }
-          },
-          "required": [
-            "filename"
-          ],
-          "title": "Definition namespace for a file type ETL source.",
-          "description": "This section specified attributes related to an ETL source of type File. Attributes include the database query as well as minimumexpected records.",
-          "additionalProperties": false
-        },
-        "messageQueueOptions": {
-          "type": "object",
-          "properties": {
-            "sourceName": {
-              "type": "string",
-              "title": "The source name.",
-              "description": "The name of the queue or topic subscription from which messages will be consumed."
-            }
-          },
-          "required": [
-            "sourceName"
-          ],
-          "title": "Definition namespace for a Message Queue ETL source.",
-          "description": "This section specified attributes related to an ETL source of type Message Queue. Attributes include the route, format and verb.",
-          "additionalProperties": false
-        },
-        "webApiOptions": {
-          "type": "object",
-          "properties": {
-            "route": {
-              "type": "string",
-              "title": "The path component for the request URI.",
-              "description": "The path component for the request URI, e.g. \u0027/myPath\u0027 in http://localhost:8081/myPath?myParameter=123."
-            },
-            "responseFormat": {
-              "enum": [
-                "json",
-                "xml"
-              ],
-              "title": "The Http response format.",
-              "description": "The format of the Http response data papyload, eg. Json, XML."
-            },
-            "httpVerb": {
-              "enum": [
-                "get",
-                "post"
-              ],
-              "title": "The Http request verb.",
-              "description": "The relevant verb detailing the Http request type, i.e. GET, POST, etc."
-            }
-          },
-          "title": "Definition namespace for a web API ETL source.",
-          "description": "This section specified attributes related to an ETL source of type web API. Attributes include the route, response format and http verb.",
-          "additionalProperties": false
-        }
-      },
-      "required": [
-        "name",
-        "dataConnectionName"
-      ],
-      "title": "Definition namespace for attributes describing the source component of an ETL integration.",
-      "description": "This section details ETL source attributes like name, description, scheduling and watermark specifications.",
-      "additionalProperties": false
-    },
-    "transform": {
-      "type": "object",
-      "properties": {
-        "mappings": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "sourceColumn": {
-                "type": "string",
-                "title": "Column name to be mapped at the ETL data source.",
-                "description": "Specifies the source column to be mapped during the ETL transform."
-              },
-              "converter": {
-                "enum": [
-                  "upperCase",
-                  "lowerCase"
-                ],
-                "title": "Specify case conversion during source to target transform.",
-                "description": "Specifies whether any case conversion is performed during the ETL transform. Source data may be converted to lowercase or uppercase for example."
-              },
-              "targetAttribute": {
-                "type": "string",
-                "title": "Target attribute to which source column is to be mapped.",
-                "description": "Specifies the name of the target attribute to to which the source column is mapped during the ETL transform."
-              }
-            },
-            "required": [
-              "sourceColumn",
-              "targetAttribute"
-            ],
-            "title": "Source to target column mappings details of the ETL transform component.",
-            "description": "Specifies one or more column mappings between source and target in an ETL data integration.",
-            "additionalProperties": false
-          },
-          "title": "Source to target column mappings details of the ETL transform component.",
-          "description": "Specifies one or more column mappings between source and target in an ETL data integration.",
-          "additionalProperties": false
-        },
-        "lookups": {
-          "type": "array",
-          "items": {
-            "type": "object",
-            "properties": {
-              "sourceColumn": {
-                "type": "string",
-                "title": "Source column used as key for lookup.",
-                "description": "Specify the source column of which the content will serve as the key for the lookup."
-              },
-              "match": {
-                "type": "object",
-                "properties": {
-                  "table": {
-                    "type": "string",
-                    "title": "Name of the lookup table.",
-                    "description": "Specify the table name used for the lookup at the data source."
-                  },
-                  "lookupColumn": {
-                    "type": "string",
-                    "title": "Name of the lookup column.",
-                    "description": "Specify the column used for the lookup at the data source."
-                  },
-                  "returnColumn": {
-                    "type": "string",
-                    "title": "Name of the column used for the return value.",
-                    "description": "Specify the return column of which the value is used for the lookup result."
-                  }
-                },
-                "required": [
-                  "table",
-                  "lookupColumn",
-                  "returnColumn"
-                ],
-                "title": "Attributes related to source table used for the lookup.",
-                "description": "Specify information about the source lookup table. This includes table name, lookup column and return column.",
-                "additionalProperties": false
-              },
-              "targetAttribute": {
-                "type": "string",
-                "title": "Target attribute for lookup result.",
-                "description": "Specify the name of the target attribute to which the lookup result will be persisted."
-              }
-            },
-            "required": [
-              "sourceColumn",
-              "match",
-              "targetAttribute"
-            ],
-            "title": "Details of lookups performed during the ETL transform component.",
-            "description": "Specifies information related to lookups during the ETL transform. Attributes include source columns and target attributes, as well as match directives like lookup table and column and return column name.",
-            "additionalProperties": false
-          },
-          "title": "Details of lookups performed during the ETL transform component.",
-          "description": "Specifies information related to lookups during the ETL transform. Attributes include source columns and target attributes, as well as match directives like lookup table and column and return column name.",
-          "additionalProperties": false
-        }
-      },
-      "title": "Definition namespace for attributes describing the transform component of an ETL integration.",
-      "description": "This section details ETL transform attributes like field mapping and value lookups.",
-      "additionalProperties": false
-    },
-    "target": {
-      "type": "object",
-      "properties": {
-        "name": {
-          "type": "string",
-          "title": "The name of the ETL target. Contains no spaces.",
-          "description": "The name of the ETL target. It should be a commonly used singular noun and be unique within a solution.",
-          "pattern": "^[^\\s]*$"
-        },
-        "description": {
-          "type": "string",
-          "title": "The description of the ETL target.",
-          "description": "A phrase describing the ETL target."
-        },
-        "targetType": {
-          "enum": [
-            "database",
-            "entity",
-            "file",
-            "webApi",
-            "messageQueue"
-          ],
-          "title": "The type of target.",
-          "description": "Specify the type of target. Options include entity, database, file, webAPI and message queue."
-        },
-        "dataConnectionName": {
-          "type": "string",
-          "title": "The name of the ETL target data connection. Contains no spaces.",
-          "description": "The name should be a commonly used singular noun and be unique within a solution.",
-          "pattern": "^[^\\s]*$",
-          "additionalProperties": false
-        },
-        "databaseOptions": {
-          "type": "object",
-          "properties": {
-            "storedProcedure": {
-              "type": "string",
-              "title": "The stored procedure to execute.",
-              "description": "The stored procedure that will be executed on the target database."
-            }
-          },
-          "required": [
-            "storedProcedure"
-          ],
-          "additionalProperties": false
-        },
-        "fileOptions": {
-          "type": "object",
-          "properties": {
-            "filename": {
-              "type": "string",
-              "title": "The file name.",
-              "description": "The name of the file that will be created."
-            }
-          },
-          "required": [
-            "filename"
-          ],
-          "additionalProperties": false
-        },
-        "webApiOptions": {
-          "type": "object",
-          "properties": {
-            "route": {
-              "type": "string"
-            },
-            "requestFormat": {
-              "enum": [
-                "json",
-                "xml"
-              ]
-            },
-            "httpVerb": {
-              "enum": [
-                "post",
-                "put",
-                "patch"
-              ]
-            }
-          },
-          "additionalProperties": false
-        },
-        "messageQueueOptions": {
-          "type": "object",
-          "properties": {
-            "targetName": {
-              "type": "string",
-              "title": "The target name.",
-              "description": "The name of the queue, topic or subscription to which messages will be sent."
-            }
-          },
-          "required": [
-            "targetName"
-          ],
-          "additionalProperties": false
-        }
-      },
-      "required": [
-        "name",
-        "targetType"
-      ],
-      "title": "Definition namespace for attributes describing the target component of an ETL integration.",
-      "description": "This section details ETL target attributes like name, description and type among other.",
-      "additionalProperties": false
-    }
-  },
+  "title": "The definition namespace for an application ETL data integration.",
+  "description": "Details pertaining to a solution data integration. Includes common ETL attributes like source, transform and target.",
+  "type": [
+    "object",
+    "null"
+  ],
   "required": [
     "name"
   ],
-  "title": "The definition namespace for an application ETL data integration.",
-  "description": "Details pertaining to a solution data integration. Includes common ETL attributes like source, transform and target.",
+  "properties": {
+    "name": {    
+      "title": "The name of the ETL integration. Contains no spaces.",
+      "description": "The name of the ETL integration. It should be a commonly used singular noun and be unique within a solution.",
+      "type": "string",
+      "pattern": "^[^\\s]*$"
+    },
+    "description": {    
+      "title": "A phrase describing the objective of the ETL data integration.",
+      "description": "A phrase describing the high-level objective of the ETL. A reference to data source and format is especially useful.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "source": {    
+      "anyOf": [
+        { "$ref": "integrationSource.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
+    "transform": {    
+      "anyOf": [
+        { "$ref": "integrationTransform.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    },
+    "target": {    
+      "anyOf": [
+        { "$ref": "integrationTarget.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
+    }
+  },
   "additionalProperties": false
 }

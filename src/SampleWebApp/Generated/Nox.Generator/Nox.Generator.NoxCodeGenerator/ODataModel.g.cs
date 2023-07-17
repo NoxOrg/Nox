@@ -11,54 +11,10 @@ namespace SampleWebApp.Presentation.Api.OData;
 
 
 /// <summary>
-/// The tenant workplace.
-/// </summary>
-[AutoMap(typeof(TenantWorkplaceDto))]
-public class TenantWorkplace : SampleWebApp.Domain.AuditableEntityBase
-{
-    public System.String Id { get; set; } = default!;
-    
-    /// <summary>
-    /// The country's common name.
-    /// </summary>
-    public System.String Name { get; set; } = default!;
-    
-    /// <summary>
-    /// is also know as.
-    /// </summary>
-    [AutoExpand]
-    public List<TenantWorkplaceContact> Contacts { get; set; } = null!;
-}
-
-/// <summary>
-/// The tenant workplace.
-/// </summary>
-[AutoMap(typeof(TenantWorkplaceContactDto))]
-public class TenantWorkplaceContact : SampleWebApp.Domain.AuditableEntityBase
-{
-    public System.String Id { get; set; } = default!;
-    
-    /// <summary>
-    /// The country's common name.
-    /// </summary>
-    public System.String Name { get; set; } = default!;
-    
-    /// <summary>
-    /// The the position of the workplace's point on the surface of the Earth.
-    /// </summary>
-    public System.Decimal? Balance_Amount { get; set; } = default!;
-    
-    /// <summary>
-    /// The the position of the workplace's point on the surface of the Earth.
-    /// </summary>
-    public System.String? Balance_CurrencyCode { get; set; } = default!;
-}
-
-/// <summary>
 /// The list of countries.
 /// </summary>
 [AutoMap(typeof(CountryDto))]
-public class Country : SampleWebApp.Domain.AuditableEntityBase
+public class Country : SampleWebApp.Domain.Domain.AuditableEntityBase
 {
     public System.String Id { get; set; } = default!;
     
@@ -134,37 +90,58 @@ public class Country : SampleWebApp.Domain.AuditableEntityBase
 }
 
 /// <summary>
-/// The tenant workplace.
+/// The list of currencies.
 /// </summary>
-public class TenantWorkplaceDto
+[AutoMap(typeof(CurrencyDto))]
+public class Currency : SampleWebApp.Domain.Domain.AuditableEntityBase
 {
     
     /// <summary>
-    /// The country's common name.
+    /// The currency's primary key / identifier.
+    /// </summary>
+    public System.String Id { get; set; } = default!;
+    
+    /// <summary>
+    /// The currency's name.
     /// </summary>
     public System.String Name { get; set; } = default!;
 }
 
 /// <summary>
-/// The tenant workplace.
+/// Stores.
 /// </summary>
-public class TenantWorkplaceContactDto
+[AutoMap(typeof(StoreDto))]
+public class Store : SampleWebApp.Domain.Domain.AuditableEntityBase
 {
     
     /// <summary>
-    /// The country's common name.
+    /// Store Primary Key.
+    /// </summary>
+    public System.String Id { get; set; } = default!;
+    
+    /// <summary>
+    /// Store Name.
     /// </summary>
     public System.String Name { get; set; } = default!;
     
     /// <summary>
-    /// The the position of the workplace's point on the surface of the Earth.
+    /// Physical Money in the Physical Store.
     /// </summary>
-    public System.Decimal? Balance_Amount { get; set; } = default!;
+    public System.Decimal PhysicalMoney_Amount { get; set; } = default!;
     
     /// <summary>
-    /// The the position of the workplace's point on the surface of the Earth.
+    /// Physical Money in the Physical Store.
     /// </summary>
-    public System.String? Balance_CurrencyCode { get; set; } = default!;
+    public System.String PhysicalMoney_CurrencyCode { get; set; } = default!;
+}
+
+/// <summary>
+/// The name of a country in other languages.
+/// </summary>
+[AutoMap(typeof(CountryLocalNamesDto))]
+public class CountryLocalNames : SampleWebApp.Domain.Domain.AuditableEntityBase
+{
+    public System.String Id { get; set; } = default!;
 }
 
 /// <summary>
@@ -242,4 +219,45 @@ public class CountryDto
     /// The top level internet domains regitered to the country (comma-delimited).
     /// </summary>
     public System.String? TopLevelDomains { get; set; } = default!;
+}
+
+/// <summary>
+/// The list of currencies.
+/// </summary>
+public class CurrencyDto
+{
+    
+    /// <summary>
+    /// The currency's name.
+    /// </summary>
+    public System.String Name { get; set; } = default!;
+}
+
+/// <summary>
+/// Stores.
+/// </summary>
+public class StoreDto
+{
+    
+    /// <summary>
+    /// Store Name.
+    /// </summary>
+    public System.String Name { get; set; } = default!;
+    
+    /// <summary>
+    /// Physical Money in the Physical Store.
+    /// </summary>
+    public System.Decimal PhysicalMoney_Amount { get; set; } = default!;
+    
+    /// <summary>
+    /// Physical Money in the Physical Store.
+    /// </summary>
+    public System.String PhysicalMoney_CurrencyCode { get; set; } = default!;
+}
+
+/// <summary>
+/// The name of a country in other languages.
+/// </summary>
+public class CountryLocalNamesDto
+{
 }

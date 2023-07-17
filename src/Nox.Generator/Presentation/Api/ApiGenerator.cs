@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System;
+using Microsoft.CodeAnalysis;
 using Nox.Solution;
 using System.Linq;
 using Nox.Generator.Common;
@@ -6,26 +7,27 @@ using System.Collections.Generic;
 
 using static Nox.Generator.Common.BaseGenerator;
 using System.Collections;
+using System.Diagnostics;
 
 namespace Nox.Generator.Presentation.Api;
 
 internal static class ApiGenerator
 {
-    public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
+    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (solution.Domain is null ||
-            !solution.Domain.Entities.Any())
+        if (codeGeneratorState.Solution.Domain is null ||
+            !codeGeneratorState.Solution.Domain.Entities.Any())
         {
             return;
         }
 
-        foreach (var entity in solution.Domain.Entities)
+        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            if (solution.Domain.Entities.Any(e => e.OwnedRelationships != null && e.OwnedRelationships.Any(r => r.Entity.Equals(entity.Name))))
+            if (codeGeneratorState.Solution.Domain.Entities.Any(e => e.OwnedRelationships != null && e.OwnedRelationships.Any(r => r.Entity.Equals(entity.Name))))
             {
                 continue;
             }
@@ -58,14 +60,14 @@ internal static class ApiGenerator
             code.AppendLine($"using Microsoft.EntityFrameworkCore;");
             code.AppendLine($"using AutoMapper;");
 
-            code.AppendLine($"using {solutionNameSpace}.Application;");
-            code.AppendLine($"using {solutionNameSpace}.Application.DataTransferObjects;");
-            code.AppendLine($"using {solutionNameSpace}.Domain;");
-            code.AppendLine($"using {solutionNameSpace}.Infrastructure.Persistence;");
+            code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace};");
+            code.AppendLine($"using {codeGeneratorState.DataTransferObjectsNameSpace};");
+            code.AppendLine($"using {codeGeneratorState.DomainNameSpace};");
+            code.AppendLine($"using {codeGeneratorState.PersistenceNameSpace};");
 
             code.AppendLine($"using Nox.Types;");
             code.AppendLine();
-            code.AppendLine($"namespace {solutionNameSpace}.Presentation.Api.OData;");
+            code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
             code.AppendLine();
 
             code.AppendLine($"public partial class {controllerName} : ODataController");
@@ -106,13 +108,13 @@ internal static class ApiGenerator
             if (entity.Persistence is null ||
                 entity.Persistence.Read.IsEnabled)
             {
-                GenerateGet(entityName, pluralName, keyName, code);
+                GenerateGet(entity, code);
 
                 if (entity.OwnedRelationships != null)
                 {
                     foreach (var relationship in entity.OwnedRelationships)
                     {
-                        GenerateChildrenGet(relationship.Entity, relationship.Name, entity.PluralName, keyName, code);
+                        GenerateChildrenGet(relationship.Entity, relationship.Name, entity.PluralName, code);
                     } 
                 }
             }
@@ -126,7 +128,7 @@ internal static class ApiGenerator
             if (entity.Persistence is null ||
                 entity.Persistence.Update.IsEnabled)
             {
-                GeneratePut(entityName, keyName, code);
+                GeneratePut(entity, code);
 
                 GeneratePatch(entity, entityName, pluralName, keyName, variableName, code);
             }
@@ -153,7 +155,7 @@ internal static class ApiGenerator
             // Generate POST request mapping for Command Handlers
             foreach (var command in commands)
             {
-                var typeDefinition = GenerateTypeDefinition(context, solutionNameSpace, command);
+                var typeDefinition = GenerateTypeDefinition(context, codeGeneratorState, command);
 
                 GenerateDocs(code, command.Description);
                 code.AppendLine($"[HttpPost(\"{command.Name}\")]");
@@ -192,10 +194,16 @@ internal static class ApiGenerator
         code.EndBlock();
     }
 
-    private static void GeneratePut(string entityName, string keyName, CodeBuilder code)
+    private static void GeneratePut(Entity entity, CodeBuilder code)
     {
+        // TODO Composite Keys
+        if (entity.Keys is { Count: > 1 })
+        {
+            Debug.WriteLine("Put for composite keys Not implemented...");
+            return;
+        }
         // Method Put
-        code.AppendLine($"public async Task<ActionResult> Put([FromRoute] string key, [FromBody] {entityName} updated{entityName})");
+        code.AppendLine($"public async Task<ActionResult> Put([FromRoute] string key, [FromBody] {entity.Name} updated{entity.Name})");
 
         // Method content
         code.StartBlock();
@@ -204,12 +212,12 @@ internal static class ApiGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"if (key != updated{entityName}.Id)");
+        code.AppendLine($"if (key != updated{entity.Name}.Id)");
         code.StartBlock();
         code.AppendLine($"return BadRequest();");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"_databaseContext.Entry(updated{entityName}).State = EntityState.Modified;");
+        code.AppendLine($"_databaseContext.Entry(updated{entity.Name}).State = EntityState.Modified;");
         code.AppendLine();
         code.AppendLine($"try");
         code.StartBlock();
@@ -217,7 +225,7 @@ internal static class ApiGenerator
         code.EndBlock();
         code.AppendLine($"catch (DbUpdateConcurrencyException)");
         code.StartBlock();
-        code.AppendLine($"if (!{entityName}Exists(key))");
+        code.AppendLine($"if (!{entity.Name}Exists(key))");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
@@ -227,7 +235,7 @@ internal static class ApiGenerator
         code.EndBlock();
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"return Updated(updated{entityName});");
+        code.AppendLine($"return Updated(updated{entity.Name});");
 
         // End method
         code.EndBlock();
@@ -236,6 +244,12 @@ internal static class ApiGenerator
 
     private static void GeneratePatch(Entity entity, string entityName, string pluralName, string variableName, string keyName, CodeBuilder code)
     {
+        // TODO Composite Keys
+        if (entity.Keys is { Count: > 1 })
+        {
+            Debug.WriteLine("Patch for composite keys Not implemented...");
+            return;
+        }
         // Method Patch
         code.AppendLine($"public async Task<ActionResult> Patch([FromRoute] string {keyName}, [FromBody] Delta<{entityName}> {variableName})");
 
@@ -319,26 +333,33 @@ internal static class ApiGenerator
         code.AppendLine();
     }
 
-    private static void GenerateGet(string entityName, string pluralName, string keyName, CodeBuilder code)
+    private static void GenerateGet(Entity entity, CodeBuilder code)
     {
         // Method Get
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public ActionResult<IQueryable<{entityName}>> Get()");
+        code.AppendLine($"public ActionResult<IQueryable<{entity.Name}>> Get()");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"return Ok(_databaseContext.{pluralName});");
+        code.AppendLine($"return Ok(_databaseContext.{entity.PluralName});");
 
         // End method
         code.EndBlock();
         code.AppendLine();
 
+        // TODO Composite Keys
+        if (entity.Keys is { Count: > 1 })
+        {
+            Debug.WriteLine("Get for composite keys Not implemented...");
+            return;
+        }
+
         // Method Get
-        code.AppendLine($"public ActionResult<{entityName}> Get([FromRoute] string key)");
+        code.AppendLine($"public ActionResult<{entity.Name}> Get([FromRoute] string key)");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"var item = _databaseContext.{pluralName}.SingleOrDefault(d => d.Id.Equals(key));");
+        code.AppendLine($"var item = _databaseContext.{entity.PluralName}.SingleOrDefault(d => d.Id.Equals(key));");
         code.AppendLine();
         code.AppendLine($"if (item == null)");
         code.StartBlock();
@@ -352,7 +373,7 @@ internal static class ApiGenerator
         code.AppendLine();
     }
 
-    private static void GenerateChildrenGet(string childEntity, string childEntityPlural, string pluralName, string keyName, CodeBuilder code)
+    private static void GenerateChildrenGet(string childEntity, string childEntityPlural, string pluralName, CodeBuilder code)
     {
         // Method Get
         code.AppendLine($"[EnableQuery]");

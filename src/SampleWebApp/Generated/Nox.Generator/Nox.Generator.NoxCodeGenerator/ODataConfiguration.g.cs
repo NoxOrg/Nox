@@ -14,9 +14,10 @@ public partial class ODataConfiguration
     {
         ODataModelBuilder builder = new ODataConventionModelBuilder();
         
-        builder.EntitySet<TenantWorkplace>("TenantWorkplaces");
-        builder.EntitySet<TenantWorkplaceContact>("TenantWorkplaceContacts");
         builder.EntitySet<Country>("Countries");
+        builder.EntitySet<Currency>("Currencies");
+        builder.EntitySet<Store>("Stores");
+        builder.EntitySet<CountryLocalNames>("CountryLocalNames");
         
         services.AddControllers()
             .AddOData(options => 

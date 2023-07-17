@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
@@ -6,7 +7,15 @@ namespace Nox.Types.EntityFramework.Types;
 
 public class NumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
-    public void ConfigureEntityProperty(EntityTypeBuilder builder, NoxSimpleTypeDefinition property, bool isKey)
+    public NoxType ForNoxType => NoxType.Number;
+    public bool IsDefault => true;
+
+    public void ConfigureEntityProperty(
+        NoxSolutionCodeGeneratorState codeGeneratorState,
+        EntityTypeBuilder builder,
+        NoxSimpleTypeDefinition property,
+        Entity entity,
+        bool singleKey)
     {
         //Todo Default values from static property in the Nox.Type
         var typeOptions = property.NumberTypeOptions ?? new NumberTypeOptions();

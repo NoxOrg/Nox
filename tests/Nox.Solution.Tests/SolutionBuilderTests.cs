@@ -29,7 +29,7 @@ public class SolutionBuilderTests
     {
         var noxConfig = new NoxSolutionBuilder()
             .Build();
-        Assert.False(noxConfig == null);
+        Assert.NotNull(noxConfig);
     }
 
     [Fact]
@@ -40,6 +40,4 @@ public class SolutionBuilderTests
         Assert.Throws<NoxSolutionConfigurationException>(() => noxConfigBuilder.Build());
         TestHelpers.RenameFilesInFolder("../../../../../.nox/design", "*.nox.zaml", "yaml");
     }
-    
-    
 }

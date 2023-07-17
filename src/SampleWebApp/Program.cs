@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.OData;
 using Nox;
 using Nox.Abstractions;
 using SampleWebApp;
@@ -35,6 +36,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseODataRouteDebug();
 
 app.UseNox();
 

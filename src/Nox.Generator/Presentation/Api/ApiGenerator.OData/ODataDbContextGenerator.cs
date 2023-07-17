@@ -9,9 +9,11 @@ namespace Nox.Generator;
 
 internal static class ODataDbContextGenerator
 {
-    public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
+    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
+
+        NoxSolution solution = codeGeneratorState.Solution;
 
         if (solution.Domain is null ||
             !solution.Domain.Entities.Any())
@@ -27,7 +29,7 @@ internal static class ODataDbContextGenerator
         code.AppendLine(@"using Nox.Types.EntityFramework.Abstractions;");
 
         code.AppendLine();
-        code.AppendLine($"namespace {solutionNameSpace}.Presentation.Api.OData;");
+        code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
         code.AppendLine();
 
         string dbContextName = "ODataDbContext";
@@ -59,11 +61,11 @@ internal static class ODataDbContextGenerator
 
         foreach (var entity in solution.Domain.Entities)
         {
-            code.AppendLine($"public DbSet<{entity.Name}> {entity.PluralName} {{get; set;}} = null!;");
+            code.AppendLine($"public DbSet<{entity.Name}> {entity.PluralName} {{ get; set; }} = null!;");
             code.AppendLine();
         }
 
-        AddDbContextOnConfiguring(code, solutionNameSpace);
+        AddDbContextOnConfiguring(code, codeGeneratorState);
 
         code.EndBlock();
 

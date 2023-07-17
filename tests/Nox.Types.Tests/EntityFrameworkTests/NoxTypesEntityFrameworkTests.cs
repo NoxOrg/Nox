@@ -6,6 +6,7 @@ namespace Nox.Types.Tests.EntityFrameworkTests;
 
 public class NoxTypesEntityFrameworkTests : TestWithSqlite
 {
+    private const string Sample_Uri = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
     [Fact]
     public async Task DatabaseIsAvailableAndCanBeConnectedTo()
     {
@@ -44,6 +45,9 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddress = CreateStreetAddress(),
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
+            LocalTimeZone = TimeZoneCode.From("CET"),
+            Uri = Uri.From(Sample_Uri),
+            IsLandLocked = Boolean.From(false),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -80,7 +84,10 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             LongestHikingTrailInMeters = Length.From(390_000),
             StreetAddress = streetAddress,
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
+            Uri = Uri.From(Sample_Uri),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
+            LocalTimeZone = TimeZoneCode.From("CET"),
+            IsLandLocked = Boolean.From(true)
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -102,21 +109,26 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(717_341_603_000, item.GrossDomesticProduct.Amount);
         Assert.Equal("CH", item.CountryCode2?.Value);
         Assert.Equal(41_290_000, item.AreaInSqKm.Value);
-        Assert.Equal(AreaTypeUnit.SquareMeter, item.AreaInSqKm.Unit);
+        Assert.Equal(AreaUnit.SquareMeter, item.AreaInSqKm.Unit);
         Assert.Equal("de-CH", item.CultureCode.Value);
         Assert.Equal(756, item.CountryNumber.Value);
         Assert.Equal(7, item.MonthOfPeakTourism.Value);
         Assert.Equal(129.522785, item.DistanceInKm.Value);
-        Assert.Equal(DistanceTypeUnit.Kilometer, item.DistanceInKm.Unit);
+        Assert.Equal(DistanceUnit.Kilometer, item.DistanceInKm.Unit);
         Assert.Equal("admin.ch", item.InternetDomain.Value);
         Assert.Equal("CHE", item.CountryCode3.Value);
         Assert.Equal("102.129.143.255", item.IPAddress.Value);
         Assert.Equal(new DateTime(2023, 01, 01), item.DateTimeRange.Start);
         Assert.Equal(new DateTime(2023, 02, 01), item.DateTimeRange.End);
         Assert.Equal(390_000, item.LongestHikingTrailInMeters.Value);
-        Assert.Equal(LengthTypeUnit.Meter, item.LongestHikingTrailInMeters.Unit);
+        Assert.Equal(LengthUnit.Meter, item.LongestHikingTrailInMeters.Unit);
         Assert.Equal("AED4322CCFEF", item.MACAddress.Value);
         Assert.Equal(new DateTime(2023, 11, 25).Date, item.Date.Value);
+        Assert.Equal("CET", item.LocalTimeZone.Value);
+        Assert.True(item.IsLandLocked.Value);
+
+        Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
+        Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         AssertStreetAddress(streetAddress, item.StreetAddress);
     }
 

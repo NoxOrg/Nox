@@ -19,6 +19,9 @@
 
   <ItemGroup>
     <None Remove="DatabaseIntegrationTests\Design\test.solution.nox.yaml" />
+    <None Include="DatabaseIntegrationTests\files\Program.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 
   <ItemGroup>
@@ -52,8 +55,10 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj" />
     <ProjectReference Include="..\..\src\Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj" />
+    <ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj" />
     <ProjectReference Include="..\..\src\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
     <ProjectReference Include="..\..\src\Nox.Types\Nox.Types.csproj" />
+    <ProjectReference Include="..\Nox.Generator.Tests\Nox.Generator.Tests.csproj" />
   </ItemGroup>
 
 </Project>

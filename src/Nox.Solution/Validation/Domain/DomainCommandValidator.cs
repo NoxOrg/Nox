@@ -4,7 +4,7 @@ using FluentValidation;
 
 namespace Nox.Solution.Validation
 {
-    internal class DomainCommandValidator: AbstractValidator<DomainCommand>
+    internal class DomainCommandValidator : AbstractValidator<DomainCommand>
     {
         private readonly IEnumerable<DomainCommand>? _commands;
 
@@ -16,7 +16,7 @@ namespace Nox.Solution.Validation
             RuleFor(c => c.Name)
                 .NotEmpty()
                 .WithMessage(m => string.Format(ValidationResources.DomainCommandNameEmpty, entityName));
-            
+
             RuleFor(c => c.Name).Must(HaveUniqueName)
                 .WithMessage(m => string.Format(ValidationResources.DomainCommandNameDuplicate, m.Name, entityName));
 
@@ -27,7 +27,7 @@ namespace Nox.Solution.Validation
             RuleFor(c => c.ObjectTypeOptions!)
                 .SetValidator(v => new ObjectTypeOptionsValidator($"domain command '{v.Name}' in entity '{entityName}'", "Domain commands"));
         }
-        
+
         private bool HaveUniqueName(DomainCommand toEvaluate, string name)
         {
             return _commands!.All(q => q.Equals(toEvaluate) || q.Name != name);
