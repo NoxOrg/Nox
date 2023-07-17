@@ -48,7 +48,7 @@ public sealed class DayOfWeek : ValueObject<byte, DayOfWeek>
     {
         var result = base.Validate();
 
-        if (Value < 1)
+        if (Value < 0)
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DayOfWeek type as value {Value} is less than the minimum specified value of {_dayOfWeekTypeOptions.MinValue}"));
         }
