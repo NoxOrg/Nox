@@ -20,20 +20,20 @@ public abstract partial class UpdatePopulationStatisticsCommandHandlerBase
     /// <summary>
     /// Represents the DB context.
     /// </summary>
-    protected SampleWebAppDbContext DbContext { get; set; } = null!;
+    protected readonly SampleWebAppDbContext _dbContext;
     
     /// <summary>
     /// Represents the Nox messenger.
     /// </summary>
-    protected INoxMessenger Messenger { get; set; } = null!;
+    protected readonly INoxMessenger _messenger;
     
     public UpdatePopulationStatisticsCommandHandlerBase(
         SampleWebAppDbContext dbContext,
         INoxMessenger messenger
     )
     {
-        DbContext = dbContext;
-        Messenger = messenger;
+        _dbContext = dbContext;
+        _messenger = messenger;
     }
     
     /// <summary>
@@ -46,6 +46,6 @@ public abstract partial class UpdatePopulationStatisticsCommandHandlerBase
     /// </summary>
     public async Task SendCountryNameUpdatedEventDomainEventAsync(CountryNameUpdatedEvent domainEvent)
     {
-        await Messenger.SendMessageAsync(new string[] { "Mediator" }, domainEvent);
+        await _messenger.SendMessageAsync(new string[] { "Mediator" }, domainEvent);
     }
 }

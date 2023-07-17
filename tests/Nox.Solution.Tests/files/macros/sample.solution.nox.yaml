@@ -9,11 +9,6 @@ name: SampleServiceWithMacros
 
 description: Sample Nox solution yaml configuration
 
-variables:
-  DATABASE_PROVIDER: slqServer
-  DATABASE_SERVER: localhost
-  DATABASE_PORT: "5432"
-
 environments:
 
   - name: dev
@@ -93,13 +88,14 @@ infrastructure:
 
   security:
     secrets:
-      secretsServer:
+      organizationSecretsServer:
         name: SampleSecretServer
         provider: azureKeyVault
         serverUri: kv.iwgplc.com
         user: ${{   env.SECRETS_USER }}
         password: ${{ env.SECRETS_PASSWORD   }}
-      validFor:
-        minutes: 10
+        validFor:
+          minutes: 10
+           
 
 

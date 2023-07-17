@@ -3,9 +3,9 @@ using Nox.Generator.Common;
 
 namespace Nox.Generator;
 
-internal class EntityBaseGenerator
+internal static class EntityBaseGenerator
 {
-    public static void Generate(SourceProductionContext context, string solutionNameSpace)
+    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -13,7 +13,7 @@ internal class EntityBaseGenerator
 
         code.AppendLine($"using System;");
         code.AppendLine();
-        code.AppendLine($"namespace {solutionNameSpace}.Domain;");
+        code.AppendLine($"namespace {codeGeneratorState.DomainNameSpace};");
         code.AppendLine();
         code.AppendLine($"/// <summary>");
         code.AppendLine($"/// The base class for all domain entities.");
@@ -25,11 +25,10 @@ internal class EntityBaseGenerator
         code.AppendLine($"/// <summary>");
         code.AppendLine($"/// The state of the entity as at this date.");
         code.AppendLine($"/// </summary>");
-        code.AppendLine($"public DateTime AsAt {{get; set;}}");
+        code.AppendLine($"public DateTime AsAt {{ get; set; }}");
 
         code.EndBlock();
 
         code.GenerateSourceCode();
-
     }
 }

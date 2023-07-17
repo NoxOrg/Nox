@@ -24,6 +24,10 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.CountryCode3).HasConversion<CountryCode3Converter>();
         builder.Property(e => e.IPAddress).HasConversion<IpAddressConverter>();
         builder.Property(e => e.LongestHikingTrailInMeters).HasConversion<LengthToMeterConverter>();
+        builder.Property(e => e.MACAddress).HasConversion<MacAddressConverter>();
+        builder.Property(e => e.Date).HasConversion<DateConverter>();
+        builder.Property(e => e.LocalTimeZone).HasConversion<TimeZoneCodeConverter>();
+        builder.Property(e => e.Uri).HasConversion<UriConverter>();
 
         // Configure Multi-value ValueObjects
         builder.OwnsOne(e => e.LatLong).Ignore(p => p.Value);

@@ -12,5 +12,10 @@ namespace Nox.Solution
         [Description("The provider used for this secrets server. Examples include AzureKeyVault, AwsKeyManagementService and HashicorpVault.")]
         [AdditionalProperties(false)]
         public SecretsServerProvider? Provider { get; internal set; } = SecretsServerProvider.AzureKeyVault;
+    
+        [Title("The secrets TTL.")]
+        [Description("The period of time which the secrets are valid for in the local cache.")]
+        [AdditionalProperties(false)]
+        public SecretsValidFor? ValidFor { get; internal set; }
     }
 }

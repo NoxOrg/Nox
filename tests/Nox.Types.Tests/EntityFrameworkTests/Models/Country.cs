@@ -89,6 +89,23 @@ public sealed class Country
     public StreetAddress StreetAddress { get; set; } = null!;
 
     /// <summary>
+    /// Gets or sets the mac address.
+    /// </summary>
+    public MacAddress MACAddress { get; set; } = null!;
+
+    public Uri Uri { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the date.
+    /// </summary>
+    public Date Date { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the Local Time Zone.
+    /// </summary>
+    public TimeZoneCode LocalTimeZone { get; set; } = null!;
+
+    /// <summary>
     /// Gets or sets hashed value
     /// </summary>
     public HashedText HashedText { get; set; } = null!;

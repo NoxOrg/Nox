@@ -1,3 +1,10 @@
+# Local Development
+To run the SampleWebApp you need to have a SQL Server running, this is temporary until we provide the remain database providers.
+
+Using SQL Server on the root run `docker-compose -f .\docker-compose.sqlServer.yml up`
+
+Run the Sample the database should be provisioned and properly setup its model.
+
 # Nox.Solution
 
 ## Environment Variables for Sensitive Data
@@ -18,6 +25,10 @@ Sample Yaml:
         port: 1433
         user: ${{ env.DB_USER }}
         password: ${{ env.DB_PASSWORD }}
+
+## Schemas Update
+
+**Until we automate this process** whenever you change the Nox Solution you need: to run the test in > **NoxSolutionSchemaGenerate**. This test will generate the new schema files that needs to be also added to the commit. The CI pipeline will publish the new schemas. 
 
 # Nox Types
 
@@ -70,4 +81,3 @@ run `dotnet-gitversion /updateprojectfiles` to update csproject files
 ## Release
 
 Just Create a release in GitHub, tag it properly, and that is all. In the future we want to automate this process.
-
