@@ -1,7 +1,7 @@
-﻿using System.Text.Json;
-using FluentAssertions;
+﻿using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Nox.Types;
-using TestDatabaseWebApp.Domain;
+using TestWebApp.Domain;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
 
@@ -54,7 +54,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             PostalCode = "61135"
         };
 
-        var newItem = new TestEntity()
+        var newItem = new TestEntityForTypes()
         {
             Id = Text.From(text),
             TextTestField = Text.From(text),
@@ -63,13 +63,13 @@ public class SqliteIntegrationTests : SqliteTestBase
             CountryCode2TestField = CountryCode2.From(countryCode2),
             StreetAddressTestField = StreetAddress.From(addressItem)
         };
-        DbContext.TestEntities.Add(newItem);
+        DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
 
         // Force the recreation of DBContext and ensure we have fresh data from database
         RecreateDbContext();
 
-        var testEntity = DbContext.TestEntities.First();
+        var testEntity = DbContext.TestEntityForTypes.First();
 
         // TODO: make it work without .Value
         testEntity.Id.Value.Should().Be(text);
@@ -79,5 +79,38 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
+    }
+
+    [Fact]
+    public void GeneratedEntity_Sqlite_GeneratedRelationshipWorks()
+    {
+        var text = "TestTextValue";
+
+        var newItem = new TestEntity()
+        {
+            Id = Text.From(text),
+            TextTestField = Text.From(text),
+        };
+        DbContext.TestEntities.Add(newItem);
+        DbContext.SaveChanges();
+
+        var newItem2 = new SecondTestEntity()
+        {
+            Id = Text.From(text),
+            TextTestField2 = Text.From(text),
+        };
+
+        newItem.SecondTestEntities.Add(newItem2);
+        DbContext.SecondTestEntities.Add(newItem2);
+        DbContext.SaveChanges();
+
+        // Force the recreation of DBContext and ensure we have fresh data from database
+        RecreateDbContext();
+
+        var testEntity = DbContext.TestEntities.Include(x => x.SecondTestEntities).First();
+        var secondTestEntity = DbContext.SecondTestEntities.Include(x => x.TestEntities).First();
+
+        Assert.NotEmpty(testEntity.SecondTestEntities);
+        Assert.NotEmpty(secondTestEntity.TestEntities);
     }
 }

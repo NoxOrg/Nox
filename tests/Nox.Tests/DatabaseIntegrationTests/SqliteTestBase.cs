@@ -1,12 +1,11 @@
-﻿using System;
-using System.Reflection;
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.EntityFramework.Sqlite;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-using TestDatabaseWebApp.Infrastructure.Persistence;
+using System.Reflection;
+using TestWebApp.Infrastructure.Persistence;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
 
@@ -19,7 +18,7 @@ public abstract class SqliteTestBase : IDisposable
     private static string _absoluteTestSolutionFile = string.Empty;
     private readonly SqliteConnection _connection;
 
-    protected TestDatabaseWebAppDbContext DbContext;
+    protected TestWebAppDbContext DbContext;
     private readonly ServiceProvider _serviceProvider;
 
     protected SqliteTestBase()
@@ -43,16 +42,16 @@ public abstract class SqliteTestBase : IDisposable
         DbContext = CreateDbContext(_connection,_serviceProvider);
     }
 
-    private static TestDatabaseWebAppDbContext CreateDbContext(SqliteConnection connection, IServiceProvider serviceProvider)
+    private static TestWebAppDbContext CreateDbContext(SqliteConnection connection, IServiceProvider serviceProvider)
     {
         var databaseConfigurator = new SqliteDatabaseProvider(serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());
         var solution = new NoxSolutionBuilder()
             .UseYamlFile(_absoluteTestSolutionFile)
             .Build();
-        var options = new DbContextOptionsBuilder<TestDatabaseWebAppDbContext>()
+        var options = new DbContextOptionsBuilder<TestWebAppDbContext>()
             .UseSqlite(connection)
             .Options;
-        var dbContext = new TestDatabaseWebAppDbContext(options, solution, databaseConfigurator);
+        var dbContext = new TestWebAppDbContext(options, solution, databaseConfigurator);
         dbContext.Database.EnsureCreated();
         return dbContext;
     }

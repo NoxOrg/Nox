@@ -90,24 +90,40 @@ internal static class DbContextGenerator
     private static void AddOnModelCreating(CodeBuilder code, string solutionName)
     {
         
+        code.AppendLine("public static Type? GetTypeByEntityName(string entityName)");
+        code.StartBlock();
+            code.AppendLine($"return Type.GetType(\"{solutionName}.Domain.\" + entityName);");
+        code.EndBlock();
+        code.AppendLine();
         code.AppendLine("protected override void OnModelCreating(ModelBuilder modelBuilder)");
         code.StartBlock();
-        code.AppendLine("base.OnModelCreating(modelBuilder);");
-        code.AppendLine("if (_noxSolution.Domain != null)");
-        code.StartBlock();
-        code.AppendLine("var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution);");
-        code.AppendLine();
-        code.AppendLine("foreach (var entity in _noxSolution.Domain.Entities)");
-        code.StartBlock();
-        code.AppendLine($"var type = Type.GetType(\"{solutionName}.Domain.\" + entity.Name);");
-        code.AppendLine();
-        code.AppendLine("if (type != null)");
-        code.StartBlock();
-        code.AppendLine("((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity);");
-        code.EndBlock();
-        code.EndBlock();
-        code.AppendLine();
-        code.EndBlock();
+            code.AppendLine("base.OnModelCreating(modelBuilder);");
+            code.AppendLine("if (_noxSolution.Domain != null)");
+            code.StartBlock();
+                code.AppendLine("var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution);");
+                code.AppendLine();
+                code.AppendLine("var relationships = ((INoxDatabaseConfigurator)_dbProvider).GetRelationshipsToCreate(codeGeneratorState, _noxSolution.Domain.Entities, modelBuilder);");
+                code.AppendLine("relationships = relationships");
+                code.Indent();
+                    code.AppendLine(".OrderBy(x => x.Entity.Name)");
+                    code.AppendLine(".ToList();");
+                code.UnIndent();
+                code.AppendLine();
+                code.AppendLine("foreach (var relationship in relationships)");
+                code.StartBlock();
+                code.AppendLine("relationship.RelationshipEntityType = GetTypeByEntityName(relationship.Relationship.Entity)!;");
+                code.EndBlock();
+                code.AppendLine();
+                code.AppendLine("foreach (var entity in _noxSolution.Domain.Entities)");
+                code.StartBlock();
+                    code.AppendLine($"var type = GetTypeByEntityName(entity.Name);");
+                    code.AppendLine("if (type != null)");
+                    code.StartBlock();
+                        code.AppendLine("((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, relationships);");
+                    code.EndBlock();
+                code.EndBlock();
+                code.AppendLine();
+            code.EndBlock();
         code.EndBlock();
     }
 }

@@ -5,6 +5,7 @@
 using Nox.Types;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace SampleWebApp.Domain;
 
@@ -88,4 +89,17 @@ public partial class Country : AuditableEntityBase
     /// The top level internet domains regitered to the country (comma-delimited) (optional).
     /// </summary>
     public Text? TopLevelDomains { get; set; } = null!;
+    
+    /// <summary>
+    /// Country accepts as legal tender OneOrMany Currencies
+    /// </summary>
+    public virtual List<Currency> Currencies { get; set; } = null!;
+    
+    [NotMapped]
+    public List<Currency> CountryAcceptsCurrency => Currencies;
+    
+    /// <summary>
+    /// Country is also know as OneOrMany CountryLocalNames
+    /// </summary>
+    public virtual List<CountryLocalNames> CountryLocalNames { get; set; } = null!;
 }

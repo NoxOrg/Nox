@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -6,17 +6,17 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
 using Nox.Generator.Common;
 using Nox.Types.EntityFramework.Abstractions;
-using SampleWebApp.Domain;
+using TestWebApp.Domain;
 
-namespace SampleWebApp.Infrastructure.Persistence;
+namespace TestWebApp.Infrastructure.Persistence;
 
-public partial class SampleWebAppDbContext : DbContext
+public partial class TestWebAppDbContext : DbContext
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
-    
-    public SampleWebAppDbContext(
-        DbContextOptions<SampleWebAppDbContext> options,
+
+    public TestWebAppDbContext(
+        DbContextOptions<TestWebAppDbContext> options,
         NoxSolution noxSolution,
         INoxDatabaseProvider databaseProvider
     ) : base(options)
@@ -24,46 +24,44 @@ public partial class SampleWebAppDbContext : DbContext
         _noxSolution = noxSolution;
         _dbProvider = databaseProvider;
     }
-    
-    public DbSet<Country> Countries { get; set; } = null!;
-    
-    public DbSet<Currency> Currencies { get; set; } = null!;
-    
-    public DbSet<Store> Stores { get; set; } = null!;
-    
-    public DbSet<CountryLocalNames> CountryLocalNames { get; set; } = null!;
-    
+
+    public DbSet<TestEntity> TestEntities { get; set; } = null!;
+
+    public DbSet<SecondTestEntity> SecondTestEntities { get; set; } = null!;
+
+    public DbSet<TestEntityForTypes> TestEntityForTypes { get; set; } = null!;
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
         if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
-            _dbProvider.ConfigureDbContext(optionsBuilder, "SampleWebApp", _noxSolution.Infrastructure!.Persistence.DatabaseServer); 
+            _dbProvider.ConfigureDbContext(optionsBuilder, "TestWebApp", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
         }
     }
-    
+
     public static Type? GetTypeByEntityName(string entityName)
     {
-        return Type.GetType("SampleWebApp.Domain." + entityName);
+        return Type.GetType("TestWebApp.Domain." + entityName);
     }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         if (_noxSolution.Domain != null)
         {
             var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution);
-            
+
             var relationships = ((INoxDatabaseConfigurator)_dbProvider).GetRelationshipsToCreate(codeGeneratorState, _noxSolution.Domain.Entities, modelBuilder);
             relationships = relationships
                 .OrderBy(x => x.Entity.Name)
                 .ToList();
-            
+
             foreach (var relationship in relationships)
             {
                 relationship.RelationshipEntityType = GetTypeByEntityName(relationship.Relationship.Entity)!;
             }
-            
+
             foreach (var entity in _noxSolution.Domain.Entities)
             {
                 var type = GetTypeByEntityName(entity.Name);
@@ -72,7 +70,7 @@ public partial class SampleWebAppDbContext : DbContext
                     ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, relationships);
                 }
             }
-            
+
         }
     }
 }
