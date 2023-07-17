@@ -7,6 +7,12 @@ namespace Nox.Types;
 /// </summary>
 public sealed class Html : ValueObject<string, Html>
 {
+    /// <summary>
+    /// Creates a <see cref="Html"/> object from a <see cref="System.String"/>.
+    /// </summary>
+    /// <param name="value">String to be parsed to <see cref="Html"/>.</param>
+    /// <returns>New instance of <see cref="Html"/>.</returns>
+    /// <exception cref="TypeValidationException">In case the <paramref name="value"/> contains an invalid html.</exception>
     public new static Html From(string value)
     {
         var newObject = new Html
