@@ -6,17 +6,17 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
 using Nox.Generator.Common;
 using Nox.Types.EntityFramework.Abstractions;
-using SampleWebApp.Domain;
+using {{domainNamespace}};
 
-namespace SampleWebApp.Infrastructure.Persistence;
+namespace {{persistenceNamespace}};
 
-public partial class SampleWebAppDbContext : DbContext
+public partial class {{dbContextName}} : DbContext
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     
-    public SampleWebAppDbContext(
-        DbContextOptions<SampleWebAppDbContext> options,
+    public {{dbContextName}}(
+        DbContextOptions<{{dbContextName}}> options,
         NoxSolution noxSolution,
         INoxDatabaseProvider databaseProvider
     ) : base(options)
@@ -25,22 +25,16 @@ public partial class SampleWebAppDbContext : DbContext
         _dbProvider = databaseProvider;
     }
 
-
-    public DbSet<Country> Countries { get; set; } = null!;
-
-    public DbSet<Currency> Currencies { get; set; } = null!;
-
-    public DbSet<Store> Stores { get; set; } = null!;
-
-    public DbSet<CountryLocalNames> CountryLocalNames { get; set; } = null!;
-
+{{ for dbSet in dbSets }}
+    public DbSet<{{dbSet.Name}}> {{dbSet.PropertyName}} { get; set; } = null!;
+{{ end }}
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
         if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
-            _dbProvider.ConfigureDbContext(optionsBuilder, "SampleWebApp", _noxSolution.Infrastructure!.Persistence.DatabaseServer); 
+            _dbProvider.ConfigureDbContext(optionsBuilder, "{{solutionName}}", _noxSolution.Infrastructure!.Persistence.DatabaseServer); 
         }
     }
     
@@ -53,7 +47,7 @@ public partial class SampleWebAppDbContext : DbContext
             
             foreach (var entity in _noxSolution.Domain.Entities)
             {
-                var type = Type.GetType("SampleWebApp.Domain." + entity.Name);
+                var type = Type.GetType("{{domainNamespace}}." + entity.Name);
                 
                 if (type != null)
                 {
@@ -63,4 +57,3 @@ public partial class SampleWebAppDbContext : DbContext
         }
     }
 }
-

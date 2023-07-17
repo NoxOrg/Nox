@@ -9,53 +9,11 @@ internal static class AuditableEntityBaseGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        var code = new CodeBuilder($"AuditableEntityBase.g.cs",context);
+        var code = new TemplateCodeBuilder($"AuditableEntityBase.g.cs",context);
 
-        code.AppendLine($"using System;");
-        code.AppendLine();
-        code.AppendLine($"namespace {codeGeneratorState.DomainNameSpace};");
-        code.AppendLine();
-        code.AppendLine($"public partial class AuditableEntityBase");
-
-        code.StartBlock();
-
-        code.AppendLine($"/// <summary>");
-        code.AppendLine($"/// The date and time when this entity was first created (in Coordinated Universal Time).");
-        code.AppendLine($"/// </summary>");
-        code.AppendLine($"public DateTime CreatedAtUtc {{ get; set; }}");
-
-        code.AppendLine();
-        code.AppendLine($"/// <summary>");
-        code.AppendLine($"/// The user that created the entity.");
-        code.AppendLine($"/// </summary>");
-        code.AppendLine($"public string? CreatedBy {{ get; set; }}");
-
-        code.AppendLine();
-        code.AppendLine($"/// <summary>");
-        code.AppendLine($"/// The date and time when this entity was last updated (in Coordinated Universal Time).");
-        code.AppendLine($"/// </summary>");
-        code.AppendLine($"public DateTime? UpdatedAtUtc {{ get; set; }}");
-
-        code.AppendLine();
-        code.AppendLine($"/// <summary>");
-        code.AppendLine($"/// The user that last updated the entity.");
-        code.AppendLine($"/// </summary>");
-        code.AppendLine($"public string? UpdatedBy {{ get; set; }}");
-
-        code.AppendLine();
-        code.AppendLine($"/// <summary>");
-        code.AppendLine($"/// The date and time when this entity was deleted (in Coordinated Universal Time).");
-        code.AppendLine($"/// </summary>");
-        code.AppendLine($"public DateTime? DeletedAtUtc {{ get; set; }}");
-
-        code.AppendLine();
-        code.AppendLine($"/// <summary>");
-        code.AppendLine($"/// The user that deleted the entity.");
-        code.AppendLine($"/// </summary>");
-        code.AppendLine($"public string? DeletedBy {{ get; set; }}");
-
-        code.EndBlock();
-
-        code.GenerateSourceCode();
+        // We can also  opt by kept in a static string
+        // code.GenerateSourceCode(Template,new { domain = codeGeneratorState.DomainNameSpace });
+        code.GenerateSourceCodeFromResource(@"Domain.ModelGenerator.AuditableEntityBase.g.cs",
+            new { domain = codeGeneratorState.DomainNameSpace });
     }
 }
