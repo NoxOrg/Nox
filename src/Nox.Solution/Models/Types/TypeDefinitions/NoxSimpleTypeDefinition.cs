@@ -53,6 +53,9 @@ public class NoxSimpleTypeDefinition : DefinitionBase
     [IfEquals("Type", NoxType.DateTimeDuration)]
     public DateTimeDurationTypeOptions? DateTimeDurationTypeOptions { get; set; }
 
+    [IfEquals("Type", NoxType.File)]
+    public FileTypeOptions? FileTypeOptions { get; set; }
+
     #endregion TypeOptions
 
     [Title("Is the attribute required? Boolean value.")]
