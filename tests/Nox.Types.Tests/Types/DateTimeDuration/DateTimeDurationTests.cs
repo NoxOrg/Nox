@@ -131,55 +131,75 @@ public class DateTimeDurationTests
     [Fact]
     public void From_WithOptions_ReturnsValue()
     {
-        var dateTimeDuration = DateTimeDuration.From(10, 5, 2, 1, new DateTimeDurationTypeOptions
+        var dateTimeDuration = DateTimeDuration.From(10, 12, 0, 0, new DateTimeDurationTypeOptions
         {
-            MaxDurationDays = 20,
-            MaxDurationHours = 2
+            MaxDuration = 10.5,
+            TimeUnit = TimeUnit.Day,
         });
 
         dateTimeDuration.Value.Days.Should().Be(10);
-        dateTimeDuration.Value.Hours.Should().Be(5);
-        dateTimeDuration.Value.Minutes.Should().Be(2);
-        dateTimeDuration.Value.Seconds.Should().Be(1);
+        dateTimeDuration.Value.Hours.Should().Be(12);
+        dateTimeDuration.Value.Minutes.Should().Be(0);
+        dateTimeDuration.Value.Seconds.Should().Be(0);
         dateTimeDuration.Value.Milliseconds.Should().Be(0);
     }
 
     [Fact]
     public void From_WithValueLessThanMinimum_ThrowsValidationException()
     {
-        var action = () => DateTimeDuration.From(10, 5, 2, 1, new DateTimeDurationTypeOptions
+        var action = () => DateTimeDuration.From(10, 0, 2, 1, new DateTimeDurationTypeOptions
         {
-            MaxDurationDays = 20,
-            MaxDurationHours = 2,
-            MaxDurationMinutes = 2,
-            MaxDurationSeconds = 1,
-            MaxDurationMilliseconds = 1,
-
-            MinDurationDays = 10,
-            MinDurationHours = 12,
-            MinDurationMinutes = 2,
-            MinDurationSeconds = 1,
-            MinDurationMilliseconds = 1,
+            MaxDuration = 20,
+            MinDuration = 10.5,
+            TimeUnit = TimeUnit.Day,
         });
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTimeDuration type as value 10.05:02:01 is less than than the minimum specified value of 10.12:02:01.0010000") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTimeDuration type as value 10.00:02:01 is less than than the minimum specified value of 10.12:00:00") });
     }
 
     [Fact]
     public void From_WithValueGreaterThanMaximum_ThrowsValidationException()
     {
-        var action = () => DateTimeDuration.From(10, 5, 2, 1, new DateTimeDurationTypeOptions
+        var action = () => DateTimeDuration.From(10, 12, 2, 1, new DateTimeDurationTypeOptions
         {
-            MaxDurationDays = 10,
-            MaxDurationHours = 2,
-            MaxDurationMinutes = 2,
-            MaxDurationSeconds = 1,
-            MaxDurationMilliseconds = 1,
+            MaxDuration = 10.5,
+            TimeUnit = TimeUnit.Day,
         });
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTimeDuration type as value 10.05:02:01 is greater than than the maximum specified value of 10.02:02:01.0010000") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTimeDuration type as value 10.12:02:01 is greater than than the maximum specified value of 10.12:00:00") });
+    }
+
+    [Fact]
+    public void From_WithCustomFormatLimitsAndValueLessThanMinimum_ThrowsValidationException()
+    {
+        var action = () => DateTimeDuration.From(10, 0, 2, 1, new DateTimeDurationTypeOptions
+        {
+            MaxDurationCustomFormat = "20:00:00:00",
+            MinDurationCustomFormat = "10:12:00:00",
+            TimeUnit = TimeUnit.CustomFormat,
+        });
+
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTimeDuration type as value 10.00:02:01 is less than than the minimum specified value of 10.12:00:00") });
+    }
+
+    [Fact]
+    public void From_WithCustomFormatLimitsAndValueGreaterThanMaximum_ThrowsValidationException()
+    {
+        var x = new DateTimeDurationTypeOptions
+        {
+            TimeUnit = TimeUnit.CustomFormat,
+        };
+        var action = () => DateTimeDuration.From(10, 12, 2, 1, new DateTimeDurationTypeOptions
+        {
+            MaxDurationCustomFormat = "10:12:00:00",
+            TimeUnit = TimeUnit.CustomFormat,
+        });
+
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTimeDuration type as value 10.12:02:01 is greater than than the maximum specified value of 10.12:00:00") });
     }
 
     [Fact]
