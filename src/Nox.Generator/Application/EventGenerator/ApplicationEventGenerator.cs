@@ -5,7 +5,7 @@ using Nox.Solution;
 
 namespace Nox.Generator.Application.EventGenerator;
 
-public class ApplicationEventGenerator
+internal static class ApplicationEventGenerator
 {
     public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
