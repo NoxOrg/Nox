@@ -8,7 +8,6 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TestWebApp.Domain;
-
 public partial class SecondTestEntity : AuditableEntityBase
 {
 
@@ -25,7 +24,7 @@ public partial class SecondTestEntity : AuditableEntityBase
     /// <summary>
     /// SecondTestEntity Test entity relelionship to TestEntity ZeroOrMany TestEntities
     /// </summary>
-    public virtual List<TestEntity> TestEntities { get; set; } = null!;
+    public virtual List<TestEntity> TestEntities { get; set; } = new List<TestEntity>();
 
     [NotMapped]
     public List<TestEntity> TestEntityRelationship => TestEntities;

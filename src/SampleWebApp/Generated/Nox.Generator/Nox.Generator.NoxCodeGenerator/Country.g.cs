@@ -93,7 +93,7 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     /// Country accepts as legal tender OneOrMany Currencies
     /// </summary>
-    public virtual List<Currency> Currencies { get; set; } = null!;
+    public virtual List<Currency> Currencies { get; set; } = new List<Currency>();
     
     [NotMapped]
     public List<Currency> CountryAcceptsCurrency => Currencies;
@@ -101,5 +101,5 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     /// Country is also know as OneOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalNames> CountryLocalNames { get; set; } = null!;
+    public virtual List<CountryLocalNames> CountryLocalNames { get; set; } = new List<CountryLocalNames>();
 }

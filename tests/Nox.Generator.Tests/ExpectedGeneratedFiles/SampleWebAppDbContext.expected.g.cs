@@ -36,6 +36,11 @@ public partial class SampleWebAppDbContext : DbContext
         }
     }
     
+    public static Type? GetTypeByEntityName(string entityName)
+    {
+        return Type.GetType("SampleWebApp.Domain." + entityName);
+    }
+    
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
@@ -43,13 +48,22 @@ public partial class SampleWebAppDbContext : DbContext
         {
             var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution);
             
+            var relationships = ((INoxDatabaseConfigurator)_dbProvider).GetRelationshipsToCreate(codeGeneratorState, _noxSolution.Domain.Entities, modelBuilder);
+            relationships = relationships
+                .OrderBy(x => x.Entity.Name)
+                .ToList();
+            
+            foreach (var relationship in relationships)
+            {
+                relationship.RelationshipEntityType = GetTypeByEntityName(relationship.Relationship.Entity)!;
+            }
+            
             foreach (var entity in _noxSolution.Domain.Entities)
             {
-                var type = Type.GetType("SampleWebApp.Domain." + entity.Name);
-                
+                var type = GetTypeByEntityName(entity.Name);
                 if (type != null)
                 {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity);
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, relationships);
                 }
             }
             
