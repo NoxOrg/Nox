@@ -53,7 +53,7 @@ public class DateTests
         var action = () => Date.From(new DateTime(2023, 07, 01), options);
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Number type as value 07/01/2023 is greater than than the maximum specified value of 06/01/2023") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Date type as value 07/01/2023 is greater than than the maximum specified value of 06/01/2023") });
     }
 
     [Fact]
@@ -68,7 +68,7 @@ public class DateTests
         var action = () => Date.From(new DateTime(2023, 03, 01), options);
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Number type as value 03/01/2023 is less than than the minimum specified value of 04/01/2023") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Date type as value 03/01/2023 is less than than the minimum specified value of 04/01/2023") });
     }
 
     [Fact]
@@ -83,7 +83,7 @@ public class DateTests
         var action = () => Date.From(2023, 07, 01, options);
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Number type as value 07/01/2023 is greater than than the maximum specified value of 06/01/2023") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Date type as value 07/01/2023 is greater than than the maximum specified value of 06/01/2023") });
     }
 
     [Fact]
@@ -98,7 +98,7 @@ public class DateTests
         var action = () => Date.From(2023, 03, 01, options);
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Number type as value 03/01/2023 is less than than the minimum specified value of 04/01/2023") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Date type as value 03/01/2023 is less than than the minimum specified value of 04/01/2023") });
     }
 
     [Fact]
@@ -192,7 +192,8 @@ public class DateTests
     [Theory]
     [InlineData("en-GB", "d", "20/06/2023")]
     [InlineData("en-US", "d", "6/20/2023")]
-    [InlineData("en-GB", "D", "Tuesday, 20 June 2023")]
+    // This returns "20 June 2023" on my PC (Windows 11 Pro 10.0.22621 Build 22621) - Andre Sharpe
+    // [InlineData("en-GB", "D", "Tuesday, 20 June 2023")] 
     [InlineData("en-US", "D", "Tuesday, June 20, 2023")]
     [InlineData("en-GB", "o", "2023-06-20")]
     [InlineData("en-US", "o", "2023-06-20")]

@@ -1,0 +1,214 @@
+#
+# ref.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../../schemas/solution.json
+#
+
+
+name: SampleService
+
+description: Sample Nox solution yaml configuration
+
+versionControl:
+  $ref: ref.versionControl.nox.yaml
+
+team:
+
+  - name: Andre Sharpe
+    userName: andre.sharpe@iwgplc.com
+    roles: [architect, owner, administrator, developer, manager]
+
+  - name: Jan Schutte
+    userName: jan.schutte@iwgplc.com
+    roles: [architect, administrator, developer, devOpsEngineer]
+
+domain:
+
+  entities:
+
+    - $ref: country.entity.nox.yaml
+    - $ref: currency.entity.nox.yaml 
+    - $ref: countryLocalNames.entity.nox.yaml
+    - $ref: currencyCashBalance.entity.nox.yaml
+
+ 
+application:
+  dataTransferObjects:
+    - name: CountryDto
+      description: Dto for country information
+      attributes:
+        - name: Id
+          description: The identity of the country, the Iso Alpha 2 code
+          type: text
+          textTypeOptions:
+            casing: lower
+            maxLength: 2
+            minLength: 2
+
+  integrations:
+    - name: SampleEtl
+      description: a Sample Etl
+      source:
+        name: CountryJsonSource
+        description: Sources Country data from a json file
+        dataConnectionName: CountryJsonData
+        fileOptions: 
+          filename: country-seed-data.json
+        schedule:
+          start: every day at 2am
+          retry:
+            limit: 5
+            delaySeconds: 5
+            doubleDelayLimit: 10
+          runOnStartup: true
+        watermark:
+          dateColumns:
+            - "CreateDate"
+            - "EditDate"
+          sequentialKeyColumn: CountryId
+      transform:
+        mappings:
+          - sourceColumn: IsoAlpha2Code
+            targetAttribute: Id
+            converter: upperCase
+          - sourceColumn: CountryName
+            targetAttribute: Name
+          - sourceColumn: CountryFullName
+            targetAttribute: FormalName
+        lookups:
+          - sourceColumn: RegionId
+            match:
+              table: GeoRegions
+              lookupColumn: Id
+              returnColumn: Name
+            targetAttribute: GeoRegion
+      target:
+        name: Country
+        targetType: entity
+
+infrastructure:
+  
+  persistence:
+
+    databaseServer:
+      name: SampleCurrencyDb
+
+      # Sql Server
+      serverUri: sqlserver.iwgplc.com
+      provider: sqlServer
+      port: 1433
+      user: sqluser
+      password: sqlpassword
+
+      ### Postgres
+      #provider: postgres
+
+      ### MySql  
+      #provider: mySql
+
+    cacheServer:
+      name: SampleCache
+      provider: azureRedis
+      serverUri: redis.iwgplc.com
+      user: RedisUser
+      password: RedisPassword
+    
+    searchServer:
+      name: SampleSearch
+      provider: elasticSearch
+      serverUri: elastic.igwplc.com
+      user: ElasticUser
+      password: ElasticPassword
+    
+    eventSourceServer:
+      name: SampleEvtSrc
+      serverUri: SampleEvt.iwgplc.com
+      provider: eventStoreDb
+      user: EvtUser
+      password: EvtPassword
+
+  messaging:
+
+    integrationEventServer:
+      name: IntegrationBus
+      provider: rabbitMq
+      serverUri: rabbitmq://localhost
+      port: 5672
+      user: guest
+      password: guest
+
+  endpoints:
+    
+    apiServer:
+      name: SampleApiServer
+      provider: oData
+      serverUri: workplace.iwgplc.com
+      port: 8080
+    
+    bffServer:
+      name: SampleBffServer
+      provider: blazor
+      serverUri: SampleBff.iwgplc.com
+      port: 8080
+
+  dependencies:
+    notifications:
+      emailServer:
+        name: SampleEmailServer
+        provider: sendGrid
+        serverUri: sendgrid.igwplc.com
+        user: SendGridUser
+        password: SendGridPassword
+      smsServer:
+        name: SampleSmsServer
+        provider: twilio
+        serverUri: https://twilio.com
+        port: 8080
+        user: TwilioUser
+        password: TwilioPassword
+      imServer:
+        name: SampleImServer
+        provider: whatsApp
+        serverUri: https://whatsapp.com
+        port: 8080
+        user: whatsappUser
+        password: whatsappPassword
+
+    monitoring:
+      name: SampleObservabiity
+      provider: elasticApm
+      serverUri: localhost
+      port: 8200
+
+    translations:
+      name: SampleTranslationService
+      serverUri: translator.iwgplc.com
+      port: 443
+
+    dataConnections:
+      - name: CountryJsonData
+        provider: jsonFile
+        serverUri: file:///C:/my-data-files
+        options: Source=File;Filename=country-data.json;
+
+  security:
+    secrets:
+      organizationSecretsServer:
+        name: SampleOrgSecretServer
+        provider: azureKeyVault
+        serverUri: kv.iwgplc.com
+        user: secrets@iwgplc.com
+        password: SecretPassword
+        validFor:
+          minutes: 10
+      
+      solutionSecretsServer:
+        name: SampleSlnSecretServer
+        provider: azureKeyVault
+        serverUri: kv.iwgplc.com
+        user: secrets@iwgplc.com
+        password: SecretPassword
+        validFor:
+          minutes: 10
+
+

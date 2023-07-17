@@ -39,6 +39,12 @@
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>
 	<ItemGroup>
+	  <None Remove="Types\Uri\" />
+	</ItemGroup>
+	<ItemGroup>
 		<None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Types\Uri\" />
 	</ItemGroup>
 </Project>

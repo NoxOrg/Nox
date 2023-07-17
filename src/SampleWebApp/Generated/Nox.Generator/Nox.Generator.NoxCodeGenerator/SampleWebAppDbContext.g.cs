@@ -33,8 +33,6 @@ public partial class SampleWebAppDbContext : DbContext
     
     public DbSet<CountryLocalNames> CountryLocalNames { get; set; } = null!;
     
-    public DbSet<CurrencyCashBalance> CurrencyCashBalances { get; set; } = null!;
-    
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);

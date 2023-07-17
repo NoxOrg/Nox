@@ -36,7 +36,7 @@ public sealed class Country
     /// Gets or sets the area in square Kilometers.
     /// </summary>
     public Area AreaInSqKm { get; set; } = null!;
-    
+
     /// <summary>
     /// Gets or sets the culture.
     /// </summary>
@@ -46,12 +46,12 @@ public sealed class Country
     /// Gets or sets the country number.
     /// </summary>
     public CountryNumber CountryNumber { get; set; } = null!;
-    
+
     /// <summary>
     /// Gets or sets the month when the most tourists come to the country.
     /// </summary>
     public Month MonthOfPeakTourism { get; set; } = null!;
-    
+
 
     /// <summary>
     /// Gets or sets the distance in kilometers.
@@ -62,7 +62,7 @@ public sealed class Country
     /// Gets or sets the date time range.
     /// </summary>
     public DateTimeRange DateTimeRange { get; set; } = null!;
-    
+
     /// <summary>
     /// Gets or sets the internet domain associated with the country.
     /// </summary>
@@ -93,10 +93,31 @@ public sealed class Country
     /// </summary>
     public MacAddress MACAddress { get; set; } = null!;
 
+    public Uri Uri { get; set; } = null!;
+
     /// <summary>
     /// Gets or sets the date.
     /// </summary>
     public Date Date { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the StreetAddress as Json.
+    /// </summary>
+    public Json StreetAddressJson { get; set; } = null!;
+
+    /// Gets or sets the Local Time Zone.
+    /// </summary>
+    public TimeZoneCode LocalTimeZone { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the IsLandlocked property.
+    /// </summary>
+    public Boolean IsLandLocked { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the duration of the date time.
+    /// </summary>
+    public DateTimeDuration DateTimeDuration { get; set; } = null!;
     
     /// <summary>
     /// Gets or sets the yaml.
