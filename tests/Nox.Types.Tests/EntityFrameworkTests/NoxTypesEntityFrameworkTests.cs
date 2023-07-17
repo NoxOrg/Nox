@@ -44,7 +44,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             LongestHikingTrailInMeters = Length.From(390_000),
             StreetAddress = CreateStreetAddress(),
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
-            Date = Date.From(new DateTime(2023, 11, 25), new()),
+            Date = Date.From(new System.DateTime(2023, 11, 25), new()),
             LocalTimeZone = TimeZoneCode.From("CET"),
             Uri = Uri.From(Sample_Uri)
         };
@@ -84,8 +84,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddress = streetAddress,
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Uri = Uri.From(Sample_Uri),
-            Date = Date.From(new DateTime(2023, 11, 25), new()),
-            LocalTimeZone = TimeZoneCode.From("CET")
+            Date = Date.From(new System.DateTime(2023, 11, 25), new()),
+            LocalTimeZone = TimeZoneCode.From("CET"),
             CreateDate = DateTime.From(new System.DateTime(2023, 01, 01))
         };
         DbContext.Countries!.Add(newItem);
@@ -122,7 +122,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(390_000, item.LongestHikingTrailInMeters.Value);
         Assert.Equal(LengthUnit.Meter, item.LongestHikingTrailInMeters.Unit);
         Assert.Equal("AED4322CCFEF", item.MACAddress.Value);
-        Assert.Equal(new DateTime(2023, 11, 25).Date, item.Date.Value);
+        Assert.Equal(new System.DateTime(2023, 11, 25).Date, item.Date.Value);
         Assert.Equal("CET", item.LocalTimeZone.Value);
         Assert.Equal(DateTime.From(new System.DateTime(2023, 01, 01)), item.CreateDate);
 

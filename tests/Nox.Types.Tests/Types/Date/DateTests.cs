@@ -14,7 +14,7 @@ public class DateTests
     [InlineData("2023-12-04")]
     public void From_WithDateTimeInput_ReturnsValue(string dateTimeStr)
     {
-        DateTime dateTime = DateTime.Parse(dateTimeStr);
+        System.DateTime dateTime = System.DateTime.Parse(dateTimeStr);
 
         var date = Date.From(dateTime, new DateTypeOptions());
 
@@ -32,7 +32,7 @@ public class DateTests
     {
         var date = Date.From(2023, 4, 12, new());
 
-        date.Value.Should().Be(new DateTime(2023, 4, 12).Date);
+        date.Value.Should().Be(new System.DateTime(2023, 4, 12).Date);
         date.Value.Hour.Should().Be(0);
         date.Value.Minute.Should().Be(0);
         date.Value.Second.Should().Be(0);
@@ -46,11 +46,11 @@ public class DateTests
     {
         var options = new DateTypeOptions
         {
-            MaxValue = new DateTime(2023, 06, 01),
-            MinValue = new DateTime(2023, 04, 01)
+            MaxValue = new System.DateTime(2023, 06, 01),
+            MinValue = new System.DateTime(2023, 04, 01)
         };
 
-        var action = () => Date.From(new DateTime(2023, 07, 01), options);
+        var action = () => Date.From(new System.DateTime(2023, 07, 01), options);
 
         action.Should().Throw<TypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Number type as value 07/01/2023 is greater than than the maximum specified value of 06/01/2023") });
@@ -61,11 +61,11 @@ public class DateTests
     {
         var options = new DateTypeOptions
         {
-            MaxValue = new DateTime(2023, 06, 01),
-            MinValue = new DateTime(2023, 04, 01)
+            MaxValue = new System.DateTime(2023, 06, 01),
+            MinValue = new System.DateTime(2023, 04, 01)
         };
 
-        var action = () => Date.From(new DateTime(2023, 03, 01), options);
+        var action = () => Date.From(new System.DateTime(2023, 03, 01), options);
 
         action.Should().Throw<TypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Number type as value 03/01/2023 is less than than the minimum specified value of 04/01/2023") });
@@ -76,8 +76,8 @@ public class DateTests
     {
         var options = new DateTypeOptions
         {
-            MaxValue = new DateTime(2023, 06, 01),
-            MinValue = new DateTime(2023, 04, 01)
+            MaxValue = new System.DateTime(2023, 06, 01),
+            MinValue = new System.DateTime(2023, 04, 01)
         };
 
         var action = () => Date.From(2023, 07, 01, options);
@@ -91,8 +91,8 @@ public class DateTests
     {
         var options = new DateTypeOptions
         {
-            MaxValue = new DateTime(2023, 06, 01),
-            MinValue = new DateTime(2023, 04, 01)
+            MaxValue = new System.DateTime(2023, 06, 01),
+            MinValue = new System.DateTime(2023, 04, 01)
         };
 
         var action = () => Date.From(2023, 03, 01, options);
@@ -104,7 +104,7 @@ public class DateTests
     [Fact]
     public void Equality_WithDifferentInputTypes_ShouldBeEquivalent()
     {
-        var date1 = Date.From(new DateTime(2023, 06, 01, 10, 10, 10), new());
+        var date1 = Date.From(new System.DateTime(2023, 06, 01, 10, 10, 10), new());
         var date2 = Date.From(2023, 06, 01, new());
 
         AssertAreEquivalent(date1, date2);
@@ -113,8 +113,8 @@ public class DateTests
     [Fact]
     public void Equality_WithDateTimeIncludingAndExcludingTime_ShouldBeEquivalent()
     {
-        var date1 = Date.From(new DateTime(2023, 06, 01, 10, 10, 10), new());
-        var date2 = Date.From(new DateTime(2023, 06, 01), new());
+        var date1 = Date.From(new System.DateTime(2023, 06, 01, 10, 10, 10), new());
+        var date2 = Date.From(new System.DateTime(2023, 06, 01), new());
 
         AssertAreEquivalent(date1, date2);
     }
@@ -237,8 +237,8 @@ public class DateTests
     [InlineData("2023-01-01", "2023-06-01", false)]
     public void GreaterThanOperator_WithVariousValues_ReturnsCorrectResult(string dateStr1, string dateStr2, bool expected)
     {
-        var date1 = Date.From(DateTime.Parse(dateStr1), new());
-        var date2 = Date.From(DateTime.Parse(dateStr2), new());
+        var date1 = Date.From(System.DateTime.Parse(dateStr1), new());
+        var date2 = Date.From(System.DateTime.Parse(dateStr2), new());
 
         (date1 > date2).Should().Be(expected);
     }
@@ -249,8 +249,8 @@ public class DateTests
     [InlineData("2023-01-01", "2023-06-01", false)]
     public void GreaterThanOrEqualOperator_WithVariousValues_ReturnsCorrectResult(string dateStr1, string dateStr2, bool expected)
     {
-        var date1 = Date.From(DateTime.Parse(dateStr1), new());
-        var date2 = Date.From(DateTime.Parse(dateStr2), new());
+        var date1 = Date.From(System.DateTime.Parse(dateStr1), new());
+        var date2 = Date.From(System.DateTime.Parse(dateStr2), new());
 
         (date1 >= date2).Should().Be(expected);
     }
@@ -261,8 +261,8 @@ public class DateTests
     [InlineData("2023-06-01", "2023-01-01", false)]
     public void LessThanOperator_WithVariousValues_ReturnsCorrectResult(string dateStr1, string dateStr2, bool expected)
     {
-        var date1 = Date.From(DateTime.Parse(dateStr1), new());
-        var date2 = Date.From(DateTime.Parse(dateStr2), new());
+        var date1 = Date.From(System.DateTime.Parse(dateStr1), new());
+        var date2 = Date.From(System.DateTime.Parse(dateStr2), new());
 
         (date1 < date2).Should().Be(expected);
     }
@@ -273,8 +273,8 @@ public class DateTests
     [InlineData("2023-06-01", "2023-01-01", false)]
     public void LessThanOrEqualOperator_WithVariousValues_ReturnsCorrectResult(string dateStr1, string dateStr2, bool expected)
     {
-        var date1 = Date.From(DateTime.Parse(dateStr1), new());
-        var date2 = Date.From(DateTime.Parse(dateStr2), new());
+        var date1 = Date.From(System.DateTime.Parse(dateStr1), new());
+        var date2 = Date.From(System.DateTime.Parse(dateStr2), new());
 
         (date1 <= date2).Should().Be(expected);
     }
