@@ -35,15 +35,15 @@ public sealed class HashedText : ValueObject<(string HashText, string Salt), Has
     /// <summary>
     /// Creates a new instance of <see cref="HashedText"/> object with sent <see cref="HashedTextTypeOptions"/>.
     /// </summary>
-    /// <param name="value"></param>
-    /// <param name="options"></param>
+    /// <param name="plainText">Plain text that will be hashed</param>
+    /// <param name="options"><see cref="HashedTextTypeOptions"/></param>
     /// <returns>New instance of <see cref="HashedText"/></returns>
     /// <exception cref="TypeValidationException"></exception>
-    public static HashedText From(string value, HashedTextTypeOptions options)
+    public static HashedText From(string plainText, HashedTextTypeOptions options)
     {
         options ??= new HashedTextTypeOptions();
 
-        var newObject = GetHashText(value, options);
+        var newObject = GetHashText(plainText, options);
 
         var validationResult = newObject.Validate();
 
@@ -58,10 +58,10 @@ public sealed class HashedText : ValueObject<(string HashText, string Salt), Has
     /// <summary>
     ///  Creates a new instance of <see cref="HashedText"/> object default <see cref="HashedTextTypeOptions"/>.
     /// </summary>
-    /// <param name="value"></param>
+    /// <param name="plainText">Plain text that will be hashed</param>
     /// <returns>New instance of <see cref="HashedText"/></returns>
-    public static HashedText From(string value)
-        => From(value, new HashedTextTypeOptions());
+    public static HashedText From(string plainText)
+        => From(plainText, new HashedTextTypeOptions());
 
     /// <summary>
     /// Returns string value of HashText
@@ -71,17 +71,17 @@ public sealed class HashedText : ValueObject<(string HashText, string Salt), Has
     /// <summary>
     /// Creates hashed value of plainText using HashedTextTypeOptions
     /// </summary>
-    /// <param name="plainText"></param>
-    /// <param name="hashedTextTypeOptions"></param>
+    /// <param name="plainText">Plain text that will be hashed</param>
+    /// <param name="options"><see cref="HashedTextTypeOptions"/></param>
     /// <returns>Hashed value of plainText</returns>
-    private static HashedText GetHashText(string plainText, HashedTextTypeOptions hashedTextTypeOptions)
+    private static HashedText GetHashText(string plainText, HashedTextTypeOptions options)
     {
         string hashedText = string.Empty;
         string salt = string.Empty;
 
-        using (var hasher = CreateHasher(hashedTextTypeOptions.HashingAlgorithm))
+        using (var hasher = CreateHasher(options.HashingAlgorithm))
         {
-            byte[] saltBytes = GetSalt(hashedTextTypeOptions.SaltLength);
+            byte[] saltBytes = GetSalt(options.SaltLength);
             byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
             AppendBytes(ref plainTextBytes, saltBytes);
             byte[] hashBytes = hasher.ComputeHash(plainTextBytes);
@@ -123,8 +123,8 @@ public sealed class HashedText : ValueObject<(string HashText, string Salt), Has
     /// <summary>
     /// Merges two byte arrays
     /// </summary>
-    /// <param name="target"></param>
-    /// <param name="source"></param>
+    /// <param name="target">array to be appended</param>
+    /// <param name="source">array to be added on target</param>
     private static void AppendBytes(ref byte[] target, byte[] source)
     {
         int targetLength = target.Length;
