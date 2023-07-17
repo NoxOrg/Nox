@@ -10,15 +10,15 @@
     "entities"
   ],
   "properties": {
-    "entities": {
+    "entities": {    
       "title": "The entities that describe the domain.",
       "description": "The collection of entities and their relationships with each other.",
       "type": "array",
-      "items": {
+      "items":   {
         "anyOf": [
           { "$ref": "entity.json" },
           {
-            "additionalProperties": false,
+            "additionalProperties": false, 
             "properties": {
               "$ref": {
                 "type": "string",

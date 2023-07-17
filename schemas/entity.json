@@ -11,13 +11,13 @@
     "keys"
   ],
   "properties": {
-    "name": {
+    "name": {    
       "title": "The name of the entity. Contains no spaces.",
       "description": "The name of the abstract or real-world entity. It should be a commonly used singular noun and be unique within a solution.",
       "type": "string",
       "pattern": "^[^\\s]*$"
     },
-    "description": {
+    "description": {    
       "title": "A phrase describing the entity.",
       "description": "A description of the entity and what it represents in the real world.",
       "type": [
@@ -25,7 +25,7 @@
         "null"
       ]
     },
-    "pluralName": {
+    "pluralName": {    
       "title": "The plural name of the entity. Contains no spaces",
       "description": "The name for a set, group or collection of the entity. NOX will guess the plural if it is not supplied.",
       "type": [
@@ -34,11 +34,11 @@
       ],
       "pattern": "^[^\\s]*$"
     },
-    "userInterface": {
+    "userInterface": {    
       "anyOf": [
         { "$ref": "entityUserInterface.json" },
         {
-          "additionalProperties": false,
+          "additionalProperties": false, 
           "properties": {
             "$ref": {
               "type": "string",
@@ -49,11 +49,11 @@
         }
       ]
     },
-    "persistence": {
+    "persistence": {    
       "anyOf": [
         { "$ref": "entityPersistence.json" },
         {
-          "additionalProperties": false,
+          "additionalProperties": false, 
           "properties": {
             "$ref": {
               "type": "string",
@@ -64,18 +64,18 @@
         }
       ]
     },
-    "relationships": {
+    "relationships": {    
       "title": "Defines relationships to other entities.",
       "description": "Defines one way relationships to other entities. Remember to define the reverse relationship on the target entities.",
       "type": [
         "array",
         "null"
       ],
-      "items": {
+      "items":   {
         "anyOf": [
           { "$ref": "entityRelationship.json" },
           {
-            "additionalProperties": false,
+            "additionalProperties": false, 
             "properties": {
               "$ref": {
                 "type": "string",
@@ -88,18 +88,18 @@
       },
       "additionalProperties": false
     },
-    "ownedRelationships": {
+    "ownedRelationships": {    
       "title": "Defines owned relationships to another entity.",
       "description": "Defines relationship to owned entities. This entity will be treated as an aggregate root.",
       "type": [
         "array",
         "null"
       ],
-      "items": {
+      "items":   {
         "anyOf": [
           { "$ref": "entityRelationship.json" },
           {
-            "additionalProperties": false,
+            "additionalProperties": false, 
             "properties": {
               "$ref": {
                 "type": "string",
@@ -112,18 +112,18 @@
       },
       "additionalProperties": false
     },
-    "queries": {
+    "queries": {    
       "title": "Domain queries for this entity.",
       "description": "Define one or more domain querie(s) that operate on this entity. Queries should have no side effects and not mutate the domain state.",
       "type": [
         "array",
         "null"
       ],
-      "items": {
+      "items":   {
         "anyOf": [
           { "$ref": "domainQuery.json" },
           {
-            "additionalProperties": false,
+            "additionalProperties": false, 
             "properties": {
               "$ref": {
                 "type": "string",
@@ -136,18 +136,18 @@
       },
       "additionalProperties": false
     },
-    "commands": {
+    "commands": {    
       "title": "Domain commands for this entity.",
       "description": "Define one or more domain command(s) that operate on this entity. Commands may have side effects and mutate the domain state.",
       "type": [
         "array",
         "null"
       ],
-      "items": {
+      "items":   {
         "anyOf": [
           { "$ref": "domainCommand.json" },
           {
-            "additionalProperties": false,
+            "additionalProperties": false, 
             "properties": {
               "$ref": {
                 "type": "string",
@@ -160,18 +160,18 @@
       },
       "additionalProperties": false
     },
-    "events": {
+    "events": {    
       "title": "Domain events for this entity.",
       "description": "Define one or more event(s) that may be raised when state change occurs on this entity.",
       "type": [
         "array",
         "null"
       ],
-      "items": {
+      "items":   {
         "anyOf": [
           { "$ref": "dto.json" },
           {
-            "additionalProperties": false,
+            "additionalProperties": false, 
             "properties": {
               "$ref": {
                 "type": "string",
@@ -184,15 +184,15 @@
       },
       "additionalProperties": false
     },
-    "keys": {
+    "keys": {    
       "title": "Keys for this entity.",
       "description": "Define one or more keys for this entity.",
       "type": "array",
-      "items": {
+      "items":   {
         "anyOf": [
           { "$ref": "type.json" },
           {
-            "additionalProperties": false,
+            "additionalProperties": false, 
             "properties": {
               "$ref": {
                 "type": "string",
@@ -204,18 +204,18 @@
         ]
       }
     },
-    "attributes": {
+    "attributes": {    
       "title": "Attributes that describe this entity.",
       "description": "Define one or more attribute(s) that describes the composition of this domain entity.",
       "type": [
         "array",
         "null"
       ],
-      "items": {
+      "items":   {
         "anyOf": [
           { "$ref": "type.json" },
           {
-            "additionalProperties": false,
+            "additionalProperties": false, 
             "properties": {
               "$ref": {
                 "type": "string",

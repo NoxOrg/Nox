@@ -1,0 +1,139 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Definition namespace for attributes describing the target component of an ETL integration.",
+  "description": "This section details ETL target attributes like name, description and type among other.",
+  "type": [
+    "object",
+    "null"
+  ],
+  "required": [
+    "name",
+    "targetType"
+  ],
+  "properties": {
+    "name": {    
+      "title": "The name of the ETL target. Contains no spaces.",
+      "description": "The name of the ETL target. It should be a commonly used singular noun and be unique within a solution.",
+      "type": "string",
+      "pattern": "^[^\\s]*$"
+    },
+    "description": {    
+      "title": "The description of the ETL target.",
+      "description": "A phrase describing the ETL target.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "targetType": {    
+      "title": "The type of target.",
+      "description": "Specify the type of target. Options include entity, database, file, webAPI and message queue.",
+      "type": "string",
+      "enum": [
+        "database",
+        "entity",
+        "file",
+        "messageQueue",
+        "webApi"
+      ]
+    },
+    "dataConnectionName": {    
+      "title": "The name of the ETL target data connection. Contains no spaces.",
+      "description": "The name should be a commonly used singular noun and be unique within a solution.",
+      "type": [
+        "string",
+        "null"
+      ],
+      "pattern": "^[^\\s]*$",
+      "additionalProperties": false
+    },
+    "databaseOptions": {    
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "storedProcedure"
+      ],
+      "properties": {
+        "storedProcedure": {    
+          "title": "The stored procedure to execute.",
+          "description": "The stored procedure that will be executed on the target database.",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "fileOptions": {    
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "filename"
+      ],
+      "properties": {
+        "filename": {    
+          "title": "The file name.",
+          "description": "The name of the file that will be created.",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    },
+    "webApiOptions": {    
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "route": {    
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "requestFormat": {    
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "json",
+            "xml"
+          ]
+        },
+        "httpVerb": {    
+          "type": [
+            "string",
+            "null"
+          ],
+          "enum": [
+            "patch",
+            "post",
+            "put"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "messageQueueOptions": {    
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "targetName"
+      ],
+      "properties": {
+        "targetName": {    
+          "title": "The target name.",
+          "description": "The name of the queue, topic or subscription to which messages will be sent.",
+          "type": "string"
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}

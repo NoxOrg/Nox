@@ -10,13 +10,13 @@
     "name"
   ],
   "properties": {
-    "name": {
+    "name": {    
       "title": "The short name for the solution. Contains no spaces.",
       "description": "The name of the NOX solution, application or service. This value is used extensively by the NOX tooling and libraries and should ideally be unique within an organisation.",
       "type": "string",
       "pattern": "^[^\\s]*$"
     },
-    "description": {
+    "description": {    
       "title": "A short description of the NOX solution.",
       "description": "A brief description of the solution with what it's purpose or goals are.",
       "type": [
@@ -24,7 +24,7 @@
         "null"
       ]
     },
-    "overview": {
+    "overview": {    
       "title": "URL to the documentation or specification of the solution.",
       "description": "A URL which contains the requirements, documentation or specification for this solution.",
       "type": [
@@ -34,29 +34,29 @@
       "format": "uri",
       "pattern": "^[^\\s]*$"
     },
-    "variables": {
+    "variables": {    
       "title": "The environment variables used in your solution and default values.",
       "description": "A key/value pair of environment variables used in your solution and their defaults.",
       "type": [
         "object",
         "null"
       ],
-      "additionalProperties": {
+      "additionalProperties":   {
         "Type": "string"
       }
     },
-    "environments": {
+    "environments": {    
       "title": "Definitions for run-time environments.",
       "description": "Definitions for the name, production status and other pertinent information pertaining to run-time environments.",
       "type": [
         "array",
         "null"
       ],
-      "items": {
+      "items":   {
         "anyOf": [
           { "$ref": "environment.json" },
           {
-            "additionalProperties": false,
+            "additionalProperties": false, 
             "properties": {
               "$ref": {
                 "type": "string",
@@ -69,11 +69,11 @@
       },
       "additionalProperties": false
     },
-    "versionControl": {
+    "versionControl": {    
       "anyOf": [
         { "$ref": "versionControl.json" },
         {
-          "additionalProperties": false,
+          "additionalProperties": false, 
           "properties": {
             "$ref": {
               "type": "string",
@@ -84,18 +84,18 @@
         }
       ]
     },
-    "team": {
+    "team": {    
       "title": "Information about the team working on this solution.",
       "description": "Specify the members of the team working on the solution including their respective roles.",
       "type": [
         "array",
         "null"
       ],
-      "items": {
+      "items":   {
         "anyOf": [
           { "$ref": "teamMember.json" },
           {
-            "additionalProperties": false,
+            "additionalProperties": false, 
             "properties": {
               "$ref": {
                 "type": "string",
@@ -108,11 +108,11 @@
       },
       "additionalProperties": false
     },
-    "domain": {
+    "domain": {    
       "anyOf": [
         { "$ref": "domain.json" },
         {
-          "additionalProperties": false,
+          "additionalProperties": false, 
           "properties": {
             "$ref": {
               "type": "string",
@@ -123,11 +123,11 @@
         }
       ]
     },
-    "infrastructure": {
+    "infrastructure": {    
       "anyOf": [
         { "$ref": "infrastructure.json" },
         {
-          "additionalProperties": false,
+          "additionalProperties": false, 
           "properties": {
             "$ref": {
               "type": "string",
@@ -138,11 +138,11 @@
         }
       ]
     },
-    "application": {
+    "application": {    
       "anyOf": [
         { "$ref": "application.json" },
         {
-          "additionalProperties": false,
+          "additionalProperties": false, 
           "properties": {
             "$ref": {
               "type": "string",

@@ -1,0 +1,12 @@
+
+#
+# info.type.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/type.json
+#
+
+name: Info
+description: More info about the entity
+type: text
+textTypeOptions:
+  maxLength: 255
