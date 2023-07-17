@@ -1,5 +1,6 @@
 ﻿
 using FluentAssertions;
+using System.Text.Json;
 
 namespace Nox.Types.Tests.Types;
 
@@ -19,10 +20,12 @@ public class JsonTest
         // Act
         var jsonObject = Json.From(jsonString, new JsonTypeOptions { ReturnPretty = false });
 
+        var jsonExpectedString = JsonSerializer.Serialize(JsonSerializer.Deserialize<object>(jsonString));
+
         // Assert
         jsonObject.Should().NotBeNull();
 
-        jsonObject.Value.Should().Be(jsonString);
+        jsonObject.Value.Should().Be(jsonExpectedString);
 
     }
 
@@ -92,9 +95,42 @@ public class JsonTest
     public void Json_ToString_ReturnsString()
     {
         // Arrange & Act
-        var json = Json.From("{\"name\":\"Merlin\", \"title\": \"Wizard\"}", new JsonTypeOptions { PersistMinified = true, ReturnPretty = false });
+        var json = Json.From("{\"name\":\"Merlin\", \"title\": \"Wizard\"}", 
+            new JsonTypeOptions { PersistMinified = true, ReturnPretty = false });
 
         // Assert
-        json.ToString().Should().BeEquivalentTo("{\"name\":\"Merlin\", \"title\": \"Wizard\"}");
+        json.ToString().Should().BeEquivalentTo("{\"name\":\"Merlin\",\"title\":\"Wizard\"}");
+    }
+
+    [Fact]
+    public void Json_ToString_WithNoOptionsAndInvalidJson_ThrowsError()
+    {
+        // Arrange & Act
+        var jsonString = @"{""bad json]";
+
+        // Assert
+        var exception = Assert.Throws<TypeValidationException>(() => _ = Json.From(jsonString));
+    }
+
+    [Fact]
+    public void Json_ToString_WithNoOptions_ReturnMinifiedJsonByDefault()
+    {
+        // Arrange & Act
+        var jsonString = """
+            { 
+                "key1": "value1",
+                "key2": "value2",
+                "key3": "value3"
+            }
+            """;
+
+        // this method should be overrided in Json if options are ommitted, so it too can ApplyOptions - A.Sharpe
+        // Alternatively just call ApplyOptions from Validate
+        var json1 = Json.From(jsonString); 
+
+        var json2 = Json.From(jsonString, new JsonTypeOptions());
+
+        // Assert
+        Assert.Equal(json1.Value,json2.Value);
     }
 }

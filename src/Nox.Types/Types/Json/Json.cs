@@ -11,9 +11,12 @@ public sealed class Json : ValueObject<string, Json>
     /// <summary>
     /// Gets or sets the options for processing json.
     /// </summary>
-    private JsonTypeOptions Options { get; set; } = new JsonTypeOptions();
+    private JsonTypeOptions Options { get; set; } = null!;
 
-    private string _returnValue = string.Empty;
+    private string? _prettyValue = null;
+
+    public new static Json From(string value) => From(value, new JsonTypeOptions());
+
 
     /// <summary>
     /// Creates the Jsoninstance using the value and options provided.
@@ -49,22 +52,24 @@ public sealed class Json : ValueObject<string, Json>
     {
         if (Options.PersistMinified)
         {
-            base.Value = JsonSerializer.Serialize(JsonSerializer.Deserialize<object>(base.Value!), new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
-        }
-        if (Options.ReturnPretty)
-        {
-            _returnValue = JsonSerializer.Serialize(JsonSerializer.Deserialize<object>(base.Value!), new JsonSerializerOptions { WriteIndented = true });
+            Value = JsonSerializer.Serialize(JsonSerializer.Deserialize<object>(base.Value!), new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
         }
     }
 
     /// <summary>
-    /// Gets or sets the value based on the option values.
+    /// Returns a pretty-fied version of the Json
     /// </summary>
-    public override string Value { 
-        get => _returnValue;
-        protected set { 
-                base.Value = _returnValue = value;
-        } 
+    public override string ToString() 
+    { 
+        if (Options.ReturnPretty)
+        {
+            if (_prettyValue is null)
+            {
+                _prettyValue = JsonSerializer.Serialize(JsonSerializer.Deserialize<object>(Value!), new JsonSerializerOptions { WriteIndented = true });
+            }
+            return _prettyValue;
+        }
+        return Value;
     }
 
     /// <inheritdoc/>

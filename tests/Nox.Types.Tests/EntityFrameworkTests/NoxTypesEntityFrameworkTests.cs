@@ -84,7 +84,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddress = streetAddress,
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
-            StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress))
+            StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress, new JsonSerializerOptions { WriteIndented = true }))
         };
         DbContext.Countries.Add(newItem);
         DbContext.SaveChanges();
