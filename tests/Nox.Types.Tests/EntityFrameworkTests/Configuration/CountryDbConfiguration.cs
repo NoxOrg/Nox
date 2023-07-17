@@ -30,6 +30,7 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.LocalTimeZone).HasConversion<TimeZoneCodeConverter>();
         builder.Property(e => e.Uri).HasConversion<UriConverter>();
         builder.Property(e => e.IsLandLocked).HasConversion<BooleanConverter>();
+        builder.Property(e => e.DateTimeDuration).HasConversion<DateTimeDurationConverter>();
 
         // Configure Multi-value ValueObjects
         builder.OwnsOne(e => e.LatLong).Ignore(p => p.Value);

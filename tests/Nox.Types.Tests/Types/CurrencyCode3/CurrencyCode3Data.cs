@@ -1,7 +1,8 @@
 ﻿using System.Collections;
 
-namespace Nox.Types.Tests.Types.CountryCode3;
-public class CurrencyCodeData : IEnumerable<object[]>
+namespace Nox.Types.Tests.Types;
+
+public class CurrencyCode3Data : IEnumerable<object[]>
 {
     public IEnumerator<object[]> GetEnumerator()
     {

@@ -51,6 +51,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             LocalTimeZone = TimeZoneCode.From("CET"),
             Uri = Uri.From(Sample_Uri),
             IsLandLocked = Boolean.From(false),
+            DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
             HashedText = HashedText.From("Test123.")
         };
         DbContext.Countries!.Add(newItem);
@@ -93,6 +94,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress, new JsonSerializerOptions { WriteIndented = true })),
             LocalTimeZone = TimeZoneCode.From("CET"),
             IsLandLocked = Boolean.From(true),
+            DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
             HashedText = HashedText.From(("Test123.", "salt"))
         };
         DbContext.Countries!.Add(newItem);
@@ -137,6 +139,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
 
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
+        Assert.Equal(new TimeSpan(10, 5, 2, 1), item.DateTimeDuration.Value);
         AssertStreetAddress(streetAddress, item.StreetAddress);
         Assert.Equal(JsonSerializer.Serialize(streetAddress), item.StreetAddressJson.Value);
     }
