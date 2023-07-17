@@ -1,7 +1,9 @@
-using Json.Schema.Generation;
+using Nox.Solution.Schema;
+using Nox.Solution.Builders;
 
 namespace Nox.Solution;
 
+[GenerateJsonSchema]
 public class IntegrationDatabaseServer: ServerBase
 {
     [Required]
