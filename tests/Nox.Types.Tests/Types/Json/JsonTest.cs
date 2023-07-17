@@ -131,6 +131,6 @@ public class JsonTest
         var json2 = Json.From(jsonString, new JsonTypeOptions());
 
         // Assert
-        Assert.Equal(json1.Value,json2.Value);
+        json1.Value.Should().BeEquivalentTo(json2.Value);
     }
 }

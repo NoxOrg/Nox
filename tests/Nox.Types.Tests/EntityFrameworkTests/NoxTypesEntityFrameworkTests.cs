@@ -47,7 +47,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
             StreetAddress = streetAddress,
-            StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress))
+            StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress)),
             LocalTimeZone = TimeZoneCode.From("CET"),
             Uri = Uri.From(Sample_Uri),
             IsLandLocked = Boolean.From(false),
@@ -89,7 +89,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Uri = Uri.From(Sample_Uri),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
-            StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress, new JsonSerializerOptions { WriteIndented = true }))
+            StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress, new JsonSerializerOptions { WriteIndented = true })),
             LocalTimeZone = TimeZoneCode.From("CET"),
             IsLandLocked = Boolean.From(true)
         };
