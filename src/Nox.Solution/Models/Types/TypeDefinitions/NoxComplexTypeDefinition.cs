@@ -1,15 +1,27 @@
-﻿using Json.Schema.Generation;
+﻿using Nox.Solution.Schema;
+using System.Numerics;
+using System;
+using Nox.Types;
 
-namespace Nox.Solution
+namespace Nox.Solution;
+
+[GenerateJsonSchema("dto")]
+[Title("A complex nox type.")]
+[Description("Defines a complex nox type that includes simple types, objects, arrays and collections.")]
+[AdditionalProperties(false)]
+public class NoxComplexTypeDefinition : NoxSimpleTypeDefinition
 {
-    [Title("Defines the request parameters for a domain query.")]
-    [Description("The ordered parameters that is the input for the requested query. Can contain simple or complex types")]
-    [AdditionalProperties(false)]
-    public class NoxComplexTypeDefinition : NoxSimpleTypeDefinition
-    {
-        public ObjectTypeOptions? ObjectTypeOptions { get; internal set; }
-        public ArrayTypeOptions? CollectionTypeOptions { get; internal set; }
-        public ArrayTypeOptions? ArrayTypeOptions { get; internal set; }
 
-    }
+    #region TypeOptions
+
+    [IfEquals("Type", NoxType.Object)]
+    public ObjectTypeOptions? ObjectTypeOptions { get; internal set; }
+
+    [IfEquals("Type", NoxType.Collection)]
+    public ArrayTypeOptions? CollectionTypeOptions { get; internal set; }
+
+    [IfEquals("Type", NoxType.Array)]
+    public ArrayTypeOptions? ArrayTypeOptions { get; internal set; }
+    
+    #endregion
 }

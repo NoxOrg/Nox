@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Details pertaining to the IntegrationEventServer settings in a Nox solution.",
+  "description": "Defines settings pertinent to an IntegrationEventServer here. These include provider (RabbitMQ, Azure ServiceBus, Amazon SQS etc), connection details as well as internal default deployment settings.",
+  "type": "object",
+  "required": [
+    "provider",
+    "name",
+    "serverUri"
+  ],
+  "properties": {
+    "provider": {    
+      "title": "The messaging server provider.",
+      "description": "The provider used for this messaging server. Examples include RabbitMQ, Azure ServiceBus, Amazon SQS and InMemory.",
+      "type": "string",
+      "enum": [
+        "amazonSqs",
+        "azureServiceBus",
+        "inMemory",
+        "rabbitMq"
+      ],
+      "additionalProperties": false
+    },
+    "name": {    
+      "title": "The unique name of this server component in the solution.",
+      "description": "The name of this server component in the solution. The name must be unique in the solution configuration",
+      "type": "string",
+      "pattern": "^[^\\s]*$"
+    },
+    "serverUri": {    
+      "title": "Hostname, IP address or URI.",
+      "description": "The name, address, URI or IP of the server to connect to.",
+      "type": "string"
+    },
+    "port": {    
+      "title": "Server port",
+      "description": "The port to connect to.",
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "user": {    
+      "title": "Username.",
+      "description": "The username to use when connecting to this server.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "password": {    
+      "title": "Password.",
+      "description": "The password to use when connecting to this server.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "options": {    
+      "title": "Additional options.",
+      "description": "A list of additional options to set when connecting to this server.",
+      "type": [
+        "string",
+        "null"
+      ]
+    }
+  },
+  "additionalProperties": false
+}

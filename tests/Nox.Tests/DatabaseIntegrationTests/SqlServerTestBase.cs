@@ -1,7 +1,10 @@
 ﻿using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
+using Nox.EntityFramework.Sqlite;
 using Nox.EntityFramework.SqlServer;
 using Nox.Solution;
+using Nox.Types.EntityFramework.Abstractions;
 using TestDatabaseWebApp.Infrastructure.Persistence;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
@@ -38,7 +41,13 @@ public abstract class SqlServerTestBase : IDisposable
 
     private static TestDatabaseWebAppDbContext CreateDbContext(SqlConnection connection)
     {
-        var databaseConfigurator = new SqlServerDatabaseProvider();
+        ServiceCollection services = new ServiceCollection();
+        // TODO  add ...BuilderExtension.cs generated class and call AddNox when Nox supports dynamic db providers
+        // This will build dbcontext etc..
+        services.AddNoxLib();
+        using var serviceProvider = services.BuildServiceProvider();
+
+        var databaseConfigurator = new SqlServerDatabaseProvider(serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());
         var solution = new NoxSolutionBuilder()
             .UseYamlFile(_testSolutionFile)
             .Build();

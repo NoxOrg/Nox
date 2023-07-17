@@ -116,7 +116,7 @@ public sealed class Image : ValueObject<(string Url, string PrettyName, int Size
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Image type with an empty Url."));
         }
-        else if (!Uri.TryCreate(Value.Url, UriKind.Absolute, out _))
+        else if (!System.Uri.TryCreate(Value.Url, UriKind.Absolute, out _))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Image type with an invalid Url '{Value.Url}'."));
         }
