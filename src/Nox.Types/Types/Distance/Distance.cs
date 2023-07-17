@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Nox.Types;
 
-public sealed class Distance : Measurement<Distance, DistanceUnit>
+public class Distance : Measurement<Distance, DistanceUnit>
 {
     /// <summary>
     /// Creates a new instance of <see cref="Distance"/> object in kilometers.

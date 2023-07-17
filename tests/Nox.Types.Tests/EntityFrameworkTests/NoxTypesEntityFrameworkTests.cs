@@ -51,6 +51,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             LocalTimeZone = TimeZoneCode.From("CET"),
             Uri = Uri.From(Sample_Uri),
             IsLandLocked = Boolean.From(false),
+            VolumeInCubicMeters = Volume.FromCubicMeters(89_000),
+            WeightInKilograms = Weight.FromKilograms(19_000),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -91,7 +93,9 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Date = Date.From(new DateTime(2023, 11, 25), new()),
             StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress, new JsonSerializerOptions { WriteIndented = true })),
             LocalTimeZone = TimeZoneCode.From("CET"),
-            IsLandLocked = Boolean.From(true)
+            IsLandLocked = Boolean.From(true),
+            VolumeInCubicMeters = Volume.FromCubicMeters(89_000),
+            WeightInKilograms = Weight.FromKilograms(19_000),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -130,6 +134,10 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(new DateTime(2023, 11, 25).Date, item.Date.Value);
         Assert.Equal("CET", item.LocalTimeZone.Value);
         Assert.True(item.IsLandLocked.Value);
+        Assert.Equal(89_000, item.VolumeInCubicMeters.Value);
+        Assert.Equal(VolumeUnit.CubicMeter, item.VolumeInCubicMeters.Unit);
+        Assert.Equal(19_000, item.WeightInKilograms.Value);
+        Assert.Equal(WeightUnit.Kilogram, item.WeightInKilograms.Unit);
 
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);

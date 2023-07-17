@@ -6,7 +6,7 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a Nox <see cref="Weight"/> type and value object.
 /// </summary>
-public sealed class Weight : Measurement<Weight, WeightUnit>
+public class Weight : Measurement<Weight, WeightUnit>
 {
     /// <summary>
     /// Creates a new instance of <see cref="Weight"/> object in kilograms.

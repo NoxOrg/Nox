@@ -1,5 +1,6 @@
 ﻿// ReSharper disable once CheckNamespace
 using FluentAssertions;
+using FluentAssertions.Execution;
 using System.Globalization;
 
 namespace Nox.Types.Tests.Types;
@@ -193,27 +194,29 @@ public class WeightTests
 
     private static void AssertAreEquivalent(Weight expected, Weight actual)
     {
-        actual.Should().Be(expected);
+        using (new AssertionScope())
+        {
+            expected.Equals(actual).Should().BeTrue();
 
-        expected.Equals(actual).Should().BeTrue();
+            actual.Equals(expected).Should().BeTrue();
 
-        actual.Equals(expected).Should().BeTrue();
+            (expected == actual).Should().BeTrue();
 
-        (expected == actual).Should().BeTrue();
-
-        (expected != actual).Should().BeFalse();
+            (expected != actual).Should().BeFalse();
+        }
     }
 
     private static void AssertAreNotEquivalent(Weight expected, Weight actual)
     {
-        actual.Should().NotBe(expected);
+        using (new AssertionScope())
+        {
+            expected.Equals(actual).Should().BeFalse();
 
-        expected.Equals(actual).Should().BeFalse();
+            actual.Equals(expected).Should().BeFalse();
 
-        actual.Equals(expected).Should().BeFalse();
+            (expected == actual).Should().BeFalse();
 
-        (expected == actual).Should().BeFalse();
-
-        (expected != actual).Should().BeTrue();
+            (expected != actual).Should().BeTrue();
+        }
     }
 }
