@@ -79,10 +79,10 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
         return result;
     }
 
-    public static DateTime operator +(DateTime dt, TimeSpan ts)
+    public static DateTime operator +(DateTime dateTime, TimeSpan timeSpan)
     {
-        System.DateTime newDateTime = dt.Value.Add(ts);
-        return DateTime.From(newDateTime);
+        System.DateTime newDateTime = dateTime.Value.Add(timeSpan);
+        return From(newDateTime);
     }
 
     public static TimeSpan operator -(DateTime dateTime1, DateTime dateTime2)
@@ -168,9 +168,9 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
     /// Adds sent Timespan on <see cref="DateTime.Value"/>
     /// </summary>
     /// <param name="ts"></param>
-    public void Add(TimeSpan ts)
+    public static DateTime Add(DateTime dateTime, TimeSpan timeSpan)
     {
-        Value = Value.Add(ts);
+        return dateTime + timeSpan;
     }
 }
 

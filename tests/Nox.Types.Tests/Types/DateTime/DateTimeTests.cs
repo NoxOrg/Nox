@@ -133,41 +133,6 @@ public class DateTimeTests
     }
 
     [Fact]
-    public void Add_ReturnsCorrectValueValue()
-    {
-        var datetime = DateTime.From(System.DateTime.UtcNow);
-        var timeSpan = TimeSpan.FromDays(20);
-
-        var datetimeExpected = datetime + timeSpan;
-        datetime.Add(timeSpan);
-
-        datetime.Value.Year.Should().Be(datetimeExpected.Value.Year);
-        datetime.Value.Month.Should().Be(datetimeExpected.Value.Month);
-        datetime.Value.Day.Should().Be(datetimeExpected.Value.Day);
-        datetime.Value.Hour.Should().Be(datetimeExpected.Value.Hour);
-        datetime.Value.Minute.Should().Be(datetimeExpected.Value.Minute);
-        datetime.Value.Second.Should().Be(datetimeExpected.Value.Second);
-    }
-
-    [Fact]
-    public void Add_NegativeValue_ReturnsCorrectValueValue()
-    {
-        var datetimeExpectedOriginal = System.DateTime.UtcNow;
-        var datetime = DateTime.From(datetimeExpectedOriginal);
-        var timeSpan = TimeSpan.FromDays(-20);
-
-        var datetimeExpected = datetimeExpectedOriginal.Add(timeSpan);
-        datetime.Add(timeSpan);
-
-        datetime.Value.Year.Should().Be(datetimeExpected.Year);
-        datetime.Value.Month.Should().Be(datetimeExpected.Month);
-        datetime.Value.Day.Should().Be(datetimeExpected.Day);
-        datetime.Value.Hour.Should().Be(datetimeExpected.Hour);
-        datetime.Value.Minute.Should().Be(datetimeExpected.Minute);
-        datetime.Value.Second.Should().Be(datetimeExpected.Second);
-    }
-
-    [Fact]
     public void OperatorMinus_ReturnsValue_TestCopy()
     {
 
