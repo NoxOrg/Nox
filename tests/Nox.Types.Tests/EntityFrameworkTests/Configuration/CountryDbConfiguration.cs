@@ -45,6 +45,7 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.EmailUser).HasConversion<UserConverter>();
         builder.Property(e => e.StringUser).HasConversion<UserConverter>();
         builder.Property(e => e.InfoEmail).HasConversion<EmailConverter>();
+        builder.Property(e => e.AutoId).HasConversion<AutoNumberConverter>();
 
         // Configure Multi-value ValueObjects
         builder.OwnsOne(e => e.LatLong).Ignore(p => p.Value);

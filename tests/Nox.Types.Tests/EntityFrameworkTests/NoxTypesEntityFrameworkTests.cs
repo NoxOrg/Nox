@@ -95,6 +95,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             EmailUser = User.From("user@iwgplc.ch"),
             StringUser = User.From("stringUser", new UserTypeOptions { ValidEmailFormat=false, ValidGuidFormat= false}),
             InfoEmail = Email.From("info@iwgplc.ch"),
+            AutoId = AutoNumber.From(10U),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -156,6 +157,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             EmailUser = User.From("user@iwgplc.ch"),
             StringUser = User.From("stringUser", new UserTypeOptions { ValidEmailFormat = false, ValidGuidFormat= false}),
             InfoEmail = Email.From("info@iwgplc.ch"),
+            AutoId = AutoNumber.From(10U),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -227,6 +229,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.EmailUser.Value.Should().Be("user@iwgplc.ch");
         item.StringUser.Value.Should().Be("stringUser");
         item.InfoEmail.Value.Should().Be("info@iwgplc.ch");
+        item.AutoId.Value.Should().Be(10U);
     }
 
     private static StreetAddress CreateStreetAddress()
