@@ -1,7 +1,11 @@
-﻿using Microsoft.Data.Sqlite;
+﻿using System;
+using System.Reflection;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Nox.EntityFramework.Sqlite;
 using Nox.Solution;
+using Nox.Types.EntityFramework.Abstractions;
 using TestDatabaseWebApp.Infrastructure.Persistence;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
@@ -16,9 +20,17 @@ public abstract class SqliteTestBase : IDisposable
     private readonly SqliteConnection _connection;
 
     protected TestDatabaseWebAppDbContext DbContext;
+    private readonly ServiceProvider _serviceProvider;
 
     protected SqliteTestBase()
     {
+        ServiceCollection services = new ServiceCollection();
+        // TODO  add ...BuilderExtension.cs generated class and call AddNox when Nox supports dynamic db db providers
+        // This will build dbcontext etc..
+        services.AddNoxLib(Assembly.GetExecutingAssembly()!);
+
+        _serviceProvider = services.BuildServiceProvider();
+
         // Save absolute path one time so during re-creation
         // path won't change
         _absoluteTestSolutionFile = Path.GetFullPath(_relativeTestSolutionFile);
@@ -28,12 +40,12 @@ public abstract class SqliteTestBase : IDisposable
 #pragma warning restore S3457 // Composite format strings should be used correctly
         _connection = new SqliteConnection(_inMemoryConnectionString);
         _connection.Open();
-        DbContext = CreateDbContext(_connection);
+        DbContext = CreateDbContext(_connection,_serviceProvider);
     }
 
-    private static TestDatabaseWebAppDbContext CreateDbContext(SqliteConnection connection)
+    private static TestDatabaseWebAppDbContext CreateDbContext(SqliteConnection connection, IServiceProvider serviceProvider)
     {
-        var databaseConfigurator = new SqliteDatabaseProvider();
+        var databaseConfigurator = new SqliteDatabaseProvider(serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());
         var solution = new NoxSolutionBuilder()
             .UseYamlFile(_absoluteTestSolutionFile)
             .Build();
@@ -48,7 +60,7 @@ public abstract class SqliteTestBase : IDisposable
     internal void RecreateDbContext()
     {
         var previousDbContext = DbContext;
-        DbContext = CreateDbContext(_connection);
+        DbContext = CreateDbContext(_connection, _serviceProvider);
         previousDbContext.Dispose();
     }
 
@@ -57,5 +69,6 @@ public abstract class SqliteTestBase : IDisposable
         GC.SuppressFinalize(this);
         DbContext?.Dispose();
         _connection.Dispose();
+        _serviceProvider?.Dispose();
     }
 }
