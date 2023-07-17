@@ -46,7 +46,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
             LocalTimeZone = TimeZoneCode.From("CET"),
-            Uri = Uri.From(Sample_Uri)
+            Uri = Uri.From(Sample_Uri),
             HashedText = HashedText.From("Test123."),
         };
         DbContext.Countries!.Add(newItem);
@@ -86,7 +86,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Uri = Uri.From(Sample_Uri),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
-            LocalTimeZone = TimeZoneCode.From("CET")
+            LocalTimeZone = TimeZoneCode.From("CET"),
             HashedText = HashedText.From(("Test123.", "salt"))
         };
         DbContext.Countries!.Add(newItem);
