@@ -62,4 +62,8 @@
 		<Compile Remove="Controller_Sample.cs" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="SeedData\data\" />
+	</ItemGroup>
+
 </Project>
