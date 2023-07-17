@@ -6,6 +6,7 @@ namespace Nox.Types.Tests.EntityFrameworkTests;
 
 public class NoxTypesEntityFrameworkTests : TestWithSqlite
 {
+    private const string Sample_Uri = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
     [Fact]
     public async Task DatabaseIsAvailableAndCanBeConnectedTo()
     {
@@ -44,6 +45,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddress = CreateStreetAddress(),
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
+            LocalTimeZone = TimeZoneCode.From("CET"),
+            Uri = Uri.From(Sample_Uri)
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -80,7 +83,9 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             LongestHikingTrailInMeters = Length.From(390_000),
             StreetAddress = streetAddress,
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
+            Uri = Uri.From(Sample_Uri),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
+            LocalTimeZone = TimeZoneCode.From("CET")
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -117,6 +122,10 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(LengthUnit.Meter, item.LongestHikingTrailInMeters.Unit);
         Assert.Equal("AED4322CCFEF", item.MACAddress.Value);
         Assert.Equal(new DateTime(2023, 11, 25).Date, item.Date.Value);
+        Assert.Equal("CET", item.LocalTimeZone.Value);
+
+        Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
+        Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         AssertStreetAddress(streetAddress, item.StreetAddress);
     }
 

@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 
-namespace Nox.Types.Tests.Types.CountryCode3;
+namespace Nox.Types.Tests.Types;
 
 public class CountryCode2TestsDataClass : IEnumerable<object[]>
 {

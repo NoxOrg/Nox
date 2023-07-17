@@ -1,0 +1,44 @@
+
+#
+# currencyCashBalance.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+name: CurrencyCashBalance
+
+description: The cash balance in Store
+
+keys:
+
+  - name: Store
+    type: entity
+    entityTypeOptions:
+      entity: Store
+    isRequired: true
+
+  - name: Currency
+    type: entity
+    entityTypeOptions:
+      entity: Currency
+    isRequired: true
+
+attributes:
+
+  - name: Amount
+    description: The amount
+    type: number
+    numberTypeOptions:
+      minValue: 0
+      decimalDigits: 4
+    isRequired: true
+
+  - name: OperationLimit
+    description: The Operation Limit
+    type: number
+    numberTypeOptions:
+      minValue: 0
+      decimalDigits: 4
+    isRequired: false
+
+  - $ref: info.type.nox.yaml

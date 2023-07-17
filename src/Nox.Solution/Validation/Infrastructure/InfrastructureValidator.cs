@@ -13,12 +13,8 @@ namespace Nox.Solution.Validation
                 .NotEmpty()
                 .WithMessage(ValidationResources.InfrastructurePersistenceEmpty);
             
-            RuleFor(p => p.Persistence!)
+            RuleFor(p => p.Persistence)
                 .SetValidator(v => new PersistenceValidator(GetServerList(v)));
-            
-            RuleFor(p => p.Messaging)
-                .NotEmpty()
-                .WithMessage(ValidationResources.InfrastructureMessagingEmpty);
             
             RuleFor(p => p.Messaging!)
                 .SetValidator(v => new MessagingValidator(GetServerList(v)));

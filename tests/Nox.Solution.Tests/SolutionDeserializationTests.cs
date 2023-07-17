@@ -49,7 +49,7 @@ public class SolutionDeserializationTests
         Assert.NotNull(noxConfig);
         Assert.NotNull(noxConfig.VersionControl);
         Assert.Equal(VersionControlProvider.AzureDevops, noxConfig.VersionControl.Provider);
-        Assert.Equal(new Uri("https://dev.azure.com/iwgplc"), noxConfig.VersionControl.Host);
+        Assert.Equal(new System.Uri("https://dev.azure.com/iwgplc"), noxConfig.VersionControl.Host);
         Assert.NotNull(noxConfig.VersionControl.Folders);
         Assert.Equal("/src", noxConfig.VersionControl.Folders.SourceCode);
         Assert.Equal("/docker", noxConfig.VersionControl.Folders.Containers);
@@ -222,7 +222,7 @@ public class SolutionDeserializationTests
         
         Assert.NotNull(noxConfig.Application.Integrations[0].Source!.Watermark);
         Assert.NotNull(noxConfig.Application.Integrations[0].Source!.Watermark!.DateColumns);
-        Assert.Equal(2, noxConfig.Application.Integrations[0].Source!.Watermark!.DateColumns!.Length);
+        Assert.Equal(2, noxConfig.Application.Integrations[0].Source!.Watermark!.DateColumns!.Count);
         Assert.Equal("CreateDate", noxConfig.Application.Integrations[0].Source!.Watermark!.DateColumns![0]);
         Assert.Equal("EditDate", noxConfig.Application.Integrations[0].Source!.Watermark!.DateColumns![1]);
         Assert.Equal("CountryId", noxConfig.Application.Integrations[0].Source!.Watermark!.SequentialKeyColumn);

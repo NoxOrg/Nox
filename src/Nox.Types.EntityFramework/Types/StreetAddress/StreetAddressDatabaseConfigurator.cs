@@ -7,6 +7,10 @@ namespace Nox.Types.EntityFramework.Types;
 
 public class StreetAddressDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
+    public NoxType ForNoxType => NoxType.StreetAddress;
+    public bool IsDefault => true;
+
+
     public void ConfigureEntityProperty(NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState, EntityTypeBuilder builder, NoxSimpleTypeDefinition property, Entity entity, bool isKey)
     {
         builder.OwnsOne(typeof(StreetAddress), property.Name,

@@ -8,6 +8,9 @@ namespace Nox.Types.EntityFramework.Types;
 
 public class CountryCode2DatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
+    public NoxType ForNoxType => NoxType.CountryCode2;
+    public bool IsDefault  => true;
+
     public void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
         EntityTypeBuilder builder,
