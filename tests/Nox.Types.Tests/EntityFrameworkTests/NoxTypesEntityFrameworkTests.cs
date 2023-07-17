@@ -60,7 +60,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             HashedText = HashedText.From("Test123."),
             ArabicName = TranslatedText.From((CultureCode.From("ar-SA"), "سوئٹزرلینڈ")),
-            CurrentTime = Time.From(07,55,33,250)
+            CurrentTime = Time.From(07,55,33,250),
+            PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -112,7 +113,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             HashedText = HashedText.From(("Test123.", "salt")),
             CreateDate = DateTime.From(new System.DateTime(2023, 01, 01)),
             CurrentTime = Time.From(11,35,50,375),
-            AverageTemperatureInCelsius = Temperature.FromCelsius(25)
+            AverageTemperatureInCelsius = Temperature.FromCelsius(25),
+            PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -171,6 +173,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         AssertStreetAddress(streetAddress, item.StreetAddress);
         Assert.Equal(JsonSerializer.Serialize(streetAddress), item.StreetAddressJson.Value);
+        item.PageHtml.Value.Should().Be("<html><body>Switzerland Website</body></html>");
     }
 
     private static StreetAddress CreateStreetAddress()
