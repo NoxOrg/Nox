@@ -1,5 +1,5 @@
 ﻿
-using Json.Schema.Generation;
+using Nox.Solution.Schema;
 
 namespace Nox.Solution
 {

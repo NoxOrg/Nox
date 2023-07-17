@@ -1,0 +1,31 @@
+#
+# currency.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+name: Currency
+description: The list of currencies
+
+keys:
+
+  - name: Id
+    isRequired: true
+    type: currencyCode
+
+relationships:
+
+  - name: CurrencyIsLegalTenderForCountry
+    description: is legal tender for
+    relationship: zeroOrMany
+    entity: Country
+
+attributes:
+
+  - name: Info
+    description: More info about the entity
+    type: text
+    textTypeOptions:
+      maxLength: 255
+
+  - $ref: info.type.nox.yaml

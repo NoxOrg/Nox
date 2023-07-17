@@ -1,4 +1,5 @@
-﻿Microsoft Visual Studio Solution File, Format Version 12.00
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
@@ -48,9 +49,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Types.Tests", "..\tests
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docs", "Docs", "{30CC9E47-ED93-4E09-A567-2BF3B414B882}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Docs.Tests", "..\tests\Nox.Docs.Tests\Nox.Docs.Tests\Nox.Docs.Tests.csproj", "{07E3D341-708A-4399-93CA-0CAC8ABE3364}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Docs.Tests", "..\tests\Nox.Docs.Tests\Nox.Docs.Tests\Nox.Docs.Tests.csproj", "{07E3D341-708A-4399-93CA-0CAC8ABE3364}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Docs", "Nox.Docs\Nox.Docs.csproj", "{18817438-77AB-4547-98D8-9BC9973C68C5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Docs", "Nox.Docs\Nox.Docs.csproj", "{18817438-77AB-4547-98D8-9BC9973C68C5}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DatabaseProviders", "DatabaseProviders", "{873BFCC4-435D-44D7-8287-1FB1574B2319}"
 EndProject
@@ -67,23 +68,23 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "dockerfiles", "dockerfiles", "{0B013153-526C-4B3B-8363-2D8ECA36AFFC}"
 	ProjectSection(SolutionItems) = preProject
 		..\docker-compose.elastic.yml = ..\docker-compose.elastic.yml
+		..\docker-compose.hashicorp.yml = ..\docker-compose.hashicorp.yml
 		..\docker-compose.postgres.yml = ..\docker-compose.postgres.yml
 		..\docker-compose.sqlServer.yml = ..\docker-compose.sqlServer.yml
 		..\docker-compose.yml = ..\docker-compose.yml
-		..\docker-compose.hashicorp.yml = ..\docker-compose.hashicorp.yml
 		..\init_org_vault.json = ..\init_org_vault.json
 		..\init_sln_vault.json = ..\init_sln_vault.json
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Secrets", "Nox.Secrets\Nox.Secrets.csproj", "{5A884FCB-BD50-4C38-B692-030F3BA0AB0F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Secrets", "Nox.Secrets\Nox.Secrets.csproj", "{5A884FCB-BD50-4C38-B692-030F3BA0AB0F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Secrets.Tests", "..\tests\Nox.Secrets.Tests\Nox.Secrets.Tests.csproj", "{9C5DF8EC-0F0C-4FF0-86CC-3BE5181E6292}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Secrets.Tests", "..\tests\Nox.Secrets.Tests\Nox.Secrets.Tests.csproj", "{9C5DF8EC-0F0C-4FF0-86CC-3BE5181E6292}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Secrets", "Secrets", "{2B151195-53F6-45CD-84D5-F1E18CDFF1B0}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Secrets.Azure", "Nox.Secrets.Azure\Nox.Secrets.Azure.csproj", "{D017DD5E-2DE1-462A-A891-CAB16C8BF940}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Secrets.Azure", "Nox.Secrets.Azure\Nox.Secrets.Azure.csproj", "{D017DD5E-2DE1-462A-A891-CAB16C8BF940}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Secrets.Hashicorp", "Nox.Secrets.Hashicorp\Nox.Secrets.Hashicorp.csproj", "{0B3974A4-121C-486B-964F-9037DAD3C5E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Secrets.Hashicorp", "Nox.Secrets.Hashicorp\Nox.Secrets.Hashicorp.csproj", "{0B3974A4-121C-486B-964F-9037DAD3C5E8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
