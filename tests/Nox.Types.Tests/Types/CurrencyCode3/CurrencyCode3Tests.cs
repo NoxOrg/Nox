@@ -1,10 +1,11 @@
 ﻿using FluentAssertions;
 
-namespace Nox.Types.Tests.Types.CountryCode3;
+namespace Nox.Types.Tests.Types;
+
 public class CurrencyCode3Tests
 {
     [Theory]
-    [ClassData(typeof(CurrencyCodeData))]
+    [ClassData(typeof(CurrencyCode3Data))]
     public void CurrencyCode3_Constructor_ReturnsSameValue_AllCurrencies(string currencyCode3String)
     {
         var currencyCode3 = CurrencyCode3.From(currencyCode3String);

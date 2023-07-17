@@ -1,0 +1,11 @@
+﻿#
+# ref.versionControl.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/versionControl.json
+#
+
+provider: azureDevops
+host: https://dev.azure.com/iwgplc
+folders:
+  sourceCode: /src
+  containers: /docker

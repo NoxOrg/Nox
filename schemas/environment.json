@@ -1,32 +1,37 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "type": "object",
-  "properties": {
-    "$ref": {
-      "type": "string",
-      "format": "uri"
-    },
-    "name": {
-      "type": "string",
-      "title": "A short name for the environment. Contains no spaces.",
-      "description": "The name of the run-time environment. Each environment name should be unique within a solution.",
-      "pattern": "^[^\\s]*$"
-    },
-    "description": {
-      "type": "string",
-      "title": "A short description of the run-time environment.",
-      "description": "The description of the run-time environment. Try to include the purpose or use of the environment."
-    },
-    "isProduction": {
-      "type": "boolean",
-      "title": "Whether this environment is a production environment (true) or not (false).",
-      "description": "Specifies whether this environment is used for production or not. Affects how devops processes and the NOX runtime is configured."
-    }
-  },
+  "title": "A definition for a run-time environment.",
+  "description": "A definition for the name, production status and other pertinent information pertaining to a run-time environment.",
+  "type": [
+    "object",
+    "null"
+  ],
   "required": [
     "name"
   ],
-  "title": "A definition for a run-time environment.",
-  "description": "A definition for the name, production status and other pertinent information pertaining to a run-time environment.",
+  "properties": {
+    "name": {    
+      "title": "A short name for the environment. Contains no spaces.",
+      "description": "The name of the run-time environment. Each environment name should be unique within a solution.",
+      "type": "string",
+      "pattern": "^[^\\s]*$"
+    },
+    "description": {    
+      "title": "A short description of the run-time environment.",
+      "description": "The description of the run-time environment. Try to include the purpose or use of the environment.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "isProduction": {    
+      "title": "Whether this environment is a production environment (true) or not (false).",
+      "description": "Specifies whether this environment is used for production or not. Affects how devops processes and the NOX runtime is configured.",
+      "type": [
+        "boolean",
+        "null"
+      ]
+    }
+  },
   "additionalProperties": false
 }
