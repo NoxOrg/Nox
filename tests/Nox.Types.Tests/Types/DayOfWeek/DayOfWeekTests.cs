@@ -15,7 +15,7 @@ public class DayOfWeekTests
     }
 
     [Theory]
-    [InlineData(0)]
+    [InlineData(-6)]
     [InlineData((-1))]
     [InlineData((-4))]
     public void DayOfWeek_Constructor_WithValueLess_ThanMinimiunSpecified_ThrowsValidationException(int value)
@@ -24,7 +24,7 @@ public class DayOfWeekTests
         var action = () => DayOfWeek.From(value);
 
         // Assert
-        action.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DayOfWeek type as value {value} is less than the minimum specified value of 1") });
+        action.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DayOfWeek type as value {value} is less than the minimum specified value of 0") });
     }
 
     [Theory]

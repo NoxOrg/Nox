@@ -6,18 +6,17 @@ namespace Nox.Types;
 /// Represents a Nox <see cref="DayOfWeek"/> type and value object.
 /// </summary>
 /// <remarks>Placeholder, needs to be implemented</remarks>
-public sealed class DayOfWeek : ValueObject<byte, DayOfWeek>
+public sealed class DayOfWeek : ValueObject<int, DayOfWeek>
 {
     public DayOfWeek() { Value = 0; }
 
     /// <summary>
-    /// Creates a new instance of <see cref="DayOfWeek"/> using the specified <see cref="DayOfWeekTypeOptions"/>
+    /// Creates a new instance of <see cref="DayOfWeek"/>
     /// </summary>
     /// <param name="value">The number to create the <see cref="DayOfWeek"/> with</param>
-    /// <param name="options">The <see cref="DayOfWeekTypeOptions"/> containing constraints for the value object</param>
     /// <returns></returns>
     /// <exception cref="ValidationException"></exception>
-    public static DayOfWeek From(byte value)
+    public static new DayOfWeek From(int value)
     {
         var newObject = new DayOfWeek
         {
@@ -34,11 +33,8 @@ public sealed class DayOfWeek : ValueObject<byte, DayOfWeek>
         return newObject;
     }
 
-    public static DayOfWeek FromInt(int value)
-        => From(value))
-
     public static DayOfWeek From(DayOfWeek dayOfTheWeek)
-        => From(byte(dayOfTheWeek));
+        => From((dayOfTheWeek));
 
     /// <summary>
     /// Validates the <see cref="DayOfWeek"/> object.
@@ -50,12 +46,12 @@ public sealed class DayOfWeek : ValueObject<byte, DayOfWeek>
 
         if (Value < 0)
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DayOfWeek type as value {Value} is less than the minimum specified value of {_dayOfWeekTypeOptions.MinValue}"));
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DayOfWeek type as value {Value} is less than the minimum specified value of 0"));
         }
 
-        if (Value > 7)
+        if (Value > 6)
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DayOfWeek type a value {Value} is greater than the maximum specified value of {_dayOfWeekTypeOptions.MaxValue}"));
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DayOfWeek type a value {Value} is greater than the maximum specified value of 6"));
         }
 
         return result;
