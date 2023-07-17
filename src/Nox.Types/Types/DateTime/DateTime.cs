@@ -19,21 +19,13 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
     /// <returns>New <see cref="DateTime"/> object from parsed value of <paramref name="dateTime"/>.</returns>
     public static DateTime From(System.DateTime dateTime, DateTimeTypeOptions options)
     {
-        var newObject = new DateTime();
-
-        // check if it is a valid System.DateTime
-        var validationResult = ValidateDateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second);
-
-        if (validationResult.IsValid)
+        var newObject = new DateTime
         {
-            newObject = new DateTime
-            {
-                Value = new System.DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second),
-                _dateTimeTypeOptions = options
-            };
+            Value = dateTime,
+            _dateTimeTypeOptions = options
+        };
 
-            validationResult = newObject.Validate();
-        }
+        var validationResult = newObject.Validate();
 
         if (!validationResult.IsValid)
         {
@@ -58,38 +50,6 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
         }
 
         return From(dateTimeParse, options);
-    }
-
-    /// <summary>
-    /// Validates if it's possible to create a <see cref="System.DateTime"/> object.
-    /// </summary>
-    /// <returns>A validation result indicating whether the <see cref="System.DateTime"/> is valid or not.</returns>
-    private static ValidationResult ValidateDateTime(int year, int month, int day, int hour = 0, int minute = 0, int second = 0)
-    {
-        var result = new ValidationResult();
-
-        try
-        {
-            // validate month
-            if (month < 1 || month > 12)
-            {
-                result.Errors.Add(new ValidationFailure(nameof(month), $"Could not create a Nox DateTime type as value {month} is not in range 1-12"));
-            }
-
-            // validate year
-            if (year < System.DateTime.MinValue.Year || year > System.DateTime.MaxValue.Year)
-            {
-                result.Errors.Add(new ValidationFailure(nameof(year), $"Could not create a Nox DateTime type as value {year} is not valid"));
-            }
-
-            _ = new System.DateTime(year, month, day, hour, minute, second);
-        }
-        catch
-        {
-            result.Errors.Add(new ValidationFailure(nameof(day), $"Could not create a Nox DateTime type a value {day} is not valid"));
-        }
-
-        return result;
     }
 
     /// <summary>

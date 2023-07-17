@@ -42,7 +42,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             InternetDomain = InternetDomain.From("admin.ch"),
             CountryCode3 = CountryCode3.From("CHE"),
             IPAddress = IpAddress.From("102.129.143.255"),
-            DateTimeRange = DateTimeRange.From(DateTime.From(new System.DateTime(2023, 01, 01)), DateTime.From(new System.DateTime(2023, 02, 01))),
+            DateTimeRange = DateTimeRange.From(new System.DateTime(2023, 01, 01), new System.DateTime(2023, 02, 01)),
             LongestHikingTrailInMeters = Length.From(390_000),
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Date = Date.From(new System.DateTime(2023, 11, 25), new()),
@@ -81,7 +81,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             CountryNumber = CountryNumber.From(756),
             MonthOfPeakTourism = Month.From(7),
             DistanceInKm = Distance.From(129.522785),
-            DateTimeRange = DateTimeRange.From(DateTime.From(new System.DateTime(2023, 01, 01)), DateTime.From(new System.DateTime(2023, 02, 01))),
+            DateTimeRange = DateTimeRange.From(new System.DateTime(2023, 01, 01), new System.DateTime(2023, 02, 01)),
             InternetDomain = InternetDomain.From("admin.ch"),
             CountryCode3 = CountryCode3.From("CHE"),
             IPAddress = IpAddress.From("102.129.143.255"),
@@ -125,8 +125,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal("admin.ch", item.InternetDomain.Value);
         Assert.Equal("CHE", item.CountryCode3.Value);
         Assert.Equal("102.129.143.255", item.IPAddress.Value);
-        Assert.Equal(DateTime.From(new System.DateTime(2023, 02, 01)), item.DateTimeRange.End);
-        Assert.Equal(DateTime.From(new System.DateTime(2023, 01, 01)), item.DateTimeRange.Start);
+        Assert.Equal(new System.DateTime(2023, 02, 01), item.DateTimeRange.End);
+        Assert.Equal(new System.DateTime(2023, 01, 01), item.DateTimeRange.Start);
         Assert.Equal(390_000, item.LongestHikingTrailInMeters.Value);
         Assert.Equal(LengthUnit.Meter, item.LongestHikingTrailInMeters.Unit);
         Assert.Equal("AED4322CCFEF", item.MACAddress.Value);
