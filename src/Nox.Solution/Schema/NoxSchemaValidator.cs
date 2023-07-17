@@ -37,7 +37,6 @@ internal static class NoxSchemaValidator
         try
         {
             // Validate the schema first
-            using var sr = new StringReader(yaml);
             var yamlObjectInstance = deserializer.Deserialize<IDictionary<string,object>>(yaml);
 
             // Read type's schema info

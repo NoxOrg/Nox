@@ -5,7 +5,7 @@ using Nox.Types;
 
 namespace Nox.Solution;
 
-[GenerateJsonSchema("object")]
+[GenerateJsonSchema("dto")]
 [Title("A complex nox type.")]
 [Description("Defines a complex nox type that includes simple types, objects, arrays and collections.")]
 [AdditionalProperties(false)]
