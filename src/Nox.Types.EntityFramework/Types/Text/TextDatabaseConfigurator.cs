@@ -8,6 +8,9 @@ namespace Nox.Types.EntityFramework.Types;
 
 public class TextDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
+    public NoxType ForNoxType => NoxType.Text;
+    public virtual bool IsDefault => true;
+
     public void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState codeGeneratorState,
         EntityTypeBuilder builder,

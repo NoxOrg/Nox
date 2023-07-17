@@ -1,8 +1,9 @@
-﻿using Json.Schema.Generation;
+﻿using Nox.Solution.Schema;
 using System.Collections.Generic;
 
 namespace Nox.Solution
 {
+    [GenerateJsonSchema]
     [Title("A definition for a run-time environment.")]
     [Description("A definition for the name, production status and other pertinent information pertaining to a run-time environment.")]
     [AdditionalProperties(false)]

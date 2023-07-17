@@ -101,9 +101,18 @@ public sealed class Country
     public Date Date { get; set; } = null!;
 
     /// <summary>
+    /// Gets or sets the StreetAddress as Json.
+    /// </summary>
+    public Json StreetAddressJson { get; set; } = null!;
+
     /// Gets or sets the Local Time Zone.
     /// </summary>
     public TimeZoneCode LocalTimeZone { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the IsLandlocked property.
+    /// </summary>
+    public Boolean IsLandLocked { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the duration of the date time.

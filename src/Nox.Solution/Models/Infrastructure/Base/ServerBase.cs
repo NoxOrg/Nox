@@ -1,4 +1,4 @@
-﻿using Json.Schema.Generation;
+﻿using Nox.Solution.Schema;
 using System.Collections.Generic;
 using static Humanizer.In;
 

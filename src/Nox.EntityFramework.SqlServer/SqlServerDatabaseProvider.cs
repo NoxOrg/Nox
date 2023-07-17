@@ -16,10 +16,8 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
         set => SetConnectionString(value);
     }
     
-    public SqlServerDatabaseProvider()
+    public SqlServerDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators): base(configurators, typeof(ISqlServerNoxTypeDatabaseConfigurator))
     {
-        // Override Text Configurator
-        TypesDatabaseConfigurations[NoxType.Text] = new SqlServerTextDatabaseConfigurator();
     }
 
     public DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)

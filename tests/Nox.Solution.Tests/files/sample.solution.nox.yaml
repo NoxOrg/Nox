@@ -167,7 +167,7 @@ domain:
             isUnicode: false
             minLength: 2
             maxLength: 2
-
+        
       attributes:
 
         - name: Name
