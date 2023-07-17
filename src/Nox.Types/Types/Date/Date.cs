@@ -61,12 +61,12 @@ public sealed class Date : ValueObject<DateTime, Date>
 
         if (Value.Date < _dateTypeOptions.MinValue)
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Number type as value {Value.Date.ToString("d", CultureInfo.InvariantCulture)} is less than than the minimum specified value of {_dateTypeOptions.MinValue.Date.ToString("d", CultureInfo.InvariantCulture)}"));
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Date type as value {Value.Date.ToString("d", CultureInfo.InvariantCulture)} is less than than the minimum specified value of {_dateTypeOptions.MinValue.Date.ToString("d", CultureInfo.InvariantCulture)}"));
         }
 
         if (Value.Date > _dateTypeOptions.MaxValue)
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Number type as value {Value.Date.ToString("d", CultureInfo.InvariantCulture)} is greater than than the maximum specified value of {_dateTypeOptions.MaxValue.Date.ToString("d", CultureInfo.InvariantCulture)}"));
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Date type as value {Value.Date.ToString("d", CultureInfo.InvariantCulture)} is greater than than the maximum specified value of {_dateTypeOptions.MaxValue.Date.ToString("d", CultureInfo.InvariantCulture)}"));
         }
 
         return result;
