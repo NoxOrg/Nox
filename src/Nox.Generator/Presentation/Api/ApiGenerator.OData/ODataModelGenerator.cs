@@ -4,7 +4,6 @@ using Nox.Solution;
 using Nox.Types;
 using Nox.Types.Extensions;
 using System;
-using System.Diagnostics;
 using System.Linq;
 
 using static Nox.Generator.Common.BaseGenerator;
@@ -90,7 +89,7 @@ internal static class ODataModelGenerator
                 {
                     foreach (var relationship in entity.Relationships)
                     {
-                        GenerateRelationshipProperty(code, relationship, isDto);
+                        GenerateRelationshipProperty(code, relationship, isDto, false);
                     }
                 }
 
@@ -98,7 +97,7 @@ internal static class ODataModelGenerator
                 {
                     foreach (var relationship in entity.OwnedRelationships)
                     {
-                        GenerateRelationshipProperty(code, relationship, isDto);
+                        GenerateRelationshipProperty(code, relationship, isDto, true);
                     }
                 }
             }
@@ -107,7 +106,7 @@ internal static class ODataModelGenerator
         }
     }
 
-    private static void GenerateRelationshipProperty(CodeBuilder code, EntityRelationship relationship, bool isDto)
+    private static void GenerateRelationshipProperty(CodeBuilder code, EntityRelationship relationship, bool isDto, bool isOwned)
     {
         GenerateDocs(code, relationship.Description);
 
@@ -120,7 +119,7 @@ internal static class ODataModelGenerator
 
         var nullable = relationship.Relationship == EntityRelationshipType.ZeroOrOne ? "?" : string.Empty;
 
-        if (!isDto)
+        if (isOwned)
         {
             code.AppendLine($"[AutoExpand]");
         }
