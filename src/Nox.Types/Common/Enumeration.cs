@@ -37,15 +37,15 @@ public abstract class Enumeration : IComparable
     /// </summary>
     /// <param name="obj">The object to compare with.</param>
     /// <returns>A value indicating the relative order of the objects being compared.</returns>
-    public int CompareTo(object obj)
-        => Id.CompareTo(((Enumeration)obj).Id);
+    public int CompareTo(object? obj)
+        => Id.CompareTo(((Enumeration)obj!).Id);
 
     /// <summary>
     /// Determines whether the current enumeration is equal to another object.
     /// </summary>
     /// <param name="obj">The object to compare with.</param>
     /// <returns>True if the objects are equal; otherwise, false.</returns>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj is not Enumeration otherValue)
         {

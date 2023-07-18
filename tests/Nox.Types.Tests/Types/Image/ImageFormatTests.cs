@@ -1,8 +1,7 @@
-using Microsoft.Extensions.Primitives;
+using Nox.Types.Extensions;
 
 namespace Nox.Types.Tests.Types;
 
-using Nox.Types.Common;
 using FluentAssertions;
 using Xunit;
 
