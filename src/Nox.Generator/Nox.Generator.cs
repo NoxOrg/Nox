@@ -30,7 +30,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
 #if DEBUG
         if (!Debugger.IsAttached)
         {
-          // Debugger.Launch(); 
+           // Debugger.Launch(); 
         }
 #endif
         // var compilation = context.CompilationProvider.Select((ctx,token) => ctx.GlobalNamespace);
