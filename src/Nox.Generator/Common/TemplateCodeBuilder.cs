@@ -20,7 +20,7 @@ internal class TemplateCodeBuilder
     private readonly NoxSolutionCodeGeneratorState _codeGeneratorState;
 
     private string? _className;
-    private Dictionary<string, object>? _extendedModel;
+    private Dictionary<string, object>? _model;
 
 
     public TemplateCodeBuilder(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
@@ -45,7 +45,7 @@ internal class TemplateCodeBuilder
     /// </summary>
     public TemplateCodeBuilder WithExtendedModel(Dictionary<string, object> extendedModel)
     {
-        _extendedModel = extendedModel;
+        _model = extendedModel;
         return this;
     }
 
@@ -63,7 +63,7 @@ internal class TemplateCodeBuilder
             codeGeneratorState = _codeGeneratorState, 
             className = _className ?? className, 
             solution = _codeGeneratorState.Solution,
-            extended = _extendedModel
+            extended = _model
         };
         string template;
 
