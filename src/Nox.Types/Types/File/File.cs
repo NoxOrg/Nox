@@ -104,8 +104,6 @@ public sealed class File : ValueObject<(string Url, string PrettyName, ulong Siz
     {
         var result = base.Validate();
 
-        System.Uri.TryCreate(Value.Url, UriKind.Absolute, out var x);
-
         if (string.IsNullOrWhiteSpace(Value.Url))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value.Url), "Could not create a Nox File type with an empty Url."));
