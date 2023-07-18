@@ -5,11 +5,12 @@ namespace Nox.Types.Tests;
 
 public class YamlTests
 {
-    private readonly string _fileRoot = "Types/Yaml/Samples";
-    private readonly string _validFolder = "Valid";
-    private readonly string _invalidFolder = "Invalid";
-    private readonly string _equalFolder = "Equal";
-    private readonly string _inequalFolder = "Inequal";
+    private const string FileRoot = "Types/Yaml/Samples";
+    private const string ValidFolder = "Valid";
+    private const string InvalidFolder = "Invalid";
+    private const string EqualFolder = "Equal";
+    private const string InEqualFolder = "Inequal";
+
     [Theory]
     [InlineData("simple.yaml")]
     [InlineData("complex.yaml")]
@@ -19,7 +20,7 @@ public class YamlTests
     
     public void Yaml_Constructor_ReturnsSameValue(string fileName)
     {
-        string yamlString = System.IO.File.ReadAllText( Path.Combine(_fileRoot, _validFolder, fileName));
+        string yamlString = System.IO.File.ReadAllText( Path.Combine(FileRoot, ValidFolder, fileName));
         
         // Arrange & Act
         var yaml = Yaml.From(yamlString);
@@ -43,7 +44,7 @@ public class YamlTests
     [InlineData("anchor1.yaml")]
     public void Yaml_Constructor_ThrowsException_WhenInvalidYaml(string fileName)
     {
-        string yamlString = System.IO.File.ReadAllText( Path.Combine(_fileRoot,_invalidFolder, fileName));
+        string yamlString = System.IO.File.ReadAllText( Path.Combine(FileRoot,InvalidFolder, fileName));
         
         // Arrange & Act
         var exception = Assert.Throws<TypeValidationException>(() => Yaml.From(yamlString));
@@ -63,8 +64,8 @@ public class YamlTests
     [InlineData("anchor1.1.yaml", "anchor1.2.yaml")]
     public void Yaml_Equals_ReturnsTrue_WhenSameYaml(string fileName1, string fileName2)
     {
-        string yamlString1 = System.IO.File.ReadAllText( Path.Combine(_fileRoot, _equalFolder, fileName1));
-        string yamlString2 = System.IO.File.ReadAllText( Path.Combine(_fileRoot, _equalFolder, fileName2));
+        string yamlString1 = System.IO.File.ReadAllText( Path.Combine(FileRoot, EqualFolder, fileName1));
+        string yamlString2 = System.IO.File.ReadAllText( Path.Combine(FileRoot, EqualFolder, fileName2));
         
         // Arrange & Act
         var yaml1 = Yaml.From(yamlString1);
@@ -83,8 +84,8 @@ public class YamlTests
     [InlineData("anchor1.1.yaml", "anchor1.2.yaml")]
     public void Yaml_Equals_ReturnsFalse_WhenDifferentYaml(string fileName1, string fileName2)
     {
-        string yamlString1 = System.IO.File.ReadAllText( Path.Combine(_fileRoot, _inequalFolder, fileName1));
-        string yamlString2 = System.IO.File.ReadAllText( Path.Combine(_fileRoot, _inequalFolder, fileName2));
+        string yamlString1 = System.IO.File.ReadAllText( Path.Combine(FileRoot, InEqualFolder, fileName1));
+        string yamlString2 = System.IO.File.ReadAllText( Path.Combine(FileRoot, InEqualFolder, fileName2));
         
         // Arrange & Act
         var yaml1 = Yaml.From(yamlString1);

@@ -21,10 +21,7 @@ public class Yaml : ValueObject<string, Yaml>
     protected override IEnumerable<KeyValuePair<string, object>> GetEqualityComponents()
     {
         var properties = GenerateKeyValuePairs();
-        foreach (var property in properties)
-        {
-            yield return property;
-        }
+        return properties;
     }
     /// <summary>
     /// Validates the YAML object and returns the validation result.
@@ -41,7 +38,7 @@ public class Yaml : ValueObject<string, Yaml>
     
 
         foreach (var yamlLine in lines.Select(line => new YamlNode(line))
-                     .Where(yamlLine => !yamlLine.IsComment && !yamlLine.IsEmpty))
+                     .Where(yamlLine => yamlLine is { IsComment: false, IsEmpty: false }))
         {
             ValidateYamlLine(yamlLine, result);
             AddYamlAnchorIfExists(yamlLine.Line, anchors, result);
@@ -54,7 +51,7 @@ public class Yaml : ValueObject<string, Yaml>
             }
             else
             {
-                var previousLine = _yamlNodes[_yamlNodes.Count - 1];
+                var previousLine = _yamlNodes[^1];
                 if (yamlLine.IndentLevel > previousLine.IndentLevel)
                 {
                     ValidateBiggerIndentLevel(previousLine, yamlLine, result);
@@ -72,7 +69,7 @@ public class Yaml : ValueObject<string, Yaml>
             
         }
 
-        _isValidated = true;
+        _isValidated = result.IsValid;
         return result;
     }
 
@@ -170,7 +167,7 @@ public class Yaml : ValueObject<string, Yaml>
     /// <summary>
     /// Adds the YAML anchor to the set of anchors if it exists in the line.
     /// </summary>
-    private static void AddYamlAnchorIfExists(string line, HashSet<string> anchors, ValidationResult result)
+    private void AddYamlAnchorIfExists(string line, HashSet<string> anchors, ValidationResult result)
     {
         string pattern = @"&(\w+)\b";
         Match match = Regex.Match(line, pattern);
@@ -179,7 +176,7 @@ public class Yaml : ValueObject<string, Yaml>
         if (!anchors.Add(match.Groups[1].Value))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value),
-                $"Could not create a Nox Yaml type with invalid yaml value '{line}'. Anchor '{match.Groups[1].Value}' already exists."));
+                $"Could not create a Nox Yaml type with invalid yaml value '{Value}'. Anchor '{match.Groups[1].Value}' already exists."));
         }
     }
     
@@ -237,9 +234,9 @@ public class Yaml : ValueObject<string, Yaml>
         while (true)
         {
             keyBuilder.Append(yamlNode.IsArray ? string.Concat(yamlNode.Key,yamlNode.Value) : yamlNode.Key);
-            keyBuilder.Append("#");
+            keyBuilder.Append('#');
             valueBuilder.Append(yamlNode.Value);
-            valueBuilder.Append("#");
+            valueBuilder.Append('#');
 
             if (yamlNode.Parent != null)
             {
