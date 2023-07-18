@@ -58,6 +58,9 @@ public class NoxSimpleTypeDefinition
     [IfEquals("Type", NoxType.HashedText)]
     public HashedTextTypeOptions? HashedTextTypeOptions { get; set; }
 
+    [IfEquals("Type", NoxType.DateTime)]
+    public DateTimeTypeOptions? DateTimeTypeOptions { get; set; }
+
     #endregion TypeOptions
 
     [Title("Is the attribute required? Boolean value.")]
