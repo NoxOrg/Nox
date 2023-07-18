@@ -38,11 +38,6 @@ application:
         dataConnectionName: CountryJsonData
         fileOptions: 
           filename: sample.json
-        watermark:
-          dateColumns:
-            - "CreateDate"
-            - "EditDate"
-          sequentialKeyColumn: CountryId
       transform:
         mappings:
           - sourceColumn: IsoAlpha2Code
@@ -62,6 +57,8 @@ application:
       target:
         name: Country
         targetType: entity
+        entityOptions:
+          dateCompareColumns: ["CreateDate", "EditDate"]
 
 infrastructure: 
   persistence: 
@@ -71,7 +68,14 @@ infrastructure:
       provider: sqlServer
       user: sa
       password: Developer*123
-    
+      
+    integrationDatabaseServer: 
+      name: IntegrationStore
+      provider: sqlServer
+      serverUri: localhost
+      user: sa
+      password: Developer*123
+  
   messaging: 
     integrationEventServer: 
       name: SampleIntegrationEventServer

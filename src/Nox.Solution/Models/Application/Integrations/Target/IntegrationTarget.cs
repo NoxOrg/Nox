@@ -28,6 +28,8 @@ public class IntegrationTarget
     [Pattern(@"^[^\s]*$")]
     [AdditionalProperties(false)]
     public string? DataConnectionName { get; internal set; }
+    
+    public IntegrationTargetEntityOptions? EntityOptions { get; internal set; }
 
     [AdditionalProperties(false)]
     public IntegrationTargetDatabaseOptions? DatabaseOptions { get; set; }

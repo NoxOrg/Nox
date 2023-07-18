@@ -220,13 +220,6 @@ public class SolutionDeserializationTests
         Assert.Equal(10, noxConfig.Application.Integrations[0].Schedule!.Retry!.DoubleDelayLimit);
         Assert.True(noxConfig.Application.Integrations[0].Schedule!.RunOnStartup);
         
-        Assert.NotNull(noxConfig.Application.Integrations[0].Source!.Watermark);
-        Assert.NotNull(noxConfig.Application.Integrations[0].Source!.Watermark!.DateColumns);
-        Assert.Equal(2, noxConfig.Application.Integrations[0].Source!.Watermark!.DateColumns!.Count);
-        Assert.Equal("CreateDate", noxConfig.Application.Integrations[0].Source!.Watermark!.DateColumns![0]);
-        Assert.Equal("EditDate", noxConfig.Application.Integrations[0].Source!.Watermark!.DateColumns![1]);
-        Assert.Equal("CountryId", noxConfig.Application.Integrations[0].Source!.Watermark!.SequentialKeyColumn);
-        
         Assert.NotNull(noxConfig.Application.Integrations[0].Transform);
         Assert.NotNull(noxConfig.Application.Integrations[0].Transform!.Mappings);
         Assert.Equal(3, noxConfig.Application.Integrations[0].Transform!.Mappings!.Count);

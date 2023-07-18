@@ -61,11 +61,6 @@ application:
             delaySeconds: 5
             doubleDelayLimit: 10
           runOnStartup: true
-        watermark:
-          dateColumns:
-            - "CreateDate"
-            - "EditDate"
-          sequentialKeyColumn: CountryId
       transform:
         mappings:
           - sourceColumn: IsoAlpha2Code
@@ -99,6 +94,11 @@ infrastructure:
       port: 1433
       user: sqluser
       password: sqlpassword
+      
+    integrationDatabaseServer: 
+      name: IntegrationStore
+      provider: sqlServer
+      serverUri: localhost
 
       ### Postgres
       #provider: postgres

@@ -44,7 +44,7 @@ public class IntegrationExecutor: IIntegrationExecutor
             if (integration.Target.TargetType == IntegrationTargetType.Entity)
             {
                 var entity = _solution.Domain!.Entities.First(e => e.Name == target.Name);
-                await new EntityExecutor(_logger, integrationName, _storeService, integration.Source.Watermark!, source, target, entity)
+                await new EntityExecutor(_logger, integration, _storeService, source, target, entity)
                     .ExecuteAsync();
             }
         }

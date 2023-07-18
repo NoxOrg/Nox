@@ -10,7 +10,7 @@ name: TestService
 description: Yaml file for testing application
 
 application:
-
+  
   integrations:
     - name: SampleEtl
       description: a Sample Etl
@@ -27,11 +27,6 @@ application:
         dataConnectionName: CountryJsonData
         fileOptions:
           filename: sample.json
-        watermark:
-          dateColumns:
-            - "CreateDate"
-            - "EditDate"
-          sequentialKeyColumn: CountryId
       transform:
         mappings:
           - sourceColumn: IsoAlpha2Code
@@ -51,6 +46,9 @@ application:
       target:
         name: Country
         targetType: entity
+        entityOptions:
+          dateCompareColumns: ["CreateDate", "EditDate"]
+
 
 infrastructure:
   persistence:

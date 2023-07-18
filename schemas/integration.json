@@ -24,6 +24,62 @@
         "null"
       ]
     },
+    "schedule": {    
+      "title": "Scheduling of the ETL source.",
+      "description": "Specify when and how frequently the ETL source is checked for updates, as well as the retry policy in case of failure. Includes a switch to indicate whether update is triggered at application startup.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "start"
+      ],
+      "properties": {
+        "start": {    
+          "title": "Start time to check the ETL source for updates.",
+          "description": "Specify the start time to check the ETL source for updates. This is a 'speak-friendly' phrase that comprises the trigger time as well as the frequency. Translated into a cron expression.",
+          "type": "string"
+        },
+        "retry": {    
+          "title": "Retry policy applying to the ETL source updates.",
+          "description": "This outlines the retry configuration in the case of ETL engine being unable to connect to the ETL data source. Includes limit and delay before retry.",
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "limit": {    
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "delaySeconds": {    
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "doubleDelayLimit": {    
+              "type": [
+                "integer",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "runOnStartup": {    
+          "title": "Check the ETL source for updates at appliation startup.",
+          "description": "Specify here whether the ETL source is checked for updates when the application starts.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
     "source": {    
       "anyOf": [
         { "$ref": "integrationSource.json" },

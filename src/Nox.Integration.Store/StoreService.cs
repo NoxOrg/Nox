@@ -18,38 +18,15 @@ public class StoreService: IStoreService
         _logger = logger;
         _dbContext = dbContext;
     }
-    
-    public async Task ConfigureAsync(IReadOnlyList<Solution.Integration> definition)
-    {
-        foreach (var integration in definition)
-        {
-            await _dbContext
-                .Integrations!
-                .AddAsync(new Integration
-            {
-                Name = integration.Name,
-                Source = new Source
-                {
-                    Name = integration.Source!.Name,
-                    MergeStates = integration.Source.Watermark!.DateColumns!.Select(dc => new MergeState
-                    {
-                        Property = dc,
-                        LastDateLoadedUtc = IntegrationExecutorConstants.MinSqlDate,
-                        Updated = false
-                    }).ToList()
-                }
-            });
-        }
 
-        await _dbContext.SaveChangesAsync();
-    }
-
-    public async Task<IntegrationMergeStates> GetAllLastMergeDateTimeStampsAsync(string integrationName, IntegrationSourceWatermark watermark, Entity entity)
+    public async Task<IntegrationMergeStates> GetAllLastMergeDateTimeStampsAsync(Solution.Integration definition, Entity entity)
     {
         var lastMergeDateTimeStampInfo = new IntegrationMergeStates();
 
         var addedMergeColumn = false;
 
+        var watermark = definition.Source!.Watermark!;
+        
         if (watermark.DateColumns != null)
         {
             foreach (var dateColumn in watermark.DateColumns)
@@ -58,11 +35,11 @@ public class StoreService: IStoreService
                 {
                     addedMergeColumn = true;
                     //TODO fix loadername
-                    var lastMergeDateTimeStamp = await GetLastMergeDateTimeStampAsync(integrationName, dateColumn);
+                    var lastMergeDateTimeStamp = await GetLastMergeDateTimeStampAsync(definition.Name, dateColumn);
 
                     lastMergeDateTimeStampInfo[dateColumn] = new IntegrationMergeState()
                     {
-                        IntegrationName = integrationName,
+                        IntegrationName = definition.Name,
                         Property = dateColumn,
                         LastDateLoadedUtc = lastMergeDateTimeStamp,
                     };
@@ -72,18 +49,18 @@ public class StoreService: IStoreService
 
         if (!addedMergeColumn)
         {
-            var lastMergeDateTimeStamp = await GetLastMergeDateTimeStampAsync(integrationName, IntegrationExecutorConstants.DefaultMergeProperty);
+            var lastMergeDateTimeStamp = await GetLastMergeDateTimeStampAsync(definition.Name, IntegrationExecutorConstants.DefaultMergeProperty);
             lastMergeDateTimeStampInfo[IntegrationExecutorConstants.DefaultMergeProperty] = new IntegrationMergeState
             {
-                IntegrationName = integrationName,
+                IntegrationName = definition.Name,
                 Property = IntegrationExecutorConstants.DefaultMergeProperty,
                 LastDateLoadedUtc = lastMergeDateTimeStamp,
             };
-            await RemoveEntityMergeDateTimeStampsAsync(integrationName);
+            await RemoveEntityMergeDateTimeStampsAsync(definition.Name);
         }
         else
         {
-            await RemoveDefaultMergeDateTimeStampAsync(integrationName);
+            await RemoveDefaultMergeDateTimeStampAsync(definition.Name);
         }
 
         return lastMergeDateTimeStampInfo;
@@ -169,9 +146,23 @@ public class StoreService: IStoreService
     {
         try
         {
-            var integration = await _dbContext.Integrations!.SingleAsync(i => i.Name.Equals(integrationName, StringComparison.OrdinalIgnoreCase));
+            var lastMergeDateTime = IntegrationExecutorConstants.MinSqlDate;
+            var integration = await _dbContext.Integrations!.FirstOrDefaultAsync(i => i.Name.Equals(integrationName, StringComparison.OrdinalIgnoreCase));
+            if (integration == null)
+            {
+                integration = new Integration
+                {
+                    Name = integrationName,
+                    Source = new Source
+                    {
+                        Name = 
+                    }
+                };
+                
+                await _dbContext.AddAsync(integration);
+            }
             var mergeState = integration.Source!.MergeStates!.Single(ms => ms.Property.Equals(dateColumn, StringComparison.OrdinalIgnoreCase));
-            return mergeState.LastDateLoadedUtc;
+            return lastMergeDateTime;
         }
         catch (Exception ex)
         {

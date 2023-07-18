@@ -27,8 +27,6 @@ public class IntegrationSource
     [AdditionalProperties(false)]
     public string DataConnectionName { get; internal set; } = null!;
 
-    public IntegrationSourceWatermark? Watermark { get; internal set; }
-
     public IntegrationSourceDatabaseOptions? DatabaseOptions { get; set; }
 
     public IntegrationSourceFileOptions? FileOptions { get; set; }

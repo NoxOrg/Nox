@@ -12,26 +12,23 @@ namespace Nox.Integration.Service;
 public class EntityExecutor
 {
     private readonly ILogger _logger;
-    private readonly string _name;
+    private readonly Solution.Integration _definition;
     private readonly IStoreService _storeService;
-    private readonly IntegrationSourceWatermark _watermark;
     private readonly IIntegrationSource _source;
     private readonly IIntegrationTarget _target;
     private readonly Entity _entity;
     
     public EntityExecutor(
         ILogger logger,
-        string name,
+        Solution.Integration definition,
         IStoreService storeService,
-        IntegrationSourceWatermark watermark,
         IIntegrationSource source,
         IIntegrationTarget target,
         Entity entity)
     {
         _logger = logger;
-        _name = name;
         _storeService = storeService;
-        _watermark = watermark;
+        _definition = definition;
         _source = source;
         _target = target;
         _entity = entity;
@@ -41,7 +38,7 @@ public class EntityExecutor
     {
         try
         {
-            var lastMergeDateTimeStampInfo = await _storeService.GetAllLastMergeDateTimeStampsAsync(_name, _watermark, _entity);
+            var lastMergeDateTimeStampInfo = await _storeService.GetAllLastMergeDateTimeStampsAsync(_definition, _entity);
             var targetColumns =
                 Array.Empty<string>()
                 .Concat(_entity.Keys!
@@ -109,8 +106,8 @@ public class EntityExecutor
         }
         catch (Exception ex)
         {
-            _logger.LogCritical(ex, ExceptionResources.ExecutorExecutionError, _name);
-            throw new NoxIntegrationException(string.Format(ExceptionResources.ExecutorExecutionError, _name), ex);
+            _logger.LogCritical(ex, ExceptionResources.ExecutorExecutionError, _definition.Name);
+            throw new NoxIntegrationException(string.Format(ExceptionResources.ExecutorExecutionError, _definition.Name), ex);
         }
     }
 

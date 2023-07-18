@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Nox.Solution.Exceptions;
 
 namespace Nox.Solution.Tests;
 
@@ -25,6 +26,6 @@ public class IntegrationTests
 
         noxConfig
             .Invoking(solution => solution.Build())
-            .Should().Throw<FluentValidation.ValidationException>();   
+            .Should().Throw<NoxSolutionConfigurationException>();   
     }
 }

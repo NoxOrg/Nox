@@ -11,5 +11,7 @@ public class Integration
 
     public string Name { get; set; } = string.Empty;
 
+    public string Definition { get; set; } = string.Empty;
+
     public virtual Source? Source { get; set; }
 }

@@ -377,11 +377,6 @@ application:
         dataConnectionName: CountryJsonData
         fileOptions:
           filename: sample.json
-        watermark:
-          dateColumns:
-            - "CreateDate"
-            - "EditDate"
-          sequentialKeyColumn: CountryId
       transform:
         mappings:
           - sourceColumn: IsoAlpha2Code
@@ -401,9 +396,8 @@ application:
       target:
         targetType: entity
         name: Country
-     
-  
-    
+        entityOptions:
+          dateCompareColumns: ["CreateDate", "EditDate"]
 
 infrastructure:
   

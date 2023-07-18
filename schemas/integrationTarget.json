@@ -47,6 +47,45 @@
       "pattern": "^[^\\s]*$",
       "additionalProperties": false
     },
+    "entityOptions": {    
+      "title": "Definition namespace for watermark columns on the ETL source data.",
+      "description": "This section lists the column(s) on the source data used to compare to the target data to indicate whether the source data has been updated.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "dateCompareColumns": {    
+          "title": "Column(s) in datetime format used for watermark purpose.",
+          "description": "List datetime columns to be compared to target data to indicate if data has changed.",
+          "type": [
+            "array",
+            "null"
+          ],
+          "items":   {
+            "type": [
+              "string",
+              "null"
+            ],
+            "properties": {
+              "chars": {    
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "length": {    
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "additionalProperties": false
+    },
     "databaseOptions": {    
       "type": [
         "object",
