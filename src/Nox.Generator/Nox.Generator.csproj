@@ -21,6 +21,12 @@
 		<RepositoryType>git</RepositoryType>
 		<PackageIcon>nox.png</PackageIcon>
 	</PropertyGroup>
+	<ItemGroup>
+	  <Compile Remove="**\**\*.template.cs" />
+	</ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="**\**\*.template.cs" />
+	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
@@ -45,8 +51,16 @@
 		<PackageReference Include="YamlDotNet" Version="13.1.1" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="Humanizer.Core" Version="2.14.1" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="FluentValidation" Version="11.6.0" PrivateAssets="all" GeneratePathProperty="true" />
-    <PackageReference Include="System.Text.Json" Version="7.0.3"  PrivateAssets="all" GeneratePathProperty="true" />
-  
+		<PackageReference Include="System.Text.Json" Version="7.0.3" PrivateAssets="all" GeneratePathProperty="true" />
+		<PackageReference Include="Scriban" Version="5.7.0" IncludeAssets="Build" />
+	</ItemGroup>
+	
+	<PropertyGroup>
+		<PackageScribanIncludeSource>true</PackageScribanIncludeSource>
+	</PropertyGroup>
+	<ItemGroup>
+		<PackageReference Include="Microsoft.CSharp" Version="4.5.0" />
+		<PackageReference Include="System.Threading.Tasks.Extensions" Version="4.5.4" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -71,5 +85,6 @@
 			<TargetPathWithTargetPlatformMoniker Include="..\..\src\Nox.Types.Abstractions\bin\$(Configuration)\netstandard2.0\Nox.Types.Abstractions.dll" IncludeRuntimeDependency="false" />
 		</ItemGroup>
 	</Target>
+
 
 </Project>
