@@ -63,4 +63,3 @@ public partial class SampleWebAppDbContext : DbContext
         }
     }
 }
-
