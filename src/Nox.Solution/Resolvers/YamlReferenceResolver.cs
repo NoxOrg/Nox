@@ -1,88 +1,142 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Nox.Solution.Exceptions;
 using System.Linq;
+using System.IO;
+using System.Text;
 
 namespace Nox.Solution;
 
 internal class YamlReferenceResolver
 {
     private readonly Regex _referenceRegex = new(@"\$ref\S*:\s*(?<variable>[\w:\.\/\\]+\b[\w\-\.\/]+)\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase, TimeSpan.FromSeconds(5));
-    private string? _sourceFile;
-    private string? _sourceDirectory;
 
-    public YamlReferenceResolver(string sourceFile)
+    private string _rootKey;
+
+    private IDictionary<string, Func<TextReader>> _filesAndContent;
+
+    public YamlReferenceResolver(IDictionary<string,Func<TextReader>> filesAndContent, string rootKey)
     {
-        if (string.IsNullOrEmpty(sourceFile)) throw new NoxYamlException("sourcePath cannot be an empty string!");
-        var sourceFullPath = Path.GetFullPath(sourceFile);
-        if (!File.Exists(sourceFullPath)) throw new NoxYamlException($"Yaml file {sourceFullPath} does not exist!");
-        _sourceFile = sourceFullPath;
-        _sourceDirectory = Path.GetDirectoryName(_sourceFile);
+        if(!filesAndContent.TryGetValue(rootKey, out var _)) 
+        { 
+            throw new NoxYamlException($"The key [{rootKey}] was not found in the file and content dictionary.");
+        }
+
+        _filesAndContent = filesAndContent;
+
+        _rootKey = rootKey;
     }
 
     public string ResolveReferences()
     {
-        var sourceLines = File.ReadAllLines(_sourceFile!);
-        var outputLines = ResolveReferencesInternal(sourceLines.ToList());
-        return string.Join("\n", outputLines.ToArray());
+        using var sourceLines = _filesAndContent[_rootKey].Invoke();
+
+        var outputLines = ResolveReferencesInternal(sourceLines, _rootKey, true);
+        
+        return outputLines.ToString();
     }
 
-    private List<string> ResolveReferencesInternal(List<string> sourceLines)
+    private StringBuilder ResolveReferencesInternal(TextReader sourceLines, string sourceName, bool firstPass = false)
     {
-        var outputLines = new List<string>();
-        foreach (var sourceLine in sourceLines)
-        {
-            if (!sourceLine.TrimStart().StartsWith("#"))
-            {
-                var match = _referenceRegex.Match(sourceLine);
-                if (match.Success)
-                {
-                    var padding = new string(' ', match.Index);
-                    var prefixPadding = "";
-                    var prefix = sourceLine.Substring(0, match.Index);
-                    if (prefix.Contains('-')) prefixPadding = new string(' ', prefix.IndexOf('-'));
-                    var childPath = match.Groups[1].Value;
-                    if (!Path.IsPathRooted(childPath)) childPath = Path.Combine(_sourceDirectory!, childPath);
-                    if (!File.Exists(childPath)) throw new NoxYamlException($"Referenced yaml file does not exist for reference: {match.Groups[1].Value}");
-                    var childLines = File.ReadAllLines(childPath);
-                    foreach ((var childLine, bool isFirst) in childLines.Select((childLine, index) => (childLine, index == 0)))
-                    {
-                        if (isFirst)
-                        {
-                            outputLines.Add((prefix + childLine).Replace("- -", "-"));
-                        }
-                        else
-                        {
-                            if (childLine.StartsWith("-"))
-                            {
-                                outputLines.Add(prefixPadding + childLine);
-                            }
-                            else
-                            {
-                                outputLines.Add(padding + childLine);
-                            }
+        var outputLines = new StringBuilder();
 
-                        }
-                    }
+        var containsRef = false;
+
+        var lineNumber = 0;
+
+        while (true)
+        {
+            var sourceLine = sourceLines.ReadLine();
+
+            if (sourceLine == null) break;
+
+            lineNumber++;
+
+            if (sourceLine.TrimStart().StartsWith("#") || string.IsNullOrWhiteSpace(sourceLine))
+            {
+                continue;
+            }
+
+            containsRef = containsRef || sourceLine.Contains("$ref:");
+
+            var match = _referenceRegex.Match(sourceLine);
+
+            if (!match.Success)
+            {
+                if (firstPass)
+                {
+                    outputLines.Append(sourceLine).AppendLine($"   ##$ -> {sourceName},{lineNumber}");
                 }
                 else
                 {
-                    outputLines.Add(sourceLine);
+                    outputLines.AppendLine(sourceLine);
                 }
+                continue;
             }
-            else
+
+            var padding = new string(' ', match.Index);
+            var prefixPadding = string.Empty;
+            var prefix = sourceLine.Substring(0, match.Index);
+
+            if (prefix.Contains('-')) prefixPadding = new string(' ', prefix.IndexOf('-'));
+
+            var childPath = Path.GetFileName(match.Groups[1].Value); // strip path from $ref
+
+            if (!_filesAndContent.ContainsKey(childPath))
             {
-                outputLines.Add(sourceLine);
+                throw new NoxYamlException($"Referenced yaml file does not exist for reference: {childPath}");
+            }
+
+            using var childContent = _filesAndContent[childPath].Invoke();
+
+            bool isFirstLine = true;
+
+            var childLineNumber = 0; 
+
+            while (true)
+            {
+                var childLine = childContent.ReadLine();
+
+                if (childLine == null) break;
+
+                childLineNumber++;
+
+                if (childLine.TrimStart().StartsWith("#") || string.IsNullOrWhiteSpace(childLine))
+                {
+                    continue;
+                }
+
+                containsRef = containsRef || childLine.Contains("$ref:");
+
+                string output;
+
+                if (isFirstLine)
+                {
+                    output = $"{prefix}{childLine}".Replace("- -", "-");
+                    
+                    isFirstLine = false;
+                }
+                else if (childLine.StartsWith("-"))
+                {
+                    output = $"{prefixPadding}{childLine}";
+                }
+                else
+                {
+                    output = $"{padding}{childLine}";
+                }
+                outputLines.Append(output).AppendLine($"   ##$ -> {childPath},{childLineNumber}");
+
             }
         }
 
-        if (outputLines.Any(ol => ol.Contains("$ref:") && !ol.TrimStart().StartsWith("#")))
+        if (containsRef)
         {
-            outputLines = ResolveReferencesInternal(outputLines);
+            using var sr = new StringReader(outputLines.ToString());
+            outputLines = ResolveReferencesInternal(sr,sourceName);
         }
 
         return outputLines;
     }
+
 }

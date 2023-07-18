@@ -1,4 +1,5 @@
 using FluentAssertions;
+using System.Text.Json;
 
 using System;
 
@@ -7,6 +8,8 @@ namespace Nox.Types.Tests.EntityFrameworkTests;
 public class NoxTypesEntityFrameworkTests : TestWithSqlite
 {
     private const string Sample_Uri = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
+    private const string Sample_Url = "https://www.myregus.com/";
+
     [Fact]
     public async Task DatabaseIsAvailableAndCanBeConnectedTo()
     {
@@ -24,6 +27,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
     {
         double latitude = 46.802496;
         double longitude = 8.234392;
+        var streetAddress = CreateStreetAddress();
 
         var newItem = new Country()
         {
@@ -42,11 +46,15 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             IPAddress = IpAddress.From("102.129.143.255"),
             DateTimeRange = DateTimeRange.From(new DateTime(2023, 01, 01), new DateTime(2023, 02, 01)),
             LongestHikingTrailInMeters = Length.From(390_000),
-            StreetAddress = CreateStreetAddress(),
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
+            StreetAddress = streetAddress,
+            StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress)),
             LocalTimeZone = TimeZoneCode.From("CET"),
-            Uri = Uri.From(Sample_Uri)
+            Uri = Uri.From(Sample_Uri),
+            Url = Url.From(Sample_Url),
+            IsLandLocked = Boolean.From(false),
+            DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -85,7 +93,11 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Uri = Uri.From(Sample_Uri),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
-            LocalTimeZone = TimeZoneCode.From("CET")
+            LocalTimeZone = TimeZoneCode.From("CET"),
+            Url = Url.From(Sample_Url),
+            StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress, new JsonSerializerOptions { WriteIndented = true })),
+            IsLandLocked = Boolean.From(true),
+            DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -123,10 +135,14 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal("AED4322CCFEF", item.MACAddress.Value);
         Assert.Equal(new DateTime(2023, 11, 25).Date, item.Date.Value);
         Assert.Equal("CET", item.LocalTimeZone.Value);
-
+        Assert.Equal(Sample_Url, item.Url.Value.AbsoluteUri);
+        Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
+        Assert.True(item.IsLandLocked.Value);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
+        Assert.Equal(new TimeSpan(10, 5, 2, 1), item.DateTimeDuration.Value);
         AssertStreetAddress(streetAddress, item.StreetAddress);
+        Assert.Equal(JsonSerializer.Serialize(streetAddress), item.StreetAddressJson.Value);
     }
 
     private static StreetAddress CreateStreetAddress()
