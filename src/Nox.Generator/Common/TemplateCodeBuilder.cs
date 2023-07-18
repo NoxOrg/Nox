@@ -20,13 +20,18 @@ internal class TemplateCodeBuilder
     private readonly NoxSolutionCodeGeneratorState _codeGeneratorState;
 
     private string? _className;
-    private Dictionary<string, object>? _extendedModel;
+    
+    private readonly Dictionary<string, object> _model;
 
 
     public TemplateCodeBuilder(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
         _context = context;
         _codeGeneratorState = codeGeneratorState;
+
+        _model = new();
+        _model["codeGeneratorState"] = _codeGeneratorState;
+        _model["solution"] = _codeGeneratorState.Solution;
     }
 
     /// <summary>
@@ -43,9 +48,9 @@ internal class TemplateCodeBuilder
     /// <summary>
     /// Extend the default model with a extended property to the extendedModel
     /// </summary>
-    public TemplateCodeBuilder WithExtendedModel(Dictionary<string, object> extendedModel)
+    public TemplateCodeBuilder WithObject(string name, object value)
     {
-        _extendedModel = extendedModel;
+        _model[name] = value;
         return this;
     }
 
@@ -58,13 +63,10 @@ internal class TemplateCodeBuilder
     {
         var resourceName = $"Nox.Generator.{templateFileName}.template.cs";
 
-        var className = _className ?? ComputeDefaultClassName(templateFileName);
-        var model = new { 
-            codeGeneratorState = _codeGeneratorState, 
-            className = _className ?? className, 
-            solution = _codeGeneratorState.Solution,
-            extended = _extendedModel
-        };
+        _className ??= ComputeDefaultClassName(templateFileName);
+
+        _model["className"] = _className; 
+        
         string template;
 
         using (var stream = Assembly.GetManifestResourceStream(resourceName)!)
@@ -73,7 +75,7 @@ internal class TemplateCodeBuilder
             template = reader.ReadToEnd();
         }
 
-        GenerateSourceCode(template, model, $"{className}.g.cs");
+        GenerateSourceCode(template, _model, $"{_className}.g.cs");
      
         return this;
     }
