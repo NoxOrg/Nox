@@ -5,23 +5,38 @@ namespace Nox.Types.Tests.Types;
 
 public class TemperatureTests
 {
-    [Theory]
-    [InlineData(25.05, TemperatureTypeUnit.Celsius)]
-    [InlineData(86.88, TemperatureTypeUnit.Fahrenheit)]
-    public void From_TemperatureUnitSent_ReturnsValue(float value, TemperatureTypeUnit unit)
+    [Fact]
+    public void From_TemperatureUnitSent_Celsius_ReturnsValue()
     {
-        var temperature = Temperature.From(value, unit);
+        var value = 25.05;
+        var temperature = Temperature.From(value, TemperatureUnit.Celsius);
 
-        temperature.TemperatureValue.Should().Be(value);
-        temperature.Unit.Should().Be(unit);
+        temperature.Value.Should().Be(value);
+        temperature.Unit.Should().Be(TemperatureUnit.Celsius);
     }
 
-    [Theory]
-    [InlineData(-280, TemperatureTypeUnit.Celsius)]
-    [InlineData(-460, TemperatureTypeUnit.Fahrenheit)]
-    public void From_TemperatureAbsoluteZero_ThrowsException(float value, TemperatureTypeUnit unit)
+    [Fact]
+    public void From_TemperatureUnitSent_Fahrenheit_ReturnsValue()
     {
-        Action comparison = () => Temperature.From(value, unit);
+        var value = 86.88;
+        var temperature = Temperature.From(value, TemperatureUnit.Fahrenheit);
+
+        temperature.Value.Should().Be(value);
+        temperature.Unit.Should().Be(TemperatureUnit.Fahrenheit);
+    }
+
+    [Fact]
+    public void From_TemperatureAbsoluteZero_Celsius_ThrowsException()
+    {
+        Action comparison = () => Temperature.From(-280, TemperatureUnit.Celsius);
+
+        comparison.Should().Throw<TypeValidationException>();
+    }
+
+    [Fact]
+    public void From_TemperatureAbsoluteZero_Fahrenheit_ThrowsException()
+    {
+        Action comparison = () => Temperature.From(-460, TemperatureUnit.Fahrenheit);
 
         comparison.Should().Throw<TypeValidationException>();
     }
@@ -29,11 +44,11 @@ public class TemperatureTests
     [Fact]
     public void FromCelsius_ReturnsValue()
     {
-        float value = 32.5F;
+        double value = 32.5;
         var temperature = Temperature.FromCelsius(value);
 
-        temperature.TemperatureValue.Should().Be(value);
-        temperature.Unit.Should().Be(TemperatureTypeUnit.Celsius);
+        temperature.Value.Should().Be(value);
+        temperature.Unit.Should().Be(TemperatureUnit.Celsius);
     }
 
     [Fact]
@@ -47,11 +62,11 @@ public class TemperatureTests
     [Fact]
     public void FromFahrenheit_ReturnsValue()
     {
-        float value = 90.5F;
+        double value = 90.5;
         var temperature = Temperature.FromFahrenheit(value);
 
-        temperature.TemperatureValue.Should().Be(value);
-        temperature.Unit.Should().Be(TemperatureTypeUnit.Fahrenheit);
+        temperature.Value.Should().Be(value);
+        temperature.Unit.Should().Be(TemperatureUnit.Fahrenheit);
     }
 
     [Fact]
@@ -65,49 +80,52 @@ public class TemperatureTests
     [Fact]
     public void From_DefaultUnit_ReturnsValue()
     {
-        float value = 30.8F;
+        double value = 30.8;
         var temperature = Temperature.FromCelsius(value);
 
-        temperature.TemperatureValue.Should().Be(value);
-        temperature.Unit.Should().Be(TemperatureTypeUnit.Celsius);
+        temperature.Value.Should().Be(value);
+        temperature.Unit.Should().Be(TemperatureUnit.Celsius);
     }
 
     [Fact]
-    public void From_DefaultUnit_TemperatureAbsoluteZero_ThrowsException()
+    public void ToString_Celsius_ReturnsValue()
     {
-        Action comparison = () => Temperature.FromCelsius(-300f);
+        var value = 25.05;
+        var temperature = Temperature.From(value, TemperatureUnit.Celsius);
 
-        comparison.Should().Throw<TypeValidationException>();
+        temperature.ToString().Should().Be("25.05 C");
     }
 
-    [Theory]
-    [InlineData(25.05, TemperatureTypeUnit.Celsius, "25.05 C")]
-    [InlineData(86.8899, TemperatureTypeUnit.Fahrenheit, "86.89 F")]
-    public void ToString_ReturnsValue(float value, TemperatureTypeUnit unit, string expected)
+    [Fact]
+    public void ToString_Fahrenheit_ReturnsValue()
     {
-        var temperature = Temperature.From(value, unit);
+        var value = 25.05;
+        var temperature = Temperature.From(value, TemperatureUnit.Fahrenheit);
 
-        temperature.ToString().Should().Be(expected);
+        temperature.ToString().Should().Be("25.05 F");
     }
 
-    [Theory]
-    [InlineData(25.05, TemperatureTypeUnit.Celsius, 25.05)]
-    [InlineData(88.5, TemperatureTypeUnit.Fahrenheit, 31.39)]
-    public void TemperatureValueToCelsius_ReturnsCorrectValue(float value, TemperatureTypeUnit unit, float expected)
+    [Fact]
+    public void TemperatureConversion_CelciusToCelsius_ReturnsCorrectValue()
     {
-        var temperature = Temperature.From(value, unit);
+        var temperature = Temperature.From(25.05, TemperatureUnit.Celsius);
 
-        temperature.TemperatureValueToCelsius().Should().Be(expected);
+        temperature.ToCelsius().Should().Be(25.05);
     }
 
-    [Theory]
-    [InlineData(25.05, TemperatureTypeUnit.Fahrenheit, 25.05)]
-    [InlineData(31.39, TemperatureTypeUnit.Celsius, 88.5)]
-    public void TemperatureValueToFahrenheit_ReturnsCorrectValue(float value, TemperatureTypeUnit unit, float expected)
+    [Fact]
+    public void TemperatureConversion_FahrenheitToCelsius_ReturnsCorrectValue()
     {
-        var temperature = Temperature.From(value, unit);
+        var temperature = Temperature.From(87.89, TemperatureUnit.Fahrenheit);
 
-        temperature.TemperatureValueToFahrenheit().Should().Be(expected);
+        temperature.ToCelsius().Should().Be(31.05);
     }
 
+    [Fact]
+    public void TemperatureConversion_CelsiusToFahrenheit_ReturnsCorrectValue()
+    {
+        var temperature = Temperature.From(31.05, TemperatureUnit.Celsius);
+
+        temperature.ToFahrenheit().Should().Be(87.89);
+    }
 }

@@ -1,4 +1,6 @@
+using Nox.Types.Common;
 using System;
+using System.Collections.Generic;
 using System.Globalization;
 
 namespace Nox.Types;
@@ -7,29 +9,16 @@ namespace Nox.Types;
 /// Represents a Nox <see cref="Temperature"/> type and value object.
 /// </summary>
 /// <remarks>Placeholder, needs to be implemented</remarks>
-public sealed class Temperature : ValueObject<(float TemperatureValue, TemperatureTypeUnit Unit), Temperature>
+public sealed class Temperature : Measurement<Temperature, TemperatureUnit>
 {
-    /// <summary>
-    /// Absolute zero degrees represented in Fahrenheit.
-    /// </summary>
-    private const float MinimumValueFahrenheit = -273.15f;
     /// <summary>
     /// Absolute zero degrees represented in Celsius.
     /// </summary>
-    private const float MinimumValueCelsius = -459.67f;
-
-    public float TemperatureValue
-    {
-        get => Value.TemperatureValue;
-        private set => Value = (TemperatureValue: value, Value.Unit);
-    }
-    public TemperatureTypeUnit Unit
-    {
-        get => Value.Unit;
-        private set => Value = (Value.TemperatureValue, Unit: value);
-    }
-
-    public Temperature() { Value = (0, TemperatureTypeUnit.Celsius); }
+    private const float MinimumValueCelsius = -273.15f;
+    /// <summary>
+    /// Absolute zero degrees represented in Fahrenheit.
+    /// </summary>
+    private const float MinimumValueFahrenheit = -459.67f;
 
     /// <summary>
     /// Creates a new instance of <see cref="Temperature"/> object in <see cref="TemperatureTypeUnit.Celsius"/>.
@@ -37,7 +26,7 @@ public sealed class Temperature : ValueObject<(float TemperatureValue, Temperatu
     /// <param name="temperature">The value to create the <see cref="Temperature"/> with.</param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
-    public static Temperature FromCelsius(float temperature) => From(temperature, TemperatureTypeUnit.Celsius);
+    public static Temperature FromCelsius(QuantityValue temperature) => From(temperature, TemperatureUnit.Celsius);
 
     /// <summary>
     /// Creates a new instance of <see cref="Temperature"/> object in <see cref="TemperatureTypeUnit.Fahrenheit"/>.
@@ -45,32 +34,16 @@ public sealed class Temperature : ValueObject<(float TemperatureValue, Temperatu
     /// <param name="temperature">The value to create the <see cref="Temperature"/> with.</param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
-    public static Temperature FromFahrenheit(float temperature) => From(temperature, TemperatureTypeUnit.Fahrenheit);
+    public static Temperature FromFahrenheit(QuantityValue temperature) => From(temperature, TemperatureUnit.Fahrenheit);
 
     /// <summary>
-    /// Creates a new instance of <see cref="Temperature"/> object in sent TemperatureTypeUnit.
+    /// Creates a new instance of <see cref="Temperature"/> object in meters.
     /// </summary>
-    /// <param name="temperature">The value to create the <see cref="Temperature"/> with.</param>
-    /// <param name="temperatureTypeUnit">Unit type of the <paramref name="temperature"/>.</param>
+    /// <param name="value">The value to create the <see cref="Temperature"/> with</param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
-    public static Temperature From(float temperature, TemperatureTypeUnit temperatureTypeUnit)
-    {
-        var newObject = new Temperature
-        {
-            Value = (Round(temperature), temperatureTypeUnit),
-            Unit = temperatureTypeUnit
-        };
-
-        var validationResult = newObject.Validate();
-
-        if (!validationResult.IsValid)
-        {
-            throw new TypeValidationException(validationResult.Errors);
-        }
-
-        return newObject;
-    }
+    public static new Temperature From(QuantityValue value)
+        => From(value, TemperatureUnit.Celsius);
 
     /// <summary>
     /// /// Validates a <see cref="Temperature"/> object.
@@ -80,8 +53,8 @@ public sealed class Temperature : ValueObject<(float TemperatureValue, Temperatu
     {
         var result = new ValidationResult();
 
-        if ((Value.Unit == TemperatureTypeUnit.Celsius && Value.TemperatureValue < MinimumValueFahrenheit) ||
-            (Value.Unit == TemperatureTypeUnit.Fahrenheit && Value.TemperatureValue < MinimumValueCelsius))
+        if ((Unit == TemperatureUnit.Celsius && Value < MinimumValueCelsius) ||
+            (Unit == TemperatureUnit.Fahrenheit && Value < MinimumValueFahrenheit))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), "Temperature cannot be below absolute zero."));
         }
@@ -90,34 +63,38 @@ public sealed class Temperature : ValueObject<(float TemperatureValue, Temperatu
     }
 
     /// <summary>
-    /// Converts the this instance to its equivalent string representation using InvariantCulture format.
+    /// Converts <see cref="Temperature.TemperatureValue"/> to value in <see cref="TemperatureUnit.Celsius"/>.
     /// </summary>
-    /// <returns>A string representation of the <see cref="Temperature"/> object.</returns>
-    public override string ToString()
-        => $"{TemperatureValue.ToString($"0.{new string('#', 2)}", CultureInfo.InvariantCulture)} {Unit.ToSymbol()}";
-
-    /// <summary>
-    /// Converts <see cref="Temperature.TemperatureValue"/> to value in <see cref="TemperatureTypeUnit.Celsius"/>.
-    /// </summary>
-    /// <returns>TemperatureValue in <see cref="TemperatureTypeUnit.Celsius"/></returns>
-    public float TemperatureValueToCelsius()
+    /// <returns>TemperatureValue in <see cref="TemperatureUnit.Celsius"/></returns>
+    public QuantityValue ToCelsius()
     {
-        if (Unit == TemperatureTypeUnit.Celsius) return TemperatureValue;
+        if (Unit == TemperatureUnit.Celsius)
+            return Value;
 
-        return Round((TemperatureValue - 32) * 5 / 9);
+        var newObject = FromCelsius(((Value - 32) * 5) / 9);
+
+        return newObject.Value;
     }
 
     /// <summary>
-    /// Converts <see cref="Temperature.TemperatureValue"/> to value in <see cref="TemperatureTypeUnit.Fahrenheit"/>.
+    /// Converts <see cref="Temperature.TemperatureValue"/> to value in <see cref="TemperatureUnit.Fahrenheit"/>.
     /// </summary>
-    /// <returns>TemperatureValue in <see cref="TemperatureTypeUnit.Fahrenheit"/></returns>
-    public float TemperatureValueToFahrenheit()
+    /// <returns>TemperatureValue in <see cref="TemperatureUnit.Fahrenheit"/></returns>
+    public QuantityValue ToFahrenheit()
     {
-        if (Unit == TemperatureTypeUnit.Fahrenheit) return TemperatureValue;
+        if (Unit == TemperatureUnit.Fahrenheit)
+            return Value;
 
-        return Round((TemperatureValue * 9 / 5) + 32);
+        var newObject = FromCelsius((Value * 9 / 5) + 32);
+
+        return newObject.Value;
     }
 
-    private static float Round(float value)
-        => (float)Math.Round(value, 2);
+    protected override IEnumerable<KeyValuePair<string, object>> GetEqualityComponents()
+    {
+        yield return new KeyValuePair<string, object>(nameof(Value), ToCelsius());
+    }
+
+    protected override MeasurementConversionFactor<TemperatureUnit> ResolveUnitConversionFactor(TemperatureUnit sourceUnit, TemperatureUnit targetUnit)
+        => new TemperatureConversionFactor(sourceUnit, targetUnit);
 }
