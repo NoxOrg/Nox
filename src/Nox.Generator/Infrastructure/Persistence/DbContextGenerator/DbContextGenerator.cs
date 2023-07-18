@@ -19,7 +19,7 @@ internal static class DbContextGenerator
         }
 
         var className = $"{codeGeneratorState.Solution.Name}DbContext";
-        var templateName = @"Infrastructure.Persistence.DbContextGenerator.DbContext.template.cs";
+        var templateName = @"Infrastructure.Persistence.DbContextGenerator.DbContext";
 
         new TemplateCodeBuilder(context, codeGeneratorState)
             .WithClassName(className)

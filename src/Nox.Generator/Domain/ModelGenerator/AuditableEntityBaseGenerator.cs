@@ -9,9 +9,8 @@ internal static class AuditableEntityBaseGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        var code = new TemplateCodeBuilder($"AuditableEntityBase.g.cs",context);
+        var code = new TemplateCodeBuilder(context, codeGeneratorState);
 
-        code.GenerateSourceCodeFromResource(@"Domain.ModelGenerator.AuditableEntityBase.template.cs",
-            new { codeGeneratorState });
+        code.GenerateSourceCodeFromResource(@"Domain.ModelGenerator.AuditableEntityBase");
     }
 }

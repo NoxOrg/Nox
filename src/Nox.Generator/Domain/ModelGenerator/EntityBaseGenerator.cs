@@ -9,9 +9,8 @@ internal static class EntityBaseGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        var code = new TemplateCodeBuilder($"EntityBase.g.cs", context);
+        var code = new TemplateCodeBuilder(context, codeGeneratorState);
 
-        code.GenerateSourceCodeFromResource(@"Domain.ModelGenerator.EntityBase.template.cs",
-            new { codeGeneratorState });
+        code.GenerateSourceCodeFromResource(@"Domain.ModelGenerator.EntityBase");
     }
 }
