@@ -9,11 +9,9 @@ namespace Nox.EntityFramework.Postgres;
 public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProvider 
 {
     private string _connectionString = string.Empty;
-    
-    public PostgresDatabaseProvider()
+
+    public PostgresDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators) : base(configurators, typeof(IPostgresNoxTypeDatabaseConfigurator))
     {
-        // Override Text Configurator
-        TypesDatabaseConfigurations[NoxType.Text] = new PostgresTextDatabaseConfiguration();
     }
 
     public string ConnectionString
@@ -35,10 +33,9 @@ public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProv
         };
         SetConnectionString(csb.ConnectionString);
 
-        return optionsBuilder.UseNpgsql(_connectionString, opts =>
-        {
-            opts.MigrationsHistoryTable("MigrationsHistory", "migrations");
-        });
+        return optionsBuilder
+            .UseLazyLoadingProxies()
+            .UseNpgsql(_connectionString, opts => { opts.MigrationsHistoryTable("MigrationsHistory", "migrations"); });
     }
 
     public string ToTableNameForSql(string table, string schema)

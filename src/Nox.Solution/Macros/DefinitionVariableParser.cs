@@ -7,9 +7,9 @@ namespace Nox.Solution.Macros;
 
 public class DefinitionVariableParser
 {
-    public IReadOnlyDictionary<string, string>? Parse(string text)
+    public IReadOnlyDictionary<string, string?>? Parse(string text)
     {
-        var result = new Dictionary<string, string>();
+        var result = new Dictionary<string, string?>();
         var source = new StringReader(text);
         var yaml = new YamlStream();
         yaml.Load(source);

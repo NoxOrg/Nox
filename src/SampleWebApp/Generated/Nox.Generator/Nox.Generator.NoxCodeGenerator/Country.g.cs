@@ -15,7 +15,7 @@ public partial class Country : AuditableEntityBase
 {
     
     /// <summary>
-    /// (Optional)
+    /// (Required)
     /// </summary>
     public Text Id { get; set; } = null!;
     

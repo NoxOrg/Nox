@@ -161,6 +161,7 @@ domain:
       keys:
 
         - name: Id
+          isRequired: true
           type: text
           textTypeOptions:
             isUnicode: false
@@ -291,6 +292,7 @@ domain:
       keys:
 
       - name: Id
+        isRequired: true
         type: text
         textTypeOptions:
           isUnicode: false
@@ -303,6 +305,7 @@ domain:
       keys:
 
       - name: Id
+        isRequired: true
         type: text
         textTypeOptions:
           isUnicode: false
@@ -504,15 +507,5 @@ infrastructure:
         serverUri: file:///C:/my-data-files
         options: Source=File;Filename=country-data.json;
 
-  security:
-    secrets:
-      secretsServer:
-        name: SampleSecretServer
-        provider: azureKeyVault
-        serverUri: kv.iwgplc.com
-        user: secrets@iwgplc.com
-        password: SecretPassword
-      validFor:
-        minutes: 10
 
 

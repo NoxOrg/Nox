@@ -4,7 +4,7 @@ namespace Nox.Types.Tests.EntityFrameworkTests;
 
 public class SampleDbContext : DbContext
 {
-    public DbSet<Country> Countries { get; set; }
+    public DbSet<Country>? Countries { get; set; }
 
     public SampleDbContext(DbContextOptions<SampleDbContext> options) : base(options)
     {
