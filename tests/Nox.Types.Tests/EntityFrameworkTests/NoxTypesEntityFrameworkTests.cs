@@ -58,7 +58,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
             VolumeInCubicMeters = Volume.FromCubicMeters(89_000),
             WeightInKilograms = Weight.FromKilograms(19_000),
-            Nuid = Nuid.From(NuidDefinition.NuidStringValue)
+            Nuid = Nuid.From(NuidDefinition.NuidStringValue),
+            HashedText = HashedText.From("Test123.")
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -104,7 +105,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
             VolumeInCubicMeters = Volume.FromCubicMeters(89_000),
             WeightInKilograms = Weight.FromKilograms(19_000),
-            Nuid = Nuid.From(NuidDefinition.NuidStringValue)
+            Nuid = Nuid.From(NuidDefinition.NuidStringValue),
+            HashedText = HashedText.From(("Test123.", "salt"))
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -149,7 +151,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(VolumeUnit.CubicMeter, item.VolumeInCubicMeters.Unit);
         Assert.Equal(19_000, item.WeightInKilograms.Value);
         Assert.Equal(WeightUnit.Kilogram, item.WeightInKilograms.Unit);
-
+        Assert.Equal(newItem.HashedText.HashText, item.HashedText.HashText);
+        Assert.Equal(newItem.HashedText.Salt, item.HashedText.Salt);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(new TimeSpan(10, 5, 2, 1), item.DateTimeDuration.Value);

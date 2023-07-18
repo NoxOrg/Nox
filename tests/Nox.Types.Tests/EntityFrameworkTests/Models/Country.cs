@@ -137,4 +137,9 @@ public sealed class Country
     /// Gets or sets the Nuid.
     /// </summary>
     public Nuid Nuid { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets hashed value
+    /// </summary>
+    public HashedText HashedText { get; set; } = null!;
 }
