@@ -976,38 +976,29 @@
           ]
         },
         "type": {    
-          "const": "file"
+          "const": "hashedText"
         },
-        "fileTypeOptions": {    
+        "hashedTextTypeOptions": {    
           "type": [
             "object",
             "null"
           ],
           "properties": {
-            "supportedFileFormats": {    
+            "hashingAlgorithm": {    
               "type": [
-                "array",
+                "string",
                 "null"
               ],
-              "items":   {
-                "type": [
-                  "string",
-                  "null"
-                ],
-                "enum": [
-                  "all",
-                  "csv",
-                  "doc",
-                  "docx",
-                  "eml",
-                  "pdf",
-                  "ppt",
-                  "pptx",
-                  "txt",
-                  "xls",
-                  "xlsx"
-                ]
-              }
+              "enum": [
+                "sHA256",
+                "sHA512"
+              ]
+            },
+            "saltLength": {    
+              "type": [
+                "integer",
+                "null"
+              ]
             }
           }
         },
@@ -1088,9 +1079,9 @@
             "distance",
             "email",
             "encryptedText",
+            "file",
             "formula",
             "guid",
-            "hashedText",
             "html",
             "image",
             "internetDomain",

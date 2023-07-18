@@ -2,4 +2,7 @@
 
 namespace Nox.Types;
 
-public interface INoxType {}
+public interface INoxType 
+{
+    Type GetUnderlyingType();
+}

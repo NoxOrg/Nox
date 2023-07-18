@@ -55,6 +55,9 @@ public class NoxSimpleTypeDefinition
     [IfEquals("Type", NoxType.DateTimeDuration)]
     public DateTimeDurationTypeOptions? DateTimeDurationTypeOptions { get; set; }
 
+    [IfEquals("Type", NoxType.HashedText)]
+    public HashedTextTypeOptions? HashedTextTypeOptions { get; set; }
+
     [IfEquals("Type", NoxType.File)]
     public FileTypeOptions? FileTypeOptions { get; set; }
 
