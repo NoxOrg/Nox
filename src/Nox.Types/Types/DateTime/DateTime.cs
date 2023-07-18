@@ -163,14 +163,5 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
     {
         return Value.ToString(format, formatProvider);
     }
-
-    /// <summary>
-    /// Adds sent Timespan on <see cref="DateTime.Value"/>
-    /// </summary>
-    /// <param name="ts"></param>
-    public static DateTime Add(DateTime dateTime, TimeSpan timeSpan)
-    {
-        return dateTime + timeSpan;
-    }
 }
 
