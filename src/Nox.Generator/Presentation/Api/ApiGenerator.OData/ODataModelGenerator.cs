@@ -3,7 +3,9 @@ using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Types.Extensions;
 using System;
+using System.Diagnostics;
 using System.Linq;
 
 using static Nox.Generator.Common.BaseGenerator;
@@ -99,7 +101,8 @@ internal static class ODataModelGenerator
 
     private static void GenerateProperty(CodeBuilder code, NoxSimpleTypeDefinition attribute, bool forceRequired = false)
     {
-        var fields = GetType(attribute.Type);
+
+        var fields = GetNoxTypeInformation(attribute.Type);
 
         foreach (var field in fields)
         {
@@ -113,32 +116,11 @@ internal static class ODataModelGenerator
         }
     }
 
-    // TODO: refactor the structure
-    private static Tuple<string, string>[] GetType(NoxType type)
+    private static Tuple<string, string>[] GetNoxTypeInformation(NoxType noxType)
     {
-        // TODO: add other types
-        return type switch
-        {
-            NoxType.Text => GetSimpleTypeDefinition(new Text()),
-            NoxType.Number => GetSimpleTypeDefinition(new Number()),
-
-            NoxType.Money => GetMoneyDefinition(),
-
-            _ => new[] { new Tuple<string, string>(string.Empty, "string") },
-        };
-    }
-
-    private static Tuple<string, string>[] GetSimpleTypeDefinition<T, TValueObject>(ValueObject<T, TValueObject> instance) where TValueObject : ValueObject<T, TValueObject>, new()
-    {
-        return new[] { new Tuple<string, string>(string.Empty, instance.GetUnderlyingType().ToString()) };
-    }
-
-    private static Tuple<string, string>[] GetMoneyDefinition()
-    {
-        var money = new Money();
-        return new[] {
-            new Tuple<string, string>(nameof(money.Amount), money.Amount.GetType().ToString()),
-            new Tuple<string, string>(nameof(money.CurrencyCode), money.CurrencyCode.GetType().ToString())
-        };
+        return noxType.GetComponents()
+            .Select( kv => new Tuple<string,string>(kv.Key, kv.Value.Name))
+            .ToArray();
+        
     }
 }

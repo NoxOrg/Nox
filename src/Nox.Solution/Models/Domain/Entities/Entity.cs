@@ -1,4 +1,5 @@
-﻿using Nox.Solution.Schema;
+﻿using Nox.Types;
+using Nox.Types.Schema;
 using System.Collections.Generic;
 using Humanizer;
 using Nox.Solution.Events;

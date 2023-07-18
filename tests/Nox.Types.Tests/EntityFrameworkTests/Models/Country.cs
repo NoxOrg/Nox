@@ -55,7 +55,6 @@ public sealed class Country
     /// </summary>
     public Month MonthOfPeakTourism { get; set; } = null!;
 
-
     /// <summary>
     /// Gets or sets the distance in kilometers.
     /// </summary>
@@ -98,6 +97,8 @@ public sealed class Country
 
     public Uri Uri { get; set; } = null!;
 
+    public Url Url { get; set; } = null!;
+
     /// <summary>
     /// Gets or sets the date.
     /// </summary>
@@ -121,6 +122,16 @@ public sealed class Country
     /// Gets or sets the duration of the date time.
     /// </summary>
     public DateTimeDuration DateTimeDuration { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the volume in cubic meters.
+    /// </summary>
+    public Volume VolumeInCubicMeters { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the weight in kilograms.
+    /// </summary>
+    public Weight WeightInKilograms { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the Nuid.

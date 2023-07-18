@@ -3,6 +3,7 @@ using System.Text;
 using System;
 using Nox.Types.Common;
 using System.Linq;
+using System.Diagnostics.CodeAnalysis;
 using System.IO.Hashing;
 
 namespace Nox.Types;
@@ -57,19 +58,21 @@ public sealed class Nuid : ValueObject<uint, Nuid>, IComparable, IComparable<Nui
             throw new ArgumentException("Object must be of type NUID.", nameof(obj));
         }
 
-        return (uint)obj != Value ? 1 : 0;
+        return ((Nuid)obj).Value != Value ? 1 : 0;
     }
 
-    public int CompareTo(Nuid other)
+    public int CompareTo(Nuid? other)
     {
-        return other.Value != Value ? 1 : 0;
+        return CompareTo(other?.Value);
     }
 
 #if NET7_0
-    public override bool Equals([NotNullWhen(true)] object? o)
+
+    public override bool Equals([NotNullWhen(true)] object? obj)
     {
-        return o is Nuid other && Equals(other);
+        return obj is Nuid other && Equals(other);
     }
+
 #endif
 
 #if NETSTANDARD2_0
@@ -81,9 +84,9 @@ public sealed class Nuid : ValueObject<uint, Nuid>, IComparable, IComparable<Nui
 
 #endif
 
-    public bool Equals(Nuid other)
+    public bool Equals(Nuid? other)
     {
-        return Value == other.Value;
+        return Value == other?.Value;
     }
 
     public override int GetHashCode()
