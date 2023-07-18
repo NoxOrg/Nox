@@ -2,11 +2,11 @@
 
 namespace Nox.Types.EntityFramework.Types;
 
-public class WeightToPoundConverter : ValueConverter<Weight, double>
+public class WeightToPoundsConverter : ValueConverter<Weight, double>
 {
-    public WeightToPoundConverter() : base(weight => (double)weight.ToPounds(), weightValue => Weight.FromPounds(weightValue)) { }
+    public WeightToPoundsConverter() : base(weight => (double)weight.ToPounds(), weightValue => Weight.FromPounds(weightValue)) { }
 }
-public class WeightToKilogramConverter : ValueConverter<Weight, double>
+public class WeightToKilogramsConverter : ValueConverter<Weight, double>
 {
-    public WeightToKilogramConverter() : base(weight => (double)weight.ToKilograms(), weightValue => Weight.FromKilograms(weightValue)) { }
+    public WeightToKilogramsConverter() : base(weight => (double)weight.ToKilograms(), weightValue => Weight.FromKilograms(weightValue)) { }
 }
