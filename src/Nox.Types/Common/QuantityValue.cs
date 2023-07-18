@@ -87,8 +87,6 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
     /// </summary>
     public bool IsDecimal => Type == UnderlyingDataType.Decimal;
 
-    public double Value => _doubleValue;
-
     #region To QuantityValue
 
     // Prefer double for integer types, since most quantities use that type as of now and
