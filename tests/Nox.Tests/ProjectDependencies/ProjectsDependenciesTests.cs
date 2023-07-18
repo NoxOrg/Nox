@@ -14,19 +14,19 @@ namespace Nox.Tests.ProjectDependencies
         }
 
         [Fact]
-        public void Nox_Types_Cannot_Reference_Projects()
+        public void Nox_Types_Abstractions__Cannot_Reference_Projects()
         {
-            var projectDependencies = _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectDirectlyDependsOn(_fixture.NoxTypesProject.Id);
+            var projectDependencies = _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectDirectlyDependsOn(_fixture.NoxTypesAbstractionsProject.Id);
             projectDependencies.Should().BeEmpty();
             //_fixture.NoxTypesProject.ProjectReferences.Should().BeEmpty();
         }
         [Fact]
-        public void Nox_Types_Cannot_Reference_ThirdParty_Packages()
+        public void Nox_Types_Abstractions_Cannot_Reference_ThirdParty_Packages()
         {
             using (new AssertionScope())
             {
                 
-                foreach (var metadataRef in _fixture.NoxTypesProject.MetadataReferences)
+                foreach (var metadataRef in _fixture.NoxTypesAbstractionsProject.MetadataReferences)
                 {
                     var properties = metadataRef.Properties;
                     
@@ -47,7 +47,7 @@ namespace Nox.Tests.ProjectDependencies
 
         }
         [Fact]
-        public void Nox_Solution_References_Nox_Types_Only()
+        public void Nox_Solution_References_Nox_Types_Abstractions_Only()
         {
             var projectDependenciesNoxSolutionNet7 = 
                 _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectDirectlyDependsOn(_fixture.NoxSolutionNet7.Id);
@@ -57,8 +57,8 @@ namespace Nox.Tests.ProjectDependencies
             projectDependenciesNoxSolutionNet7.Should().HaveCount(1);
             projectDependenciesNoxSolutionStd20.Should().HaveCount(1);
 
-            (projectDependenciesNoxSolutionNet7.Single() == _fixture.NoxTypesProject.Id).Should().BeTrue();
-            (projectDependenciesNoxSolutionStd20.Single() == _fixture.NoxTypesProject.Id).Should().BeTrue();
+            (projectDependenciesNoxSolutionNet7.Single() == _fixture.NoxTypesAbstractionsProject.Id).Should().BeTrue();
+            (projectDependenciesNoxSolutionStd20.Single() == _fixture.NoxTypesAbstractionsProject.Id).Should().BeTrue();
         }
 
         [Fact]
@@ -72,7 +72,7 @@ namespace Nox.Tests.ProjectDependencies
 
             if (projectDependencies.Count() == 2)
             {
-                projectDependencies.Should().Contain(_fixture.NoxTypesProject.Id);
+                projectDependencies.Should().Contain(_fixture.NoxTypesAbstractionsProject.Id);
             }
 
         }

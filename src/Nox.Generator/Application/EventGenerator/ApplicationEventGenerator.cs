@@ -2,6 +2,7 @@
 using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
+using Nox.Types;
 
 namespace Nox.Generator.Application.EventGenerator;
 
