@@ -66,8 +66,6 @@ public partial class StoresController : ODataController
         var entity = _mapper.Map<Store>(store);
         
         entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
-        entity.CreatedBy = "test";
-        entity.CreatedAtUtc = DateTime.UtcNow;
         
         _databaseContext.Stores.Add(entity);
         

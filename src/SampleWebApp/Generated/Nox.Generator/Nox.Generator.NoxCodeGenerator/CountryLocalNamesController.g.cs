@@ -66,8 +66,6 @@ public partial class CountryLocalNamesController : ODataController
         var entity = _mapper.Map<CountryLocalNames>(countrylocalnames);
         
         entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
-        entity.CreatedBy = "test";
-        entity.CreatedAtUtc = DateTime.UtcNow;
         
         _databaseContext.CountryLocalNames.Add(entity);
         

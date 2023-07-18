@@ -1,4 +1,5 @@
-﻿using Nox.Solution.Schema;
+﻿using Nox.Types;
+using Nox.Types.Schema;
 
 namespace Nox.Solution.Events;
 

@@ -80,8 +80,6 @@ public partial class CountriesController : ODataController
         var entity = _mapper.Map<Country>(country);
         
         entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
-        entity.CreatedBy = "test";
-        entity.CreatedAtUtc = DateTime.UtcNow;
         
         _databaseContext.Countries.Add(entity);
         

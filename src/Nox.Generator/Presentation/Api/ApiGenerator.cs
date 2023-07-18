@@ -317,8 +317,9 @@ internal static class ApiGenerator
         code.AppendLine();
         // TODO: temporal logic! Need to create an abstraction on top
         code.AppendLine($"entity.{keyName} = Guid.NewGuid().ToString().Substring(0, 2);");
-        code.AppendLine($"entity.CreatedBy = \"test\";");
-        code.AppendLine($"entity.CreatedAtUtc = DateTime.UtcNow;");
+        //code.AppendLine($"entity.CreatedBy = \"test\";");
+        //code.AppendLine($"entity.CreatedAtUtc = DateTime.UtcNow;");
+
         code.AppendLine();
         code.AppendLine($"_databaseContext.{pluralName}.Add(entity);");
         code.AppendLine();

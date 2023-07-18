@@ -66,8 +66,6 @@ public partial class CurrenciesController : ODataController
         var entity = _mapper.Map<Currency>(currency);
         
         entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
-        entity.CreatedBy = "test";
-        entity.CreatedAtUtc = DateTime.UtcNow;
         
         _databaseContext.Currencies.Add(entity);
         

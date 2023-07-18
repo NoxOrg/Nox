@@ -1,6 +1,10 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
+using Nox.Types;
+using Nox.Types.Extensions;
+using System;
+using System.Diagnostics;
 using System.Linq;
 
 using static Nox.Generator.Common.BaseGenerator;
@@ -126,17 +130,25 @@ internal static class ODataModelGenerator
 
     private static void GenerateProperty(CodeBuilder code, NoxSimpleTypeDefinition attribute, bool forceRequired = false)
     {
-        var fields = NoxTypesToODataHelper.GetType(attribute.Type);
+        var fields = GetNoxTypeInformation(attribute.Type);
 
-        foreach (var field in fields)
+        foreach (var (FieldName, FieldType) in fields)
         {
             GenerateDocs(code, attribute.Description);
 
-            var propType = field.Type;
-            var propName = string.IsNullOrEmpty(field.FieldName) ? attribute.Name : $"{attribute.Name}_{field.FieldName}";
+            var propType = FieldType;
+            var propName = string.IsNullOrEmpty(FieldName) ? attribute.Name : $"{attribute.Name}_{FieldName}";
             var nullable = (attribute.IsRequired || forceRequired) ? string.Empty : "?";
 
             code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }} = default!;");
         }
+    }
+
+    private static (string FieldName, string FieldType)[] GetNoxTypeInformation(NoxType noxType)
+    {
+        return noxType.GetComponents()
+            .Select(kv => new Tuple<string, string>(kv.Key, kv.Value.Name))
+            .Select(kv => (FieldName: kv.Item1, FieldType: kv.Item2))
+            .ToArray();
     }
 }
