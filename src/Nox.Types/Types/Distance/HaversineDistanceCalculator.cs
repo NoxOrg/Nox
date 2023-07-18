@@ -2,7 +2,7 @@
 
 namespace Nox.Types;
 
-internal class HaversineDistanceCalculator : IDistanceCalculator
+internal sealed class HaversineDistanceCalculator : IDistanceCalculator
 {
     private const double EarthRadiusInKilometers = 6371.0;
 

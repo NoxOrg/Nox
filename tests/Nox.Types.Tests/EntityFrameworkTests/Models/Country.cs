@@ -122,6 +122,16 @@ public sealed class Country
     public DateTimeDuration DateTimeDuration { get; set; } = null!;
 
     /// <summary>
+    /// Gets or sets the volume in cubic meters.
+    /// </summary>
+    public Volume VolumeInCubicMeters { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the weight in kilograms.
+    /// </summary>
+    public Weight WeightInKilograms { get; set; } = null!;
+
+    /// <summary>
     /// Gets or Sets db record create date
     /// </summary>
     public DateTime? CreateDate { get; set; } = null!;

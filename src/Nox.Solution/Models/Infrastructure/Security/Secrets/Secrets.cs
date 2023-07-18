@@ -1,5 +1,5 @@
 using System.Security.Permissions;
-using Nox.Solution.Schema;
+using Nox.Types.Schema;
 
 namespace Nox.Solution
 {
