@@ -6,7 +6,7 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a Nox <see cref="Length"/> type and value object.
 /// </summary>
-public sealed class Length : Measurement<Length, LengthUnit>
+public class Length : Measurement<Length, LengthUnit>
 {
     /// <summary>
     /// Creates a new instance of <see cref="Length"/> object in meters.

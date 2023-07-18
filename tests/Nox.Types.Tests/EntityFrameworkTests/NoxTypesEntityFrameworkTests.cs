@@ -8,6 +8,9 @@ namespace Nox.Types.Tests.EntityFrameworkTests;
 public class NoxTypesEntityFrameworkTests : TestWithSqlite
 {
     private const string Sample_Uri = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
+    private const string Sample_Url = "https://www.myregus.com/";
+    private readonly (string NuidStringValue, uint NuidValue) NuidDefinition = ("PropertyNamesWithSeparator", 3697780159);
+
     [Fact]
     public async Task DatabaseIsAvailableAndCanBeConnectedTo()
     {
@@ -50,8 +53,12 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress)),
             LocalTimeZone = TimeZoneCode.From("CET"),
             Uri = Uri.From(Sample_Uri),
+            Url = Url.From(Sample_Url),
             IsLandLocked = Boolean.From(false),
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
+            VolumeInCubicMeters = Volume.FromCubicMeters(89_000),
+            WeightInKilograms = Weight.FromKilograms(19_000),
+            Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             File = File.From("https://example.com/myfile.pdf", "MyFile", 512),
         };
         DbContext.Countries!.Add(newItem);
@@ -90,11 +97,15 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddress = streetAddress,
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Uri = Uri.From(Sample_Uri),
+            Url = Url.From(Sample_Url),
             Date = Date.From(new DateTime(2023, 11, 25), new()),
-            StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress, new JsonSerializerOptions { WriteIndented = true })),
             LocalTimeZone = TimeZoneCode.From("CET"),
+            StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress, new JsonSerializerOptions { WriteIndented = true })),
             IsLandLocked = Boolean.From(true),
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
+            VolumeInCubicMeters = Volume.FromCubicMeters(89_000),
+            WeightInKilograms = Weight.FromKilograms(19_000),
+            Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             File = File.From("https://example.com/myfile.pdf", "MyFile", 512),
         };
         DbContext.Countries!.Add(newItem);
@@ -133,10 +144,18 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal("AED4322CCFEF", item.MACAddress.Value);
         Assert.Equal(new DateTime(2023, 11, 25).Date, item.Date.Value);
         Assert.Equal("CET", item.LocalTimeZone.Value);
+        Assert.Equal(Sample_Url, item.Url.Value.AbsoluteUri);
+        Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.True(item.IsLandLocked.Value);
+        Assert.Equal(89_000, item.VolumeInCubicMeters.Value);
+        Assert.Equal(VolumeUnit.CubicMeter, item.VolumeInCubicMeters.Unit);
+        Assert.Equal(19_000, item.WeightInKilograms.Value);
+        Assert.Equal(WeightUnit.Kilogram, item.WeightInKilograms.Unit);
+
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(new TimeSpan(10, 5, 2, 1), item.DateTimeDuration.Value);
+        Assert.Equal(NuidDefinition.NuidValue, item.Nuid.Value);
         AssertStreetAddress(streetAddress, item.StreetAddress);
         Assert.Equal(JsonSerializer.Serialize(streetAddress), item.StreetAddressJson.Value);
         Assert.Equal("https://example.com/myfile.pdf", item.File.Url);
