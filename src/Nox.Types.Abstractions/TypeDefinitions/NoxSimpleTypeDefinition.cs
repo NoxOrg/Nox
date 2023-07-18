@@ -46,6 +46,9 @@ public class NoxSimpleTypeDefinition
     [IfEquals("Type", NoxType.TranslatedText)]
     public TranslatedTextTypeOptions? TranslatedTextTypeOptions { get; set; }
 
+    [IfEquals("Type", NoxType.Nuid)]
+    public NuidTypeOptions? NuidTypeOptions { get; set; }
+
     [IfEquals("Type", NoxType.Year)]
     public YearTypeOptions? YearTypeOptions { get; set; }
 

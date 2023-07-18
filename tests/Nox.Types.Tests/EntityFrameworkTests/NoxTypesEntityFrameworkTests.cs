@@ -9,6 +9,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
 {
     private const string Sample_Uri = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
     private const string Sample_Url = "https://www.myregus.com/";
+    private readonly (string NuidStringValue, uint NuidValue) NuidDefinition = ("PropertyNamesWithSeparator", 3697780159);
 
     [Fact]
     public async Task DatabaseIsAvailableAndCanBeConnectedTo()
@@ -57,6 +58,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
             VolumeInCubicMeters = Volume.FromCubicMeters(89_000),
             WeightInKilograms = Weight.FromKilograms(19_000),
+            Nuid = Nuid.From(NuidDefinition.NuidStringValue)
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -94,14 +96,15 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddress = streetAddress,
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Uri = Uri.From(Sample_Uri),
+            Url = Url.From(Sample_Url),
             Date = Date.From(new System.DateTime(2023, 11, 25), new()),
             LocalTimeZone = TimeZoneCode.From("CET"),
-            Url = Url.From(Sample_Url),
             StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress, new JsonSerializerOptions { WriteIndented = true })),
             IsLandLocked = Boolean.From(true),
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
             VolumeInCubicMeters = Volume.FromCubicMeters(89_000),
             WeightInKilograms = Weight.FromKilograms(19_000),
+            Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             CreateDate = DateTime.From(new System.DateTime(2023, 01, 01))
         };
         DbContext.Countries!.Add(newItem);
@@ -151,6 +154,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(new TimeSpan(10, 5, 2, 1), item.DateTimeDuration.Value);
+        Assert.Equal(NuidDefinition.NuidValue, item.Nuid.Value);
         AssertStreetAddress(streetAddress, item.StreetAddress);
         Assert.Equal(JsonSerializer.Serialize(streetAddress), item.StreetAddressJson.Value);
     }
