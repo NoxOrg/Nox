@@ -101,9 +101,15 @@ public sealed class HashedText : ValueObject<(string HashText, string Salt), Has
     /// <exception cref="CryptographicException"></exception>
     private static HashAlgorithm CreateHasher(HashingAlgorithm hashAlgorithm)
     {
-        HashAlgorithm hasher = HashAlgorithm.Create(hashAlgorithm.ToString());
+        switch (hashAlgorithm)
+        {
+            case HashingAlgorithm.SHA256: return SHA256.Create();
+            case HashingAlgorithm.SHA512: return SHA512.Create();
+            default:
+                break;
+        }
 
-        return hasher ?? throw new CryptographicException("Invalid hash algorithm");
+        throw new CryptographicException("Invalid hash algorithm");
     }
 
     /// <summary>
