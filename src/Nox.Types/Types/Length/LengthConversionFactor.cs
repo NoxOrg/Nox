@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Nox.Types;
 
-public class LengthConversionFactor : MeasurementConversionFactor<LengthUnit>
+public sealed class LengthConversionFactor : MeasurementConversionFactor<LengthUnit>
 {
     private static readonly Dictionary<(LengthUnit, LengthUnit), double> _definedLengthConversionFactors = new()
     {

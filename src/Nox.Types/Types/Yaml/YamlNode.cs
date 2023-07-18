@@ -44,12 +44,12 @@ internal class YamlNode
     /// <summary>
     /// Determines if the YAML node represents a comment.
     /// </summary>
-    public bool IsComment => LineWithoutIndent.StartsWith("#");
+    public bool IsComment => LineWithoutIndent.StartsWith('#');
 
     /// <summary>
     /// Determines if the YAML node represents an array element.
     /// </summary>
-    public bool IsArray => LineWithoutIndent.StartsWith("-");
+    public bool IsArray => LineWithoutIndent.StartsWith('-');
 
     /// <summary>
     /// Determines if the YAML node is empty.
@@ -59,7 +59,7 @@ internal class YamlNode
     /// <summary>
     /// Determines if the YAML node represents a primitive value.
     /// </summary>
-    public bool IsPrimitive => LineWithoutIndent.StartsWith("-") && !LineWithoutIndent.Contains(":");
+    public bool IsPrimitive => LineWithoutIndent.StartsWith('-') && !LineWithoutIndent.Contains(':');
 
     /// <summary>
     /// Determines if the YAML node is invalid.

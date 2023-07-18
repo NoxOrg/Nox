@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Nox.Types;
 
-public class AreaConversionFactor : MeasurementConversionFactor<AreaUnit>
+public sealed class AreaConversionFactor : MeasurementConversionFactor<AreaUnit>
 {
     private static readonly Dictionary<(AreaUnit, AreaUnit), double> _definedAreaConversionFactors = new()
     {

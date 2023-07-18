@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Generator.Common;
 using Nox.Solution;
-using Nox.Types.EntityFramework.Types;
 
 namespace Nox.Types.EntityFramework.Abstractions
 {
@@ -12,7 +11,7 @@ namespace Nox.Types.EntityFramework.Abstractions
         protected readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesDatabaseConfigurations = new();
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="configurators">List of all loaded <see cref="INoxTypeDatabaseConfigurator"/></param>
         /// <param name="databaseProviderSpecificOverrides">Configurator type specific to database provider</param>
@@ -32,12 +31,9 @@ namespace Nox.Types.EntityFramework.Abstractions
             }
 
             // Override specific database provider configurators
-            foreach (var configurator in noxTypeDatabaseConfigurators)
+            foreach (var configurator in noxTypeDatabaseConfigurators.Where(x => databaseProviderSpecificOverrides.IsInstanceOfType(x)))
             {
-                if (databaseProviderSpecificOverrides.IsInstanceOfType(configurator))
-                {
-                    TypesDatabaseConfigurations[configurator.ForNoxType] = configurator;
-                }
+                TypesDatabaseConfigurations[configurator.ForNoxType] = configurator;
             }
         }
 
