@@ -5,7 +5,6 @@ using SampleWebApp.Application;
 using Nox.Abstractions;
 using ODataConfiguration = SampleWebApp.Presentation.Api.OData.ODataConfiguration;
 using SampleWebApp.SeedData;
-using SampleWebApp.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -44,15 +43,6 @@ app.UseODataRouteDebug();
 
 app.UseNox();
 
-if (app.Environment.IsDevelopment())
-{
-    using var scope = app.Services.CreateScope();
-    var dataSeeders = scope.ServiceProvider.GetServices<INoxDataSeeder>();
-
-    foreach (var dataSeeder in dataSeeders)
-    {
-        dataSeeder.Seed();
-    }
-}
+app.SeedDataIfNeed();
 
 app.Run();
