@@ -1,16 +1,16 @@
 ﻿using System;
 
-namespace Nox.Solution.Schema;
+namespace Nox.Types.Schema;
 
 [AttributeUsage(AttributeTargets.Property | AttributeTargets.Field |
    AttributeTargets.Enum | AttributeTargets.Class | AttributeTargets.Struct | AttributeTargets.Interface,
    AllowMultiple = true)]
-public class PatternAttribute : Attribute
+public class DescriptionAttribute : Attribute
 {
-    public string Value { get; private set; }
-    public PatternAttribute(string value)
+    public string Description { get; private set; }
+
+    public DescriptionAttribute(string description)
     {
-        Value = value;
+        Description = description;
     }
 }
-

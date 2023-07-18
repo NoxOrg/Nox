@@ -1,4 +1,5 @@
-﻿using Nox.Solution.Schema;
+﻿using Nox.Types.Schema;
+using Nox.Types;
 
 namespace Nox.Solution;
 

@@ -1,9 +1,6 @@
-﻿using Nox.Solution.Schema;
-using System.Numerics;
-using System;
-using Nox.Types;
+﻿using Nox.Types.Schema;
 
-namespace Nox.Solution;
+namespace Nox.Types;
 
 [GenerateJsonSchema("dto")]
 [Title("A complex nox type.")]

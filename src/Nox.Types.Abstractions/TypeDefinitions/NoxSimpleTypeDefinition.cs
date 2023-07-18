@@ -1,13 +1,12 @@
-﻿using Nox.Solution.Schema;
-using Nox.Types;
+﻿using Nox.Types.Schema;
 
-namespace Nox.Solution;
+namespace Nox.Types;
 
 [GenerateJsonSchema("type")]
 [Title("Definition namespace for Nox simple types.")]
 [Description("Nox simple types definition used throughout Nox.Solution project.")]
 [AdditionalProperties(false)]
-public class NoxSimpleTypeDefinition : DefinitionBase
+public class NoxSimpleTypeDefinition
 {
     [Required]
     [Title("The name of the attribute. Contains no spaces.")]
