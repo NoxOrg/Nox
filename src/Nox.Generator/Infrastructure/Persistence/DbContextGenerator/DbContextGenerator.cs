@@ -22,14 +22,13 @@ internal static class DbContextGenerator
 
         var code = new TemplateCodeBuilder($"{dbContextName}.g.cs",context);
 
-        code.GenerateSourceCodeFromResource(@"Infrastructure.Persistence.DbContextGenerator.DbContext.g.cs",
+        code.GenerateSourceCodeFromResource(@"Infrastructure.Persistence.DbContextGenerator.DbContext.template.cs",
             new
             {
-                domainNamespace = codeGeneratorState.DomainNameSpace,
-                persistenceNamespace = codeGeneratorState.PersistenceNameSpace,
+                codeGeneratorState,
                 dbContextName = dbContextName,
-                dbSets = GetDbSets(codeGeneratorState.Solution),
-                solutionName = codeGeneratorState.Solution.Name
+                entities = codeGeneratorState.Solution.Domain!.Entities,
+                solution = codeGeneratorState.Solution
             });
     }
     private static IList<object> GetDbSets(NoxSolution solution)

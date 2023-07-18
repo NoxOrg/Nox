@@ -22,20 +22,14 @@
 		<PackageIcon>nox.png</PackageIcon>
 	</PropertyGroup>
 	<ItemGroup>
-	  <Compile Remove="Domain\ModelGenerator\AuditableEntityBase.g.cs" />
-	  <Compile Remove="Domain\ModelGenerator\EntityBase.g.cs" />
-	  <Compile Remove="Infrastructure\Persistence\DbContextGenerator\DbContext.g.cs" />
+	  <Compile Remove="**\**\*.template.cs" />
 	</ItemGroup>
 	<ItemGroup>
-		<EmbeddedResource Include="Infrastructure\Persistence\DbContextGenerator\DbContext.g.cs" />
-	</ItemGroup>
-	<ItemGroup>
-		<EmbeddedResource Include="Domain\ModelGenerator\AuditableEntityBase.g.cs" />
+		<EmbeddedResource Include="**\**\*.template.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
 		<None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
-		<EmbeddedResource Include="Domain\ModelGenerator\EntityBase.g.cs" />
 	</ItemGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">

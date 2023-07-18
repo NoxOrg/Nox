@@ -11,9 +11,7 @@ internal static class AuditableEntityBaseGenerator
 
         var code = new TemplateCodeBuilder($"AuditableEntityBase.g.cs",context);
 
-        // We can also  opt by kept in a static string
-        // code.GenerateSourceCode(Template,new { domain = codeGeneratorState.DomainNameSpace });
-        code.GenerateSourceCodeFromResource(@"Domain.ModelGenerator.AuditableEntityBase.g.cs",
-            new { domain = codeGeneratorState.DomainNameSpace });
+        code.GenerateSourceCodeFromResource(@"Domain.ModelGenerator.AuditableEntityBase.template.cs",
+            new { codeGeneratorState });
     }
 }

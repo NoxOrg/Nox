@@ -21,7 +21,7 @@ internal class TemplateCodeBuilder
     }
     public void GenerateSourceCode(string template, object model)
     {
-        var strongTemplate = Template.Parse(template); ;
+        var strongTemplate = Template.Parse(template); 
         _context.AddSource(_sourceFileName, SourceText.From(strongTemplate.Render(model, member => member.Name), Encoding.UTF8));
     }
     public void GenerateSourceCodeFromResource(string fileName, object model)

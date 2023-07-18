@@ -11,10 +11,7 @@ internal static class EntityBaseGenerator
 
         var code = new TemplateCodeBuilder($"EntityBase.g.cs", context);
 
-        // We can also  opt by kept in a static string
-        // code.GenerateSourceCode(Template,new { domain = codeGeneratorState.DomainNameSpace });
-        code.GenerateSourceCodeFromResource(@"Domain.ModelGenerator.EntityBase.g.cs",
-            new { domain = codeGeneratorState.DomainNameSpace });
+        code.GenerateSourceCodeFromResource(@"Domain.ModelGenerator.EntityBase.template.cs",
+            new { codeGeneratorState });
     }
-
 }

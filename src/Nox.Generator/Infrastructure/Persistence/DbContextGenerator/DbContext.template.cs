@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
 using Nox.Generator.Common;
 using Nox.Types.EntityFramework.Abstractions;
-using {{domainNamespace}};
+using {{codeGeneratorState.DomainNameSpace}};
 
-namespace {{persistenceNamespace}};
+namespace {{codeGeneratorState.PersistenceNameSpace}};
 
 public partial class {{dbContextName}} : DbContext
 {
@@ -25,8 +25,8 @@ public partial class {{dbContextName}} : DbContext
         _dbProvider = databaseProvider;
     }
 
-{{ for dbSet in dbSets }}
-    public DbSet<{{dbSet.Name}}> {{dbSet.PropertyName}} { get; set; } = null!;
+{{ for entity in entities }}
+    public DbSet<{{entity.Name}}> {{entity.PluralName}} { get; set; } = null!;
 {{ end }}
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -34,7 +34,7 @@ public partial class {{dbContextName}} : DbContext
         base.OnConfiguring(optionsBuilder);
         if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
-            _dbProvider.ConfigureDbContext(optionsBuilder, "{{solutionName}}", _noxSolution.Infrastructure!.Persistence.DatabaseServer); 
+            _dbProvider.ConfigureDbContext(optionsBuilder, "{{solution.Name}}", _noxSolution.Infrastructure!.Persistence.DatabaseServer); 
         }
     }
     
@@ -47,7 +47,7 @@ public partial class {{dbContextName}} : DbContext
             
             foreach (var entity in _noxSolution.Domain.Entities)
             {
-                var type = Type.GetType("{{domainNamespace}}." + entity.Name);
+                var type = Type.GetType("{{codeGeneratorState.DomainNameSpace}}." + entity.Name);
                 
                 if (type != null)
                 {

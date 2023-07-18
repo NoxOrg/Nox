@@ -4,7 +4,7 @@
 
 using System;
 
-namespace {{domain }};
+namespace {{codeGeneratorState.DomainNameSpace}};
 
 /// <summary>
 /// The base class for all domain entities.
