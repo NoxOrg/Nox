@@ -31,7 +31,7 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.Uri).HasConversion<UriConverter>();
         builder.Property(e => e.IsLandLocked).HasConversion<BooleanConverter>();
         builder.Property(e => e.DateTimeDuration).HasConversion<DateTimeDurationConverter>();
-        builder.Property(e => e.VolumeInCubicMeters).HasConversion<VolumeToCubicMeterConverter>();
+        builder.Property(e => e.VolumeInCubicMeters).HasConversion<VolumeToCubicMetersConverter>();
         builder.Property(e => e.WeightInKilograms).HasConversion<WeightToKilogramConverter>();
 
         // Configure Multi-value ValueObjects
