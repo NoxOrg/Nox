@@ -45,10 +45,10 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             InternetDomain = InternetDomain.From("admin.ch"),
             CountryCode3 = CountryCode3.From("CHE"),
             IPAddress = IpAddress.From("102.129.143.255"),
-            DateTimeRange = DateTimeRange.From(new DateTime(2023, 01, 01), new DateTime(2023, 02, 01)),
+            DateTimeRange = DateTimeRange.From(new System.DateTime(2023, 01, 01), new System.DateTime(2023, 02, 01)),
             LongestHikingTrailInMeters = Length.From(390_000),
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
-            Date = Date.From(new DateTime(2023, 11, 25), new()),
+            Date = Date.From(new System.DateTime(2023, 11, 25), new()),
             StreetAddress = streetAddress,
             StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress)),
             LocalTimeZone = TimeZoneCode.From("CET"),
@@ -90,7 +90,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             CountryNumber = CountryNumber.From(756),
             MonthOfPeakTourism = Month.From(7),
             DistanceInKm = Distance.From(129.522785),
-            DateTimeRange = DateTimeRange.From(new DateTime(2023, 01, 01), new DateTime(2023, 02, 01)),
+            DateTimeRange = DateTimeRange.From(new System.DateTime(2023, 01, 01), new System.DateTime(2023, 02, 01)),
             InternetDomain = InternetDomain.From("admin.ch"),
             CountryCode3 = CountryCode3.From("CHE"),
             IPAddress = IpAddress.From("102.129.143.255"),
@@ -99,7 +99,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Uri = Uri.From(Sample_Uri),
             Url = Url.From(Sample_Url),
-            Date = Date.From(new DateTime(2023, 11, 25), new()),
+            Date = Date.From(new System.DateTime(2023, 11, 25), new()),
             LocalTimeZone = TimeZoneCode.From("CET"),
             StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress, new JsonSerializerOptions { WriteIndented = true })),
             IsLandLocked = Boolean.From(true),
@@ -108,6 +108,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             WeightInKilograms = Weight.FromKilograms(19_000),
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             HashedText = HashedText.From(("Test123.", "salt")),
+            CreateDate = DateTime.From(new System.DateTime(2023, 01, 01)),
             File = File.From("https://example.com/myfile.pdf", "MyFile", 512),
         };
         DbContext.Countries!.Add(newItem);
@@ -139,12 +140,12 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal("admin.ch", item.InternetDomain.Value);
         Assert.Equal("CHE", item.CountryCode3.Value);
         Assert.Equal("102.129.143.255", item.IPAddress.Value);
-        Assert.Equal(new DateTime(2023, 01, 01), item.DateTimeRange.Start);
-        Assert.Equal(new DateTime(2023, 02, 01), item.DateTimeRange.End);
+        Assert.Equal(new System.DateTime(2023, 02, 01), item.DateTimeRange.End);
+        Assert.Equal(new System.DateTime(2023, 01, 01), item.DateTimeRange.Start);
         Assert.Equal(390_000, item.LongestHikingTrailInMeters.Value);
         Assert.Equal(LengthUnit.Meter, item.LongestHikingTrailInMeters.Unit);
         Assert.Equal("AED4322CCFEF", item.MACAddress.Value);
-        Assert.Equal(new DateTime(2023, 11, 25).Date, item.Date.Value);
+        Assert.Equal(new System.DateTime(2023, 11, 25).Date, item.Date.Value);
         Assert.Equal("CET", item.LocalTimeZone.Value);
         Assert.Equal(Sample_Url, item.Url.Value.AbsoluteUri);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
@@ -155,6 +156,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(WeightUnit.Kilogram, item.WeightInKilograms.Unit);
         Assert.Equal(newItem.HashedText.HashText, item.HashedText.HashText);
         Assert.Equal(newItem.HashedText.Salt, item.HashedText.Salt);
+        Assert.Equal(DateTime.From(new System.DateTime(2023, 01, 01)), item.CreateDate);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(new TimeSpan(10, 5, 2, 1), item.DateTimeDuration.Value);

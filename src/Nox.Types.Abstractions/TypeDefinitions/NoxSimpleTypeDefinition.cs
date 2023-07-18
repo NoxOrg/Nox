@@ -58,6 +58,9 @@ public class NoxSimpleTypeDefinition
     [IfEquals("Type", NoxType.HashedText)]
     public HashedTextTypeOptions? HashedTextTypeOptions { get; set; }
 
+    [IfEquals("Type", NoxType.DateTime)]
+    public DateTimeTypeOptions? DateTimeTypeOptions { get; set; }
+
     [IfEquals("Type", NoxType.File)]
     public FileTypeOptions? FileTypeOptions { get; set; }
 

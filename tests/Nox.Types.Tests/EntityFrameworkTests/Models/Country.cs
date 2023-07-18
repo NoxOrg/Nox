@@ -144,6 +144,11 @@ public sealed class Country
     public HashedText HashedText { get; set; } = null!;
 
     /// <summary>
+    /// Gets or Sets db record create date
+    /// </summary>
+    public DateTime? CreateDate { get; set; } = null!;
+
+    /// <summary>
     /// Gets or sets the file.
     /// </summary>
     public File File { get; set; } = null!;
