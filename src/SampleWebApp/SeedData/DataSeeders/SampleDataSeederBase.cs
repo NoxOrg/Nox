@@ -1,5 +1,4 @@
-﻿using Nox;
-using System.Text.Json;
+﻿using System.Text.Json;
 using SampleWebApp.Infrastructure.Persistence;
 
 namespace SampleWebApp.SeedData;

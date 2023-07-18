@@ -1,15 +1,9 @@
 using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Monitoring;
 using Nox.Solution;
 
 namespace Nox;
-
-public interface INoxDataSeeder
-{
-    void Seed();
-}
 
 public static class MiddlewareExtension
 {
