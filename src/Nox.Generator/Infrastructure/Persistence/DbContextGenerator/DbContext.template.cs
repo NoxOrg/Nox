@@ -10,13 +10,13 @@ using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.PersistenceNameSpace}};
 
-public partial class {{dbContextName}} : DbContext
+public partial class {{className}} : DbContext
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     
-    public {{dbContextName}}(
-        DbContextOptions<{{dbContextName}}> options,
+    public {{className}}(
+        DbContextOptions<{{className}}> options,
         NoxSolution noxSolution,
         INoxDatabaseProvider databaseProvider
     ) : base(options)
@@ -25,7 +25,7 @@ public partial class {{dbContextName}} : DbContext
         _dbProvider = databaseProvider;
     }
 
-{{ for entity in entities }}
+{{ for entity in solution.Domain.Entities }}
     public DbSet<{{entity.Name}}> {{entity.PluralName}} { get; set; } = null!;
 {{ end }}
 

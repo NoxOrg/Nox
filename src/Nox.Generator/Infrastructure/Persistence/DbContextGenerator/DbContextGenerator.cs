@@ -17,28 +17,12 @@ internal static class DbContextGenerator
         {
             return;
         }
-        
-        var dbContextName = $"{codeGeneratorState.Solution.Name}DbContext";
 
-        var code = new TemplateCodeBuilder($"{dbContextName}.g.cs",context);
+        var className = $"{codeGeneratorState.Solution.Name}DbContext";
+        var templateName = @"Infrastructure.Persistence.DbContextGenerator.DbContext.template.cs";
 
-        code.GenerateSourceCodeFromResource(@"Infrastructure.Persistence.DbContextGenerator.DbContext.template.cs",
-            new
-            {
-                codeGeneratorState,
-                dbContextName = dbContextName,
-                entities = codeGeneratorState.Solution.Domain!.Entities,
-                solution = codeGeneratorState.Solution
-            });
-    }
-    private static IList<object> GetDbSets(NoxSolution solution)
-    {
-        List<object> sets = new();
-        foreach (var entity in solution.Domain!.Entities)
-        {
-            sets.Add(new {Name = entity.Name, PropertyName = entity.PluralName });
-        }
-
-        return sets;
+        new TemplateCodeBuilder(context, codeGeneratorState)
+            .WithClassName(className)
+            .GenerateSourceCodeFromResource(templateName);
     }
 }
