@@ -55,6 +55,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Url = Url.From(Sample_Url),
             IsLandLocked = Boolean.From(false),
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
+            VolumeInCubicMeters = Volume.FromCubicMeters(89_000),
+            WeightInKilograms = Weight.FromKilograms(19_000),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -98,6 +100,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress, new JsonSerializerOptions { WriteIndented = true })),
             IsLandLocked = Boolean.From(true),
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
+            VolumeInCubicMeters = Volume.FromCubicMeters(89_000),
+            WeightInKilograms = Weight.FromKilograms(19_000),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -138,6 +142,11 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(Sample_Url, item.Url.Value.AbsoluteUri);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.True(item.IsLandLocked.Value);
+        Assert.Equal(89_000, item.VolumeInCubicMeters.Value);
+        Assert.Equal(VolumeUnit.CubicMeter, item.VolumeInCubicMeters.Unit);
+        Assert.Equal(19_000, item.WeightInKilograms.Value);
+        Assert.Equal(WeightUnit.Kilogram, item.WeightInKilograms.Unit);
+
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(new TimeSpan(10, 5, 2, 1), item.DateTimeDuration.Value);
