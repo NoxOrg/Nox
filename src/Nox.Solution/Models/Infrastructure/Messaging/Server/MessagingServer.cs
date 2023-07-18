@@ -1,4 +1,4 @@
-﻿using Nox.Solution.Schema;
+﻿using Nox.Types.Schema;
 using Nox.Solution.Builders;
 
 namespace Nox.Solution;
