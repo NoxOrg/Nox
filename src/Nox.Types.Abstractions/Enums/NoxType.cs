@@ -11,47 +11,47 @@ public enum NoxType : uint
 
     // Compound Types - requires multiple fields to persist
     [CompoundType]
-    [CompoundComponentAttribute("Type", typeof(string))]
-    [CompoundComponentAttribute("Id", typeof(uint))]
+    [CompoundComponent("Type", typeof(string))]
+    [CompoundComponent("Id", typeof(uint))]
     Entity = 2276495181,
 
     [CompoundType]
-    [CompoundComponentAttribute("Lattitude",typeof(double))]
-    [CompoundComponentAttribute("Longitude",typeof(double))]
+    [CompoundComponent("Lattitude",typeof(double))]
+    [CompoundComponent("Longitude",typeof(double))]
     LatLong = 4061881939,
     
     [CompoundType]
-    [CompoundComponentAttribute("Amount", typeof(decimal))]
-    [CompoundComponentAttribute("CurrencyCode", typeof(string))]
+    [CompoundComponent("Amount", typeof(decimal))]
+    [CompoundComponent("CurrencyCode", typeof(string))]
     Money = 3500951620,
     
     [CompoundType]
-    [CompoundComponentAttribute("StreetNumber",typeof(int))]
-    [CompoundComponentAttribute("AddressLine1", typeof(string))]
-    [CompoundComponentAttribute("AddressLine2", typeof(string))]
-    [CompoundComponentAttribute("AddressLine3", typeof(string))]
-    [CompoundComponentAttribute("Route", typeof(string))]
-    [CompoundComponentAttribute("Locality", typeof(string))]
-    [CompoundComponentAttribute("Neighbourhood", typeof(string))]
-    [CompoundComponentAttribute("AdministrativeArea1", typeof(string))]
-    [CompoundComponentAttribute("AdministrativeArea2", typeof(string))]
-    [CompoundComponentAttribute("PostalCode", typeof(string))]
-    [CompoundComponentAttribute("CountryCode2", typeof(string))]
+    [CompoundComponent("StreetNumber",typeof(int))]
+    [CompoundComponent("AddressLine1", typeof(string))]
+    [CompoundComponent("AddressLine2", typeof(string))]
+    [CompoundComponent("AddressLine3", typeof(string))]
+    [CompoundComponent("Route", typeof(string))]
+    [CompoundComponent("Locality", typeof(string))]
+    [CompoundComponent("Neighbourhood", typeof(string))]
+    [CompoundComponent("AdministrativeArea1", typeof(string))]
+    [CompoundComponent("AdministrativeArea2", typeof(string))]
+    [CompoundComponent("PostalCode", typeof(string))]
+    [CompoundComponent("CountryCode2", typeof(string))]
     StreetAddress = 499179285,
     
     [CompoundType] 
-    [CompoundComponentAttribute("CultureCode", typeof(string))]
-    [CompoundComponentAttribute("Phrase", typeof(string))]
+    [CompoundComponent("CultureCode", typeof(string))]
+    [CompoundComponent("Phrase", typeof(string))]
     TranslatedText = 967269030,
     
     [CompoundType] 
-    [CompoundComponentAttribute("From", typeof(DateTimeOffset))]
-    [CompoundComponentAttribute("To", typeof(DateTimeOffset))]
+    [CompoundComponent("From", typeof(DateTimeOffset))]
+    [CompoundComponent("To", typeof(DateTimeOffset))]
     DateTimeRange = 3837929056,
 
     [CompoundType]  
-    [CompoundComponentAttribute("Number", typeof(string))]
-    [CompoundComponentAttribute("CountryCode2", typeof(string))]
+    [CompoundComponent("Number", typeof(string))]
+    [CompoundComponent("CountryCode2", typeof(string))]
     VatNumber = 1055627262,
 
     // Simple Types
