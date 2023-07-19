@@ -32,7 +32,7 @@ public sealed class Temperature : Measurement<Temperature, TemperatureUnit>
     /// <param name="value">The value to create the <see cref="Temperature"/> with</param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
-    public static new Temperature From(QuantityValue value)
+    public new static Temperature From(QuantityValue value)
         => From(value, TemperatureUnit.Celsius);
 
     /// <summary>
