@@ -34,7 +34,7 @@ internal static class EntitiesGenerator
 
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System;");
-        code.AppendLine($"using System.Collections.Generic;"); 
+        code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine();
         code.AppendLine($"namespace {codeGeneratorState.DomainNameSpace};");
 
