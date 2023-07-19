@@ -2,6 +2,8 @@ using FluentValidation;
 using Nox.Solution.Validation;
 using System;
 using System.Collections.Generic;
+using Nox.Types;
+using System.Linq;
 
 namespace Nox.Solution;
 
@@ -15,7 +17,8 @@ public class NoxSolution : Solution
         validator.ValidateAndThrow(this);
     }
 
-    public List<EntityRelationshipWithType> GetRelationshipsToCreate(Func<string, Type?> getTypeByNameFunc, Entity entity)
+    public List<EntityRelationshipWithType> GetRelationshipsToCreate(Func<string, Type?> getTypeByNameFunc,
+        Entity entity)
     {
         var fullRelationshipModels = new List<EntityRelationshipWithType>();
 
@@ -45,8 +48,9 @@ public class NoxSolution : Solution
                 }
                 // If same type on both sides cover on first by ascending alphabetical sort
                 else if (pairRelationship.Relationship == relationship.Relationship &&
-                            // Ascending alphabetical sort
-                            string.Compare(relationship.Entity, pairRelationship.Entity, StringComparison.InvariantCulture) > 0)
+                         // Ascending alphabetical sort
+                         string.Compare(relationship.Entity, pairRelationship.Entity,
+                             StringComparison.InvariantCulture) > 0)
                 {
                     isIgnored = true;
                 }
@@ -57,5 +61,12 @@ public class NoxSolution : Solution
         }
 
         return fullRelationshipModels;
+    }
+
+    public NoxType GetSimpleKeyTypeForEntity(string entityName)
+    {
+        var entity = this.Domain!.Entities.Single(entity => entity.Name.Equals(entityName));
+
+        return entity.Keys!.Single().Type;
     }
 }
