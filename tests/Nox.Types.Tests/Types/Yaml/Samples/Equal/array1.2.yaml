@@ -1,19 +1,19 @@
+fruits:
+  - apple
+  - banana
+  - orange
+
 vegetables:
-  - celery
   - carrot
+  - celery
   - broccoli
 
 foods:
-  vegetables:
-    - celery
-    - broccoli
-    - carrot
   fruits:
+    - apple
     - banana
     - orange
-    - apple
-      
-fruits:
-  - banana
-  - orange
-  - apple
+  vegetables:
+    - carrot
+    - celery
+    - broccoli

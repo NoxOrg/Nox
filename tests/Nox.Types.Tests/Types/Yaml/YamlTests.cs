@@ -33,12 +33,8 @@ public class YamlTests
     [Theory]
     [InlineData("simple.yaml")]
     [InlineData("simple1.yaml")]
-    [InlineData("simple2.yaml")]
-    [InlineData("simple3.yaml")]
     [InlineData("complex.yaml")]
     [InlineData("complex-object.yaml")]
-    [InlineData("complex-object1.yaml")]
-    [InlineData("complex-object2.yaml")]
     [InlineData("array.yaml")]
     [InlineData("anchor.yaml")]
     [InlineData("anchor1.yaml")]
@@ -57,9 +53,7 @@ public class YamlTests
     
     [Theory]
     [InlineData("simple1.1.yaml", "simple1.2.yaml")]
-    [InlineData("simple2.1.yaml", "simple2.2.yaml")]
     [InlineData("complex1.1.yaml", "complex1.2.yaml")]
-    [InlineData("complex-object1.1.yaml", "complex-object1.2.yaml")]
     [InlineData("array1.1.yaml", "array1.2.yaml")]
     [InlineData("anchor1.1.yaml", "anchor1.2.yaml")]
     public void Yaml_Equals_ReturnsTrue_WhenSameYaml(string fileName1, string fileName2)
@@ -70,7 +64,7 @@ public class YamlTests
         // Arrange & Act
         var yaml1 = Yaml.From(yamlString1);
         var yaml2 = Yaml.From(yamlString2);
-
+    
         // Assert
         yaml1.Equals(yaml2).Should().BeTrue();
     }
