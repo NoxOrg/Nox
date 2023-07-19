@@ -6,7 +6,7 @@ namespace Nox.Tests.DatabaseIntegrationTests
 {
     public class GenerateIntegrationModels
     {
-        //[Fact]
+        [Fact]
         public void GenerateIntegrationTestModels()
         {
             var _fixture = new GeneratorFixture();

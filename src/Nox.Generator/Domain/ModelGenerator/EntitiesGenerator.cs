@@ -1,13 +1,16 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Collections.Immutable;
+using System.Linq;
 using Humanizer;
 using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
+using Nox.Solution.Exceptions;
 using Nox.Types;
 
 namespace Nox.Generator;
 
-internal class EntitiesGenerator
+internal static class EntitiesGenerator
 {
     public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
@@ -40,13 +43,13 @@ internal class EntitiesGenerator
         code.AppendLine($"public partial class {entity.Name} : {baseClass}");
         code.StartBlock();
 
-            GenerateKeyProperties(codeGeneratorState, context, code, entity);
+        GenerateKeyProperties(codeGeneratorState, context, code, entity);
 
-            GenerateProperties(context, code, entity);
+        GenerateProperties(context, code, entity);
 
-            GenerateRelationships(context, code, entity);
+        GenerateRelationships(context, code, entity);
 
-            GenerateOwnedRelationships(context, code, entity);
+        GenerateOwnedRelationships(context, code, entity);
 
         code.EndBlock();
 
@@ -70,21 +73,21 @@ internal class EntitiesGenerator
 
             if (key.Type == NoxType.Entity)
             {
-                GenerateStrongSingleKeyEntityProperty(codeGeneratorState, code, entity, key);
+                GenerateStrongSingleKeyEntityProperty(codeGeneratorState, code, key);
             }
             else
             {
                 GenerateStrongSingleKeySimpleProperty(code, entity, key);
             }
-            
         }
     }
+
     private static void GenerateStrongSingleKeyEntityProperty(
         NoxSolutionCodeGeneratorState codeGeneratorState,
-        CodeBuilder code, Entity entity,
+        CodeBuilder code,
         NoxSimpleTypeDefinition key)
     {
-        // Generates foreign key simple type 
+        // Generates foreign key simple type
         var propNameId = codeGeneratorState.GetForeignKeyPropertyName(key.EntityTypeOptions!.Entity);
         var foreignKeyDefinition = GetKeyForEntity(codeGeneratorState.Solution, key.EntityTypeOptions!.Entity);
         var propTypeSimpleId = foreignKeyDefinition.Type;
@@ -97,23 +100,52 @@ internal class EntitiesGenerator
         code.AppendLine($"public virtual {propType} {propName} {{ get; set; }} = null!;");
     }
 
-    
     private static NoxSimpleTypeDefinition GetKeyForEntity(NoxSolution noxSolution, string foreignKeyEntityName)
     {
-        
         var foreignEntity = noxSolution.Domain!.Entities.Single(entity => entity.Name.Equals(foreignKeyEntityName));
 
         // TODO support composite foreignKey keys
         return foreignEntity.Keys!.Single();
     }
 
-    
-    
     private static void GenerateStrongSingleKeySimpleProperty(CodeBuilder code, Entity entity, NoxSimpleTypeDefinition key)
     {
         var propName = key.Name;
 
-        code.AppendLine($"public {key.Type} {propName} {{ get; set; }} = null!;");
+        if (key.Type.Equals(NoxType.Nuid))
+        {
+            var nuidTypeOptions = key.NuidTypeOptions;
+            if (nuidTypeOptions != null)
+            {
+                var propertiesToComposeBy = nuidTypeOptions.PropertyNames;
+                ValidateNuidReferences(entity, propertiesToComposeBy);
+
+                var propertiesCombinedString = string.Join(", ", propertiesToComposeBy.Select(x => $"{x.ToUpperFirstChar()}.Value.ToString()"));
+                var idGetter = $"string.Join(\"{nuidTypeOptions.Separator}\", {propertiesCombinedString})";
+                code.AppendLine($"public {key.Type} {propName}  => Nuid.From({idGetter});");
+            }
+        }
+        else
+        {
+            code.AppendLine($"public {key.Type} {propName} {{ get; set; }} = null!;");
+        }
+    }
+
+    private static void ValidateNuidReferences(Entity entity, IEnumerable<string> propertyNames)
+    {
+        var entityProperties = entity
+            .Attributes
+            .Select(x => x.Name.ToLower())
+            .ToImmutableHashSet();
+
+        foreach (var propertyName in propertyNames)
+        {
+            var isDefined = entityProperties.Contains(propertyName.ToLower());
+            if (!isDefined)
+            {
+                throw new NoxSolutionConfigurationException($"Property {propertyName} is not defined in type {nameof(Entity)}");
+            }
+        }
     }
 
     private static void GenerateProperties(SourceProductionContext context, CodeBuilder code, Entity entity)
@@ -139,7 +171,7 @@ internal class EntitiesGenerator
 
     private static void GenerateRelationships(SourceProductionContext context, CodeBuilder code, Entity entity)
     {
-        if (entity.Relationships is null) 
+        if (entity.Relationships is null)
             return;
 
         foreach (var relationship in entity.Relationships)
@@ -180,7 +212,7 @@ internal class EntitiesGenerator
         var nullable = relationship.Relationship == EntityRelationshipType.ZeroOrOne ? "?" : string.Empty;
 
         code.AppendLine($"public virtual {propType}{nullable} {propName} {{ get; set; }} = null!;");
-        
+
         if (propName != relationship.Name)
         {
             code.AppendLine();
@@ -204,7 +236,7 @@ internal class EntitiesGenerator
             code.AppendLine();
             code.AppendLine($"/// <summary>");
             code.AppendLine($"/// {prop.Description!.TrimEnd('.')} ({optionalText.ToLower()}).");
-            code.AppendLine($"/// </summary>"); 
+            code.AppendLine($"/// </summary>");
         }
     }
 
@@ -218,6 +250,7 @@ internal class EntitiesGenerator
             code.AppendLine($"/// </summary>");
         }
     }
+
     private static void GenerateRelationshipDocs(CodeBuilder code, Entity entity, EntityRelationship relationship)
     {
         code.AppendLine();

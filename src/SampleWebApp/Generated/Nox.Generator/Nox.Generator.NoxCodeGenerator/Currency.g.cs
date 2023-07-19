@@ -20,6 +20,11 @@ public partial class Currency : AuditableEntityBase
     public Text Id { get; set; } = null!;
     
     /// <summary>
+    /// The currency's nuid key / identifier (required).
+    /// </summary>
+    public Nuid NuidId  => Nuid.From(string.Join(".", Name.Value.ToString()));
+    
+    /// <summary>
     /// The currency's name (required).
     /// </summary>
     public Text Name { get; set; } = null!;
