@@ -59,7 +59,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
         {
             if (TryGetGeneratorConfig(noxYamls, out var generate) && TryGetNoxSolution(noxYamls, out var solution))
             {
-                var codeGeneratorState = new NoxSolutionCodeGeneratorState(solution, Assembly.GetExecutingAssembly());
+                var codeGeneratorState = new NoxSolutionCodeGeneratorState(solution, Assembly.GetEntryAssembly()!);
 
                 WebApplicationExtensionGenerator.Generate(context, solution, generate.Presentation);
                 

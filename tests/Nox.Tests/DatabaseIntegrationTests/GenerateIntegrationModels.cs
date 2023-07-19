@@ -6,7 +6,7 @@ namespace Nox.Tests.DatabaseIntegrationTests
 {
     public class GenerateIntegrationModels
     {
-        //[Fact]
+        // [Fact]
         public void GenerateIntegrationTestModels()
         {
             var _fixture = new GeneratorFixture();
@@ -28,21 +28,41 @@ namespace Nox.Tests.DatabaseIntegrationTests
 
             var result = driver.GetRunResult().Results[0];
 
-            var auditableEntityFileName = "AuditableEntityBase";
+            var filePath = "AuditableEntityBase";
             var basePath = "../../../DatabaseIntegrationTests/Models/";
-            var singleResult = result.GeneratedSources.First(x => x.HintName.Contains(auditableEntityFileName));
+            var singleResult = result.GeneratedSources.First(x => x.HintName.Contains(filePath));
             var fileContent = singleResult.SourceText.ToString();
-            File.WriteAllText($"{basePath}{auditableEntityFileName}.cs", fileContent);
+            File.WriteAllText($"{basePath}{filePath}.cs", fileContent);
 
-            var testDatabaseWebAppContextFileName = "TestDatabaseWebAppDbContext";
-            singleResult = result.GeneratedSources.First(x => x.HintName.Contains(testDatabaseWebAppContextFileName));
+            filePath = "TestWebAppDbContext";
+            singleResult = result.GeneratedSources.First(x => x.HintName.Contains(filePath));
             fileContent = singleResult.SourceText.ToString();
-            File.WriteAllText($"{basePath}{testDatabaseWebAppContextFileName}.cs", fileContent);
+            File.WriteAllText($"{basePath}{filePath}.cs", fileContent);
 
-            var testEntityFileName = "TestEntity";
-            singleResult = result.GeneratedSources.First(x => x.HintName.Contains(testEntityFileName));
+            filePath = "TestEntity";
+            singleResult = result.GeneratedSources.First(x => x.HintName.Contains(filePath));
             fileContent = singleResult.SourceText.ToString();
-            File.WriteAllText($"{basePath}{testEntityFileName}.cs", fileContent);
+            File.WriteAllText($"{basePath}{filePath}.cs", fileContent);
+
+            filePath = "SecondTestEntity";
+            singleResult = result.GeneratedSources.First(x => x.HintName.Contains(filePath));
+            fileContent = singleResult.SourceText.ToString();
+            File.WriteAllText($"{basePath}{filePath}.cs", fileContent);
+
+            filePath = "TestEntityOneOrMany";
+            singleResult = result.GeneratedSources.First(x => x.HintName.Contains(filePath));
+            fileContent = singleResult.SourceText.ToString();
+            File.WriteAllText($"{basePath}{filePath}.cs", fileContent);
+
+            filePath = "SecondTestEntityOneOrMany";
+            singleResult = result.GeneratedSources.First(x => x.HintName.Contains(filePath));
+            fileContent = singleResult.SourceText.ToString();
+            File.WriteAllText($"{basePath}{filePath}.cs", fileContent);
+
+            filePath = "TestEntityForTypes";
+            singleResult = result.GeneratedSources.First(x => x.HintName.Contains(filePath));
+            fileContent = singleResult.SourceText.ToString();
+            File.WriteAllText($"{basePath}{filePath}.cs", fileContent);
 
             Assert.True(true);
         }

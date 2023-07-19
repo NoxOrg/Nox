@@ -15,16 +15,25 @@ public partial class SampleWebAppDbContext : DbContext
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
-    
+    private readonly Assembly _clientAssembly;
+
     public SampleWebAppDbContext(
-        DbContextOptions<SampleWebAppDbContext> options,
-        NoxSolution noxSolution,
-        INoxDatabaseProvider databaseProvider
-    ) : base(options)
-    {
-        _noxSolution = noxSolution;
-        _dbProvider = databaseProvider;
-    }
+            DbContextOptions<SampleWebAppDbContext> options,
+            NoxSolution noxSolution,
+            INoxDatabaseProvider databaseProvider
+        ) : this(options, noxSolution, databaseProvider, Assembly.GetEntryAssembly()!) { }
+
+    public SampleWebAppDbContext(
+            DbContextOptions<SampleWebAppDbContext> options,
+            NoxSolution noxSolution,
+            INoxDatabaseProvider databaseProvider,
+            Assembly clientAssembly
+        ) : base(options)
+        {
+            _noxSolution = noxSolution;
+            _dbProvider = databaseProvider;
+            _clientAssembly = clientAssembly;
+        }
 
 
     public DbSet<Country> Countries { get; set; } = null!;
@@ -50,7 +59,7 @@ public partial class SampleWebAppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
         if (_noxSolution.Domain != null)
         {
-            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, Assembly.GetExecutingAssembly());
+            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssembly);
             foreach (var entity in _noxSolution.Domain.Entities)
             {
                 var type = codeGeneratorState.GetEntityType(entity.Name);

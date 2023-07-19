@@ -15,16 +15,25 @@ public partial class TestWebAppDbContext : DbContext
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
+    private readonly Assembly _clientAssembly;
 
     public TestWebAppDbContext(
-        DbContextOptions<TestWebAppDbContext> options,
-        NoxSolution noxSolution,
-        INoxDatabaseProvider databaseProvider
-    ) : base(options)
-    {
-        _noxSolution = noxSolution;
-        _dbProvider = databaseProvider;
-    }
+            DbContextOptions<TestWebAppDbContext> options,
+            NoxSolution noxSolution,
+            INoxDatabaseProvider databaseProvider
+        ) : this(options, noxSolution, databaseProvider, Assembly.GetEntryAssembly()!) { }
+
+    public TestWebAppDbContext(
+            DbContextOptions<TestWebAppDbContext> options,
+            NoxSolution noxSolution,
+            INoxDatabaseProvider databaseProvider,
+            Assembly clientAssembly
+        ) : base(options)
+        {
+            _noxSolution = noxSolution;
+            _dbProvider = databaseProvider;
+            _clientAssembly = clientAssembly;
+        }
 
 
     public DbSet<TestEntity> TestEntities { get; set; } = null!;
@@ -43,7 +52,7 @@ public partial class TestWebAppDbContext : DbContext
         base.OnConfiguring(optionsBuilder);
         if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
-            _dbProvider.ConfigureDbContext(optionsBuilder, "TestWebApp", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
+            _dbProvider.ConfigureDbContext(optionsBuilder, "TestWebApp", _noxSolution.Infrastructure!.Persistence.DatabaseServer); 
         }
     }
 
@@ -52,7 +61,7 @@ public partial class TestWebAppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
         if (_noxSolution.Domain != null)
         {
-            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, Assembly.GetExecutingAssembly());
+            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssembly);
             foreach (var entity in _noxSolution.Domain.Entities)
             {
                 var type = codeGeneratorState.GetEntityType(entity.Name);

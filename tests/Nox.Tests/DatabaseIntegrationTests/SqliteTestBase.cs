@@ -60,7 +60,7 @@ public abstract class SqliteTestBase : IDisposable
         var options = new DbContextOptionsBuilder<TestWebAppDbContext>()
             .UseSqlite(connection)
             .Options;
-        var dbContext = new TestWebAppDbContext(options, solution, databaseConfigurator);
+        var dbContext = new TestWebAppDbContext(options, solution, databaseConfigurator, Assembly.GetExecutingAssembly());
         dbContext.Database.EnsureCreated();
         return dbContext;
     }
