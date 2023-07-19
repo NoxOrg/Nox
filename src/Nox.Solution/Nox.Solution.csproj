@@ -19,7 +19,6 @@
 		<RepositoryUrl>https://github.com/NoxOrg/Nox.Solution.git</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageIcon>nox.png</PackageIcon>
-		<PackageVersion>7.0.3-BETA93</PackageVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
