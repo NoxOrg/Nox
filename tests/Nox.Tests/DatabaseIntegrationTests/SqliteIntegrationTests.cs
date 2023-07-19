@@ -82,7 +82,7 @@ public class SqliteIntegrationTests : SqliteTestBase
     }
 
     [Fact]
-    public void GeneratedEntity_Sqlite_GeneratedRelationshipWorks()
+    public void GeneratedRelationship_Sqlite_ZeroOrMany_OneOrMany()
     {
         var text = "TestTextValue";
 
@@ -112,5 +112,38 @@ public class SqliteIntegrationTests : SqliteTestBase
 
         Assert.NotEmpty(testEntity.SecondTestEntities);
         Assert.NotEmpty(secondTestEntity.TestEntities);
+    }
+
+    [Fact]
+    public void GeneratedRelationship_Sqlite_OneOrMany_OneOrMany()
+    {
+        var text = "TestTextValue";
+
+        var newItem = new TestEntityOneOrMany()
+        {
+            Id = Text.From(text),
+            TextTestField = Text.From(text),
+        };
+        DbContext.TestEntityOneOrManies.Add(newItem);
+        DbContext.SaveChanges();
+
+        var newItem2 = new SecondTestEntityOneOrMany()
+        {
+            Id = Text.From(text),
+            TextTestField2 = Text.From(text),
+        };
+
+        newItem.SecondTestEntityOneOrManies.Add(newItem2);
+        DbContext.SecondTestEntityOneOrManies.Add(newItem2);
+        DbContext.SaveChanges();
+
+        // Force the recreation of DBContext and ensure we have fresh data from database
+        RecreateDbContext();
+
+        var testEntity = DbContext.TestEntityOneOrManies.Include(x => x.SecondTestEntityOneOrManies).First();
+        var secondTestEntity = DbContext.SecondTestEntityOneOrManies.Include(x => x.TestEntityOneOrManies).First();
+
+        Assert.NotEmpty(testEntity.SecondTestEntityOneOrManies);
+        Assert.NotEmpty(secondTestEntity.TestEntityOneOrManies);
     }
 }
