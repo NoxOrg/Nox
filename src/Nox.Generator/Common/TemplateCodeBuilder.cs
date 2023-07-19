@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
+using Nox.Solution;
 using Scriban;
 
 namespace Nox.Generator.Common;
