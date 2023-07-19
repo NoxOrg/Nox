@@ -32,7 +32,7 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
         SetConnectionString(csb.ConnectionString);
 
         return optionsBuilder
-            .UseLazyLoadingProxies()
+            //.UseLazyLoadingProxies()
             .UseSqlServer(_connectionString,
                 opts => { opts.MigrationsHistoryTable("MigrationsHistory", "migrations"); });
     }

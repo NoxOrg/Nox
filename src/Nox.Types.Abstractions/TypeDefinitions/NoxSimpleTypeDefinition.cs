@@ -64,6 +64,9 @@ public class NoxSimpleTypeDefinition
     [IfEquals("Type", NoxType.Image)]
     public ImageTypeOptions? ImageTypeOptions { get; set; }
 
+    [IfEquals("Type", NoxType.Time)]
+    public TimeTypeOptions? TimeTypeOptions { get; set; }
+
     #endregion TypeOptions
 
     [Title("Is the attribute required? Boolean value.")]

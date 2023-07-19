@@ -1789,36 +1789,25 @@
                   ]
                 },
                 "type": {    
-                  "const": "image"
+                  "const": "time"
                 },
-                "imageTypeOptions": {    
+                "timeTypeOptions": {    
                   "type": [
                     "object",
                     "null"
                   ],
                   "properties": {
-                    "imageFormatTypes": {    
+                    "minTimeTicks": {    
                       "type": [
-                        "array",
+                        "integer",
                         "null"
-                      ],
-                      "items":   {
-                        "type": [
-                          "string",
-                          "null"
-                        ],
-                        "enum": [
-                          "all",
-                          "bmp",
-                          "gif",
-                          "ico",
-                          "jpeg",
-                          "png",
-                          "svg",
-                          "tiff",
-                          "webp"
-                        ]
-                      }
+                      ]
+                    },
+                    "maxTimeTicks": {    
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
                     }
                   }
                 },
@@ -1946,7 +1935,6 @@
                     "phoneNumber",
                     "streetAddress",
                     "temperature",
-                    "time",
                     "timeZoneCode",
                     "uri",
                     "url",
@@ -3693,36 +3681,25 @@
                   ]
                 },
                 "type": {    
-                  "const": "image"
+                  "const": "time"
                 },
-                "imageTypeOptions": {    
+                "timeTypeOptions": {    
                   "type": [
                     "object",
                     "null"
                   ],
                   "properties": {
-                    "imageFormatTypes": {    
+                    "minTimeTicks": {    
                       "type": [
-                        "array",
+                        "integer",
                         "null"
-                      ],
-                      "items":   {
-                        "type": [
-                          "string",
-                          "null"
-                        ],
-                        "enum": [
-                          "all",
-                          "bmp",
-                          "gif",
-                          "ico",
-                          "jpeg",
-                          "png",
-                          "svg",
-                          "tiff",
-                          "webp"
-                        ]
-                      }
+                      ]
+                    },
+                    "maxTimeTicks": {    
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
                     }
                   }
                 },
@@ -3850,7 +3827,6 @@
                     "phoneNumber",
                     "streetAddress",
                     "temperature",
-                    "time",
                     "timeZoneCode",
                     "uri",
                     "url",
@@ -5497,36 +5473,25 @@
           ]
         },
         "type": {    
-          "const": "image"
+          "const": "time"
         },
-        "imageTypeOptions": {    
+        "timeTypeOptions": {    
           "type": [
             "object",
             "null"
           ],
           "properties": {
-            "imageFormatTypes": {    
+            "minTimeTicks": {    
               "type": [
-                "array",
+                "integer",
                 "null"
-              ],
-              "items":   {
-                "type": [
-                  "string",
-                  "null"
-                ],
-                "enum": [
-                  "all",
-                  "bmp",
-                  "gif",
-                  "ico",
-                  "jpeg",
-                  "png",
-                  "svg",
-                  "tiff",
-                  "webp"
-                ]
-              }
+              ]
+            },
+            "maxTimeTicks": {    
+              "type": [
+                "integer",
+                "null"
+              ]
             }
           }
         },
@@ -5648,7 +5613,6 @@
             "phoneNumber",
             "streetAddress",
             "temperature",
-            "time",
             "timeZoneCode",
             "uri",
             "url",
