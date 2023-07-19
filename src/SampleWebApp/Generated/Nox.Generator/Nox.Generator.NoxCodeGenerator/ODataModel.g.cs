@@ -91,11 +91,12 @@ public class Country : SampleWebApp.Domain.AuditableEntityBase
     /// <summary>
     /// accepts as legal tender.
     /// </summary>
-    public List<Currency> Currencies { get; set; } = null!;
+    public List<Currency> CountryAcceptsCurrency { get; set; } = null!;
     
     /// <summary>
     /// is also know as.
     /// </summary>
+    [AutoExpand]
     public List<CountryLocalNames> CountryLocalNames { get; set; } = null!;
 }
 
@@ -119,7 +120,7 @@ public class Currency : SampleWebApp.Domain.AuditableEntityBase
     /// <summary>
     /// is legal tender for.
     /// </summary>
-    public List<Country> Countries { get; set; } = null!;
+    public List<Country> CurrencyIsLegalTenderForCountry { get; set; } = null!;
 }
 
 /// <summary>

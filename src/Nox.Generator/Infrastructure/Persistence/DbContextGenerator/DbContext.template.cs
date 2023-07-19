@@ -37,21 +37,19 @@ public partial class {{className}} : DbContext
             _dbProvider.ConfigureDbContext(optionsBuilder, "{{solution.Name}}", _noxSolution.Infrastructure!.Persistence.DatabaseServer); 
         }
     }
-    
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
         if (_noxSolution.Domain != null)
         {
             var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution);
-            
             foreach (var entity in _noxSolution.Domain.Entities)
             {
-                var type = Type.GetType("{{codeGeneratorState.DomainNameSpace}}." + entity.Name);
-                
+                var type = codeGeneratorState.GetEntityType(entity.Name);
                 if (type != null)
                 {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity);
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, _noxSolution.GetRelationshipsToCreate(codeGeneratorState.GetEntityType));
                 }
             }
         }
