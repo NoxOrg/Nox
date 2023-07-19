@@ -9,16 +9,17 @@
 
 	<PropertyGroup>
 		<PackageId>Nox.Solution</PackageId>
-		<Authors>Andre Sharpe,Jan Schutte</Authors>
+		<Authors>The Nox Factory</Authors>
 		<Description>Nox solution configuration library</Description>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-		<Copyright>Copyright (c) Andre Sharpe 2023</Copyright>
+		<Copyright>Copyright (c) The Nox Factory 2023</Copyright>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
 		<RepositoryUrl>https://github.com/NoxOrg/Nox.Solution.git</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageIcon>nox.png</PackageIcon>
+		<PackageVersion>7.0.3-BETA93</PackageVersion>
 	</PropertyGroup>
 
 	<ItemGroup>

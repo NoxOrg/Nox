@@ -1,6 +1,4 @@
-﻿using Nox.Solution;
-
-namespace Nox.Generator.Common
+﻿namespace Nox.Solution
 {
     public class NoxSolutionCodeGeneratorState
     {

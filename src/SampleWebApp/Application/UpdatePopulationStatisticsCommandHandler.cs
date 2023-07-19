@@ -1,6 +1,5 @@
 ﻿using Nox.Abstractions;
-using SampleWebApp.Application.DataTransferObjects;
-using SampleWebApp.Infrastructure.Persistence;
+using SampleWebAppDbContext = SampleWebApp.SampleWebAppDbContext;
 
 namespace SampleWebApp.Application
 {

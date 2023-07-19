@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
-using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
 using Npgsql;
 

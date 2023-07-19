@@ -18,6 +18,7 @@
 		<RepositoryUrl>https://github.com/NoxOrg/Nox.Type.git</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageIcon>nox.png</PackageIcon>
+		<PackageVersion>7.0.3-BETA93</PackageVersion>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -27,7 +28,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" />
+		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" PrivateAssets="all" />
 		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
 		<ProjectReference Include="..\Nox.Types\Nox.Types.csproj" />
 	</ItemGroup>

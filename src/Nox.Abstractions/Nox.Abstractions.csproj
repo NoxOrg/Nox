@@ -6,6 +6,25 @@
         <Nullable>enable</Nullable>
     </PropertyGroup>
 
+    <PropertyGroup>
+        <PackageId>Nox.Abstractions</PackageId>
+        <Authors>The Nox Factory</Authors>
+        <Description>Nox Abstractions library</Description>
+        <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+        <Copyright>Copyright (c) The Nox Factory 2022</Copyright>
+        <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/NoxOrg/Nox.git</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageIcon>nox.png</PackageIcon>
+        <PackageVersion>7.0.3-BETA93</PackageVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="../../docs/images/nox.png" Pack="true" PackagePath="" />
+    </ItemGroup>
+
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>

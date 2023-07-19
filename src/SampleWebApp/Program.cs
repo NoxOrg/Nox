@@ -1,9 +1,7 @@
 using Microsoft.AspNetCore.OData;
 using Nox;
 using Nox.Abstractions;
-using SampleWebApp;
 using SampleWebApp.Application;
-using SampleWebApp.Presentation.Api.OData;
 
 var builder = WebApplication.CreateBuilder(args);
 
