@@ -10,7 +10,7 @@ namespace Nox.Types;
 /// <remarks>
 /// Contains only the date component, without time.
 /// </remarks>
-public sealed class Date : ValueObject<DateTime, Date>
+public sealed class Date : ValueObject<System.DateTime, Date>
 {
     // List of time components taken from .NET source
     private static readonly char[] TimeComponentsInDateTimeFormat = new char[] { ':', 't', 'f', 'F', 'h', 'H', 'm', 's', 'z', 'K' };
@@ -23,7 +23,7 @@ public sealed class Date : ValueObject<DateTime, Date>
     /// <param name="dateTime">The date time to create date from.</param>
     /// <param name="dateTypeOptions">The date type options.</param>
     /// <exception cref="TypeValidationException"></exception>
-    public static Date From(DateTime dateTime, DateTypeOptions dateTypeOptions)
+    public static Date From(System.DateTime dateTime, DateTypeOptions dateTypeOptions)
     {
         var newObject = new Date
         {
@@ -51,7 +51,7 @@ public sealed class Date : ValueObject<DateTime, Date>
     /// <exception cref="TypeValidationException"></exception>
     public static Date From(int year, int month, int day, DateTypeOptions dateTypeOptions)
     {
-        var dateTime = new DateTime(year, month, day);
+        var dateTime = new System.DateTime(year, month, day);
         return From(dateTime, dateTypeOptions);
     }
 

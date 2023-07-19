@@ -11,7 +11,7 @@ namespace Nox.Types.EntityFramework.Abstractions
         protected readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesDatabaseConfigurations = new();
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="configurators">List of all loaded <see cref="INoxTypeDatabaseConfigurator"/></param>
         /// <param name="databaseProviderSpecificOverrides">Configurator type specific to database provider</param>
@@ -31,15 +31,10 @@ namespace Nox.Types.EntityFramework.Abstractions
             }
 
             // Override specific database provider configurators
-#pragma warning disable S3267 // Loops should be simplified with "LINQ" expressions
-            foreach (var configurator in noxTypeDatabaseConfigurators)
+            foreach (var configurator in noxTypeDatabaseConfigurators.Where(databaseProviderSpecificOverrides.IsInstanceOfType))
             {
-                if (databaseProviderSpecificOverrides.IsInstanceOfType(configurator))
-                {
-                    TypesDatabaseConfigurations[configurator.ForNoxType] = configurator;
-                }
+                TypesDatabaseConfigurations[configurator.ForNoxType] = configurator;
             }
-#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
         }
 
         public virtual void ConfigureEntity(

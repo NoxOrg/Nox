@@ -48,17 +48,19 @@ internal static class ODataConfigurationGenerator
         code.AppendLine();
         code.AppendLine($"services.AddControllers()");
         code.Indent();
-        code.AppendLine($".AddOData(options => options");
-        code.Indent();
-        code.AppendLine($".Select()");
+        code.AppendLine($".AddOData(options => ");
+        code.StartBlock();
+        code.AppendLine($"options.Select()");
+        code.AppendLine($".EnableQueryFeatures(null)");
         code.AppendLine($".Filter()");
         code.AppendLine($".OrderBy()");
         code.AppendLine($".Count()");
         code.AppendLine($".Expand()");
         code.AppendLine($".SkipToken()");
-        code.AppendLine($".SetMaxTop(100)");
-        code.AppendLine($".AddRouteComponents(\"api\", builder.GetEdmModel())");
-        code.UnIndent();
+        code.AppendLine($".SetMaxTop(100);");
+        code.AppendLine($"var routeOptions = options.AddRouteComponents(\"api\", builder.GetEdmModel()).RouteOptions;");
+        code.AppendLine($"routeOptions.EnableKeyInParenthesis = false;");
+        code.EndBlock();
         code.AppendLine($");");
         code.UnIndent();
         // End method

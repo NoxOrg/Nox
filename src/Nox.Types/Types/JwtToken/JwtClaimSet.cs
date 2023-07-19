@@ -88,7 +88,7 @@ internal sealed class JwtClaimSet : IEnumerable<Claim>
 
     private static (string Value, string ValueType) ResolveStringType(JsonElement element)
     {
-        if (element.TryGetDateTime(out DateTime dateTime))
+        if (element.TryGetDateTime(out System.DateTime dateTime))
             return (dateTime.ToUniversalTime().ToString("o", CultureInfo.InvariantCulture), ClaimValueTypes.DateTime);
 
         return (element.ToString(), ClaimValueTypes.String);

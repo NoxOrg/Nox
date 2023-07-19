@@ -5,6 +5,8 @@ using Nox.Generator.Application.EventGenerator;
 using Nox.Generator.Common;
 using Nox.Generator.Domain.CqrsGenerators;
 using Nox.Generator.Domain.DomainEventGenerator;
+using Nox.Generator.Infrastructure.Persistence.DbContextGenerator;
+using Nox.Generator.Presentation.Api;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
@@ -12,11 +14,9 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Nox.Generator.Infrastructure.Persistence.DbContextGenerator;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
-using Nox.Generator.Presentation.Api;
 
 namespace Nox.Generator;
 
