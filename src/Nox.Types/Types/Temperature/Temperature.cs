@@ -9,14 +9,6 @@ namespace Nox.Types;
 /// <remarks>Placeholder, needs to be implemented</remarks>
 public sealed class Temperature : Measurement<Temperature, TemperatureUnit>
 {
-    /// <summary>
-    /// Absolute zero degrees represented in Celsius.
-    /// </summary>
-    private const float MinimumValueCelsius = -273.15f;
-    /// <summary>
-    /// Absolute zero degrees represented in Fahrenheit.
-    /// </summary>
-    private const float MinimumValueFahrenheit = -459.67f;
 
     /// <summary>
     /// Creates a new instance of <see cref="Temperature"/> object in <see cref="TemperatureUnit.Celsius"/>.
@@ -49,12 +41,11 @@ public sealed class Temperature : Measurement<Temperature, TemperatureUnit>
     /// <returns>true if the <see cref="Temperature"/> value is valid.</returns>
     internal override ValidationResult Validate()
     {
-        var result = new ValidationResult();
+        var result = Value.Validate();
 
-        if ((Unit == TemperatureUnit.Celsius && Value < MinimumValueCelsius) ||
-            (Unit == TemperatureUnit.Fahrenheit && Value < MinimumValueFahrenheit))
+        if (double.IsNaN((double)Value) || double.IsInfinity((double)Value))
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), "Temperature cannot be below absolute zero."));
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Temperature type as value {Value} is not allowed."));
         }
 
         return result;

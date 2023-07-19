@@ -26,17 +26,9 @@ public class TemperatureTests
     }
 
     [Fact]
-    public void From_TemperatureAbsoluteZero_Celsius_ThrowsException()
+    public void From_TemperatureNan_ThrowsException()
     {
-        Action comparison = () => Temperature.From(-280, TemperatureUnit.Celsius);
-
-        comparison.Should().Throw<TypeValidationException>();
-    }
-
-    [Fact]
-    public void From_TemperatureAbsoluteZero_Fahrenheit_ThrowsException()
-    {
-        Action comparison = () => Temperature.From(-460, TemperatureUnit.Fahrenheit);
+        Action comparison = () => Temperature.From(double.NaN, TemperatureUnit.Fahrenheit);
 
         comparison.Should().Throw<TypeValidationException>();
     }
@@ -52,14 +44,6 @@ public class TemperatureTests
     }
 
     [Fact]
-    public void FromCelsius_TemperatureAbsoluteZero_ThrowsException()
-    {
-        Action comparison = () => Temperature.FromCelsius(-300);
-
-        comparison.Should().Throw<TypeValidationException>();
-    }
-
-    [Fact]
     public void FromFahrenheit_ReturnsValue()
     {
         double value = 90.5;
@@ -67,14 +51,6 @@ public class TemperatureTests
 
         temperature.Value.Should().Be(value);
         temperature.Unit.Should().Be(TemperatureUnit.Fahrenheit);
-    }
-
-    [Fact]
-    public void FromFahrenheit_TemperatureAbsoluteZero_ThrowsException()
-    {
-        Action comparison = () => Temperature.FromFahrenheit(-980);
-
-        comparison.Should().Throw<TypeValidationException>();
     }
 
     [Fact]
@@ -106,7 +82,7 @@ public class TemperatureTests
     }
 
     [Fact]
-    public void TemperatureConversion_CelciusToCelsius_ReturnsCorrectValue()
+    public void TemperatureConversion_CelsiusToCelsius_ReturnsCorrectValue()
     {
         var temperature = Temperature.From(25.05, TemperatureUnit.Celsius);
 

@@ -54,10 +54,10 @@ public class VolumeTests
     [Fact]
     public void Volume_Constructor_WithNegativeValueInput_ThrowsException()
     {
-        var action = () => Volume.From(-27.1828);
+        var action = () => Volume.From(-28);
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Volume type as negative volume value -27.1828 is not allowed.") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Volume type as negative volume value -28 is not allowed.") });
     }
 
     [Fact]
