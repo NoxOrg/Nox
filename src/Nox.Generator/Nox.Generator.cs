@@ -14,6 +14,7 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Reflection;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
@@ -58,7 +59,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
         {
             if (TryGetGeneratorConfig(noxYamls, out var generate) && TryGetNoxSolution(noxYamls, out var solution))
             {
-                var codeGeneratorState = new NoxSolutionCodeGeneratorState(solution);
+                var codeGeneratorState = new NoxSolutionCodeGeneratorState(solution, Assembly.GetExecutingAssembly());
 
                 WebApplicationExtensionGenerator.Generate(context, solution, generate.Presentation);
                 

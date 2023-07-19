@@ -1,16 +1,18 @@
 ﻿using Nox.Solution;
 using System;
-using System.Linq;
+using System.Reflection;
 
 namespace Nox.Generator.Common
 {
     public class NoxSolutionCodeGeneratorState
     {
         private readonly NoxSolution _noxSolution;
+        private readonly Assembly _entryAssembly;
 
-        public NoxSolutionCodeGeneratorState(NoxSolution noxSolution)
+        public NoxSolutionCodeGeneratorState(NoxSolution noxSolution, Assembly entryAssembly)
         {
             _noxSolution = noxSolution;
+            _entryAssembly = entryAssembly;
         }
 
         public NoxSolution Solution => _noxSolution;
@@ -22,20 +24,7 @@ namespace Nox.Generator.Common
         public string ODataNameSpace => $"{RootNameSpace}.Presentation.Api.OData";
         public string Events => $"{RootNameSpace}.Application.Events";
         public string GetEntityTypeFullName(string entityName) => $"{DomainNameSpace}.{entityName}";
-        // TODO: could be optimized
-        public Type? GetEntityType(string entityName)
-        {
-            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies().Reverse())
-            {
-                var type = assembly.GetType(GetEntityTypeFullName(entityName));
-                if (type != null)
-                {
-                    return type;
-                }
-            }
-
-            return null;
-        }
+        public Type? GetEntityType(string entityName) => _entryAssembly.GetType(GetEntityTypeFullName(entityName));
 
 
         public string GetForeignKeyPropertyName(string foreignEntityName)

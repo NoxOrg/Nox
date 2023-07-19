@@ -56,18 +56,7 @@ namespace Nox.Types.EntityFramework.Abstractions
             Entity entity,
             IReadOnlyList<EntityRelationshipWithType> relationships)
         {
-            var relationshipsThatShouldBeCreatedOnCurrentEntity = relationships.Where(x => x
-                // current relationship
-                .Relationship
-                .Related
-                // pair relationship
-                .EntityRelationship
-                .Related
-                // current entity
-                .Entity
-                .Name.Equals(entity.Name, StringComparison.InvariantCulture));
-
-            foreach (var relationshipToCreate in relationshipsThatShouldBeCreatedOnCurrentEntity)
+            foreach (var relationshipToCreate in relationships)
             {
                 if (relationshipToCreate.ShouldBeMapped)
                 {

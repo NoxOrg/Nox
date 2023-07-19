@@ -3,9 +3,10 @@
 #nullable enable
 
 using Microsoft.EntityFrameworkCore;
-using Nox.Solution;
 using Nox.Generator.Common;
+using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using System.Reflection;
 using TestWebApp.Domain;
 
 namespace TestWebApp.Infrastructure.Persistence;
@@ -51,13 +52,13 @@ public partial class TestWebAppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
         if (_noxSolution.Domain != null)
         {
-            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution);
+            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, Assembly.GetExecutingAssembly());
             foreach (var entity in _noxSolution.Domain.Entities)
             {
                 var type = codeGeneratorState.GetEntityType(entity.Name);
                 if (type != null)
                 {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, _noxSolution.GetRelationshipsToCreate(codeGeneratorState.GetEntityType));
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, _noxSolution.GetRelationshipsToCreate(codeGeneratorState.GetEntityType, entity));
                 }
             }
         }
