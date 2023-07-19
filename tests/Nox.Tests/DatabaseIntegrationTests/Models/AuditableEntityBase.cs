@@ -2,7 +2,9 @@
 
 #nullable enable
 
-namespace TestDatabaseWebApp.Domain;
+using System;
+
+namespace TestWebApp.Domain; 
 
 public partial class AuditableEntityBase
 {

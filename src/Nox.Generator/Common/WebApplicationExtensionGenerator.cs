@@ -4,7 +4,7 @@ using Nox.Solution;
 
 namespace Nox.Generator.Common;
 
-public class WebApplicationExtensionGenerator
+internal static class WebApplicationExtensionGenerator
 {
     public static void Generate(SourceProductionContext context, NoxSolution solution, bool generatePresentation)
     {

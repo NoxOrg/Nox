@@ -1,5 +1,7 @@
 using FluentValidation;
 using Nox.Solution.Validation;
+using System;
+using System.Collections.Generic;
 
 namespace Nox.Solution;
 
@@ -11,5 +13,49 @@ public class NoxSolution : Solution
     {
         var validator = new SolutionValidator();
         validator.ValidateAndThrow(this);
+    }
+
+    public List<EntityRelationshipWithType> GetRelationshipsToCreate(Func<string, Type?> getTypeByNameFunc, Entity entity)
+    {
+        var fullRelationshipModels = new List<EntityRelationshipWithType>();
+
+        if (entity?.Relationships == null)
+        {
+            return fullRelationshipModels;
+        }
+
+        foreach (var relationship in entity.Relationships)
+        {
+            var isIgnored = false;
+            var fullModel = new EntityRelationshipWithType
+            {
+                Relationship = relationship,
+                RelationshipEntityType = getTypeByNameFunc(relationship.Entity)!,
+                ShouldBeMapped = true
+            };
+
+            var pairRelationship = relationship.Related.EntityRelationship;
+            if (pairRelationship != null)
+            {
+                // If zeroOrMany vs OneOrMany handle on oneOrMany side
+                if (pairRelationship.Relationship == EntityRelationshipType.OneOrMany &&
+                    relationship.Relationship == EntityRelationshipType.ZeroOrMany)
+                {
+                    isIgnored = true;
+                }
+                // If same type on both sides cover on first by ascending alphabetical sort
+                else if (pairRelationship.Relationship == relationship.Relationship &&
+                            // Ascending alphabetical sort
+                            string.Compare(relationship.Entity, pairRelationship.Entity, StringComparison.InvariantCulture) > 0)
+                {
+                    isIgnored = true;
+                }
+            }
+
+            fullModel.ShouldBeMapped = !isIgnored;
+            fullRelationshipModels.Add(fullModel);
+        }
+
+        return fullRelationshipModels;
     }
 }

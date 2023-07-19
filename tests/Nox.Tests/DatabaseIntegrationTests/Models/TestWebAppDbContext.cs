@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -6,24 +6,24 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using System.Reflection;
-using {{codeGeneratorState.DomainNameSpace}};
+using TestWebApp.Domain;
 
-namespace {{codeGeneratorState.PersistenceNameSpace}};
+namespace TestWebApp.Infrastructure.Persistence;
 
-public partial class {{className}} : DbContext
+public partial class TestWebAppDbContext : DbContext
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
     private readonly Assembly _clientAssembly;
 
-    public {{className}}(
-            DbContextOptions<{{className}}> options,
+    public TestWebAppDbContext(
+            DbContextOptions<TestWebAppDbContext> options,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider
         ) : this(options, noxSolution, databaseProvider, Assembly.GetEntryAssembly()!) { }
 
-    public {{className}}(
-            DbContextOptions<{{className}}> options,
+    public TestWebAppDbContext(
+            DbContextOptions<TestWebAppDbContext> options,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
             Assembly clientAssembly
@@ -34,16 +34,24 @@ public partial class {{className}} : DbContext
             _clientAssembly = clientAssembly;
         }
 
-{{ for entity in solution.Domain.Entities }}
-    public DbSet<{{entity.Name}}> {{entity.PluralName}} { get; set; } = null!;
-{{ end }}
+
+    public DbSet<TestEntity> TestEntities { get; set; } = null!;
+
+    public DbSet<SecondTestEntity> SecondTestEntities { get; set; } = null!;
+
+    public DbSet<TestEntityOneOrMany> TestEntityOneOrManies { get; set; } = null!;
+
+    public DbSet<SecondTestEntityOneOrMany> SecondTestEntityOneOrManies { get; set; } = null!;
+
+    public DbSet<TestEntityForTypes> TestEntityForTypes { get; set; } = null!;
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
         if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
-            _dbProvider.ConfigureDbContext(optionsBuilder, "{{solution.Name}}", _noxSolution.Infrastructure!.Persistence.DatabaseServer); 
+            _dbProvider.ConfigureDbContext(optionsBuilder, "TestWebApp", _noxSolution.Infrastructure!.Persistence.DatabaseServer); 
         }
     }
 

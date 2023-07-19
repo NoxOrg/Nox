@@ -1,11 +1,10 @@
 ﻿using Microsoft.CodeAnalysis;
-using Nox.Solution;
-using System.Linq;
 using Nox.Generator.Common;
+using Nox.Solution;
 using System.Collections.Generic;
-
-using static Nox.Generator.Common.BaseGenerator;
 using System.Diagnostics;
+using System.Linq;
+using static Nox.Generator.Common.BaseGenerator;
 
 namespace Nox.Generator.Presentation.Api;
 

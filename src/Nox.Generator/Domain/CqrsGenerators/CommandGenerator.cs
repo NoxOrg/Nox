@@ -9,7 +9,7 @@ using static Nox.Generator.Common.NamingConstants;
 
 namespace Nox.Generator.Domain.CqrsGenerators;
 
-public class CommandGenerator
+internal static class CommandGenerator
 {
     public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
@@ -17,6 +17,7 @@ public class CommandGenerator
 
         if (codeGeneratorState.Solution.Domain == null) return;
 
+#pragma warning disable S3267 // Loops should be simplified with "LINQ" expressions
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
@@ -27,6 +28,7 @@ public class CommandGenerator
                 GenerateCommand(context, codeGeneratorState, cmd);
             }
         }
+#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
     }
 
     private static void GenerateCommand(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, DomainCommand cmd)

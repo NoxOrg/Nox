@@ -11,7 +11,7 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public partial class TestEntity : AuditableEntityBase
+public partial class TestEntityOneOrMany : AuditableEntityBase
 {
     
     /// <summary>
@@ -25,9 +25,9 @@ public partial class TestEntity : AuditableEntityBase
     public Text TextTestField { get; set; } = null!;
     
     /// <summary>
-    /// TestEntity Test entity relationship to SecondTestEntity OneOrMany SecondTestEntities
+    /// TestEntityOneOrMany Test entity relationship to SecondTestEntityOneOrMany OneOrMany SecondTestEntityOneOrManies
     /// </summary>
-    public virtual List<SecondTestEntity> SecondTestEntities { get; set; } = new List<SecondTestEntity>();
+    public virtual List<SecondTestEntityOneOrMany> SecondTestEntityOneOrManies { get; set; } = new List<SecondTestEntityOneOrMany>();
     
-    public List<SecondTestEntity> SecondTestEntityRelationship => SecondTestEntities;
+    public List<SecondTestEntityOneOrMany> SecondTestEntityRelationship => SecondTestEntityOneOrManies;
 }

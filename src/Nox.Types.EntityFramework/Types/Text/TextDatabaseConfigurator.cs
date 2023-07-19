@@ -11,7 +11,7 @@ public class TextDatabaseConfigurator : INoxTypeDatabaseConfigurator
     public virtual bool IsDefault => true;
 
     public void ConfigureEntityProperty(
-        NoxSolutionCodeGeneratorState codeGeneratorState,
+        NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
         EntityTypeBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,

@@ -10,11 +10,11 @@ public class MoneyDatabaseConfigurator : INoxTypeDatabaseConfigurator
     public bool IsDefault => true;
 
     public void ConfigureEntityProperty(
-        NoxSolutionCodeGeneratorState codeGeneratorState,
+        NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
         EntityTypeBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
-        bool singleKey)
+        bool isKey)
     {
         // TODO: Default values from static property in the Nox.Type
         // var typeOptions = property.MoneyTypeOptions ?? new MoneyTypeOptions();
