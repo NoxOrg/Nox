@@ -25,6 +25,7 @@ public partial class TestWebAppDbContext : DbContext
         _dbProvider = databaseProvider;
     }
 
+
     public DbSet<TestEntity> TestEntities { get; set; } = null!;
 
     public DbSet<SecondTestEntity> SecondTestEntities { get; set; } = null!;
@@ -34,6 +35,7 @@ public partial class TestWebAppDbContext : DbContext
     public DbSet<SecondTestEntityOneOrMany> SecondTestEntityOneOrManies { get; set; } = null!;
 
     public DbSet<TestEntityForTypes> TestEntityForTypes { get; set; } = null!;
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -61,4 +63,3 @@ public partial class TestWebAppDbContext : DbContext
         }
     }
 }
-
