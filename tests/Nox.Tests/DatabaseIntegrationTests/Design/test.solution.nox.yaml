@@ -111,7 +111,7 @@ domain:
 
       relationships:
           - name: SecondTestEntityRelationship
-            description: Test entity relelionship to SecondTestEntity
+            description: Test entity relationship to SecondTestEntity
             relationship: oneOrMany
             entity: SecondTestEntity
 
@@ -137,7 +137,7 @@ domain:
 
       relationships:
           - name: TestEntityRelationship
-            description: Test entity relelionship to TestEntity
+            description: Test entity relationship to TestEntity
             relationship: zeroOrMany
             entity: TestEntity
 

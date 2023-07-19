@@ -1,4 +1,6 @@
 ﻿using Nox.Solution;
+using System;
+using System.Linq;
 
 namespace Nox.Generator.Common
 {
@@ -19,6 +21,21 @@ namespace Nox.Generator.Common
         public string PersistenceNameSpace => $"{RootNameSpace}.Infrastructure.Persistence";
         public string ODataNameSpace => $"{RootNameSpace}.Presentation.Api.OData";
         public string Events => $"{RootNameSpace}.Application.Events";
+        public string GetEntityTypeFullName(string entityName) => $"{DomainNameSpace}.{entityName}";
+        // TODO: could be optimized
+        public Type? GetEntityType(string entityName)
+        {
+            foreach (var assembly in AppDomain.CurrentDomain.GetAssemblies().Reverse())
+            {
+                var type = assembly.GetType(GetEntityTypeFullName(entityName));
+                if (type != null)
+                {
+                    return type;
+                }
+            }
+
+            return null;
+        }
 
 
         public string GetForeignKeyPropertyName(string foreignEntityName)

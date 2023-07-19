@@ -206,7 +206,6 @@ internal static class EntitiesGenerator
         if (propName != relationship.Name)
         {
             code.AppendLine();
-            code.AppendLine("[NotMapped]");
             code.AppendLine($"public {propType}{nullable} {relationship.Name} => {propName};");
         }
     }

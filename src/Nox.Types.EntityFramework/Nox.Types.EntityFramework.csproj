@@ -45,6 +45,7 @@
 		<None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
+	  <Folder Include="Model\" />
 	  <Folder Include="Types\Uri\" />
 	</ItemGroup>
 </Project>

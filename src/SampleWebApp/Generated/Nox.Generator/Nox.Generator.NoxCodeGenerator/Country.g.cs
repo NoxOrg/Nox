@@ -95,7 +95,6 @@ public partial class Country : AuditableEntityBase
     /// </summary>
     public virtual List<Currency> Currencies { get; set; } = new List<Currency>();
     
-    [NotMapped]
     public List<Currency> CountryAcceptsCurrency => Currencies;
     
     /// <summary>

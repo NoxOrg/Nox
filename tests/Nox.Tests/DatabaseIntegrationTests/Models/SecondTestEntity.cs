@@ -26,6 +26,5 @@ public partial class SecondTestEntity : AuditableEntityBase
     /// </summary>
     public virtual List<TestEntity> TestEntities { get; set; } = new List<TestEntity>();
 
-    [NotMapped]
     public List<TestEntity> TestEntityRelationship => TestEntities;
 }

@@ -1,8 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Generator.Common;
 using Nox.Solution;
-using Nox.Types.EntityFramework.Model;
 using System.Diagnostics;
 
 namespace Nox.Types.EntityFramework.Abstractions
@@ -48,7 +46,7 @@ namespace Nox.Types.EntityFramework.Abstractions
             NoxSolutionCodeGeneratorState codeGeneratorState,
             EntityTypeBuilder builder,
             Entity entity,
-            IReadOnlyList<RelationshipFullModel> relationships)
+            IReadOnlyList<EntityRelationshipWithType> relationships)
         {
             ConfigureKeys(codeGeneratorState, builder, entity);
 
@@ -61,83 +59,30 @@ namespace Nox.Types.EntityFramework.Abstractions
             NoxSolutionCodeGeneratorState codeGeneratorState,
             EntityTypeBuilder builder,
             Entity entity,
-            IReadOnlyList<RelationshipFullModel> relationships)
+            IReadOnlyList<EntityRelationshipWithType> relationships)
         {
-            var entityRelationships = relationships.Where(x => x.Entity.Name.Equals(entity.Name, StringComparison.InvariantCulture));
+            var relationshipsThatShouldBeCreatedOnCurrentEntity = relationships.Where(x => x
+                // current relationship
+                .Relationship
+                .Related
+                // pair relationship
+                .EntityRelationship
+                .Related
+                // current entity
+                .Entity
+                .Name.Equals(entity.Name, StringComparison.InvariantCulture));
 
-            foreach (var fullRelationshipModel in entityRelationships)
+            foreach (var relationshipToCreate in relationshipsThatShouldBeCreatedOnCurrentEntity)
             {
-                builder
-                    .HasMany(fullRelationshipModel.RelationshipEntityType.FullName!, fullRelationshipModel.Relationship.Related.Entity.PluralName)
-                    .WithMany(fullRelationshipModel.Entity.PluralName);
+                if (relationshipToCreate.ShouldBeMapped)
+                {
+                    builder
+                        .HasMany(relationshipToCreate.RelationshipEntityType.FullName!, relationshipToCreate.Relationship.Related.Entity.PluralName)
+                        .WithMany(entity.PluralName);
+                }
+
+                builder.Ignore(relationshipToCreate.Relationship.Name);
             }
-        }
-
-        public virtual List<RelationshipFullModel> GetRelationshipsToCreate(
-            NoxSolutionCodeGeneratorState codeGeneratorState,
-            IReadOnlyList<Entity> entities,
-            ModelBuilder builder)
-        {
-            var fullRelationshipModels = new List<RelationshipFullModel>();
-
-            foreach (var entity in entities)
-            {
-                var totalRelationships = new List<EntityRelationship>();
-                if (entity.Relationships != null)
-                {
-                    totalRelationships.AddRange(entity.Relationships);
-                }
-
-                if (entity.OwnedRelationships != null)
-                {
-                    totalRelationships.AddRange(entity.OwnedRelationships);
-                }
-
-                foreach (var relationship in totalRelationships)
-                {
-                    var isIgnored = false;
-                    var fullModel = new RelationshipFullModel
-                    {
-                        Entity = entity,
-                        Relationship = relationship
-                    };
-
-                    EntityRelationship? pairRelationship = null;
-                    var pairEntity = entities
-                        .FirstOrDefault(x => x.Name.Equals(relationship.Entity, StringComparison.InvariantCulture));
-                    if (pairEntity != null)
-                    {
-                        pairRelationship = pairEntity
-                            .Relationships?
-                            .FirstOrDefault(x => x.Entity.Equals(entity.Name, StringComparison.InvariantCulture)) ??
-                            pairEntity
-                            .OwnedRelationships?
-                            .FirstOrDefault(x => x.Entity.Equals(entity.Name, StringComparison.InvariantCulture));
-                    }
-
-                    if (pairRelationship != null)
-                    {
-                        if (pairRelationship.Relationship == EntityRelationshipType.OneOrMany &&
-                            relationship.Relationship == EntityRelationshipType.ZeroOrMany)
-                        {
-                            isIgnored = true;
-                        }
-                        else if (pairRelationship.Relationship == relationship.Relationship &&
-                                 // Ascending sort, if the same relationship is covered by other side, then ignore it
-                                 string.Compare(relationship.Entity, pairRelationship.Entity, StringComparison.InvariantCulture) > 0)
-                        {
-                            isIgnored = true;
-                        }
-                    }
-
-                    if (!isIgnored)
-                    {
-                        fullRelationshipModels.Add(fullModel);
-                    }
-                }
-            }
-
-            return fullRelationshipModels;
         }
 
         private void ConfigureKeys(
