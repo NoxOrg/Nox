@@ -61,8 +61,8 @@ public class NoxSimpleTypeDefinition
     [IfEquals("Type", NoxType.DateTime)]
     public DateTimeTypeOptions? DateTimeTypeOptions { get; set; }
 
-    [IfEquals("Type", NoxType.EncryptedText)]
-    public EncryptedTextTypeOptions? EncryptedTextTypeOptions { get; set; }
+    [IfEquals("Type", NoxType.Time)]
+    public TimeTypeOptions? TimeTypeOptions { get; set; }
 
     #endregion TypeOptions
 

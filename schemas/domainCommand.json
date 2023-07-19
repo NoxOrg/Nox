@@ -1789,46 +1789,25 @@
                   ]
                 },
                 "type": {    
-                  "const": "encryptedText"
+                  "const": "time"
                 },
-                "encryptedTextTypeOptions": {    
+                "timeTypeOptions": {    
                   "type": [
                     "object",
                     "null"
                   ],
                   "properties": {
-                    "encryptionAlgorithm": {    
+                    "minTimeTicks": {    
                       "type": [
-                        "string",
+                        "integer",
                         "null"
-                      ],
-                      "enum": [
-                        "aes"
                       ]
                     },
-                    "publicKey": {    
+                    "maxTimeTicks": {    
                       "type": [
-                        "array",
+                        "integer",
                         "null"
-                      ],
-                      "items":   {
-                        "type": [
-                          "integer",
-                          "null"
-                        ]
-                      }
-                    },
-                    "iv": {    
-                      "type": [
-                        "array",
-                        "null"
-                      ],
-                      "items":   {
-                        "type": [
-                          "integer",
-                          "null"
-                        ]
-                      }
+                      ]
                     }
                   }
                 },
@@ -1936,6 +1915,7 @@
                     "dayOfWeek",
                     "distance",
                     "email",
+                    "encryptedText",
                     "file",
                     "formula",
                     "guid",
@@ -1956,7 +1936,6 @@
                     "phoneNumber",
                     "streetAddress",
                     "temperature",
-                    "time",
                     "timeZoneCode",
                     "uri",
                     "url",
@@ -3703,46 +3682,25 @@
                   ]
                 },
                 "type": {    
-                  "const": "encryptedText"
+                  "const": "time"
                 },
-                "encryptedTextTypeOptions": {    
+                "timeTypeOptions": {    
                   "type": [
                     "object",
                     "null"
                   ],
                   "properties": {
-                    "encryptionAlgorithm": {    
+                    "minTimeTicks": {    
                       "type": [
-                        "string",
+                        "integer",
                         "null"
-                      ],
-                      "enum": [
-                        "aes"
                       ]
                     },
-                    "publicKey": {    
+                    "maxTimeTicks": {    
                       "type": [
-                        "array",
+                        "integer",
                         "null"
-                      ],
-                      "items":   {
-                        "type": [
-                          "integer",
-                          "null"
-                        ]
-                      }
-                    },
-                    "iv": {    
-                      "type": [
-                        "array",
-                        "null"
-                      ],
-                      "items":   {
-                        "type": [
-                          "integer",
-                          "null"
-                        ]
-                      }
+                      ]
                     }
                   }
                 },
@@ -3850,6 +3808,7 @@
                     "dayOfWeek",
                     "distance",
                     "email",
+                    "encryptedText",
                     "file",
                     "formula",
                     "guid",
@@ -3870,7 +3829,6 @@
                     "phoneNumber",
                     "streetAddress",
                     "temperature",
-                    "time",
                     "timeZoneCode",
                     "uri",
                     "url",
@@ -5517,46 +5475,25 @@
           ]
         },
         "type": {    
-          "const": "encryptedText"
+          "const": "time"
         },
-        "encryptedTextTypeOptions": {    
+        "timeTypeOptions": {    
           "type": [
             "object",
             "null"
           ],
           "properties": {
-            "encryptionAlgorithm": {    
+            "minTimeTicks": {    
               "type": [
-                "string",
+                "integer",
                 "null"
-              ],
-              "enum": [
-                "aes"
               ]
             },
-            "publicKey": {    
+            "maxTimeTicks": {    
               "type": [
-                "array",
+                "integer",
                 "null"
-              ],
-              "items":   {
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            },
-            "iv": {    
-              "type": [
-                "array",
-                "null"
-              ],
-              "items":   {
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
+              ]
             }
           }
         },
@@ -5659,6 +5596,7 @@
             "dayOfWeek",
             "distance",
             "email",
+            "encryptedText",
             "file",
             "formula",
             "guid",
@@ -5678,7 +5616,6 @@
             "phoneNumber",
             "streetAddress",
             "temperature",
-            "time",
             "timeZoneCode",
             "uri",
             "url",
