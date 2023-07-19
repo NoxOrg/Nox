@@ -10,7 +10,7 @@ public class AreaConversionTests
     {
         var conversion = new AreaConversion(AreaUnit.SquareFoot, AreaUnit.SquareMeter);
 
-        conversion.Calculate.Should().Be(0.09290304);
+        conversion.Calculate(1).Should().Be(0.09290304);
     }
 
     [Fact]
@@ -18,6 +18,18 @@ public class AreaConversionTests
     {
         var conversion = new AreaConversion(AreaUnit.SquareMeter, AreaUnit.SquareFoot);
 
-        conversion.Calculate(8).Should().Be(86.11128336);
+        conversion.Calculate(1).Should().Be(10.76391042);
+    }
+
+    [Fact]
+    public void AreaConversion_WhenMultipliedByQuantityValue_ReturnsValue()
+    {
+        var conversion = new AreaConversion(AreaUnit.SquareMeter, AreaUnit.SquareFoot);
+
+        var result1 = (QuantityValue)2.5 * conversion.Calculate(1);
+        var result2 = conversion.Calculate(1) * (QuantityValue)2.5;
+
+        result1.Should().Be(result2);
+        result1.Should().Be(26.90977605);
     }
 }

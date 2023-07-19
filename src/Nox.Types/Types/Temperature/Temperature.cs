@@ -1,7 +1,5 @@
 using Nox.Types.Common;
-using System;
 using System.Collections.Generic;
-using System.Globalization;
 
 namespace Nox.Types;
 
@@ -21,7 +19,7 @@ public sealed class Temperature : Measurement<Temperature, TemperatureUnit>
     private const float MinimumValueFahrenheit = -459.67f;
 
     /// <summary>
-    /// Creates a new instance of <see cref="Temperature"/> object in <see cref="TemperatureTypeUnit.Celsius"/>.
+    /// Creates a new instance of <see cref="Temperature"/> object in <see cref="TemperatureUnit.Celsius"/>.
     /// </summary>
     /// <param name="temperature">The value to create the <see cref="Temperature"/> with.</param>
     /// <returns></returns>
@@ -29,7 +27,7 @@ public sealed class Temperature : Measurement<Temperature, TemperatureUnit>
     public static Temperature FromCelsius(QuantityValue temperature) => From(temperature, TemperatureUnit.Celsius);
 
     /// <summary>
-    /// Creates a new instance of <see cref="Temperature"/> object in <see cref="TemperatureTypeUnit.Fahrenheit"/>.
+    /// Creates a new instance of <see cref="Temperature"/> object in <see cref="TemperatureUnit.Fahrenheit"/>.
     /// </summary>
     /// <param name="temperature">The value to create the <see cref="Temperature"/> with.</param>
     /// <returns></returns>
@@ -63,9 +61,9 @@ public sealed class Temperature : Measurement<Temperature, TemperatureUnit>
     }
 
     /// <summary>
-    /// Converts <see cref="Temperature.TemperatureValue"/> to value in <see cref="TemperatureUnit.Celsius"/>.
+    /// Converts value in <see cref="TemperatureUnit.Celsius"/>.
     /// </summary>
-    /// <returns>TemperatureValue in <see cref="TemperatureUnit.Celsius"/></returns>
+    /// <returns><see cref="QuantityValue"/> in <see cref="TemperatureUnit.Celsius"/></returns>
     public QuantityValue ToCelsius()
     {
         if (Unit == TemperatureUnit.Celsius)
@@ -77,9 +75,9 @@ public sealed class Temperature : Measurement<Temperature, TemperatureUnit>
     }
 
     /// <summary>
-    /// Converts <see cref="Temperature.TemperatureValue"/> to value in <see cref="TemperatureUnit.Fahrenheit"/>.
+    /// Converts value in <see cref="TemperatureUnit.Fahrenheit"/>.
     /// </summary>
-    /// <returns>TemperatureValue in <see cref="TemperatureUnit.Fahrenheit"/></returns>
+    /// <returns><see cref="QuantityValue"/> in <see cref="TemperatureUnit.Fahrenheit"/></returns>
     public QuantityValue ToFahrenheit()
     {
         if (Unit == TemperatureUnit.Fahrenheit)
