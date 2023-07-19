@@ -156,10 +156,10 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.IsLandLocked.Value.Should().BeTrue();
         item.VolumeInCubicMeters.Value.Should().Be(89_000);
         item.VolumeInCubicMeters.Unit.Should().Be(VolumeUnit.CubicMeter);
-        Assert.Equal("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/320px-Flag_of_Switzerland.svg.png", item.Flag.Url);
-        Assert.Equal("Switzerland Flag", item.Flag.PrettyName);
-        Assert.Equal(512, item.Flag.SizeInBytes);
-        Assert.Equal(19_000, item.WeightInKilograms.Value);
+        item.Flag.Url.Should().Be("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/320px-Flag_of_Switzerland.svg.png");
+        item.Flag.PrettyName.Should().Be("Switzerland Flag");
+        item.Flag.SizeInBytes.Should().Be(512);
+        item.WeightInKilograms.Value.Should().Be(19_000);
         item.WeightInKilograms.Unit.Should().Be(WeightUnit.Kilogram);
         item.HashedText.HashText.Should().Be(newItem.HashedText.HashText);
         item.HashedText.Salt.Should().Be(newItem.HashedText.Salt);
