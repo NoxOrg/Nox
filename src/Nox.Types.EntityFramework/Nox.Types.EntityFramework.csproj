@@ -22,10 +22,12 @@
 
 	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.8" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.8" />
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" />
 		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
 		<ProjectReference Include="..\Nox.Types\Nox.Types.csproj" />
 	</ItemGroup>
@@ -37,6 +39,12 @@
 		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>
 	<ItemGroup>
+	  <None Remove="Types\Uri\" />
+	</ItemGroup>
+	<ItemGroup>
 		<None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Types\Uri\" />
 	</ItemGroup>
 </Project>

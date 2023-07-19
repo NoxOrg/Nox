@@ -3,7 +3,6 @@
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
 		<Nullable>enable</Nullable>
-		<LangVersion>10.0</LangVersion>
 		<ImplicitUsings>enable</ImplicitUsings>
 		<UserSecretsId>d3ab7cc3-3b79-49dd-bd9e-9d3ad2c7aaa4</UserSecretsId>
 	</PropertyGroup>
@@ -11,6 +10,14 @@
 	<PropertyGroup>
 		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
 		<CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+	  <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
 	</PropertyGroup>
 
 	<Target Name="CleanSourceGeneratedFiles" BeforeTargets="BeforeBuild" DependsOnTargets="$(BeforeBuildDependsOn)">
@@ -34,7 +41,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj" />
 		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
 		<ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
 		<ProjectReference Include="..\Nox.Lib\Nox.Lib.csproj" />
@@ -42,6 +48,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="12.0.1" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.8" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.8" />

@@ -1,0 +1,45 @@
+version: "3.3"
+
+services:
+  vault:
+    container_name: vault
+    image: hashicorp/vault:latest
+    restart: always
+    volumes:
+      - /vault/data
+      - /etc/vault/logs
+    ports:
+      - "8300:8300/tcp"
+    environment:
+      VAULT_DEV_ROOT_TOKEN_ID: "root"
+      VAULT_DEV_LISTEN_ADDRESS: "0.0.0.0:8300"
+    cap_add:
+      - IPC_LOCK
+    entrypoint: "vault server -dev"
+    networks:
+      - vault-network
+   
+  org-vault-init:
+    container_name: org-vault-init
+    image: alpine/curl
+    depends_on:
+      - vault
+    volumes:
+      - ./init_org_vault.json:/usr/local/bin/init_vault.json
+    command: "CURL -v -X POST 'http://vault:8300/v1/secret/data/org-vault' --header 'X-Vault-Token: root' --data-binary @/usr/local/bin/init_vault.json"
+    networks:
+      - vault-network
+  
+  sln-vault-init:
+    container_name: sln-vault-init
+    image: alpine/curl
+    depends_on:
+      - vault
+    volumes:
+      - ./init_sln_vault.json:/usr/local/bin/init_vault.json
+    command: "CURL -v -X POST 'http://vault:8300/v1/secret/data/sln-vault' --header 'X-Vault-Token: root' --data-binary @/usr/local/bin/init_vault.json"
+    networks:
+      - vault-network
+      
+networks:
+  vault-network:      

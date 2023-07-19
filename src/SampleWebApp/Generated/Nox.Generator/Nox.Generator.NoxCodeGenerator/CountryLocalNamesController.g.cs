@@ -7,19 +7,35 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using SampleWebApp.Application;
+using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 using SampleWebApp.Infrastructure.Persistence;
 using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-public class CountryLocalNamesController : ODataController
+public partial class CountryLocalNamesController : ODataController
 {
-    SampleWebAppDbContext _databaseContext;
-
-    public CountryLocalNamesController(SampleWebAppDbContext databaseContext)
+    
+    /// <summary>
+    /// The OData DbContext for CRUD operations.
+    /// </summary>
+    protected readonly ODataDbContext _databaseContext;
+    
+    /// <summary>
+    /// The Automapper.
+    /// </summary>
+    protected readonly IMapper _mapper;
+    
+    public CountryLocalNamesController(
+        ODataDbContext databaseContext,
+        IMapper mapper
+    )
     {
         _databaseContext = databaseContext;
+        _mapper = mapper;
     }
     
     [EnableQuery]
@@ -28,31 +44,34 @@ public class CountryLocalNamesController : ODataController
         return Ok(_databaseContext.CountryLocalNames);
     }
     
-    [EnableQuery]
     public ActionResult<CountryLocalNames> Get([FromRoute] string key)
     {
-        var parsedKey = Text.From(key);
-        var item = _databaseContext.CountryLocalNames.SingleOrDefault(d => d.Id.Equals(parsedKey));
+        var item = _databaseContext.CountryLocalNames.SingleOrDefault(d => d.Id.Equals(key));
         
         if (item == null)
         {
             return NotFound();
         }
+        
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post(CountryLocalNames countrylocalnames)
+    public async Task<ActionResult> Post(CountryLocalNamesDto countrylocalnames)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        _databaseContext.CountryLocalNames.Add(countrylocalnames);
+        var entity = _mapper.Map<CountryLocalNames>(countrylocalnames);
+        
+        entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
+        
+        _databaseContext.CountryLocalNames.Add(entity);
         
         await _databaseContext.SaveChangesAsync();
         
-        return Created(countrylocalnames);
+        return Created(entity);
     }
     
     public async Task<ActionResult> Put([FromRoute] string key, [FromBody] CountryLocalNames updatedCountryLocalNames)
@@ -62,12 +81,13 @@ public class CountryLocalNamesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var parsedKey = Text.From(key);
-        if (parsedKey != updatedCountryLocalNames.Id)
+        if (key != updatedCountryLocalNames.Id)
         {
             return BadRequest();
         }
+        
         _databaseContext.Entry(updatedCountryLocalNames).State = EntityState.Modified;
+        
         try
         {
             await _databaseContext.SaveChangesAsync();
@@ -83,30 +103,33 @@ public class CountryLocalNamesController : ODataController
                 throw;
             }
         }
+        
         return Updated(updatedCountryLocalNames);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string key, [FromBody] Delta<CountryLocalNames> countrylocalnames)
+    public async Task<ActionResult> Patch([FromRoute] string countrylocalnames, [FromBody] Delta<CountryLocalNames> Id)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var parsedKey = Text.From(key);
-        var entity = await _databaseContext.CountryLocalNames.FindAsync(parsedKey);
+        var entity = await _databaseContext.CountryLocalNames.FindAsync(countrylocalnames);
+        
         if (entity == null)
         {
             return NotFound();
         }
-        countrylocalnames.Patch(entity);
+        
+        Id.Patch(entity);
+        
         try
         {
             await _databaseContext.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!CountryLocalNamesExists(key))
+            if (!CountryLocalNamesExists(countrylocalnames))
             {
                 return NotFound();
             }
@@ -115,19 +138,18 @@ public class CountryLocalNamesController : ODataController
                 throw;
             }
         }
+        
         return Updated(entity);
     }
     
-    private bool CountryLocalNamesExists(string key)
+    private bool CountryLocalNamesExists(string countrylocalnames)
     {
-        var parsedKey = Text.From(key);
-        return _databaseContext.CountryLocalNames.Any(p => p.Id == parsedKey);
+        return _databaseContext.CountryLocalNames.Any(p => p.Id == countrylocalnames);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] string key)
+    public async Task<ActionResult> Delete([FromRoute] string Id)
     {
-        var parsedKey = Text.From(key);
-        var countrylocalnames = await _databaseContext.CountryLocalNames.FindAsync(parsedKey);
+        var countrylocalnames = await _databaseContext.CountryLocalNames.FindAsync(Id);
         if (countrylocalnames == null)
         {
             return NotFound();

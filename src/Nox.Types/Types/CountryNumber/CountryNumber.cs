@@ -27,5 +27,9 @@ public class CountryNumber : ValueObject<short, CountryNumber>
         return result;
     }
 
+    /// <summary>
+    /// <inheritdoc/>
+    /// </summary>
+    /// <returns></returns>
     public override string ToString() => $"{Value:D3}";
 }

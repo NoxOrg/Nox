@@ -1,51 +1,98 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using System.Diagnostics;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nox.Generator.Common;
 using Nox.Solution;
 
 namespace Nox.Types.EntityFramework.Abstractions
 {
     public abstract class NoxDatabaseConfigurator : INoxDatabaseConfigurator
     {
-        private readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> _typesDatabaseConfigurations;
+        //We could use the container to manage this
+        protected readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesDatabaseConfigurations = new();
 
-        protected NoxDatabaseConfigurator(Dictionary<NoxType, INoxTypeDatabaseConfigurator> typesConfiguration)
+        /// <summary>
+        ///
+        /// </summary>
+        /// <param name="configurators">List of all loaded <see cref="INoxTypeDatabaseConfigurator"/></param>
+        /// <param name="databaseProviderSpecificOverrides">Configurator type specific to database provider</param>
+        protected NoxDatabaseConfigurator(
+            IEnumerable<INoxTypeDatabaseConfigurator> configurators,
+            Type databaseProviderSpecificOverrides)
         {
-            _typesDatabaseConfigurations = typesConfiguration;
-        }
+            var noxTypeDatabaseConfigurators =
+                configurators as INoxTypeDatabaseConfigurator[] ?? configurators.ToArray();
 
-        public virtual void ConfigureEntity(EntityTypeBuilder builder, Entity entity)
-        {
-            //TODO Composite Keys
-            //TODO Relations
-            if (entity.Keys != null && entity.Keys.Any())
+            foreach (var configurator in noxTypeDatabaseConfigurators)
             {
-                foreach (var property in entity.Keys)
+                if (configurator.IsDefault)
                 {
-                    if (_typesDatabaseConfigurations.TryGetValue(property.Type,
-                            out var databaseConfiguration))
-                    {
-                        databaseConfiguration.ConfigureEntityProperty(builder, property, true);
-                    }
-                    else
-                    {
-
-                        Console.WriteLine($"Type {property.Type} not found");
-                    }
+                    TypesDatabaseConfigurations.Add(configurator.ForNoxType, configurator);
                 }
             }
 
-            if (entity.Attributes != null && entity.Attributes.Any())
+            // Override specific database provider configurators
+            foreach (var configurator in noxTypeDatabaseConfigurators.Where(x => databaseProviderSpecificOverrides.IsInstanceOfType(x)))
             {
-                foreach (var property in entity.Attributes)
+                TypesDatabaseConfigurations[configurator.ForNoxType] = configurator;
+            }
+        }
+
+        public virtual void ConfigureEntity(NoxSolutionCodeGeneratorState codeGeneratorState, EntityTypeBuilder builder,
+            Entity entity)
+        {
+            //TODO Relations
+
+            ConfigureKeys(codeGeneratorState, builder, entity);
+
+            ConfigureAttributes(codeGeneratorState, builder, entity);
+        }
+
+        private void ConfigureKeys(
+            NoxSolutionCodeGeneratorState codeGeneratorState,
+            EntityTypeBuilder builder,
+            Entity entity)
+        {
+            if (entity.Keys is { Count: > 0 })
+            {
+                var keysPropertyNames = new List<string>(entity.Keys.Count);
+                foreach (var key in entity.Keys)
                 {
-                    if (_typesDatabaseConfigurations.TryGetValue(property.Type,
+                    if (TypesDatabaseConfigurations.TryGetValue(key.Type,
                             out var databaseConfiguration))
                     {
-                        databaseConfiguration.ConfigureEntityProperty(builder, property, false);
+                        keysPropertyNames.Add(databaseConfiguration.GetKeyPropertyName(key));
+                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, key, entity, true);
                     }
                     else
                     {
+                        Debug.WriteLine($"Database Configurator not found for Type {key.Type}");
+                        // Fallback to default
+                        keysPropertyNames.Add(key.Name);
+                    }
+                }
 
-                        Console.WriteLine($"Type {property.Type} not found");
+                builder.HasKey(keysPropertyNames.ToArray());
+            }
+        }
+
+        private void ConfigureAttributes(
+            NoxSolutionCodeGeneratorState codeGeneratorState,
+            EntityTypeBuilder builder,
+            Entity entity)
+        {
+            if (entity.Attributes is { Count: > 0 })
+            {
+                foreach (var property in entity.Attributes)
+                {
+                    if (TypesDatabaseConfigurations.TryGetValue(property.Type,
+                            out var databaseConfiguration))
+                    {
+                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity,
+                            false);
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"Type {property.Type} not found");
                     }
                 }
             }

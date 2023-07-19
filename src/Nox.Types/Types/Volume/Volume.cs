@@ -1,11 +1,12 @@
 using System.Collections.Generic;
+using Nox.Types.Common;
 
 namespace Nox.Types;
 
 /// <summary>
 /// Represents a Nox <see cref="Volume"/> type and value object.
 /// </summary>
-public sealed class Volume : Measurement<Volume, VolumeUnit>
+public class Volume : Measurement<Volume, VolumeUnit>
 {
     /// <summary>
     /// Creates a new instance of <see cref="Volume"/> object in cubic feet.

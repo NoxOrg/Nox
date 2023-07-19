@@ -23,7 +23,7 @@ public class PercentageTests
         var action = () => Percentage.From(testPercentage);
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Percentage type a value 3.2 is greater than than the maximum specified value of 1") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox Percentage type a value {testPercentage} is greater than than the maximum specified value of 1") });
 
     }
 
@@ -35,7 +35,7 @@ public class PercentageTests
         var action = () => Percentage.From(testPercentage);
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Percentage type as value -0.3 is less than than the minimum specified value of 0") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox Percentage type as value {testPercentage} is less than than the minimum specified value of 0") });
     }
 
     [Fact]

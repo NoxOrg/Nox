@@ -2,7 +2,6 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
-using Nox.Types.EntityFramework.Types;
 using Npgsql;
 
 namespace Nox.EntityFramework.Postgres;
@@ -10,18 +9,9 @@ namespace Nox.EntityFramework.Postgres;
 public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProvider 
 {
     private string _connectionString = string.Empty;
-    
-    private static readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesConfiguration =
-        new()
-        {
-            { NoxType.Text, new PostgresTextDatabaseConfiguration() }, //Use Postgres Implementation
-            { NoxType.Number, new NumberDatabaseConfigurator() }, // use default implementation
-            { NoxType.Money, new MoneyDatabaseConfigurator() } // use default implementation
-        };
 
-    public PostgresDatabaseProvider(): base(TypesConfiguration)
+    public PostgresDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators) : base(configurators, typeof(IPostgresNoxTypeDatabaseConfigurator))
     {
-        
     }
 
     public string ConnectionString
@@ -43,10 +33,9 @@ public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProv
         };
         SetConnectionString(csb.ConnectionString);
 
-        return optionsBuilder.UseNpgsql(_connectionString, opts =>
-        {
-            opts.MigrationsHistoryTable("MigrationsHistory", "migrations");
-        });
+        return optionsBuilder
+            .UseLazyLoadingProxies()
+            .UseNpgsql(_connectionString, opts => { opts.MigrationsHistoryTable("MigrationsHistory", "migrations"); });
     }
 
     public string ToTableNameForSql(string table, string schema)

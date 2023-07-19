@@ -9,31 +9,41 @@ namespace Nox.Types;
 /// </summary>
 public sealed class HashedText : ValueObject<(string HashText, string Salt), HashedText>
 {
+    /// <summary>
+    /// Result of the hash operation
+    /// </summary>
     public string HashText
     {
         get => Value.HashText;
         private set => Value = (HashText: value, Value.Salt);
     }
+
+    /// <summary>
+    /// Salt byte array used in the hash operation
+    /// </summary>
     public string Salt
     {
         get => Value.Salt;
         private set => Value = (Value.HashText, Salt: value);
     }
 
+    /// <summary>
+    /// Base constructor for aa new empty <see cref="HashText"/> object
+    /// </summary>
     public HashedText() { Value = (string.Empty, string.Empty); }
 
     /// <summary>
     /// Creates a new instance of <see cref="HashedText"/> object with sent <see cref="HashedTextTypeOptions"/>.
     /// </summary>
-    /// <param name="value"></param>
-    /// <param name="options"></param>
+    /// <param name="plainText">Plain text that will be hashed</param>
+    /// <param name="options"><see cref="HashedTextTypeOptions"/></param>
     /// <returns>New instance of <see cref="HashedText"/></returns>
     /// <exception cref="TypeValidationException"></exception>
-    public static HashedText From(string value, HashedTextTypeOptions options)
+    public static HashedText From(string plainText, HashedTextTypeOptions options)
     {
         options ??= new HashedTextTypeOptions();
 
-        var newObject = GetHashText(value, options);
+        var newObject = GetHashText(plainText, options);
 
         var validationResult = newObject.Validate();
 
@@ -48,10 +58,10 @@ public sealed class HashedText : ValueObject<(string HashText, string Salt), Has
     /// <summary>
     ///  Creates a new instance of <see cref="HashedText"/> object default <see cref="HashedTextTypeOptions"/>.
     /// </summary>
-    /// <param name="value"></param>
+    /// <param name="plainText">Plain text that will be hashed</param>
     /// <returns>New instance of <see cref="HashedText"/></returns>
-    public static HashedText From(string value)
-        => From(value, new HashedTextTypeOptions());
+    public static HashedText From(string plainText)
+        => From(plainText, new HashedTextTypeOptions());
 
     /// <summary>
     /// Returns string value of HashText
@@ -61,17 +71,17 @@ public sealed class HashedText : ValueObject<(string HashText, string Salt), Has
     /// <summary>
     /// Creates hashed value of plainText using HashedTextTypeOptions
     /// </summary>
-    /// <param name="plainText"></param>
-    /// <param name="hashedTextTypeOptions"></param>
+    /// <param name="plainText">Plain text that will be hashed</param>
+    /// <param name="options"><see cref="HashedTextTypeOptions"/></param>
     /// <returns>Hashed value of plainText</returns>
-    private static HashedText GetHashText(string plainText, HashedTextTypeOptions hashedTextTypeOptions)
+    private static HashedText GetHashText(string plainText, HashedTextTypeOptions options)
     {
         string hashedText = string.Empty;
         string salt = string.Empty;
 
-        using (var hasher = CreateHasher(hashedTextTypeOptions.HashingAlgorithm))
+        using (var hasher = CreateHasher(options.HashingAlgorithm))
         {
-            byte[] saltBytes = GetSalt(hashedTextTypeOptions.SaltLength);
+            byte[] saltBytes = GetSalt(options.SaltLength);
             byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
             AppendBytes(ref plainTextBytes, saltBytes);
             byte[] hashBytes = hasher.ComputeHash(plainTextBytes);
@@ -91,9 +101,15 @@ public sealed class HashedText : ValueObject<(string HashText, string Salt), Has
     /// <exception cref="CryptographicException"></exception>
     private static HashAlgorithm CreateHasher(HashingAlgorithm hashAlgorithm)
     {
-        HashAlgorithm hasher = HashAlgorithm.Create(hashAlgorithm.ToString());
+        switch (hashAlgorithm)
+        {
+            case HashingAlgorithm.SHA256: return SHA256.Create();
+            case HashingAlgorithm.SHA512: return SHA512.Create();
+            default:
+                break;
+        }
 
-        return hasher ?? throw new CryptographicException("Invalid hash algorithm");
+        throw new CryptographicException("Invalid hash algorithm");
     }
 
     /// <summary>
@@ -104,10 +120,8 @@ public sealed class HashedText : ValueObject<(string HashText, string Salt), Has
     private static byte[] GetSalt(int byteCount)
     {
         byte[] salt = new byte[byteCount];
-        using (var rng = RandomNumberGenerator.Create())
-        {
-            rng.GetBytes(salt);
-        }
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(salt);
 
         return salt;
     }
@@ -115,8 +129,8 @@ public sealed class HashedText : ValueObject<(string HashText, string Salt), Has
     /// <summary>
     /// Merges two byte arrays
     /// </summary>
-    /// <param name="target"></param>
-    /// <param name="source"></param>
+    /// <param name="target">array to be appended</param>
+    /// <param name="source">array to be added on target</param>
     private static void AppendBytes(ref byte[] target, byte[] source)
     {
         int targetLength = target.Length;

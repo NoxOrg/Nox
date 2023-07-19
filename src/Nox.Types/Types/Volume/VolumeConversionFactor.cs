@@ -1,8 +1,9 @@
 ﻿using System.Collections.Generic;
+using Nox.Types.Common;
 
 namespace Nox.Types;
 
-public class VolumeConversionFactor : MeasurementConversionFactor<VolumeUnit>
+public sealed class VolumeConversionFactor : MeasurementConversionFactor<VolumeUnit>
 {
     private static readonly Dictionary<(VolumeUnit, VolumeUnit), double> _definedVolumeConversionFactors = new()
     {

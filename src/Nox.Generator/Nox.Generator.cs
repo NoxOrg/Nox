@@ -5,7 +5,6 @@ using Nox.Generator.Application.EventGenerator;
 using Nox.Generator.Common;
 using Nox.Generator.Domain.CqrsGenerators;
 using Nox.Generator.Domain.DomainEventGenerator;
-using Nox.Generator.Presentation.Rest;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
@@ -17,6 +16,7 @@ using Nox.Generator.Infrastructure.Persistence.DbContextGenerator;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
+using Nox.Generator.Presentation.Api;
 
 namespace Nox.Generator;
 
@@ -30,7 +30,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
 #if DEBUG
         if (!Debugger.IsAttached)
         {
-          // Debugger.Launch(); 
+           // Debugger.Launch(); 
         }
 #endif
         // var compilation = context.CompilationProvider.Select((ctx,token) => ctx.GlobalNamespace);
@@ -58,53 +58,48 @@ public class NoxCodeGenerator : IIncrementalGenerator
         {
             if (TryGetGeneratorConfig(noxYamls, out var generate) && TryGetNoxSolution(noxYamls, out var solution))
             {
-                var solutionNameSpace = solution.Name;
-                
-                ServiceCollectionExtensionGenerator.Generate(context, solution);
+                var codeGeneratorState = new NoxSolutionCodeGeneratorState(solution);
 
+                WebApplicationExtensionGenerator.Generate(context, solution, generate.Presentation);
+                
                 if (generate.Domain)
                 {
-                    EntityBaseGenerator.Generate(context, solutionNameSpace);
+                    EntityBaseGenerator.Generate(context, codeGeneratorState);
 
-                    AuditableEntityBaseGenerator.Generate(context, solutionNameSpace);
+                    AuditableEntityBaseGenerator.Generate(context, codeGeneratorState);
 
-                    EntitiesGenerator.Generate(context, solutionNameSpace, solution);
+                    EntitiesGenerator.Generate(context, codeGeneratorState);
                     
-                    DomainEventGenerator.Generate(context, solutionNameSpace, solution);
+                    DomainEventGenerator.Generate(context, codeGeneratorState);
                     
-                    CommandGenerator.Generate(context, solutionNameSpace, solution);
+                    CommandGenerator.Generate(context, codeGeneratorState);
                     
-                    QueryGenerator.Generate(context, solutionNameSpace, solution);
+                    QueryGenerator.Generate(context, codeGeneratorState);
                 }
 
                 if (generate.Infrastructure)
                 {
-                    DbContextGenerator.Generate(context, solution);
+                    DbContextGenerator.Generate(context, codeGeneratorState);
                 }
 
                 if (generate.Presentation)
                 {
-                    ODataConfigurationGenerator.Generate(context, solutionNameSpace, solution);
+                    ODataConfigurationGenerator.Generate(context, codeGeneratorState);
 
-                    ODataApiGenerator.Generate(context, solutionNameSpace, solution);
-
-                    ApiControllerGenerator.Generate(context, solutionNameSpace, solution);
+                    ApiGenerator.Generate(context, codeGeneratorState);
                 }
 
                 if (generate.Application)
                 {
-                    DtoGenerator.Generate(context, solutionNameSpace, solution);
-                    ApplicationEventGenerator.Generate(context, solutionNameSpace, solution);
+                    DtoGenerator.Generate(context, codeGeneratorState);
+                    ApplicationEventGenerator.Generate(context, codeGeneratorState);
                 }
             }
-
-
         }
         catch (Exception e)
         {
             _errors.Add(e.Message);
         }
-
 
         if (_errors.Any())
         {
@@ -144,11 +139,19 @@ public class NoxCodeGenerator : IIncrementalGenerator
             return false;
         }
 
-        var solutionFile = solutionFilePaths.First();
+
+        var solutionFileAndContent = noxYamls
+            .Where(s => s.Source is not null)
+            .ToDictionary( 
+                s => s.Path, 
+                s => new Func<TextReader>(() => new StringReader(s.Source!.ToString()) )
+            );
 
         try
         {
-            solution = new NoxSolutionBuilder().UseYamlFile(solutionFile).Build();
+            solution = new NoxSolutionBuilder()
+                .UseYamlFilesAndContent(solutionFileAndContent)
+                .Build();
         }
         catch (YamlException e)
         {

@@ -1,0 +1,214 @@
+﻿#
+# workplace.solution.nox.yaml
+#
+# yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
+#
+
+name: TestDatabaseWebApp
+
+description: Sample Nox solution yaml configuration
+
+variables:
+  DATABASE_PROVIDER: slqServer
+  DATABASE_SERVER: localhost
+  DATABASE_USER: sa
+  DATABASE_PASSWORD: Developer*123
+  DATABASE_PORT: "5432"
+
+environments:
+
+  - name: dev
+    description: Used for development and testing
+
+  - name: test
+    description: Test environment
+
+  - name: uat
+    description: For them end users to check it works
+
+  - name: prod
+    description: Production environment used for, well - the real thing!
+    isProduction: true
+
+versionControl:
+  provider: azureDevops
+  host: https://dev.azure.com/iwgplc
+  folders:
+    sourceCode: /src
+    containers: /docker
+
+team:
+
+  - name: Andre Sharpe
+    userName: andre.sharpe@iwgplc.com
+    roles: [architect, owner, administrator, developer, manager]
+
+  - name: Jan Schutte
+    userName: jan.schutte@iwgplc.com
+    roles: [architect, administrator, developer, devOpsEngineer]
+
+  - name: Anton Du Plessis
+    userName: anton.duplessis@iwgplc.com
+    roles: [projectManager]
+
+  - name: Morne Van Zyl
+    userName: morne.vanzyl@iwgplc.com
+    roles: [technicalWriter]
+
+  - name: Dmytro Dorodnykh
+    userName: dmytro.dorodnykh@iwgplc.com
+    roles: [developer]
+
+  - name: Oleksandr Vlasenko
+    userName: oleksandr.vlasenko@regus.com
+    roles: [architect, developer]
+
+domain:
+
+  entities:
+
+    - name: TestEntity
+      description: Entity created for testing database
+      
+      userInterface:
+        icon: world
+
+      persistence:
+        isVersioned: true
+        tableName: TestEntity
+        schema: dbo
+        create:
+          isEnabled: true
+          raiseEvents: true
+        read:
+          isEnabled: true
+        update:
+          isEnabled: true
+          raiseEvents: true
+        delete:
+          isEnabled: true
+          raiseEvents: true
+          useSoftDelete: true 
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+        - name: NumberTestField
+          type: number
+          numberTypeOptions:
+            minValue: 4
+            maxValue: 894
+          isRequired: true
+
+        - name: MoneyTestField
+          type: money
+
+        - name: CountryCode2TestField
+          type: countryCode2
+        - name: StreetAddressTestField
+          type: streetAddress
+        #- name: GeoCoordTestField
+        #  type: latLong
+
+        #- name: AreaTestField
+        #  type: area
+
+        #- name: BooleanTestField
+        #  type: boolean
+
+        #- name: CountryCode3TestField
+        #  type: countryCode3
+
+        #- name: CountryNumberTestField
+        #  type: countryNumber
+
+        #- name: CurrencyCodeTestField
+        #  type: currencyCode
+
+        #- name: CurrencyNumberTestField
+        #  type: currencyNumber
+
+        #- name: DateTimeTestField
+        #  type: dateTime
+
+        #- name: DateTimeRangeTestField
+        #  type: dateTimeRange
+
+        #- name: DistanceTestField
+        #  type: distance
+
+        #- name: EmailTestField
+        #  type: email
+
+        #- name: EncryptedTextTestField
+        #  type: encryptedText
+
+        #- name: GuidTestField
+        #  type: guid
+
+        #- name: HashedTextTestField
+        #  type: hashedText
+
+        #- name: InternetDomainTestField
+        #  type: internetDomain
+
+        #- name: IpAddressTestField
+        #  type: ipAddress
+
+        #- name: LengthTestField
+        #  type: length
+
+        #- name: MacAddressTestField
+        #  type: macAddress
+
+        #- name: MonthTestField
+        #  type: month
+
+        #- name: NuidTestField
+        #  type: nuid
+
+        #- name: PasswordTestField
+        #  type: password
+
+        #- name: PercentageTestField
+        #  type: percentage
+
+        #- name: PhoneNumberTestField
+        #  type: phoneNumber
+
+        #- name: TempratureTestField
+        #  type: temperature
+
+        #- name: UriTestField
+        #  type: uri
+
+        #- name: VolumeTestField
+        #  type: volume
+
+        #- name: WeightTestField
+        #  type: weight
+
+        #- name: YearTestField
+        #  type: year
+
+        #- name: CultureCodeTestField
+        #  type: cultureCode
+
+        #- name: LanguageCodeTestField
+        #  type: languageCode

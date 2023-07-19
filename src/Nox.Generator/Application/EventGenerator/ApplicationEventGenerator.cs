@@ -2,25 +2,26 @@
 using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
+using Nox.Types;
 
 namespace Nox.Generator.Application.EventGenerator;
 
 public class ApplicationEventGenerator
 {
-    public static void Generate(SourceProductionContext context, string solutionNameSpace, NoxSolution solution)
+    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (solution.Application?.Events == null) return;
+        if (codeGeneratorState.Solution.Application?.Events == null) return;
 
-        foreach (var evt in solution.Application.Events)
+        foreach (var evt in codeGeneratorState.Solution.Application.Events)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
-            GenerateEvent(context, solutionNameSpace, evt);
+            GenerateEvent(context, codeGeneratorState, evt);
         }
     }
 
-    private static void GenerateEvent(SourceProductionContext context, string solutionNameSpace, ApplicationEvent evt)
+    private static void GenerateEvent(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, ApplicationEvent evt)
     {
         var code = new CodeBuilder($"{evt.Name}.g.cs", context);
 
@@ -31,7 +32,7 @@ public class ApplicationEventGenerator
         code.AppendLine($"using Nox.Types;");
         code.AppendLine($"using System.Collections.Generic;");
         code.AppendLine();
-        code.AppendLine($"namespace {solutionNameSpace}.Application.Events;");
+        code.AppendLine($"namespace {codeGeneratorState.Events};");
 
         GenerateClassDocs(context, code, evt);
 

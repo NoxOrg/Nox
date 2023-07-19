@@ -9,11 +9,11 @@ name: SampleWebApp
 description: Sample Nox solution yaml configuration
 
 variables:
-  DATABASE_PROVIDER: slqServer
-  DATABASE_SERVER: localhost
-  DATABASE_USER: sa
-  DATABASE_PASSWORD: Developer*123
-  DATABASE_PORT: "5432"
+   DATABASE_PROVIDER: slqServer
+   DATABASE_SERVER: ${{ secrets.database_server }}
+   DATABASE_USER: sa
+   DATABASE_PASSWORD: ${{ secrets.database_password }}
+   DATABASE_PORT: "5432"
 
 environments:
 
@@ -157,13 +157,13 @@ domain:
 
               - name: NewCountryName
                 description: The new name of the country
-                type: text          
-
+                type: text
 
       keys:
 
         - name: Id
           type: text
+          isRequired: true
           textTypeOptions:
             isUnicode: false
             minLength: 2
@@ -290,48 +290,49 @@ domain:
       keys:
 
         - name: Id
+          isRequired: true
           type: text
           textTypeOptions:
             isUnicode: false
             minLength: 2
             maxLength: 2
 
-    ### //TODO Solve Composite Keys for Entities, that do not have an Id
-    #- name: CurrencyCashBalance
-
-    #  description: The cash balance in Store
-
-    #  keys:
-
-    #    - name: Store
-    #      type: entity
-    #      entityTypeOptions:
-    #        entity: Store
-    #      isRequired: true
-
-    #    - name: Currency
-    #      type: entity
-    #      entityTypeOptions:
-    #        entity: Currency
-    #      isRequired: true
-
-    #  attributes:
-
-    #    - name: Amount
-    #      description: The amount
-    #      type: number
-    #      numberTypeOptions:
-    #        minValue: 0
-    #        decimalDigits: 4
-    #      isRequired: true
-
-    #    - name: OperationLimit
-    #      description: The Operation Limit
-    #      type: number
-    #      numberTypeOptions:
-    #        minValue: 0
-    #        decimalDigits: 4
-    #      isRequired: false
+# JS commented this out to get sample to run - complaining about no keys
+#    - name: CurrencyCashBalance
+#
+#      description: The cash balance in Store
+#
+#      keys:
+#
+#        - name: Store
+#          type: entity
+#          entityTypeOptions:
+#            entity: Store
+#          isRequired: true
+#
+#        - name: Currency
+#          type: entity
+#          entityTypeOptions:
+#            entity: Currency
+#          isRequired: true
+#
+#      attributes:
+#
+#        - name: Amount
+#          description: The amount
+#          type: number
+#          numberTypeOptions:
+#            minValue: 0
+#            decimalDigits: 4
+#          isRequired: true
+#
+#        - name: OperationLimit
+#          description: The Operation Limit
+#          type: number
+#          numberTypeOptions:
+#            minValue: 0
+#            decimalDigits: 4
+#          isRequired: false
 
 application:
   dataTransferObjects:
@@ -412,11 +413,11 @@ infrastructure:
       name: SampleCurrencyDb
 
       # Sql Server
-      serverUri: localhost
+      serverUri: ${{ env.DATABASE_SERVER }}
       provider: sqlServer
       port: 1433
       user: sa
-      password: Developer*123
+      password: ${{ env.DATABASE_PASSWORD}}
       options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;
 
       # Postgres
@@ -496,9 +497,11 @@ infrastructure:
         port: 8080
         user: whatsappUser
         password: whatsappPassword
-
-    monitoring:
-      $ref: elastic.monitoring.nox.yaml
+    
+### This section is optional.
+### In order to use elastic monitoring in the sample you have to start the elastic stack docker instance by running 'docker-compose -f docker-compose.elastic.yaml up -d'
+#    monitoring:
+#      $ref: elastic.monitoring.nox.yaml
 
     translations:
       name: SampleTranslationService
@@ -511,13 +514,22 @@ infrastructure:
         serverUri: file:///C:/my-data-files
         options: Source=File;Filename=country-data.json;
 
-  security:
-    secrets:
-      secretsServer:
-        name: SampleSecretServer
-        provider: azureKeyVault
-        serverUri: kv.iwgplc.com
-        user: secrets@iwgplc.com
-        password: SecretPassword
-      validFor:
-        minutes: 10
+### This section is optional.
+### In order to use secrets in the sample you have to start the hashicorp vault docker instance by running 'docker-compose -f docker-compose.hashicorp.yaml up -d'
+#  security:
+#    secrets:
+#      organizationSecretsServer:
+#        name: org-vault
+#        provider: hashicorpVault
+#        serverUri: http://localhost:8300
+#        password: root
+#        validFor:
+#          minutes: 10
+#
+#      solutionSecretsServer:
+#        name: sln-vault
+#        provider: hashicorpVault
+#        serverUri: http://localhost:8300
+#        password: root
+#        validFor:
+#          minutes: 10

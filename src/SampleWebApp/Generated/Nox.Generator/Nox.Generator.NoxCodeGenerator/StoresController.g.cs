@@ -7,19 +7,35 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
+using SampleWebApp.Application;
+using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 using SampleWebApp.Infrastructure.Persistence;
 using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-public class StoresController : ODataController
+public partial class StoresController : ODataController
 {
-    SampleWebAppDbContext _databaseContext;
-
-    public StoresController(SampleWebAppDbContext databaseContext)
+    
+    /// <summary>
+    /// The OData DbContext for CRUD operations.
+    /// </summary>
+    protected readonly ODataDbContext _databaseContext;
+    
+    /// <summary>
+    /// The Automapper.
+    /// </summary>
+    protected readonly IMapper _mapper;
+    
+    public StoresController(
+        ODataDbContext databaseContext,
+        IMapper mapper
+    )
     {
         _databaseContext = databaseContext;
+        _mapper = mapper;
     }
     
     [EnableQuery]
@@ -28,31 +44,34 @@ public class StoresController : ODataController
         return Ok(_databaseContext.Stores);
     }
     
-    [EnableQuery]
     public ActionResult<Store> Get([FromRoute] string key)
     {
-        var parsedKey = Text.From(key);
-        var item = _databaseContext.Stores.SingleOrDefault(d => d.Id.Equals(parsedKey));
+        var item = _databaseContext.Stores.SingleOrDefault(d => d.Id.Equals(key));
         
         if (item == null)
         {
             return NotFound();
         }
+        
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post(Store store)
+    public async Task<ActionResult> Post(StoreDto store)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        _databaseContext.Stores.Add(store);
+        var entity = _mapper.Map<Store>(store);
+        
+        entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
+        
+        _databaseContext.Stores.Add(entity);
         
         await _databaseContext.SaveChangesAsync();
         
-        return Created(store);
+        return Created(entity);
     }
     
     public async Task<ActionResult> Put([FromRoute] string key, [FromBody] Store updatedStore)
@@ -62,12 +81,13 @@ public class StoresController : ODataController
             return BadRequest(ModelState);
         }
         
-        var parsedKey = Text.From(key);
-        if (parsedKey != updatedStore.Id)
+        if (key != updatedStore.Id)
         {
             return BadRequest();
         }
+        
         _databaseContext.Entry(updatedStore).State = EntityState.Modified;
+        
         try
         {
             await _databaseContext.SaveChangesAsync();
@@ -83,30 +103,33 @@ public class StoresController : ODataController
                 throw;
             }
         }
+        
         return Updated(updatedStore);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string key, [FromBody] Delta<Store> store)
+    public async Task<ActionResult> Patch([FromRoute] string store, [FromBody] Delta<Store> Id)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var parsedKey = Text.From(key);
-        var entity = await _databaseContext.Stores.FindAsync(parsedKey);
+        var entity = await _databaseContext.Stores.FindAsync(store);
+        
         if (entity == null)
         {
             return NotFound();
         }
-        store.Patch(entity);
+        
+        Id.Patch(entity);
+        
         try
         {
             await _databaseContext.SaveChangesAsync();
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!StoreExists(key))
+            if (!StoreExists(store))
             {
                 return NotFound();
             }
@@ -115,19 +138,18 @@ public class StoresController : ODataController
                 throw;
             }
         }
+        
         return Updated(entity);
     }
     
-    private bool StoreExists(string key)
+    private bool StoreExists(string store)
     {
-        var parsedKey = Text.From(key);
-        return _databaseContext.Stores.Any(p => p.Id == parsedKey);
+        return _databaseContext.Stores.Any(p => p.Id == store);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] string key)
+    public async Task<ActionResult> Delete([FromRoute] string Id)
     {
-        var parsedKey = Text.From(key);
-        var store = await _databaseContext.Stores.FindAsync(parsedKey);
+        var store = await _databaseContext.Stores.FindAsync(Id);
         if (store == null)
         {
             return NotFound();

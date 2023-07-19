@@ -1,6 +1,8 @@
-﻿namespace Nox.Types;
+﻿using Nox.Types.Common;
 
-public class VolumeUnit : MeasurementUnit
+namespace Nox.Types;
+
+public sealed class VolumeUnit : MeasurementUnit
 {
     public static VolumeUnit CubicMeter { get; } = new VolumeUnit(1, "CubicMeter", "m³");
     public static VolumeUnit CubicFoot { get; } = new VolumeUnit(2, "CubicFoot", "ft³");
@@ -9,21 +11,3 @@ public class VolumeUnit : MeasurementUnit
     {
     }
 }
-
-
-public class LengthUnit : MeasurementUnit
-{
-    public static LengthUnit Meter { get; } = new LengthUnit(1, "Meter", "m");
-    public static LengthUnit Foot { get; } = new LengthUnit(2, "Foot", "ft");
-
-    protected LengthUnit(int id, string name, string symbol) : base(id, name, symbol)
-    {
-    }
-}
-
-public class DistanceUnit : LengthUnit
-{
-    protected DistanceUnit(int id, string name, string symbol) : base(id, name, symbol)
-    {
-    }
-}    
