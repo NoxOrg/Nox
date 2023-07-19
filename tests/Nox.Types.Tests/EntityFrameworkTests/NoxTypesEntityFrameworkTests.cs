@@ -83,7 +83,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             HashedText = HashedText.From("Test123."),
             ArabicName = TranslatedText.From((CultureCode.From("ar-SA"), "سوئٹزرلینڈ")),
-            CurrentTime = Time.From(07,55,33,250)
+            CurrentTime = Time.From(07,55,33,250),
             CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
         };
         DbContext.Countries!.Add(newItem);
@@ -136,7 +136,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             HashedText = HashedText.From(("Test123.", "salt")),
             CreateDate = DateTime.From(new System.DateTime(2023, 01, 01)),
             CurrentTime = Time.From(11,35,50,375),
-            AverageTemperatureInCelsius = Temperature.FromCelsius(25)
+            AverageTemperatureInCelsius = Temperature.FromCelsius(25),
             CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
         };
         DbContext.Countries!.Add(newItem);
@@ -149,7 +149,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
 
         var item = DbContext.Countries?.First();
 
-        item.Id.Value.Should().Be(1);
+        item!.Id.Value.Should().Be(1);
         item.Name.Value.Should().Be("Switzerland");
         item.LatLong.Latitude.Should().Be(46.802496);
         item.LatLong.Longitude.Should().Be(8.234392);
@@ -191,12 +191,17 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.CreateDate.Should().Be(DateTime.From(new System.DateTime(2023, 01, 01)));
         item.DateTimeDuration.Value.Should().Be(new TimeSpan(10, 5, 2, 1));
         item.Nuid.Value.Should().Be(NuidDefinition.NuidValue);
-        Assert.Equal(newItem.AverageTemperatureInCelsius.Value, item.AverageTemperatureInCelsius?.Value);
-        Assert.Equal(newItem.AverageTemperatureInCelsius.Unit, item.AverageTemperatureInCelsius?.Unit);
-        Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         AssertStreetAddress(streetAddress, item.StreetAddress);
-        Assert.Equal(JsonSerializer.Serialize(streetAddress), item.StreetAddressJson.Value);
-        Assert.Equal(SwitzerlandCitiesCountiesYaml, item.CitiesCounties.Value);
+        // Assert.Equal(newItem.AverageTemperatureInCelsius.Value, item.AverageTemperatureInCelsius?.Value);
+        // Assert.Equal(newItem.AverageTemperatureInCelsius.Unit, item.AverageTemperatureInCelsius?.Unit);
+        // Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
+        // Assert.Equal(JsonSerializer.Serialize(streetAddress), item.StreetAddressJson.Value);
+        // Assert.Equal(SwitzerlandCitiesCountiesYaml, item.CitiesCounties.Value);
+        item.AverageTemperatureInCelsius?.Value.Should().Be(newItem.AverageTemperatureInCelsius.Value);
+        item.AverageTemperatureInCelsius?.Unit.Should().Be(newItem.AverageTemperatureInCelsius.Unit);
+        item.Uri.Value.AbsoluteUri.Should().Be(Sample_Uri);
+        item.StreetAddressJson.Value.Should().Be(JsonSerializer.Serialize(streetAddress));
+        item.CitiesCounties.Value.Should().Be(SwitzerlandCitiesCountiesYaml);
     }
 
     private static StreetAddress CreateStreetAddress()
