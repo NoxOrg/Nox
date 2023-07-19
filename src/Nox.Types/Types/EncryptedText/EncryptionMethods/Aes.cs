@@ -15,8 +15,8 @@ public static class Aes
     /// </summary>
     /// <param name="plainText">Text to be encrypted</param>
     /// <param name="typeOptions">Algorithm options.</param>
-    /// <returns>Encrypted text as a byte array.</returns>
-    public static byte[] EncryptStringToBytes(string plainText, EncryptedTextTypeOptions typeOptions)
+    /// <returns>Encrypted text as a base64 string.</returns>
+    public static string EncryptStringToBase64(string plainText, EncryptedTextTypeOptions typeOptions)
     {
         if (string.IsNullOrEmpty(plainText))
             throw new ArgumentNullException(nameof(plainText));
@@ -28,7 +28,10 @@ public static class Aes
         using AesAlg aesAlg = AesAlg.Create();
 
         // Create a Crypto object with the specified key and IV.
-        using ICryptoTransform encryptor = aesAlg.CreateEncryptor(typeOptions.PublicKey, typeOptions.Iv);
+        using ICryptoTransform encryptor = aesAlg.CreateEncryptor(
+            Convert.FromBase64String(typeOptions.PublicKey),
+            Convert.FromBase64String(typeOptions.Iv)
+        );
 
         // Create the streams used for decryption.
         using MemoryStream msEncrypt = new MemoryStream();
@@ -37,31 +40,35 @@ public static class Aes
         {
             swEncrypt.Write(plainText);
         }
-        return msEncrypt.ToArray();
+
+        return Convert.ToBase64String(msEncrypt.ToArray());
     }
 
     /// <summary>
     /// Decrypt text using AES algorithm.
     /// </summary>
-    /// <param name="encryptedText">Encrypted text as byte array.</param>
+    /// <param name="encryptedText">Encrypted text as a base64 string.</param>
     /// <param name="typeOptions">Algorithm options.</param>
     /// <returns>Decrypted text.</returns>
-    public static string DecryptStringFromBytes(byte[] encryptedText, EncryptedTextTypeOptions typeOptions)
+    public static string DecryptStringFromBase64(string encryptedText, EncryptedTextTypeOptions typeOptions)
     {
-        if (encryptedText is not { Length: > 0 })
+        if (string.IsNullOrEmpty(encryptedText))
             throw new ArgumentNullException(nameof(encryptedText));
-        if (typeOptions.PublicKey is not { Length: > 0 })
+        if (string.IsNullOrEmpty(typeOptions.PublicKey))
             throw new ArgumentNullException(nameof(typeOptions.PublicKey));
-        if (typeOptions.Iv is not { Length: > 0 })
+        if (string.IsNullOrEmpty(typeOptions.Iv))
             throw new ArgumentNullException(nameof(typeOptions.Iv));
 
         using AesAlg aesAlg = AesAlg.Create();
 
         // Create an Aes object with the specified Key and IV.
-        ICryptoTransform decryptor = aesAlg.CreateDecryptor(typeOptions.PublicKey, typeOptions.Iv);
+        ICryptoTransform decryptor = aesAlg.CreateDecryptor(
+            Convert.FromBase64String(typeOptions.PublicKey),
+            Convert.FromBase64String(typeOptions.Iv)
+        );
 
         // Create the streams used for decryption.
-        using MemoryStream msDecrypt = new MemoryStream(encryptedText);
+        using MemoryStream msDecrypt = new MemoryStream(Convert.FromBase64String(encryptedText));
         using CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
         using StreamReader srDecrypt = new StreamReader(csDecrypt);
         // Read the decrypted bytes from the decrypting stream and place them in a string.
