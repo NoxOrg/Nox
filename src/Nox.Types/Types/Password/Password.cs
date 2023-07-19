@@ -11,7 +11,13 @@ namespace Nox.Types;
 /// <remarks>Placeholder, needs to be implemented</remarks>
 public sealed class Password : ValueObject<HashedText, Password>
 {
-
+    /// <summary>
+    /// Creates a new instance of <see cref="Password"/> object with sent <see cref="PasswordTypeOptions"/>.
+    /// </summary>
+    /// <param name="value">Plain text that will be hashed</param>
+    /// <param name="options"><see cref="PasswordTypeOptions"/></param>
+    /// <returns>New instance of <see cref="Password"/></returns>
+    /// <exception cref="TypeValidationException"></exception>
     public static Password From(string value, PasswordTypeOptions options)
     {
         options ??= new PasswordTypeOptions();
@@ -31,6 +37,12 @@ public sealed class Password : ValueObject<HashedText, Password>
         return newObject;
     }
 
+    /// <summary>
+    /// Creates a new instance of <see cref="Password"/> object with default <see cref="PasswordTypeOptions"/>.
+    /// </summary>
+    /// <param name="value">Plain text that will be hashed</param>
+    /// <returns>New instance of <see cref="Password"/></returns>
+    /// <exception cref="TypeValidationException"></exception>
     public static Password From(string value)
         => From(value, new PasswordTypeOptions());
 
