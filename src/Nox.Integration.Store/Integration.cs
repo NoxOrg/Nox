@@ -13,5 +13,8 @@ public class Integration
 
     public string Definition { get; set; } = string.Empty;
 
-    public virtual Source? Source { get; set; }
+    public DateTime CreatedOn { get; set; }
+
+    public DateTime? UpdatedOn { get; set; }
+    public virtual ICollection<MergeState>? MergeStates { get; set; }
 }

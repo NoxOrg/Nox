@@ -1,6 +1,6 @@
 namespace Nox.Integration.Constants;
 
-public static class IntegrationExecutorConstants
+public static class IntegrationConstants
 {
     public const string DefaultMergeProperty = "EtlBox.ChangeDate";
     public static readonly DateTime MinSqlDate = new DateTime(1753, 01, 01, 0, 0, 0);
