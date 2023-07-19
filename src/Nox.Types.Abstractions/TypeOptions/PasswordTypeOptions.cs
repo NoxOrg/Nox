@@ -15,6 +15,6 @@ public class PasswordTypeOptions
 
     public Regex PasswordContainsUpperCase { get; } = new(@"(.*[A-Z].*)+", RegexOptions.Compiled, new TimeSpan(0, 0, 1));
     public Regex PasswordContainsLowerCase { get; } = new(@"(.*[a-z].*)+", RegexOptions.Compiled, new TimeSpan(0, 0, 1));
-    public Regex PasswordContainsSympol { get; } = new(@"(.*[!@#$%^&*(),.?"":{}|<>\-_].*)+", RegexOptions.Compiled, new TimeSpan(0, 0, 1));
+    public Regex PasswordContainsSymbol { get; } = new(@"(.*[!@#$%^&*(),.?"":{}|<>\-_].*)+", RegexOptions.Compiled, new TimeSpan(0, 0, 1));
     public Regex PasswordContainsNumber { get; } = new(@"(.*[0-9].*)+", RegexOptions.Compiled, new TimeSpan(0, 0, 1));
 }

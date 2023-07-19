@@ -74,7 +74,7 @@ public sealed class Password : ValueObject<HashedText, Password>
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Password type as value does not contain lowercase letter"));
         }
 
-        if (options.ForceSymbol && !options.PasswordContainsSympol.IsMatch(passwordPlainText))
+        if (options.ForceSymbol && !options.PasswordContainsSymbol.IsMatch(passwordPlainText))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Password type as value does not contain symbol"));
         }

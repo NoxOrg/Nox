@@ -1874,7 +1874,7 @@
                         }
                       }
                     },
-                    "passwordContainsSympol": {    
+                    "passwordContainsSymbol": {    
                       "type": [
                         "object",
                         "null"
@@ -3940,7 +3940,7 @@
                         }
                       }
                     },
-                    "passwordContainsSympol": {    
+                    "passwordContainsSymbol": {    
                       "type": [
                         "object",
                         "null"
@@ -5582,7 +5582,7 @@
                 }
               }
             },
-            "passwordContainsSympol": {    
+            "passwordContainsSymbol": {    
               "type": [
                 "object",
                 "null"
