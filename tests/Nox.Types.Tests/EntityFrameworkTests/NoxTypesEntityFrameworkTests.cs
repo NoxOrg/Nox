@@ -2,6 +2,7 @@ using FluentAssertions;
 using System.Text.Json;
 
 using System;
+using NuGet.Frameworks;
 
 namespace Nox.Types.Tests.EntityFrameworkTests;
 
@@ -59,7 +60,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             VolumeInCubicMeters = Volume.FromCubicMeters(89_000),
             WeightInKilograms = Weight.FromKilograms(19_000),
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
-            HashedText = HashedText.From("Test123.")
+            HashedText = HashedText.From("Test123."),
+            Formula = Formula.From("Name.ToString() + \":\" Population.ToString()"),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -107,7 +109,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             WeightInKilograms = Weight.FromKilograms(19_000),
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             HashedText = HashedText.From(("Test123.", "salt")),
-            CreateDate = DateTime.From(new System.DateTime(2023, 01, 01))
+            CreateDate = DateTime.From(new System.DateTime(2023, 01, 01)),
+            Formula = Formula.From("Name.ToString() + \":\" Population.ToString()"),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -161,6 +164,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(NuidDefinition.NuidValue, item.Nuid.Value);
         AssertStreetAddress(streetAddress, item.StreetAddress);
         Assert.Equal(JsonSerializer.Serialize(streetAddress), item.StreetAddressJson.Value);
+        Assert.Equal("Name.ToString() + \":\" Population.ToString()", item.Formula.Value);
     }
 
     private static StreetAddress CreateStreetAddress()

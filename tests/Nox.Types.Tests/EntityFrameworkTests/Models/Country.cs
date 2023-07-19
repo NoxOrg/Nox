@@ -147,4 +147,9 @@ public sealed class Country
     /// Gets or Sets db record create date
     /// </summary>
     public DateTime? CreateDate { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the formula.
+    /// </summary>
+    public Formula Formula { get; set; } = null!;
 }
