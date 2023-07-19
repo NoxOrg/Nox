@@ -54,7 +54,6 @@ public partial class TestWebAppDbContext : DbContext
                     ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, _noxSolution.GetRelationshipsToCreate(codeGeneratorState.GetEntityType));
                 }
             }
-
         }
     }
 }

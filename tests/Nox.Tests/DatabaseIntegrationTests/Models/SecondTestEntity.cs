@@ -5,7 +5,6 @@
 using Nox.Types;
 using System;
 using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace TestWebApp.Domain;
 public partial class SecondTestEntity : AuditableEntityBase
@@ -22,7 +21,7 @@ public partial class SecondTestEntity : AuditableEntityBase
     public Text TextTestField2 { get; set; } = null!;
 
     /// <summary>
-    /// SecondTestEntity Test entity relelionship to TestEntity ZeroOrMany TestEntities
+    /// SecondTestEntity Test entity relationship to TestEntity ZeroOrMany TestEntities
     /// </summary>
     public virtual List<TestEntity> TestEntities { get; set; } = new List<TestEntity>();
 

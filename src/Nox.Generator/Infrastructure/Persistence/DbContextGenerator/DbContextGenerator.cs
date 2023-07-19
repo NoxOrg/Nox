@@ -89,7 +89,6 @@ internal static class DbContextGenerator
 
     private static void AddOnModelCreating(CodeBuilder code)
     {
-        code.AppendLine();
         code.AppendLine("protected override void OnModelCreating(ModelBuilder modelBuilder)");
         code.StartBlock();
             code.AppendLine("base.OnModelCreating(modelBuilder);");
