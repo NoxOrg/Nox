@@ -131,6 +131,11 @@ internal static class ODataModelGenerator
     {
         var fields = GetNoxTypeInformation(attribute.Type);
 
+        if (attribute.Type == NoxType.Number)
+        {  
+            fields[0].FieldType = GetNumberType(attribute.NumberTypeOptions!);
+        }
+
         foreach (var (FieldName, FieldType) in fields)
         {
             GenerateDocs(code, attribute.Description);
@@ -149,5 +154,26 @@ internal static class ODataModelGenerator
             .Select(kv => new Tuple<string, string>(kv.Key, kv.Value.Name))
             .Select(kv => (FieldName: kv.Item1, FieldType: kv.Item2))
             .ToArray();
+    }
+
+    public static string GetNumberType(NumberTypeOptions typeOptions)
+    {
+        if (typeOptions.DecimalDigits == 0) // integer
+        {
+            switch (typeOptions.MaxValue)
+            {
+                case <= byte.MaxValue when typeOptions.MinValue >= byte.MinValue:
+                    return typeof(byte).ToString();
+                case <= short.MaxValue when typeOptions.MinValue >= short.MinValue:
+                    return typeof(short).ToString();
+                case <= int.MaxValue when typeOptions.MinValue >= int.MinValue:
+                    return typeof(int).ToString();
+                case <= long.MaxValue when typeOptions.MinValue >= long.MinValue:
+                    return typeof(long).ToString();
+            }
+        }
+
+        //Fall back to decimal
+        return typeof(decimal).ToString();
     }
 }
