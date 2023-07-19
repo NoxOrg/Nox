@@ -3,7 +3,7 @@ using Nox;
 using Nox.Abstractions;
 using SampleWebApp;
 using SampleWebApp.Application;
-using SampleWebApp.Examples2;
+using SampleWebApp.Presentation.Api.OData;
 
 var builder = WebApplication.CreateBuilder(args);
 
