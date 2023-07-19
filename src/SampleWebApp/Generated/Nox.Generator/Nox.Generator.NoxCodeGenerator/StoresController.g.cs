@@ -44,7 +44,7 @@ public partial class StoresController : ODataController
         return Ok(_databaseContext.Stores);
     }
     
-    public ActionResult<Store> Get([FromRoute] string key)
+    public ActionResult<Store> Get([FromRoute] String key)
     {
         var item = _databaseContext.Stores.SingleOrDefault(d => d.Id.Equals(key));
         

@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
+using Nox.Types.Extensions;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -112,7 +113,7 @@ internal static class ApiGenerator
                     foreach (var relationship in entity.OwnedRelationships)
                     {
                         GenerateChildrenGet(relationship.Entity, relationship.Name, entity.PluralName, code);
-                    } 
+                    }
                 }
             }
 
@@ -348,12 +349,26 @@ internal static class ApiGenerator
         // TODO Composite Keys
         if (entity.Keys is { Count: > 1 })
         {
-            Debug.WriteLine("Get for composite keys Not implemented...");
+            Debug.WriteLine($"Get for composite keys Not implemented, Entity - {entity.Name}...");
+            return;
+        }
+
+        var keyPrimitiveTypes = entity.Keys.First().Type.GetComponents();
+
+        if (keyPrimitiveTypes == null)
+        {
+            Debug.WriteLine($"Entity Key cannot be represented as primitive type, Entity - {entity.Name}...");
+            return;
+        }
+
+        if (keyPrimitiveTypes.Count > 1)
+        {
+            Debug.WriteLine($"Get for composite keys Not implemented, Entity - {entity.Name}...");
             return;
         }
 
         // Method Get
-        code.AppendLine($"public ActionResult<{entity.Name}> Get([FromRoute] string key)");
+        code.AppendLine($"public ActionResult<{entity.Name}> Get([FromRoute] {keyPrimitiveTypes.First().Value.Name} key)");
 
         // Method content
         code.StartBlock();
