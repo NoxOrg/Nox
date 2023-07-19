@@ -1,7 +1,4 @@
-﻿using Microsoft.Extensions.DependencyInjection;
-using Nox.Types;
-
-namespace Nox.Solution.Tests;
+﻿namespace Nox.Solution.Tests;
 
 public class RefDeserializationTests
 {

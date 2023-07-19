@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using System.Linq;
+using Nox.Solution;
 
 namespace Nox.Generator;
 
