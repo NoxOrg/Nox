@@ -157,5 +157,5 @@ public sealed class Country
     /// <summary>
     /// Gets or sets the AverageTemperature.
     /// </summary>
-    public Temperature? AverageTemperature { get; set; } = null!;
+    public Temperature? AverageTemperatureInCelsius { get; set; } = null!;
 }

@@ -41,14 +41,7 @@ public sealed class Temperature : Measurement<Temperature, TemperatureUnit>
     /// <returns>true if the <see cref="Temperature"/> value is valid.</returns>
     internal override ValidationResult Validate()
     {
-        var result = Value.Validate();
-
-        if (double.IsNaN((double)Value) || double.IsInfinity((double)Value))
-        {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Temperature type as value {Value} is not allowed."));
-        }
-
-        return result;
+        return Value.Validate();
     }
 
     private QuantityValue? _temperatureCelsius;

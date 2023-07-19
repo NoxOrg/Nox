@@ -110,7 +110,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             HashedText = HashedText.From(("Test123.", "salt")),
             CreateDate = DateTime.From(new System.DateTime(2023, 01, 01)),
-            AverageTemperature = Temperature.FromCelsius(25)
+            AverageTemperatureInCelsius = Temperature.FromCelsius(25),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -159,7 +159,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(newItem.HashedText.HashText, item.HashedText.HashText);
         Assert.Equal(newItem.HashedText.Salt, item.HashedText.Salt);
         Assert.Equal(DateTime.From(new System.DateTime(2023, 01, 01)), item.CreateDate);
-        Assert.Equal(newItem.AverageTemperature, item.AverageTemperature);
+        Assert.Equal(newItem.AverageTemperatureInCelsius.Value, item.AverageTemperatureInCelsius?.Value);
+        Assert.Equal(newItem.AverageTemperatureInCelsius.Unit, item.AverageTemperatureInCelsius?.Unit);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         Assert.Equal(new TimeSpan(10, 5, 2, 1), item.DateTimeDuration.Value);

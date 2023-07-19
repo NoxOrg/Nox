@@ -36,7 +36,7 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.WeightInKilograms).HasConversion<WeightToKilogramsConverter>();
         builder.Property(e => e.Nuid).HasConversion<NuidConverter>();
         builder.Property(e => e.CreateDate).HasConversion<DateTimeConverter>();
-        builder.Property(e => e.AverageTemperature).HasConversion<TemperatureToCelsiusConverter>();
+        builder.Property(e => e.AverageTemperatureInCelsius).HasConversion<TemperatureToCelsiusConverter>();
 
         // Configure Multi-value ValueObjects
         builder.OwnsOne(e => e.LatLong).Ignore(p => p.Value);
