@@ -37,7 +37,7 @@ public sealed class Temperature : Measurement<Temperature, TemperatureUnit>
     public static Temperature FromFahrenheit(QuantityValue temperature) => From(temperature, TemperatureUnit.Fahrenheit);
 
     /// <summary>
-    /// Creates a new instance of <see cref="Temperature"/> object in meters.
+    /// Creates a new instance of <see cref="Temperature"/> object in celsius.
     /// </summary>
     /// <param name="value">The value to create the <see cref="Temperature"/> with</param>
     /// <returns></returns>
@@ -95,6 +95,6 @@ public sealed class Temperature : Measurement<Temperature, TemperatureUnit>
         yield return new KeyValuePair<string, object>(nameof(Value), ToCelsius());
     }
 
-    protected override MeasurementConversionFactor<TemperatureUnit> ResolveUnitConversionFactor(TemperatureUnit sourceUnit, TemperatureUnit targetUnit)
-        => new TemperatureConversionFactor(sourceUnit, targetUnit);
+    protected override MeasurementConversion<TemperatureUnit> ResolveUnitConversion(TemperatureUnit sourceUnit, TemperatureUnit targetUnit)
+        => new TemperatureConversion(sourceUnit, targetUnit);
 }

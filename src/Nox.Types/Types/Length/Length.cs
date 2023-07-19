@@ -48,6 +48,6 @@ public sealed class Length : Measurement<Length, LengthUnit>
         yield return new KeyValuePair<string, object>(nameof(Value), ToMeters());
     }
 
-    protected override MeasurementConversionFactor<LengthUnit> ResolveUnitConversionFactor(LengthUnit sourceUnit, LengthUnit targetUnit)
-        => new LengthConversionFactor(sourceUnit, targetUnit);
+    protected override MeasurementConversion<LengthUnit> ResolveUnitConversion(LengthUnit sourceUnit, LengthUnit targetUnit)
+        => new LengthConversion(sourceUnit, targetUnit);
 }

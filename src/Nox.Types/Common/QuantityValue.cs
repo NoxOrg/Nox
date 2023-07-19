@@ -177,9 +177,9 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
     #region Operators and Comparators
 
     /// <inheritdoc />
-    public override bool Equals(object? other)
+    public override bool Equals(object? obj)
     {
-        if (other is QuantityValue qv)
+        if (obj is QuantityValue qv)
         {
             return Equals(qv);
         }
