@@ -327,6 +327,88 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
         }
     }
 
+    /// <summary>
+    /// Returns the devision of two operands
+    /// </summary>
+    /// <param name="a">First operand</param>
+    /// <param name="b">Second operands</param>
+    /// <returns>-v</returns>
+    public static QuantityValue operator /(QuantityValue a, QuantityValue b)
+    {
+        if((b.IsDecimal && b._decimalValue == 0) || (!b.IsDecimal && b._doubleValue == 0))
+        {
+            throw new DivideByZeroException();
+        }
+        if (a.IsDecimal && b.IsDecimal)
+        {
+            return new QuantityValue(a._decimalValue / b._decimalValue);
+        }
+        else if (a.IsDecimal)
+        {
+            return new QuantityValue(a._decimalValue / (decimal)b._doubleValue);
+        }
+        else if (b.IsDecimal)
+        {
+            return new QuantityValue((decimal)a._doubleValue / b._decimalValue);
+        }
+        else
+        {
+            return new QuantityValue(a._doubleValue / b._doubleValue);
+        }
+    }
+
+    /// <summary>
+    /// Returns the subtraction of two operands
+    /// </summary>
+    /// <param name="a">First operand</param>
+    /// <param name="b">Second operands</param>
+    /// <returns>-v</returns>
+    public static QuantityValue operator -(QuantityValue a, QuantityValue b)
+    {
+        if (a.IsDecimal && b.IsDecimal)
+        {
+            return new QuantityValue(a._decimalValue - b._decimalValue);
+        }
+        else if (a.IsDecimal)
+        {
+            return new QuantityValue(a._decimalValue - (decimal)b._doubleValue);
+        }
+        else if (b.IsDecimal)
+        {
+            return new QuantityValue((decimal)a._doubleValue - b._decimalValue);
+        }
+        else
+        {
+            return new QuantityValue(a._doubleValue - b._doubleValue);
+        }
+    }
+
+    /// <summary>
+    /// Returns the sum of two operands
+    /// </summary>
+    /// <param name="a">First operand</param>
+    /// <param name="b">Second operands</param>
+    /// <returns>-v</returns>
+    public static QuantityValue operator +(QuantityValue a, QuantityValue b)
+    {
+        if (a.IsDecimal && b.IsDecimal)
+        {
+            return new QuantityValue(a._decimalValue + b._decimalValue);
+        }
+        else if (a.IsDecimal)
+        {
+            return new QuantityValue(a._decimalValue + (decimal)b._doubleValue);
+        }
+        else if (b.IsDecimal)
+        {
+            return new QuantityValue((decimal)a._doubleValue + b._decimalValue);
+        }
+        else
+        {
+            return new QuantityValue(a._doubleValue + b._doubleValue);
+        }
+    }
+
     #endregion Operators and Comparators
 
     internal ValidationResult Validate()

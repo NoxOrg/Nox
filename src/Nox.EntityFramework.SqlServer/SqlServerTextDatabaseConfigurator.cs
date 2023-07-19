@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
-using Nox.Types;
+﻿using Nox.Types;
 using Nox.Types.EntityFramework.Types;
 
 namespace Nox.EntityFramework.SqlServer;
