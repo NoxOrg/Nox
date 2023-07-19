@@ -1,0 +1,20 @@
+#
+# countryLocalNames.entity.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+name: CountryLocalNames
+description: The name of a country in other languages
+
+keys:
+
+  - name: Id
+    isRequired: true
+    type: number
+    numberTypeOptions:
+      minValue: 0
+      decimalDigits: 0
+
+attributes:
+
+  - $ref: info.type.nox.yaml

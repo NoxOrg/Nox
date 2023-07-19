@@ -41,7 +41,7 @@ internal static class ODataDbContextGenerator
         code.StartBlock();
         code.AppendLine();
 
-        AddField(code, "NoxSolution", "noxSolution", "The Nox sulution configuration");
+        AddField(code, "NoxSolution", "noxSolution", "The Nox solution configuration");
         AddField(code, "INoxDatabaseProvider", "dbProvider", "The database provider");
 
         // Constructor content

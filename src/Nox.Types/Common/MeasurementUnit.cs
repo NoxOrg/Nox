@@ -15,10 +15,10 @@ public abstract class MeasurementUnit : IComparable
         Symbol = symbol;
     }
 
-    public int CompareTo(object obj)
-        => Id.CompareTo(((MeasurementUnit)obj).Id);
+    public int CompareTo(object? obj)
+        => obj is null ? 0 : Id.CompareTo(((MeasurementUnit)obj).Id);
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj is not MeasurementUnit otherValue)
         {

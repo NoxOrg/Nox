@@ -1,8 +1,10 @@
 ﻿
+using Nox.Types;
+using Nox.Types.Schema;
 
-namespace Nox.Solution
+namespace Nox.Solution;
+
+[GenerateJsonSchema("dto")]
+public class DomainQueryResponseOutput: NoxComplexTypeDefinition
 {
-    public class DomainQueryResponseOutput: NoxComplexTypeDefinition
-    {
-    }
 }

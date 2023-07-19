@@ -48,7 +48,6 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
     ///     as their value type.
     /// </summary>
     [FieldOffset(0)]
-    // bytes layout: 0-1 unused, 2 exponent, 3 sign (only highest bit), 4-15 number
     private readonly decimal _decimalValue;
 
     /// <summary>
@@ -177,17 +176,6 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
     #region Operators and Comparators
 
     /// <inheritdoc />
-    public override bool Equals(object? obj)
-    {
-        if (obj is QuantityValue qv)
-        {
-            return Equals(qv);
-        }
-
-        return false;
-    }
-
-    /// <inheritdoc />
     public override int GetHashCode()
     {
         if (IsDecimal)
@@ -198,6 +186,17 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
         {
             return _doubleValue.GetHashCode();
         }
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        if (obj is QuantityValue qv)
+        {
+            return Equals(qv);
+        }
+
+        return false;
     }
 
     /// <summary>
