@@ -86,7 +86,7 @@ public class ImageTests
 
         var imageTypeOptions = new ImageTypeOptions
         {
-            ImageFormatTypes = new() { ImageFormatType.Jpeg, ImageFormatType.Bmp }
+            ImageFormatTypes = new List<ImageFormatType> { ImageFormatType.Jpeg, ImageFormatType.Bmp }
         };
         // Act
         var image = Image.From("https://example.com/image.jpg", "Image1", 100, imageTypeOptions);
