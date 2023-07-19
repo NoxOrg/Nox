@@ -188,7 +188,7 @@ public sealed class Country
     /// </summary>
     public Time CurrentTime { get; set; } = null!;
 
-
+    /// <summary>
     /// Gets or sets the AverageTemperature.
     /// </summary>
     public Temperature? AverageTemperatureInCelsius { get; set; } = null!;
@@ -217,6 +217,11 @@ public sealed class Country
     /// Gets or sets the phone number.
     /// </summary>
     public PhoneNumber PhoneNumber { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the SecretPassword.
+    /// </summary>
+    public EncryptedText SecretPassword { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the MainId property.

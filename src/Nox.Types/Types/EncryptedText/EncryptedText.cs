@@ -14,6 +14,9 @@ public sealed class EncryptedText : ValueObject<string, EncryptedText>
         Value = "";
     }
 
+    /// <inheritdoc cref="FromEncryptedString"/>
+    public new static EncryptedText From(string value) => FromEncryptedString(value);
+
     /// <summary>
     /// Creates an <see cref="EncryptedText"/> from a string using the provided <paramref name="typeOptions"/>.
     /// </summary>
@@ -44,7 +47,7 @@ public sealed class EncryptedText : ValueObject<string, EncryptedText>
     /// <param name="value">Encrypted data as base64 string.</param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
-    public static EncryptedText FromEncryptedTextString(string value)
+    public static EncryptedText FromEncryptedString(string value)
     {
         var newObject = new EncryptedText
         {
