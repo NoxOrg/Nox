@@ -46,11 +46,20 @@ public class NoxSimpleTypeDefinition
     [IfEquals("Type", NoxType.TranslatedText)]
     public TranslatedTextTypeOptions? TranslatedTextTypeOptions { get; set; }
 
+    [IfEquals("Type", NoxType.Nuid)]
+    public NuidTypeOptions? NuidTypeOptions { get; set; }
+
     [IfEquals("Type", NoxType.Year)]
     public YearTypeOptions? YearTypeOptions { get; set; }
 
     [IfEquals("Type", NoxType.DateTimeDuration)]
     public DateTimeDurationTypeOptions? DateTimeDurationTypeOptions { get; set; }
+
+    [IfEquals("Type", NoxType.HashedText)]
+    public HashedTextTypeOptions? HashedTextTypeOptions { get; set; }
+
+    [IfEquals("Type", NoxType.DateTime)]
+    public DateTimeTypeOptions? DateTimeTypeOptions { get; set; }
 
     #endregion TypeOptions
 

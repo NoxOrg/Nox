@@ -1,7 +1,4 @@
-﻿using System;
-using System.Linq;
-
-namespace Nox
+﻿namespace Nox
 {
     public enum DatabaseServerProvider
     {

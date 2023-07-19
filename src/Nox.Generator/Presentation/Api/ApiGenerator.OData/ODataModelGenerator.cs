@@ -1,11 +1,9 @@
-﻿using Humanizer;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Types.Extensions;
 using System;
-using System.Diagnostics;
 using System.Linq;
 
 using static Nox.Generator.Common.BaseGenerator;
@@ -31,25 +29,48 @@ internal static class ODataModelGenerator
         code.AppendLine($"using Microsoft.AspNetCore.Http;");
         code.AppendLine($"using Microsoft.AspNetCore.OData;");
         code.AppendLine($"using Microsoft.OData.ModelBuilder;");
+        code.AppendLine($"using AutoMapper;");
 
         code.AppendLine();
         code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
         code.AppendLine();
 
-        foreach (var entity in solution.Domain.Entities)
+        GenerateModels(codeGeneratorState, solution, code, false);
+
+        GenerateModels(codeGeneratorState, solution, code, true);
+
+        code.GenerateSourceCode();
+    }
+
+    private static void GenerateModels(NoxSolutionCodeGeneratorState codeGeneratorState, NoxSolution solution, CodeBuilder code, bool isDto)
+    {
+        foreach (var entity in solution!.Domain!.Entities)
         {
             GenerateDocs(code, entity.Description);
 
-            var baseClass = (entity.Persistence?.IsVersioned ?? true) ? "AuditableEntityBase" : "EntityBase";
+            if (isDto)
+            {
+                code.AppendLine($"public class {entity.Name}Dto");
+            }
+            else
+            {
+                var baseClass = (entity.Persistence?.IsVersioned ?? true) ? "AuditableEntityBase" : "EntityBase";
 
-            code.AppendLine($"public class {entity.Name} : {codeGeneratorState.DomainNameSpace}.{baseClass}");
+                code.AppendLine($"[AutoMap(typeof({entity.Name}Dto))]");
+                code.AppendLine($"public class {entity.Name} : {codeGeneratorState.DomainNameSpace}.{baseClass}");
+            }
+
             code.StartBlock();
 
             if (entity.Keys != null)
             {
                 foreach (var key in entity.Keys)
                 {
-                    GenerateProperty(code, key, forceRequired: true);
+                    // TODO: check auto generated keys
+                    if (!isDto)
+                    {
+                        GenerateProperty(code, key, forceRequired: true);
+                    }
                 }
             }
 
@@ -61,66 +82,72 @@ internal static class ODataModelGenerator
                 }
             }
 
-            if (entity.Relationships != null)
+            // TBD - logic for DTO
+            if (!isDto)
             {
-                foreach (var relationship in entity.Relationships)
+                if (entity.Relationships != null)
                 {
-                    GenerateRelationshipProperty(code, relationship);
+                    foreach (var relationship in entity.Relationships)
+                    {
+                        GenerateRelationshipProperty(code, relationship, isDto, false);
+                    }
                 }
-            }
 
-            if (entity.OwnedRelationships != null)
-            {
-                foreach (var relationship in entity.OwnedRelationships)
+                if (entity.OwnedRelationships != null)
                 {
-                    GenerateRelationshipProperty(code, relationship);
+                    foreach (var relationship in entity.OwnedRelationships)
+                    {
+                        GenerateRelationshipProperty(code, relationship, isDto, true);
+                    }
                 }
             }
 
             code.EndBlock();
         }
-
-        code.GenerateSourceCode();
     }
 
-    private static void GenerateRelationshipProperty(CodeBuilder code, EntityRelationship relationship)
+    private static void GenerateRelationshipProperty(CodeBuilder code, EntityRelationship relationship, bool isDto, bool isOwned)
     {
         GenerateDocs(code, relationship.Description);
 
-        var targetEntity = relationship.Entity;
+        var targetEntity = isDto ? $"{relationship.Entity}Dto" : relationship.Entity;
 
         bool isMany = relationship.Relationship == EntityRelationshipType.ZeroOrMany || relationship.Relationship == EntityRelationshipType.OneOrMany;
 
         var propType = isMany ? $"List<{targetEntity}>" : targetEntity;
-        var propName = isMany ? targetEntity.Pluralize() : targetEntity;
+        var propName = relationship.Name;
 
         var nullable = relationship.Relationship == EntityRelationshipType.ZeroOrOne ? "?" : string.Empty;
+
+        if (isOwned)
+        {
+            code.AppendLine($"[AutoExpand]");
+        }
 
         code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }} = null!;");
     }
 
     private static void GenerateProperty(CodeBuilder code, NoxSimpleTypeDefinition attribute, bool forceRequired = false)
     {
-
         var fields = GetNoxTypeInformation(attribute.Type);
 
-        foreach (var field in fields)
+        foreach (var (FieldName, FieldType) in fields)
         {
             GenerateDocs(code, attribute.Description);
 
-            var propType = field.Item2;
-            var propName = string.IsNullOrEmpty(field.Item1) ? attribute.Name : $"{attribute.Name}_{field.Item1}";
+            var propType = FieldType;
+            var propName = string.IsNullOrEmpty(FieldName) ? attribute.Name : $"{attribute.Name}_{FieldName}";
             var nullable = (attribute.IsRequired || forceRequired) ? string.Empty : "?";
 
             code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }} = default!;");
         }
     }
 
-    private static Tuple<string, string>[] GetNoxTypeInformation(NoxType noxType)
+    private static (string FieldName, string FieldType)[] GetNoxTypeInformation(NoxType noxType)
     {
         return noxType.GetComponents()
-            .Select( kv => new Tuple<string,string>(kv.Key, kv.Value.Name))
+            .Select(kv => new Tuple<string, string>(kv.Key, kv.Value.Name))
+            .Select(kv => (FieldName: kv.Item1, FieldType: kv.Item2))
             .ToArray();
-        
     }
 }

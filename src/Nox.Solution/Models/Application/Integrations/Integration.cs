@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using Nox.Types.Schema;
 
 namespace Nox.Solution;
