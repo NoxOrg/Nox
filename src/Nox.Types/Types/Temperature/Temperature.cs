@@ -60,33 +60,21 @@ public sealed class Temperature : Measurement<Temperature, TemperatureUnit>
         return result;
     }
 
+    private QuantityValue? _temperatureCelsius;
+
     /// <summary>
     /// Converts value in <see cref="TemperatureUnit.Celsius"/>.
     /// </summary>
     /// <returns><see cref="QuantityValue"/> in <see cref="TemperatureUnit.Celsius"/></returns>
-    public QuantityValue ToCelsius()
-    {
-        if (Unit == TemperatureUnit.Celsius)
-            return Value;
+    public QuantityValue ToCelsius() => _temperatureCelsius ??= GetMeasurementIn(TemperatureUnit.Celsius);
 
-        var newObject = FromCelsius(((Value - 32) * 5) / 9);
-
-        return newObject.Value;
-    }
+    private QuantityValue? _temperatureFahrenheit;
 
     /// <summary>
     /// Converts value in <see cref="TemperatureUnit.Fahrenheit"/>.
     /// </summary>
     /// <returns><see cref="QuantityValue"/> in <see cref="TemperatureUnit.Fahrenheit"/></returns>
-    public QuantityValue ToFahrenheit()
-    {
-        if (Unit == TemperatureUnit.Fahrenheit)
-            return Value;
-
-        var newObject = FromCelsius((Value * 9 / 5) + 32);
-
-        return newObject.Value;
-    }
+    public QuantityValue ToFahrenheit() => _temperatureFahrenheit ??= GetMeasurementIn(TemperatureUnit.Fahrenheit);
 
     protected override IEnumerable<KeyValuePair<string, object>> GetEqualityComponents()
     {

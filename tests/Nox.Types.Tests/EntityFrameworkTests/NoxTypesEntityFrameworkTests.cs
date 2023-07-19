@@ -109,7 +109,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             WeightInKilograms = Weight.FromKilograms(19_000),
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             HashedText = HashedText.From(("Test123.", "salt")),
-            CreateDate = DateTime.From(new System.DateTime(2023, 01, 01))
+            CreateDate = DateTime.From(new System.DateTime(2023, 01, 01)),
             AverageTemperature = Temperature.FromCelsius(25)
         };
         DbContext.Countries!.Add(newItem);
