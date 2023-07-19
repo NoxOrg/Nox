@@ -1,0 +1,27 @@
+[
+  {
+    "Id": "USD",
+    "Name": "US Dollar",
+    "PhysicalMoney": 100
+  },
+  {
+    "Id": "UAH",
+    "Name": "Ukrainian Hryvna",
+    "PhysicalMoney": 200
+  },
+  {
+    "Id": "EUR",
+    "Name": "Euro",
+    "PhysicalMoney": 300
+  },
+  {
+    "Id": "GBP",
+    "Name": "British Pound Sterling",
+    "PhysicalMoney": 400
+  },
+  {
+    "Id": "JPY",
+    "Name": "Japanese Yen",
+    "PhysicalMoney": 500
+  }
+]

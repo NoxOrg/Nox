@@ -159,4 +159,9 @@ public sealed class Country
     /// Gets or sets the current time.
     /// </summary>
     public Time CurrentTime { get; set; } = null!;
+    
+    
+    /// Gets or sets the AverageTemperature.
+    /// </summary>
+    public Temperature? AverageTemperatureInCelsius { get; set; } = null!;
 }

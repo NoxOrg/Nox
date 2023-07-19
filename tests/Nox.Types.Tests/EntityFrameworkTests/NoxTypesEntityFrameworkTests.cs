@@ -1,8 +1,6 @@
 ﻿using FluentAssertions;
 using System.Text.Json;
 
-using System;
-
 namespace Nox.Types.Tests.EntityFrameworkTests;
 
 public class NoxTypesEntityFrameworkTests : TestWithSqlite
@@ -111,7 +109,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             HashedText = HashedText.From(("Test123.", "salt")),
             CreateDate = DateTime.From(new System.DateTime(2023, 01, 01)),
-            CurrentTime = Time.From(11,35,50,375)
+            CurrentTime = Time.From(11,35,50,375),
+            AverageTemperatureInCelsius = Temperature.FromCelsius(25)
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -162,7 +161,9 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.CreateDate.Should().Be(DateTime.From(new System.DateTime(2023, 01, 01)));
         item.DateTimeDuration.Value.Should().Be(new TimeSpan(10, 5, 2, 1));
         item.Nuid.Value.Should().Be(NuidDefinition.NuidValue);
-
+        Assert.Equal(newItem.AverageTemperatureInCelsius.Value, item.AverageTemperatureInCelsius?.Value);
+        Assert.Equal(newItem.AverageTemperatureInCelsius.Unit, item.AverageTemperatureInCelsius?.Unit);
+        Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         AssertStreetAddress(streetAddress, item.StreetAddress);
         Assert.Equal(JsonSerializer.Serialize(streetAddress), item.StreetAddressJson.Value);
     }

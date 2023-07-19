@@ -1336,7 +1336,6 @@
             "dayOfWeek",
             "distance",
             "email",
-            "encryptedText",
             "file",
             "formula",
             "guid",

@@ -7,11 +7,11 @@
     </PropertyGroup>
 
 	<PropertyGroup>
-		<PackageId>Nox.EntityFramework.SqlServer</PackageId>
-		<Authors>Andre Sharpe,Jan Schutte</Authors>
-		<Description>Nox entity framework SqlServer library</Description>
+		<PackageId>Nox.EntityFramework.SqLite</PackageId>
+		<Authors>The Nox Factory</Authors>
+		<Description>Nox entity framework SqLite library</Description>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-		<Copyright>Copyright (c) Andre Sharpe 2023</Copyright>
+		<Copyright>Copyright (c) The Nox Factory 2023</Copyright>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
