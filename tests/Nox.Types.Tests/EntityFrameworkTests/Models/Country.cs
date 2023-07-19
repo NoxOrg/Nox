@@ -147,6 +147,12 @@ public sealed class Country
     /// Gets or Sets db record create date
     /// </summary>
     public DateTime? CreateDate { get; set; } = null!;
+
+
+    /// <summary>
+    /// Gets or sets the name in Arabic Locale.
+    /// </summary>
+    public TranslatedText ArabicName { get; set; } = null!;
     
     /// <summary>
     /// Gets or sets the Flag.

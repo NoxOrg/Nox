@@ -1,5 +1,4 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nox.Generator.Common;
 using Nox.Solution;
 
 namespace Nox.Types.EntityFramework.Abstractions;

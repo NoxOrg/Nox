@@ -27,6 +27,7 @@
 	<ItemGroup>
 		<Compile Remove="Generated\**" />
 		<Content Include="Generated\**" />
+		<Compile Remove="Examples\ODataConfiguration.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -62,6 +63,10 @@
 
 	<ItemGroup>
 		<Compile Remove="Controller_Sample.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Examples\" />
 	</ItemGroup>
 
 </Project>
