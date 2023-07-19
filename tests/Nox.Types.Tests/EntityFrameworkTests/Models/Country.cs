@@ -153,4 +153,9 @@ public sealed class Country
     /// Gets or sets the name in Arabic Locale.
     /// </summary>
     public TranslatedText ArabicName { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the AverageTemperature.
+    /// </summary>
+    public Temperature? AverageTemperatureInCelsius { get; set; } = null!;
 }
