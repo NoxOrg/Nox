@@ -4,7 +4,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
-using Nox.Generator.Common;
+//using Nox.Generator.Common;
 using Nox.Types.EntityFramework.Abstractions;
 using SampleWebApp.Domain;
 

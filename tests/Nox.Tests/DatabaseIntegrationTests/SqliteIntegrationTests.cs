@@ -1,5 +1,4 @@
-﻿using System.Text.Json;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Nox.Types;
 using TestDatabaseWebApp.Domain;
 

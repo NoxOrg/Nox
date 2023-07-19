@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Nox.Types;
 
 namespace Nox.Types.Common;
 

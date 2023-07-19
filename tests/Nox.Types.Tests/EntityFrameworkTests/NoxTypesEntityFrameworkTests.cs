@@ -1,8 +1,6 @@
 ﻿using FluentAssertions;
 using System.Text.Json;
 
-using System;
-
 namespace Nox.Types.Tests.EntityFrameworkTests;
 
 public class NoxTypesEntityFrameworkTests : TestWithSqlite
