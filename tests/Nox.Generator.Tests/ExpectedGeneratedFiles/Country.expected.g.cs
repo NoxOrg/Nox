@@ -17,7 +17,7 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     /// (Required)
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nuid Id  => Nuid.From(string.Join(".", Name.Value.ToString(), FormalName.Value.ToString()));
     
     /// <summary>
     /// The country's common name (required).

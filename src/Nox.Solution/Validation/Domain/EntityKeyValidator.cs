@@ -1,4 +1,7 @@
-﻿using FluentValidation;
+﻿using System.Collections.Generic;
+using System.Linq;
+using FluentValidation;
+using Nox.Types;
 
 namespace Nox.Solution.Validation
 {

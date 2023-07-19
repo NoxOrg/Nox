@@ -1,11 +1,8 @@
-﻿using System.Collections.Generic;
-using System.Collections.Immutable;
-using System.Linq;
+﻿using System.Linq;
 using Humanizer;
 using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
-using Nox.Solution.Exceptions;
 using Nox.Types;
 
 namespace Nox.Generator;
@@ -77,7 +74,7 @@ internal static class EntitiesGenerator
             }
             else
             {
-                GenerateStrongSingleKeySimpleProperty(code, entity, key);
+                GenerateStrongSingleKeySimpleProperty(code, key);
             }
         }
     }
@@ -108,7 +105,7 @@ internal static class EntitiesGenerator
         return foreignEntity.Keys!.Single();
     }
 
-    private static void GenerateStrongSingleKeySimpleProperty(CodeBuilder code, Entity entity, NoxSimpleTypeDefinition key)
+    private static void GenerateStrongSingleKeySimpleProperty(CodeBuilder code, NoxSimpleTypeDefinition key)
     {
         var propName = key.Name;
 
@@ -118,7 +115,6 @@ internal static class EntitiesGenerator
             if (nuidTypeOptions != null)
             {
                 var propertiesToComposeBy = nuidTypeOptions.PropertyNames;
-                ValidateNuidReferences(entity, propertiesToComposeBy);
 
                 var propertiesCombinedString = string.Join(", ", propertiesToComposeBy.Select(x => $"{x.ToUpperFirstChar()}.Value.ToString()"));
                 var idGetter = $"string.Join(\"{nuidTypeOptions.Separator}\", {propertiesCombinedString})";
@@ -128,23 +124,6 @@ internal static class EntitiesGenerator
         else
         {
             code.AppendLine($"public {key.Type} {propName} {{ get; set; }} = null!;");
-        }
-    }
-
-    private static void ValidateNuidReferences(Entity entity, IEnumerable<string> propertyNames)
-    {
-        var entityProperties = entity
-            .Attributes
-            .Select(x => x.Name.ToLower())
-            .ToImmutableHashSet();
-
-        foreach (var propertyName in propertyNames)
-        {
-            var isDefined = entityProperties.Contains(propertyName.ToLower());
-            if (!isDefined)
-            {
-                throw new NoxSolutionConfigurationException($"Property {propertyName} is not defined in type {nameof(Entity)}");
-            }
         }
     }
 

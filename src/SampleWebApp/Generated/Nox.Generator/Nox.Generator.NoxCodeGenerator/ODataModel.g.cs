@@ -99,11 +99,6 @@ public class Currency : SampleWebApp.Domain.AuditableEntityBase
     public String Id { get; set; } = default!;
     
     /// <summary>
-    /// The currency's nuid key / identifier.
-    /// </summary>
-    public UInt32 NuidId { get; set; } = default!;
-    
-    /// <summary>
     /// The currency's name.
     /// </summary>
     public String Name { get; set; } = default!;
