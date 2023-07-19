@@ -27,7 +27,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" PrivateAssets="all" />
 		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
 		<ProjectReference Include="..\Nox.Types\Nox.Types.csproj" />
 	</ItemGroup>
