@@ -13,33 +13,39 @@ namespace TestDatabaseWebApp.Domain;
 /// </summary>
 public partial class TestEntity : AuditableEntityBase
 {
+    
     /// <summary>
-    /// (Optional)
+    /// (Required)
     /// </summary>
     public Text Id { get; set; } = null!;
-
+    
     /// <summary>
     /// (Required)
     /// </summary>
     public Text TextTestField { get; set; } = null!;
-
+    
     /// <summary>
     /// (Required)
     /// </summary>
     public Number NumberTestField { get; set; } = null!;
-
+    
     /// <summary>
     /// (Optional)
     /// </summary>
     public Money? MoneyTestField { get; set; } = null!;
-
+    
     /// <summary>
     /// (Optional)
     /// </summary>
     public CountryCode2? CountryCode2TestField { get; set; } = null!;
-
+    
     /// <summary>
     /// (Optional)
     /// </summary>
     public StreetAddress? StreetAddressTestField { get; set; } = null!;
+    
+    /// <summary>
+    /// (Optional)
+    /// </summary>
+    public Area? AreaTestField { get; set; } = null!;
 }

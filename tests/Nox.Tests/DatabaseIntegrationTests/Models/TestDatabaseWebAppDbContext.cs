@@ -24,9 +24,11 @@ public partial class TestDatabaseWebAppDbContext : DbContext
         _noxSolution = noxSolution;
         _dbProvider = databaseProvider;
     }
-    
+
+
     public DbSet<TestEntity> TestEntities { get; set; } = null!;
-    
+
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
@@ -52,8 +54,6 @@ public partial class TestDatabaseWebAppDbContext : DbContext
                     ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity);
                 }
             }
-            
         }
     }
 }
-

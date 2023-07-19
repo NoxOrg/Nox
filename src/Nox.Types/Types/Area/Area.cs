@@ -1,4 +1,5 @@
 ﻿using Nox.Types.Common;
+using System;
 using System.Collections.Generic;
 
 namespace Nox.Types;
@@ -6,27 +7,29 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a Nox <see cref="Area"/> type and value object.
 /// </summary>
-public class Area : Measurement<Area, AreaUnit>
+public class Area : Measurement<Area, AreaUnit, AreaTypeOptions>
 {
-    private const long EarthsSurfaceAreaInSquareMeters = 510_072_000_000_000;
+    private AreaTypeOptions _areaTypeOptions = new();
 
     /// <summary>
     /// Creates a new instance of <see cref="Area"/> object in square meters.
     /// </summary>
     /// <param name="value">The value to create the <see cref="Area"/> with</param>
+    /// <param name="options">The type options to create the <see cref="Area"/> with</param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
-    public static Area FromSquareMeters(QuantityValue value)
-        => From(value);
+    public static Area FromSquareMeters(QuantityValue value, AreaTypeOptions? options = null)
+        => From(value, options ?? new());
 
     /// <summary>
     /// Creates a new instance of <see cref="Area"/> object in square feet.
     /// </summary>
     /// <param name="value">The value to create the <see cref="Area"/> with</param>
+    /// <param name="options">The type options to create the <see cref="Area"/> with</param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
-    public static Area FromSquareFeet(QuantityValue value)
-        => From(value, AreaUnit.SquareFoot);
+    public static Area FromSquareFeet(QuantityValue value, AreaTypeOptions? options = null)
+        => From(value, AreaUnit.SquareFoot, options ?? new());
 
     /// <summary>
     /// Creates a new instance of <see cref="Area"/> object in square meters.
