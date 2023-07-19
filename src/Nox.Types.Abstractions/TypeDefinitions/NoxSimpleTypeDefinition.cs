@@ -60,6 +60,9 @@ public class NoxSimpleTypeDefinition
 
     [IfEquals("Type", NoxType.DateTime)]
     public DateTimeTypeOptions? DateTimeTypeOptions { get; set; }
+    
+    [IfEquals("Type", NoxType.Image)]
+    public ImageTypeOptions? ImageTypeOptions { get; set; }
 
     [IfEquals("Type", NoxType.Time)]
     public TimeTypeOptions? TimeTypeOptions { get; set; }

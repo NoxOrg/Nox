@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using System.Text.Json;
 
 namespace Nox.Types.Tests.EntityFrameworkTests;
@@ -46,6 +46,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             DateTimeRange = DateTimeRange.From(new System.DateTime(2023, 01, 01), new System.DateTime(2023, 02, 01)),
             LongestHikingTrailInMeters = Length.From(390_000),
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
+            Flag = Image.From("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/320px-Flag_of_Switzerland.svg.png", "Switzerland Flag", 512),
             Date = Date.From(new System.DateTime(2023, 11, 25), new()),
             StreetAddress = streetAddress,
             StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress)),
@@ -99,6 +100,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Uri = Uri.From(Sample_Uri),
             Url = Url.From(Sample_Url),
             Date = Date.From(new System.DateTime(2023, 11, 25), new()),
+            Flag = Image.From("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/320px-Flag_of_Switzerland.svg.png", "Switzerland Flag", 512),
             LocalTimeZone = TimeZoneCode.From("CET"),
             StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress, new JsonSerializerOptions { WriteIndented = true })),
             IsLandLocked = Boolean.From(true),
@@ -154,7 +156,10 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.IsLandLocked.Value.Should().BeTrue();
         item.VolumeInCubicMeters.Value.Should().Be(89_000);
         item.VolumeInCubicMeters.Unit.Should().Be(VolumeUnit.CubicMeter);
-        Assert.Equal(19_000, item.WeightInKilograms.Value);
+        item.Flag.Url.Should().Be("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/320px-Flag_of_Switzerland.svg.png");
+        item.Flag.PrettyName.Should().Be("Switzerland Flag");
+        item.Flag.SizeInBytes.Should().Be(512);
+        item.WeightInKilograms.Value.Should().Be(19_000);
         item.WeightInKilograms.Unit.Should().Be(WeightUnit.Kilogram);
         item.HashedText.HashText.Should().Be(newItem.HashedText.HashText);
         item.HashedText.Salt.Should().Be(newItem.HashedText.Salt);

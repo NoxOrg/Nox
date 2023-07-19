@@ -1,4 +1,5 @@
-﻿// ReSharper disable once CheckNamespace
+// ReSharper disable once CheckNamespace
+
 using FluentAssertions;
 using System.Globalization;
 
@@ -66,7 +67,8 @@ public class VolumeTests
         var action = () => Volume.From(double.NaN);
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value NaN is not allowed.") });
+            .And.Errors.Should().BeEquivalentTo(new[]
+                { new ValidationFailure("Value", "Could not create a Nox type as value NaN is not allowed.") });
     }
 
     [Fact]
@@ -75,7 +77,8 @@ public class VolumeTests
         var action = () => Volume.From(double.PositiveInfinity);
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
+            .And.Errors.Should().BeEquivalentTo(new[]
+                { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
     }
 
     [Fact]
@@ -84,7 +87,8 @@ public class VolumeTests
         var action = () => Volume.From(double.NegativeInfinity);
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
+            .And.Errors.Should().BeEquivalentTo(new[]
+                { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
     }
 
     [Fact]

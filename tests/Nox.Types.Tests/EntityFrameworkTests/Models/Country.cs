@@ -164,4 +164,9 @@ public sealed class Country
     /// Gets or sets the AverageTemperature.
     /// </summary>
     public Temperature? AverageTemperatureInCelsius { get; set; } = null!;
+    
+    /// <summary>
+    /// Gets or sets the Flag.
+    /// </summary>
+    public Image Flag { get; set; } = null!;
 }
