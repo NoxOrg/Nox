@@ -89,19 +89,23 @@ public class TemperatureTests
         temperature.ToCelsius().Should().Be(25.05);
     }
 
-    [Fact]
-    public void TemperatureConversion_FahrenheitToCelsius_ReturnsCorrectValue()
+    [Theory]
+    [InlineData(87.89, 31.05)]
+    [InlineData(212, 100)]
+    public void TemperatureConversion_FahrenheitToCelsius_ReturnsCorrectValue(double temperatureFahrenheit, double temperatureCelsius)
     {
-        var temperature = Temperature.From(87.89, TemperatureUnit.Fahrenheit);
+        var temperatureObject = Temperature.From(temperatureFahrenheit, TemperatureUnit.Fahrenheit);
 
-        temperature.ToCelsius().Should().Be(31.05);
+        temperatureObject.ToCelsius().Should().Be(temperatureCelsius);
     }
 
-    [Fact]
-    public void TemperatureConversion_CelsiusToFahrenheit_ReturnsCorrectValue()
+    [Theory]
+    [InlineData(87.89, 31.05)]
+    [InlineData(212, 100)]
+    public void TemperatureConversion_CelsiusToFahrenheit_ReturnsCorrectValue(double temperatureFahrenheit, double temperatureCelsius)
     {
-        var temperature = Temperature.From(31.05, TemperatureUnit.Celsius);
+        var temperature = Temperature.From(temperatureCelsius, TemperatureUnit.Celsius);
 
-        temperature.ToFahrenheit().Should().Be(87.89);
+        temperature.ToFahrenheit().Should().Be(temperatureFahrenheit);
     }
 }
