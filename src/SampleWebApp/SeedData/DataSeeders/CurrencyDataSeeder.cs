@@ -20,7 +20,7 @@ internal class CurrencyDataSeeder : SampleDataSeederBase<CurrencyModel, Currency
             {
                 Id = Text.From(x.Id),
                 Name = Text.From(x.Name),
-                CreatedAtUtc = DateTime.Now
+                CreatedAtUtc = System.DateTime.Now
             }).ToList();
 
         return entities;

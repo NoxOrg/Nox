@@ -1,5 +1,3 @@
-using System;
-
 namespace Nox.Types;
 
 /// <summary>
@@ -54,7 +52,7 @@ public sealed class Year : ValueObject<ushort, Year>
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Year type a value {Value} is greater than the maximum specified value of {_yearTypeOptions.MaxValue}"));
         }
 
-        if (_yearTypeOptions.AllowFutureOnly && Value < DateTime.Now.Year)
+        if (_yearTypeOptions.AllowFutureOnly && Value < System.DateTime.Now.Year)
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Year type a value {Value} is less than the current year"));
         }

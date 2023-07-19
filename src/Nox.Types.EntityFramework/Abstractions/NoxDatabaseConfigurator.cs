@@ -1,8 +1,6 @@
-﻿using System.Diagnostics;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nox.Generator.Common;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
-using Nox.Types.EntityFramework.Types;
+using System.Diagnostics;
 
 namespace Nox.Types.EntityFramework.Abstractions
 {
@@ -12,7 +10,7 @@ namespace Nox.Types.EntityFramework.Abstractions
         protected readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesDatabaseConfigurations = new();
 
         /// <summary>
-        /// 
+        ///
         /// </summary>
         /// <param name="configurators">List of all loaded <see cref="INoxTypeDatabaseConfigurator"/></param>
         /// <param name="databaseProviderSpecificOverrides">Configurator type specific to database provider</param>
@@ -32,23 +30,42 @@ namespace Nox.Types.EntityFramework.Abstractions
             }
 
             // Override specific database provider configurators
-            foreach (var configurator in noxTypeDatabaseConfigurators)
+            foreach (var configurator in noxTypeDatabaseConfigurators.Where(databaseProviderSpecificOverrides.IsInstanceOfType))
             {
-                if (databaseProviderSpecificOverrides.IsInstanceOfType(configurator))
-                {
-                    TypesDatabaseConfigurations[configurator.ForNoxType] = configurator;
-                }
+                TypesDatabaseConfigurations[configurator.ForNoxType] = configurator;
             }
         }
 
-        public virtual void ConfigureEntity(NoxSolutionCodeGeneratorState codeGeneratorState, EntityTypeBuilder builder,
-            Entity entity)
+        public virtual void ConfigureEntity(
+            NoxSolutionCodeGeneratorState codeGeneratorState,
+            EntityTypeBuilder builder,
+            Entity entity,
+            IReadOnlyList<EntityRelationshipWithType> relationshipsToCreate)
         {
-            //TODO Relations
-
             ConfigureKeys(codeGeneratorState, builder, entity);
 
             ConfigureAttributes(codeGeneratorState, builder, entity);
+
+            ConfigureRelationships(codeGeneratorState, builder, entity, relationshipsToCreate);
+        }
+
+        public virtual void ConfigureRelationships(
+            NoxSolutionCodeGeneratorState codeGeneratorState,
+            EntityTypeBuilder builder,
+            Entity entity,
+            IReadOnlyList<EntityRelationshipWithType> relationshipsToCreate)
+        {
+            foreach (var relationshipToCreate in relationshipsToCreate)
+            {
+                if (relationshipToCreate.ShouldBeMapped)
+                {
+                    builder
+                        .HasMany(relationshipToCreate.RelationshipEntityType.FullName!, relationshipToCreate.Relationship.Related.Entity.PluralName)
+                        .WithMany(entity.PluralName);
+                }
+
+                builder.Ignore(relationshipToCreate.Relationship.Name);
+            }
         }
 
         private void ConfigureKeys(
@@ -89,7 +106,7 @@ namespace Nox.Types.EntityFramework.Abstractions
                 foreach (var property in entity.Attributes)
                 {
                     if (TypesDatabaseConfigurations.TryGetValue(property.Type,
-                            out var databaseConfiguration))
+                        out var databaseConfiguration))
                     {
                         databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity,
                             false);

@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Nox.Types;
+﻿namespace Nox.Types;
 
 internal class TypeValidation
 {

@@ -20,15 +20,19 @@ public partial class ODataConfiguration
         builder.EntitySet<CountryLocalNames>("CountryLocalNames");
         
         services.AddControllers()
-            .AddOData(options => options
-                .Select()
+            .AddOData(options => 
+            {
+                options.Select()
+                .EnableQueryFeatures(null)
                 .Filter()
                 .OrderBy()
                 .Count()
                 .Expand()
                 .SkipToken()
-                .SetMaxTop(100)
-                .AddRouteComponents("api", builder.GetEdmModel())
+                .SetMaxTop(100);
+                var routeOptions = options.AddRouteComponents("api", builder.GetEdmModel()).RouteOptions;
+                routeOptions.EnableKeyInParenthesis = false;
+            }
             );
     }
 }

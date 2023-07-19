@@ -176,17 +176,6 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
     #region Operators and Comparators
 
     /// <inheritdoc />
-    public override bool Equals(object? other)
-    {
-        if (other is QuantityValue qv)
-        {
-            return Equals(qv);
-        }
-
-        return false;
-    }
-
-    /// <inheritdoc />
     public override int GetHashCode()
     {
         if (IsDecimal)
@@ -197,6 +186,17 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
         {
             return _doubleValue.GetHashCode();
         }
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        if (obj is QuantityValue qv)
+        {
+            return Equals(qv);
+        }
+
+        return false;
     }
 
     /// <summary>

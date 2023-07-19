@@ -21,7 +21,7 @@ internal class StoreDataSeeder : SampleDataSeederBase<StoreModel, Store>
                 Id = Text.From(x.Id),
                 Name = Text.From(x.Name),
                 PhysicalMoney = Money.From(x.PhysicalMoney, CurrencyCode.USD),
-                CreatedAtUtc = DateTime.Now
+                CreatedAtUtc = System.DateTime.Now
             }).ToList();
 
         return entities;

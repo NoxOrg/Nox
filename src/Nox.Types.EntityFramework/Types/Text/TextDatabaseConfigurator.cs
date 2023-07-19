@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
@@ -12,7 +11,7 @@ public class TextDatabaseConfigurator : INoxTypeDatabaseConfigurator
     public virtual bool IsDefault => true;
 
     public void ConfigureEntityProperty(
-        NoxSolutionCodeGeneratorState codeGeneratorState,
+        NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
         EntityTypeBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
