@@ -3,6 +3,8 @@
 #nullable enable
 
 using Nox.Types;
+using System;
+using System.Collections.Generic;
 
 namespace TestWebApp.Domain;
 

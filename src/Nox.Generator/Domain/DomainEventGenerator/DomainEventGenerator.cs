@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
+using Nox.Solution;
 using Nox.Solution.Events;
 using System.Linq;
 using System.Reflection;

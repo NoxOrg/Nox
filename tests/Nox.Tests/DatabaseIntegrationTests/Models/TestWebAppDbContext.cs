@@ -3,7 +3,6 @@
 #nullable enable
 
 using Microsoft.EntityFrameworkCore;
-using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using System.Reflection;
