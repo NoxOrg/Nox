@@ -41,22 +41,22 @@ namespace Nox.Types.EntityFramework.Abstractions
             NoxSolutionCodeGeneratorState codeGeneratorState,
             EntityTypeBuilder builder,
             Entity entity,
-            IReadOnlyList<EntityRelationshipWithType> relationships)
+            IReadOnlyList<EntityRelationshipWithType> relationshipsToCreate)
         {
             ConfigureKeys(codeGeneratorState, builder, entity);
 
             ConfigureAttributes(codeGeneratorState, builder, entity);
 
-            ConfigureRelationships(codeGeneratorState, builder, entity, relationships);
+            ConfigureRelationships(codeGeneratorState, builder, entity, relationshipsToCreate);
         }
 
         public virtual void ConfigureRelationships(
             NoxSolutionCodeGeneratorState codeGeneratorState,
             EntityTypeBuilder builder,
             Entity entity,
-            IReadOnlyList<EntityRelationshipWithType> relationships)
+            IReadOnlyList<EntityRelationshipWithType> relationshipsToCreate)
         {
-            foreach (var relationshipToCreate in relationships)
+            foreach (var relationshipToCreate in relationshipsToCreate)
             {
                 if (relationshipToCreate.ShouldBeMapped)
                 {
