@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace Nox.Types;
+﻿namespace Nox.Types;
 
 public class DateTypeOptions: INoxTypeOptions
 {

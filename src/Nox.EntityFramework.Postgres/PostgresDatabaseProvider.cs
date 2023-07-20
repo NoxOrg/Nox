@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
-using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
 using Npgsql;
 
@@ -34,7 +33,7 @@ public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProv
         SetConnectionString(csb.ConnectionString);
 
         return optionsBuilder
-            .UseLazyLoadingProxies()
+            //.UseLazyLoadingProxies()
             .UseNpgsql(_connectionString, opts => { opts.MigrationsHistoryTable("MigrationsHistory", "migrations"); });
     }
 

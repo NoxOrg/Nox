@@ -26,7 +26,7 @@ public class NoxSecretsResolver: INoxSecretsResolver
         _isConfigured = true;
     }
 
-    public IReadOnlyDictionary<string, string?> Resolve(string[] keys)
+    public IReadOnlyDictionary<string, string?> Resolve(IReadOnlyList<string> keys)
     {
         if (!_isConfigured) throw new NoxSecretsException("Secrets resolver has not been configured. Please call the Configure method before attempting to resolve any secrets.");
         var result = new Dictionary<string, string?>();
@@ -49,7 +49,7 @@ public class NoxSecretsResolver: INoxSecretsResolver
         return result;
     }
 
-    private IReadOnlyDictionary<string, string?>? ResolveOrganizationSecrets(string[] keys)
+    private IReadOnlyDictionary<string, string?>? ResolveOrganizationSecrets(IReadOnlyList<string> keys)
     {
         if (_secretsConfig!.OrganizationSecretsServer != null)
         {
@@ -67,7 +67,7 @@ public class NoxSecretsResolver: INoxSecretsResolver
         return null;
     }
 
-    private IReadOnlyDictionary<string, string?>? ResolveSolutionSecrets(string[] keys)
+    private IReadOnlyDictionary<string, string?>? ResolveSolutionSecrets(IReadOnlyList<string> keys)
     {
         if (_secretsConfig!.SolutionSecretsServer != null)
         {

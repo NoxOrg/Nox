@@ -87,6 +87,17 @@ public class Country : SampleWebApp.Domain.AuditableEntityBase
     /// The top level internet domains regitered to the country (comma-delimited).
     /// </summary>
     public String? TopLevelDomains { get; set; } = default!;
+    
+    /// <summary>
+    /// accepts as legal tender.
+    /// </summary>
+    public List<Currency> CountryAcceptsCurrency { get; set; } = null!;
+    
+    /// <summary>
+    /// is also know as.
+    /// </summary>
+    [AutoExpand]
+    public List<CountryLocalNames> CountryLocalNames { get; set; } = null!;
 }
 
 /// <summary>
@@ -105,6 +116,11 @@ public class Currency : SampleWebApp.Domain.AuditableEntityBase
     /// The currency's name.
     /// </summary>
     public String Name { get; set; } = default!;
+    
+    /// <summary>
+    /// is legal tender for.
+    /// </summary>
+    public List<Country> CurrencyIsLegalTenderForCountry { get; set; } = null!;
 }
 
 /// <summary>

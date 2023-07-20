@@ -1,4 +1,3 @@
-using Nox.Abstractions;
 using Nox.Secrets.Abstractions;
 using VaultSharp;
 using VaultSharp.V1.AuthMethods.Token;
