@@ -13,7 +13,7 @@ public class UserSecretsResolver: ISecretsResolver
         _executingAssembly = executingAssembly;
     }
 
-    public IReadOnlyDictionary<string, string?> Resolve(string[] keys)
+    public IReadOnlyDictionary<string, string?> Resolve(IReadOnlyList<string> keys)
     {
         var configuration = new ConfigurationBuilder()
             .AddUserSecrets(_executingAssembly)

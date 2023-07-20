@@ -19,7 +19,7 @@ public class HashicorpSecretsResolver: ISecretsResolver
         _secretsServer = secretsServer;
     }
     
-    public IReadOnlyDictionary<string, string?> Resolve(string[] keys)
+    public IReadOnlyDictionary<string, string?> Resolve(IReadOnlyList<string> keys)
     {
         var unresolvedKeys = new List<string>();
         var ttl = TimeSpan.Zero;
