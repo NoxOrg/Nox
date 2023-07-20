@@ -77,10 +77,8 @@ namespace Nox.Tests.ProjectDependencies
 
         }
         [Fact]
-        public void Nox_Generator_DirectlyDependOn_mustbeEmpty()
+        public void Nox_GeneratortProjectsThatDirectlyDependOnn_MustOnlyLib()
         {
-            
-
             var projectDependencies = _fixture.ProjectDependencyGraph.GetProjectsThatDirectlyDependOnThisProject(_fixture.NoxGenerator.Id);
 
             using (new AssertionScope())
@@ -89,12 +87,11 @@ namespace Nox.Tests.ProjectDependencies
                 // Only test projects
                 foreach (var projectDependency in projectDependencies)
                 {
-                    var dependant = _fixture.Solution.Projects.Single(project => project.Id.Id == projectDependency.Id);
-                    //dependant.Name.Should().Contain("Test");
-                    //  Temp Nox.Lib still depends on generator
-                    if (!dependant.Name.Contains("Tests") || !dependant.Name.Contains("Nox.Lib"))
+                    var dependent = _fixture.Solution.Projects.Single(project => project.Id.Id == projectDependency.Id);
+                    
+                    if (!dependent.Name.Contains("Tests") || !dependent.Name.Contains("Nox.Lib"))
                     {
-
+                        Assert.Fail($"Project {dependent.Name} cannot depend on Nox.Generators");
                     }
                 }
             }
