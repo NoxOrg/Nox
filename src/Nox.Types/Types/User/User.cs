@@ -1,5 +1,4 @@
 ﻿using Nox.TypeOptions;
-using Nox.Enums;
 using System;
 
 namespace Nox.Types;
@@ -61,14 +60,14 @@ public sealed class User : ValueObject<string, User>
             if (validGuid != null && validEmail != null)
             {
                 if (!validGuid.Value! && !validEmail.Value!)
-        {
+                {
                     result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox User type {Value} as it is not a valid guid or email address."));
                 }
             }
             else if (validGuid != null && !validGuid.Value)
-                {
-                    result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox User type {Value} as it is not a valid Guid."));
-                }
+            {
+                result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox User type {Value} as it is not a valid Guid."));
+            }
             else if (validEmail != null && !validEmail.Value)
             {
                 result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox User type {Value} as it is not a valid email address."));
