@@ -78,7 +78,7 @@ public class Area : Measurement<Area, AreaUnit>
 
         if (!double.IsNaN((double)Value) && !double.IsInfinity((double)Value))
         {
-            var defaultUnit = Enumeration.ParseFromName<AreaUnit>(_areaTypeOptions.Unit.ToString());
+            var defaultUnit = Enumeration.FromName<AreaUnit>(_areaTypeOptions.Unit.ToString());
             var valueInDefaultUnit = GetMeasurementIn(defaultUnit);
 
             if(valueInDefaultUnit > _areaTypeOptions.MaxValue)
