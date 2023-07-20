@@ -8,4 +8,5 @@
 //  - sample.solution.nox.yaml
 //  - store.entity.nox.yaml
 //  - generator.nox.yaml
-// SUCCESS.
+// Errors ->
+//  - [YamlException] Property 'name' not found on type 'Nox.Solution.NoxSolutionBasicsOnly'.. Line 1, column 5.
