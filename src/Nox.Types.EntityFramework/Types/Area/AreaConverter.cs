@@ -2,11 +2,10 @@
 
 namespace Nox.Types.EntityFramework.Types;
 
-public class AreaToSquareMeterConverter : ValueConverter<Area, double>
+public class AreaConverter : ValueConverter<Area, double>
 {
-    public AreaToSquareMeterConverter() : base(area => (double)area.ToSquareMeters(), areaValue => Area.FromSquareMeters(areaValue, new())) { }
-}
-public class AreaToSquareFeetConverter : ValueConverter<Area, double>
-{
-    public AreaToSquareFeetConverter() : base(area => (double)area.ToSquareFeet(), areaValue => Area.FromSquareFeet(areaValue, new())) { }
+    /// <summary>
+    ///  For Area we always persist in double, no need to use a decimal for this type and that way we save some database storage.
+    /// </summary>
+    public AreaConverter() : base(area => (double)area.ToSquareMeters(), areaValue => Area.FromDatabase(areaValue)) { }
 }

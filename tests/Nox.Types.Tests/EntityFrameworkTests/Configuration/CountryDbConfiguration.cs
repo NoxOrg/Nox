@@ -15,7 +15,7 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.Name).IsRequired().HasMaxLength(255).HasConversion<TextConverter>();
         builder.Property(e => e.Population).HasConversion<NumberToInt32Converter>();
         builder.Property(e => e.CountryCode2).HasConversion<CountryCode2Converter>();
-        builder.Property(e => e.AreaInSqKm).HasConversion<AreaToSquareMeterConverter>();
+        builder.Property(e => e.AreaInSqKm).HasConversion<AreaConverter>();
         builder.Property(e => e.CultureCode).HasConversion<CultureCodeConverter>();
         builder.Property(e => e.CountryNumber).HasMaxLength(3).HasConversion<CountryNumberConverter>();
         builder.Property(e => e.MonthOfPeakTourism).HasConversion<MonthToByteConverter>();

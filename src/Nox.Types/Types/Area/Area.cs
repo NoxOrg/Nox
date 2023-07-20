@@ -7,7 +7,7 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a Nox <see cref="Area"/> type and value object.
 /// </summary>
-public class Area : Measurement<Area, AreaUnit>
+public class Area : Measurement<Area, AreaUnit> //ValueObject<(QuantityValue,AreaTypeUnit), Area>
 {
     private AreaTypeOptions _areaTypeOptions = new();
 
@@ -81,9 +81,9 @@ public class Area : Measurement<Area, AreaUnit>
             return result;
         }
 
-        if (!Enumeration.TryParseFromName<AreaUnit>(_areaTypeOptions.Unit.ToString(), out var defaultUnit))
+        if (!Enumeration.TryParseFromName<AreaUnit>(_areaTypeOptions.DefaultAreaUnit.ToString(), out var defaultUnit))
         {
-            result.Errors.Add(new ValidationFailure(nameof(AreaTypeOptions), $"Could not create a Nox Area type as options unit {_areaTypeOptions.Unit} is not supported."));
+            result.Errors.Add(new ValidationFailure(nameof(AreaTypeOptions), $"Could not create a Nox Area type as options unit {_areaTypeOptions.DefaultAreaUnit} is not supported."));
             return result;
         }
 
