@@ -9,7 +9,7 @@ public abstract class Measurement<TValueObject, TUnitType> : ValueObject<Quantit
 {
     private const int QuantityValueDecimalPrecision = 6;
 
-    public TUnitType Unit { get; private set; } = default!;
+    public TUnitType Unit { get; protected set; } = default!;
 
     protected Measurement() : base() { Value = 0; }
 
@@ -71,7 +71,7 @@ public abstract class Measurement<TValueObject, TUnitType> : ValueObject<Quantit
         return Round(conversion.Calculate(Value));
     }
 
-    private static QuantityValue Round(QuantityValue value)
+    protected static QuantityValue Round(QuantityValue value)
         => Math.Round((double)value, QuantityValueDecimalPrecision);
 
     protected abstract MeasurementConversion<TUnitType> ResolveUnitConversion(TUnitType sourceUnit, TUnitType targetUnit);

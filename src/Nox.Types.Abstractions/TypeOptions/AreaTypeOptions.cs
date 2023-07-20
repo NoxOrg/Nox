@@ -1,16 +1,9 @@
 ﻿namespace Nox.Types;
 
-public interface INoxMeasurementTypeOptions : INoxTypeOptions
-{
-    public double MinValue { get; set; }
-    public double MaxValue { get; set; }
-    public AreaTypeUnit Unit { get; set; }
-}
-
-public class AreaTypeOptions : INoxMeasurementTypeOptions
+public class AreaTypeOptions
 {
     private const double DefaultMinArea = 0;
-    private const double DefaultMaxArea = 510_072_000_000_000; // Earth's surface area
+    private const double DefaultMaxArea = 999_999_999_999_999;
     private const AreaTypeUnit DefaultAreaUnit = AreaTypeUnit.SquareMeter;
 
     public double MinValue { get; set; } = DefaultMinArea;

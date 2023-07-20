@@ -7,7 +7,7 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a Nox <see cref="Area"/> type and value object.
 /// </summary>
-public class Area : Measurement<Area, AreaUnit, AreaTypeOptions>
+public class Area : Measurement<Area, AreaUnit>
 {
     private AreaTypeOptions _areaTypeOptions = new();
 
@@ -19,7 +19,7 @@ public class Area : Measurement<Area, AreaUnit, AreaTypeOptions>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
     public static Area FromSquareMeters(QuantityValue value, AreaTypeOptions? options = null)
-        => From(value, options ?? new());
+        => From(value, AreaUnit.SquareMeter, options);
 
     /// <summary>
     /// Creates a new instance of <see cref="Area"/> object in square feet.
@@ -29,7 +29,7 @@ public class Area : Measurement<Area, AreaUnit, AreaTypeOptions>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
     public static Area FromSquareFeet(QuantityValue value, AreaTypeOptions? options = null)
-        => From(value, AreaUnit.SquareFoot, options ?? new());
+        => From(value, AreaUnit.SquareFoot, options);
 
     /// <summary>
     /// Creates a new instance of <see cref="Area"/> object in square meters.
@@ -38,7 +38,33 @@ public class Area : Measurement<Area, AreaUnit, AreaTypeOptions>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
     public new static Area From(QuantityValue value)
-        => From(value, AreaUnit.SquareMeter);
+        => FromSquareMeters(value);
+
+    /// <summary>
+    /// Creates a new instance of <see cref="Area"/> object with the specified <see cref="AreaUnit"/>.
+    /// </summary>
+    /// <param name="value">The value to create the <see cref="Area"/> with</param>
+    /// <param name="unit">The <see cref="AreaUnit"/> to create the <see cref="Area"/> with</param>
+    /// <returns></returns>
+    /// <exception cref="TypeValidationException"></exception>
+    public static Area From(QuantityValue value, AreaUnit unit, AreaTypeOptions? options = null)
+    {
+        var newObject = new Area
+        {
+            Value = Round(value),
+            Unit = unit,
+            _areaTypeOptions = options ?? new(),
+        };
+
+        var validationResult = newObject.Validate();
+
+        if (!validationResult.IsValid)
+        {
+            throw new TypeValidationException(validationResult.Errors);
+        }
+
+        return newObject;
+    }
 
     /// <summary>
     /// Validates a <see cref="Area"/> object.
@@ -48,18 +74,22 @@ public class Area : Measurement<Area, AreaUnit, AreaTypeOptions>
     /// </returns>
     internal override ValidationResult Validate()
     {
-        var result = Value.Validate();
+        var result = base.Validate();
 
         if (!double.IsNaN((double)Value) && !double.IsInfinity((double)Value))
         {
-            if (Value < 0)
+            var defaultUnit = Enumeration.ParseFromName<AreaUnit>(_areaTypeOptions.Unit.ToString());
+            var valueInDefaultUnit = GetMeasurementIn(defaultUnit);
+
+            if(valueInDefaultUnit > _areaTypeOptions.MaxValue)
             {
-                result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Area type as negative area value {Value} is not allowed."));
+                result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Area type as value {Value} {Unit} is greater than the specified maximum of {_areaTypeOptions.MaxValue} {defaultUnit}."));
             }
 
-            if (ToSquareMeters() > EarthsSurfaceAreaInSquareMeters)
+            if(Value >= 0 && valueInDefaultUnit < _areaTypeOptions.MinValue)
             {
-                result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Area type as value {Value} is greater than the surface area of the Earth."));
+                result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Area type as value {Value} {Unit} is lesser than the specified minimum of {_areaTypeOptions.MinValue} {defaultUnit}."));
+
             }
         }
 
