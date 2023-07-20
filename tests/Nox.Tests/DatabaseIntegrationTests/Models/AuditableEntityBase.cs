@@ -4,7 +4,7 @@
 
 using System;
 
-namespace TestDatabaseWebApp.Domain; 
+namespace TestWebApp.Domain; 
 
 public partial class AuditableEntityBase
 {

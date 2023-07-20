@@ -77,6 +77,6 @@ public class Area : Measurement<Area, AreaUnit, AreaTypeOptions>
         yield return new KeyValuePair<string, object>(nameof(Value), ToSquareMeters());
     }
 
-    protected override MeasurementConversionFactor<AreaUnit> ResolveUnitConversionFactor(AreaUnit sourceUnit, AreaUnit targetUnit)
-        => new AreaConversionFactor(sourceUnit, targetUnit);
+    protected override MeasurementConversion<AreaUnit> ResolveUnitConversion(AreaUnit sourceUnit, AreaUnit targetUnit)
+        => new AreaConversion(sourceUnit, targetUnit);
 }

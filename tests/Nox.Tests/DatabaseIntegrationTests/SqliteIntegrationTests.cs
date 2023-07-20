@@ -1,7 +1,7 @@
-﻿using System.Text.Json;
-using FluentAssertions;
+﻿using FluentAssertions;
+using Microsoft.EntityFrameworkCore;
 using Nox.Types;
-using TestDatabaseWebApp.Domain;
+using TestWebApp.Domain;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
 
@@ -56,7 +56,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var areaInSquareMeters = 198_090;
         var areaUnit = AreaUnit.SquareMeter;
 
-        var newItem = new TestEntity()
+        var newItem = new TestEntityForTypes()
         {
             Id = Text.From(text),
             TextTestField = Text.From(text),
@@ -66,13 +66,13 @@ public class SqliteIntegrationTests : SqliteTestBase
             StreetAddressTestField = StreetAddress.From(addressItem),
             AreaTestField = Area.FromSquareMeters(areaInSquareMeters),
         };
-        DbContext.TestEntities.Add(newItem);
+        DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
 
         // Force the recreation of DBContext and ensure we have fresh data from database
         RecreateDbContext();
 
-        var testEntity = DbContext.TestEntities.First();
+        var testEntity = DbContext.TestEntityForTypes.First();
 
         // TODO: make it work without .Value
         testEntity.Id.Value.Should().Be(text);
@@ -84,5 +84,71 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
         testEntity.AreaTestField!.Value.Should().Be(areaInSquareMeters);
         testEntity.AreaTestField!.Unit.Should().BeEquivalentTo(areaUnit);
+    }
+
+    [Fact]
+    public void GeneratedRelationship_Sqlite_ZeroOrMany_OneOrMany()
+    {
+        var text = "TestTextValue";
+
+        var newItem = new TestEntity()
+        {
+            Id = Text.From(text),
+            TextTestField = Text.From(text),
+        };
+        DbContext.TestEntities.Add(newItem);
+        DbContext.SaveChanges();
+
+        var newItem2 = new SecondTestEntity()
+        {
+            Id = Text.From(text),
+            TextTestField2 = Text.From(text),
+        };
+
+        newItem.SecondTestEntities.Add(newItem2);
+        DbContext.SecondTestEntities.Add(newItem2);
+        DbContext.SaveChanges();
+
+        // Force the recreation of DBContext and ensure we have fresh data from database
+        RecreateDbContext();
+
+        var testEntity = DbContext.TestEntities.Include(x => x.SecondTestEntities).First();
+        var secondTestEntity = DbContext.SecondTestEntities.Include(x => x.TestEntities).First();
+
+        Assert.NotEmpty(testEntity.SecondTestEntities);
+        Assert.NotEmpty(secondTestEntity.TestEntities);
+    }
+
+    [Fact]
+    public void GeneratedRelationship_Sqlite_OneOrMany_OneOrMany()
+    {
+        var text = "TestTextValue";
+
+        var newItem = new TestEntityOneOrMany()
+        {
+            Id = Text.From(text),
+            TextTestField = Text.From(text),
+        };
+        DbContext.TestEntityOneOrManies.Add(newItem);
+        DbContext.SaveChanges();
+
+        var newItem2 = new SecondTestEntityOneOrMany()
+        {
+            Id = Text.From(text),
+            TextTestField2 = Text.From(text),
+        };
+
+        newItem.SecondTestEntityOneOrManies.Add(newItem2);
+        DbContext.SecondTestEntityOneOrManies.Add(newItem2);
+        DbContext.SaveChanges();
+
+        // Force the recreation of DBContext and ensure we have fresh data from database
+        RecreateDbContext();
+
+        var testEntity = DbContext.TestEntityOneOrManies.Include(x => x.SecondTestEntityOneOrManies).First();
+        var secondTestEntity = DbContext.SecondTestEntityOneOrManies.Include(x => x.TestEntityOneOrManies).First();
+
+        Assert.NotEmpty(testEntity.SecondTestEntityOneOrManies);
+        Assert.NotEmpty(secondTestEntity.TestEntityOneOrManies);
     }
 }

@@ -1,7 +1,5 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using System.Text.Json;
-
-using System;
 
 namespace Nox.Types.Tests.EntityFrameworkTests;
 
@@ -14,13 +12,13 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
     [Fact]
     public async Task DatabaseIsAvailableAndCanBeConnectedTo()
     {
-        Assert.True(await DbContext.Database.CanConnectAsync());
+        (await DbContext.Database.CanConnectAsync()).Should().BeTrue();
     }
 
     [Fact]
     public void TableShouldGetCreated()
     {
-        Assert.False(DbContext.Countries!.Any());
+        DbContext.Countries!.Any().Should().BeFalse();
     }
 
     [Fact]
@@ -48,6 +46,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             DateTimeRange = DateTimeRange.From(new System.DateTime(2023, 01, 01), new System.DateTime(2023, 02, 01)),
             LongestHikingTrailInMeters = Length.From(390_000),
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
+            Flag = Image.From("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/320px-Flag_of_Switzerland.svg.png", "Switzerland Flag", 512),
             Date = Date.From(new System.DateTime(2023, 11, 25), new()),
             StreetAddress = streetAddress,
             StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress)),
@@ -61,6 +60,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             HashedText = HashedText.From("Test123."),
             ArabicName = TranslatedText.From((CultureCode.From("ar-SA"), "سوئٹزرلینڈ")),
+            CurrentTime = Time.From(07,55,33,250)
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -100,6 +100,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Uri = Uri.From(Sample_Uri),
             Url = Url.From(Sample_Url),
             Date = Date.From(new System.DateTime(2023, 11, 25), new()),
+            Flag = Image.From("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/320px-Flag_of_Switzerland.svg.png", "Switzerland Flag", 512),
             LocalTimeZone = TimeZoneCode.From("CET"),
             StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress, new JsonSerializerOptions { WriteIndented = true })),
             IsLandLocked = Boolean.From(true),
@@ -109,7 +110,9 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             WeightInKilograms = Weight.FromKilograms(19_000),
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             HashedText = HashedText.From(("Test123.", "salt")),
-            CreateDate = DateTime.From(new System.DateTime(2023, 01, 01))
+            CreateDate = DateTime.From(new System.DateTime(2023, 01, 01)),
+            CurrentTime = Time.From(11,35,50,375),
+            AverageTemperatureInCelsius = Temperature.FromCelsius(25)
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -121,47 +124,51 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
 
         var item = DbContext.Countries.First();
 
-        Assert.Equal(1, item.Id.Value);
-        Assert.Equal("Switzerland", item.Name.Value);
-        Assert.Equal(46.802496, item.LatLong.Latitude);
-        Assert.Equal(8.234392, item.LatLong.Longitude);
-        Assert.Equal(8_703_654, item.Population?.Value);
-        Assert.Equal("CHF", item.GrossDomesticProduct.CurrencyCode);
-        Assert.Equal(CurrencyCode.CHF, item.GrossDomesticProduct.Value.CurrencyCode);
-        Assert.Equal(717_341_603_000, item.GrossDomesticProduct.Amount);
-        Assert.Equal("CH", item.CountryCode2?.Value);
-        Assert.Equal(41_290_000, item.AreaInSqKm.Value);
-        Assert.Equal(AreaUnit.SquareMeter, item.AreaInSqKm.Unit);
-        Assert.Equal("de-CH", item.CultureCode.Value);
-        Assert.Equal(756, item.CountryNumber.Value);
-        Assert.Equal(7, item.MonthOfPeakTourism.Value);
-        Assert.Equal(129.522785, item.DistanceInKm.Value);
-        Assert.Equal(DistanceUnit.Kilometer, item.DistanceInKm.Unit);
-        Assert.Equal("admin.ch", item.InternetDomain.Value);
-        Assert.Equal("CHE", item.CountryCode3.Value);
-        Assert.Equal("102.129.143.255", item.IPAddress.Value);
-        Assert.Equal(new System.DateTime(2023, 02, 01), item.DateTimeRange.End);
-        Assert.Equal(new System.DateTime(2023, 01, 01), item.DateTimeRange.Start);
-        Assert.Equal(390_000, item.LongestHikingTrailInMeters.Value);
-        Assert.Equal(LengthUnit.Meter, item.LongestHikingTrailInMeters.Unit);
-        Assert.Equal("AED4322CCFEF", item.MACAddress.Value);
-        Assert.Equal(new System.DateTime(2023, 11, 25).Date, item.Date.Value);
-        Assert.Equal("CET", item.LocalTimeZone.Value);
-        Assert.Equal(Sample_Url, item.Url.Value.AbsoluteUri);
-        item.ArabicName.Phrase.Should().Be("سوئٹزرلینڈ");
-        item.ArabicName.CultureCode.Value.Should().Be("ar-SA");
-        Assert.True(item.IsLandLocked.Value);
-        Assert.Equal(89_000, item.VolumeInCubicMeters.Value);
-        Assert.Equal(VolumeUnit.CubicMeter, item.VolumeInCubicMeters.Unit);
-        Assert.Equal(19_000, item.WeightInKilograms.Value);
-        Assert.Equal(WeightUnit.Kilogram, item.WeightInKilograms.Unit);
-        Assert.Equal(newItem.HashedText.HashText, item.HashedText.HashText);
-        Assert.Equal(newItem.HashedText.Salt, item.HashedText.Salt);
-        Assert.Equal(DateTime.From(new System.DateTime(2023, 01, 01)), item.CreateDate);
+        item.Id.Value.Should().Be(1);
+        item.Name.Value.Should().Be("Switzerland");
+        item.LatLong.Latitude.Should().Be(46.802496);
+        item.LatLong.Longitude.Should().Be(8.234392);
+        item.Population?.Value.Should().Be(8_703_654);
+        item.GrossDomesticProduct.CurrencyCode.Should().Be("CHF");
+        item.GrossDomesticProduct.Value.CurrencyCode.Should().Be(CurrencyCode.CHF);
+        item.GrossDomesticProduct.Amount.Should().Be(717_341_603_000);
+        item.CountryCode2.Value.Should().Be("CH");
+        item.AreaInSqKm.Value.Should().Be(41_290_000);
+        item.AreaInSqKm.Unit.Should().Be(AreaUnit.SquareMeter);
+        item.CultureCode.Value.Should().Be("de-CH");
+        item.CountryNumber.Value.Should().Be(756);
+        item.MonthOfPeakTourism.Value.Should().Be(7);
+        item.DistanceInKm.Value.Should().Be(129.522785);
+        item.DistanceInKm.Unit.Should().Be(DistanceUnit.Kilometer);
+        item.InternetDomain.Value.Should().Be("admin.ch");
+        item.CountryCode3.Value.Should().Be("CHE");
+        item.IPAddress.Value.Should().Be("102.129.143.255");
+        item.DateTimeRange.Start.Should().Be(new System.DateTime(2023, 01, 01));
+        item.DateTimeRange.End.Should().Be(new System.DateTime(2023, 02, 01));
+        item.LongestHikingTrailInMeters.Value.Should().Be(390_000);
+        item.LongestHikingTrailInMeters.Unit.Should().Be(LengthUnit.Meter);
+        item.MACAddress.Value.Should().Be("AED4322CCFEF");
+        item.CurrentTime.Value.Ticks.Should().Be(417503750000);
+        item.Date.Value.Should().Be(new System.DateTime(2023, 11, 25).Date);
+        item.LocalTimeZone.Value.Should().Be("CET");
+        item.Uri.Value.AbsoluteUri.Should().Be(Sample_Uri);
+        item.Url.Value.AbsoluteUri.Should().Be(Sample_Url);
+        item.IsLandLocked.Value.Should().BeTrue();
+        item.VolumeInCubicMeters.Value.Should().Be(89_000);
+        item.VolumeInCubicMeters.Unit.Should().Be(VolumeUnit.CubicMeter);
+        item.Flag.Url.Should().Be("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/320px-Flag_of_Switzerland.svg.png");
+        item.Flag.PrettyName.Should().Be("Switzerland Flag");
+        item.Flag.SizeInBytes.Should().Be(512);
+        item.WeightInKilograms.Value.Should().Be(19_000);
+        item.WeightInKilograms.Unit.Should().Be(WeightUnit.Kilogram);
+        item.HashedText.HashText.Should().Be(newItem.HashedText.HashText);
+        item.HashedText.Salt.Should().Be(newItem.HashedText.Salt);
+        item.CreateDate.Should().Be(DateTime.From(new System.DateTime(2023, 01, 01)));
+        item.DateTimeDuration.Value.Should().Be(new TimeSpan(10, 5, 2, 1));
+        item.Nuid.Value.Should().Be(NuidDefinition.NuidValue);
+        Assert.Equal(newItem.AverageTemperatureInCelsius.Value, item.AverageTemperatureInCelsius?.Value);
+        Assert.Equal(newItem.AverageTemperatureInCelsius.Unit, item.AverageTemperatureInCelsius?.Unit);
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
-        Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
-        Assert.Equal(new TimeSpan(10, 5, 2, 1), item.DateTimeDuration.Value);
-        Assert.Equal(NuidDefinition.NuidValue, item.Nuid.Value);
         AssertStreetAddress(streetAddress, item.StreetAddress);
         Assert.Equal(JsonSerializer.Serialize(streetAddress), item.StreetAddressJson.Value);
     }
@@ -188,15 +195,15 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         var expectedAddressValue = expectedAddress.Value;
         var actualAddressValue = actualAddress.Value;
 
-        Assert.Equal(expectedAddressValue.AddressLine1, actualAddressValue.AddressLine1);
-        Assert.Equal(expectedAddressValue.AddressLine2, actualAddressValue.AddressLine2);
-        Assert.Equal(expectedAddressValue.Locality, actualAddressValue.Locality);
-        Assert.Equal(expectedAddressValue.Neighborhood, actualAddressValue.Neighborhood);
-        Assert.Equal(expectedAddressValue.PostalCode, actualAddressValue.PostalCode);
-        Assert.Equal(expectedAddressValue.AdministrativeArea1, actualAddressValue.AdministrativeArea1);
-        Assert.Equal(expectedAddressValue.AdministrativeArea2, actualAddressValue.AdministrativeArea2);
-        Assert.Equal(expectedAddressValue.Route, actualAddressValue.Route);
-        Assert.Equal(expectedAddressValue.StreetNumber, actualAddressValue.StreetNumber);
-        Assert.Equal(expectedAddressValue.CountryId.Value, actualAddressValue.CountryId.Value);
+        actualAddressValue.AddressLine1.Should().Be(expectedAddressValue.AddressLine1);
+        actualAddressValue.AddressLine2.Should().Be(expectedAddressValue.AddressLine2);
+        actualAddressValue.Locality.Should().Be(expectedAddressValue.Locality);
+        actualAddressValue.Neighborhood.Should().Be(expectedAddressValue.Neighborhood);
+        actualAddressValue.PostalCode.Should().Be(expectedAddressValue.PostalCode);
+        actualAddressValue.AdministrativeArea1.Should().Be(expectedAddressValue.AdministrativeArea1);
+        actualAddressValue.AdministrativeArea2.Should().Be(expectedAddressValue.AdministrativeArea2);
+        actualAddressValue.Route.Should().Be(expectedAddressValue.Route);
+        actualAddressValue.StreetNumber.Should().Be(expectedAddressValue.StreetNumber);
+        actualAddressValue.CountryId.Value.Should().Be(expectedAddressValue.CountryId.Value);
     }
 }

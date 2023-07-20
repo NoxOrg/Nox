@@ -36,6 +36,8 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.WeightInKilograms).HasConversion<WeightToKilogramsConverter>();
         builder.Property(e => e.Nuid).HasConversion<NuidConverter>();
         builder.Property(e => e.CreateDate).HasConversion<DateTimeConverter>();
+        builder.Property(e => e.CurrentTime).HasConversion<TimeConverter>();
+        builder.Property(e => e.AverageTemperatureInCelsius).HasConversion<TemperatureToCelsiusConverter>();
 
         // Configure Multi-value ValueObjects
         builder.OwnsOne(e => e.LatLong).Ignore(p => p.Value);
@@ -48,5 +50,6 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.OwnsOne(e => e.HashedText).Ignore(p => p.Value);
         builder.OwnsOne(e => e.ArabicName).Ignore(p => p.Value)
             .Property(x => x.CultureCode).HasConversion<CultureCodeConverter>();
+        builder.OwnsOne(e=>e.Flag).Ignore(p=>p.Value);
     }
 }

@@ -1,9 +1,5 @@
 ﻿using FluentAssertions;
-
-using Microsoft.VisualBasic;
-
 using System.Globalization;
-using System.Text.RegularExpressions;
 
 namespace Nox.Types.Tests.Types;
 
