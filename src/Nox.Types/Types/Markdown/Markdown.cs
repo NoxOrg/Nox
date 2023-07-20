@@ -1,9 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Text.RegularExpressions;
 
 namespace Nox.Types;
 
@@ -31,57 +28,63 @@ public sealed class Markdown : ValueObject<string, Markdown>
         return newObject;
     }
 
-    // TODO: user enum or array or dictionary instead of separate properties
-    public static readonly string BoldMbTag = "**";
-    public static readonly string ItalicMdTag = "*";
-    public static readonly char LineBreak = '\x0a';
-
-    private static readonly string BoldHtmlTag = "strong";
-    private static readonly string ItalicHtmlTag = "em";
-
-    private readonly Dictionary<string, string> HtmlTagEquivalent = new()
+    private readonly Dictionary<string, string> _htmlTag = new()
     {
         { "*", "em" },
+        { "_", "em" },
         { "**", "strong" },
+        { "__", "strong" },
     };
 
     /// <summary>
-    /// Converts Markdown text to Html based on CommonMarkdown specification.
-    /// <see href="https://spec.commonmark.org/0.30/"/>
+    /// Converts Markdown text to Html based on <a href="https://spec.commonmark.org/0.30/">CommonMarkdown</a> specification.
     /// </summary>
-    /// <returns>Html string parsed from </returns>
+    /// <remarks>Currently only supporting Italic (as "*" or "_") and Bold (as "**" or "__").</remarks>
+    /// <returns>Html string parsed from string with Markdown.</returns>
     public string ToHtml()
     {
-        // TODO: add <p> tag between empty lines
-        // TODO: it's not open tag it next char is empty
-        // TODO: it's not close tag it previous char is empty
-        List<(int Position, string MdTag, bool IsOpenTag)> tagList = new(); // TODO: change for Stack?
+        List<(int Position, string MdTag, bool IsOpenTag)> tagList = new();
+        (string MarkdownTag, string HtmlTag)? foundTag = null;
 
         // Iterate through string looking for Markdown tags and registering them in tagList
         for (int i = 0; i < Value.Length; i++)
         {
-            if (Value[i] == '*')
+            if (Value[i].ToString() == MarkdownTag.ItalicA)
             {
-                (string MdTag, string HtmlTag) currentFoundTag = (ItalicMdTag, ItalicHtmlTag);
+                foundTag = (MarkdownTag.ItalicA, _htmlTag[MarkdownTag.ItalicA]);
 
-                if (Value.Length > i + 1 && Value.Substring(i, BoldMbTag.Length) == BoldMbTag)
+                if (Value.Length > i + 1 && Value.Substring(i, MarkdownTag.BoldA.Length) == MarkdownTag.BoldA)
                 {
-                    currentFoundTag = (BoldMbTag, BoldHtmlTag);
+                    foundTag = (MarkdownTag.BoldA, _htmlTag[MarkdownTag.BoldA]);
                 }
+            }
 
-                if (tagList.Any() && HasPreviouslyOpenTag(tagList, currentFoundTag.MdTag))
+            if (Value[i].ToString() == MarkdownTag.ItalicU)
+            {
+                foundTag = (MarkdownTag.ItalicU, _htmlTag[MarkdownTag.ItalicU]);
+
+                if (Value.Length > i + 1 && Value.Substring(i, MarkdownTag.BoldU.Length) == MarkdownTag.BoldU)
+                {
+                    foundTag = (MarkdownTag.BoldU, _htmlTag[MarkdownTag.BoldU]);
+                }
+            }
+
+            if (foundTag != null)
+            {
+                if (tagList.Any() && HasPreviouslyOpenTag(tagList, foundTag.Value.MarkdownTag))
                 {
                     // Closing tag
-                    tagList.Add((i, currentFoundTag.MdTag, false));
+                    tagList.Add((i, foundTag.Value.MarkdownTag, false));
                 }
                 else
                 {
                     // Opening tag
-                    tagList.Add((i, currentFoundTag.MdTag, true));
+                    tagList.Add((i, foundTag.Value.MarkdownTag, true));
                 }
 
                 // Skip next characters that belong to current tag
-                i += Value.Length <= currentFoundTag.MdTag.Length - 1 ? Value.Length - 1 : currentFoundTag.MdTag.Length - 1;
+                i += Value.Length <= foundTag.Value.MarkdownTag.Length - 1 ? Value.Length - 1 : foundTag.Value.MarkdownTag.Length - 1;
+                foundTag = null;
             }
         }
 
@@ -94,17 +97,17 @@ public sealed class Markdown : ValueObject<string, Markdown>
             foreach (var tag in tagList)
             {
                 result.Append(Value[currentPosition..tag.Position]);
+
                 if (tag.IsOpenTag)
-                    result.Append($"<{HtmlTagEquivalent[tag.MdTag]}>"); // TODO: better logic?
+                    result.Append($"<{_htmlTag[tag.MdTag]}>");
                 else
-                    result.Append($"</{HtmlTagEquivalent[tag.MdTag]}>");
+                    result.Append($"</{_htmlTag[tag.MdTag]}>");
                 currentPosition = tag.Position + tag.MdTag.Length;
+
                 currentPosition = currentPosition >= Value.Length ? Value.Length - 1 : currentPosition;
             }
 
             result.Append(Value.Substring(tagList.Last().Position + tagList.Last().MdTag.Length)); // add remaining string after last tag
-
-            // TODO: what to do if there is an incomplete tag ?
 
             return result.ToString();
         }
@@ -113,11 +116,11 @@ public sealed class Markdown : ValueObject<string, Markdown>
     }
 
     /// <summary>
-    /// Iterate list in reverse looking for matching open tag
+    /// Iterate list in reverse looking for matching open tag.
     /// </summary>
     /// <param name="tagList">List to be searched.</param>
     /// <param name="tag">Tag to search for.</param>
-    /// <returns></returns>
+    /// <returns>False if there no matching tag in the list or has previously closing tag.</returns>
     private bool HasPreviouslyOpenTag(IList<(int Position, string MdTag, bool IsOpenTag)> tagList, string tag)
     {
         for (int i = tagList.Count - 1; i >= 0; i--)
