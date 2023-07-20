@@ -10,10 +10,10 @@
 
 	<PropertyGroup>
 		<PackageId>Nox.Lib</PackageId>
-		<Authors>Andre Sharpe,Jan Schutte</Authors>
+		<Authors>The Nox Factory</Authors>
 		<Description>Nox microservice library</Description>
 		<PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-		<Copyright>Copyright (c) Andre Sharpe 2022</Copyright>
+		<Copyright>Copyright (c) The Nox Factory 2022</Copyright>
 		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
@@ -34,6 +34,10 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="7.0.0" />
 		<PackageReference Include="Scrutor" Version="4.2.2" />
 		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
+		<PackageReference Include="AutoMapper" Version="12.0.1" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
+		<PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.0" />
+		<PackageReference Include="Microsoft.OData.ModelBuilder" Version="1.0.9" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -59,6 +63,7 @@
 		<None Update="tools\*.ps1" CopyToOutputDirectory="Always" Pack="true" PackagePath="" />
 		<None Include="$(OutputPath)\Nox.Generator.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
+	
 	<ItemGroup>
 		<Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\YamlDotNet.dll">
 			<Pack>true</Pack>
@@ -76,15 +81,55 @@
 			<Pack>true</Pack>
 			<PackagePath>analyzers\dotnet\cs</PackagePath>
 		</Content>
-    <Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\Humanizer.dll">
-      <Pack>true</Pack>
-      <PackagePath>analyzers\dotnet\cs</PackagePath>
-    </Content>
-		<Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\System.Text.Json.dll">
-			<Pack>true</Pack>
-			<PackagePath>analyzers\dotnet\cs</PackagePath>
+		<Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\Humanizer.dll">
+		  <Pack>true</Pack>
+		  <PackagePath>analyzers\dotnet\cs</PackagePath>
 		</Content>
-    <Content Include="$(OutputPath)\Nox.Types.dll">
+			<Content Include="..\..\src\Nox.Generator\bin\$(Configuration)\netstandard2.0\System.Text.Json.dll">
+				<Pack>true</Pack>
+				<PackagePath>analyzers\dotnet\cs</PackagePath>
+			</Content>
+		<Content Include="$(OutputPath)\Nox.Types.dll">
+				<Pack>true</Pack>
+				<PackagePath>lib\$(TargetFramework)</PackagePath>
+		</Content>
+		<Content Include="$(OutputPath)\Nox.Solution.dll">
+			<Pack>true</Pack>
+			<PackagePath>lib\$(TargetFramework)</PackagePath>
+		</Content>
+		<Content Include="$(OutputPath)\Nox.EntityFramework.Postgres.dll">
+			<Pack>true</Pack>
+			<PackagePath>lib\$(TargetFramework)</PackagePath>
+		</Content>
+		<Content Include="$(OutputPath)\Nox.EntityFramework.Sqlite.dll">
+			<Pack>true</Pack>
+			<PackagePath>lib\$(TargetFramework)</PackagePath>
+		</Content>
+		<Content Include="$(OutputPath)\Nox.EntityFramework.SqlServer.dll">
+			<Pack>true</Pack>
+			<PackagePath>lib\$(TargetFramework)</PackagePath>
+		</Content>
+		<Content Include="$(OutputPath)\Nox.Secrets.Azure.dll">
+			<Pack>true</Pack>
+			<PackagePath>lib\$(TargetFramework)</PackagePath>
+		</Content>
+		<Content Include="$(OutputPath)\Nox.Secrets.Hashicorp.dll">
+			<Pack>true</Pack>
+			<PackagePath>lib\$(TargetFramework)</PackagePath>
+		</Content>
+		<Content Include="$(OutputPath)\Nox.Secrets.dll">
+			<Pack>true</Pack>
+			<PackagePath>lib\$(TargetFramework)</PackagePath>
+		</Content>
+		<Content Include="$(OutputPath)\Nox.Abstractions.dll">
+			<Pack>true</Pack>
+			<PackagePath>lib\$(TargetFramework)</PackagePath>
+		</Content>
+		<Content Include="$(OutputPath)\Nox.Logging.dll">
+			<Pack>true</Pack>
+			<PackagePath>lib\$(TargetFramework)</PackagePath>
+		</Content>
+		<Content Include="$(OutputPath)\Nox.Monitoring.dll">
 			<Pack>true</Pack>
 			<PackagePath>lib\$(TargetFramework)</PackagePath>
 		</Content>

@@ -46,6 +46,6 @@ public class Weight : Measurement<Weight, WeightUnit>
         yield return new KeyValuePair<string, object>(nameof(Value), ToKilograms());
     }
 
-    protected override MeasurementConversionFactor<WeightUnit> ResolveUnitConversionFactor(WeightUnit sourceUnit, WeightUnit targetUnit)
-        => new WeightConversionFactor(sourceUnit, targetUnit);
+    protected override MeasurementConversion<WeightUnit> ResolveUnitConversion(WeightUnit sourceUnit, WeightUnit targetUnit)
+        => new WeightConversion(sourceUnit, targetUnit);
 }

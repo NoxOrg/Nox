@@ -1,6 +1,5 @@
 using System.Collections.Generic;
 using System.IO;
-using Nox.Solution.Exceptions;
 using YamlDotNet.RepresentationModel;
 
 namespace Nox.Solution.Macros;

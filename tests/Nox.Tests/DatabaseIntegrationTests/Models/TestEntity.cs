@@ -6,7 +6,7 @@ using Nox.Types;
 using System;
 using System.Collections.Generic;
 
-namespace TestDatabaseWebApp.Domain;
+namespace TestWebApp.Domain;
 
 /// <summary>
 /// Entity created for testing database.
@@ -25,22 +25,9 @@ public partial class TestEntity : AuditableEntityBase
     public Text TextTestField { get; set; } = null!;
     
     /// <summary>
-    /// (Required)
+    /// TestEntity Test entity relationship to SecondTestEntity OneOrMany SecondTestEntities
     /// </summary>
-    public Number NumberTestField { get; set; } = null!;
+    public virtual List<SecondTestEntity> SecondTestEntities { get; set; } = new List<SecondTestEntity>();
     
-    /// <summary>
-    /// (Optional)
-    /// </summary>
-    public Money? MoneyTestField { get; set; } = null!;
-    
-    /// <summary>
-    /// (Optional)
-    /// </summary>
-    public CountryCode2? CountryCode2TestField { get; set; } = null!;
-    
-    /// <summary>
-    /// (Optional)
-    /// </summary>
-    public StreetAddress? StreetAddressTestField { get; set; } = null!;
+    public List<SecondTestEntity> SecondTestEntityRelationship => SecondTestEntities;
 }

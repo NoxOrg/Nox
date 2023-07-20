@@ -9,7 +9,7 @@ using static Nox.Generator.Common.BaseGenerator;
 
 namespace Nox.Generator.Application.DtoGenerator;
 
-public class DtoGenerator
+internal static class DtoGenerator
 {
     public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
