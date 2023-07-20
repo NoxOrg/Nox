@@ -9,6 +9,7 @@ namespace Nox.Types;
 /// </summary>
 public class Yaml : ValueObject<string, Yaml>
 {
+    private static readonly IDeserializer Deserializer = new DeserializerBuilder().Build();
     /// <summary>
     /// Validates the YAML object and returns the validation result.
     /// </summary>
@@ -19,8 +20,7 @@ public class Yaml : ValueObject<string, Yaml>
 
         try
         {
-            var deserializer = new DeserializerBuilder().Build();
-            deserializer.Deserialize(new StringReader(Value));
+            Deserializer.Deserialize(new StringReader(Value));
         }
         catch (YamlException)
         {
@@ -29,7 +29,5 @@ public class Yaml : ValueObject<string, Yaml>
         }
 
         return result;
-
     }
-
 }

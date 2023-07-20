@@ -192,11 +192,6 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.DateTimeDuration.Value.Should().Be(new TimeSpan(10, 5, 2, 1));
         item.Nuid.Value.Should().Be(NuidDefinition.NuidValue);
         AssertStreetAddress(streetAddress, item.StreetAddress);
-        // Assert.Equal(newItem.AverageTemperatureInCelsius.Value, item.AverageTemperatureInCelsius?.Value);
-        // Assert.Equal(newItem.AverageTemperatureInCelsius.Unit, item.AverageTemperatureInCelsius?.Unit);
-        // Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
-        // Assert.Equal(JsonSerializer.Serialize(streetAddress), item.StreetAddressJson.Value);
-        // Assert.Equal(SwitzerlandCitiesCountiesYaml, item.CitiesCounties.Value);
         item.AverageTemperatureInCelsius?.Value.Should().Be(newItem.AverageTemperatureInCelsius.Value);
         item.AverageTemperatureInCelsius?.Unit.Should().Be(newItem.AverageTemperatureInCelsius.Unit);
         item.Uri.Value.AbsoluteUri.Should().Be(Sample_Uri);
