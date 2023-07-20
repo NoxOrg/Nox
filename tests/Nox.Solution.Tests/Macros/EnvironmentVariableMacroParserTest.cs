@@ -21,7 +21,7 @@ public class EnvironmentVariableMacroParserTest
 
         var noxConfig = new NoxSolutionBuilder()
             .UseYamlFile("./files/macros/sample.solution.nox.yaml")
-            .UseEnvironmentMacroParser(new EnvironmentVariableMacroParser(environmentProvider.Object))
+            .UseEnvironmentProvider(environmentProvider.Object)
             .Build();
 
         Assert.NotNull(noxConfig);
