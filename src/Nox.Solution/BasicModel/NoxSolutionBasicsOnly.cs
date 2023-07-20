@@ -9,7 +9,7 @@ namespace Nox.Solution;
 /// </summary>
 internal class NoxSolutionBasicsOnly : DefinitionBase
 {
-    public IReadOnlyDictionary<string, string>? Variables { get; internal set; }
+    public IReadOnlyDictionary<string, object>? Variables { get; internal set; }
 
     public InfrastructureBasicsOnly? Infrastructure { get; internal set; }
 }

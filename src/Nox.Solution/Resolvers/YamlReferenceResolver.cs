@@ -2,22 +2,14 @@
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Nox.Solution.Exceptions;
-using System.Linq;
 using System.IO;
 using System.Text;
-using System.Reflection;
-using System.Security.Cryptography.X509Certificates;
-using YamlDotNet.Serialization.NamingConventions;
-using YamlDotNet.Serialization;
+using System.Linq;
 
 namespace Nox.Solution;
 
 internal class YamlReferenceResolver
 {
-    private bool _isResolved = false;
-
-    private string _resolvedYaml = string.Empty;
-
     private readonly Regex _referenceRegex = new(@"\$ref\S*:\s*(?<fileref>[\w:\.\/\\]+\b[\w\-\.\/]+)\s*", RegexOptions.Compiled | RegexOptions.IgnoreCase, TimeSpan.FromSeconds(5));
 
     private readonly Regex _variableRegex = new Regex(@"\$\{\{\s*(?<type>[\w\.\-_:]+)\.(?<variable>[\w\.\-_:]+)\s*\}\}", RegexOptions.Compiled, TimeSpan.FromMilliseconds(10000));
@@ -26,12 +18,7 @@ internal class YamlReferenceResolver
 
     private IDictionary<string, Func<TextReader>> _filesAndContent;
 
-    private List<VariableInfo> _variables = new();
-    public IReadOnlyList<string> Variables(string type) => _variables
-        .Where(i => i.Type == type)
-        .Select(i => i.Name)
-        .Distinct()
-        .ToList();
+    public YamlResolverResult? Result { get; private set; }
 
     public YamlReferenceResolver(IDictionary<string,Func<TextReader>> filesAndContent, string rootKey)
     {
@@ -43,25 +30,23 @@ internal class YamlReferenceResolver
         _filesAndContent = filesAndContent;
 
         _rootKey = rootKey;
-
-        _isResolved = false;
     }
 
     public string ResolveReferences()
     {
-        if (_isResolved) return _resolvedYaml;
+        if (Result is not null) return Result.RefResolvedYaml;
 
         using var sourceLines = _filesAndContent[_rootKey].Invoke();
 
         var outputLines = ResolveReferencesInternal(sourceLines, _rootKey, true);
         
-        _resolvedYaml = outputLines.ToString();
+        var resolvedYaml = outputLines.ToString();
 
-        _isResolved = true;
+        var variables = ExtractVariablesIfExist(resolvedYaml);
 
-        ExtractVariablesIfExist();
+        Result = new YamlResolverResult(resolvedYaml, variables);
 
-        return _resolvedYaml;
+        return resolvedYaml;
     }
 
     private StringBuilder ResolveReferencesInternal(TextReader sourceLines, string sourceName, bool firstPass = false)
@@ -106,7 +91,7 @@ internal class YamlReferenceResolver
             var prefixPadding = string.Empty;
             var prefix = sourceLine.Substring(0, match.Index);
 
-            if (prefix.Contains('-')) prefixPadding = new string(' ', prefix.IndexOf('-'));
+            if (prefix.Contains("-")) prefixPadding = new string(' ', prefix.IndexOf('-'));
 
             var childPath = Path.GetFileName(match.Groups["fileref"].Value); // strip path from $ref
 
@@ -166,64 +151,58 @@ internal class YamlReferenceResolver
         return outputLines;
     }
 
-    private void ExtractVariablesIfExist()
+    private List<YamlVariableInfo> ExtractVariablesIfExist(string yaml)
     {
-        if (!_isResolved) throw new NoxSolutionConfigurationException("Variables can't be extracted before the yaml configuration is processed.");
+        var variableMatches = _variableRegex.Matches(yaml);
 
-        var variableMatches = _variableRegex.Matches(_resolvedYaml);
+        var variables = new List<YamlVariableInfo>();
 
         foreach(Match match in variableMatches) 
         {
-            _variables.Add( new VariableInfo(
+            variables.Add( new YamlVariableInfo(
                 type: match.Groups["type"].Value,
                 name: match.Groups["variable"].Value,
                 index: match.Index,
                 length: match.Value.Length
             ));
         }
+
+        return variables;
     }
 
-    public string ReplaceVariablesIfExist(IDictionary<string, string?> variableValues)
+    public IReadOnlyList<string> GetVariables(string type)
     {
-        if (!_isResolved ) throw new NoxSolutionConfigurationException("Variables can't be replaced before the yaml configuration is processed.");
+        if (Result is null) throw new NoxSolutionConfigurationException("Yaml is unresolved. Call 'ResolveReferences()' method first.");
 
-        if (!variableValues.Any()) return _resolvedYaml;
+        return Result.Variables(type);
+    }
 
-        var serializer = new SerializerBuilder().Build();
+    public string ResolveVariables(IDictionary<string,string?> variables)
+    {
+        if (Result is null) throw new NoxSolutionConfigurationException("Yaml is unresolved. Call 'ResolveReferences()' method first.");
 
-        var sb = new StringBuilder(_resolvedYaml);
-
-        foreach(var info in _variables.Select(i => i).Reverse()) 
+        // replace all variables conaining variable refs
+        foreach(var variable in variables) 
         {
-            var variableValue = variableValues[info.Name];
+            if (variable.Value is null) continue;
 
-            if (variableValue is null)
+            var matches = _variableRegex.Matches(variable.Value);
+
+            foreach (var match in matches.Cast<Match>())
             {
-                // Should probably terminate with:
-                // throw new NoxSolutionConfigurationException($"Variable [{info.Type}.{info.Name}] was not found or resolved.");
-                variableValue = string.Empty;
+                if (variables.TryGetValue(match.Groups["variable"].Value, out var variableValue))
+                {
+                    variables[variable.Key] = _variableRegex.Replace(variable.Value,
+                        variableValue ?? string.Empty, 1);
+                }
+                else
+                {
+                    throw new NoxSolutionConfigurationException($"Variable [{match.Groups["variable"].Value}] was not found or resolved.");
+                }
             }
-
-            sb.Remove(info.Index, info.Length);
-            sb.Insert(info.Index, serializer.Serialize(variableValue));
         }
 
-        return sb.ToString();
+        return Result.ReplaceVariables(variables);
     }
 
-    private class VariableInfo
-    {
-        public string Type { get; }
-        public string Name { get; }
-        public int Index { get; }
-        public int Length { get; }
-
-        public VariableInfo(string type, string name, int index, int length)
-        {
-            Type = type;
-            Name = name;
-            Index = index;
-            Length = length;
-        }
-    }
 }

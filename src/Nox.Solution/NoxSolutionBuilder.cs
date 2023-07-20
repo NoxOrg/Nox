@@ -148,10 +148,15 @@ namespace Nox.Solution
             var variables = new Dictionary<string, string?>();
 
             // Resolve Secrets
-            var secretVariables = yamlResolver.Variables("secrets");
+            var secretVariables = yamlResolver.GetVariables("secrets");
 
-            if (secretVariables.Any() && secretsConfig is not null)
+            if (secretVariables.Any())
             {
+                if (secretsConfig is null)
+                {
+                    throw new NoxSolutionConfigurationException("The solution yaml references secrets but no secrets provider is defined in Infrastructure.Security.Secrets.");
+                }
+
                 var resolveSecretsArgs = new NoxSolutionSecretsEventArgs(secretsConfig, secretVariables);
  
                 OnResolveSecretsEvent?.Invoke(this, resolveSecretsArgs);
@@ -162,7 +167,7 @@ namespace Nox.Solution
             }
 
             // Resolve variables
-            var envVariables = yamlResolver.Variables("env");
+            var envVariables = yamlResolver.GetVariables("env");
             
             if (envVariables.Any())
             {
@@ -172,7 +177,7 @@ namespace Nox.Solution
             }
 
             // Replace Variables
-            yaml = yamlResolver.ReplaceVariablesIfExist(variables);
+            yaml = yamlResolver.ResolveVariables(variables);
 
             // Validate and deserialize
             var config = NoxSchemaValidator.Deserialize<NoxSolution>(yaml);

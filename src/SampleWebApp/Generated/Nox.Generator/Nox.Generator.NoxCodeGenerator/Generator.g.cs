@@ -9,4 +9,4 @@
 //  - store.entity.nox.yaml
 //  - generator.nox.yaml
 // Errors ->
-//  - [YamlException] Property 'name' not found on type 'Nox.Solution.NoxSolutionBasicsOnly'.. Line 1, column 5.
+//  - The given key was not present in the dictionary.

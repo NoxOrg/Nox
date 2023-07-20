@@ -18,7 +18,7 @@ public class EnvironmentVariableValueProvider
 
     public IReadOnlyDictionary<string, string?> Resolve(
         IReadOnlyList<string> variables, 
-        IReadOnlyDictionary<string,string>? defaults = null)
+        IReadOnlyDictionary<string,object>? defaults = null)
     {
         var values = new Dictionary<string, string?> ();
 
@@ -30,7 +30,7 @@ public class EnvironmentVariableValueProvider
                 && defaults is not null 
                 && defaults.ContainsKey(variableName))
             {
-                environmentValue = defaults[variableName];
+                environmentValue = defaults[variableName].ToString();
             }
             values[variableName] = environmentValue;
         }
