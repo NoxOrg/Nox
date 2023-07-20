@@ -3,7 +3,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using Nox.Integration.Constants;
 using Nox.Integration.Exceptions;
-using Nox.Solution;
 
 namespace Nox.Integration.Store;
 
@@ -20,103 +19,76 @@ public class StoreService: IStoreService
         _dbContext = dbContext;
     }
 
-    public async Task<int> ConfigureIntegrationAsync(Solution.Integration definition, string[]? targetAttributes)
+    public async Task<int> ConfigureIntegrationAsync(Solution.Integration definition, IReadOnlyList<string>? targetAttributes)
     {
-        var integration = await _dbContext.Integrations!.FirstOrDefaultAsync(i => i.Name.Equals(definition.Name, StringComparison.OrdinalIgnoreCase));
-        if (integration == null)
+        try
         {
-            integration = new Integration
+            var jsonDef = JsonSerializer.Serialize(definition);
+            var integration = await _dbContext
+                .Integrations!
+                .Include(i => i.MergeStates)
+                .FirstOrDefaultAsync(i => i.Name.Equals(definition.Name));
+            if (integration == null)
             {
-                Name = integration!.Name,
-                Definition = JsonSerializer.Serialize(definition),
-                CreatedOn = DateTime.Now,
-                MergeStates = new List<MergeState>()
-            };
-            await _dbContext.Integrations!.AddAsync(integration);
-            
+                integration = new Integration
+                {
+                    Name = definition.Name,
+                    Definition = jsonDef,
+                    CreatedOn = DateTime.Now,
+                    MergeStates = new List<MergeState>(),
+                };
+                await _dbContext.Integrations!.AddAsync(integration);
+            }
+            else
+            {
+                if (integration.Definition != jsonDef)
+                {
+                    integration.Definition = jsonDef;
+                    integration.UpdatedOn = DateTime.Now;
+                }
+            }
+
             bool addedMergeColumns = false;
 
             var mergeColumns = GetEntityMergeColumns(definition, targetAttributes);
             if (mergeColumns != null)
             {
                 addedMergeColumns = true;
-                foreach (var mergeColumn in mergeColumns)
-                {
-                    integration.MergeStates.Add(new MergeState
-                    {
-                        Property = mergeColumn,
-                        LastDateLoadedUtc = IntegrationConstants.MinSqlDate,
-                        Updated = false
-                    });
-                }
+                AddEntityMergeState(integration, mergeColumns);
             }
 
             if (!addedMergeColumns)
             {
-                integration.MergeStates.Add(new MergeState
-                {
-                    Property = IntegrationConstants.DefaultMergeProperty,
-                    LastDateLoadedUtc = IntegrationConstants.MinSqlDate,
-                    Updated = false
-                });
+                AddDefaultMergeState(integration);
             }
-        }
-        else
-        {
-            integration.UpdatedOn = DateTime.Now;
-            //Check if the merge columns are still valid
-            
-        }
 
-        await _dbContext.SaveChangesAsync();
-        return integration.Id;
+            await _dbContext.SaveChangesAsync();
+            return integration.Id;
+        }
+        catch(Exception ex)
+        {
+            throw new NoxIntegrationException($"Unable to configure the integration store for integration: {definition.Name}", ex);
+        }
     }
 
-    public async Task<IntegrationMergeStates> GetAllLastMergeDateTimeStampsAsync(int integrationId, Entity entity)
+    public async Task<IntegrationMergeStates> GetAllLastMergeDateTimeStampsAsync(int integrationId)
     {
-        var lastMergeDateTimeStampInfo = new IntegrationMergeStates();
+        var integration = await _dbContext.Integrations!.SingleAsync(i => i.Id == integrationId);
 
-        var addedMergeColumn = false;
+        var result = new IntegrationMergeStates();
 
-        var watermark = definition.Source!.Watermark!;
-        
-        if (watermark.DateColumns != null)
+        foreach (var mergeState in integration.MergeStates!)
         {
-            foreach (var dateColumn in watermark.DateColumns)
+            result.TryAdd(mergeState.Property, new IntegrationMergeState
             {
-                if (entity.Attributes!.Any(a => a.Name.Equals(dateColumn, StringComparison.InvariantCultureIgnoreCase)))
-                {
-                    addedMergeColumn = true;
-                    //TODO fix loadername
-                    var lastMergeDateTimeStamp = await GetLastMergeDateTimeStampAsync(definition.Name, dateColumn);
-
-                    lastMergeDateTimeStampInfo[dateColumn] = new IntegrationMergeState()
-                    {
-                        IntegrationName = definition.Name,
-                        Property = dateColumn,
-                        LastDateLoadedUtc = lastMergeDateTimeStamp,
-                    };
-                }
-            }
+                IntegrationName = integration.Name,
+                Property = mergeState.Property,
+                Updated = mergeState.Updated,
+                LastDateLoadedUtc = mergeState.LastDateLoadedUtc
+            });
         }
 
-        if (!addedMergeColumn)
-        {
-            var lastMergeDateTimeStamp = await GetLastMergeDateTimeStampAsync(definition.Name, IntegrationConstants.DefaultMergeProperty);
-            lastMergeDateTimeStampInfo[IntegrationConstants.DefaultMergeProperty] = new IntegrationMergeState
-            {
-                IntegrationName = definition.Name,
-                Property = IntegrationConstants.DefaultMergeProperty,
-                LastDateLoadedUtc = lastMergeDateTimeStamp,
-            };
-            await RemoveEntityMergeDateTimeStampsAsync(definition.Name);
-        }
-        else
-        {
-            await RemoveDefaultMergeDateTimeStampAsync(definition.Name);
-        }
-
-        return lastMergeDateTimeStampInfo;
+        return result;
     }
 
     public void UpdateMergeStates(IntegrationMergeStates lastMergeDateTimeStampInfo, IDictionary<string, object?> record)
@@ -155,7 +127,7 @@ public class StoreService: IStoreService
         }
     }
 
-    public void LogMergeAnalytics(int inserts, int updates, int unchanged, IntegrationMergeStates lastMergeDateTimeStampInfo)
+    public async Task LogMergeAnalytics(int integrationId, int inserts, int updates, int unchanged, IntegrationMergeStates lastMergeDateTimeStampInfo)
     {
         var lastMergeDateTimeStamp = DateTime.MinValue;
         
@@ -170,8 +142,7 @@ public class StoreService: IStoreService
         {
             if (unchanged > 0)
             {
-                _logger.LogInformation(
-                    "{nochanges} records found but no change found to merge, last merge at: {lastMergeDateTimeStamp}", unchanged, lastMergeDateTimeStamp);
+                _logger.LogInformation("{nochanges} records found but no change found to merge, last merge at: {lastMergeDateTimeStamp}", unchanged, lastMergeDateTimeStamp);
             }
             else
             {
@@ -183,74 +154,32 @@ public class StoreService: IStoreService
 
         var changes = lastMergeDateTimeStampInfo.Values
             .Where(v => v.Updated)
-            .Select(v => v.LastDateLoadedUtc);
+            .Select(v => v.LastDateLoadedUtc)
+            .ToList();
 
         if (changes.Any())
         {
             lastMergeDateTimeStamp = changes.Max();
         }
 
+        var integration = await _dbContext.Integrations!.SingleAsync(i => i.Id == integrationId);
+        integration.MergeAnalytics.Add(new MergeAnalytic
+        {
+            Inserts = inserts,
+            Updates = updates,
+            Unchanged = unchanged,
+            Timestamp = lastMergeDateTimeStamp
+        });
+
+        await _dbContext.SaveChangesAsync();
+        
+
         _logger.LogInformation("{inserts} records inserted, last merge at {lastMergeDateTimeStamp}", inserts, lastMergeDateTimeStamp);
 
         _logger.LogInformation("{updates} records updated, last merge at {lastMergeDateTimeStamp}", updates, lastMergeDateTimeStamp);
     }
 
-    private async Task<DateTime> GetLastMergeDateTimeStampAsync(string integrationName, string dateColumn)
-    {
-        try
-        {
-            var lastMergeDateTime = IntegrationConstants.MinSqlDate;
-            var integration = await _dbContext.Integrations!.FirstOrDefaultAsync(i => i.Name.Equals(integrationName, StringComparison.OrdinalIgnoreCase));
-            if (integration == null)
-            {
-                integration = new Integration
-                {
-                    Name = integrationName,
-                    Source = new Source
-                    {
-                        Name = 
-                    }
-                };
-                
-                await _dbContext.AddAsync(integration);
-            }
-            var mergeState = integration.Source!.MergeStates!.Single(ms => ms.Property.Equals(dateColumn, StringComparison.OrdinalIgnoreCase));
-            return lastMergeDateTime;
-        }
-        catch (Exception ex)
-        {
-            _logger.LogError(ex.ToString());
-            throw new NoxIntegrationException($"Error getting last merge date time for integration {integrationName}.", ex);
-        }
-    }
-    
-    private async Task RemoveDefaultMergeDateTimeStampAsync(string integrationName)
-    {
-        var integration = await _dbContext.Integrations!.SingleAsync(i => i.Name.Equals(integrationName, StringComparison.OrdinalIgnoreCase));
-        var defaultMergeState = integration.Source!.MergeStates!.FirstOrDefault(ms => ms.Property.Equals(IntegrationConstants.DefaultMergeProperty, StringComparison.OrdinalIgnoreCase));
-        if (defaultMergeState != null)
-        {
-            _dbContext.MergeStates!.Remove(defaultMergeState);
-            await _dbContext.SaveChangesAsync();
-        }
-    }
-    
-    private async Task RemoveEntityMergeDateTimeStampsAsync(string integrationName)
-    {
-        var integration = await _dbContext.Integrations!.SingleAsync(i => i.Name.Equals(integrationName, StringComparison.OrdinalIgnoreCase));
-        var entityMergeStates = integration
-            .Source!
-            .MergeStates!
-            .Where(ms => !ms.Property.Equals(IntegrationConstants.DefaultMergeProperty, StringComparison.OrdinalIgnoreCase))
-            .ToList();
-        if (entityMergeStates.Any())
-        {
-            _dbContext.MergeStates!.RemoveRange(entityMergeStates);
-            await _dbContext.SaveChangesAsync();
-        }
-    }
-
-    private List<string>? GetEntityMergeColumns(Solution.Integration definition, string[]? targetAttributes)
+    private List<string>? GetEntityMergeColumns(Solution.Integration definition, IReadOnlyList<string>? targetAttributes)
     {
         if (definition.Target!.EntityOptions == null ||
             definition.Target.EntityOptions.DateCompareColumns == null ||
@@ -260,5 +189,47 @@ public class StoreService: IStoreService
         var targetMergeColumns = definition.Target.EntityOptions.DateCompareColumns;
         var mergeColumns = targetMergeColumns.Intersect(targetAttributes).ToList();
         return mergeColumns.Any() ? mergeColumns : null;
+    }
+
+    private void AddDefaultMergeState(Integration integration)
+    {
+        //Remove any entity merge states
+        if (integration.MergeStates!.Any(ms => !ms.Property.Equals(IntegrationConstants.DefaultMergeProperty, StringComparison.OrdinalIgnoreCase)))
+        {
+            integration.MergeStates!.Clear();
+        }
+
+        //Add the default merge state
+        if (!integration.MergeStates!.Any(ms => ms.Property.Equals(IntegrationConstants.DefaultMergeProperty, StringComparison.OrdinalIgnoreCase)))
+        {
+            integration.MergeStates!.Add(new MergeState
+            {
+                Property = IntegrationConstants.DefaultMergeProperty,
+                LastDateLoadedUtc = IntegrationConstants.MinSqlDate,
+                Updated = false
+            });
+        }
+    }
+
+    private void AddEntityMergeState(Integration integration, List<string> mergeColumns)
+    {
+        //Remove the default mergse state
+        var defaultMergeColumn = integration.MergeStates!.FirstOrDefault(ms => ms.Property.Equals(IntegrationConstants.DefaultMergeProperty, StringComparison.OrdinalIgnoreCase));
+        if (defaultMergeColumn != null) integration.MergeStates!.Remove(defaultMergeColumn);
+        
+        //Add the entity merge states
+        foreach (var mergeColumn in mergeColumns)
+        {
+            var existingMergeColumn = integration.MergeStates!.FirstOrDefault(ms => ms.Property.Equals(mergeColumn, StringComparison.OrdinalIgnoreCase));
+            if (existingMergeColumn == null)
+            {
+                integration.MergeStates!.Add(new MergeState
+                {
+                    Property = mergeColumn,
+                    LastDateLoadedUtc = IntegrationConstants.MinSqlDate,
+                    Updated = false
+                });                
+            }
+        }
     }
 }

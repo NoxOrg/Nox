@@ -22,7 +22,7 @@ public static class NoxWebApplicationBuilderExtension
     private static void AddNoxServices(this IServiceCollection services)
     {
         services.AddNoxLib();
-        //services.AddSingleton<DbContextOptions<SampleWebAppDbContext>>();
+        services.AddSingleton<DbContextOptions<SampleWebAppDbContext>>();
         services.AddSingleton<INoxDatabaseConfigurator, SqlServerDatabaseProvider>();
         services.AddSingleton<INoxDatabaseProvider, SqlServerDatabaseProvider>();
         services.AddDbContext<SampleWebAppDbContext>();

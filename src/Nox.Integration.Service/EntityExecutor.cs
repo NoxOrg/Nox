@@ -6,6 +6,7 @@ using Nox.Integration.Abstractions;
 using Nox.Integration.Exceptions;
 using Nox.Integration.Store;
 using Nox.Solution;
+using Nox.Types;
 
 namespace Nox.Integration.Service;
 
@@ -38,15 +39,10 @@ public class EntityExecutor
     {
         try
         {
-            var lastMergeDateTimeStampInfo = await _storeService.GetAllLastMergeDateTimeStampsAsync(_definition, _entity);
-            var targetColumns =
-                Array.Empty<string>()
-                .Concat(_entity.Keys!
-                    .Select(k => k.Name))
-                .Concat(_entity.Attributes!
-                    .Select(a => a.Name))
-                //.Concat(entity.RelatedParents.Select(p => p + "Id"))
-                .ToArray();
+            var targetColumns = GetEntityAttributeNames();
+            var integrationId = await _storeService.ConfigureIntegrationAsync(_definition, targetColumns);
+            var lastMergeDateTimeStampInfo = await _storeService.GetAllLastMergeDateTimeStampsAsync(integrationId);
+            
             var destination = CreateEntityDestinationDestination();
             _source.DataFlowSource().LinkTo(destination);
             var postProcessDestination = new CustomDestination();
@@ -102,7 +98,7 @@ public class EntityExecutor
                 throw;
             }
 
-            _storeService.LogMergeAnalytics(inserts, updates, unchanged, lastMergeDateTimeStampInfo);
+            await _storeService.LogMergeAnalytics( integrationId, inserts, updates, unchanged, lastMergeDateTimeStampInfo);
         }
         catch (Exception ex)
         {
@@ -118,5 +114,13 @@ public class EntityExecutor
             CacheMode = ETLBox.DataFlow.Transformations.CacheMode.Partial,
             MergeMode = MergeMode.InsertsAndUpdates
         };
+    }
+
+    private IReadOnlyList<string> GetEntityAttributeNames()
+    {
+        var result = new List<string>();
+        result.AddRange(_entity.Keys!.Select(k => k.Name));
+        if (_entity.Attributes != null) result.AddRange(_entity.Attributes.Select(a => a.Name));
+        return result;
     }
 }

@@ -17,4 +17,6 @@ public class Integration
 
     public DateTime? UpdatedOn { get; set; }
     public virtual ICollection<MergeState>? MergeStates { get; set; }
+
+    public virtual ICollection<MergeAnalytic>? MergeAnalytics { get; set; }
 }
