@@ -199,6 +199,11 @@ public sealed class Country
     public Image Flag { get; set; } = null!;
 
     /// <summary>
+    /// Gets or sets the country's description.
+    /// </summary>
+    public Markdown Description { get; set; } = null!;
+
+    /// <summary>
     /// Gets or sets the country's webpage.
     /// </summary>
     public Html PageHtml { get; set; } = null!;
