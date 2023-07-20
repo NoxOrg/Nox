@@ -13,7 +13,7 @@ public class AreaTests
 
         typeOptions.MinValue.Should().Be(0);
         typeOptions.MaxValue.Should().Be(999_999_999_999_999);
-        typeOptions.Unit.Should().Be(AreaTypeUnit.SquareMeter);
+        typeOptions.DefaultAreaUnit.Should().Be(AreaTypeUnit.SquareMeter);
     }
 
     [Fact]
@@ -64,7 +64,7 @@ public class AreaTests
     [Fact]
     public void Area_Constructor_SpecifyingUnit_WithUnsupportedUnitInput_ThrowsException()
     {
-        var action = () => Area.From(12.5, AreaUnit.SquareMeter, new AreaTypeOptions { Unit = (AreaTypeUnit)1001 });
+        var action = () => Area.From(12.5, AreaUnit.SquareMeter, new AreaTypeOptions { DefaultAreaUnit = (AreaTypeUnit)1001 });
 
         action.Should().Throw<TypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("AreaTypeOptions", "Could not create a Nox Area type as options unit 1001 is not supported.") });

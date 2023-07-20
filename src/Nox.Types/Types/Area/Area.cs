@@ -29,7 +29,7 @@ public class Area : Measurement<Area, AreaUnit> //ValueObject<(QuantityValue,Are
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
     public static Area FromSquareFeet(QuantityValue value, AreaTypeOptions? options = null)
-        => From(value, AreaUnit.SquareFoot, options);
+        => From(value, options);
 
     /// <summary>
     /// Creates a new instance of <see cref="Area"/> object in square meters.
@@ -44,16 +44,16 @@ public class Area : Measurement<Area, AreaUnit> //ValueObject<(QuantityValue,Are
     /// Creates a new instance of <see cref="Area"/> object with the specified <see cref="AreaUnit"/>.
     /// </summary>
     /// <param name="value">The value to create the <see cref="Area"/> with</param>
-    /// <param name="unit">The <see cref="AreaUnit"/> to create the <see cref="Area"/> with</param>
+    /// <param name="options"></param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
-    public static Area From(QuantityValue value, AreaUnit unit, AreaTypeOptions? options = null)
+    public static Area From(QuantityValue value, AreaTypeOptions options)
     {
         var newObject = new Area
         {
             Value = Round(value),
-            Unit = unit,
-            _areaTypeOptions = options ?? new(),
+            Unit = options.DefaultAreaUnit == AreaTypeUnit.SquareFoot ? AreaUnit.SquareFoot : AreaUnit.SquareMeter,
+            _areaTypeOptions = options,
         };
 
         var validationResult = newObject.Validate();
