@@ -27,6 +27,7 @@
 	<ItemGroup>
 		<Compile Remove="Generated\**" />
 		<Content Include="Generated\**" />
+		<Compile Remove="Examples\ODataConfiguration.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -48,6 +49,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<PackageReference Include="AutoMapper" Version="12.0.1" />
+		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
 		<PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.8" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.8" />
@@ -60,6 +63,10 @@
 
 	<ItemGroup>
 		<Compile Remove="Controller_Sample.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Examples\" />
 	</ItemGroup>
 
 </Project>

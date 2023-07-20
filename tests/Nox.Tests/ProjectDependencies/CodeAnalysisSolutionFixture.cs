@@ -12,6 +12,7 @@ public class CodeAnalysisSolutionFixture : IAsyncLifetime
     public Microsoft.CodeAnalysis.Solution Solution { get; private set; } = null!;
     public ProjectDependencyGraph ProjectDependencyGraph { get; private set; } = null!;
 
+    public Project NoxTypesAbstractionsProject { get; private set; } = null!;
     public Project NoxTypesProject { get; private set; } = null!;
     public Project NoxSolutionNet7 { get; private set; } = null!;
     public Project NoxSolutionNetStd20 { get; private set; } = null!;
@@ -29,6 +30,7 @@ public class CodeAnalysisSolutionFixture : IAsyncLifetime
         ProjectDependencyGraph = Solution.GetProjectDependencyGraph();
 
         NoxTypesProject = Solution.Projects.Single(project => project.Name == "Nox.Types");
+        NoxTypesAbstractionsProject = Solution.Projects.Single(project => project.Name == "Nox.Types.Abstractions");
         NoxSolutionNet7 = Solution.Projects.Single(project => project.Name == "Nox.Solution(net7.0)");
         NoxSolutionNetStd20 = Solution.Projects.Single(project => project.Name == "Nox.Solution(netstandard2.0)");
         NoxGenerator = Solution.Projects.Single(project => project.Name == "Nox.Generator");

@@ -1,0 +1,22 @@
+[
+  {
+    "Id": "USD",
+    "Name": "US Dollar"
+  },
+  {
+    "Id": "UAH",
+    "Name": "Ukrainian Hryvna"
+  },
+  {
+    "Id": "EUR",
+    "Name": "Euro"
+  },
+  {
+    "Id": "GBP",
+    "Name": "British Pound Sterling"
+  },
+  {
+    "Id": "JPY",
+    "Name": "Japanese Yen"
+  }
+]

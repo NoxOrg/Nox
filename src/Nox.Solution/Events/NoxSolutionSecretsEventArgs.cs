@@ -5,14 +5,16 @@ namespace Nox.Solution.Events;
 
 public class NoxSolutionSecretsEventArgs: EventArgs, INoxSolutionSecretsEventArgs
 {
-    public NoxSolutionSecretsEventArgs(string yaml, Secrets? secretsConfiguration)
+    public NoxSolutionSecretsEventArgs(Secrets secretsConfig, IReadOnlyList<string> variables)
     {
-        Yaml = yaml;
-        SecretsConfiguration = secretsConfiguration;
+        SecretsConfig = secretsConfig;
+        Variables = variables;
     }
-    public string Yaml { get; }
-    
+
+    public Secrets SecretsConfig { get; }
+
+    public IReadOnlyList<string> Variables { get; }
+
     public IReadOnlyDictionary<string, string?>? Secrets { get; set; }
     
-    public Secrets? SecretsConfiguration { get; }
 }

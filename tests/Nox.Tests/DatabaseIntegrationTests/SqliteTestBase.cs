@@ -1,12 +1,11 @@
-﻿using System;
-using System.Reflection;
-using Microsoft.Data.Sqlite;
+﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.EntityFramework.Sqlite;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-using TestDatabaseWebApp.Infrastructure.Persistence;
+using System.Reflection;
+using TestWebApp.Infrastructure.Persistence;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
 
@@ -15,11 +14,10 @@ public abstract class SqliteTestBase : IDisposable
     private const string _inMemoryConnectionStringTemplate = "DataSource=:memory:";
     //private const string _inMemoryConnectionStringTemplate = @"DataSource=test_database_{0}.db";
     private static string _inMemoryConnectionString = string.Empty;
-    private const string _relativeTestSolutionFile = @"./DatabaseIntegrationTests/Design/test.solution.nox.yaml";
-    private static string _absoluteTestSolutionFile = string.Empty;
+    private const string _solutionFileAsEmbeddedResourceName = @"Nox.Tests.DatabaseIntegrationTests.Design.test.solution.nox.yaml";
     private readonly SqliteConnection _connection;
 
-    protected TestDatabaseWebAppDbContext DbContext;
+    protected TestWebAppDbContext DbContext;
     private readonly ServiceProvider _serviceProvider;
 
     protected SqliteTestBase()
@@ -31,28 +29,38 @@ public abstract class SqliteTestBase : IDisposable
 
         _serviceProvider = services.BuildServiceProvider();
 
-        // Save absolute path one time so during re-creation
-        // path won't change
-        _absoluteTestSolutionFile = Path.GetFullPath(_relativeTestSolutionFile);
-
 #pragma warning disable S3457 // Composite format strings should be used correctly
         _inMemoryConnectionString = string.Format(_inMemoryConnectionStringTemplate, DateTime.UtcNow.Ticks);
 #pragma warning restore S3457 // Composite format strings should be used correctly
         _connection = new SqliteConnection(_inMemoryConnectionString);
         _connection.Open();
-        DbContext = CreateDbContext(_connection,_serviceProvider);
+        DbContext = CreateDbContext(_connection, _serviceProvider);
     }
 
-    private static TestDatabaseWebAppDbContext CreateDbContext(SqliteConnection connection, IServiceProvider serviceProvider)
+    private static TestWebAppDbContext CreateDbContext(SqliteConnection connection, IServiceProvider serviceProvider)
     {
+        var solutionFileDictionary = new Dictionary<string, Func<TextReader>>
+        {
+            [_solutionFileAsEmbeddedResourceName] = () =>
+            {
+                var assembly = Assembly.GetExecutingAssembly();
+                using (Stream stream = assembly.GetManifestResourceStream(_solutionFileAsEmbeddedResourceName)!)
+                using (StreamReader reader = new StreamReader(stream!))
+                {
+                    string result = reader.ReadToEnd();
+                    return new StringReader(result);
+                }
+            }
+        };
+
         var databaseConfigurator = new SqliteDatabaseProvider(serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());
         var solution = new NoxSolutionBuilder()
-            .UseYamlFile(_absoluteTestSolutionFile)
+            .UseYamlFilesAndContent(solutionFileDictionary)
             .Build();
-        var options = new DbContextOptionsBuilder<TestDatabaseWebAppDbContext>()
+        var options = new DbContextOptionsBuilder<TestWebAppDbContext>()
             .UseSqlite(connection)
             .Options;
-        var dbContext = new TestDatabaseWebAppDbContext(options, solution, databaseConfigurator);
+        var dbContext = new TestWebAppDbContext(options, solution, databaseConfigurator, Assembly.GetExecutingAssembly());
         dbContext.Database.EnsureCreated();
         return dbContext;
     }

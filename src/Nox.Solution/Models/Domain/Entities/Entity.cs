@@ -1,4 +1,5 @@
-﻿using Nox.Solution.Schema;
+﻿using Nox.Types;
+using Nox.Types.Schema;
 using System.Collections.Generic;
 using Humanizer;
 using Nox.Solution.Events;
@@ -121,6 +122,7 @@ public class Entity : DefinitionBase
 
         if (Relationships is not null)
         {
+#pragma warning disable S3267 // Loops should be simplified with "LINQ" expressions
             foreach (var relationship in Relationships)
             {
                 if (relationship.Related.Entity?.Keys is not null)
@@ -133,6 +135,7 @@ public class Entity : DefinitionBase
                     }
                 }
             }
+#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
         }
     }
 

@@ -5,6 +5,8 @@ using Nox.Generator.Application.EventGenerator;
 using Nox.Generator.Common;
 using Nox.Generator.Domain.CqrsGenerators;
 using Nox.Generator.Domain.DomainEventGenerator;
+using Nox.Generator.Infrastructure.Persistence.DbContextGenerator;
+using Nox.Generator.Presentation.Api;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
@@ -12,11 +14,11 @@ using System.Collections.Immutable;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using Nox.Generator.Infrastructure.Persistence.DbContextGenerator;
+using System.Reflection;
+using Nox.Generator.Domain.ModelGenerator;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
-using Nox.Generator.Presentation.Api;
 
 namespace Nox.Generator;
 
@@ -30,7 +32,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
 #if DEBUG
         if (!Debugger.IsAttached)
         {
-          // Debugger.Launch(); 
+            //Debugger.Launch(); 
         }
 #endif
         // var compilation = context.CompilationProvider.Select((ctx,token) => ctx.GlobalNamespace);
@@ -58,7 +60,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
         {
             if (TryGetGeneratorConfig(noxYamls, out var generate) && TryGetNoxSolution(noxYamls, out var solution))
             {
-                var codeGeneratorState = new NoxSolutionCodeGeneratorState(solution);
+                var codeGeneratorState = new NoxSolutionCodeGeneratorState(solution, Assembly.GetEntryAssembly()!);
 
                 WebApplicationExtensionGenerator.Generate(context, solution, generate.Presentation);
                 

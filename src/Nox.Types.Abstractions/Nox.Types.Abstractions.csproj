@@ -1,0 +1,42 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <RootNamespace>Nox</RootNamespace>
+  </PropertyGroup>
+
+  <PropertyGroup>
+    <PackageId>Nox.Types.Abstractions</PackageId>
+    <Authors>The Nox Factory</Authors>
+    <Description>Nox types library</Description>
+    <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
+    <Copyright>Copyright (c) The Nox Factory 2023</Copyright>
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <PackageProjectUrl>https://github.com/NoxOrg/Nox</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/NoxOrg/Nox.Types.git</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageIcon>nox.png</PackageIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="Nox.Types" />
+    <InternalsVisibleTo Include="Nox.Types.Tests" />
+    <InternalsVisibleTo Include="Nox.Solution" />
+  </ItemGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+</Project>

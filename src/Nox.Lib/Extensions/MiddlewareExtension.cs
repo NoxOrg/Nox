@@ -9,7 +9,7 @@ public static class MiddlewareExtension
 {
     public static void UseNox(this IApplicationBuilder builder)
     {
-        NoxSolution noxSolution = (builder.ApplicationServices.GetRequiredService(typeof(NoxSolution)) as NoxSolution)!;
+        NoxSolution noxSolution = builder.ApplicationServices.GetRequiredService<NoxSolution>();
         builder.UseMonitoring(noxSolution);
     }
 }

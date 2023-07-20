@@ -4,6 +4,7 @@ using System.Linq;
 using System.Collections.Generic;
 using YamlDotNet.Serialization;
 using Nox.Solution.Extensions;
+using Nox.Types.Schema;
 
 namespace Nox.Solution.Schema;
 

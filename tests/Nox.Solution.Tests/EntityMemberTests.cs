@@ -1,5 +1,4 @@
 ﻿using FluentAssertions;
-using Nox.Types;
 
 namespace Nox.Solution.Tests;
 
