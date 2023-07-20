@@ -76,21 +76,28 @@ public class Area : Measurement<Area, AreaUnit>
     {
         var result = base.Validate();
 
-        if (!double.IsNaN((double)Value) && !double.IsInfinity((double)Value))
+        if (double.IsNaN((double)Value) || double.IsInfinity((double)Value))
         {
-            var defaultUnit = Enumeration.FromName<AreaUnit>(_areaTypeOptions.Unit.ToString());
-            var valueInDefaultUnit = GetMeasurementIn(defaultUnit);
+            return result;
+        }
 
-            if(valueInDefaultUnit > _areaTypeOptions.MaxValue)
-            {
-                result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Area type as value {Value} {Unit} is greater than the specified maximum of {_areaTypeOptions.MaxValue} {defaultUnit}."));
-            }
+        if (!Enumeration.TryParseFromName<AreaUnit>(_areaTypeOptions.Unit.ToString(), out var defaultUnit))
+        {
+            result.Errors.Add(new ValidationFailure(nameof(AreaTypeOptions), $"Could not create a Nox Area type as options unit {_areaTypeOptions.Unit} is not supported."));
+            return result;
+        }
 
-            if(Value >= 0 && valueInDefaultUnit < _areaTypeOptions.MinValue)
-            {
-                result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Area type as value {Value} {Unit} is lesser than the specified minimum of {_areaTypeOptions.MinValue} {defaultUnit}."));
+        var valueInDefaultUnit = GetMeasurementIn(defaultUnit);
 
-            }
+        if (valueInDefaultUnit > _areaTypeOptions.MaxValue)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Area type as value {Value} {Unit} is greater than the specified maximum of {_areaTypeOptions.MaxValue} {defaultUnit}."));
+        }
+
+        if (Value >= 0 && valueInDefaultUnit < _areaTypeOptions.MinValue)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Area type as value {Value} {Unit} is lesser than the specified minimum of {_areaTypeOptions.MinValue} {defaultUnit}."));
+
         }
 
         return result;
