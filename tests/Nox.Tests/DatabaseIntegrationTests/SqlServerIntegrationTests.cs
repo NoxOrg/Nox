@@ -15,6 +15,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var money = 10;
         var currencyCode = CurrencyCode.UAH;
         var countryCode2 = "UA";
+        var jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
         var newItem = new TestEntityForTypes()
         {
@@ -22,7 +23,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             TextTestField = Text.From(text),
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
-            CountryCode2TestField = CountryCode2.From(countryCode2)
+            CountryCode2TestField = CountryCode2.From(countryCode2),
+            JwtTokenTestField = JwtToken.From(jwtToken),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -39,5 +41,6 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.MoneyTestField!.Value.Amount.Should().Be(money);
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
+        testEntity.JwtTokenTestField.Value.Should().Be(jwtToken);
     }
 }

@@ -229,8 +229,14 @@ domain:
 
         - name: CountryCode2TestField
           type: countryCode2
+
         - name: StreetAddressTestField
           type: streetAddress
+
+        - name: JwtTokenTestField
+          type: jwtToken
+          isRequired: true
+
         #- name: GeoCoordTestField
         #  type: latLong
 

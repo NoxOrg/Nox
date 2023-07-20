@@ -52,7 +52,9 @@ public class SqliteIntegrationTests : SqliteTestBase
             AddressLine1 = "AddressLine1",
             CountryId = CountryCode2.From("UA"),
             PostalCode = "61135"
-        };
+        }; 
+        var jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+
 
         var newItem = new TestEntityForTypes()
         {
@@ -61,9 +63,11 @@ public class SqliteIntegrationTests : SqliteTestBase
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
-            StreetAddressTestField = StreetAddress.From(addressItem)
+            StreetAddressTestField = StreetAddress.From(addressItem),
+            JwtTokenTestField = JwtToken.From(jwtToken),
         };
-        DbContext.TestEntityForTypes.Add(newItem);
+
+        DbContext.TestEntityForTypes.Add(newItem2);
         DbContext.SaveChanges();
 
         // Force the recreation of DBContext and ensure we have fresh data from database
@@ -74,11 +78,12 @@ public class SqliteIntegrationTests : SqliteTestBase
         // TODO: make it work without .Value
         testEntity.Id.Value.Should().Be(text);
         testEntity.TextTestField.Value.Should().Be(text);
-        testEntity.NumberTestField.Value.Should().Be(number);
+        testEntity.NumberTestField.Value.Should().Be(12345);
         testEntity.MoneyTestField!.Value.Amount.Should().Be(money);
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
+        testEntity.JwtTokenTestField.Value.Should().Be(jwtToken);
     }
 
     [Fact]
