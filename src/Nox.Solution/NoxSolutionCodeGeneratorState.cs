@@ -49,7 +49,7 @@ public class NoxSolutionCodeGeneratorState
         return $"Nuid.From({idGetter})";
     }
 
-    // TODO: Extension methods  should be mover to common place
+    // TODO: Extension methods  should be moved to common place
     private static string ToLowerFirstChar(string input)
     {
         if (string.IsNullOrEmpty(input))
