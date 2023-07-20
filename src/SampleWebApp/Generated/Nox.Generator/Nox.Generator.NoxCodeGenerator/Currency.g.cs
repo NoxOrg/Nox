@@ -13,20 +13,21 @@ namespace SampleWebApp.Domain;
 /// </summary>
 public partial class Currency : AuditableEntityBase
 {
-
+    
     /// <summary>
-    /// The currency's primary key / identifier (Required).
+    /// The currency's primary key / identifier (required).
     /// </summary>
     public Text Id { get; set; } = null!;
-
+    
     /// <summary>
-    /// The currency's name (Required).
+    /// The currency's name (required).
     /// </summary>
     public Text Name { get; set; } = null!;
+    
     /// <summary>
     /// Currency is legal tender for ZeroOrMany Countries
     /// </summary>
-    public virtual List<Country> Countries { get; set; } = new();
+    public virtual List<Country> Countries { get; set; } = null!;
     
     public List<Country> CurrencyIsLegalTenderForCountry => Countries;
 }

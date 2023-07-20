@@ -13,7 +13,7 @@ public class ODataDbContext : DbContext
     
     
     /// <summary>
-    /// The Nox solution configuration.
+    /// The Nox sulution configuration.
     /// </summary>
     protected readonly NoxSolution _noxSolution;
     

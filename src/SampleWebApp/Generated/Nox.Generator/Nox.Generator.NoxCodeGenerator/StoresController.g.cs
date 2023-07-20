@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using SampleWebApp.Application;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
@@ -24,18 +23,11 @@ public partial class StoresController : ODataController
     /// </summary>
     protected readonly ODataDbContext _databaseContext;
     
-    /// <summary>
-    /// The Automapper.
-    /// </summary>
-    protected readonly IMapper _mapper;
-    
     public StoresController(
-        ODataDbContext databaseContext,
-        IMapper mapper
+        ODataDbContext databaseContext
     )
     {
         _databaseContext = databaseContext;
-        _mapper = mapper;
     }
     
     [EnableQuery]
@@ -44,7 +36,8 @@ public partial class StoresController : ODataController
         return Ok(_databaseContext.Stores);
     }
     
-    public ActionResult<Store> Get([FromRoute] String key)
+    [EnableQuery]
+    public ActionResult<Store> Get([FromRoute] string key)
     {
         var item = _databaseContext.Stores.SingleOrDefault(d => d.Id.Equals(key));
         
@@ -56,22 +49,18 @@ public partial class StoresController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post(StoreDto store)
+    public async Task<ActionResult> Post(Store store)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = _mapper.Map<Store>(store);
-        
-        entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
-        
-        _databaseContext.Stores.Add(entity);
+        _databaseContext.Stores.Add(store);
         
         await _databaseContext.SaveChangesAsync();
         
-        return Created(entity);
+        return Created(store);
     }
     
     public async Task<ActionResult> Put([FromRoute] string key, [FromBody] Store updatedStore)
@@ -107,21 +96,21 @@ public partial class StoresController : ODataController
         return Updated(updatedStore);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string store, [FromBody] Delta<Store> Id)
+    public async Task<ActionResult> Patch([FromRoute] string key, [FromBody] Delta<Store> store)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = await _databaseContext.Stores.FindAsync(store);
+        var entity = await _databaseContext.Stores.FindAsync(key);
         
         if (entity == null)
         {
             return NotFound();
         }
         
-        Id.Patch(entity);
+        store.Patch(entity);
         
         try
         {
@@ -129,7 +118,7 @@ public partial class StoresController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!StoreExists(store))
+            if (!StoreExists(key))
             {
                 return NotFound();
             }
@@ -142,14 +131,14 @@ public partial class StoresController : ODataController
         return Updated(entity);
     }
     
-    private bool StoreExists(string store)
+    private bool StoreExists(string key)
     {
-        return _databaseContext.Stores.Any(p => p.Id == store);
+        return _databaseContext.Stores.Any(p => p.Id == key);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] string Id)
+    public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var store = await _databaseContext.Stores.FindAsync(Id);
+        var store = await _databaseContext.Stores.FindAsync(key);
         if (store == null)
         {
             return NotFound();

@@ -24,6 +24,31 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
 
     public virtual {{key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
 
+    {{- else if key.Type == "Nuid" -}}
+
+    public {{key.Type}} {{key.Name}} 
+    {
+        get => {{CodeGeneratorPrivateFieldName key}} ?? {{CodeGeneratorNuidGetter key}};
+        private set 
+        {
+            var actualNuid = {{CodeGeneratorNuidGetter key}};
+            if (value is null)
+            {
+                {{CodeGeneratorPrivateFieldName key}} = actualNuid;
+            }
+            else if (value is not null && {{CodeGeneratorPrivateFieldName key}} is null)
+            {
+                {{CodeGeneratorPrivateFieldName key}} = value;
+            }
+            else if (value is not null && {{CodeGeneratorPrivateFieldName key}} is not null && {{CodeGeneratorPrivateFieldName key}} != value)
+            {
+                throw new InvalidOperationException("Nuid has diffrent value than it has been generated.");
+            }
+        }
+    }
+
+    private {{key.Type}} {{CodeGeneratorPrivateFieldName key}} = null!;    
+
     {{- else -}}
 
     public {{key.Type}} {{key.Name}} { get; set; } = null!; 

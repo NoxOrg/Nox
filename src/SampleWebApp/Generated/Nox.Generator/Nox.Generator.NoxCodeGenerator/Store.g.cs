@@ -13,19 +13,19 @@ namespace SampleWebApp.Domain;
 /// </summary>
 public partial class Store : AuditableEntityBase
 {
-
+    
     /// <summary>
-    /// Store Primary Key (Required).
+    /// Store Primary Key (required).
     /// </summary>
     public Text Id { get; set; } = null!;
-
+    
     /// <summary>
-    /// Store Name (Required).
+    /// Store Name (required).
     /// </summary>
     public Text Name { get; set; } = null!;
-
+    
     /// <summary>
-    /// Physical Money in the Physical Store (Required).
+    /// Physical Money in the Physical Store (required).
     /// </summary>
     public Money PhysicalMoney { get; set; } = null!;
 }

@@ -17,27 +17,28 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Nuid Id
-    {
-      get => _id ??= Nuid.From(string.Join(".", Name.Value.ToString(), FormalName.Value.ToString()));
-      private set
+    public Nuid Id 
         {
-            var actualNuid = Nuid.From(string.Join(".", Name.Value.ToString(), FormalName.Value.ToString()));
-            if (value is null)
+            get => _id ?? Nuid.From(string.Join(".", Name.Value.ToString(), FormalName.Value.ToString()));
+            private set 
             {
-                _id = actualNuid;
-            }
-            else if (value is not null && _id is null)
-            {
-                _id = value;
-            }
-            else if (value is not null && _id is not null && _id != value)
-            {
-                throw new InvalidOperationException("Nuid has diffrent value than it has been generated.");
+                var actualNuid = Nuid.From(string.Join(".", Name.Value.ToString(), FormalName.Value.ToString()));
+                if (value is null)
+                {
+                    _id = actualNuid;
+                }
+                else if (value is not null && _id is null)
+                {
+                    _id = value;
+                }
+                else if (value is not null && _id is not null && _id != value)
+                {
+                    throw new InvalidOperationException("Nuid has diffrent value than it has been generated.");
+                }
             }
         }
-    }
-    private Nuid? _id  = null;
+    
+        private Nuid _id = null!;
 
     /// <summary>
     /// The country's common name (Required).

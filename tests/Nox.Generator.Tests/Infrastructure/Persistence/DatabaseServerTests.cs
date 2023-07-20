@@ -50,7 +50,6 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
 
         var countryFileName = "Country.g.cs";
         Assert.True(generatedSources.Any(s => s.HintName == countryFileName), $"{countryFileName} not generated");
-
         Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/Country.expected.g.cs"), generatedSources.First(s => s.HintName == countryFileName).SourceText.ToString());
 
         var dbContextFileName = "SampleWebAppDbContext.g.cs";
