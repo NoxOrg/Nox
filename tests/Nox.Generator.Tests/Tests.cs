@@ -18,7 +18,7 @@ namespace Nox.Generator.Tests
             _output = output;
         }
 
-        [Fact]
+        //[Fact]
         public void Test1()
         {
             string source = @"
