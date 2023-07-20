@@ -231,6 +231,10 @@ domain:
           type: countryCode2
         - name: StreetAddressTestField
           type: streetAddress
+        
+        - name: CurrencyCode3TestField
+          type: currencyCode
+          
         #- name: GeoCoordTestField
         #  type: latLong
 

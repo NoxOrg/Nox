@@ -14,6 +14,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var number = 123;
         var money = 10;
         var currencyCode = CurrencyCode.UAH;
+        var currencyCode3 = "USD";
         var countryCode2 = "UA";
 
         var newItem = new TestEntityForTypes()
@@ -22,7 +23,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             TextTestField = Text.From(text),
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
-            CountryCode2TestField = CountryCode2.From(countryCode2)
+            CountryCode2TestField = CountryCode2.From(countryCode2),
+            CurrencyCode3TestField = CurrencyCode3.From(currencyCode3)
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -39,5 +41,6 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.MoneyTestField!.Value.Amount.Should().Be(money);
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
+        testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
     }
 }
