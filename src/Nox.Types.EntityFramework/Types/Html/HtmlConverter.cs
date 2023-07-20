@@ -4,5 +4,5 @@ namespace Nox.Types.EntityFramework.Types;
 
 public class HtmlConverter : ValueConverter<Html, string>
 {
-    public HtmlConverter() : base(uri => uri.Value, uriValue => Html.From(uriValue)) { }
+    public HtmlConverter() : base(html => html.Value, htmlValue => Html.From(htmlValue)) { }
 }
