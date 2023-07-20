@@ -135,7 +135,6 @@ public class Entity : DefinitionBase
                     yield return new(EntityMemberType.Relationship, foreignKey);
                 }
             }
-#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
         }
     }
 
