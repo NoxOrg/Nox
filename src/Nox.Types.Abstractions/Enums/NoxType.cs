@@ -167,7 +167,7 @@ public enum NoxType : uint
     [SimpleType(typeof(uint))]
     Nuid = 3304944825,
 
-    [SimpleType(typeof(uint))]
+    [SimpleType(typeof(NumberTypeComponentsDiscover))]
     Number = 4223714796,
 
     [SimpleType(typeof(string))]
