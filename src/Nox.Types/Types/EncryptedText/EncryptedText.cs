@@ -7,15 +7,15 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a Nox <see cref="EncryptedText"/> type and value object.
 /// </summary>
-public sealed class EncryptedText : ValueObject<string, EncryptedText>
+public sealed class EncryptedText : ValueObject<byte[], EncryptedText>
 {
     public EncryptedText()
     {
-        Value = "";
+        Value = new byte[] { };;
     }
 
     /// <inheritdoc cref="FromEncryptedString"/>
-    public new static EncryptedText From(string value) => FromEncryptedString(value);
+    public new static EncryptedText From(byte[] value) => FromEncryptedString(value);
 
     /// <summary>
     /// Creates an <see cref="EncryptedText"/> from a string using the provided <paramref name="typeOptions"/>.
@@ -42,12 +42,12 @@ public sealed class EncryptedText : ValueObject<string, EncryptedText>
     }
 
     /// <summary>
-    /// Creates an <see cref="EncryptedText"/> from encrypted data as base64 string.
+    /// Creates an <see cref="EncryptedText"/> from an encrypted data as byte array.
     /// </summary>
-    /// <param name="value">Encrypted data as base64 string.</param>
+    /// <param name="value">Encrypted data as byte array.</param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
-    public static EncryptedText FromEncryptedString(string value)
+    public static EncryptedText FromEncryptedString(byte[] value)
     {
         var newObject = new EncryptedText
         {
@@ -97,23 +97,23 @@ public sealed class EncryptedText : ValueObject<string, EncryptedText>
         return result;
     }
 
-    private static string EncryptText(string plainText, EncryptedTextTypeOptions encryptedTextTypeOptions)
+    private static byte[] EncryptText(string plainText, EncryptedTextTypeOptions encryptedTextTypeOptions)
     {
         switch (encryptedTextTypeOptions.EncryptionAlgorithm)
         {
             case EncryptionAlgorithm.Aes:
-                return Aes.EncryptStringToBase64(plainText, encryptedTextTypeOptions);
+                return Aes.EncryptStringToBytes(plainText, encryptedTextTypeOptions);
             default:
                 throw new NotImplementedException();
         }
     }
 
-    private static string DecryptText(string encryptedText, EncryptedTextTypeOptions encryptedTextTypeOptions)
+    private static string DecryptText(byte[] encryptedText, EncryptedTextTypeOptions encryptedTextTypeOptions)
     {
         switch (encryptedTextTypeOptions.EncryptionAlgorithm)
         {
             case EncryptionAlgorithm.Aes:
-                return Aes.DecryptStringFromBase64(encryptedText, encryptedTextTypeOptions);
+                return Aes.DecryptStringFromBytes(encryptedText, encryptedTextTypeOptions);
             default:
                 throw new NotImplementedException();
         }

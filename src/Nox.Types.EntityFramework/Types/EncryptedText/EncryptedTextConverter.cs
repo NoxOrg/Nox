@@ -2,7 +2,7 @@
 
 namespace Nox.Types.EntityFramework.Types;
 
-public class EncryptedTextConverter : ValueConverter<EncryptedText, string>
+public class EncryptedTextConverter : ValueConverter<EncryptedText, byte[]>
 {
     public EncryptedTextConverter() : base(encryptedText => encryptedText.Value, encryptedBase64 => EncryptedText.FromEncryptedString(encryptedBase64)) { }
 }

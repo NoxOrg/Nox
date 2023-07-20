@@ -15,8 +15,8 @@ public static class Aes
     /// </summary>
     /// <param name="plainText">Text to be encrypted</param>
     /// <param name="typeOptions">Algorithm options.</param>
-    /// <returns>Encrypted text as a base64 string.</returns>
-    public static string EncryptStringToBase64(string plainText, EncryptedTextTypeOptions typeOptions)
+    /// <returns>Encrypted text as a byte array.</returns>
+    public static byte[] EncryptStringToBytes(string plainText, EncryptedTextTypeOptions typeOptions)
     {
         if (string.IsNullOrEmpty(plainText))
             throw new ArgumentNullException(nameof(plainText));
@@ -41,22 +41,22 @@ public static class Aes
             swEncrypt.Write(plainText);
         }
 
-        return Convert.ToBase64String(msEncrypt.ToArray());
+        return msEncrypt.ToArray();
     }
 
     /// <summary>
     /// Decrypt text using AES algorithm.
     /// </summary>
-    /// <param name="encryptedText">Encrypted text as a base64 string.</param>
+    /// <param name="encryptedText">Encrypted text as a byte array.</param>
     /// <param name="typeOptions">Algorithm options.</param>
     /// <returns>Decrypted text.</returns>
-    public static string DecryptStringFromBase64(string encryptedText, EncryptedTextTypeOptions typeOptions)
+    public static string DecryptStringFromBytes(byte[] encryptedText, EncryptedTextTypeOptions typeOptions)
     {
-        if (string.IsNullOrEmpty(encryptedText))
+        if (encryptedText is not { Length: > 0 })
             throw new ArgumentNullException(nameof(encryptedText));
-        if (string.IsNullOrEmpty(typeOptions.PublicKey))
+        if (typeOptions.PublicKey is not { Length: > 0 })
             throw new ArgumentNullException(nameof(typeOptions.PublicKey));
-        if (string.IsNullOrEmpty(typeOptions.Iv))
+        if (typeOptions.Iv is not { Length: > 0 })
             throw new ArgumentNullException(nameof(typeOptions.Iv));
 
         using AesAlg aesAlg = AesAlg.Create();
@@ -68,7 +68,7 @@ public static class Aes
         );
 
         // Create the streams used for decryption.
-        using MemoryStream msDecrypt = new MemoryStream(Convert.FromBase64String(encryptedText));
+        using MemoryStream msDecrypt = new MemoryStream(encryptedText);
         using CryptoStream csDecrypt = new CryptoStream(msDecrypt, decryptor, CryptoStreamMode.Read);
         using StreamReader srDecrypt = new StreamReader(csDecrypt);
         // Read the decrypted bytes from the decrypting stream and place them in a string.

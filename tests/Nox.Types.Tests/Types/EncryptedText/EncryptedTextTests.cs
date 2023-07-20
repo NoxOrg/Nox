@@ -49,7 +49,7 @@ public class EncryptedTextTests
 
         encryptedText.Should().NotBeNull();
         encryptedText2.Should().NotBeNull();
-        encryptedText.Value.Should().Be(encryptedText2.Value);
+        encryptedText.Value.Should().Equal(encryptedText2.Value);
     }
 
     [Fact]
@@ -79,9 +79,9 @@ public class EncryptedTextTests
         // Different IV
         var encryptedText2 = EncryptedText.FromPlainText(PlainText, encryptOptions2);
 
-        encryptedText.Value.Should().NotBe(encryptedText1.Value);
-        encryptedText.Value.Should().NotBe(encryptedText2.Value);
-        encryptedText1.Value.Should().NotBe(encryptedText2.Value);
+        encryptedText.Value.Should().NotEqual(encryptedText1.Value);
+        encryptedText.Value.Should().NotEqual(encryptedText2.Value);
+        encryptedText1.Value.Should().NotEqual(encryptedText2.Value);
 
     }
 
