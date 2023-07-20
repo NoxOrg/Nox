@@ -33,7 +33,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Name = Text.From("Switzerland"),
             LatLong = LatLong.From(latitude, longitude),
             Population = Number.From(8_703_654),
-            GrossDomesticProduct = Money.From(717_341_603_000, CurrencyCode.CHF),
+            GrossDomesticProduct = Money.From(300, CurrencyCode.CHF),
             CountryCode2 = CountryCode2.From("CH"),
             AreaInSqKm = Area.From(41_290_000),
             CultureCode = CultureCode.From("de-CH"),
@@ -60,7 +60,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             HashedText = HashedText.From("Test123."),
             ArabicName = TranslatedText.From((CultureCode.From("ar-SA"), "سوئٹزرلینڈ")),
-            CurrentTime = Time.From(07,55,33,250)
+            CurrentTime = Time.From(07,55,33,250),
+            PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -83,7 +84,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Name = Text.From("Switzerland"),
             LatLong = LatLong.From(46.802496, 8.234392),
             Population = Number.From(8_703_654),
-            GrossDomesticProduct = Money.From(717_341_603_000, CurrencyCode.CHF),
+            GrossDomesticProduct = Money.From(100, CurrencyCode.CHF, new MoneyTypeOptions(){MaxValue = 101, MinValue = 0}),
             CountryCode2 = CountryCode2.From("CH"),
             AreaInSqKm = Area.From(41_290_000),
             CultureCode = CultureCode.From("de-CH"),
@@ -112,7 +113,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             HashedText = HashedText.From(("Test123.", "salt")),
             CreateDate = DateTime.From(new System.DateTime(2023, 01, 01)),
             CurrentTime = Time.From(11,35,50,375),
-            AverageTemperatureInCelsius = Temperature.FromCelsius(25)
+            AverageTemperatureInCelsius = Temperature.FromCelsius(25),
+            PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -131,7 +133,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.Population?.Value.Should().Be(8_703_654);
         item.GrossDomesticProduct.CurrencyCode.Should().Be("CHF");
         item.GrossDomesticProduct.Value.CurrencyCode.Should().Be(CurrencyCode.CHF);
-        item.GrossDomesticProduct.Amount.Should().Be(717_341_603_000);
+        item.GrossDomesticProduct.Amount.Should().Be(100);
         item.CountryCode2.Value.Should().Be("CH");
         item.AreaInSqKm.Value.Should().Be(41_290_000);
         item.AreaInSqKm.Unit.Should().Be(AreaUnit.SquareMeter);
@@ -171,6 +173,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         AssertStreetAddress(streetAddress, item.StreetAddress);
         Assert.Equal(JsonSerializer.Serialize(streetAddress), item.StreetAddressJson.Value);
+        item.PageHtml.Value.Should().Be("<html><body>Switzerland Website</body></html>");
     }
 
     private static StreetAddress CreateStreetAddress()
