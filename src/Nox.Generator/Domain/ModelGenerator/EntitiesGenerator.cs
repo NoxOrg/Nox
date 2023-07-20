@@ -111,19 +111,47 @@ internal static class EntitiesGenerator
 
         if (key.Type.Equals(NoxType.Nuid))
         {
-            var nuidTypeOptions = key.NuidTypeOptions;
-            if (nuidTypeOptions != null)
-            {
-                var propertiesToComposeBy = nuidTypeOptions.PropertyNames;
-
-                var propertiesCombinedString = string.Join(", ", propertiesToComposeBy.Select(x => $"{x.ToUpperFirstChar()}.Value.ToString()"));
-                var idGetter = $"string.Join(\"{nuidTypeOptions.Separator}\", {propertiesCombinedString})";
-                code.AppendLine($"public {key.Type} {propName}  => Nuid.From({idGetter});");
-            }
+            GeneratePropertyForNuidType(code, key, propName);
         }
         else
         {
             code.AppendLine($"public {key.Type} {propName} {{ get; set; }} = null!;");
+        }
+    }
+
+    private static void GeneratePropertyForNuidType(CodeBuilder code, NoxSimpleTypeDefinition key, string propName)
+    {
+        var nuidTypeOptions = key.NuidTypeOptions;
+        if (nuidTypeOptions != null)
+        {
+            var propertiesToComposeBy = nuidTypeOptions.PropertyNames;
+            var privatePropertyName = $"_{propName.ToLowerFirstChar()}";
+
+            var propertiesCombinedString = string.Join(", ", propertiesToComposeBy.Select(x => $"{x.ToUpperFirstChar()}.Value.ToString()"));
+            var idGetter = $"string.Join(\"{nuidTypeOptions.Separator}\", {propertiesCombinedString})";
+
+            code.AppendLine($"public {key.Type} {propName}");
+            code.AppendLine("{");
+            code.AppendLine($"  get => {privatePropertyName} ??= Nuid.From({idGetter});");
+            code.AppendLine($@"  private set
+        {{
+            var actualNuid = Nuid.From({idGetter});
+            if (value is null)
+            {{
+                {privatePropertyName} = actualNuid;
+            }}
+            else if (value is not null && {privatePropertyName} is null)
+            {{
+                {privatePropertyName} = value;
+            }}
+            else if (value is not null && {privatePropertyName} is not null && {privatePropertyName} != value)
+            {{
+                throw new InvalidOperationException(""Nuid has diffrent value than it has been generated."");
+            }}
+        }}");
+            code.AppendLine("}");
+
+            code.AppendLine($"private {key.Type}? {privatePropertyName}  = null;");
         }
     }
 
