@@ -20,7 +20,7 @@ public class EnvironmentVariableValueProvider
         IReadOnlyList<string> variables, 
         IReadOnlyDictionary<string,object>? defaults = null)
     {
-        var values = new Dictionary<string, string?> ();
+        var values = new Dictionary<string, string?>(variables.Count);
 
         foreach (var variableName in variables)
         {
