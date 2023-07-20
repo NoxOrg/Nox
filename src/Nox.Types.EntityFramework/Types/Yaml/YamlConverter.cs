@@ -2,7 +2,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Nox.Types.EntityFramework.Types;
 
-public class YamlConverter: ValueConverter<Yaml, string>
+/// <summary>
+/// Converts a <see cref="Yaml"/> to and from a <see cref="string"/> for Entity Framework.
+/// </summary>
+public class YamlConverter: ValueObjectConverter<Yaml, string>
 {
-    public YamlConverter() : base(text => text.Value, textValue => Yaml.From(textValue)) { }
+    
 }
