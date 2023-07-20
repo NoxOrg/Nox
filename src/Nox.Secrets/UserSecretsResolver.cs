@@ -24,7 +24,6 @@ public class UserSecretsResolver: ISecretsResolver
         {
             var secretValue = configuration[key.ToFlattenedKey("user").Replace('.', ':')]; 
             if (!string.IsNullOrWhiteSpace(secretValue)) result.Add(key, secretValue);
-            if (result.Any()) return result;
         }
 
         return result;

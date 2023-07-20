@@ -86,6 +86,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Secrets.Azure", "src\No
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Secrets.Hashicorp", "src\Nox.Secrets.Hashicorp\Nox.Secrets.Hashicorp.csproj", "{0B3974A4-121C-486B-964F-9037DAD3C5E8}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Types.Abstractions", "src\Nox.Types.Abstractions\Nox.Types.Abstractions.csproj", "{ED5074EA-6C4D-439B-9F5D-DF311DCE5CC9}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -192,6 +194,10 @@ Global
 		{0B3974A4-121C-486B-964F-9037DAD3C5E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{0B3974A4-121C-486B-964F-9037DAD3C5E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{0B3974A4-121C-486B-964F-9037DAD3C5E8}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ED5074EA-6C4D-439B-9F5D-DF311DCE5CC9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ED5074EA-6C4D-439B-9F5D-DF311DCE5CC9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ED5074EA-6C4D-439B-9F5D-DF311DCE5CC9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ED5074EA-6C4D-439B-9F5D-DF311DCE5CC9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -221,6 +227,7 @@ Global
 		{9C5DF8EC-0F0C-4FF0-86CC-3BE5181E6292} = {2B151195-53F6-45CD-84D5-F1E18CDFF1B0}
 		{D017DD5E-2DE1-462A-A891-CAB16C8BF940} = {2B151195-53F6-45CD-84D5-F1E18CDFF1B0}
 		{0B3974A4-121C-486B-964F-9037DAD3C5E8} = {2B151195-53F6-45CD-84D5-F1E18CDFF1B0}
+		{ED5074EA-6C4D-439B-9F5D-DF311DCE5CC9} = {110C16ED-A11D-4B5A-ABB2-0E0F4692C77A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E72B357-9E1E-43B5-9868-8D2B74CB2AF0}

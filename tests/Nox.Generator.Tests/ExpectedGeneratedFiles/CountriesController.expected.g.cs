@@ -58,7 +58,7 @@ public partial class CountriesController : ODataController
         return Ok(_databaseContext.Countries);
     }
     
-    public ActionResult<Country> Get([FromRoute] string key)
+    public ActionResult<Country> Get([FromRoute] String key)
     {
         var item = _databaseContext.Countries.SingleOrDefault(d => d.Id.Equals(key));
         

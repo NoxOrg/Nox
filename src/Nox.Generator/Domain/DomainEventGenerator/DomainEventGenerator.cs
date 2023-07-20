@@ -1,15 +1,14 @@
 ﻿using Microsoft.CodeAnalysis;
+using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Solution.Events;
 using System.Linq;
 using System.Reflection;
-using Nox.Generator.Common;
-
 using static Nox.Generator.Common.BaseGenerator;
 
 namespace Nox.Generator.Domain.DomainEventGenerator;
 
-public class DomainEventGenerator
+internal static class DomainEventGenerator
 {
     public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
@@ -17,6 +16,7 @@ public class DomainEventGenerator
 
         if (codeGeneratorState.Solution.Domain == null) return;
 
+#pragma warning disable S3267 // Loops should be simplified with "LINQ" expressions
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
@@ -27,6 +27,7 @@ public class DomainEventGenerator
                 GenerateEvent(context, codeGeneratorState, evt);    
             }            
         }
+#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
     }
     
     private static void GenerateEvent(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, DomainEvent evt)

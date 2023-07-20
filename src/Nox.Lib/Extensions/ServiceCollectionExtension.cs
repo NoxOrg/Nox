@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -6,7 +5,6 @@ using Nox.Secrets;
 using Nox.Secrets.Abstractions;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-using Scrutor;
 
 namespace Nox;
 
