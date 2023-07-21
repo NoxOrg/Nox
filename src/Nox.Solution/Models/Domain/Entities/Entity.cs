@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using Humanizer;
 using Nox.Solution.Events;
 using System.Linq;
+using Nox.Solution.Validation;
 
 namespace Nox.Solution;
 
@@ -70,7 +71,9 @@ public class Entity : DefinitionBase
     internal bool ApplyDefaults()
     {
         if (string.IsNullOrWhiteSpace(PluralName)) PluralName = Name.Pluralize();
-        return true;
+        if (Persistence != null) return true;
+        Persistence = new EntityPersistence();
+        return Persistence.ApplyDefaults(Name);
     }
 
     public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()

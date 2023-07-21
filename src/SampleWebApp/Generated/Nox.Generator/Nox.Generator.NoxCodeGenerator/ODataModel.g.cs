@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using AutoMapper;
+using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
@@ -41,7 +42,7 @@ public class Country : SampleWebApp.Domain.AuditableEntityBase
     /// <summary>
     /// The country's official ISO 4217 alpha-3 code.
     /// </summary>
-    public UInt32 NumericCode { get; set; } = default!;
+    public Int16 NumericCode { get; set; } = default!;
     
     /// <summary>
     /// The country's phone dialing codes (comma-delimited).
@@ -61,7 +62,7 @@ public class Country : SampleWebApp.Domain.AuditableEntityBase
     /// <summary>
     /// Country area in square kilometers.
     /// </summary>
-    public UInt32 AreaInSquareKilometres { get; set; } = default!;
+    public Decimal AreaInSquareKilometres { get; set; } = default!;
     
     /// <summary>
     /// The region the country is in.
@@ -81,7 +82,7 @@ public class Country : SampleWebApp.Domain.AuditableEntityBase
     /// <summary>
     /// The estimated population of the country.
     /// </summary>
-    public UInt32? Population { get; set; } = default!;
+    public Int32? Population { get; set; } = default!;
     
     /// <summary>
     /// The top level internet domains regitered to the country (comma-delimited).
@@ -189,7 +190,7 @@ public class CountryDto
     /// <summary>
     /// The country's official ISO 4217 alpha-3 code.
     /// </summary>
-    public UInt32 NumericCode { get; set; } = default!;
+    public Int16 NumericCode { get; set; } = default!;
     
     /// <summary>
     /// The country's phone dialing codes (comma-delimited).
@@ -209,7 +210,7 @@ public class CountryDto
     /// <summary>
     /// Country area in square kilometers.
     /// </summary>
-    public UInt32 AreaInSquareKilometres { get; set; } = default!;
+    public Decimal AreaInSquareKilometres { get; set; } = default!;
     
     /// <summary>
     /// The region the country is in.
@@ -229,7 +230,7 @@ public class CountryDto
     /// <summary>
     /// The estimated population of the country.
     /// </summary>
-    public UInt32? Population { get; set; } = default!;
+    public Int32? Population { get; set; } = default!;
     
     /// <summary>
     /// The top level internet domains regitered to the country (comma-delimited).

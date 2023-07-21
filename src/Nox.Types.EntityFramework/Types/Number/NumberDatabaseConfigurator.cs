@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Exceptions;
 
 namespace Nox.Types.EntityFramework.Types;
 
@@ -29,33 +30,28 @@ public class NumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public Type GetConverter(NumberTypeOptions typeOptions)
     {
-        if (typeOptions.DecimalDigits == 0) // integer
+        var underlineType = typeOptions.GetUnderlineType();
+
+        if (underlineType == typeof(decimal))
         {
-            //see https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/integral-numeric-types
-            if (typeOptions.MaxValue <= byte.MaxValue && typeOptions.MinValue >= byte.MinValue)
-            {
-                return typeof(NumberToByteConverter);
-            }
-
-            if (typeOptions.MaxValue <= short.MaxValue && typeOptions.MinValue >= short.MinValue)
-            {
-                return typeof(NumberToShortConverter);
-            }
-
-            if (typeOptions.MaxValue <= int.MaxValue && typeOptions.MinValue >= int.MinValue)
-            {
-                return typeof(NumberToInt32Converter);
-            }
-
-            if (typeOptions.MaxValue <= long.MaxValue && typeOptions.MinValue >= long.MinValue)
-            {
-                return typeof(NumberToInt64Converter);
-            }
+            return typeof(NumberToDecimalConverter);
         }
-
-        //See https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/builtin-types/floating-point-numeric-types
-
-        //Fall back to decimal
-        return typeof(NumberToDecimalConverter);
+        if (underlineType == typeof(short))
+        {
+            return typeof(NumberToShortConverter);
+        }
+        if (underlineType == typeof(byte))
+        {
+            return typeof(NumberToByteConverter);
+        }
+        if (underlineType == typeof(int))
+        {
+            return typeof(NumberToInt32Converter);
+        }
+        if (underlineType == typeof(long))
+        {
+            return typeof(NumberToInt64Converter);
+        }
+        throw new NoxDatabaseProviderException($"Unsupported type {underlineType} for Number");
     }
 }

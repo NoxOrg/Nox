@@ -149,7 +149,6 @@ public sealed class Country
     /// </summary>
     public DateTime? CreateDate { get; set; } = null!;
 
-
     /// <summary>
     /// Gets or sets the name in Arabic Locale.
     /// </summary>
@@ -159,14 +158,34 @@ public sealed class Country
     /// Gets or sets the current time.
     /// </summary>
     public Time CurrentTime { get; set; } = null!;
-    
-    
+
+
     /// Gets or sets the AverageTemperature.
     /// </summary>
     public Temperature? AverageTemperatureInCelsius { get; set; } = null!;
-    
+
     /// <summary>
     /// Gets or sets the Flag.
     /// </summary>
     public Image Flag { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the country's webpage.
+    /// </summary>
+    public Html PageHtml { get; set; } = null!;
+    
+    /// <summary>
+    /// Gets or sets the CitiesCounties.
+    /// </summary>
+    public Yaml CitiesCounties { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the file.
+    /// </summary>
+    public File File { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the phone number.
+    /// </summary>
+    public PhoneNumber PhoneNumber { get; set; } = null!;
 }

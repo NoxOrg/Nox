@@ -24,7 +24,7 @@ public enum NoxType : uint
     [CompoundComponent("Amount", typeof(decimal))]
     [CompoundComponent("CurrencyCode", typeof(string))]
     Money = 3500951620,
-    
+
     [CompoundType]
     [CompoundComponent("StreetNumber",typeof(int))]
     [CompoundComponent("AddressLine1", typeof(string))]
@@ -54,10 +54,17 @@ public enum NoxType : uint
     [CompoundComponent("CountryCode2", typeof(string))]
     VatNumber = 1055627262,
 
+    [CompoundType]
+    [CompoundComponent("Url", typeof(string))]
+    [CompoundComponent("PrettyName", typeof(string))]
+    [CompoundComponent("SizeInBytes", typeof(ulong))]
+    File = 612041382,
+
     // Simple Types
-    [SimpleType(typeof(double))] 
+
+    [SimpleType(typeof(decimal))]
     Area = 998304025,
-    
+
     [SimpleType(typeof(int))] 
     AutoNumber = 24779567,
     
@@ -120,9 +127,6 @@ public enum NoxType : uint
     EncryptedText = 1841598137,
     
     [SimpleType(typeof(string))]
-    File = 612041382,
-    
-    [SimpleType(typeof(string))]
     Formula = 2602269623,
     
     [SimpleType(typeof(Guid))]
@@ -167,7 +171,7 @@ public enum NoxType : uint
     [SimpleType(typeof(uint))]
     Nuid = 3304944825,
 
-    [SimpleType(typeof(uint))]
+    [SimpleType(typeof(NumberTypeComponentsDiscover))]
     Number = 4223714796,
 
     [SimpleType(typeof(string))]

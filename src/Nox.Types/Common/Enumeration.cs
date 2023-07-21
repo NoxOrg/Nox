@@ -19,7 +19,7 @@ public abstract class Enumeration : IComparable
     /// Gets the name of the enumeration.
     /// </summary>
     public string Name { get; }
-    
+
 
     /// <summary>
     /// Initializes a new instance of the <see cref="Enumeration"/> class with the specified ID, name, and value.
@@ -103,12 +103,23 @@ public abstract class Enumeration : IComparable
     /// </summary>
     /// <typeparam name="T">The type of the enumeration.</typeparam>
     /// <returns>An IEnumerable of the specified enumeration type containing all instances.</returns>
-    public static IEnumerable<T> GetAll<T>() where T : Enumeration =>
-        typeof(T).GetFields(BindingFlags.Public |
-                                 BindingFlags.Static |
-                                 BindingFlags.DeclaredOnly)
+    public static IEnumerable<T> GetAll<T>() where T : Enumeration
+        => typeof(T).GetFields(BindingFlags.Public | BindingFlags.Static | BindingFlags.DeclaredOnly)
             .Select(f => f.GetValue(null))
             .Cast<T>();
+
+    /// <summary>
+    /// Tries to retrieve an instance of the specified enumeration type by its name.
+    /// </summary>
+    /// <typeparam name="T">The type of the enumeration.</typeparam>
+    /// <param name="name">The name of the enumeration value.</param>
+    /// <param name="enumeration">The retrieved enumeration value.</param>
+    /// <returns>true if the enumeration is defined.</returns>
+    public static bool TryParseFromName<T>(string name, out T enumeration) where T : Enumeration
+    {
+        enumeration = GetAll<T>().FirstOrDefault(e => e.Name.Equals(name, StringComparison.OrdinalIgnoreCase))!;
+        return enumeration is not null;
+    }
 
     /// <summary>
     /// Retrieves an instance of the specified enumeration type by its name.
@@ -117,9 +128,26 @@ public abstract class Enumeration : IComparable
     /// <param name="name">The name of the enumeration value.</param>
     /// <returns>An instance of the specified enumeration type with the given name.</returns>
     /// <exception cref="InvalidOperationException">Thrown if the name does not match any enumeration value.</exception>
-    public static T FromName<T>(string name) where T : Enumeration =>
-        GetAll<T>().FirstOrDefault(e => e.Name.Equals(name, StringComparison.OrdinalIgnoreCase))
-        ?? throw new InvalidOperationException($"'{name}' is not a valid name for {typeof(T)}");
+    public static T ParseFromName<T>(string name) where T : Enumeration
+    {
+        if (TryParseFromName<T>(name, out T enumeration))
+            return enumeration;
+
+        throw new InvalidOperationException($"'{name}' is not a valid name for {typeof(T)}");
+    }
+
+    /// <summary>
+    /// Tries to retrieve an instance of the specified enumeration type by its id.
+    /// </summary>
+    /// <typeparam name="T">The type of the enumeration.</typeparam>
+    /// <param name="id">The id of the enumeration value.</param>
+    /// <param name="enumeration">The retrieved enumeration value.</param>
+    /// <returns>true if the enumeration is defined.</returns>
+    public static bool TryParseFromId<T>(int id, out T enumeration) where T : Enumeration
+    {
+        enumeration = GetAll<T>().FirstOrDefault(e => e.Id.Equals(id))!;
+        return enumeration is not null;
+    }
 
     /// <summary>
     /// Retrieves an instance of the specified enumeration type by its ID.
@@ -128,8 +156,13 @@ public abstract class Enumeration : IComparable
     /// <param name="id">The ID of the enumeration value.</param>
     /// <returns>An instance of the specified enumeration type with the given ID.</returns>
     /// <exception cref="InvalidOperationException">Thrown if the ID does not match any enumeration value.</exception>
-    public static T FromId<T>(int id) where T : Enumeration =>
-        GetAll<T>().FirstOrDefault(e => e.Id.Equals(id))
-        ?? throw new InvalidOperationException($"'{id}' is not a valid ID for {typeof(T)}");
-    
+    public static T ParseFromId<T>(int id) where T : Enumeration
+    {
+        if (TryParseFromId(id, out T enumeration))
+            return enumeration;
+
+        throw new InvalidOperationException($"'{id}' is not a valid ID for {typeof(T)}");
+    }
+
+
 }

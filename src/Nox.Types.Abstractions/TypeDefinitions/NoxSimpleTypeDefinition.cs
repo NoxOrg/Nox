@@ -67,6 +67,12 @@ public class NoxSimpleTypeDefinition
     [IfEquals("Type", NoxType.Time)]
     public TimeTypeOptions? TimeTypeOptions { get; set; }
 
+    [IfEquals("Type", NoxType.File)]
+    public FileTypeOptions? FileTypeOptions { get; set; }
+	
+	[IfEquals("Type", NoxType.Area)]
+    public AreaTypeOptions? AreaTypeOptions { get; set; }
+
     #endregion TypeOptions
 
     [Title("Is the attribute required? Boolean value.")]
