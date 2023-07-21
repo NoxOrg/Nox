@@ -109,6 +109,7 @@ public sealed class Country
     /// </summary>
     public Json StreetAddressJson { get; set; } = null!;
 
+    /// <summary>
     /// Gets or sets the Local Time Zone.
     /// </summary>
     public TimeZoneCode LocalTimeZone { get; set; } = null!;
@@ -148,9 +149,28 @@ public sealed class Country
     /// </summary>
     public DateTime? CreateDate { get; set; } = null!;
 
-
     /// <summary>
     /// Gets or sets the name in Arabic Locale.
     /// </summary>
     public TranslatedText ArabicName { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the current time.
+    /// </summary>
+    public Time CurrentTime { get; set; } = null!;
+
+
+    /// Gets or sets the AverageTemperature.
+    /// </summary>
+    public Temperature? AverageTemperatureInCelsius { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the Flag.
+    /// </summary>
+    public Image Flag { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the country's webpage.
+    /// </summary>
+    public Html PageHtml { get; set; } = null!;
 }

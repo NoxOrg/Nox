@@ -13,19 +13,19 @@ namespace SampleWebApp.Domain;
 /// </summary>
 public partial class Country : AuditableEntityBase
 {
-    
+
     /// <summary>
-    /// (Required)
+    ///  (Required).
     /// </summary>
     public Text Id { get; set; } = null!;
-    
+
     /// <summary>
-    /// The country's common name (required).
+    /// The country's common name (Required).
     /// </summary>
     public Text Name { get; set; } = null!;
-    
+
     /// <summary>
-    /// The country's official name (required).
+    /// The country's official name (Required).
     /// </summary>
     public Text FormalName { get; set; } = null!;
 }
