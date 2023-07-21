@@ -4,5 +4,5 @@ namespace Nox.Types.EntityFramework.Types;
 
 public class FormulaConverter : ValueConverter<Formula, string>
 {
-    public FormulaConverter() : base(dt => dt.Value, dtValue => Formula.From(dtValue)) { }
+    public FormulaConverter() : base(formula => formula.Value, formulaValue => Formula.From(formulaValue)) { }
 }
