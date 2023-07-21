@@ -1,5 +1,3 @@
-using System;
-
 namespace Nox.Types;
 
 /// <summary>

@@ -1,0 +1,12 @@
+person:
+  name: &name John Doe
+  address:
+    street: 123 Main Street
+    city: Anytown
+    state: CA
+    postal_code: 12345
+
+another_person:
+  <<: *name
+  age: 40
+

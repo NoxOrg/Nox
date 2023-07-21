@@ -8,7 +8,7 @@ namespace Nox.Types;
 /// </summary>
 public sealed class Text : ValueObject<string,Text>
 {
-    private TextTypeOptions _textTypeOptions = new();
+    private TextTypeOptions _typeOptions = new();
 
     public Text() { Value = string.Empty; }
 
@@ -24,7 +24,7 @@ public sealed class Text : ValueObject<string,Text>
         var newObject = new Text
         {
             Value = value,
-            _textTypeOptions = options
+            _typeOptions = options
         };
 
         var validationResult = newObject.Validate();
@@ -46,24 +46,24 @@ public sealed class Text : ValueObject<string,Text>
     {
         var result = base.Validate();
 
-        if (Value.Length < _textTypeOptions.MinLength)
+        if (Value.Length < _typeOptions.MinLength)
         {
-            result.Errors.Add( new ValidationFailure(nameof(Value), $"Could not create a Nox Text type that is {Value.Length} characters long and shorter than the minimum specified length of {_textTypeOptions.MinLength}"));
+            result.Errors.Add( new ValidationFailure(nameof(Value), $"Could not create a Nox Text type that is {Value.Length} characters long and shorter than the minimum specified length of {_typeOptions.MinLength}"));
         }
 
-        if (Value.Length > _textTypeOptions.MaxLength)
+        if (Value.Length > _typeOptions.MaxLength)
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Text type that is {Value.Length} characters long and longer than the maximum specified length of {_textTypeOptions.MaxLength}"));
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Text type that is {Value.Length} characters long and longer than the maximum specified length of {_typeOptions.MaxLength}"));
         }
 
-        if (!_textTypeOptions.IsUnicode && Value.Any(c => c > 255))
+        if (!_typeOptions.IsUnicode && Value.Any(c => c > 255))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a non-UniCode Nox Text type that contains Unicode characters '{new string(Value.Where(c => c > 255).ToArray())}'"));
         }
 
-        if (_textTypeOptions.Casing != TextTypeCasing.Normal)
+        if (_typeOptions.Casing != TextTypeCasing.Normal)
         {
-            Value = _textTypeOptions.Casing switch
+            Value = _typeOptions.Casing switch
             {
                 TextTypeCasing.Upper => Value.ToUpperInvariant(),
                 TextTypeCasing.Lower => Value.ToLowerInvariant(),

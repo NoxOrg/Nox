@@ -134,7 +134,10 @@ public enum NoxType : uint
     [SimpleType(typeof(string))]
     Html = 2477180992,
     
-    [SimpleType(typeof(string))]
+    [CompoundType] 
+    [CompoundComponent("Url", typeof(string))]
+    [CompoundComponent("PrettyName", typeof(string))]
+    [CompoundComponent("SizeInBytes", typeof(int))]
     Image = 3650429592,
     
     [SimpleType(typeof(string))]
@@ -164,7 +167,7 @@ public enum NoxType : uint
     [SimpleType(typeof(uint))]
     Nuid = 3304944825,
 
-    [SimpleType(typeof(uint))]
+    [SimpleType(typeof(NumberTypeComponentsDiscover))]
     Number = 4223714796,
 
     [SimpleType(typeof(string))]

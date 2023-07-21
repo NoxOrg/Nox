@@ -5,7 +5,11 @@ using System.Reflection;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
+using Nox.Solution;
+using Nox.Generator.Common.TemplateScriptsBridges;
 using Scriban;
+using Scriban.Parsing;
+using Scriban.Runtime;
 
 namespace Nox.Generator.Common;
 
@@ -29,9 +33,11 @@ internal class TemplateCodeBuilder
         _context = context;
         _codeGeneratorState = codeGeneratorState;
 
-        _model = new();
-        _model["codeGeneratorState"] = _codeGeneratorState;
-        _model["solution"] = _codeGeneratorState.Solution;
+        _model = new Dictionary<string, object>
+        {
+            ["codeGeneratorState"] = _codeGeneratorState,
+            ["solution"] = _codeGeneratorState.Solution
+        };
     }
 
     /// <summary>
@@ -89,9 +95,24 @@ internal class TemplateCodeBuilder
     {
         var strongTemplate = Template.Parse(template);
 
-        _context.AddSource(sourceFileName!,
-            SourceText.From(strongTemplate.Render(model, member => member.Name),
+        var context = strongTemplate.LexerOptions.Lang == ScriptLang.Liquid ? new LiquidTemplateContext() : new TemplateContext();
+
+        // Import the model and the member naming convention
+        var scriptModelObject = new ScriptObject();
+        scriptModelObject.Import(model, renamer: member => member.Name, filter: null);
+        context.MemberRenamer = member => member.Name;
+        context.MemberFilter = null;
+        context.PushGlobal(scriptModelObject);
+
+        // Add Delegate functions to instance objects
+        NoxSolutionCodeGeneratorStateBridge.AddFunctions(context,_codeGeneratorState);
+        NoxSolutionBridge.AddFunctions(context, _codeGeneratorState.Solution);
+        HelpersBridge.AddFunctions(context);
+
+        _context.AddSource(sourceFileName,
+            SourceText.From(strongTemplate.Render(context),
             Encoding.UTF8));
     }
 
+   
 }

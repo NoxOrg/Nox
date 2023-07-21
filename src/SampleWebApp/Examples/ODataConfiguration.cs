@@ -1,7 +1,8 @@
 ﻿// generated
-using SampleWebApp.Presentation.Api.OData;
+
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
+using SampleWebApp.Domain;
 
 namespace SampleWebApp.Examples2;
 

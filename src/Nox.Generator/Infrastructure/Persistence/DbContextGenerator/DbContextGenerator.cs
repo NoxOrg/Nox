@@ -1,9 +1,6 @@
-﻿using System.Collections.Generic;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
-
-using static Nox.Generator.Common.BaseGenerator;
 
 namespace Nox.Generator.Infrastructure.Persistence.DbContextGenerator;
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Data.Common;
 using System.Globalization;
 
 namespace Nox.Types;

@@ -25,9 +25,9 @@
   </ItemGroup>
 
   <ItemGroup>
-    <AdditionalFiles Include="DatabaseIntegrationTests\Design\test.solution.nox.yaml">
+    <EmbeddedResource Include="DatabaseIntegrationTests\Design\test.solution.nox.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </AdditionalFiles>
+    </EmbeddedResource>
   </ItemGroup>
 
   <ItemGroup>

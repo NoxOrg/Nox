@@ -3,6 +3,7 @@ using Nox.Types.Schema;
 using System.Collections.Generic;
 using Humanizer;
 using Nox.Solution.Events;
+using Nox.Solution.Validation;
 
 namespace Nox.Solution;
 
@@ -69,7 +70,9 @@ public class Entity : DefinitionBase
     internal bool ApplyDefaults()
     {
         if (string.IsNullOrWhiteSpace(PluralName)) PluralName = Name.Pluralize();
-        return true;
+        if (Persistence != null) return true;
+        Persistence = new EntityPersistence();
+        return Persistence.ApplyDefaults(Name);
     }
 
     public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()
@@ -122,6 +125,7 @@ public class Entity : DefinitionBase
 
         if (Relationships is not null)
         {
+#pragma warning disable S3267 // Loops should be simplified with "LINQ" expressions
             foreach (var relationship in Relationships)
             {
                 if (relationship.Related.Entity?.Keys is not null)
@@ -134,6 +138,7 @@ public class Entity : DefinitionBase
                     }
                 }
             }
+#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
         }
     }
 

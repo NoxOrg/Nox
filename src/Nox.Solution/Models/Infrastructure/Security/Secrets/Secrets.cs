@@ -1,4 +1,3 @@
-using System.Security.Permissions;
 using Nox.Types.Schema;
 
 namespace Nox.Solution
