@@ -16,6 +16,7 @@ public class CsvIntegrationSource: IIntegrationSource
 {
     private readonly string _name;
     private readonly Uri _sourceUri;
+    private readonly string? _sourcePath;
     
     public string Name => _name;
     
@@ -28,6 +29,7 @@ public class CsvIntegrationSource: IIntegrationSource
         _name = sourceDefinition.Name;
         var uriBuilder = new NoxUriBuilder(dataConnectionDefinition, "file", $"infrastructure, dependencies, dataConnection: {dataConnectionDefinition.Name}", sourceDefinition.FileOptions!.Filename);
         _sourceUri = uriBuilder.Uri;
+        _sourcePath = uriBuilder.AbsolutePath;
     }
     
     public IDataFlowExecutableSource<ExpandoObject> DataFlowSource()
@@ -44,8 +46,9 @@ public class CsvIntegrationSource: IIntegrationSource
                 "filesystem" => ResourceType.File,
                 _ => throw new NotImplementedException( $"Resource type {_sourceUri.Scheme} has not been implemented on CSV integration sources.")
             },
-            Uri = _sourceUri.ToString()
         };
+        
+        dataFlowExecutableSource.Uri = dataFlowExecutableSource.ResourceType == ResourceType.File ? _sourcePath : _sourceUri.ToString();
 
         return dataFlowExecutableSource;
     }

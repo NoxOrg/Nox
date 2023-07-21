@@ -7,6 +7,7 @@ namespace Nox.Solution.Builders;
 public class NoxUriBuilder
 {
     public Uri Uri { get; }
+    public string? AbsolutePath { get; }
 
     public NoxUriBuilder(ServerBase serverBase, string scheme, string description, string path = "")
     {
@@ -25,13 +26,14 @@ public class NoxUriBuilder
             if (!uri!.Scheme.Equals(scheme, StringComparison.OrdinalIgnoreCase)) throw new NoxUriBuilderException(string.Format(ValidationResources.ServerUriInvalidScheme, description, scheme));
             Uri = uri;
         }
-        else //assume that only a host name or ip address was supplied or it is a relative folder path
+        else //assume that only a host name or ip address was supplied or it is a folder path
         {
             UriBuilder builder;
 
             if (serverBase.ServerUri.StartsWith("file:.")) //relative file location, create a proper file uri using absolute path
             {
                 var absolutePath = Path.GetFullPath(uriString.Replace("file:", ""));
+                AbsolutePath = absolutePath;
                 builder = new UriBuilder("file", absolutePath);
             }
             else

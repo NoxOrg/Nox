@@ -19,7 +19,7 @@ public class StoreService: IStoreService
         _dbContext = dbContext;
     }
 
-    public async Task<int> ConfigureIntegrationAsync(Solution.Integration definition, IReadOnlyList<string>? targetAttributes)
+    public async Task<int> ConfigureIntegrationAsync(Solution.Integration definition, IReadOnlyList<EntityAttribute>? targetAttributes)
     {
         try
         {
@@ -71,7 +71,7 @@ public class StoreService: IStoreService
         }
     }
 
-    public async Task<IntegrationMergeStates> GetAllLastMergeDateTimeStampsAsync(int integrationId)
+    public async Task<IntegrationMergeStates> GetLastMergeStateAsync(int integrationId)
     {
         var integration = await _dbContext.Integrations!.SingleAsync(i => i.Id == integrationId);
 
@@ -89,6 +89,22 @@ public class StoreService: IStoreService
         }
 
         return result;
+    }
+
+    public async Task SetLastMergeState(int integrationId, IntegrationMergeStates mergeStates)
+    {
+        var integration = await _dbContext
+            .Integrations!
+            .Include(i => i.MergeStates)
+            .SingleAsync(i => i.Id == integrationId);
+            
+        foreach (var (dateColumn, mergeState) in mergeStates.Where(ms => ms.Value.Updated))
+        {
+            var dbMergeState = integration.MergeStates!.Single(dbms => dbms.Property.Equals(dateColumn));
+            dbMergeState.LastDateLoadedUtc = mergeState.LastDateLoadedUtc;
+        }
+
+        await _dbContext.SaveChangesAsync();
     }
 
     public void UpdateMergeStates(IntegrationMergeStates lastMergeDateTimeStampInfo, IDictionary<string, object?> record)
@@ -149,7 +165,6 @@ public class StoreService: IStoreService
                 _logger.LogInformation("...no changes found to merge");
             }
 
-            return;
         }
 
         var changes = lastMergeDateTimeStampInfo.Values
@@ -163,6 +178,7 @@ public class StoreService: IStoreService
         }
 
         var integration = await _dbContext.Integrations!.SingleAsync(i => i.Id == integrationId);
+        integration.MergeAnalytics ??= new List<MergeAnalytic>();
         integration.MergeAnalytics.Add(new MergeAnalytic
         {
             Inserts = inserts,
@@ -179,7 +195,7 @@ public class StoreService: IStoreService
         _logger.LogInformation("{updates} records updated, last merge at {lastMergeDateTimeStamp}", updates, lastMergeDateTimeStamp);
     }
 
-    private List<string>? GetEntityMergeColumns(Solution.Integration definition, IReadOnlyList<string>? targetAttributes)
+    private List<string>? GetEntityMergeColumns(Solution.Integration definition, IReadOnlyList<EntityAttribute>? targetAttributes)
     {
         if (definition.Target!.EntityOptions == null ||
             definition.Target.EntityOptions.DateCompareColumns == null ||
@@ -187,7 +203,7 @@ public class StoreService: IStoreService
             targetAttributes == null ||
             !targetAttributes.Any()) return null;
         var targetMergeColumns = definition.Target.EntityOptions.DateCompareColumns;
-        var mergeColumns = targetMergeColumns.Intersect(targetAttributes).ToList();
+        var mergeColumns = targetMergeColumns.Intersect(targetAttributes.Select(n => n.Name)).ToList();
         return mergeColumns.Any() ? mergeColumns : null;
     }
 

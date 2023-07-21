@@ -45,6 +45,7 @@ infrastructure:
       provider: sqlServer
       user: sa
       password: Developer*123
+      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;
       
     integrationDatabaseServer:
       name: IntegrationStore
@@ -57,6 +58,6 @@ infrastructure:
   dependencies:
     dataConnections:
       - name: csvDataConnection
-        serverUri: file:./
+        serverUri: file:./files/
         provider: csvFile
         

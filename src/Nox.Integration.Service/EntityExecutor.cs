@@ -1,4 +1,5 @@
 using System.Dynamic;
+using ETLBox.Connection;
 using ETLBox.DataFlow;
 using ETLBox.DataFlow.Connectors;
 using Microsoft.Extensions.Logging;
@@ -41,14 +42,28 @@ public class EntityExecutor
         {
             var targetColumns = GetEntityAttributeNames();
             var integrationId = await _storeService.ConfigureIntegrationAsync(_definition, targetColumns);
-            var lastMergeDateTimeStampInfo = await _storeService.GetAllLastMergeDateTimeStampsAsync(integrationId);
+            var lastMergeDateTimeStampInfo = await _storeService.GetLastMergeStateAsync(integrationId);
             
             var destination = CreateEntityDestinationDestination();
-            _source.DataFlowSource().LinkTo(destination);
+
+            destination.MergeProperties.IdColumns = targetColumns.Where(k => k.IsKey).Select(k => new IdColumn { IdPropertyName = k.Name }).ToArray();
+            foreach (var dateColumn in lastMergeDateTimeStampInfo)
+            {
+                if (targetColumns.Any(c => !c.IsKey && c.Name.Equals(dateColumn.Value.Property, StringComparison.OrdinalIgnoreCase)))
+                {
+                    if (destination.MergeProperties.CompareColumns == null) destination.MergeProperties.CompareColumns = new List<CompareColumn>();
+                    destination.MergeProperties.CompareColumns.Add(new CompareColumn
+                    {
+                        ComparePropertyName = dateColumn.Value.Property
+                    });
+                }
+            }
+
+            var dataSource = _source.DataFlowSource();
+            
+            dataSource.LinkTo(destination);
             var postProcessDestination = new CustomDestination();
 
-            // Store analytics
-        
             int inserts = 0, updates = 0, unchanged = 0;
 
             // Get events to fire, if any
@@ -81,6 +96,7 @@ public class EntityExecutor
                 }
                 else if ((ChangeAction)record["ChangeAction"]! == ChangeAction.Exists)
                 {
+                    _storeService.UpdateMergeStates(lastMergeDateTimeStampInfo, record);
                     unchanged++;
                 }
             };
@@ -89,7 +105,7 @@ public class EntityExecutor
 
             try
             {
-                await Network.ExecuteAsync((DataFlowExecutableSource<ExpandoObject>)_source);
+                await Network.ExecuteAsync((DataFlowExecutableSource<ExpandoObject>)dataSource);
             }
             catch (Exception ex)
             {
@@ -98,6 +114,7 @@ public class EntityExecutor
                 throw;
             }
 
+            await _storeService.SetLastMergeState(integrationId, lastMergeDateTimeStampInfo);
             await _storeService.LogMergeAnalytics( integrationId, inserts, updates, unchanged, lastMergeDateTimeStampInfo);
         }
         catch (Exception ex)
@@ -116,11 +133,11 @@ public class EntityExecutor
         };
     }
 
-    private IReadOnlyList<string> GetEntityAttributeNames()
+    private IReadOnlyList<EntityAttribute> GetEntityAttributeNames()
     {
-        var result = new List<string>();
-        result.AddRange(_entity.Keys!.Select(k => k.Name));
-        if (_entity.Attributes != null) result.AddRange(_entity.Attributes.Select(a => a.Name));
+        var result = new List<EntityAttribute>();
+        result.AddRange(_entity.Keys!.Select(k => new EntityAttribute{Name = k.Name, IsKey = true}));
+        if (_entity.Attributes != null) result.AddRange(_entity.Attributes.Select(a => new EntityAttribute{Name = a.Name, IsKey = false}));
         return result;
     }
 }
