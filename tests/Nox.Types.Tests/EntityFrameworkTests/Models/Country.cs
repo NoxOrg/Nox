@@ -180,6 +180,11 @@ public sealed class Country
     public Yaml CitiesCounties { get; set; } = null!;
 
     /// <summary>
+    /// Gets or sets the file.
+    /// </summary>
+    public File File { get; set; } = null!;
+
+    /// <summary>
     /// Gets or sets password
     /// </summary>
     public Password Password { get; set; } = null!;
