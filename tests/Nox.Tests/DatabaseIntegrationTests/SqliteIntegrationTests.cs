@@ -53,6 +53,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             CountryId = CountryCode2.From("UA"),
             PostalCode = "61135"
         };
+        var macAddress = "A1B2C3D4E5F6";
 
         var newItem = new TestEntityForTypes()
         {
@@ -61,7 +62,8 @@ public class SqliteIntegrationTests : SqliteTestBase
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
-            StreetAddressTestField = StreetAddress.From(addressItem)
+            StreetAddressTestField = StreetAddress.From(addressItem),
+            MacAddressTestField = MacAddress.From(macAddress),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -79,6 +81,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
+        testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
     }
 
     [Fact]
