@@ -1,4 +1,5 @@
 using Microsoft.Extensions.DependencyInjection;
+using Nox.Integration.Store.SqlServer;
 using Nox.Solution;
 
 namespace Nox.Integration.Service.Tests;
@@ -21,7 +22,8 @@ public class ServiceFixture
         
         services.AddSingleton(noxConfig);
 
-        services.AddIntegration(noxConfig.Infrastructure!.Persistence.IntegrationDatabaseServer!);
+        services.AddIntegration();
+        services.AddSqlServerIntegrationStore(noxConfig.Infrastructure!.Persistence.IntegrationDatabaseServer!);
         
         _serviceProvider = services.BuildServiceProvider();
     }
