@@ -80,7 +80,7 @@ public enum NoxType : uint
     CultureCode = 1724900727,
 
     [SimpleType(typeof(string))]
-    CurrencyCode = 1132722218,
+    CurrencyCode3 = 1132722218,
     
     [SimpleType(typeof(short))]
     CurrencyNumber = 2377452890,
