@@ -59,6 +59,12 @@ public enum NoxType : uint
     [CompoundComponent("CountryCode2", typeof(string))]
     VatNumber = 1055627262,
 
+    [CompoundType]
+    [CompoundComponent("Url", typeof(string))]
+    [CompoundComponent("PrettyName", typeof(string))]
+    [CompoundComponent("SizeInBytes", typeof(ulong))]
+    File = 612041382,
+
     // Simple Types
 
     [SimpleType(typeof(int))] 
@@ -121,9 +127,6 @@ public enum NoxType : uint
     
     [SimpleType(typeof(string))]
     EncryptedText = 1841598137,
-    
-    [SimpleType(typeof(string))]
-    File = 612041382,
     
     [SimpleType(typeof(string))]
     Formula = 2602269623,

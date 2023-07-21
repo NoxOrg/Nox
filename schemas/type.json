@@ -1404,19 +1404,14 @@
           ]
         },
         "type": {    
-          "const": "area"
         },
-        "areaTypeOptions": {    
           "type": [
             "object",
             "null"
           ],
           "properties": {
-            "minValue": {    
               "type": [
-                "number",
                 "null"
-              ]
             },
             "maxValue": {    
               "type": [
@@ -1424,15 +1419,22 @@
                 "null"
               ]
             },
-            "persistAs": {    
               "type": [
                 "string",
                 "null"
               ],
               "enum": [
-                "squareFoot",
-                "squareMeter"
+                  "doc",
+                  "docx",
+                  "eml",
+                  "pdf",
+                  "ppt",
+                  "pptx",
+                  "txt",
+                  "xls",
+                  "xlsx"
               ]
+              }
             }
           }
         },
@@ -1511,7 +1513,6 @@
             "distance",
             "email",
             "encryptedText",
-            "file",
             "formula",
             "guid",
             "html",
