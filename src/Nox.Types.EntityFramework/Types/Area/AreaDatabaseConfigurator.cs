@@ -16,12 +16,15 @@ public class AreaDatabaseConfigurator : INoxTypeDatabaseConfigurator
         Entity entity,
         bool isKey)
     {
-       // var typeOptions = property.AreaTypeOptions ?? new AreaTypeOptions();
-
+        var typeOptions = property.AreaTypeOptions ?? new AreaTypeOptions();
+        
         builder
             .Property(property.Name)
             .IsRequired(property.IsRequired)
-            .HasConversion(typeof(AreaConverter));
+            .If(typeOptions.PersistAs == AreaTypeUnit.SquareFoot,
+                propertyToUpdate => propertyToUpdate.HasConversion<AreaToSquareFootConverter>())
+            .If(typeOptions.PersistAs == AreaTypeUnit.SquareMeter,
+                propertyToUpdate => propertyToUpdate.HasConversion<AreaToSquareMeterConverter>());
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;

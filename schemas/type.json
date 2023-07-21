@@ -1424,7 +1424,7 @@
                 "null"
               ]
             },
-            "unit": {    
+            "persistAs": {    
               "type": [
                 "string",
                 "null"

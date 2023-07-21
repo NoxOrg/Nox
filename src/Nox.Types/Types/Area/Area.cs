@@ -1,15 +1,20 @@
 ﻿using Nox.Types.Common;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
+using YamlDotNet.Core.Tokens;
 
 namespace Nox.Types;
 
 /// <summary>
 /// Represents a Nox <see cref="Area"/> type and value object.
 /// </summary>
-public class Area : Measurement<Area, AreaUnit> //ValueObject<(QuantityValue,AreaTypeUnit), Area>
+public class Area : ValueObject<QuantityValue, Area> 
 {
+    private const int QuantityValueDecimalPrecision = 6;
+
     private AreaTypeOptions _areaTypeOptions = new();
+    public AreaTypeUnit AreaTypeUnit { get; private init;}
 
     /// <summary>
     /// Creates a new instance of <see cref="Area"/> object in square meters.
@@ -19,7 +24,11 @@ public class Area : Measurement<Area, AreaUnit> //ValueObject<(QuantityValue,Are
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
     public static Area FromSquareMeters(QuantityValue value, AreaTypeOptions? options = null)
-        => From(value, new());
+    {
+        options ??= new();
+
+        return From(value, AreaTypeUnit.SquareMeter, options);
+    }
 
     /// <summary>
     /// Creates a new instance of <see cref="Area"/> object in square feet.
@@ -29,7 +38,12 @@ public class Area : Measurement<Area, AreaUnit> //ValueObject<(QuantityValue,Are
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
     public static Area FromSquareFeet(QuantityValue value, AreaTypeOptions? options = null)
-        => From(value, new());
+    {
+        options ??= new();
+
+        return From(value, AreaTypeUnit.SquareFoot, options);
+    }
+        
 
     /// <summary>
     /// Creates a new instance of <see cref="Area"/> object in square meters.
@@ -38,21 +52,20 @@ public class Area : Measurement<Area, AreaUnit> //ValueObject<(QuantityValue,Are
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
     public new static Area From(QuantityValue value)
-        => From(value, new());
+    {
+        var options = new AreaTypeOptions();
 
-    /// <summary>
-    /// Creates a new instance of <see cref="Area"/> object with the specified <see cref="AreaUnit"/>.
-    /// </summary>
-    /// <param name="value">The value to create the <see cref="Area"/> with</param>
-    /// <param name="options"></param>
-    /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
-    public static Area From(QuantityValue value, AreaTypeOptions options)
+        return From(value, options.PersistAs, options);
+    }
+
+    public static Area From(QuantityValue value, AreaTypeUnit areaUnit) => From(value, areaUnit, new());
+
+    public static Area From(QuantityValue value,AreaTypeUnit areaUnit, AreaTypeOptions options)
     {
         var newObject = new Area
         {
-            Value = Round(value),
-            Unit = options.DefaultAreaUnit == AreaTypeUnit.SquareFoot ? AreaUnit.SquareFoot : AreaUnit.SquareMeter,
+            Value = value.Round(QuantityValueDecimalPrecision),
+            AreaTypeUnit = areaUnit,
             _areaTypeOptions = options,
         };
 
@@ -64,6 +77,14 @@ public class Area : Measurement<Area, AreaUnit> //ValueObject<(QuantityValue,Are
         }
 
         return newObject;
+    }
+    public static Area FromDatabase(double areaValue, AreaTypeUnit areaUnit)
+    {
+        return new Area
+        {
+            Value = areaValue,
+            AreaTypeUnit = areaUnit
+        };
     }
 
     /// <summary>
@@ -81,9 +102,9 @@ public class Area : Measurement<Area, AreaUnit> //ValueObject<(QuantityValue,Are
             return result;
         }
 
-        if (!Enumeration.TryParseFromName<AreaUnit>(_areaTypeOptions.DefaultAreaUnit.ToString(), out var defaultUnit))
+        if (!Enumeration.TryParseFromName<AreaUnit>(_areaTypeOptions.PersistAs.ToString(), out var defaultUnit))
         {
-            result.Errors.Add(new ValidationFailure(nameof(AreaTypeOptions), $"Could not create a Nox Area type as options unit {_areaTypeOptions.DefaultAreaUnit} is not supported."));
+            result.Errors.Add(new ValidationFailure(nameof(AreaTypeOptions), $"Area does not support to be persisted {_areaTypeOptions.PersistAs}!"));
             return result;
         }
 
@@ -91,17 +112,28 @@ public class Area : Measurement<Area, AreaUnit> //ValueObject<(QuantityValue,Are
 
         if (valueInDefaultUnit > _areaTypeOptions.MaxValue)
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Area type as value {Value} {Unit} is greater than the specified maximum of {_areaTypeOptions.MaxValue} {defaultUnit}."));
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Area type as value {Value} {AreaTypeUnit} is greater than the specified maximum of {_areaTypeOptions.MaxValue} {defaultUnit}."));
         }
 
         if (Value >= 0 && valueInDefaultUnit < _areaTypeOptions.MinValue)
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Area type as value {Value} {Unit} is lesser than the specified minimum of {_areaTypeOptions.MinValue} {defaultUnit}."));
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Area type as value {Value} {AreaTypeUnit} is lesser than the specified minimum of {_areaTypeOptions.MinValue} {defaultUnit}."));
 
         }
 
         return result;
     }
+
+    public override string ToString()
+        => $"{Value.ToString($"0.{new string('#', QuantityValueDecimalPrecision)}", CultureInfo.InvariantCulture)} {AreaTypeUnit}";
+
+    /// <summary>
+    /// Returns a string representation of the <see cref="TValueObject"/> object using the specified <see cref="IFormatProvider"/>.
+    /// </summary>
+    /// <param name="formatProvider">The format provider for the measurement value.</param>
+    /// <returns>A string representation of the <see cref="TValueObject"/> object with the value formatted using the specified <see cref="IFormatProvider"/>.</returns>
+    public string ToString(IFormatProvider formatProvider)
+        => $"{Value.ToString(formatProvider)} {AreaTypeUnit}";
 
     private QuantityValue? _squareMeters;
     public QuantityValue ToSquareMeters() => _squareMeters ??= GetMeasurementIn(AreaUnit.SquareMeter);
@@ -114,6 +146,13 @@ public class Area : Measurement<Area, AreaUnit> //ValueObject<(QuantityValue,Are
         yield return new KeyValuePair<string, object>(nameof(Value), ToSquareMeters());
     }
 
-    protected override MeasurementConversion<AreaUnit> ResolveUnitConversion(AreaUnit sourceUnit, AreaUnit targetUnit)
+    protected QuantityValue GetMeasurementIn(AreaUnit targetUnit)
+    {
+        var conversion = ResolveUnitConversion(Enumeration.ParseFromName<AreaUnit>(AreaTypeUnit.ToString()), targetUnit);
+        return conversion.Calculate(Value).Round(QuantityValueDecimalPrecision);
+    }
+    protected MeasurementConversion<AreaUnit> ResolveUnitConversion(AreaUnit sourceUnit, AreaUnit targetUnit)
         => new AreaConversion(sourceUnit, targetUnit);
+
+    
 }

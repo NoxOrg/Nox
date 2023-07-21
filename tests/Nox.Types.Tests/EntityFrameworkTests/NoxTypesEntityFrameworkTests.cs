@@ -110,7 +110,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Population = Number.From(8_703_654),
             GrossDomesticProduct = Money.From(100, CurrencyCode.CHF, new MoneyTypeOptions(){MaxValue = 101, MinValue = 0}),
             CountryCode2 = CountryCode2.From("CH"),
-            AreaInSqKm = Area.From(41_290_000),
+            AreaInSqKm = Area.FromSquareMeters(41_290_000),
             CultureCode = CultureCode.From("de-CH"),
             CountryNumber = CountryNumber.From(756),
             MonthOfPeakTourism = Month.From(7),
@@ -161,7 +161,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.GrossDomesticProduct.Amount.Should().Be(100);
         item.CountryCode2.Value.Should().Be("CH");
         item.AreaInSqKm.Value.Should().Be(41_290_000);
-        item.AreaInSqKm.Unit.Should().Be(AreaUnit.SquareMeter);
+        item.AreaInSqKm.AreaTypeUnit.Should().Be(AreaTypeUnit.SquareMeter);
         item.CultureCode.Value.Should().Be("de-CH");
         item.CountryNumber.Value.Should().Be(756);
         item.MonthOfPeakTourism.Value.Should().Be(7);

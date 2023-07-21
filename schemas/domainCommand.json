@@ -2032,7 +2032,7 @@
                         "null"
                       ]
                     },
-                    "unit": {    
+                    "persistAs": {    
                       "type": [
                         "string",
                         "null"
@@ -4156,7 +4156,7 @@
                         "null"
                       ]
                     },
-                    "unit": {    
+                    "persistAs": {    
                       "type": [
                         "string",
                         "null"
@@ -6174,7 +6174,7 @@
                 "null"
               ]
             },
-            "unit": {    
+            "persistAs": {    
               "type": [
                 "string",
                 "null"

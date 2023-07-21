@@ -54,7 +54,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             PostalCode = "61135"
         };
         var areaInSquareMeters = 198_090;
-        var areaUnit = AreaUnit.SquareMeter;
+        var areaUnit = AreaTypeUnit.SquareMeter;
 
         var newItem = new TestEntityForTypes()
         {
@@ -64,7 +64,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
             StreetAddressTestField = StreetAddress.From(addressItem),
-            AreaTestField = Area.FromSquareMeters(areaInSquareMeters),
+            AreaTestField = Area.From(areaInSquareMeters, areaUnit, new AreaTypeOptions(){ PersistAs = areaUnit }),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -82,8 +82,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
-        testEntity.AreaTestField!.Value.Should().Be(areaInSquareMeters);
-        testEntity.AreaTestField!.Unit.Should().BeEquivalentTo(areaUnit);
+        ((double)testEntity.AreaTestField!.ToSquareMeters()).Should().BeApproximately(areaInSquareMeters,0.000099);
+        testEntity.AreaTestField!.AreaTypeUnit.Should().Be(areaUnit);
     }
 
     [Fact]

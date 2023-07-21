@@ -13,7 +13,7 @@ public class AreaTests
 
         typeOptions.MinValue.Should().Be(0);
         typeOptions.MaxValue.Should().Be(999_999_999_999_999);
-        typeOptions.DefaultAreaUnit.Should().Be(AreaTypeUnit.SquareMeter);
+        typeOptions.PersistAs.Should().Be(AreaTypeUnit.SquareMeter);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class AreaTests
         var area = Area.From(12.5);
 
         area.Value.Should().Be(12.5);
-        area.Unit.Should().Be(AreaUnit.SquareMeter);
+        area.AreaTypeUnit.Should().Be(AreaTypeUnit.SquareMeter);
     }
 
     [Fact]
@@ -31,22 +31,22 @@ public class AreaTests
         var area = Area.From(12.54888020887151);
 
         area.Value.Should().Be(12.548880);
-        area.Unit.Should().Be(AreaUnit.SquareMeter);
+        area.AreaTypeUnit.Should().Be(AreaTypeUnit.SquareMeter);
     }
 
     [Fact]
     public void Area_Constructor_WithUnit_ReturnsSameValueAndUnit()
     {
-        var area = Area.From(12.5, AreaUnit.SquareMeter);
+        var area = Area.From(12.5, AreaTypeUnit.SquareMeter);
 
         area.Value.Should().Be(12.5);
-        area.Unit.Should().Be(AreaUnit.SquareMeter);
+        area.AreaTypeUnit.Should().Be(AreaTypeUnit.SquareMeter);
     }
 
     [Fact]
     public void Area_Constructor_SpecifyingMaxValue_WithGreaterValueInput_ThrowsException()
     {
-        var action = () => Area.From(12.5, AreaUnit.SquareMeter, new AreaTypeOptions { MaxValue = 10 });
+        var action = () => Area.From(12.5, AreaTypeUnit.SquareMeter, new AreaTypeOptions { MaxValue = 10 });
 
         action.Should().Throw<TypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Area type as value 12.5 m² is greater than the specified maximum of 10 m².") });
@@ -55,20 +55,12 @@ public class AreaTests
     [Fact]
     public void Area_Constructor_SpecifyingMinValue_WithLesserValueInput_ThrowsException()
     {
-        var action = () => Area.From(12.5, AreaUnit.SquareMeter, new AreaTypeOptions { MinValue = 15 });
+        var action = () => Area.From(12.5, AreaTypeUnit.SquareMeter, new AreaTypeOptions { MinValue = 15 });
 
         action.Should().Throw<TypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Area type as value 12.5 m² is lesser than the specified minimum of 15 m².") });
     }
 
-    [Fact]
-    public void Area_Constructor_SpecifyingUnit_WithUnsupportedUnitInput_ThrowsException()
-    {
-        var action = () => Area.From(12.5, AreaUnit.SquareMeter, new AreaTypeOptions { DefaultAreaUnit = (AreaTypeUnit)1001 });
-
-        action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("AreaTypeOptions", "Could not create a Nox Area type as options unit 1001 is not supported.") });
-    }
 
     [Fact]
     public void Area_Constructor_WithUnitInSquareMeters_ReturnsSameValueAndUnit()
@@ -76,7 +68,7 @@ public class AreaTests
         var area = Area.FromSquareMeters(12.5);
 
         area.Value.Should().Be(12.5);
-        area.Unit.Should().Be(AreaUnit.SquareMeter);
+        area.AreaTypeUnit.Should().Be(AreaTypeUnit.SquareMeter);
     }
 
     [Fact]
@@ -103,7 +95,7 @@ public class AreaTests
         var area = Area.FromSquareFeet(134.548880);
 
         area.Value.Should().Be(134.548880);
-        area.Unit.Should().Be(AreaUnit.SquareFoot);
+        area.AreaTypeUnit.Should().Be(AreaTypeUnit.SquareFoot);
     }
 
     [Fact]
@@ -246,9 +238,9 @@ public class AreaTests
     {
         var squareMeters = 12.5;
 
-        var area1 = Area.From(squareMeters, AreaUnit.SquareMeter);
+        var area1 = Area.From(squareMeters, AreaTypeUnit.SquareMeter);
 
-        var area2 = Area.From(squareMeters, AreaUnit.SquareMeter);
+        var area2 = Area.From(squareMeters, AreaTypeUnit.SquareMeter);
 
         AssertAreEquivalent(area1, area2);
     }
@@ -257,10 +249,10 @@ public class AreaTests
     public void Area_Equality_WithDifferentAreaUnit_Tests()
     {
         var squareMeters = 12.5;
-        var area1 = Area.From(squareMeters, AreaUnit.SquareMeter);
+        var area1 = Area.From(squareMeters, AreaTypeUnit.SquareMeter);
 
         var squareFeetValue = 134.54888; // 12.5 m²
-        var area2 = Area.From(squareFeetValue, AreaUnit.SquareFoot);
+        var area2 = Area.From(squareFeetValue, AreaTypeUnit.SquareFoot);
 
         AssertAreEquivalent(area1, area2);
     }
@@ -269,10 +261,10 @@ public class AreaTests
     public void Area_NonEquality_SpecifyingAreaUnit_WithSameUnit_Tests()
     {
         var squareMeters1 = 12.5;
-        var area1 = Area.From(squareMeters1, AreaUnit.SquareMeter);
+        var area1 = Area.From(squareMeters1, AreaTypeUnit.SquareMeter);
 
         var squareMeters2 = 13.0;
-        var area2 = Area.From(squareMeters2, AreaUnit.SquareMeter);
+        var area2 = Area.From(squareMeters2, AreaTypeUnit.SquareMeter);
 
         AssertAreNotEquivalent(area1, area2);
     }
@@ -281,10 +273,10 @@ public class AreaTests
     public void Area_NonEquality_SpecifyingAreaUnit_WithDifferentUnit_Tests()
     {
         var squareMeters = 12.5;
-        var area1 = Area.From(squareMeters, AreaUnit.SquareMeter);
+        var area1 = Area.From(squareMeters, AreaTypeUnit.SquareMeter);
 
         var squareFeet = 139.930835; // 13 m²
-        var area2 = Area.From(squareFeet, AreaUnit.SquareFoot);
+        var area2 = Area.From(squareFeet, AreaTypeUnit.SquareFoot);
 
         AssertAreNotEquivalent(area1, area2);
     }
