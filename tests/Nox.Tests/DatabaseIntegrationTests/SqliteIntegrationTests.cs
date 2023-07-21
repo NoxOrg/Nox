@@ -84,7 +84,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
         testEntity.AreaTestField!.ToSquareMeters().Should().Be(areaInSquareMeters);
-        testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
+        // AreaTypeUnit.SquareMeter are the default for nox.yaml
+        testEntity.AreaTestField!.Unit.Should().Be(AreaTypeUnit.SquareMeter);
     }
 
     [Fact]
