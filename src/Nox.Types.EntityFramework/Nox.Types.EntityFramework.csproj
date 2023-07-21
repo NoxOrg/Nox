@@ -46,5 +46,6 @@
 	<ItemGroup>
 	  <Folder Include="Model\" />
 	  <Folder Include="Types\Uri\" />
+	  <Folder Include="Types\Yaml\" />
 	</ItemGroup>
 </Project>

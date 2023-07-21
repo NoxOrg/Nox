@@ -24,7 +24,12 @@ public enum NoxType : uint
     [CompoundComponent("Amount", typeof(decimal))]
     [CompoundComponent("CurrencyCode", typeof(string))]
     Money = 3500951620,
-    
+
+    [CompoundType()]
+    [CompoundComponent("Area", typeof(double))]
+    [CompoundComponent("AreaUnit", typeof(AreaTypeUnit))]
+    Area = 998304025,
+
     [CompoundType]
     [CompoundComponent("StreetNumber",typeof(int))]
     [CompoundComponent("AddressLine1", typeof(string))]
@@ -61,9 +66,7 @@ public enum NoxType : uint
     File = 612041382,
 
     // Simple Types
-    [SimpleType(typeof(double))] 
-    Area = 998304025,
-    
+
     [SimpleType(typeof(int))] 
     AutoNumber = 24779567,
     
