@@ -1,6 +1,7 @@
 using System.Text.Json;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using Nox.Integration.Abstractions;
 using Nox.Integration.Constants;
 using Nox.Integration.Exceptions;
 

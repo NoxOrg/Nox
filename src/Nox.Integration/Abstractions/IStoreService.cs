@@ -1,6 +1,4 @@
-using Nox.Solution;
-
-namespace Nox.Integration.Store;
+namespace Nox.Integration.Abstractions;
 
 public interface IStoreService
 {
