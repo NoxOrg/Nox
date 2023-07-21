@@ -54,6 +54,8 @@ public class SqliteIntegrationTests : SqliteTestBase
             PostalCode = "61135"
         };
         var languageCode = "en";
+        var areaInSquareMeters = 198_090;
+        var areaUnit = AreaTypeUnit.SquareMeter;
 
         var newItem = new TestEntityForTypes()
         {
@@ -63,6 +65,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
             StreetAddressTestField = StreetAddress.From(addressItem),
+            AreaTestField = Area.From(areaInSquareMeters, areaUnit, new AreaTypeOptions(){ PersistAs = areaUnit }),
             LanguageCodeTestField = LanguageCode.From(languageCode)
         };
         DbContext.TestEntityForTypes.Add(newItem);
@@ -82,6 +85,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
         testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
+        ((double)testEntity.AreaTestField!.ToSquareMeters()).Should().BeApproximately(areaInSquareMeters,0.000099);
+        testEntity.AreaTestField!.AreaTypeUnit.Should().Be(areaUnit);
     }
 
     [Fact]

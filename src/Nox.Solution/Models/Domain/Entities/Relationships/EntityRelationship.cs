@@ -31,7 +31,8 @@ public class EntityRelationship : DefinitionBase
     [Description("The name of the target entity that this entity relates to.")]
     public string Entity { get; internal set; } = null!;
 
-    [YamlIgnore] public string EntityPlural => Entity.Pluralize();
+    [YamlIgnore] 
+    public string EntityPlural => Entity.Pluralize();
 
     [Title("Determines whether this side of the relationship is exposed in the generated code and ODATA endpoints.")]
     [Description("This boolean controls whether this side of the relationship is exposed in the generated code and ODATA endpoints.")]

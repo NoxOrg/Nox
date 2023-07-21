@@ -48,4 +48,9 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// (Optional)
     /// </summary>
     public LanguageCode? LanguageCodeTestField { get; set; } = null!;
+    
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Area? AreaTestField { get; set; } = null!;
 }
