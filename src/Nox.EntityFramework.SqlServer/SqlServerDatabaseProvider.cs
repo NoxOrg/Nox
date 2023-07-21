@@ -1,7 +1,6 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
-using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
 
 namespace Nox.EntityFramework.SqlServer;
@@ -33,7 +32,7 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
         SetConnectionString(csb.ConnectionString);
 
         return optionsBuilder
-            .UseLazyLoadingProxies()
+            //.UseLazyLoadingProxies()
             .UseSqlServer(_connectionString,
                 opts => { opts.MigrationsHistoryTable("MigrationsHistory", "migrations"); });
     }

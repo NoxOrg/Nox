@@ -12,7 +12,7 @@ public abstract class ValueObject<T, TValueObject> : INoxType
     protected ValueObject()
     { }
 
-    public TValueObject FromDatabase(T value)
+    public static TValueObject FromDatabase(T value)
     {
         return new TValueObject { Value = value };
     }

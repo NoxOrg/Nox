@@ -1,6 +1,6 @@
 ﻿using FluentAssertions;
 using Nox.Types;
-using TestDatabaseWebApp.Domain;
+using TestWebApp.Domain;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
 
@@ -15,22 +15,25 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var money = 10;
         var currencyCode = CurrencyCode.UAH;
         var countryCode2 = "UA";
+        var areaInSquareMeters = 198_090;
+        var areaUnit = AreaTypeUnit.SquareMeter;
 
-        var newItem = new TestEntity()
+        var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
             TextTestField = Text.From(text),
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
-            CountryCode2TestField = CountryCode2.From(countryCode2)
+            CountryCode2TestField = CountryCode2.From(countryCode2),
+            AreaTestField = Area.FromSquareMeters(areaInSquareMeters),
         };
-        DbContext.TestEntities.Add(newItem);
+        DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
 
         // Force the recreation of DBContext and ensure we have fresh data from database
         RecreateDbContext();
 
-        var testEntity = DbContext.TestEntities.First();
+        var testEntity = DbContext.TestEntityForTypes.First();
 
         // TODO: make it work without .Value
         testEntity.Id.Value.Should().Be(countryCode2);
@@ -39,5 +42,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.MoneyTestField!.Value.Amount.Should().Be(money);
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
+        testEntity.AreaTestField!.Value.Should().Be(areaInSquareMeters);
+        testEntity.AreaTestField!.AreaTypeUnit.Should().Be(areaUnit);
     }
 }

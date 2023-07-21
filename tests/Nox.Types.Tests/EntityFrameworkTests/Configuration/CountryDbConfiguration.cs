@@ -36,16 +36,25 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.WeightInKilograms).HasConversion<WeightToKilogramsConverter>();
         builder.Property(e => e.Nuid).HasConversion<NuidConverter>();
         builder.Property(e => e.CreateDate).HasConversion<DateTimeConverter>();
+        builder.Property(e => e.CurrentTime).HasConversion<TimeConverter>();
+        builder.Property(e => e.AverageTemperatureInCelsius).HasConversion<TemperatureToCelsiusConverter>();
+        builder.Property(e => e.PageHtml).HasConversion<HtmlConverter>();
+        builder.Property(e => e.CitiesCounties).HasConversion<YamlConverter>();
+        builder.Property(e => e.PhoneNumber).HasConversion<PhoneNumberConverter>();
         builder.Property(e => e.Formula).HasConversion<FormulaConverter>();
 
         // Configure Multi-value ValueObjects
         builder.OwnsOne(e => e.LatLong).Ignore(p => p.Value);
         builder.OwnsOne(e => e.GrossDomesticProduct).Ignore(p => p.Value);
         builder.OwnsOne(e => e.DateTimeRange).Ignore(p => p.Value);
+        builder.OwnsOne(e => e.File).Ignore(p => p.Value);
         builder.OwnsOne(e => e.StreetAddress)
             .Ignore(p => p.Value)
             .Property(x => x.CountryId)
             .HasConversion<CountryCode2Converter>();
         builder.OwnsOne(e => e.HashedText).Ignore(p => p.Value);
+        builder.OwnsOne(e => e.ArabicName).Ignore(p => p.Value)
+            .Property(x => x.CultureCode).HasConversion<CultureCodeConverter>();
+        builder.OwnsOne(e=>e.Flag).Ignore(p=>p.Value);
     }
 }

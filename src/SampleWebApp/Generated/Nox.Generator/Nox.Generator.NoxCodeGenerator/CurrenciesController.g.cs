@@ -44,7 +44,7 @@ public partial class CurrenciesController : ODataController
         return Ok(_databaseContext.Currencies);
     }
     
-    public ActionResult<Currency> Get([FromRoute] string key)
+    public ActionResult<Currency> Get([FromRoute] String key)
     {
         var item = _databaseContext.Currencies.SingleOrDefault(d => d.Id.Equals(key));
         

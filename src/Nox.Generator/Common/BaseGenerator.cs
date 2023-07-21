@@ -9,6 +9,8 @@ namespace Nox.Generator.Common;
 
 internal class BaseGenerator
 {
+    protected BaseGenerator() { }
+
     internal static void GenerateDocs(CodeBuilder code, string? description)
     {
         if (!string.IsNullOrWhiteSpace(description))

@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
+using Nox.Solution;
 
 namespace Nox.Generator;
 
@@ -9,26 +10,8 @@ internal static class EntityBaseGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        var code = new CodeBuilder($"EntityBase.g.cs", context);
+        var code = new TemplateCodeBuilder(context, codeGeneratorState);
 
-        code.AppendLine($"using System;");
-        code.AppendLine();
-        code.AppendLine($"namespace {codeGeneratorState.DomainNameSpace};");
-        code.AppendLine();
-        code.AppendLine($"/// <summary>");
-        code.AppendLine($"/// The base class for all domain entities.");
-        code.AppendLine($"/// </summary>");
-        code.AppendLine($"public partial class EntityBase");
-
-        code.StartBlock();
-
-        code.AppendLine($"/// <summary>");
-        code.AppendLine($"/// The state of the entity as at this date.");
-        code.AppendLine($"/// </summary>");
-        code.AppendLine($"public DateTime AsAt {{ get; set; }}");
-
-        code.EndBlock();
-
-        code.GenerateSourceCode();
+        code.GenerateSourceCodeFromResource(@"Domain.ModelGenerator.EntityBase");
     }
 }

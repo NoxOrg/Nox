@@ -6,9 +6,7 @@
 
 name: EnvTestService
 
-# one of these should be replaced on Windows/Linux
-
-description: ${{ env.TEMP }} ${{ env.TMPDIR }}
+description: ${{ env.MyTemp }} ${{ env.MyTempDir }}
 
 
 

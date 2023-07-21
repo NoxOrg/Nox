@@ -1,4 +1,3 @@
-using System.Linq;
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
@@ -6,7 +5,6 @@ using Nox.Secrets;
 using Nox.Secrets.Abstractions;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-using Scrutor;
 
 namespace Nox;
 
@@ -30,9 +28,8 @@ public static class ServiceCollectionExtension
         return new NoxSolutionBuilder()
             .OnResolveSecrets((_, args) =>
             {
-                var yaml = args.Yaml;
-                var secretsConfig = args.SecretsConfiguration;
-                var secretKeys = SecretExtractor.Extract(yaml);
+                var secretsConfig = args.SecretsConfig;
+                var secretKeys =  args.Variables;
                 var resolver = serviceProvider.GetRequiredService<INoxSecretsResolver>();
                 resolver.Configure(secretsConfig!, Assembly.GetEntryAssembly());
                 args.Secrets = resolver.Resolve(secretKeys!);
