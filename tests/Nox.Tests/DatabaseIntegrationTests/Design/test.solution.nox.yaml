@@ -309,6 +309,9 @@ domain:
         #- name: TempratureTestField
         #  type: temperature
 
+        - name: TranslatedTextTestField
+          type: translatedText
+
         #- name: UriTestField
         #  type: uri
 
