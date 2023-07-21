@@ -105,9 +105,7 @@ internal class TemplateCodeBuilder
         context.PushGlobal(scriptModelObject);
 
         // Add Delegate functions to instance objects
-        NoxSolutionCodeGeneratorStateBridge.AddFunctions(context,_codeGeneratorState);
         NoxSolutionBridge.AddFunctions(context, _codeGeneratorState.Solution);
-        HelpersBridge.AddFunctions(context);
 
         _context.AddSource(sourceFileName,
             SourceText.From(strongTemplate.Render(context),

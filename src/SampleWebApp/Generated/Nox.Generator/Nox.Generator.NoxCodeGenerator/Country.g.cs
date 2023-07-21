@@ -62,7 +62,7 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     /// Country area in square kilometers (Required).
     /// </summary>
-    public Number AreaInSquareKilometres { get; set; } = null!;
+    public Area AreaInSquareKilometres { get; set; } = null!;
 
     /// <summary>
     /// The region the country is in (Required).

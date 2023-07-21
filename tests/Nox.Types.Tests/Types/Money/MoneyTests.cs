@@ -86,10 +86,6 @@ public class MoneyTests
     {
         void Test()
         {
-            var area = Area.FromSquareMeters(12.5);
-
-            Assert.Equal("12.5 m²", area.ToString());
-
             var money1 = Money.From(1455453.5m, CurrencyCode.ZAR);
             var money2 = Money.From(1455453.5m, CurrencyCode.GBP);
 

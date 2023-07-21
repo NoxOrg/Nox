@@ -234,10 +234,11 @@ domain:
 
         - name: AreaInSquareKilometres
           description: Country area in square kilometers
-          type: number
-          numberTypeOptions:
-            minValue: 0
-            maxValue: 20000000 # 20,000,000 > Russia
+          type: area
+          #areaTypeOptions:
+            #minValue: 0
+            #maxValue: 20000000 # 20,000,000 > Russia
+            #persistAs: squareFoot
           isRequired: true
 
         #- name: GeoCoord
