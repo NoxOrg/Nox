@@ -4,10 +4,14 @@ namespace Nox.Types;
 
 public class NumberTypeOptions : IHaveUnderLineTypeOptions
 {
+    // Default Create Options
     public static readonly decimal DefaultMinValue = -999999999;
     public static readonly decimal DefaultMaxValue = +999999999;
+
+    // Validation Properties
     public decimal MinValue { get; set; } = DefaultMinValue;
     public decimal MaxValue { get; set; } = DefaultMaxValue;
+    // Database Options
     public uint DecimalDigits { get; set; } = 0;
 
 

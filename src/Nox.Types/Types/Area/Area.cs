@@ -19,7 +19,7 @@ public class Area : Measurement<Area, AreaUnit> //ValueObject<(QuantityValue,Are
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
     public static Area FromSquareMeters(QuantityValue value, AreaTypeOptions? options = null)
-        => From(value, AreaUnit.SquareMeter, options);
+        => From(value, new());
 
     /// <summary>
     /// Creates a new instance of <see cref="Area"/> object in square feet.
@@ -29,7 +29,7 @@ public class Area : Measurement<Area, AreaUnit> //ValueObject<(QuantityValue,Are
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
     public static Area FromSquareFeet(QuantityValue value, AreaTypeOptions? options = null)
-        => From(value, options);
+        => From(value, new());
 
     /// <summary>
     /// Creates a new instance of <see cref="Area"/> object in square meters.
@@ -38,7 +38,7 @@ public class Area : Measurement<Area, AreaUnit> //ValueObject<(QuantityValue,Are
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
     public new static Area From(QuantityValue value)
-        => FromSquareMeters(value);
+        => From(value, new());
 
     /// <summary>
     /// Creates a new instance of <see cref="Area"/> object with the specified <see cref="AreaUnit"/>.
