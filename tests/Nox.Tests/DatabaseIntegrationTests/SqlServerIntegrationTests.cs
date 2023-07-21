@@ -15,14 +15,15 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var money = 10;
         var currencyCode = CurrencyCode.UAH;
         var countryCode2 = "UA";
-
+        var macAddress = "A1B2C3D4E5F6";
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
             TextTestField = Text.From(text),
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
-            CountryCode2TestField = CountryCode2.From(countryCode2)
+            CountryCode2TestField = CountryCode2.From(countryCode2),
+            MacAddressTestField = MacAddress.From(macAddress),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -39,5 +40,6 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.MoneyTestField!.Value.Amount.Should().Be(money);
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
+        testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
     }
 }
