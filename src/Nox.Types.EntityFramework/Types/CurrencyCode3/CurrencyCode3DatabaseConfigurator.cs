@@ -7,7 +7,7 @@ namespace Nox.Types.EntityFramework.Types;
 
 public class CurrencyCode3DatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
-    public NoxType ForNoxType => NoxType.CurrencyCode3;
+    public NoxType ForNoxType => NoxType.CurrencyCode;
     public bool IsDefault  => true;
 
     public void ConfigureEntityProperty(
