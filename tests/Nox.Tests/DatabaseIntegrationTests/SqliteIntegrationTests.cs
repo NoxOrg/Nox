@@ -1,6 +1,7 @@
 ﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Nox.Types;
+using Nox.Types.Common;
 using TestWebApp.Domain;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
@@ -53,8 +54,8 @@ public class SqliteIntegrationTests : SqliteTestBase
             CountryId = CountryCode2.From("UA"),
             PostalCode = "61135"
         };
-        var areaInSquareMeters = 198_090;
-        var areaUnit = AreaTypeUnit.SquareMeter;
+        var areaInSquareMeters = 198_090M;
+        var persistUnitAs = AreaTypeUnit.SquareFoot;
 
         var newItem = new TestEntityForTypes()
         {
@@ -64,7 +65,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
             StreetAddressTestField = StreetAddress.From(addressItem),
-            AreaTestField = Area.From(areaInSquareMeters, areaUnit, new AreaTypeOptions(){ PersistAs = areaUnit }),
+            AreaTestField = Area.From(areaInSquareMeters, new AreaTypeOptions() {Units = AreaTypeUnit.SquareMeter,PersistAs = persistUnitAs }),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -82,8 +83,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
-        ((double)testEntity.AreaTestField!.ToSquareMeters()).Should().BeApproximately(areaInSquareMeters,0.000099);
-        testEntity.AreaTestField!.AreaTypeUnit.Should().Be(areaUnit);
+        testEntity.AreaTestField!.ToSquareMeters().Should().Be(areaInSquareMeters);
+        testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
     }
 
     [Fact]
