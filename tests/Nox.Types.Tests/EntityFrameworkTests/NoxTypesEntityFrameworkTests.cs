@@ -86,6 +86,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             CurrentTime = Time.From(07,55,33,250),
             PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
             CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
+            File = File.From("https://example.com/myfile.pdf", "MyFile", 512),
             PhoneNumber = PhoneNumber.From("+41 848 700 700"),
         };
         DbContext.Countries!.Add(newItem);
@@ -141,6 +142,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             AverageTemperatureInCelsius = Temperature.FromCelsius(25),
             PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
             CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
+            File = File.From("https://example.com/myfile.pdf", "MyFile", 512),
             PhoneNumber = PhoneNumber.From("+41 848 700 700"),
         };
         DbContext.Countries!.Add(newItem);
@@ -203,6 +205,9 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.Uri.Value.AbsoluteUri.Should().Be(Sample_Uri);
         item.StreetAddressJson.Value.Should().Be(JsonSerializer.Serialize(streetAddress));
         item.CitiesCounties.Value.Should().Be(SwitzerlandCitiesCountiesYaml);
+        item.File.Url.Should().Be("https://example.com/myfile.pdf");
+        item.File.PrettyName.Should().Be("MyFile");
+        item.File.SizeInBytes.Should().Be(512UL);
         item.PhoneNumber.Value.Should().Be("+41 848 700 700");
     }
 

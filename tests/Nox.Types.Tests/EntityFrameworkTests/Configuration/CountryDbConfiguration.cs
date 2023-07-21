@@ -46,6 +46,7 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.OwnsOne(e => e.LatLong).Ignore(p => p.Value);
         builder.OwnsOne(e => e.GrossDomesticProduct).Ignore(p => p.Value);
         builder.OwnsOne(e => e.DateTimeRange).Ignore(p => p.Value);
+        builder.OwnsOne(e => e.File).Ignore(p => p.Value);
         builder.OwnsOne(e => e.StreetAddress)
             .Ignore(p => p.Value)
             .Property(x => x.CountryId)
