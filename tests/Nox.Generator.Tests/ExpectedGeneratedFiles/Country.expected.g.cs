@@ -19,10 +19,10 @@ public partial class Country : AuditableEntityBase
     /// </summary>
     public Nuid Id 
         {
-            get => _id ?? Nuid.From(string.Join(".", Name.Value.ToString(), FormalName.Value.ToString()));
+            get => _id ?? Nuid.From(string.Join(".", Name.Value.ToString(),FormalName.Value.ToString()));
             private set 
             {
-                var actualNuid = Nuid.From(string.Join(".", Name.Value.ToString(), FormalName.Value.ToString()));
+                var actualNuid = Nuid.From(string.Join(".", Name.Value.ToString(),FormalName.Value.ToString()));
                 if (value is null)
                 {
                     _id = actualNuid;
@@ -37,7 +37,6 @@ public partial class Country : AuditableEntityBase
                 }
             }
         }
-    
         private Nuid _id = null!;
 
     /// <summary>

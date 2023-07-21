@@ -33,40 +33,4 @@ public class NoxSolutionCodeGeneratorState
     {
         return $"{foreignEntityName}Id";
     }
-
-    public string GetPrivateFieldName(string fieldName)
-    {
-        return $"_{ToLowerFirstChar(fieldName)}";
-    }
-
-    public string GetNuidCreationStatement(NoxSimpleTypeDefinition typeDefinition)
-    {
-        var nuidTypeOptions = typeDefinition.NuidTypeOptions!;
-        var propertiesToComposeBy = nuidTypeOptions.PropertyNames;
-        var propertiesCombinedString = string.Join(", ", propertiesToComposeBy.Select(x => $"{ToUpperFirstChar(x)}.Value.ToString()"));
-
-        var idGetter = $"string.Join(\"{nuidTypeOptions.Separator}\", {propertiesCombinedString})";
-        return $"Nuid.From({idGetter})";
-    }
-
-    // TODO: Extension methods  should be moved to common place
-    private static string ToLowerFirstChar(string input)
-    {
-        if (string.IsNullOrEmpty(input))
-        {
-            return input;
-        }
-
-        return char.ToLower(input[0]) + input.Substring(1);
-    }
-
-    private static string ToUpperFirstChar(string input)
-    {
-        if (string.IsNullOrEmpty(input))
-        {
-            return input;
-        }
-
-        return char.ToUpper(input[0]) + input.Substring(1);
-    }
 }

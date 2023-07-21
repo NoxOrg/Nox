@@ -25,30 +25,29 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     public virtual {{key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
 
     {{- else if key.Type == "Nuid" -}}
-
+    {{- privateFieldName = "_"+key.Name | string.downcase -}}
+    {{- codeGeneratorNuidGetter = "Nuid.From(string.Join(\""+key.NuidTypeOptions.Separator +"\", "+ (key.NuidTypeOptions.PropertyNames | array.join "," @(do; ret $0 + ".Value.ToString()"; end)) +"))" -}}
     public {{key.Type}} {{key.Name}} 
     {
-        get => {{CodeGeneratorPrivateFieldName key}} ?? {{CodeGeneratorNuidGetter key}};
+        get => {{privateFieldName}} ?? {{codeGeneratorNuidGetter}};
         private set 
         {
-            var actualNuid = {{CodeGeneratorNuidGetter key}};
+            var actualNuid = {{codeGeneratorNuidGetter}};
             if (value is null)
             {
-                {{CodeGeneratorPrivateFieldName key}} = actualNuid;
+                {{privateFieldName}} = actualNuid;
             }
-            else if (value is not null && {{CodeGeneratorPrivateFieldName key}} is null)
+            else if (value is not null && {{privateFieldName}} is null)
             {
-                {{CodeGeneratorPrivateFieldName key}} = value;
+                {{privateFieldName}} = value;
             }
-            else if (value is not null && {{CodeGeneratorPrivateFieldName key}} is not null && {{CodeGeneratorPrivateFieldName key}} != value)
+            else if (value is not null && {{privateFieldName}} is not null && {{privateFieldName}} != value)
             {
                 throw new InvalidOperationException("Nuid has diffrent value than it has been generated.");
             }
         }
     }
-
-    private {{key.Type}} {{CodeGeneratorPrivateFieldName key}} = null!;    
-
+    private {{key.Type}} {{privateFieldName}} = null!; 
     {{- else -}}
 
     public {{key.Type}} {{key.Name}} { get; set; } = null!; 
