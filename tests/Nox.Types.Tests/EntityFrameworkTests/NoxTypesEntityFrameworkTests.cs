@@ -87,6 +87,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
             CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
             File = File.From("https://example.com/myfile.pdf", "MyFile", 512),
+            PhoneNumber = PhoneNumber.From("+41 848 700 700"),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -142,6 +143,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
             CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
             File = File.From("https://example.com/myfile.pdf", "MyFile", 512),
+            PhoneNumber = PhoneNumber.From("+41 848 700 700"),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -206,6 +208,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.File.Url.Should().Be("https://example.com/myfile.pdf");
         item.File.PrettyName.Should().Be("MyFile");
         item.File.SizeInBytes.Should().Be(512UL);
+        item.PhoneNumber.Value.Should().Be("+41 848 700 700");
     }
 
     private static StreetAddress CreateStreetAddress()
