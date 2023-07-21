@@ -60,9 +60,18 @@ public class NoxSimpleTypeDefinition
 
     [IfEquals("Type", NoxType.DateTime)]
     public DateTimeTypeOptions? DateTimeTypeOptions { get; set; }
+    
+    [IfEquals("Type", NoxType.Image)]
+    public ImageTypeOptions? ImageTypeOptions { get; set; }
 
     [IfEquals("Type", NoxType.Time)]
     public TimeTypeOptions? TimeTypeOptions { get; set; }
+
+    [IfEquals("Type", NoxType.File)]
+    public FileTypeOptions? FileTypeOptions { get; set; }
+	
+	[IfEquals("Type", NoxType.Area)]
+    public AreaTypeOptions? AreaTypeOptions { get; set; }
 
     #endregion TypeOptions
 

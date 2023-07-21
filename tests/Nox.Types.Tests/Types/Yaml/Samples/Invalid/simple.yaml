@@ -1,0 +1,8 @@
+root:
+  child1:
+    value1: value1
+    value2: value2
+  child2:
+    value3: value3
+      value4: value4
+    value5: value5
