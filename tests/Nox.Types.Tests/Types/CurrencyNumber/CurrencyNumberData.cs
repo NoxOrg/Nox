@@ -6,11 +6,41 @@ public class CurrencyNumberData : IEnumerable<object[]>
 {
     public IEnumerator<object[]> GetEnumerator()
     {
+        yield return new object[] { (short)784 };
+        yield return new object[] { (short)971 };
+        yield return new object[] { (short)8 };
+        yield return new object[] { (short)51 };
+        yield return new object[] { (short)532 };
+        yield return new object[] { (short)973 };
+        yield return new object[] { (short)32 };
+        yield return new object[] { (short)36 };
+        yield return new object[] { (short)533 };
+        yield return new object[] { (short)944 };
+        yield return new object[] { (short)977 };
+        yield return new object[] { (short)52 };
+        yield return new object[] { (short)50 };
+        yield return new object[] { (short)975 };
+        yield return new object[] { (short)48 };
+        yield return new object[] { (short)108 };
+        yield return new object[] { (short)60 };
+        yield return new object[] { (short)96 };
+        yield return new object[] { (short)68 };
+        yield return new object[] { (short)984 };
+        yield return new object[] { (short)986 };
+        yield return new object[] { (short)44 };
+        yield return new object[] { (short)64 };
+        yield return new object[] { (short)72 };
+        yield return new object[] { (short)933 };
+        yield return new object[] { (short)84 };
+        yield return new object[] { (short)124 };
         yield return new object[] { (short)976 };
+        yield return new object[] { (short)947 };
         yield return new object[] { (short)756 };
+        yield return new object[] { (short)948 };
+        yield return new object[] { (short)990 };
         yield return new object[] { (short)152 };
-        yield return new object[] { (short)156 };
         yield return new object[] { (short)170 };
+        yield return new object[] { (short)970 };
         yield return new object[] { (short)188 };
         yield return new object[] { (short)931 };
         yield return new object[] { (short)192 };
@@ -36,7 +66,6 @@ public class CurrencyNumberData : IEnumerable<object[]>
         yield return new object[] { (short)328 };
         yield return new object[] { (short)344 };
         yield return new object[] { (short)340 };
-        yield return new object[] { (short)191 };
         yield return new object[] { (short)332 };
         yield return new object[] { (short)348 };
         yield return new object[] { (short)360 };
@@ -70,11 +99,12 @@ public class CurrencyNumberData : IEnumerable<object[]>
         yield return new object[] { (short)104 };
         yield return new object[] { (short)496 };
         yield return new object[] { (short)446 };
-        yield return new object[] { (short)478 };
+        yield return new object[] { (short)929 };
         yield return new object[] { (short)480 };
         yield return new object[] { (short)462 };
         yield return new object[] { (short)454 };
         yield return new object[] { (short)484 };
+        yield return new object[] { (short)979 };
         yield return new object[] { (short)458 };
         yield return new object[] { (short)943 };
         yield return new object[] { (short)516 };
@@ -94,6 +124,7 @@ public class CurrencyNumberData : IEnumerable<object[]>
         yield return new object[] { (short)634 };
         yield return new object[] { (short)946 };
         yield return new object[] { (short)941 };
+        yield return new object[] { (short)156 };
         yield return new object[] { (short)643 };
         yield return new object[] { (short)646 };
         yield return new object[] { (short)682 };
@@ -103,9 +134,11 @@ public class CurrencyNumberData : IEnumerable<object[]>
         yield return new object[] { (short)752 };
         yield return new object[] { (short)702 };
         yield return new object[] { (short)654 };
+        yield return new object[] { (short)925 };
         yield return new object[] { (short)694 };
         yield return new object[] { (short)706 };
         yield return new object[] { (short)968 };
+        yield return new object[] { (short)728 };
         yield return new object[] { (short)930 };
         yield return new object[] { (short)222 };
         yield return new object[] { (short)760 };
@@ -122,19 +155,39 @@ public class CurrencyNumberData : IEnumerable<object[]>
         yield return new object[] { (short)980 };
         yield return new object[] { (short)800 };
         yield return new object[] { (short)840 };
+        yield return new object[] { (short)997 };
+        yield return new object[] { (short)940 };
         yield return new object[] { (short)858 };
+        yield return new object[] { (short)927 };
         yield return new object[] { (short)860 };
+        yield return new object[] { (short)926 };
+        yield return new object[] { (short)928 };
         yield return new object[] { (short)704 };
         yield return new object[] { (short)548 };
         yield return new object[] { (short)882 };
         yield return new object[] { (short)950 };
+        yield return new object[] { (short)961 };
+        yield return new object[] { (short)959 };
+        yield return new object[] { (short)955 };
+        yield return new object[] { (short)956 };
+        yield return new object[] { (short)957 };
+        yield return new object[] { (short)958 };
         yield return new object[] { (short)951 };
+        yield return new object[] { (short)960 };
         yield return new object[] { (short)952 };
+        yield return new object[] { (short)964 };
         yield return new object[] { (short)953 };
+        yield return new object[] { (short)962 };
+        yield return new object[] { (short)994 };
+        yield return new object[] { (short)963 };
+        yield return new object[] { (short)965 };
+        yield return new object[] { (short)999 };
         yield return new object[] { (short)886 };
         yield return new object[] { (short)710 };
-        yield return new object[] { (short)894 };
+        yield return new object[] { (short)967 };
+        yield return new object[] { (short)932 };
     }
+
 
     IEnumerator IEnumerable.GetEnumerator() => GetEnumerator();
 }

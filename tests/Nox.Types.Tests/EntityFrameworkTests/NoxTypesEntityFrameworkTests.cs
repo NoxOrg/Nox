@@ -144,6 +144,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
             File = File.From("https://example.com/myfile.pdf", "MyFile", 512),
             PhoneNumber = PhoneNumber.From("+41 848 700 700"),
+            CurrencyNumber = CurrencyNumber.From(840)
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -209,6 +210,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.File.PrettyName.Should().Be("MyFile");
         item.File.SizeInBytes.Should().Be(512UL);
         item.PhoneNumber.Value.Should().Be("+41 848 700 700");
+        item.CurrencyNumber.Value.Should().Be(840);
     }
 
     private static StreetAddress CreateStreetAddress()
