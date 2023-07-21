@@ -1,11 +1,10 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System.Linq;
+using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
-using System.Linq;
-
 using static Nox.Generator.Common.BaseGenerator;
 
-namespace Nox.Generator;
+namespace Nox.Generator.Presentation.Api.OData;
 
 internal static class ODataDbContextGenerator
 {

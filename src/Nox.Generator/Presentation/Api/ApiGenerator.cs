@@ -353,13 +353,8 @@ internal static class ApiGenerator
             return;
         }
 
-        var keyPrimitiveTypes = entity.Keys.First().Type.GetComponents();
-
-        if (keyPrimitiveTypes == null)
-        {
-            Debug.WriteLine($"Entity Key cannot be represented as primitive type, Entity - {entity.Name}...");
-            return;
-        }
+        var singleKey = entity.Keys!.First();
+        var keyPrimitiveTypes = singleKey.Type.GetComponents(singleKey);
 
         if (keyPrimitiveTypes.Count > 1)
         {
