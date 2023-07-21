@@ -377,11 +377,6 @@ application:
         dataConnectionName: CountryJsonData
         fileOptions: 
           filename: country-seed-data.json
-        watermark:
-          dateColumns:
-            - "CreateDate"
-            - "EditDate"
-          sequentialKeyColumn: CountryId
       transform:
         mappings:
           - sourceColumn: IsoAlpha2Code
@@ -421,7 +416,12 @@ infrastructure:
 
       ### MySql  
       #provider: mySql
-
+      
+    integrationDatabaseServer: 
+      name: IntegrationDb
+      provider: sqlServer
+      serverUri: localhost
+    
     cacheServer:
       name: SampleCache
       provider: azureRedis
