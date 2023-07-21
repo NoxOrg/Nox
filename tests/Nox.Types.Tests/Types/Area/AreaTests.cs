@@ -13,6 +13,7 @@ public class AreaTests
 
         typeOptions.MinValue.Should().Be(0);
         typeOptions.MaxValue.Should().Be(999_999_999_999_999);
+        typeOptions.Units.Should().Be(AreaTypeUnit.SquareMeter);
         typeOptions.PersistAs.Should().Be(AreaTypeUnit.SquareMeter);
     }
 
@@ -26,15 +27,6 @@ public class AreaTests
     }
 
     [Fact]
-    public void Area_Constructor_ReturnsRoundedValueAndDefaultUnit()
-    {
-        var area = Area.From(12.54888020887151);
-
-        area.Value.Should().Be(12.548880);
-        area.Unit.Should().Be(AreaTypeUnit.SquareMeter);
-    }
-
-    [Fact]
     public void Area_Constructor_WithUnit_ReturnsSameValueAndUnit()
     {
         var area = Area.From(12.5, AreaTypeUnit.SquareMeter);
@@ -43,120 +35,65 @@ public class AreaTests
         area.Unit.Should().Be(AreaTypeUnit.SquareMeter);
     }
 
-   //// [Fact]
-   // public void Area_Constructor_SpecifyingMaxValue_WithGreaterValueInput_ThrowsException()
-   // {
-   //     var action = () => Area.From(12.5, AreaTypeUnit.SquareMeter, new AreaTypeOptions { MaxValue = 10 });
+    [Fact]
+    public void Area_Constructor_SpecifyingMaxValue_WithGreaterValueInput_ThrowsException()
+    {
+        var action = () => Area.From(12.5, new AreaTypeOptions { MaxValue = 10, Units = AreaTypeUnit.SquareMeter });
 
-   //     action.Should().Throw<TypeValidationException>()
-   //         .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
-   //             "Could not create a Nox Area type as value 12.5 m² is greater than the specified maximum of 10 m².") });
-   // }
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
+                "Could not create a Nox Area type as value 12.5 m² is greater than the specified maximum of 10 m².") });
+    }
 
-   // //[Fact]
-   // public void Area_Constructor_SpecifyingMinValue_WithLesserValueInput_ThrowsException()
-   // {
-   //     var action = () => Area.From(12.5, AreaTypeUnit.SquareMeter, new AreaTypeOptions { MinValue = 15 });
+    [Fact]
+    public void Area_Constructor_SpecifyingMinValue_WithLesserValueInput_ThrowsException()
+    {
+        var action = () => Area.From(12.5, new AreaTypeOptions { MinValue = 15, Units = AreaTypeUnit.SquareMeter });
 
-   //     action.Should().Throw<TypeValidationException>()
-   //         .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Area type as value 12.5 m² is lesser than the specified minimum of 15 m².") });
-   // }
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Area type as value 12.5 m² is lesser than the specified minimum of 15 m².") });
+    }
 
+    [Fact]
+    public void Area_Constructor_WithNegativeValueInput_ThrowsException()
+    {
+        void Test()
+        {
+            var action = () => Area.From(-12.5);
 
-   //// [Fact]
-   // public void Area_Constructor_WithUnitInSquareMeters_ReturnsSameValueAndUnit()
-   // {
-   //     var area = Area.FromSquareMeters(12.5);
+            action.Should().Throw<TypeValidationException>()
+                .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Area type as negative area value -12.5 is not allowed.") });
+        }
 
-   //     area.Value.Should().Be(12.5);
-   //     area.AreaTypeUnit.Should().Be(AreaTypeUnit.SquareMeter);
-   // }
+        TestUtility.RunInInvariantCulture(Test);
+    }
 
-   //// [Fact]
-   // public void Area_Constructor_WithUnitInSquareMeters_SpecifyingMaxValue_WithGreaterValueInput_ThrowsException()
-   // {
-   //     var action = () => Area.FromSquareMeters(12.5, new AreaTypeOptions { MaxValue = 10 });
+    [Fact]
+    public void Area_Constructor_WithNaNValueInput_ThrowsException()
+    {
+        var action = () => Area.From(double.NaN);
 
-   //     action.Should().Throw<TypeValidationException>()
-   //         .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Area type as value 12.5 m² is greater than the specified maximum of 10 m².") });
-   // }
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value NaN is not allowed.") });
+    }
 
-   //// [Fact]
-   // public void Area_Constructor_WithUnitInSquareMeters_SpecifyingMinValue_WithLesserValueInput_ThrowsException()
-   // {
-   //     var action = () => Area.FromSquareMeters(12.5, new AreaTypeOptions { MinValue = 15 });
+    [Fact]
+    public void Area_Constructor_WithPositiveInfinityValueInput_ThrowsException()
+    {
+        var action = () => Area.From(double.PositiveInfinity);
 
-   //     action.Should().Throw<TypeValidationException>()
-   //         .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Area type as value 12.5 m² is lesser than the specified minimum of 15 m².") });
-   // }
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
+    }
 
-    //[Fact]
-    //public void Area_Constructor_WithUnitInSquareFeet_ReturnsSameValueAndUnit()
-    //{
-    //    var area = Area.FromSquareFeet(134.548880);
+    [Fact]
+    public void Area_Constructor_WithNegativeInfinityValueInput_ThrowsException()
+    {
+        var action = () => Area.From(double.NegativeInfinity);
 
-    //    area.Value.Should().Be(134.548880);
-    //    area.AreaTypeUnit.Should().Be(AreaTypeUnit.SquareFoot);
-    //}
-
-    //[Fact]
-    //public void Area_Constructor_WithUnitInSquareFeet_SpecifyingMaxValue_WithGreaterValueInput_ThrowsException()
-    //{
-    //    var action = () => Area.FromSquareFeet(12.5, new AreaTypeOptions { MaxValue = 1 });
-
-    //    action.Should().Throw<TypeValidationException>()
-    //        .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Area type as value 12.5 ft² is greater than the specified maximum of 1 m².") });
-    //}
-
-    //[Fact]
-    //public void Area_Constructor_WithUnitInSquareFeet_SpecifyingMinValue_WithLesserValueInput_ThrowsException()
-    //{
-    //    var action = () => Area.FromSquareFeet(12.5, new AreaTypeOptions { MinValue = 1.5 });
-
-    //    action.Should().Throw<TypeValidationException>()
-    //        .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Area type as value 12.5 ft² is lesser than the specified minimum of 1.5 m².") });
-    //}
-
-    //[Fact]
-    //public void Area_Constructor_WithNegativeValueInput_ThrowsException()
-    //{
-    //    void Test()
-    //    {
-    //        var action = () => Area.From(-12.5);
-
-    //        action.Should().Throw<TypeValidationException>()
-    //            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Area type as negative area value -12.5 is not allowed.") });
-    //    }
-
-    //    TestUtility.RunInInvariantCulture(Test);
-    //}
-
-    //[Fact]
-    //public void Area_Constructor_WithNaNValueInput_ThrowsException()
-    //{
-    //    var action = () => Area.From(double.NaN);
-
-    //    action.Should().Throw<TypeValidationException>()
-    //        .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value NaN is not allowed.") });
-    //}
-
-    //[Fact]
-    //public void Area_Constructor_WithPositiveInfinityValueInput_ThrowsException()
-    //{
-    //    var action = () => Area.From(double.PositiveInfinity);
-
-    //    action.Should().Throw<TypeValidationException>()
-    //        .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
-    //}
-
-    //[Fact]
-    //public void Area_Constructor_WithNegativeInfinityValueInput_ThrowsException()
-    //{
-    //    var action = () => Area.From(double.NegativeInfinity);
-
-    //    action.Should().Throw<TypeValidationException>()
-    //        .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
-    //}
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
+    }
 
     [Fact]
     public void Area_ToSquareMeters_ReturnsValue()
@@ -175,64 +112,64 @@ public class AreaTests
 
         var area = Area.From(squareMeters);
 
-        area.ToSquareFeet().Should().Be(134.54888);
+        area.ToSquareFeet().Should().Be(134.548880250);
     }
 
-    //[Theory]
-    //[InlineData("en-US")]
-    //[InlineData("pt-PT")]
-    //public void Area_ValueInSquareMeters_ToString_IsCultureIndepdendent(string culture)
-    //{
-    //    void Test()
-    //    {
-    //        var area = Area.FromSquareMeters(12.5);
-    //        area.ToString().Should().Be("12.5 m²");
-    //    }
+    [Theory]
+    [InlineData("en-US")]
+    [InlineData("pt-PT")]
+    public void Area_ValueInSquareMeters_ToString_IsCultureIndepdendent(string culture)
+    {
+        void Test()
+        {
+            var area = Area.From(12.5, AreaTypeUnit.SquareMeter);
+            area.ToString().Should().Be("12.5 m²");
+        }
 
-    //    TestUtility.RunInCulture(Test, culture);
-    //}
+        TestUtility.RunInCulture(Test, culture);
+    }
 
-    //[Theory]
-    //[InlineData("en-US", "12.5 m²")]
-    //[InlineData("pt-PT", "12,5 m²")]
-    //public void Area_ValueInSquareMeters_ToString_IsCultureDependent(string culture, string expected)
-    //{
-    //    void Test()
-    //    {
-    //        var area = Area.FromSquareMeters(12.5);
-    //        area.ToString(new CultureInfo(culture)).Should().Be(expected);
-    //    }
+    [Theory]
+    [InlineData("en-US", "12.5 m²")]
+    [InlineData("pt-PT", "12,5 m²")]
+    public void Area_ValueInSquareMeters_ToString_IsCultureDependent(string culture, string expected)
+    {
+        void Test()
+        {
+            var area = Area.From(12.5, AreaTypeUnit.SquareMeter);
+            area.ToString(new CultureInfo(culture)).Should().Be(expected);
+        }
 
-    //    TestUtility.RunInCulture(Test, culture);
-    //}
+        TestUtility.RunInCulture(Test, culture);
+    }
 
-    //[Theory]
-    //[InlineData("en-US")]
-    //[InlineData("pt-PT")]
-    //public void Area_ValueInSquareFeet_ToString_IsCultureIndependent(string culture)
-    //{
-    //    void Test()
-    //    {
-    //        var area = Area.FromSquareFeet(134.548880);
-    //        area.ToString().Should().Be("134.54888 ft²");
-    //    }
+    [Theory]
+    [InlineData("en-US")]
+    [InlineData("pt-PT")]
+    public void Area_ValueInSquareFeet_ToString_IsCultureIndependent(string culture)
+    {
+        void Test()
+        {
+            var area = Area.From(134.548880, AreaTypeUnit.SquareFoot);
+            area.ToString().Should().Be("134.54888 ft²");
+        }
 
-    //    TestUtility.RunInCulture(Test, culture);
-    //}
+        TestUtility.RunInCulture(Test, culture);
+    }
 
-    //[Theory]
-    //[InlineData("en-US", "134.54888 ft²")]
-    //[InlineData("pt-PT", "134,54888 ft²")]
-    //public void Area_ValueInSquareFeet_ToString_IsCultureDependent(string culture, string expected)
-    //{
-    //    void Test()
-    //    {
-    //        var area = Area.FromSquareFeet(134.548880);
-    //        area.ToString(new CultureInfo(culture)).Should().Be(expected);
-    //    }
+    [Theory]
+    [InlineData("en-US", "134.54888 ft²")]
+    [InlineData("pt-PT", "134,54888 ft²")]
+    public void Area_ValueInSquareFeet_ToString_IsCultureDependent(string culture, string expected)
+    {
+        void Test()
+        {
+            var area = Area.From(134.548880, AreaTypeUnit.SquareFoot);
+            area.ToString(new CultureInfo(culture)).Should().Be(expected);
+        }
 
-    //    TestUtility.RunInCulture(Test, culture);
-    //}
+        TestUtility.RunInCulture(Test, culture);
+    }
 
     [Fact]
     public void Area_Equality_WithSameAreaUnit_Tests()
@@ -252,7 +189,7 @@ public class AreaTests
         var squareMeters = 12.5;
         var area1 = Area.From(squareMeters, AreaTypeUnit.SquareMeter);
 
-        var squareFeetValue = 134.54888; // 12.5 m²
+        var squareFeetValue = 134.54888024999999; // 12.5 m²
         var area2 = Area.From(squareFeetValue, AreaTypeUnit.SquareFoot);
 
         AssertAreEquivalent(area1, area2);

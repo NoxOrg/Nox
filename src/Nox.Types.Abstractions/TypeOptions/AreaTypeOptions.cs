@@ -8,8 +8,10 @@ public class AreaTypeOptions
     // Validation Properties
     public double MinValue { get; set; } = DefaultMinArea;
     public double MaxValue { get; set; } = DefaultMaxArea;
+
+    // Creation Properties
+    public AreaTypeUnit Units { get; set; } = AreaTypeUnit.SquareMeter;
+
     // Database Creation Properties
     public AreaTypeUnit PersistAs { get; set; } = AreaTypeUnit.SquareMeter;
-    //Creation Properties
-    public AreaTypeUnit Units { get; set; } = AreaTypeUnit.SquareMeter;
 }

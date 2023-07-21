@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Nox.Types;
 
-public class AreaConversion : MeasurementConversion<AreaUnit>
+internal class AreaConversion : MeasurementConversion<AreaUnit>
 {
     private static readonly Dictionary<(AreaUnit, AreaUnit), Func<QuantityValue, QuantityValue>> _definedAreaConversionFormulas = new()
     {
