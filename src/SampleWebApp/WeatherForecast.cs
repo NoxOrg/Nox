@@ -1,5 +1,3 @@
-using AutoMapper;
-
 namespace SampleWebApp
 {
     public class WeatherForecast

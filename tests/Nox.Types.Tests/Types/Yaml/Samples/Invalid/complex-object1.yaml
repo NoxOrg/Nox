@@ -1,0 +1,14 @@
+people:
+  - name: John Doe
+    age: 30
+    address:
+      street: 123 Main Street
+    address:
+      street: 456 Elm Street
+  - name: Jane Doe
+    age: 25
+    address:
+      street: 456 Elm Street
+      city: Anytown
+      state: CA
+      zipcode: 54321

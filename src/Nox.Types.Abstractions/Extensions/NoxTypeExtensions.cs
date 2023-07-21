@@ -2,14 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using System.Text;
-using Nox.Types;
 
 namespace Nox.Types.Extensions;
 
 public static class NoxTypeExtensions
 {
-
+    private static Dictionary<string, Type> EmptyComponents => new();
     private static MemberInfo ToMemberInfo(this NoxType noxType)
     {
         var memberInfo = typeof(NoxType).GetMember(noxType.ToString());
@@ -25,7 +23,7 @@ public static class NoxTypeExtensions
     {
         return noxType.ToMemberInfo().GetCustomAttribute<CompoundTypeAttribute>(false) != null;
     }
-    public static IDictionary<string, Type>? GetCompoundComponents(this NoxType noxType)
+    public static IDictionary<string, Type> GetCompoundComponents(this NoxType noxType)
     {
         if (noxType.IsCompoundType())
         {
@@ -33,23 +31,24 @@ public static class NoxTypeExtensions
                  .GetCustomAttributes<CompoundComponent>()
                  .ToDictionary(c => c.Name, c => c.UnderlyingType);
         }
-        return null;
+        return EmptyComponents;
     }
 
-    public static IDictionary<string, Type>? GetComponents(this NoxType noxType)
+    public static IDictionary<string, Type> GetComponents(this NoxType noxType, NoxSimpleTypeDefinition attribute)
     {
         if (noxType.IsSimpleType())
         {
             return new Dictionary<string, Type>()
             {
-                { string.Empty, noxType.ToMemberInfo().GetCustomAttribute<SimpleTypeAttribute>().UnderlyingType }
+                { string.Empty, noxType.ToMemberInfo().GetCustomAttribute<SimpleTypeAttribute>().ComponentDiscover.GeUnderlyingType(attribute) }
             };
                  
         }
-        else if (noxType.IsCompoundType())
+        if (noxType.IsCompoundType())
         {
             return noxType.GetCompoundComponents();
         }
-        return new Dictionary<string,Type>();
+        return EmptyComponents;
     }
+  
 }

@@ -13,9 +13,9 @@ namespace SampleWebApp.Domain;
 /// </summary>
 public partial class CountryLocalNames : AuditableEntityBase
 {
-    
+
     /// <summary>
-    /// (Required)
+    ///  (Required).
     /// </summary>
     public Text Id { get; set; } = null!;
 }

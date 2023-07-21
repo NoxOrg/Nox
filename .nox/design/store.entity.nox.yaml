@@ -28,7 +28,9 @@ attributes:
   - name: PhysicalMoney
     description: Physical Money in the Physical Store
     type: money
-    #moneyTypeOptions:
-    #  defaultCurrency: CurrencyCode.GBP      
+    moneyTypeOptions:
+      defaultCurrency: GBP      
+      decimalDigits: 5
+      integerDigits: 10
     isRequired: true
     

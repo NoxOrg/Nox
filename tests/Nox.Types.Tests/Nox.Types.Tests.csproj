@@ -41,4 +41,10 @@
     <ProjectReference Include="..\..\src\Nox.Types\Nox.Types.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <None Include="Types\Yaml\Samples\**\*.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>

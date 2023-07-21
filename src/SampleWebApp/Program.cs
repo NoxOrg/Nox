@@ -4,6 +4,7 @@ using Nox.Abstractions;
 using SampleWebApp;
 using SampleWebApp.Application;
 using SampleWebApp.Presentation.Api.OData;
+using SampleWebApp.SeedData;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +20,8 @@ builder.Services.AddScoped<GetCountriesByContinentQueryBase, GetCountriesByConti
 builder.Services.AddScoped<UpdatePopulationStatisticsCommandHandlerBase, UpdatePopulationStatisticsCommandHandler>();
 builder.Services.AddScoped<INoxMessenger, NoxMessenger>();
 builder.Services.AddAutoMapper(typeof(Program));
+
+builder.AddSeedData();
 
 ODataConfiguration.Register(builder.Services);
 
@@ -40,5 +43,7 @@ app.MapControllers();
 app.UseODataRouteDebug();
 
 app.UseNox();
+
+app.SeedDataIfNeed();
 
 app.Run();
