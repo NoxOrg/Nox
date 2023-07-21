@@ -43,4 +43,9 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// (Optional)
     /// </summary>
     public StreetAddress? StreetAddressTestField { get; set; } = null!;
+    
+    /// <summary>
+    /// (Optional)
+    /// </summary>
+    public LanguageCode? LanguageCodeTestField { get; set; } = null!;
 }
