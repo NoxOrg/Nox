@@ -17,27 +17,23 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Nuid Id 
-        {
-            get => _id ?? Nuid.From(string.Join(".", Name.Value.ToString(),FormalName.Value.ToString()));
-            private set 
-            {
-                var actualNuid = Nuid.From(string.Join(".", Name.Value.ToString(),FormalName.Value.ToString()));
-                if (value is null)
-                {
-                    _id = actualNuid;
-                }
-                else if (value is not null && _id is null)
-                {
-                    _id = value;
-                }
-                else if (value is not null && _id is not null && _id != value)
-                {
-                    throw new InvalidOperationException("Nuid has diffrent value than it has been generated.");
-                }
-            }
-        }
-        private Nuid _id = null!;
+    public Nuid Id {get; private set;}
+    
+    	public void PersistId()
+    	{
+    		if(key.Name == null)
+    		{
+    			key.Name = Nuid.From(Name.Value.ToString());
+    		}
+    		else
+    		{
+    			var currentNuid = Nuid.From(string.Join(".", Name.Value.ToString(),FormalName.Value.ToString()));
+    			if(Id != currentNuid)
+    			{
+    				throw new ApplicationException("Immutable nuid property Id value is different since it has been initialized");
+    			}
+    		}
+    	}
 
     /// <summary>
     /// The country's common name (Required).

@@ -25,29 +25,25 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     public virtual {{key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
 
     {{- else if key.Type == "Nuid" -}}
-    {{- privateFieldName = "_"+key.Name | string.downcase -}}
     {{- codeGeneratorNuidGetter = "Nuid.From(string.Join(\""+key.NuidTypeOptions.Separator +"\", "+ (key.NuidTypeOptions.PropertyNames | array.join "," @(do; ret $0 + ".Value.ToString()"; end)) +"))" -}}
-    public {{key.Type}} {{key.Name}} 
-    {
-        get => {{privateFieldName}} ?? {{codeGeneratorNuidGetter}};
-        private set 
-        {
-            var actualNuid = {{codeGeneratorNuidGetter}};
-            if (value is null)
-            {
-                {{privateFieldName}} = actualNuid;
-            }
-            else if (value is not null && {{privateFieldName}} is null)
-            {
-                {{privateFieldName}} = value;
-            }
-            else if (value is not null && {{privateFieldName}} is not null && {{privateFieldName}} != value)
-            {
-                throw new InvalidOperationException("Nuid has diffrent value than it has been generated.");
-            }
-        }
-    }
-    private {{key.Type}} {{privateFieldName}} = null!; 
+    public {{key.Type}} {{key.Name}} {get; private set;}
+
+	public void Persist{{ key.Name}}()
+	{
+		if(key.Name == null)
+		{
+			key.Name = Nuid.From(Name.Value.ToString());
+		}
+		else
+		{
+			var currentNuid = {{codeGeneratorNuidGetter}};
+			if(Id != currentNuid)
+			{
+				throw new ApplicationException("Immutable nuid property {{key.Name}} value is different since it has been initialized");
+			}
+		}
+	}
+	
     {{- else -}}
 
     public {{key.Type}} {{key.Name}} { get; set; } = null!; 
