@@ -86,6 +86,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             CurrentTime = Time.From(07,55,33,250),
             PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
             CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
+            PhoneNumber = PhoneNumber.From("+41 848 700 700"),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -140,6 +141,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             AverageTemperatureInCelsius = Temperature.FromCelsius(25),
             PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
             CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
+            PhoneNumber = PhoneNumber.From("+41 848 700 700"),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -201,6 +203,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.Uri.Value.AbsoluteUri.Should().Be(Sample_Uri);
         item.StreetAddressJson.Value.Should().Be(JsonSerializer.Serialize(streetAddress));
         item.CitiesCounties.Value.Should().Be(SwitzerlandCitiesCountiesYaml);
+        item.PhoneNumber.Value.Should().Be("+41 848 700 700");
     }
 
     private static StreetAddress CreateStreetAddress()

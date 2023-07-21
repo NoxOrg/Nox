@@ -39,7 +39,8 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.CurrentTime).HasConversion<TimeConverter>();
         builder.Property(e => e.AverageTemperatureInCelsius).HasConversion<TemperatureToCelsiusConverter>();
         builder.Property(e => e.PageHtml).HasConversion<HtmlConverter>();
-        builder.Property(e=>e.CitiesCounties).HasConversion<YamlConverter>();
+        builder.Property(e => e.CitiesCounties).HasConversion<YamlConverter>();
+        builder.Property(e => e.PhoneNumber).HasConversion<PhoneNumberConverter>();
 
         // Configure Multi-value ValueObjects
         builder.OwnsOne(e => e.LatLong).Ignore(p => p.Value);
