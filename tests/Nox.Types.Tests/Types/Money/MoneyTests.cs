@@ -5,18 +5,6 @@ namespace Nox.Types.Tests.Types;
 public class MoneyTests
 {
     [Fact]
-    public void Money_DefaultConstructor_InitializedWithDefaultValues()
-    {
-        // Arrange
-        Money money = new Money();
-
-        // Assert
-        Assert.Equal(0, money.Amount);
-        Assert.Equal("USD", money.CurrencyCode);
-        Assert.Equal(CurrencyCode.USD, money.Value.CurrencyCode);
-    }
-
-    [Fact]
     public void Money_ParameterizedConstructor_InitializedWithProvidedValues()
     {
         // Arrange

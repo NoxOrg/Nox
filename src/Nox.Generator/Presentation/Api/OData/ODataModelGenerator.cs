@@ -1,14 +1,13 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System;
+using System.Linq;
+using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Types.Extensions;
-using System;
-using System.Linq;
-
 using static Nox.Generator.Common.BaseGenerator;
 
-namespace Nox.Generator;
+namespace Nox.Generator.Presentation.Api.OData;
 
 internal static class ODataModelGenerator
 {
@@ -129,7 +128,7 @@ internal static class ODataModelGenerator
 
     private static void GenerateProperty(CodeBuilder code, NoxSimpleTypeDefinition attribute, bool forceRequired = false)
     {
-        var fields = GetNoxTypeInformation(attribute.Type);
+        var fields = GetNoxTypeInformation(attribute.Type, attribute);
 
         foreach (var (FieldName, FieldType) in fields)
         {
@@ -143,9 +142,10 @@ internal static class ODataModelGenerator
         }
     }
 
-    private static (string FieldName, string FieldType)[] GetNoxTypeInformation(NoxType noxType)
+    private static (string FieldName, string FieldType)[] GetNoxTypeInformation(NoxType noxType,
+        NoxSimpleTypeDefinition attribute)
     {
-        return noxType.GetComponents()
+        return noxType.GetComponents(attribute)
             .Select(kv => new Tuple<string, string>(kv.Key, kv.Value.Name))
             .Select(kv => (FieldName: kv.Item1, FieldType: kv.Item2))
             .ToArray();
