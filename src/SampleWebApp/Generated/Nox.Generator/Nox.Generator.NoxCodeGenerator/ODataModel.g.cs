@@ -62,12 +62,7 @@ public class Country : SampleWebApp.Domain.AuditableEntityBase
     /// <summary>
     /// Country area in square kilometers.
     /// </summary>
-    public Double AreaInSquareKilometres_Area { get; set; } = default!;
-    
-    /// <summary>
-    /// Country area in square kilometers.
-    /// </summary>
-    public AreaTypeUnit AreaInSquareKilometres_AreaUnit { get; set; } = default!;
+    public Decimal AreaInSquareKilometres { get; set; } = default!;
     
     /// <summary>
     /// The region the country is in.
@@ -215,12 +210,7 @@ public class CountryDto
     /// <summary>
     /// Country area in square kilometers.
     /// </summary>
-    public Double AreaInSquareKilometres_Area { get; set; } = default!;
-    
-    /// <summary>
-    /// Country area in square kilometers.
-    /// </summary>
-    public AreaTypeUnit AreaInSquareKilometres_AreaUnit { get; set; } = default!;
+    public Decimal AreaInSquareKilometres { get; set; } = default!;
     
     /// <summary>
     /// The region the country is in.
