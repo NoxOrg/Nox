@@ -1,4 +1,5 @@
-﻿using Nox.Types.Schema;
+﻿using Humanizer;
+using Nox.Types.Schema;
 using YamlDotNet.Serialization;
 
 namespace Nox.Solution;
@@ -29,6 +30,8 @@ public class EntityRelationship : DefinitionBase
     [Title("The target entity that relates to this entity.")]
     [Description("The name of the target entity that this entity relates to.")]
     public string Entity { get; internal set; } = null!;
+
+    [YamlIgnore] public string EntityPlural => Entity.Pluralize();
 
     [Title("Determines whether this side of the relationship is exposed in the generated code and ODATA endpoints.")]
     [Description("This boolean controls whether this side of the relationship is exposed in the generated code and ODATA endpoints.")]
