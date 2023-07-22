@@ -12,7 +12,11 @@ public class ExecutorTests: IClassFixture<ServiceFixture>
         _serviceFixture = serviceFixture;
     }
     
+#if DEBUG
+    [Fact]
+#else
     [Fact (Skip = "Only available if sql server docker container is started")]
+#endif    
     public async Task Can_Execute_an_integration()
     {
         _serviceFixture.Configure("executor.solution.nox.yaml");

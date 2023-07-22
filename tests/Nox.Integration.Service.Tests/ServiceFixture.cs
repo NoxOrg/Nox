@@ -22,8 +22,10 @@ public class ServiceFixture
         
         services.AddSingleton(noxConfig);
 
-        services.AddIntegration();
-        services.AddSqlServerIntegrationStore(noxConfig.Infrastructure!.Persistence.IntegrationDatabaseServer!);
+        services.AddIntegration(noxConfig.Infrastructure!.Persistence.IntegrationDatabaseServer!, opt =>
+        {
+            opt.UseSqlServer();
+        });
         
         _serviceProvider = services.BuildServiceProvider();
     }
