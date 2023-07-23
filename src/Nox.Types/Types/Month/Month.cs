@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Nox.Types;
 
 /// <summary>
@@ -34,5 +36,26 @@ public class Month : ValueObject<byte, Month>
     public override string ToString()
     {
         return Value.ToString("00");
+    }
+
+
+    /// <summary>
+    /// Returns the abbreviated month name of the specified <see cref="Month"/> value.
+    /// <param name="cultureInfo">Culture to use for the month name.</param>
+    /// </summary>
+    /// <returns>The abbreviated month name of the specified <see cref="Month"/> value.</returns>
+    public string ToAbbreviatedMonthName(CultureInfo? cultureInfo = null)
+    {
+        return cultureInfo is null ? CultureInfo.InvariantCulture.DateTimeFormat.GetAbbreviatedMonthName(Value) : cultureInfo.DateTimeFormat.GetAbbreviatedMonthName(Value);
+    }
+    
+    /// <summary>
+    /// Returns the full month name of the specified <see cref="Month"/> value.
+    /// <param name="cultureInfo">Culture to use for the month name.</param>
+    /// </summary>
+    /// <returns>The full month name of the specified <see cref="Month"/> value.</returns>
+    public string ToMonthName(CultureInfo? cultureInfo = null)
+    {
+        return cultureInfo is null ? CultureInfo.InvariantCulture.DateTimeFormat.GetMonthName(Value) : cultureInfo.DateTimeFormat.GetMonthName(Value);
     }
 }
