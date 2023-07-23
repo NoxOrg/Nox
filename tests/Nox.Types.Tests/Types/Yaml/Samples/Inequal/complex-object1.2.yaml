@@ -1,0 +1,21 @@
+people:
+  - name: John Doe
+    age: 30
+    address:
+      street: 123 Main Street
+      city: Anytown
+    children:
+      - name: Mary
+        age: 5
+      - name: Richard
+        age: 7
+
+  - name: Jane Doe
+    age: 25
+    address:
+      street: 457 Elm Street
+      city: Anytown
+    children:
+      - name: Jane Jr
+        age: 2
+      

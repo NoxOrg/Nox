@@ -8,6 +8,29 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
     private const string Sample_Uri = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
     private const string Sample_Url = "https://www.myregus.com/";
     private readonly (string NuidStringValue, uint NuidValue) NuidDefinition = ("PropertyNamesWithSeparator", 3697780159);
+    private const string SwitzerlandCitiesCountiesYaml = @"
+- Zurich:
+    - County: Zurich
+    - County: Winterthur
+    - County: Baden
+- Geneva:
+    - County: Geneva
+    - County: Lausanne
+- Bern:
+    - County: Bern
+    - County: Thun
+- Basel:
+    - County: Basel-City
+    - County: Basel-Landschaft
+- Lausanne:
+    - County: Vaud
+- Lucerne:
+    - County: Lucerne
+- St. Gallen:
+    - County: St. Gallen
+- Lugano:
+    - County: Ticino
+";
 
     [Fact]
     public async Task DatabaseIsAvailableAndCanBeConnectedTo()
@@ -62,6 +85,9 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             ArabicName = TranslatedText.From((CultureCode.From("ar-SA"), "سوئٹزرلینڈ")),
             CurrentTime = Time.From(07,55,33,250),
             PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
+            CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
+            File = File.From("https://example.com/myfile.pdf", "MyFile", 512),
+            PhoneNumber = PhoneNumber.From("+41 848 700 700"),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -69,9 +95,9 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         //Force the recreation of DBContext and ensure we have fresh data from database
         RecreateDbContext();
 
-        var country = DbContext.Countries.First();
+        var country = DbContext.Countries?.First();
 
-        country.LatLong.Latitude.Should().Be(latitude);
+        country!.LatLong.Latitude.Should().Be(latitude);
         country.LatLong.Longitude.Should().Be(longitude);
     }
 
@@ -86,7 +112,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Population = Number.From(8_703_654),
             GrossDomesticProduct = Money.From(100, CurrencyCode.CHF, new MoneyTypeOptions(){MaxValue = 101, MinValue = 0}),
             CountryCode2 = CountryCode2.From("CH"),
-            AreaInSqKm = Area.From(41_290_000),
+            AreaInSqKm = Area.From(41_290_000,AreaTypeUnit.SquareMeter),
             CultureCode = CultureCode.From("de-CH"),
             CountryNumber = CountryNumber.From(756),
             MonthOfPeakTourism = Month.From(7),
@@ -115,6 +141,9 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             CurrentTime = Time.From(11,35,50,375),
             AverageTemperatureInCelsius = Temperature.FromCelsius(25),
             PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
+            CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
+            File = File.From("https://example.com/myfile.pdf", "MyFile", 512),
+            PhoneNumber = PhoneNumber.From("+41 848 700 700"),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -124,9 +153,9 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
 
         Assert.Equal(CountryId.From(1), newItem.Id);
 
-        var item = DbContext.Countries.First();
+        var item = DbContext.Countries?.First();
 
-        item.Id.Value.Should().Be(1);
+        item!.Id.Value.Should().Be(1);
         item.Name.Value.Should().Be("Switzerland");
         item.LatLong.Latitude.Should().Be(46.802496);
         item.LatLong.Longitude.Should().Be(8.234392);
@@ -136,7 +165,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.GrossDomesticProduct.Amount.Should().Be(100);
         item.CountryCode2.Value.Should().Be("CH");
         item.AreaInSqKm.Value.Should().Be(41_290_000);
-        item.AreaInSqKm.Unit.Should().Be(AreaUnit.SquareMeter);
+        item.AreaInSqKm.Unit.Should().Be(AreaTypeUnit.SquareMeter);
         item.CultureCode.Value.Should().Be("de-CH");
         item.CountryNumber.Value.Should().Be(756);
         item.MonthOfPeakTourism.Value.Should().Be(7);
@@ -168,12 +197,18 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.CreateDate.Should().Be(DateTime.From(new System.DateTime(2023, 01, 01)));
         item.DateTimeDuration.Value.Should().Be(new TimeSpan(10, 5, 2, 1));
         item.Nuid.Value.Should().Be(NuidDefinition.NuidValue);
-        Assert.Equal(newItem.AverageTemperatureInCelsius.Value, item.AverageTemperatureInCelsius?.Value);
-        Assert.Equal(newItem.AverageTemperatureInCelsius.Unit, item.AverageTemperatureInCelsius?.Unit);
-        Assert.Equal(Sample_Uri, item.Uri.Value.AbsoluteUri);
         AssertStreetAddress(streetAddress, item.StreetAddress);
-        Assert.Equal(JsonSerializer.Serialize(streetAddress), item.StreetAddressJson.Value);
+        item.StreetAddressJson.Value.Should().Be(JsonSerializer.Serialize(streetAddress));
         item.PageHtml.Value.Should().Be("<html><body>Switzerland Website</body></html>");
+        item.AverageTemperatureInCelsius?.Value.Should().Be(newItem.AverageTemperatureInCelsius.Value);
+        item.AverageTemperatureInCelsius?.Unit.Should().Be(newItem.AverageTemperatureInCelsius.Unit);
+        item.Uri.Value.AbsoluteUri.Should().Be(Sample_Uri);
+        item.StreetAddressJson.Value.Should().Be(JsonSerializer.Serialize(streetAddress));
+        item.CitiesCounties.Value.Should().Be(SwitzerlandCitiesCountiesYaml);
+        item.File.Url.Should().Be("https://example.com/myfile.pdf");
+        item.File.PrettyName.Should().Be("MyFile");
+        item.File.SizeInBytes.Should().Be(512UL);
+        item.PhoneNumber.Value.Should().Be("+41 848 700 700");
     }
 
     private static StreetAddress CreateStreetAddress()

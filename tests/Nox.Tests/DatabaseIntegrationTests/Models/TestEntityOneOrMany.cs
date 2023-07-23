@@ -13,21 +13,20 @@ namespace TestWebApp.Domain;
 /// </summary>
 public partial class TestEntityOneOrMany : AuditableEntityBase
 {
-    
+
     /// <summary>
-    /// (Required)
+    ///  (Required).
     /// </summary>
     public Text Id { get; set; } = null!;
-    
+
     /// <summary>
-    /// (Required)
+    ///  (Required).
     /// </summary>
     public Text TextTestField { get; set; } = null!;
-    
     /// <summary>
     /// TestEntityOneOrMany Test entity relationship to SecondTestEntityOneOrMany OneOrMany SecondTestEntityOneOrManies
     /// </summary>
-    public virtual List<SecondTestEntityOneOrMany> SecondTestEntityOneOrManies { get; set; } = new List<SecondTestEntityOneOrMany>();
+    public virtual List<SecondTestEntityOneOrMany> SecondTestEntityOneOrManies { get; set; } = new();
     
     public List<SecondTestEntityOneOrMany> SecondTestEntityRelationship => SecondTestEntityOneOrManies;
 }
