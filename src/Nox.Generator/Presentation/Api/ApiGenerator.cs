@@ -15,8 +15,7 @@ internal static class ApiGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Domain is null ||
-            !codeGeneratorState.Solution.Domain.Entities.Any())
+        if (codeGeneratorState.Solution.Domain is null)
         {
             return;
         }
@@ -201,7 +200,7 @@ internal static class ApiGenerator
             return;
         }
         // Method Put
-        code.AppendLine($"public async Task<ActionResult> Put([FromRoute] string key, [FromBody] {entity.Name} updated{entity.Name})");
+        code.AppendLine($"public async Task<ActionResult> Put([FromRoute] string key, [FromBody] O{entity.Name} updated{entity.Name})");
 
         // Method content
         code.StartBlock();
@@ -249,7 +248,7 @@ internal static class ApiGenerator
             return;
         }
         // Method Patch
-        code.AppendLine($"public async Task<ActionResult> Patch([FromRoute] string {keyName}, [FromBody] Delta<{entityName}> {variableName})");
+        code.AppendLine($"public async Task<ActionResult> Patch([FromRoute] string {keyName}, [FromBody] Delta<O{entityName}> {variableName})");
 
         // Method content
         code.StartBlock();
@@ -313,7 +312,7 @@ internal static class ApiGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"var entity = _mapper.Map<{entityName}>({variableName});");
+        code.AppendLine($"var entity = _mapper.Map<O{entityName}>({variableName});");
         code.AppendLine();
         // TODO: temporal logic! Need to create an abstraction on top
         code.AppendLine($"entity.{keyName} = Guid.NewGuid().ToString().Substring(0, 2);");

@@ -9,12 +9,12 @@ name: SampleWebApp
 description: Sample Nox solution yaml configuration
 
 variables:
-   DATABASE_PROVIDER: slqServer
-   DATABASE_SERVER: sqlServerName
+   DATABASE_PROVIDER: slqServer   
+   DATABASE_SERVER: localhost
    DATABASE_USER: sa
-   DATABASE_PASSWORD: MyPassword
+   DATABASE_PASSWORD: Developer*123
    DATABASE_PORT: 5432
-
+   
 environments:
 
   - name: dev

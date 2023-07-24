@@ -83,7 +83,7 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var entity = _mapper.Map<Country>(country);
+        var entity = _mapper.Map<OCountry>(country);
         
         entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
         
@@ -94,7 +94,7 @@ public partial class CountriesController : ODataController
         return Created(entity);
     }
     
-    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] Country updatedCountry)
+    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OCountry updatedCountry)
     {
         if (!ModelState.IsValid)
         {
@@ -127,7 +127,7 @@ public partial class CountriesController : ODataController
         return Updated(updatedCountry);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string country, [FromBody] Delta<Country> Id)
+    public async Task<ActionResult> Patch([FromRoute] string country, [FromBody] Delta<OCountry> Id)
     {
         if (!ModelState.IsValid)
         {
