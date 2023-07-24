@@ -20,6 +20,7 @@ using Nox.Generator.Presentation.Api.OData;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
+using Nox.Generator.Application;
 
 namespace Nox.Generator;
 
@@ -78,6 +79,8 @@ public class NoxCodeGenerator : IIncrementalGenerator
                     CommandGenerator.Generate(context, codeGeneratorState);
                     
                     QueryGenerator.Generate(context, codeGeneratorState);
+
+                    ApplicationServiceGenerator.Generate(context, codeGeneratorState);
                 }
 
                 if (generate.Infrastructure)

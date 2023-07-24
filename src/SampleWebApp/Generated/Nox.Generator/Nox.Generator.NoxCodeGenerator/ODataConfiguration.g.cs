@@ -14,10 +14,10 @@ public partial class ODataConfiguration
     {
         ODataModelBuilder builder = new ODataConventionModelBuilder();
         
-        builder.EntitySet<Country>("Countries");
-        builder.EntitySet<Currency>("Currencies");
-        builder.EntitySet<Store>("Stores");
-        builder.EntitySet<CountryLocalNames>("CountryLocalNames");
+        builder.EntitySet<OCountry>("Countries");
+        builder.EntitySet<OCurrency>("Currencies");
+        builder.EntitySet<OStore>("Stores");
+        builder.EntitySet<OCountryLocalNames>("CountryLocalNames");
         
         services.AddControllers()
             .AddOData(options => 
