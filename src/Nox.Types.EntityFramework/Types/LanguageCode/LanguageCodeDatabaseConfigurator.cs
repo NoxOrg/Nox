@@ -19,9 +19,9 @@ public class LanguageCodeDatabaseConfigurator: INoxTypeDatabaseConfigurator
     {
         builder
             .Property(property.Name)
-            .IsRequired(isKey || property.IsRequired)
+            .IsRequired(property.IsRequired)
             .IsUnicode(false)
-            .IsFixedLength(true)
+            .IsFixedLength()
             .HasMaxLength(2)
             .HasConversion<LanguageCodeConverter>();
     }
