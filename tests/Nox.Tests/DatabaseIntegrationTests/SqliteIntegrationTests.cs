@@ -55,8 +55,8 @@ public class SqliteIntegrationTests : SqliteTestBase
             CountryId = CountryCode2.From("UA"),
             PostalCode = "61135"
         };
-        var areaInSquareMeters = 198_090M;
-        var persistUnitAs = AreaTypeUnit.SquareFoot;
+        var area = 198_090M;
+        var persistUnitAs = AreaTypeUnit.SquareMeter;
 
         var newItem = new TestEntityForTypes()
         {
@@ -65,7 +65,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
-            AreaTestField = Area.From(areaInSquareMeters, new AreaTypeOptions() {Units = AreaTypeUnit.SquareMeter,PersistAs = persistUnitAs }),
+            AreaTestField = Area.From(area, new AreaTypeOptions() {Units = AreaTypeUnit.SquareFoot,PersistAs = persistUnitAs }),
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3)
         };
@@ -85,11 +85,9 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
-        testEntity.AreaTestField!.ToSquareMeters().Should().Be(areaInSquareMeters);
+        testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
         testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
-        // AreaTypeUnit.SquareMeter are the default for nox.yaml
-        testEntity.AreaTestField!.Unit.Should().Be(AreaTypeUnit.SquareMeter);
     }
 
     [Fact]
