@@ -324,5 +324,5 @@ domain:
         #- name: CultureCodeTestField
         #  type: cultureCode
 
-        #- name: LanguageCodeTestField
-        #  type: languageCode
+        - name: LanguageCodeTestField
+          type: languageCode
