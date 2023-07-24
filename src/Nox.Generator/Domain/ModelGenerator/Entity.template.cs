@@ -28,16 +28,16 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     {{- codeGeneratorNuidGetter = "Nuid.From(string.Join(\""+key.NuidTypeOptions.Separator +"\", "+ (key.NuidTypeOptions.PropertyNames | array.join "," @(do; ret $0 + ".Value.ToString()"; end)) +"))" -}}
     public {{key.Type}} {{key.Name}} {get; private set;}
 
-	public void Persist{{ key.Name}}()
+	public void Ensure{{ key.Name}}()
 	{
 		if(key.Name == null)
 		{
-			key.Name = Nuid.From(Name.Value.ToString());
+			{{key.Name}} = {{codeGeneratorNuidGetter}};
 		}
 		else
 		{
 			var currentNuid = {{codeGeneratorNuidGetter}};
-			if(Id != currentNuid)
+			if({{key.Name}} != currentNuid)
 			{
 				throw new ApplicationException("Immutable nuid property {{key.Name}} value is different since it has been initialized");
 			}

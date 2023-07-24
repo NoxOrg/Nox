@@ -49,6 +49,7 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
         Assert.True(generatedSources.Any(s => s.HintName == "AuditableEntityBase.g.cs"), "AuditableEntityBase.g.cs not generated");
 
         var countryFileName = "Country.g.cs";
+
         Assert.True(generatedSources.Any(s => s.HintName == countryFileName), $"{countryFileName} not generated");
         Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/Country.expected.g.cs"), generatedSources.First(s => s.HintName == countryFileName).SourceText.ToString());
 

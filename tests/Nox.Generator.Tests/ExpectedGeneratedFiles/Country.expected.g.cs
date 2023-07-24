@@ -19,11 +19,11 @@ public partial class Country : AuditableEntityBase
     /// </summary>
     public Nuid Id {get; private set;}
     
-    	public void PersistId()
+    	public void EnsureId()
     	{
     		if(key.Name == null)
     		{
-    			key.Name = Nuid.From(Name.Value.ToString());
+    			Id = Nuid.From(string.Join(".", Name.Value.ToString(),FormalName.Value.ToString()));
     		}
     		else
     		{
