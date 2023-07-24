@@ -39,6 +39,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
             CultureCodeTestField = CultureCode.From(cultureCode),
+            TimeZoneCodeTestField = TimeZoneCode.From("utc"),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -61,5 +62,6 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
         testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
+        testEntity.TimeZoneCodeTestField!.Value.Should().Be("UTC");
     }
 }

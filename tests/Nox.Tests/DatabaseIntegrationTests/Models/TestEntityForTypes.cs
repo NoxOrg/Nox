@@ -62,5 +62,10 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public TimeZoneCode? TimeZoneCodeTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public LanguageCode? LanguageCodeTestField { get; set; } = null!;
 }

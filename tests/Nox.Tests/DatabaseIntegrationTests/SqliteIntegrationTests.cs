@@ -72,6 +72,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
             CultureCodeTestField = CultureCode.From(cultureCode),
+            TimeZoneCodeTestField = TimeZoneCode.From("utc")
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -94,6 +95,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
 		testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
+        testEntity.TimeZoneCodeTestField!.Value.Should().Be("UTC");
     }
     [Fact]
     public void GeneratedRelationship_Sqlite_ZeroOrMany_OneOrMany()

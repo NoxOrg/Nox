@@ -243,6 +243,9 @@ domain:
         - name: AreaTestField
           type: area
 
+        - name: TimeZoneCodeTestField
+          type: timeZoneCode
+
         #- name: BooleanTestField
         #  type: boolean
 
