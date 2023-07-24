@@ -69,6 +69,6 @@ public class Distance : Measurement<Distance, DistanceUnit>
     private static double CalculateDistanceInKilometers(LatLong origin, LatLong destination)
         => new HaversineDistanceCalculator().Calculate(origin, destination);
 
-    protected override MeasurementConversionFactor<DistanceUnit> ResolveUnitConversionFactor(DistanceUnit sourceUnit, DistanceUnit targetUnit)
-        => new DistanceConversionFactor(sourceUnit, targetUnit);
+    protected override MeasurementConversion<DistanceUnit> ResolveUnitConversion(DistanceUnit sourceUnit, DistanceUnit targetUnit)
+        => new DistanceConversion(sourceUnit, targetUnit);
 }

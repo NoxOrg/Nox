@@ -1,15 +1,10 @@
 ﻿using System.Collections.Generic;
-using System.IO;
 using YamlDotNet.Serialization.NamingConventions;
 using YamlDotNet.Serialization;
-using System.Text.Json;
 using Nox.Solution.Exceptions;
 using YamlDotNet.Core;
 using System.Linq;
 using System;
-using Nox.Solution.Extensions;
-using System.Collections;
-using YamlDotNet.Core.Tokens;
 
 namespace Nox.Solution.Schema;
 
@@ -69,10 +64,7 @@ internal static class NoxSchemaValidator
 
     private static IReadOnlyList<string> GetExceptionMessages(Exception exception, List<string>? errors = null)
     {
-        if (errors is null)
-        {
-            errors = new List<string>();
-        }
+        errors ??= new List<string>();
 
         if (exception is YamlException yamlException)
         {
@@ -82,6 +74,7 @@ internal static class NoxSchemaValidator
         {
             errors.Add(exception.Message);
         }
+        
         if (exception.InnerException is not null)
         {
             GetExceptionMessages(exception.InnerException, errors);

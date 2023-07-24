@@ -6,7 +6,7 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a Nox <see cref="Volume"/> type and value object.
 /// </summary>
-public sealed class Volume : Measurement<Volume, VolumeUnit>
+public class Volume : Measurement<Volume, VolumeUnit>
 {
     /// <summary>
     /// Creates a new instance of <see cref="Volume"/> object in cubic feet.
@@ -48,6 +48,6 @@ public sealed class Volume : Measurement<Volume, VolumeUnit>
         yield return new KeyValuePair<string, object>(nameof(Value), ToCubicMeters());
     }
 
-    protected override MeasurementConversionFactor<VolumeUnit> ResolveUnitConversionFactor(VolumeUnit sourceUnit, VolumeUnit targetUnit)
-        => new VolumeConversionFactor(sourceUnit, targetUnit);
+    protected override MeasurementConversion<VolumeUnit> ResolveUnitConversion(VolumeUnit sourceUnit, VolumeUnit targetUnit)
+        => new VolumeConversion(sourceUnit, targetUnit);
 }

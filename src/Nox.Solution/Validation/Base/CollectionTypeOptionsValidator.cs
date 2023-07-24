@@ -1,4 +1,5 @@
 using FluentValidation;
+using Nox.Types;
 
 namespace Nox.Solution.Validation
 {

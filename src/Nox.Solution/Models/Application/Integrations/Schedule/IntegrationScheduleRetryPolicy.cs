@@ -1,5 +1,3 @@
-using Nox.Solution.Schema;
-
 namespace Nox.Solution
 {
     public class IntegrationScheduleRetryPolicy

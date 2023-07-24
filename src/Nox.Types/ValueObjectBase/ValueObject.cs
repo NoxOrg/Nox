@@ -12,7 +12,7 @@ public abstract class ValueObject<T, TValueObject> : INoxType
     protected ValueObject()
     { }
 
-    public TValueObject FromDatabase(T value)
+    public static TValueObject FromDatabase(T value)
     {
         return new TValueObject { Value = value };
     }
@@ -74,7 +74,7 @@ public abstract class ValueObject<T, TValueObject> : INoxType
         yield return new KeyValuePair<string, object>(nameof(Value), Value!);
     }
 
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (obj == null || obj.GetType() != GetType())
         {

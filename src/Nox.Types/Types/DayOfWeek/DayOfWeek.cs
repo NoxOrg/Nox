@@ -1,5 +1,4 @@
-﻿using Nox.Enums;
-
+﻿
 namespace Nox.Types;
 
 /// <summary>

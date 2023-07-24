@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Globalization;
-using Nox.Types;
 
 namespace Nox.Types.Common;
 
@@ -10,7 +9,7 @@ public abstract class Measurement<TValueObject, TUnitType> : ValueObject<Quantit
 {
     private const int QuantityValueDecimalPrecision = 6;
 
-    public TUnitType Unit { get; private set; } = default!;
+    public TUnitType Unit { get; protected set; } = default!;
 
     protected Measurement() : base() { Value = 0; }
 
@@ -68,12 +67,12 @@ public abstract class Measurement<TValueObject, TUnitType> : ValueObject<Quantit
 
     protected QuantityValue GetMeasurementIn(TUnitType targetUnit)
     {
-        var factor = ResolveUnitConversionFactor(Unit, targetUnit);
-        return Round(Value * factor);
+        var conversion = ResolveUnitConversion(Unit, targetUnit);
+        return Round(conversion.Calculate(Value));
     }
 
-    private static QuantityValue Round(QuantityValue value)
+    protected static QuantityValue Round(QuantityValue value)
         => Math.Round((double)value, QuantityValueDecimalPrecision);
 
-    protected abstract MeasurementConversionFactor<TUnitType> ResolveUnitConversionFactor(TUnitType sourceUnit, TUnitType targetUnit);
+    protected abstract MeasurementConversion<TUnitType> ResolveUnitConversion(TUnitType sourceUnit, TUnitType targetUnit);
 }
