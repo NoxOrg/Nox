@@ -1,7 +1,7 @@
-// ReSharper disable once CheckNamespace
 using System.Globalization;
 using FluentAssertions;
 
+// ReSharper disable once CheckNamespace
 namespace Nox.Types.Tests.Types;
 
 public class MonthTests

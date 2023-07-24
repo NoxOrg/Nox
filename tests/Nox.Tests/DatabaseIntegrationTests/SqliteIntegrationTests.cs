@@ -56,7 +56,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         };
         var areaInSquareMeters = 198_090M;
         var persistUnitAs = AreaTypeUnit.SquareFoot;
-
+        byte month = 7;
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(text),
@@ -66,6 +66,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             CountryCode2TestField = CountryCode2.From(countryCode2),
             StreetAddressTestField = StreetAddress.From(addressItem),
             AreaTestField = Area.From(areaInSquareMeters, new AreaTypeOptions() {Units = AreaTypeUnit.SquareMeter,PersistAs = persistUnitAs }),
+            MonthTestField = Month.From(month),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -86,6 +87,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.AreaTestField!.ToSquareMeters().Should().Be(areaInSquareMeters);
         // AreaTypeUnit.SquareMeter are the default for nox.yaml
         testEntity.AreaTestField!.Unit.Should().Be(AreaTypeUnit.SquareMeter);
+        testEntity.MonthTestField!.Value.Should().Be(month);
     }
 
     [Fact]
