@@ -19,10 +19,7 @@ public class ColorTests
     {
         var color = Nox.Types.Color.From(255, 165, 0);
 
-        color.Value.Should().Be((0, 255, 165, 0));
-        color.Value.Red.Should().Be(255);
-        color.Value.Green.Should().Be(165);
-        color.Value.Blue.Should().Be(0);
+        color.Value.Should().Equal(new byte[] { 0, 255, 165, 0 });
     }
 
     [Fact]
@@ -30,11 +27,7 @@ public class ColorTests
     {
         var color = Nox.Types.Color.FromRgba(100, 193, 154, 107);
 
-        color.Value.Should().Be((100, 193, 154, 107));
-        color.Value.Alpha.Should().Be(100);
-        color.Value.Red.Should().Be(193);
-        color.Value.Green.Should().Be(154);
-        color.Value.Blue.Should().Be(107);
+        color.Value.Should().Equal(new byte[]{100, 193, 154, 107});
     }
 
     [Fact]
@@ -42,7 +35,7 @@ public class ColorTests
     {
         var color = Nox.Types.Color.FromAlphaColor("#FFF0F8FF");
 
-        color.Value.Should().Be((255, 240, 248, 255));
+        color.Value.Should().Equal(new byte[] {255, 240, 248, 255});
         color.ToHexa().Should().Be("#FFF0F8FF");
     }
 
@@ -51,7 +44,7 @@ public class ColorTests
     {
         var color = Nox.Types.Color.FromAlphaColor("#FFC0CB");
 
-        color.Value.Should().Be((0, 255, 192, 203));
+        color.Value.Should().Equal( new byte[] {0, 255, 192, 203});
         color.ToHex().Should().Be("#FFC0CB");
     }
 
@@ -62,7 +55,7 @@ public class ColorTests
 
         var color2 = Nox.Types.Color.FromRgba(100, 193, 154, 107);
 
-        color1.Value.Should().Be(color2.Value);
+        color1.Value.Should().Equal(color2.Value);
     }
 
     [Fact]
@@ -72,7 +65,7 @@ public class ColorTests
 
         var color2 = Nox.Types.Color.FromRgba(10, 193, 154, 107);
 
-        color1.Value.Should().NotBe(color2.Value);
+        color1.Value.Should().NotEqual(color2.Value);
     }
 
     [Fact]

@@ -7,30 +7,16 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a Nox <see cref="Color"/> type and value object. 
 /// </summary>
-public class Color : ValueObject<(byte Alpha, byte Red, byte Green, byte Blue), Color>
+public class Color : ValueObject<byte[], Color>
 {
-    public byte Alpha
+    private byte _alpha { get; set; }
+    private byte _red { get; set; }
+    private byte _green { get; set; }
+    private byte _blue { get; set; }
+    
+    public Color()
     {
-        get => Value.Alpha;
-        private set => Value = Value with { Alpha = value };
-    }
-
-    public byte Red
-    {
-        get => Value.Red;
-        private set => Value = Value with { Red = value };
-    }
-
-    public byte Green
-    {
-        get => Value.Green;
-        private set => Value = Value with { Green = value };
-    }
-
-    public byte Blue
-    {
-        get => Value.Blue;
-        private set => Value = Value with { Blue = value };
+        Value = new byte[4];
     }
 
     private bool _isEmpty { get; set; }
@@ -46,18 +32,21 @@ public class Color : ValueObject<(byte Alpha, byte Red, byte Green, byte Blue), 
     /// <returns>true if the <see cref="Color"/> value is valid.</returns>
     internal override ValidationResult Validate()
     {
-        var result = base.Validate();
+        var result = new ValidationResult();
 
-        if (_isEmpty)
-        {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Color type as uninitialized color value {Value} is not allowed."));
-        }
+        if (Value.Length < 1)
+            result.Errors.Add(new ValidationFailure(nameof(Value),
+                $"Could not create a Nox {nameof(Color)} type as an empty {nameof(Value)} is not allowed."));
+
+        if (Value.Length > 4)
+            result.Errors.Add(new ValidationFailure(nameof(Value),
+                $"Could not create a Nox {nameof(Color)} type with more than 4 values."));
 
         return result;
     }
 
     public static Color From(byte red, byte green, byte blue)
-        => From((0, red, green, blue));
+        => From(new byte[] { 0, red, green, blue });
 
     /// <summary>
     /// Creates a new instance of <see cref="Color"/> object
@@ -96,15 +85,15 @@ public class Color : ValueObject<(byte Alpha, byte Red, byte Green, byte Blue), 
         return ColorConverter.ConvertFromString(alphadecimal, CultureInfo.InvariantCulture);
     }
 
-    public byte[] ToBytes() => new byte[] { Alpha, Red, Green, Blue };
+    public byte[] ToBytes() => new byte[] { _alpha, _red, _green, _blue };
 
-    public string ToHexa() => $"#{Alpha:X2}{Red:X2}{Green:X2}{Blue:X2}";
+    public string ToHexa() => $"#{_alpha:X2}{_red:X2}{_green:X2}{_blue:X2}";
 
-    public string ToHex() => $"#{Red:X2}{Green:X2}{Blue:X2}";
+    public string ToHex() => $"#{_red:X2}{_green:X2}{_blue:X2}";
 
     public string ToName()
     {
-        var color = System.Drawing.Color.FromArgb(Alpha, Red, Green, Blue);
+        var color = System.Drawing.Color.FromArgb(_alpha, _red, _green, _blue);
 
         var knownColor = KnownColor.Colors.FirstOrDefault(kc => kc.Value.ToArgb() == color.ToArgb());
 
@@ -113,7 +102,7 @@ public class Color : ValueObject<(byte Alpha, byte Red, byte Green, byte Blue), 
 
     public override string ToString()
     {
-        return $"{Alpha},{Red},{Green},{Blue}";
+        return $"{_alpha},{_red},{_green},{_blue}";
     }
 
     public string ToString(string format)
@@ -129,9 +118,9 @@ public class Color : ValueObject<(byte Alpha, byte Red, byte Green, byte Blue), 
         };
     }
 
-    public string ToRgbString() => $"RGB({Red}, {Green}, {Blue})";
+    public string ToRgbString() => $"RGB({_red}, {_green}, {_blue})";
 
-    public string ToRgbaString() => $"RGBA({Red}, {Green}, {Blue}, {ToProportion(Alpha):N2})";
+    public string ToRgbaString() => $"RGBA({_red}, {_green}, {_blue}, {ToProportion(_alpha):N2})";
 
     private static double ToProportion(byte b) => b / (double)Byte.MaxValue;
 
@@ -139,11 +128,13 @@ public class Color : ValueObject<(byte Alpha, byte Red, byte Green, byte Blue), 
     {
         var newColor = new Color
         {
-            Alpha = color.A,
-            Red = color.R,
-            Green = color.G,
-            Blue = color.B,
+            _alpha = color.A,
+            _red = color.R,
+            _green = color.G,
+            _blue = color.B,
         };
+
+        newColor.Value = new byte[] { color.A, color.R, color.G, color.B };
 
         var validationResult = newColor.Validate();
 
