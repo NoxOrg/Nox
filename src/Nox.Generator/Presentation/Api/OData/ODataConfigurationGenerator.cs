@@ -43,7 +43,7 @@ internal static class ODataConfigurationGenerator
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
-            code.AppendLine($"builder.EntitySet<{entity.Name}>(\"{entity.PluralName}\");");
+            code.AppendLine($"builder.EntitySet<O{entity.Name}>(\"{entity.PluralName}\");");
         }
 
         code.AppendLine();
