@@ -17,15 +17,7 @@ public class EntityDatabaseConfigurator : INoxTypeDatabaseConfigurator
         Entity entity,
         bool isKey)
     {
-        // TODO: Default values from static property in the Nox.Type
-        var typeOptions = GetTypeOptions(property);
-
-        // Setup navigation Property and Foreign Key
-        builder.HasOne($"{typeOptions.Entity}")
-            .WithOne()
-            .If(isKey,
-                b => b.HasForeignKey($"{entity.Name}",
-                new[] { noxSolutionCodeGeneratorState.GetForeignKeyPropertyName(typeOptions.Entity) }));
+        // Nothing to do, all done by EF Automatically
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key)

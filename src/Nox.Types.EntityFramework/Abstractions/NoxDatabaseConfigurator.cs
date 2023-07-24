@@ -57,13 +57,6 @@ namespace Nox.Types.EntityFramework.Abstractions
         {
             foreach (var relationshipToCreate in relationshipsToCreate)
             {
-                if (relationshipToCreate.ShouldBeMapped)
-                {
-                    builder
-                        .HasMany(relationshipToCreate.RelationshipEntityType.FullName!, relationshipToCreate.Relationship.Related.Entity.PluralName)
-                        .WithMany(entity.PluralName);
-                }
-
                 builder.Ignore(relationshipToCreate.Relationship.Name);
             }
         }
