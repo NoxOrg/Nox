@@ -14,16 +14,20 @@ public class Color : ValueObject<byte[], Color>
     private byte _green { get; set; }
     private byte _blue { get; set; }
     
+    /// <summary>
+    /// Creates a new instance of <see cref="Color"/> object.
+    /// </summary>
     public Color()
     {
         Value = new byte[4];
     }
 
-    private bool _isEmpty { get; set; }
-
+    /// <summary>
+    /// Creates a new instance of <see cref="Color"/> object with empty color.
+    /// </summary>
     public static Color Empty
     {
-        get => new() { _isEmpty = true };
+        get => new();
     }
 
     /// <summary>
@@ -45,14 +49,27 @@ public class Color : ValueObject<byte[], Color>
         return result;
     }
 
+    /// <summary>
+    /// Creates a new instance of <see cref="Color"/> object.
+    /// </summary>
+    /// <param name="red">The red color.</param>
+    /// <param name="green">The green color.</param>
+    /// <param name="blue">The blue color.</param>
+    /// <exception cref="TypeValidationException"></exception>
     public static Color From(byte red, byte green, byte blue)
-        => From(new byte[] { 0, red, green, blue });
+    {
+        var color = System.Drawing.Color.FromArgb(byte.MaxValue, red, green, blue);
+
+        return CreateColor(color);
+    }
 
     /// <summary>
-    /// Creates a new instance of <see cref="Color"/> object
+    /// Creates a new instance of <see cref="Color"/> object.
     /// </summary>
-    /// <param name="value">The origin value to create the <see cref="Color"/> with</param>
-    /// <returns></returns>
+    /// <param name="alpha">The alpha color.</param>
+    /// <param name="red">The red color.</param>
+    /// <param name="green">The green color.</param>
+    /// <param name="blue">The blue color.</param>
     /// <exception cref="TypeValidationException"></exception>
     public static Color FromRgba(byte alpha, byte red, byte green, byte blue)
     {
@@ -64,7 +81,7 @@ public class Color : ValueObject<byte[], Color>
     /// <summary>
     /// Creates a new instance of <see cref="Color"/> object
     /// </summary>
-    /// <param name="value">The origin value to create the <see cref="Color"/> with</param>
+    /// <param name="name">The origin value to create the <see cref="Color"/> with</param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
     public static Color FromName(string name)
@@ -77,7 +94,7 @@ public class Color : ValueObject<byte[], Color>
     /// <summary>
     /// Creates a new instance of <see cref="Color"/> object
     /// </summary>
-    /// <param name="value">The origin value to create the <see cref="Color"/> with</param>
+    /// <param name="alphadecimal">The origin value to create the <see cref="Color"/> with</param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
     public static Color FromAlphaColor(string alphadecimal)
@@ -85,12 +102,28 @@ public class Color : ValueObject<byte[], Color>
         return ColorConverter.ConvertFromString(alphadecimal, CultureInfo.InvariantCulture);
     }
 
+    /// <summary>
+    /// Returns the bytes representation of the color value
+    /// </summary>
+    /// <returns>The byte representation</returns>
     public byte[] ToBytes() => new byte[] { _alpha, _red, _green, _blue };
 
+    /// <summary>
+    /// Returns the string representation of the color value, formatted in Hexadecimal format string
+    /// </summary>
+    /// <returns>The string representation</returns>
     public string ToHexa() => $"#{_alpha:X2}{_red:X2}{_green:X2}{_blue:X2}";
 
+    /// <summary>
+    /// Returns the string representation of the color value, formatted in Hex format string
+    /// </summary>
+    /// <returns>The string representation</returns>
     public string ToHex() => $"#{_red:X2}{_green:X2}{_blue:X2}";
 
+    /// <summary>
+    /// Returns the string representation of the color value, formatted in name format string
+    /// </summary>
+    /// <returns>The string representation</returns>
     public string ToName()
     {
         var color = System.Drawing.Color.FromArgb(_alpha, _red, _green, _blue);
@@ -100,11 +133,17 @@ public class Color : ValueObject<byte[], Color>
         return knownColor.Key ?? "UnknownColor";
     }
 
+    /// <inheritdoc />
     public override string ToString()
     {
         return $"{_alpha},{_red},{_green},{_blue}";
     }
 
+    /// <summary>
+    /// Returns the string representation of the color value, formatted using the given standard color format string
+    /// </summary>
+    /// <param name="format">A standard color format string (must be valid for either name, rgb, rgba, hexa or hex, depending on the base type)</param>
+    /// <returns>The string representation</returns>
     public string ToString(string format)
     {
         return format.ToLower() switch
@@ -118,9 +157,35 @@ public class Color : ValueObject<byte[], Color>
         };
     }
 
+    /// <summary>
+    /// Returns the string representation of the color value, formatted in RGB format string
+    /// </summary>
+    /// <returns>The string representation</returns>
     public string ToRgbString() => $"RGB({_red}, {_green}, {_blue})";
 
+    /// <summary>
+    /// Returns the string representation of the color value, formatted in RGBA format string
+    /// </summary>
+    /// <returns>The string representation</returns>
     public string ToRgbaString() => $"RGBA({_red}, {_green}, {_blue}, {ToProportion(_alpha):N2})";
+    
+    /// <inheritdoc/>
+    public override bool Equals(object obj)
+    {
+        if (!(obj is Color otherColor))
+            return false;
+
+        return _red == otherColor._red &&
+               _green == otherColor._green &&
+               _blue == otherColor._blue &&
+               _alpha == otherColor._alpha;
+    }
+    
+    /// <inheritdoc/>
+    public override int GetHashCode()
+    {
+        return base.GetHashCode();
+    }
 
     private static double ToProportion(byte b) => b / (double)Byte.MaxValue;
 

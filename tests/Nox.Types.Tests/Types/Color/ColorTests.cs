@@ -1,4 +1,5 @@
-﻿using FluentAssertions;
+﻿using System.Globalization;
+using FluentAssertions;
 using Nox.Types.Tests.Types.Color;
 
 namespace Nox.Types.Tests.Types;
@@ -19,7 +20,7 @@ public class ColorTests
     {
         var color = Nox.Types.Color.From(255, 165, 0);
 
-        color.Value.Should().Equal(new byte[] { 0, 255, 165, 0 });
+        color.Value.Should().Equal(new byte[] { 255, 255, 165, 0 });
     }
 
     [Fact]
@@ -81,6 +82,22 @@ public class ColorTests
         colorBytes.ElementAt(1).Should().Be(193);
         colorBytes.ElementAt(2).Should().Be(154);
         colorBytes.ElementAt(3).Should().Be(107);
+    }
+
+    [Fact]
+    public void Color_When_Empty_Should()
+    {
+        var emptyColor = new Nox.Types.Color();
+        var differentColor = Nox.Types.Color.From(255, 255, 255);
+        var rgbaColor = Nox.Types.Color.FromRgba(0, 0, 0, 0);
+        var colorEmptyString = ColorConverter.ConvertFromString("", CultureInfo.InvariantCulture);
+        
+        //Assert
+        emptyColor.Should().Be(Nox.Types.Color.Empty);
+        emptyColor.Should().NotBe(differentColor);
+        rgbaColor.Should().Be(Nox.Types.Color.Empty);
+        colorEmptyString.Should().Be(Nox.Types.Color.Empty);
+        Nox.Types.Color.Empty.Should().Be(Nox.Types.Color.Empty);
     }
 }
 
