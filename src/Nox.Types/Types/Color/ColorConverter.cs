@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Nox.Types;
 
-public class ColorConverter
+public static class ColorConverter
 {
     public static Color ConvertFromString(string strValue, CultureInfo culture)
     {
