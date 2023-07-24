@@ -15,8 +15,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var money = 10;
         var currencyCode = CurrencyCode.UAH;
         var countryCode2 = "UA";
-        var areaInSquareMeters = 198_090;
-        var areaUnit = AreaTypeUnit.SquareMeter;
+        var areaInSquareMeters = 198_090M;
+        var persistUnitAs = AreaTypeUnit.SquareFoot;
 
         var newItem = new TestEntityForTypes()
         {
@@ -25,7 +25,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
-            //AreaTestField = Area.FromSquareMeters(areaInSquareMeters),
+            AreaTestField = Area.From(areaInSquareMeters, new AreaTypeOptions() { Units = AreaTypeUnit.SquareMeter, PersistAs = persistUnitAs }),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -43,6 +43,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
         testEntity.AreaTestField!.Value.Should().Be(areaInSquareMeters);
-        testEntity.AreaTestField!.Unit.Should().Be(areaUnit);
+        // AreaTypeUnit.SquareMeter are the default for nox.yaml
+        testEntity.AreaTestField!.Unit.Should().Be(AreaTypeUnit.SquareMeter);
     }
 }
