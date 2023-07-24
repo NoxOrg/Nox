@@ -176,11 +176,11 @@ public class DateTimeScheduleTests
         var options = new DateTimeScheduleTypeOptions() { Frequency = Frequency.Yearly, FrequencyValue = 1 };
 
         var dateTimeSchedule1 = DateTimeSchedule.From(start, end, options);
-        var dateTimeSchedule2 = dateTimeSchedule1.GetAllOccurrences();
+        var occurences = dateTimeSchedule1.GetAllOccurrences();
 
         dateTimeSchedule1.StartDate.Should().Be(start);
         dateTimeSchedule1.EndDate.Should().Be(end);
-        dateTimeSchedule2.Count.Should().Be(6);
+        occurences.Count.Should().Be(6);
     }
 
     [Fact]
@@ -191,11 +191,11 @@ public class DateTimeScheduleTests
         var options = new DateTimeScheduleTypeOptions() { Frequency = Frequency.Minutely, FrequencyValue = 10 };
 
         var dateTimeSchedule1 = DateTimeSchedule.From(start, end, options);
-        var dateTimeSchedule2 = dateTimeSchedule1.GetAllOccurrences();
+        var occurences = dateTimeSchedule1.GetAllOccurrences();
 
         dateTimeSchedule1.StartDate.Should().Be(start);
         dateTimeSchedule1.EndDate.Should().Be(end);
-        dateTimeSchedule2.Count.Should().Be(1);
+        occurences.Count.Should().Be(1);
     }
 
     [Fact]
@@ -205,10 +205,10 @@ public class DateTimeScheduleTests
         var end = new System.DateTime(2023, 5, 1);
 
         var dateTimeSchedule1 = DateTimeSchedule.From(start, end);
-        var dateTimeSchedule2 = dateTimeSchedule1.GetAllOccurrences();
+        var occurences = dateTimeSchedule1.GetAllOccurrences();
 
         dateTimeSchedule1.StartDate.Should().Be(start);
         dateTimeSchedule1.EndDate.Should().Be(end);
-        dateTimeSchedule2.Count.Should().Be(1);
+        occurences.Count.Should().Be(1);
     }
 }
