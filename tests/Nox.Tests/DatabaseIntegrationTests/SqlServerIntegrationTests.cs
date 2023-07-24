@@ -27,7 +27,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
             AreaTestField = Area.FromSquareMeters(areaInSquareMeters),
-            LanguageCodeTestField = LanguageCode.From(languageCode)
+            LanguageCodeTestField = LanguageCode.From(languageCode),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
