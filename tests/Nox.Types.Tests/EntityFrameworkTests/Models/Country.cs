@@ -188,4 +188,9 @@ public sealed class Country
     /// Gets or sets the phone number.
     /// </summary>
     public PhoneNumber PhoneNumber { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the date time schedule.
+    /// </summary>
+    public DateTimeSchedule DateTimeSchedule { get; set; } = null!;
 }

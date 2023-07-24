@@ -73,6 +73,9 @@ public class NoxSimpleTypeDefinition
 	[IfEquals("Type", NoxType.Area)]
     public AreaTypeOptions? AreaTypeOptions { get; set; }
 
+    [IfEquals("Type", NoxType.DateTimeSchedule)]
+    public DateTimeScheduleTypeOptions? DateTimeScheduleTypeOptions { get; set; }
+
     #endregion TypeOptions
 
     [Title("Is the attribute required? Boolean value.")]
