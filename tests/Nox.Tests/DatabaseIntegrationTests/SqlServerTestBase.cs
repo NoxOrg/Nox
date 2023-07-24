@@ -18,7 +18,7 @@ public abstract class SqlServerTestBase : IDisposable
     // include database setup into repository (mybae use localdb or express)
     private const string _databaseNameTemplate = @"test_database_{0}";
     private const string _databasePassword = @"";
-    private static string _inMemoryConnectionString = @"Server=localhost;User Id=SA;Password=" + _databasePassword + ";TrustServerCertificate=True;";
+    private static string _inMemoryConnectionString = @"Server=localhost,1433;User Id=SA;Password=" + _databasePassword + ";TrustServerCertificate=True;";
     private static string _databaseName = string.Empty;
     private const string _solutionFileAsEmbeddedResourceName = @"Nox.Tests.DatabaseIntegrationTests.Design.test.solution.nox.yaml";
     private readonly SqlConnection _connection;
