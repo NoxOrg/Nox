@@ -42,6 +42,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public CurrencyCode3? CurrencyCode3TestField { get; set; } = null!;
+    
+    /// <summary>
+    /// (Optional)
+    /// </summary>
     public StreetAddress? StreetAddressTestField { get; set; } = null!;
 
     /// <summary>
