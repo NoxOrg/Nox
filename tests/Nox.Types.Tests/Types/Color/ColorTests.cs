@@ -56,6 +56,7 @@ public class ColorTests
 
         var color2 = Nox.Types.Color.FromRgba(100, 193, 154, 107);
 
+        Nox.Types.Color.From(1, 2, 3).Should().Be(Nox.Types.Color.From(1, 2, 3));
         color1.Value.Should().Equal(color2.Value);
     }
 
@@ -85,7 +86,7 @@ public class ColorTests
     }
 
     [Fact]
-    public void Color_When_Empty_Should()
+    public void Color_When_Constructor_Should_Returns_Empty()
     {
         var emptyColor = new Nox.Types.Color();
         var differentColor = Nox.Types.Color.From(255, 255, 255);
