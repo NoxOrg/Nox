@@ -25,7 +25,7 @@ public abstract class SqliteTestBase : IDisposable
         ServiceCollection services = new ServiceCollection();
         // TODO  add ...BuilderExtension.cs generated class and call AddNox when Nox supports dynamic db db providers
         // This will build dbcontext etc..
-        services.AddNoxLib(Assembly.GetExecutingAssembly()!);
+        services.AddNoxLib();
 
         _serviceProvider = services.BuildServiceProvider();
 

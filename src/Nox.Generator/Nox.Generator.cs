@@ -80,7 +80,6 @@ public class NoxCodeGenerator : IIncrementalGenerator
                     
                     QueryGenerator.Generate(context, codeGeneratorState);
 
-                    ApplicationServiceGenerator.Generate(context, codeGeneratorState);
                 }
 
                 if (generate.Infrastructure)
@@ -93,6 +92,8 @@ public class NoxCodeGenerator : IIncrementalGenerator
                     ODataConfigurationGenerator.Generate(context, codeGeneratorState);
 
                     ApiGenerator.Generate(context, codeGeneratorState);
+
+                    ApplicationServiceGenerator.Generate(context, codeGeneratorState);
                 }
 
                 if (generate.Application)
