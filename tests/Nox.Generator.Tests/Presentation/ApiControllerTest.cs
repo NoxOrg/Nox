@@ -42,7 +42,7 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         Assert.Single(allOutputs);
 
         var generatedSources = result.GeneratedSources;
-        Assert.Equal(13, generatedSources.Length);
+        Assert.Equal(14, generatedSources.Length);
         Assert.True(generatedSources.Any(s => s.HintName == "NoxWebApplicationBuilderExtension.g.cs"), "NoxWebApplicationBuilderExtension.g.cs not generated");
         
         // Check base files
