@@ -58,6 +58,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         var languageCode = "en";        
         var area = 198_090M;
         var persistUnitAs = AreaTypeUnit.SquareMeter;
+        var cultureCode = "de-CH";
+        
         
         var dayOfWeek = 1;
 
@@ -72,6 +74,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
+            CultureCodeTestField = CultureCode.From(cultureCode),
             DayOfWeekTestField = DayOfWeek.From(1),
         };
         DbContext.TestEntityForTypes.Add(newItem);
@@ -94,6 +97,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
 		testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
+        testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
         testEntity.AreaTestField!.Unit.Should().Be(AreaTypeUnit.SquareMeter);
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
     }

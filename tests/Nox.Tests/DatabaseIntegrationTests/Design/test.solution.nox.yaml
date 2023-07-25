@@ -234,7 +234,7 @@ domain:
           type: streetAddress
         
         - name: CurrencyCode3TestField
-          type: currencyCode
+          type: currencyCode3
           
           
         - name: DayOfWeekTestField
@@ -324,8 +324,8 @@ domain:
         #- name: YearTestField
         #  type: year
 
-        #- name: CultureCodeTestField
-        #  type: cultureCode
+        - name: CultureCodeTestField
+          type: cultureCode
 
         - name: LanguageCodeTestField
           type: languageCode

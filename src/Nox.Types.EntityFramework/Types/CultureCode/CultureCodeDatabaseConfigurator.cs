@@ -5,11 +5,11 @@ using Nox.Types.EntityFramework.Abstractions;
 
 namespace Nox.Types.EntityFramework.Types;
 
-public class CurrencyCode3DatabaseConfigurator : INoxTypeDatabaseConfigurator
+public class CultureCodeDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
-    public NoxType ForNoxType => NoxType.CurrencyCode3;
-    public bool IsDefault  => true;
-
+    public NoxType ForNoxType => NoxType.CultureCode;
+    public bool IsDefault => true;
+    
     public void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
         EntityTypeBuilder builder,
@@ -21,10 +21,10 @@ public class CurrencyCode3DatabaseConfigurator : INoxTypeDatabaseConfigurator
             .Property(property.Name)
             .IsRequired(property.IsRequired)
             .IsUnicode(false)
-            .IsFixedLength()
-            .HasMaxLength(3)
-            .HasConversion<CurrencyCode3Converter>();
+            .IsFixedLength(false)
+            .HasMaxLength(10)
+            .HasConversion<CultureCodeConverter>();
     }
-
+    
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
 }

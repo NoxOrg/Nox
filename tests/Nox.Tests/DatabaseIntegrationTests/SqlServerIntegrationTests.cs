@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Nox.Types;
 using TestWebApp.Domain;
 using DayOfWeek = Nox.Types.DayOfWeek;
@@ -29,6 +29,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             CountryId = CountryCode2.From("UA"),
             PostalCode = "61135"
         };
+        var cultureCode = "de-CH";
 
         var newItem = new TestEntityForTypes()
         {
@@ -41,6 +42,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             CountryCode2TestField = CountryCode2.From(countryCode2),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
+            CultureCodeTestField = CultureCode.From(cultureCode),
             DayOfWeekTestField = DayOfWeek.From(1),
             //AreaTestField = Area.FromSquareMeters(areaInSquareMeters),
         };
@@ -64,6 +66,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
         testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
+        testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
         testEntity.AreaTestField!.Value.Should().Be(areaInSquareMeters);
         testEntity.AreaTestField!.Unit.Should().Be(areaUnit);
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
