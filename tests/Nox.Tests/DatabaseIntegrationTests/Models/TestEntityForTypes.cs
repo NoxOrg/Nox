@@ -106,4 +106,9 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public DateTimeDuration? DateTimeDurationTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Json? JsonTestField { get; set; } = null!;
 }

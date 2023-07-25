@@ -1,7 +1,7 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Nox.Types;
-
+using System.Text.Json;
 using TestWebApp.Domain;
 using DayOfWeek = Nox.Types.DayOfWeek;
 
@@ -65,6 +65,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var password = "Test123.";
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
+        var addressJsonPretty = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { WriteIndented = true });
+        var addressJsonMinified = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
 
         var newItem = new TestEntityForTypes()
         {
@@ -87,6 +89,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours, new DateTimeDurationTypeOptions { MaxDuration = 100, TimeUnit = TimeUnit.Day }),
+            JsonTestField = Json.From(addressJsonPretty)
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -121,6 +124,10 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
         testEntity.MonthTestField!.Value.Should().Be(month);
         testEntity.DateTimeDurationTestField!.TotalHours.Should().Be(dateTimeDurationInHours);
+        testEntity.JsonTestField!.Value.Should().Be(addressJsonMinified);
+        testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
+        testEntity.JsonTestField!.ToString("p").Should().Be(addressJsonPretty);
+        testEntity.JsonTestField!.ToString("m").Should().Be(addressJsonMinified);
     }
 
     //[Fact]

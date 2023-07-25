@@ -1,6 +1,9 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
+using MongoDB.Bson;
 using Nox.Types;
+using Nox.Types.Common;
+using System.Text.Json;
 using TestWebApp.Domain;
 using DayOfWeek = Nox.Types.DayOfWeek;
 
@@ -65,6 +68,9 @@ public class SqliteIntegrationTests : SqliteTestBase
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
 
+        var addressJsonPretty = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { WriteIndented = true });
+        var addressJsonMinified = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -72,7 +78,6 @@ public class SqliteIntegrationTests : SqliteTestBase
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
-            AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = persistUnitAs }),
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
@@ -86,6 +91,8 @@ public class SqliteIntegrationTests : SqliteTestBase
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
+            AreaTestField = Area.From(areaInSquareMeters, new AreaTypeOptions() { Units = AreaTypeUnit.SquareMeter, PersistAs = persistUnitAs }),
+            JsonTestField = Json.From(addressJsonPretty)
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -119,6 +126,10 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
         testEntity.MonthTestField!.Value.Should().Be(month);
         testEntity.DateTimeDurationTestField!.TotalHours.Should().Be(dateTimeDurationInHours);
+        testEntity.JsonTestField!.Value.Should().Be(addressJsonMinified);
+        testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
+        testEntity.JsonTestField!.ToString("p").Should().Be(addressJsonPretty);
+        testEntity.JsonTestField!.ToString("m").Should().Be(addressJsonMinified);
     }
 
     [Fact]
