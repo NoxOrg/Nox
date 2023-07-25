@@ -69,7 +69,6 @@ internal static class WebApplicationExtensionGenerator
                 code.AppendLine($"services.AddDbContext<ODataDbContext>();");
             code.AppendLine("var tmpProvider = services.BuildServiceProvider();");
             code.AppendLine($"var dbContext = tmpProvider.GetRequiredService<{dbContextName}>();");
-            //code.AppendLine("dbContext.Database.EnsureCreated();");            
         }
         code.EndBlock();
         code.EndBlock();
