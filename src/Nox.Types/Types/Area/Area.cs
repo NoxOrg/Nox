@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.Globalization;
-using YamlDotNet.Core.Tokens;
 
 namespace Nox.Types;
 
@@ -20,10 +19,12 @@ public class Area : ValueObject<QuantityValue, Area>
     {
         return From(value, new AreaTypeOptions());
     }
+
     public static Area From(QuantityValue value, AreaTypeUnit areaUnit)
     {
         return From(value, new AreaTypeOptions() { Units = areaUnit });
     }
+
     public static Area From(QuantityValue value, AreaTypeOptions options)
     {
         var newObject = new Area
@@ -115,8 +116,7 @@ public class Area : ValueObject<QuantityValue, Area>
         var conversion = ResolveUnitConversion(Enumeration.ParseFromName<AreaUnit>(Unit.ToString()), targetUnit);
         return conversion.Calculate(Value).Round(QuantityValueDecimalPrecision);
     }
+
     protected MeasurementConversion<AreaUnit> ResolveUnitConversion(AreaUnit sourceUnit, AreaUnit targetUnit)
         => new AreaConversion(sourceUnit, targetUnit);
-
-    
 }
