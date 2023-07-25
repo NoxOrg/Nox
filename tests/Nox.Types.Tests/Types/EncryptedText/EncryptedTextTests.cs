@@ -33,12 +33,23 @@ public class EncryptedTextTests
     }
 
     [Fact]
-    public void Decryption_ReturnsOriginalValue()
+    public void Decryption_ReturnsSameValue()
     {
         var encryptedText = EncryptedText.FromPlainText(PlainText, _typeOptions);
         var decryptedText = encryptedText.DecryptText(_typeOptions);
 
         PlainText.Should().Be(decryptedText);
+    }
+
+    [Fact]
+    public void Create_Encrypt_FromDatabase_ReturnsSameValue()
+    {
+        var encryptedText = EncryptedText.FromPlainText(PlainText, _typeOptions);
+        var encryptedTextFromDatabase = EncryptedText.FromDatabase(encryptedText.Value);
+        var decryptedText = encryptedTextFromDatabase.DecryptText(_typeOptions);
+
+        decryptedText.Should().Be(PlainText);
+        encryptedTextFromDatabase.Value.Should().Equal(encryptedText.Value);
     }
 
     [Fact]
@@ -124,12 +135,13 @@ public class EncryptedTextTests
             Iv = Convert.ToBase64String(_aesAlg.IV)
         };
 
-        var decryptedText = encryptedText.DecryptText(_typeOptions);
+        var actDecrypt = () => encryptedText.DecryptText(_typeOptions);
         // Changing key
         var actDecryptChangingKey = () => encryptedText.DecryptText(encryptOptionsChangingKey);
         // Changing IV
         var actDecryptChangingIv = () => encryptedText.DecryptText(encryptOptionsChangingIv);
 
+        actDecrypt.Should().NotThrow<CryptographicException>();
         actDecryptChangingKey.Should().Throw<CryptographicException>();
         actDecryptChangingIv.Should().Throw<CryptographicException>();
     }
