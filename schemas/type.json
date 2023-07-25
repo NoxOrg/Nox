@@ -1523,6 +1523,16 @@
                 "squareFoot",
                 "squareMeter"
               ]
+            },
+            "units": {    
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "squareFoot",
+                "squareMeter"
+              ]
             }
           }
         },

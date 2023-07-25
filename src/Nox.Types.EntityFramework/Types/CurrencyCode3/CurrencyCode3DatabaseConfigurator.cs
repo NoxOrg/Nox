@@ -1,13 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
 namespace Nox.Types.EntityFramework.Types;
 
-public class CountryCode2DatabaseConfigurator : INoxTypeDatabaseConfigurator
+public class CurrencyCode3DatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
-    public NoxType ForNoxType => NoxType.CountryCode2;
+    public NoxType ForNoxType => NoxType.CurrencyCode;
     public bool IsDefault  => true;
 
     public void ConfigureEntityProperty(
@@ -22,8 +22,8 @@ public class CountryCode2DatabaseConfigurator : INoxTypeDatabaseConfigurator
             .IsRequired(property.IsRequired)
             .IsUnicode(false)
             .IsFixedLength()
-            .HasMaxLength(2)
-            .HasConversion<CountryCode2Converter>();
+            .HasMaxLength(3)
+            .HasConversion<CurrencyCode3Converter>();
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;

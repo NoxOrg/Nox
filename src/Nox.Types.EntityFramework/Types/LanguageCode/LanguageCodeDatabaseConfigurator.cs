@@ -1,13 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
 namespace Nox.Types.EntityFramework.Types;
 
-public class CountryCode2DatabaseConfigurator : INoxTypeDatabaseConfigurator
+public class LanguageCodeDatabaseConfigurator: INoxTypeDatabaseConfigurator
 {
-    public NoxType ForNoxType => NoxType.CountryCode2;
+    public NoxType ForNoxType => NoxType.LanguageCode;
     public bool IsDefault  => true;
 
     public void ConfigureEntityProperty(
@@ -23,7 +23,7 @@ public class CountryCode2DatabaseConfigurator : INoxTypeDatabaseConfigurator
             .IsUnicode(false)
             .IsFixedLength()
             .HasMaxLength(2)
-            .HasConversion<CountryCode2Converter>();
+            .HasConversion<LanguageCodeConverter>();
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;

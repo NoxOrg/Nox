@@ -16,7 +16,7 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-public partial class StoresController : ODataController
+public partial class CountryLocalNamesController : ODataController
 {
     
     /// <summary>
@@ -29,7 +29,7 @@ public partial class StoresController : ODataController
     /// </summary>
     protected readonly IMapper _mapper;
     
-    public StoresController(
+    public CountryLocalNamesController(
         ODataDbContext databaseContext,
         IMapper mapper
     )
@@ -39,14 +39,14 @@ public partial class StoresController : ODataController
     }
     
     [EnableQuery]
-    public ActionResult<IQueryable<Store>> Get()
+    public ActionResult<IQueryable<CountryLocalNames>> Get()
     {
-        return Ok(_databaseContext.Stores);
+        return Ok(_databaseContext.CountryLocalNames);
     }
     
-    public ActionResult<Store> Get([FromRoute] String key)
+    public ActionResult<CountryLocalNames> Get([FromRoute] String key)
     {
-        var item = _databaseContext.Stores.SingleOrDefault(d => d.Id.Equals(key));
+        var item = _databaseContext.CountryLocalNames.SingleOrDefault(d => d.Id.Equals(key));
         
         if (item == null)
         {
@@ -56,37 +56,37 @@ public partial class StoresController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post(StoreDto store)
+    public async Task<ActionResult> Post(CountryLocalNamesDto countrylocalnames)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = _mapper.Map<OStore>(store);
+        var entity = _mapper.Map<OCountryLocalNames>(countrylocalnames);
         
         entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
         
-        _databaseContext.Stores.Add(entity);
+        _databaseContext.CountryLocalNames.Add(entity);
         
         await _databaseContext.SaveChangesAsync();
         
         return Created(entity);
     }
     
-    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OStore updatedStore)
+    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OCountryLocalNames updatedCountryLocalNames)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        if (key != updatedStore.Id)
+        if (key != updatedCountryLocalNames.Id)
         {
             return BadRequest();
         }
         
-        _databaseContext.Entry(updatedStore).State = EntityState.Modified;
+        _databaseContext.Entry(updatedCountryLocalNames).State = EntityState.Modified;
         
         try
         {
@@ -94,7 +94,7 @@ public partial class StoresController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!StoreExists(key))
+            if (!CountryLocalNamesExists(key))
             {
                 return NotFound();
             }
@@ -104,17 +104,17 @@ public partial class StoresController : ODataController
             }
         }
         
-        return Updated(updatedStore);
+        return Updated(updatedCountryLocalNames);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string store, [FromBody] Delta<OStore> Id)
+    public async Task<ActionResult> Patch([FromRoute] string countrylocalnames, [FromBody] Delta<OCountryLocalNames> Id)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = await _databaseContext.Stores.FindAsync(store);
+        var entity = await _databaseContext.CountryLocalNames.FindAsync(countrylocalnames);
         
         if (entity == null)
         {
@@ -129,7 +129,7 @@ public partial class StoresController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!StoreExists(store))
+            if (!CountryLocalNamesExists(countrylocalnames))
             {
                 return NotFound();
             }
@@ -142,20 +142,20 @@ public partial class StoresController : ODataController
         return Updated(entity);
     }
     
-    private bool StoreExists(string store)
+    private bool CountryLocalNamesExists(string countrylocalnames)
     {
-        return _databaseContext.Stores.Any(p => p.Id == store);
+        return _databaseContext.CountryLocalNames.Any(p => p.Id == countrylocalnames);
     }
     
     public async Task<ActionResult> Delete([FromRoute] string Id)
     {
-        var store = await _databaseContext.Stores.FindAsync(Id);
-        if (store == null)
+        var countrylocalnames = await _databaseContext.CountryLocalNames.FindAsync(Id);
+        if (countrylocalnames == null)
         {
             return NotFound();
         }
         
-        _databaseContext.Stores.Remove(store);
+        _databaseContext.CountryLocalNames.Remove(countrylocalnames);
         await _databaseContext.SaveChangesAsync();
         return NoContent();
     }

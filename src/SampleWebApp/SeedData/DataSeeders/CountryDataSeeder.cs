@@ -20,7 +20,7 @@ internal class CountryDataSeeder : SampleDataSeederBase<CountryModel, Country>
                 Id = Text.From(x.Id.ToString()),
                 AlphaCode2 = Text.From(x.AlphaCode2),
                 AlphaCode3 = Text.From(x.AlphaCode3),
-                AreaInSquareKilometres = Area.FromSquareMeters(x.AreaInSquareKilometres),
+                AreaInSquareKilometres = Area.From(x.AreaInSquareKilometres,AreaTypeUnit.SquareMeter),
                 Capital = Text.From(x.Capital),
                 Demonym = Text.From(x.Demonym),
                 DialingCodes = Text.From(x.DialingCodes),

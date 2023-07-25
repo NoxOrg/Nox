@@ -2160,6 +2160,16 @@
                         "squareFoot",
                         "squareMeter"
                       ]
+                    },
+                    "units": {    
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "squareFoot",
+                        "squareMeter"
+                      ]
                     }
                   }
                 },
@@ -4402,6 +4412,16 @@
                         "squareFoot",
                         "squareMeter"
                       ]
+                    },
+                    "units": {    
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "squareFoot",
+                        "squareMeter"
+                      ]
                     }
                   }
                 },
@@ -6527,6 +6547,16 @@
               ]
             },
             "persistAs": {    
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "squareFoot",
+                "squareMeter"
+              ]
+            },
+            "units": {    
               "type": [
                 "string",
                 "null"
