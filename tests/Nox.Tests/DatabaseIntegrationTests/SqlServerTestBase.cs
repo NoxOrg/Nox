@@ -60,7 +60,7 @@ public abstract class SqlServerTestBase : IDisposable
         ServiceCollection services = new ServiceCollection();
         // TODO  add ...BuilderExtension.cs generated class and call AddNox when Nox supports dynamic db providers
         // This will build dbcontext etc..
-        services.AddNoxLib(Assembly.GetExecutingAssembly());
+        services.AddNoxLib();
         using var serviceProvider = services.BuildServiceProvider();
 
         var databaseConfigurator = new SqlServerDatabaseProvider(serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());
