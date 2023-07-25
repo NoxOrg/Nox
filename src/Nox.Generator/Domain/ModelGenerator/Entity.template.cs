@@ -26,7 +26,7 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
 
     {{- else if key.Type == "Nuid" -}}
 	{{- prefix = key.NuidTypeOptions.Prefix | object.default entity.Name + key.NuidTypeOptions.Separator -}}
-    {{- codeGeneratorNuidGetter = "Nuid.From(\""+prefix+"\"+string.Join(\""+key.NuidTypeOptions.Separator +"\", "+ (key.NuidTypeOptions.PropertyNames | array.join "," @(do; ret $0 + ".Value.ToString()"; end)) +"))" -}}
+    {{- codeGeneratorNuidGetter = "Nuid.From(\""+prefix+"\" + string.Join(\""+key.NuidTypeOptions.Separator +"\", "+ (key.NuidTypeOptions.PropertyNames | array.join "," @(do; ret $0 + ".Value.ToString()"; end)) +"))" -}}
     public {{key.Type}} {{key.Name}} {get; private set;} = null!;
 
 	public void Ensure{{ key.Name}}()

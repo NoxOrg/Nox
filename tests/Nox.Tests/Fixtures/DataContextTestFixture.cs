@@ -29,7 +29,6 @@ namespace Nox.Tests.Fixtures
                 .Options;
 
             DbContext = new TestWebAppDbContext(options, solution, databaseConfigurator, Assembly.GetExecutingAssembly());
-            DbContext.Database.EnsureCreated();
         }
 
         public TestWebAppDbContext DbContext { get; }
