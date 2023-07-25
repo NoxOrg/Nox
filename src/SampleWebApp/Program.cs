@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.OData;
 using Nox;
 using Nox.Abstractions;
+using Nox.Solution;
 using SampleWebApp;
 using SampleWebApp.Application;
 using SampleWebApp.Presentation.Api.OData;

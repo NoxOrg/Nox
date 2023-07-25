@@ -1,13 +1,20 @@
+// Generated
+
+#nullable enable
+
 using Microsoft.EntityFrameworkCore;
 using Nox;
-using Nox.EntityFramework.SqlServer;
+using Nox.Solution;
 using Nox.Logging.Serilog;
 using Nox.Monitoring.ElasticApm;
+using Nox.EntityFramework.SqlServer;
 using Nox.Types.EntityFramework.Abstractions;
+using TestWebApp.Infrastructure.Persistence;
+using TestWebApp.Presentation.Api.OData;
 
-namespace SampleWebApp;
+namespace TestWebApp;
 
-public static class NoxWebApplicationBuilderExtensionExample
+public static class NoxWebApplicationBuilderExtension
 {
     public static WebApplicationBuilder AddNox(this WebApplicationBuilder appBuilder)
     {
@@ -15,24 +22,30 @@ public static class NoxWebApplicationBuilderExtensionExample
         appBuilder.Services.AddNoxServices();
         appBuilder.Logging.AddLogging(appBuilder.Configuration, opt  =>
         {
-            opt.UseSerilog(serlogOpt =>
+            opt.UseSerilog(serilogOpt =>
             {
-                serlogOpt.WithEcsHttpContext(httpAccessor);
+                serilogOpt.WithEcsHttpContext(httpAccessor);
             });
         });
         return appBuilder;
     }
     
+    public static void UseNox(this IApplicationBuilder builder)
+    {
+        var solution = builder.ApplicationServices.GetRequiredService<NoxSolution>();
+        builder.UseElasticMonitoring(solution.Infrastructure!.Dependencies!.Monitoring);
+    }
+    
     private static void AddNoxServices(this IServiceCollection services)
     {
         services.AddNoxLib();
-        services.AddSingleton<DbContextOptions<SampleWebAppDbContext>>();
+        services.AddSingleton<DbContextOptions<TestWebAppDbContext>>();
         services.AddSingleton<INoxDatabaseConfigurator, SqlServerDatabaseProvider>();
         services.AddSingleton<INoxDatabaseProvider, SqlServerDatabaseProvider>();
-        services.AddDbContext<SampleWebAppDbContext>();
+        services.AddDbContext<TestWebAppDbContext>();
         services.AddDbContext<ODataDbContext>();
         var tmpProvider = services.BuildServiceProvider();
-        var dbContext = tmpProvider.GetRequiredService<SampleWebAppDbContext>();
+        var dbContext = tmpProvider.GetRequiredService<TestWebAppDbContext>();
         dbContext.Database.EnsureCreated();
     }
 }

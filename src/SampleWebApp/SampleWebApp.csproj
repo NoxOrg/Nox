@@ -67,4 +67,8 @@
 		<Compile Remove="Controller_Sample.cs" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <Folder Include="Examples\" />
+	</ItemGroup>
+
 </Project>
