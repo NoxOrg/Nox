@@ -167,7 +167,7 @@ public class Entity : DefinitionBase
         {
             Name = foreignKeyName,
             Description = $"A unique identifier for a {relationship.Related.Entity!.Name}.",
-            Type = Types.NoxType.AutoNumber,
+            Type = Types.NoxType.DatabaseNumber,
             IsRequired = true,
             IsReadonly = true,
         };

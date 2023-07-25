@@ -12,15 +12,9 @@ public static class ServiceCollectionExtension
 {
     public static IServiceCollection AddNoxLib(this IServiceCollection services)
     {
-
-        return AddNoxLib(services, Assembly.GetEntryAssembly()!);
-    }
-    internal static IServiceCollection AddNoxLib(this IServiceCollection services, Assembly entryAssembly)
-    {
         return services
             .AddSingleton(typeof(NoxSolution), CreateSolution)
-            .AddSecretsResolver()
-            .AddNoxTypesDatabaseConfigurator(entryAssembly);
+            .AddSecretsResolver();
     }
 
     private static NoxSolution CreateSolution(IServiceProvider serviceProvider)
@@ -51,10 +45,9 @@ public static class ServiceCollectionExtension
         return services;
     }
 
-    internal static IServiceCollection AddNoxTypesDatabaseConfigurator(this IServiceCollection services,
+    public static IServiceCollection AddNoxTypesDatabaseConfigurator(this IServiceCollection services,
         Assembly entryAssembly)
     {
-
         var allAssemblies =
             entryAssembly!.GetReferencedAssemblies();
 

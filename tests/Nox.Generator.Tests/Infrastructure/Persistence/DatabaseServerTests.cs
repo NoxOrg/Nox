@@ -25,6 +25,7 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
             new AdditionalSourceText(File.ReadAllText($"./{path}generator.nox.yaml"), $"{path}/generator.nox.yaml"),
             new AdditionalSourceText(File.ReadAllText($"./{path}database-server.solution.nox.yaml"), $"{path}/database-server.solution.nox.yaml")
         };
+
         // trackIncrementalGeneratorSteps allows to report info about each step of the generator
         GeneratorDriver driver = CSharpGeneratorDriver.Create(
             generators: new[] { _fixture.TestGenerator },
@@ -41,7 +42,7 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
         Assert.Single(allOutputs);
 
         var generatedSources = result.GeneratedSources;
-        Assert.Equal(7, generatedSources.Length);
+        Assert.Equal(6, generatedSources.Length);
 
         Assert.True(generatedSources.Any(s => s.HintName == "NoxWebApplicationBuilderExtension.g.cs"), "NoxWebApplicationBuilderExtension.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "Generator.g.cs"), "Generator.g.cs not generated");

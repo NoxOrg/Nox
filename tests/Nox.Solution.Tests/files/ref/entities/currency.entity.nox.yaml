@@ -11,7 +11,7 @@ keys:
 
   - name: Id
     isRequired: true
-    type: currencyCode
+    type: currencyCode3
 
 relationships:
 

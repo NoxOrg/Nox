@@ -33,6 +33,7 @@ internal static class WebApplicationExtensionGenerator
         }
 
         code.AppendLine("using Microsoft.EntityFrameworkCore;");
+        code.AppendLine("using System.Reflection;");
         code.AppendLine("using Nox;");
         code.AppendLines(usings.ToArray());
         code.AppendLine("using Nox.Types.EntityFramework.Abstractions;");
@@ -55,9 +56,15 @@ internal static class WebApplicationExtensionGenerator
         code.AppendLine("private static void AddNoxServices(this IServiceCollection services)");
         code.StartBlock();
         code.AppendLine("services.AddNoxLib();");
+        code.AppendLine("services.AddNoxTypesDatabaseConfigurator(Assembly.GetExecutingAssembly());");
+		if (generatePresentation)
+            code.AppendLine("services.AddNoxOdata();");
+			
         if (solution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
             var dbContextName = $"{solution.Name}DbContext";
+                
+            code.AppendLine($"services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));");
             code.AppendLine($"services.AddSingleton<DbContextOptions<{dbContextName}>>();");
             code.AppendLine($"services.AddSingleton<INoxDatabaseConfigurator, {dbProvider}>();");
             code.AppendLine($"services.AddSingleton<INoxDatabaseProvider, {dbProvider}>();");
@@ -66,7 +73,6 @@ internal static class WebApplicationExtensionGenerator
                 code.AppendLine($"services.AddDbContext<ODataDbContext>();");
             code.AppendLine("var tmpProvider = services.BuildServiceProvider();");
             code.AppendLine($"var dbContext = tmpProvider.GetRequiredService<{dbContextName}>();");
-            code.AppendLine("dbContext.Database.EnsureCreated();");
         }
         code.EndBlock();
         code.EndBlock();
