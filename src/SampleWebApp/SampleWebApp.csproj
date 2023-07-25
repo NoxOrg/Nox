@@ -73,6 +73,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Examples\" />
+	  <Folder Include="Generated\Nox.Generator\Nox.Generator.NoxCodeGenerator\" />
 	</ItemGroup>
 
 </Project>
