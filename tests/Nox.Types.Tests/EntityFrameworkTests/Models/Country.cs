@@ -222,4 +222,9 @@ public sealed class Country
     /// Gets or sets the MainId property.
     /// </summary>
     public DatabaseNumber DatabaseId { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets password
+    /// </summary>
+    public Password Password { get; set; } = null!;
 }

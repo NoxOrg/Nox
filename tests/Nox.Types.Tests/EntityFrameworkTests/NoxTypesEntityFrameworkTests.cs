@@ -96,6 +96,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StringUser = User.From("stringUser", new UserTypeOptions { ValidEmailFormat=false, ValidGuidFormat= false}),
             InfoEmail = Email.From("info@iwgplc.ch"),
             DatabaseId = DatabaseNumber.FromDatabase(10U),
+            Password = Password.From("Test123."),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -158,6 +159,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             StringUser = User.From("stringUser", new UserTypeOptions { ValidEmailFormat = false, ValidGuidFormat= false}),
             InfoEmail = Email.From("info@iwgplc.ch"),
             DatabaseId = DatabaseNumber.FromDatabase(10U),
+            Password = Password.From("Test123."),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -211,6 +213,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.CreateDate.Should().Be(DateTime.From(new System.DateTime(2023, 01, 01)));
         item.DateTimeDuration.Value.Should().Be(new TimeSpan(10, 5, 2, 1));
         item.Nuid.Value.Should().Be(NuidDefinition.NuidValue);
+        Assert.Equal(newItem.Password, item.Password);
         AssertStreetAddress(streetAddress, item.StreetAddress);
         item.StreetAddressJson.Value.Should().Be(JsonSerializer.Serialize(streetAddress));
         item.PageHtml.Value.Should().Be("<html><body>Switzerland Website</body></html>");
