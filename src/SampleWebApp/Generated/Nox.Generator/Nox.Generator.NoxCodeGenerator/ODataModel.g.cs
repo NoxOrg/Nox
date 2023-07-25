@@ -93,12 +93,6 @@ public class OCountry : SampleWebApp.Domain.AuditableEntityBase
     /// accepts as legal tender.
     /// </summary>
     public List<OCurrency> CountryAcceptsCurrency { get; set; } = null!;
-    
-    /// <summary>
-    /// is also know as.
-    /// </summary>
-    [AutoExpand]
-    public List<OCountryLocalNames> CountryLocalNames { get; set; } = null!;
 }
 
 /// <summary>

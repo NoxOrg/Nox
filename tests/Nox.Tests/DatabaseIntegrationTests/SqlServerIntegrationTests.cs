@@ -14,9 +14,17 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var number = 123;
         var money = 10;
         var currencyCode = CurrencyCode.UAH;
+        var currencyCode3 = "USD";
         var countryCode2 = "UA";
-        var areaInSquareMeters = 198_090M;
-        var persistUnitAs = AreaTypeUnit.SquareFoot;
+        var languageCode = "en";
+        var area = 198_090M;
+        var persistUnitAs = AreaTypeUnit.SquareMeter;
+        var addressItem = new StreetAddressItem
+        {
+            AddressLine1 = "AddressLine1",
+            CountryId = CountryCode2.From("UA"),
+            PostalCode = "61135"
+        };
 
         var newItem = new TestEntityForTypes()
         {
@@ -24,8 +32,11 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             TextTestField = Text.From(text),
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
+            AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = persistUnitAs }),
+            StreetAddressTestField = StreetAddress.From(addressItem),
             CountryCode2TestField = CountryCode2.From(countryCode2),
-            AreaTestField = Area.From(areaInSquareMeters, new AreaTypeOptions() { Units = AreaTypeUnit.SquareMeter, PersistAs = persistUnitAs }),
+            CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
+            LanguageCodeTestField = LanguageCode.From(languageCode),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -42,8 +53,10 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.MoneyTestField!.Value.Amount.Should().Be(money);
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
-        testEntity.AreaTestField!.Value.Should().Be(areaInSquareMeters);
-        // AreaTypeUnit.SquareMeter are the default for nox.yaml
-        testEntity.AreaTestField!.Unit.Should().Be(AreaTypeUnit.SquareMeter);
+        testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
+        testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
+        testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
+        testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
+        testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
     }
 }

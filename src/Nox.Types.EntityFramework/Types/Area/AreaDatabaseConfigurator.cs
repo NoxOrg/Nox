@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
@@ -7,7 +8,7 @@ namespace Nox.Types.EntityFramework.Types;
 public class AreaDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
     public NoxType ForNoxType => NoxType.Area;
-    public bool IsDefault => true;
+    public virtual bool IsDefault => true;
 
     public void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
@@ -21,6 +22,7 @@ public class AreaDatabaseConfigurator : INoxTypeDatabaseConfigurator
         builder
             .Property(property.Name)
             .IsRequired(property.IsRequired)
+            .HasColumnType(GetColumnType(typeOptions))
             .If(typeOptions.PersistAs == AreaTypeUnit.SquareFoot,
                 propertyToUpdate => propertyToUpdate.HasConversion<AreaToSquareFootConverter>())
             .If(typeOptions.PersistAs == AreaTypeUnit.SquareMeter,
@@ -28,4 +30,9 @@ public class AreaDatabaseConfigurator : INoxTypeDatabaseConfigurator
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
+    
+    public virtual string? GetColumnType(AreaTypeOptions typeOptions)
+    {
+        return null;
+    }
 }
