@@ -38,6 +38,10 @@ public sealed class DayOfWeek : ValueObject<int, DayOfWeek>
         return result;
     }
 
+    /// <summary>
+    /// Checks if the current day is a weekday.
+    /// </summary>
+    /// <returns>True if the current day is a weekday, otherwise False.</returns>
     public bool IsWeekday()
     {
         switch (Value)
@@ -53,6 +57,10 @@ public sealed class DayOfWeek : ValueObject<int, DayOfWeek>
         }
     }
 
+    /// <summary>
+    /// Checks if the current day is a weekend.
+    /// </summary>
+    /// <returns>True if the current day is a weekend, otherwise False.</returns>
     public bool IsWeekend()
     {
         return !IsWeekday();
