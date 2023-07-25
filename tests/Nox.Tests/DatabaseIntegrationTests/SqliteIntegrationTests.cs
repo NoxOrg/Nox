@@ -57,7 +57,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var languageCode = "en";        
         var area = 198_090M;
         var persistUnitAs = AreaTypeUnit.SquareMeter;
-        var cultureCode = "de-CH";        
+        var cultureCode = "de-CH";
         var email = "regus@regusignore.com";
         
         var newItem = new TestEntityForTypes()
@@ -94,6 +94,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
 		testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
+        testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
         testEntity.EmailTestField!.Value.Should().Be(email);
     }
     [Fact]
