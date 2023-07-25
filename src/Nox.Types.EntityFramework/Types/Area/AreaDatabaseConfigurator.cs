@@ -22,7 +22,7 @@ public class AreaDatabaseConfigurator : INoxTypeDatabaseConfigurator
         builder
             .Property(property.Name)
             .IsRequired(property.IsRequired)
-            .HasColumnType(GetColumnType(typeOptions))
+            .IfNotNull(GetColumnType(typeOptions), b => b.HasColumnType(GetColumnType(typeOptions)))
             .If(typeOptions.PersistAs == AreaTypeUnit.SquareFoot,
                 propertyToUpdate => propertyToUpdate.HasConversion<AreaToSquareFootConverter>())
             .If(typeOptions.PersistAs == AreaTypeUnit.SquareMeter,
