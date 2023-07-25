@@ -56,6 +56,9 @@ internal static class WebApplicationExtensionGenerator
         code.StartBlock();
         code.AppendLine("services.AddNoxLib();");
         code.AppendLine("services.AddNoxTypesDatabaseConfigurator(Assembly.GetExecutingAssembly());");
+		if (generatePresentation)
+            code.AppendLine("services.AddNoxOdata();");
+			
         if (solution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
             var dbContextName = $"{solution.Name}DbContext";

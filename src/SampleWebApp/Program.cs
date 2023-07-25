@@ -10,8 +10,6 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddNox();
 
-builder.Services.AddNoxOdata();
-
 // Add services to the container.
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -24,8 +22,6 @@ builder.Services.AddScoped<INoxMessenger, NoxMessenger>();
 builder.Services.AddAutoMapper(typeof(Program));
 
 builder.AddSeedData();
-
-
 
 var app = builder.Build();
 
