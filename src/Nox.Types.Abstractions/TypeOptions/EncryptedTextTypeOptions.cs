@@ -16,14 +16,4 @@ public class EncryptedTextTypeOptions : INoxTypeOptions
     /// <seealso cref="SymmetricAlgorithm.IV"/>
     /// </summary>
     public string? Iv { get; set; }
-
-    /// <summary>
-    /// Minimum Length for the DatabaseConfigurator.
-    /// </summary>
-    public uint MinLength { get; set; } = 0;
-
-    /// <summary>
-    /// Maximum Length for the DatabaseConfigurator.
-    /// </summary>
-    public uint MaxLength { get; set; } = 255;
 }
