@@ -48,7 +48,6 @@ public static class ServiceCollectionExtension
     public static IServiceCollection AddNoxTypesDatabaseConfigurator(this IServiceCollection services,
         Assembly entryAssembly)
     {
-
         var allAssemblies =
             entryAssembly!.GetReferencedAssemblies();
 

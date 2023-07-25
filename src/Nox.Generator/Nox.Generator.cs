@@ -79,7 +79,6 @@ public class NoxCodeGenerator : IIncrementalGenerator
                     CommandGenerator.Generate(context, codeGeneratorState);
                     
                     QueryGenerator.Generate(context, codeGeneratorState);
-
                 }
 
                 if (generate.Infrastructure)

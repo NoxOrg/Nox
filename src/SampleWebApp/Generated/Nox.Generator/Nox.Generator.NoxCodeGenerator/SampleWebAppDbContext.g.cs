@@ -51,10 +51,6 @@ public partial class SampleWebAppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        if (!Debugger.IsAttached)
-        {
-            Debugger.Launch(); 
-        }
         base.OnModelCreating(modelBuilder);
         if (_noxSolution.Domain != null)
         {

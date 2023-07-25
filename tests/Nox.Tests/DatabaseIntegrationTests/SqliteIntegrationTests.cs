@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Nox.Types;
-using Nox.Types.Common;
 using TestWebApp.Domain;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
@@ -65,7 +64,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
             StreetAddressTestField = StreetAddress.From(addressItem),
-            AreaTestField = Area.From(areaInSquareMeters, new AreaTypeOptions() {Units = AreaTypeUnit.SquareMeter,PersistAs = persistUnitAs }),
+            AreaTestField = Area.From(areaInSquareMeters, new AreaTypeOptions() { Units = AreaTypeUnit.SquareMeter, PersistAs = persistUnitAs }),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
