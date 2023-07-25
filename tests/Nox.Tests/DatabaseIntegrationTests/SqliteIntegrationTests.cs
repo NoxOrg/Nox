@@ -14,7 +14,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         // array
         // color
         // colour
-        // autoNumber
+        // databaseNumber
         // collection
         // entity
         // file
@@ -47,15 +47,17 @@ public class SqliteIntegrationTests : SqliteTestBase
         var money = 10;
         var currencyCode = CurrencyCode.UAH;
         var countryCode2 = "UA";
+        var currencyCode3 = "USD";
         var addressItem = new StreetAddressItem
         {
             AddressLine1 = "AddressLine1",
             CountryId = CountryCode2.From("UA"),
             PostalCode = "61135"
         };
-        var areaInSquareMeters = 198_090;
-        var areaUnit = AreaTypeUnit.SquareMeter;
-
+        var languageCode = "en";        
+        var area = 198_090M;
+        var persistUnitAs = AreaTypeUnit.SquareMeter;
+        
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(text),
@@ -63,8 +65,10 @@ public class SqliteIntegrationTests : SqliteTestBase
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
+            AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = persistUnitAs }),
             StreetAddressTestField = StreetAddress.From(addressItem),
-            AreaTestField = Area.From(areaInSquareMeters, areaUnit, new AreaTypeOptions(){ PersistAs = areaUnit }),
+            CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
+            LanguageCodeTestField = LanguageCode.From(languageCode)
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -82,10 +86,11 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
-        ((double)testEntity.AreaTestField!.ToSquareMeters()).Should().BeApproximately(areaInSquareMeters,0.000099);
-        testEntity.AreaTestField!.AreaTypeUnit.Should().Be(areaUnit);
+        testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
+        testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
+        testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
+		testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
     }
-
     [Fact]
     public void GeneratedRelationship_Sqlite_ZeroOrMany_OneOrMany()
     {

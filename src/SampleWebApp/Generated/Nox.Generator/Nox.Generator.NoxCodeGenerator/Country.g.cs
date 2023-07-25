@@ -94,8 +94,4 @@ public partial class Country : AuditableEntityBase
     public virtual List<Currency> Currencies { get; set; } = new();
     
     public List<Currency> CountryAcceptsCurrency => Currencies;
-    /// <summary>
-    /// Country is also know as OneOrMany CountryLocalNames
-    /// </summary>
-    public virtual List<CountryLocalNames> CountryLocalNames { get; set; } = new();
 }

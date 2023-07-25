@@ -54,6 +54,10 @@
 		<PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.0" />
 		<PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="7.0.8" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.8">
+		  <PrivateAssets>all</PrivateAssets>
+		  <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.8" />
 		<PackageReference Include="Microsoft.OData.Core" Version="7.17.0" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
