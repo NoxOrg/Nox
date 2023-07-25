@@ -14,7 +14,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         // array
         // color
         // colour
-        // autoNumber
+        // databaseNumber
         // collection
         // entity
         // file

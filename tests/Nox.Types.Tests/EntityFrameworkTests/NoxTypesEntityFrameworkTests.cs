@@ -95,6 +95,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             EmailUser = User.From("user@iwgplc.ch"),
             StringUser = User.From("stringUser", new UserTypeOptions { ValidEmailFormat=false, ValidGuidFormat= false}),
             InfoEmail = Email.From("info@iwgplc.ch"),
+            DatabaseId = DatabaseNumber.FromDatabase(10U),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -156,6 +157,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             EmailUser = User.From("user@iwgplc.ch"),
             StringUser = User.From("stringUser", new UserTypeOptions { ValidEmailFormat = false, ValidGuidFormat= false}),
             InfoEmail = Email.From("info@iwgplc.ch"),
+            DatabaseId = DatabaseNumber.FromDatabase(10U),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -222,11 +224,11 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.File.SizeInBytes.Should().Be(512UL);
         item.PhoneNumber.Value.Should().Be("+41 848 700 700");
         Assert.Equal(JsonSerializer.Serialize(streetAddress), item.StreetAddressJson.Value);
-
         item.GuidUser.Value.Should().Be(guidUserId);
         item.EmailUser.Value.Should().Be("user@iwgplc.ch");
         item.StringUser.Value.Should().Be("stringUser");
         item.InfoEmail.Value.Should().Be("info@iwgplc.ch");
+        item.DatabaseId.Value.Should().Be(10U);
     }
 
     private static StreetAddress CreateStreetAddress()
