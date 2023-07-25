@@ -19,6 +19,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var languageCode = "en";
         var areaInSquareMeters = 198_090;
         var areaUnit = AreaTypeUnit.SquareMeter;
+        var email = "regus@regusignore.com";
 
         var newItem = new TestEntityForTypes()
         {
@@ -30,6 +31,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             CountryCode2TestField = CountryCode2.From(countryCode2),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
+            EmailTestField = Email.From(email),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -50,5 +52,6 @@ public class SqlServerIntegrationTests : SqlServerTestBase
          testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.AreaTestField!.Value.Should().Be(areaInSquareMeters);
         testEntity.AreaTestField!.Unit.Should().Be(areaUnit);
+        testEntity.EmailTestField!.Value.Should().Be(email);
     }
 }

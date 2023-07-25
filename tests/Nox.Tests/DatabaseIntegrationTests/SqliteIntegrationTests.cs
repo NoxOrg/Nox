@@ -58,7 +58,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         var languageCode = "en";        
         var area = 198_090M;
         var persistUnitAs = AreaTypeUnit.SquareMeter;
-        
+        var email = "regus@regusignore.com";
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(text),
@@ -66,10 +67,11 @@ public class SqliteIntegrationTests : SqliteTestBase
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
-            AreaTestField = Area.From(area, new AreaTypeOptions() {Units = AreaTypeUnit.SquareFoot,PersistAs = persistUnitAs }),
+            AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = persistUnitAs }),
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
-            LanguageCodeTestField = LanguageCode.From(languageCode)
+            LanguageCodeTestField = LanguageCode.From(languageCode),
+            EmailTestField = Email.From(email),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -91,6 +93,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
 		testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
+        testEntity.EmailTestField!.Value.Should().Be(email);
     }
     [Fact]
     public void GeneratedRelationship_Sqlite_ZeroOrMany_OneOrMany()

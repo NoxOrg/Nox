@@ -267,8 +267,8 @@ domain:
         #- name: DistanceTestField
         #  type: distance
 
-        #- name: EmailTestField
-        #  type: email
+        - name: EmailTestField
+          type: email
 
         #- name: EncryptedTextTestField
         #  type: encryptedText
