@@ -232,6 +232,9 @@ domain:
 
         - name: StreetAddressTestField
           type: streetAddress
+          
+        - name: DayOfWeekTestField
+          type: dayOfWeek
 
         #- name: GeoCoordTestField
         #  type: latLong

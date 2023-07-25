@@ -9,29 +9,6 @@ public sealed class DayOfWeek : ValueObject<int, DayOfWeek>
 {
     public DayOfWeek() { Value = 0; }
 
-    /// <summary>
-    /// Creates a new instance of <see cref="DayOfWeek"/>
-    /// </summary>
-    /// <param name="value">The number to create the <see cref="DayOfWeek"/> with</param>
-    /// <returns></returns>
-    /// <exception cref="ValidationException"></exception>
-    public static new DayOfWeek From(int value)
-    {
-        var newObject = new DayOfWeek
-        {
-            Value = value
-        };
-
-        var validationResult = newObject.Validate();
-
-        if (!validationResult.IsValid)
-        {
-            throw new TypeValidationException(validationResult.Errors);
-        }
-
-        return newObject;
-    }
-
     public static DayOfWeek From(DayOfWeek dayOfTheWeek)
         => From((dayOfTheWeek));
 

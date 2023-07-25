@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Types;
 using Nox.Types.Common;
 using TestWebApp.Domain;
+using DayOfWeek = Nox.Types.DayOfWeek;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
 
@@ -56,6 +57,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         };
         var areaInSquareMeters = 198_090M;
         var persistUnitAs = AreaTypeUnit.SquareFoot;
+        var dayOfWeek = 1;
 
         var newItem = new TestEntityForTypes()
         {
@@ -66,6 +68,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             CountryCode2TestField = CountryCode2.From(countryCode2),
             StreetAddressTestField = StreetAddress.From(addressItem),
             AreaTestField = Area.From(areaInSquareMeters, new AreaTypeOptions() {Units = AreaTypeUnit.SquareMeter,PersistAs = persistUnitAs }),
+            DayOfWeekTestField = DayOfWeek.From(1),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -86,6 +89,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.AreaTestField!.ToSquareMeters().Should().Be(areaInSquareMeters);
         // AreaTypeUnit.SquareMeter are the default for nox.yaml
         testEntity.AreaTestField!.Unit.Should().Be(AreaTypeUnit.SquareMeter);
+        testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
     }
 
     [Fact]
