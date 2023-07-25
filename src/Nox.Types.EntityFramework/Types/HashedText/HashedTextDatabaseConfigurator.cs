@@ -7,7 +7,7 @@ using System.Reflection.Emit;
 
 namespace Nox.Types.EntityFramework.Types;
 
-internal class HashedTextDatabaseConfigurator : INoxTypeDatabaseConfigurator
+public class HashedTextDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
     public NoxType ForNoxType => NoxType.HashedText;
 
