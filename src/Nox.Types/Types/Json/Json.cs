@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Nox.Extensions;
+using System;
 using System.Text.Json;
+
 
 namespace Nox.Types;
 
@@ -62,14 +64,6 @@ public sealed class Json : ValueObject<string, Json>
     /// <summary>
     /// Returns a pretty-fied version of the Json
     /// </summary>
-    public override string ToString() 
-    {
-        return Value;
-    }
-
-    /// <summary>
-    /// Returns a pretty-fied version of the Json
-    /// </summary>
     public string ToString(string format)
     {
         if (string.IsNullOrEmpty(format))
@@ -85,7 +79,7 @@ public sealed class Json : ValueObject<string, Json>
                 case 'P':
                     if (_prettyValue is null)
                     {
-                        _prettyValue = JsonSerializer.Serialize(JsonSerializer.Deserialize<object>(Value!), new JsonSerializerOptions { WriteIndented = true });
+                        _prettyValue = JsonSerializer.Serialize(JsonSerializer.Deserialize<object>(Value!), new JsonSerializerOptions { WriteIndented = true }).NormalizeNewLines();
                     }
                     return _prettyValue; 
                 case 'm':

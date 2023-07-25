@@ -1,5 +1,6 @@
 ﻿
 using FluentAssertions;
+using Nox.Extensions;
 using System.Text.Json;
 
 namespace Nox.Types.Tests.Types;
@@ -103,7 +104,7 @@ public class JsonTest
         // Assert
         json.ToString().Should().BeEquivalentTo("{\"name\":\"Merlin\",\"title\":\"Wizard\"}");
         json.ToString("m").Should().BeEquivalentTo("{\"name\":\"Merlin\",\"title\":\"Wizard\"}");
-        json.ToString("p").Should().BeEquivalentTo("{\r\n  \"name\": \"Merlin\",\r\n  \"title\": \"Wizard\"\r\n}");
+        json.ToString("p").Should().BeEquivalentTo("{\r\n  \"name\": \"Merlin\",\r\n  \"title\": \"Wizard\"\r\n}".NormalizeNewLines());
     }
 
     [Fact]
