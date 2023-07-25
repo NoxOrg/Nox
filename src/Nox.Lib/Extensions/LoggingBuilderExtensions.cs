@@ -8,7 +8,7 @@ public static class LoggingBuilderExtensions
 {
     public static ILoggingBuilder AddLogging(this ILoggingBuilder builder, IConfigurationRoot configuration, Action<LoggingOptionsBuilder>? optionsAction)
     {
-        var optionsBuilder = new LoggingOptionsBuilder(builder);
+        var optionsBuilder = new LoggingOptionsBuilder(builder, configuration);
         optionsAction?.Invoke(optionsBuilder);
         return builder;
     }

@@ -35,7 +35,6 @@
         <PackageReference Include="Serilog.Enrichers.Environment" Version="2.2.0" />
         <PackageReference Include="Serilog.Exceptions" Version="8.4.0" />
         <PackageReference Include="Serilog.Sinks.Console" Version="4.1.0" />
-        <PackageReference Include="Elastic.Apm.SerilogEnricher" Version="8.6.0" />
         <PackageReference Include="Elastic.CommonSchema.Serilog" Version="8.6.0" />
     </ItemGroup>
 
