@@ -188,9 +188,4 @@ public sealed class Country
     /// Gets or sets the phone number.
     /// </summary>
     public PhoneNumber PhoneNumber { get; set; } = null!;
-
-    /// <summary>
-    /// Gets or sets the formula.
-    /// </summary>
-    public Formula Formula { get; set; } = null!;
 }
