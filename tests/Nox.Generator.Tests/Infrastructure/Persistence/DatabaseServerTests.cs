@@ -20,9 +20,11 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
     public void Can_generate_database_server_files()
     {
         var path = "files/yaml/infrastructure/";
-        var additionalFiles = new List<AdditionalSourceText>();
-        additionalFiles.Add(new AdditionalSourceText(File.ReadAllText($"./{path}generator.nox.yaml"), $"{path}/generator.nox.yaml"));
-        additionalFiles.Add(new AdditionalSourceText(File.ReadAllText($"./{path}database-server.solution.nox.yaml"), $"{path}/database-server.solution.nox.yaml"));
+        var additionalFiles = new List<AdditionalSourceText>
+        {
+            new AdditionalSourceText(File.ReadAllText($"./{path}generator.nox.yaml"), $"{path}/generator.nox.yaml"),
+            new AdditionalSourceText(File.ReadAllText($"./{path}database-server.solution.nox.yaml"), $"{path}/database-server.solution.nox.yaml")
+        };
 
         // trackIncrementalGeneratorSteps allows to report info about each step of the generator
         GeneratorDriver driver = CSharpGeneratorDriver.Create(
@@ -40,7 +42,7 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
         Assert.Single(allOutputs);
 
         var generatedSources = result.GeneratedSources;
-        Assert.Equal(7, generatedSources.Length);
+        Assert.Equal(6, generatedSources.Length);
         Assert.True(generatedSources.Any(s => s.HintName == "NoxWebApplicationBuilderExtension.g.cs"), "NoxWebApplicationBuilderExtension.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "Generator.g.cs"), "Generator.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "EntityBase.g.cs"), "EntityBase.g.cs not generated");

@@ -1,4 +1,5 @@
-﻿using Nox.Types.Schema;
+﻿using Nox.TypeOptions;
+using Nox.Types.Schema;
 
 namespace Nox.Types;
 
@@ -72,6 +73,12 @@ public class NoxSimpleTypeDefinition
 	
 	[IfEquals("Type", NoxType.Area)]
     public AreaTypeOptions? AreaTypeOptions { get; set; }
+
+    [IfEquals("Type", NoxType.User)]
+    public UserTypeOptions? UserTypeOptions { get; set; }
+
+    [IfEquals("Type", NoxType.Password)]
+    public PasswordTypeOptions? PasswordTypeOptions { get; set; }
 
     #endregion TypeOptions
 
