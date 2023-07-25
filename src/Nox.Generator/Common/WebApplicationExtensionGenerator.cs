@@ -51,7 +51,6 @@ internal static class WebApplicationExtensionGenerator
         code.AppendLine("return appBuilder.AddNoxApp();");
         code.EndBlock();
         code.AppendLine();
-
         
         code.AppendLine("private static void AddNoxServices(this IServiceCollection services)");
         code.StartBlock();
