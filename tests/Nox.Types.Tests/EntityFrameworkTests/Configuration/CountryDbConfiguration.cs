@@ -54,6 +54,6 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.OwnsOne(e => e.ArabicName).Ignore(p => p.Value)
             .Property(x => x.CultureCode).HasConversion<CultureCodeConverter>();
         builder.OwnsOne(e=>e.Flag).Ignore(p=>p.Value);
-        builder.OwnsOne(e => e.Password).Ignore(p => p.Value).OwnsOne(e => e.Value).Ignore(p => p.Value);
+        builder.OwnsOne(e => e.Password).Ignore(p => p.Value);
     }
 }

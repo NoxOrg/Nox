@@ -43,7 +43,7 @@ public sealed class HashedText : ValueObject<(string HashText, string Salt), Has
     {
         options ??= new HashedTextTypeOptions();
 
-        var newObject = GetHashText(plainText, options);
+        var newObject = new HashedText() { Value = Hasher.GetHashText(plainText, options.HashingAlgorithm, options.SaltLength) };
 
         var validationResult = newObject.Validate();
 
@@ -67,78 +67,4 @@ public sealed class HashedText : ValueObject<(string HashText, string Salt), Has
     /// Returns string value of HashText
     /// </summary>
     public override string ToString() => $"{Value.HashText}";
-
-    /// <summary>
-    /// Creates hashed value of plainText using HashedTextTypeOptions
-    /// </summary>
-    /// <param name="plainText">Plain text that will be hashed</param>
-    /// <param name="options"><see cref="HashedTextTypeOptions"/></param>
-    /// <returns>Hashed value of plainText</returns>
-    private static HashedText GetHashText(string plainText, HashedTextTypeOptions options)
-    {
-        string hashedText = string.Empty;
-        string salt = string.Empty;
-
-        using (var hasher = CreateHasher(options.HashingAlgorithm))
-        {
-            byte[] saltBytes = GetSalt(options.SaltLength);
-            byte[] plainTextBytes = Encoding.UTF8.GetBytes(plainText);
-            AppendBytes(ref plainTextBytes, saltBytes);
-            byte[] hashBytes = hasher.ComputeHash(plainTextBytes);
-
-            hashedText = Convert.ToBase64String(hashBytes);
-            salt = Convert.ToBase64String(saltBytes);
-        }
-
-        return new HashedText { Value = (hashedText, salt) };
-    }
-
-    /// <summary>
-    /// Returns hasher with sent algorithm
-    /// </summary>
-    /// <param name="hashAlgorithm"></param>
-    /// <returns></returns>
-    /// <exception cref="CryptographicException"></exception>
-    private static HashAlgorithm CreateHasher(HashingAlgorithm hashAlgorithm)
-    {
-        switch (hashAlgorithm)
-        {
-            case HashingAlgorithm.SHA256: return SHA256.Create();
-            case HashingAlgorithm.SHA512: return SHA512.Create();
-            default:
-                break;
-        }
-
-        throw new CryptographicException("Invalid hash algorithm");
-    }
-
-    /// <summary>
-    /// Creates salt byte array with length byteCount
-    /// </summary>
-    /// <param name="byteCount">array length</param>
-    /// <returns></returns>
-    private static byte[] GetSalt(int byteCount)
-    {
-        byte[] salt = new byte[byteCount];
-        using var rng = RandomNumberGenerator.Create();
-        rng.GetBytes(salt);
-
-        return salt;
-    }
-
-    /// <summary>
-    /// Merges two byte arrays
-    /// </summary>
-    /// <param name="target">array to be appended</param>
-    /// <param name="source">array to be added on target</param>
-    private static void AppendBytes(ref byte[] target, byte[] source)
-    {
-        int targetLength = target.Length;
-        int sourceLength = source.Length;
-        if (sourceLength != 0)
-        {
-            Array.Resize(ref target, targetLength + sourceLength);
-            Array.Copy(source, 0, target, targetLength, sourceLength);
-        }
-    }
 }

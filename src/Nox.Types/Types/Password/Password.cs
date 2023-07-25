@@ -9,8 +9,25 @@ namespace Nox.Types;
 /// Represents a Nox <see cref="Password"/> type and value object.
 /// </summary>
 /// <remarks>Placeholder, needs to be implemented</remarks>
-public sealed class Password : ValueObject<HashedText, Password>
+public sealed class Password : ValueObject<(string HashedPassword, string Salt), Password>
 {
+    /// <summary>
+    /// Result of the hash operation
+    /// </summary>
+    public string HashedPassword
+    {
+        get => Value.HashedPassword;
+        private set => Value = (HashedPassword: value, Value.Salt);
+    }
+
+    /// <summary>
+    /// Salt byte array used in the hash operation
+    /// </summary>
+    public string Salt
+    {
+        get => Value.Salt;
+        private set => Value = (Value.HashedPassword, Salt: value);
+    }
     /// <summary>
     /// Creates a new instance of <see cref="Password"/> object with sent <see cref="PasswordTypeOptions"/>.
     /// </summary>
@@ -31,7 +48,7 @@ public sealed class Password : ValueObject<HashedText, Password>
 
         var newObject = new Password
         {
-            Value = HashedText.From(value, new HashedTextTypeOptions() { HashingAlgorithm = options.HashingAlgorithm, SaltLength = options.Salt }),
+            Value = Hasher.GetHashText(value, options.HashingAlgorithm, options.SaltLength),
         };
 
         return newObject;

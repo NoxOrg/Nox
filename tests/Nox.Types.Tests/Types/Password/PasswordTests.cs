@@ -13,7 +13,7 @@ public class PasswordTests
         var password = Password.From(passwordText);
 
         Assert.NotNull(password);
-        Assert.NotEqual(passwordText, password.Value.HashText);
+        Assert.NotEqual(passwordText, password.Value.HashedPassword);
     }
 
 
@@ -24,13 +24,13 @@ public class PasswordTests
     [InlineData("Correct.Password2.")]
     public void Password_From_DefaultOptions_NoSalting(string passwordText)
     {
-        var password = Password.From(passwordText, new PasswordTypeOptions() { Salt = 0 });
+        var password = Password.From(passwordText, new PasswordTypeOptions() { SaltLength = 0 });
 
         byte[] textBytes = System.Text.Encoding.UTF8.GetBytes(passwordText);
         byte[] hash = SHA256.HashData(textBytes);
         var textHashedExpected = Convert.ToBase64String(hash);
 
-        Assert.Equal(textHashedExpected, password.Value.HashText);
+        Assert.Equal(textHashedExpected, password.Value.HashedPassword);
         Assert.Equal(string.Empty, password.Value.Salt);
     }
 

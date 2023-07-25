@@ -5,7 +5,7 @@ namespace Nox.Types;
 public class PasswordTypeOptions
 {
     public HashingAlgorithm HashingAlgorithm { get; set; } = HashingAlgorithm.SHA256;
-    public int Salt { get; set; } = 64;
+    public int SaltLength { get; set; } = 64;
     public int MinLength { get; set; } = 8;
     public int MaxLength { get; set; } = 128;
     public bool ForceUppercase { get; set; } = true;
