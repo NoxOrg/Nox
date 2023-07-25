@@ -17,8 +17,14 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var currencyCode3 = "USD";
         var countryCode2 = "UA";
         var languageCode = "en";
-        var areaInSquareMeters = 198_090;
-        var areaUnit = AreaTypeUnit.SquareMeter;
+        var area = 198_090M;
+        var persistUnitAs = AreaTypeUnit.SquareMeter;
+        var addressItem = new StreetAddressItem
+        {
+            AddressLine1 = "AddressLine1",
+            CountryId = CountryCode2.From("UA"),
+            PostalCode = "61135"
+        };
 
         var newItem = new TestEntityForTypes()
         {
@@ -26,7 +32,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             TextTestField = Text.From(text),
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
-            //AreaTestField = Area.FromSquareMeters(areaInSquareMeters),
+            AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = persistUnitAs }),
+            StreetAddressTestField = StreetAddress.From(addressItem),
             CountryCode2TestField = CountryCode2.From(countryCode2),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
@@ -47,8 +54,9 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
-         testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
-        testEntity.AreaTestField!.Value.Should().Be(areaInSquareMeters);
-        testEntity.AreaTestField!.Unit.Should().Be(areaUnit);
+        testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
+        testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
+        testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
+        testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
     }
 }
