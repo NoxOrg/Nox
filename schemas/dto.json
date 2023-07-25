@@ -2076,225 +2076,45 @@
                   ]
                 },
                 "type": {    
-                  "const": "password"
+                  "const": "area"
                 },
-                "passwordTypeOptions": {    
+                "areaTypeOptions": {    
                   "type": [
                     "object",
                     "null"
                   ],
                   "properties": {
-                    "hashingAlgorithm": {    
+                    "minValue": {    
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "maxValue": {    
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "persistAs": {    
                       "type": [
                         "string",
                         "null"
                       ],
                       "enum": [
-                        "sHA256",
-                        "sHA512"
+                        "squareFoot",
+                        "squareMeter"
                       ]
                     },
-                    "salt": {    
+                    "units": {    
                       "type": [
-                        "integer",
-                        "null"
-                      ]
-                    },
-                    "minLength": {    
-                      "type": [
-                        "integer",
-                        "null"
-                      ]
-                    },
-                    "maxLength": {    
-                      "type": [
-                        "integer",
-                        "null"
-                      ]
-                    },
-                    "forceUppercase": {    
-                      "type": [
-                        "boolean",
-                        "null"
-                      ]
-                    },
-                    "forceLowercase": {    
-                      "type": [
-                        "boolean",
-                        "null"
-                      ]
-                    },
-                    "forceSymbol": {    
-                      "type": [
-                        "boolean",
-                        "null"
-                      ]
-                    },
-                    "forceNumber": {    
-                      "type": [
-                        "boolean",
-                        "null"
-                      ]
-                    },
-                    "passwordContainsUpperCase": {    
-                      "type": [
-                        "object",
+                        "string",
                         "null"
                       ],
-                      "properties": {
-                        "options": {    
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "enum": [
-                            "compiled",
-                            "cultureInvariant",
-                            "eCMAScript",
-                            "explicitCapture",
-                            "ignoreCase",
-                            "ignorePatternWhitespace",
-                            "multiline",
-                            "nonBacktracking",
-                            "none",
-                            "rightToLeft",
-                            "singleline"
-                          ]
-                        },
-                        "rightToLeft": {    
-                          "type": [
-                            "boolean",
-                            "null"
-                          ]
-                        },
-                        "matchTimeout": {    
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "format": "duration"
-                        }
-                      }
-                    },
-                    "passwordContainsLowerCase": {    
-                      "type": [
-                        "object",
-                        "null"
-                      ],
-                      "properties": {
-                        "options": {    
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "enum": [
-                            "compiled",
-                            "cultureInvariant",
-                            "eCMAScript",
-                            "explicitCapture",
-                            "ignoreCase",
-                            "ignorePatternWhitespace",
-                            "multiline",
-                            "nonBacktracking",
-                            "none",
-                            "rightToLeft",
-                            "singleline"
-                          ]
-                        },
-                        "rightToLeft": {    
-                          "type": [
-                            "boolean",
-                            "null"
-                          ]
-                        },
-                        "matchTimeout": {    
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "format": "duration"
-                        }
-                      }
-                    },
-                    "passwordContainsSymbol": {    
-                      "type": [
-                        "object",
-                        "null"
-                      ],
-                      "properties": {
-                        "options": {    
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "enum": [
-                            "compiled",
-                            "cultureInvariant",
-                            "eCMAScript",
-                            "explicitCapture",
-                            "ignoreCase",
-                            "ignorePatternWhitespace",
-                            "multiline",
-                            "nonBacktracking",
-                            "none",
-                            "rightToLeft",
-                            "singleline"
-                          ]
-                        },
-                        "rightToLeft": {    
-                          "type": [
-                            "boolean",
-                            "null"
-                          ]
-                        },
-                        "matchTimeout": {    
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "format": "duration"
-                        }
-                      }
-                    },
-                    "passwordContainsNumber": {    
-                      "type": [
-                        "object",
-                        "null"
-                      ],
-                      "properties": {
-                        "options": {    
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "enum": [
-                            "compiled",
-                            "cultureInvariant",
-                            "eCMAScript",
-                            "explicitCapture",
-                            "ignoreCase",
-                            "ignorePatternWhitespace",
-                            "multiline",
-                            "nonBacktracking",
-                            "none",
-                            "rightToLeft",
-                            "singleline"
-                          ]
-                        },
-                        "rightToLeft": {    
-                          "type": [
-                            "boolean",
-                            "null"
-                          ]
-                        },
-                        "matchTimeout": {    
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "format": "duration"
-                        }
-                      }
+                      "enum": [
+                        "squareFoot",
+                        "squareMeter"
+                      ]
                     }
                   }
                 },
@@ -2385,7 +2205,6 @@
                 "type": {    
                   "type": "string",
                   "enum": [
-                    "area",
                     "array",
                     "autoNumber",
                     "boolean",
@@ -2417,6 +2236,7 @@
                     "markdown",
                     "month",
                     "object",
+                    "password",
                     "phoneNumber",
                     "streetAddress",
                     "temperature",
@@ -4481,225 +4301,45 @@
                   ]
                 },
                 "type": {    
-                  "const": "password"
+                  "const": "area"
                 },
-                "passwordTypeOptions": {    
+                "areaTypeOptions": {    
                   "type": [
                     "object",
                     "null"
                   ],
                   "properties": {
-                    "hashingAlgorithm": {    
+                    "minValue": {    
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "maxValue": {    
+                      "type": [
+                        "number",
+                        "null"
+                      ]
+                    },
+                    "persistAs": {    
                       "type": [
                         "string",
                         "null"
                       ],
                       "enum": [
-                        "sHA256",
-                        "sHA512"
+                        "squareFoot",
+                        "squareMeter"
                       ]
                     },
-                    "salt": {    
+                    "units": {    
                       "type": [
-                        "integer",
-                        "null"
-                      ]
-                    },
-                    "minLength": {    
-                      "type": [
-                        "integer",
-                        "null"
-                      ]
-                    },
-                    "maxLength": {    
-                      "type": [
-                        "integer",
-                        "null"
-                      ]
-                    },
-                    "forceUppercase": {    
-                      "type": [
-                        "boolean",
-                        "null"
-                      ]
-                    },
-                    "forceLowercase": {    
-                      "type": [
-                        "boolean",
-                        "null"
-                      ]
-                    },
-                    "forceSymbol": {    
-                      "type": [
-                        "boolean",
-                        "null"
-                      ]
-                    },
-                    "forceNumber": {    
-                      "type": [
-                        "boolean",
-                        "null"
-                      ]
-                    },
-                    "passwordContainsUpperCase": {    
-                      "type": [
-                        "object",
+                        "string",
                         "null"
                       ],
-                      "properties": {
-                        "options": {    
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "enum": [
-                            "compiled",
-                            "cultureInvariant",
-                            "eCMAScript",
-                            "explicitCapture",
-                            "ignoreCase",
-                            "ignorePatternWhitespace",
-                            "multiline",
-                            "nonBacktracking",
-                            "none",
-                            "rightToLeft",
-                            "singleline"
-                          ]
-                        },
-                        "rightToLeft": {    
-                          "type": [
-                            "boolean",
-                            "null"
-                          ]
-                        },
-                        "matchTimeout": {    
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "format": "duration"
-                        }
-                      }
-                    },
-                    "passwordContainsLowerCase": {    
-                      "type": [
-                        "object",
-                        "null"
-                      ],
-                      "properties": {
-                        "options": {    
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "enum": [
-                            "compiled",
-                            "cultureInvariant",
-                            "eCMAScript",
-                            "explicitCapture",
-                            "ignoreCase",
-                            "ignorePatternWhitespace",
-                            "multiline",
-                            "nonBacktracking",
-                            "none",
-                            "rightToLeft",
-                            "singleline"
-                          ]
-                        },
-                        "rightToLeft": {    
-                          "type": [
-                            "boolean",
-                            "null"
-                          ]
-                        },
-                        "matchTimeout": {    
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "format": "duration"
-                        }
-                      }
-                    },
-                    "passwordContainsSymbol": {    
-                      "type": [
-                        "object",
-                        "null"
-                      ],
-                      "properties": {
-                        "options": {    
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "enum": [
-                            "compiled",
-                            "cultureInvariant",
-                            "eCMAScript",
-                            "explicitCapture",
-                            "ignoreCase",
-                            "ignorePatternWhitespace",
-                            "multiline",
-                            "nonBacktracking",
-                            "none",
-                            "rightToLeft",
-                            "singleline"
-                          ]
-                        },
-                        "rightToLeft": {    
-                          "type": [
-                            "boolean",
-                            "null"
-                          ]
-                        },
-                        "matchTimeout": {    
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "format": "duration"
-                        }
-                      }
-                    },
-                    "passwordContainsNumber": {    
-                      "type": [
-                        "object",
-                        "null"
-                      ],
-                      "properties": {
-                        "options": {    
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "enum": [
-                            "compiled",
-                            "cultureInvariant",
-                            "eCMAScript",
-                            "explicitCapture",
-                            "ignoreCase",
-                            "ignorePatternWhitespace",
-                            "multiline",
-                            "nonBacktracking",
-                            "none",
-                            "rightToLeft",
-                            "singleline"
-                          ]
-                        },
-                        "rightToLeft": {    
-                          "type": [
-                            "boolean",
-                            "null"
-                          ]
-                        },
-                        "matchTimeout": {    
-                          "type": [
-                            "string",
-                            "null"
-                          ],
-                          "format": "duration"
-                        }
-                      }
+                      "enum": [
+                        "squareFoot",
+                        "squareMeter"
+                      ]
                     }
                   }
                 },
@@ -4790,7 +4430,6 @@
                 "type": {    
                   "type": "string",
                   "enum": [
-                    "area",
                     "array",
                     "autoNumber",
                     "boolean",
@@ -4822,6 +4461,7 @@
                     "markdown",
                     "month",
                     "object",
+                    "password",
                     "phoneNumber",
                     "streetAddress",
                     "temperature",
@@ -6372,225 +6012,45 @@
           ]
         },
         "type": {    
-          "const": "password"
+          "const": "area"
         },
-        "passwordTypeOptions": {    
+        "areaTypeOptions": {    
           "type": [
             "object",
             "null"
           ],
           "properties": {
-            "hashingAlgorithm": {    
+            "minValue": {    
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "maxValue": {    
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "persistAs": {    
               "type": [
                 "string",
                 "null"
               ],
               "enum": [
-                "sHA256",
-                "sHA512"
+                "squareFoot",
+                "squareMeter"
               ]
             },
-            "salt": {    
+            "units": {    
               "type": [
-                "integer",
-                "null"
-              ]
-            },
-            "minLength": {    
-              "type": [
-                "integer",
-                "null"
-              ]
-            },
-            "maxLength": {    
-              "type": [
-                "integer",
-                "null"
-              ]
-            },
-            "forceUppercase": {    
-              "type": [
-                "boolean",
-                "null"
-              ]
-            },
-            "forceLowercase": {    
-              "type": [
-                "boolean",
-                "null"
-              ]
-            },
-            "forceSymbol": {    
-              "type": [
-                "boolean",
-                "null"
-              ]
-            },
-            "forceNumber": {    
-              "type": [
-                "boolean",
-                "null"
-              ]
-            },
-            "passwordContainsUpperCase": {    
-              "type": [
-                "object",
+                "string",
                 "null"
               ],
-              "properties": {
-                "options": {    
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "enum": [
-                    "compiled",
-                    "cultureInvariant",
-                    "eCMAScript",
-                    "explicitCapture",
-                    "ignoreCase",
-                    "ignorePatternWhitespace",
-                    "multiline",
-                    "nonBacktracking",
-                    "none",
-                    "rightToLeft",
-                    "singleline"
-                  ]
-                },
-                "rightToLeft": {    
-                  "type": [
-                    "boolean",
-                    "null"
-                  ]
-                },
-                "matchTimeout": {    
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "format": "duration"
-                }
-              }
-            },
-            "passwordContainsLowerCase": {    
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "options": {    
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "enum": [
-                    "compiled",
-                    "cultureInvariant",
-                    "eCMAScript",
-                    "explicitCapture",
-                    "ignoreCase",
-                    "ignorePatternWhitespace",
-                    "multiline",
-                    "nonBacktracking",
-                    "none",
-                    "rightToLeft",
-                    "singleline"
-                  ]
-                },
-                "rightToLeft": {    
-                  "type": [
-                    "boolean",
-                    "null"
-                  ]
-                },
-                "matchTimeout": {    
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "format": "duration"
-                }
-              }
-            },
-            "passwordContainsSymbol": {    
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "options": {    
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "enum": [
-                    "compiled",
-                    "cultureInvariant",
-                    "eCMAScript",
-                    "explicitCapture",
-                    "ignoreCase",
-                    "ignorePatternWhitespace",
-                    "multiline",
-                    "nonBacktracking",
-                    "none",
-                    "rightToLeft",
-                    "singleline"
-                  ]
-                },
-                "rightToLeft": {    
-                  "type": [
-                    "boolean",
-                    "null"
-                  ]
-                },
-                "matchTimeout": {    
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "format": "duration"
-                }
-              }
-            },
-            "passwordContainsNumber": {    
-              "type": [
-                "object",
-                "null"
-              ],
-              "properties": {
-                "options": {    
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "enum": [
-                    "compiled",
-                    "cultureInvariant",
-                    "eCMAScript",
-                    "explicitCapture",
-                    "ignoreCase",
-                    "ignorePatternWhitespace",
-                    "multiline",
-                    "nonBacktracking",
-                    "none",
-                    "rightToLeft",
-                    "singleline"
-                  ]
-                },
-                "rightToLeft": {    
-                  "type": [
-                    "boolean",
-                    "null"
-                  ]
-                },
-                "matchTimeout": {    
-                  "type": [
-                    "string",
-                    "null"
-                  ],
-                  "format": "duration"
-                }
-              }
+              "enum": [
+                "squareFoot",
+                "squareMeter"
+              ]
             }
           }
         },
@@ -6651,7 +6111,6 @@
         "type": {    
           "type": "string",
           "enum": [
-            "area",
             "autoNumber",
             "boolean",
             "color",
@@ -6680,6 +6139,7 @@
             "macAddress",
             "markdown",
             "month",
+            "password",
             "phoneNumber",
             "streetAddress",
             "temperature",

@@ -69,6 +69,9 @@ public class NoxSimpleTypeDefinition
 
     [IfEquals("Type", NoxType.File)]
     public FileTypeOptions? FileTypeOptions { get; set; }
+	
+	[IfEquals("Type", NoxType.Area)]
+    public AreaTypeOptions? AreaTypeOptions { get; set; }
 
     [IfEquals("Type", NoxType.Password)]
     public PasswordTypeOptions? PasswordTypeOptions { get; set; }

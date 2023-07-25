@@ -87,6 +87,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
             CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
             File = File.From("https://example.com/myfile.pdf", "MyFile", 512),
+            PhoneNumber = PhoneNumber.From("+41 848 700 700"),
             Password = Password.From("Test123."),
         };
         DbContext.Countries!.Add(newItem);
@@ -112,7 +113,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Population = Number.From(8_703_654),
             GrossDomesticProduct = Money.From(100, CurrencyCode.CHF, new MoneyTypeOptions(){MaxValue = 101, MinValue = 0}),
             CountryCode2 = CountryCode2.From("CH"),
-            AreaInSqKm = Area.From(41_290_000),
+            AreaInSqKm = Area.From(41_290_000,AreaTypeUnit.SquareMeter),
             CultureCode = CultureCode.From("de-CH"),
             CountryNumber = CountryNumber.From(756),
             MonthOfPeakTourism = Month.From(7),
@@ -143,6 +144,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
             CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
             File = File.From("https://example.com/myfile.pdf", "MyFile", 512),
+            PhoneNumber = PhoneNumber.From("+41 848 700 700"),
             Password = Password.From("Test123."),
         };
         DbContext.Countries!.Add(newItem);
@@ -165,7 +167,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.GrossDomesticProduct.Amount.Should().Be(100);
         item.CountryCode2.Value.Should().Be("CH");
         item.AreaInSqKm.Value.Should().Be(41_290_000);
-        item.AreaInSqKm.Unit.Should().Be(AreaUnit.SquareMeter);
+        item.AreaInSqKm.Unit.Should().Be(AreaTypeUnit.SquareMeter);
         item.CultureCode.Value.Should().Be("de-CH");
         item.CountryNumber.Value.Should().Be(756);
         item.MonthOfPeakTourism.Value.Should().Be(7);
@@ -209,6 +211,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.File.Url.Should().Be("https://example.com/myfile.pdf");
         item.File.PrettyName.Should().Be("MyFile");
         item.File.SizeInBytes.Should().Be(512UL);
+        item.PhoneNumber.Value.Should().Be("+41 848 700 700");
     }
 
     private static StreetAddress CreateStreetAddress()

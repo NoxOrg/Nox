@@ -14,7 +14,11 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var number = 123;
         var money = 10;
         var currencyCode = CurrencyCode.UAH;
+        var currencyCode3 = "USD";
         var countryCode2 = "UA";
+        var languageCode = "en";
+        var areaInSquareMeters = 198_090;
+        var areaUnit = AreaTypeUnit.SquareMeter;
 
         var newItem = new TestEntityForTypes()
         {
@@ -22,7 +26,10 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             TextTestField = Text.From(text),
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
-            CountryCode2TestField = CountryCode2.From(countryCode2)
+            //AreaTestField = Area.FromSquareMeters(areaInSquareMeters),
+            CountryCode2TestField = CountryCode2.From(countryCode2),
+            CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
+            LanguageCodeTestField = LanguageCode.From(languageCode),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -39,5 +46,9 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.MoneyTestField!.Value.Amount.Should().Be(money);
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
+        testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
+         testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
+        testEntity.AreaTestField!.Value.Should().Be(areaInSquareMeters);
+        testEntity.AreaTestField!.Unit.Should().Be(areaUnit);
     }
 }

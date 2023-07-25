@@ -19,7 +19,7 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     /// {{key.Description}} (Required).
     /// </summary>
     {{ if key.Type == "Entity" -}}
-    public {{NoxGetSimpleKeyTypeForEntity key.EntityTypeOptions.Entity}} {{ CodeGeneratorStateGetForeignKeyPropertyName key}} { get; set; } = null!;
+    public {{SimpleKeyTypeForEntity key.EntityTypeOptions.Entity}} {{key.EntityTypeOptions.Entity}}Id { get; set; } = null!;
     {{- # Navigation Property }}
 
     public virtual {{key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
@@ -42,32 +42,32 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
 {{- ######################################### Relationships###################################################### -}}
 {{- for relationship in entity.Relationships }}
     /// <summary>
-    /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{Pluralize relationship.Entity}}
+    /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<{{relationship.Entity}}> {{Pluralize relationship.Entity}} { get; set; } = new();
-    {{- if Pluralize relationship.Entity != relationship.Name}}
+    public virtual List<{{relationship.Entity}}> {{relationship.EntityPlural}} { get; set; } = new();
+    {{- if relationship.EntityPlural != relationship.Name}}
     
-    public List<{{relationship.Entity}}> {{relationship.Name}} => {{Pluralize relationship.Entity}};
+    public List<{{relationship.Entity}}> {{relationship.Name}} => {{relationship.EntityPlural}};
     {{- end}}
     {{- else}}
 
-    public virtual {{relationship.Entity}} {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{Pluralize relationship.Entity}} { get; set; } = null!;
+    public virtual {{relationship.Entity}} {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.EntityPlural}} { get; set; } = null!;
     {{-end}}
 {{- end }}
 {{- for relationship in entity.OwnedRelationships #TODO how to reuse as partail templaye?}}
     /// <summary>
-    /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{Pluralize relationship.Entity}}
+    /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<{{relationship.Entity}}> {{Pluralize relationship.Entity}} { get; set; } = new();
-    {{- if (Pluralize relationship.Entity) != relationship.Name}}
+    public virtual List<{{relationship.Entity}}> {{relationship.EntityPlural}} { get; set; } = new();
+    {{- if (relationship.EntityPlural) != relationship.Name}}
     
-    public List<{{relationship.Entity}}> {{relationship.Name}} => {{Pluralize relationship.Entity}};
+    public List<{{relationship.Entity}}> {{relationship.Name}} => {{relationship.EntityPlural}};
     {{- end}}
     {{- else}}
 
-    public virtual {{relationship.Entity}} {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{Pluralize relationship.Entity}} { get; set; } = null!;
+    public virtual {{relationship.Entity}} {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.EntityPlural}} { get; set; } = null!;
     {{-end}}
 {{- end }}
 }

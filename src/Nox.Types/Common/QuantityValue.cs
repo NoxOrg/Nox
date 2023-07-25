@@ -87,6 +87,14 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
     /// </summary>
     public bool IsDecimal => Type == UnderlyingDataType.Decimal;
 
+    public QuantityValue Round(int decimalPrecision)
+    {
+        if(IsDecimal)
+            return Math.Round(this._decimalValue, decimalPrecision);
+
+        return Math.Round(this._doubleValue, decimalPrecision);
+    }
+
     #region To QuantityValue
 
     // Prefer double for integer types, since most quantities use that type as of now and

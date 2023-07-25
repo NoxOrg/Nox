@@ -185,6 +185,11 @@ public sealed class Country
     public File File { get; set; } = null!;
 
     /// <summary>
+    /// Gets or sets the phone number.
+    /// </summary>
+    public PhoneNumber PhoneNumber { get; set; } = null!;
+
+    /// <summary>
     /// Gets or sets password
     /// </summary>
     public Password Password { get; set; } = null!;
