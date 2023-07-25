@@ -9,6 +9,11 @@ public sealed class DayOfWeek : ValueObject<int, DayOfWeek>
 {
     public DayOfWeek() { Value = 0; }
 
+    /// <summary>
+    /// Creates a <see cref="DayOfWeek"/> object from a <see cref="Nox.Types.DayOfWeek"/>.
+    /// </summary>
+    /// <param name="dayOfTheWeek">Value to be parsed.</param>
+    /// <returns>New <see cref="DayOfWeek"/> object.</returns>
     public static DayOfWeek From(DayOfWeek dayOfTheWeek)
         => From((dayOfTheWeek));
 

@@ -227,4 +227,9 @@ public sealed class Country
     /// Gets or sets password
     /// </summary>
     public Password Password { get; set; } = null!;
+    
+    /// <summary>
+    /// Gets or sets dayOfWeek
+    /// </summary>
+    public DayOfWeek DayOfWeek { get; set; } = null!;
 }
