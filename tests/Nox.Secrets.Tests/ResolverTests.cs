@@ -39,7 +39,7 @@ public class ResolverTests: IClassFixture<SecretsFixture>
     [InlineData("org-sln-secret", "This is a secret that exists in org and sln and this is the solution value")]
     [InlineData("org-sln-user-secret", "This is a secret that exists in org, sln and user and this is the user value")]
 #else
-    [Theory (Skip = "Only available if you have started the hashicorp vault docker container")]
+    [Fact (Skip = "Only available if you have started the hashicorp vault docker container")]
 #endif      
     public void Must_honor_the_order_or_precedence(string key, string expectedValue)
     {
