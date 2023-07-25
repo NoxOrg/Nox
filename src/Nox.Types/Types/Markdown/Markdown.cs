@@ -9,6 +9,12 @@ namespace Nox.Types;
 /// </summary>
 public sealed class Markdown : ValueObject<string, Markdown>
 {
+    /// <summary>
+    /// Creates a new instance of <see cref="Markdown"/>
+    /// </summary>
+    /// <param name="value"></param>
+    /// <returns></returns>
+    /// <exception cref="TypeValidationException"></exception>
     public new static Markdown From(string value)
     {
         value = value.Trim();
@@ -28,14 +34,6 @@ public sealed class Markdown : ValueObject<string, Markdown>
         return newObject;
     }
 
-    private readonly Dictionary<string, string> _htmlTag = new()
-    {
-        { "*", "em" },
-        { "_", "em" },
-        { "**", "strong" },
-        { "__", "strong" },
-    };
-
     /// <summary>
     /// Converts Markdown text to Html based on <a href="https://spec.commonmark.org/0.30/">CommonMarkdown</a> specification.
     /// </summary>
@@ -43,29 +41,29 @@ public sealed class Markdown : ValueObject<string, Markdown>
     /// <returns>Html string parsed from string with Markdown.</returns>
     public string ToHtml()
     {
-        List<(int Position, string MdTag, bool IsOpenTag)> tagList = new();
+        List<(int Position, bool IsOpenTag, (string Markdown, string Html) Tag)> tagList = new();
         (string MarkdownTag, string HtmlTag)? foundTag = null;
 
-        // Iterate through string looking for Markdown tags and registering them in tagList
+        // Iterate through the string looking for Markdown tags and registering them in tagList
         for (int i = 0; i < Value.Length; i++)
         {
-            if (Value[i].ToString() == MarkdownTag.ItalicA)
+            if (Value[i].ToString() == Tag.ItalicA.Markdown)
             {
-                foundTag = (MarkdownTag.ItalicA, _htmlTag[MarkdownTag.ItalicA]);
+                foundTag = Tag.ItalicA;
 
-                if (Value.Length > i + 1 && Value.Substring(i, MarkdownTag.BoldA.Length) == MarkdownTag.BoldA)
+                if (Value.Length > i + 1 && Value.Substring(i, Tag.BoldA.Markdown.Length) == Tag.BoldA.Markdown)
                 {
-                    foundTag = (MarkdownTag.BoldA, _htmlTag[MarkdownTag.BoldA]);
+                    foundTag = Tag.BoldA;
                 }
             }
 
-            if (Value[i].ToString() == MarkdownTag.ItalicU)
+            if (Value[i].ToString() == Tag.ItalicU.Markdown)
             {
-                foundTag = (MarkdownTag.ItalicU, _htmlTag[MarkdownTag.ItalicU]);
+                foundTag = Tag.ItalicU;
 
-                if (Value.Length > i + 1 && Value.Substring(i, MarkdownTag.BoldU.Length) == MarkdownTag.BoldU)
+                if (Value.Length > i + 1 && Value.Substring(i, Tag.BoldU.Markdown.Length) == Tag.BoldU.Markdown)
                 {
-                    foundTag = (MarkdownTag.BoldU, _htmlTag[MarkdownTag.BoldU]);
+                    foundTag = Tag.BoldU;
                 }
             }
 
@@ -74,12 +72,12 @@ public sealed class Markdown : ValueObject<string, Markdown>
                 if (tagList.Any() && HasPreviouslyOpenTag(tagList, foundTag.Value.MarkdownTag))
                 {
                     // Closing tag
-                    tagList.Add((i, foundTag.Value.MarkdownTag, false));
+                    tagList.Add((i, false, foundTag.Value));
                 }
                 else
                 {
                     // Opening tag
-                    tagList.Add((i, foundTag.Value.MarkdownTag, true));
+                    tagList.Add((i, true, foundTag.Value));
                 }
 
                 // Skip next characters that belong to current tag
@@ -88,26 +86,27 @@ public sealed class Markdown : ValueObject<string, Markdown>
             }
         }
 
+        // Replace Markdown tags for Html tags
         if (tagList.Any())
         {
-            // Replace Markdown tags for Html tags
             StringBuilder result = new();
             var currentPosition = tagList.First().Position;
             result.Append(Value.Remove(currentPosition)); // append string before first tag
-            foreach (var tag in tagList)
-            {
-                result.Append(Value[currentPosition..tag.Position]);
 
-                if (tag.IsOpenTag)
-                    result.Append($"<{_htmlTag[tag.MdTag]}>");
+            foreach (var currentTag in tagList)
+            {
+                result.Append(Value[currentPosition..currentTag.Position]);
+
+                if (currentTag.IsOpenTag)
+                    result.Append($"<{currentTag.Tag.Html}>");
                 else
-                    result.Append($"</{_htmlTag[tag.MdTag]}>");
-                currentPosition = tag.Position + tag.MdTag.Length;
+                    result.Append($"</{currentTag.Tag.Html}>");
+                currentPosition = currentTag.Position + currentTag.Tag.Markdown.Length;
 
                 currentPosition = currentPosition >= Value.Length ? Value.Length - 1 : currentPosition;
             }
 
-            result.Append(Value.Substring(tagList.Last().Position + tagList.Last().MdTag.Length)); // add remaining string after last tag
+            result.Append(Value.Substring(tagList.Last().Position + tagList.Last().Tag.Markdown.Length)); // add remaining string after last tag
 
             return result.ToString();
         }
@@ -121,11 +120,11 @@ public sealed class Markdown : ValueObject<string, Markdown>
     /// <param name="tagList">List to be searched.</param>
     /// <param name="tag">Tag to search for.</param>
     /// <returns>False if there no matching tag in the list or has previously closing tag.</returns>
-    private bool HasPreviouslyOpenTag(IList<(int Position, string MdTag, bool IsOpenTag)> tagList, string tag)
+    private bool HasPreviouslyOpenTag(IList<(int Position, bool IsOpenTag, (string Markdown, string Html) Tag)> tagList, string tag)
     {
         for (int i = tagList.Count - 1; i >= 0; i--)
         {
-            if (tagList[i].MdTag == tag)
+            if (tagList[i].Tag.Markdown == tag)
             {
                 if (tagList[i].IsOpenTag)
                     return true;
