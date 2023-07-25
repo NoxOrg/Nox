@@ -1,10 +1,6 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Humanizer;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
-using Nox.Types;
 
 namespace Nox.Generator.Domain.ModelGenerator;
 

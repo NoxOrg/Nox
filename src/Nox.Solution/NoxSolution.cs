@@ -34,15 +34,22 @@ public class NoxSolution : Solution
             {
                 Relationship = relationship,
                 RelationshipEntityType = getTypeByNameFunc(relationship.Entity)!,
+                // TODO: is this still needed?
                 ShouldBeMapped = true
             };
 
             var pairRelationship = relationship.Related.EntityRelationship;
             if (pairRelationship != null)
             {
-                // If zeroOrMany vs OneOrMany handle on oneOrMany side
+                // If ZeroOrMany vs OneOrMany handle on oneOrMany side
                 if (pairRelationship.Relationship == EntityRelationshipType.OneOrMany &&
                     relationship.Relationship == EntityRelationshipType.ZeroOrMany)
+                {
+                    isIgnored = true;
+                }
+                // If ZeroOrOne vs ExactlyOne handle on ExactlyOne side
+                if (pairRelationship.Relationship == EntityRelationshipType.ExactlyOne &&
+                    relationship.Relationship == EntityRelationshipType.ZeroOrOne)
                 {
                     isIgnored = true;
                 }

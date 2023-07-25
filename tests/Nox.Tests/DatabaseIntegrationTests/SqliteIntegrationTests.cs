@@ -62,7 +62,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         
         var newItem = new TestEntityForTypes()
         {
-            Id = Text.From(text),
+            Id = Text.From(countryCode2),
             TextTestField = Text.From(text),
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
@@ -82,7 +82,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var testEntity = DbContext.TestEntityForTypes.First();
 
         // TODO: make it work without .Value
-        testEntity.Id.Value.Should().Be(text);
+        testEntity.Id.Value.Should().Be(countryCode2);
         testEntity.TextTestField.Value.Should().Be(text);
         testEntity.NumberTestField.Value.Should().Be(number);
         testEntity.MoneyTestField!.Value.Amount.Should().Be(money);
@@ -95,6 +95,7 @@ public class SqliteIntegrationTests : SqliteTestBase
 		testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
     }
+
     [Fact]
     public void GeneratedRelationship_Sqlite_ZeroOrMany_OneOrMany()
     {
@@ -159,5 +160,38 @@ public class SqliteIntegrationTests : SqliteTestBase
 
         Assert.NotEmpty(testEntity.SecondTestEntityOneOrManies);
         Assert.NotEmpty(secondTestEntity.TestEntityOneOrManies);
+    }
+
+    [Fact]
+    public void GeneratedRelationship_Sqlite_ExactlyOne_ExactlyOne()
+    {
+        var text = "TestTextValue";
+
+        var newItem = new TestEntityExactlyOne()
+        {
+            Id = Text.From(text),
+            TextTestField = Text.From(text),
+        };
+        DbContext.TestEntityExactlyOnes.Add(newItem);
+        DbContext.SaveChanges();
+
+        var newItem2 = new SecondTestEntityExactlyOne()
+        {
+            Id = Text.From(text),
+            TextTestField2 = Text.From(text),
+        };
+
+        newItem.SecondTestEntityExactlyOne = newItem2;
+        DbContext.SecondTestEntityExactlyOnes.Add(newItem2);
+        DbContext.SaveChanges();
+
+        // Force the recreation of DBContext and ensure we have fresh data from database
+        RecreateDbContext();
+
+        var testEntity = DbContext.TestEntityExactlyOnes.Include(x => x.SecondTestEntityExactlyOne).First();
+        var secondTestEntity = DbContext.SecondTestEntityExactlyOnes.Include(x => x.TestEntityExactlyOne).First();
+
+        Assert.NotNull(testEntity.SecondTestEntityExactlyOne);
+        Assert.NotNull(secondTestEntity.TestEntityExactlyOne);
     }
 }

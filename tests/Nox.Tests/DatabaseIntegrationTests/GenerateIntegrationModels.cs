@@ -64,6 +64,16 @@ namespace Nox.Tests.DatabaseIntegrationTests
             fileContent = singleResult.SourceText.ToString();
             File.WriteAllText($"{basePath}{filePath}.cs", fileContent);
 
+            filePath = "TestEntityExactlyOne";
+            singleResult = result.GeneratedSources.First(x => x.HintName.Contains(filePath));
+            fileContent = singleResult.SourceText.ToString();
+            File.WriteAllText($"{basePath}{filePath}.cs", fileContent);
+
+            filePath = "SecondTestEntityExactlyOne";
+            singleResult = result.GeneratedSources.First(x => x.HintName.Contains(filePath));
+            fileContent = singleResult.SourceText.ToString();
+            File.WriteAllText($"{basePath}{filePath}.cs", fileContent);
+
             Assert.True(true);
         }
     }
