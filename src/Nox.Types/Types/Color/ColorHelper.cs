@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace Nox.Types;
 
-public static class ColorConverter
+public static class ColorHelper
 {
     public static Color ConvertFromString(string strValue, CultureInfo culture)
     {
@@ -12,7 +12,7 @@ public static class ColorConverter
 
         if (text.Length == 0)
         {
-            return Color.Empty;
+            return new Color();
         }
 
         {
@@ -22,7 +22,7 @@ public static class ColorConverter
             {
                 var c = System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
 
-                return Color.FromRgba(c.A, c.R, c.G, c.B);
+                return Color.From(c.A, c.R, c.G, c.B);
             }
         }
 
@@ -51,7 +51,7 @@ public static class ColorConverter
                 }
                 catch (Exception)
                 {
-                    return Color.Empty;
+                    return new Nox.Types.Color();
                 }
             }
         }
@@ -62,7 +62,7 @@ public static class ColorConverter
             1 => PossibleKnownColor(System.Drawing.Color.FromArgb(IntFromString(tokens[0], culture))),
             3 => PossibleKnownColor(System.Drawing.Color.FromArgb(IntFromString(tokens[0], culture), IntFromString(tokens[1], culture), IntFromString(tokens[2], culture))),
             4 => PossibleKnownColor(System.Drawing.Color.FromArgb(IntFromString(tokens[0], culture), IntFromString(tokens[1], culture), IntFromString(tokens[2], culture), IntFromString(tokens[3], culture))),
-            _ => Color.Empty,
+            _ => new Nox.Types.Color(),
         };
     }
 
@@ -70,10 +70,10 @@ public static class ColorConverter
     {
         if (KnownColor.Colors.Values.Any(knc => knc.ToArgb() == color.ToArgb()))
         {
-            return Color.FromRgba(color.A, color.R, color.G, color.B);
+            return Color.From(color.A, color.R, color.G, color.B);
         }
 
-        return Color.FromRgba(color.A, color.R, color.G, color.B);
+        return Color.From(color.A, color.R, color.G, color.B);
     }
 
     private static int IntFromString(string text, CultureInfo culture)

@@ -21,32 +21,14 @@ public class Color : ValueObject<byte[], Color>
     {
         Value = new byte[4];
     }
-
+    
     /// <summary>
-    /// Creates a new instance of <see cref="Color"/> object with empty color.
+    /// Creates a <see cref="Color"/> object from a <see cref="System.Drawing.Color"/>.
     /// </summary>
-    public static Color Empty
+    /// <param name="color">the color to be parsed.</param>
+    public static Color From(System.Drawing.Color color)
     {
-        get => new();
-    }
-
-    /// <summary>
-    /// Validates a <see cref="Color"/> object.
-    /// </summary>
-    /// <returns>true if the <see cref="Color"/> value is valid.</returns>
-    internal override ValidationResult Validate()
-    {
-        var result = new ValidationResult();
-
-        if (Value.Length < 1)
-            result.Errors.Add(new ValidationFailure(nameof(Value),
-                $"Could not create a Nox {nameof(Color)} type as an empty {nameof(Value)} is not allowed."));
-
-        if (Value.Length > 4)
-            result.Errors.Add(new ValidationFailure(nameof(Value),
-                $"Could not create a Nox {nameof(Color)} type with more than 4 values."));
-
-        return result;
+        return CreateColor(color);
     }
 
     /// <summary>
@@ -71,7 +53,7 @@ public class Color : ValueObject<byte[], Color>
     /// <param name="green">The green color.</param>
     /// <param name="blue">The blue color.</param>
     /// <exception cref="TypeValidationException"></exception>
-    public static Color FromRgba(byte alpha, byte red, byte green, byte blue)
+    public static Color From(byte alpha, byte red, byte green, byte blue)
     {
         var color = System.Drawing.Color.FromArgb(alpha, red, green, blue);
 
@@ -99,7 +81,7 @@ public class Color : ValueObject<byte[], Color>
     /// <exception cref="TypeValidationException"></exception>
     public static Color FromAlphaColor(string alphadecimal)
     {
-        return ColorConverter.ConvertFromString(alphadecimal, CultureInfo.InvariantCulture);
+        return ColorHelper.ConvertFromString(alphadecimal, CultureInfo.InvariantCulture);
     }
 
     /// <summary>
