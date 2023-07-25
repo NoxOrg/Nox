@@ -5,7 +5,7 @@ namespace Nox.Types;
 
 public static class CurrencySymbol
 {
-    public static Dictionary<CurrencyCode, string> CurrencySymbols = new Dictionary<CurrencyCode, string>
+    private static Dictionary<CurrencyCode, string> CurrencySymbols = new ()
     {
         { CurrencyCode.AED, "د.إ" },
         { CurrencyCode.AFN, "؋" },
