@@ -1,4 +1,5 @@
-﻿using Nox.Types;
+﻿using System.Globalization;
+using Nox.Types;
 using Nox.Types.EntityFramework.Types;
 
 namespace Nox.EntityFramework.SqlServer;
@@ -9,7 +10,7 @@ public class SqlServerAreaDatabaseConfigurator : AreaDatabaseConfigurator, ISqlS
 
     public override string? GetColumnType(AreaTypeOptions typeOptions)
     {
-        var maxNumberOfIntegerDigits = Math.Round(typeOptions.MaxValue, Area.QuantityValueDecimalPrecision).ToString().Length;
+        var maxNumberOfIntegerDigits = Math.Truncate(typeOptions.MaxValue).ToString(CultureInfo.InvariantCulture).Length;
 
         return $"DECIMAL({maxNumberOfIntegerDigits + Area.QuantityValueDecimalPrecision}, {Area.QuantityValueDecimalPrecision})";
     }
