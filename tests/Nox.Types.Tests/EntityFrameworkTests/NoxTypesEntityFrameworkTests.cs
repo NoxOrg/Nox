@@ -97,6 +97,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             InfoEmail = Email.From("info@iwgplc.ch"),
             DatabaseId = DatabaseNumber.FromDatabase(10U),
             Password = Password.From("Test123."),
+            CurrencyNumber = CurrencyNumber.From(999),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
