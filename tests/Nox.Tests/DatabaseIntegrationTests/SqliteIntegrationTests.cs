@@ -69,7 +69,8 @@ public class SqliteIntegrationTests : SqliteTestBase
             AreaTestField = Area.From(area, new AreaTypeOptions() {Units = AreaTypeUnit.SquareFoot,PersistAs = persistUnitAs }),
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
-            LanguageCodeTestField = LanguageCode.From(languageCode)
+            LanguageCodeTestField = LanguageCode.From(languageCode),
+            HashedTextTestField = HashedText.From(text),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -91,6 +92,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
 		testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
+        testEntity.HashedTextTestField!.HashText.Should().Be(newItem.HashedTextTestField?.HashText);
+        testEntity.HashedTextTestField!.Salt.Should().Be(newItem.HashedTextTestField?.Salt);
     }
     [Fact]
     public void GeneratedRelationship_Sqlite_ZeroOrMany_OneOrMany()

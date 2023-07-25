@@ -30,6 +30,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             CountryCode2TestField = CountryCode2.From(countryCode2),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
+            HashedTextTestField = HashedText.From(text),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -50,5 +51,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
          testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.AreaTestField!.Value.Should().Be(areaInSquareMeters);
         testEntity.AreaTestField!.Unit.Should().Be(areaUnit);
+        testEntity.HashedTextTestField!.HashText.Should().Be(newItem.HashedTextTestField.HashText);
+        testEntity.HashedTextTestField!.Salt.Should().Be(newItem.HashedTextTestField.Salt);
     }
 }

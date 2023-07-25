@@ -58,4 +58,9 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public Area? AreaTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public HashedText? HashedTextTestField { get; set; } = null!;
 }
