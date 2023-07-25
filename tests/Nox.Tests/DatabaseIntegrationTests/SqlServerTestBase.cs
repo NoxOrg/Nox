@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Nox.EntityFramework.SqlServer;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using System.Reflection;
 using TestWebApp.Infrastructure.Persistence;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
@@ -55,8 +56,7 @@ public abstract class SqlServerTestBase : IDisposable
             .UseSqlServer(connection)
             .Options;
 
-        var dbContext = new TestWebAppDbContext(options, solution, databaseConfigurator);
-        dbContext.Database.EnsureCreated();
+        var dbContext = new TestWebAppDbContext(options, solution, databaseConfigurator, new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
 
         return dbContext;
     }
