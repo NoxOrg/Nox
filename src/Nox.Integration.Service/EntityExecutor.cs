@@ -61,6 +61,9 @@ public class EntityExecutor
 
             var dataSource = _source.DataFlowSource();
             
+            //Include all transformations
+            //IncludeTransformation(dataSource);
+            
             dataSource.LinkTo(destination);
             var postProcessDestination = new CustomDestination();
 

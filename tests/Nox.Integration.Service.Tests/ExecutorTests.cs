@@ -17,11 +17,25 @@ public class ExecutorTests: IClassFixture<ServiceFixture>
 #else
     [Fact (Skip = "Only available if sql server docker container is started")]
 #endif    
-    public async Task Can_Execute_an_integration()
+    public async Task Can_Execute_a_simple_integration()
     {
         _serviceFixture.Configure("executor.solution.nox.yaml");
         var executor = _serviceFixture.ServiceProvider.GetRequiredService<IIntegrationExecutor>();
         var exception = await Record.ExceptionAsync(async () => await executor.ExecuteAsync("TestIntegration"));
         Assert.Null(exception);
     }
+    
+#if DEBUG
+    [Fact]
+#else
+    [Fact (Skip = "Only available if sql server docker container is started")]
+#endif    
+    public async Task Can_Execute_an_integration_with_mapping()
+    {
+        _serviceFixture.Configure("mapping.solution.nox.yaml");
+        var executor = _serviceFixture.ServiceProvider.GetRequiredService<IIntegrationExecutor>();
+        var exception = await Record.ExceptionAsync(async () => await executor.ExecuteAsync("TestIntegration"));
+        Assert.Null(exception);
+    }
+    
 }
