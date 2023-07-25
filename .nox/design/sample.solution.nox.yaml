@@ -98,12 +98,12 @@ domain:
           entity: Currency
           canNavigate: true
           
-      ownedRelationships:
+      #ownedRelationships:
 
-        - name: CountryLocalNames
-          description: is also know as
-          relationship: oneOrMany
-          entity: CountryLocalNames
+      #  - name: CountryLocalNames
+      #    description: is also know as
+      #    relationship: oneOrMany
+      #    entity: CountryLocalNames
 
       queries:
 
