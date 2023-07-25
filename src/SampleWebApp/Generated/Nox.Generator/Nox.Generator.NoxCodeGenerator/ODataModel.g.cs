@@ -15,7 +15,7 @@ namespace SampleWebApp.Presentation.Api.OData;
 /// The list of countries.
 /// </summary>
 [AutoMap(typeof(CountryDto))]
-public class OCountry : SampleWebApp.Domain.AuditableEntityBase
+public class Country : SampleWebApp.Domain.AuditableEntityBase
 {
     public String Id { get; set; } = default!;
     
@@ -92,14 +92,14 @@ public class OCountry : SampleWebApp.Domain.AuditableEntityBase
     /// <summary>
     /// accepts as legal tender.
     /// </summary>
-    public List<OCurrency> CountryAcceptsCurrency { get; set; } = null!;
+    public List<Currency> CountryAcceptsCurrency { get; set; } = null!;
 }
 
 /// <summary>
 /// The list of currencies.
 /// </summary>
 [AutoMap(typeof(CurrencyDto))]
-public class OCurrency : SampleWebApp.Domain.AuditableEntityBase
+public class Currency : SampleWebApp.Domain.AuditableEntityBase
 {
     
     /// <summary>
@@ -115,14 +115,14 @@ public class OCurrency : SampleWebApp.Domain.AuditableEntityBase
     /// <summary>
     /// is legal tender for.
     /// </summary>
-    public List<OCountry> CurrencyIsLegalTenderForCountry { get; set; } = null!;
+    public List<Country> CurrencyIsLegalTenderForCountry { get; set; } = null!;
 }
 
 /// <summary>
 /// Stores.
 /// </summary>
 [AutoMap(typeof(StoreDto))]
-public class OStore : SampleWebApp.Domain.AuditableEntityBase
+public class Store : SampleWebApp.Domain.AuditableEntityBase
 {
     
     /// <summary>
@@ -150,7 +150,7 @@ public class OStore : SampleWebApp.Domain.AuditableEntityBase
 /// The name of a country in other languages.
 /// </summary>
 [AutoMap(typeof(CountryLocalNamesDto))]
-public class OCountryLocalNames : SampleWebApp.Domain.AuditableEntityBase
+public class CountryLocalNames : SampleWebApp.Domain.AuditableEntityBase
 {
     public String Id { get; set; } = default!;
 }

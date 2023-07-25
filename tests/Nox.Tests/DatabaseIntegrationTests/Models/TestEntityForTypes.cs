@@ -47,7 +47,7 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public CurrencyCode? CurrencyCode3TestField { get; set; } = null!;
+    public CurrencyCode3? CurrencyCode3TestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -57,6 +57,8 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public CultureCode? CultureCodeTestField { get; set; } = null!;
+
     public Email? EmailTestField { get; set; } = null!;
 
     /// <summary>

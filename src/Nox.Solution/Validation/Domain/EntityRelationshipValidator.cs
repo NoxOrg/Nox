@@ -27,11 +27,7 @@ namespace Nox.Solution.Validation
             RuleFor(er => er.Description)
                 .NotEmpty()
                 .WithMessage(er => string.Format(ValidationResources.EntityRelationshipDescriptionEmpty, er.Name, entityName));
-            
-            RuleFor(er => er.Relationship)
-                .NotEmpty()
-                .WithMessage(er => string.Format(ValidationResources.EntityRelationshipRelationshipEmpty, er.Name, entityName, EntityRelationshipType.ExactlyOne.ToNameList()));
-            
+
             RuleFor(er => er.Entity)
                 .NotEmpty()
                 .WithMessage(er => string.Format(ValidationResources.EntityRelationshipEntityEmpty, er.Name, entityName));

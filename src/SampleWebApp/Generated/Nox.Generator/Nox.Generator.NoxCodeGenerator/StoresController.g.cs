@@ -63,7 +63,7 @@ public partial class StoresController : ODataController
             return BadRequest(ModelState);
         }
         
-        var entity = _mapper.Map<OStore>(store);
+        var entity = _mapper.Map<Store>(store);
         
         entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
         
@@ -74,7 +74,7 @@ public partial class StoresController : ODataController
         return Created(entity);
     }
     
-    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OStore updatedStore)
+    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] Store updatedStore)
     {
         if (!ModelState.IsValid)
         {
@@ -107,7 +107,7 @@ public partial class StoresController : ODataController
         return Updated(updatedStore);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string store, [FromBody] Delta<OStore> Id)
+    public async Task<ActionResult> Patch([FromRoute] string store, [FromBody] Delta<Store> Id)
     {
         if (!ModelState.IsValid)
         {
