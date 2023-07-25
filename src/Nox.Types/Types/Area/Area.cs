@@ -10,7 +10,7 @@ namespace Nox.Types;
 /// </summary>
 public class Area : ValueObject<QuantityValue, Area> 
 {
-    private const int QuantityValueDecimalPrecision = 6;
+    public const int QuantityValueDecimalPrecision = 6;
 
     private AreaTypeOptions _areaTypeOptions = new();
     public AreaTypeUnit Unit { get; private init;}
