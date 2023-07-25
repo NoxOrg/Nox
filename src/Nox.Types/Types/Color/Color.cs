@@ -152,7 +152,7 @@ public class Color : ValueObject<byte[], Color>
     public string ToRgbaString() => $"RGBA({_red}, {_green}, {_blue}, {ToProportion(_alpha):N2})";
     
     /// <inheritdoc/>
-    public override bool Equals(object obj)
+    public override bool Equals(object? obj)
     {
         if (!(obj is Color otherColor))
             return false;
