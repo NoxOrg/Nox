@@ -15,7 +15,8 @@ public class EmailDatabaseConfigurator : INoxTypeDatabaseConfigurator
     {
         builder
             .Property(property.Name)
-            .IsRequired(property.IsRequired);
+            .IsRequired(property.IsRequired)
+            .HasConversion<EmailConverter>();
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
