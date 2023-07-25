@@ -15,7 +15,8 @@ namespace Nox.Tests.Fixtures
         public DataContextTestFixture()
         {
             ServiceCollection services = new();
-            services.AddNoxLib(Assembly.GetExecutingAssembly()!);
+            services.AddNoxLib();
+            services.AddNoxTypesDatabaseConfigurator(Assembly.GetExecutingAssembly());
 
             using var serviceProvider = services.BuildServiceProvider();
 
@@ -28,7 +29,7 @@ namespace Nox.Tests.Fixtures
                 .UseInMemoryDatabase("Nox")
                 .Options;
 
-            DbContext = new TestWebAppDbContext(options, solution, databaseConfigurator, Assembly.GetExecutingAssembly());
+            DbContext = new TestWebAppDbContext(options, solution, databaseConfigurator, new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
         }
 
         public TestWebAppDbContext DbContext { get; }
