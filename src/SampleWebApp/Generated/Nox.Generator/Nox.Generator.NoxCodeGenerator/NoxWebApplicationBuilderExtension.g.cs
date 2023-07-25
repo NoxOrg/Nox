@@ -24,6 +24,7 @@ public static class NoxWebApplicationBuilderExtension
     {
         services.AddNoxLib();
         services.AddNoxTypesDatabaseConfigurator(Assembly.GetExecutingAssembly());
+        services.AddNoxOdata();
         services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
         services.AddSingleton<DbContextOptions<SampleWebAppDbContext>>();
         services.AddSingleton<INoxDatabaseConfigurator, SqlServerDatabaseProvider>();
