@@ -202,7 +202,7 @@ public sealed class Country
     /// Gets or sets the country's webpage.
     /// </summary>
     public Html PageHtml { get; set; } = null!;
-    
+
     /// <summary>
     /// Gets or sets the CitiesCounties.
     /// </summary>
@@ -217,4 +217,14 @@ public sealed class Country
     /// Gets or sets the phone number.
     /// </summary>
     public PhoneNumber PhoneNumber { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the MainId property.
+    /// </summary>
+    public DatabaseNumber DatabaseId { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets password
+    /// </summary>
+    public Password Password { get; set; } = null!;
 }

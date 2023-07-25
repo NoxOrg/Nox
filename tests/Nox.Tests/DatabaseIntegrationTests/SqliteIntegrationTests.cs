@@ -1,7 +1,6 @@
 ﻿using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Nox.Types;
-using Nox.Types.Common;
 using TestWebApp.Domain;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
@@ -15,7 +14,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         // array
         // color
         // colour
-        // autoNumber
+        // databaseNumber
         // collection
         // entity
         // file

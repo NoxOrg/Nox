@@ -77,6 +77,9 @@ public class NoxSimpleTypeDefinition
     [IfEquals("Type", NoxType.User)]
     public UserTypeOptions? UserTypeOptions { get; set; }
 
+    [IfEquals("Type", NoxType.Password)]
+    public PasswordTypeOptions? PasswordTypeOptions { get; set; }
+
     #endregion TypeOptions
 
     [Title("Is the attribute required? Boolean value.")]
