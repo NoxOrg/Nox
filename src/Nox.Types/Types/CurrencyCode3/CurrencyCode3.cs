@@ -7,7 +7,7 @@ namespace Nox.Types;
 /// </summary>
 public sealed class CurrencyCode3 : ValueObject<string, CurrencyCode3>
 {
-    private readonly static HashSet<string> _currencyCodes = new HashSet<string>()
+    private static readonly HashSet<string> _currencyCodes = new HashSet<string>()
     {
         "AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN",
         "BAM", "BBD", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BRL",
