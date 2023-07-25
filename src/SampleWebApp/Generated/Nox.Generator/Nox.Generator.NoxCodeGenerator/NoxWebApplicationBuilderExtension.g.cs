@@ -3,6 +3,7 @@
 #nullable enable
 
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using Nox;
 using Nox.EntityFramework.SqlServer;
 using Nox.Types.EntityFramework.Abstractions;
@@ -22,6 +23,8 @@ public static class NoxWebApplicationBuilderExtension
     private static void AddNoxServices(this IServiceCollection services)
     {
         services.AddNoxLib();
+        services.AddNoxTypesDatabaseConfigurator(Assembly.GetExecutingAssembly());
+        services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
         services.AddSingleton<DbContextOptions<SampleWebAppDbContext>>();
         services.AddSingleton<INoxDatabaseConfigurator, SqlServerDatabaseProvider>();
         services.AddSingleton<INoxDatabaseProvider, SqlServerDatabaseProvider>();
@@ -29,6 +32,5 @@ public static class NoxWebApplicationBuilderExtension
         services.AddDbContext<ODataDbContext>();
         var tmpProvider = services.BuildServiceProvider();
         var dbContext = tmpProvider.GetRequiredService<SampleWebAppDbContext>();
-        dbContext.Database.EnsureCreated();
     }
 }

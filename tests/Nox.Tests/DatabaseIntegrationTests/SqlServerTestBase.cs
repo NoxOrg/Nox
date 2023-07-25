@@ -5,9 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Nox.EntityFramework.SqlServer;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-
 using System.Reflection;
-
 using TestWebApp.Infrastructure.Persistence;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
@@ -61,7 +59,8 @@ public abstract class SqlServerTestBase : IDisposable
         ServiceCollection services = new ServiceCollection();
         // TODO  add ...BuilderExtension.cs generated class and call AddNox when Nox supports dynamic db providers
         // This will build dbcontext etc..
-        services.AddNoxLib(Assembly.GetExecutingAssembly());
+        services.AddNoxLib();
+        services.AddNoxTypesDatabaseConfigurator(Assembly.GetExecutingAssembly());
         using var serviceProvider = services.BuildServiceProvider();
 
         var databaseConfigurator = new SqlServerDatabaseProvider(serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());
@@ -73,7 +72,7 @@ public abstract class SqlServerTestBase : IDisposable
             .UseSqlServer(connection)
             .Options;
 
-        var dbContext = new TestWebAppDbContext(options, solution, databaseConfigurator, Assembly.GetExecutingAssembly()!);
+        var dbContext = new TestWebAppDbContext(options, solution, databaseConfigurator, new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
         dbContext.Database.EnsureCreated();
 
         return dbContext;
