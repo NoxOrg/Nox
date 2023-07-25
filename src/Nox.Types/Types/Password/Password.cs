@@ -1,8 +1,3 @@
-using System.Text.RegularExpressions;
-using System;
-using System.Linq;
-using System.ComponentModel.Design;
-
 namespace Nox.Types;
 
 /// <summary>

@@ -2277,6 +2277,312 @@
               "additionalProperties": false
             },
             {
+              "required": [
+                "name",
+                "type"
+              ],
+              "properties": {
+                "objectTypeOptions": {    
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "attributes"
+                  ],
+                  "properties": {
+                    "attributes": {    
+                      "type": "array",
+                      "items":   {
+                        "anyOf": [
+                          { "$ref": "type.json" },
+                          {
+                            "additionalProperties": false, 
+                            "properties": {
+                              "$ref": {
+                                "type": "string",
+                                "format": "uri",
+                                "pattern": "^[^\\s]*$"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "name": {    
+                  "title": "The name of the attribute. Contains no spaces.",
+                  "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+                  "type": "string",
+                  "pattern": "^[^\\s]*$"
+                },
+                "description": {    
+                  "title": "The description of the attribute.",
+                  "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "type": {    
+                  "const": "password"
+                },
+                "passwordTypeOptions": {    
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "hashingAlgorithm": {    
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "sHA256",
+                        "sHA512"
+                      ]
+                    },
+                    "saltLength": {    
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "minLength": {    
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "maxLength": {    
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "forceUppercase": {    
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "forceLowercase": {    
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "forceSymbol": {    
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "forceNumber": {    
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "passwordContainsUpperCase": {    
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "options": {    
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "enum": [
+                            "compiled",
+                            "cultureInvariant",
+                            "eCMAScript",
+                            "explicitCapture",
+                            "ignoreCase",
+                            "ignorePatternWhitespace",
+                            "multiline",
+                            "nonBacktracking",
+                            "none",
+                            "rightToLeft",
+                            "singleline"
+                          ]
+                        },
+                        "rightToLeft": {    
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        },
+                        "matchTimeout": {    
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "duration"
+                        }
+                      }
+                    },
+                    "passwordContainsLowerCase": {    
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "options": {    
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "enum": [
+                            "compiled",
+                            "cultureInvariant",
+                            "eCMAScript",
+                            "explicitCapture",
+                            "ignoreCase",
+                            "ignorePatternWhitespace",
+                            "multiline",
+                            "nonBacktracking",
+                            "none",
+                            "rightToLeft",
+                            "singleline"
+                          ]
+                        },
+                        "rightToLeft": {    
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        },
+                        "matchTimeout": {    
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "duration"
+                        }
+                      }
+                    },
+                    "passwordContainsSymbol": {    
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "options": {    
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "enum": [
+                            "compiled",
+                            "cultureInvariant",
+                            "eCMAScript",
+                            "explicitCapture",
+                            "ignoreCase",
+                            "ignorePatternWhitespace",
+                            "multiline",
+                            "nonBacktracking",
+                            "none",
+                            "rightToLeft",
+                            "singleline"
+                          ]
+                        },
+                        "rightToLeft": {    
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        },
+                        "matchTimeout": {    
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "duration"
+                        }
+                      }
+                    },
+                    "passwordContainsNumber": {    
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "options": {    
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "enum": [
+                            "compiled",
+                            "cultureInvariant",
+                            "eCMAScript",
+                            "explicitCapture",
+                            "ignoreCase",
+                            "ignorePatternWhitespace",
+                            "multiline",
+                            "nonBacktracking",
+                            "none",
+                            "rightToLeft",
+                            "singleline"
+                          ]
+                        },
+                        "rightToLeft": {    
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        },
+                        "matchTimeout": {    
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "duration"
+                        }
+                      }
+                    }
+                  }
+                },
+                "isRequired": {    
+                  "title": "Is the attribute required? Boolean value.",
+                  "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "userInterface": {    
+                  "anyOf": [
+                    { "$ref": "typeUserInterface.json" },
+                    {
+                      "additionalProperties": false, 
+                      "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri",
+                          "pattern": "^[^\\s]*$"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "isReadonly": {    
+                  "title": "Is this attribute readonly? Boolean value.",
+                  "description": "Indicates whether this attribute is readonly. Defaults to false.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            {
               "type": "object",
               "required": [
                 "name",
@@ -2330,7 +2636,6 @@
                   "type": "string",
                   "enum": [
                     "array",
-                    "autoNumber",
                     "boolean",
                     "collection",
                     "color",
@@ -2340,6 +2645,7 @@
                     "cultureCode",
                     "currencyCode",
                     "currencyNumber",
+                    "databaseNumber",
                     "dateTimeRange",
                     "dateTimeSchedule",
                     "dayOfWeek",
@@ -2360,7 +2666,6 @@
                     "markdown",
                     "month",
                     "object",
-                    "password",
                     "phoneNumber",
                     "streetAddress",
                     "temperature",
@@ -4625,6 +4930,312 @@
               "additionalProperties": false
             },
             {
+              "required": [
+                "name",
+                "type"
+              ],
+              "properties": {
+                "objectTypeOptions": {    
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "attributes"
+                  ],
+                  "properties": {
+                    "attributes": {    
+                      "type": "array",
+                      "items":   {
+                        "anyOf": [
+                          { "$ref": "type.json" },
+                          {
+                            "additionalProperties": false, 
+                            "properties": {
+                              "$ref": {
+                                "type": "string",
+                                "format": "uri",
+                                "pattern": "^[^\\s]*$"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "name": {    
+                  "title": "The name of the attribute. Contains no spaces.",
+                  "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+                  "type": "string",
+                  "pattern": "^[^\\s]*$"
+                },
+                "description": {    
+                  "title": "The description of the attribute.",
+                  "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "type": {    
+                  "const": "password"
+                },
+                "passwordTypeOptions": {    
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "hashingAlgorithm": {    
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "sHA256",
+                        "sHA512"
+                      ]
+                    },
+                    "saltLength": {    
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "minLength": {    
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "maxLength": {    
+                      "type": [
+                        "integer",
+                        "null"
+                      ]
+                    },
+                    "forceUppercase": {    
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "forceLowercase": {    
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "forceSymbol": {    
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "forceNumber": {    
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
+                    "passwordContainsUpperCase": {    
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "options": {    
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "enum": [
+                            "compiled",
+                            "cultureInvariant",
+                            "eCMAScript",
+                            "explicitCapture",
+                            "ignoreCase",
+                            "ignorePatternWhitespace",
+                            "multiline",
+                            "nonBacktracking",
+                            "none",
+                            "rightToLeft",
+                            "singleline"
+                          ]
+                        },
+                        "rightToLeft": {    
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        },
+                        "matchTimeout": {    
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "duration"
+                        }
+                      }
+                    },
+                    "passwordContainsLowerCase": {    
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "options": {    
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "enum": [
+                            "compiled",
+                            "cultureInvariant",
+                            "eCMAScript",
+                            "explicitCapture",
+                            "ignoreCase",
+                            "ignorePatternWhitespace",
+                            "multiline",
+                            "nonBacktracking",
+                            "none",
+                            "rightToLeft",
+                            "singleline"
+                          ]
+                        },
+                        "rightToLeft": {    
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        },
+                        "matchTimeout": {    
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "duration"
+                        }
+                      }
+                    },
+                    "passwordContainsSymbol": {    
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "options": {    
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "enum": [
+                            "compiled",
+                            "cultureInvariant",
+                            "eCMAScript",
+                            "explicitCapture",
+                            "ignoreCase",
+                            "ignorePatternWhitespace",
+                            "multiline",
+                            "nonBacktracking",
+                            "none",
+                            "rightToLeft",
+                            "singleline"
+                          ]
+                        },
+                        "rightToLeft": {    
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        },
+                        "matchTimeout": {    
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "duration"
+                        }
+                      }
+                    },
+                    "passwordContainsNumber": {    
+                      "type": [
+                        "object",
+                        "null"
+                      ],
+                      "properties": {
+                        "options": {    
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "enum": [
+                            "compiled",
+                            "cultureInvariant",
+                            "eCMAScript",
+                            "explicitCapture",
+                            "ignoreCase",
+                            "ignorePatternWhitespace",
+                            "multiline",
+                            "nonBacktracking",
+                            "none",
+                            "rightToLeft",
+                            "singleline"
+                          ]
+                        },
+                        "rightToLeft": {    
+                          "type": [
+                            "boolean",
+                            "null"
+                          ]
+                        },
+                        "matchTimeout": {    
+                          "type": [
+                            "string",
+                            "null"
+                          ],
+                          "format": "duration"
+                        }
+                      }
+                    }
+                  }
+                },
+                "isRequired": {    
+                  "title": "Is the attribute required? Boolean value.",
+                  "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "userInterface": {    
+                  "anyOf": [
+                    { "$ref": "typeUserInterface.json" },
+                    {
+                      "additionalProperties": false, 
+                      "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri",
+                          "pattern": "^[^\\s]*$"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "isReadonly": {    
+                  "title": "Is this attribute readonly? Boolean value.",
+                  "description": "Indicates whether this attribute is readonly. Defaults to false.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            {
               "type": "object",
               "required": [
                 "name",
@@ -4678,7 +5289,6 @@
                   "type": "string",
                   "enum": [
                     "array",
-                    "autoNumber",
                     "boolean",
                     "collection",
                     "color",
@@ -4688,6 +5298,7 @@
                     "cultureCode",
                     "currencyCode",
                     "currencyNumber",
+                    "databaseNumber",
                     "dateTimeRange",
                     "dateTimeSchedule",
                     "dayOfWeek",
@@ -4708,7 +5319,6 @@
                     "markdown",
                     "month",
                     "object",
-                    "password",
                     "phoneNumber",
                     "streetAddress",
                     "temperature",
@@ -6428,6 +7038,282 @@
       }
     },
     {
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the attribute. Contains no spaces.",
+          "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the attribute.",
+          "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {    
+          "const": "password"
+        },
+        "passwordTypeOptions": {    
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "hashingAlgorithm": {    
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "sHA256",
+                "sHA512"
+              ]
+            },
+            "saltLength": {    
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "minLength": {    
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "maxLength": {    
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "forceUppercase": {    
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "forceLowercase": {    
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "forceSymbol": {    
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "forceNumber": {    
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "passwordContainsUpperCase": {    
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "options": {    
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    "compiled",
+                    "cultureInvariant",
+                    "eCMAScript",
+                    "explicitCapture",
+                    "ignoreCase",
+                    "ignorePatternWhitespace",
+                    "multiline",
+                    "nonBacktracking",
+                    "none",
+                    "rightToLeft",
+                    "singleline"
+                  ]
+                },
+                "rightToLeft": {    
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "matchTimeout": {    
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "duration"
+                }
+              }
+            },
+            "passwordContainsLowerCase": {    
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "options": {    
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    "compiled",
+                    "cultureInvariant",
+                    "eCMAScript",
+                    "explicitCapture",
+                    "ignoreCase",
+                    "ignorePatternWhitespace",
+                    "multiline",
+                    "nonBacktracking",
+                    "none",
+                    "rightToLeft",
+                    "singleline"
+                  ]
+                },
+                "rightToLeft": {    
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "matchTimeout": {    
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "duration"
+                }
+              }
+            },
+            "passwordContainsSymbol": {    
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "options": {    
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    "compiled",
+                    "cultureInvariant",
+                    "eCMAScript",
+                    "explicitCapture",
+                    "ignoreCase",
+                    "ignorePatternWhitespace",
+                    "multiline",
+                    "nonBacktracking",
+                    "none",
+                    "rightToLeft",
+                    "singleline"
+                  ]
+                },
+                "rightToLeft": {    
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "matchTimeout": {    
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "duration"
+                }
+              }
+            },
+            "passwordContainsNumber": {    
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "options": {    
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    "compiled",
+                    "cultureInvariant",
+                    "eCMAScript",
+                    "explicitCapture",
+                    "ignoreCase",
+                    "ignorePatternWhitespace",
+                    "multiline",
+                    "nonBacktracking",
+                    "none",
+                    "rightToLeft",
+                    "singleline"
+                  ]
+                },
+                "rightToLeft": {    
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "matchTimeout": {    
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "duration"
+                }
+              }
+            }
+          }
+        },
+        "isRequired": {    
+          "title": "Is the attribute required? Boolean value.",
+          "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "userInterface": {    
+          "anyOf": [
+            { "$ref": "typeUserInterface.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "isReadonly": {    
+          "title": "Is this attribute readonly? Boolean value.",
+          "description": "Indicates whether this attribute is readonly. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      }
+    },
+    {
       "type": "object",
       "required": [
         "name",
@@ -6451,7 +7337,6 @@
         "type": {    
           "type": "string",
           "enum": [
-            "autoNumber",
             "boolean",
             "color",
             "countryCode2",
@@ -6460,6 +7345,7 @@
             "cultureCode",
             "currencyCode",
             "currencyNumber",
+            "databaseNumber",
             "dateTimeRange",
             "dateTimeSchedule",
             "dayOfWeek",
@@ -6479,7 +7365,6 @@
             "macAddress",
             "markdown",
             "month",
-            "password",
             "phoneNumber",
             "streetAddress",
             "temperature",
