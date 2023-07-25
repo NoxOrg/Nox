@@ -88,7 +88,11 @@ public class NoxCodeGenerator : IIncrementalGenerator
 
                 if (generate.Presentation)
                 {
-                    ODataConfigurationGenerator.Generate(context, codeGeneratorState);
+                    ODataServiceCollectionExtensions.Generate(context, codeGeneratorState);
+
+                    ODataModelGenerator.Generate(context, codeGeneratorState);
+
+                    ODataDbContextGenerator.Generate(context, codeGeneratorState);
 
                     ApiGenerator.Generate(context, codeGeneratorState);
 
