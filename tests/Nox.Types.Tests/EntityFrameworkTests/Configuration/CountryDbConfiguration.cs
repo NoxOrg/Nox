@@ -41,6 +41,11 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.PageHtml).HasConversion<HtmlConverter>();
         builder.Property(e => e.CitiesCounties).HasConversion<YamlConverter>();
         builder.Property(e => e.PhoneNumber).HasConversion<PhoneNumberConverter>();
+        builder.Property(e => e.GuidUser).HasConversion<UserConverter>();
+        builder.Property(e => e.EmailUser).HasConversion<UserConverter>();
+        builder.Property(e => e.StringUser).HasConversion<UserConverter>();
+        builder.Property(e => e.InfoEmail).HasConversion<EmailConverter>();
+        builder.Property(e => e.DatabaseId).ValueGeneratedOnAdd().HasConversion<DatabaseNumberConverter>();
 
         // Configure Multi-value ValueObjects
         builder.OwnsOne(e => e.LatLong).Ignore(p => p.Value);
