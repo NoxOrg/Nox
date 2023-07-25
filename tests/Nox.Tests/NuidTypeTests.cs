@@ -1,4 +1,5 @@
-﻿using Nox.Tests.Fixtures;
+﻿using FluentAssertions;
+using Nox.Tests.Fixtures;
 using Nox.Types;
 using TestWebApp.Domain;
 using TestWebApp.Infrastructure.Persistence;
@@ -30,7 +31,8 @@ namespace Nox.Tests
 
             var dbEntity = _dbContext.TestEntityWithNuids.First(x => x.Name == Text.From(nameValue));
 
-            Assert.Equal(entity.Id, dbEntity.Id);
+            entity.Should().Be(dbEntity);
+            entity.Id.Should().Be(dbEntity.Id);
         }
 
         [Fact]
@@ -50,7 +52,7 @@ namespace Nox.Tests
             var dbEntity = _dbContext.TestEntityWithNuids.First(x => x.Id.Value == entity.Id.Value);
             dbEntity.Name = Text.From("Should not be changed");
 
-            Assert.Throws<ApplicationException>(() => entity.EnsureId());
+            Assert.Throws<NoxNuidTypeException>(() => entity.EnsureId());
         }
     }
 }

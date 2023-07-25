@@ -30,7 +30,7 @@ public partial class Country : AuditableEntityBase
     			var currentNuid = Nuid.From("Country." + string.Join(".", Name.Value.ToString(),FormalName.Value.ToString()));
     			if(Id != currentNuid)
     			{
-    				throw new ApplicationException("Immutable nuid property Id value is different since it has been initialized");
+    				throw new NoxNuidTypeException("Immutable nuid property Id value is different since it has been initialized");
     			}
     		}
     	}

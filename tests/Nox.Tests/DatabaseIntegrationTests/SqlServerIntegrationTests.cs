@@ -47,7 +47,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
-         testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
+        testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.AreaTestField!.Value.Should().Be(areaInSquareMeters);
         testEntity.AreaTestField!.Unit.Should().Be(areaUnit);
     }

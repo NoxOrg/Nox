@@ -23,14 +23,14 @@ public partial class TestEntityWithNuid : AuditableEntityBase
     	{
     		if(Id is null)
     		{
-    			Id = Nuid.From("TestEntityWithNuid."+string.Join(".", Name.Value.ToString()));
+    			Id = Nuid.From("TestEntityWithNuid." + string.Join(".", Name.Value.ToString()));
     		}
     		else
     		{
-    			var currentNuid = Nuid.From("TestEntityWithNuid."+string.Join(".", Name.Value.ToString()));
+    			var currentNuid = Nuid.From("TestEntityWithNuid." + string.Join(".", Name.Value.ToString()));
     			if(Id != currentNuid)
     			{
-    				throw new ApplicationException("Immutable nuid property Id value is different since it has been initialized");
+    				throw new NoxNuidTypeException("Immutable nuid property Id value is different since it has been initialized");
     			}
     		}
     	}

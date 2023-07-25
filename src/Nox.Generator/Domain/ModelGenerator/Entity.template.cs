@@ -40,7 +40,7 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
 			var currentNuid = {{codeGeneratorNuidGetter}};
 			if({{key.Name}} != currentNuid)
 			{
-				throw new ApplicationException("Immutable nuid property {{key.Name}} value is different since it has been initialized");
+				throw new NoxNuidTypeException("Immutable nuid property {{key.Name}} value is different since it has been initialized");
 			}
 		}
 	}
