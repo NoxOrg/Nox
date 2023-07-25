@@ -16,10 +16,10 @@ public class CurrencyNumberTests
     [Fact]
     public void CurrencyNumber_Constructor_WithUnsupportedCurrencyNumber_ThrowsValidationException()
     {
-        var action = () => CurrencyNumber.From(000);
+        var action = () => CurrencyNumber.From(991);
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox CurrencyNumber type with unsupported value '000'.") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox CurrencyNumber type with unsupported value '991'.") });
     }
 
     [Fact]
