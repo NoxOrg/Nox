@@ -7,7 +7,7 @@ namespace Nox.Types;
 /// </summary>
 public sealed class CurrencyCode3 : ValueObject<string, CurrencyCode3>
 {
-    private readonly static HashSet<string> _currencyCodes = new HashSet<string>()
+    private static readonly HashSet<string> _currencyCodes = new HashSet<string>()
     {
         "AED", "AFN", "ALL", "AMD", "ANG", "AOA", "ARS", "AUD", "AWG", "AZN",
         "BAM", "BBD", "BDT", "BGN", "BHD", "BIF", "BMD", "BND", "BOB", "BRL",
@@ -33,8 +33,8 @@ public sealed class CurrencyCode3 : ValueObject<string, CurrencyCode3>
     /// </summary>
     /// <param name="value">The string to create the <see cref="CurrencyCode3"/> with</param>
     /// <returns></returns>
-    /// <exception cref="ValidationException">If the currencyCode3 is invalid.</exception>
-    public static new CurrencyCode3 From(string value)
+    /// <exception cref="TypeValidationException">If the currencyCode3 is invalid.</exception>
+    public new static CurrencyCode3 From(string value)
     {
         var newObject = new CurrencyCode3
         {

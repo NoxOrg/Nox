@@ -57,6 +57,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         var languageCode = "en";        
         var area = 198_090M;
         var persistUnitAs = AreaTypeUnit.SquareMeter;
+        var cultureCode = "de-CH";
+        
         
         var newItem = new TestEntityForTypes()
         {
@@ -68,7 +70,8 @@ public class SqliteIntegrationTests : SqliteTestBase
             AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = persistUnitAs }),
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
-            LanguageCodeTestField = LanguageCode.From(languageCode)
+            LanguageCodeTestField = LanguageCode.From(languageCode),
+            CultureCodeTestField = CultureCode.From(cultureCode),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -90,6 +93,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
 		testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
+        testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
     }
     [Fact]
     public void GeneratedRelationship_Sqlite_ZeroOrMany_OneOrMany()
