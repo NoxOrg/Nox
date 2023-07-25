@@ -62,7 +62,7 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     /// Country area in square kilometers (Required).
     /// </summary>
-    public Number AreaInSquareKilometres { get; set; } = null!;
+    public Area AreaInSquareKilometres { get; set; } = null!;
 
     /// <summary>
     /// The region the country is in (Required).
@@ -94,8 +94,4 @@ public partial class Country : AuditableEntityBase
     public virtual List<Currency> Currencies { get; set; } = new();
     
     public List<Currency> CountryAcceptsCurrency => Currencies;
-    /// <summary>
-    /// Country is also know as OneOrMany CountryLocalNames
-    /// </summary>
-    public virtual List<CountryLocalNames> CountryLocalNames { get; set; } = new();
 }

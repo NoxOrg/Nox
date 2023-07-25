@@ -24,7 +24,7 @@ public enum NoxType : uint
     [CompoundComponent("Amount", typeof(decimal))]
     [CompoundComponent("CurrencyCode", typeof(string))]
     Money = 3500951620,
-    
+
     [CompoundType]
     [CompoundComponent("StreetNumber",typeof(int))]
     [CompoundComponent("AddressLine1", typeof(string))]
@@ -49,7 +49,7 @@ public enum NoxType : uint
     [CompoundComponent("To", typeof(DateTimeOffset))]
     DateTimeRange = 3837929056,
 
-    [CompoundType]  
+    [CompoundType]
     [CompoundComponent("Number", typeof(string))]
     [CompoundComponent("CountryCode2", typeof(string))]
     VatNumber = 1055627262,
@@ -61,11 +61,12 @@ public enum NoxType : uint
     File = 612041382,
 
     // Simple Types
-    [SimpleType(typeof(double))] 
+
+    [SimpleType(typeof(decimal))]
     Area = 998304025,
-    
+
     [SimpleType(typeof(int))] 
-    AutoNumber = 24779567,
+    DatabaseNumber = 963275927,
     
     [SimpleType(typeof(bool))]
     Boolean = 2157507194,

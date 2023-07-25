@@ -20,6 +20,7 @@ using Nox.Generator.Presentation.Api.OData;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
+using Nox.Generator.Application;
 
 namespace Nox.Generator;
 
@@ -87,9 +88,15 @@ public class NoxCodeGenerator : IIncrementalGenerator
 
                 if (generate.Presentation)
                 {
-                    ODataConfigurationGenerator.Generate(context, codeGeneratorState);
+                    ODataServiceCollectionExtensions.Generate(context, codeGeneratorState);
+
+                    ODataModelGenerator.Generate(context, codeGeneratorState);
+
+                    ODataDbContextGenerator.Generate(context, codeGeneratorState);
 
                     ApiGenerator.Generate(context, codeGeneratorState);
+
+                    ApplicationServiceGenerator.Generate(context, codeGeneratorState);
                 }
 
                 if (generate.Application)

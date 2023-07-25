@@ -229,13 +229,19 @@ domain:
 
         - name: CountryCode2TestField
           type: countryCode2
+
         - name: StreetAddressTestField
           type: streetAddress
+        
+        - name: CurrencyCode3TestField
+          type: currencyCode
+          
+
         #- name: GeoCoordTestField
         #  type: latLong
 
-        #- name: AreaTestField
-        #  type: area
+        - name: AreaTestField
+          type: area
 
         #- name: BooleanTestField
         #  type: boolean
@@ -318,5 +324,5 @@ domain:
         #- name: CultureCodeTestField
         #  type: cultureCode
 
-        #- name: LanguageCodeTestField
-        #  type: languageCode
+        - name: LanguageCodeTestField
+          type: languageCode

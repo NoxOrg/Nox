@@ -29,6 +29,7 @@ internal static class ODataModelGenerator
         code.AppendLine($"using Microsoft.AspNetCore.OData;");
         code.AppendLine($"using Microsoft.OData.ModelBuilder;");
         code.AppendLine($"using AutoMapper;");
+        code.AppendLine($"using Nox.Types;");
 
         code.AppendLine();
         code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
@@ -56,7 +57,7 @@ internal static class ODataModelGenerator
                 var baseClass = (entity.Persistence?.IsVersioned ?? true) ? "AuditableEntityBase" : "EntityBase";
 
                 code.AppendLine($"[AutoMap(typeof({entity.Name}Dto))]");
-                code.AppendLine($"public class {entity.Name} : {codeGeneratorState.DomainNameSpace}.{baseClass}");
+                code.AppendLine($"public class O{entity.Name} : {codeGeneratorState.DomainNameSpace}.{baseClass}");
             }
 
             code.StartBlock();
@@ -113,7 +114,7 @@ internal static class ODataModelGenerator
 
         bool isMany = relationship.Relationship == EntityRelationshipType.ZeroOrMany || relationship.Relationship == EntityRelationshipType.OneOrMany;
 
-        var propType = isMany ? $"List<{targetEntity}>" : targetEntity;
+        var propType = isMany ? $"List<O{targetEntity}>" : targetEntity;
         var propName = relationship.Name;
 
         var nullable = relationship.Relationship == EntityRelationshipType.ZeroOrOne ? "?" : string.Empty;

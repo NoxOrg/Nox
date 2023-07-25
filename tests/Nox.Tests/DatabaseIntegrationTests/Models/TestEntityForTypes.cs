@@ -42,10 +42,20 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public CurrencyCode3? CurrencyCode3TestField { get; set; } = null!;
+    
+    /// <summary>
+    /// (Optional)
+    /// </summary>
     public StreetAddress? StreetAddressTestField { get; set; } = null!;
-
+    
+    /// <summary>
+    /// (Optional)
+    /// </summary>
+    public LanguageCode? LanguageCodeTestField { get; set; } = null!;
+    
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public MacAddress? MacAddressTestField { get; set; } = null!;
+    public Area? AreaTestField { get; set; } = null!;
 }

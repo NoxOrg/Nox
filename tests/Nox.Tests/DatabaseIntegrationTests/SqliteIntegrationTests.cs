@@ -14,7 +14,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         // array
         // color
         // colour
-        // autoNumber
+        // databaseNumber
         // collection
         // entity
         // file
@@ -47,14 +47,17 @@ public class SqliteIntegrationTests : SqliteTestBase
         var money = 10;
         var currencyCode = CurrencyCode.UAH;
         var countryCode2 = "UA";
+        var currencyCode3 = "USD";
         var addressItem = new StreetAddressItem
         {
             AddressLine1 = "AddressLine1",
             CountryId = CountryCode2.From("UA"),
             PostalCode = "61135"
         };
+        var languageCode = "en";
+        var area = 198_090M;
+        var persistUnitAs = AreaTypeUnit.SquareMeter;
         var macAddress = "A1B2C3D4E5F6";
-
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(text),
@@ -62,7 +65,10 @@ public class SqliteIntegrationTests : SqliteTestBase
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
+            AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = persistUnitAs }),
             StreetAddressTestField = StreetAddress.From(addressItem),
+            CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
+            LanguageCodeTestField = LanguageCode.From(languageCode),
             MacAddressTestField = MacAddress.From(macAddress),
         };
         DbContext.TestEntityForTypes.Add(newItem);
@@ -81,9 +87,12 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
+        testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
+        testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
+        testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
+		testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
     }
-
     [Fact]
     public void GeneratedRelationship_Sqlite_ZeroOrMany_OneOrMany()
     {

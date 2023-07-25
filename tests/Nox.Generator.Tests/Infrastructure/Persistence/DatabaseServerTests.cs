@@ -20,9 +20,11 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
     public void Can_generate_database_server_files()
     {
         var path = "files/yaml/infrastructure/";
-        var additionalFiles = new List<AdditionalSourceText>();
-        additionalFiles.Add(new AdditionalSourceText(File.ReadAllText($"./{path}generator.nox.yaml"), $"{path}/generator.nox.yaml"));
-        additionalFiles.Add(new AdditionalSourceText(File.ReadAllText($"./{path}database-server.solution.nox.yaml"), $"{path}/database-server.solution.nox.yaml"));
+        var additionalFiles = new List<AdditionalSourceText>
+        {
+            new AdditionalSourceText(File.ReadAllText($"./{path}generator.nox.yaml"), $"{path}/generator.nox.yaml"),
+            new AdditionalSourceText(File.ReadAllText($"./{path}database-server.solution.nox.yaml"), $"{path}/database-server.solution.nox.yaml")
+        };
 
         // trackIncrementalGeneratorSteps allows to report info about each step of the generator
         GeneratorDriver driver = CSharpGeneratorDriver.Create(
