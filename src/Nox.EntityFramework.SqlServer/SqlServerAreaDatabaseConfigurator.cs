@@ -9,8 +9,8 @@ public class SqlServerAreaDatabaseConfigurator : AreaDatabaseConfigurator, ISqlS
 
     public override string? GetColumnType(AreaTypeOptions typeOptions)
     {
-        var maxNumberOfDigits = Math.Round(typeOptions.MaxValue, Area.QuantityValueDecimalPrecision).ToString().Length;
+        var maxNumberOfIntegerDigits = Math.Round(typeOptions.MaxValue, Area.QuantityValueDecimalPrecision).ToString().Length;
 
-        return $"DECIMAL({maxNumberOfDigits},{Area.QuantityValueDecimalPrecision})";
+        return $"DECIMAL({maxNumberOfIntegerDigits + Area.QuantityValueDecimalPrecision}, {Area.QuantityValueDecimalPrecision})";
     }
 }
