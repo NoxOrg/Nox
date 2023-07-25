@@ -18,7 +18,7 @@ public class JsonTest
     public void Json_Constructor_ValidJson_ReturnObject(string jsonString)
     {
         // Act
-        var jsonObject = Json.From(jsonString, new JsonTypeOptions { ReturnPretty = false });
+        var jsonObject = Json.From(jsonString, new JsonTypeOptions { });
 
         var jsonExpectedString = JsonSerializer.Serialize(JsonSerializer.Deserialize<object>(jsonString));
 
@@ -57,11 +57,11 @@ public class JsonTest
     public void Json_Value_Equivalence_Tests(string jsonString1, string jsonString2)
     {
         // Arrange & Act
-        var json1 = Json.From(jsonString1, new JsonTypeOptions { IgnoreArrayOrder =true });
-        var json2 = Json.From(jsonString2, new JsonTypeOptions { IgnoreArrayOrder = true });
+        var json1 = Json.From(jsonString1);
+        var json2 = Json.From(jsonString2);
 
         // Assert
-        json1.Should().BeEquivalentTo(json2);
+        json1.Equals(json2, true).Should().BeTrue();
     }
 
     [Theory]
@@ -71,11 +71,12 @@ public class JsonTest
     public void Json_PreserveArrayOrder_NotEquivalence_Tests(string jsonString1, string jsonString2)
     {
         // Arrange & Act
-        var json1 = Json.From(jsonString1, new JsonTypeOptions { IgnoreArrayOrder = false });
-        var json2 = Json.From(jsonString2, new JsonTypeOptions { IgnoreArrayOrder = false });
+        var json1 = Json.From(jsonString1);
+        var json2 = Json.From(jsonString2);
 
         // Assert
-        json1.Should().NotBeEquivalentTo(json2);
+        json1.Equals(json2, true).Should().BeTrue();
+        json1.Equals(json2, false).Should().BeFalse();
     }
 
     [Theory]
@@ -88,18 +89,21 @@ public class JsonTest
         var json2 = Json.From(jsonString2);
 
         // Assert
-        json1.Should().NotBeEquivalentTo(json2);
+        json1.Equals(json2, true).Should().BeFalse();
+        json1.Equals(json2, false).Should().BeFalse();
     }
 
     [Fact]
     public void Json_ToString_ReturnsString()
     {
         // Arrange & Act
-        var json = Json.From("{\"name\":\"Merlin\", \"title\": \"Wizard\"}", 
-            new JsonTypeOptions { PersistMinified = true, ReturnPretty = false });
+        var json = Json.From("{\"name\":\"Merlin\", \"title\": \"Wizard\"}",
+            new JsonTypeOptions { PersistMinified = true});
 
         // Assert
         json.ToString().Should().BeEquivalentTo("{\"name\":\"Merlin\",\"title\":\"Wizard\"}");
+        json.ToString("m").Should().BeEquivalentTo("{\"name\":\"Merlin\",\"title\":\"Wizard\"}");
+        json.ToString("p").Should().BeEquivalentTo("{\r\n  \"name\": \"Merlin\",\r\n  \"title\": \"Wizard\"\r\n}");
     }
 
     [Fact]
@@ -126,7 +130,7 @@ public class JsonTest
 
         // this method should be overrided in Json if options are ommitted, so it too can ApplyOptions - A.Sharpe
         // Alternatively just call ApplyOptions from Validate
-        var json1 = Json.From(jsonString); 
+        var json1 = Json.From(jsonString);
 
         var json2 = Json.From(jsonString, new JsonTypeOptions());
 
