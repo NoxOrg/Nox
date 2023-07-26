@@ -1,14 +1,14 @@
-using FluentAssertions;
+﻿using FluentAssertions;
 using Nox.Types;
 using TestWebApp.Domain;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
 
-public class SqlServerIntegrationTests : SqlServerTestBase
+public class PostgresIntegrationTests : PostgresTestBase
 {
     // TODO: uncomment when automated and included into pipeline
     //[Fact]
-    public void GeneratedEntity_Sqlite_CanSaveAndReadFields_AllTypes()
+    public void GeneratedEntity_SqlServer_CanSaveAndReadFields_AllTypes()
     {
         var text = "TestTextValue";
         var number = 123;
