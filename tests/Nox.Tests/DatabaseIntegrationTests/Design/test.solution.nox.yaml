@@ -326,3 +326,6 @@ domain:
 
         - name: LanguageCodeTestField
           type: languageCode
+
+        - name: DateTestField
+          type: date

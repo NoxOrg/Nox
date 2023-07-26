@@ -17,6 +17,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var currencyCode3 = "USD";
         var countryCode2 = "UA";
         var languageCode = "en";
+        var date = new DateOnly(2023, 7, 14);
         var area = 198_090M;
         var persistUnitAs = AreaTypeUnit.SquareMeter;
         var addressItem = new StreetAddressItem
@@ -37,6 +38,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             StreetAddressTestField = StreetAddress.From(addressItem),
             CountryCode2TestField = CountryCode2.From(countryCode2),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
+            DateTestField = Date.From(date),
             LanguageCodeTestField = LanguageCode.From(languageCode),
             CultureCodeTestField = CultureCode.From(cultureCode),
         };
@@ -56,6 +58,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
+        testEntity.DateTestField!.Value.Should().Be(date);
         testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);

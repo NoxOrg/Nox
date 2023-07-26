@@ -30,7 +30,6 @@ public class SqliteIntegrationTests : SqliteTestBase
         // yaml
         // uri
         // url
-        // date
         // dateTimeDuration
         // dateTimeSchedule
         // html
@@ -54,7 +53,8 @@ public class SqliteIntegrationTests : SqliteTestBase
             CountryId = CountryCode2.From("UA"),
             PostalCode = "61135"
         };
-        var languageCode = "en";        
+        var date = new DateOnly(2023, 7, 14);
+        var languageCode = "en";
         var area = 198_090M;
         var persistUnitAs = AreaTypeUnit.SquareMeter;
         var cultureCode = "de-CH";
@@ -70,6 +70,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = persistUnitAs }),
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
+            DateTestField = Date.From(date),
             LanguageCodeTestField = LanguageCode.From(languageCode),
             CultureCodeTestField = CultureCode.From(cultureCode),
         };
@@ -92,7 +93,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
         testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
-		testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
+        testEntity.DateTestField!.Value.Should().Be(date);
+        testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
     }
     [Fact]
