@@ -19,6 +19,26 @@ public class MonthTests
             e.ErrorMessage.Contains($"Could not create a Nox Month type with unsupported value '{value}'. The value must be between 1 and 12.")
         );
     }
+    
+    
+    [Theory]
+    [InlineData(0)]
+    [InlineData(13)]
+    [InlineData(255)]
+    [InlineData(256)]
+    [InlineData(-1)]
+    [InlineData(-255)]
+    [InlineData(-256)]
+    public void Validate_InvalidIntValue_ReturnsValidationFailure(int value)
+    {
+        // Arrange & Act
+        var exception = Assert.Throws<TypeValidationException>(() => _ =  Month.From(value));
+      
+        // Assert
+        exception.Errors.Should().Contain(e =>
+            e.ErrorMessage.Contains($"Could not create a Nox Month type with unsupported value '{value}'. The value must be between 1 and 12.")
+        );
+    }
 
     [Theory]
     [InlineData(1)]
@@ -35,6 +55,8 @@ public class MonthTests
         validationResult.IsValid.Should().BeTrue();
         validationResult.Errors.Should().BeEmpty();
     }
+    
+    
 
     [Theory]
     [InlineData(1, "01")]

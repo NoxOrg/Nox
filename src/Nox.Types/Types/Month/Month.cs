@@ -1,4 +1,5 @@
 using System.Globalization;
+using System.Runtime.CompilerServices;
 
 namespace Nox.Types;
 
@@ -18,6 +19,30 @@ public class Month : ValueObject<byte, Month>
     private const byte MaxMonthValue = 12;
 
     /// <summary>
+    /// Integer value of the month.
+    /// </summary>
+    private int? _value;
+    
+    /// <summary>
+    /// Creates a new instance of the value object from a given value.
+    /// </summary>
+    /// <param name="value">The value to be used for the value object.</param>
+    /// <returns>The newly created value object instance.</returns>
+    /// <exception cref="TypeValidationException">Thrown when the validation of the value object fails.</exception>
+    public static Month From(int value)
+    {
+        var month = new Month() { Value = (byte)value, _value = value};
+        
+        var validationResult = month.Validate();
+        if(!validationResult.IsValid)
+        {
+            throw new TypeValidationException(validationResult.Errors);
+        }
+
+        return month;
+    }
+
+    /// <summary>
     /// Validates the <see cref="Month"/> object.
     /// </summary>
     /// <returns>A validation result indicating whether the <see cref="Month"/> object is valid or not.</returns>
@@ -29,6 +54,12 @@ public class Month : ValueObject<byte, Month>
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Month type with unsupported value '{Value}'. The value must be between {MinMonthValue} and {MaxMonthValue}."));
         }
+        
+        if ( _value is < MinMonthValue or > MaxMonthValue)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Month type with unsupported value '{_value}'. The value must be between {MinMonthValue} and {MaxMonthValue}."));
+        }
+       
         return result;
     }
 
