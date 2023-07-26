@@ -21,7 +21,7 @@ public class MacAddressDatabaseConfigurator : INoxTypeDatabaseConfigurator
     {
         builder
             .Property(property.Name)
-            .IsRequired(isKey || property.IsRequired)
+            .IsRequired(property.IsRequired)
             .IsUnicode(false)
             .IsFixedLength(true)
             .HasMaxLength(12)
