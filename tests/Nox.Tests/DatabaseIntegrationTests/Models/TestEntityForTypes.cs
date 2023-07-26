@@ -13,49 +13,54 @@ namespace TestWebApp.Domain;
 /// </summary>
 public partial class TestEntityForTypes : AuditableEntityBase
 {
-    
+
     /// <summary>
-    /// (Required)
+    ///  (Required).
     /// </summary>
     public Text Id { get; set; } = null!;
-    
+
     /// <summary>
-    /// (Required)
+    ///  (Required).
     /// </summary>
     public Text TextTestField { get; set; } = null!;
-    
+
     /// <summary>
-    /// (Required)
+    ///  (Required).
     /// </summary>
     public Number NumberTestField { get; set; } = null!;
-    
+
     /// <summary>
-    /// (Optional)
+    ///  (Optional).
     /// </summary>
     public Money? MoneyTestField { get; set; } = null!;
-    
+
     /// <summary>
-    /// (Optional)
+    ///  (Optional).
     /// </summary>
     public CountryCode2? CountryCode2TestField { get; set; } = null!;
-    
+
     /// <summary>
-    /// (Optional)
-    /// </summary>
-    public CurrencyCode3? CurrencyCode3TestField { get; set; } = null!;
-    
-    /// <summary>
-    /// (Optional)
+    ///  (Optional).
     /// </summary>
     public StreetAddress? StreetAddressTestField { get; set; } = null!;
-    
+
     /// <summary>
-    /// (Optional)
+    ///  (Optional).
     /// </summary>
-    public LanguageCode? LanguageCodeTestField { get; set; } = null!;
-    
+    public CurrencyCode3? CurrencyCode3TestField { get; set; } = null!;
+
     /// <summary>
     ///  (Optional).
     /// </summary>
     public Area? AreaTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public CultureCode? CultureCodeTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public LanguageCode? LanguageCodeTestField { get; set; } = null!;
 }
