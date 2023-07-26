@@ -138,7 +138,7 @@ public class Color : ValueObject<byte[], Color>
     /// Returns the string representation of the color value, formatted in RGBA format string
     /// </summary>
     /// <returns>The string representation</returns>
-    public string ToRgbaString() => $"RGBA({_systemColor.R}, {_systemColor.G}, {_systemColor.B}, {_systemColor.A})";
+    public string ToRgbaString() => $"RGBA({_systemColor.R}, {_systemColor.G}, {_systemColor.B}, {ToProportion(_systemColor.A):N2})";
 
     /// <inheritdoc/>
     public override bool Equals(object? obj)
@@ -157,6 +157,9 @@ public class Color : ValueObject<byte[], Color>
     {
         return base.GetHashCode();
     }
+
+    private static double ToProportion(byte b) => b / (double)Byte.MaxValue;
+
 
     private static Color CreateFromColor(System.Drawing.Color color)
     {

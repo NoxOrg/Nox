@@ -108,7 +108,7 @@ public class ColorTests
     {
         var beigeSystemColor = System.Drawing.Color.Beige;
         var color = Nox.Types.Color.From(beigeSystemColor);
-        color.ToString("rgba").Should().Be("RGBA(245, 245, 220, 255)");
+        color.ToString("rgba").Should().Be("RGBA(245, 245, 220, 1.00)");
     }
 
     [Fact]
