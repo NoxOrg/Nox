@@ -59,7 +59,6 @@ public class SqliteIntegrationTests : SqliteTestBase
         var cultureCode = "de-CH";
         var dateTimeDurationInHours = 30.5;
 
-
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(text),
