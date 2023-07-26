@@ -5,9 +5,9 @@ using Nox.Types.EntityFramework.Abstractions;
 
 namespace Nox.Types.EntityFramework.Types;
 
-public class TextDatabaseConfigurator : INoxTypeDatabaseConfigurator
+public class NuidDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
-    public NoxType ForNoxType => NoxType.Text;
+    public NoxType ForNoxType => NoxType.Nuid;
     public virtual bool IsDefault => true;
 
     public void ConfigureEntityProperty(
@@ -17,21 +17,18 @@ public class TextDatabaseConfigurator : INoxTypeDatabaseConfigurator
         Entity entity,
         bool isKey)
     {
-        //Todo Default values from static property in the Nox.Type
-        var textOptions = property.TextTypeOptions ?? new TextTypeOptions();
+        var nuidOptions = property.NuidTypeOptions ?? new NuidTypeOptions();
 
         builder
             .Property(property.Name)
             .IsRequired(property.IsRequired)
-            .IsUnicode(textOptions.IsUnicode)
-            .HasMaxLength((int)textOptions.MaxLength)
-            .If(textOptions.MaxLength == textOptions.MinLength, builder2 => builder2.IsFixedLength())
-            .IfNotNull(GetColumnType(textOptions), b => b.HasColumnType(GetColumnType(textOptions)))
-            .HasConversion<TextConverter>();
+            .IfNotNull(GetColumnType(nuidOptions), b => b.HasColumnType(GetColumnType(nuidOptions)))
+            .HasConversion<NuidConverter>();
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
-    public virtual string? GetColumnType(TextTypeOptions typeOptions)
+
+    public virtual string? GetColumnType(NuidTypeOptions typeOptions)
     {
         return null;
     }

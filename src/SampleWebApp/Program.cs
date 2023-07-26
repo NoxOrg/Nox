@@ -4,7 +4,6 @@ using Nox.Abstractions;
 using Nox.Solution;
 using SampleWebApp;
 using SampleWebApp.Application;
-using SampleWebApp.Presentation.Api.OData;
 using SampleWebApp.SeedData;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -20,7 +19,6 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<GetCountriesByContinentQueryBase, GetCountriesByContinentQuery>();
 builder.Services.AddScoped<UpdatePopulationStatisticsCommandHandlerBase, UpdatePopulationStatisticsCommandHandler>();
 builder.Services.AddScoped<INoxMessenger, NoxMessenger>();
-builder.Services.AddAutoMapper(typeof(Program));
 
 builder.AddSeedData();
 
@@ -38,8 +36,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
-app.UseODataRouteDebug();
 
 app.UseNox();
 

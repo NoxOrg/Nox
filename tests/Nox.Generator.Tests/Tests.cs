@@ -19,7 +19,7 @@ namespace Nox.Generator.Tests
         }
 
         //[Fact]
-         public void Test1()
+        public void Test1()
         {
             string source = @"
 namespace Foo
