@@ -1,3 +1,4 @@
+using Nox;
 using Nox.Abstractions;
 using Nox.Logging.Serilog;
 using Nox.Monitoring.ElasticApm;
@@ -43,6 +44,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
+app.UseNox();
 //Add this to use elastic Apm monitoring
 //app.UseElasticMonitoring();
 
