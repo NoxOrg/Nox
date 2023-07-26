@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\Nox.Translations\Nox.Localization.csproj" />
+    <ProjectReference Include="..\..\src\Nox.Localization\Nox.Localization.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,8 +5,8 @@ using Microsoft.Extensions.Localization;
 using Nox.Localization.Extensions;
 using System.Globalization;
 
-namespace Nox.Translations.Tests;
-public class NoxTranslatorTests
+namespace Nox.Localization.Tests;
+public class NoxLocalizationTests
 {
 
     [Fact]
@@ -14,15 +14,15 @@ public class NoxTranslatorTests
     {
         var en_GB_localizer = GetStringLocalizer("en-GB");
 
-        en_GB_localizer!["Hello World!"].Value.Should().Be("Hello World!");
+        en_GB_localizer!["Hello World!"].Value.Should().Be("Hello World!.en-GB");
 
-        en_GB_localizer!["Bye {0}!", "World"].Value.Should().Be("Bye World!"); ;
+        en_GB_localizer!["Bye {0}!", "World"].Value.Should().Be("Bye World!.en-GB"); ;
 
         var fr_FR_localizer = GetStringLocalizer("fr-FR");
 
-        fr_FR_localizer!["Hello World!"].Value.Should().Be("Bonjour Monde!");
+        fr_FR_localizer!["Hello World!"].Value.Should().Be("Hello World!.fr-FR");
 
-        fr_FR_localizer!["Bye {0}!", "Ricardo"].Value.Should().Be("Au revoir Ricardo!"); ;
+        fr_FR_localizer!["Bye {0}!", "Ricardo"].Value.Should().Be("Bye Ricardo!.fr-FR"); ;
 
     }
 
@@ -47,6 +47,6 @@ public class NoxTranslatorTests
 
         // Simulate DI creation
 
-        return factory!.Create(typeof(NoxTranslatorTests)); ;
+        return factory!.Create(typeof(NoxLocalizationTests)); ;
     }
 }

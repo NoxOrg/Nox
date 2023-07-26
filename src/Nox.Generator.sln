@@ -90,9 +90,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Types.Abstractions", "N
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Localization", "Localization", "{68D7B56B-A363-4645-8390-AF433193F63A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Translations.Tests", "..\tests\Nox.Translations.Tests\Nox.Translations.Tests.csproj", "{C64B9DB4-256D-41FC-8CE9-9F93DC02A57E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Localization.Tests", "..\tests\Nox.Localization.Tests\Nox.Localization.Tests.csproj", "{C64B9DB4-256D-41FC-8CE9-9F93DC02A57E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Localization", "Nox.Translations\Nox.Localization.csproj", "{0A521451-D7ED-4148-A3F6-3CAF9C169C32}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Localization", "Nox.Localization\Nox.Localization.csproj", "{0A521451-D7ED-4148-A3F6-3CAF9C169C32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
