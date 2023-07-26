@@ -40,15 +40,16 @@ namespace Nox.Solution.Validation
             RuleForEach(p => p.Keys)
                 .SetValidator(v => new EntityKeyValidator(v.Name, "entity keys"));
 
+            RuleForEach(p => p.Keys!.Where(x => x.Type == Types.NoxType.Nuid))
+                .SetValidator(v => new NuidKeyValidator(v));
+
             RuleForEach(p => p.Attributes)
                 .SetValidator(v => new SimpleTypeValidator($"an Attribute of entity '{v.Name}'", "entity attributes"));
 
-            var domainEvents = new List<DomainEvent>();
-            foreach (var entity in entities)
-            {
-                if (entity.Events == null) continue;
-                domainEvents.AddRange(entity.Events);
-            }
+            var domainEvents = entities
+                .Where(x => x.Events != null)
+                .SelectMany(x => x.Events!)
+                .ToList();
 
             var appEvents = new List<ApplicationEvent>();
             if (application is { Events: not null } && application.Events.Any())

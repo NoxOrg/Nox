@@ -69,4 +69,8 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// </summary>
     public TranslatedText? TranslatedTextTestField { get; set; } = null!;
 
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public CountryCode3? CountryCode3TestField { get; set; } = null!;
 }
