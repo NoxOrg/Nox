@@ -56,6 +56,7 @@ internal static class WebApplicationExtensionGenerator
         code.AppendLine("private static void AddNoxServices(this IServiceCollection services)");
         code.StartBlock();
         code.AppendLine("services.AddNoxLib();");
+        code.AppendLine("services.AddAutoMapper(Assembly.GetExecutingAssembly());");
         code.AppendLine("services.AddNoxTypesDatabaseConfigurator(Assembly.GetExecutingAssembly());");
 		if (generatePresentation)
             code.AppendLine("services.AddNoxOdata();");

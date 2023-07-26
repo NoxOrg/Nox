@@ -63,7 +63,7 @@ public partial class CurrenciesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var entity = _mapper.Map<Currency>(currency);
+        var entity = _mapper.Map<OCurrency>(currency);
         
         entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
         
@@ -74,7 +74,7 @@ public partial class CurrenciesController : ODataController
         return Created(entity);
     }
     
-    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] Currency updatedCurrency)
+    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OCurrency updatedCurrency)
     {
         if (!ModelState.IsValid)
         {
@@ -107,7 +107,7 @@ public partial class CurrenciesController : ODataController
         return Updated(updatedCurrency);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string currency, [FromBody] Delta<Currency> Id)
+    public async Task<ActionResult> Patch([FromRoute] string currency, [FromBody] Delta<OCurrency> Id)
     {
         if (!ModelState.IsValid)
         {

@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.OData;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Monitoring;
 using Nox.Solution;
@@ -11,5 +12,10 @@ public static class MiddlewareExtension
     {
         NoxSolution noxSolution = builder.ApplicationServices.GetRequiredService<NoxSolution>();
         builder.UseMonitoring(noxSolution);
+
+#if DEBUG
+        builder.UseODataRouteDebug();
+#endif
+
     }
 }
