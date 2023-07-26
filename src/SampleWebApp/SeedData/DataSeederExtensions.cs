@@ -1,6 +1,4 @@
-﻿using Nox;
-
-namespace SampleWebApp.SeedData;
+﻿namespace SampleWebApp.SeedData;
 
 public static class DataSeederExtensions
 {

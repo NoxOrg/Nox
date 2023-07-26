@@ -21,7 +21,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\Nox.Diagnostics\Nox.Diagnostics.csproj" />
       <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
     </ItemGroup>
 
