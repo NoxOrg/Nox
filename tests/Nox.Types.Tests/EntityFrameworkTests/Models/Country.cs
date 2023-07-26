@@ -232,4 +232,9 @@ public sealed class Country
     /// Gets or sets the currency number.
     /// </summary>
     public CurrencyNumber CurrencyNumber { get; set; } = null!;
+    
+    /// <summary>
+    /// Gets or sets the color.
+    /// </summary>
+    public Color Color { get; set; } = null!;
 }
