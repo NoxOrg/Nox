@@ -266,8 +266,8 @@ domain:
         #- name: BooleanTestField
         #  type: boolean
 
-        #- name: CountryCode3TestField
-        #  type: countryCode3
+        - name: CountryCode3TestField
+          type: countryCode3
 
         #- name: CountryNumberTestField
         #  type: countryNumber
