@@ -51,6 +51,9 @@ internal static class NoxWebApplicationExtensionGenerator
         code.AppendLine("public static WebApplicationBuilder AddNox(this WebApplicationBuilder appBuilder)");
         code.StartBlock();
         code.AppendLine($"appBuilder.Services.AddNoxLib();");
+        code.AppendLine("appBuilder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());");
+        code.AppendLine("appBuilder.Services.AddNoxTypesDatabaseConfigurator(Assembly.GetExecutingAssembly());");
+        code.AppendLine("appBuilder.Services.AddNoxOdata();");
         var dbContextName = $"{solution.Name}DbContext";
                 
         code.AppendLine($"appBuilder.Services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));");
@@ -60,6 +63,8 @@ internal static class NoxWebApplicationExtensionGenerator
         code.AppendLine($"appBuilder.Services.AddDbContext<{dbContextName}>();");
         if(generatePresentation)
             code.AppendLine($"appBuilder.Services.AddDbContext<ODataDbContext>();");
+        code.AppendLine("var tmpProvider = appBuilder.Services.BuildServiceProvider();");
+        code.AppendLine("var dbContext = tmpProvider.GetRequiredService<SampleWebAppDbContext>();");
         code.AppendLine("return appBuilder;");
         code.EndBlock();
         code.AppendLine();
