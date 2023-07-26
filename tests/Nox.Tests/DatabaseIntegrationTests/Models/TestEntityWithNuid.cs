@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -6,12 +6,12 @@ using Nox.Types;
 using System;
 using System.Collections.Generic;
 
-namespace SampleWebApp.Domain;
+namespace TestWebApp.Domain;
 
 /// <summary>
-/// The list of countries.
+/// Entity created for testing nuid.
 /// </summary>
-public partial class Country : AuditableEntityBase
+public partial class TestEntityWithNuid : AuditableEntityBase
 {
 
     /// <summary>
@@ -23,11 +23,11 @@ public partial class Country : AuditableEntityBase
     	{
     		if(Id is null)
     		{
-    			Id = Nuid.From("Country." + string.Join(".", Name.Value.ToString(),FormalName.Value.ToString()));
+    			Id = Nuid.From("TestEntityWithNuid." + string.Join(".", Name.Value.ToString()));
     		}
     		else
     		{
-    			var currentNuid = Nuid.From("Country." + string.Join(".", Name.Value.ToString(),FormalName.Value.ToString()));
+    			var currentNuid = Nuid.From("TestEntityWithNuid." + string.Join(".", Name.Value.ToString()));
     			if(Id != currentNuid)
     			{
     				throw new NoxNuidTypeException("Immutable nuid property Id value is different since it has been initialized");
@@ -36,12 +36,7 @@ public partial class Country : AuditableEntityBase
     	}
 
     /// <summary>
-    /// The country's common name (Required).
+    ///  (Required).
     /// </summary>
     public Text Name { get; set; } = null!;
-
-    /// <summary>
-    /// The country's official name (Required).
-    /// </summary>
-    public Text FormalName { get; set; } = null!;
 }

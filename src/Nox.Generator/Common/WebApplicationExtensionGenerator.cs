@@ -14,7 +14,7 @@ internal static class WebApplicationExtensionGenerator
 
         var usings = new List<string>();
         var dbProvider = "";
-        
+
         if (solution.Infrastructure?.Persistence is { DatabaseServer: not null })
         {
             var dbServer = solution.Infrastructure.Persistence.DatabaseServer;
@@ -24,20 +24,21 @@ internal static class WebApplicationExtensionGenerator
                     usings.Add("using Nox.EntityFramework.SqlServer;");
                     dbProvider = "SqlServerDatabaseProvider";
                     break;
+
                 case DatabaseServerProvider.Postgres:
                     usings.Add("using Nox.EntityFramework.Postgres;");
                     dbProvider = "PostgresDatabaseProvider";
                     break;
             }
         }
-        
+
         code.AppendLine("using Microsoft.EntityFrameworkCore;");
         code.AppendLine("using System.Reflection;");
         code.AppendLine("using Nox;");
         code.AppendLines(usings.ToArray());
         code.AppendLine("using Nox.Types.EntityFramework.Abstractions;");
         code.AppendLine($"using {solution.Name}.Infrastructure.Persistence;");
-        if(generatePresentation)
+        if (generatePresentation)
             code.AppendLine($"using {solution.Name}.Presentation.Api.OData;");
         code.AppendLine();
         code.AppendLine($"namespace {solution.Name};");
@@ -51,7 +52,7 @@ internal static class WebApplicationExtensionGenerator
         code.AppendLine("return appBuilder.AddNoxApp();");
         code.EndBlock();
         code.AppendLine();
-        
+
         code.AppendLine("private static void AddNoxServices(this IServiceCollection services)");
         code.StartBlock();
         code.AppendLine("services.AddNoxLib();");
@@ -68,7 +69,7 @@ internal static class WebApplicationExtensionGenerator
             code.AppendLine($"services.AddSingleton<INoxDatabaseConfigurator, {dbProvider}>();");
             code.AppendLine($"services.AddSingleton<INoxDatabaseProvider, {dbProvider}>();");
             code.AppendLine($"services.AddDbContext<{dbContextName}>();");
-            if(generatePresentation)
+            if (generatePresentation)
                 code.AppendLine($"services.AddDbContext<ODataDbContext>();");
             code.AppendLine("var tmpProvider = services.BuildServiceProvider();");
             code.AppendLine($"var dbContext = tmpProvider.GetRequiredService<{dbContextName}>();");
@@ -77,6 +78,5 @@ internal static class WebApplicationExtensionGenerator
         code.EndBlock();
 
         code.GenerateSourceCode();
-
     }
 }
