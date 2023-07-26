@@ -20,7 +20,7 @@ public class DateTimeDurationDatabaseConfigurator : INoxTypeDatabaseConfigurator
     {
         builder
             .Property(property.Name)
-            .IsRequired(isKey || property.IsRequired)
+            .IsRequired(property.IsRequired)
             .HasConversion<DateTimeDurationConverter>();
     }
 
