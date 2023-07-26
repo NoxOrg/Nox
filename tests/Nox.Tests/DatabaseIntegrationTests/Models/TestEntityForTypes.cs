@@ -57,15 +57,15 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public CountryCode3? CountryCode3TestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public CultureCode? CultureCodeTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
     public LanguageCode? LanguageCodeTestField { get; set; } = null!;
-
-    /// <summary>
-    ///  (Optional).
-    /// </summary>
-    public CountryCode3? CountryCode3TestField { get; set; } = null!;
 }

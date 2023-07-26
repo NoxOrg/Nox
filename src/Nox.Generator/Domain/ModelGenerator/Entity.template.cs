@@ -75,6 +75,7 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     {{-end}}
 {{- end }}
 {{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}
+
     /// <summary>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
@@ -85,7 +86,6 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     public List<{{relationship.Entity}}> {{relationship.Name}} => {{relationship.EntityPlural}};
     {{- end}}
     {{- else}}
-
     public virtual {{relationship.Entity}} {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.EntityPlural}} { get; set; } = null!;
     {{-end}}
 {{- end }}

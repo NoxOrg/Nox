@@ -144,6 +144,31 @@ public class OStore : SampleWebApp.Domain.AuditableEntityBase
     /// Physical Money in the Physical Store.
     /// </summary>
     public String PhysicalMoney_CurrencyCode { get; set; } = default!;
+    
+    /// <summary>
+    /// Set of passwords for this store.
+    /// </summary>
+    public StoreSecurityPasswords PasswordsRel { get; set; } = null!;
+}
+
+/// <summary>
+/// A set of security passwords to store cameras and databases.
+/// </summary>
+[AutoMap(typeof(StoreSecurityPasswordsDto))]
+public class OStoreSecurityPasswords : SampleWebApp.Domain.AuditableEntityBase
+{
+    
+    /// <summary>
+    /// Passwords Primary Key.
+    /// </summary>
+    public String Id { get; set; } = default!;
+    public String Name { get; set; } = default!;
+    public String SecurityCamerasPassword { get; set; } = default!;
+    
+    /// <summary>
+    /// Store with this set of passwords.
+    /// </summary>
+    public Store StoreRel { get; set; } = null!;
 }
 
 /// <summary>
@@ -264,6 +289,15 @@ public class StoreDto
     /// Physical Money in the Physical Store.
     /// </summary>
     public String PhysicalMoney_CurrencyCode { get; set; } = default!;
+}
+
+/// <summary>
+/// A set of security passwords to store cameras and databases.
+/// </summary>
+public class StoreSecurityPasswordsDto
+{
+    public String Name { get; set; } = default!;
+    public String SecurityCamerasPassword { get; set; } = default!;
 }
 
 /// <summary>

@@ -102,7 +102,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
     //[Fact]
     public void GeneratedRelationship_SqlServer_ZeroOrMany_OneOrMany()
     {
-        var text = "TestTextValue";
+        var text = "TX";
 
         var newItem = new TestEntity()
         {
@@ -135,7 +135,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
     //[Fact]
     public void GeneratedRelationship_SqlServer_OneOrMany_OneOrMany()
     {
-        var text = "TestTextValue";
+        var text = "TX";
 
         var newItem = new TestEntityOneOrMany()
         {
@@ -168,16 +168,13 @@ public class SqlServerIntegrationTests : SqlServerTestBase
     //[Fact]
     public void GeneratedRelationship_SqlServer_ExactlyOne_ExactlyOne()
     {
-        var text = "TestTextValue";
+        var text = "TX";
 
         var newItem = new TestEntityExactlyOne()
         {
             Id = Text.From(text),
             TextTestField = Text.From(text),
         };
-        DbContext.TestEntityExactlyOnes.Add(newItem);
-        DbContext.SaveChanges();
-
         var newItem2 = new SecondTestEntityExactlyOne()
         {
             Id = Text.From(text),
@@ -185,6 +182,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         };
 
         newItem.SecondTestEntityExactlyOne = newItem2;
+        DbContext.TestEntityExactlyOnes.Add(newItem);
         DbContext.SecondTestEntityExactlyOnes.Add(newItem2);
         DbContext.SaveChanges();
 

@@ -34,15 +34,15 @@ public class NoxSolution : Solution
             {
                 Relationship = relationship,
                 RelationshipEntityType = getTypeByNameFunc(relationship.Entity)!,
-                // TODO: is this still needed?
                 ShouldBeMapped = true
             };
 
             var pairRelationship = relationship.Related.EntityRelationship;
             if (pairRelationship != null)
             {
-                // If ZeroOrMany vs OneOrMany handle on oneOrMany side
-                if (pairRelationship.Relationship == EntityRelationshipType.OneOrMany &&
+                // ManyToMany does not need to be handled as it doesn't have special logic
+                // Will be always ignored by default
+                if (relationship.Relationship == EntityRelationshipType.OneOrMany ||
                     relationship.Relationship == EntityRelationshipType.ZeroOrMany)
                 {
                     isIgnored = true;

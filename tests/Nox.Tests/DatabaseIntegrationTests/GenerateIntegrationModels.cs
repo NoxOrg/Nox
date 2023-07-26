@@ -40,23 +40,15 @@ namespace Nox.Tests.DatabaseIntegrationTests
                 "TestEntityOneOrMany",
                 "SecondTestEntityOneOrMany",
                 "TestEntityForTypes",
-                "TestEntityWithNuid"
+                "TestEntityWithNuid",
+                "TestEntityExactlyOne",
+                "SecondTestEntityExactlyOne"
             };
 
             foreach (var className in classNames)
             {
                 CreateClass(result, className);
             }
-
-            filePath = "TestEntityExactlyOne";
-            singleResult = result.GeneratedSources.First(x => x.HintName.Contains(filePath));
-            fileContent = singleResult.SourceText.ToString();
-            File.WriteAllText($"{basePath}{filePath}.cs", fileContent);
-
-            filePath = "SecondTestEntityExactlyOne";
-            singleResult = result.GeneratedSources.First(x => x.HintName.Contains(filePath));
-            fileContent = singleResult.SourceText.ToString();
-            File.WriteAllText($"{basePath}{filePath}.cs", fileContent);
 
             Assert.True(true);
         }

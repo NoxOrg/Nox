@@ -175,9 +175,6 @@ public class SqliteIntegrationTests : SqliteTestBase
             Id = Text.From(text),
             TextTestField = Text.From(text),
         };
-        DbContext.TestEntityExactlyOnes.Add(newItem);
-        DbContext.SaveChanges();
-
         var newItem2 = new SecondTestEntityExactlyOne()
         {
             Id = Text.From(text),
@@ -185,6 +182,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         };
 
         newItem.SecondTestEntityExactlyOne = newItem2;
+        DbContext.TestEntityExactlyOnes.Add(newItem);
         DbContext.SecondTestEntityExactlyOnes.Add(newItem2);
         DbContext.SaveChanges();
 
