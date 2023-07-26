@@ -14,18 +14,14 @@ public static class ColorHelper
         {
             return new Color();
         }
+        
+        var knownColor = System.Drawing.Color.FromName(text);
 
+        if (knownColor.IsKnownColor)
         {
-            System.Drawing.Color color;
-
-            if (KnownColor.TryGetNamedColor(text, out color))
-            {
-                var c = System.Drawing.Color.FromArgb(color.A, color.R, color.G, color.B);
-
-                return Color.From(c.A, c.R, c.G, c.B);
-            }
+            return Color.From(knownColor);
         }
-
+        
         char listSeparator = culture.TextInfo.ListSeparator[0];
 
         if (!text.Contains(listSeparator))
@@ -68,12 +64,12 @@ public static class ColorHelper
 
     private static Color PossibleKnownColor(System.Drawing.Color color)
     {
-        if (KnownColor.Colors.Values.Any(knc => knc.ToArgb() == color.ToArgb()))
+        if (color.IsKnownColor)
         {
-            return Color.From(color.A, color.R, color.G, color.B);
+            return Color.From(color);
         }
 
-        return Color.From(color.A, color.R, color.G, color.B);
+        return new Nox.Types.Color();
     }
 
     private static int IntFromString(string text, CultureInfo culture)
