@@ -1,5 +1,6 @@
 using FluentAssertions;
 using System.Text.Json;
+using System.Security.Cryptography;
 
 using System;
 using Nox.TypeOptions;
@@ -53,6 +54,13 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         double latitude = 46.802496;
         double longitude = 8.234392;
         var streetAddress = CreateStreetAddress();
+        using var aesAlg = Aes.Create();
+        var encryptTypeOptions = new EncryptedTextTypeOptions
+        {
+            EncryptionAlgorithm = EncryptionAlgorithm.Aes,
+            PublicKey = Convert.ToBase64String(aesAlg.Key),
+            Iv = Convert.ToBase64String(aesAlg.IV)
+        };
 
         var newItem = new Country()
         {
@@ -95,6 +103,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             EmailUser = User.From("user@iwgplc.ch"),
             StringUser = User.From("stringUser", new UserTypeOptions { ValidEmailFormat=false, ValidGuidFormat= false}),
             InfoEmail = Email.From("info@iwgplc.ch"),
+            SecretPassword = EncryptedText.FromPlainText("12345678", encryptTypeOptions),
             DatabaseId = DatabaseNumber.FromDatabase(10U),
             Password = Password.From("Test123."),
             CurrencyNumber = CurrencyNumber.From(999),
@@ -116,6 +125,14 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
     {
         var streetAddress = CreateStreetAddress();
         var guidUserId = Guid.NewGuid().ToString();
+        using var aesAlg = Aes.Create();
+        var encryptTypeOptions = new EncryptedTextTypeOptions
+        {
+            EncryptionAlgorithm = EncryptionAlgorithm.Aes,
+            PublicKey = Convert.ToBase64String(aesAlg.Key),
+            Iv = Convert.ToBase64String(aesAlg.IV)
+        };
+
         var newItem = new Country()
         {
             Name = Text.From("Switzerland"),
@@ -159,6 +176,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             EmailUser = User.From("user@iwgplc.ch"),
             StringUser = User.From("stringUser", new UserTypeOptions { ValidEmailFormat = false, ValidGuidFormat= false}),
             InfoEmail = Email.From("info@iwgplc.ch"),
+            SecretPassword = EncryptedText.FromPlainText("12345678", encryptTypeOptions),
             DatabaseId = DatabaseNumber.FromDatabase(10U),
             Password = Password.From("Test123."),
             CurrencyNumber = CurrencyNumber.From(840)
@@ -233,6 +251,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.EmailUser.Value.Should().Be("user@iwgplc.ch");
         item.StringUser.Value.Should().Be("stringUser");
         item.InfoEmail.Value.Should().Be("info@iwgplc.ch");
+        item.SecretPassword.DecryptText(encryptTypeOptions).Should().Be("12345678");
         item.DatabaseId.Value.Should().Be(10U);
         item.CurrencyNumber.Value.Should().Be(840);
     }
