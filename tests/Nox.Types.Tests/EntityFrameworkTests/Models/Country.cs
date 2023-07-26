@@ -1,6 +1,10 @@
 namespace Nox.Types.Tests.EntityFrameworkTests;
 
-public class CountryId : ValueObject<int, CountryId> { }
+public class CountryId : ValueObject<int, CountryId>
+{ }
+/// <summary>
+/// The country.
+/// </summary>
 
 public sealed class Country
 {
@@ -8,10 +12,32 @@ public sealed class Country
     /// Gets or sets the identifier.
     /// </summary>
     public CountryId Id { get; set; } = null!;
+
     /// <summary>
     /// Gets or sets the name.
     /// </summary>
     public Text Name { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the info email.
+    /// </summary>
+    public Email InfoEmail { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the guid user.
+    /// </summary>
+    public User GuidUser { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the email user.
+    /// </summary>
+    public User EmailUser { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the string user.
+    /// </summary>
+    public User StringUser { get; set; } = null!;
+
     /// <summary>
     /// Gets or sets the population.
     /// </summary>
@@ -51,7 +77,6 @@ public sealed class Country
     /// Gets or sets the month when the most tourists come to the country.
     /// </summary>
     public Month MonthOfPeakTourism { get; set; } = null!;
-
 
     /// <summary>
     /// Gets or sets the distance in kilometers.
@@ -93,8 +118,14 @@ public sealed class Country
     /// </summary>
     public MacAddress MACAddress { get; set; } = null!;
 
+    /// <summary>
+    /// Gets or sets the uri.
+    /// </summary>
     public Uri Uri { get; set; } = null!;
 
+    /// <summary>
+    /// Gets or sets the url.
+    /// </summary>
     public Url Url { get; set; } = null!;
 
     /// <summary>
@@ -107,6 +138,7 @@ public sealed class Country
     /// </summary>
     public Json StreetAddressJson { get; set; } = null!;
 
+    /// <summary>
     /// Gets or sets the Local Time Zone.
     /// </summary>
     public TimeZoneCode LocalTimeZone { get; set; } = null!;
@@ -120,4 +152,84 @@ public sealed class Country
     /// Gets or sets the duration of the date time.
     /// </summary>
     public DateTimeDuration DateTimeDuration { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the volume in cubic meters.
+    /// </summary>
+    public Volume VolumeInCubicMeters { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the weight in kilograms.
+    /// </summary>
+    public Weight WeightInKilograms { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the Nuid.
+    /// </summary>
+    public Nuid Nuid { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets hashed value
+    /// </summary>
+    public HashedText HashedText { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or Sets db record create date
+    /// </summary>
+    public DateTime? CreateDate { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the name in Arabic Locale.
+    /// </summary>
+    public TranslatedText ArabicName { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the current time.
+    /// </summary>
+    public Time CurrentTime { get; set; } = null!;
+
+
+    /// Gets or sets the AverageTemperature.
+    /// </summary>
+    public Temperature? AverageTemperatureInCelsius { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the Flag.
+    /// </summary>
+    public Image Flag { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the country's webpage.
+    /// </summary>
+    public Html PageHtml { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the CitiesCounties.
+    /// </summary>
+    public Yaml CitiesCounties { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the file.
+    /// </summary>
+    public File File { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the phone number.
+    /// </summary>
+    public PhoneNumber PhoneNumber { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the MainId property.
+    /// </summary>
+    public DatabaseNumber DatabaseId { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets password
+    /// </summary>
+    public Password Password { get; set; } = null!;
+    
+    /// <summary>
+    /// Gets or sets the currency number.
+    /// </summary>
+    public CurrencyNumber CurrencyNumber { get; set; } = null!;
 }

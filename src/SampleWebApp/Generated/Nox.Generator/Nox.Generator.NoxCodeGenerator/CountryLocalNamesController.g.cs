@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
+using AutoMapper;
 using SampleWebApp.Application;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
@@ -23,11 +24,18 @@ public partial class CountryLocalNamesController : ODataController
     /// </summary>
     protected readonly ODataDbContext _databaseContext;
     
+    /// <summary>
+    /// The Automapper.
+    /// </summary>
+    protected readonly IMapper _mapper;
+    
     public CountryLocalNamesController(
-        ODataDbContext databaseContext
+        ODataDbContext databaseContext,
+        IMapper mapper
     )
     {
         _databaseContext = databaseContext;
+        _mapper = mapper;
     }
     
     [EnableQuery]
@@ -36,8 +44,7 @@ public partial class CountryLocalNamesController : ODataController
         return Ok(_databaseContext.CountryLocalNames);
     }
     
-    [EnableQuery]
-    public ActionResult<CountryLocalNames> Get([FromRoute] string key)
+    public ActionResult<CountryLocalNames> Get([FromRoute] String key)
     {
         var item = _databaseContext.CountryLocalNames.SingleOrDefault(d => d.Id.Equals(key));
         
@@ -49,18 +56,22 @@ public partial class CountryLocalNamesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post(CountryLocalNames countrylocalnames)
+    public async Task<ActionResult> Post(CountryLocalNamesDto countrylocalnames)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        _databaseContext.CountryLocalNames.Add(countrylocalnames);
+        var entity = _mapper.Map<CountryLocalNames>(countrylocalnames);
+        
+        entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
+        
+        _databaseContext.CountryLocalNames.Add(entity);
         
         await _databaseContext.SaveChangesAsync();
         
-        return Created(countrylocalnames);
+        return Created(entity);
     }
     
     public async Task<ActionResult> Put([FromRoute] string key, [FromBody] CountryLocalNames updatedCountryLocalNames)
@@ -96,21 +107,21 @@ public partial class CountryLocalNamesController : ODataController
         return Updated(updatedCountryLocalNames);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string key, [FromBody] Delta<CountryLocalNames> countrylocalnames)
+    public async Task<ActionResult> Patch([FromRoute] string countrylocalnames, [FromBody] Delta<CountryLocalNames> Id)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = await _databaseContext.CountryLocalNames.FindAsync(key);
+        var entity = await _databaseContext.CountryLocalNames.FindAsync(countrylocalnames);
         
         if (entity == null)
         {
             return NotFound();
         }
         
-        countrylocalnames.Patch(entity);
+        Id.Patch(entity);
         
         try
         {
@@ -118,7 +129,7 @@ public partial class CountryLocalNamesController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!CountryLocalNamesExists(key))
+            if (!CountryLocalNamesExists(countrylocalnames))
             {
                 return NotFound();
             }
@@ -131,14 +142,14 @@ public partial class CountryLocalNamesController : ODataController
         return Updated(entity);
     }
     
-    private bool CountryLocalNamesExists(string key)
+    private bool CountryLocalNamesExists(string countrylocalnames)
     {
-        return _databaseContext.CountryLocalNames.Any(p => p.Id == key);
+        return _databaseContext.CountryLocalNames.Any(p => p.Id == countrylocalnames);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] string key)
+    public async Task<ActionResult> Delete([FromRoute] string Id)
     {
-        var countrylocalnames = await _databaseContext.CountryLocalNames.FindAsync(key);
+        var countrylocalnames = await _databaseContext.CountryLocalNames.FindAsync(Id);
         if (countrylocalnames == null)
         {
             return NotFound();

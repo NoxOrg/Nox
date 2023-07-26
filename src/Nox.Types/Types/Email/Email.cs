@@ -1,7 +1,6 @@
 ﻿
 using System;
 using System.Collections.Generic;
-using System.Net.Mail;
 using System.Text.RegularExpressions;
 
 namespace Nox.Types;
@@ -11,7 +10,7 @@ namespace Nox.Types;
 /// </summary>
 public sealed class Email : ValueObject<string, Email>
 {
-    private static readonly Regex _emailRegex = new(@"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$", RegexOptions.Compiled, new TimeSpan(0, 0, 1));
+    internal static readonly Regex EmailRegex = new(@"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$", RegexOptions.Compiled, new TimeSpan(0, 0, 1));
 
     private static readonly Regex _nameAndEmailRegex = new(@"^(.+)\s+<(.+)>$", RegexOptions.Compiled, new TimeSpan(0, 0, 1));
 
@@ -59,7 +58,7 @@ public sealed class Email : ValueObject<string, Email>
     {
         var result = base.Validate();
 
-        if (!_emailRegex.IsMatch(Value))
+        if (!EmailRegex.IsMatch(Value))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Email type with invalid value '{Value}'."));
         }

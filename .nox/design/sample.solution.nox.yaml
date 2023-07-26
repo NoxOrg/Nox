@@ -9,12 +9,12 @@ name: SampleWebApp
 description: Sample Nox solution yaml configuration
 
 variables:
-  DATABASE_PROVIDER: slqServer
-  DATABASE_SERVER: ${{ secrets.database_server }}
-  DATABASE_USER: sa
-  DATABASE_PASSWORD: ${{ secrets.database_password }}
-  DATABASE_PORT: "5432"
-
+   DATABASE_PROVIDER: slqServer   
+   DATABASE_SERVER: localhost
+   DATABASE_USER: sa
+   DATABASE_PASSWORD: Developer*123
+   DATABASE_PORT: 5432
+   
 environments:
 
   - name: dev
@@ -90,13 +90,13 @@ domain:
           raiseEvents: true
           useSoftDelete: true
 
-      #relationships:
+      relationships:
 
-      #  - name: CountryAcceptsCurrency
-      #    description: accepts as legal tender
-      #    relationship: oneOrMany
-      #    entity: Currency
-      #    canNavigate: true
+        - name: CountryAcceptsCurrency
+          description: accepts as legal tender
+          relationship: oneOrMany
+          entity: Currency
+          canNavigate: true
           
       #ownedRelationships:
 
@@ -234,10 +234,12 @@ domain:
 
         - name: AreaInSquareKilometres
           description: Country area in square kilometers
-          type: number
-          numberTypeOptions:
+          type: area
+          areaTypeOptions:
             minValue: 0
             maxValue: 20000000 # 20,000,000 > Russia
+            units: squareFoot
+            persistAs: squareFoot
           isRequired: true
 
         #- name: GeoCoord

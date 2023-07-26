@@ -1,4 +1,3 @@
-using Nox.Abstractions;
 using Nox.Secrets.Abstractions;
 using Nox.Secrets.Exceptions;
 using Nox.Solution;
@@ -20,7 +19,7 @@ public class AzureSecretsResolver: ISecretsResolver
         _secretsServer = secretsServer;
     }
 
-    public IReadOnlyDictionary<string, string?> Resolve(string[] keys)
+    public IReadOnlyDictionary<string, string?> Resolve(IReadOnlyList<string> keys)
     {
         var unresolvedKeys = new List<string>();
         var ttl = TimeSpan.Zero;

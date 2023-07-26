@@ -1,9 +1,10 @@
 using Microsoft.AspNetCore.OData;
 using Nox;
+using Nox.Abstractions;
 using SampleWebApp;
 using SampleWebApp.Application;
-using Nox.Abstractions;
-using ODataConfiguration = SampleWebApp.Presentation.Api.OData.ODataConfiguration;
+using SampleWebApp.Presentation.Api.OData;
+using SampleWebApp.SeedData;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,8 +19,9 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddScoped<GetCountriesByContinentQueryBase, GetCountriesByContinentQuery>();
 builder.Services.AddScoped<UpdatePopulationStatisticsCommandHandlerBase, UpdatePopulationStatisticsCommandHandler>();
 builder.Services.AddScoped<INoxMessenger, NoxMessenger>();
+builder.Services.AddAutoMapper(typeof(Program));
 
-ODataConfiguration.Register(builder.Services);
+builder.AddSeedData();
 
 var app = builder.Build();
 
@@ -39,5 +41,7 @@ app.MapControllers();
 app.UseODataRouteDebug();
 
 app.UseNox();
+
+app.SeedDataIfNeed();
 
 app.Run();

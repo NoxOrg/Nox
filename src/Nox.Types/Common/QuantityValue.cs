@@ -48,7 +48,6 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
     ///     as their value type.
     /// </summary>
     [FieldOffset(0)]
-    // bytes layout: 0-1 unused, 2 exponent, 3 sign (only highest bit), 4-15 number
     private readonly decimal _decimalValue;
 
     /// <summary>
@@ -87,6 +86,14 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
     /// Returns true if the underlying value is stored as a decimal
     /// </summary>
     public bool IsDecimal => Type == UnderlyingDataType.Decimal;
+
+    public QuantityValue Round(int decimalPrecision)
+    {
+        if(IsDecimal)
+            return Math.Round(this._decimalValue, decimalPrecision);
+
+        return Math.Round(this._doubleValue, decimalPrecision);
+    }
 
     #region To QuantityValue
 
@@ -177,17 +184,6 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
     #region Operators and Comparators
 
     /// <inheritdoc />
-    public override bool Equals(object? other)
-    {
-        if (other is QuantityValue qv)
-        {
-            return Equals(qv);
-        }
-
-        return false;
-    }
-
-    /// <inheritdoc />
     public override int GetHashCode()
     {
         if (IsDecimal)
@@ -198,6 +194,17 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
         {
             return _doubleValue.GetHashCode();
         }
+    }
+
+    /// <inheritdoc />
+    public override bool Equals(object? obj)
+    {
+        if (obj is QuantityValue qv)
+        {
+            return Equals(qv);
+        }
+
+        return false;
     }
 
     /// <summary>
@@ -325,6 +332,88 @@ public readonly struct QuantityValue : IFormattable, IEquatable<QuantityValue>, 
         else
         {
             return new QuantityValue(a._doubleValue * b._doubleValue);
+        }
+    }
+
+    /// <summary>
+    /// Returns the devision of two operands
+    /// </summary>
+    /// <param name="a">First operand</param>
+    /// <param name="b">Second operands</param>
+    /// <returns>-v</returns>
+    public static QuantityValue operator /(QuantityValue a, QuantityValue b)
+    {
+        if((b.IsDecimal && b._decimalValue == 0) || (!b.IsDecimal && b._doubleValue == 0))
+        {
+            throw new DivideByZeroException();
+        }
+        if (a.IsDecimal && b.IsDecimal)
+        {
+            return new QuantityValue(a._decimalValue / b._decimalValue);
+        }
+        else if (a.IsDecimal)
+        {
+            return new QuantityValue(a._decimalValue / (decimal)b._doubleValue);
+        }
+        else if (b.IsDecimal)
+        {
+            return new QuantityValue((decimal)a._doubleValue / b._decimalValue);
+        }
+        else
+        {
+            return new QuantityValue(a._doubleValue / b._doubleValue);
+        }
+    }
+
+    /// <summary>
+    /// Returns the subtraction of two operands
+    /// </summary>
+    /// <param name="a">First operand</param>
+    /// <param name="b">Second operands</param>
+    /// <returns>-v</returns>
+    public static QuantityValue operator -(QuantityValue a, QuantityValue b)
+    {
+        if (a.IsDecimal && b.IsDecimal)
+        {
+            return new QuantityValue(a._decimalValue - b._decimalValue);
+        }
+        else if (a.IsDecimal)
+        {
+            return new QuantityValue(a._decimalValue - (decimal)b._doubleValue);
+        }
+        else if (b.IsDecimal)
+        {
+            return new QuantityValue((decimal)a._doubleValue - b._decimalValue);
+        }
+        else
+        {
+            return new QuantityValue(a._doubleValue - b._doubleValue);
+        }
+    }
+
+    /// <summary>
+    /// Returns the sum of two operands
+    /// </summary>
+    /// <param name="a">First operand</param>
+    /// <param name="b">Second operands</param>
+    /// <returns>-v</returns>
+    public static QuantityValue operator +(QuantityValue a, QuantityValue b)
+    {
+        if (a.IsDecimal && b.IsDecimal)
+        {
+            return new QuantityValue(a._decimalValue + b._decimalValue);
+        }
+        else if (a.IsDecimal)
+        {
+            return new QuantityValue(a._decimalValue + (decimal)b._doubleValue);
+        }
+        else if (b.IsDecimal)
+        {
+            return new QuantityValue((decimal)a._doubleValue + b._decimalValue);
+        }
+        else
+        {
+            return new QuantityValue(a._doubleValue + b._doubleValue);
         }
     }
 

@@ -2,11 +2,13 @@
 
 namespace Nox.Types.EntityFramework.Types;
 
-public class AreaToSquareMeterConverter : ValueConverter<Area, double>
+public class AreaToSquareMeterConverter : ValueConverter<Area, decimal>
 {
-    public AreaToSquareMeterConverter() : base(area => (double)area.ToSquareMeters(), areaValue => Area.FromSquareMeters(areaValue)) { }
+    public AreaToSquareMeterConverter() : base(area =>
+        (decimal)area.ToSquareMeters(), areaValue => Area.FromDatabase(areaValue, AreaTypeUnit.SquareMeter)) { }
 }
-public class AreaToSquareFeetConverter : ValueConverter<Area, double>
+public class AreaToSquareFootConverter : ValueConverter<Area, decimal>
 {
-    public AreaToSquareFeetConverter() : base(area => (double)area.ToSquareFeet(), areaValue => Area.FromSquareFeet(areaValue)) { }
+    public AreaToSquareFootConverter() : base(area => 
+        (decimal)area.ToSquareFeet(), areaValue => Area.FromDatabase(areaValue, AreaTypeUnit.SquareFoot)) { }
 }
