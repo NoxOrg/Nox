@@ -31,14 +31,22 @@ namespace Nox.Tests.DatabaseIntegrationTests
 
             var result = driver.GetRunResult().Results[0];
 
-            CreateClass(result, "AuditableEntityBase");
-            CreateClass(result, "TestWebAppDbContext");
-            CreateClass(result, "TestEntity");
-            CreateClass(result, "SecondTestEntity");
-            CreateClass(result, "TestEntityOneOrMany");
-            CreateClass(result, "SecondTestEntityOneOrMany");
-            CreateClass(result, "TestEntityForTypes");
-            CreateClass(result, "TestEntityWithNuid");
+            var classNames = new[]
+            {
+                "AuditableEntityBase",
+                "TestWebAppDbContext",
+                "TestEntity",
+                "SecondTestEntity",
+                "TestEntityOneOrMany",
+                "SecondTestEntityOneOrMany",
+                "TestEntityForTypes",
+                "TestEntityWithNuid"
+            };
+
+            foreach (var className in classNames)
+            {
+                CreateClass(result, className);
+            }
 
             Assert.True(true);
         }
