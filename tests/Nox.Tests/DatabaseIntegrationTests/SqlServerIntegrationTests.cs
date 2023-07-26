@@ -58,6 +58,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var area = 198_090M;
         var persistUnitAs = AreaTypeUnit.SquareMeter;
         var cultureCode = "de-CH";
+        var countryCode3 = "UKR";
 
 
         var newItem = new TestEntityForTypes()
@@ -72,6 +73,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
             CultureCodeTestField = CultureCode.From(cultureCode),
+            CountryCode3TestField = CountryCode3.From(countryCode3)
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -94,6 +96,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
         testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
+        testEntity.CountryCode3TestField!.Value.Should().Be(countryCode3);
     }
 
     //[Fact]
