@@ -188,7 +188,7 @@ public sealed class Country
     /// </summary>
     public Time CurrentTime { get; set; } = null!;
 
-
+    /// <summary>
     /// Gets or sets the AverageTemperature.
     /// </summary>
     public Temperature? AverageTemperatureInCelsius { get; set; } = null!;
@@ -197,6 +197,11 @@ public sealed class Country
     /// Gets or sets the Flag.
     /// </summary>
     public Image Flag { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the country's description.
+    /// </summary>
+    public Markdown Description { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the country's webpage.
@@ -219,6 +224,11 @@ public sealed class Country
     public PhoneNumber PhoneNumber { get; set; } = null!;
 
     /// <summary>
+    /// Gets or sets the SecretPassword.
+    /// </summary>
+    public EncryptedText SecretPassword { get; set; } = null!;
+
+    /// <summary>
     /// Gets or sets the MainId property.
     /// </summary>
     public DatabaseNumber DatabaseId { get; set; } = null!;
@@ -227,6 +237,11 @@ public sealed class Country
     /// Gets or sets password
     /// </summary>
     public Password Password { get; set; } = null!;
+    
+    /// <summary>
+    /// Gets or sets the currency number.
+    /// </summary>
+    public CurrencyNumber CurrencyNumber { get; set; } = null!;
     
     /// <summary>
     /// Gets or sets dayOfWeek

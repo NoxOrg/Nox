@@ -45,6 +45,8 @@
 		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
 		<ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
 		<ProjectReference Include="..\Nox.Lib\Nox.Lib.csproj" />
+		<ProjectReference Include="..\Nox.Logging.Serilog\Nox.Logging.Serilog.csproj" />
+		<ProjectReference Include="..\Nox.Monitoring.ElasticApm\Nox.Monitoring.ElasticApm.csproj" />
 		<ProjectReference Include="..\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
 	</ItemGroup>
 
@@ -71,6 +73,7 @@
 
 	<ItemGroup>
 	  <Folder Include="Examples\" />
+	  <Folder Include="Generated\Nox.Generator\Nox.Generator.NoxCodeGenerator\" />
 	</ItemGroup>
 
 </Project>
