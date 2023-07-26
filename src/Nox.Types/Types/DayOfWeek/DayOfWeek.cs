@@ -46,11 +46,11 @@ public sealed class DayOfWeek : ValueObject<int, DayOfWeek>
     {
         switch (Value)
         {
-            case (int)DayOfTheWeek.Monday:
-            case (int)DayOfTheWeek.Tuesday:
-            case (int)DayOfTheWeek.Wednesday:
-            case (int)DayOfTheWeek.Thursday:
-            case (int)DayOfTheWeek.Friday:
+            case (int)System.DayOfWeek.Monday:
+            case (int)System.DayOfWeek.Tuesday:
+            case (int)System.DayOfWeek.Wednesday:
+            case (int)System.DayOfWeek.Thursday:
+            case (int)System.DayOfWeek.Friday:
                 return true;
             default:
                 return false;
@@ -66,9 +66,18 @@ public sealed class DayOfWeek : ValueObject<int, DayOfWeek>
         return !IsWeekday();
     }
 
+    /// <summary>
+    /// Returns the current value in DayOfWeek format.
+    /// </summary>
+    /// <returns>Returns the weekday <see cref="System.DayOfWeek"/>.</returns>
+    public System.DayOfWeek ToWeekDay()
+    {
+        return (System.DayOfWeek)Value;
+    }
+
     /// <inheritdoc />
     public override string ToString()
     {
-        return ((DayOfTheWeek)Value).ToString();
+        return ((System.DayOfWeek)Value).ToString();
     }
 }

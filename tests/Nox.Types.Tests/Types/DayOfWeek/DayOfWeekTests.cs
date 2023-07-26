@@ -76,4 +76,17 @@ public class DayOfWeekTests
         dayOfWeek.ToString().Should().Be("Monday");
         dayOfWeek2.ToString().Should().Be("Tuesday");
     }
+    
+    
+    // [Fact]
+    // public void DayOfWeek_ToWeekDay_Tests()
+    // {
+    //     // Arrange
+    //     var dayOfWeek = DayOfWeek.From(1);
+    //     
+    //     // Assert
+    //     dayOfWeek.Value.Should().Be(1);
+    //     dayOfWeek.ToWeekDay().Should().BeOfType<System.DayOfWeek>();
+    //         
+    // }
 }
