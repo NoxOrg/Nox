@@ -56,7 +56,9 @@ public class SqliteIntegrationTests : SqliteTestBase
         var languageCode = "en";        
         var area = 198_090M;
         var persistUnitAs = AreaTypeUnit.SquareMeter;
+        var cultureCode = "de-CH";
         var dateTimeDurationInHours = 30.5;
+
 
         var newItem = new TestEntityForTypes()
         {
@@ -69,6 +71,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
+            CultureCodeTestField = CultureCode.From(cultureCode),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
         };
         DbContext.TestEntityForTypes.Add(newItem);
@@ -93,6 +96,7 @@ public class SqliteIntegrationTests : SqliteTestBase
 		testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.DateTimeDurationTestField!.TotalHours.Should().Be(dateTimeDurationInHours);
     }
+
     [Fact]
     public void GeneratedRelationship_Sqlite_ZeroOrMany_OneOrMany()
     {

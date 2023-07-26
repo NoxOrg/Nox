@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 
 using Nox.Types;
 
@@ -27,6 +27,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             CountryId = CountryCode2.From("UA"),
             PostalCode = "61135"
         };
+        var cultureCode = "de-CH";
         var dateTimeDurationInHours = 30.5;
 
         var newItem = new TestEntityForTypes()
@@ -40,6 +41,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             CountryCode2TestField = CountryCode2.From(countryCode2),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
+            CultureCodeTestField = CultureCode.From(cultureCode),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours, new DateTimeDurationTypeOptions { MaxDuration = 100, TimeUnit = TimeUnit.Day }),
         };
         DbContext.TestEntityForTypes.Add(newItem);
@@ -62,6 +64,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
         testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
+        testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
         testEntity.DateTimeDurationTestField!.TotalHours.Should().Be(dateTimeDurationInHours);
     }
 }
