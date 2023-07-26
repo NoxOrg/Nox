@@ -78,15 +78,13 @@ public class DayOfWeekTests
     }
     
     
-    // [Fact]
-    // public void DayOfWeek_ToWeekDay_Tests()
-    // {
-    //     // Arrange
-    //     var dayOfWeek = DayOfWeek.From(1);
-    //     
-    //     // Assert
-    //     dayOfWeek.Value.Should().Be(1);
-    //     dayOfWeek.ToWeekDay().Should().BeOfType<System.DayOfWeek>();
-    //         
-    // }
+    [Fact]
+    public void DayOfWeek_ToWeekDay_Tests()
+    {
+        // Arrange
+        var dayOfWeek = DayOfWeek.From(1);
+        
+        // Assert
+        dayOfWeek.ToWeekDay().Should().Be(System.DayOfWeek.Monday);
+    }
 }
