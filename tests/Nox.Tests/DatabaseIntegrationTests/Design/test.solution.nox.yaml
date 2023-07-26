@@ -346,3 +346,6 @@ domain:
 
         - name: LanguageCodeTestField
           type: languageCode
+          
+        - name: YamlTestField
+          type: yaml

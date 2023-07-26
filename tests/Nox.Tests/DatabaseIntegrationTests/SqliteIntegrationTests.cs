@@ -58,6 +58,15 @@ public class SqliteIntegrationTests : SqliteTestBase
         var area = 198_090M;
         var persistUnitAs = AreaTypeUnit.SquareMeter;
         var cultureCode = "de-CH";
+        var switzerlandCitiesCountiesYaml = @"
+- Zurich:
+    - County: Zurich
+    - County: Winterthur
+    - County: Baden
+- Geneva:
+    - County: Geneva
+    - County: Lausanne
+";
         
         
         var newItem = new TestEntityForTypes()
@@ -72,6 +81,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
             CultureCodeTestField = CultureCode.From(cultureCode),
+            YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -94,6 +104,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
 		testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
+        testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
     }
     [Fact]
     public void GeneratedRelationship_Sqlite_ZeroOrMany_OneOrMany()
