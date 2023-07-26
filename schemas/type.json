@@ -815,6 +815,12 @@
             "null"
           ],
           "properties": {
+            "prefix": {    
+              "type": [
+                "string",
+                "null"
+              ]
+            },
             "separator": {    
               "type": [
                 "string",

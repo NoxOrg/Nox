@@ -1220,6 +1220,12 @@
                     "null"
                   ],
                   "properties": {
+                    "prefix": {    
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
                     "separator": {    
                       "type": [
                         "string",
@@ -4144,6 +4150,12 @@
                     "null"
                   ],
                   "properties": {
+                    "prefix": {    
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
                     "separator": {    
                       "type": [
                         "string",
@@ -6983,6 +6995,12 @@
             "null"
           ],
           "properties": {
+            "prefix": {    
+              "type": [
+                "string",
+                "null"
+              ]
+            },
             "separator": {    
               "type": [
                 "string",
