@@ -174,7 +174,9 @@ public enum NoxType : uint
     [SimpleType(typeof(NumberTypeComponentsDiscover))]
     Number = 4223714796,
 
-    [SimpleType(typeof(string))]
+    [CompoundType]
+    [CompoundComponent("HashedPassword", typeof(string))]
+    [CompoundComponent("Salt", typeof(string))]
     Password = 1755902638,
 
     [SimpleType(typeof(float))]

@@ -26,6 +26,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             PostalCode = "61135"
         };
         var cultureCode = "de-CH";
+        var password = "Test123.";
 
         var newItem = new TestEntityForTypes()
         {
@@ -39,6 +40,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
             CultureCodeTestField = CultureCode.From(cultureCode),
+            PasswordTestField = Password.From(password),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -61,5 +63,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
         testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
+        testEntity.PasswordTestField!.HashedPassword.Should().Be(newItem.PasswordTestField.HashedPassword);
+        testEntity.PasswordTestField!.Salt.Should().Be(newItem.PasswordTestField.Salt);
     }
 }
