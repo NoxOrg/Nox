@@ -1,5 +1,4 @@
-﻿using System.Globalization;
-using FluentAssertions;
+﻿using FluentAssertions;
 using Nox.Types.Tests.Types.Color;
 
 namespace Nox.Types.Tests.Types;
@@ -11,7 +10,6 @@ public class ColorTests
     public void Color_Constructor_ReturnsSameValue_AllColors(string colorName)
     {
         var color = Nox.Types.Color.FromName(colorName);
-
         color.ToString("name").Should().Be(colorName);
     }
 
@@ -20,7 +18,7 @@ public class ColorTests
     {
         var color = Nox.Types.Color.From(255, 165, 0);
 
-        color.Value.Should().Equal(new byte[] { 255, 255, 165, 0 });
+        color.Value.Should().Equal(255, 255, 165, 0);
     }
 
     [Fact]
@@ -28,7 +26,7 @@ public class ColorTests
     {
         var color = Nox.Types.Color.From(100, 193, 154, 107);
 
-        color.Value.Should().Equal(new byte[]{100, 193, 154, 107});
+        color.Value.Should().Equal(100, 193, 154, 107);
     }
 
     [Fact]
@@ -36,16 +34,16 @@ public class ColorTests
     {
         var color = Nox.Types.Color.FromAlphaColor("#FFF0F8FF");
 
-        color.Value.Should().Equal(new byte[] {255, 240, 248, 255});
+        color.Value.Should().Equal(255, 240, 248, 255);
         color.ToHexa().Should().Be("#FFF0F8FF");
     }
-    
+
     [Fact]
     public void Color_Constructor_FromSystemDrawingColor_ReturnsSameValue()
     {
         var systemDrawingColor = System.Drawing.Color.FromArgb(255, 255, 255);
         var noxColor = Nox.Types.Color.From(systemDrawingColor);
-        
+
         var colorBytes = noxColor.ToBytes();
 
         colorBytes.ElementAt(0).Should().Be(systemDrawingColor.A);
@@ -59,18 +57,58 @@ public class ColorTests
     {
         var color = Nox.Types.Color.FromAlphaColor("#FFC0CB");
 
-        color.Value.Should().Equal( new byte[] {0, 255, 192, 203});
+        color.Value.Should().Equal(255, 255, 192, 203);
         color.ToHex().Should().Be("#FFC0CB");
     }
-    
+
     [Fact]
     public void Color_Constructor_ToString_ReturnsSameValue()
     {
         var color = Nox.Types.Color.FromAlphaColor("#FFC0CB");
 
-        color.Value.Should().Equal( new byte[] {0, 255, 192, 203});
+        color.Value.Should().Equal(255, 255, 192, 203);
         color.ToHex().Should().Be("#FFC0CB");
-        color.ToString().Should().Be("0,255,192,203");
+        color.ToString().Should().Be("255,255,192,203");
+    }
+
+    [Fact]
+    public void Color_Constructor_ToStringName_ReturnsSameValue()
+    {
+        var beigeSystemColor = System.Drawing.Color.Beige;
+        var color = Nox.Types.Color.FromName(beigeSystemColor.Name);
+        color.ToString("name").Should().Be(beigeSystemColor.Name);
+    }
+
+    [Fact]
+    public void Color_Constructor_ToStringHexa_ReturnsSameValue()
+    {
+        var beigeSystemColor = System.Drawing.Color.Beige;
+        var color = Nox.Types.Color.From(beigeSystemColor);
+        color.ToString("hexa").Should().Be("#FFF5F5DC");
+    }
+
+    [Fact]
+    public void Color_Constructor_ToStringHex_ReturnsSameValue()
+    {
+        var beigeSystemColor = System.Drawing.Color.Beige;
+        var color = Nox.Types.Color.From(beigeSystemColor);
+        color.ToString("hex").Should().Be("#F5F5DC");
+    }
+
+    [Fact]
+    public void Color_Constructor_ToStringRgb_ReturnsSameValue()
+    {
+        var beigeSystemColor = System.Drawing.Color.Beige;
+        var color = Nox.Types.Color.From(beigeSystemColor);
+        color.ToString("rgb").Should().Be("RGB(245, 245, 220)");
+    }
+
+    [Fact]
+    public void Color_Constructor_ToStringRgba_ReturnsSameValue()
+    {
+        var beigeSystemColor = System.Drawing.Color.Beige;
+        var color = Nox.Types.Color.From(beigeSystemColor);
+        color.ToString("rgba").Should().Be("RGBA(245, 245, 220, 255)");
     }
 
     [Fact]
@@ -114,8 +152,8 @@ public class ColorTests
     {
         var emptyColor = new Nox.Types.Color();
         var differentColor = Nox.Types.Color.From(255, 255, 255);
-        var colorEmptyString = ColorHelper.ConvertFromString("", CultureInfo.InvariantCulture);
-        
+        var colorEmptyString = Nox.Types.Color.From(System.Drawing.Color.Empty);
+
         //Assert
         emptyColor.Should().Be(Nox.Types.Color.From(0, 0, 0, 0));
         emptyColor.Should().NotBe(differentColor);

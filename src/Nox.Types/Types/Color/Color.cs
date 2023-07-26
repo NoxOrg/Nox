@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Globalization;
-using System.Linq;
+using System.Drawing;
 
 namespace Nox.Types;
 
@@ -9,11 +8,8 @@ namespace Nox.Types;
 /// </summary>
 public class Color : ValueObject<byte[], Color>
 {
-    private byte _alpha { get; set; }
-    private byte _red { get; set; }
-    private byte _green { get; set; }
-    private byte _blue { get; set; }
-    
+    private System.Drawing.Color _systemColor { get; set; }
+
     /// <summary>
     /// Creates a new instance of <see cref="Color"/> object.
     /// </summary>
@@ -21,14 +17,14 @@ public class Color : ValueObject<byte[], Color>
     {
         Value = new byte[4];
     }
-    
+
     /// <summary>
     /// Creates a <see cref="Color"/> object from a <see cref="System.Drawing.Color"/>.
     /// </summary>
     /// <param name="color">the color to be parsed.</param>
     public static Color From(System.Drawing.Color color)
     {
-        return CreateColor(color);
+        return From(color.A, color.R, color.G, color.B);
     }
 
     /// <summary>
@@ -40,9 +36,7 @@ public class Color : ValueObject<byte[], Color>
     /// <exception cref="TypeValidationException"></exception>
     public static Color From(byte red, byte green, byte blue)
     {
-        var color = System.Drawing.Color.FromArgb(byte.MaxValue, red, green, blue);
-
-        return CreateColor(color);
+        return From(byte.MaxValue, red, green, blue);
     }
 
     /// <summary>
@@ -56,8 +50,7 @@ public class Color : ValueObject<byte[], Color>
     public static Color From(byte alpha, byte red, byte green, byte blue)
     {
         var color = System.Drawing.Color.FromArgb(alpha, red, green, blue);
-
-        return CreateColor(color);
+        return CreateFromColor(color);
     }
 
     /// <summary>
@@ -69,8 +62,7 @@ public class Color : ValueObject<byte[], Color>
     public static Color FromName(string name)
     {
         var color = System.Drawing.Color.FromName(name);
-
-        return CreateColor(color);
+        return CreateFromColor(color);
     }
 
     /// <summary>
@@ -81,44 +73,41 @@ public class Color : ValueObject<byte[], Color>
     /// <exception cref="TypeValidationException"></exception>
     public static Color FromAlphaColor(string alphadecimal)
     {
-        return ColorHelper.ConvertFromString(alphadecimal, CultureInfo.InvariantCulture);
+        var colorFromHtml = ColorTranslator.FromHtml(alphadecimal);
+        return From(colorFromHtml);
     }
 
     /// <summary>
     /// Returns the bytes representation of the color value
     /// </summary>
     /// <returns>The byte representation</returns>
-    public byte[] ToBytes() => new byte[] { _alpha, _red, _green, _blue };
+    public byte[] ToBytes() => new byte[] { _systemColor.A, _systemColor.R, _systemColor.G, _systemColor.B };
 
     /// <summary>
     /// Returns the string representation of the color value, formatted in Hexadecimal format string
     /// </summary>
     /// <returns>The string representation</returns>
-    public string ToHexa() => $"#{_alpha:X2}{_red:X2}{_green:X2}{_blue:X2}";
+    public string ToHexa() => $"#{_systemColor.A:X2}{_systemColor.R:X2}{_systemColor.G:X2}{_systemColor.B:X2}";
 
     /// <summary>
     /// Returns the string representation of the color value, formatted in Hex format string
     /// </summary>
     /// <returns>The string representation</returns>
-    public string ToHex() => $"#{_red:X2}{_green:X2}{_blue:X2}";
+    public string ToHex() => $"#{_systemColor.R:X2}{_systemColor.G:X2}{_systemColor.B:X2}";
 
     /// <summary>
     /// Returns the string representation of the color value, formatted in name format string
     /// </summary>
     /// <returns>The string representation</returns>
-    public string ToName()
+    public System.Drawing.Color ToSystemColor()
     {
-        var color = System.Drawing.Color.FromArgb(_alpha, _red, _green, _blue);
-
-        var knownColor = KnownColor.Colors.FirstOrDefault(kc => kc.Value.ToArgb() == color.ToArgb());
-
-        return knownColor.Key ?? "UnknownColor";
+        return _systemColor;
     }
 
     /// <inheritdoc />
     public override string ToString()
     {
-        return $"{_alpha},{_red},{_green},{_blue}";
+        return $"{_systemColor.A},{_systemColor.R},{_systemColor.G},{_systemColor.B}";
     }
 
     /// <summary>
@@ -132,7 +121,7 @@ public class Color : ValueObject<byte[], Color>
         {
             "hexa" => ToHexa(),
             "hex" => ToHex(),
-            "name" => ToName(),
+            "name" => ToSystemColor().Name,
             "rgb" => ToRgbString(),
             "rgba" => ToRgbaString(),
             _ => ToString(),
@@ -143,42 +132,37 @@ public class Color : ValueObject<byte[], Color>
     /// Returns the string representation of the color value, formatted in RGB format string
     /// </summary>
     /// <returns>The string representation</returns>
-    public string ToRgbString() => $"RGB({_red}, {_green}, {_blue})";
+    public string ToRgbString() => $"RGB({_systemColor.R}, {_systemColor.G}, {_systemColor.B})";
 
     /// <summary>
     /// Returns the string representation of the color value, formatted in RGBA format string
     /// </summary>
     /// <returns>The string representation</returns>
-    public string ToRgbaString() => $"RGBA({_red}, {_green}, {_blue}, {ToProportion(_alpha):N2})";
-    
+    public string ToRgbaString() => $"RGBA({_systemColor.R}, {_systemColor.G}, {_systemColor.B}, {_systemColor.A})";
+
     /// <inheritdoc/>
     public override bool Equals(object? obj)
     {
         if (!(obj is Color otherColor))
             return false;
 
-        return _red == otherColor._red &&
-               _green == otherColor._green &&
-               _blue == otherColor._blue &&
-               _alpha == otherColor._alpha;
+        return _systemColor.R == otherColor._systemColor.R &&
+               _systemColor.G == otherColor._systemColor.G &&
+               _systemColor.B == otherColor._systemColor.B &&
+               _systemColor.A == otherColor._systemColor.A;
     }
-    
+
     /// <inheritdoc/>
     public override int GetHashCode()
     {
         return base.GetHashCode();
     }
 
-    private static double ToProportion(byte b) => b / (double)Byte.MaxValue;
-
-    private static Color CreateColor(System.Drawing.Color color)
+    private static Color CreateFromColor(System.Drawing.Color color)
     {
         var newColor = new Color
         {
-            _alpha = color.A,
-            _red = color.R,
-            _green = color.G,
-            _blue = color.B,
+            _systemColor = color
         };
 
         newColor.Value = new byte[] { color.A, color.R, color.G, color.B };
