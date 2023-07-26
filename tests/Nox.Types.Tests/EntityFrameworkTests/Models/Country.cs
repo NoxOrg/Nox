@@ -227,4 +227,9 @@ public sealed class Country
     /// Gets or sets password
     /// </summary>
     public Password Password { get; set; } = null!;
+    
+    /// <summary>
+    /// Gets or sets the currency number.
+    /// </summary>
+    public CurrencyNumber CurrencyNumber { get; set; } = null!;
 }
