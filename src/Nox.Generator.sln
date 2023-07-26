@@ -86,7 +86,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Secrets.Azure", "Nox.Se
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Secrets.Hashicorp", "Nox.Secrets.Hashicorp\Nox.Secrets.Hashicorp.csproj", "{0B3974A4-121C-486B-964F-9037DAD3C5E8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Types.Abstractions", "Nox.Types.Abstractions\Nox.Types.Abstractions.csproj", "{15E06324-A80A-4CC5-A1DA-524A7FE847C4}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Types.Abstractions", "Nox.Types.Abstractions\Nox.Types.Abstractions.csproj", "{15E06324-A80A-4CC5-A1DA-524A7FE847C4}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Localization", "Localization", "{68D7B56B-A363-4645-8390-AF433193F63A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Translations.Tests", "..\tests\Nox.Translations.Tests\Nox.Translations.Tests.csproj", "{C64B9DB4-256D-41FC-8CE9-9F93DC02A57E}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Localization", "Nox.Translations\Nox.Localization.csproj", "{0A521451-D7ED-4148-A3F6-3CAF9C169C32}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -198,6 +204,14 @@ Global
 		{15E06324-A80A-4CC5-A1DA-524A7FE847C4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15E06324-A80A-4CC5-A1DA-524A7FE847C4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15E06324-A80A-4CC5-A1DA-524A7FE847C4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C64B9DB4-256D-41FC-8CE9-9F93DC02A57E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C64B9DB4-256D-41FC-8CE9-9F93DC02A57E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C64B9DB4-256D-41FC-8CE9-9F93DC02A57E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C64B9DB4-256D-41FC-8CE9-9F93DC02A57E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0A521451-D7ED-4148-A3F6-3CAF9C169C32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0A521451-D7ED-4148-A3F6-3CAF9C169C32}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0A521451-D7ED-4148-A3F6-3CAF9C169C32}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0A521451-D7ED-4148-A3F6-3CAF9C169C32}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -228,6 +242,8 @@ Global
 		{D017DD5E-2DE1-462A-A891-CAB16C8BF940} = {2B151195-53F6-45CD-84D5-F1E18CDFF1B0}
 		{0B3974A4-121C-486B-964F-9037DAD3C5E8} = {2B151195-53F6-45CD-84D5-F1E18CDFF1B0}
 		{15E06324-A80A-4CC5-A1DA-524A7FE847C4} = {110C16ED-A11D-4B5A-ABB2-0E0F4692C77A}
+		{C64B9DB4-256D-41FC-8CE9-9F93DC02A57E} = {68D7B56B-A363-4645-8390-AF433193F63A}
+		{0A521451-D7ED-4148-A3F6-3CAF9C169C32} = {68D7B56B-A363-4645-8390-AF433193F63A}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E72B357-9E1E-43B5-9868-8D2B74CB2AF0}
