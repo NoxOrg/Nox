@@ -3,6 +3,7 @@ using Nox.Types.Schema;
 using System.Collections.Generic;
 using Humanizer;
 using Nox.Solution.Events;
+using System.Linq;
 using Nox.Solution.Validation;
 
 namespace Nox.Solution;
@@ -79,14 +80,14 @@ public class Entity : DefinitionBase
     {
         foreach (var key in Keys!)
         {
-            yield return new (EntityMemberType.Key, key);
+            yield return new(EntityMemberType.Key, key);
         }
-        
-        if (Attributes is not null ) 
-        { 
+
+        if (Attributes is not null)
+        {
             foreach (var attribute in Attributes)
             {
-                yield return new (EntityMemberType.Attribute, attribute);
+                yield return new(EntityMemberType.Attribute, attribute);
             }
         }
 
@@ -106,7 +107,6 @@ public class Entity : DefinitionBase
                     else
                     {
                         foreignKeyName = $"{relationship.Related.Entity!.Name}Id";
-                        
                     }
                     foreignKeyDefinition = CreateForeignKeyDefinition(foreignKeyName, relationship);
                     yield return new(EntityMemberType.OwnedRelationship, foreignKeyDefinition);
@@ -125,20 +125,19 @@ public class Entity : DefinitionBase
 
         if (Relationships is not null)
         {
-#pragma warning disable S3267 // Loops should be simplified with "LINQ" expressions
-            foreach (var relationship in Relationships)
+            var relationships = Relationships
+                .Where(x => x.Related.Entity?.Keys is not null)
+                .Select(x => (x.Entity, Keys: x.Related.Entity.Keys!));
+
+            foreach (var relationship in relationships)
             {
-                if (relationship.Related.Entity?.Keys is not null)
+                foreach (var key in relationship.Keys)
                 {
-                    foreach (var key in relationship.Related.Entity.Keys)
-                    {
-                        var foreignKey = key.ShallowCopy();
-                        foreignKey.Name = $"{relationship.Entity}{key.Name}";
-                        yield return new (EntityMemberType.Relationship, foreignKey);
-                    }
+                    var foreignKey = key.ShallowCopy();
+                    foreignKey.Name = $"{relationship.Entity}{key.Name}";
+                    yield return new(EntityMemberType.Relationship, foreignKey);
                 }
             }
-#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
         }
     }
 
@@ -168,7 +167,7 @@ public class Entity : DefinitionBase
         {
             Name = foreignKeyName,
             Description = $"A unique identifier for a {relationship.Related.Entity!.Name}.",
-            Type = Types.NoxType.AutoNumber,
+            Type = Types.NoxType.DatabaseNumber,
             IsRequired = true,
             IsReadonly = true,
         };
