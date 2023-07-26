@@ -232,6 +232,10 @@ domain:
 
         - name: StreetAddressTestField
           type: streetAddress
+        
+        - name: CurrencyCode3TestField
+          type: currencyCode3
+          
 
         #- name: GeoCoordTestField
         #  type: latLong
@@ -317,8 +321,8 @@ domain:
         #- name: YearTestField
         #  type: year
 
-        #- name: CultureCodeTestField
-        #  type: cultureCode
+        - name: CultureCodeTestField
+          type: cultureCode
 
-        #- name: LanguageCodeTestField
-        #  type: languageCode
+        - name: LanguageCodeTestField
+          type: languageCode

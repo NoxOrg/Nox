@@ -1,6 +1,9 @@
 using FluentAssertions;
 using System.Text.Json;
 
+using System;
+using Nox.TypeOptions;
+
 namespace Nox.Types.Tests.EntityFrameworkTests;
 
 public class NoxTypesEntityFrameworkTests : TestWithSqlite
@@ -88,6 +91,13 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
             File = File.From("https://example.com/myfile.pdf", "MyFile", 512),
             PhoneNumber = PhoneNumber.From("+41 848 700 700"),
+            GuidUser = User.From(Guid.NewGuid().ToString()),
+            EmailUser = User.From("user@iwgplc.ch"),
+            StringUser = User.From("stringUser", new UserTypeOptions { ValidEmailFormat=false, ValidGuidFormat= false}),
+            InfoEmail = Email.From("info@iwgplc.ch"),
+            DatabaseId = DatabaseNumber.FromDatabase(10U),
+            Password = Password.From("Test123."),
+            CurrencyNumber = CurrencyNumber.From(999),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -105,6 +115,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
     public void AddedItemShouldGetGeneratedId()
     {
         var streetAddress = CreateStreetAddress();
+        var guidUserId = Guid.NewGuid().ToString();
         var newItem = new Country()
         {
             Name = Text.From("Switzerland"),
@@ -144,6 +155,13 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
             File = File.From("https://example.com/myfile.pdf", "MyFile", 512),
             PhoneNumber = PhoneNumber.From("+41 848 700 700"),
+            GuidUser = User.From(guidUserId),
+            EmailUser = User.From("user@iwgplc.ch"),
+            StringUser = User.From("stringUser", new UserTypeOptions { ValidEmailFormat = false, ValidGuidFormat= false}),
+            InfoEmail = Email.From("info@iwgplc.ch"),
+            DatabaseId = DatabaseNumber.FromDatabase(10U),
+            Password = Password.From("Test123."),
+            CurrencyNumber = CurrencyNumber.From(840)
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -197,6 +215,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.CreateDate.Should().Be(DateTime.From(new System.DateTime(2023, 01, 01)));
         item.DateTimeDuration.Value.Should().Be(new TimeSpan(10, 5, 2, 1));
         item.Nuid.Value.Should().Be(NuidDefinition.NuidValue);
+        Assert.Equal(newItem.Password, item.Password);
         AssertStreetAddress(streetAddress, item.StreetAddress);
         item.StreetAddressJson.Value.Should().Be(JsonSerializer.Serialize(streetAddress));
         item.PageHtml.Value.Should().Be("<html><body>Switzerland Website</body></html>");
@@ -209,6 +228,13 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.File.PrettyName.Should().Be("MyFile");
         item.File.SizeInBytes.Should().Be(512UL);
         item.PhoneNumber.Value.Should().Be("+41 848 700 700");
+        Assert.Equal(JsonSerializer.Serialize(streetAddress), item.StreetAddressJson.Value);
+        item.GuidUser.Value.Should().Be(guidUserId);
+        item.EmailUser.Value.Should().Be("user@iwgplc.ch");
+        item.StringUser.Value.Should().Be("stringUser");
+        item.InfoEmail.Value.Should().Be("info@iwgplc.ch");
+        item.DatabaseId.Value.Should().Be(10U);
+        item.CurrencyNumber.Value.Should().Be(840);
     }
 
     private static StreetAddress CreateStreetAddress()

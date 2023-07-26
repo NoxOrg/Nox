@@ -2,10 +2,12 @@
 
 #nullable enable
 
-using Microsoft.EntityFrameworkCore;
+using Nox;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Diagnostics;
 using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.PersistenceNameSpace}};
@@ -14,24 +16,18 @@ public partial class {{className}} : DbContext
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
-    private readonly Assembly _clientAssembly;
-
-    public {{className}}(
-            DbContextOptions<{{className}}> options,
-            NoxSolution noxSolution,
-            INoxDatabaseProvider databaseProvider
-        ) : this(options, noxSolution, databaseProvider, Assembly.GetEntryAssembly()!) { }
+    private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
 
     public {{className}}(
             DbContextOptions<{{className}}> options,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
-            Assembly clientAssembly
+            INoxClientAssemblyProvider clientAssemblyProvider
         ) : base(options)
         {
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
-            _clientAssembly = clientAssembly;
+            _clientAssemblyProvider = clientAssemblyProvider;
         }
 
 {{ for entity in solution.Domain.Entities }}
@@ -52,7 +48,7 @@ public partial class {{className}} : DbContext
         base.OnModelCreating(modelBuilder);
         if (_noxSolution.Domain != null)
         {
-            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssembly);
+            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
             foreach (var entity in _noxSolution.Domain.Entities)
             {
                 var type = codeGeneratorState.GetEntityType(entity.Name);

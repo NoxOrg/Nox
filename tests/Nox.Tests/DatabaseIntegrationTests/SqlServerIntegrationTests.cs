@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Nox.Types;
 using TestWebApp.Domain;
 
@@ -14,9 +14,18 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var number = 123;
         var money = 10;
         var currencyCode = CurrencyCode.UAH;
+        var currencyCode3 = "USD";
         var countryCode2 = "UA";
-        var areaInSquareMeters = 198_090;
-        var areaUnit = AreaTypeUnit.SquareMeter;
+        var languageCode = "en";
+        var area = 198_090M;
+        var persistUnitAs = AreaTypeUnit.SquareMeter;
+        var addressItem = new StreetAddressItem
+        {
+            AddressLine1 = "AddressLine1",
+            CountryId = CountryCode2.From("UA"),
+            PostalCode = "61135"
+        };
+        var cultureCode = "de-CH";
         byte month = 7;
 
         var newItem = new TestEntityForTypes()
@@ -25,8 +34,12 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             TextTestField = Text.From(text),
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
+            AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = persistUnitAs }),
+            StreetAddressTestField = StreetAddress.From(addressItem),
             CountryCode2TestField = CountryCode2.From(countryCode2),
-            //AreaTestField = Area.FromSquareMeters(areaInSquareMeters),
+            CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
+            LanguageCodeTestField = LanguageCode.From(languageCode),
+            CultureCodeTestField = CultureCode.From(cultureCode),
             MonthTestField = Month.From(month),
         };
         DbContext.TestEntityForTypes.Add(newItem);
@@ -44,8 +57,12 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.MoneyTestField!.Value.Amount.Should().Be(money);
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
-        testEntity.AreaTestField!.Value.Should().Be(areaInSquareMeters);
-        testEntity.AreaTestField!.Unit.Should().Be(areaUnit);
+        testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
+        testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
+        testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
+        testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
+        testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
+        testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
         testEntity.MonthTestField!.Value.Should().Be(month);
     }
 }

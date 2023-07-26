@@ -23,8 +23,6 @@ builder.Services.AddAutoMapper(typeof(Program));
 
 builder.AddSeedData();
 
-ODataConfiguration.Register(builder.Services);
-
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
