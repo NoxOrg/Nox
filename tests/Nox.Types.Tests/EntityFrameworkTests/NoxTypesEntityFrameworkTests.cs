@@ -95,6 +95,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             HashedText = HashedText.From("Test123."),
             ArabicName = TranslatedText.From((CultureCode.From("ar-SA"), "سوئٹزرلینڈ")),
             CurrentTime = Time.From(07,55,33,250),
+            Description = Markdown.From("This a **big country**."),
             PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
             CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
             File = File.From("https://example.com/myfile.pdf", "MyFile", 512),
@@ -168,6 +169,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             CreateDate = DateTime.From(new System.DateTime(2023, 01, 01)),
             CurrentTime = Time.From(11,35,50,375),
             AverageTemperatureInCelsius = Temperature.FromCelsius(25),
+            Description = Markdown.From("This a **big country**."),
             PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
             CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
             File = File.From("https://example.com/myfile.pdf", "MyFile", 512),
@@ -236,6 +238,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         Assert.Equal(newItem.Password, item.Password);
         AssertStreetAddress(streetAddress, item.StreetAddress);
         item.StreetAddressJson.Value.Should().Be(JsonSerializer.Serialize(streetAddress));
+        item.Description.Value.Should().Be("This a **big country**.");
         item.PageHtml.Value.Should().Be("<html><body>Switzerland Website</body></html>");
         item.AverageTemperatureInCelsius?.Value.Should().Be(newItem.AverageTemperatureInCelsius.Value);
         item.AverageTemperatureInCelsius?.Unit.Should().Be(newItem.AverageTemperatureInCelsius.Unit);
