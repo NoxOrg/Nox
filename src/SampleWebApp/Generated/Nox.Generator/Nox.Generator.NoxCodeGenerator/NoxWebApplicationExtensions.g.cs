@@ -19,36 +19,14 @@ public static class NoxWebApplicationBuilderExtension
 {
     public static WebApplicationBuilder AddNox(this WebApplicationBuilder appBuilder)
     {
-        var httpAccessor = appBuilder.Configuration.Get<HttpContextAccessor>();
-        appBuilder.Services.AddNoxServices();
-        appBuilder.Logging.AddLogging(appBuilder.Configuration, opt  =>
-        {
-            opt.UseSerilog(serilogOpt =>
-            {
-                serilogOpt.WithEcsHttpContext(httpAccessor);
-            });
-        });
+        appBuilder.Services.AddNoxLib();
+        appBuilder.Services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
+        appBuilder.Services.AddSingleton<DbContextOptions<SampleWebAppDbContext>>();
+        appBuilder.Services.AddSingleton<INoxDatabaseConfigurator, SqlServerDatabaseProvider>();
+        appBuilder.Services.AddSingleton<INoxDatabaseProvider, SqlServerDatabaseProvider>();
+        appBuilder.Services.AddDbContext<SampleWebAppDbContext>();
+        appBuilder.Services.AddDbContext<ODataDbContext>();
         return appBuilder;
     }
     
-    public static void UseNox(this IApplicationBuilder builder)
-    {
-        var solution = builder.ApplicationServices.GetRequiredService<NoxSolution>();
-    }
-    
-    private static void AddNoxServices(this IServiceCollection services)
-    {
-        services.AddNoxLib();
-        services.AddAutoMapper(Assembly.GetExecutingAssembly());
-        services.AddNoxTypesDatabaseConfigurator(Assembly.GetExecutingAssembly());
-        services.AddNoxOdata();
-        services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
-        services.AddSingleton<DbContextOptions<SampleWebAppDbContext>>();
-        services.AddSingleton<INoxDatabaseConfigurator, SqlServerDatabaseProvider>();
-        services.AddSingleton<INoxDatabaseProvider, SqlServerDatabaseProvider>();
-        services.AddDbContext<SampleWebAppDbContext>();
-        services.AddDbContext<ODataDbContext>();
-        var tmpProvider = services.BuildServiceProvider();
-        var dbContext = tmpProvider.GetRequiredService<SampleWebAppDbContext>();
-    }
 }

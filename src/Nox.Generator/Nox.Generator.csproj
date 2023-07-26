@@ -29,7 +29,6 @@
 	
 	<ItemGroup>
 	  <Compile Remove="**\**\*.template.cs" />
-	  <Compile Remove="Presentation\Api\OData\ODataConfigurationGenerator.cs" />
 	</ItemGroup>
 	<ItemGroup>
 		<EmbeddedResource Include="**\**\*.template.cs" />

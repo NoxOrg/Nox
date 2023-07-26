@@ -1,6 +1,8 @@
 using Elastic.Apm.SerilogEnricher;
 using Elastic.CommonSchema.Serilog;
 using Microsoft.AspNetCore.Http;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using Nox.Abstractions.Logging;
 using Serilog;
 
@@ -10,17 +12,21 @@ public static class SerilogOptionsExtension
 {
     public static SerilogOptionsBuilder WithElasticApm(this SerilogOptionsBuilder optionsBuilder)
     {
-        optionsBuilder.LoggerConfiguration.Enrich.WithElasticApmCorrelationInfo();
-        optionsBuilder.LoggerConfiguration.WriteTo.Console(new EcsTextFormatter());
+        var provider = optionsBuilder.Services.BuildServiceProvider();
+        var loggerConfig = provider.GetRequiredService<LoggerConfiguration>();
+        loggerConfig.Enrich.WithElasticApmCorrelationInfo();
+        loggerConfig.WriteTo.Console(new EcsTextFormatter());
         return optionsBuilder;
     }
     
-    public static SerilogOptionsBuilder WithEcsHttpContext(this SerilogOptionsBuilder optionsBuilder, IHttpContextAccessor? httpContextAccessor)
+    public static SerilogOptionsBuilder WithEcsHttpContext(this SerilogOptionsBuilder optionsBuilder)
     {
-        if (httpContextAccessor != null)
+        var httpAccessor = optionsBuilder.Configuration.Get<HttpContextAccessor>();
+        if (httpAccessor != null)
         {
-            
-            optionsBuilder.LoggerConfiguration.Enrich.WithEcsHttpContext(httpContextAccessor);
+            var provider = optionsBuilder.Services.BuildServiceProvider();
+            var loggerConfig = provider.GetRequiredService<LoggerConfiguration>();
+            loggerConfig.Enrich.WithEcsHttpContext(httpAccessor);
         }
         return optionsBuilder;
     }

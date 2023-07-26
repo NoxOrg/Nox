@@ -1,14 +1,16 @@
-using System.Reflection.Metadata.Ecma335;
-using Serilog;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Nox.Abstractions.Logging;
 
 public class SerilogOptionsBuilder
 {
-    public LoggerConfiguration LoggerConfiguration { get; }
+    public IServiceCollection Services { get; }
+    public IConfigurationRoot Configuration { get; }
 
-    public SerilogOptionsBuilder(LoggerConfiguration loggerConfiguration)
+    public SerilogOptionsBuilder(IServiceCollection services, IConfigurationRoot configuration)
     {
-        LoggerConfiguration = loggerConfiguration;
+        Services = services;
+        Configuration = configuration;
     }
 }
