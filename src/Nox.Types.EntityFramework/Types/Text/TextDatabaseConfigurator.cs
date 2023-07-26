@@ -26,7 +26,6 @@ public class TextDatabaseConfigurator : INoxTypeDatabaseConfigurator
             .IsUnicode(textOptions.IsUnicode)
             .HasMaxLength((int)textOptions.MaxLength)
             .If(textOptions.MaxLength == textOptions.MinLength, builder2 => builder2.IsFixedLength())
-            .IsUnicode(textOptions.IsUnicode)
             .IfNotNull(GetColumnType(textOptions), b => b.HasColumnType(GetColumnType(textOptions)))
             .HasConversion<TextConverter>();
     }
