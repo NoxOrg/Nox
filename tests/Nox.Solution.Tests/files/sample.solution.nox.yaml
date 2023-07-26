@@ -315,14 +315,14 @@ domain:
 
       keys:
 
-        - name: StoreId
+        - name: Store
           type: number
           numberTypeOptions:
             minValue: 0
             decimalDigits: 0
           isRequired: true
 
-        - name: CurrencyId
+        - name: Currency
           type: number
           numberTypeOptions:
             minValue: 0
