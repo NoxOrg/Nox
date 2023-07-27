@@ -15,8 +15,7 @@ namespace Nox.Tests.Fixtures
         public DataContextTestFixture()
         {
             ServiceCollection services = new();
-            services.AddNoxLib();
-            services.AddNoxTypesDatabaseConfigurator(Assembly.GetExecutingAssembly());
+            services.AddNoxLib(Assembly.GetExecutingAssembly());
 
             using var serviceProvider = services.BuildServiceProvider();
 

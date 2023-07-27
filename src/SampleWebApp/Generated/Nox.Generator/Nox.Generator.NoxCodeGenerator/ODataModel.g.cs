@@ -144,11 +144,6 @@ public class OStore : SampleWebApp.Domain.AuditableEntityBase
     /// Physical Money in the Physical Store.
     /// </summary>
     public String PhysicalMoney_CurrencyCode { get; set; } = default!;
-    
-    /// <summary>
-    /// Set of passwords for this store.
-    /// </summary>
-    public OStoreSecurityPasswords PasswordsRel { get; set; } = null!;
 }
 
 /// <summary>
@@ -164,11 +159,6 @@ public class OStoreSecurityPasswords : SampleWebApp.Domain.AuditableEntityBase
     public String Id { get; set; } = default!;
     public String Name { get; set; } = default!;
     public String SecurityCamerasPassword { get; set; } = default!;
-    
-    /// <summary>
-    /// Store with this set of passwords.
-    /// </summary>
-    public OStore StoreRel { get; set; } = null!;
 }
 
 /// <summary>

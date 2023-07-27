@@ -28,9 +28,4 @@ public partial class StoreSecurityPasswords : AuditableEntityBase
     ///  (Required).
     /// </summary>
     public Text SecurityCamerasPassword { get; set; } = null!;
-
-    /// <summary>
-    /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores
-    /// </summary>
-    public virtual Store Store { get; set; } = null!;
 }
