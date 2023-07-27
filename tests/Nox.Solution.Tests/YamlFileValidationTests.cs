@@ -97,4 +97,17 @@ public class YamlFileValidationTests
         Assert.Equal("Entity Country: Key property IsRequired should be set to True explicitly in  Id", errors[2].ErrorMessage);
         Assert.Equal("Entity Country: Key property IsRequired should be set to True explicitly in  Name", errors[3].ErrorMessage);
     }
+
+    [Fact]
+    public void Deserialize_EntityKeyIsCompoundType_ThrowsException()
+    {
+        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
+            .UseYamlFile($"./files/entity-key-compound-type.nox.yaml")
+            .Build());
+
+        var errors = exception.Errors.ToArray();
+
+        errors.Length.Should().Be(1);
+        errors[0].ErrorMessage.Should().Be("Entity Currency: Key Id should not be Compound type.", errors[0].ErrorMessage);
+    }
 }

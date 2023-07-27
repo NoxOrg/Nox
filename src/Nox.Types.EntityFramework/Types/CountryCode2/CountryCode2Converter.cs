@@ -10,5 +10,7 @@ public class CountryCode2Converter : ValueConverter<CountryCode2, string>
     /// <summary>
     /// Initializes a new instance of the <see cref="CountryCode2Converter" /> class.
     /// </summary>
-    public CountryCode2Converter() : base(countryCode2 => countryCode2.Value, countryCode2Value => CountryCode2.From(countryCode2Value)) { }
+    public CountryCode2Converter() : base(countryCode2 => countryCode2.Value, countryCode2Value => CountryCode2.FromDatabase(countryCode2Value))
+    {
+    }
 }

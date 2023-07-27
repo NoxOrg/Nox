@@ -1,4 +1,4 @@
-using FluentAssertions;
+﻿using FluentAssertions;
 using Nox.Types;
 using TestWebApp.Domain;
 
@@ -26,6 +26,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             PostalCode = "61135"
         };
         var cultureCode = "de-CH";
+        var countryCode3 = "UKR";
 
         var newItem = new TestEntityForTypes()
         {
@@ -39,6 +40,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
             CultureCodeTestField = CultureCode.From(cultureCode),
+            TranslatedTextTestField = TranslatedText.From((CultureCode.From("ur-PK"), "شادی مبارک")),
+            CountryCode3TestField = CountryCode3.From(countryCode3),
             TimeZoneCodeTestField = TimeZoneCode.From("utc"),
         };
         DbContext.TestEntityForTypes.Add(newItem);
@@ -62,6 +65,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
         testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
+        testEntity.TranslatedTextTestField!.Value.Phrase.Should().BeEquivalentTo("شادی مبارک");
+        testEntity.CountryCode3TestField!.Value.Should().Be(countryCode3);    
         testEntity.TimeZoneCodeTestField!.Value.Should().Be("UTC");
     }
 }
