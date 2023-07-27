@@ -7,13 +7,13 @@ public class EncryptedTextTypeOptions : INoxTypeOptions
     public EncryptionAlgorithm EncryptionAlgorithm { get; set; } = EncryptionAlgorithm.Aes;
 
     /// <summary>
-    /// The secret key to use for the algorithm.
+    /// The secret key to use for the algorithm as a base64 string.
     /// </summary>
-    public byte[]? PublicKey { get; set; }
+    public string? PublicKey { get; set; }
 
     /// <summary>
-    /// The initialization vector.
+    /// The initialization vector as a base64 string.
     /// <seealso cref="SymmetricAlgorithm.IV"/>
     /// </summary>
-    public byte[]? Iv { get; set; }
+    public string? Iv { get; set; }
 }
