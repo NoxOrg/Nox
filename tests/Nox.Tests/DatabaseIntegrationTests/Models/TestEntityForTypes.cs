@@ -58,6 +58,10 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public CountryCode3? CountryCode3TestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public HashedText? HashedTextTestField { get; set; } = null!;
 
     /// <summary>
@@ -68,12 +72,12 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public TranslatedText? TranslatedTextTestField { get; set; } = null!;
+    public Password? PasswordTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Password? PasswordTestField { get; set; } = null!;
+    public TranslatedText? TranslatedTextTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
