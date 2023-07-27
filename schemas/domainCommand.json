@@ -2280,6 +2280,121 @@
                   ]
                 },
                 "type": {    
+                  "const": "encryptedText"
+                },
+                "encryptedTextTypeOptions": {    
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "encryptionAlgorithm": {    
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "aes"
+                      ]
+                    },
+                    "publicKey": {    
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "iv": {    
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  }
+                },
+                "isRequired": {    
+                  "title": "Is the attribute required? Boolean value.",
+                  "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "userInterface": {    
+                  "anyOf": [
+                    { "$ref": "typeUserInterface.json" },
+                    {
+                      "additionalProperties": false, 
+                      "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri",
+                          "pattern": "^[^\\s]*$"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "isReadonly": {    
+                  "title": "Is this attribute readonly? Boolean value.",
+                  "description": "Indicates whether this attribute is readonly. Defaults to false.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "required": [
+                "name",
+                "type"
+              ],
+              "properties": {
+                "objectTypeOptions": {    
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "attributes"
+                  ],
+                  "properties": {
+                    "attributes": {    
+                      "type": "array",
+                      "items":   {
+                        "anyOf": [
+                          { "$ref": "type.json" },
+                          {
+                            "additionalProperties": false, 
+                            "properties": {
+                              "$ref": {
+                                "type": "string",
+                                "format": "uri",
+                                "pattern": "^[^\\s]*$"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "name": {    
+                  "title": "The name of the attribute. Contains no spaces.",
+                  "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+                  "type": "string",
+                  "pattern": "^[^\\s]*$"
+                },
+                "description": {    
+                  "title": "The description of the attribute.",
+                  "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "type": {    
                   "const": "user"
                 },
                 "userTypeOptions": {    
@@ -2957,7 +3072,6 @@
                     "dayOfWeek",
                     "distance",
                     "email",
-                    "encryptedText",
                     "guid",
                     "html",
                     "internetDomain",
@@ -5209,6 +5323,121 @@
                   ]
                 },
                 "type": {    
+                  "const": "encryptedText"
+                },
+                "encryptedTextTypeOptions": {    
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "properties": {
+                    "encryptionAlgorithm": {    
+                      "type": [
+                        "string",
+                        "null"
+                      ],
+                      "enum": [
+                        "aes"
+                      ]
+                    },
+                    "publicKey": {    
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    },
+                    "iv": {    
+                      "type": [
+                        "string",
+                        "null"
+                      ]
+                    }
+                  }
+                },
+                "isRequired": {    
+                  "title": "Is the attribute required? Boolean value.",
+                  "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "userInterface": {    
+                  "anyOf": [
+                    { "$ref": "typeUserInterface.json" },
+                    {
+                      "additionalProperties": false, 
+                      "properties": {
+                        "$ref": {
+                          "type": "string",
+                          "format": "uri",
+                          "pattern": "^[^\\s]*$"
+                        }
+                      }
+                    }
+                  ]
+                },
+                "isReadonly": {    
+                  "title": "Is this attribute readonly? Boolean value.",
+                  "description": "Indicates whether this attribute is readonly. Defaults to false.",
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            {
+              "required": [
+                "name",
+                "type"
+              ],
+              "properties": {
+                "objectTypeOptions": {    
+                  "type": [
+                    "object",
+                    "null"
+                  ],
+                  "required": [
+                    "attributes"
+                  ],
+                  "properties": {
+                    "attributes": {    
+                      "type": "array",
+                      "items":   {
+                        "anyOf": [
+                          { "$ref": "type.json" },
+                          {
+                            "additionalProperties": false, 
+                            "properties": {
+                              "$ref": {
+                                "type": "string",
+                                "format": "uri",
+                                "pattern": "^[^\\s]*$"
+                              }
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  }
+                },
+                "name": {    
+                  "title": "The name of the attribute. Contains no spaces.",
+                  "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+                  "type": "string",
+                  "pattern": "^[^\\s]*$"
+                },
+                "description": {    
+                  "title": "The description of the attribute.",
+                  "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+                  "type": [
+                    "string",
+                    "null"
+                  ]
+                },
+                "type": {    
                   "const": "user"
                 },
                 "userTypeOptions": {    
@@ -5886,7 +6115,6 @@
                     "dayOfWeek",
                     "distance",
                     "email",
-                    "encryptedText",
                     "guid",
                     "html",
                     "internetDomain",
@@ -8026,6 +8254,118 @@
           ]
         },
         "type": {    
+          "const": "encryptedText"
+        },
+        "encryptedTextTypeOptions": {    
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "encryptionAlgorithm": {    
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "aes"
+              ]
+            },
+            "publicKey": {    
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "iv": {    
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "isRequired": {    
+          "title": "Is the attribute required? Boolean value.",
+          "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "userInterface": {    
+          "anyOf": [
+            { "$ref": "typeUserInterface.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "isReadonly": {    
+          "title": "Is this attribute readonly? Boolean value.",
+          "description": "Indicates whether this attribute is readonly. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "emitEvents": {    
+          "type": [
+            "array",
+            "null"
+          ],
+          "items":   {
+            "type": [
+              "string",
+              "null"
+            ],
+            "properties": {
+              "chars": {    
+                "type": [
+                  "object",
+                  "null"
+                ]
+              },
+              "length": {    
+                "type": [
+                  "integer",
+                  "null"
+                ]
+              }
+            }
+          }
+        },
+        "name": {    
+          "title": "The name of the attribute. Contains no spaces.",
+          "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the attribute.",
+          "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {    
           "const": "user"
         },
         "userTypeOptions": {    
@@ -8689,7 +9029,6 @@
             "dayOfWeek",
             "distance",
             "email",
-            "encryptedText",
             "guid",
             "html",
             "internetDomain",

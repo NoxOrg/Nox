@@ -15,6 +15,12 @@ public sealed class EncryptedText : ValueObject<byte[], EncryptedText>
     }
 
     /// <summary>
+    /// <see cref="EncryptedText"/> object can only be created from a byte array with <see cref="ValueObject{T,TValueObject}.FromDatabase"/>.
+    /// </summary>
+    public new static EncryptedText From(byte[] _) =>
+        throw new InvalidOperationException($"{nameof(EncryptedText)} can only be created with {nameof(FromDatabase)}.");
+
+    /// <summary>
     /// Creates an <see cref="EncryptedText"/> from a string using the provided <paramref name="typeOptions"/>.
     /// </summary>
     /// <param name="value">Plain text to be encrypted.</param>
@@ -39,27 +45,6 @@ public sealed class EncryptedText : ValueObject<byte[], EncryptedText>
     }
 
     /// <summary>
-    /// Creates an <see cref="EncryptedText"/> from an encrypted data as byte array.
-    /// </summary>
-    /// <param name="value">Encrypted data as byte array.</param>
-    /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
-    public static EncryptedText FromEncryptedTextBytes(byte[] value)
-    {
-        var newObject = new EncryptedText
-        {
-            Value = value
-        };
-
-        var validationResult = newObject.Validate();
-
-        if (!validationResult.IsValid)
-            throw new TypeValidationException(validationResult.Errors);
-
-        return newObject;
-    }
-
-    /// <summary>
     /// Decrypts the value using the provided algorithm options.
     /// </summary>
     /// <returns>Decrypted text representation of the <see cref="EncryptedText"/> object.</returns>
@@ -68,12 +53,10 @@ public sealed class EncryptedText : ValueObject<byte[], EncryptedText>
     /// <inheritdoc />
     public override bool Equals(object? obj)
     {
-        if (obj == null || obj.GetType() != GetType())
-        {
-            return false;
-        }
+        if (obj is EncryptedText encryptedText)
+            return Value.SequenceEqual(encryptedText.Value);
 
-        return Value.SequenceEqual(((EncryptedText)obj).Value);
+        return false;
     }
 
     /// <inheritdoc />
@@ -85,7 +68,7 @@ public sealed class EncryptedText : ValueObject<byte[], EncryptedText>
     /// <returns>true if the <see cref="EncryptedText"/> value is valid.</returns>
     internal override ValidationResult Validate()
     {
-        var result = new ValidationResult();
+        var result = base.Validate();
 
         if (Value.Length < 1)
             result.Errors.Add(new ValidationFailure(nameof(Value),

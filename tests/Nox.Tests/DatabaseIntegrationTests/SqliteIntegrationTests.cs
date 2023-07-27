@@ -48,16 +48,20 @@ public class SqliteIntegrationTests : SqliteTestBase
         var currencyCode = CurrencyCode.UAH;
         var countryCode2 = "UA";
         var currencyCode3 = "USD";
+        var countryCode3 = "UKR";
         var addressItem = new StreetAddressItem
         {
             AddressLine1 = "AddressLine1",
-            CountryId = CountryCode2.From("UA"),
+            CountryId = CountryCode2.From(countryCode2),
             PostalCode = "61135"
         };
-        var languageCode = "en";        
+        var languageCode = "en";
         var area = 198_090M;
         var areaPersistUnitAs = AreaTypeUnit.SquareMeter;
         var cultureCode = "de-CH";
+        var macAddress = "A1B2C3D4E5F6";
+        var password = "Test123.";
+
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
         
@@ -74,6 +78,12 @@ public class SqliteIntegrationTests : SqliteTestBase
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
             CultureCodeTestField = CultureCode.From(cultureCode),
+            TranslatedTextTestField = TranslatedText.From((CultureCode.From("ur-PK"), "شادی مبارک")),
+            CountryCode3TestField = CountryCode3.From(countryCode3),
+            TimeZoneCodeTestField = TimeZoneCode.From("utc"),
+            MacAddressTestField = MacAddress.From(macAddress),
+            HashedTextTestField = HashedText.From(text),
+            PasswordTestField = Password.From(password),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
@@ -96,8 +106,16 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
         testEntity.AreaTestField!.Unit.Should().Be(areaPersistUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
-		testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
+    		testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
+        testEntity.TranslatedTextTestField!.Value.Phrase.Should().BeEquivalentTo("شادی مبارک");
+        testEntity.CountryCode3TestField!.Value.Should().Be(countryCode3);
+        testEntity.TimeZoneCodeTestField!.Value.Should().Be("UTC");
+        testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
+        testEntity.HashedTextTestField!.HashText.Should().Be(newItem.HashedTextTestField?.HashText);
+        testEntity.HashedTextTestField!.Salt.Should().Be(newItem.HashedTextTestField?.Salt);
+        testEntity.PasswordTestField!.HashedPassword.Should().Be(newItem.PasswordTestField.HashedPassword);
+        testEntity.PasswordTestField!.Salt.Should().Be(newItem.PasswordTestField.Salt);
         testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
         testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);

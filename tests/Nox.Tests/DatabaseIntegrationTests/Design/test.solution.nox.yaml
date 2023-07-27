@@ -263,11 +263,14 @@ domain:
         - name: AreaTestField
           type: area
 
+        - name: TimeZoneCodeTestField
+          type: timeZoneCode
+
         #- name: BooleanTestField
         #  type: boolean
 
-        #- name: CountryCode3TestField
-        #  type: countryCode3
+        - name: CountryCode3TestField
+          type: countryCode3
 
         #- name: CountryNumberTestField
         #  type: countryNumber
@@ -296,8 +299,8 @@ domain:
         #- name: GuidTestField
         #  type: guid
 
-        #- name: HashedTextTestField
-        #  type: hashedText
+        - name: HashedTextTestField
+          type: hashedText
 
         #- name: InternetDomainTestField
         #  type: internetDomain
@@ -308,8 +311,8 @@ domain:
         #- name: LengthTestField
         #  type: length
 
-        #- name: MacAddressTestField
-        #  type: macAddress
+        - name: MacAddressTestField
+          type: macAddress
 
         #- name: MonthTestField
         #  type: month
@@ -317,8 +320,8 @@ domain:
         #- name: NuidTestField
         #  type: nuid
 
-        #- name: PasswordTestField
-        #  type: password
+        - name: PasswordTestField
+          type: password
 
         #- name: PercentageTestField
         #  type: percentage
@@ -329,6 +332,9 @@ domain:
         - name: TempratureTestField
           type: temperature
   
+
+        - name: TranslatedTextTestField
+          type: translatedText
 
         #- name: UriTestField
         #  type: uri

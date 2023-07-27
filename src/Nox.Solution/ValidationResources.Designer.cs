@@ -358,6 +358,15 @@ namespace Nox.Solution {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Entity {0}: Key {1} should not be Compound type..
+        /// </summary>
+        internal static string EntityKeyShouldNotBeCompoundType {
+            get {
+                return ResourceManager.GetString("EntityKeyShouldNotBeCompoundType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The entity name: {0} is duplicated. Entity names must be unique in a solution..
         /// </summary>
         internal static string EntityNameDuplicate {
