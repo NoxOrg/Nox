@@ -1,6 +1,7 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Nox.Types;
+
 using TestWebApp.Domain;
 using DayOfWeek = Nox.Types.DayOfWeek;
 
@@ -32,7 +33,6 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         // uri
         // url
         // date
-        // dateTimeDuration
         // dateTimeSchedule
         // html
         // json
@@ -64,7 +64,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var macAddress = "A1B2C3D4E5F6";
         var password = "Test123.";
         byte month = 7;
-
+        var dateTimeDurationInHours = 30.5;
 
         var newItem = new TestEntityForTypes()
         {
@@ -86,6 +86,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             PasswordTestField = Password.From(password),
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
+            DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours, new DateTimeDurationTypeOptions { MaxDuration = 100, TimeUnit = TimeUnit.Day }),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -119,6 +120,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.PasswordTestField!.Salt.Should().Be(newItem.PasswordTestField.Salt);
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
         testEntity.MonthTestField!.Value.Should().Be(month);
+        testEntity.DateTimeDurationTestField!.TotalHours.Should().Be(dateTimeDurationInHours);
     }
 
     //[Fact]

@@ -237,7 +237,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.HashedText.HashText.Should().Be(newItem.HashedText.HashText);
         item.HashedText.Salt.Should().Be(newItem.HashedText.Salt);
         item.CreateDate.Should().Be(DateTime.From(new System.DateTime(2023, 01, 01)));
-        item.DateTimeDuration.Value.Should().Be(new TimeSpan(10, 5, 2, 1));
+        item.DateTimeDuration.Value.Should().Be(new TimeSpan(10, 5, 2, 1).Ticks);
         item.Nuid.Value.Should().Be(NuidDefinition.NuidValue);
         Assert.Equal(newItem.Password, item.Password);
         AssertStreetAddress(streetAddress, item.StreetAddress);

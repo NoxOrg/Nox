@@ -3,9 +3,6 @@
 #nullable enable
 
 using Nox.Types;
-using System;
-using System.Collections.Generic;
-using DayOfWeek = Nox.Types.DayOfWeek;
 
 namespace TestWebApp.Domain;
 
@@ -53,6 +50,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Nox.Types.DayOfWeek? DayOfWeekTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Area? AreaTestField { get; set; } = null!;
 
     /// <summary>
@@ -78,6 +80,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Month? MonthTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Password? PasswordTestField { get; set; } = null!;
 
     /// <summary>
@@ -98,10 +105,5 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public DayOfWeek? DayOfWeekTestField { get; set; } = null!;
-
-    /// <summary>
-    ///  (Optional).
-    /// </summary>
-    public Month? MonthTestField { get; set; } = null!;
+    public DateTimeDuration? DateTimeDurationTestField { get; set; } = null!;
 }

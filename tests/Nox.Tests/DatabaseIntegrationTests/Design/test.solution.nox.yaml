@@ -409,3 +409,6 @@ domain:
 
         - name: LanguageCodeTestField
           type: languageCode
+
+        - name: DateTimeDurationTestField
+          type: dateTimeDuration

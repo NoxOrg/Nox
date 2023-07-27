@@ -32,7 +32,6 @@ public class SqliteIntegrationTests : SqliteTestBase
         // uri
         // url
         // date
-        // dateTimeDuration
         // dateTimeSchedule
         // html
         // json
@@ -64,6 +63,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         var password = "Test123.";
         var dayOfWeek = 1;
         byte month = 7;
+        var dateTimeDurationInHours = 30.5;
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -84,6 +85,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             PasswordTestField = Password.From(password),
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
+            DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -116,6 +118,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.PasswordTestField!.Salt.Should().Be(newItem.PasswordTestField.Salt);
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
         testEntity.MonthTestField!.Value.Should().Be(month);
+        testEntity.DateTimeDurationTestField!.TotalHours.Should().Be(dateTimeDurationInHours);
     }
 
     [Fact]
