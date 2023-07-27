@@ -35,8 +35,6 @@ internal static class NoxWebApplicationExtensionGenerator
         code.AppendLine("using System.Reflection;");
         code.AppendLine("using Nox;");
         code.AppendLine("using Nox.Solution;");
-        code.AppendLine("using Nox.Logging.Serilog;");
-        code.AppendLine("using Nox.Monitoring.ElasticApm;");
         code.AppendLines(usings.ToArray());
         code.AppendLine("using Nox.Types.EntityFramework.Abstractions;");
         code.AppendLine($"using {solution.Name}.Infrastructure.Persistence;");
