@@ -57,12 +57,12 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public CultureCode? CultureCodeTestField { get; set; } = null!;
+    public CountryCode3? CountryCode3TestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public LanguageCode? LanguageCodeTestField { get; set; } = null!;
+    public MacAddress? MacAddressTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -72,5 +72,10 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public CountryCode3? CountryCode3TestField { get; set; } = null!;
+    public CultureCode? CultureCodeTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public LanguageCode? LanguageCodeTestField { get; set; } = null!;
 }
