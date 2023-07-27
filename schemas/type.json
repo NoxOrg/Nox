@@ -266,20 +266,23 @@
                 "BMD",
                 "BND",
                 "BOB",
+                "BOV",
                 "BRL",
                 "BSD",
-                "BTC",
                 "BTN",
                 "BWP",
                 "BYN",
-                "BYR",
                 "BZD",
                 "CAD",
                 "CDF",
+                "CHE",
                 "CHF",
+                "CHW",
+                "CLF",
                 "CLP",
                 "CNY",
                 "COP",
+                "COU",
                 "CRC",
                 "CUC",
                 "CUP",
@@ -305,7 +308,6 @@
                 "GYD",
                 "HKD",
                 "HNL",
-                "HRK",
                 "HTG",
                 "HUF",
                 "IDR",
@@ -339,12 +341,12 @@
                 "MMK",
                 "MNT",
                 "MOP",
-                "MRO",
-                "MTL",
+                "MRU",
                 "MUR",
                 "MVR",
                 "MWK",
                 "MXN",
+                "MXV",
                 "MYR",
                 "MZN",
                 "NAD",
@@ -369,15 +371,16 @@
                 "SAR",
                 "SBD",
                 "SCR",
-                "SDD",
                 "SDG",
                 "SEK",
                 "SGD",
                 "SHP",
+                "SLE",
                 "SLL",
                 "SOS",
                 "SRD",
-                "STD",
+                "SSP",
+                "STN",
                 "SVC",
                 "SYP",
                 "SZL",
@@ -388,28 +391,42 @@
                 "TOP",
                 "TRY",
                 "TTD",
-                "TVD",
                 "TWD",
                 "TZS",
                 "UAH",
                 "UGX",
                 "USD",
+                "USN",
+                "UYI",
                 "UYU",
+                "UYW",
                 "UZS",
-                "VEB",
-                "VEF",
+                "VED",
+                "VES",
                 "VND",
                 "VUV",
-                "WON",
                 "WST",
                 "XAF",
-                "XBT",
+                "XAG",
+                "XAU",
+                "XBA",
+                "XBB",
+                "XBC",
+                "XBD",
                 "XCD",
+                "XDR",
                 "XOF",
+                "XPD",
                 "XPF",
+                "XPT",
+                "XSU",
+                "XTS",
+                "XUA",
+                "XXX",
                 "YER",
                 "ZAR",
-                "ZMW"
+                "ZMW",
+                "ZWL"
               ]
             }
           }
@@ -798,6 +815,12 @@
             "null"
           ],
           "properties": {
+            "prefix": {    
+              "type": [
+                "string",
+                "null"
+              ]
+            },
             "separator": {    
               "type": [
                 "string",
@@ -1591,6 +1614,92 @@
           ]
         },
         "type": {    
+          "const": "encryptedText"
+        },
+        "encryptedTextTypeOptions": {    
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "encryptionAlgorithm": {    
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "aes"
+              ]
+            },
+            "publicKey": {    
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "iv": {    
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "isRequired": {    
+          "title": "Is the attribute required? Boolean value.",
+          "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "userInterface": {    
+          "anyOf": [
+            { "$ref": "typeUserInterface.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "isReadonly": {    
+          "title": "Is this attribute readonly? Boolean value.",
+          "description": "Indicates whether this attribute is readonly. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the attribute. Contains no spaces.",
+          "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the attribute.",
+          "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {    
           "const": "user"
         },
         "userTypeOptions": {    
@@ -2059,7 +2168,7 @@
             "countryCode3",
             "countryNumber",
             "cultureCode",
-            "currencyCode",
+            "currencyCode3",
             "currencyNumber",
             "databaseNumber",
             "dateTimeRange",
@@ -2067,7 +2176,6 @@
             "dayOfWeek",
             "distance",
             "email",
-            "encryptedText",
             "guid",
             "html",
             "internetDomain",

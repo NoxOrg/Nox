@@ -57,7 +57,22 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public CountryCode3? CountryCode3TestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public MacAddress? MacAddressTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public TranslatedText? TranslatedTextTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public CultureCode? CultureCodeTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).

@@ -25,7 +25,10 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             CountryId = CountryCode2.From("UA"),
             PostalCode = "61135"
         };
+        var cultureCode = "de-CH";
+        var countryCode3 = "UKR";
         var macAddress = "A1B2C3D4E5F6";
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -37,6 +40,9 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             CountryCode2TestField = CountryCode2.From(countryCode2),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
+            CultureCodeTestField = CultureCode.From(cultureCode),
+            TranslatedTextTestField = TranslatedText.From((CultureCode.From("ur-PK"), "شادی مبارک")),
+            CountryCode3TestField = CountryCode3.From(countryCode3),
             MacAddressTestField = MacAddress.From(macAddress),
         };
         DbContext.TestEntityForTypes.Add(newItem);
@@ -59,6 +65,9 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
         testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
+        testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
+        testEntity.TranslatedTextTestField!.Value.Phrase.Should().BeEquivalentTo("شادی مبارک");
+        testEntity.CountryCode3TestField!.Value.Should().Be(countryCode3);
         testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
     }
 }

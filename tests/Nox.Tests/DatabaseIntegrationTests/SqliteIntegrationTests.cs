@@ -48,16 +48,19 @@ public class SqliteIntegrationTests : SqliteTestBase
         var currencyCode = CurrencyCode.UAH;
         var countryCode2 = "UA";
         var currencyCode3 = "USD";
+        var countryCode3 = "UKR";
         var addressItem = new StreetAddressItem
         {
             AddressLine1 = "AddressLine1",
-            CountryId = CountryCode2.From("UA"),
+            CountryId = CountryCode2.From(countryCode2),
             PostalCode = "61135"
         };
         var languageCode = "en";
         var area = 198_090M;
         var persistUnitAs = AreaTypeUnit.SquareMeter;
+        var cultureCode = "de-CH";
         var macAddress = "A1B2C3D4E5F6";
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(text),
@@ -69,6 +72,9 @@ public class SqliteIntegrationTests : SqliteTestBase
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
+            CultureCodeTestField = CultureCode.From(cultureCode),
+            TranslatedTextTestField = TranslatedText.From((CultureCode.From("ur-PK"), "شادی مبارک")),
+            CountryCode3TestField = CountryCode3.From(countryCode3),
             MacAddressTestField = MacAddress.From(macAddress),
         };
         DbContext.TestEntityForTypes.Add(newItem);
@@ -90,7 +96,10 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
         testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
-		testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
+    		testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
+        testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
+        testEntity.TranslatedTextTestField!.Value.Phrase.Should().BeEquivalentTo("شادی مبارک");
+        testEntity.CountryCode3TestField!.Value.Should().Be(countryCode3);
         testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
     }
     [Fact]
