@@ -23,10 +23,11 @@ public partial class TestEntityOneOrMany : AuditableEntityBase
     ///  (Required).
     /// </summary>
     public Text TextTestField { get; set; } = null!;
+
     /// <summary>
     /// TestEntityOneOrMany Test entity relationship to SecondTestEntityOneOrMany OneOrMany SecondTestEntityOneOrManies
     /// </summary>
     public virtual List<SecondTestEntityOneOrMany> SecondTestEntityOneOrManies { get; set; } = new();
-    
+
     public List<SecondTestEntityOneOrMany> SecondTestEntityRelationship => SecondTestEntityOneOrManies;
 }
