@@ -10,11 +10,18 @@ namespace Nox;
 
 public static class ServiceCollectionExtension
 {
-    public static IServiceCollection AddNoxLib(this IServiceCollection services)
+    public static IServiceCollection AddNoxLib(this IServiceCollection services, Assembly entryAssembly)
     {
         return services
             .AddSingleton(typeof(NoxSolution), CreateSolution)
-            .AddSecretsResolver();
+            .AddSecretsResolver()
+            .AddNoxMediatR(entryAssembly)
+            .AddNoxTypesDatabaseConfigurator(entryAssembly)
+            .AddAutoMapper(entryAssembly);
+    }
+    private static IServiceCollection AddNoxMediatR(this IServiceCollection services, Assembly entryAssembly)
+    {
+        return services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(entryAssembly));
     }
 
     private static NoxSolution CreateSolution(IServiceProvider serviceProvider)
@@ -45,7 +52,7 @@ public static class ServiceCollectionExtension
         return services;
     }
 
-    public static IServiceCollection AddNoxTypesDatabaseConfigurator(this IServiceCollection services,
+    private static IServiceCollection AddNoxTypesDatabaseConfigurator(this IServiceCollection services,
         Assembly entryAssembly)
     {
         var allAssemblies =
