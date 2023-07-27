@@ -11,7 +11,7 @@ using Nox.Types;
 
 namespace Nox.Integration.Service;
 
-public class EntityExecutor
+public class EntityExecutor: ExecutorBase
 {
     private readonly ILogger _logger;
     private readonly Solution.Integration _definition;
@@ -26,7 +26,7 @@ public class EntityExecutor
         IStoreService storeService,
         IIntegrationSource source,
         IIntegrationTarget target,
-        Entity entity)
+        Entity entity): base(definition)
     {
         _logger = logger;
         _storeService = storeService;
@@ -62,7 +62,7 @@ public class EntityExecutor
             var dataSource = _source.DataFlowSource();
             
             //Include all transformations
-            //IncludeTransformation(dataSource);
+            IncludeTransformation(dataSource);
             
             dataSource.LinkTo(destination);
             var postProcessDestination = new CustomDestination();

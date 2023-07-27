@@ -31,44 +31,40 @@ public abstract class ExecutorBase
                 });
             }
 
-            var transforms = _definition.Transform.Mappings.Where(m => m.Converter != null).ToList();
-            if (transforms.Any())
+            var converters = _definition.Transform.Mappings.Where(m => m.Converter != null).ToList();
+            if (converters.Any())
             {
-                foreach (var transform in transforms)
+                foreach (var converter in converters)
                 {
-                    switch (transform.Converter)
+                    var rowTransform = new RowTransformation<ExpandoObject>(row =>
                     {
-                        case IntegrationMappingConverter.LowerCase:
-                            namedRow[transform.TargetAttribute] = namedRow[transform.SourceColumn].ToString()!.ToLower();
-                            break;
-                        case IntegrationMappingConverter.UpperCase:
-                            namedRow[transform.TargetAttribute] = namedRow[transform.SourceColumn].ToString()!.ToUpper();
-                            break;
-                    }
-
-                        
+                        var namedRow = (IDictionary<string, object>)row!;
+                        switch (converter.Converter)
+                        {
+                            case IntegrationMappingConverter.LowerCase:
+                                namedRow[converter.TargetAttribute] = namedRow[converter.SourceColumn].ToString()!.ToLower();
+                                break;
+                            case IntegrationMappingConverter.UpperCase:
+                                namedRow[converter.TargetAttribute] = namedRow[converter.SourceColumn].ToString()!.ToUpper();
+                                break;
+                        }
+                        return (ExpandoObject)namedRow!;
+                    });
+                    dataSource.LinkTo(rowTransform);
                 }
                 
-                var rowTransform = new RowTransformation
-                {
-                    TransformationFunc = TransformationFunc
-                };
-
-                var old = new RowTransformation<ExpandoObject>(row =>
-                {
-                    
-                    var namedRow = (IDictionary<string, object>)row!;
-                    
-                    return (ExpandoObject)namedRow!;
-                });
-                dataSource.LinkTo(rowTransform);
+                //new
+                // var rowTransform = new RowTransformation
+                // {
+                //     TransformationFunc = TransformationFunc
+                // };
             }
             dataSource.LinkTo(map);
         }
     }
 
-    private ExpandoObject TransformationFunc(ExpandoObject arg)
-    {
-        
-    }
+    // private ExpandoObject TransformationFunc(ExpandoObject arg)
+    // {
+    //     
+    // }
 }
