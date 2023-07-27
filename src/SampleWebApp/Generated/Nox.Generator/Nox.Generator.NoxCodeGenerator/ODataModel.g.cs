@@ -148,7 +148,7 @@ public class OStore : SampleWebApp.Domain.AuditableEntityBase
     /// <summary>
     /// Set of passwords for this store.
     /// </summary>
-    public StoreSecurityPasswords PasswordsRel { get; set; } = null!;
+    public OStoreSecurityPasswords PasswordsRel { get; set; } = null!;
 }
 
 /// <summary>
@@ -168,7 +168,7 @@ public class OStoreSecurityPasswords : SampleWebApp.Domain.AuditableEntityBase
     /// <summary>
     /// Store with this set of passwords.
     /// </summary>
-    public Store StoreRel { get; set; } = null!;
+    public OStore StoreRel { get; set; } = null!;
 }
 
 /// <summary>
