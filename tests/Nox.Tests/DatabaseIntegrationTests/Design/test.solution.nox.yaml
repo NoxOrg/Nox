@@ -299,8 +299,8 @@ domain:
         #- name: GuidTestField
         #  type: guid
 
-        #- name: HashedTextTestField
-        #  type: hashedText
+        - name: HashedTextTestField
+          type: hashedText
 
         #- name: InternetDomainTestField
         #  type: internetDomain
@@ -311,8 +311,8 @@ domain:
         #- name: LengthTestField
         #  type: length
 
-        #- name: MacAddressTestField
-        #  type: macAddress
+        - name: MacAddressTestField
+          type: macAddress
 
         #- name: MonthTestField
         #  type: month
