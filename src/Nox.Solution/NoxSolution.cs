@@ -48,7 +48,7 @@ public class NoxSolution : Solution
                     isIgnored = true;
                 }
                 // If ZeroOrOne vs ExactlyOne handle on ExactlyOne side
-                if (pairRelationship.Relationship == EntityRelationshipType.ExactlyOne &&
+                else if (pairRelationship.Relationship == EntityRelationshipType.ExactlyOne &&
                     relationship.Relationship == EntityRelationshipType.ZeroOrOne)
                 {
                     isIgnored = true;
