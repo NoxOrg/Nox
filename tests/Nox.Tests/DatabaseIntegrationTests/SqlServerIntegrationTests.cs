@@ -80,7 +80,6 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
             CultureCodeTestField = CultureCode.From(cultureCode),
-            JsonTestField = Json.From(addressJsonPretty),
             TranslatedTextTestField = TranslatedText.From((CultureCode.From("ur-PK"), "شادی مبارک")),
             CountryCode3TestField = CountryCode3.From(countryCode3),
             TimeZoneCodeTestField = TimeZoneCode.From("utc"),

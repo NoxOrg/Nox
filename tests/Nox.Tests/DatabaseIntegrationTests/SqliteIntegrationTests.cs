@@ -1,6 +1,5 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
-using MongoDB.Bson;
 using Nox.Types;
 using Nox.Types.Common;
 using System.Text.Json;
@@ -83,7 +82,6 @@ public class SqliteIntegrationTests : SqliteTestBase
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
             CultureCodeTestField = CultureCode.From(cultureCode),
-            JsonTestField = Json.From(addressJsonPretty),
             TranslatedTextTestField = TranslatedText.From((CultureCode.From("ur-PK"), "شادی مبارک")),
             CountryCode3TestField = CountryCode3.From(countryCode3),
             TimeZoneCodeTestField = TimeZoneCode.From("utc"),
@@ -93,7 +91,6 @@ public class SqliteIntegrationTests : SqliteTestBase
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
-            AreaTestField = Area.From(areaInSquareMeters, new AreaTypeOptions() { Units = AreaTypeUnit.SquareMeter, PersistAs = persistUnitAs }),
             JsonTestField = Json.From(addressJsonPretty)
         };
         DbContext.TestEntityForTypes.Add(newItem);
