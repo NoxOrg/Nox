@@ -326,8 +326,9 @@ domain:
         #- name: PhoneNumberTestField
         #  type: phoneNumber
 
-        #- name: TempratureTestField
-        #  type: temperature
+        - name: TempratureTestField
+          type: temperature
+  
 
         #- name: UriTestField
         #  type: uri
