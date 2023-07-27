@@ -32,6 +32,5 @@ public partial class Store : AuditableEntityBase
     /// <summary>
     /// Store Set of passwords for this store ExactlyOne StoreSecurityPasswords
     /// </summary>
-
     public virtual StoreSecurityPasswords StoreSecurityPasswords { get; set; } = null!;
 }

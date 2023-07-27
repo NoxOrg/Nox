@@ -21,6 +21,7 @@ public partial class CurrenciesApplicationService : ICurrencyApplicationService
     {
         DatabaseContext = databaseContext;
     }
+
     public virtual Currency Create(CurrencyDto odataModel)
     {
         var entity = new Currency();
@@ -28,7 +29,6 @@ public partial class CurrenciesApplicationService : ICurrencyApplicationService
         DatabaseContext.Currencies.Add(entity);
         return entity;
     }
-
 
     public virtual Currency Update(CurrencyDto odataModel)
     {

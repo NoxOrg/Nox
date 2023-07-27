@@ -21,6 +21,7 @@ public partial class StoresApplicationService : IStoreApplicationService
     {
         DatabaseContext = databaseContext;
     }
+
     public virtual Store Create(StoreDto odataModel)
     {
         var entity = new Store();
@@ -28,7 +29,6 @@ public partial class StoresApplicationService : IStoreApplicationService
         DatabaseContext.Stores.Add(entity);
         return entity;
     }
-
 
     public virtual Store Update(StoreDto odataModel)
     {

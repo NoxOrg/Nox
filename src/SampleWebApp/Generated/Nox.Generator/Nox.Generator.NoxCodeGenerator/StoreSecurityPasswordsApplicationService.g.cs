@@ -21,6 +21,7 @@ public partial class StoreSecurityPasswordsApplicationService : IStoreSecurityPa
     {
         DatabaseContext = databaseContext;
     }
+
     public virtual StoreSecurityPasswords Create(StoreSecurityPasswordsDto odataModel)
     {
         var entity = new StoreSecurityPasswords();
@@ -28,7 +29,6 @@ public partial class StoreSecurityPasswordsApplicationService : IStoreSecurityPa
         DatabaseContext.StoreSecurityPasswords.Add(entity);
         return entity;
     }
-
 
     public virtual StoreSecurityPasswords Update(StoreSecurityPasswordsDto odataModel)
     {

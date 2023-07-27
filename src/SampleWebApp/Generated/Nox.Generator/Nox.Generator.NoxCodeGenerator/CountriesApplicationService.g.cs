@@ -21,6 +21,7 @@ public partial class CountriesApplicationService : ICountryApplicationService
     {
         DatabaseContext = databaseContext;
     }
+
     public virtual Country Create(CountryDto odataModel)
     {
         var entity = new Country();
@@ -28,7 +29,6 @@ public partial class CountriesApplicationService : ICountryApplicationService
         DatabaseContext.Countries.Add(entity);
         return entity;
     }
-
 
     public virtual Country Update(CountryDto odataModel)
     {
