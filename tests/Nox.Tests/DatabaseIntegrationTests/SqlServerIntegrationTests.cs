@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Nox.Types;
 using TestWebApp.Domain;
+using DayOfWeek = Nox.Types.DayOfWeek;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
 
@@ -48,6 +49,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var currencyCode = CurrencyCode.UAH;
         var countryCode2 = "UA";
         var currencyCode3 = "USD";
+        var dayOfWeek = 1;
         var addressItem = new StreetAddressItem
         {
             AddressLine1 = "AddressLine1",
@@ -81,6 +83,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             MacAddressTestField = MacAddress.From(macAddress),
             HashedTextTestField = HashedText.From(text),
             PasswordTestField = Password.From(password),
+            DayOfWeekTestField = DayOfWeek.From(1),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -112,6 +115,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.HashedTextTestField!.Salt.Should().Be(newItem.HashedTextTestField.Salt);
         testEntity.PasswordTestField!.HashedPassword.Should().Be(newItem.PasswordTestField.HashedPassword);
         testEntity.PasswordTestField!.Salt.Should().Be(newItem.PasswordTestField.Salt);
+        testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
     }
 
     //[Fact]

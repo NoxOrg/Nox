@@ -310,6 +310,9 @@ domain:
         - name: CurrencyCode3TestField
           type: currencyCode3
           
+          
+        - name: DayOfWeekTestField
+          type: dayOfWeek
 
         #- name: GeoCoordTestField
         #  type: latLong

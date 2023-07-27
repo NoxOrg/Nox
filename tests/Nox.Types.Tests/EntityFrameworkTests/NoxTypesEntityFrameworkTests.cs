@@ -109,6 +109,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Password = Password.From("Test123."),
             CurrencyNumber = CurrencyNumber.From(999),
             Color = Color.From(255,255,255,0),
+            DayOfWeek = DayOfWeek.From(1),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -184,6 +185,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Password = Password.From("Test123."),
             CurrencyNumber = CurrencyNumber.From(840),
             Color = Color.From(255,120,95,230),
+            DayOfWeek = DayOfWeek.From(1),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -260,6 +262,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.DatabaseId.Value.Should().Be(10U);
         item.CurrencyNumber.Value.Should().Be(840);
         item.Color.Value.Should().Equal(new byte[] { 255, 120, 95, 230 });
+        item.DayOfWeek.Value.Should().Be(1);
     }
 
     private static StreetAddress CreateStreetAddress()

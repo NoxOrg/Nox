@@ -5,6 +5,7 @@
 using Nox.Types;
 using System;
 using System.Collections.Generic;
+using DayOfWeek = Nox.Types.DayOfWeek;
 
 namespace TestWebApp.Domain;
 
@@ -93,4 +94,9 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public LanguageCode? LanguageCodeTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public DayOfWeek? DayOfWeekTestField { get; set; } = null!;
 }

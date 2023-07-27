@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Nox.Types;
 using TestWebApp.Domain;
+using DayOfWeek = Nox.Types.DayOfWeek;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
 
@@ -61,6 +62,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var cultureCode = "de-CH";
         var macAddress = "A1B2C3D4E5F6";
         var password = "Test123.";
+        var dayOfWeek = 1;
 
         var newItem = new TestEntityForTypes()
         {
@@ -80,6 +82,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             MacAddressTestField = MacAddress.From(macAddress),
             HashedTextTestField = HashedText.From(text),
             PasswordTestField = Password.From(password),
+            DayOfWeekTestField = DayOfWeek.From(1),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -110,6 +113,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.HashedTextTestField!.Salt.Should().Be(newItem.HashedTextTestField?.Salt);
         testEntity.PasswordTestField!.HashedPassword.Should().Be(newItem.PasswordTestField.HashedPassword);
         testEntity.PasswordTestField!.Salt.Should().Be(newItem.PasswordTestField.Salt);
+        testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
     }
 
     [Fact]
