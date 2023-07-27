@@ -320,8 +320,8 @@ domain:
         #- name: NuidTestField
         #  type: nuid
 
-        #- name: PasswordTestField
-        #  type: password
+        - name: PasswordTestField
+          type: password
 
         #- name: PercentageTestField
         #  type: percentage

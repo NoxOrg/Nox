@@ -28,6 +28,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var cultureCode = "de-CH";
         var countryCode3 = "UKR";
         var macAddress = "A1B2C3D4E5F6";
+        var password = "Test123.";
 
         var newItem = new TestEntityForTypes()
         {
@@ -46,6 +47,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             TimeZoneCodeTestField = TimeZoneCode.From("utc"),
             MacAddressTestField = MacAddress.From(macAddress),
             HashedTextTestField = HashedText.From(text),
+            PasswordTestField = Password.From(password),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -75,5 +77,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
         testEntity.HashedTextTestField!.HashText.Should().Be(newItem.HashedTextTestField.HashText);
         testEntity.HashedTextTestField!.Salt.Should().Be(newItem.HashedTextTestField.Salt);
+        testEntity.PasswordTestField!.HashedPassword.Should().Be(newItem.PasswordTestField.HashedPassword);
+        testEntity.PasswordTestField!.Salt.Should().Be(newItem.PasswordTestField.Salt);
     }
 }
