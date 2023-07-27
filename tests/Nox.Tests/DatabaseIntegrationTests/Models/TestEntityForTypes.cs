@@ -3,6 +3,8 @@
 #nullable enable
 
 using Nox.Types;
+using System;
+using System.Collections.Generic;
 
 namespace TestWebApp.Domain;
 
@@ -66,6 +68,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public CountryCode3? CountryCode3TestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public DateTimeRange? DateTimeRangeTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).

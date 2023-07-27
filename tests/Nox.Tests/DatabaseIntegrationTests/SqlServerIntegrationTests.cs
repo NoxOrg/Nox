@@ -1,8 +1,11 @@
 using FluentAssertions;
+
 using Microsoft.EntityFrameworkCore;
+
 using Nox.Types;
 
 using TestWebApp.Domain;
+
 using DayOfWeek = Nox.Types.DayOfWeek;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
@@ -65,6 +68,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var password = "Test123.";
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
+        var dateTimeRangeStart = new System.DateTime(2023, 4, 12);
+        var dateTimeRangeEnd = new System.DateTime(2023, 7, 10);
 
         var newItem = new TestEntityForTypes()
         {
@@ -87,6 +92,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours, new DateTimeDurationTypeOptions { MaxDuration = 100, TimeUnit = TimeUnit.Day }),
+            DateTimeRangeTestField = DateTimeRange.From(dateTimeRangeStart, dateTimeRangeEnd),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -110,7 +116,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
         testEntity.TranslatedTextTestField!.Value.Phrase.Should().BeEquivalentTo("شادی مبارک");
-        testEntity.CountryCode3TestField!.Value.Should().Be(countryCode3);    
+        testEntity.CountryCode3TestField!.Value.Should().Be(countryCode3);
         testEntity.TimeZoneCodeTestField!.Value.Should().Be("UTC");
         testEntity.CountryCode3TestField!.Value.Should().Be(countryCode3);
         testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
@@ -121,6 +127,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
         testEntity.MonthTestField!.Value.Should().Be(month);
         testEntity.DateTimeDurationTestField!.TotalHours.Should().Be(dateTimeDurationInHours);
+        testEntity.DateTimeRangeTestField!.Start.Should().Be(dateTimeRangeStart);
+        testEntity.DateTimeRangeTestField!.End.Should().Be(dateTimeRangeEnd);
     }
 
     //[Fact]
