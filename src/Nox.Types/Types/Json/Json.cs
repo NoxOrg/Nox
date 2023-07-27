@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Nox.Extensions;
+using System;
 using System.Text.Json;
+
 
 namespace Nox.Types;
 
@@ -14,6 +16,8 @@ public sealed class Json : ValueObject<string, Json>
     private JsonTypeOptions Options { get; set; } = null!;
 
     private string? _prettyValue = null;
+
+    private string? _minifiedValue = null;
 
     public new static Json From(string value) => From(value, new JsonTypeOptions());
 
@@ -53,23 +57,44 @@ public sealed class Json : ValueObject<string, Json>
         if (Options.PersistMinified)
         {
             Value = JsonSerializer.Serialize(JsonSerializer.Deserialize<object>(base.Value!), new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
+            _minifiedValue = Value;
         }
     }
 
     /// <summary>
     /// Returns a pretty-fied version of the Json
     /// </summary>
-    public override string ToString() 
-    { 
-        if (Options.ReturnPretty)
+    public string ToString(string format)
+    {
+        if (string.IsNullOrEmpty(format))
         {
-            if (_prettyValue is null)
-            {
-                _prettyValue = JsonSerializer.Serialize(JsonSerializer.Deserialize<object>(Value!), new JsonSerializerOptions { WriteIndented = true });
-            }
-            return _prettyValue;
+            format = "p";
         }
-        return Value;
+
+        if (format!.Length == 1)
+        {
+            switch (format[0] | 0x20)
+            {
+                case 'p':
+                case 'P':
+                    if (_prettyValue is null)
+                    {
+                        _prettyValue = JsonSerializer.Serialize(JsonSerializer.Deserialize<object>(Value!), new JsonSerializerOptions { WriteIndented = true }).NormalizeNewLines();
+                    }
+                    return _prettyValue; 
+                case 'm':
+                case 'M':
+                    if (_minifiedValue is null)
+                    {
+                        _minifiedValue = JsonSerializer.Serialize(JsonSerializer.Deserialize<object>(base.Value!), new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
+                    }
+                    return _minifiedValue;
+
+                default:
+                    throw new FormatException("Invalid json format");
+            }
+        }
+        throw new FormatException("Invalid json format");
     }
 
     /// <inheritdoc/>
@@ -96,6 +121,11 @@ public sealed class Json : ValueObject<string, Json>
     /// <inheritdoc/>
     public override bool Equals(object? obj)
     {
+        return this.Equals(obj, false);
+    }
+
+    public bool Equals(object? obj, bool ignoreArrayOrder)
+    {
         if (obj == null || obj.GetType() != GetType())
         {
             return false;
@@ -103,7 +133,7 @@ public sealed class Json : ValueObject<string, Json>
 
         var other = (ValueObject<string, Json>)obj;
 
-        var comparer = new JsonElementComparer(Options.MaxHashDepth, Options.IgnoreArrayOrder);
+        var comparer = new JsonElementComparer(Options.MaxHashDepth, ignoreArrayOrder);
         using var json1 = JsonDocument.Parse(Value);
         using var json2 = JsonDocument.Parse(other.Value);
 

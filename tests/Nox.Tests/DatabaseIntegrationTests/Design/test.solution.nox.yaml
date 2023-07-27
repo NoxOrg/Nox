@@ -365,6 +365,9 @@ domain:
         #- name: IpAddressTestField
         #  type: ipAddress
 
+        - name: JsonTestField
+          type: json
+
         #- name: LengthTestField
         #  type: length
 
