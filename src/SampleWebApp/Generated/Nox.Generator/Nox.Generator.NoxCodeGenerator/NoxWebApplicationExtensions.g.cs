@@ -11,8 +11,6 @@ using Nox.Types.EntityFramework.Abstractions;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Presentation.Api.OData;
 
-namespace SampleWebApp;
-
 public static class NoxWebApplicationBuilderExtension
 {
     public static WebApplicationBuilder AddNox(this WebApplicationBuilder appBuilder)

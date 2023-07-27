@@ -4,7 +4,6 @@ using Nox.Abstractions;
 // using Nox.Logging.Serilog;
 // using Nox.Monitoring.ElasticApm;
 //===================================================================================
-using SampleWebApp;
 using SampleWebApp.Application;
 using SampleWebApp.SeedData;
 

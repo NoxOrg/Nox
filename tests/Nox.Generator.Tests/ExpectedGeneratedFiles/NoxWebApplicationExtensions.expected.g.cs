@@ -11,8 +11,6 @@ using Nox.Types.EntityFramework.Abstractions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Presentation.Api.OData;
 
-namespace TestWebApp;
-
 public static class NoxWebApplicationBuilderExtension
 {
     public static WebApplicationBuilder AddNox(this WebApplicationBuilder appBuilder)
@@ -28,7 +26,7 @@ public static class NoxWebApplicationBuilderExtension
         appBuilder.Services.AddDbContext<TestWebAppDbContext>();
         appBuilder.Services.AddDbContext<ODataDbContext>();
         var tmpProvider = appBuilder.Services.BuildServiceProvider();
-        var dbContext = tmpProvider.GetRequiredService<SampleWebAppDbContext>();
+        var dbContext = tmpProvider.GetRequiredService<TestWebAppDbContext>();
         return appBuilder;
     }
     
