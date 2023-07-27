@@ -108,6 +108,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             DatabaseId = DatabaseNumber.FromDatabase(10U),
             Password = Password.From("Test123."),
             CurrencyNumber = CurrencyNumber.From(999),
+            Color = Color.From(255,255,255,0),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -181,7 +182,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             SecretPassword = EncryptedText.FromPlainText("12345678", encryptTypeOptions),
             DatabaseId = DatabaseNumber.FromDatabase(10U),
             Password = Password.From("Test123."),
-            CurrencyNumber = CurrencyNumber.From(840)
+            CurrencyNumber = CurrencyNumber.From(840),
+            Color = Color.From(255,120,95,230),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -257,6 +259,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.SecretPassword.DecryptText(encryptTypeOptions).Should().Be("12345678");
         item.DatabaseId.Value.Should().Be(10U);
         item.CurrencyNumber.Value.Should().Be(840);
+        item.Color.Value.Should().Equal(new byte[] { 255, 120, 95, 230 });
     }
 
     private static StreetAddress CreateStreetAddress()
