@@ -44,6 +44,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             CultureCodeTestField = CultureCode.From(cultureCode),
             TranslatedTextTestField = TranslatedText.From((CultureCode.From("ur-PK"), "شادی مبارک")),
             CountryCode3TestField = CountryCode3.From(countryCode3),
+            TimeZoneCodeTestField = TimeZoneCode.From("utc"),
             MacAddressTestField = MacAddress.From(macAddress),
             HashedTextTestField = HashedText.From(text),
             PasswordTestField = Password.From(password),
@@ -70,6 +71,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
         testEntity.TranslatedTextTestField!.Value.Phrase.Should().BeEquivalentTo("شادی مبارک");
+        testEntity.CountryCode3TestField!.Value.Should().Be(countryCode3);    
+        testEntity.TimeZoneCodeTestField!.Value.Should().Be("UTC");
         testEntity.CountryCode3TestField!.Value.Should().Be(countryCode3);
         testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
         testEntity.HashedTextTestField!.HashText.Should().Be(newItem.HashedTextTestField.HashText);
