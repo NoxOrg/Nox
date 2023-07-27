@@ -10,7 +10,7 @@ namespace Nox.Tests.Fixtures
 {
     public class DataContextTestFixture
     {
-        private const string TestSolutionFile = @"./DatabaseIntegrationTests/Design/test.solution.nox.yaml";
+        private const string _solutionFileAsEmbeddedResourceName = @"Nox.Tests.DatabaseIntegrationTests.Design.test.solution.nox.yaml";
 
         public DataContextTestFixture()
         {
@@ -20,9 +20,23 @@ namespace Nox.Tests.Fixtures
 
             using var serviceProvider = services.BuildServiceProvider();
 
+            var solutionFileDictionary = new Dictionary<string, Func<TextReader>>
+            {
+                [_solutionFileAsEmbeddedResourceName] = () =>
+                {
+                    var assembly = Assembly.GetExecutingAssembly();
+                    using (Stream stream = assembly.GetManifestResourceStream(_solutionFileAsEmbeddedResourceName)!)
+                    using (StreamReader reader = new StreamReader(stream!))
+                    {
+                        string result = reader.ReadToEnd();
+                        return new StringReader(result);
+                    }
+                }
+            };
+
             var databaseConfigurator = new SqlServerDatabaseProvider(serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());
             var solution = new NoxSolutionBuilder()
-                .UseYamlFile(TestSolutionFile)
+                .UseYamlFilesAndContent(solutionFileDictionary)
                 .Build();
 
             var options = new DbContextOptionsBuilder<TestWebAppDbContext>()
