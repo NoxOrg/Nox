@@ -59,7 +59,9 @@ namespace Nox.Types.EntityFramework.Abstractions
             {
                 // ManyToMany does not need to be handled
                 // Handle ZeroOrOne or ExactlyOne scenario with foreign key.
-                if (relationshipToCreate.ShouldBeMapped)
+                if ((relationshipToCreate.Relationship.Relationship == EntityRelationshipType.ExactlyOne ||
+                    relationshipToCreate.Relationship.Relationship == EntityRelationshipType.ZeroOrOne) &&
+                    relationshipToCreate.ShouldGenerateSpecialRelationshipLogicOnThisSide)
                 {
                     builder
                         .HasOne(relationshipToCreate.Relationship.Entity)

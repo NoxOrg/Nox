@@ -34,7 +34,7 @@ public class NoxSolution : Solution
             {
                 Relationship = relationship,
                 RelationshipEntityType = getTypeByNameFunc(relationship.Entity)!,
-                ShouldBeMapped = true
+                ShouldGenerateSpecialRelationshipLogicOnThisSide = true
             };
 
             var pairRelationship = relationship.Related.EntityRelationship;
@@ -63,7 +63,7 @@ public class NoxSolution : Solution
                 }
             }
 
-            fullModel.ShouldBeMapped = !isIgnored;
+            fullModel.ShouldGenerateSpecialRelationshipLogicOnThisSide = !isIgnored;
             fullRelationshipModels.Add(fullModel);
         }
 
