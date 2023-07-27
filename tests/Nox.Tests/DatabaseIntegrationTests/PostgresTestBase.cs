@@ -61,7 +61,7 @@ public abstract class PostgresTestBase : IDisposable
             }
         };
 
-        ServiceCollection services = new ServiceCollection();
+        var services = new ServiceCollection();
         // TODO  add ...BuilderExtension.cs generated class and call AddNox when Nox supports dynamic db providers
         // This will build dbcontext etc..
         services.AddNoxLib();
