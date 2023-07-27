@@ -27,6 +27,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         };
         var cultureCode = "de-CH";
         var countryCode3 = "UKR";
+        var macAddress = "A1B2C3D4E5F6";
 
         var newItem = new TestEntityForTypes()
         {
@@ -42,6 +43,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             CultureCodeTestField = CultureCode.From(cultureCode),
             TranslatedTextTestField = TranslatedText.From((CultureCode.From("ur-PK"), "شادی مبارک")),
             CountryCode3TestField = CountryCode3.From(countryCode3),
+            MacAddressTestField = MacAddress.From(macAddress),
             HashedTextTestField = HashedText.From(text),
         };
         DbContext.TestEntityForTypes.Add(newItem);
@@ -67,6 +69,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
         testEntity.TranslatedTextTestField!.Value.Phrase.Should().BeEquivalentTo("شادی مبارک");
         testEntity.CountryCode3TestField!.Value.Should().Be(countryCode3);
+        testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
         testEntity.HashedTextTestField!.HashText.Should().Be(newItem.HashedTextTestField.HashText);
         testEntity.HashedTextTestField!.Salt.Should().Be(newItem.HashedTextTestField.Salt);
     }
