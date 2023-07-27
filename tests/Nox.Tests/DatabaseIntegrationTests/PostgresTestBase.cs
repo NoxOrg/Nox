@@ -1,9 +1,7 @@
-﻿using Microsoft.Data.SqlClient;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 
 using Nox.EntityFramework.Postgres;
-using Nox.EntityFramework.SqlServer;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
@@ -68,7 +66,7 @@ public abstract class PostgresTestBase : IDisposable
         services.AddNoxTypesDatabaseConfigurator(Assembly.GetExecutingAssembly());
         using var serviceProvider = services.BuildServiceProvider();
 
-        var databaseConfigurator = new SqlServerDatabaseProvider(serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());
+        var databaseConfigurator = new PostgresDatabaseProvider(serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());
         var solution = new NoxSolutionBuilder()
             .UseYamlFilesAndContent(solutionFileDictionary)
             .Build();
