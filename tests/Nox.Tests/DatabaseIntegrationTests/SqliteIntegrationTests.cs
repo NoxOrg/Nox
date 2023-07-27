@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Nox.Types;
 using TestWebApp.Domain;
@@ -63,7 +63,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var macAddress = "A1B2C3D4E5F6";
         var password = "Test123.";
         var dayOfWeek = 1;
-
+        byte month = 7;
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -83,6 +83,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             HashedTextTestField = HashedText.From(text),
             PasswordTestField = Password.From(password),
             DayOfWeekTestField = DayOfWeek.From(1),
+            MonthTestField = Month.From(month),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -114,6 +115,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.PasswordTestField!.HashedPassword.Should().Be(newItem.PasswordTestField.HashedPassword);
         testEntity.PasswordTestField!.Salt.Should().Be(newItem.PasswordTestField.Salt);
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
+        testEntity.MonthTestField!.Value.Should().Be(month);
     }
 
     [Fact]

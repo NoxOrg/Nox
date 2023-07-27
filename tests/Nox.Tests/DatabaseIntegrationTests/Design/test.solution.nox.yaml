@@ -371,8 +371,8 @@ domain:
         - name: MacAddressTestField
           type: macAddress
 
-        #- name: MonthTestField
-        #  type: month
+        - name: MonthTestField
+          type: month
 
         #- name: NuidTestField
         #  type: nuid

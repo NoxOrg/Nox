@@ -99,4 +99,9 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public DayOfWeek? DayOfWeekTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Month? MonthTestField { get; set; } = null!;
 }

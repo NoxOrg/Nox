@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Nox.Types;
 using TestWebApp.Domain;
@@ -63,6 +63,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var countryCode3 = "UKR";
         var macAddress = "A1B2C3D4E5F6";
         var password = "Test123.";
+        byte month = 7;
 
 
         var newItem = new TestEntityForTypes()
@@ -84,6 +85,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             HashedTextTestField = HashedText.From(text),
             PasswordTestField = Password.From(password),
             DayOfWeekTestField = DayOfWeek.From(1),
+            MonthTestField = Month.From(month),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -116,6 +118,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.PasswordTestField!.HashedPassword.Should().Be(newItem.PasswordTestField.HashedPassword);
         testEntity.PasswordTestField!.Salt.Should().Be(newItem.PasswordTestField.Salt);
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
+        testEntity.MonthTestField!.Value.Should().Be(month);
     }
 
     //[Fact]
