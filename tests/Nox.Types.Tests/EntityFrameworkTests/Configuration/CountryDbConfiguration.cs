@@ -1,6 +1,8 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Nox.Types.EntityFramework;
 using Nox.Types.EntityFramework.Types;
+using Nox.Types.EntityFramework.Types.DayOfWeek;
 
 namespace Nox.Types.Tests.EntityFrameworkTests;
 
@@ -18,7 +20,7 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.AreaInSqKm).HasConversion<AreaToSquareMeterConverter>();
         builder.Property(e => e.CultureCode).HasConversion<CultureCodeConverter>();
         builder.Property(e => e.CountryNumber).HasMaxLength(3).HasConversion<CountryNumberConverter>();
-        builder.Property(e => e.MonthOfPeakTourism).HasConversion<MonthToByteConverter>();
+        builder.Property(e => e.MonthOfPeakTourism).HasConversion<MonthConverter>();
         builder.Property(e => e.DistanceInKm).HasConversion<DistanceToKilometerConverter>();
         builder.Property(e => e.InternetDomain).HasConversion<InternetDomainConverter>();
         builder.Property(e => e.CountryCode3).HasConversion<CountryCode3Converter>();
@@ -38,6 +40,7 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.CreateDate).HasConversion<DateTimeConverter>();
         builder.Property(e => e.CurrentTime).HasConversion<TimeConverter>();
         builder.Property(e => e.AverageTemperatureInCelsius).HasConversion<TemperatureToCelsiusConverter>();
+        builder.Property(e => e.Description).HasConversion<MarkdownConverter>();
         builder.Property(e => e.PageHtml).HasConversion<HtmlConverter>();
         builder.Property(e => e.CitiesCounties).HasConversion<YamlConverter>();
         builder.Property(e => e.PhoneNumber).HasConversion<PhoneNumberConverter>();
@@ -45,8 +48,11 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.EmailUser).HasConversion<UserConverter>();
         builder.Property(e => e.StringUser).HasConversion<UserConverter>();
         builder.Property(e => e.InfoEmail).HasConversion<EmailConverter>();
+        builder.Property(e => e.SecretPassword).HasConversion<EncryptedTextConverter>();
         builder.Property(e => e.DatabaseId).ValueGeneratedOnAdd().HasConversion<DatabaseNumberConverter>();
         builder.Property(e => e.CurrencyNumber).HasConversion<CurrencyNumberConverter>();
+        builder.Property(e => e.Color).HasConversion<ColorConverter>();
+        builder.Property(e => e.DayOfWeek).HasConversion<DayOfWeekConverter>();
 
         // Configure Multi-value ValueObjects
         builder.OwnsOne(e => e.LatLong).Ignore(p => p.Value);

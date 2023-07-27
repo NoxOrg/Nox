@@ -438,4 +438,10 @@
   <data name="DataConnectionInvalidFileUri" xml:space="preserve">
     <value>The data connection '{0}' must have a valid Uri specified. Valid Uri schemes are one of file, http, https or blob</value>
   </data>
+  <data name="NuidKeyMissingProperty" xml:space="preserve">
+    <value>Property with name {0} is missing in Entity {1}</value>
+  </data>
+  <data name="EntityKeyShouldNotBeCompoundType" xml:space="preserve">
+    <value>Entity {0}: Key {1} should not be Compound type.</value>
+  </data>
 </root>

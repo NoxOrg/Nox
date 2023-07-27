@@ -17,9 +17,9 @@ public class EncryptedTextTests
 
         _typeOptions = new EncryptedTextTypeOptions
         {
-            PublicKey = _aesAlg.Key,
+            PublicKey = Convert.ToBase64String(_aesAlg.Key),
             EncryptionAlgorithm = EncryptionAlgorithm.Aes,
-            Iv = _aesAlg.IV
+            Iv = Convert.ToBase64String(_aesAlg.IV)
         };
     }
 
@@ -33,12 +33,23 @@ public class EncryptedTextTests
     }
 
     [Fact]
-    public void Decryption_ReturnsOriginalValue()
+    public void Decryption_ReturnsSameValue()
     {
         var encryptedText = EncryptedText.FromPlainText(PlainText, _typeOptions);
         var decryptedText = encryptedText.DecryptText(_typeOptions);
 
         PlainText.Should().Be(decryptedText);
+    }
+
+    [Fact]
+    public void Create_Encrypt_FromDatabase_ReturnsSameValue()
+    {
+        var encryptedText = EncryptedText.FromPlainText(PlainText, _typeOptions);
+        var encryptedTextFromDatabase = EncryptedText.FromDatabase(encryptedText.Value);
+        var decryptedText = encryptedTextFromDatabase.DecryptText(_typeOptions);
+
+        decryptedText.Should().Be(PlainText);
+        encryptedTextFromDatabase.Value.Should().Equal(encryptedText.Value);
     }
 
     [Fact]
@@ -60,8 +71,8 @@ public class EncryptedTextTests
         var encryptOptions1 = new EncryptedTextTypeOptions
         {
             EncryptionAlgorithm = EncryptionAlgorithm.Aes,
-            PublicKey = _aesAlg.Key,
-            Iv = _aesAlg.IV
+            PublicKey = Convert.ToBase64String(_aesAlg.Key),
+            Iv = Convert.ToBase64String(_aesAlg.IV)
         };
 
         // Change IV
@@ -69,8 +80,8 @@ public class EncryptedTextTests
         var encryptOptions2 = new EncryptedTextTypeOptions
         {
             EncryptionAlgorithm = EncryptionAlgorithm.Aes,
-            PublicKey = _aesAlg.Key,
-            Iv = _aesAlg.IV
+            PublicKey = Convert.ToBase64String(_aesAlg.Key),
+            Iv = Convert.ToBase64String(_aesAlg.IV)
         };
 
         var encryptedText = EncryptedText.FromPlainText(PlainText, _typeOptions);
@@ -112,24 +123,25 @@ public class EncryptedTextTests
         var encryptOptionsChangingKey = new EncryptedTextTypeOptions
         {
             EncryptionAlgorithm = EncryptionAlgorithm.Aes,
-            PublicKey = _aesAlg.Key,
-            Iv = _aesAlg.IV
+            PublicKey = Convert.ToBase64String(_aesAlg.Key),
+            Iv = Convert.ToBase64String(_aesAlg.IV)
         };
 
         _aesAlg.GenerateIV();
         var encryptOptionsChangingIv = new EncryptedTextTypeOptions
         {
             EncryptionAlgorithm = EncryptionAlgorithm.Aes,
-            PublicKey = _aesAlg.Key,
-            Iv = _aesAlg.IV
+            PublicKey = Convert.ToBase64String(_aesAlg.Key),
+            Iv = Convert.ToBase64String(_aesAlg.IV)
         };
 
-        var decryptedText = encryptedText.DecryptText(_typeOptions);
+        var actDecrypt = () => encryptedText.DecryptText(_typeOptions);
         // Changing key
         var actDecryptChangingKey = () => encryptedText.DecryptText(encryptOptionsChangingKey);
         // Changing IV
         var actDecryptChangingIv = () => encryptedText.DecryptText(encryptOptionsChangingIv);
 
+        actDecrypt.Should().NotThrow<CryptographicException>();
         actDecryptChangingKey.Should().Throw<CryptographicException>();
         actDecryptChangingIv.Should().Throw<CryptographicException>();
     }
@@ -140,13 +152,13 @@ public class EncryptedTextTests
         var encryptOptionsWithoutKey = new EncryptedTextTypeOptions
         {
             EncryptionAlgorithm = EncryptionAlgorithm.Aes,
-            Iv = _aesAlg.IV
+            Iv = Convert.ToBase64String(_aesAlg.IV)
         };
 
         var encryptOptionsWithoutIv = new EncryptedTextTypeOptions
         {
             EncryptionAlgorithm = EncryptionAlgorithm.Aes,
-            PublicKey = _aesAlg.Key
+            PublicKey = Convert.ToBase64String(_aesAlg.Key)
         };
 
         var actDecrypt1 = () => EncryptedText.FromPlainText(PlainText, encryptOptionsWithoutKey);
@@ -164,13 +176,13 @@ public class EncryptedTextTests
         var encryptOptionsWithoutKey = new EncryptedTextTypeOptions
         {
             EncryptionAlgorithm = EncryptionAlgorithm.Aes,
-            Iv = _aesAlg.IV
+            Iv = Convert.ToBase64String(_aesAlg.IV)
         };
 
         var encryptOptionsWithoutIv = new EncryptedTextTypeOptions
         {
             EncryptionAlgorithm = EncryptionAlgorithm.Aes,
-            PublicKey = _aesAlg.Key
+            PublicKey = Convert.ToBase64String(_aesAlg.Key)
         };
 
         var actDecrypt1 = () => encryptedText.DecryptText(encryptOptionsWithoutKey);

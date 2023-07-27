@@ -24,7 +24,7 @@ internal class TemplateCodeBuilder
     private readonly NoxSolutionCodeGeneratorState _codeGeneratorState;
 
     private string? _className;
-    
+
     private readonly Dictionary<string, object> _model;
 
 
@@ -51,6 +51,7 @@ internal class TemplateCodeBuilder
         _className = className;
         return this;
     }
+    
     /// <summary>
     /// Extend the default model with a extended property to the extendedModel
     /// </summary>
@@ -71,7 +72,7 @@ internal class TemplateCodeBuilder
 
         _className ??= ComputeDefaultClassName(templateFileName);
 
-        _model["className"] = _className; 
+        _model["className"] = _className;
         
         string template;
 

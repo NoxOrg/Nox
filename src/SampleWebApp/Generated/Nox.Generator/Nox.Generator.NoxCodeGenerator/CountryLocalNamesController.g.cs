@@ -63,7 +63,7 @@ public partial class CountryLocalNamesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var entity = _mapper.Map<CountryLocalNames>(countrylocalnames);
+        var entity = _mapper.Map<OCountryLocalNames>(countrylocalnames);
         
         entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
         
@@ -74,7 +74,7 @@ public partial class CountryLocalNamesController : ODataController
         return Created(entity);
     }
     
-    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] CountryLocalNames updatedCountryLocalNames)
+    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OCountryLocalNames updatedCountryLocalNames)
     {
         if (!ModelState.IsValid)
         {
@@ -107,7 +107,7 @@ public partial class CountryLocalNamesController : ODataController
         return Updated(updatedCountryLocalNames);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string countrylocalnames, [FromBody] Delta<CountryLocalNames> Id)
+    public async Task<ActionResult> Patch([FromRoute] string countrylocalnames, [FromBody] Delta<OCountryLocalNames> Id)
     {
         if (!ModelState.IsValid)
         {

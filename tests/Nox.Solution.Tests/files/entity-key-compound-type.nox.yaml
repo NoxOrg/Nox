@@ -1,0 +1,19 @@
+#
+# domain.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+name: TestService
+description: Yaml file for testing Entity keys.
+
+domain:
+
+  entities:
+    - name: Currency
+      keys:
+        - name: Id
+          isRequired: true
+          type: vatNumber
+      description: The list of currencies
+
