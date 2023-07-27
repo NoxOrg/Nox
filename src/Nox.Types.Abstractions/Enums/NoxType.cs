@@ -132,7 +132,9 @@ public enum NoxType : uint
     [SimpleType(typeof(Guid))]
     Guid = 1043908053,
 
-    [SimpleType(typeof(string))]
+    [CompoundType]
+    [CompoundComponent("HashText", typeof(string))]
+    [CompoundComponent("Salt", typeof(string))]
     HashedText = 3656553818,
     
     [SimpleType(typeof(string))]
