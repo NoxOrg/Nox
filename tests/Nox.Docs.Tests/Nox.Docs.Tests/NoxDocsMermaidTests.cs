@@ -45,8 +45,8 @@ public class NoxDocsMermaidTests
                     Text Id PK
                 }
                 CurrencyCashBalance {
-                    Entity Store PK
-                    Entity Currency PK
+                    Number Store PK
+                    Number Currency PK
                     Number Amount
                     Number OperationLimit
                 }
@@ -96,8 +96,8 @@ public class NoxDocsMermaidTests
                     Text Id PK " (Required)"
                 }
                 CurrencyCashBalance {
-                    Entity Store PK " (Required)"
-                    Entity Currency PK " (Required)"
+                    Number Store PK " (Required)"
+                    Number Currency PK " (Required)"
                     Number Amount "The amount (Required)"
                     Number OperationLimit "The Operation Limit"
                 }

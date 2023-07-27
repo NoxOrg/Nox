@@ -1,7 +1,9 @@
 using Nox;
 using Nox.Abstractions;
-using Nox.Logging.Serilog;
-using Nox.Monitoring.ElasticApm;
+//Include this if you want to use Serilog for logging and elastic Apm for monitoring
+// using Nox.Logging.Serilog;
+// using Nox.Monitoring.ElasticApm;
+//===================================================================================
 using SampleWebApp;
 using SampleWebApp.Application;
 using SampleWebApp.SeedData;
@@ -10,12 +12,13 @@ var builder = WebApplication.CreateBuilder(args);
 
 builder.AddNox();
 
-//Add this if you want to use Serilog for logging and elastic Apm for monitoring
-builder.UseSerilog(opt =>
-{
-    opt.WithElasticApm();
-    opt.WithEcsHttpContext();
-});
+//Include this if you want to use Serilog for logging and elastic Apm for monitoring
+// builder.UseNoxSerilogLogging(opt =>
+// {
+//     opt.WithElasticApm();
+//     opt.WithEcsHttpContext();
+// });
+//===================================================================================
 
 // Add services to the container.
 builder.Services.AddControllers();
@@ -45,8 +48,9 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.UseNox();
-//Add this to use elastic Apm monitoring
-//app.UseElasticMonitoring();
+//Include this to use elastic Apm monitoring
+//app.UseNoxElasticMonitoring();
+//==========================================
 
 app.SeedDataIfNeed();
 

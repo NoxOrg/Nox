@@ -6,8 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Nox;
 using Nox.Solution;
-using Nox.Logging.Serilog;
-using Nox.Monitoring.ElasticApm;
 using Nox.EntityFramework.SqlServer;
 using Nox.Types.EntityFramework.Abstractions;
 using TestWebApp.Infrastructure.Persistence;

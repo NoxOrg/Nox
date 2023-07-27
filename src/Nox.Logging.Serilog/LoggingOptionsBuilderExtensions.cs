@@ -11,7 +11,7 @@ namespace Nox.Logging.Serilog;
 
 public static class LoggingOptionsBuilderExtensions
 {
-    public static WebApplicationBuilder UseSerilog(this WebApplicationBuilder builder, Action<SerilogOptionsBuilder>? serilogOptionsAction = null)
+    public static WebApplicationBuilder UseNoxSerilogLogging(this WebApplicationBuilder builder, Action<SerilogOptionsBuilder>? serilogOptionsAction = null)
     {
         var loggerConfig = new LoggerConfiguration()
             .ReadFrom.Configuration(builder.Configuration)
