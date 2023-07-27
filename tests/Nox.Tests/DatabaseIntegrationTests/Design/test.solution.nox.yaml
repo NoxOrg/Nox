@@ -296,8 +296,8 @@ domain:
         #- name: GuidTestField
         #  type: guid
 
-        #- name: HashedTextTestField
-        #  type: hashedText
+        - name: HashedTextTestField
+          type: hashedText
 
         #- name: InternetDomainTestField
         #  type: internetDomain

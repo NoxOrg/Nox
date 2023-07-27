@@ -58,6 +58,7 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public CountryCode3? CountryCode3TestField { get; set; } = null!;
+    public HashedText? HashedTextTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).

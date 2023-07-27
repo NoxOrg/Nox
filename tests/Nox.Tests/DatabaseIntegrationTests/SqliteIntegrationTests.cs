@@ -76,6 +76,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             TranslatedTextTestField = TranslatedText.From((CultureCode.From("ur-PK"), "شادی مبارک")),
             CountryCode3TestField = CountryCode3.From(countryCode3),
             MacAddressTestField = MacAddress.From(macAddress),
+            HashedTextTestField = HashedText.From(text),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -101,6 +102,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.TranslatedTextTestField!.Value.Phrase.Should().BeEquivalentTo("شادی مبارک");
         testEntity.CountryCode3TestField!.Value.Should().Be(countryCode3);
         testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
+        testEntity.HashedTextTestField!.HashText.Should().Be(newItem.HashedTextTestField?.HashText);
+        testEntity.HashedTextTestField!.Salt.Should().Be(newItem.HashedTextTestField?.Salt);
     }
     [Fact]
     public void GeneratedRelationship_Sqlite_ZeroOrMany_OneOrMany()
