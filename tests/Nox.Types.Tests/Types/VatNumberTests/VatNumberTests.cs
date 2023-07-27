@@ -1,110 +1,125 @@
-﻿// ReSharper disable once CheckNamespace
+﻿using FluentAssertions;
+
 namespace Nox.Types.Tests.Types;
 
 public class VatNumberTests
-{
+{    
     [Fact]
     public void VatNumber_ParameterizedConstructor_Success()
     {
-        //Arrange
         var vatNumberValue = "44403198682";
         var countryCode = CountryCode2.From("FR");
 
-        //Act
         var vatNumber = VatNumber.From(vatNumberValue, countryCode);
 
-        //Assert
-        Assert.Equal(vatNumberValue, vatNumber.VatNumberValue);
-        Assert.Equal(countryCode, vatNumber.CountryCode);
-        Assert.Equal("FR", vatNumber.CountryCode.ToString());
+        vatNumber.Value.Should().Be((vatNumberValue, countryCode));
+    }
+
+    [Fact]
+    public void VatNumber_ParameterizedConstructor_WithUnsupportedCountryCode()
+    {
+        var vatNumberValue = "44403198682";
+        var countryCode = CountryCode2.From("UA");
+
+        var action = () => VatNumber.From(vatNumberValue, countryCode);
+
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox VatNumber type with unsupported CountryCode 'UA'.") });
+    }
+
+    [Fact]
+    public void VatNumber_ParameterizedConstructor_WithUnsupportedFormat()
+    {
+        var vatNumberValue = "44403198682123";
+        var countryCode = CountryCode2.From("FR");
+
+        var action = () => VatNumber.From(vatNumberValue, countryCode);
+
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox VatNumber type with unsupported value 'FR44403198682123'.") });
     }
 
     [Fact]
     public void VatNumber_Should_Equal()
     {
-        //Arrange
         var vatNumber1 = VatNumber.From("44403198682", CountryCode2.From("FR"));
         var vatNumber2 = VatNumber.From("44403198682", CountryCode2.From("FR"));
 
-        //Act
-        var result = vatNumber1.Equals(vatNumber2);
-
-        //Assert
-        Assert.True(result);
-        Assert.Equal(vatNumber1, vatNumber2);
+        vatNumber1.Should().Be(vatNumber2);
     }
 
     [Fact]
     public void VatNumber_Should_Not_Equal()
     {
-        //Arrange
-        var vatNumber1 = VatNumber.From("44403198682", CountryCode2.From("FR"));
+        var vatNumber1 = VatNumber.From("44403198682", CountryCode2.From("FR")); 
         var vatNumber2 = VatNumber.From("157050817", CountryCode2.From("DE"));
 
-        //Act
-        var result = vatNumber1.Equals(vatNumber2);
-
-        //Assert
-        Assert.False(result);
-        Assert.NotEqual(vatNumber1, vatNumber2);
+        vatNumber1.Should().NotBe(vatNumber2);
     }
 
     [Fact]
     public void VatNumber_From_With_Default_Options()
     {
-        //Arrange
         var vatNumberValue = "123456789";
 
-        //Act
         var vatNumber = VatNumber.From(vatNumberValue, new VatNumberOptions());
 
-        //Assert
-        Assert.Equal(vatNumberValue, vatNumber.VatNumberValue);
-        Assert.Equal("GB", vatNumber.CountryCode.ToString());
+        vatNumber.Value.Should().Be((vatNumberValue, CountryCode2.From("GB")));
     }
 
     [Fact]
     public void VatNumber_From_With_Custom_Options()
     {
-        //Arrange
-        var vatNumberValue = "123456789";
+        var vatNumberValue = "157050817";
 
-        //Act
         var vatNumber = VatNumber.From(
             vatNumberValue,
-            new VatNumberOptions { DefaultCountryCode = "UA" }
+            new VatNumberOptions { CountryCode = "DE" }
             );
 
-        //Assert
-        Assert.Equal(vatNumberValue, vatNumber.VatNumberValue);
-        Assert.Equal("UA", vatNumber.CountryCode.ToString());
+        vatNumber.Value.Should().Be((vatNumberValue, CountryCode2.From("DE")));
     }
 
     [Fact]
-    public void VatNumber_From_With_Custom_Options_And_Country_Code()
+    public void VatNumber_From_String_CountryCode()
     {
-        //Arrange
-        var vatNumberValue = "123456789";
-        var countryCode = CountryCode2.From("FR");
+        var vatNumberValue = "44403198682";
+        var countryCode = "FR";
 
-        //Act
         var vatNumber = VatNumber.From(
             vatNumberValue,
-            countryCode,
-            new VatNumberOptions { DefaultCountryCode = "UA" }
+            countryCode
             );
 
-        //Assert
-        Assert.Equal(vatNumberValue, vatNumber.VatNumberValue);
-        Assert.Equal(countryCode, vatNumber.CountryCode);
-        Assert.Equal("FR", vatNumber.CountryCode.ToString());
+        vatNumber.Value.Should().Be((vatNumberValue, CountryCode2.From(countryCode)));
     }
 
     [Fact]
     public void VatNumber_ToString_Success()
     {
-        var vatNumber = VatNumber.From("123456789", CountryCode2.From("FR"));
+        var vatNumber = VatNumber.From("44403198682", CountryCode2.From("FR"));
 
-        Assert.Equal("FR123456789", vatNumber.ToString());
+        vatNumber.ToString().Should().Be("FR44403198682");
+    }
+
+    [Theory]
+    [InlineData("AT", "U12345678")]
+    [InlineData("BG", "123456789")]
+    [InlineData("BG", "1234567890")]
+    [InlineData("DK", "12345678")]
+    [InlineData("EE", "123456789")]
+    [InlineData("FI", "12345678")]
+    [InlineData("FR", "12345678901")]
+    [InlineData("FR", "XX123456789")]
+    [InlineData("DE", "123456789")]
+    [InlineData("HU", "12345678")]
+    [InlineData("IT", "12345678901")]
+    public void VatNumber_Supported_Formats(string countryCode, string vatNumberValue)
+    {
+        var countryCode2 = CountryCode2.From(countryCode);
+
+        var vatNumber = VatNumber.From(vatNumberValue, countryCode2);
+
+        vatNumber.Value.Should().Be((vatNumberValue, countryCode2));
     }
 }

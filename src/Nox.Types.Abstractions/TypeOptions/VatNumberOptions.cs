@@ -2,5 +2,7 @@
 
 public class VatNumberOptions : INoxTypeOptions
 {
-    public string DefaultCountryCode { get; internal set; } = "GB";
+
+    private static readonly string DefaultCountryCode = "GB";
+    public string CountryCode { get; set; } = DefaultCountryCode;
 }
