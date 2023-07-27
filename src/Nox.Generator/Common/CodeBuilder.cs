@@ -66,6 +66,12 @@ internal class CodeBuilder
         AppendLine($"}}");
     }
 
+    public void EndBlockWithBracket()
+    {
+        UnIndent();
+        AppendLine($"}});");
+    }
+
     public override string ToString()
     {
         return _stringBuilder.ToString();

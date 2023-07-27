@@ -48,10 +48,11 @@ public class SqliteIntegrationTests : SqliteTestBase
         var currencyCode = CurrencyCode.UAH;
         var countryCode2 = "UA";
         var currencyCode3 = "USD";
+        var countryCode3 = "UKR";
         var addressItem = new StreetAddressItem
         {
             AddressLine1 = "AddressLine1",
-            CountryId = CountryCode2.From("UA"),
+            CountryId = CountryCode2.From(countryCode2),
             PostalCode = "61135"
         };
         var languageCode = "en";        
@@ -72,6 +73,8 @@ public class SqliteIntegrationTests : SqliteTestBase
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
             CultureCodeTestField = CultureCode.From(cultureCode),
+            TranslatedTextTestField = TranslatedText.From((CultureCode.From("ur-PK"), "شادی مبارک")),
+            CountryCode3TestField = CountryCode3.From(countryCode3),
             HashedTextTestField = HashedText.From(text),
         };
         DbContext.TestEntityForTypes.Add(newItem);
@@ -93,8 +96,10 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
         testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
-		testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
+    		testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
+        testEntity.TranslatedTextTestField!.Value.Phrase.Should().BeEquivalentTo("شادی مبارک");
+        testEntity.CountryCode3TestField!.Value.Should().Be(countryCode3);
         testEntity.HashedTextTestField!.HashText.Should().Be(newItem.HashedTextTestField?.HashText);
         testEntity.HashedTextTestField!.Salt.Should().Be(newItem.HashedTextTestField?.Salt);
     }

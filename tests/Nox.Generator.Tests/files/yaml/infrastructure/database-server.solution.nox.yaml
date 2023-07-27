@@ -13,11 +13,12 @@ domain:
 
         - name: Id
           isRequired: true
-          type: text
-          textTypeOptions:
-            isUnicode: false
-            minLength: 2
-            maxLength: 2
+          type: nuid
+          nuidTypeOptions:
+            separator: "."
+            propertyNames:
+             - "Name"
+             - "FormalName" 
 
       attributes:
 

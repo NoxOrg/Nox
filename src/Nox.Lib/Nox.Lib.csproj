@@ -49,8 +49,6 @@
 		<ProjectReference Include="..\Nox.Secrets\Nox.Secrets.csproj" />
 		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
 		<ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
-		<ProjectReference Include="..\Nox.Logging\Nox.Logging.csproj" />
-		<ProjectReference Include="..\Nox.Monitoring\Nox.Monitoring.csproj" />
 		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" PrivateAssets="all" />
 		<ProjectReference Include="..\Nox.Types\Nox.Types.csproj" />
 	</ItemGroup>
@@ -122,14 +120,6 @@
 			<PackagePath>lib\$(TargetFramework)</PackagePath>
 		</Content>
 		<Content Include="$(OutputPath)\Nox.Abstractions.dll">
-			<Pack>true</Pack>
-			<PackagePath>lib\$(TargetFramework)</PackagePath>
-		</Content>
-		<Content Include="$(OutputPath)\Nox.Logging.dll">
-			<Pack>true</Pack>
-			<PackagePath>lib\$(TargetFramework)</PackagePath>
-		</Content>
-		<Content Include="$(OutputPath)\Nox.Monitoring.dll">
 			<Pack>true</Pack>
 			<PackagePath>lib\$(TargetFramework)</PackagePath>
 		</Content>
