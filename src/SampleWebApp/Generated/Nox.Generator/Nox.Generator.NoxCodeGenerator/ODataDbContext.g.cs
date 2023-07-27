@@ -37,6 +37,8 @@ public class ODataDbContext : DbContext
         
         public DbSet<OStore> Stores { get; set; } = null!;
         
+        public DbSet<OStoreSecurityPasswords> StoreSecurityPasswords { get; set; } = null!;
+        
         public DbSet<OCountryLocalNames> CountryLocalNames { get; set; } = null!;
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

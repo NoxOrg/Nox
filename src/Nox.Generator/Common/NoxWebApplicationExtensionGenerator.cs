@@ -35,16 +35,12 @@ internal static class NoxWebApplicationExtensionGenerator
         code.AppendLine("using System.Reflection;");
         code.AppendLine("using Nox;");
         code.AppendLine("using Nox.Solution;");
-        code.AppendLine("using Nox.Logging.Serilog;");
-        code.AppendLine("using Nox.Monitoring.ElasticApm;");
         code.AppendLines(usings.ToArray());
         code.AppendLine("using Nox.Types.EntityFramework.Abstractions;");
         code.AppendLine($"using {solution.Name}.Infrastructure.Persistence;");
         if(generatePresentation)
             code.AppendLine($"using {solution.Name}.Presentation.Api.OData;");
-        code.AppendLine();
-        code.AppendLine($"namespace {solution.Name};");
-        code.AppendLine();
+        code.AppendLine();        
 
         code.AppendLine("public static class NoxWebApplicationBuilderExtension");
         code.StartBlock();
@@ -64,7 +60,7 @@ internal static class NoxWebApplicationExtensionGenerator
         if(generatePresentation)
             code.AppendLine($"appBuilder.Services.AddDbContext<ODataDbContext>();");
         code.AppendLine("var tmpProvider = appBuilder.Services.BuildServiceProvider();");
-        code.AppendLine("var dbContext = tmpProvider.GetRequiredService<SampleWebAppDbContext>();");
+        code.AppendLine($"var dbContext = tmpProvider.GetRequiredService<{dbContextName}>();");
         code.AppendLine("return appBuilder;");
         code.EndBlock();
         code.AppendLine();

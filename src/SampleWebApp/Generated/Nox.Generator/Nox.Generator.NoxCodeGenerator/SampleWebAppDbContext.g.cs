@@ -37,6 +37,8 @@ public partial class SampleWebAppDbContext : DbContext
 
     public DbSet<Store> Stores { get; set; } = null!;
 
+    public DbSet<StoreSecurityPasswords> StoreSecurityPasswords { get; set; } = null!;
+
     public DbSet<CountryLocalNames> CountryLocalNames { get; set; } = null!;
 
 

@@ -1,5 +1,6 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore;
+using Nox.Types.EntityFramework;
 using Nox.Types.EntityFramework.Types;
 using Nox.Types.EntityFramework.Types.DayOfWeek;
 
@@ -50,6 +51,7 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.SecretPassword).HasConversion<EncryptedTextConverter>();
         builder.Property(e => e.DatabaseId).ValueGeneratedOnAdd().HasConversion<DatabaseNumberConverter>();
         builder.Property(e => e.CurrencyNumber).HasConversion<CurrencyNumberConverter>();
+        builder.Property(e => e.Color).HasConversion<ColorConverter>();
         builder.Property(e => e.DayOfWeek).HasConversion<DayOfWeekConverter>();
 
         // Configure Multi-value ValueObjects
