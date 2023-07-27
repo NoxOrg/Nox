@@ -329,8 +329,8 @@ domain:
         - name: CountryCode3TestField
           type: countryCode3
 
-        #- name: CountryNumberTestField
-        #  type: countryNumber
+        - name: CountryNumberTestField
+          type: countryNumber
 
         #- name: CurrencyCodeTestField
         #  type: currencyCode
