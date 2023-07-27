@@ -21,6 +21,7 @@ public partial class {{className}} : I{{entity.Name}}ApplicationService
     {
         DatabaseContext = databaseContext;
     }
+
     public virtual {{entity.Name}} Create({{entity.Name}}Dto odataModel)
     {
         var entity = new {{entity.Name}}();
@@ -28,7 +29,6 @@ public partial class {{className}} : I{{entity.Name}}ApplicationService
         DatabaseContext.{{entity.PluralName}}.Add(entity);
         return entity;
     }
-
 
     public virtual {{entity.Name}} Update({{entity.Name}}Dto odataModel)
     {

@@ -195,6 +195,60 @@ domain:
             relationship: oneOrMany
             entity: TestEntityOneOrMany
 
+    - name: TestEntityExactlyOne
+      description: Entity created for testing database
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: SecondTestEntityExactlyOneRelationship
+            description: Test entity relationship to SecondTestEntityExactlyOneRelationship
+            relationship: exactlyOne
+            entity: SecondTestEntityExactlyOne
+
+    - name: SecondTestEntityExactlyOne
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: TestEntityExactlyOneRelationship
+            description: Test entity relationship to TestEntityExactlyOneRelationship
+            relationship: exactlyOne
+            entity: TestEntityExactlyOne
+
     - name: TestEntityForTypes
       description: Entity created for testing database
       

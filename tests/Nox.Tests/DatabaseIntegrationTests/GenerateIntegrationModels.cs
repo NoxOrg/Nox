@@ -40,7 +40,9 @@ namespace Nox.Tests.DatabaseIntegrationTests
                 "TestEntityOneOrMany",
                 "SecondTestEntityOneOrMany",
                 "TestEntityForTypes",
-                "TestEntityWithNuid"
+                "TestEntityWithNuid",
+                "TestEntityExactlyOne",
+                "SecondTestEntityExactlyOne"
             };
 
             foreach (var className in classNames)

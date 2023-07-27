@@ -41,6 +41,10 @@ public partial class TestWebAppDbContext : DbContext
 
     public DbSet<SecondTestEntityOneOrMany> SecondTestEntityOneOrManies { get; set; } = null!;
 
+    public DbSet<TestEntityExactlyOne> TestEntityExactlyOnes { get; set; } = null!;
+
+    public DbSet<SecondTestEntityExactlyOne> SecondTestEntityExactlyOnes { get; set; } = null!;
+
     public DbSet<TestEntityForTypes> TestEntityForTypes { get; set; } = null!;
 
 
