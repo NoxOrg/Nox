@@ -62,8 +62,7 @@ public abstract class PostgresTestBase : IDisposable
         var services = new ServiceCollection();
         // TODO  add ...BuilderExtension.cs generated class and call AddNox when Nox supports dynamic db providers
         // This will build dbcontext etc..
-        services.AddNoxLib();
-        services.AddNoxTypesDatabaseConfigurator(Assembly.GetExecutingAssembly());
+        services.AddNoxLib(Assembly.GetExecutingAssembly());
         using var serviceProvider = services.BuildServiceProvider();
 
         var databaseConfigurator = new PostgresDatabaseProvider(serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());
