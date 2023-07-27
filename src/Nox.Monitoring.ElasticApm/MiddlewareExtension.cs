@@ -8,7 +8,7 @@ namespace Nox.Monitoring.ElasticApm;
 
 public static class MiddlewareExtension
 {
-    public static IApplicationBuilder UseElasticMonitoring(this IApplicationBuilder builder)
+    public static IApplicationBuilder UseNoxElasticMonitoring(this IApplicationBuilder builder)
     {
         var solution = builder.ApplicationServices.GetService<Solution.Solution>();
         if (solution == null) throw new NoxSolutionConfigurationException("Nox solution definition is not defined. If you want to use monitoring you have to provide a Nox yaml definition.");
