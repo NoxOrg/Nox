@@ -362,8 +362,11 @@ domain:
         - name: InternetDomainTestField
           type: internetDomain
 
-        #- name: IpAddressTestField
-        #  type: ipAddress
+        - name: IpAddressV4TestField
+          type: ipAddress
+          
+        - name: IpAddressV6TestField
+          type: ipAddress
 
         - name: JsonTestField
           type: json

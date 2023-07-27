@@ -101,6 +101,8 @@ public class SqliteIntegrationTests : SqliteTestBase
             AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = areaPersistUnitAs }),
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
+            IpAddressV4TestField = IpAddress.From("192.168.12.100"),
+            IpAddressV6TestField = IpAddress.From("2001:0db8:3c4d:0015:0000:0000:1a2f:1a2b"),
             LanguageCodeTestField = LanguageCode.From(languageCode),
             CultureCodeTestField = CultureCode.From(cultureCode),
             TranslatedTextTestField = TranslatedText.From((CultureCode.From("ur-PK"), "شادی مبارک")),
@@ -142,6 +144,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
         testEntity.AreaTestField!.Unit.Should().Be(areaPersistUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
+        testEntity.IpAddressV4TestField!.Value.Should().Be("192.168.12.100");
+        testEntity.IpAddressV6TestField!.Value.Should().Be("2001:db8:3c4d:15::1a2f:1a2b");
         testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
         testEntity.TranslatedTextTestField!.Value.Phrase.Should().BeEquivalentTo("شادی مبارک");
