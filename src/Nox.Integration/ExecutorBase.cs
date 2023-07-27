@@ -1,4 +1,5 @@
 using System.Dynamic;
+using System.Reflection.Emit;
 using ETLBox.DataFlow;
 using ETLBox.DataFlow.Transformations;
 
@@ -7,10 +8,12 @@ namespace Nox.Integration;
 public abstract class ExecutorBase
 {
     private readonly Solution.Integration _definition;
+    private DynamicMethod _rowTransformDynamicMethod;
     
     protected ExecutorBase(Solution.Integration definition)
     {
         _definition = definition;
+        _rowTransformDynamicMethod = new DynamicMethod("RowTransformDynamicMethod", typeof(void), new Type[] { typeof(ExpandoObject) }, typeof(ExpandoObject).Module);
     }
 
     public void IncludeTransformation(IDataFlowExecutableSource<ExpandoObject> dataSource)
@@ -34,37 +37,38 @@ public abstract class ExecutorBase
             var converters = _definition.Transform.Mappings.Where(m => m.Converter != null).ToList();
             if (converters.Any())
             {
+                var rowTransform = new RowTransformation<ExpandoObject>(RowTransformationFunc);
+                
                 foreach (var converter in converters)
                 {
-                    var rowTransform = new RowTransformation<ExpandoObject>(row =>
+                    switch (converter.Converter)
                     {
-                        var namedRow = (IDictionary<string, object>)row!;
-                        switch (converter.Converter)
-                        {
-                            case IntegrationMappingConverter.LowerCase:
-                                namedRow[converter.TargetAttribute] = namedRow[converter.SourceColumn].ToString()!.ToLower();
-                                break;
-                            case IntegrationMappingConverter.UpperCase:
-                                namedRow[converter.TargetAttribute] = namedRow[converter.SourceColumn].ToString()!.ToUpper();
-                                break;
-                        }
-                        return (ExpandoObject)namedRow!;
-                    });
-                    dataSource.LinkTo(rowTransform);
+                        case IntegrationMappingConverter.LowerCase:
+                            rowDictionary[converter.TargetAttribute] = rowDictionary[converter.SourceColumn].ToString()!.ToLower();
+                            break;
+                        case IntegrationMappingConverter.UpperCase:
+                            rowDictionary[converter.TargetAttribute] = rowDictionary[converter.SourceColumn].ToString()!.ToUpper();
+                            break;
+                    }
                 }
-                
-                //new
-                // var rowTransform = new RowTransformation
-                // {
-                //     TransformationFunc = TransformationFunc
-                // };
+                dataSource.LinkTo(rowTransform);
             }
             dataSource.LinkTo(map);
         }
     }
 
-    // private ExpandoObject TransformationFunc(ExpandoObject arg)
-    // {
-    //     
-    // }
+    private ExpandoObject RowTransformationFunc(ExpandoObject arg)
+    {
+        throw new NotImplementedException();
+    }
+
+    private void AddUppercaseConvert()
+    {
+        
+    }
+
+    private void AddLowercaseConvert()
+    {
+        
+    }
 }

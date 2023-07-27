@@ -508,6 +508,7 @@ infrastructure:
 #      $ref: elastic.monitoring.nox.yaml
 
     translations:
+      provider: sqlServer
       name: SampleTranslationService
       serverUri: translator.iwgplc.com
       port: 443
