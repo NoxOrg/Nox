@@ -124,10 +124,10 @@ public class Temperature : ValueObject<QuantityValue, Temperature>
         => $"{Value.ToString($"0.{new string('#', QuantityValueDecimalPrecision)}", CultureInfo.InvariantCulture)} {Enumeration.ParseFromName<TemperatureUnit>(Unit.ToString()).Symbol}";
 
     /// <summary>
-    /// Returns a string representation of the <see cref="TValueObject"/> object using the specified <see cref="IFormatProvider"/>.
+    /// Returns a string representation of the <see cref="Temperature"/> with unit using the specified <see cref="IFormatProvider"/>.
     /// </summary>
     /// <param name="formatProvider">The format provider for the measurement value.</param>
-    /// <returns>A string representation of the <see cref="TValueObject"/> object with the value formatted using the specified <see cref="IFormatProvider"/>.</returns>
+    /// <returns>A string representation of the <see cref="Temperature"/> object with the value formatted using the specified <see cref="IFormatProvider"/>.</returns>
     public string ToString(IFormatProvider formatProvider)
         => $"{Value.ToString(formatProvider)} {Enumeration.ParseFromName<TemperatureUnit>(Unit.ToString()).Symbol}";
 
