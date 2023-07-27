@@ -88,4 +88,9 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public CultureCode? CultureCodeTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public LanguageCode? LanguageCodeTestField { get; set; } = null!;
 }
