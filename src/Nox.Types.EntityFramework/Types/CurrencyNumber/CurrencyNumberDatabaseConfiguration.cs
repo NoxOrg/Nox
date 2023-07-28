@@ -19,7 +19,7 @@ public class CurrencyNumberDatabaseConfiguration : INoxTypeDatabaseConfigurator
         builder
             .Property(property.Name)
             .IsRequired(property.IsRequired)
-            .HasConversion<CurrencyCode3Converter>();
+            .HasConversion<CurrencyNumberConverter>();
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
