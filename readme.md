@@ -36,7 +36,12 @@ Sample Yaml:
 
 ## Schemas Update
 
-**Until we automate this process** whenever you change the Nox Solution you need: to run the test in > **NoxSolutionSchemaGenerate**. This test will generate the new schema files that needs to be also added to the commit. The CI pipeline will publish the new schemas. 
+**Until we automate this process** whenever add a new TypeOption to the Nox Solution you need to: 
+1. Add your new type to class `NoxSimpleTypeDefinition` inside the `#region TypeOptions`;
+2. Run the test in **NoxSolutionSchemaGenerate**, this test will generate the new schema files;
+3. Add and commit changed `.json` files to the solution. 
+
+The is necessary for the CI pipeline to publish the new schemas. 
 
 # Nox Types
 

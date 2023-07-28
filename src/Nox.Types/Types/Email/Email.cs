@@ -18,7 +18,7 @@ public sealed class Email : ValueObject<string, Email>
 
     public static readonly Email Unknown = new() { Value = "?" };
 
-    new public static Email From(string value)
+    public new static Email From(string value)
     {
         var namePartIfProvided = string.Empty;
 

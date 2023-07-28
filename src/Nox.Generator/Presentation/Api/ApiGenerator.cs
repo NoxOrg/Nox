@@ -56,6 +56,7 @@ internal static class ApiGenerator
             code.AppendLine($"using Microsoft.AspNetCore.OData.Routing.Controllers;");
             code.AppendLine($"using Microsoft.EntityFrameworkCore;");
             code.AppendLine($"using AutoMapper;");
+            code.AppendLine("using MediatR;");
 
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace};");
             code.AppendLine($"using {codeGeneratorState.DataTransferObjectsNameSpace};");
@@ -76,11 +77,13 @@ internal static class ApiGenerator
             AddField(code, dbContextName, "databaseContext", "The OData DbContext for CRUD operations");
 
             AddField(code, "IMapper", "mapper", "The Automapper");
+            AddField(code, "IMediator", "mediator", "The Mediator");
 
             var constructorParameters = new Dictionary<string, string>
                 {
                     { dbContextName, "databaseContext" },
                     { "IMapper", "mapper" },
+                    { "IMediator", "mediator" },
                 };
 
             foreach (var query in queries)
@@ -335,11 +338,12 @@ internal static class ApiGenerator
     {
         // Method Get
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public ActionResult<IQueryable<{entity.Name}>> Get()");
+        code.AppendLine($"public async  Task<ActionResult<IQueryable<{entity.Name}>>> Get()");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"return Ok(_databaseContext.{entity.PluralName});");
+        code.AppendLine($"var result = await _mediator.Send(new Get{entity.PluralName}Query());");                
+        code.AppendLine($"return Ok(result);");
 
         // End method
         code.EndBlock();

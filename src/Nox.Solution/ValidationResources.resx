@@ -441,4 +441,7 @@
   <data name="NuidKeyMissingProperty" xml:space="preserve">
     <value>Property with name {0} is missing in Entity {1}</value>
   </data>
+  <data name="EntityKeyShouldNotBeCompoundType" xml:space="preserve">
+    <value>Entity {0}: Key {1} should not be Compound type.</value>
+  </data>
 </root>

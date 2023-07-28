@@ -34,15 +34,22 @@ public class NoxSolution : Solution
             {
                 Relationship = relationship,
                 RelationshipEntityType = getTypeByNameFunc(relationship.Entity)!,
-                ShouldBeMapped = true
+                ShouldGenerateSpecialRelationshipLogicOnThisSide = true
             };
 
             var pairRelationship = relationship.Related.EntityRelationship;
             if (pairRelationship != null)
             {
-                // If zeroOrMany vs OneOrMany handle on oneOrMany side
-                if (pairRelationship.Relationship == EntityRelationshipType.OneOrMany &&
+                // ManyToMany does not need to be handled as it doesn't have special logic
+                // Will be always ignored by default
+                if (relationship.Relationship == EntityRelationshipType.OneOrMany ||
                     relationship.Relationship == EntityRelationshipType.ZeroOrMany)
+                {
+                    isIgnored = true;
+                }
+                // If ZeroOrOne vs ExactlyOne handle on ExactlyOne side
+                else if (pairRelationship.Relationship == EntityRelationshipType.ExactlyOne &&
+                    relationship.Relationship == EntityRelationshipType.ZeroOrOne)
                 {
                     isIgnored = true;
                 }
@@ -56,7 +63,7 @@ public class NoxSolution : Solution
                 }
             }
 
-            fullModel.ShouldBeMapped = !isIgnored;
+            fullModel.ShouldGenerateSpecialRelationshipLogicOnThisSide = !isIgnored;
             fullRelationshipModels.Add(fullModel);
         }
 

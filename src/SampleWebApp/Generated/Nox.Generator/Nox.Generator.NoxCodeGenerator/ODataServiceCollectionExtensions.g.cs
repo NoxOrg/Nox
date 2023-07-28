@@ -20,6 +20,8 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntitySet<OStore>("Stores");
 
+        builder.EntitySet<OStoreSecurityPasswords>("StoreSecurityPasswords");
+
         builder.EntitySet<OCountryLocalNames>("CountryLocalNames");
 
         services.AddControllers()

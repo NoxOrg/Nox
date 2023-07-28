@@ -3,22 +3,36 @@ using System.Globalization;
 
 namespace Nox.Types;
 
-public sealed class DateTimeDuration : ValueObject<TimeSpan, DateTimeDuration>
+public sealed class DateTimeDuration : ValueObject<long, DateTimeDuration>
 {
     private DateTimeDurationTypeOptions _dateTimeDurationTypeOptions = new();
+    private TimeSpan _duration;
+
+    /// <inheritdoc/>
+    public new static DateTimeDuration FromDatabase(long value)
+    {
+        return new DateTimeDuration 
+        { 
+            Value = value,
+            _duration = new TimeSpan(value)
+        };
+    }
 
     /// <summary>
     /// Creates a new instance of <see cref="DateTimeDuration"/> object.
     /// </summary>
-    /// <param name="value">The time span to create date time duration from.</param>
+    /// <param name="ticks">The number of ticks to create date time duration from.</param>
     /// <param name="options">The options.</param>
-    /// <returns></returns>
+    /// <remarks>
+    /// There are 10 000 ticks in a millisecond
+    /// </remarks>
     /// <exception cref="Nox.Types.TypeValidationException"></exception>
-    public static DateTimeDuration From(TimeSpan value, DateTimeDurationTypeOptions options)
+    public static DateTimeDuration From(long ticks, DateTimeDurationTypeOptions options)
     {
         var newObject = new DateTimeDuration
         {
-            Value = value.Duration(),
+            _duration = new TimeSpan(ticks).Duration(),
+            Value = new TimeSpan(ticks).Duration().Ticks,
             _dateTimeDurationTypeOptions = options
         };
 
@@ -35,10 +49,31 @@ public sealed class DateTimeDuration : ValueObject<TimeSpan, DateTimeDuration>
     /// <summary>
     /// Creates a new instance of <see cref="DateTimeDuration"/> object.
     /// </summary>
-    /// <param name="value">The time span to create date time duration from.</param>
+    /// <param name="ticks">The number of ticks to create date time duration from.</param>
+    /// <remarks>
+    /// There are 10 000 ticks in a millisecond
+    /// </remarks>
     /// <exception cref="TypeValidationException"></exception>
-    public new static DateTimeDuration From(TimeSpan value)
-        => From(value, new());
+    public new static DateTimeDuration From(long ticks)
+        => From(ticks, new());
+
+    /// <summary>
+    /// Creates a new instance of <see cref="DateTimeDuration"/> object.
+    /// </summary>
+    /// <param name="timeSpan">The time span to create date time duration from.</param>
+    /// <param name="options">The options.</param>
+    /// <returns></returns>
+    /// <exception cref="Nox.Types.TypeValidationException"></exception>
+    public static DateTimeDuration From(TimeSpan timeSpan, DateTimeDurationTypeOptions options)
+        => From(timeSpan.Duration().Ticks, options);
+
+    /// <summary>
+    /// Creates a new instance of <see cref="DateTimeDuration"/> object.
+    /// </summary>
+    /// <param name="timeSpan">The time span to create date time duration from.</param>
+    /// <exception cref="TypeValidationException"></exception>
+    public static DateTimeDuration From(TimeSpan timeSpan)
+        => From(timeSpan, new());
 
     /// <summary>
     /// Creates a new instance of <see cref="DateTimeDuration"/> object to a specified number of days, hours, minutes, seconds and milliseconds.
@@ -124,52 +159,57 @@ public sealed class DateTimeDuration : ValueObject<TimeSpan, DateTimeDuration>
     /// <summary>
     /// Gets the days component of the duration.
     /// </summary>
-    public int Days => Value.Days;
+    public int Days => _duration.Days;
 
     /// <summary>
     /// Gets the hours component of the duration.
     /// </summary>
-    public int Hours => Value.Hours;
+    public int Hours => _duration.Hours;
 
     /// <summary>
     /// Gets the minutes component of the duration.
     /// </summary>
-    public int Minutes => Value.Minutes;
+    public int Minutes => _duration.Minutes;
 
     /// <summary>
     /// Gets the seconds component of the duration.
     /// </summary>
-    public int Seconds => Value.Seconds;
+    public int Seconds => _duration.Seconds;
 
     /// <summary>
     /// Gets the milliseconds component of the duration.
     /// </summary>
-    public int Milliseconds => Value.Milliseconds;
+    public int Milliseconds => _duration.Milliseconds;
 
     /// <summary>
     /// Gets the value of current instance in whole and fractional days.
     /// </summary>
-    public double TotalDays => Value.TotalDays;
+    public double TotalDays => _duration.TotalDays;
 
     /// <summary>
     /// Gets the value of current instance in whole and fractional hours.
     /// </summary>
-    public double TotalHours => Value.TotalHours;
+    public double TotalHours => _duration.TotalHours;
 
     /// <summary>
     /// Gets the value of current instance in whole and fractional minutes.
     /// </summary>
-    public double TotalMinutes => Value.TotalMinutes;
+    public double TotalMinutes => _duration.TotalMinutes;
 
     /// <summary>
     /// Gets the value of current instance in whole and fractional seconds.
     /// </summary>
-    public double TotalSeconds => Value.TotalSeconds;
+    public double TotalSeconds => _duration.TotalSeconds;
 
     /// <summary>
     /// Gets the value of current instance in whole and fractional milliseconds.
     /// </summary>
-    public double TotalMilliseconds => Value.TotalMilliseconds;
+    public double TotalMilliseconds => _duration.TotalMilliseconds;
+
+    /// <summary>
+    /// Gets the number of ticks in the duration.
+    /// </summary>
+    public long Ticks => _duration.Ticks;
 
     /// <summary>
     /// Determines whether one specified DateTimeDuration is less than another specified DateTimeDuration.
@@ -220,7 +260,7 @@ public sealed class DateTimeDuration : ValueObject<TimeSpan, DateTimeDuration>
     /// A string representation of the <see cref="DateTimeDuration"/> object in invariant culture.
     /// </returns>
     public new string ToString()
-        => Value.ToString("c", CultureInfo.InvariantCulture);
+        => _duration.ToString("c", CultureInfo.InvariantCulture);
 
     /// <summary>
     /// Returns a string representation of the <see cref="DateTimeDuration"/> in specified format in invariant culture.
@@ -230,7 +270,7 @@ public sealed class DateTimeDuration : ValueObject<TimeSpan, DateTimeDuration>
     /// A string representation of the <see cref="DateTimeDuration"/> object in specified format in invariant culture.
     /// </returns>
     public string ToString(string format)
-        => Value.ToString(format, CultureInfo.InvariantCulture);
+        => _duration.ToString(format, CultureInfo.InvariantCulture);
 
     /// <summary>
     /// Returns a string representation of the <see cref="DateTimeDuration"/> in specified format using the specified <see cref="IFormatProvider"/>.
@@ -241,7 +281,7 @@ public sealed class DateTimeDuration : ValueObject<TimeSpan, DateTimeDuration>
     /// A string representation of the <see cref="DateTimeDuration"/> object in specified format using the specified <see cref="IFormatProvider"/>.
     /// </returns>
     public string ToString(string format, IFormatProvider formatProvider)
-        => Value.ToString(format, formatProvider);
+        => _duration.ToString(format, formatProvider);
 
     /// <summary>
     /// Validates a <see cref="DateTimeDuration"/> object.
@@ -253,14 +293,14 @@ public sealed class DateTimeDuration : ValueObject<TimeSpan, DateTimeDuration>
     {
         var result = base.Validate();
 
-        if (Value < _dateTimeDurationTypeOptions.GetMinDuration())
+        if (_duration < _dateTimeDurationTypeOptions.GetMinDuration())
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DateTimeDuration type as value {Value.ToString("c", CultureInfo.InvariantCulture)} is less than than the minimum specified value of {_dateTimeDurationTypeOptions.GetMinDuration().ToString("c", CultureInfo.InvariantCulture)}"));
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DateTimeDuration type as value {_duration.ToString("c", CultureInfo.InvariantCulture)} is less than than the minimum specified value of {_dateTimeDurationTypeOptions.GetMinDuration().ToString("c", CultureInfo.InvariantCulture)}"));
         }
 
-        if (Value > _dateTimeDurationTypeOptions.GetMaxDuration())
+        if (_duration > _dateTimeDurationTypeOptions.GetMaxDuration())
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DateTimeDuration type as value {Value.ToString("c", CultureInfo.InvariantCulture)} is greater than than the maximum specified value of {_dateTimeDurationTypeOptions.GetMaxDuration().ToString("c", CultureInfo.InvariantCulture)}"));
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DateTimeDuration type as value {_duration.ToString("c", CultureInfo.InvariantCulture)} is greater than than the maximum specified value of {_dateTimeDurationTypeOptions.GetMaxDuration().ToString("c", CultureInfo.InvariantCulture)}"));
         }
 
         return result;

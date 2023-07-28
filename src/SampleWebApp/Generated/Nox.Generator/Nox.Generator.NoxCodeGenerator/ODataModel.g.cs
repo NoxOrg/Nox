@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using AutoMapper;
+using MediatR;
 using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
@@ -147,6 +148,21 @@ public class OStore : SampleWebApp.Domain.AuditableEntityBase
 }
 
 /// <summary>
+/// A set of security passwords to store cameras and databases.
+/// </summary>
+[AutoMap(typeof(StoreSecurityPasswordsDto))]
+public class OStoreSecurityPasswords : SampleWebApp.Domain.AuditableEntityBase
+{
+    
+    /// <summary>
+    /// Passwords Primary Key.
+    /// </summary>
+    public String Id { get; set; } = default!;
+    public String Name { get; set; } = default!;
+    public String SecurityCamerasPassword { get; set; } = default!;
+}
+
+/// <summary>
 /// The name of a country in other languages.
 /// </summary>
 [AutoMap(typeof(CountryLocalNamesDto))]
@@ -264,6 +280,15 @@ public class StoreDto
     /// Physical Money in the Physical Store.
     /// </summary>
     public String PhysicalMoney_CurrencyCode { get; set; } = default!;
+}
+
+/// <summary>
+/// A set of security passwords to store cameras and databases.
+/// </summary>
+public class StoreSecurityPasswordsDto
+{
+    public String Name { get; set; } = default!;
+    public String SecurityCamerasPassword { get; set; } = default!;
 }
 
 /// <summary>
