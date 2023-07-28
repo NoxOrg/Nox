@@ -1,5 +1,7 @@
 using Nox;
 using Nox.Abstractions;
+using SampleWebApp;
+
 //Include this if you want to use Serilog for logging and elastic Apm for monitoring
 // using Nox.Logging.Serilog;
 // using Nox.Monitoring.ElasticApm;
@@ -32,7 +34,6 @@ builder.Services.AddScoped<INoxMessenger, NoxMessenger>();
 builder.AddSeedData();
 
 var app = builder.Build();
-
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
