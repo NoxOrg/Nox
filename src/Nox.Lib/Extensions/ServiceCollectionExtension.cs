@@ -38,19 +38,7 @@ public static class ServiceCollectionExtension
             .Build();
     }
 
-    internal static IServiceCollection AddSecretsResolver(this IServiceCollection services)
-    {
-        services.AddPersistedSecretStore();
-        services.TryAddSingleton<INoxSecretsResolver, NoxSecretsResolver>();
-        return services;
-    }
- 
-    internal static IServiceCollection AddPersistedSecretStore(this IServiceCollection services)
-    {
-        services.AddDataProtection();
-        services.AddSingleton<IPersistedSecretStore, PersistedSecretStore>();
-        return services;
-    }
+    
 
     private static IServiceCollection AddNoxTypesDatabaseConfigurator(this IServiceCollection services,
         Assembly entryAssembly)
