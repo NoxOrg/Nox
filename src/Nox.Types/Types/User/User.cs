@@ -73,7 +73,7 @@ public sealed class User : ValueObject<string, User>
                 result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox User type {Value} as it is not a valid email address."));
             }
         }
-        
+
         if (Value.Length < _userTypeOptions.MinLength)
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox User type that is {Value.Length} characters long and shorter than the minimum specified length of {_userTypeOptions.MinLength}."));

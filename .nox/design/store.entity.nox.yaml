@@ -1,4 +1,4 @@
-# country.entity.nox.yaml
+# store.entity.nox.yaml
 
 name: Store
 
@@ -34,3 +34,9 @@ attributes:
       integerDigits: 10
     isRequired: true
     
+#relationships:
+
+#    - name: PasswordsRel
+#      description: Set of passwords for this store
+#      relationship: exactlyOne
+#      entity: StoreSecurityPasswords

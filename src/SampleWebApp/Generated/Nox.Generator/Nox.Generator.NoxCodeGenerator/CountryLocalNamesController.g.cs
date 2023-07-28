@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using MediatR;
 using SampleWebApp.Application;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
@@ -29,19 +30,27 @@ public partial class CountryLocalNamesController : ODataController
     /// </summary>
     protected readonly IMapper _mapper;
     
+    /// <summary>
+    /// The Mediator.
+    /// </summary>
+    protected readonly IMediator _mediator;
+    
     public CountryLocalNamesController(
         ODataDbContext databaseContext,
-        IMapper mapper
+        IMapper mapper,
+        IMediator mediator
     )
     {
         _databaseContext = databaseContext;
         _mapper = mapper;
+        _mediator = mediator;
     }
     
     [EnableQuery]
-    public ActionResult<IQueryable<CountryLocalNames>> Get()
+    public async  Task<ActionResult<IQueryable<CountryLocalNames>>> Get()
     {
-        return Ok(_databaseContext.CountryLocalNames);
+        var result = await _mediator.Send(new GetCountryLocalNamesQuery());
+        return Ok(result);
     }
     
     public ActionResult<CountryLocalNames> Get([FromRoute] String key)
@@ -63,7 +72,7 @@ public partial class CountryLocalNamesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var entity = _mapper.Map<CountryLocalNames>(countrylocalnames);
+        var entity = _mapper.Map<OCountryLocalNames>(countrylocalnames);
         
         entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
         
@@ -74,7 +83,7 @@ public partial class CountryLocalNamesController : ODataController
         return Created(entity);
     }
     
-    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] CountryLocalNames updatedCountryLocalNames)
+    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OCountryLocalNames updatedCountryLocalNames)
     {
         if (!ModelState.IsValid)
         {
@@ -107,7 +116,7 @@ public partial class CountryLocalNamesController : ODataController
         return Updated(updatedCountryLocalNames);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string countrylocalnames, [FromBody] Delta<CountryLocalNames> Id)
+    public async Task<ActionResult> Patch([FromRoute] string countrylocalnames, [FromBody] Delta<OCountryLocalNames> Id)
     {
         if (!ModelState.IsValid)
         {

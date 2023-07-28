@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using MediatR;
 using SampleWebApp.Application;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
@@ -29,19 +30,27 @@ public partial class StoresController : ODataController
     /// </summary>
     protected readonly IMapper _mapper;
     
+    /// <summary>
+    /// The Mediator.
+    /// </summary>
+    protected readonly IMediator _mediator;
+    
     public StoresController(
         ODataDbContext databaseContext,
-        IMapper mapper
+        IMapper mapper,
+        IMediator mediator
     )
     {
         _databaseContext = databaseContext;
         _mapper = mapper;
+        _mediator = mediator;
     }
     
     [EnableQuery]
-    public ActionResult<IQueryable<Store>> Get()
+    public async  Task<ActionResult<IQueryable<Store>>> Get()
     {
-        return Ok(_databaseContext.Stores);
+        var result = await _mediator.Send(new GetStoresQuery());
+        return Ok(result);
     }
     
     public ActionResult<Store> Get([FromRoute] String key)
@@ -63,7 +72,7 @@ public partial class StoresController : ODataController
             return BadRequest(ModelState);
         }
         
-        var entity = _mapper.Map<Store>(store);
+        var entity = _mapper.Map<OStore>(store);
         
         entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
         
@@ -74,7 +83,7 @@ public partial class StoresController : ODataController
         return Created(entity);
     }
     
-    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] Store updatedStore)
+    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OStore updatedStore)
     {
         if (!ModelState.IsValid)
         {
@@ -107,7 +116,7 @@ public partial class StoresController : ODataController
         return Updated(updatedStore);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string store, [FromBody] Delta<Store> Id)
+    public async Task<ActionResult> Patch([FromRoute] string store, [FromBody] Delta<OStore> Id)
     {
         if (!ModelState.IsValid)
         {

@@ -52,6 +52,7 @@
     <Compile Remove="ExpectedGeneratedFiles\NoxServiceCollectionExtension.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\SampleWebAppDbContext.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\UpdatePopulationStatisticsCommandHandlerBase.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\NoxWebApplicationExtensions.expected.g.cs" />
     <Compile Remove="Files\TestExecutable\Program.cs" />
   </ItemGroup>
 
@@ -86,6 +87,12 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
     <None Update="files\yaml\infrastructure\generator.nox.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="files\yaml\common\app-builder.solution.nox.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="files\yaml\common\generator.nox.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
   </ItemGroup>
@@ -128,6 +135,10 @@
     <None Include="files\Program.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Compile Remove="ExpectedGeneratedFiles\NoxWebApplicationExtensions.g.cs" />
+    <AdditionalFiles Include="ExpectedGeneratedFiles\NoxWebApplicationExtensions.expected.g.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </AdditionalFiles>
   </ItemGroup>
 
 </Project>
