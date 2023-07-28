@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230728131953_InitialCreate")]
+    [Migration("20230728155747_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -341,6 +341,33 @@ namespace SampleWebApp.Migrations
                         .WithMany()
                         .HasForeignKey("CurrenciesId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SampleWebApp.Domain.AllNoxType", b =>
+                {
+                    b.OwnsOne("Nox.Types.VatNumber", "VatNumberField", b1 =>
+                        {
+                            b1.Property<string>("AllNoxTypeId")
+                                .HasColumnType("char(3)");
+
+                            b1.Property<string>("CountryCode")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("VatNumberValue")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("AllNoxTypeId");
+
+                            b1.ToTable("AllNoxTypes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AllNoxTypeId");
+                        });
+
+                    b.Navigation("VatNumberField")
                         .IsRequired();
                 });
 

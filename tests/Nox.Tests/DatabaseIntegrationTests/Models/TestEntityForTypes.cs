@@ -118,4 +118,9 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public Yaml? YamlTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public VatNumber? VatNumberTestField { get; set; } = null!;
 }

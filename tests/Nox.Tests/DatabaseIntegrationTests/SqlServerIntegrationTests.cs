@@ -65,6 +65,9 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var password = "Test123.";
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
+        var vatNumberValue = "44403198682";
+        var vatNumberCountryCode = CountryCode2.From("FR");
+
         var addressJsonPretty = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { WriteIndented = true });
         var addressJsonMinified = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
         var email = "regus@regusignore.com";
@@ -102,6 +105,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             JsonTestField = Json.From(addressJsonPretty),
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
+            VatNumberTestField = VatNumber.From(vatNumberValue, vatNumberCountryCode),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -142,6 +146,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.JsonTestField!.ToString("m").Should().Be(addressJsonMinified);
         testEntity.EmailTestField!.Value.Should().Be(email);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(switzerlandCitiesCountiesYaml);
+        testEntity.VatNumberTestField!.Value.VatNumberValue.Should().Be(vatNumberValue);
+        testEntity.VatNumberTestField!.Value.CountryCode.Should().Be(vatNumberCountryCode);
     }
 
     //[Fact]

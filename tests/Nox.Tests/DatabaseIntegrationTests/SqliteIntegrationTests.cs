@@ -66,6 +66,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         var dayOfWeek = 1;
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
+        var vatNumberValue = "44403198682";
+        var vatNumberCountryCode = CountryCode2.From("FR");
 
         var addressJsonPretty = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { WriteIndented = true });
         var addressJsonMinified = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
@@ -79,7 +81,7 @@ public class SqliteIntegrationTests : SqliteTestBase
     - County: Geneva
     - County: Lausanne
 ";
-        
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -104,6 +106,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             JsonTestField = Json.From(addressJsonPretty),
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
+            VatNumberTestField = VatNumber.From(vatNumberValue, vatNumberCountryCode),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -143,6 +146,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.JsonTestField!.ToString("m").Should().Be(addressJsonMinified);
         testEntity.EmailTestField!.Value.Should().Be(email);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
+        testEntity.VatNumberTestField!.Value.VatNumberValue.Should().Be(vatNumberValue);
+        testEntity.VatNumberTestField!.Value.CountryCode.Should().Be(vatNumberCountryCode);
     }
 
     [Fact]

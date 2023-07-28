@@ -48,7 +48,7 @@ public sealed class VatNumber : ValueObject<(string VatNumberValue, CountryCode2
 
     #endregion
 
-    private VatNumberOptions _typeOptions = new();
+    private VatNumberTypeOptions _typeOptions = new();
 
     public string VatNumberValue
     {
@@ -76,7 +76,7 @@ public sealed class VatNumber : ValueObject<(string VatNumberValue, CountryCode2
     public static VatNumber From(string value, CountryCode2 countryCode) => 
         From((value, countryCode));
 
-    public static VatNumber From(string value, VatNumberOptions typeOptions) =>
+    public static VatNumber From(string value, VatNumberTypeOptions typeOptions) =>
         From(value, CountryCode2.From(typeOptions.CountryCode));
 
     public static VatNumber From(string value, string countryCode) =>

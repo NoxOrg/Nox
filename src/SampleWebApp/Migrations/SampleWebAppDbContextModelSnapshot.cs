@@ -341,6 +341,33 @@ namespace SampleWebApp.Migrations
                         .IsRequired();
                 });
 
+            modelBuilder.Entity("SampleWebApp.Domain.AllNoxType", b =>
+                {
+                    b.OwnsOne("Nox.Types.VatNumber", "VatNumberField", b1 =>
+                        {
+                            b1.Property<string>("AllNoxTypeId")
+                                .HasColumnType("char(3)");
+
+                            b1.Property<string>("CountryCode")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("VatNumberValue")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("AllNoxTypeId");
+
+                            b1.ToTable("AllNoxTypes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AllNoxTypeId");
+                        });
+
+                    b.Navigation("VatNumberField")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("SampleWebApp.Domain.Store", b =>
                 {
                     b.OwnsOne("Nox.Types.Money", "PhysicalMoney", b1 =>
