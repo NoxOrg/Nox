@@ -69,7 +69,8 @@ public class SqliteIntegrationTests : SqliteTestBase
 
         var addressJsonPretty = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { WriteIndented = true });
         var addressJsonMinified = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
-
+        var email = "regus@regusignore.com";
+        
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -91,7 +92,8 @@ public class SqliteIntegrationTests : SqliteTestBase
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
-            JsonTestField = Json.From(addressJsonPretty)
+            JsonTestField = Json.From(addressJsonPretty),
+            EmailTestField = Email.From(email),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -129,6 +131,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("p").Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("m").Should().Be(addressJsonMinified);
+        testEntity.EmailTestField!.Value.Should().Be(email);
     }
 
     [Fact]

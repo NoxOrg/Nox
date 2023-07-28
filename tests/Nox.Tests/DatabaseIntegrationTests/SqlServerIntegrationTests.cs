@@ -67,6 +67,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var dateTimeDurationInHours = 30.5;
         var addressJsonPretty = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { WriteIndented = true });
         var addressJsonMinified = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
+        var email = "regus@regusignore.com";
 
         var newItem = new TestEntityForTypes()
         {
@@ -89,7 +90,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours, new DateTimeDurationTypeOptions { MaxDuration = 100, TimeUnit = TimeUnit.Day }),
-            JsonTestField = Json.From(addressJsonPretty)
+            JsonTestField = Json.From(addressJsonPretty),
+            EmailTestField = Email.From(email),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -128,6 +130,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("p").Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("m").Should().Be(addressJsonMinified);
+        testEntity.EmailTestField!.Value.Should().Be(email);
     }
 
     //[Fact]
