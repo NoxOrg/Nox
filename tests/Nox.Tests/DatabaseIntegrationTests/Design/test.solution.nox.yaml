@@ -415,3 +415,6 @@ domain:
 
         - name: DateTimeDurationTestField
           type: dateTimeDuration
+
+        - name: FileTestField
+          type: file

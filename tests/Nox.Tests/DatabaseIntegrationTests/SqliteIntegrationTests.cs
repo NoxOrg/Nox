@@ -20,7 +20,6 @@ public class SqliteIntegrationTests : SqliteTestBase
         // databaseNumber
         // collection
         // entity
-        // file
         // formula
         // image
         // imagePng
@@ -66,6 +65,9 @@ public class SqliteIntegrationTests : SqliteTestBase
         var dayOfWeek = 1;
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
+        var fileName = "MyFile";
+        var fileSizeInBytes = 1000000UL;
+        var fileUrl = "https://example.com/myfile.pdf";
 
         var addressJsonPretty = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { WriteIndented = true });
         var addressJsonMinified = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
@@ -91,7 +93,8 @@ public class SqliteIntegrationTests : SqliteTestBase
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
-            JsonTestField = Json.From(addressJsonPretty)
+            JsonTestField = Json.From(addressJsonPretty),
+            FileTestField = Nox.Types.File.From(fileUrl, fileName, fileSizeInBytes),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -129,6 +132,9 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("p").Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("m").Should().Be(addressJsonMinified);
+        testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);
+        testEntity.FileTestField!.Value.PrettyName.Should().Be(fileName);
+        testEntity.FileTestField!.Value.SizeInBytes.Should().Be(fileSizeInBytes);
     }
 
     [Fact]

@@ -3,6 +3,8 @@
 #nullable enable
 
 using Nox.Types;
+using System;
+using System.Collections.Generic;
 
 namespace TestWebApp.Domain;
 
@@ -75,6 +77,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Json? JsonTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public MacAddress? MacAddressTestField { get; set; } = null!;
 
     /// <summary>
@@ -110,5 +117,5 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Json? JsonTestField { get; set; } = null!;
+    public Nox.Types.File? FileTestField { get; set; } = null!;
 }
