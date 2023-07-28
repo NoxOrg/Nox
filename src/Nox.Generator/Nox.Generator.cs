@@ -76,6 +76,8 @@ public class NoxCodeGenerator : IIncrementalGenerator
 
                     Nox.Generator.Domain.Queries.QueryGenerator.Generate(context, codeGeneratorState);
 
+                    Nox.Generator.Domain.Queries.ByIdQueryGenerator.Generate(context, codeGeneratorState);
+
                     DomainEventGenerator.Generate(context, codeGeneratorState);
                     
                     CommandGenerator.Generate(context, codeGeneratorState);
@@ -108,7 +110,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
         }
         catch (Exception e)
         {
-            _errors.Add(e.Message);
+            _errors.Add(e.Message +  e.StackTrace);
         }
 
         if (_errors.Any())

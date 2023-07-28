@@ -61,15 +61,15 @@ public partial class CountriesController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<Country>>> Get()
+    public async  Task<ActionResult<IQueryable<OCountry>>> Get()
     {
         var result = await _mediator.Send(new GetCountriesQuery());
         return Ok(result);
     }
     
-    public ActionResult<Country> Get([FromRoute] String key)
+    public async Task<ActionResult<OCountry>> Get([FromRoute] String key)
     {
-        var item = _databaseContext.Countries.SingleOrDefault(d => d.Id.Equals(key));
+        var item = await _mediator.Send(new GetCountryByIdQuery(key));
         
         if (item == null)
         {
