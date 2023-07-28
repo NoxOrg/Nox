@@ -73,11 +73,13 @@ public class NoxCodeGenerator : IIncrementalGenerator
                     AuditableEntityBaseGenerator.Generate(context, codeGeneratorState);
 
                     EntitiesGenerator.Generate(context, codeGeneratorState);
-                    
+
+                    Nox.Generator.Domain.Queries.QueryGenerator.Generate(context, codeGeneratorState);
+
                     DomainEventGenerator.Generate(context, codeGeneratorState);
                     
                     CommandGenerator.Generate(context, codeGeneratorState);
-                    
+
                     QueryGenerator.Generate(context, codeGeneratorState);
                 }
 
@@ -95,8 +97,6 @@ public class NoxCodeGenerator : IIncrementalGenerator
                     ODataDbContextGenerator.Generate(context, codeGeneratorState);
 
                     ApiGenerator.Generate(context, codeGeneratorState);
-
-                    ApplicationServiceGenerator.Generate(context, codeGeneratorState);
                 }
 
                 if (generate.Application)

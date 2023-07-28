@@ -29,6 +29,7 @@ internal static class ODataModelGenerator
         code.AppendLine($"using Microsoft.AspNetCore.OData;");
         code.AppendLine($"using Microsoft.OData.ModelBuilder;");
         code.AppendLine($"using AutoMapper;");
+        code.AppendLine("using MediatR;");
         code.AppendLine($"using Nox.Types;");
 
         code.AppendLine();

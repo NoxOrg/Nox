@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using AutoMapper;
+using MediatR;
 using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
