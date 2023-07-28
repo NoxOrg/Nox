@@ -30,9 +30,11 @@ builder.AddSeedData();
 
 var app = builder.Build();
 
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
+    app.UseNoxErrorHandling();
     app.UseSwagger();
     app.UseSwaggerUI();
 }
@@ -42,7 +44,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
 //Add this to use elastic Apm monitoring
 //app.UseElasticMonitoring();
 
