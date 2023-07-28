@@ -16,7 +16,8 @@ public class EmailDatabaseConfigurator : INoxTypeDatabaseConfigurator
         builder
             .Property(property.Name)
             .IsRequired(property.IsRequired)
-            .HasColumnType(GetColumnType())
+            .IsUnicode(true)
+            .HasMaxLength(255)
             .HasConversion<EmailConverter>();
     }
 
