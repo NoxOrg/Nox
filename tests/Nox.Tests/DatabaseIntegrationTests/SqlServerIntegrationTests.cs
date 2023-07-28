@@ -90,7 +90,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours, new DateTimeDurationTypeOptions { MaxDuration = 100, TimeUnit = TimeUnit.Day }),
-            JsonTestField = Json.From(addressJsonPretty)
+            JsonTestField = Json.From(addressJsonPretty),
             EmailTestField = Email.From(email),
         };
         DbContext.TestEntityForTypes.Add(newItem);
@@ -130,6 +130,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("p").Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("m").Should().Be(addressJsonMinified);
+        testEntity.EmailTestField!.Value.Should().Be(email);
     }
 
     //[Fact]
@@ -227,6 +228,5 @@ public class SqlServerIntegrationTests : SqlServerTestBase
 
         Assert.NotNull(testEntity.SecondTestEntityExactlyOne);
         Assert.NotNull(secondTestEntity.TestEntityExactlyOne);
-        testEntity.EmailTestField!.Value.Should().Be(email);
     }
 }

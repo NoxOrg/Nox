@@ -92,7 +92,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
-            JsonTestField = Json.From(addressJsonPretty)
+            JsonTestField = Json.From(addressJsonPretty),
             EmailTestField = Email.From(email),
         };
         DbContext.TestEntityForTypes.Add(newItem);
