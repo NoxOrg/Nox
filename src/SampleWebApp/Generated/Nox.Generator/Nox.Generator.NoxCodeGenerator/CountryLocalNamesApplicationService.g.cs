@@ -21,6 +21,7 @@ public partial class CountryLocalNamesApplicationService : ICountryLocalNamesApp
     {
         DatabaseContext = databaseContext;
     }
+
     public virtual CountryLocalNames Create(CountryLocalNamesDto odataModel)
     {
         var entity = new CountryLocalNames();
@@ -28,7 +29,6 @@ public partial class CountryLocalNamesApplicationService : ICountryLocalNamesApp
         DatabaseContext.CountryLocalNames.Add(entity);
         return entity;
     }
-
 
     public virtual CountryLocalNames Update(CountryLocalNamesDto odataModel)
     {

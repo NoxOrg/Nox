@@ -6,22 +6,16 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using Nox;
 using Nox.Solution;
-using Nox.Logging.Serilog;
-using Nox.Monitoring.ElasticApm;
 using Nox.EntityFramework.SqlServer;
 using Nox.Types.EntityFramework.Abstractions;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Presentation.Api.OData;
 
-namespace SampleWebApp;
-
 public static class NoxWebApplicationBuilderExtension
 {
     public static WebApplicationBuilder AddNox(this WebApplicationBuilder appBuilder)
     {
-        appBuilder.Services.AddNoxLib();
-        appBuilder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-        appBuilder.Services.AddNoxTypesDatabaseConfigurator(Assembly.GetExecutingAssembly());
+        appBuilder.Services.AddNoxLib(Assembly.GetExecutingAssembly());
         appBuilder.Services.AddNoxOdata();
         appBuilder.Services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
         appBuilder.Services.AddSingleton<DbContextOptions<SampleWebAppDbContext>>();
