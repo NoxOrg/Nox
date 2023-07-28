@@ -97,6 +97,8 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// </summary>
     public CultureCode? CultureCodeTestField { get; set; } = null!;
 
+    public Email? EmailTestField { get; set; } = null!;
+
     /// <summary>
     ///  (Optional).
     /// </summary>

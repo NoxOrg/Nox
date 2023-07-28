@@ -69,7 +69,7 @@ public class SqliteIntegrationTests : SqliteTestBase
 
         var addressJsonPretty = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { WriteIndented = true });
         var addressJsonMinified = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
-
+        var email = "regus@regusignore.com";
         var switzerlandCitiesCountiesYaml = @"
 - Zurich:
     - County: Zurich
@@ -79,7 +79,6 @@ public class SqliteIntegrationTests : SqliteTestBase
     - County: Geneva
     - County: Lausanne
 ";
-        
         
         var newItem = new TestEntityForTypes()
         {
@@ -103,6 +102,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             MonthTestField = Month.From(month),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
             JsonTestField = Json.From(addressJsonPretty),
+            EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
         };
         DbContext.TestEntityForTypes.Add(newItem);
@@ -141,6 +141,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("p").Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("m").Should().Be(addressJsonMinified);
+        testEntity.EmailTestField!.Value.Should().Be(email);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
     }
 

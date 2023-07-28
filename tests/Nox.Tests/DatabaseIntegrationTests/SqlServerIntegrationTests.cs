@@ -67,6 +67,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var dateTimeDurationInHours = 30.5;
         var addressJsonPretty = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { WriteIndented = true });
         var addressJsonMinified = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
+        var email = "regus@regusignore.com";
         var switzerlandCitiesCountiesYaml = @"
 - Zurich:
     - County: Zurich
@@ -99,6 +100,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             MonthTestField = Month.From(month),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours, new DateTimeDurationTypeOptions { MaxDuration = 100, TimeUnit = TimeUnit.Day }),
             JsonTestField = Json.From(addressJsonPretty),
+            EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
         };
         DbContext.TestEntityForTypes.Add(newItem);
@@ -138,6 +140,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("p").Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("m").Should().Be(addressJsonMinified);
+        testEntity.EmailTestField!.Value.Should().Be(email);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(switzerlandCitiesCountiesYaml);
     }
 
