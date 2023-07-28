@@ -64,6 +64,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var dayOfWeek = 1;
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
+        var currencyNumber = (short)970;
         var vatNumberValue = "44403198682";
         var vatNumberCountryCode2 = CountryCode2.From("FR");
         var date = new DateOnly(2023, 7, 14);
@@ -123,7 +124,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             PasswordTestField = Password.From(password),
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
-            DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
+            DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours, new DateTimeDurationTypeOptions { MaxDuration = 100, TimeUnit = TimeUnit.Day }),
+            CurrencyNumberTestField = CurrencyNumber.From(currencyNumber),
             JsonTestField = Json.From(addressJsonPretty),
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
@@ -172,6 +174,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
         testEntity.MonthTestField!.Value.Should().Be(month);
         testEntity.DateTimeDurationTestField!.TotalHours.Should().Be(dateTimeDurationInHours);
+        testEntity.CurrencyNumberTestField!.Value.Should().Be(currencyNumber);
         testEntity.JsonTestField!.Value.Should().Be(addressJsonMinified);
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("p").Should().Be(addressJsonPretty);

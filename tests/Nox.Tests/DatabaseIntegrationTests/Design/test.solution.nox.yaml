@@ -335,8 +335,8 @@ domain:
         #- name: CurrencyCodeTestField
         #  type: currencyCode
 
-        #- name: CurrencyNumberTestField
-        #  type: currencyNumber
+        - name: CurrencyNumberTestField
+          type: currencyNumber
 
         #- name: DateTimeTestField
         #  type: dateTime
