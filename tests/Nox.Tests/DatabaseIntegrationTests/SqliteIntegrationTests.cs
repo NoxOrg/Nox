@@ -64,6 +64,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var dayOfWeek = 1;
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
+        var year = (ushort)2023;
         var vatNumberValue = "44403198682";
         var vatNumberCountryCode2 = CountryCode2.From("FR");
         var date = new DateOnly(2023, 7, 14);
@@ -124,6 +125,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             MonthTestField = Month.From(month),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
             JsonTestField = Json.From(addressJsonPretty),
+            YearTestField = Year.From(year),
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
@@ -175,6 +177,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("p").Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("m").Should().Be(addressJsonMinified);
+        testEntity.YearTestField!.Value.Should().Be(year);
         testEntity.BooleanTestField!.Value.Should().Be(boolean);
         testEntity.EmailTestField!.Value.Should().Be(email);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);

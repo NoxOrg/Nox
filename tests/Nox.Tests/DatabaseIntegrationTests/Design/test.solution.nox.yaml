@@ -408,8 +408,8 @@ domain:
         #- name: WeightTestField
         #  type: weight
 
-        #- name: YearTestField
-        #  type: year
+        - name: YearTestField
+          type: year
 
         - name: CultureCodeTestField
           type: cultureCode
