@@ -1,4 +1,4 @@
-﻿#
+#
 # workplace.solution.nox.yaml
 #
 # yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
@@ -412,6 +412,9 @@ domain:
 
         - name: LanguageCodeTestField
           type: languageCode
+          
+        - name: YamlTestField
+          type: yaml
 
         - name: DateTimeDurationTestField
           type: dateTimeDuration
