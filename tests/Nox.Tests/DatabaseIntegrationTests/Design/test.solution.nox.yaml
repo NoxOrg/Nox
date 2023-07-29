@@ -323,8 +323,8 @@ domain:
         - name: TimeZoneCodeTestField
           type: timeZoneCode
 
-        #- name: BooleanTestField
-        #  type: boolean
+        - name: BooleanTestField
+          type: boolean
 
         - name: CountryCode3TestField
           type: countryCode3
