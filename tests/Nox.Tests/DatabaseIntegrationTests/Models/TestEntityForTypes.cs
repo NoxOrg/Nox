@@ -3,6 +3,7 @@
 #nullable enable
 
 using Nox.Types;
+using Boolean = Nox.Types.Boolean;
 
 namespace TestWebApp.Domain;
 
@@ -112,5 +113,15 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Boolean? BooleanTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Json? JsonTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Yaml? YamlTestField { get; set; } = null!;
 }

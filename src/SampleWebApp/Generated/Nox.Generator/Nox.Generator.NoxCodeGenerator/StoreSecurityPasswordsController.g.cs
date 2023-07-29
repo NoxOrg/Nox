@@ -47,15 +47,15 @@ public partial class StoreSecurityPasswordsController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<StoreSecurityPasswords>>> Get()
+    public async  Task<ActionResult<IQueryable<OStoreSecurityPasswords>>> Get()
     {
         var result = await _mediator.Send(new GetStoreSecurityPasswordsQuery());
         return Ok(result);
     }
     
-    public ActionResult<StoreSecurityPasswords> Get([FromRoute] String key)
+    public async Task<ActionResult<OStoreSecurityPasswords>> Get([FromRoute] String key)
     {
-        var item = _databaseContext.StoreSecurityPasswords.SingleOrDefault(d => d.Id.Equals(key));
+        var item = await _mediator.Send(new GetStoreSecurityPasswordsByIdQuery(key));
         
         if (item == null)
         {

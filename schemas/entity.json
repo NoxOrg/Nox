@@ -227,6 +227,32 @@
         ]
       },
       "additionalProperties": false
+    },
+    "keysFlattenComponentsTypeName": {    
+      "type": [
+        "array",
+        "null"
+      ],
+      "items":   {
+        "type": [
+          "string",
+          "null"
+        ],
+        "properties": {
+          "chars": {    
+            "type": [
+              "object",
+              "null"
+            ]
+          },
+          "length": {    
+            "type": [
+              "integer",
+              "null"
+            ]
+          }
+        }
+      }
     }
   },
   "additionalProperties": false

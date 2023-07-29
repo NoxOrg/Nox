@@ -10,9 +10,9 @@ namespace SampleWebApp.Domain;
 
 public record GetCountryLocalNamesQuery() : IRequest<IQueryable<OCountryLocalNames>>;
 
-public class GetCountryLocalNamesHandler : IRequestHandler<GetCountryLocalNamesQuery, IQueryable<OCountryLocalNames>>
+public class GetCountryLocalNamesQueryHandler : IRequestHandler<GetCountryLocalNamesQuery, IQueryable<OCountryLocalNames>>
 {
-    public  GetCountryLocalNamesHandler(ODataDbContext dataDbContext)
+    public  GetCountryLocalNamesQueryHandler(ODataDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }

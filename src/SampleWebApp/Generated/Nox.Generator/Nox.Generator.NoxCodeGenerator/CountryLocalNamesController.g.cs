@@ -47,15 +47,15 @@ public partial class CountryLocalNamesController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<CountryLocalNames>>> Get()
+    public async  Task<ActionResult<IQueryable<OCountryLocalNames>>> Get()
     {
         var result = await _mediator.Send(new GetCountryLocalNamesQuery());
         return Ok(result);
     }
     
-    public ActionResult<CountryLocalNames> Get([FromRoute] String key)
+    public async Task<ActionResult<OCountryLocalNames>> Get([FromRoute] String key)
     {
-        var item = _databaseContext.CountryLocalNames.SingleOrDefault(d => d.Id.Equals(key));
+        var item = await _mediator.Send(new GetCountryLocalNamesByIdQuery(key));
         
         if (item == null)
         {

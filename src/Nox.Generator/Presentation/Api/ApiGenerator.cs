@@ -338,7 +338,7 @@ internal static class ApiGenerator
     {
         // Method Get
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public async  Task<ActionResult<IQueryable<{entity.Name}>>> Get()");
+        code.AppendLine($"public async  Task<ActionResult<IQueryable<O{entity.Name}>>> Get()");
 
         // Method content
         code.StartBlock();
@@ -356,21 +356,19 @@ internal static class ApiGenerator
             return;
         }
 
-        var singleKey = entity.Keys!.First();
-        var keyPrimitiveTypes = singleKey.Type.GetComponents(singleKey);
-
-        if (keyPrimitiveTypes.Count > 1)
+        if (entity.Keys!.Count > 1)
         {
             Debug.WriteLine($"Get for composite keys Not implemented, Entity - {entity.Name}...");
             return;
         }
-
+        
+        // We do not support Compound types as primary keys, this is validated on the schema
         // Method Get
-        code.AppendLine($"public ActionResult<{entity.Name}> Get([FromRoute] {keyPrimitiveTypes.First().Value.Name} key)");
+        code.AppendLine($"public async Task<ActionResult<O{entity.Name}>> Get([FromRoute] {entity.KeysFlattenComponentsTypeName[0]} key)");
 
         // Method content
-        code.StartBlock();
-        code.AppendLine($"var item = _databaseContext.{entity.PluralName}.SingleOrDefault(d => d.Id.Equals(key));");
+        code.StartBlock();        
+        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery(key));");
         code.AppendLine();
         code.AppendLine($"if (item == null)");
         code.StartBlock();

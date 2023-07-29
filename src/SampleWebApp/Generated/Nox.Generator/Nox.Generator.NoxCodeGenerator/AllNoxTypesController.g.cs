@@ -17,7 +17,7 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-public partial class CountriesController : ODataController
+public partial class AllNoxTypesController : ODataController
 {
     
     /// <summary>
@@ -35,41 +35,27 @@ public partial class CountriesController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    /// <summary>
-    /// Returns a list of countries for a given continent.
-    /// </summary>
-    protected readonly GetCountriesByContinentQueryBase _getCountriesByContinent;
-    
-    /// <summary>
-    /// Instructs the service to collect updated population statistics.
-    /// </summary>
-    protected readonly UpdatePopulationStatisticsCommandHandlerBase _updatePopulationStatistics;
-    
-    public CountriesController(
+    public AllNoxTypesController(
         ODataDbContext databaseContext,
         IMapper mapper,
-        IMediator mediator,
-        GetCountriesByContinentQueryBase getCountriesByContinent,
-        UpdatePopulationStatisticsCommandHandlerBase updatePopulationStatistics
+        IMediator mediator
     )
     {
         _databaseContext = databaseContext;
         _mapper = mapper;
         _mediator = mediator;
-        _getCountriesByContinent = getCountriesByContinent;
-        _updatePopulationStatistics = updatePopulationStatistics;
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<OCountry>>> Get()
+    public async  Task<ActionResult<IQueryable<OAllNoxType>>> Get()
     {
-        var result = await _mediator.Send(new GetCountriesQuery());
+        var result = await _mediator.Send(new GetAllNoxTypesQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<OCountry>> Get([FromRoute] String key)
+    public async Task<ActionResult<OAllNoxType>> Get([FromRoute] String key)
     {
-        var item = await _mediator.Send(new GetCountryByIdQuery(key));
+        var item = await _mediator.Send(new GetAllNoxTypeByIdQuery(key));
         
         if (item == null)
         {
@@ -79,37 +65,37 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post(CountryDto country)
+    public async Task<ActionResult> Post(AllNoxTypeDto allnoxtype)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = _mapper.Map<OCountry>(country);
+        var entity = _mapper.Map<OAllNoxType>(allnoxtype);
         
         entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
         
-        _databaseContext.Countries.Add(entity);
+        _databaseContext.AllNoxTypes.Add(entity);
         
         await _databaseContext.SaveChangesAsync();
         
         return Created(entity);
     }
     
-    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OCountry updatedCountry)
+    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OAllNoxType updatedAllNoxType)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        if (key != updatedCountry.Id)
+        if (key != updatedAllNoxType.Id)
         {
             return BadRequest();
         }
         
-        _databaseContext.Entry(updatedCountry).State = EntityState.Modified;
+        _databaseContext.Entry(updatedAllNoxType).State = EntityState.Modified;
         
         try
         {
@@ -117,7 +103,7 @@ public partial class CountriesController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!CountryExists(key))
+            if (!AllNoxTypeExists(key))
             {
                 return NotFound();
             }
@@ -127,17 +113,17 @@ public partial class CountriesController : ODataController
             }
         }
         
-        return Updated(updatedCountry);
+        return Updated(updatedAllNoxType);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string country, [FromBody] Delta<OCountry> Id)
+    public async Task<ActionResult> Patch([FromRoute] string allnoxtype, [FromBody] Delta<OAllNoxType> Id)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = await _databaseContext.Countries.FindAsync(country);
+        var entity = await _databaseContext.AllNoxTypes.FindAsync(allnoxtype);
         
         if (entity == null)
         {
@@ -152,7 +138,7 @@ public partial class CountriesController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!CountryExists(country))
+            if (!AllNoxTypeExists(allnoxtype))
             {
                 return NotFound();
             }
@@ -165,41 +151,21 @@ public partial class CountriesController : ODataController
         return Updated(entity);
     }
     
-    private bool CountryExists(string country)
+    private bool AllNoxTypeExists(string allnoxtype)
     {
-        return _databaseContext.Countries.Any(p => p.Id == country);
+        return _databaseContext.AllNoxTypes.Any(p => p.Id == allnoxtype);
     }
     
     public async Task<ActionResult> Delete([FromRoute] string Id)
     {
-        var country = await _databaseContext.Countries.FindAsync(Id);
-        if (country == null)
+        var allnoxtype = await _databaseContext.AllNoxTypes.FindAsync(Id);
+        if (allnoxtype == null)
         {
             return NotFound();
         }
         
-        _databaseContext.Countries.Remove(country);
+        _databaseContext.AllNoxTypes.Remove(allnoxtype);
         await _databaseContext.SaveChangesAsync();
         return NoContent();
-    }
-    
-    /// <summary>
-    /// Returns a list of countries for a given continent.
-    /// </summary>
-    [HttpGet("GetCountriesByContinent")]
-    public async Task<IResult> GetCountriesByContinentAsync(Text continentName)
-    {
-        var result = await _getCountriesByContinent.ExecuteAsync(continentName);
-        return Results.Ok(result);
-    }
-    
-    /// <summary>
-    /// Instructs the service to collect updated population statistics.
-    /// </summary>
-    [HttpPost("UpdatePopulationStatistics")]
-    public async Task<IResult> UpdatePopulationStatisticsAsync(UpdatePopulationStatistics command)
-    {
-        var result = await _updatePopulationStatistics.ExecuteAsync(command);
-        return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);
     }
 }

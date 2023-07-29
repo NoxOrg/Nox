@@ -10,9 +10,9 @@ namespace SampleWebApp.Domain;
 
 public record GetCurrenciesQuery() : IRequest<IQueryable<OCurrency>>;
 
-public class GetCurrenciesHandler : IRequestHandler<GetCurrenciesQuery, IQueryable<OCurrency>>
+public class GetCurrenciesQueryHandler : IRequestHandler<GetCurrenciesQuery, IQueryable<OCurrency>>
 {
-    public  GetCurrenciesHandler(ODataDbContext dataDbContext)
+    public  GetCurrenciesQueryHandler(ODataDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
