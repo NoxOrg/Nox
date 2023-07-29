@@ -314,8 +314,8 @@ domain:
         - name: DayOfWeekTestField
           type: dayOfWeek
 
-        #- name: GeoCoordTestField
-        #  type: latLong
+        - name: GeoCoordTestField
+          type: latLong
 
         - name: AreaTestField
           type: area
