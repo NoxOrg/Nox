@@ -3,7 +3,8 @@
 #nullable enable
 
 using Nox.Types;
-using Boolean = Nox.Types.Boolean;
+using System;
+using System.Collections.Generic;
 
 namespace TestWebApp.Domain;
 
@@ -66,12 +67,32 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Nox.Types.Boolean? BooleanTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public CountryCode3? CountryCode3TestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Email? EmailTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public HashedText? HashedTextTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public InternetDomain? InternetDomainTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Json? JsonTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -98,8 +119,6 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// </summary>
     public CultureCode? CultureCodeTestField { get; set; } = null!;
 
-    public Email? EmailTestField { get; set; } = null!;
-
     /// <summary>
     ///  (Optional).
     /// </summary>
@@ -108,20 +127,10 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public DateTimeDuration? DateTimeDurationTestField { get; set; } = null!;
-
-    /// <summary>
-    ///  (Optional).
-    /// </summary>
-    public Boolean? BooleanTestField { get; set; } = null!;
-
-    /// <summary>
-    ///  (Optional).
-    /// </summary>
-    public Json? JsonTestField { get; set; } = null!;
-
-    /// <summary>
-    ///  (Optional).
-    /// </summary>
     public Yaml? YamlTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public DateTimeDuration? DateTimeDurationTestField { get; set; } = null!;
 }

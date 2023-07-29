@@ -359,8 +359,8 @@ domain:
         - name: HashedTextTestField
           type: hashedText
 
-        #- name: InternetDomainTestField
-        #  type: internetDomain
+        - name: InternetDomainTestField
+          type: internetDomain
 
         #- name: IpAddressTestField
         #  type: ipAddress

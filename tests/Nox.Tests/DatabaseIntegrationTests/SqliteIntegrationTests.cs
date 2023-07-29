@@ -65,7 +65,6 @@ public class SqliteIntegrationTests : SqliteTestBase
         var dayOfWeek = 1;
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
-
         var addressJsonPretty = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { WriteIndented = true });
         var addressJsonMinified = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
         var boolean = true;
@@ -79,6 +78,7 @@ public class SqliteIntegrationTests : SqliteTestBase
     - County: Geneva
     - County: Lausanne
 ";
+        var internetDomain = "nox.org";
 
         var newItem = new TestEntityForTypes()
         {
@@ -105,6 +105,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
+            InternetDomainTestField = InternetDomain.From(internetDomain),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -145,6 +146,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.BooleanTestField!.Value.Should().Be(boolean);
         testEntity.EmailTestField!.Value.Should().Be(email);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
+        testEntity.InternetDomainTestField!.Value.Should().Be(internetDomain);
     }
 
     [Fact]

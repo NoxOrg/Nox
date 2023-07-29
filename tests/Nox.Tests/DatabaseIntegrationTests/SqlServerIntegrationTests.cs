@@ -78,6 +78,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
     - County: Geneva
     - County: Lausanne
 ";
+        var internetDomain = "nox.org";
 
         var newItem = new TestEntityForTypes()
         {
@@ -104,6 +105,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
+            InternetDomainTestField = InternetDomain.From(internetDomain),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -145,6 +147,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.BooleanTestField!.Value.Should().Be(boolean);
         testEntity.EmailTestField!.Value.Should().Be(email);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(switzerlandCitiesCountiesYaml);
+        testEntity.InternetDomainTestField!.Value.Should().BeEquivalentTo(internetDomain);
     }
 
     //[Fact]
