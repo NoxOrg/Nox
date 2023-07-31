@@ -78,6 +78,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
     - County: Geneva
     - County: Lausanne
 ";
+        var temperatureFahrenheit = 88;
+        var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
 
         var newItem = new TestEntityForTypes()
         {
@@ -105,7 +107,9 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
+            TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
         };
+        var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
 
@@ -147,6 +151,9 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.BooleanTestField!.Value.Should().Be(boolean);
         testEntity.EmailTestField!.Value.Should().Be(email);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(switzerlandCitiesCountiesYaml);
+        testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
+        testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
+        testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
     }
 
     //[Fact]

@@ -103,6 +103,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Temperature? TempratureTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public TranslatedText? TranslatedTextTestField { get; set; } = null!;
 
     /// <summary>
