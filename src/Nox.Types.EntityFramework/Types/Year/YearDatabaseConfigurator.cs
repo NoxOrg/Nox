@@ -17,20 +17,10 @@ public class YearDatabaseConfigurator : INoxTypeDatabaseConfigurator
         Entity entity,
         bool isKey)
     {
-        // TODO: Default values from static property in the Nox.Type
-        var typeOptions = property.YearTypeOptions ?? new YearTypeOptions();
-
         builder
             .Property(property.Name)
             .IsRequired(property.IsRequired)
-            .HasMaxLength((int)typeOptions.MaxValue)
-            .IfNotNull(GetColumnType(typeOptions), b => b.HasColumnType(GetColumnType(typeOptions)))
-            .HasConversion<YearToUShortConverter>();
-    }
-
-    public virtual string? GetColumnType(YearTypeOptions typeOptions)
-    {
-        return null;
+            .HasConversion<YearConverter>();
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
