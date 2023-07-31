@@ -142,16 +142,6 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Json? JsonTestField { get; set; } = null!;
-
-    /// <summary>
-    ///  (Optional).
-    /// </summary>
-    public Yaml? YamlTestField { get; set; } = null!;
-
-    /// <summary>
-    ///  (Optional).
-    /// </summary>
     public VatNumber? VatNumberTestField { get; set; } = null!;
     
     public Date? DateTestField { get; set; } = null!;
