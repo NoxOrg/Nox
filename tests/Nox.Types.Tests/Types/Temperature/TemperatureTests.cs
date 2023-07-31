@@ -9,65 +9,67 @@ public class TemperatureTests
     public void From_TemperatureUnitSent_Celsius_ReturnsValue()
     {
         var value = 25.05;
-        var temperature = Temperature.From(value, TemperatureUnit.Celsius);
+        var temperature = Temperature.From(value, TemperatureTypeUnit.Celsius);
 
         temperature.Value.Should().Be(value);
-        temperature.Unit.Should().Be(TemperatureUnit.Celsius);
+        temperature.Unit.Should().Be(TemperatureTypeUnit.Celsius);
     }
 
     [Fact]
     public void From_TemperatureUnitSent_Fahrenheit_ReturnsValue()
     {
         var value = 86.88;
-        var temperature = Temperature.From(value, TemperatureUnit.Fahrenheit);
+        var temperature = Temperature.From(value, TemperatureTypeUnit.Fahrenheit);
 
         temperature.Value.Should().Be(value);
-        temperature.Unit.Should().Be(TemperatureUnit.Fahrenheit);
+        temperature.Unit.Should().Be(TemperatureTypeUnit.Fahrenheit);
     }
 
     [Fact]
     public void From_TemperatureNan_ThrowsException()
     {
-        Action comparison = () => Temperature.From(double.NaN, TemperatureUnit.Fahrenheit);
+        Action comparison = () => Temperature.From(double.NaN, TemperatureTypeUnit.Fahrenheit);
 
         comparison.Should().Throw<TypeValidationException>();
     }
 
     [Fact]
-    public void FromCelsius_ReturnsValue()
+    public void From_WithOptions_Celsius_ReturnsValue()
     {
         double value = 32.5;
-        var temperature = Temperature.FromCelsius(value);
+        var options = new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Celsius };
+        var temperature = Temperature.From(value, options);
 
         temperature.Value.Should().Be(value);
-        temperature.Unit.Should().Be(TemperatureUnit.Celsius);
+        temperature.Unit.Should().Be(TemperatureTypeUnit.Celsius);
     }
 
     [Fact]
-    public void FromFahrenheit_ReturnsValue()
+    public void From_WithOptions_Fahrenheit_ReturnsValue()
     {
         double value = 90.5;
-        var temperature = Temperature.FromFahrenheit(value);
+        var options = new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit };
+        var temperature = Temperature.From(value, options);
 
         temperature.Value.Should().Be(value);
-        temperature.Unit.Should().Be(TemperatureUnit.Fahrenheit);
+        temperature.Unit.Should().Be(TemperatureTypeUnit.Fahrenheit);
     }
 
     [Fact]
-    public void From_DefaultUnit_ReturnsValue()
+    public void From_DefaultOptions_ReturnsValue()
     {
         double value = 30.8;
-        var temperature = Temperature.FromCelsius(value);
+        var temperature = Temperature.From(value);
 
         temperature.Value.Should().Be(value);
-        temperature.Unit.Should().Be(TemperatureUnit.Celsius);
+        temperature.Unit.Should().Be(TemperatureTypeUnit.Celsius);
     }
 
     [Fact]
     public void ToString_Celsius_ReturnsValue()
     {
         var value = 25.05;
-        var temperature = Temperature.From(value, TemperatureUnit.Celsius);
+        var temperature = Temperature.From(value, TemperatureTypeUnit.Celsius);
 
         temperature.ToString().Should().Be("25.05 C");
     }
@@ -76,7 +78,7 @@ public class TemperatureTests
     public void ToString_Fahrenheit_ReturnsValue()
     {
         var value = 25.05;
-        var temperature = Temperature.From(value, TemperatureUnit.Fahrenheit);
+        var temperature = Temperature.From(value, TemperatureTypeUnit.Fahrenheit);
 
         temperature.ToString().Should().Be("25.05 F");
     }
@@ -84,7 +86,7 @@ public class TemperatureTests
     [Fact]
     public void TemperatureConversion_CelsiusToCelsius_ReturnsCorrectValue()
     {
-        var temperature = Temperature.From(25.05, TemperatureUnit.Celsius);
+        var temperature = Temperature.From(25.05, TemperatureTypeUnit.Celsius);
 
         temperature.ToCelsius().Should().Be(25.05);
     }
@@ -94,7 +96,7 @@ public class TemperatureTests
     [InlineData(212, 100)]
     public void TemperatureConversion_FahrenheitToCelsius_ReturnsCorrectValue(double temperatureFahrenheit, double temperatureCelsius)
     {
-        var temperatureObject = Temperature.From(temperatureFahrenheit, TemperatureUnit.Fahrenheit);
+        var temperatureObject = Temperature.From(temperatureFahrenheit, TemperatureTypeUnit.Fahrenheit);
 
         temperatureObject.ToCelsius().Should().Be(temperatureCelsius);
     }
@@ -104,7 +106,7 @@ public class TemperatureTests
     [InlineData(212, 100)]
     public void TemperatureConversion_CelsiusToFahrenheit_ReturnsCorrectValue(double temperatureFahrenheit, double temperatureCelsius)
     {
-        var temperature = Temperature.From(temperatureCelsius, TemperatureUnit.Celsius);
+        var temperature = Temperature.From(temperatureCelsius, TemperatureTypeUnit.Celsius);
 
         temperature.ToFahrenheit().Should().Be(temperatureFahrenheit);
     }

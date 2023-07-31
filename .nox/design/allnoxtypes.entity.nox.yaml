@@ -32,4 +32,13 @@ attributes:
         countryCode: "FR"
     isRequired: true
 
+  - name: CountryCode2Field
+    description: CountryCode2 Nox Type
+    type: countryCode2
+    isRequired: true
+
+  - name: CountryCode3Field
+    description: CountryCode3 Nox Type
+    type: countryCode3
+    isRequired: true
     

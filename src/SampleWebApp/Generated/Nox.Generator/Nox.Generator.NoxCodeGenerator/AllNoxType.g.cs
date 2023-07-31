@@ -28,4 +28,13 @@ public partial class AllNoxType : AuditableEntityBase
     /// VatNumber Nox Type (Required).
     /// </summary>
     public VatNumber VatNumberField { get; set; } = null!;
+    
+    /// CountryCode2 Nox Type (Required).
+    /// </summary>
+    public CountryCode2 CountryCode2Field { get; set; } = null!;
+
+    /// <summary>
+    /// CountryCode3 Nox Type (Required).
+    /// </summary>
+    public CountryCode3 CountryCode3Field { get; set; } = null!;
 }

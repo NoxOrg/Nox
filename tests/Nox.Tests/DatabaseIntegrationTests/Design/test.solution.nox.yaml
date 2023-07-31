@@ -323,14 +323,14 @@ domain:
         - name: TimeZoneCodeTestField
           type: timeZoneCode
 
-        #- name: BooleanTestField
-        #  type: boolean
+        - name: BooleanTestField
+          type: boolean
 
         - name: CountryCode3TestField
           type: countryCode3
 
-        #- name: CountryNumberTestField
-        #  type: countryNumber
+        - name: CountryNumberTestField
+          type: countryNumber
 
         #- name: CurrencyCodeTestField
         #  type: currencyCode
@@ -389,8 +389,9 @@ domain:
         #- name: PhoneNumberTestField
         #  type: phoneNumber
 
-        #- name: TempratureTestField
-        #  type: temperature
+        - name: TempratureTestField
+          type: temperature
+  
 
         - name: TranslatedTextTestField
           type: translatedText
@@ -422,3 +423,5 @@ domain:
         - name: VatNumberTestField
           type: vatNumber
             
+        - name: DateTestField
+          type: date

@@ -2,11 +2,11 @@
 
 namespace Nox.Types.EntityFramework.Types;
 
-public class TemperatureToCelsiusConverter : ValueConverter<Temperature, double>
+public class TemperatureToCelsiusConverter : ValueConverter<Temperature, decimal>
 {
-    public TemperatureToCelsiusConverter() : base(temperature => (double)temperature.ToCelsius(), temperatureValue => Temperature.FromCelsius(temperatureValue)) { }
+    public TemperatureToCelsiusConverter() : base(temperature => (decimal)temperature.ToCelsius(), temperatureValue => Temperature.FromDatabase(temperatureValue, TemperatureTypeUnit.Celsius)) { }
 }
-public class TemperatureToFahrenheitConverter : ValueConverter<Temperature, double>
+public class TemperatureToFahrenheitConverter : ValueConverter<Temperature, decimal>
 {
-    public TemperatureToFahrenheitConverter() : base(temperature => (double)temperature.ToFahrenheit(), temperatureValue => Temperature.FromFahrenheit(temperatureValue)) { }
+    public TemperatureToFahrenheitConverter() : base(temperature => (decimal)temperature.ToFahrenheit(), temperatureValue => Temperature.FromDatabase(temperatureValue, TemperatureTypeUnit.Fahrenheit)) { }
 }
