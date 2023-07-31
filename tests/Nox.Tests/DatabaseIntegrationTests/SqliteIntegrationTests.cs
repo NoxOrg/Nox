@@ -94,6 +94,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             CultureCodeTestField = CultureCode.From(cultureCode),
             TranslatedTextTestField = TranslatedText.From((CultureCode.From("ur-PK"), "شادی مبارک")),
             CountryCode3TestField = CountryCode3.From(countryCode3),
+            CountryNumberTestField = CountryNumber.From(242),
             TimeZoneCodeTestField = TimeZoneCode.From("utc"),
             MacAddressTestField = MacAddress.From(macAddress),
             HashedTextTestField = HashedText.From(text),
@@ -129,6 +130,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
         testEntity.TranslatedTextTestField!.Value.Phrase.Should().BeEquivalentTo("شادی مبارک");
         testEntity.CountryCode3TestField!.Value.Should().Be(countryCode3);
+        testEntity.CountryNumberTestField!.Value.Should().Be(242);
         testEntity.TimeZoneCodeTestField!.Value.Should().Be("UTC");
         testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
         testEntity.HashedTextTestField!.HashText.Should().Be(newItem.HashedTextTestField?.HashText);
