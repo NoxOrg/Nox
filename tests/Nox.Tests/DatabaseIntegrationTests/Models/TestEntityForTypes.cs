@@ -92,6 +92,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public InternetDomain? InternetDomainTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Json? JsonTestField { get; set; } = null!;
 
     /// <summary>
