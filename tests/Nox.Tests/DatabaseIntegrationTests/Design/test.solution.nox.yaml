@@ -422,3 +422,6 @@ domain:
 
         - name: DateTestField
           type: date
+
+        - name: FileTestField
+          type: file

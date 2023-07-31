@@ -24,7 +24,6 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         // databaseNumber
         // collection
         // entity
-        // file
         // formula
         // image
         // imagePng
@@ -71,6 +70,9 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
         var date = new DateOnly(2023, 7, 14);
+        var fileName = "MyFile";
+        var fileSizeInBytes = 1000000UL;
+        var fileUrl = "https://example.com/myfile.pdf";
 
         var addressJsonPretty = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { WriteIndented = true });
         var addressJsonMinified = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
@@ -89,7 +91,6 @@ public class SqlServerIntegrationTests : SqlServerTestBase
 
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
-
 
         var newItem = new TestEntityForTypes()
         {
@@ -119,6 +120,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             DateTestField = Date.From(date),
+            FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
             InternetDomainTestField = InternetDomain.From(internetDomain),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
@@ -166,6 +168,9 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
         testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
         testEntity.DateTestField!.Value.Should().Be(date);
+        testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);
+        testEntity.FileTestField!.Value.PrettyName.Should().Be(fileName);
+        testEntity.FileTestField!.Value.SizeInBytes.Should().Be(fileSizeInBytes);
         testEntity.InternetDomainTestField!.Value.Should().BeEquivalentTo(internetDomain);
     }
 
