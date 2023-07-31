@@ -2,9 +2,9 @@
 using Nox.Generator.Common;
 using Nox.Solution;
 
-namespace Nox.Generator.Domain.Queries;
+namespace Nox.Generator.Application.Queries;
 
-internal static class ByIdQueryGenerator
+internal static class QueryGenerator
 {
     public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
@@ -15,17 +15,16 @@ internal static class ByIdQueryGenerator
             return;
         }
 
-        var templateName = @"Domain.Queries.ByIdQuery";
+        var templateName = @"Application.Queries.Query";
 
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"Get{entity.Name}ByIdQuery")
-                .WithObject("entity", entity)                
+                .WithClassName($"Get{entity.PluralName}Query")
+                .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource(templateName);
-            
         }
     }
 }

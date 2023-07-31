@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SampleWebApp.Presentation.Api.OData;
 
-namespace SampleWebApp.Domain;
+namespace SampleWebApp.Application.Queries;
 
 public record GetAllNoxTypesQuery() : IRequest<IQueryable<OAllNoxType>>;
 
