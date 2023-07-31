@@ -85,11 +85,10 @@ public class SqlServerIntegrationTests : SqlServerTestBase
     - County: Geneva
     - County: Lausanne
 ";
-        var length = 314_598M;
-        var persistLengthUnitAs = LengthTypeUnit.Meter;
-
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
+        var length = 314_598M;
+        var persistLengthUnitAs = LengthTypeUnit.Meter;
 
 
         var newItem = new TestEntityForTypes()

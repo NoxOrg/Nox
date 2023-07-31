@@ -86,6 +86,8 @@ public class PostgresIntegrationTests : PostgresTestBase
 
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
+        var length = 314_598M;
+        var persistLengthUnitAs = LengthTypeUnit.Meter;
 
 
         var newItem = new TestEntityForTypes()
@@ -116,6 +118,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             DateTestField = Date.From(date),
+            LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -162,5 +165,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
         testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
         testEntity.DateTestField!.Value.Should().Be(date);
+        testEntity.LengthTestField!.ToFeet().Should().Be(length);
+        testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
     }
 }

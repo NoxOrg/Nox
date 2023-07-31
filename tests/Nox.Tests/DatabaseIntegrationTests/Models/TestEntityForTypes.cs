@@ -52,7 +52,7 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public DayOfWeek? DayOfWeekTestField { get; set; } = null!;
+    public Nox.Types.DayOfWeek? DayOfWeekTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -67,7 +67,7 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Boolean? BooleanTestField { get; set; } = null!;
+    public Nox.Types.Boolean? BooleanTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
