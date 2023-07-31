@@ -101,7 +101,7 @@ public class Area : ValueObject<QuantityValue, Area>
         yield return new KeyValuePair<string, object>(nameof(Value), ToSquareMeters());
     }
 
-    public static Area FromDatabase(decimal areaValue, AreaTypeUnit areaUnit)
+    public static Area FromDatabase(QuantityValue areaValue, AreaTypeUnit areaUnit)
     {
         return new Area
         {
