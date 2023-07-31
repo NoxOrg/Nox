@@ -61,7 +61,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         };
         var languageCode = "en";
         var area = 198_090M;
-        var persistUnitAs = AreaTypeUnit.SquareMeter;
+        var areaPersistUnitAs = AreaTypeUnit.SquareMeter;
         var cultureCode = "de-CH";
         var macAddress = "A1B2C3D4E5F6";
         var password = "Test123.";
@@ -72,6 +72,21 @@ public class PostgresIntegrationTests : PostgresTestBase
 
         var addressJsonPretty = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { WriteIndented = true });
         var addressJsonMinified = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
+        var boolean = true;
+        var email = "regus@regusignore.com";
+        var switzerlandCitiesCountiesYaml = @"
+- Zurich:
+    - County: Zurich
+    - County: Winterthur
+    - County: Baden
+- Geneva:
+    - County: Geneva
+    - County: Lausanne
+";
+
+        var temperatureFahrenheit = 88;
+        var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
+
 
         var newItem = new TestEntityForTypes()
         {
@@ -80,13 +95,14 @@ public class PostgresIntegrationTests : PostgresTestBase
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
-            AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = persistUnitAs }),
+            AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = areaPersistUnitAs }),
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
             CultureCodeTestField = CultureCode.From(cultureCode),
             TranslatedTextTestField = TranslatedText.From((CultureCode.From("ur-PK"), "شادی مبارک")),
             CountryCode3TestField = CountryCode3.From(countryCode3),
+            CountryNumberTestField = CountryNumber.From(242),
             TimeZoneCodeTestField = TimeZoneCode.From("utc"),
             MacAddressTestField = MacAddress.From(macAddress),
             HashedTextTestField = HashedText.From(text),
@@ -94,9 +110,14 @@ public class PostgresIntegrationTests : PostgresTestBase
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
-            DateTestField = Date.From(date),
             JsonTestField = Json.From(addressJsonPretty),
+            BooleanTestField = Types.Boolean.From(boolean),
+            EmailTestField = Email.From(email),
+            YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
+            TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
+            DateTestField = Date.From(date),
         };
+        var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
 
@@ -114,12 +135,13 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
-        testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
+        testEntity.AreaTestField!.Unit.Should().Be(areaPersistUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
         testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
         testEntity.TranslatedTextTestField!.Value.Phrase.Should().BeEquivalentTo("شادی مبارک");
         testEntity.CountryCode3TestField!.Value.Should().Be(countryCode3);
+        testEntity.CountryNumberTestField!.Value.Should().Be(242);
         testEntity.TimeZoneCodeTestField!.Value.Should().Be("UTC");
         testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
         testEntity.HashedTextTestField!.HashText.Should().Be(newItem.HashedTextTestField?.HashText);
@@ -129,10 +151,16 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
         testEntity.MonthTestField!.Value.Should().Be(month);
         testEntity.DateTimeDurationTestField!.TotalHours.Should().Be(dateTimeDurationInHours);
-        testEntity.DateTestField!.Value.Should().Be(date);
         testEntity.JsonTestField!.Value.Should().Be(addressJsonMinified);
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("p").Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("m").Should().Be(addressJsonMinified);
+        testEntity.BooleanTestField!.Value.Should().Be(boolean);
+        testEntity.EmailTestField!.Value.Should().Be(email);
+        testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
+        testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
+        testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
+        testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
+        testEntity.DateTestField!.Value.Should().Be(date);
     }
 }

@@ -1,8 +1,13 @@
 using FluentAssertions;
+
 using Microsoft.EntityFrameworkCore;
+
 using Nox.Types;
+
 using System.Text.Json;
+
 using TestWebApp.Domain;
+
 using DayOfWeek = Nox.Types.DayOfWeek;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
@@ -58,7 +63,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         };
         var languageCode = "en";
         var area = 198_090M;
-        var persistUnitAs = AreaTypeUnit.SquareMeter;
+        var areaPersistUnitAs = AreaTypeUnit.SquareMeter;
         var cultureCode = "de-CH";
         var macAddress = "A1B2C3D4E5F6";
         var password = "Test123.";
@@ -80,8 +85,10 @@ public class SqlServerIntegrationTests : SqlServerTestBase
     - County: Geneva
     - County: Lausanne
 ";
+
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
+
 
         var newItem = new TestEntityForTypes()
         {
@@ -90,7 +97,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
-            AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = persistUnitAs }),
+            AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = areaPersistUnitAs }),
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
@@ -104,7 +111,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             PasswordTestField = Password.From(password),
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
-            DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours, new DateTimeDurationTypeOptions { MaxDuration = 100, TimeUnit = TimeUnit.Day }),
+            DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
             JsonTestField = Json.From(addressJsonPretty),
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
@@ -130,7 +137,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
-        testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
+        testEntity.AreaTestField!.Unit.Should().Be(areaPersistUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
         testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
@@ -146,17 +153,17 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
         testEntity.MonthTestField!.Value.Should().Be(month);
         testEntity.DateTimeDurationTestField!.TotalHours.Should().Be(dateTimeDurationInHours);
-        testEntity.DateTestField!.Value.Should().Be(date);
         testEntity.JsonTestField!.Value.Should().Be(addressJsonMinified);
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("p").Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("m").Should().Be(addressJsonMinified);
         testEntity.BooleanTestField!.Value.Should().Be(boolean);
         testEntity.EmailTestField!.Value.Should().Be(email);
-        testEntity.YamlTestField!.Value.Should().BeEquivalentTo(switzerlandCitiesCountiesYaml);
+        testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
         testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
         testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
+        testEntity.DateTestField!.Value.Should().Be(date);
     }
 
     //[Fact]

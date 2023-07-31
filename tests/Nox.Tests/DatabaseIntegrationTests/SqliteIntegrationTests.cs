@@ -3,6 +3,7 @@
 using Microsoft.EntityFrameworkCore;
 
 using Nox.Types;
+
 using System.Text.Json;
 
 using TestWebApp.Domain;
@@ -87,8 +88,8 @@ public class SqliteIntegrationTests : SqliteTestBase
 
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
-        
-        
+
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -152,7 +153,6 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
         testEntity.MonthTestField!.Value.Should().Be(month);
         testEntity.DateTimeDurationTestField!.TotalHours.Should().Be(dateTimeDurationInHours);
-        testEntity.DateTestField!.Value.Should().Be(date);
         testEntity.JsonTestField!.Value.Should().Be(addressJsonMinified);
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("p").Should().Be(addressJsonPretty);
@@ -163,6 +163,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
         testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
+        testEntity.DateTestField!.Value.Should().Be(date);
     }
 
     [Fact]
