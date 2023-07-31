@@ -9,7 +9,7 @@ namespace Nox.Types.EntityFramework.Types;
 /// Configurator for the <see cref="LatLong"/> Nox type in the database.
 /// This class implements the INoxTypeDatabaseConfigurator interface to provide configuration details for the  <see cref="LatLong"/> Nox type in the database.
 /// </summary>
-public class LatLongConfigurator : INoxTypeDatabaseConfigurator
+public class LatLongDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
     /// <summary>
     /// Gets the NoxType associated with this configurator, which is LatLong.
