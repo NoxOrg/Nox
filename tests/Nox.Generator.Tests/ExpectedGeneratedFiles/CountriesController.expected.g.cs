@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using MediatR;
 using SampleWebApp.Application;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
@@ -30,6 +31,11 @@ public partial class CountriesController : ODataController
     protected readonly IMapper _mapper;
     
     /// <summary>
+    /// The Mediator.
+    /// </summary>
+    protected readonly IMediator _mediator;
+    
+    /// <summary>
     /// Returns a list of countries for a given continent.
     /// </summary>
     protected readonly GetCountriesByContinentQueryBase _getCountriesByContinent;
@@ -42,25 +48,28 @@ public partial class CountriesController : ODataController
     public CountriesController(
         ODataDbContext databaseContext,
         IMapper mapper,
+        IMediator mediator,
         GetCountriesByContinentQueryBase getCountriesByContinent,
         UpdatePopulationStatisticsCommandHandlerBase updatePopulationStatistics
     )
     {
         _databaseContext = databaseContext;
         _mapper = mapper;
+        _mediator = mediator;
         _getCountriesByContinent = getCountriesByContinent;
         _updatePopulationStatistics = updatePopulationStatistics;
     }
     
     [EnableQuery]
-    public ActionResult<IQueryable<Country>> Get()
+    public async  Task<ActionResult<IQueryable<OCountry>>> Get()
     {
-        return Ok(_databaseContext.Countries);
+        var result = await _mediator.Send(new GetCountriesQuery());
+        return Ok(result);
     }
     
-    public ActionResult<Country> Get([FromRoute] String key)
+    public async Task<ActionResult<OCountry>> Get([FromRoute] String key)
     {
-        var item = _databaseContext.Countries.SingleOrDefault(d => d.Id.Equals(key));
+        var item = await _mediator.Send(new GetCountryByIdQuery(key));
         
         if (item == null)
         {
@@ -77,7 +86,7 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var entity = _mapper.Map<Country>(country);
+        var entity = _mapper.Map<OCountry>(country);
         
         entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
         
@@ -88,7 +97,7 @@ public partial class CountriesController : ODataController
         return Created(entity);
     }
     
-    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] Country updatedCountry)
+    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OCountry updatedCountry)
     {
         if (!ModelState.IsValid)
         {
@@ -121,7 +130,7 @@ public partial class CountriesController : ODataController
         return Updated(updatedCountry);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string country, [FromBody] Delta<Country> Id)
+    public async Task<ActionResult> Patch([FromRoute] string country, [FromBody] Delta<OCountry> Id)
     {
         if (!ModelState.IsValid)
         {

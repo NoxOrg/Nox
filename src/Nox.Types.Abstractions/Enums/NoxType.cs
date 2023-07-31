@@ -49,7 +49,7 @@ public enum NoxType : uint
     [CompoundComponent("To", typeof(DateTimeOffset))]
     DateTimeRange = 3837929056,
 
-    [CompoundType]  
+    [CompoundType]
     [CompoundComponent("Number", typeof(string))]
     [CompoundComponent("CountryCode2", typeof(string))]
     VatNumber = 1055627262,
@@ -66,7 +66,7 @@ public enum NoxType : uint
     Area = 998304025,
 
     [SimpleType(typeof(int))] 
-    AutoNumber = 24779567,
+    DatabaseNumber = 963275927,
     
     [SimpleType(typeof(bool))]
     Boolean = 2157507194,
@@ -87,7 +87,7 @@ public enum NoxType : uint
     CultureCode = 1724900727,
 
     [SimpleType(typeof(string))]
-    CurrencyCode = 1132722218,
+    CurrencyCode3 = 2794068101,
     
     [SimpleType(typeof(short))]
     CurrencyNumber = 2377452890,
@@ -132,7 +132,9 @@ public enum NoxType : uint
     [SimpleType(typeof(Guid))]
     Guid = 1043908053,
 
-    [SimpleType(typeof(string))]
+    [CompoundType]
+    [CompoundComponent("HashText", typeof(string))]
+    [CompoundComponent("Salt", typeof(string))]
     HashedText = 3656553818,
     
     [SimpleType(typeof(string))]
@@ -174,7 +176,9 @@ public enum NoxType : uint
     [SimpleType(typeof(NumberTypeComponentsDiscover))]
     Number = 4223714796,
 
-    [SimpleType(typeof(string))]
+    [CompoundType]
+    [CompoundComponent("HashedPassword", typeof(string))]
+    [CompoundComponent("Salt", typeof(string))]
     Password = 1755902638,
 
     [SimpleType(typeof(float))]

@@ -43,8 +43,8 @@ public class QueryTests: IClassFixture<GeneratorFixture>
         Assert.Single(allOutputs);
 
         var generatedSources = result.GeneratedSources;
-        Assert.Equal(7, generatedSources.Length);
-        Assert.True(generatedSources.Any(s => s.HintName == "NoxWebApplicationBuilderExtension.g.cs"), "NoxWebApplicationBuilderExtension.g.cs not generated");
+        Assert.Equal(9, generatedSources.Length);
+        Assert.True(generatedSources.Any(s => s.HintName == "NoxWebApplicationExtensions.g.cs"), "NoxWebApplicationExtensions.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "Generator.g.cs"), "Generator.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "EntityBase.g.cs"), "EntityBase.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "AuditableEntityBase.g.cs"), "AuditableEntityBase.g.cs not generated");

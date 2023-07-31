@@ -20,6 +20,7 @@ using Nox.Generator.Presentation.Api.OData;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
+using Nox.Generator.Application;
 
 namespace Nox.Generator;
 
@@ -63,7 +64,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
             {
                 var codeGeneratorState = new NoxSolutionCodeGeneratorState(solution, Assembly.GetEntryAssembly()!);
 
-                WebApplicationExtensionGenerator.Generate(context, solution, generate.Presentation);
+                NoxWebApplicationExtensionGenerator.Generate(context, solution, generate.Presentation);
                 
                 if (generate.Domain)
                 {
@@ -72,11 +73,15 @@ public class NoxCodeGenerator : IIncrementalGenerator
                     AuditableEntityBaseGenerator.Generate(context, codeGeneratorState);
 
                     EntitiesGenerator.Generate(context, codeGeneratorState);
-                    
+
+                    Nox.Generator.Domain.Queries.QueryGenerator.Generate(context, codeGeneratorState);
+
+                    Nox.Generator.Domain.Queries.ByIdQueryGenerator.Generate(context, codeGeneratorState);
+
                     DomainEventGenerator.Generate(context, codeGeneratorState);
                     
                     CommandGenerator.Generate(context, codeGeneratorState);
-                    
+
                     QueryGenerator.Generate(context, codeGeneratorState);
                 }
 
@@ -87,7 +92,11 @@ public class NoxCodeGenerator : IIncrementalGenerator
 
                 if (generate.Presentation)
                 {
-                    ODataConfigurationGenerator.Generate(context, codeGeneratorState);
+                    ODataServiceCollectionExtensions.Generate(context, codeGeneratorState);
+
+                    ODataModelGenerator.Generate(context, codeGeneratorState);
+
+                    ODataDbContextGenerator.Generate(context, codeGeneratorState);
 
                     ApiGenerator.Generate(context, codeGeneratorState);
                 }
@@ -101,7 +110,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
         }
         catch (Exception e)
         {
-            _errors.Add(e.Message);
+            _errors.Add(e.Message +  e.StackTrace);
         }
 
         if (_errors.Any())

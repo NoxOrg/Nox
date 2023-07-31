@@ -15,8 +15,7 @@ internal static class ApiGenerator
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
-        if (codeGeneratorState.Solution.Domain is null ||
-            !codeGeneratorState.Solution.Domain.Entities.Any())
+        if (codeGeneratorState.Solution.Domain is null)
         {
             return;
         }
@@ -57,6 +56,7 @@ internal static class ApiGenerator
             code.AppendLine($"using Microsoft.AspNetCore.OData.Routing.Controllers;");
             code.AppendLine($"using Microsoft.EntityFrameworkCore;");
             code.AppendLine($"using AutoMapper;");
+            code.AppendLine("using MediatR;");
 
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace};");
             code.AppendLine($"using {codeGeneratorState.DataTransferObjectsNameSpace};");
@@ -77,11 +77,13 @@ internal static class ApiGenerator
             AddField(code, dbContextName, "databaseContext", "The OData DbContext for CRUD operations");
 
             AddField(code, "IMapper", "mapper", "The Automapper");
+            AddField(code, "IMediator", "mediator", "The Mediator");
 
             var constructorParameters = new Dictionary<string, string>
                 {
                     { dbContextName, "databaseContext" },
                     { "IMapper", "mapper" },
+                    { "IMediator", "mediator" },
                 };
 
             foreach (var query in queries)
@@ -201,7 +203,7 @@ internal static class ApiGenerator
             return;
         }
         // Method Put
-        code.AppendLine($"public async Task<ActionResult> Put([FromRoute] string key, [FromBody] {entity.Name} updated{entity.Name})");
+        code.AppendLine($"public async Task<ActionResult> Put([FromRoute] string key, [FromBody] O{entity.Name} updated{entity.Name})");
 
         // Method content
         code.StartBlock();
@@ -249,7 +251,7 @@ internal static class ApiGenerator
             return;
         }
         // Method Patch
-        code.AppendLine($"public async Task<ActionResult> Patch([FromRoute] string {keyName}, [FromBody] Delta<{entityName}> {variableName})");
+        code.AppendLine($"public async Task<ActionResult> Patch([FromRoute] string {keyName}, [FromBody] Delta<O{entityName}> {variableName})");
 
         // Method content
         code.StartBlock();
@@ -313,7 +315,7 @@ internal static class ApiGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"var entity = _mapper.Map<{entityName}>({variableName});");
+        code.AppendLine($"var entity = _mapper.Map<O{entityName}>({variableName});");
         code.AppendLine();
         // TODO: temporal logic! Need to create an abstraction on top
         code.AppendLine($"entity.{keyName} = Guid.NewGuid().ToString().Substring(0, 2);");
@@ -336,11 +338,12 @@ internal static class ApiGenerator
     {
         // Method Get
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public ActionResult<IQueryable<{entity.Name}>> Get()");
+        code.AppendLine($"public async  Task<ActionResult<IQueryable<O{entity.Name}>>> Get()");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"return Ok(_databaseContext.{entity.PluralName});");
+        code.AppendLine($"var result = await _mediator.Send(new Get{entity.PluralName}Query());");                
+        code.AppendLine($"return Ok(result);");
 
         // End method
         code.EndBlock();
@@ -353,21 +356,19 @@ internal static class ApiGenerator
             return;
         }
 
-        var singleKey = entity.Keys!.First();
-        var keyPrimitiveTypes = singleKey.Type.GetComponents(singleKey);
-
-        if (keyPrimitiveTypes.Count > 1)
+        if (entity.Keys!.Count > 1)
         {
             Debug.WriteLine($"Get for composite keys Not implemented, Entity - {entity.Name}...");
             return;
         }
-
+        
+        // We do not support Compound types as primary keys, this is validated on the schema
         // Method Get
-        code.AppendLine($"public ActionResult<{entity.Name}> Get([FromRoute] {keyPrimitiveTypes.First().Value.Name} key)");
+        code.AppendLine($"public async Task<ActionResult<O{entity.Name}>> Get([FromRoute] {entity.KeysFlattenComponentsTypeName[0]} key)");
 
         // Method content
-        code.StartBlock();
-        code.AppendLine($"var item = _databaseContext.{entity.PluralName}.SingleOrDefault(d => d.Id.Equals(key));");
+        code.StartBlock();        
+        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery(key));");
         code.AppendLine();
         code.AppendLine($"if (item == null)");
         code.StartBlock();

@@ -2,10 +2,12 @@
 
 #nullable enable
 
-using Microsoft.EntityFrameworkCore;
+using Nox;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using System.Diagnostics;
 using SampleWebApp.Domain;
 
 namespace SampleWebApp.Infrastructure.Persistence;
@@ -14,24 +16,18 @@ public partial class SampleWebAppDbContext : DbContext
 {
     private readonly NoxSolution _noxSolution;
     private readonly INoxDatabaseProvider _dbProvider;
-    private readonly Assembly _clientAssembly;
-
-    public SampleWebAppDbContext(
-            DbContextOptions<SampleWebAppDbContext> options,
-            NoxSolution noxSolution,
-            INoxDatabaseProvider databaseProvider
-        ) : this(options, noxSolution, databaseProvider, Assembly.GetEntryAssembly()!) { }
+    private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
 
     public SampleWebAppDbContext(
             DbContextOptions<SampleWebAppDbContext> options,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
-            Assembly clientAssembly
+            INoxClientAssemblyProvider clientAssemblyProvider
         ) : base(options)
         {
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
-            _clientAssembly = clientAssembly;
+            _clientAssemblyProvider = clientAssemblyProvider;
         }
 
 
@@ -40,6 +36,10 @@ public partial class SampleWebAppDbContext : DbContext
     public DbSet<Currency> Currencies { get; set; } = null!;
 
     public DbSet<Store> Stores { get; set; } = null!;
+
+    public DbSet<StoreSecurityPasswords> StoreSecurityPasswords { get; set; } = null!;
+
+    public DbSet<AllNoxType> AllNoxTypes { get; set; } = null!;
 
     public DbSet<CountryLocalNames> CountryLocalNames { get; set; } = null!;
 
@@ -58,7 +58,7 @@ public partial class SampleWebAppDbContext : DbContext
         base.OnModelCreating(modelBuilder);
         if (_noxSolution.Domain != null)
         {
-            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssembly);
+            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
             foreach (var entity in _noxSolution.Domain.Entities)
             {
                 var type = codeGeneratorState.GetEntityType(entity.Name);

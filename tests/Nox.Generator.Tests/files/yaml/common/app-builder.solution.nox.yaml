@@ -1,0 +1,31 @@
+#
+# workplace.solution.nox.yaml
+#
+# yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
+#
+
+name: TestWebApp
+
+description: Test Nox solution yaml configuration
+
+infrastructure:
+  
+  persistence:
+
+    databaseServer:
+      name: TestDb
+
+      # Sql Server
+      serverUri: localhost
+      provider: sqlServer
+      port: 1433
+      user: sa
+      password: Developer*123
+      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;
+      
+  dependencies:
+    monitoring: 
+      name: elasticMonitoring
+      provider: elasticApm
+      serverUri: localhost
+

@@ -3,7 +3,18 @@ To run the SampleWebApp you need to have a SQL Server running, this is temporary
 
 Using SQL Server on the root run `docker-compose -f .\docker-compose.sqlServer.yml up`
 
+Update database with migrations by running command `dotnet ef database update -c "SampleWebAppDbContext"` 
+
 Run the Sample the database should be provisioned and properly setup its model.
+
+## Steps to update the database model
+
+Migration history do not need to be tracked, usually during local development you can delete 'Migration' folder and create a new migration.
+
+To generate initial migration you can use the following command `dotnet ef migrations add "InitialCreate" -c "SampleWebAppDbContext"`
+
+## Odata
+Odata end point in debug can be found in `\$odata`
 
 # Nox.Solution
 
@@ -28,7 +39,12 @@ Sample Yaml:
 
 ## Schemas Update
 
-**Until we automate this process** whenever you change the Nox Solution you need: to run the test in > **NoxSolutionSchemaGenerate**. This test will generate the new schema files that needs to be also added to the commit. The CI pipeline will publish the new schemas. 
+**Until we automate this process** whenever add a new TypeOption to the Nox Solution you need to: 
+1. Add your new type to class `NoxSimpleTypeDefinition` inside the `#region TypeOptions`;
+2. Run the test in **NoxSolutionSchemaGenerate**, this test will generate the new schema files;
+3. Add and commit changed `.json` files to the solution. 
+
+The is necessary for the CI pipeline to publish the new schemas. 
 
 # Nox Types
 

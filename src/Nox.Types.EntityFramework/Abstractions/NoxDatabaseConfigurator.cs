@@ -57,11 +57,16 @@ namespace Nox.Types.EntityFramework.Abstractions
         {
             foreach (var relationshipToCreate in relationshipsToCreate)
             {
-                if (relationshipToCreate.ShouldBeMapped)
+                // ManyToMany does not need to be handled
+                // Handle ZeroOrOne or ExactlyOne scenario with foreign key.
+                if ((relationshipToCreate.Relationship.Relationship == EntityRelationshipType.ExactlyOne ||
+                    relationshipToCreate.Relationship.Relationship == EntityRelationshipType.ZeroOrOne) &&
+                    relationshipToCreate.ShouldGenerateSpecialRelationshipLogicOnThisSide)
                 {
                     builder
-                        .HasMany(relationshipToCreate.RelationshipEntityType.FullName!, relationshipToCreate.Relationship.Related.Entity.PluralName)
-                        .WithMany(entity.PluralName);
+                        .HasOne(relationshipToCreate.Relationship.Entity)
+                        .WithOne(entity.Name)
+                        .HasForeignKey(entity.Name);
                 }
 
                 builder.Ignore(relationshipToCreate.Relationship.Name);

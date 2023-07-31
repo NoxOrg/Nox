@@ -1,4 +1,5 @@
 ﻿using FluentValidation;
+using Nox.Types.Extensions;
 
 namespace Nox.Solution.Validation
 {
@@ -9,6 +10,10 @@ namespace Nox.Solution.Validation
             RuleFor(p => p.IsRequired)
               .Equal(true)
               .WithMessage(m => string.Format(ValidationResources.EntityKeyIsRequired, description, m.Name));
+
+            RuleFor(p => p.Type)
+                .Must(x => !x.IsCompoundType())
+                .WithMessage(m => string.Format(ValidationResources.EntityKeyShouldNotBeCompoundType, description, m.Name));
         }
     }
 }

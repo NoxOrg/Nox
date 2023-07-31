@@ -1,0 +1,27 @@
+# allnoxtypes.entity.nox.yaml
+
+name: AllNoxType
+
+description: Entity to test all nox types
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: The currency's primary key / identifier
+    type: text
+    textTypeOptions:
+      isUnicode: false
+      minLength: 3
+      maxLength: 3
+
+attributes:
+
+  - name: TextField
+    description: Text Nox Type
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+    

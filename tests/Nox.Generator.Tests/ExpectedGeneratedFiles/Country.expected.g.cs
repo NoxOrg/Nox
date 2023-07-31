@@ -17,7 +17,23 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nuid Id {get; private set;} = null!;
+    
+    	public void EnsureId()
+    	{
+    		if(Id is null)
+    		{
+    			Id = Nuid.From("Country." + string.Join(".", Name.Value.ToString(),FormalName.Value.ToString()));
+    		}
+    		else
+    		{
+    			var currentNuid = Nuid.From("Country." + string.Join(".", Name.Value.ToString(),FormalName.Value.ToString()));
+    			if(Id != currentNuid)
+    			{
+    				throw new NoxNuidTypeException("Immutable nuid property Id value is different since it has been initialized");
+    			}
+    		}
+    	}
 
     /// <summary>
     /// The country's common name (Required).

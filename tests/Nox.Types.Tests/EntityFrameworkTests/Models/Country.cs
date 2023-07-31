@@ -2,6 +2,9 @@ namespace Nox.Types.Tests.EntityFrameworkTests;
 
 public class CountryId : ValueObject<int, CountryId>
 { }
+/// <summary>
+/// The country.
+/// </summary>
 
 public sealed class Country
 {
@@ -14,6 +17,26 @@ public sealed class Country
     /// Gets or sets the name.
     /// </summary>
     public Text Name { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the info email.
+    /// </summary>
+    public Email InfoEmail { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the guid user.
+    /// </summary>
+    public User GuidUser { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the email user.
+    /// </summary>
+    public User EmailUser { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the string user.
+    /// </summary>
+    public User StringUser { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the population.
@@ -95,8 +118,14 @@ public sealed class Country
     /// </summary>
     public MacAddress MACAddress { get; set; } = null!;
 
+    /// <summary>
+    /// Gets or sets the uri.
+    /// </summary>
     public Uri Uri { get; set; } = null!;
 
+    /// <summary>
+    /// Gets or sets the url.
+    /// </summary>
     public Url Url { get; set; } = null!;
 
     /// <summary>
@@ -159,7 +188,7 @@ public sealed class Country
     /// </summary>
     public Time CurrentTime { get; set; } = null!;
 
-
+    /// <summary>
     /// Gets or sets the AverageTemperature.
     /// </summary>
     public Temperature? AverageTemperatureInCelsius { get; set; } = null!;
@@ -170,10 +199,15 @@ public sealed class Country
     public Image Flag { get; set; } = null!;
 
     /// <summary>
+    /// Gets or sets the country's description.
+    /// </summary>
+    public Markdown Description { get; set; } = null!;
+
+    /// <summary>
     /// Gets or sets the country's webpage.
     /// </summary>
     public Html PageHtml { get; set; } = null!;
-    
+
     /// <summary>
     /// Gets or sets the CitiesCounties.
     /// </summary>
@@ -188,4 +222,34 @@ public sealed class Country
     /// Gets or sets the phone number.
     /// </summary>
     public PhoneNumber PhoneNumber { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the SecretPassword.
+    /// </summary>
+    public EncryptedText SecretPassword { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets the MainId property.
+    /// </summary>
+    public DatabaseNumber DatabaseId { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets password
+    /// </summary>
+    public Password Password { get; set; } = null!;
+    
+    /// <summary>
+    /// Gets or sets the currency number.
+    /// </summary>
+    public CurrencyNumber CurrencyNumber { get; set; } = null!;
+    
+    /// <summary>
+    /// Gets or sets the color.
+    /// </summary>
+    public Color Color { get; set; } = null!;
+    
+    /// <summary>
+    /// Gets or sets dayOfWeek
+    /// </summary>
+    public DayOfWeek DayOfWeek { get; set; } = null!;
 }

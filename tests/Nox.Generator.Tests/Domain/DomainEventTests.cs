@@ -21,10 +21,12 @@ public class DomainEventTests: IClassFixture<GeneratorFixture>
     public void Can_generate_domain_event_files()
     {
         var path = "files/yaml/domain/";
-        var additionalFiles = new List<AdditionalSourceText>();
-        additionalFiles.Add(new AdditionalSourceText(File.ReadAllText($"./{path}generator.nox.yaml"), $"{path}/generator.nox.yaml"));
-        additionalFiles.Add(new AdditionalSourceText(File.ReadAllText($"./{path}domain-events.solution.nox.yaml"), $"{path}/domain-events.solution.nox.yaml"));
-        
+        var additionalFiles = new List<AdditionalSourceText>
+        {
+            new AdditionalSourceText(File.ReadAllText($"./{path}generator.nox.yaml"), $"{path}/generator.nox.yaml"),
+            new AdditionalSourceText(File.ReadAllText($"./{path}domain-events.solution.nox.yaml"), $"{path}/domain-events.solution.nox.yaml")
+        };
+
         // trackIncrementalGeneratorSteps allows to report info about each step of the generator
         GeneratorDriver driver = CSharpGeneratorDriver.Create(
             generators: new [] { _fixture.TestGenerator },
@@ -41,8 +43,8 @@ public class DomainEventTests: IClassFixture<GeneratorFixture>
         Assert.Single(allOutputs);
 
         var generatedSources = result.GeneratedSources;
-        Assert.Equal(6, generatedSources.Length);
-        Assert.True(generatedSources.Any(s => s.HintName == "NoxWebApplicationBuilderExtension.g.cs"), "NoxWebApplicationBuilderExtension.g.cs not generated");
+        Assert.Equal(8, generatedSources.Length);
+        Assert.True(generatedSources.Any(s => s.HintName == "NoxWebApplicationExtensions.g.cs"), "NoxWebApplicationExtensions.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "Generator.g.cs"), "Generator.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "EntityBase.g.cs"), "EntityBase.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "AuditableEntityBase.g.cs"), "AuditableEntityBase.g.cs not generated");
