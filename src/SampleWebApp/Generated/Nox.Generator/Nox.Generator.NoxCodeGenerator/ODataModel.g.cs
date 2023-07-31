@@ -189,6 +189,7 @@ public class OAllNoxType : SampleWebApp.Domain.AuditableEntityBase
     /// </summary>
     public String VatNumberField_CountryCode { get; set; } = default!;
     
+    /// <summary>
     /// CountryCode2 Nox Type.
     /// </summary>
     public String CountryCode2Field { get; set; } = default!;
@@ -349,6 +350,7 @@ public class AllNoxTypeDto
     /// </summary>
     public String VatNumberField_CountryCode { get; set; } = default!;
     
+    /// <summary>
     /// CountryCode2 Nox Type.
     /// </summary>
     public String CountryCode2Field { get; set; } = default!;
