@@ -149,6 +149,9 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.BooleanTestField!.Value.Should().Be(boolean);
         testEntity.EmailTestField!.Value.Should().Be(email);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(switzerlandCitiesCountiesYaml);
+        testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
+        testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
+        testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
     }
 
     //[Fact]
@@ -246,8 +249,5 @@ public class SqlServerIntegrationTests : SqlServerTestBase
 
         Assert.NotNull(testEntity.SecondTestEntityExactlyOne);
         Assert.NotNull(secondTestEntity.TestEntityExactlyOne);
-        testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
-        testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
-        testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
     }
 }
