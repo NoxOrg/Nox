@@ -40,8 +40,7 @@ public class LatLongConfigurator : INoxTypeDatabaseConfigurator
     {
         builder
             .OwnsOne(typeof(LatLong), property.Name)
-            .Ignore(nameof(LatLong.Value))
-            .Property(nameof(LatLong.Latitude));
+            .Ignore(nameof(LatLong.Value));
     }
 
     /// <summary>
