@@ -3,7 +3,7 @@ To run the SampleWebApp you need to have a SQL Server running, this is temporary
 
 Using SQL Server on the root run `docker-compose -f .\docker-compose.sqlServer.yml up`
 
-Update database with migrations by running command `dotnet ef database update`
+Update database with migrations by running command `dotnet ef database update -c "SampleWebAppDbContext"` 
 
 Run the Sample the database should be provisioned and properly setup its model.
 
@@ -12,6 +12,9 @@ Run the Sample the database should be provisioned and properly setup its model.
 Migration history do not need to be tracked, usually during local development you can delete 'Migration' folder and create a new migration.
 
 To generate initial migration you can use the following command `dotnet ef migrations add "InitialCreate" -c "SampleWebAppDbContext"`
+
+## Odata
+Odata end point in debug can be found in `\$odata`
 
 # Nox.Solution
 

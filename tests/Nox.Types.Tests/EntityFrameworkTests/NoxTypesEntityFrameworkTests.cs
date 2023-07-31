@@ -170,7 +170,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             HashedText = HashedText.From(("Test123.", "salt")),
             CreateDate = DateTime.From(new System.DateTime(2023, 01, 01)),
             CurrentTime = Time.From(11,35,50,375),
-            AverageTemperatureInCelsius = Temperature.FromCelsius(25),
+            AverageTemperatureInCelsius = Temperature.From(25),
             Description = Markdown.From("This a **big country**."),
             PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
             CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
