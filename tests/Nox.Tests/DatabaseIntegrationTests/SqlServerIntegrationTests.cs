@@ -93,6 +93,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
     - County: Lausanne
 ";
         var internetDomain = "nox.org";
+        var percentage = 0.5f;
 
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
@@ -129,6 +130,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
             VatNumberTestField = VatNumber.From(vatNumberValue, vatNumberCountryCode2),
+            PercentageTestField = Percentage.From(percentage),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
             DateTestField = Date.From(date),
@@ -181,6 +183,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(switzerlandCitiesCountiesYaml);
         testEntity.VatNumberTestField!.Value.Number.Should().Be(vatNumberValue);
         testEntity.VatNumberTestField!.Value.CountryCode2.Should().Be(vatNumberCountryCode2);
+        testEntity.PercentageTestField!.Value.Should().Be(percentage);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
         testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);

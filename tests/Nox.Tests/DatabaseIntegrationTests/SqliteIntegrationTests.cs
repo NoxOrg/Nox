@@ -86,6 +86,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var internetDomain = "nox.org";
 
         var length = 314_598M;
+        var percentage = 0.5f;
         var persistLengthUnitAs = LengthTypeUnit.Meter;
 
         using var aesAlgorithm = System.Security.Cryptography.Aes.Create();
@@ -128,6 +129,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
             VatNumberTestField = VatNumber.From(vatNumberValue, vatNumberCountryCode2),
+            PercentageTestField = Percentage.From(percentage),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
             DateTestField = Date.From(date),
@@ -180,6 +182,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
         testEntity.VatNumberTestField!.Value.Number.Should().Be(vatNumberValue);
         testEntity.VatNumberTestField!.Value.CountryCode2.Should().Be(vatNumberCountryCode2);
+        testEntity.PercentageTestField!.Value.Should().Be(percentage);
         testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
         testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);

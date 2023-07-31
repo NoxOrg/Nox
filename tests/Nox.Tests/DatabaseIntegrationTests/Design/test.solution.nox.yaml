@@ -386,8 +386,8 @@ domain:
         - name: PasswordTestField
           type: password
 
-        #- name: PercentageTestField
-        #  type: percentage
+        - name: PercentageTestField
+          type: percentage
 
         #- name: PhoneNumberTestField
         #  type: phoneNumber
