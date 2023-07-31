@@ -419,3 +419,6 @@ domain:
 
         - name: DateTimeDurationTestField
           type: dateTimeDuration
+
+        - name: DateTestField
+          type: date

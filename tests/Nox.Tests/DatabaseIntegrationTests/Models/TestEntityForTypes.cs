@@ -3,7 +3,6 @@
 #nullable enable
 
 using Nox.Types;
-using Boolean = Nox.Types.Boolean;
 using System;
 using System.Collections.Generic;
 
@@ -68,12 +67,22 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Nox.Types.Boolean? BooleanTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public CountryCode3? CountryCode3TestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
     public CountryNumber? CountryNumberTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Email? EmailTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -118,12 +127,12 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Email? EmailTestField { get; set; } = null!;
+    public LanguageCode? LanguageCodeTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public LanguageCode? LanguageCodeTestField { get; set; } = null!;
+    public Yaml? YamlTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -133,10 +142,5 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Boolean? BooleanTestField { get; set; } = null!;
-
-    /// <summary>
-    ///  (Optional).
-    /// </summary>
-    public Yaml? YamlTestField { get; set; } = null!;
+    public Date? DateTestField { get; set; } = null!;
 }
