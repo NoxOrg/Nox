@@ -6,13 +6,13 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SampleWebApp.Presentation.Api.OData;
 
-namespace SampleWebApp.Domain;
+namespace SampleWebApp.Application.Queries;
 
 public record GetCountryLocalNamesQuery() : IRequest<IQueryable<OCountryLocalNames>>;
 
-public class GetCountryLocalNamesHandler : IRequestHandler<GetCountryLocalNamesQuery, IQueryable<OCountryLocalNames>>
+public class GetCountryLocalNamesQueryHandler : IRequestHandler<GetCountryLocalNamesQuery, IQueryable<OCountryLocalNames>>
 {
-    public  GetCountryLocalNamesHandler(ODataDbContext dataDbContext)
+    public  GetCountryLocalNamesQueryHandler(ODataDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }

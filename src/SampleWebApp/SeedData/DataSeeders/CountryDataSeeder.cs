@@ -18,8 +18,8 @@ internal class CountryDataSeeder : SampleDataSeederBase<CountryModel, Country>
             new Country
             {
                 Id = Text.From(x.Id.ToString()),
-                AlphaCode2 = Text.From(x.AlphaCode2),
-                AlphaCode3 = Text.From(x.AlphaCode3),
+                AlphaCode2 = CountryCode2.From(x.AlphaCode2),
+                AlphaCode3 = CountryCode3.From(x.AlphaCode3),
                 AreaInSquareKilometres = Area.From(x.AreaInSquareKilometres,AreaTypeUnit.SquareMeter),
                 Capital = Text.From(x.Capital),
                 Demonym = Text.From(x.Demonym),

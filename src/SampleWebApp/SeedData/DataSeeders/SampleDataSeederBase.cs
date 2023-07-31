@@ -21,7 +21,7 @@ internal abstract class SampleDataSeederBase<TModel, TEntity> : INoxDataSeeder
             return;
         }
 
-        using var sr = new StreamReader(Path.Combine("SeedData\\data\\", SourceFile));
+        using var sr = new StreamReader(Path.Combine("SeedData/data/", SourceFile));
         var jsonText = sr.ReadToEnd();
 
         var modelData = JsonSerializer.Deserialize<IEnumerable<TModel>>(jsonText)!;

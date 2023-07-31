@@ -6,13 +6,13 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SampleWebApp.Presentation.Api.OData;
 
-namespace SampleWebApp.Domain;
+namespace SampleWebApp.Application.Queries;
 
 public record GetStoresQuery() : IRequest<IQueryable<OStore>>;
 
-public class GetStoresHandler : IRequestHandler<GetStoresQuery, IQueryable<OStore>>
+public class GetStoresQueryHandler : IRequestHandler<GetStoresQuery, IQueryable<OStore>>
 {
-    public  GetStoresHandler(ODataDbContext dataDbContext)
+    public  GetStoresQueryHandler(ODataDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }

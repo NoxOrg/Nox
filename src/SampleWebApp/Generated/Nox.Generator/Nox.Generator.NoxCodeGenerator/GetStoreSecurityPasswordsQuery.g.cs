@@ -6,13 +6,13 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SampleWebApp.Presentation.Api.OData;
 
-namespace SampleWebApp.Domain;
+namespace SampleWebApp.Application.Queries;
 
 public record GetStoreSecurityPasswordsQuery() : IRequest<IQueryable<OStoreSecurityPasswords>>;
 
-public class GetStoreSecurityPasswordsHandler : IRequestHandler<GetStoreSecurityPasswordsQuery, IQueryable<OStoreSecurityPasswords>>
+public class GetStoreSecurityPasswordsQueryHandler : IRequestHandler<GetStoreSecurityPasswordsQuery, IQueryable<OStoreSecurityPasswords>>
 {
-    public  GetStoreSecurityPasswordsHandler(ODataDbContext dataDbContext)
+    public  GetStoreSecurityPasswordsQueryHandler(ODataDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }

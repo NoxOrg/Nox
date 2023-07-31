@@ -9,24 +9,21 @@ namespace Nox.Types;
 /// <remarks>
 /// Contains only the date component, without time.
 /// </remarks>
-public sealed class Date : ValueObject<System.DateTime, Date>
+public sealed class Date : ValueObject<DateOnly, Date>
 {
-    // List of time components taken from .NET source
-    private static readonly char[] TimeComponentsInDateTimeFormat = new char[] { ':', 't', 'f', 'F', 'h', 'H', 'm', 's', 'z', 'K' };
-
     private DateTypeOptions _dateTypeOptions = new();
 
     /// <summary>
     /// Creates a new instance of <see cref="Date"/> object.
     /// </summary>
-    /// <param name="dateTime">The date time to create date from.</param>
+    /// <param name="date">The date time to create date from.</param>
     /// <param name="dateTypeOptions">The date type options.</param>
     /// <exception cref="TypeValidationException"></exception>
-    public static Date From(System.DateTime dateTime, DateTypeOptions dateTypeOptions)
+    public static Date From(DateOnly date, DateTypeOptions dateTypeOptions)
     {
         var newObject = new Date
         {
-            Value = dateTime.Date,
+            Value = date,
             _dateTypeOptions = dateTypeOptions
         };
 
@@ -48,24 +45,36 @@ public sealed class Date : ValueObject<System.DateTime, Date>
     /// <param name="day">The day.</param>
     /// <param name="dateTypeOptions">The date type options.</param>
     /// <exception cref="TypeValidationException"></exception>
-    public static Date From(int year, int month, int day, DateTypeOptions dateTypeOptions)
+    public static Date From(int year, int month, int day, DateTypeOptions? dateTypeOptions = null)
     {
-        var dateTime = new System.DateTime(year, month, day);
-        return From(dateTime, dateTypeOptions);
+        var date = new DateOnly(year, month, day);
+        return From(date, dateTypeOptions ?? new DateTypeOptions());
+    }
+
+    /// <summary>
+    /// Creates a new instance of <see cref="Date"/> object.
+    /// </summary>
+    /// <param name="dateTime">The date time.</param>
+    /// <param name="dateTypeOptions">The date type options.</param>
+    /// <exception cref="TypeValidationException"></exception>
+    public static Date From(System.DateTime dateTime, DateTypeOptions? dateTypeOptions = null)
+    {
+        var date = DateOnly.FromDateTime(dateTime);
+        return From(date, dateTypeOptions ?? new DateTypeOptions());
     }
 
     internal override ValidationResult Validate()
     {
         var result = base.Validate();
 
-        if (Value.Date < _dateTypeOptions.MinValue)
+        if (Value < DateOnly.FromDateTime(_dateTypeOptions.MinValue))
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Date type as value {Value.Date.ToString("d", CultureInfo.InvariantCulture)} is less than than the minimum specified value of {_dateTypeOptions.MinValue.Date.ToString("d", CultureInfo.InvariantCulture)}"));
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Date type as value {Value.ToString("d", CultureInfo.InvariantCulture)} is less than than the minimum specified value of {_dateTypeOptions.MinValue.Date.ToString("d", CultureInfo.InvariantCulture)}"));
         }
 
-        if (Value.Date > _dateTypeOptions.MaxValue)
+        if (Value > DateOnly.FromDateTime(_dateTypeOptions.MaxValue))
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Date type as value {Value.Date.ToString("d", CultureInfo.InvariantCulture)} is greater than than the maximum specified value of {_dateTypeOptions.MaxValue.Date.ToString("d", CultureInfo.InvariantCulture)}"));
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Date type as value {Value.ToString("d", CultureInfo.InvariantCulture)} is greater than than the maximum specified value of {_dateTypeOptions.MaxValue.Date.ToString("d", CultureInfo.InvariantCulture)}"));
         }
 
         return result;
@@ -96,26 +105,46 @@ public sealed class Date : ValueObject<System.DateTime, Date>
     /// </summary>
     public int DayOfYear => Value.DayOfYear;
 
+    /// <summary>
+    /// Returns a string representation of the <see cref="Date"/> in invariant culture.
+    /// </summary>
+    /// <returns>
+    /// A string representation of the <see cref="Date"/> object in invariant culture.
+    /// </returns>
     public override string ToString()
         => ToString("d", CultureInfo.InvariantCulture);
 
+    /// <summary>
+    /// Returns a string representation of the <see cref="Date"/> in specified format in invariant culture.
+    /// </summary>
+    /// <param name="format">The format.</param>
+    /// <returns>
+    /// A string representation of the <see cref="Date"/> object in specified format in invariant culture.
+    /// </returns>
     public string ToString(string format)
         => ToString(format, CultureInfo.InvariantCulture);
 
+    /// <summary>
+    /// Returns a string representation of the <see cref="Date"/> in using the specified <see cref="IFormatProvider"/>.
+    /// </summary>
+    /// <param name="format">The format.</param>
+    /// <param name="formatProvider">The format provider.</param>
+    /// <returns>
+    /// A string representation of the <see cref="Date"/> object using the specified <see cref="IFormatProvider"/>.
+    /// </returns>
     public string ToString(IFormatProvider formatProvider)
         => ToString("d", formatProvider);
 
+    /// <summary>
+    /// Returns a string representation of the <see cref="Date"/> in specified format using the specified <see cref="IFormatProvider"/>.
+    /// </summary>
+    /// <param name="format">The format.</param>
+    /// <param name="formatProvider">The format provider.</param>
+    /// <returns>
+    /// A string representation of the <see cref="Dat"/> object in specified format using the specified <see cref="IFormatProvider"/>.
+    /// </returns>
     public string ToString(string format, IFormatProvider formatProvider)
-    {
-        if (format.Length == 1)
-        {
-            return HandleStandardFormatString(format[0], formatProvider);
-        }
-        else
-        {
-            return HandleCustomFormatString(format, formatProvider);
-        }
-    }
+        => Value.ToString(format, formatProvider);
 
     /// <summary>
     /// Determines whether one specified Date is later than another specified Date.
@@ -144,32 +173,4 @@ public sealed class Date : ValueObject<System.DateTime, Date>
     /// <param name="left">The first object to compare.</param>
     /// <param name="right">The second object to compare.</param>
     public static bool operator <=(Date left, Date right) => left.Value <= right.Value;
-
-    private string HandleCustomFormatString(string format, IFormatProvider formatProvider)
-    {
-        if (!IsValidCustomDateOnlyFormatString(format))
-        {
-            throw new FormatException("Input string was not in a correct format.");
-        }
-
-        return Value.Date.ToString(format, formatProvider);
-    }
-
-    private string HandleStandardFormatString(char standardFormatString, IFormatProvider formatProvider)
-        => standardFormatString switch
-        {
-            'o' or 'O' => FormatDateOnlyO(formatProvider),
-            'r' or 'R' => FormatDateOnlyR(formatProvider),
-            'm' or 'M' or 'd' or 'D' or 'y' or 'Y' => Value.Date.ToString(standardFormatString.ToString(), formatProvider),
-            _ => throw new FormatException("Input string was not in a correct format.")
-        };
-
-    private bool IsValidCustomDateOnlyFormatString(string format)
-        => format.IndexOfAny(TimeComponentsInDateTimeFormat) == -1;
-
-    private string FormatDateOnlyO(IFormatProvider formatProvider)
-        => Value.Date.ToString("O", formatProvider).Substring(0, 10);
-
-    private string FormatDateOnlyR(IFormatProvider formatProvider)
-        => Value.Date.ToString("R", formatProvider).Substring(0, 16);
 }

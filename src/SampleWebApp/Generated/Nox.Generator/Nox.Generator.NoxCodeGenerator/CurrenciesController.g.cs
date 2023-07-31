@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using MediatR;
 using SampleWebApp.Application;
+using SampleWebApp.Application.Queries;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 using SampleWebApp.Infrastructure.Persistence;
@@ -47,15 +48,15 @@ public partial class CurrenciesController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<Currency>>> Get()
+    public async  Task<ActionResult<IQueryable<OCurrency>>> Get()
     {
         var result = await _mediator.Send(new GetCurrenciesQuery());
         return Ok(result);
     }
     
-    public ActionResult<Currency> Get([FromRoute] String key)
+    public async Task<ActionResult<OCurrency>> Get([FromRoute] String key)
     {
-        var item = _databaseContext.Currencies.SingleOrDefault(d => d.Id.Equals(key));
+        var item = await _mediator.Send(new GetCurrencyByIdQuery(key));
         
         if (item == null)
         {

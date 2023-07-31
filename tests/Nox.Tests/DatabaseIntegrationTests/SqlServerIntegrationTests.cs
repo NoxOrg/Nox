@@ -1,8 +1,13 @@
 using FluentAssertions;
+
 using Microsoft.EntityFrameworkCore;
+
 using Nox.Types;
+
 using System.Text.Json;
+
 using TestWebApp.Domain;
+
 using DayOfWeek = Nox.Types.DayOfWeek;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
@@ -48,28 +53,43 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var currencyCode = CurrencyCode.UAH;
         var countryCode2 = "UA";
         var currencyCode3 = "USD";
-        var dayOfWeek = 1;
+        var countryCode3 = "UKR";
         var addressItem = new StreetAddressItem
         {
             AddressLine1 = "AddressLine1",
-            CountryId = CountryCode2.From("UA"),
+            CountryId = CountryCode2.From(countryCode2),
             PostalCode = "61135"
         };
         var languageCode = "en";
         var area = 198_090M;
-        var persistUnitAs = AreaTypeUnit.SquareMeter;
+        var areaPersistUnitAs = AreaTypeUnit.SquareMeter;
         var cultureCode = "de-CH";
-        var countryCode3 = "UKR";
         var macAddress = "A1B2C3D4E5F6";
         var password = "Test123.";
+        var dayOfWeek = 1;
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
+        var date = new DateOnly(2023, 7, 14);
         var fileName = "MyFile";
         var fileSizeInBytes = 1000000UL;
         var fileUrl = "https://example.com/myfile.pdf";
 
         var addressJsonPretty = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { WriteIndented = true });
         var addressJsonMinified = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
+        var boolean = true;
+        var email = "regus@regusignore.com";
+        var switzerlandCitiesCountiesYaml = @"
+- Zurich:
+    - County: Zurich
+    - County: Winterthur
+    - County: Baden
+- Geneva:
+    - County: Geneva
+    - County: Lausanne
+";
+
+        var temperatureFahrenheit = 88;
+        var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
 
         var newItem = new TestEntityForTypes()
         {
@@ -78,23 +98,30 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
-            AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = persistUnitAs }),
+            AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = areaPersistUnitAs }),
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
             CultureCodeTestField = CultureCode.From(cultureCode),
             TranslatedTextTestField = TranslatedText.From((CultureCode.From("ur-PK"), "شادی مبارک")),
             CountryCode3TestField = CountryCode3.From(countryCode3),
+            CountryNumberTestField = CountryNumber.From(242),
             TimeZoneCodeTestField = TimeZoneCode.From("utc"),
             MacAddressTestField = MacAddress.From(macAddress),
             HashedTextTestField = HashedText.From(text),
             PasswordTestField = Password.From(password),
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
-            DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours, new DateTimeDurationTypeOptions { MaxDuration = 100, TimeUnit = TimeUnit.Day }),
+            DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
             JsonTestField = Json.From(addressJsonPretty),
-            FileTestField = Nox.Types.File.From(fileUrl, fileName, fileSizeInBytes),
+            BooleanTestField = Types.Boolean.From(boolean),
+            EmailTestField = Email.From(email),
+            YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
+            TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
+            DateTestField = Date.From(date),
+            FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
         };
+        var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
 
@@ -112,17 +139,17 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
-        testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
+        testEntity.AreaTestField!.Unit.Should().Be(areaPersistUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
         testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
         testEntity.TranslatedTextTestField!.Value.Phrase.Should().BeEquivalentTo("شادی مبارک");
-        testEntity.CountryCode3TestField!.Value.Should().Be(countryCode3);    
-        testEntity.TimeZoneCodeTestField!.Value.Should().Be("UTC");
         testEntity.CountryCode3TestField!.Value.Should().Be(countryCode3);
+        testEntity.CountryNumberTestField!.Value.Should().Be(242);
+        testEntity.TimeZoneCodeTestField!.Value.Should().Be("UTC");
         testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
-        testEntity.HashedTextTestField!.HashText.Should().Be(newItem.HashedTextTestField.HashText);
-        testEntity.HashedTextTestField!.Salt.Should().Be(newItem.HashedTextTestField.Salt);
+        testEntity.HashedTextTestField!.HashText.Should().Be(newItem.HashedTextTestField?.HashText);
+        testEntity.HashedTextTestField!.Salt.Should().Be(newItem.HashedTextTestField?.Salt);
         testEntity.PasswordTestField!.HashedPassword.Should().Be(newItem.PasswordTestField.HashedPassword);
         testEntity.PasswordTestField!.Salt.Should().Be(newItem.PasswordTestField.Salt);
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
@@ -132,6 +159,13 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("p").Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("m").Should().Be(addressJsonMinified);
+        testEntity.BooleanTestField!.Value.Should().Be(boolean);
+        testEntity.EmailTestField!.Value.Should().Be(email);
+        testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
+        testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
+        testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
+        testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
+        testEntity.DateTestField!.Value.Should().Be(date);
         testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);
         testEntity.FileTestField!.Value.PrettyName.Should().Be(fileName);
         testEntity.FileTestField!.Value.SizeInBytes.Should().Be(fileSizeInBytes);

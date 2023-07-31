@@ -3,6 +3,7 @@
 #nullable enable
 
 // Found files ->
+//  - allnoxtypes.entity.nox.yaml
 //  - currency.entity.nox.yaml
 //  - elastic.monitoring.nox.yaml
 //  - sample.solution.nox.yaml
