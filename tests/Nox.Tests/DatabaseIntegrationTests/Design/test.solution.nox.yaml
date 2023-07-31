@@ -350,8 +350,8 @@ domain:
         - name: EmailTestField
           type: email
 
-        #- name: EncryptedTextTestField
-        #  type: encryptedText
+        - name: EncryptedTextTestField
+          type: encryptedText
 
         #- name: GuidTestField
         #  type: guid
