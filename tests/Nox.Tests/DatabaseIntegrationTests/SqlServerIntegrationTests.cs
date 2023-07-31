@@ -71,7 +71,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
         var vatNumberValue = "44403198682";
-        var vatNumberCountryCode = CountryCode2.From("FR");
+        var vatNumberCountryCode2 = CountryCode2.From("FR");
         var date = new DateOnly(2023, 7, 14);
 
         var addressJsonPretty = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { WriteIndented = true });
@@ -118,7 +118,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
-            VatNumberTestField = VatNumber.From(vatNumberValue, vatNumberCountryCode),
+            VatNumberTestField = VatNumber.From(vatNumberValue, vatNumberCountryCode2),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             DateTestField = Date.From(date),
         };
@@ -163,8 +163,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.BooleanTestField!.Value.Should().Be(boolean);
         testEntity.EmailTestField!.Value.Should().Be(email);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(switzerlandCitiesCountiesYaml);
-        testEntity.VatNumberTestField!.Value.VatNumberValue.Should().Be(vatNumberValue);
-        testEntity.VatNumberTestField!.Value.CountryCode.Should().Be(vatNumberCountryCode);
+        testEntity.VatNumberTestField!.Value.Number.Should().Be(vatNumberValue);
+        testEntity.VatNumberTestField!.Value.CountryCode2.Should().Be(vatNumberCountryCode2);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
         testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);

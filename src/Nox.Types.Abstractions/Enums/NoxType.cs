@@ -50,8 +50,8 @@ public enum NoxType : uint
     DateTimeRange = 3837929056,
 
     [CompoundType]
-    [CompoundComponent("VatNumberValue", typeof(string))]
-    [CompoundComponent("CountryCode", typeof(string))]
+    [CompoundComponent("Number", typeof(string))]
+    [CompoundComponent("CountryCode2", typeof(string))]
     VatNumber = 1055627262,
 
     [CompoundType]

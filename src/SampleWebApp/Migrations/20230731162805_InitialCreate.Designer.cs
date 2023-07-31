@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230731144811_InitialCreate")]
+    [Migration("20230731162805_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -365,13 +365,19 @@ namespace SampleWebApp.Migrations
                             b1.Property<string>("AllNoxTypeId")
                                 .HasColumnType("char(3)");
 
-                            b1.Property<string>("CountryCode")
+                            b1.Property<string>("CountryCode2")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(2)
+                                .IsUnicode(false)
+                                .HasColumnType("char(2)")
+                                .IsFixedLength();
 
-                            b1.Property<string>("VatNumberValue")
+                            b1.Property<string>("Number")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(64)
+                                .IsUnicode(false)
+                                .HasColumnType("char(64)")
+                                .IsFixedLength();
 
                             b1.HasKey("AllNoxTypeId");
 
