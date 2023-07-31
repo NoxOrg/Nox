@@ -112,7 +112,7 @@ public class AreaTests
 
         var area = Area.From(squareMeters);
 
-        area.ToSquareFeet().Should().Be(134.5488802088715);
+        area.ToSquareFeet().Should().Be(134.548880);
     }
 
     [Theory]

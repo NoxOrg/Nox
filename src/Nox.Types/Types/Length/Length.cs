@@ -10,6 +10,8 @@ namespace Nox.Types;
 /// </summary>
 public class Length : ValueObject<QuantityValue, Length>
 {
+    public const int QuantityValueDecimalPrecision = 6;
+
     private LengthTypeOptions _lengthTypeOptions = new();
     private LengthUnit _lengthUnit = null!;
 
@@ -46,7 +48,7 @@ public class Length : ValueObject<QuantityValue, Length>
     {
         var newObject = new Length
         {
-            Value = value,
+            Value = value.Round(QuantityValueDecimalPrecision),
             Unit = options.Units,
             _lengthUnit = Enumeration.ParseFromName<LengthUnit>(options.Units.ToString()),
             _lengthTypeOptions = options,
@@ -131,6 +133,6 @@ public class Length : ValueObject<QuantityValue, Length>
     private QuantityValue GetValueIn(LengthUnit targetUnit)
     {
         var conversion = new LengthConversion(_lengthUnit, targetUnit);
-        return conversion.Calculate(Value);
+        return conversion.Calculate(Value).Round(QuantityValueDecimalPrecision);
     }
 }

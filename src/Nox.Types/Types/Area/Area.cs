@@ -10,6 +10,8 @@ namespace Nox.Types;
 /// </summary>
 public class Area : ValueObject<QuantityValue, Area>
 {
+    public const int QuantityValueDecimalPrecision = 6;
+
     private AreaTypeOptions _areaTypeOptions = new();
     private AreaUnit _areaUnit = null!;
 
@@ -46,7 +48,7 @@ public class Area : ValueObject<QuantityValue, Area>
     {
         var newObject = new Area
         {
-            Value = value,
+            Value = value.Round(QuantityValueDecimalPrecision),
             Unit = options.Units,
             _areaUnit = Enumeration.ParseFromName<AreaUnit>(options.Units.ToString()),
             _areaTypeOptions = options,
@@ -131,6 +133,6 @@ public class Area : ValueObject<QuantityValue, Area>
     private QuantityValue GetValueIn(AreaUnit targetUnit)
     {
         var conversion = new AreaConversion(_areaUnit, targetUnit);
-        return conversion.Calculate(Value);
+        return conversion.Calculate(Value).Round(QuantityValueDecimalPrecision);
     }
 }
