@@ -40,17 +40,13 @@ internal static class NoxWebApplicationExtensionGenerator
         code.AppendLine($"using {solution.Name}.Infrastructure.Persistence;");
         if(generatePresentation)
             code.AppendLine($"using {solution.Name}.Presentation.Api.OData;");
-        code.AppendLine();
-        code.AppendLine($"namespace {solution.Name};");
-        code.AppendLine();
+        code.AppendLine();        
 
         code.AppendLine("public static class NoxWebApplicationBuilderExtension");
         code.StartBlock();
         code.AppendLine("public static WebApplicationBuilder AddNox(this WebApplicationBuilder appBuilder)");
         code.StartBlock();
-        code.AppendLine($"appBuilder.Services.AddNoxLib();");
-        code.AppendLine("appBuilder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());");
-        code.AppendLine("appBuilder.Services.AddNoxTypesDatabaseConfigurator(Assembly.GetExecutingAssembly());");
+        code.AppendLine($"appBuilder.Services.AddNoxLib(Assembly.GetExecutingAssembly());");                          
         code.AppendLine("appBuilder.Services.AddNoxOdata();");
         var dbContextName = $"{solution.Name}DbContext";
                 
@@ -62,7 +58,7 @@ internal static class NoxWebApplicationExtensionGenerator
         if(generatePresentation)
             code.AppendLine($"appBuilder.Services.AddDbContext<ODataDbContext>();");
         code.AppendLine("var tmpProvider = appBuilder.Services.BuildServiceProvider();");
-        code.AppendLine("var dbContext = tmpProvider.GetRequiredService<SampleWebAppDbContext>();");
+        code.AppendLine($"var dbContext = tmpProvider.GetRequiredService<{dbContextName}>();");
         code.AppendLine("return appBuilder;");
         code.EndBlock();
         code.AppendLine();

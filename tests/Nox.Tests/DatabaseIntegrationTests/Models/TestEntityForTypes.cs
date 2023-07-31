@@ -3,8 +3,7 @@
 #nullable enable
 
 using Nox.Types;
-using System;
-using System.Collections.Generic;
+using Boolean = Nox.Types.Boolean;
 
 namespace TestWebApp.Domain;
 
@@ -52,6 +51,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Nox.Types.DayOfWeek? DayOfWeekTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Area? AreaTestField { get; set; } = null!;
 
     /// <summary>
@@ -77,6 +81,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Month? MonthTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Password? PasswordTestField { get; set; } = null!;
 
     /// <summary>
@@ -94,8 +103,30 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// </summary>
     public CultureCode? CultureCodeTestField { get; set; } = null!;
 
+    public Email? EmailTestField { get; set; } = null!;
+
     /// <summary>
     ///  (Optional).
     /// </summary>
     public LanguageCode? LanguageCodeTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public DateTimeDuration? DateTimeDurationTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Boolean? BooleanTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Json? JsonTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Yaml? YamlTestField { get; set; } = null!;
 }

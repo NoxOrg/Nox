@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using MediatR;
 using SampleWebApp.Application;
+using SampleWebApp.Application.Queries;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 using SampleWebApp.Infrastructure.Persistence;
@@ -29,24 +31,32 @@ public partial class CurrenciesController : ODataController
     /// </summary>
     protected readonly IMapper _mapper;
     
+    /// <summary>
+    /// The Mediator.
+    /// </summary>
+    protected readonly IMediator _mediator;
+    
     public CurrenciesController(
         ODataDbContext databaseContext,
-        IMapper mapper
+        IMapper mapper,
+        IMediator mediator
     )
     {
         _databaseContext = databaseContext;
         _mapper = mapper;
+        _mediator = mediator;
     }
     
     [EnableQuery]
-    public ActionResult<IQueryable<Currency>> Get()
+    public async  Task<ActionResult<IQueryable<OCurrency>>> Get()
     {
-        return Ok(_databaseContext.Currencies);
+        var result = await _mediator.Send(new GetCurrenciesQuery());
+        return Ok(result);
     }
     
-    public ActionResult<Currency> Get([FromRoute] String key)
+    public async Task<ActionResult<OCurrency>> Get([FromRoute] String key)
     {
-        var item = _databaseContext.Currencies.SingleOrDefault(d => d.Id.Equals(key));
+        var item = await _mediator.Send(new GetCurrencyByIdQuery(key));
         
         if (item == null)
         {

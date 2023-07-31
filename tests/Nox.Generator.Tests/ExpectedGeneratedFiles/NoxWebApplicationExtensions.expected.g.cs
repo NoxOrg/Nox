@@ -11,15 +11,11 @@ using Nox.Types.EntityFramework.Abstractions;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Presentation.Api.OData;
 
-namespace TestWebApp;
-
 public static class NoxWebApplicationBuilderExtension
 {
     public static WebApplicationBuilder AddNox(this WebApplicationBuilder appBuilder)
     {
-        appBuilder.Services.AddNoxLib();
-        appBuilder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-        appBuilder.Services.AddNoxTypesDatabaseConfigurator(Assembly.GetExecutingAssembly());
+        appBuilder.Services.AddNoxLib(Assembly.GetExecutingAssembly());
         appBuilder.Services.AddNoxOdata();
         appBuilder.Services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
         appBuilder.Services.AddSingleton<DbContextOptions<TestWebAppDbContext>>();
@@ -28,7 +24,7 @@ public static class NoxWebApplicationBuilderExtension
         appBuilder.Services.AddDbContext<TestWebAppDbContext>();
         appBuilder.Services.AddDbContext<ODataDbContext>();
         var tmpProvider = appBuilder.Services.BuildServiceProvider();
-        var dbContext = tmpProvider.GetRequiredService<SampleWebAppDbContext>();
+        var dbContext = tmpProvider.GetRequiredService<TestWebAppDbContext>();
         return appBuilder;
     }
     

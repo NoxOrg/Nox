@@ -1,5 +1,5 @@
 #
-# workplace.solution.nox.yaml
+# sample.solution.nox.yaml
 #
 # yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
 #
@@ -285,6 +285,10 @@ domain:
     - $ref: currency.entity.nox.yaml
   
     - $ref: store.entity.nox.yaml
+
+    - $ref: store-security-passwords.entity.nox.yaml
+  
+    - $ref: allnoxtypes.entity.nox.yaml
     
     - name: CountryLocalNames
       description: The name of a country in other languages

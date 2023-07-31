@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using MediatR;
 using SampleWebApp.Application;
+using SampleWebApp.Application.Queries;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 using SampleWebApp.Infrastructure.Persistence;
@@ -29,24 +31,32 @@ public partial class StoresController : ODataController
     /// </summary>
     protected readonly IMapper _mapper;
     
+    /// <summary>
+    /// The Mediator.
+    /// </summary>
+    protected readonly IMediator _mediator;
+    
     public StoresController(
         ODataDbContext databaseContext,
-        IMapper mapper
+        IMapper mapper,
+        IMediator mediator
     )
     {
         _databaseContext = databaseContext;
         _mapper = mapper;
+        _mediator = mediator;
     }
     
     [EnableQuery]
-    public ActionResult<IQueryable<Store>> Get()
+    public async  Task<ActionResult<IQueryable<OStore>>> Get()
     {
-        return Ok(_databaseContext.Stores);
+        var result = await _mediator.Send(new GetStoresQuery());
+        return Ok(result);
     }
     
-    public ActionResult<Store> Get([FromRoute] String key)
+    public async Task<ActionResult<OStore>> Get([FromRoute] String key)
     {
-        var item = _databaseContext.Stores.SingleOrDefault(d => d.Id.Equals(key));
+        var item = await _mediator.Send(new GetStoreByIdQuery(key));
         
         if (item == null)
         {

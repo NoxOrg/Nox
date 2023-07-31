@@ -2157,32 +2157,24 @@
           ]
         },
         "type": {    
-          "const": "temperature"
+          "const": "json"
         },
-        "temperatureTypeOptions": {    
+        "jsonTypeOptions": {    
           "type": [
             "object",
             "null"
           ],
           "properties": {
-            "persistAs": {    
+            "persistMinified": {    
               "type": [
-                "string",
+                "boolean",
                 "null"
-              ],
-              "enum": [
-                "celsius",
-                "fahrenheit"
               ]
             },
-            "units": {    
+            "maxHashDepth": {    
               "type": [
-                "string",
+                "integer",
                 "null"
-              ],
-              "enum": [
-                "celsius",
-                "fahrenheit"
               ]
             }
           }
@@ -2265,7 +2257,6 @@
             "html",
             "internetDomain",
             "ipAddress",
-            "json",
             "jwtToken",
             "languageCode",
             "latLong",
@@ -2276,6 +2267,7 @@
             "object",
             "phoneNumber",
             "streetAddress",
+            "temperature",
             "timeZoneCode",
             "uri",
             "url",
