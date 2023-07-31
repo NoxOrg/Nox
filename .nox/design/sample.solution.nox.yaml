@@ -189,20 +189,12 @@ domain:
 
         - name: AlphaCode3
           description: The country's official ISO 4217 alpha-3 code
-          type: text
-          textTypeOptions:
-            isUnicode: false
-            minLength: 3
-            maxLength: 3
+          type: countryCode3
           isRequired: true
 
         - name: AlphaCode2
           description: The country's official ISO 4217 alpha-2 code
-          type: text
-          textTypeOptions:
-            isUnicode: false
-            minLength: 2
-            maxLength: 2
+          type: countryCode2          
           isRequired: true
 
         - name: NumericCode

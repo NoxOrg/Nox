@@ -6,6 +6,9 @@ using Nox.Abstractions;
 //===================================================================================
 using SampleWebApp.Application;
 using SampleWebApp.SeedData;
+using SampleWebApp.Application.Queries;
+using MediatR;
+using FluentValidation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -25,9 +28,19 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-builder.Services.AddScoped<GetCountriesByContinentQueryBase, GetCountriesByContinentQuery>();
-builder.Services.AddScoped<UpdatePopulationStatisticsCommandHandlerBase, UpdatePopulationStatisticsCommandHandler>();
-builder.Services.AddScoped<INoxMessenger, NoxMessenger>();
+
+// ======================================================
+// SAMPLE WEB APP Extensions
+builder.Services
+    .AddScoped<GetCountriesByContinentQueryBase, GetCountriesByContinentQuery>()
+    .AddScoped<UpdatePopulationStatisticsCommandHandlerBase, UpdatePopulationStatisticsCommandHandler>()
+    .AddScoped<INoxMessenger, NoxMessenger>()
+    .AddSecurityValidators();
+// ======================================================
+
+
+
+
 
 builder.AddSeedData();
 
