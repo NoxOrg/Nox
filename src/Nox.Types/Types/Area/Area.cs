@@ -8,12 +8,12 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a Nox <see cref="Area"/> type and value object.
 /// </summary>
-public class Area : ValueObject<QuantityValue, Area> 
+public class Area : ValueObject<QuantityValue, Area>
 {
     private AreaTypeOptions _areaTypeOptions = new();
     private AreaUnit _areaUnit = null!;
 
-    public AreaTypeUnit Unit { get; private init;}
+    public AreaTypeUnit Unit { get; private init; }
 
 
     /// <summary>
@@ -32,7 +32,7 @@ public class Area : ValueObject<QuantityValue, Area>
     /// <param name="unit">The unit to create the <see cref="Area"/> with</param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
-    public static Area From(QuantityValue value, AreaTypeUnit unit) 
+    public static Area From(QuantityValue value, AreaTypeUnit unit)
         => From(value, new AreaTypeOptions() { Units = unit });
 
     /// <summary>
@@ -98,7 +98,7 @@ public class Area : ValueObject<QuantityValue, Area>
 
     protected override IEnumerable<KeyValuePair<string, object>> GetEqualityComponents()
     {
-        yield return new KeyValuePair<string, object>(nameof(Value), ToSquareMeters());
+        yield return new KeyValuePair<string, object>(nameof(Value), ToSquareMeters()); // Assert equality with certain decimal precision?
     }
 
     public static Area FromDatabase(QuantityValue areaValue, AreaTypeUnit areaUnit)
@@ -128,9 +128,9 @@ public class Area : ValueObject<QuantityValue, Area>
     private QuantityValue? _squareFeet;
     public QuantityValue ToSquareFeet() => _squareFeet ??= GetValueIn(AreaUnit.SquareFoot);
 
-    protected QuantityValue GetValueIn(AreaUnit targetUnit)
+    private QuantityValue GetValueIn(AreaUnit targetUnit)
     {
         var conversion = new AreaConversion(_areaUnit, targetUnit);
         return conversion.Calculate(Value);
-    }    
+    }
 }

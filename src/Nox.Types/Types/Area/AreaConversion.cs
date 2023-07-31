@@ -8,8 +8,8 @@ internal class AreaConversion : MeasurementConversion<AreaUnit>
 {
     private static readonly Dictionary<(AreaUnit, AreaUnit), Func<QuantityValue, QuantityValue>> _definedAreaConversionFormulas = new()
     {
-        { (AreaUnit.SquareFoot,  AreaUnit.SquareMeter), (val) => val * 0.0929030399716017M },
-        { (AreaUnit.SquareMeter,  AreaUnit.SquareFoot), (val) => val * 10.76391042M },
+        { (AreaUnit.SquareFoot,  AreaUnit.SquareMeter), (val) => val * 0.09290304m },
+        { (AreaUnit.SquareMeter,  AreaUnit.SquareFoot), (val) => val / 0.09290304m },
     };
 
     protected override Dictionary<(AreaUnit, AreaUnit), Func<QuantityValue, QuantityValue>> DefinedConversionFormulas => _definedAreaConversionFormulas;

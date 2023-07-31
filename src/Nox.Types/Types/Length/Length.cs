@@ -128,7 +128,7 @@ public class Length : ValueObject<QuantityValue, Length>
     private QuantityValue? _Feet;
     public QuantityValue ToFeet() => _Feet ??= GetValueIn(LengthUnit.Foot);
 
-    protected QuantityValue GetValueIn(LengthUnit targetUnit)
+    private QuantityValue GetValueIn(LengthUnit targetUnit)
     {
         var conversion = new LengthConversion(_lengthUnit, targetUnit);
         return conversion.Calculate(Value);

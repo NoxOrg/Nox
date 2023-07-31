@@ -112,7 +112,7 @@ public class AreaTests
 
         var area = Area.From(squareMeters);
 
-        area.ToSquareFeet().Should().Be(134.548880250);
+        area.ToSquareFeet().Should().Be(134.5488802088715);
     }
 
     [Theory]
@@ -189,7 +189,7 @@ public class AreaTests
         var squareMeters = 12.5;
         var area1 = Area.From(squareMeters, AreaTypeUnit.SquareMeter);
 
-        var squareFeetValue = 134.54888024999999; // 12.5 m²
+        var squareFeetValue = 134.5488802088715; // 12.5 m²
         var area2 = Area.From(squareFeetValue, AreaTypeUnit.SquareFoot);
 
         AssertAreEquivalent(area1, area2);
