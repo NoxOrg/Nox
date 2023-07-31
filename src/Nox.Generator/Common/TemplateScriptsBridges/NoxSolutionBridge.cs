@@ -16,5 +16,10 @@ internal static class NoxSolutionBridge
 
         context.PushGlobal(scriptObject1);
 
+        var scriptObject2 = new ScriptObject();
+        scriptObject2.Import("ShouldGenerateSpecialRelationshipLogicOnThisSide", new Func<EntityRelationship, bool>(
+            noxSolution.ShouldGenerateSpecialRelationshipLogicOnThisSide));
+
+        context.PushGlobal(scriptObject2);
     }
 }

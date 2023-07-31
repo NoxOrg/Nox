@@ -71,6 +71,13 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     {{- end}}
     {{- else}}
     public virtual {{relationship.Entity}} {{if relationship.Relationship == "ZeroOrOne"}}?{{end}}{{relationship.Entity}} { get; set; } = null!;
+    {{- if ShouldGenerateSpecialRelationshipLogicOnThisSide relationship}}
+
+    /// <summary>
+    /// Foreign key for relationship {{relationship.Relationship}} to entity {{relationship.Entity}}
+    /// </summary>
+    public {{relationship.Related.Entity.Keys[0].Type}} {{relationship.Entity}}Id { get; set; } = null!;
+    {{- end}}
     {{-end}}
 {{- end }}
 {{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}
