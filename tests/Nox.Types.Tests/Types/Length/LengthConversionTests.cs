@@ -10,7 +10,7 @@ public class LengthConversionTests
     {
         var conversion = new LengthConversion(LengthUnit.Foot, LengthUnit.Meter);
 
-        conversion.Calculate(1).Should().Be(0.30480000033m);
+        conversion.Calculate(1).Should().Be(0.3048m);
     }
 
     [Fact]
@@ -18,7 +18,7 @@ public class LengthConversionTests
     {
         var conversion = new LengthConversion(LengthUnit.Meter, LengthUnit.Foot);
 
-        conversion.Calculate(1).Should().Be(3.2808398914610329259116113335m);
+        conversion.Calculate(1).Should().Be(3.2808398950131233595800524934m);
     }
 
     [Fact]
@@ -30,6 +30,6 @@ public class LengthConversionTests
         var result2 = conversion.Calculate(1) * (QuantityValue)2.5;
 
         result1.Should().Be(result2);
-        result1.Should().Be(8.202099728652582314779028334m);
+        result1.Should().Be(8.202099737532808398950131234m);
     }
 }

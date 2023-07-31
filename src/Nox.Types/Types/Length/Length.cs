@@ -15,7 +15,12 @@ public class Length : ValueObject<QuantityValue, Length>
     private LengthTypeOptions _lengthTypeOptions = new();
     private LengthUnit _lengthUnit = null!;
 
-    public LengthTypeUnit Unit { get; private init; }
+    private LengthTypeUnit _unit;
+    public LengthTypeUnit Unit
+    {
+        get => _unit;
+        private init { _unit = value; _lengthUnit = Enumeration.ParseFromName<LengthUnit>(_unit.ToString()); }
+    }
 
 
     /// <summary>
@@ -50,7 +55,6 @@ public class Length : ValueObject<QuantityValue, Length>
         {
             Value = value.Round(QuantityValueDecimalPrecision),
             Unit = options.Units,
-            _lengthUnit = Enumeration.ParseFromName<LengthUnit>(options.Units.ToString()),
             _lengthTypeOptions = options,
         };
 

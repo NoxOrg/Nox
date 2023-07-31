@@ -15,7 +15,12 @@ public class Area : ValueObject<QuantityValue, Area>
     private AreaTypeOptions _areaTypeOptions = new();
     private AreaUnit _areaUnit = null!;
 
-    public AreaTypeUnit Unit { get; private init; }
+    private AreaTypeUnit _unit;
+    public AreaTypeUnit Unit
+    {
+        get => _unit;
+        private init { _unit = value; _areaUnit = Enumeration.ParseFromName<AreaUnit>(_unit.ToString()); }
+    }
 
 
     /// <summary>
@@ -50,7 +55,6 @@ public class Area : ValueObject<QuantityValue, Area>
         {
             Value = value.Round(QuantityValueDecimalPrecision),
             Unit = options.Units,
-            _areaUnit = Enumeration.ParseFromName<AreaUnit>(options.Units.ToString()),
             _areaTypeOptions = options,
         };
 

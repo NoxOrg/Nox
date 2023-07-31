@@ -58,7 +58,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         };
         var languageCode = "en";
         var area = 198_090M;
-        var persistUnitAs = AreaTypeUnit.SquareMeter;
+        var persistAreaUnitAs = AreaTypeUnit.SquareMeter;
         var cultureCode = "de-CH";
         var countryCode3 = "UKR";
         var macAddress = "A1B2C3D4E5F6";
@@ -78,6 +78,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
     - County: Geneva
     - County: Lausanne
 ";
+        var length = 314_598M;
+        var persistLengthUnitAs = LengthTypeUnit.Meter;
 
         var newItem = new TestEntityForTypes()
         {
@@ -86,7 +88,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
-            AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = persistUnitAs }),
+            AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = persistAreaUnitAs }),
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
@@ -104,6 +106,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
+            LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -122,7 +125,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
-        testEntity.AreaTestField!.Unit.Should().Be(persistUnitAs);
+        testEntity.AreaTestField!.Unit.Should().Be(persistAreaUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
         testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
@@ -145,6 +148,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.BooleanTestField!.Value.Should().Be(boolean);
         testEntity.EmailTestField!.Value.Should().Be(email);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(switzerlandCitiesCountiesYaml);
+        testEntity.LengthTestField!.ToFeet().Should().Be(length);
+        testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
     }
 
     //[Fact]

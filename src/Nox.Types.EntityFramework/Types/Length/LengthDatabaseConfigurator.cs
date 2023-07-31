@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
@@ -7,7 +8,7 @@ namespace Nox.Types.EntityFramework.Types;
 public class LengthDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
     public NoxType ForNoxType => NoxType.Length;
-    public bool IsDefault => true;
+    public virtual bool IsDefault => true;
 
     public void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
@@ -21,6 +22,7 @@ public class LengthDatabaseConfigurator : INoxTypeDatabaseConfigurator
         builder
             .Property(property.Name)
             .IsRequired(property.IsRequired)
+            .IfNotNull(GetColumnType(typeOptions), b => b.HasColumnType(GetColumnType(typeOptions)))
             .If(typeOptions.PersistAs == LengthTypeUnit.Foot,
                 propertyToUpdate => propertyToUpdate.HasConversion<LengthToFootConverter>())
             .If(typeOptions.PersistAs == LengthTypeUnit.Meter,
@@ -28,4 +30,9 @@ public class LengthDatabaseConfigurator : INoxTypeDatabaseConfigurator
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
+
+    public virtual string? GetColumnType(LengthTypeOptions typeOptions)
+    {
+        return null;
+    }
 }
