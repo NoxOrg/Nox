@@ -1,8 +1,13 @@
 ﻿using FluentAssertions;
+
 using Microsoft.EntityFrameworkCore;
+
 using Nox.Types;
+
 using System.Text.Json;
+
 using TestWebApp.Domain;
+
 using DayOfWeek = Nox.Types.DayOfWeek;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
@@ -65,6 +70,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var dayOfWeek = 1;
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
+        var date = new DateOnly(2023, 7, 14);
 
         var addressJsonPretty = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { WriteIndented = true });
         var addressJsonMinified = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
@@ -82,6 +88,10 @@ public class SqliteIntegrationTests : SqliteTestBase
         var length = 314_598M;
         var persistLengthUnitAs = LengthTypeUnit.Meter;
 
+        var temperatureFahrenheit = 88;
+        var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
+
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -96,6 +106,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             CultureCodeTestField = CultureCode.From(cultureCode),
             TranslatedTextTestField = TranslatedText.From((CultureCode.From("ur-PK"), "شادی مبارک")),
             CountryCode3TestField = CountryCode3.From(countryCode3),
+            CountryNumberTestField = CountryNumber.From(242),
             TimeZoneCodeTestField = TimeZoneCode.From("utc"),
             MacAddressTestField = MacAddress.From(macAddress),
             HashedTextTestField = HashedText.From(text),
@@ -107,8 +118,11 @@ public class SqliteIntegrationTests : SqliteTestBase
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
+            TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
+            DateTestField = Date.From(date),
             LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
         };
+        var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
 
@@ -128,10 +142,11 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
         testEntity.AreaTestField!.Unit.Should().Be(persistAreaUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
-    	testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
+        testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
         testEntity.TranslatedTextTestField!.Value.Phrase.Should().BeEquivalentTo("شادی مبارک");
         testEntity.CountryCode3TestField!.Value.Should().Be(countryCode3);
+        testEntity.CountryNumberTestField!.Value.Should().Be(242);
         testEntity.TimeZoneCodeTestField!.Value.Should().Be("UTC");
         testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
         testEntity.HashedTextTestField!.HashText.Should().Be(newItem.HashedTextTestField?.HashText);
@@ -148,6 +163,10 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.BooleanTestField!.Value.Should().Be(boolean);
         testEntity.EmailTestField!.Value.Should().Be(email);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
+        testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
+        testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
+        testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
+        testEntity.DateTestField!.Value.Should().Be(date);
         testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
         testEntity.LengthTestField!.ToFeet().Should().Be(length);
     }

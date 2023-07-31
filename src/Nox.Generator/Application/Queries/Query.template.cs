@@ -6,7 +6,7 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using {{codeGeneratorState.ODataNameSpace}};
 
-namespace {{codeGeneratorState.DomainNameSpace}};
+namespace {{codeGeneratorState.ApplicationNameSpace}}.Queries;
 
 public record Get{{entity.PluralName}}Query() : IRequest<IQueryable<O{{entity.Name}}>>;
 

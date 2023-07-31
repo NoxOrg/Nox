@@ -52,7 +52,7 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Nox.Types.DayOfWeek? DayOfWeekTestField { get; set; } = null!;
+    public DayOfWeek? DayOfWeekTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -67,12 +67,17 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Nox.Types.Boolean? BooleanTestField { get; set; } = null!;
+    public Boolean? BooleanTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
     public CountryCode3? CountryCode3TestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public CountryNumber? CountryNumberTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -112,6 +117,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Temperature? TempratureTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public TranslatedText? TranslatedTextTestField { get; set; } = null!;
 
     /// <summary>
@@ -133,4 +143,9 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public DateTimeDuration? DateTimeDurationTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Date? DateTestField { get; set; } = null!;
 }

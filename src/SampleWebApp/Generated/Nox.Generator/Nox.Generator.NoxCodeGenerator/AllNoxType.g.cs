@@ -23,4 +23,14 @@ public partial class AllNoxType : AuditableEntityBase
     /// Text Nox Type (Required).
     /// </summary>
     public Text TextField { get; set; } = null!;
+
+    /// <summary>
+    /// CountryCode2 Nox Type (Required).
+    /// </summary>
+    public CountryCode2 CountryCode2Field { get; set; } = null!;
+
+    /// <summary>
+    /// CountryCode3 Nox Type (Required).
+    /// </summary>
+    public CountryCode3 CountryCode3Field { get; set; } = null!;
 }

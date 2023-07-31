@@ -59,6 +59,7 @@ internal static class ApiGenerator
             code.AppendLine("using MediatR;");
 
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace};");
+            code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Queries;");
             code.AppendLine($"using {codeGeneratorState.DataTransferObjectsNameSpace};");
             code.AppendLine($"using {codeGeneratorState.DomainNameSpace};");
             code.AppendLine($"using {codeGeneratorState.PersistenceNameSpace};");
