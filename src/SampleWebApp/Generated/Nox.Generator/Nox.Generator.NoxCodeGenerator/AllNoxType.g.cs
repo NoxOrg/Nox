@@ -25,6 +25,11 @@ public partial class AllNoxType : AuditableEntityBase
     public Text TextField { get; set; } = null!;
 
     /// <summary>
+    /// VatNumber Nox Type (Required).
+    /// </summary>
+    public VatNumber VatNumberField { get; set; } = null!;
+
+    /// <summary>
     /// CountryCode2 Nox Type (Required).
     /// </summary>
     public CountryCode2 CountryCode2Field { get; set; } = null!;

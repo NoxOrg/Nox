@@ -147,6 +147,8 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public VatNumber? VatNumberTestField { get; set; } = null!;
+    
     public Date? DateTestField { get; set; } = null!;
 
     /// <summary>

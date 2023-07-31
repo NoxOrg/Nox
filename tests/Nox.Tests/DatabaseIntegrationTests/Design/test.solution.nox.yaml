@@ -420,6 +420,9 @@ domain:
         - name: DateTimeDurationTestField
           type: dateTimeDuration
 
+        - name: VatNumberTestField
+          type: vatNumber
+            
         - name: DateTestField
           type: date
 
