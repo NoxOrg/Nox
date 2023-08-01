@@ -338,8 +338,10 @@ domain:
         #- name: CurrencyNumberTestField
         #  type: currencyNumber
 
-        #- name: DateTimeTestField
-        #  type: dateTime
+        - name: DateTimeTestField
+          type: dateTime
+          dateTimeTypeOptions:
+            minValue: 2023-12-01T00:00:00.00-05:00
 
         #- name: DateTimeRangeTestField
         #  type: dateTimeRange
