@@ -95,6 +95,9 @@ public class NoxSimpleTypeDefinition
     [IfEquals("Type", NoxType.Temperature)]
     public TemperatureTypeOptions? TemperatureTypeOptions { get; set; }
 
+    [IfEquals("Type", NoxType.Length)]
+    public LengthTypeOptions? LengthTypeOptions { get; set; }
+
     #endregion TypeOptions
 
     [Title("Is the attribute required? Boolean value.")]

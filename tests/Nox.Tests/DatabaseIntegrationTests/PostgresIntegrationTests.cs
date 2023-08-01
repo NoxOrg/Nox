@@ -88,6 +88,8 @@ public class PostgresIntegrationTests : PostgresTestBase
         var internetDomain = "nox.org";
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
+        var length = 314_598M;
+        var persistLengthUnitAs = LengthTypeUnit.Meter;
 
         var newItem = new TestEntityForTypes()
         {
@@ -119,6 +121,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             DateTestField = Date.From(date),
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
             InternetDomainTestField = InternetDomain.From(internetDomain),
+            LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -169,5 +172,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.FileTestField!.Value.PrettyName.Should().Be(fileName);
         testEntity.FileTestField!.Value.SizeInBytes.Should().Be(fileSizeInBytes);
         testEntity.InternetDomainTestField!.Value.Should().Be(internetDomain);
+        testEntity.LengthTestField!.ToFeet().Should().Be(length);
+        testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
     }
 }

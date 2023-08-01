@@ -2,11 +2,11 @@
 
 namespace Nox.Types.EntityFramework.Types;
 
-public class LengthToFootConverter : ValueConverter<Length, double>
+public class LengthToFootConverter : ValueConverter<Length, decimal>
 {
-    public LengthToFootConverter() : base(length => (double)length.ToFeet(), lengthValue => Length.FromFeet(lengthValue)) { }
+    public LengthToFootConverter() : base(length => (decimal)length.ToFeet(), lengthValue => Length.FromDatabase(lengthValue, LengthTypeUnit.Foot)) { }
 }
-public class LengthToMeterConverter : ValueConverter<Length, double>
+public class LengthToMeterConverter : ValueConverter<Length, decimal>
 {
-    public LengthToMeterConverter() : base(length => (double)length.ToMeters(), lengthValue => Length.FromMeters(lengthValue)) { }
+    public LengthToMeterConverter() : base(length => (decimal)length.ToMeters(), lengthValue => Length.FromDatabase(lengthValue, LengthTypeUnit.Meter)) { }
 }
