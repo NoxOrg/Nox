@@ -5,7 +5,7 @@ using Microsoft.OData;
 
 namespace Nox.Lib;
 
-public class NoxErrorSerializer : ODataErrorSerializer
+public class NoxODataErrorSerializer : ODataErrorSerializer
 {
     public override Task WriteObjectAsync(object graph,
         Type type,

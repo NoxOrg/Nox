@@ -15,7 +15,7 @@ public class NoxODataSerializerProvider : ODataSerializerProvider
     {
         if (type == typeof(ODataError) || type == typeof(SerializableError))
         {
-            return new NoxErrorSerializer();
+            return new NoxODataErrorSerializer();
         }
 
         return base.GetODataPayloadSerializer(type, request);
