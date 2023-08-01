@@ -59,6 +59,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             PostalCode = "61135"
         };
         var languageCode = "en";
+        var year = (ushort)2023;
         var area = 198_090M;
         var areaPersistUnitAs = AreaTypeUnit.SquareMeter;
         var cultureCode = "de-CH";
@@ -111,6 +112,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
+            YearTestField = Year.From(year),
             CultureCodeTestField = CultureCode.From(cultureCode),
             TranslatedTextTestField = TranslatedText.From((CultureCode.From("ur-PK"), "شادی مبارک")),
             CountryCode3TestField = CountryCode3.From(countryCode3),
@@ -154,6 +156,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.AreaTestField!.Unit.Should().Be(areaPersistUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
         testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
+        testEntity.YearTestField!.Value.Should().Be(year);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
         testEntity.TranslatedTextTestField!.Value.Phrase.Should().BeEquivalentTo("شادی مبارک");
         testEntity.CountryCode3TestField!.Value.Should().Be(countryCode3);
