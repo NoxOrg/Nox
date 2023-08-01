@@ -68,21 +68,20 @@ namespace Nox.Types.EntityFramework.Abstractions
                     builder
                         .HasOne(relationshipToCreate.Relationship.Entity)
                         .WithOne(entity.Name)
-                        .HasForeignKey(relationshipToCreate.Relationship.Entity, $"{relationshipToCreate.Relationship.Entity}Id");
+                        .HasForeignKey(entity.Name, $"{relationshipToCreate.Relationship.Entity}Id");
 
                     // Setup one to one foreign key
-                    // TODO: copy key field parameters
                     // Right now assuming that there is always one key present
-                    var keyType = relationshipToCreate.Relationship.Related.Entity.Keys![0].Type;
-                    if (TypesDatabaseConfigurations.TryGetValue(keyType,
+                    var key = relationshipToCreate.Relationship.Related.Entity.Keys![0];
+                    if (TypesDatabaseConfigurations.TryGetValue(key.Type,
                         out var databaseConfiguration))
                     {
-                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, new NoxSimpleTypeDefinition
-                        {
-                            Type = keyType,
-                            Name = $"{relationshipToCreate.Relationship.Related.Entity.Name}Id",
-                            IsRequired = relationshipToCreate.Relationship.Relationship == EntityRelationshipType.ExactlyOne
-                        }, entity, false);
+                        var keyToBeConfigured = key.ShallowCopy();
+                        keyToBeConfigured.Name = $"{relationshipToCreate.Relationship.Related.Entity.Name}Id";
+                        keyToBeConfigured.Description = $"Foreign key for entity {relationshipToCreate.Relationship.Related.Entity.Name}";
+                        keyToBeConfigured.IsRequired = relationshipToCreate.Relationship.Relationship == EntityRelationshipType.ExactlyOne;
+                        keyToBeConfigured.IsReadonly = false;
+                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, keyToBeConfigured, entity, false);
                     }
                 }
 
