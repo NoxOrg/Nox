@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.OData;
-using Nox.Lib;
+using Nox.Middleware;
 
 namespace Nox
 {
