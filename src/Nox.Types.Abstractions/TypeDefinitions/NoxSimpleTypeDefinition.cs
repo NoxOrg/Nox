@@ -92,6 +92,9 @@ public class NoxSimpleTypeDefinition
     [IfEquals("Type", NoxType.Json)]
     public JsonTypeOptions? JsonTypeOptions { get; set; }
 
+    [IfEquals("Type", NoxType.Markdown)]
+    public MarkdownTypeOptions? MarkdownTypeOptions { get; set; }
+
     [IfEquals("Type", NoxType.Temperature)]
     public TemperatureTypeOptions? TemperatureTypeOptions { get; set; }
 

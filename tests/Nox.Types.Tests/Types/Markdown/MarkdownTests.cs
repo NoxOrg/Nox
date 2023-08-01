@@ -40,4 +40,24 @@ public class MarkdownTests
     {
         Markdown.From(markdown).ToHtml().Should().Be(html);
     }
+
+    [Fact]
+    public void MarkdownOptions_Constructor_ReturnsDefaults()
+    {
+        var textOptions = new MarkdownTypeOptions();
+
+        textOptions.IsUnicode.Should().BeTrue();
+        textOptions.MinLength.Should().Be(0u);
+        textOptions.MaxLength.Should().Be(255u);
+    }
+
+    [Fact]
+    public void Markdown_Constructor_SpecifyingMaxLength_WithLongerLengthInput_ThrowsValidationException()
+    {
+        var testString = "long text";
+
+        Assert.Throws<TypeValidationException>(() => _ =
+            Text.From(testString, new TextTypeOptions { MaxLength = 3 })
+        );
+    }
 }
