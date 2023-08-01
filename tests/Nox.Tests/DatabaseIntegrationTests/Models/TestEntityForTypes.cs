@@ -157,6 +157,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public EncryptedText? EncryptedTextTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public DateTimeDuration? DateTimeDurationTestField { get; set; } = null!;
 
     /// <summary>

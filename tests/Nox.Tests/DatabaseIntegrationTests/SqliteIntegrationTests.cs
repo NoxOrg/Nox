@@ -93,6 +93,14 @@ public class SqliteIntegrationTests : SqliteTestBase
         var length = 314_598M;
         var persistLengthUnitAs = LengthTypeUnit.Meter;
 
+        using var aesAlgorithm = System.Security.Cryptography.Aes.Create();
+        var encryptedTextTypeOptions = new EncryptedTextTypeOptions
+        {
+            PublicKey = Convert.ToBase64String(aesAlgorithm.Key),
+            EncryptionAlgorithm = EncryptionAlgorithm.Aes,
+            Iv = Convert.ToBase64String(aesAlgorithm.IV)
+        };
+
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
 
@@ -126,6 +134,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
             VatNumberTestField = VatNumber.From(vatNumberValue, vatNumberCountryCode2),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
+            EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
             DateTestField = Date.From(date),
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
             InternetDomainTestField = InternetDomain.From(internetDomain),
@@ -179,6 +188,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
         testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
+        testEntity.EncryptedTextTestField!.DecryptText(encryptedTextTypeOptions).Should().Be(text);
         testEntity.DateTestField!.Value.Should().Be(date);
         testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);
         testEntity.FileTestField!.Value.PrettyName.Should().Be(fileName);
