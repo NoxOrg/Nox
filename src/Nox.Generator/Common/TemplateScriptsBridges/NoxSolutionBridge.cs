@@ -15,11 +15,5 @@ internal static class NoxSolutionBridge
             NoxType>(noxSolution.GetSimpleKeyTypeForEntity));
 
         context.PushGlobal(scriptObject1);
-
-        var scriptObject2 = new ScriptObject();
-        scriptObject2.Import("ShouldGenerateSpecialRelationshipLogicOnThisSide", new Func<EntityRelationship, bool>(
-            noxSolution.ShouldGenerateSpecialRelationshipLogicOnThisSide));
-
-        context.PushGlobal(scriptObject2);
     }
 }

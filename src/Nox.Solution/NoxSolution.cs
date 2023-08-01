@@ -32,15 +32,14 @@ public class NoxSolution : Solution
             fullRelationshipModels.Add(new EntityRelationshipWithType
             {
                 Relationship = relationship,
-                RelationshipEntityType = getTypeByNameFunc(relationship.Entity)!,
-                ShouldGenerateSpecialRelationshipLogicOnThisSide = ShouldGenerateSpecialRelationshipLogicOnThisSide(relationship)
+                RelationshipEntityType = getTypeByNameFunc(relationship.Entity)!
             });
         }
 
         return fullRelationshipModels;
     }
 
-    public bool ShouldGenerateSpecialRelationshipLogicOnThisSide(EntityRelationship relationship)
+    public static bool ShouldGenerateForeignOnThisSide(EntityRelationship relationship)
     {
         var isIgnored = false;
 

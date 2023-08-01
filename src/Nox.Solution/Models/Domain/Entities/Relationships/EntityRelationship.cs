@@ -38,6 +38,10 @@ public class EntityRelationship : DefinitionBase
     [Description("This boolean controls whether this side of the relationship is exposed in the generated code and ODATA endpoints.")]
     public bool CanNavigate { get; internal set; } = true;
 
+    [Title("Determines whether this side of the relationship should contain contain a foreign key.")]
+    [Description("This boolean controls whether this side of the relationship should contain contain a foreign key.")]
+    public bool ShouldGenerateForeignOnThisSide => NoxSolution.ShouldGenerateForeignOnThisSide(this);
+
     [YamlIgnore]
     public RelatedEntityInfo Related { get; internal set; } = new();
 }

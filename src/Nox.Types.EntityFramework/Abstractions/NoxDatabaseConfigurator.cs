@@ -44,7 +44,7 @@ namespace Nox.Types.EntityFramework.Abstractions
         {
             ConfigureKeys(codeGeneratorState, builder, entity);
 
-            ConfigureAttributes(codeGeneratorState, builder, entity, relationshipsToCreate);
+            ConfigureAttributes(codeGeneratorState, builder, entity);
 
             ConfigureRelationships(codeGeneratorState, builder, entity, relationshipsToCreate);
         }
@@ -55,18 +55,35 @@ namespace Nox.Types.EntityFramework.Abstractions
             Entity entity,
             IReadOnlyList<EntityRelationshipWithType> relationshipsToCreate)
         {
+#pragma warning disable S3267 // Loops should be simplified with "LINQ" expressions
             foreach (var relationshipToCreate in relationshipsToCreate)
+#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
             {
                 // ManyToMany does not need to be handled
                 // Handle ZeroOrOne or ExactlyOne scenario with foreign key.
                 if ((relationshipToCreate.Relationship.Relationship == EntityRelationshipType.ExactlyOne ||
                     relationshipToCreate.Relationship.Relationship == EntityRelationshipType.ZeroOrOne) &&
-                    relationshipToCreate.ShouldGenerateSpecialRelationshipLogicOnThisSide)
+                    relationshipToCreate.Relationship.ShouldGenerateForeignOnThisSide)
                 {
                     builder
                         .HasOne(relationshipToCreate.Relationship.Entity)
                         .WithOne(entity.Name)
                         .HasForeignKey(relationshipToCreate.Relationship.Entity, $"{relationshipToCreate.Relationship.Entity}Id");
+
+                    // Setup one to one foreign key
+                    // TODO: copy key field parameters
+                    // Right now assuming that there is always one key present
+                    var keyType = relationshipToCreate.Relationship.Related.Entity.Keys![0].Type;
+                    if (TypesDatabaseConfigurations.TryGetValue(keyType,
+                        out var databaseConfiguration))
+                    {
+                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, new NoxSimpleTypeDefinition
+                        {
+                            Type = keyType,
+                            Name = $"{relationshipToCreate.Relationship.Related.Entity.Name}Id",
+                            IsRequired = relationshipToCreate.Relationship.Relationship == EntityRelationshipType.ExactlyOne
+                        }, entity, false);
+                    }
                 }
 
                 builder.Ignore(relationshipToCreate.Relationship.Name);
@@ -104,8 +121,7 @@ namespace Nox.Types.EntityFramework.Abstractions
         private void ConfigureAttributes(
             NoxSolutionCodeGeneratorState codeGeneratorState,
             EntityTypeBuilder builder,
-            Entity entity,
-            IReadOnlyList<EntityRelationshipWithType> relationshipsToCreate)
+            Entity entity)
         {
             if (entity.Attributes is { Count: > 0 })
             {
@@ -121,41 +137,6 @@ namespace Nox.Types.EntityFramework.Abstractions
                     {
                         Debug.WriteLine($"Type {property.Type} not found");
                     }
-                }
-            }
-
-            // Setup one to one foreign key
-            // TODO: copy key field parameters
-            var relationshipsThatExistOnCurrentEntity = relationshipsToCreate
-                .Where(x => x.Relationship
-                .Related
-                .EntityRelationship
-                .Related
-                .Entity
-                .Name.Equals(entity.Name, StringComparison.InvariantCulture))
-                .ToList();
-            foreach (var relationship in relationshipsThatExistOnCurrentEntity)
-            {
-                var isOneToOne =
-                    relationship.Relationship.Relationship == EntityRelationshipType.ExactlyOne ||
-                    relationship.Relationship.Relationship == EntityRelationshipType.ZeroOrOne;
-                if (!isOneToOne ||
-                    !relationship.ShouldGenerateSpecialRelationshipLogicOnThisSide)
-                {
-                    continue;
-                }
-
-                // Right now assuming that there is always one key present
-                var keyType = relationship.Relationship.Related.Entity.Keys![0].Type;
-                if (TypesDatabaseConfigurations.TryGetValue(keyType,
-                    out var databaseConfiguration))
-                {
-                    databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, new NoxSimpleTypeDefinition
-                    {
-                        Type = keyType,
-                        Name = $"{relationship.Relationship.Related.Entity.Name}Id",
-                        IsRequired = relationship.Relationship.Relationship == EntityRelationshipType.ExactlyOne
-                    }, entity, false);
                 }
             }
         }
