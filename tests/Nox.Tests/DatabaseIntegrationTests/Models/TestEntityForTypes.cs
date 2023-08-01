@@ -82,6 +82,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Distance? DistanceTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Email? EmailTestField { get; set; } = null!;
 
     /// <summary>

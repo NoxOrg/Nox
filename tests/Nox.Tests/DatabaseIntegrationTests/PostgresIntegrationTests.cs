@@ -12,7 +12,7 @@ namespace Nox.Tests.DatabaseIntegrationTests;
 
 public class PostgresIntegrationTests : PostgresTestBase
 {
-    //[Fact]
+    [Fact]
     public void GeneratedEntity_SqlServer_CanSaveAndReadFields_AllTypes()
     {
         // TODO:
@@ -87,6 +87,8 @@ public class PostgresIntegrationTests : PostgresTestBase
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
 
+        var distance = 80.481727;
+        var persistDistanceUnitAs = DistanceTypeUnit.Kilometer;
 
         var newItem = new TestEntityForTypes()
         {
@@ -116,6 +118,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             DateTestField = Date.From(date),
+            DistanceTestField = Distance.From(distance, new DistanceTypeOptions() { Units = DistanceTypeUnit.Mile, PersistAs = persistDistanceUnitAs }),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -162,5 +165,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
         testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
         testEntity.DateTestField!.Value.Should().Be(date);
+        testEntity.DistanceTestField!.ToMiles().Should().Be(distance);
+        testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
     }
 }
