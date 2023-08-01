@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230801100420_InitialCreate")]
+    [Migration("20230801141743_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -394,8 +394,7 @@ namespace SampleWebApp.Migrations
                                 .IsRequired()
                                 .HasMaxLength(64)
                                 .IsUnicode(false)
-                                .HasColumnType("char(64)")
-                                .IsFixedLength();
+                                .HasColumnType("varchar(64)");
 
                             b1.HasKey("AllNoxTypeId");
 

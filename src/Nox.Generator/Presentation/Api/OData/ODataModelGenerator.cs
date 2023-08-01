@@ -131,6 +131,9 @@ internal static class ODataModelGenerator
 
     private static void GenerateProperty(CodeBuilder code, NoxSimpleTypeDefinition attribute, bool forceRequired = false)
     {
+        if (attribute.Type == NoxType.Formula)
+            return;
+
         var fields = GetNoxTypeInformation(attribute.Type, attribute);
 
         foreach (var (FieldName, FieldType) in fields)
