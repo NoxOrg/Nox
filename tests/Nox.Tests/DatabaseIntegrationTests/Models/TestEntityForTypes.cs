@@ -82,6 +82,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Nox.Types.DateTime? DateTimeTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Email? EmailTestField { get; set; } = null!;
 
     /// <summary>
@@ -153,7 +158,10 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public VatNumber? VatNumberTestField { get; set; } = null!;
-    
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Date? DateTestField { get; set; } = null!;
 
     /// <summary>

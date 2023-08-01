@@ -96,6 +96,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
 
+        var dateTime = System.DateTime.UtcNow;
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -128,6 +130,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
             InternetDomainTestField = InternetDomain.From(internetDomain),
             LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
+            DateTimeTestField = Types.DateTime.From(dateTime),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -182,6 +185,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.InternetDomainTestField!.Value.Should().Be(internetDomain);
         testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
         testEntity.LengthTestField!.ToFeet().Should().Be(length);
+        testEntity.DateTimeTestField!.Should().Be(newItem.DateTimeTestField);
     }
 
     [Fact]

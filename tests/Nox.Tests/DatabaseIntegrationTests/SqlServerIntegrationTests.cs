@@ -96,6 +96,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
 
         var length = 314_598M;
         var persistLengthUnitAs = LengthTypeUnit.Meter;
+        var dateTime = System.DateTime.UtcNow;
 
         var newItem = new TestEntityForTypes()
         {
@@ -129,6 +130,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
             InternetDomainTestField = InternetDomain.From(internetDomain),
             LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
+            DateTimeTestField = Types.DateTime.From(dateTime),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -184,6 +186,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.InternetDomainTestField!.Value.Should().BeEquivalentTo(internetDomain);
         testEntity.LengthTestField!.ToFeet().Should().Be(length);
         testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
+        testEntity.DateTimeTestField!.Should().Be(newItem.DateTimeTestField);
     }
 
     //[Fact]
