@@ -72,14 +72,6 @@ public class SqliteIntegrationTests : SqliteTestBase
         var dateTimeDurationInHours = 30.5;
         var date = new DateOnly(2023, 7, 14);
 
-        using var aesAlgorithm = System.Security.Cryptography.Aes.Create();
-        var encryptedTextTypeOptions = new EncryptedTextTypeOptions
-        {
-            PublicKey = Convert.ToBase64String(aesAlgorithm.Key),
-            EncryptionAlgorithm = EncryptionAlgorithm.Aes,
-            Iv = Convert.ToBase64String(aesAlgorithm.IV)
-        };
-
         var addressJsonPretty = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { WriteIndented = true });
         var addressJsonMinified = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
         var boolean = true;
@@ -93,6 +85,14 @@ public class SqliteIntegrationTests : SqliteTestBase
     - County: Geneva
     - County: Lausanne
 ";
+
+        using var aesAlgorithm = System.Security.Cryptography.Aes.Create();
+        var encryptedTextTypeOptions = new EncryptedTextTypeOptions
+        {
+            PublicKey = Convert.ToBase64String(aesAlgorithm.Key),
+            EncryptionAlgorithm = EncryptionAlgorithm.Aes,
+            Iv = Convert.ToBase64String(aesAlgorithm.IV)
+        };
 
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
