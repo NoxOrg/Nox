@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.OData.Extensions;
 using Microsoft.AspNetCore.OData.Formatter.Serialization;
 using Microsoft.OData;
 
-namespace SampleWebApp;
+namespace Nox.Lib;
 
 public class NoxErrorSerializer : ODataErrorSerializer
 {

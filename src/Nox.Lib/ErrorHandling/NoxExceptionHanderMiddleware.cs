@@ -1,7 +1,8 @@
 ﻿using System.Net;
 using System.Text.Json;
+using Microsoft.AspNetCore.Http;
 
-namespace SampleWebApp;
+namespace Nox.Lib;
 
 public class NoxExceptionHanderMiddleware
 {

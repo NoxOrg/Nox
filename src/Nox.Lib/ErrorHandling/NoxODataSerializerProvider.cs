@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Formatter.Serialization;
 using Microsoft.OData;
 
-namespace SampleWebApp;
+namespace Nox.Lib;
 
 public class NoxODataSerializerProvider : ODataSerializerProvider
 {

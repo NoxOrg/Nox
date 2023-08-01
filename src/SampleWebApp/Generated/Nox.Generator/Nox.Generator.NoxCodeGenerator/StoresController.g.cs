@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
-using System;
 using SampleWebApp.Application;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;

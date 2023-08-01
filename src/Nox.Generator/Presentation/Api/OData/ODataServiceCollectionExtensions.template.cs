@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using Microsoft.AspNetCore.OData.Formatter.Serialization;
+using Nox.Lib;
 
 namespace {{codeGeneratorState.ODataNameSpace}};
 
