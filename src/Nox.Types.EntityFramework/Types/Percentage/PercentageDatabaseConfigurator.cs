@@ -16,7 +16,6 @@ public class PercentageDatabaseConfigurator : INoxTypeDatabaseConfigurator
         Entity entity,
         bool isKey)
     {
-        //Todo Default values from static property in the Nox.Type
         var typeOptions = property.PercentageTypeOptions ?? new PercentageTypeOptions();
 
         builder

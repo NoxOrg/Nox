@@ -68,6 +68,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
         var date = new DateOnly(2023, 7, 14);
+        var percentage = 0.5f;
         var fileName = "MyFile";
         var fileSizeInBytes = 1000000UL;
         var fileUrl = "https://example.com/myfile.pdf";
@@ -128,6 +129,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
+            PercentageTestField = Percentage.From(percentage),
             DateTestField = Date.From(date),
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
             InternetDomainTestField = InternetDomain.From(internetDomain),
@@ -178,6 +180,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
         testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
         testEntity.EncryptedTextTestField!.DecryptText(encryptedTextTypeOptions).Should().Be(text);
+        testEntity.PercentageTestField!.Value.Should().Be(percentage);
         testEntity.DateTestField!.Value.Should().Be(date);
         testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);
         testEntity.FileTestField!.Value.PrettyName.Should().Be(fileName);
