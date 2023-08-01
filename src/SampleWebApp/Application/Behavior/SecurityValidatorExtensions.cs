@@ -1,6 +1,6 @@
 ﻿using FluentValidation;
 
-namespace SampleWebApp.Application
+namespace SampleWebApp.Application.Behavior
 {
     public static class SecurityValidatorExtensions
     {

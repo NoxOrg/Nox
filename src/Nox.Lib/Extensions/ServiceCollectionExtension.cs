@@ -3,6 +3,7 @@ using MediatR;
 using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Application;
+using Nox.Application.Behaviors;
 using Nox.Secrets;
 using Nox.Secrets.Abstractions;
 using Nox.Solution;
@@ -29,7 +30,7 @@ public static class ServiceCollectionExtension
             .AddMediatR(cfg => { 
                 cfg.RegisterServicesFromAssembly(entryAssembly);
                 cfg.AddOpenBehavior(typeof(ValidatorBehavior<,>)); //Validation Extensibility
-                cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
+                cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));                
             });                    
     }
 

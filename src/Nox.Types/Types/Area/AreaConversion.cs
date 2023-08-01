@@ -4,12 +4,12 @@ using System.Collections.Generic;
 
 namespace Nox.Types;
 
-public class AreaConversion : MeasurementConversion<AreaUnit>
+internal class AreaConversion : MeasurementConversion<AreaUnit>
 {
     private static readonly Dictionary<(AreaUnit, AreaUnit), Func<QuantityValue, QuantityValue>> _definedAreaConversionFormulas = new()
     {
-        { (AreaUnit.SquareFoot,  AreaUnit.SquareMeter), (val) => val * 0.0929030399716017M },
-        { (AreaUnit.SquareMeter,  AreaUnit.SquareFoot), (val) => val * 10.76391042M },
+        { (AreaUnit.SquareFoot,  AreaUnit.SquareMeter), (val) => val * 0.0929030399716017m },
+        { (AreaUnit.SquareMeter,  AreaUnit.SquareFoot), (val) => val / 0.0929030399716017m },
     };
 
     protected override Dictionary<(AreaUnit, AreaUnit), Func<QuantityValue, QuantityValue>> DefinedConversionFormulas => _definedAreaConversionFormulas;

@@ -5,9 +5,9 @@ using Nox.Types.EntityFramework.Abstractions;
 
 namespace Nox.Types.EntityFramework.Types;
 
-public class AreaDatabaseConfigurator : INoxTypeDatabaseConfigurator
+public class LengthDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
-    public NoxType ForNoxType => NoxType.Area;
+    public NoxType ForNoxType => NoxType.Length;
     public virtual bool IsDefault => true;
 
     public void ConfigureEntityProperty(
@@ -17,21 +17,21 @@ public class AreaDatabaseConfigurator : INoxTypeDatabaseConfigurator
         Entity entity,
         bool isKey)
     {
-        var typeOptions = property.AreaTypeOptions ?? new AreaTypeOptions();
+        var typeOptions = property.LengthTypeOptions ?? new LengthTypeOptions();
 
         builder
             .Property(property.Name)
             .IsRequired(property.IsRequired)
             .IfNotNull(GetColumnType(typeOptions), b => b.HasColumnType(GetColumnType(typeOptions)))
-            .If(typeOptions.PersistAs == AreaTypeUnit.SquareFoot,
-                propertyToUpdate => propertyToUpdate.HasConversion<AreaToSquareFootConverter>())
-            .If(typeOptions.PersistAs == AreaTypeUnit.SquareMeter,
-                propertyToUpdate => propertyToUpdate.HasConversion<AreaToSquareMeterConverter>());
+            .If(typeOptions.PersistAs == LengthTypeUnit.Foot,
+                propertyToUpdate => propertyToUpdate.HasConversion<LengthToFootConverter>())
+            .If(typeOptions.PersistAs == LengthTypeUnit.Meter,
+                propertyToUpdate => propertyToUpdate.HasConversion<LengthToMeterConverter>());
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
 
-    public virtual string? GetColumnType(AreaTypeOptions typeOptions)
+    public virtual string? GetColumnType(LengthTypeOptions typeOptions)
     {
         return null;
     }

@@ -57,7 +57,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         };
         var languageCode = "en";
         var area = 198_090M;
-        var areaPersistUnitAs = AreaTypeUnit.SquareMeter;
+        var persistAreaUnitAs = AreaTypeUnit.SquareMeter;
         var cultureCode = "de-CH";
         var macAddress = "A1B2C3D4E5F6";
         var password = "Test123.";
@@ -85,6 +85,17 @@ public class SqliteIntegrationTests : SqliteTestBase
 ";
         var internetDomain = "nox.org";
 
+        var length = 314_598M;
+        var persistLengthUnitAs = LengthTypeUnit.Meter;
+
+        using var aesAlgorithm = System.Security.Cryptography.Aes.Create();
+        var encryptedTextTypeOptions = new EncryptedTextTypeOptions
+        {
+            PublicKey = Convert.ToBase64String(aesAlgorithm.Key),
+            EncryptionAlgorithm = EncryptionAlgorithm.Aes,
+            Iv = Convert.ToBase64String(aesAlgorithm.IV)
+        };
+
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
 
@@ -95,9 +106,11 @@ public class SqliteIntegrationTests : SqliteTestBase
             NumberTestField = Number.From(number),
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
-            AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = areaPersistUnitAs }),
+            AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = persistAreaUnitAs }),
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
+            IpAddressV4TestField = IpAddress.From("192.168.12.100"),
+            IpAddressV6TestField = IpAddress.From("2001:0db8:3c4d:0015:0000:0000:1a2f:1a2b"),
             LanguageCodeTestField = LanguageCode.From(languageCode),
             CultureCodeTestField = CultureCode.From(cultureCode),
             TranslatedTextTestField = TranslatedText.From((CultureCode.From("ur-PK"), "شادی مبارک")),
@@ -116,9 +129,11 @@ public class SqliteIntegrationTests : SqliteTestBase
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
             VatNumberTestField = VatNumber.From(vatNumberValue, vatNumberCountryCode2),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
+            EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
             DateTestField = Date.From(date),
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
             InternetDomainTestField = InternetDomain.From(internetDomain),
+            LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -138,8 +153,10 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
-        testEntity.AreaTestField!.Unit.Should().Be(areaPersistUnitAs);
+        testEntity.AreaTestField!.Unit.Should().Be(persistAreaUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
+        testEntity.IpAddressV4TestField!.Value.Should().Be("192.168.12.100");
+        testEntity.IpAddressV6TestField!.Value.Should().Be("2001:db8:3c4d:15::1a2f:1a2b");
         testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
         testEntity.TranslatedTextTestField!.Value.Phrase.Should().BeEquivalentTo("شادی مبارک");
@@ -166,11 +183,14 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
         testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
+        testEntity.EncryptedTextTestField!.DecryptText(encryptedTextTypeOptions).Should().Be(text);
         testEntity.DateTestField!.Value.Should().Be(date);
         testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);
         testEntity.FileTestField!.Value.PrettyName.Should().Be(fileName);
         testEntity.FileTestField!.Value.SizeInBytes.Should().Be(fileSizeInBytes);
         testEntity.InternetDomainTestField!.Value.Should().Be(internetDomain);
+        testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
+        testEntity.LengthTestField!.ToFeet().Should().Be(length);
     }
 
     [Fact]
