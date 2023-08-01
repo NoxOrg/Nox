@@ -17,10 +17,10 @@ internal class CountryDataSeeder : SampleDataSeederBase<CountryModel, Country>
         var entities = models.Select(x =>
             new Country
             {
-                Id = Text.From(x.Id.ToString()),
+                Id = Text.From(x.AlphaCode2),
                 AlphaCode2 = CountryCode2.From(x.AlphaCode2),
                 AlphaCode3 = CountryCode3.From(x.AlphaCode3),
-                AreaInSquareKilometres = Area.From(x.AreaInSquareKilometres,AreaTypeUnit.SquareMeter),
+                AreaInSquareKilometres = Area.From(x.AreaInSquareKilometres, AreaTypeUnit.SquareMeter),
                 Capital = Text.From(x.Capital),
                 Demonym = Text.From(x.Demonym),
                 DialingCodes = Text.From(x.DialingCodes),

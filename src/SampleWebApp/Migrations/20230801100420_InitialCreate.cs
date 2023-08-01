@@ -17,6 +17,8 @@ namespace SampleWebApp.Migrations
                 {
                     Id = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
                     TextField = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    VatNumberField_Number = table.Column<string>(type: "char(64)", unicode: false, fixedLength: true, maxLength: 64, nullable: false),
+                    VatNumberField_CountryCode2 = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
                     CountryCode2Field = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
                     CountryCode3Field = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -24,7 +26,8 @@ namespace SampleWebApp.Migrations
                     UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DeletedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Deleted = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -55,7 +58,8 @@ namespace SampleWebApp.Migrations
                     UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DeletedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Deleted = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -72,7 +76,8 @@ namespace SampleWebApp.Migrations
                     UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DeletedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Deleted = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -90,7 +95,8 @@ namespace SampleWebApp.Migrations
                     UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DeletedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Deleted = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -110,7 +116,8 @@ namespace SampleWebApp.Migrations
                     UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DeletedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Deleted = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -129,7 +136,8 @@ namespace SampleWebApp.Migrations
                     UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
                     UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     DeletedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Deleted = table.Column<bool>(type: "bit", nullable: true)
                 },
                 constraints: table =>
                 {

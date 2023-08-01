@@ -9,7 +9,7 @@ namespace Nox.Types;
 /// Represents a Nox <see cref="VatNumber"/> type and value object.
 /// </summary>
 /// <remarks>Placeholder, needs to be implemented</remarks>
-public sealed class VatNumber : ValueObject<(string VatNumberValue, CountryCode2 CountryCode), VatNumber>
+public sealed class VatNumber : ValueObject<(string Number, CountryCode2 CountryCode2), VatNumber>
 {
 
     #region VatNumber Regex
@@ -48,18 +48,18 @@ public sealed class VatNumber : ValueObject<(string VatNumberValue, CountryCode2
 
     #endregion
 
-    private VatNumberOptions _typeOptions = new();
+    private VatNumberTypeOptions _typeOptions = new();
 
-    public string VatNumberValue
+    public string Number
     {
-        get => Value.VatNumberValue;
-        private set => Value = (value, Value.CountryCode);
+        get => Value.Number;
+        private set => Value = (value, Value.CountryCode2);
     }
 
-    public CountryCode2 CountryCode
+    public CountryCode2 CountryCode2
     {
-        get => Value.CountryCode;
-        private set => Value = (Value.VatNumberValue, value);
+        get => Value.CountryCode2;
+        private set => Value = (Value.Number, value);
     }
 
     /// <summary>
@@ -76,7 +76,7 @@ public sealed class VatNumber : ValueObject<(string VatNumberValue, CountryCode2
     public static VatNumber From(string value, CountryCode2 countryCode) => 
         From((value, countryCode));
 
-    public static VatNumber From(string value, VatNumberOptions typeOptions) =>
+    public static VatNumber From(string value, VatNumberTypeOptions typeOptions) =>
         From(value, CountryCode2.From(typeOptions.CountryCode));
 
     public static VatNumber From(string value, string countryCode) =>
@@ -90,21 +90,21 @@ public sealed class VatNumber : ValueObject<(string VatNumberValue, CountryCode2
     {
         var result = base.Validate();
 
-        if (!_vatNumberRegex.ContainsKey(Value.CountryCode.ToString()))
+        if (!_vatNumberRegex.ContainsKey(Value.CountryCode2.ToString()))
         {
             result.Errors.Add(new ValidationFailure(
                 nameof(Value), 
-                $"Could not create a Nox VatNumber type with unsupported CountryCode '{Value.CountryCode}'."
+                $"Could not create a Nox VatNumber type with unsupported CountryCode '{Value.CountryCode2}'."
                 ));
             return result;
         }
 
-        var regex = _vatNumberRegex[Value.CountryCode.ToString()];
-        if (!Regex.IsMatch(Value.VatNumberValue, regex, RegexOptions.IgnoreCase))
+        var regex = _vatNumberRegex[Value.CountryCode2.ToString()];
+        if (!Regex.IsMatch(Value.Number, regex, RegexOptions.IgnoreCase))
         {
             result.Errors.Add(new ValidationFailure(
                 nameof(Value), 
-                $"Could not create a Nox VatNumber type with unsupported value '{Value.CountryCode}{Value.VatNumberValue}'."
+                $"Could not create a Nox VatNumber type with unsupported value '{Value.CountryCode2}{Value.Number}'."
                 ));
         }
 
@@ -116,6 +116,6 @@ public sealed class VatNumber : ValueObject<(string VatNumberValue, CountryCode2
     /// </summary>
     /// <returns>A string representation of the <see cref="VatNumber"/> object.</returns>
     public override string ToString()
-        => $"{Value.CountryCode}{Value.VatNumberValue}";
+        => $"{Value.CountryCode2}{Value.Number}";
 
 }

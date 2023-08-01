@@ -359,8 +359,8 @@ domain:
         - name: HashedTextTestField
           type: hashedText
 
-        #- name: InternetDomainTestField
-        #  type: internetDomain
+        - name: InternetDomainTestField
+          type: internetDomain
 
         #- name: IpAddressTestField
         #  type: ipAddress
@@ -368,8 +368,8 @@ domain:
         - name: JsonTestField
           type: json
 
-        #- name: LengthTestField
-        #  type: length
+        - name: LengthTestField
+          type: length
 
         - name: MacAddressTestField
           type: macAddress
@@ -420,5 +420,11 @@ domain:
         - name: DateTimeDurationTestField
           type: dateTimeDuration
 
+        - name: VatNumberTestField
+          type: vatNumber
+            
         - name: DateTestField
           type: date
+
+        - name: FileTestField
+          type: file
