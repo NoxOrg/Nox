@@ -9,6 +9,7 @@ using SampleWebApp.SeedData;
 using SampleWebApp.Application.Queries;
 using MediatR;
 using FluentValidation;
+using SampleWebApp.Application.Behavior;
 
 var builder = WebApplication.CreateBuilder(args);
 
