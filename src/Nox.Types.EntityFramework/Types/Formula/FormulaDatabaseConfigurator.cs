@@ -17,7 +17,7 @@ public class FormulaDatabaseConfigurator : INoxTypeDatabaseConfigurator
         Entity entity,
         bool isKey)
     {
-        builder.Ignore(nameof(Formula));
+        builder.Ignore(property.Name);
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key)
