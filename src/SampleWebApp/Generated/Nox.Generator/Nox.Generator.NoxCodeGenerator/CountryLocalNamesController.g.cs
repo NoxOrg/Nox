@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
+using MediatR;
 using SampleWebApp.Application;
+using SampleWebApp.Application.Queries;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 using SampleWebApp.Infrastructure.Persistence;
@@ -29,24 +31,32 @@ public partial class CountryLocalNamesController : ODataController
     /// </summary>
     protected readonly IMapper _mapper;
     
+    /// <summary>
+    /// The Mediator.
+    /// </summary>
+    protected readonly IMediator _mediator;
+    
     public CountryLocalNamesController(
         ODataDbContext databaseContext,
-        IMapper mapper
+        IMapper mapper,
+        IMediator mediator
     )
     {
         _databaseContext = databaseContext;
         _mapper = mapper;
+        _mediator = mediator;
     }
     
     [EnableQuery]
-    public ActionResult<IQueryable<CountryLocalNames>> Get()
+    public async  Task<ActionResult<IQueryable<OCountryLocalNames>>> Get()
     {
-        return Ok(_databaseContext.CountryLocalNames);
+        var result = await _mediator.Send(new GetCountryLocalNamesQuery());
+        return Ok(result);
     }
     
-    public ActionResult<CountryLocalNames> Get([FromRoute] String key)
+    public async Task<ActionResult<OCountryLocalNames>> Get([FromRoute] String key)
     {
-        var item = _databaseContext.CountryLocalNames.SingleOrDefault(d => d.Id.Equals(key));
+        var item = await _mediator.Send(new GetCountryLocalNamesByIdQuery(key));
         
         if (item == null)
         {

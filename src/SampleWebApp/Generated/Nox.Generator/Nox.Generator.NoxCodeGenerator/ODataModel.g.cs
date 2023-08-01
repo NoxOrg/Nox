@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using AutoMapper;
+using MediatR;
 using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
@@ -162,6 +163,44 @@ public class OStoreSecurityPasswords : SampleWebApp.Domain.AuditableEntityBase
 }
 
 /// <summary>
+/// Entity to test all nox types.
+/// </summary>
+[AutoMap(typeof(AllNoxTypeDto))]
+public class OAllNoxType : SampleWebApp.Domain.AuditableEntityBase
+{
+    
+    /// <summary>
+    /// The currency's primary key / identifier.
+    /// </summary>
+    public String Id { get; set; } = default!;
+    
+    /// <summary>
+    /// Text Nox Type.
+    /// </summary>
+    public String TextField { get; set; } = default!;
+    
+    /// <summary>
+    /// VatNumber Nox Type.
+    /// </summary>
+    public String VatNumberField_Number { get; set; } = default!;
+    
+    /// <summary>
+    /// VatNumber Nox Type.
+    /// </summary>
+    public String VatNumberField_CountryCode2 { get; set; } = default!;
+    
+    /// <summary>
+    /// CountryCode2 Nox Type.
+    /// </summary>
+    public String CountryCode2Field { get; set; } = default!;
+    
+    /// <summary>
+    /// CountryCode3 Nox Type.
+    /// </summary>
+    public String CountryCode3Field { get; set; } = default!;
+}
+
+/// <summary>
 /// The name of a country in other languages.
 /// </summary>
 [AutoMap(typeof(CountryLocalNamesDto))]
@@ -288,6 +327,38 @@ public class StoreSecurityPasswordsDto
 {
     public String Name { get; set; } = default!;
     public String SecurityCamerasPassword { get; set; } = default!;
+}
+
+/// <summary>
+/// Entity to test all nox types.
+/// </summary>
+public class AllNoxTypeDto
+{
+    
+    /// <summary>
+    /// Text Nox Type.
+    /// </summary>
+    public String TextField { get; set; } = default!;
+    
+    /// <summary>
+    /// VatNumber Nox Type.
+    /// </summary>
+    public String VatNumberField_Number { get; set; } = default!;
+    
+    /// <summary>
+    /// VatNumber Nox Type.
+    /// </summary>
+    public String VatNumberField_CountryCode2 { get; set; } = default!;
+    
+    /// <summary>
+    /// CountryCode2 Nox Type.
+    /// </summary>
+    public String CountryCode2Field { get; set; } = default!;
+    
+    /// <summary>
+    /// CountryCode3 Nox Type.
+    /// </summary>
+    public String CountryCode3Field { get; set; } = default!;
 }
 
 /// <summary>

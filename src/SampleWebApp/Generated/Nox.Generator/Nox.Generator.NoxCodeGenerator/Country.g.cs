@@ -32,12 +32,12 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     /// The country's official ISO 4217 alpha-3 code (Required).
     /// </summary>
-    public Text AlphaCode3 { get; set; } = null!;
+    public CountryCode3 AlphaCode3 { get; set; } = null!;
 
     /// <summary>
     /// The country's official ISO 4217 alpha-2 code (Required).
     /// </summary>
-    public Text AlphaCode2 { get; set; } = null!;
+    public CountryCode2 AlphaCode2 { get; set; } = null!;
 
     /// <summary>
     /// The country's official ISO 4217 alpha-3 code (Required).

@@ -37,4 +37,19 @@ public partial class AuditableEntityBase
     /// The user that deleted the entity.
     /// </summary>
     public string? DeletedBy { get; set; }
+
+    /// <summary>
+    /// Set the entity as deleted (Soft Deleted).
+    /// </summary>
+    public bool? Deleted { get; set; }
+
+    /// <summary>
+    /// Deletes the Entity
+    /// </summary>
+    public virtual void Delete()
+    {
+        Deleted = true;
+        DeletedAtUtc = DateTime.UtcNow;
+        // TODO DeletedBy
+    }
 }

@@ -1,4 +1,4 @@
-﻿#
+#
 # workplace.solution.nox.yaml
 #
 # yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
@@ -323,14 +323,14 @@ domain:
         - name: TimeZoneCodeTestField
           type: timeZoneCode
 
-        #- name: BooleanTestField
-        #  type: boolean
+        - name: BooleanTestField
+          type: boolean
 
         - name: CountryCode3TestField
           type: countryCode3
 
-        #- name: CountryNumberTestField
-        #  type: countryNumber
+        - name: CountryNumberTestField
+          type: countryNumber
 
         #- name: CurrencyCodeTestField
         #  type: currencyCode
@@ -347,8 +347,8 @@ domain:
         #- name: DistanceTestField
         #  type: distance
 
-        #- name: EmailTestField
-        #  type: email
+        - name: EmailTestField
+          type: email
 
         #- name: EncryptedTextTestField
         #  type: encryptedText
@@ -359,8 +359,8 @@ domain:
         - name: HashedTextTestField
           type: hashedText
 
-        #- name: InternetDomainTestField
-        #  type: internetDomain
+        - name: InternetDomainTestField
+          type: internetDomain
 
         #- name: IpAddressTestField
         #  type: ipAddress
@@ -368,8 +368,8 @@ domain:
         - name: JsonTestField
           type: json
 
-        #- name: LengthTestField
-        #  type: length
+        - name: LengthTestField
+          type: length
 
         - name: MacAddressTestField
           type: macAddress
@@ -389,8 +389,9 @@ domain:
         #- name: PhoneNumberTestField
         #  type: phoneNumber
 
-        #- name: TempratureTestField
-        #  type: temperature
+        - name: TempratureTestField
+          type: temperature
+  
 
         - name: TranslatedTextTestField
           type: translatedText
@@ -412,6 +413,18 @@ domain:
 
         - name: LanguageCodeTestField
           type: languageCode
+          
+        - name: YamlTestField
+          type: yaml
 
         - name: DateTimeDurationTestField
           type: dateTimeDuration
+
+        - name: VatNumberTestField
+          type: vatNumber
+            
+        - name: DateTestField
+          type: date
+
+        - name: FileTestField
+          type: file

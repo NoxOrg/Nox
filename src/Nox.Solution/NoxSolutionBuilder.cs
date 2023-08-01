@@ -16,7 +16,7 @@ namespace Nox.Solution
 {
     public class NoxSolutionBuilder
     {
-        private const string DesignFolderBestPractice = "Best practice is to create a '.nox' folder in your solution folder and in there a 'design' folder which contains your <solution-name>.solution.nox.yaml";
+        private const string DesignFolderBestPractice = "Best practice is to create a '.nox' folder in your project or solution folder and in there a 'design' folder which contains your <solution-name>.solution.nox.yaml.";
 
         private string? _yamlFilePath;
 
@@ -193,7 +193,18 @@ namespace Nox.Solution
 
             while (path != null)
             {
+                //Look for a git repo
                 if (path.GetDirectories(".git").Any())
+                {
+                    return path.FullName;
+                }
+                //Look for a mercurial repo
+                if (path.GetDirectories(".gh").Any())
+                {
+                    return path.FullName;
+                }
+                //look for a subversion repo
+                if (path.GetDirectories(".svn").Any())
                 {
                     return path.FullName;
                 }
@@ -240,7 +251,7 @@ namespace Nox.Solution
             designFolder = FindNoxDesignFolder(solutionRoot!);
             if (string.IsNullOrWhiteSpace(designFolder))
             {
-                throw new NoxSolutionConfigurationException($"Unable to locate a .nox/design folder in your solution folder ({solutionRoot}). Best practice is to create a '.nox' folder in your solution folder and in there a 'design' folder which contains your <solution-name>.solution.nox.yaml and supporting files.");
+                throw new NoxSolutionConfigurationException($"Unable to locate a .nox/design folder in your solution folder ({solutionRoot}). {DesignFolderBestPractice}");
             }
 
             rootYaml = FindSolutionYamlFile(designFolder!);

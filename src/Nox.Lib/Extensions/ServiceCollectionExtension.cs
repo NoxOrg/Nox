@@ -1,8 +1,8 @@
 using System.Reflection;
-using Microsoft.AspNetCore.Builder;
+using MediatR;
+using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Nox.Lib;
+using Nox.Application;
 using Nox.Secrets;
 using Nox.Secrets.Abstractions;
 using Nox.Solution;
@@ -21,10 +21,16 @@ public static class ServiceCollectionExtension
             .AddNoxTypesDatabaseConfigurator(entryAssembly)
             .AddAutoMapper(entryAssembly);
     }
-
-    private static IServiceCollection AddNoxMediatR(this IServiceCollection services, Assembly entryAssembly)
+    private static IServiceCollection AddNoxMediatR(
+        this IServiceCollection services,
+        Assembly entryAssembly)
     {
-        return services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(entryAssembly));
+        return services
+            .AddMediatR(cfg => { 
+                cfg.RegisterServicesFromAssembly(entryAssembly);
+                cfg.AddOpenBehavior(typeof(ValidatorBehavior<,>)); //Validation Extensibility
+                cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
+            });                    
     }
 
     private static NoxSolution CreateSolution(IServiceProvider serviceProvider)
@@ -33,7 +39,7 @@ public static class ServiceCollectionExtension
             .OnResolveSecrets((_, args) =>
             {
                 var secretsConfig = args.SecretsConfig;
-                var secretKeys = args.Variables;
+                var secretKeys =  args.Variables;
                 var resolver = serviceProvider.GetRequiredService<INoxSecretsResolver>();
                 resolver.Configure(secretsConfig!, Assembly.GetEntryAssembly());
                 args.Secrets = resolver.Resolve(secretKeys!);
@@ -41,21 +47,10 @@ public static class ServiceCollectionExtension
             .Build();
     }
 
-    internal static IServiceCollection AddSecretsResolver(this IServiceCollection services)
-    {
-        services.AddPersistedSecretStore();
-        services.TryAddSingleton<INoxSecretsResolver, NoxSecretsResolver>();
-        return services;
-    }
+    
 
-    internal static IServiceCollection AddPersistedSecretStore(this IServiceCollection services)
-    {
-        services.AddDataProtection();
-        services.AddSingleton<IPersistedSecretStore, PersistedSecretStore>();
-        return services;
-    }
-
-    private static IServiceCollection AddNoxTypesDatabaseConfigurator(this IServiceCollection services,
+    private static IServiceCollection AddNoxTypesDatabaseConfigurator(
+        this IServiceCollection services,
         Assembly entryAssembly)
     {
         var allAssemblies =
@@ -65,7 +60,7 @@ public static class ServiceCollectionExtension
         var noxAssemblies = allAssemblies
             .Where(a => a.Name != null && a.Name.StartsWith("Nox"))
             .Select(Assembly.Load)
-            .Union(new[] { Assembly.GetEntryAssembly()! });
+            .Union(new[]{Assembly.GetEntryAssembly()!});
 
         services.Scan(scan => scan
             .FromAssemblies(noxAssemblies)

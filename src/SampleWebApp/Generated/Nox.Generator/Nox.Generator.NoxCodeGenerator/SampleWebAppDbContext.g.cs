@@ -39,6 +39,8 @@ public partial class SampleWebAppDbContext : DbContext
 
     public DbSet<StoreSecurityPasswords> StoreSecurityPasswords { get; set; } = null!;
 
+    public DbSet<AllNoxType> AllNoxTypes { get; set; } = null!;
+
     public DbSet<CountryLocalNames> CountryLocalNames { get; set; } = null!;
 
 

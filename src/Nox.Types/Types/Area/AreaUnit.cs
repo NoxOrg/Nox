@@ -2,7 +2,7 @@
 
 namespace Nox.Types;
 
-public sealed class AreaUnit : MeasurementUnit
+internal sealed class AreaUnit : MeasurementUnit
 {
     public static readonly AreaUnit SquareMeter = new(1, "SquareMeter", "m²");
     public static readonly AreaUnit SquareFoot = new(2, "SquareFoot", "ft²");

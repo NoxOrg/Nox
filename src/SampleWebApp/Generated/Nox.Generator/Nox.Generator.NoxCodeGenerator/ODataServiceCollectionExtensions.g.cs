@@ -24,6 +24,8 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntitySet<OStoreSecurityPasswords>("StoreSecurityPasswords");
 
+        builder.EntitySet<OAllNoxType>("AllNoxTypes");
+
         builder.EntitySet<OCountryLocalNames>("CountryLocalNames");
 
         services.AddControllers()

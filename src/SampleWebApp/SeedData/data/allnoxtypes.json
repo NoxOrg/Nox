@@ -1,0 +1,23 @@
+[
+  {
+    "Id": "1",
+    "TextField": "Test text field 1",
+    "VatNumber": "44403198681",
+    "CountryCode2": "FR",
+    "CountryCode3": "FRA"
+  },
+  {
+    "Id": "2",
+    "TextField": "Test text field 2",
+    "VatNumber": "44403198682",
+    "CountryCode2": "FR",
+    "CountryCode3": "FRA"
+  },
+  {
+    "Id": "3",
+    "TextField": "Test text field 3",
+    "VatNumber": "44403198683",
+    "CountryCode2": "FR",
+    "CountryCode3": "FRA"
+  }
+]

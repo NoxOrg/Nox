@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230727151952_InitialCreate")]
+    [Migration("20230731162805_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -38,6 +38,57 @@ namespace SampleWebApp.Migrations
                     b.HasIndex("CurrenciesId");
 
                     b.ToTable("CountryCurrency");
+                });
+
+            modelBuilder.Entity("SampleWebApp.Domain.AllNoxType", b =>
+                {
+                    b.Property<string>("Id")
+                        .HasMaxLength(3)
+                        .IsUnicode(false)
+                        .HasColumnType("char(3)")
+                        .IsFixedLength();
+
+                    b.Property<string>("CountryCode2Field")
+                        .IsRequired()
+                        .HasMaxLength(2)
+                        .IsUnicode(false)
+                        .HasColumnType("char(2)")
+                        .IsFixedLength();
+
+                    b.Property<string>("CountryCode3Field")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .IsUnicode(false)
+                        .HasColumnType("char(3)")
+                        .IsFixedLength();
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TextField")
+                        .IsRequired()
+                        .HasMaxLength(63)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(63)");
+
+                    b.Property<DateTime?>("UpdatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AllNoxTypes");
                 });
 
             modelBuilder.Entity("SampleWebApp.Domain.Country", b =>
@@ -304,6 +355,39 @@ namespace SampleWebApp.Migrations
                         .WithMany()
                         .HasForeignKey("CurrenciesId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SampleWebApp.Domain.AllNoxType", b =>
+                {
+                    b.OwnsOne("Nox.Types.VatNumber", "VatNumberField", b1 =>
+                        {
+                            b1.Property<string>("AllNoxTypeId")
+                                .HasColumnType("char(3)");
+
+                            b1.Property<string>("CountryCode2")
+                                .IsRequired()
+                                .HasMaxLength(2)
+                                .IsUnicode(false)
+                                .HasColumnType("char(2)")
+                                .IsFixedLength();
+
+                            b1.Property<string>("Number")
+                                .IsRequired()
+                                .HasMaxLength(64)
+                                .IsUnicode(false)
+                                .HasColumnType("char(64)")
+                                .IsFixedLength();
+
+                            b1.HasKey("AllNoxTypeId");
+
+                            b1.ToTable("AllNoxTypes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AllNoxTypeId");
+                        });
+
+                    b.Navigation("VatNumberField")
                         .IsRequired();
                 });
 
