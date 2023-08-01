@@ -426,5 +426,8 @@ domain:
         - name: DateTestField
           type: date
 
+        - name: MarkdownTestField
+          type: markdown
+
         - name: FileTestField
           type: file

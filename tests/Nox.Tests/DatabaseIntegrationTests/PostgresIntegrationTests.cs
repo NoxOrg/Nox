@@ -1,4 +1,4 @@
-using FluentAssertions;
+﻿using FluentAssertions;
 
 using Nox.Types;
 
@@ -40,7 +40,6 @@ public class PostgresIntegrationTests : PostgresTestBase
         // json
         // time
         // translatedText
-        // markdown
         // jwtToken
 
         // TODO: commented types
@@ -117,6 +116,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             DateTestField = Date.From(date),
+            MarkdownTestField = Markdown.From(text),
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
             InternetDomainTestField = InternetDomain.From(internetDomain),
         };
@@ -168,6 +168,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);
         testEntity.FileTestField!.Value.PrettyName.Should().Be(fileName);
         testEntity.FileTestField!.Value.SizeInBytes.Should().Be(fileSizeInBytes);
+        testEntity.MarkdownTestField!.Value.Should().Be(text);
         testEntity.InternetDomainTestField!.Value.Should().Be(internetDomain);
     }
 }

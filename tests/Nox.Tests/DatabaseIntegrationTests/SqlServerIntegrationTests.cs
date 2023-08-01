@@ -124,6 +124,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             DateTestField = Date.From(date),
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
+            MarkdownTestField = Markdown.From(text),
             InternetDomainTestField = InternetDomain.From(internetDomain),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
@@ -177,6 +178,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);
         testEntity.FileTestField!.Value.PrettyName.Should().Be(fileName);
         testEntity.FileTestField!.Value.SizeInBytes.Should().Be(fileSizeInBytes);
+        testEntity.MarkdownTestField!.Value.Should().Be(text);
         testEntity.InternetDomainTestField!.Value.Should().BeEquivalentTo(internetDomain);
     }
 
