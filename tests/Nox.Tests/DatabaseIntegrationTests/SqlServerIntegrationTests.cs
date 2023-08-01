@@ -124,7 +124,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             PasswordTestField = Password.From(password),
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
-            DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours, new DateTimeDurationTypeOptions { MaxDuration = 100, TimeUnit = TimeUnit.Day }),
+            DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
             CurrencyNumberTestField = CurrencyNumber.From(currencyNumber),
             JsonTestField = Json.From(addressJsonPretty),
             BooleanTestField = Types.Boolean.From(boolean),
