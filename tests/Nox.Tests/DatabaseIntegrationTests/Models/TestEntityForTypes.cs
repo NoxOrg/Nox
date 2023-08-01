@@ -5,6 +5,7 @@
 using Nox.Types;
 using System;
 using System.Collections.Generic;
+using DayOfWeek = Nox.Types.DayOfWeek;
 
 namespace TestWebApp.Domain;
 
@@ -52,7 +53,7 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Nox.Types.DayOfWeek? DayOfWeekTestField { get; set; } = null!;
+    public DayOfWeek? DayOfWeekTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -93,6 +94,15 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public InternetDomain? InternetDomainTestField { get; set; } = null!;
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public IpAddress? IpAddressV4TestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public IpAddress? IpAddressV6TestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
