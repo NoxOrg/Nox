@@ -1,6 +1,6 @@
 ﻿namespace Nox.Types;
 
-public class VatNumberOptions : INoxTypeOptions
+public class VatNumberTypeOptions : INoxTypeOptions
 {
 
     private static readonly string DefaultCountryCode = "GB";

@@ -62,7 +62,7 @@ public class VatNumberTests
     {
         var vatNumberValue = "123456789";
 
-        var vatNumber = VatNumber.From(vatNumberValue, new VatNumberOptions());
+        var vatNumber = VatNumber.From(vatNumberValue, new VatNumberTypeOptions());
 
         vatNumber.Value.Should().Be((vatNumberValue, CountryCode2.From("GB")));
     }
@@ -74,7 +74,7 @@ public class VatNumberTests
 
         var vatNumber = VatNumber.From(
             vatNumberValue,
-            new VatNumberOptions { CountryCode = "DE" }
+            new VatNumberTypeOptions { CountryCode = "DE" }
             );
 
         vatNumber.Value.Should().Be((vatNumberValue, CountryCode2.From("DE")));

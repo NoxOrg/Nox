@@ -92,6 +92,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public InternetDomain? InternetDomainTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Json? JsonTestField { get; set; } = null!;
 
     /// <summary>
@@ -147,5 +152,12 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public VatNumber? VatNumberTestField { get; set; } = null!;
+    
     public Date? DateTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Nox.Types.File? FileTestField { get; set; } = null!;
 }

@@ -25,6 +25,13 @@ attributes:
       maxLength: 63
     isRequired: true
 
+  - name: VatNumberField
+    description: VatNumber Nox Type
+    type: vatNumber
+    vatNumberTypeOptions:
+        countryCode: "FR"
+    isRequired: true
+
   - name: CountryCode2Field
     description: CountryCode2 Nox Type
     type: countryCode2

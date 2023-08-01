@@ -9,7 +9,7 @@ namespace Nox.Tests.DatabaseIntegrationTests
     {
         private const string BasePath = "../../../DatabaseIntegrationTests/Models/";
 
-        //[Fact]
+        // [Fact]
         public void GenerateIntegrationTestModels()
         {
             var _fixture = new GeneratorFixture();
