@@ -9,7 +9,7 @@ namespace Nox.Types;
 /// </summary>
 public class Distance : ValueObject<QuantityValue, Distance>
 {
-    public const int QuantityValueDecimalPrecision = 6;
+    internal const int QuantityValueDecimalPrecision = 6;
 
     private DistanceTypeOptions _distanceTypeOptions = new();
     private DistanceUnit _distanceUnit = null!;
