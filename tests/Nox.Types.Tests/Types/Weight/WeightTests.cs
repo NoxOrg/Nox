@@ -1,6 +1,10 @@
 ﻿// ReSharper disable once CheckNamespace
 using FluentAssertions;
 using FluentAssertions.Execution;
+
+using Nox.Enums;
+using Nox.TypeOptions;
+
 using System.Globalization;
 
 namespace Nox.Types.Tests.Types;
@@ -8,39 +12,52 @@ namespace Nox.Types.Tests.Types;
 public class WeightTests
 {
     [Fact]
+    public void WeightTypeOptions_Constructor_ReturnsDefaultValues()
+    {
+        var typeOptions = new WeightTypeOptions();
+
+        typeOptions.MinValue.Should().Be(0);
+        typeOptions.MaxValue.Should().Be(999_999_999_999_999);
+        typeOptions.Units.Should().Be(WeightTypeUnit.Kilogram);
+        typeOptions.PersistAs.Should().Be(WeightTypeUnit.Kilogram);
+    }
+
+    [Fact]
     public void Weight_Constructor_ReturnsSameValueAndDefaultUnit()
     {
         var weight = Weight.From(104.55);
 
         weight.Value.Should().Be(104.55);
-        weight.Unit.Should().Be(WeightUnit.Kilogram);
+        weight.Unit.Should().Be(WeightTypeUnit.Kilogram);
     }
 
     [Fact]
     public void Weight_Constructor_WithUnit_ReturnsSameValueAndUnit()
     {
-        var weight = Weight.From(230.493295, WeightUnit.Pound);
+        var weight = Weight.From(230.493295, WeightTypeUnit.Pound);
 
         weight.Value.Should().Be(230.493295);
-        weight.Unit.Should().Be(WeightUnit.Pound);
+        weight.Unit.Should().Be(WeightTypeUnit.Pound);
     }
 
     [Fact]
-    public void Weight_Constructor_WithUnitInPounds_ReturnsSameValueAndUnit()
+    public void Distance_Constructor_SpecifyingMaxValue_WithGreaterValueInput_ThrowsException()
     {
-        var weight = Weight.FromPounds(230.493295);
+        var action = () => Weight.From(7.5, new WeightTypeOptions { MaxValue = 5, Units = WeightTypeUnit.Kilogram });
 
-        weight.Value.Should().Be(230.493295);
-        weight.Unit.Should().Be(WeightUnit.Pound);
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
+                "Could not create a Nox Weight type as value 7.5 kg is greater than the specified maximum of 5 kg.") });
     }
 
     [Fact]
-    public void Weight_Constructor_WithUnitInKilograms_ReturnsSameValueAndUnit()
+    public void Weight_Constructor_SpecifyingMinValue_WithLesserValueInput_ThrowsException()
     {
-        var weight = Weight.FromKilograms(104.55);
+        var action = () => Weight.From(7.5, new WeightTypeOptions { MinValue = 10, Units = WeightTypeUnit.Kilogram });
 
-        weight.Value.Should().Be(104.55);
-        weight.Unit.Should().Be(WeightUnit.Kilogram);
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
+                "Could not create a Nox Weight type as value 7.5 kg is lesser than the specified minimum of 10 kg.") });
     }
 
     [Fact]
@@ -83,7 +100,7 @@ public class WeightTests
     [Fact]
     public void Weight_ToKilograms_ReturnsValueInKilograms()
     {
-        var weight = Weight.FromKilograms(104.55);
+        var weight = Weight.From(104.55);
 
         weight.ToKilograms().Should().Be(104.55);
     }
@@ -91,7 +108,7 @@ public class WeightTests
     [Fact]
     public void Weight_ToPounds_ReturnsValueInPounds()
     {
-        var weight = Weight.FromKilograms(104.55);
+        var weight = Weight.From(104.55);
 
         weight.ToPounds().Should().Be(230.493295);
     }
@@ -103,7 +120,7 @@ public class WeightTests
     {
         void Test()
         {
-            var weight = Weight.FromKilograms(104.55);
+            var weight = Weight.From(104.55, WeightTypeUnit.Kilogram);
             weight.ToString().Should().Be("104.55 kg");
         }
 
@@ -117,7 +134,7 @@ public class WeightTests
     {
         void Test()
         {
-            var weight = Weight.FromKilograms(104.55);
+            var weight = Weight.From(104.55, WeightTypeUnit.Kilogram);
             weight.ToString(new CultureInfo(culture)).Should().Be(expected);
         }
 
@@ -131,7 +148,7 @@ public class WeightTests
     {
         void Test()
         {
-            var weight = Weight.FromPounds(230.493295);
+            var weight = Weight.From(230.493295, WeightTypeUnit.Pound);
             weight.ToString().Should().Be("230.493295 lb");
         }
 
@@ -145,7 +162,7 @@ public class WeightTests
     {
         void Test()
         {
-            var weight = Weight.FromPounds(230.493295);
+            var weight = Weight.From(230.493295, WeightTypeUnit.Pound);
             weight.ToString(new CultureInfo(culture)).Should().Be(expected);
         }
 
@@ -155,9 +172,9 @@ public class WeightTests
     [Fact]
     public void Weight_Equality_SpecifyingWeightUnit_WithSameUnit_Tests()
     {
-        var weight1 = Weight.FromKilograms(104.55);
+        var weight1 = Weight.From(104.55, WeightTypeUnit.Kilogram);
 
-        var weight2 = Weight.FromKilograms(104.55);
+        var weight2 = Weight.From(104.55, WeightTypeUnit.Kilogram);
 
         AssertAreEquivalent(weight1, weight2);
     }
@@ -165,9 +182,9 @@ public class WeightTests
     [Fact]
     public void Weight_Equality_SpecifyingWeightUnit_WithDifferentUnit_Tests()
     {
-        var weight1 = Weight.FromKilograms(104.55);
+        var weight1 = Weight.From(104.55, WeightTypeUnit.Kilogram);
 
-        var weight2 = Weight.FromPounds(230.493295);
+        var weight2 = Weight.From(230.493295, WeightTypeUnit.Pound);
 
         AssertAreEquivalent(weight1, weight2);
     }
@@ -175,9 +192,9 @@ public class WeightTests
     [Fact]
     public void Weight_NonEquality_SpecifyingWeightUnit_WithSameUnit_Tests()
     {
-        var weight1 = Weight.FromKilograms(104.55);
+        var weight1 = Weight.From(104.55, WeightTypeUnit.Kilogram);
 
-        var weight2 = Weight.FromKilograms(230.493295);
+        var weight2 = Weight.From(230.493295, WeightTypeUnit.Kilogram);
 
         AssertAreNotEquivalent(weight1, weight2);
     }
@@ -185,9 +202,9 @@ public class WeightTests
     [Fact]
     public void Weight_NonEquality_SpecifyingWeightUnit_WithDifferentUnit_Tests()
     {
-        var weight1 = Weight.FromKilograms(104.55);
+        var weight1 = Weight.From(104.55, WeightTypeUnit.Kilogram);
 
-        var weight2 = Weight.FromPounds(104.55);
+        var weight2 = Weight.From(104.55, WeightTypeUnit.Pound);
 
         AssertAreNotEquivalent(weight1, weight2);
     }
