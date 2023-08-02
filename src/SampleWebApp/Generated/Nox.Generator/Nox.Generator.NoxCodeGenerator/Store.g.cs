@@ -3,6 +3,7 @@
 #nullable enable
 
 using Nox.Types;
+using Nox.Domain;
 using System;
 using System.Collections.Generic;
 
@@ -28,4 +29,9 @@ public partial class Store : AuditableEntityBase
     /// Physical Money in the Physical Store (Required).
     /// </summary>
     public Money PhysicalMoney { get; set; } = null!;
+
+    /// <summary>
+    /// Store Set of passwords for this store ExactlyOne StoreSecurityPasswords
+    /// </summary>
+    public virtual StoreSecurityPasswords StoreSecurityPasswords { get; set; } = null!;
 }

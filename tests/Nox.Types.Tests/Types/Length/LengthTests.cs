@@ -1,5 +1,6 @@
 ﻿// ReSharper disable once CheckNamespace
 using FluentAssertions;
+using FluentAssertions.Execution;
 using System.Globalization;
 
 namespace Nox.Types.Tests.Types;
@@ -7,39 +8,52 @@ namespace Nox.Types.Tests.Types;
 public class LengthTests
 {
     [Fact]
+    public void LengthTypeOptions_Constructor_ReturnsDefaultValues()
+    {
+        var typeOptions = new LengthTypeOptions();
+
+        typeOptions.MinValue.Should().Be(0);
+        typeOptions.MaxValue.Should().Be(999_999_999_999_999);
+        typeOptions.Units.Should().Be(LengthTypeUnit.Meter);
+        typeOptions.PersistAs.Should().Be(LengthTypeUnit.Meter);
+    }
+
+    [Fact]
     public void Length_Constructor_ReturnsSameValueAndDefaultUnit()
     {
         var length = Length.From(95.755663);
 
         length.Value.Should().Be(95.755663);
-        length.Unit.Should().Be(LengthUnit.Meter);
+        length.Unit.Should().Be(LengthTypeUnit.Meter);
     }
 
     [Fact]
     public void Length_Constructor_WithUnit_ReturnsSameValueAndUnit()
     {
-        var length = Length.From(314.158999, LengthUnit.Foot);
+        var length = Length.From(314.158999, LengthTypeUnit.Foot);
 
         length.Value.Should().Be(314.158999);
-        length.Unit.Should().Be(LengthUnit.Foot);
+        length.Unit.Should().Be(LengthTypeUnit.Foot);
     }
 
     [Fact]
-    public void Length_Constructor_WithUnitInFeet_ReturnsSameValueAndUnit()
+    public void Length_Constructor_SpecifyingMaxValue_WithGreaterValueInput_ThrowsException()
     {
-        var length = Length.FromFeet(314.158999);
+        var action = () => Length.From(7.5, new LengthTypeOptions { MaxValue = 5, Units = LengthTypeUnit.Meter });
 
-        length.Value.Should().Be(314.158999);
-        length.Unit.Should().Be(LengthUnit.Foot);
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
+                "Could not create a Nox Length type as value 7.5 m is greater than the specified maximum of 5 m.") });
     }
 
     [Fact]
-    public void Length_Constructor_WithUnitInMeters_ReturnsSameValueAndUnit()
+    public void Length_Constructor_SpecifyingMinValue_WithLesserValueInput_ThrowsException()
     {
-        var length = Length.FromMeters(95.755663);
+        var action = () => Length.From(7.5, new LengthTypeOptions { MinValue = 10, Units = LengthTypeUnit.Meter });
 
-        length.Value.Should().Be(95.755663);
-        length.Unit.Should().Be(LengthUnit.Meter);
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", 
+                "Could not create a Nox Length type as value 7.5 m is lesser than the specified minimum of 10 m.") });
     }
 
     [Fact]
@@ -48,7 +62,8 @@ public class LengthTests
         var action = () => Length.From(-100);
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Length type as negative length value -100 is not allowed.") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
+                "Could not create a Nox Length type as negative length value -100 is not allowed.") });
     }
 
     [Fact]
@@ -57,7 +72,8 @@ public class LengthTests
         var action = () => Length.From(double.NaN);
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value NaN is not allowed.") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
+                "Could not create a Nox type as value NaN is not allowed.") });
     }
 
     [Fact]
@@ -67,7 +83,8 @@ public class LengthTests
 
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
+                "Could not create a Nox type as value Infinity is not allowed.") });
     }
 
     [Fact]
@@ -76,13 +93,14 @@ public class LengthTests
         var action = () => Length.From(double.NegativeInfinity);
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
+                "Could not create a Nox type as value Infinity is not allowed.") });
     }
 
     [Fact]
     public void Length_ToMeters_ReturnsValueInMeters()
     {
-        var length = Length.FromMeters(95.755663);
+        var length = Length.From(95.755663);
 
         length.ToMeters().Should().Be(95.755663);
     }
@@ -90,7 +108,7 @@ public class LengthTests
     [Fact]
     public void Length_ToFeet_ReturnsValueInFeet()
     {
-        var length = Length.FromMeters(95.755663);
+        var length = Length.From(95.755663);
 
         length.ToFeet().Should().Be(314.158999);
     }
@@ -102,7 +120,7 @@ public class LengthTests
     {
         void Test()
         {
-            var length = Length.FromMeters(95.755663);
+            var length = Length.From(95.755663, LengthTypeUnit.Meter);
             length.ToString().Should().Be("95.755663 m");
         }
 
@@ -116,7 +134,7 @@ public class LengthTests
     {
         void Test()
         {
-            var length = Length.FromMeters(95.755663);
+            var length = Length.From(95.755663, LengthTypeUnit.Meter);
             length.ToString(new CultureInfo(culture)).Should().Be(expected);
         }
 
@@ -130,7 +148,7 @@ public class LengthTests
     {
         void Test()
         {
-            var length = Length.FromFeet(314.158999);
+            var length = Length.From(314.158999, LengthTypeUnit.Foot);
             length.ToString().Should().Be("314.158999 ft");
         }
 
@@ -144,7 +162,7 @@ public class LengthTests
     {
         void Test()
         {
-            var length = Length.FromFeet(314.158999);
+            var length = Length.From(314.158999, LengthTypeUnit.Foot);
             length.ToString(new CultureInfo(culture)).Should().Be(expected);
         }
 
@@ -154,9 +172,9 @@ public class LengthTests
     [Fact]
     public void Length_Equality_SpecifyingLengthUnit_WithSameUnit_Tests()
     {
-        var length1 = Length.FromMeters(95.755663);
+        var length1 = Length.From(95.755663, LengthTypeUnit.Meter);
 
-        var length2 = Length.FromMeters(95.755663);
+        var length2 = Length.From(95.755663, LengthTypeUnit.Meter);
 
         AssertAreEquivalent(length1, length2);
     }
@@ -164,9 +182,9 @@ public class LengthTests
     [Fact]
     public void Length_Equality_SpecifyingLengthUnit_WithDifferentUnit_Tests()
     {
-        var length1 = Length.FromMeters(95.755663);
+        var length1 = Length.From(95.755663, LengthTypeUnit.Meter);
 
-        var length2 = Length.FromFeet(314.158999);
+        var length2 = Length.From(314.158999, LengthTypeUnit.Foot);
 
         AssertAreEquivalent(length1, length2);
     }
@@ -174,9 +192,9 @@ public class LengthTests
     [Fact]
     public void Length_NonEquality_SpecifyingLengthUnit_WithSameUnit_Tests()
     {
-        var length1 = Length.FromMeters(95.755663);
+        var length1 = Length.From(95.755663, LengthTypeUnit.Meter);
 
-        var length2 = Length.FromMeters(314.158999);
+        var length2 = Length.From(314.158999, LengthTypeUnit.Meter);
 
         AssertAreNotEquivalent(length1, length2);
     }
@@ -184,15 +202,17 @@ public class LengthTests
     [Fact]
     public void Length_NonEquality_SpecifyingLengthUnit_WithDifferentUnit_Tests()
     {
-        var length1 = Length.FromMeters(95.755663);
+        var length1 = Length.From(95.755663, LengthTypeUnit.Meter);
 
-        var length2 = Length.FromFeet(95.755663);
-
+        var length2 = Length.From(95.755663, LengthTypeUnit.Foot);
+        
         AssertAreNotEquivalent(length1, length2);
     }
 
     private static void AssertAreEquivalent(Length expected, Length actual)
     {
+        using var scope = new AssertionScope();
+
         actual.Should().Be(expected);
 
         expected.Equals(actual).Should().BeTrue();
@@ -206,6 +226,8 @@ public class LengthTests
 
     private static void AssertAreNotEquivalent(Length expected, Length actual)
     {
+        using var scope = new AssertionScope();
+
         actual.Should().NotBe(expected);
 
         expected.Equals(actual).Should().BeFalse();

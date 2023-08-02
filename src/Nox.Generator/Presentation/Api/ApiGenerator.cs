@@ -60,6 +60,7 @@ internal static class ApiGenerator
 
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace};");
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Queries;");
+            code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Commands;");
             code.AppendLine($"using {codeGeneratorState.DataTransferObjectsNameSpace};");
             code.AppendLine($"using {codeGeneratorState.DomainNameSpace};");
             code.AppendLine($"using {codeGeneratorState.PersistenceNameSpace};");
@@ -137,7 +138,7 @@ internal static class ApiGenerator
             if (entity.Persistence is null ||
                 entity.Persistence.Delete.IsEnabled)
             {
-                GenerateDelete(pluralName, variableName, keyName, code);
+                GenerateDelete(entityName, variableName, keyName, code);
             }
 
             // Generate GET request mapping for Queries
@@ -174,21 +175,20 @@ internal static class ApiGenerator
         }
     }
 
-    private static void GenerateDelete(string pluralName, string variableName, string keyName, CodeBuilder code)
+    private static void GenerateDelete(string entityName, string variableName, string keyName, CodeBuilder code)
     {
         // Method Delete
-        code.AppendLine($"public async Task<ActionResult> Delete([FromRoute] string {keyName})");
+        code.AppendLine($"public async Task<ActionResult> Delete([FromRoute] string key)");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"var {variableName} = await _databaseContext.{pluralName}.FindAsync({keyName});");
-        code.AppendLine($"if ({variableName} == null)");
+        code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand(key));");                
+
+        code.AppendLine($"if (!result)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
-        code.AppendLine();
-        code.AppendLine($"_databaseContext.{pluralName}.Remove({variableName});");
-        code.AppendLine($"await _databaseContext.SaveChangesAsync();");
+        code.AppendLine();        
         code.AppendLine($"return NoContent();");
 
         // End method
@@ -307,7 +307,7 @@ internal static class ApiGenerator
     private static void GeneratePost(string entityName, string pluralName, string variableName, string keyName, CodeBuilder code)
     {
         // Method Post
-        code.AppendLine($"public async Task<ActionResult> Post({entityName}Dto {variableName})");
+        code.AppendLine($"public async Task<ActionResult> Post([FromBody]{entityName}Dto {variableName})");
 
         // Method content
         code.StartBlock();

@@ -2,7 +2,7 @@
 using MediatR;
 using SampleWebApp.Application.Queries;
 
-namespace SampleWebApp.Application
+namespace SampleWebApp.Application.Behavior
 {
     public class GetStoreByIdSecurityValidator : AbstractValidator<GetStoreByIdQuery>
     {
@@ -12,7 +12,7 @@ namespace SampleWebApp.Application
             // TODO Get Stores that he can see.... 
 
             // Do Validation The current user can only see EUR Store
-            RuleFor(query => query.key).Must(key => key == "EUR").WithMessage("No permissions to access this store");            
+            RuleFor(query => query.key).Must(key => key == "EUR").WithMessage("No permissions to access this store");
         }
     }
 }

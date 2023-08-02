@@ -1,5 +1,7 @@
 using Nox;
 using Nox.Abstractions;
+using SampleWebApp;
+
 //Include this if you want to use Serilog for logging and elastic Apm for monitoring
 // using Nox.Logging.Serilog;
 // using Nox.Monitoring.ElasticApm;
@@ -9,6 +11,7 @@ using SampleWebApp.SeedData;
 using SampleWebApp.Application.Queries;
 using MediatR;
 using FluentValidation;
+using SampleWebApp.Application.Behavior;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -28,7 +31,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
 // ======================================================
 // SAMPLE WEB APP Extensions
 builder.Services
@@ -37,10 +39,6 @@ builder.Services
     .AddScoped<INoxMessenger, NoxMessenger>()
     .AddSecurityValidators();
 // ======================================================
-
-
-
-
 
 builder.AddSeedData();
 
@@ -58,7 +56,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
-
 app.UseNox();
 //Include this to use elastic Apm monitoring
 //app.UseNoxElasticMonitoring();

@@ -82,10 +82,11 @@ public string ToString(IFormatProvider formatProvider)
     return $"{Value.Latitude.ToString(formatProvider)} {Value.Longitude.ToString(formatProvider)}";
 }
 ```
+# Queries and Commands Extensability
 
-# Security And Other Validations Extension
+## Security And Other Validations
 
-To add security, or other business rule to generated queries our custom queries, add an IValidator for the query, example for securing GetStoreByIdquery
+To add security, or other business rule to generated queries, commands, orr custom queries, add an IValidator for the query, example for securing GetStoreByIdquery
 
 ```c#
  public class GetStoreByIdSecurityValidator : AbstractValidator<GetStoreByIdQuery>
@@ -105,6 +106,28 @@ The validator will be excuted before the request. Add the validator to the servi
 
 ```c#
 services.AddSingleton<IValidator<Queries.GetStoreByIdQuery>, GetStoreByIdSecurityValidator>();
+```
+
+## Queries Filter Extension
+
+To add extra filter to generated queries, for security or other purposes, add a new Pipeline behavior (see MediatR), filtering Get Stores example:
+
+```c#
+  public class GetStoresQuerySecurityFilter : IPipelineBehavior<GetStoresQuery, IQueryable<OStore>>
+    {
+        public async Task<IQueryable<OStore>> Handle(GetStoresQuery request, RequestHandlerDelegate<IQueryable<OStore>> next, CancellationToken cancellationToken)
+        {
+            var result = await next();
+
+            return result.Where(store => store.Id == "EUR");
+        }
+    }
+```
+
+and register in the container
+
+```c#
+services.AddScoped<IPipelineBehavior<GetStoresQuery, IQueryable<OStore>>, GetStoresQuerySecurityFilter> ()
 ```
 
 Response:

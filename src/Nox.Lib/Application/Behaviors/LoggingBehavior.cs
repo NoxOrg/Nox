@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using Nox.Extensions;
 
 
-namespace Nox.Application
+namespace Nox.Application.Behaviors
 {
     public class LoggingBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {

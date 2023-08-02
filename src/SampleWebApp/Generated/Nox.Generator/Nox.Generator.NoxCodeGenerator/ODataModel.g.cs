@@ -8,6 +8,7 @@ using Microsoft.OData.ModelBuilder;
 using AutoMapper;
 using MediatR;
 using Nox.Types;
+using Nox.Domain;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
@@ -16,7 +17,7 @@ namespace SampleWebApp.Presentation.Api.OData;
 /// The list of countries.
 /// </summary>
 [AutoMap(typeof(CountryDto))]
-public class OCountry : SampleWebApp.Domain.AuditableEntityBase
+public class OCountry : AuditableEntityBase
 {
     public String Id { get; set; } = default!;
     
@@ -93,14 +94,14 @@ public class OCountry : SampleWebApp.Domain.AuditableEntityBase
     /// <summary>
     /// accepts as legal tender.
     /// </summary>
-    public List<OCurrency> CountryAcceptsCurrency { get; set; } = null!;
+    public List<OCurrency> Currencies { get; set; } = null!;
 }
 
 /// <summary>
 /// The list of currencies.
 /// </summary>
 [AutoMap(typeof(CurrencyDto))]
-public class OCurrency : SampleWebApp.Domain.AuditableEntityBase
+public class OCurrency : AuditableEntityBase
 {
     
     /// <summary>
@@ -116,14 +117,14 @@ public class OCurrency : SampleWebApp.Domain.AuditableEntityBase
     /// <summary>
     /// is legal tender for.
     /// </summary>
-    public List<OCountry> CurrencyIsLegalTenderForCountry { get; set; } = null!;
+    public List<OCountry> Countries { get; set; } = null!;
 }
 
 /// <summary>
 /// Stores.
 /// </summary>
 [AutoMap(typeof(StoreDto))]
-public class OStore : SampleWebApp.Domain.AuditableEntityBase
+public class OStore : AuditableEntityBase
 {
     
     /// <summary>
@@ -145,13 +146,18 @@ public class OStore : SampleWebApp.Domain.AuditableEntityBase
     /// Physical Money in the Physical Store.
     /// </summary>
     public String PhysicalMoney_CurrencyCode { get; set; } = default!;
+    
+    /// <summary>
+    /// Set of passwords for this store.
+    /// </summary>
+    public OStoreSecurityPasswords StoreSecurityPasswords { get; set; } = null!;
 }
 
 /// <summary>
 /// A set of security passwords to store cameras and databases.
 /// </summary>
 [AutoMap(typeof(StoreSecurityPasswordsDto))]
-public class OStoreSecurityPasswords : SampleWebApp.Domain.AuditableEntityBase
+public class OStoreSecurityPasswords : AuditableEntityBase
 {
     
     /// <summary>
@@ -160,13 +166,20 @@ public class OStoreSecurityPasswords : SampleWebApp.Domain.AuditableEntityBase
     public String Id { get; set; } = default!;
     public String Name { get; set; } = default!;
     public String SecurityCamerasPassword { get; set; } = default!;
+    
+    /// <summary>
+    /// Store with this set of passwords.
+    /// </summary>
+    public OStore Store { get; set; } = null!;
+    
+    public String StoreId { get; set; } = null!;
 }
 
 /// <summary>
 /// Entity to test all nox types.
 /// </summary>
 [AutoMap(typeof(AllNoxTypeDto))]
-public class OAllNoxType : SampleWebApp.Domain.AuditableEntityBase
+public class OAllNoxType : AuditableEntityBase
 {
     
     /// <summary>
@@ -178,6 +191,16 @@ public class OAllNoxType : SampleWebApp.Domain.AuditableEntityBase
     /// Text Nox Type.
     /// </summary>
     public String TextField { get; set; } = default!;
+    
+    /// <summary>
+    /// VatNumber Nox Type.
+    /// </summary>
+    public String VatNumberField_Number { get; set; } = default!;
+    
+    /// <summary>
+    /// VatNumber Nox Type.
+    /// </summary>
+    public String VatNumberField_CountryCode2 { get; set; } = default!;
     
     /// <summary>
     /// CountryCode2 Nox Type.
@@ -194,7 +217,7 @@ public class OAllNoxType : SampleWebApp.Domain.AuditableEntityBase
 /// The name of a country in other languages.
 /// </summary>
 [AutoMap(typeof(CountryLocalNamesDto))]
-public class OCountryLocalNames : SampleWebApp.Domain.AuditableEntityBase
+public class OCountryLocalNames : AuditableEntityBase
 {
     public String Id { get; set; } = default!;
 }
@@ -329,6 +352,16 @@ public class AllNoxTypeDto
     /// Text Nox Type.
     /// </summary>
     public String TextField { get; set; } = default!;
+    
+    /// <summary>
+    /// VatNumber Nox Type.
+    /// </summary>
+    public String VatNumberField_Number { get; set; } = default!;
+    
+    /// <summary>
+    /// VatNumber Nox Type.
+    /// </summary>
+    public String VatNumberField_CountryCode2 { get; set; } = default!;
     
     /// <summary>
     /// CountryCode2 Nox Type.

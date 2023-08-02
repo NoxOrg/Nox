@@ -2,13 +2,8 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Nox.Extensions;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace Nox.Application
+namespace Nox.Application.Behaviors
 {
     public class ValidatorBehavior<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse> where TRequest : IRequest<TResponse>
     {
@@ -38,7 +33,7 @@ namespace Nox.Application
                 _logger.LogWarning("Validation errors - {Type} - Command: {@requests} - Errors: {@Errors}", typeName, request, failures);
 
                 throw new Exception(
-                    $"Validation Errors for {typeof(TRequest).Name}", new ValidationException(failures.First().ErrorMessage, failures));                
+                    $"Validation Errors for {typeof(TRequest).Name}", new ValidationException(failures.First().ErrorMessage, failures));
             }
 
             return await next();
