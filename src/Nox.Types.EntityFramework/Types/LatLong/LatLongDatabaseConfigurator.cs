@@ -38,9 +38,14 @@ public class LatLongDatabaseConfigurator : INoxTypeDatabaseConfigurator
         Entity entity,
         bool isKey)
     {
-        builder
-            .OwnsOne(typeof(LatLong), property.Name)
-            .Ignore(nameof(LatLong.Value));
+
+        builder.OwnsOne(typeof(LatLong), property.Name,
+            ba =>
+            {
+                ba.Ignore(nameof(LatLong.Value));
+                ba.Property(nameof(LatLong.Latitude)).HasPrecision(11, 9);
+                ba.Property(nameof(LatLong.Longitude)).HasPrecision(12, 9);
+            });
     }
 
     /// <summary>

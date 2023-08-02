@@ -79,8 +79,8 @@ public class SqliteIntegrationTests : SqliteTestBase
     - County: Geneva
     - County: Lausanne
 ";
-        var latitute = 47.3769;
-        var longitude = 8.5417;
+        var latitude = 47.3769343234;
+        var longitude = 8.5412875456;
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -106,7 +106,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
-            GeoCoordTestField = LatLong.From(latitute, longitude),
+            GeoCoordTestField = LatLong.From(latitude, longitude),
         };
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
@@ -147,7 +147,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.BooleanTestField!.Value.Should().Be(boolean);
         testEntity.EmailTestField!.Value.Should().Be(email);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
-        testEntity.GeoCoordTestField!.Latitude.Should().Be(latitute);
+        testEntity.GeoCoordTestField!.Latitude.Should().Be(latitude);
         testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
     }
 
