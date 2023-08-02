@@ -117,7 +117,7 @@ internal static class ODataModelGenerator
         bool isMany = relationship.Relationship == EntityRelationshipType.ZeroOrMany || relationship.Relationship == EntityRelationshipType.OneOrMany;
 
         var propType = isMany ? $"List<O{targetEntity}>" : $"O{targetEntity}";
-        var propName = relationship.Name;
+        var propName = isMany ? relationship.EntityPlural : targetEntity;
 
         var nullable = relationship.Relationship == EntityRelationshipType.ZeroOrOne ? "?" : string.Empty;
 
@@ -127,6 +127,17 @@ internal static class ODataModelGenerator
         }
 
         code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }} = null!;");
+
+        if (relationship.ShouldGenerateForeignOnThisSide)
+        {
+            code.AppendLine();
+            var entityName = $"{relationship.Related.Entity.Name}Id";
+            // Assuming that there is always one key
+            var key = relationship.Related.Entity.Keys![0];
+            var entityType = GetNoxTypeInformation(key.Type, key)[0].FieldType;
+            nullable = relationship.Relationship == EntityRelationshipType.ZeroOrOne ? "?" : string.Empty;
+            code.AppendLine($"public {entityType}{nullable} {entityName} {{ get; set; }} = null!;");
+        }
     }
 
     private static void GenerateProperty(CodeBuilder code, NoxSimpleTypeDefinition attribute, bool forceRequired = false)
