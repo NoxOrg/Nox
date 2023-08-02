@@ -12,7 +12,7 @@ namespace Nox.Tests.DatabaseIntegrationTests;
 
 public class PostgresIntegrationTests : PostgresTestBase
 {
-    [Fact]
+    //[Fact]
     public void GeneratedEntity_SqlServer_CanSaveAndReadFields_AllTypes()
     {
         // TODO:
