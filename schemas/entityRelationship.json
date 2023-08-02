@@ -55,8 +55,6 @@
       ]
     },
     "shouldGenerateForeignOnThisSide": {    
-      "title": "Determines whether this side of the relationship should contain contain a foreign key.",
-      "description": "This boolean controls whether this side of the relationship should contain contain a foreign key.",
       "type": [
         "boolean",
         "null"
