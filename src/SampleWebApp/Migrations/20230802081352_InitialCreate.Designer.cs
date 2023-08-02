@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230802073849_InitialCreate")]
+    [Migration("20230802081352_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -350,6 +350,13 @@ namespace SampleWebApp.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
 
+                    b.Property<string>("StoreId")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .IsUnicode(false)
+                        .HasColumnType("char(3)")
+                        .IsFixedLength();
+
                     b.Property<DateTime?>("UpdatedAtUtc")
                         .HasColumnType("datetime2");
 
@@ -357,6 +364,9 @@ namespace SampleWebApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StoreId")
+                        .IsUnique();
 
                     b.ToTable("StoreSecurityPasswords");
                 });
@@ -431,6 +441,23 @@ namespace SampleWebApp.Migrations
                         });
 
                     b.Navigation("PhysicalMoney")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SampleWebApp.Domain.StoreSecurityPasswords", b =>
+                {
+                    b.HasOne("SampleWebApp.Domain.Store", "Store")
+                        .WithOne("StoreSecurityPasswords")
+                        .HasForeignKey("SampleWebApp.Domain.StoreSecurityPasswords", "StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Store");
+                });
+
+            modelBuilder.Entity("SampleWebApp.Domain.Store", b =>
+                {
+                    b.Navigation("StoreSecurityPasswords")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

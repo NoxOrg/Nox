@@ -43,5 +43,5 @@ public partial class AllNoxType : AuditableEntityBase
     /// <summary>
     /// Formula Nox Type (Optional).
     /// </summary>
-    public Formula? FormulaField { get; set; } = null!;
+    public string? FormulaField => CountryCode2Field.ToString();
 }

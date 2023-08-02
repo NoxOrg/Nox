@@ -94,7 +94,7 @@ public class OCountry : AuditableEntityBase
     /// <summary>
     /// accepts as legal tender.
     /// </summary>
-    public List<OCurrency> CountryAcceptsCurrency { get; set; } = null!;
+    public List<OCurrency> Currencies { get; set; } = null!;
 }
 
 /// <summary>
@@ -117,7 +117,7 @@ public class OCurrency : AuditableEntityBase
     /// <summary>
     /// is legal tender for.
     /// </summary>
-    public List<OCountry> CurrencyIsLegalTenderForCountry { get; set; } = null!;
+    public List<OCountry> Countries { get; set; } = null!;
 }
 
 /// <summary>
@@ -146,6 +146,11 @@ public class OStore : AuditableEntityBase
     /// Physical Money in the Physical Store.
     /// </summary>
     public String PhysicalMoney_CurrencyCode { get; set; } = default!;
+    
+    /// <summary>
+    /// Set of passwords for this store.
+    /// </summary>
+    public OStoreSecurityPasswords StoreSecurityPasswords { get; set; } = null!;
 }
 
 /// <summary>
@@ -161,6 +166,13 @@ public class OStoreSecurityPasswords : AuditableEntityBase
     public String Id { get; set; } = default!;
     public String Name { get; set; } = default!;
     public String SecurityCamerasPassword { get; set; } = default!;
+    
+    /// <summary>
+    /// Store with this set of passwords.
+    /// </summary>
+    public OStore Store { get; set; } = null!;
+    
+    public String StoreId { get; set; } = null!;
 }
 
 /// <summary>
@@ -199,11 +211,6 @@ public class OAllNoxType : AuditableEntityBase
     /// CountryCode3 Nox Type.
     /// </summary>
     public String CountryCode3Field { get; set; } = default!;
-    
-    /// <summary>
-    /// Formula Nox Type.
-    /// </summary>
-    public String? FormulaField { get; set; } = default!;
 }
 
 /// <summary>
@@ -365,11 +372,6 @@ public class AllNoxTypeDto
     /// CountryCode3 Nox Type.
     /// </summary>
     public String CountryCode3Field { get; set; } = default!;
-    
-    /// <summary>
-    /// Formula Nox Type.
-    /// </summary>
-    public String? FormulaField { get; set; } = default!;
 }
 
 /// <summary>
