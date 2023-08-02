@@ -23,6 +23,7 @@ internal static class ByIdQueryGenerator
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Get{entity.Name}ByIdQuery")
                 .WithObject("entity", entity)
+                .WithObject("isVersioned", (entity.Persistence?.IsVersioned ?? true))
                 .GenerateSourceCodeFromResource(templateName);
 
         }

@@ -21,7 +21,7 @@ public class GetCountryByIdQueryHandler: IRequestHandler<GetCountryByIdQuery, OC
 
     public Task<OCountry?> Handle(GetCountryByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.Countries.SingleOrDefault(r => r.Id.Equals(request.key));
+        var item = DataDbContext.Countries.SingleOrDefault(r => !(r.Deleted == true) && r.Id.Equals(request.key));
         return Task.FromResult(item);
     }
 }

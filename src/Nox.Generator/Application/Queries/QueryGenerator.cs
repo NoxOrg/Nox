@@ -24,6 +24,7 @@ internal static class QueryGenerator
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Get{entity.PluralName}Query")
                 .WithObject("entity", entity)
+                .WithObject("isVersioned", (entity.Persistence?.IsVersioned ?? true))
                 .GenerateSourceCodeFromResource(templateName);
         }
     }

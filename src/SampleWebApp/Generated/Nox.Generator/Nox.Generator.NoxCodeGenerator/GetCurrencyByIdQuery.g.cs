@@ -21,7 +21,7 @@ public class GetCurrencyByIdQueryHandler: IRequestHandler<GetCurrencyByIdQuery, 
 
     public Task<OCurrency?> Handle(GetCurrencyByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.Currencies.SingleOrDefault(r => r.Id.Equals(request.key));
+        var item = DataDbContext.Currencies.SingleOrDefault(r => !(r.Deleted == true) && r.Id.Equals(request.key));
         return Task.FromResult(item);
     }
 }

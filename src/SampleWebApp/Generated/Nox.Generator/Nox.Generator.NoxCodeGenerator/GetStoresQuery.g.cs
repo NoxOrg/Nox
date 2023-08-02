@@ -21,6 +21,7 @@ public class GetStoresQueryHandler : IRequestHandler<GetStoresQuery, IQueryable<
 
     public Task<IQueryable<OStore>> Handle(GetStoresQuery request, CancellationToken cancellationToken)
     {
-        return Task.FromResult((IQueryable<OStore>)DataDbContext.Stores);
+        var item = (IQueryable<OStore>)DataDbContext.Stores.Where(r => !(r.Deleted == true));
+        return Task.FromResult(item);
     }
 }
