@@ -54,10 +54,8 @@ public class MarkdownTests
     [Fact]
     public void Markdown_Constructor_SpecifyingMaxLength_WithLongerLengthInput_ThrowsValidationException()
     {
-        var testString = "long text";
+        var fromAct = () => Text.From("long text", new TextTypeOptions { MaxLength = 3 });
 
-        Assert.Throws<TypeValidationException>(() => _ =
-            Text.From(testString, new TextTypeOptions { MaxLength = 3 })
-        );
+        fromAct.Should().Throw<TypeValidationException>();
     }
 }
