@@ -2,9 +2,9 @@
 using Nox.Generator.Common;
 using Nox.Solution;
 
-namespace Nox.Generator.Application.Queries;
+namespace Nox.Generator.Application.Commands;
 
-internal static class QueryGenerator
+internal static class DeleteByIdCommandGenerator
 {
     public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
@@ -15,18 +15,17 @@ internal static class QueryGenerator
             return;
         }
 
-        var templateName = @"Application.Queries.Query";
-
+        var templateName = @"Application.Commands.DeleteByIdCommand";        
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"Get{entity.PluralName}Queries")
-                .WithFileNamePrefix($"Queries")
+                .WithClassName($"Delete{entity.Name}ByIdCommand")
+                .WithFileNamePrefix($"Commands")
                 .WithObject("entity", entity)
-                .WithObject("isVersioned", (entity.Persistence?.IsVersioned ?? true))
                 .GenerateSourceCodeFromResource(templateName);
+
         }
     }
 }

@@ -4,7 +4,7 @@ using Nox.Solution;
 
 namespace Nox.Generator.Application.Commands;
 
-internal static class DeleteByIdGenerator
+internal static class CreateCommandGenerator
 {
     public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
@@ -15,13 +15,14 @@ internal static class DeleteByIdGenerator
             return;
         }
 
-        var templateName = @"Application.Commands.DeleteById";        
+        var templateName = @"Application.Commands.CreateCommand";        
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"Delete{entity.Name}ByIdCommand")
+                .WithClassName($"Create{entity.Name}Command")
+                .WithFileNamePrefix($"Commands")
                 .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource(templateName);
 
