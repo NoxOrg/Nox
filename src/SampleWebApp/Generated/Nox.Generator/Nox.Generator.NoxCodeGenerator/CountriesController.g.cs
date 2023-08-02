@@ -81,7 +81,7 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post(CountryDto country)
+    public async Task<ActionResult> Post([FromBody]CountryDto country)
     {
         if (!ModelState.IsValid)
         {

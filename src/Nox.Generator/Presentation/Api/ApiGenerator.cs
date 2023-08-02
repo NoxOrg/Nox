@@ -307,7 +307,7 @@ internal static class ApiGenerator
     private static void GeneratePost(string entityName, string pluralName, string variableName, string keyName, CodeBuilder code)
     {
         // Method Post
-        code.AppendLine($"public async Task<ActionResult> Post({entityName}Dto {variableName})");
+        code.AppendLine($"public async Task<ActionResult> Post([FromBody]{entityName}Dto {variableName})");
 
         // Method content
         code.StartBlock();

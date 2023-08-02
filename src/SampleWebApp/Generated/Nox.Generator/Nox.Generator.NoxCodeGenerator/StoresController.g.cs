@@ -67,7 +67,7 @@ public partial class StoresController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post(StoreDto store)
+    public async Task<ActionResult> Post([FromBody]StoreDto store)
     {
         if (!ModelState.IsValid)
         {

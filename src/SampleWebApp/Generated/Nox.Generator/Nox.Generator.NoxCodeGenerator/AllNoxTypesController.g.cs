@@ -67,7 +67,7 @@ public partial class AllNoxTypesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post(AllNoxTypeDto allnoxtype)
+    public async Task<ActionResult> Post([FromBody]AllNoxTypeDto allnoxtype)
     {
         if (!ModelState.IsValid)
         {

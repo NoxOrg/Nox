@@ -67,7 +67,7 @@ public partial class CountryLocalNamesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post(CountryLocalNamesDto countrylocalnames)
+    public async Task<ActionResult> Post([FromBody]CountryLocalNamesDto countrylocalnames)
     {
         if (!ModelState.IsValid)
         {
