@@ -391,8 +391,7 @@ namespace SampleWebApp.Migrations
                                 .IsRequired()
                                 .HasMaxLength(64)
                                 .IsUnicode(false)
-                                .HasColumnType("char(64)")
-                                .IsFixedLength();
+                                .HasColumnType("varchar(64)");
 
                             b1.HasKey("AllNoxTypeId");
 

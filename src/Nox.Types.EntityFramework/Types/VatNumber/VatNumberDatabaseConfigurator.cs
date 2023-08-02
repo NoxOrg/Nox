@@ -19,7 +19,6 @@ public class VatNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
                 x.Ignore(nameof(VatNumber.Value));
                 x.Property(nameof(VatNumber.Number))
                     .IsUnicode(false)
-                    .IsFixedLength()
                     .HasMaxLength(64);
                 x.Property(nameof(VatNumber.CountryCode2))
                     .HasConversion<CountryCode2Converter>()
