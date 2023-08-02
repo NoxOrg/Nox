@@ -1,13 +1,8 @@
 using FluentAssertions;
-
 using Microsoft.EntityFrameworkCore;
-
 using Nox.Types;
-
 using System.Text.Json;
-
 using TestWebApp.Domain;
-
 using DayOfWeek = Nox.Types.DayOfWeek;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
@@ -269,20 +264,24 @@ public class SqlServerIntegrationTests : SqlServerTestBase
     //[Fact]
     public void GeneratedRelationship_SqlServer_ExactlyOne_ExactlyOne()
     {
-        var text = "TX";
+        var text = "T1";
+        var textId1 = "T2";
+        var textId2 = "T3";
 
         var newItem = new TestEntityExactlyOne()
         {
-            Id = Text.From(text),
+            Id = Text.From(textId1),
             TextTestField = Text.From(text),
         };
         var newItem2 = new SecondTestEntityExactlyOne()
         {
-            Id = Text.From(text),
+            Id = Text.From(textId2),
             TextTestField2 = Text.From(text),
         };
 
         newItem.SecondTestEntityExactlyOne = newItem2;
+        newItem.SecondTestEntityExactlyOneId = newItem2.Id;
+        newItem2.TestEntityExactlyOne = newItem;
         DbContext.TestEntityExactlyOnes.Add(newItem);
         DbContext.SecondTestEntityExactlyOnes.Add(newItem2);
         DbContext.SaveChanges();
@@ -293,6 +292,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var testEntity = DbContext.TestEntityExactlyOnes.Include(x => x.SecondTestEntityExactlyOne).First();
         var secondTestEntity = DbContext.SecondTestEntityExactlyOnes.Include(x => x.TestEntityExactlyOne).First();
 
+        Assert.Equal(testEntity.Id.Value, textId1);
+        Assert.Equal(secondTestEntity.Id.Value, textId2);
         Assert.NotNull(testEntity.SecondTestEntityExactlyOne);
         Assert.NotNull(secondTestEntity.TestEntityExactlyOne);
     }

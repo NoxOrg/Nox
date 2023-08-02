@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Application.DtoGenerator;
 using Nox.Solution;
 using Nox.Types;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Nox.Generator.Common;
 

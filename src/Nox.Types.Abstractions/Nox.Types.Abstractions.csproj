@@ -27,6 +27,7 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="Nox.Types" />
+    <InternalsVisibleTo Include="Nox.Types.EntityFramework" />
     <InternalsVisibleTo Include="Nox.Types.Tests" />
     <InternalsVisibleTo Include="Nox.Solution" />
   </ItemGroup>
