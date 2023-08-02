@@ -39,7 +39,7 @@ public class NoxSolution : Solution
         return fullRelationshipModels;
     }
 
-    public static bool ShouldGenerateForeignOnThisSide(EntityRelationship relationship)
+    internal static bool ShouldGenerateForeignOnThisSide(EntityRelationship relationship)
     {
         var isIgnored = false;
 
