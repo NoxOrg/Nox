@@ -86,8 +86,17 @@ public class NoxSimpleTypeDefinition
     [IfEquals("Type", NoxType.Formula)]
     public FormulaTypeOptions? FormulaTypeOptions { get; set; }
 
+    [IfEquals("Type", NoxType.VatNumber)]
+    public VatNumberTypeOptions? VatNumberTypeOptions { get; set; }
+
     [IfEquals("Type", NoxType.Json)]
     public JsonTypeOptions? JsonTypeOptions { get; set; }
+
+    [IfEquals("Type", NoxType.Temperature)]
+    public TemperatureTypeOptions? TemperatureTypeOptions { get; set; }
+
+    [IfEquals("Type", NoxType.Length)]
+    public LengthTypeOptions? LengthTypeOptions { get; set; }
 
     #endregion TypeOptions
 

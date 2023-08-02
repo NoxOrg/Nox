@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using MediatR;
 using SampleWebApp.Application;
+using SampleWebApp.Application.Queries;
+using SampleWebApp.Application.Commands;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 using SampleWebApp.Infrastructure.Persistence;
@@ -65,7 +67,7 @@ public partial class CountryLocalNamesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post(CountryLocalNamesDto countrylocalnames)
+    public async Task<ActionResult> Post([FromBody]CountryLocalNamesDto countrylocalnames)
     {
         if (!ModelState.IsValid)
         {
@@ -156,16 +158,14 @@ public partial class CountryLocalNamesController : ODataController
         return _databaseContext.CountryLocalNames.Any(p => p.Id == countrylocalnames);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] string Id)
+    public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var countrylocalnames = await _databaseContext.CountryLocalNames.FindAsync(Id);
-        if (countrylocalnames == null)
+        var result = await _mediator.Send(new DeleteCountryLocalNamesByIdCommand(key));
+        if (!result)
         {
             return NotFound();
         }
         
-        _databaseContext.CountryLocalNames.Remove(countrylocalnames);
-        await _databaseContext.SaveChangesAsync();
         return NoContent();
     }
 }

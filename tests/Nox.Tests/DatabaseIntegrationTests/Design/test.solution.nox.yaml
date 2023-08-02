@@ -329,14 +329,14 @@ domain:
         - name: CountryCode3TestField
           type: countryCode3
 
-        #- name: CountryNumberTestField
-        #  type: countryNumber
+        - name: CountryNumberTestField
+          type: countryNumber
 
         #- name: CurrencyCodeTestField
         #  type: currencyCode
 
-        #- name: CurrencyNumberTestField
-        #  type: currencyNumber
+        - name: CurrencyNumberTestField
+          type: currencyNumber
 
         #- name: DateTimeTestField
         #  type: dateTime
@@ -350,8 +350,8 @@ domain:
         - name: EmailTestField
           type: email
 
-        #- name: EncryptedTextTestField
-        #  type: encryptedText
+        - name: EncryptedTextTestField
+          type: encryptedText
 
         #- name: GuidTestField
         #  type: guid
@@ -359,17 +359,20 @@ domain:
         - name: HashedTextTestField
           type: hashedText
 
-        #- name: InternetDomainTestField
-        #  type: internetDomain
+        - name: InternetDomainTestField
+          type: internetDomain
 
-        #- name: IpAddressTestField
-        #  type: ipAddress
+        - name: IpAddressV4TestField
+          type: ipAddress
+          
+        - name: IpAddressV6TestField
+          type: ipAddress
 
         - name: JsonTestField
           type: json
 
-        #- name: LengthTestField
-        #  type: length
+        - name: LengthTestField
+          type: length
 
         - name: MacAddressTestField
           type: macAddress
@@ -389,8 +392,9 @@ domain:
         #- name: PhoneNumberTestField
         #  type: phoneNumber
 
-        #- name: TempratureTestField
-        #  type: temperature
+        - name: TempratureTestField
+          type: temperature
+  
 
         - name: TranslatedTextTestField
           type: translatedText
@@ -418,3 +422,19 @@ domain:
 
         - name: DateTimeDurationTestField
           type: dateTimeDuration
+
+        - name: VatNumberTestField
+          type: vatNumber
+            
+        - name: DateTestField
+          type: date
+
+        - name: FileTestField
+          type: file
+
+        - name: FormulaTestField
+          type: formula
+          formulaTypeOptions:
+              expression: "2 + 2"
+              returns: int
+

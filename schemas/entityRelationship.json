@@ -54,6 +54,12 @@
         "null"
       ]
     },
+    "shouldGenerateForeignOnThisSide": {    
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
     "related": {    
       "type": [
         "object",

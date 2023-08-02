@@ -20,6 +20,7 @@ internal static class EntitiesGenerator
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName(entity.Name)
+                .WithFileNamePrefix($"Entities")
                 .WithObject("entity", entity)
                 .WithObject("isVersioned", (entity.Persistence?.IsVersioned ?? true))
                 .GenerateSourceCodeFromResource("Domain.ModelGenerator.Entity");

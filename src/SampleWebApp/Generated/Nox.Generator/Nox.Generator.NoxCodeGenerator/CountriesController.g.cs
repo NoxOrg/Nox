@@ -10,6 +10,8 @@ using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using MediatR;
 using SampleWebApp.Application;
+using SampleWebApp.Application.Queries;
+using SampleWebApp.Application.Commands;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 using SampleWebApp.Infrastructure.Persistence;
@@ -79,7 +81,7 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post(CountryDto country)
+    public async Task<ActionResult> Post([FromBody]CountryDto country)
     {
         if (!ModelState.IsValid)
         {
@@ -170,16 +172,14 @@ public partial class CountriesController : ODataController
         return _databaseContext.Countries.Any(p => p.Id == country);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] string Id)
+    public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var country = await _databaseContext.Countries.FindAsync(Id);
-        if (country == null)
+        var result = await _mediator.Send(new DeleteCountryByIdCommand(key));
+        if (!result)
         {
             return NotFound();
         }
         
-        _databaseContext.Countries.Remove(country);
-        await _databaseContext.SaveChangesAsync();
         return NoContent();
     }
     

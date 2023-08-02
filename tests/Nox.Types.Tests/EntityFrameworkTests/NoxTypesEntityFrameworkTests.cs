@@ -81,7 +81,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             LongestHikingTrailInMeters = Length.From(390_000),
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Flag = Image.From("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/320px-Flag_of_Switzerland.svg.png", "Switzerland Flag", 512),
-            Date = Date.From(new System.DateTime(2023, 11, 25), new()),
+            Date = Date.From(new DateOnly(2023, 11, 25), new()),
             StreetAddress = streetAddress,
             StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress)),
             LocalTimeZone = TimeZoneCode.From("CET"),
@@ -157,7 +157,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Uri = Uri.From(Sample_Uri),
             Url = Url.From(Sample_Url),
-            Date = Date.From(new System.DateTime(2023, 11, 25), new()),
+            Date = Date.From(new DateOnly(2023, 11, 25), new()),
             Flag = Image.From("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/320px-Flag_of_Switzerland.svg.png", "Switzerland Flag", 512),
             LocalTimeZone = TimeZoneCode.From("CET"),
             StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress, new JsonSerializerOptions { WriteIndented = true })),
@@ -170,7 +170,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             HashedText = HashedText.From(("Test123.", "salt")),
             CreateDate = DateTime.From(new System.DateTime(2023, 01, 01)),
             CurrentTime = Time.From(11,35,50,375),
-            AverageTemperatureInCelsius = Temperature.FromCelsius(25),
+            AverageTemperatureInCelsius = Temperature.From(25),
             Description = Markdown.From("This a **big country**."),
             PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
             CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
@@ -219,10 +219,10 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.DateTimeRange.Start.Should().Be(new System.DateTime(2023, 01, 01));
         item.DateTimeRange.End.Should().Be(new System.DateTime(2023, 02, 01));
         item.LongestHikingTrailInMeters.Value.Should().Be(390_000);
-        item.LongestHikingTrailInMeters.Unit.Should().Be(LengthUnit.Meter);
+        item.LongestHikingTrailInMeters.Unit.Should().Be(LengthTypeUnit.Meter);
         item.MACAddress.Value.Should().Be("AED4322CCFEF");
         item.CurrentTime.Value.Ticks.Should().Be(417503750000);
-        item.Date.Value.Should().Be(new System.DateTime(2023, 11, 25).Date);
+        item.Date.Value.Should().Be(new DateOnly(2023, 11, 25));
         item.LocalTimeZone.Value.Should().Be("CET");
         item.Uri.Value.AbsoluteUri.Should().Be(Sample_Uri);
         item.Url.Value.AbsoluteUri.Should().Be(Sample_Url);

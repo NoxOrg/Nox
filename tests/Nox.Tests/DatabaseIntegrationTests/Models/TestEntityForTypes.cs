@@ -3,6 +3,7 @@
 #nullable enable
 
 using Nox.Types;
+using Nox.Domain;
 using System;
 using System.Collections.Generic;
 
@@ -82,7 +83,22 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public CountryNumber? CountryNumberTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public CurrencyNumber? CurrencyNumberTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Email? EmailTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public EncryptedText? EncryptedTextTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -92,7 +108,27 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public InternetDomain? InternetDomainTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public IpAddress? IpAddressV4TestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public IpAddress? IpAddressV6TestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Json? JsonTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Length? LengthTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -108,6 +144,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public Password? PasswordTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Temperature? TempratureTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -133,4 +174,24 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public DateTimeDuration? DateTimeDurationTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public VatNumber? VatNumberTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Date? DateTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Nox.Types.File? FileTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public int? FormulaTestField => 2 + 2;
 }

@@ -21,6 +21,7 @@ using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using Nox.Generator.Application;
+using Nox.Generator.Application.Queries;
 
 namespace Nox.Generator;
 
@@ -70,19 +71,19 @@ public class NoxCodeGenerator : IIncrementalGenerator
                 {
                     EntityBaseGenerator.Generate(context, codeGeneratorState);
 
-                    AuditableEntityBaseGenerator.Generate(context, codeGeneratorState);
-
                     EntitiesGenerator.Generate(context, codeGeneratorState);
 
-                    Nox.Generator.Domain.Queries.QueryGenerator.Generate(context, codeGeneratorState);
+                    Application.Queries.QueryGenerator.Generate(context, codeGeneratorState);
+                    ByIdQueryGenerator.Generate(context, codeGeneratorState);
+                    Application.Commands.DeleteByIdGenerator.Generate(context, codeGeneratorState);
 
-                    Nox.Generator.Domain.Queries.ByIdQueryGenerator.Generate(context, codeGeneratorState);
+                    
 
                     DomainEventGenerator.Generate(context, codeGeneratorState);
                     
                     CommandGenerator.Generate(context, codeGeneratorState);
 
-                    QueryGenerator.Generate(context, codeGeneratorState);
+                    Domain.CqrsGenerators.QueryGenerator.Generate(context, codeGeneratorState);
                 }
 
                 if (generate.Infrastructure)

@@ -88,6 +88,17 @@ public class IpAddressTests
         Assert.Equal($"Could not create a Nox IP Address type as value {ipV6Value} is not a valid IP Address.", exception.Errors.First().ErrorMessage);
     }
 
+    [Fact]
+    public void IpAddress_Constructor_WithVeryLargeInvalidIPv6Value_ThrowsException()
+    {
+        var ipV6Value = "2001:0db8:85a3:00000:0000:8a2e:0370:7334:2001:0db8:85a3:00000:0000:8a2e:0370:7334";
+        var exception = Assert.Throws<TypeValidationException>(() => _ =
+            IpAddress.From(ipV6Value)
+        );
+
+        Assert.Equal($"Could not create a Nox IP Address type as value {ipV6Value} has more than 63 characters.", exception.Errors.First().ErrorMessage);
+    }
+
     [Theory]
     [InlineData("192.0.2.1")]
     [InlineData("2001:db8:85a3::8a2e:370:7334")]

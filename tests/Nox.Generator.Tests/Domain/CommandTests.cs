@@ -46,8 +46,7 @@ public class CommandTests : IClassFixture<GeneratorFixture>
         Assert.True(generatedSources.Any(s => s.HintName == "NoxWebApplicationExtensions.g.cs"), "NoxWebApplicationExtensions.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "Generator.g.cs"), "Generator.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "EntityBase.g.cs"), "EntityBase.g.cs not generated");
-        Assert.True(generatedSources.Any(s => s.HintName == "AuditableEntityBase.g.cs"), "AuditableEntityBase.g.cs not generated");
-        Assert.True(generatedSources.Any(s => s.HintName == "Country.g.cs"), "Country.g.cs not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == "Entities.Country.g.cs"), "Country.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "UpdatePopulationStatistics.g.cs"), "UpdatePopulationStatistics.g.cs not generated");
 
         var queryFileName = "UpdatePopulationStatisticsCommandHandlerBase.g.cs";

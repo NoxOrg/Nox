@@ -7,7 +7,7 @@ namespace Nox.Types.EntityFramework.Types;
 public class EncryptedTextDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
     public NoxType ForNoxType => NoxType.EncryptedText;
-    public virtual bool IsDefault => false;
+    public virtual bool IsDefault => true;
 
     public void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
