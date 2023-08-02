@@ -196,7 +196,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.InternetDomainTestField!.Value.Should().BeEquivalentTo(internetDomain);
         testEntity.LengthTestField!.ToFeet().Should().Be(length);
         testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
-        testEntity.JwtTokenTestField.Value.Should().Be(jwtToken);
+        testEntity.JwtTokenTestField!.Value.Should().Be(jwtToken);
     }
 
     //[Fact]

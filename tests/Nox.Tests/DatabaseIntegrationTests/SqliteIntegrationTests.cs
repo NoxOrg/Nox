@@ -151,7 +151,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         // TODO: make it work without .Value
         testEntity.Id.Value.Should().Be(countryCode2);
         testEntity.TextTestField.Value.Should().Be(text);
-        testEntity.NumberTestField.Value.Should().Be(12345);
+        testEntity.NumberTestField.Value.Should().Be(number);
         testEntity.MoneyTestField!.Value.Amount.Should().Be(money);
         testEntity.MoneyTestField.Value.CurrencyCode.Should().Be(currencyCode);
         testEntity.CountryCode2TestField!.Value.Should().Be(countryCode2);
@@ -195,7 +195,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.InternetDomainTestField!.Value.Should().Be(internetDomain);
         testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
         testEntity.LengthTestField!.ToFeet().Should().Be(length);
-        testEntity.JwtTokenTestField.Value.Should().Be(jwtToken);
+        testEntity.JwtTokenTestField!.Value.Should().Be(jwtToken);
     }
 
     [Fact]

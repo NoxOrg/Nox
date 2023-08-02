@@ -310,14 +310,11 @@ domain:
         - name: CurrencyCode3TestField
           type: currencyCode3
           
-          
         - name: DayOfWeekTestField
           type: dayOfWeek
 
-
         - name: JwtTokenTestField
           type: jwtToken
-          isRequired: true
 
         #- name: GeoCoordTestField
         #  type: latLong

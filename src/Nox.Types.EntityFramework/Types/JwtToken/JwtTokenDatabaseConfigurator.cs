@@ -4,7 +4,7 @@ using Nox.Types.EntityFramework.Abstractions;
 
 namespace Nox.Types.EntityFramework.Types;
 
-public class JwtDatabaseConfigurator : INoxTypeDatabaseConfigurator
+public class JwtTokenDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
     public NoxType ForNoxType => NoxType.JwtToken;
     public bool IsDefault => true;
