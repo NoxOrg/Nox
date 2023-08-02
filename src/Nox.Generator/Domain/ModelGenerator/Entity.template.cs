@@ -56,7 +56,11 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     /// <summary>
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
     /// </summary>
+    {{ if attribute.Type == "Formula" -}}
+    public {{attribute.FormulaTypeOptions.Returns}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}} => {{attribute.FormulaTypeOptions.Expression}};
+    {{- else -}}
     public {{attribute.Type}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } = null!;
+    {{- end}}
 {{- end }}
 {{- ######################################### Relationships###################################################### -}}
 {{- for relationship in entity.Relationships }}

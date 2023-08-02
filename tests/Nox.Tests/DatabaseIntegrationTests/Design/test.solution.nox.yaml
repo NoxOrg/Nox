@@ -431,3 +431,10 @@ domain:
 
         - name: FileTestField
           type: file
+
+        - name: FormulaTestField
+          type: formula
+          formulaTypeOptions:
+              expression: "2 + 2"
+              returns: int
+

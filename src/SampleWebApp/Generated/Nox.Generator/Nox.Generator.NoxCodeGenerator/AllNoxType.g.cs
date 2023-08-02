@@ -39,4 +39,9 @@ public partial class AllNoxType : AuditableEntityBase
     /// CountryCode3 Nox Type (Required).
     /// </summary>
     public CountryCode3 CountryCode3Field { get; set; } = null!;
+
+    /// <summary>
+    /// Formula Nox Type (Optional).
+    /// </summary>
+    public string? FormulaField => CountryCode2Field.ToString();
 }
