@@ -50,7 +50,7 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         Assert.True(generatedSources.Any(s => s.HintName == "EntityBase.g.cs"), "EntityBase.g.cs not generated");
         
         // check entities/queries/commands
-        Assert.True(generatedSources.Any(s => s.HintName == "Country.g.cs"), "Country.g.cs not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == "Entities.Country.g.cs"), "Country.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "UpdatePopulationStatistics.g.cs"), "UpdatePopulationStatistics.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "UpdatePopulationStatisticsCommandHandlerBase.g.cs"), "UpdatePopulationStatisticsCommandHandlerBase.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "CountryInfo.g.cs"), "CountryInfo.g.cs not generated");

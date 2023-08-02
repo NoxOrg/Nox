@@ -22,6 +22,7 @@ internal static class DeleteByIdGenerator
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Delete{entity.Name}ByIdCommand")
+                .WithFileNamePrefix($"Commands")
                 .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource(templateName);
 
