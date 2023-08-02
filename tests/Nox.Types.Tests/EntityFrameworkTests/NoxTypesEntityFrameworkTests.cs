@@ -219,7 +219,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.DateTimeRange.Start.Should().Be(new System.DateTime(2023, 01, 01));
         item.DateTimeRange.End.Should().Be(new System.DateTime(2023, 02, 01));
         item.LongestHikingTrailInMeters.Value.Should().Be(390_000);
-        item.LongestHikingTrailInMeters.Unit.Should().Be(LengthUnit.Meter);
+        item.LongestHikingTrailInMeters.Unit.Should().Be(LengthTypeUnit.Meter);
         item.MACAddress.Value.Should().Be("AED4322CCFEF");
         item.CurrentTime.Value.Ticks.Should().Be(417503750000);
         item.Date.Value.Should().Be(new DateOnly(2023, 11, 25));

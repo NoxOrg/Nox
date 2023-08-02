@@ -11,6 +11,7 @@ using AutoMapper;
 using MediatR;
 using SampleWebApp.Application;
 using SampleWebApp.Application.Queries;
+using SampleWebApp.Application.Commands;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 using SampleWebApp.Infrastructure.Persistence;
@@ -66,7 +67,7 @@ public partial class CurrenciesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post(CurrencyDto currency)
+    public async Task<ActionResult> Post([FromBody]CurrencyDto currency)
     {
         if (!ModelState.IsValid)
         {
@@ -157,16 +158,14 @@ public partial class CurrenciesController : ODataController
         return _databaseContext.Currencies.Any(p => p.Id == currency);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] string Id)
+    public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var currency = await _databaseContext.Currencies.FindAsync(Id);
-        if (currency == null)
+        var result = await _mediator.Send(new DeleteCurrencyByIdCommand(key));
+        if (!result)
         {
             return NotFound();
         }
         
-        _databaseContext.Currencies.Remove(currency);
-        await _databaseContext.SaveChangesAsync();
         return NoContent();
     }
 }

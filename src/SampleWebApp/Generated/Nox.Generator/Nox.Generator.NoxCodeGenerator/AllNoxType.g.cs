@@ -3,6 +3,7 @@
 #nullable enable
 
 using Nox.Types;
+using Nox.Domain;
 using System;
 using System.Collections.Generic;
 
@@ -25,6 +26,11 @@ public partial class AllNoxType : AuditableEntityBase
     public Text TextField { get; set; } = null!;
 
     /// <summary>
+    /// VatNumber Nox Type (Required).
+    /// </summary>
+    public VatNumber VatNumberField { get; set; } = null!;
+
+    /// <summary>
     /// CountryCode2 Nox Type (Required).
     /// </summary>
     public CountryCode2 CountryCode2Field { get; set; } = null!;
@@ -33,4 +39,9 @@ public partial class AllNoxType : AuditableEntityBase
     /// CountryCode3 Nox Type (Required).
     /// </summary>
     public CountryCode3 CountryCode3Field { get; set; } = null!;
+
+    /// <summary>
+    /// Formula Nox Type (Optional).
+    /// </summary>
+    public string? FormulaField => CountryCode2Field.ToString();
 }

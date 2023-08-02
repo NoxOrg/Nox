@@ -2,7 +2,6 @@
 {
     public class CountryModel
     {
-        public int Id { get; set; }
         public string AlphaCode2 { get; set; } = string.Empty;
         public string AlphaCode3 { get; set; } = string.Empty;
         public decimal AreaInSquareKilometres { get; set; }

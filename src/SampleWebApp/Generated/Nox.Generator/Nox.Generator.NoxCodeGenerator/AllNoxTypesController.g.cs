@@ -11,6 +11,7 @@ using AutoMapper;
 using MediatR;
 using SampleWebApp.Application;
 using SampleWebApp.Application.Queries;
+using SampleWebApp.Application.Commands;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 using SampleWebApp.Infrastructure.Persistence;
@@ -66,7 +67,7 @@ public partial class AllNoxTypesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post(AllNoxTypeDto allnoxtype)
+    public async Task<ActionResult> Post([FromBody]AllNoxTypeDto allnoxtype)
     {
         if (!ModelState.IsValid)
         {
@@ -157,16 +158,14 @@ public partial class AllNoxTypesController : ODataController
         return _databaseContext.AllNoxTypes.Any(p => p.Id == allnoxtype);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] string Id)
+    public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var allnoxtype = await _databaseContext.AllNoxTypes.FindAsync(Id);
-        if (allnoxtype == null)
+        var result = await _mediator.Send(new DeleteAllNoxTypeByIdCommand(key));
+        if (!result)
         {
             return NotFound();
         }
         
-        _databaseContext.AllNoxTypes.Remove(allnoxtype);
-        await _databaseContext.SaveChangesAsync();
         return NoContent();
     }
 }

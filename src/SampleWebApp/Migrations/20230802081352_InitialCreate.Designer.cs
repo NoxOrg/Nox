@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230731102818_InitialCreate")]
+    [Migration("20230802081352_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -67,6 +67,9 @@ namespace SampleWebApp.Migrations
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("Deleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
@@ -126,6 +129,9 @@ namespace SampleWebApp.Migrations
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("Deleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
@@ -209,6 +215,9 @@ namespace SampleWebApp.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("Deleted")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
 
@@ -239,6 +248,9 @@ namespace SampleWebApp.Migrations
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("Deleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
@@ -277,6 +289,9 @@ namespace SampleWebApp.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("Deleted")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
 
@@ -314,6 +329,9 @@ namespace SampleWebApp.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("Deleted")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
 
@@ -332,6 +350,13 @@ namespace SampleWebApp.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
 
+                    b.Property<string>("StoreId")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .IsUnicode(false)
+                        .HasColumnType("char(3)")
+                        .IsFixedLength();
+
                     b.Property<DateTime?>("UpdatedAtUtc")
                         .HasColumnType("datetime2");
 
@@ -339,6 +364,9 @@ namespace SampleWebApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StoreId")
+                        .IsUnique();
 
                     b.ToTable("StoreSecurityPasswords");
                 });
@@ -355,6 +383,38 @@ namespace SampleWebApp.Migrations
                         .WithMany()
                         .HasForeignKey("CurrenciesId")
                         .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SampleWebApp.Domain.AllNoxType", b =>
+                {
+                    b.OwnsOne("Nox.Types.VatNumber", "VatNumberField", b1 =>
+                        {
+                            b1.Property<string>("AllNoxTypeId")
+                                .HasColumnType("char(3)");
+
+                            b1.Property<string>("CountryCode2")
+                                .IsRequired()
+                                .HasMaxLength(2)
+                                .IsUnicode(false)
+                                .HasColumnType("char(2)")
+                                .IsFixedLength();
+
+                            b1.Property<string>("Number")
+                                .IsRequired()
+                                .HasMaxLength(64)
+                                .IsUnicode(false)
+                                .HasColumnType("varchar(64)");
+
+                            b1.HasKey("AllNoxTypeId");
+
+                            b1.ToTable("AllNoxTypes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AllNoxTypeId");
+                        });
+
+                    b.Navigation("VatNumberField")
                         .IsRequired();
                 });
 
@@ -381,6 +441,23 @@ namespace SampleWebApp.Migrations
                         });
 
                     b.Navigation("PhysicalMoney")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SampleWebApp.Domain.StoreSecurityPasswords", b =>
+                {
+                    b.HasOne("SampleWebApp.Domain.Store", "Store")
+                        .WithOne("StoreSecurityPasswords")
+                        .HasForeignKey("SampleWebApp.Domain.StoreSecurityPasswords", "StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Store");
+                });
+
+            modelBuilder.Entity("SampleWebApp.Domain.Store", b =>
+                {
+                    b.Navigation("StoreSecurityPasswords")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

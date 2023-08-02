@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.OData;
+using Nox.Lib;
 
 namespace Nox
 {
@@ -10,6 +11,7 @@ namespace Nox
 #if DEBUG
             builder.UseODataRouteDebug();
 #endif
+            builder.UseMiddleware<NoxExceptionHanderMiddleware>();
         }
     }
 }

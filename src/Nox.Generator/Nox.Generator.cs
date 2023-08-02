@@ -71,13 +71,13 @@ public class NoxCodeGenerator : IIncrementalGenerator
                 {
                     EntityBaseGenerator.Generate(context, codeGeneratorState);
 
-                    AuditableEntityBaseGenerator.Generate(context, codeGeneratorState);
-
                     EntitiesGenerator.Generate(context, codeGeneratorState);
 
                     Application.Queries.QueryGenerator.Generate(context, codeGeneratorState);
-
                     ByIdQueryGenerator.Generate(context, codeGeneratorState);
+                    Application.Commands.DeleteByIdGenerator.Generate(context, codeGeneratorState);
+
+                    
 
                     DomainEventGenerator.Generate(context, codeGeneratorState);
                     

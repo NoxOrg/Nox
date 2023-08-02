@@ -18,7 +18,7 @@ public class AreaDatabaseConfigurator : INoxTypeDatabaseConfigurator
         bool isKey)
     {
         var typeOptions = property.AreaTypeOptions ?? new AreaTypeOptions();
-        
+
         builder
             .Property(property.Name)
             .IsRequired(property.IsRequired)
@@ -30,7 +30,7 @@ public class AreaDatabaseConfigurator : INoxTypeDatabaseConfigurator
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
-    
+
     public virtual string? GetColumnType(AreaTypeOptions typeOptions)
     {
         return null;

@@ -187,9 +187,10 @@ namespace Nox.Solution
             return config;
         }
 
-        private string? FindSolutionRoot()
+        private string FindSolutionRoot()
         {
             var path = new DirectoryInfo(Directory.GetCurrentDirectory());
+            var startPath = path;
 
             while (path != null)
             {
@@ -211,7 +212,7 @@ namespace Nox.Solution
                 path = path.Parent;
             }
 
-            return null;
+            return startPath.FullName;
         }
 
         private string? FindNoxDesignFolder(string rootPath)

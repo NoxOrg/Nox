@@ -1,6 +1,5 @@
 [
   {
-    "Id": 1,
     "AlphaCode2": "ME",
     "AlphaCode3": "MNE",
     "AreaInSquareKilometres": 12346,
@@ -14,7 +13,6 @@
     "TopLevelDomains": "me"
   },
   {
-    "Id": 2,
     "AlphaCode2": "CZ",
     "AlphaCode3": "CZE",
     "AreaInSquareKilometres": 12347,
@@ -28,7 +26,6 @@
     "TopLevelDomains": "cz"
   },
   {
-    "Id": 3,
     "AlphaCode2": "BG",
     "AlphaCode3": "BGR",
     "AreaInSquareKilometres": 12348,
@@ -42,7 +39,6 @@
     "TopLevelDomains": "bg"
   },
   {
-    "Id": 4,
     "AlphaCode2": "AF",
     "AlphaCode3": "AFG",
     "AreaInSquareKilometres": 12349,
@@ -56,7 +52,6 @@
     "TopLevelDomains": "af"
   },
   {
-    "Id": 5,
     "AlphaCode2": "AL",
     "AlphaCode3": "ALB",
     "AreaInSquareKilometres": 12350,

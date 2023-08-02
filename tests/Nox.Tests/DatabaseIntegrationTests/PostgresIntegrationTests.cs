@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 
 using Nox.Types;
 
@@ -22,7 +22,6 @@ public class PostgresIntegrationTests : PostgresTestBase
         // databaseNumber
         // collection
         // entity
-        // file
         // formula
         // image
         // imagePng
@@ -67,8 +66,12 @@ public class PostgresIntegrationTests : PostgresTestBase
         var password = "Test123.";
         var dayOfWeek = 1;
         byte month = 7;
+        var currencyNumber = (short)970;
         var dateTimeDurationInHours = 30.5;
         var date = new DateOnly(2023, 7, 14);
+        var fileName = "MyFile";
+        var fileSizeInBytes = 1000000UL;
+        var fileUrl = "https://example.com/myfile.pdf";
 
         var addressJsonPretty = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { WriteIndented = true });
         var addressJsonMinified = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
@@ -84,8 +87,19 @@ public class PostgresIntegrationTests : PostgresTestBase
     - County: Lausanne
 ";
 
+        using var aesAlgorithm = System.Security.Cryptography.Aes.Create();
+        var encryptedTextTypeOptions = new EncryptedTextTypeOptions
+        {
+            PublicKey = Convert.ToBase64String(aesAlgorithm.Key),
+            EncryptionAlgorithm = EncryptionAlgorithm.Aes,
+            Iv = Convert.ToBase64String(aesAlgorithm.IV)
+        };
+
+        var internetDomain = "nox.org";
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
+        var length = 314_598M;
+        var persistLengthUnitAs = LengthTypeUnit.Meter;
 
         var distance = 80.481727;
         var persistDistanceUnitAs = DistanceTypeUnit.Kilometer;
@@ -111,13 +125,18 @@ public class PostgresIntegrationTests : PostgresTestBase
             PasswordTestField = Password.From(password),
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
+            CurrencyNumberTestField = CurrencyNumber.From(currencyNumber),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
             JsonTestField = Json.From(addressJsonPretty),
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
+            EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
             DateTestField = Date.From(date),
+            FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
+            InternetDomainTestField = InternetDomain.From(internetDomain),
+            LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
             DistanceTestField = Distance.From(distance, new DistanceTypeOptions() { Units = DistanceTypeUnit.Mile, PersistAs = persistDistanceUnitAs }),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
@@ -153,6 +172,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.PasswordTestField!.Salt.Should().Be(newItem.PasswordTestField.Salt);
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
         testEntity.MonthTestField!.Value.Should().Be(month);
+        testEntity.CurrencyNumberTestField!.Value.Should().Be(currencyNumber);
         testEntity.DateTimeDurationTestField!.TotalHours.Should().Be(dateTimeDurationInHours);
         testEntity.JsonTestField!.Value.Should().Be(addressJsonMinified);
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
@@ -164,7 +184,14 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
         testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
+        testEntity.EncryptedTextTestField!.DecryptText(encryptedTextTypeOptions).Should().Be(text);
         testEntity.DateTestField!.Value.Should().Be(date);
+        testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);
+        testEntity.FileTestField!.Value.PrettyName.Should().Be(fileName);
+        testEntity.FileTestField!.Value.SizeInBytes.Should().Be(fileSizeInBytes);
+        testEntity.InternetDomainTestField!.Value.Should().Be(internetDomain);
+        testEntity.LengthTestField!.ToFeet().Should().Be(length);
+        testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
         testEntity.DistanceTestField!.ToMiles().Should().Be(distance);
         testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
     }
