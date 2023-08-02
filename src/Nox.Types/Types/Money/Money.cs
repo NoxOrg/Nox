@@ -10,6 +10,9 @@ namespace Nox.Types;
 [Serializable]
 public class Money : ValueObject<(decimal Amount, CurrencyCode CurrencyCode), Money>
 {
+    private MoneyTypeOptions _typeOptions = new();
+
+
     public decimal Amount
     {
         get => Value.Amount;
@@ -21,10 +24,11 @@ public class Money : ValueObject<(decimal Amount, CurrencyCode CurrencyCode), Mo
         get => Value.CurrencyCode.ToString();
         private set => Value = (Value.Amount, (CurrencyCode)Enum.Parse(typeof(CurrencyCode),value));
     }
+
     /// <summary>
     /// Initializes a new instance of the <see cref="Money"/> class with default values.
     /// </summary>
-    public Money() { Value = (0, Types.CurrencyCode.USD); }
+    public Money() { }
 
     /// <summary>
     /// Creates a new instance of the <see cref="Money"/> class with the specified values.
@@ -34,6 +38,49 @@ public class Money : ValueObject<(decimal Amount, CurrencyCode CurrencyCode), Mo
     /// <returns>A new instance of the <see cref="Money"/> class.</returns>
     public static Money From(decimal value, CurrencyCode currencyCode) =>
             From( (value, currencyCode) );
+
+    public static Money From(decimal value, MoneyTypeOptions typeOptions)
+    {
+        return From(value, typeOptions.DefaultCurrency, typeOptions);
+    }
+
+    public static Money From(decimal value, CurrencyCode currencyCode, MoneyTypeOptions typeOptions)
+     {
+         var newObject = new Money
+         {
+             Value = (value, currencyCode),
+             _typeOptions = typeOptions
+         };
+
+         var validationResult = newObject.Validate();
+
+         if (!validationResult.IsValid)
+         {
+             throw new TypeValidationException(validationResult.Errors);
+         }
+
+         return newObject;
+     }
+
+    /// <summary>
+    /// Validates a <see cref="Money"/> object.
+    /// </summary>
+    /// <returns>true if the <see cref="Money"/> value is valid according to the default or specified <see cref="MoneyTypeOptions"/>.</returns>
+    internal override ValidationResult Validate()
+     {
+         var result = base.Validate();
+
+         if (Value.Amount < _typeOptions.MinValue)
+         {
+             result.Errors.Add(new ValidationFailure(nameof(Value), $"Money is invalid, Min Amount is {_typeOptions.MinValue} "));
+         }
+
+         if (Value.Amount > _typeOptions.MaxValue)
+         {
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Money is invalid, Max Amount is {_typeOptions.MaxValue} "));
+         }
+         return result;
+     }
 
     public override string ToString()
     {

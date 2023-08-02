@@ -25,8 +25,7 @@ public abstract class SqliteTestBase : IDisposable
         ServiceCollection services = new ServiceCollection();
         // TODO  add ...BuilderExtension.cs generated class and call AddNox when Nox supports dynamic db db providers
         // This will build dbcontext etc..
-        services.AddNoxLib(Assembly.GetExecutingAssembly()!);
-
+        services.AddNoxLib(Assembly.GetExecutingAssembly());
         _serviceProvider = services.BuildServiceProvider();
 
 #pragma warning disable S3457 // Composite format strings should be used correctly
@@ -60,7 +59,7 @@ public abstract class SqliteTestBase : IDisposable
         var options = new DbContextOptionsBuilder<TestWebAppDbContext>()
             .UseSqlite(connection)
             .Options;
-        var dbContext = new TestWebAppDbContext(options, solution, databaseConfigurator, Assembly.GetExecutingAssembly());
+        var dbContext = new TestWebAppDbContext(options, solution, databaseConfigurator, new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
         dbContext.Database.EnsureCreated();
         return dbContext;
     }

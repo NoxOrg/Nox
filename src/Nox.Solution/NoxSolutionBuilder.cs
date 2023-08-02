@@ -16,7 +16,7 @@ namespace Nox.Solution
 {
     public class NoxSolutionBuilder
     {
-        private const string DesignFolderBestPractice = "Best practice is to create a '.nox' folder in your solution folder and in there a 'design' folder which contains your <solution-name>.solution.nox.yaml";
+        private const string DesignFolderBestPractice = "Best practice is to create a '.nox' folder in your project or solution folder and in there a 'design' folder which contains your <solution-name>.solution.nox.yaml.";
 
         private string? _yamlFilePath;
 
@@ -24,8 +24,7 @@ namespace Nox.Solution
 
         private string? _rootFileAndContentKey; 
 
-        private IMacroParser _environmentVariableParser = new EnvironmentVariableMacroParser(new EnvironmentProvider());
-        private IMacroParser _secretParser = new SecretMacroParser();
+        private EnvironmentVariableValueProvider _environmentVariableValueProvider = new (new EnvironmentProvider());
 
         public delegate void ResolveSecretsEventHandler(object sender, INoxSolutionSecretsEventArgs args);
         public event ResolveSecretsEventHandler? OnResolveSecretsEvent;
@@ -45,15 +44,9 @@ namespace Nox.Solution
         }
 
 
-        public NoxSolutionBuilder UseEnvironmentMacroParser(EnvironmentVariableMacroParser parser)
+        public NoxSolutionBuilder UseEnvironmentProvider(IEnvironmentProvider provider)
         {
-            _environmentVariableParser = parser;
-            return this;
-        }
-
-        public NoxSolutionBuilder UseSecretMacroParser(SecretMacroParser parser)
-        {
-            _secretParser = parser;
+            _environmentVariableValueProvider = new EnvironmentVariableValueProvider(provider);
             return this;
         }
 
@@ -144,35 +137,82 @@ namespace Nox.Solution
 
         private NoxSolution ResolveAndLoadConfiguration()
         {
-            var resolver = new YamlReferenceResolver(_yamlFilesAndContent!, _rootFileAndContentKey!);
-            var yamlRef = resolver.ResolveReferences();
+            var yamlResolver = new YamlReferenceResolver(_yamlFilesAndContent!, _rootFileAndContentKey!);
 
-            var secretsConfig = GetSecretsConfig(yamlRef);
+            var yaml = yamlResolver.ResolveReferences();
+
+            var noxSolutionBasicsOnly = NoxSolutionBasicsOnlySerializer.Deserialize(yaml);
+
+            var secretsConfig = noxSolutionBasicsOnly.Infrastructure?.Security?.Secrets;
+
+            var variables = new Dictionary<string, string?>();
+
+            // Resolve Secrets
+            var secretVariables = yamlResolver.GetVariables("secrets");
+
+            if (secretVariables.Any())
+            {
+                if (secretsConfig is null)
+                {
+                    throw new NoxSolutionConfigurationException("The solution yaml references secrets but no secrets provider is defined in Infrastructure.Security.Secrets.");
+                }
+
+                var resolveSecretsArgs = new NoxSolutionSecretsEventArgs(secretsConfig, secretVariables);
+ 
+                OnResolveSecretsEvent?.Invoke(this, resolveSecretsArgs);
+
+                resolveSecretsArgs.Secrets?
+                    .ToList()
+                    .ForEach(kv => variables[kv.Key] = kv.Value);
+            }
+
+            // Resolve variables
+            var envVariables = yamlResolver.GetVariables("env");
             
-            var resolveSecretsArgs = new NoxSolutionSecretsEventArgs(yamlRef, secretsConfig);
-            RaiseResolveSecretsEvent(resolveSecretsArgs);
-            
-            var yaml = _secretParser.Parse(yamlRef, resolveSecretsArgs.Secrets);
-            yaml = ExpandEnvironmentMacros(yaml);
+            if (envVariables.Any())
+            {
+                _environmentVariableValueProvider.Resolve(envVariables, noxSolutionBasicsOnly.Variables)
+                    .ToList()
+                    .ForEach(kv => variables[kv.Key] = kv.Value);
+            }
+
+            // Replace Variables
+            yaml = yamlResolver.ResolveVariables(variables);
+
+            // Validate and deserialize
             var config = NoxSchemaValidator.Deserialize<NoxSolution>(yaml);
+
             config.RootYamlFile = _yamlFilePath;
+
             return config;
         }
 
-        private string? FindSolutionRoot()
+        private string FindSolutionRoot()
         {
             var path = new DirectoryInfo(Directory.GetCurrentDirectory());
+            var startPath = path;
 
             while (path != null)
             {
+                //Look for a git repo
                 if (path.GetDirectories(".git").Any())
+                {
+                    return path.FullName;
+                }
+                //Look for a mercurial repo
+                if (path.GetDirectories(".gh").Any())
+                {
+                    return path.FullName;
+                }
+                //look for a subversion repo
+                if (path.GetDirectories(".svn").Any())
                 {
                     return path.FullName;
                 }
                 path = path.Parent;
             }
 
-            return null;
+            return startPath.FullName;
         }
 
         private string? FindNoxDesignFolder(string rootPath)
@@ -212,7 +252,7 @@ namespace Nox.Solution
             designFolder = FindNoxDesignFolder(solutionRoot!);
             if (string.IsNullOrWhiteSpace(designFolder))
             {
-                throw new NoxSolutionConfigurationException($"Unable to locate a .nox/design folder in your solution folder ({solutionRoot}). Best practice is to create a '.nox' folder in your solution folder and in there a 'design' folder which contains your <solution-name>.solution.nox.yaml and supporting files.");
+                throw new NoxSolutionConfigurationException($"Unable to locate a .nox/design folder in your solution folder ({solutionRoot}). {DesignFolderBestPractice}");
             }
 
             rootYaml = FindSolutionYamlFile(designFolder!);
@@ -229,59 +269,6 @@ namespace Nox.Solution
                 throw new NoxSolutionConfigurationException($"Found more than one *.solution.nox.yaml file in folder ({folder}). {DesignFolderBestPractice}");
             }
             else if (solutionYamlFiles.Length == 1) return solutionYamlFiles[0];
-
-            return null;
-        }
-
-        private string ExpandEnvironmentMacros(string yaml)
-        {
-            var definitionVariableParser = new DefinitionVariableParser();
-            var variables = definitionVariableParser.Parse(yaml);
-            
-            yaml = _environmentVariableParser.Parse(yaml, variables);
-
-            return yaml;
-        }
-        
-        private string ExpandSecrets(string yaml)
-        {
-            return yaml;
-        }
-
-        private void RaiseResolveSecretsEvent(NoxSolutionSecretsEventArgs args)
-        {
-            OnResolveSecretsEvent?.Invoke(this, args);
-        }
-
-        private Secrets? GetSecretsConfig(string yaml)
-        {
-            var source = new StringReader(yaml);
-            var yamlStream = new YamlStream();
-            yamlStream.Load(source);
-            if (yamlStream.Documents.Count == 0) return null;
-            var mappingNode = (YamlMappingNode)yamlStream.Documents[0].RootNode;
-            try
-            {
-                //infrastructure -> security -> secrets
-                var infraNode = mappingNode.Children[new YamlScalarNode("infrastructure")];
-                var securityNode = ((YamlMappingNode)infraNode).Children[new YamlScalarNode("security")];
-                var secretsNode = ((YamlMappingNode)securityNode).Children[new YamlScalarNode("secrets")];
-
-                var deserializer = new DeserializerBuilder()
-                    .WithNamingConvention(CamelCaseNamingConvention.Instance)
-                    .Build();
-                
-                var result = deserializer.Deserialize<Secrets>(
-                    new EventStreamParserAdapter(YamlNodeToEventStreamConverter.ConvertToEventStream(secretsNode))
-                );
-                
-                return result;
-
-            }
-            catch
-            {
-                //ignore as the infrastructure -> security -> secrets node does not exist in the yaml or is not valid
-            }
 
             return null;
         }

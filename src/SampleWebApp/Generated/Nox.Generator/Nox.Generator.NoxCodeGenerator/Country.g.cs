@@ -3,6 +3,7 @@
 #nullable enable
 
 using Nox.Types;
+using Nox.Domain;
 using System;
 using System.Collections.Generic;
 
@@ -32,12 +33,12 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     /// The country's official ISO 4217 alpha-3 code (Required).
     /// </summary>
-    public Text AlphaCode3 { get; set; } = null!;
+    public CountryCode3 AlphaCode3 { get; set; } = null!;
 
     /// <summary>
     /// The country's official ISO 4217 alpha-2 code (Required).
     /// </summary>
-    public Text AlphaCode2 { get; set; } = null!;
+    public CountryCode2 AlphaCode2 { get; set; } = null!;
 
     /// <summary>
     /// The country's official ISO 4217 alpha-3 code (Required).
@@ -62,7 +63,7 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     /// Country area in square kilometers (Required).
     /// </summary>
-    public Number AreaInSquareKilometres { get; set; } = null!;
+    public Area AreaInSquareKilometres { get; set; } = null!;
 
     /// <summary>
     /// The region the country is in (Required).
@@ -88,14 +89,11 @@ public partial class Country : AuditableEntityBase
     /// The top level internet domains regitered to the country (comma-delimited) (Optional).
     /// </summary>
     public Text? TopLevelDomains { get; set; } = null!;
+
     /// <summary>
     /// Country accepts as legal tender OneOrMany Currencies
     /// </summary>
     public virtual List<Currency> Currencies { get; set; } = new();
-    
+
     public List<Currency> CountryAcceptsCurrency => Currencies;
-    /// <summary>
-    /// Country is also know as OneOrMany CountryLocalNames
-    /// </summary>
-    public virtual List<CountryLocalNames> CountryLocalNames { get; set; } = new();
 }

@@ -7,18 +7,35 @@ namespace Nox.Types.Tests.Types;
 public class DateTimeDurationTests
 {
     [Fact]
+    public void From_WithLongInput_ReturnsValue()
+    {
+        var ticks = 937_840_050_000;
+
+        var dateTimeDuration = DateTimeDuration.From(ticks);
+
+        var value = new TimeSpan(dateTimeDuration.Value);
+        value.Days.Should().Be(1);
+        value.Hours.Should().Be(2);
+        value.Minutes.Should().Be(3);
+        value.Seconds.Should().Be(4);
+        value.Milliseconds.Should().Be(5);
+        value.TotalMilliseconds.Should().Be(5 + 4000 + (3 * 60 * 1000) + (2 * 60 * 60 * 1000) + (1 * 24 * 60 * 60 * 1000));
+    }
+
+    [Fact]
     public void From_WithTimeSpanInput_ReturnsValue()
     {
         var timeSpan = new TimeSpan(1, 2, 3, 4, 5);
 
         var dateTimeDuration = DateTimeDuration.From(timeSpan);
 
-        dateTimeDuration.Value.Days.Should().Be(1);
-        dateTimeDuration.Value.Hours.Should().Be(2);
-        dateTimeDuration.Value.Minutes.Should().Be(3);
-        dateTimeDuration.Value.Seconds.Should().Be(4);
-        dateTimeDuration.Value.Milliseconds.Should().Be(5);
-        dateTimeDuration.Value.TotalMilliseconds.Should().Be(5 + 4000 + (3 * 60 * 1000) + (2 * 60 * 60 * 1000) + (1 * 24 * 60 * 60 * 1000));
+        var value = new TimeSpan(dateTimeDuration.Value);
+        value.Days.Should().Be(1);
+        value.Hours.Should().Be(2);
+        value.Minutes.Should().Be(3);
+        value.Seconds.Should().Be(4);
+        value.Milliseconds.Should().Be(5);
+        value.TotalMilliseconds.Should().Be(5 + 4000 + (3 * 60 * 1000) + (2 * 60 * 60 * 1000) + (1 * 24 * 60 * 60 * 1000));
     }
 
     [Fact]
@@ -28,12 +45,13 @@ public class DateTimeDurationTests
 
         var dateTimeDuration = DateTimeDuration.From(-timeSpan);
 
-        dateTimeDuration.Value.Days.Should().Be(1);
-        dateTimeDuration.Value.Hours.Should().Be(2);
-        dateTimeDuration.Value.Minutes.Should().Be(3);
-        dateTimeDuration.Value.Seconds.Should().Be(4);
-        dateTimeDuration.Value.Milliseconds.Should().Be(5);
-        dateTimeDuration.Value.TotalMilliseconds.Should().Be(5 + 4000 + (3 * 60 * 1000) + (2 * 60 * 60 * 1000) + (1 * 24 * 60 * 60 * 1000));
+        var value = new TimeSpan(dateTimeDuration.Value);
+        value.Days.Should().Be(1);
+        value.Hours.Should().Be(2);
+        value.Minutes.Should().Be(3);
+        value.Seconds.Should().Be(4);
+        value.Milliseconds.Should().Be(5);
+        value.TotalMilliseconds.Should().Be(5 + 4000 + (3 * 60 * 1000) + (2 * 60 * 60 * 1000) + (1 * 24 * 60 * 60 * 1000));
     }
 
     [Fact]
@@ -41,11 +59,12 @@ public class DateTimeDurationTests
     {
         var dateTimeDuration = DateTimeDuration.From(1, 2, 3, 4, 5);
 
-        dateTimeDuration.Value.Days.Should().Be(1);
-        dateTimeDuration.Value.Hours.Should().Be(2);
-        dateTimeDuration.Value.Minutes.Should().Be(3);
-        dateTimeDuration.Value.Seconds.Should().Be(4);
-        dateTimeDuration.Value.Milliseconds.Should().Be(5);
+        var value = new TimeSpan(dateTimeDuration.Value);
+        value.Days.Should().Be(1);
+        value.Hours.Should().Be(2);
+        value.Minutes.Should().Be(3);
+        value.Seconds.Should().Be(4);
+        value.Milliseconds.Should().Be(5);
     }
 
     [Fact]
@@ -53,11 +72,12 @@ public class DateTimeDurationTests
     {
         var dateTimeDuration = DateTimeDuration.From(1, 2, 3, 4);
 
-        dateTimeDuration.Value.Days.Should().Be(1);
-        dateTimeDuration.Value.Hours.Should().Be(2);
-        dateTimeDuration.Value.Minutes.Should().Be(3);
-        dateTimeDuration.Value.Seconds.Should().Be(4);
-        dateTimeDuration.Value.Milliseconds.Should().Be(0);
+        var value = new TimeSpan(dateTimeDuration.Value);
+        value.Days.Should().Be(1);
+        value.Hours.Should().Be(2);
+        value.Minutes.Should().Be(3);
+        value.Seconds.Should().Be(4);
+        value.Milliseconds.Should().Be(0);
     }
 
     [Fact]
@@ -65,11 +85,12 @@ public class DateTimeDurationTests
     {
         var dateTimeDuration = DateTimeDuration.From(1, 2, 3);
 
-        dateTimeDuration.Value.Days.Should().Be(0);
-        dateTimeDuration.Value.Hours.Should().Be(1);
-        dateTimeDuration.Value.Minutes.Should().Be(2);
-        dateTimeDuration.Value.Seconds.Should().Be(3);
-        dateTimeDuration.Value.Milliseconds.Should().Be(0);
+        var value = new TimeSpan(dateTimeDuration.Value);
+        value.Days.Should().Be(0);
+        value.Hours.Should().Be(1);
+        value.Minutes.Should().Be(2);
+        value.Seconds.Should().Be(3);
+        value.Milliseconds.Should().Be(0);
 
     }
 
@@ -81,7 +102,8 @@ public class DateTimeDurationTests
     {
         var dateTimeDuration = DateTimeDuration.FromDays(days);
 
-        dateTimeDuration.Value.TotalDays.Should().Be(Math.Abs(days));
+        var value = new TimeSpan(dateTimeDuration.Value);
+        value.TotalDays.Should().Be(Math.Abs(days));
     }
 
     [Theory]
@@ -92,7 +114,8 @@ public class DateTimeDurationTests
     {
         var dateTimeDuration = DateTimeDuration.FromHours(hours);
 
-        dateTimeDuration.Value.TotalHours.Should().Be(Math.Abs(hours));
+        var value = new TimeSpan(dateTimeDuration.Value);
+        value.TotalHours.Should().Be(Math.Abs(hours));
     }
 
     [Theory]
@@ -103,7 +126,8 @@ public class DateTimeDurationTests
     {
         var dateTimeDuration = DateTimeDuration.FromMinutes(minutes);
 
-        dateTimeDuration.Value.TotalMinutes.Should().Be(Math.Abs(minutes));
+        var value = new TimeSpan(dateTimeDuration.Value);
+        value.TotalMinutes.Should().Be(Math.Abs(minutes));
     }
 
     [Theory]
@@ -114,7 +138,8 @@ public class DateTimeDurationTests
     {
         var dateTimeDuration = DateTimeDuration.FromSeconds(seconds);
 
-        dateTimeDuration.Value.TotalSeconds.Should().Be(Math.Abs(seconds));
+        var value = new TimeSpan(dateTimeDuration.Value);
+        value.TotalSeconds.Should().Be(Math.Abs(seconds));
     }
 
     [Theory]
@@ -125,7 +150,8 @@ public class DateTimeDurationTests
     {
         var dateTimeDuration = DateTimeDuration.FromMilliseconds(milliseconds);
 
-        dateTimeDuration.Value.TotalMilliseconds.Should().Be(Math.Abs(milliseconds));
+        var value = new TimeSpan(dateTimeDuration.Value);
+        value.TotalMilliseconds.Should().Be(Math.Abs(milliseconds));
     }
 
     [Fact]
@@ -137,11 +163,12 @@ public class DateTimeDurationTests
             TimeUnit = TimeUnit.Day,
         });
 
-        dateTimeDuration.Value.Days.Should().Be(10);
-        dateTimeDuration.Value.Hours.Should().Be(12);
-        dateTimeDuration.Value.Minutes.Should().Be(0);
-        dateTimeDuration.Value.Seconds.Should().Be(0);
-        dateTimeDuration.Value.Milliseconds.Should().Be(0);
+        var value = new TimeSpan(dateTimeDuration.Value);
+        value.Days.Should().Be(10);
+        value.Hours.Should().Be(12);
+        value.Minutes.Should().Be(0);
+        value.Seconds.Should().Be(0);
+        value.Milliseconds.Should().Be(0);
     }
 
     [Fact]
@@ -227,7 +254,7 @@ public class DateTimeDurationTests
     }
 
     [Fact]
-    public void TotalDaysHoursMinutesSecondsMillisecondsProperties_WithValidDateTimeDurationObject_ReturnValue()
+    public void TotalDaysHoursMinutesSecondsMillisecondsAndTicksProperties_WithValidDateTimeDurationObject_ReturnValue()
     {
         var dateTimeDuration = DateTimeDuration.FromDays(1.5);
 
@@ -236,6 +263,7 @@ public class DateTimeDurationTests
         dateTimeDuration.TotalMinutes.Should().Be(1.5 * 24 * 60);
         dateTimeDuration.TotalSeconds.Should().Be(1.5 * 24 * 60 * 60);
         dateTimeDuration.TotalMilliseconds.Should().Be(1.5 * 24 * 60 * 60 * 1000);
+        dateTimeDuration.Ticks.Should().Be((long)(1.5 * 24 * 60 * 60 * 1000 * 10000));
     }
 
     [Fact]

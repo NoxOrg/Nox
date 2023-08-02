@@ -63,7 +63,7 @@ public class InternetDomainTests
     }
     
     [Fact]
-    public void Compare_Same_InternetDomains_WithEqual_IsFalse()
+    public void Compare_Different_InternetDomains_WithEqual_IsFalse()
     {
         // Arrange & Act
         var internetDomain1 = InternetDomain.From("example.com");

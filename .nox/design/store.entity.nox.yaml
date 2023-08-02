@@ -1,4 +1,4 @@
-# country.entity.nox.yaml
+# store.entity.nox.yaml
 
 name: Store
 
@@ -28,7 +28,15 @@ attributes:
   - name: PhysicalMoney
     description: Physical Money in the Physical Store
     type: money
-    #moneyTypeOptions:
-    #  defaultCurrency: CurrencyCode.GBP      
+    moneyTypeOptions:
+      defaultCurrency: GBP      
+      decimalDigits: 5
+      integerDigits: 10
     isRequired: true
     
+relationships:
+
+    - name: PasswordsRel
+      description: Set of passwords for this store
+      relationship: exactlyOne
+      entity: StoreSecurityPasswords

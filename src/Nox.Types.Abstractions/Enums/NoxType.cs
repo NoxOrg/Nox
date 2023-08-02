@@ -24,7 +24,7 @@ public enum NoxType : uint
     [CompoundComponent("Amount", typeof(decimal))]
     [CompoundComponent("CurrencyCode", typeof(string))]
     Money = 3500951620,
-    
+
     [CompoundType]
     [CompoundComponent("StreetNumber",typeof(int))]
     [CompoundComponent("AddressLine1", typeof(string))]
@@ -49,17 +49,24 @@ public enum NoxType : uint
     [CompoundComponent("To", typeof(DateTimeOffset))]
     DateTimeRange = 3837929056,
 
-    [CompoundType]  
+    [CompoundType]
     [CompoundComponent("Number", typeof(string))]
     [CompoundComponent("CountryCode2", typeof(string))]
     VatNumber = 1055627262,
 
+    [CompoundType]
+    [CompoundComponent("Url", typeof(string))]
+    [CompoundComponent("PrettyName", typeof(string))]
+    [CompoundComponent("SizeInBytes", typeof(ulong))]
+    File = 612041382,
+
     // Simple Types
-    [SimpleType(typeof(double))] 
+
+    [SimpleType(typeof(decimal))]
     Area = 998304025,
-    
+
     [SimpleType(typeof(int))] 
-    AutoNumber = 24779567,
+    DatabaseNumber = 963275927,
     
     [SimpleType(typeof(bool))]
     Boolean = 2157507194,
@@ -80,7 +87,7 @@ public enum NoxType : uint
     CultureCode = 1724900727,
 
     [SimpleType(typeof(string))]
-    CurrencyCode = 1132722218,
+    CurrencyCode3 = 2794068101,
     
     [SimpleType(typeof(short))]
     CurrencyNumber = 2377452890,
@@ -120,21 +127,23 @@ public enum NoxType : uint
     EncryptedText = 1841598137,
     
     [SimpleType(typeof(string))]
-    File = 612041382,
-    
-    [SimpleType(typeof(string))]
     Formula = 2602269623,
     
     [SimpleType(typeof(Guid))]
     Guid = 1043908053,
 
-    [SimpleType(typeof(string))]
+    [CompoundType]
+    [CompoundComponent("HashText", typeof(string))]
+    [CompoundComponent("Salt", typeof(string))]
     HashedText = 3656553818,
     
     [SimpleType(typeof(string))]
     Html = 2477180992,
     
-    [SimpleType(typeof(string))]
+    [CompoundType] 
+    [CompoundComponent("Url", typeof(string))]
+    [CompoundComponent("PrettyName", typeof(string))]
+    [CompoundComponent("SizeInBytes", typeof(int))]
     Image = 3650429592,
     
     [SimpleType(typeof(string))]
@@ -164,10 +173,12 @@ public enum NoxType : uint
     [SimpleType(typeof(uint))]
     Nuid = 3304944825,
 
-    [SimpleType(typeof(uint))]
+    [SimpleType(typeof(NumberTypeComponentsDiscover))]
     Number = 4223714796,
 
-    [SimpleType(typeof(string))]
+    [CompoundType]
+    [CompoundComponent("HashedPassword", typeof(string))]
+    [CompoundComponent("Salt", typeof(string))]
     Password = 1755902638,
 
     [SimpleType(typeof(float))]

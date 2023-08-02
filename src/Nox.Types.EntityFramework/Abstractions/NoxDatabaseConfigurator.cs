@@ -55,13 +55,34 @@ namespace Nox.Types.EntityFramework.Abstractions
             Entity entity,
             IReadOnlyList<EntityRelationshipWithType> relationshipsToCreate)
         {
+#pragma warning disable S3267 // Loops should be simplified with "LINQ" expressions
             foreach (var relationshipToCreate in relationshipsToCreate)
+#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
             {
-                if (relationshipToCreate.ShouldBeMapped)
+                // ManyToMany does not need to be handled
+                // Handle ZeroOrOne or ExactlyOne scenario with foreign key.
+                if ((relationshipToCreate.Relationship.Relationship == EntityRelationshipType.ExactlyOne ||
+                    relationshipToCreate.Relationship.Relationship == EntityRelationshipType.ZeroOrOne) &&
+                    relationshipToCreate.Relationship.ShouldGenerateForeignOnThisSide)
                 {
                     builder
-                        .HasMany(relationshipToCreate.RelationshipEntityType.FullName!, relationshipToCreate.Relationship.Related.Entity.PluralName)
-                        .WithMany(entity.PluralName);
+                        .HasOne(relationshipToCreate.Relationship.Entity)
+                        .WithOne(entity.Name)
+                        .HasForeignKey(entity.Name, $"{relationshipToCreate.Relationship.Entity}Id");
+
+                    // Setup one to one foreign key
+                    // Right now assuming that there is always one key present
+                    var key = relationshipToCreate.Relationship.Related.Entity.Keys![0];
+                    if (TypesDatabaseConfigurations.TryGetValue(key.Type,
+                        out var databaseConfiguration))
+                    {
+                        var keyToBeConfigured = key.ShallowCopy();
+                        keyToBeConfigured.Name = $"{relationshipToCreate.Relationship.Related.Entity.Name}Id";
+                        keyToBeConfigured.Description = $"Foreign key for entity {relationshipToCreate.Relationship.Related.Entity.Name}";
+                        keyToBeConfigured.IsRequired = relationshipToCreate.Relationship.Relationship == EntityRelationshipType.ExactlyOne;
+                        keyToBeConfigured.IsReadonly = false;
+                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, keyToBeConfigured, entity, false);
+                    }
                 }
 
                 builder.Ignore(relationshipToCreate.Relationship.Name);

@@ -266,20 +266,23 @@
                 "BMD",
                 "BND",
                 "BOB",
+                "BOV",
                 "BRL",
                 "BSD",
-                "BTC",
                 "BTN",
                 "BWP",
                 "BYN",
-                "BYR",
                 "BZD",
                 "CAD",
                 "CDF",
+                "CHE",
                 "CHF",
+                "CHW",
+                "CLF",
                 "CLP",
                 "CNY",
                 "COP",
+                "COU",
                 "CRC",
                 "CUC",
                 "CUP",
@@ -305,7 +308,6 @@
                 "GYD",
                 "HKD",
                 "HNL",
-                "HRK",
                 "HTG",
                 "HUF",
                 "IDR",
@@ -339,12 +341,12 @@
                 "MMK",
                 "MNT",
                 "MOP",
-                "MRO",
-                "MTL",
+                "MRU",
                 "MUR",
                 "MVR",
                 "MWK",
                 "MXN",
+                "MXV",
                 "MYR",
                 "MZN",
                 "NAD",
@@ -369,15 +371,16 @@
                 "SAR",
                 "SBD",
                 "SCR",
-                "SDD",
                 "SDG",
                 "SEK",
                 "SGD",
                 "SHP",
+                "SLE",
                 "SLL",
                 "SOS",
                 "SRD",
-                "STD",
+                "SSP",
+                "STN",
                 "SVC",
                 "SYP",
                 "SZL",
@@ -388,28 +391,42 @@
                 "TOP",
                 "TRY",
                 "TTD",
-                "TVD",
                 "TWD",
                 "TZS",
                 "UAH",
                 "UGX",
                 "USD",
+                "USN",
+                "UYI",
                 "UYU",
+                "UYW",
                 "UZS",
-                "VEB",
-                "VEF",
+                "VED",
+                "VES",
                 "VND",
                 "VUV",
-                "WON",
                 "WST",
                 "XAF",
-                "XBT",
+                "XAG",
+                "XAU",
+                "XBA",
+                "XBB",
+                "XBC",
+                "XBD",
                 "XCD",
+                "XDR",
                 "XOF",
+                "XPD",
                 "XPF",
+                "XPT",
+                "XSU",
+                "XTS",
+                "XUA",
+                "XXX",
                 "YER",
                 "ZAR",
-                "ZMW"
+                "ZMW",
+                "ZWL"
               ]
             }
           }
@@ -798,6 +815,12 @@
             "null"
           ],
           "properties": {
+            "prefix": {    
+              "type": [
+                "string",
+                "null"
+              ]
+            },
             "separator": {    
               "type": [
                 "string",
@@ -1219,6 +1242,1231 @@
       "additionalProperties": false
     },
     {
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the attribute. Contains no spaces.",
+          "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the attribute.",
+          "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {    
+          "const": "image"
+        },
+        "imageTypeOptions": {    
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "imageFormatTypes": {    
+              "type": [
+                "array",
+                "null"
+              ],
+              "items":   {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "all",
+                  "bmp",
+                  "gif",
+                  "ico",
+                  "jpeg",
+                  "png",
+                  "svg",
+                  "tiff",
+                  "webp"
+                ]
+              }
+            }
+          }
+        },
+        "isRequired": {    
+          "title": "Is the attribute required? Boolean value.",
+          "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "userInterface": {    
+          "anyOf": [
+            { "$ref": "typeUserInterface.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "isReadonly": {    
+          "title": "Is this attribute readonly? Boolean value.",
+          "description": "Indicates whether this attribute is readonly. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the attribute. Contains no spaces.",
+          "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the attribute.",
+          "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {    
+          "const": "time"
+        },
+        "timeTypeOptions": {    
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "minTimeTicks": {    
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "maxTimeTicks": {    
+              "type": [
+                "integer",
+                "null"
+              ]
+            }
+          }
+        },
+        "isRequired": {    
+          "title": "Is the attribute required? Boolean value.",
+          "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "userInterface": {    
+          "anyOf": [
+            { "$ref": "typeUserInterface.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "isReadonly": {    
+          "title": "Is this attribute readonly? Boolean value.",
+          "description": "Indicates whether this attribute is readonly. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the attribute. Contains no spaces.",
+          "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the attribute.",
+          "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {    
+          "const": "file"
+        },
+        "fileTypeOptions": {    
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "supportedFileFormats": {    
+              "type": [
+                "array",
+                "null"
+              ],
+              "items":   {
+                "type": [
+                  "string",
+                  "null"
+                ],
+                "enum": [
+                  "all",
+                  "csv",
+                  "doc",
+                  "docx",
+                  "eml",
+                  "pdf",
+                  "ppt",
+                  "pptx",
+                  "txt",
+                  "xls",
+                  "xlsx"
+                ]
+              }
+            }
+          }
+        },
+        "isRequired": {    
+          "title": "Is the attribute required? Boolean value.",
+          "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "userInterface": {    
+          "anyOf": [
+            { "$ref": "typeUserInterface.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "isReadonly": {    
+          "title": "Is this attribute readonly? Boolean value.",
+          "description": "Indicates whether this attribute is readonly. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the attribute. Contains no spaces.",
+          "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the attribute.",
+          "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {    
+          "const": "area"
+        },
+        "areaTypeOptions": {    
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "minValue": {    
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "maxValue": {    
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "units": {    
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "squareFoot",
+                "squareMeter"
+              ]
+            },
+            "persistAs": {    
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "squareFoot",
+                "squareMeter"
+              ]
+            }
+          }
+        },
+        "isRequired": {    
+          "title": "Is the attribute required? Boolean value.",
+          "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "userInterface": {    
+          "anyOf": [
+            { "$ref": "typeUserInterface.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "isReadonly": {    
+          "title": "Is this attribute readonly? Boolean value.",
+          "description": "Indicates whether this attribute is readonly. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the attribute. Contains no spaces.",
+          "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the attribute.",
+          "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {    
+          "const": "encryptedText"
+        },
+        "encryptedTextTypeOptions": {    
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "encryptionAlgorithm": {    
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "aes"
+              ]
+            },
+            "publicKey": {    
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "iv": {    
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "isRequired": {    
+          "title": "Is the attribute required? Boolean value.",
+          "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "userInterface": {    
+          "anyOf": [
+            { "$ref": "typeUserInterface.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "isReadonly": {    
+          "title": "Is this attribute readonly? Boolean value.",
+          "description": "Indicates whether this attribute is readonly. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the attribute. Contains no spaces.",
+          "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the attribute.",
+          "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {    
+          "const": "user"
+        },
+        "userTypeOptions": {    
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "minLength": {    
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "maxLength": {    
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "validEmailFormat": {    
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "validGuidFormat": {    
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "isCaseSensitive": {    
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
+          }
+        },
+        "isRequired": {    
+          "title": "Is the attribute required? Boolean value.",
+          "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "userInterface": {    
+          "anyOf": [
+            { "$ref": "typeUserInterface.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "isReadonly": {    
+          "title": "Is this attribute readonly? Boolean value.",
+          "description": "Indicates whether this attribute is readonly. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the attribute. Contains no spaces.",
+          "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the attribute.",
+          "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {    
+          "const": "password"
+        },
+        "passwordTypeOptions": {    
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "hashingAlgorithm": {    
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "sHA256",
+                "sHA512"
+              ]
+            },
+            "saltLength": {    
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "minLength": {    
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "maxLength": {    
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "forceUppercase": {    
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "forceLowercase": {    
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "forceSymbol": {    
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "forceNumber": {    
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "passwordContainsUpperCase": {    
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "options": {    
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    "compiled",
+                    "cultureInvariant",
+                    "eCMAScript",
+                    "explicitCapture",
+                    "ignoreCase",
+                    "ignorePatternWhitespace",
+                    "multiline",
+                    "nonBacktracking",
+                    "none",
+                    "rightToLeft",
+                    "singleline"
+                  ]
+                },
+                "rightToLeft": {    
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "matchTimeout": {    
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "duration"
+                }
+              }
+            },
+            "passwordContainsLowerCase": {    
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "options": {    
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    "compiled",
+                    "cultureInvariant",
+                    "eCMAScript",
+                    "explicitCapture",
+                    "ignoreCase",
+                    "ignorePatternWhitespace",
+                    "multiline",
+                    "nonBacktracking",
+                    "none",
+                    "rightToLeft",
+                    "singleline"
+                  ]
+                },
+                "rightToLeft": {    
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "matchTimeout": {    
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "duration"
+                }
+              }
+            },
+            "passwordContainsSymbol": {    
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "options": {    
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    "compiled",
+                    "cultureInvariant",
+                    "eCMAScript",
+                    "explicitCapture",
+                    "ignoreCase",
+                    "ignorePatternWhitespace",
+                    "multiline",
+                    "nonBacktracking",
+                    "none",
+                    "rightToLeft",
+                    "singleline"
+                  ]
+                },
+                "rightToLeft": {    
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "matchTimeout": {    
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "duration"
+                }
+              }
+            },
+            "passwordContainsNumber": {    
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "options": {    
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "enum": [
+                    "compiled",
+                    "cultureInvariant",
+                    "eCMAScript",
+                    "explicitCapture",
+                    "ignoreCase",
+                    "ignorePatternWhitespace",
+                    "multiline",
+                    "nonBacktracking",
+                    "none",
+                    "rightToLeft",
+                    "singleline"
+                  ]
+                },
+                "rightToLeft": {    
+                  "type": [
+                    "boolean",
+                    "null"
+                  ]
+                },
+                "matchTimeout": {    
+                  "type": [
+                    "string",
+                    "null"
+                  ],
+                  "format": "duration"
+                }
+              }
+            }
+          }
+        },
+        "isRequired": {    
+          "title": "Is the attribute required? Boolean value.",
+          "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "userInterface": {    
+          "anyOf": [
+            { "$ref": "typeUserInterface.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "isReadonly": {    
+          "title": "Is this attribute readonly? Boolean value.",
+          "description": "Indicates whether this attribute is readonly. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the attribute. Contains no spaces.",
+          "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the attribute.",
+          "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {    
+          "const": "formula"
+        },
+        "formulaTypeOptions": {    
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "expression": {    
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "returns": {    
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "bool",
+                "dateTime",
+                "double",
+                "int",
+                "long",
+                "string"
+              ]
+            }
+          }
+        },
+        "isRequired": {    
+          "title": "Is the attribute required? Boolean value.",
+          "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "userInterface": {    
+          "anyOf": [
+            { "$ref": "typeUserInterface.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "isReadonly": {    
+          "title": "Is this attribute readonly? Boolean value.",
+          "description": "Indicates whether this attribute is readonly. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the attribute. Contains no spaces.",
+          "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the attribute.",
+          "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {    
+          "const": "vatNumber"
+        },
+        "vatNumberTypeOptions": {    
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "countryCode": {    
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          }
+        },
+        "isRequired": {    
+          "title": "Is the attribute required? Boolean value.",
+          "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "userInterface": {    
+          "anyOf": [
+            { "$ref": "typeUserInterface.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "isReadonly": {    
+          "title": "Is this attribute readonly? Boolean value.",
+          "description": "Indicates whether this attribute is readonly. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the attribute. Contains no spaces.",
+          "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the attribute.",
+          "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {    
+          "const": "json"
+        },
+        "jsonTypeOptions": {    
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "persistMinified": {    
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
+            "maxHashDepth": {    
+              "type": [
+                "integer",
+                "null"
+              ]
+            }
+          }
+        },
+        "isRequired": {    
+          "title": "Is the attribute required? Boolean value.",
+          "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "userInterface": {    
+          "anyOf": [
+            { "$ref": "typeUserInterface.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "isReadonly": {    
+          "title": "Is this attribute readonly? Boolean value.",
+          "description": "Indicates whether this attribute is readonly. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the attribute. Contains no spaces.",
+          "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the attribute.",
+          "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {    
+          "const": "temperature"
+        },
+        "temperatureTypeOptions": {    
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "persistAs": {    
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "celsius",
+                "fahrenheit"
+              ]
+            },
+            "units": {    
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "celsius",
+                "fahrenheit"
+              ]
+            }
+          }
+        },
+        "isRequired": {    
+          "title": "Is the attribute required? Boolean value.",
+          "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "userInterface": {    
+          "anyOf": [
+            { "$ref": "typeUserInterface.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "isReadonly": {    
+          "title": "Is this attribute readonly? Boolean value.",
+          "description": "Indicates whether this attribute is readonly. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
+      "required": [
+        "name",
+        "type"
+      ],
+      "properties": {
+        "name": {    
+          "title": "The name of the attribute. Contains no spaces.",
+          "description": "Assign a descriptive name to the attribute. Should be a singular noun and be unique within a collection of attributes. PascalCase recommended.",
+          "type": "string",
+          "pattern": "^[^\\s]*$"
+        },
+        "description": {    
+          "title": "The description of the attribute.",
+          "description": "A descriptive phrase that explains the nature and function of this attribute within a collection.",
+          "type": [
+            "string",
+            "null"
+          ]
+        },
+        "type": {    
+          "const": "length"
+        },
+        "lengthTypeOptions": {    
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "minValue": {    
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "maxValue": {    
+              "type": [
+                "number",
+                "null"
+              ]
+            },
+            "units": {    
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "foot",
+                "meter"
+              ]
+            },
+            "persistAs": {    
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "foot",
+                "meter"
+              ]
+            }
+          }
+        },
+        "isRequired": {    
+          "title": "Is the attribute required? Boolean value.",
+          "description": "Indicates whether this attribute is required within the collection. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        },
+        "userInterface": {    
+          "anyOf": [
+            { "$ref": "typeUserInterface.json" },
+            {
+              "additionalProperties": false, 
+              "properties": {
+                "$ref": {
+                  "type": "string",
+                  "format": "uri",
+                  "pattern": "^[^\\s]*$"
+                }
+              }
+            }
+          ]
+        },
+        "isReadonly": {    
+          "title": "Is this attribute readonly? Boolean value.",
+          "description": "Indicates whether this attribute is readonly. Defaults to false.",
+          "type": [
+            "boolean",
+            "null"
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    {
       "type": "object",
       "required": [
         "name",
@@ -1242,9 +2490,7 @@
         "type": {    
           "type": "string",
           "enum": [
-            "area",
             "array",
-            "autoNumber",
             "boolean",
             "collection",
             "color",
@@ -1252,40 +2498,30 @@
             "countryCode3",
             "countryNumber",
             "cultureCode",
-            "currencyCode",
+            "currencyCode3",
             "currencyNumber",
+            "databaseNumber",
             "dateTimeRange",
             "dateTimeSchedule",
             "dayOfWeek",
             "distance",
             "email",
-            "encryptedText",
-            "file",
-            "formula",
             "guid",
             "html",
-            "image",
             "internetDomain",
             "ipAddress",
-            "json",
             "jwtToken",
             "languageCode",
             "latLong",
-            "length",
             "macAddress",
             "markdown",
             "month",
             "object",
-            "password",
             "phoneNumber",
             "streetAddress",
-            "temperature",
-            "time",
             "timeZoneCode",
             "uri",
             "url",
-            "user",
-            "vatNumber",
             "volume",
             "weight",
             "yaml"

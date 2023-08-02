@@ -21,9 +21,9 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.8" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.8" />
-		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.8" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.9" />
+		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.9" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -46,5 +46,6 @@
 	<ItemGroup>
 	  <Folder Include="Model\" />
 	  <Folder Include="Types\Uri\" />
+	  <Folder Include="Types\Yaml\" />
 	</ItemGroup>
 </Project>

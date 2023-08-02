@@ -1,0 +1,22 @@
+root:
+  child1:
+    value1: value1
+    value2: value2
+  child2:
+    value3: value3
+    value0: value4
+    value5: value5
+  child3:
+    value6: value6
+
+boot:
+  child1:
+    value1: value1
+    value2: value2
+  child2:
+    value3: value3
+    value4: value4
+    value5: value5
+  child3:
+    value6: value6
+    

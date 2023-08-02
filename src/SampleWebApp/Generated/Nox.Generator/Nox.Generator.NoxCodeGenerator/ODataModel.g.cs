@@ -6,6 +6,9 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using AutoMapper;
+using MediatR;
+using Nox.Types;
+using Nox.Domain;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
@@ -14,7 +17,7 @@ namespace SampleWebApp.Presentation.Api.OData;
 /// The list of countries.
 /// </summary>
 [AutoMap(typeof(CountryDto))]
-public class Country : SampleWebApp.Domain.AuditableEntityBase
+public class OCountry : AuditableEntityBase
 {
     public String Id { get; set; } = default!;
     
@@ -41,7 +44,7 @@ public class Country : SampleWebApp.Domain.AuditableEntityBase
     /// <summary>
     /// The country's official ISO 4217 alpha-3 code.
     /// </summary>
-    public UInt32 NumericCode { get; set; } = default!;
+    public Int16 NumericCode { get; set; } = default!;
     
     /// <summary>
     /// The country's phone dialing codes (comma-delimited).
@@ -61,7 +64,7 @@ public class Country : SampleWebApp.Domain.AuditableEntityBase
     /// <summary>
     /// Country area in square kilometers.
     /// </summary>
-    public UInt32 AreaInSquareKilometres { get; set; } = default!;
+    public Decimal AreaInSquareKilometres { get; set; } = default!;
     
     /// <summary>
     /// The region the country is in.
@@ -81,7 +84,7 @@ public class Country : SampleWebApp.Domain.AuditableEntityBase
     /// <summary>
     /// The estimated population of the country.
     /// </summary>
-    public UInt32? Population { get; set; } = default!;
+    public Int32? Population { get; set; } = default!;
     
     /// <summary>
     /// The top level internet domains regitered to the country (comma-delimited).
@@ -91,20 +94,14 @@ public class Country : SampleWebApp.Domain.AuditableEntityBase
     /// <summary>
     /// accepts as legal tender.
     /// </summary>
-    public List<Currency> CountryAcceptsCurrency { get; set; } = null!;
-    
-    /// <summary>
-    /// is also know as.
-    /// </summary>
-    [AutoExpand]
-    public List<CountryLocalNames> CountryLocalNames { get; set; } = null!;
+    public List<OCurrency> Currencies { get; set; } = null!;
 }
 
 /// <summary>
 /// The list of currencies.
 /// </summary>
 [AutoMap(typeof(CurrencyDto))]
-public class Currency : SampleWebApp.Domain.AuditableEntityBase
+public class OCurrency : AuditableEntityBase
 {
     
     /// <summary>
@@ -120,14 +117,14 @@ public class Currency : SampleWebApp.Domain.AuditableEntityBase
     /// <summary>
     /// is legal tender for.
     /// </summary>
-    public List<Country> CurrencyIsLegalTenderForCountry { get; set; } = null!;
+    public List<OCountry> Countries { get; set; } = null!;
 }
 
 /// <summary>
 /// Stores.
 /// </summary>
 [AutoMap(typeof(StoreDto))]
-public class Store : SampleWebApp.Domain.AuditableEntityBase
+public class OStore : AuditableEntityBase
 {
     
     /// <summary>
@@ -149,13 +146,78 @@ public class Store : SampleWebApp.Domain.AuditableEntityBase
     /// Physical Money in the Physical Store.
     /// </summary>
     public String PhysicalMoney_CurrencyCode { get; set; } = default!;
+    
+    /// <summary>
+    /// Set of passwords for this store.
+    /// </summary>
+    public OStoreSecurityPasswords StoreSecurityPasswords { get; set; } = null!;
+}
+
+/// <summary>
+/// A set of security passwords to store cameras and databases.
+/// </summary>
+[AutoMap(typeof(StoreSecurityPasswordsDto))]
+public class OStoreSecurityPasswords : AuditableEntityBase
+{
+    
+    /// <summary>
+    /// Passwords Primary Key.
+    /// </summary>
+    public String Id { get; set; } = default!;
+    public String Name { get; set; } = default!;
+    public String SecurityCamerasPassword { get; set; } = default!;
+    
+    /// <summary>
+    /// Store with this set of passwords.
+    /// </summary>
+    public OStore Store { get; set; } = null!;
+    
+    public String StoreId { get; set; } = null!;
+}
+
+/// <summary>
+/// Entity to test all nox types.
+/// </summary>
+[AutoMap(typeof(AllNoxTypeDto))]
+public class OAllNoxType : AuditableEntityBase
+{
+    
+    /// <summary>
+    /// The currency's primary key / identifier.
+    /// </summary>
+    public String Id { get; set; } = default!;
+    
+    /// <summary>
+    /// Text Nox Type.
+    /// </summary>
+    public String TextField { get; set; } = default!;
+    
+    /// <summary>
+    /// VatNumber Nox Type.
+    /// </summary>
+    public String VatNumberField_Number { get; set; } = default!;
+    
+    /// <summary>
+    /// VatNumber Nox Type.
+    /// </summary>
+    public String VatNumberField_CountryCode2 { get; set; } = default!;
+    
+    /// <summary>
+    /// CountryCode2 Nox Type.
+    /// </summary>
+    public String CountryCode2Field { get; set; } = default!;
+    
+    /// <summary>
+    /// CountryCode3 Nox Type.
+    /// </summary>
+    public String CountryCode3Field { get; set; } = default!;
 }
 
 /// <summary>
 /// The name of a country in other languages.
 /// </summary>
 [AutoMap(typeof(CountryLocalNamesDto))]
-public class CountryLocalNames : SampleWebApp.Domain.AuditableEntityBase
+public class OCountryLocalNames : AuditableEntityBase
 {
     public String Id { get; set; } = default!;
 }
@@ -189,7 +251,7 @@ public class CountryDto
     /// <summary>
     /// The country's official ISO 4217 alpha-3 code.
     /// </summary>
-    public UInt32 NumericCode { get; set; } = default!;
+    public Int16 NumericCode { get; set; } = default!;
     
     /// <summary>
     /// The country's phone dialing codes (comma-delimited).
@@ -209,7 +271,7 @@ public class CountryDto
     /// <summary>
     /// Country area in square kilometers.
     /// </summary>
-    public UInt32 AreaInSquareKilometres { get; set; } = default!;
+    public Decimal AreaInSquareKilometres { get; set; } = default!;
     
     /// <summary>
     /// The region the country is in.
@@ -229,7 +291,7 @@ public class CountryDto
     /// <summary>
     /// The estimated population of the country.
     /// </summary>
-    public UInt32? Population { get; set; } = default!;
+    public Int32? Population { get; set; } = default!;
     
     /// <summary>
     /// The top level internet domains regitered to the country (comma-delimited).
@@ -269,6 +331,47 @@ public class StoreDto
     /// Physical Money in the Physical Store.
     /// </summary>
     public String PhysicalMoney_CurrencyCode { get; set; } = default!;
+}
+
+/// <summary>
+/// A set of security passwords to store cameras and databases.
+/// </summary>
+public class StoreSecurityPasswordsDto
+{
+    public String Name { get; set; } = default!;
+    public String SecurityCamerasPassword { get; set; } = default!;
+}
+
+/// <summary>
+/// Entity to test all nox types.
+/// </summary>
+public class AllNoxTypeDto
+{
+    
+    /// <summary>
+    /// Text Nox Type.
+    /// </summary>
+    public String TextField { get; set; } = default!;
+    
+    /// <summary>
+    /// VatNumber Nox Type.
+    /// </summary>
+    public String VatNumberField_Number { get; set; } = default!;
+    
+    /// <summary>
+    /// VatNumber Nox Type.
+    /// </summary>
+    public String VatNumberField_CountryCode2 { get; set; } = default!;
+    
+    /// <summary>
+    /// CountryCode2 Nox Type.
+    /// </summary>
+    public String CountryCode2Field { get; set; } = default!;
+    
+    /// <summary>
+    /// CountryCode3 Nox Type.
+    /// </summary>
+    public String CountryCode3Field { get; set; } = default!;
 }
 
 /// <summary>

@@ -1,4 +1,5 @@
-﻿using Nox.Types.Schema;
+﻿using Nox.TypeOptions;
+using Nox.Types.Schema;
 
 namespace Nox.Types;
 
@@ -60,6 +61,42 @@ public class NoxSimpleTypeDefinition
 
     [IfEquals("Type", NoxType.DateTime)]
     public DateTimeTypeOptions? DateTimeTypeOptions { get; set; }
+    
+    [IfEquals("Type", NoxType.Image)]
+    public ImageTypeOptions? ImageTypeOptions { get; set; }
+
+    [IfEquals("Type", NoxType.Time)]
+    public TimeTypeOptions? TimeTypeOptions { get; set; }
+
+    [IfEquals("Type", NoxType.File)]
+    public FileTypeOptions? FileTypeOptions { get; set; }
+
+	[IfEquals("Type", NoxType.Area)]
+    public AreaTypeOptions? AreaTypeOptions { get; set; }
+
+    [IfEquals("Type", NoxType.EncryptedText)]
+    public EncryptedTextTypeOptions? EncryptedTextTypeOptions { get; set; }
+
+    [IfEquals("Type", NoxType.User)]
+    public UserTypeOptions? UserTypeOptions { get; set; }
+
+    [IfEquals("Type", NoxType.Password)]
+    public PasswordTypeOptions? PasswordTypeOptions { get; set; }
+
+    [IfEquals("Type", NoxType.Formula)]
+    public FormulaTypeOptions? FormulaTypeOptions { get; set; }
+
+    [IfEquals("Type", NoxType.VatNumber)]
+    public VatNumberTypeOptions? VatNumberTypeOptions { get; set; }
+
+    [IfEquals("Type", NoxType.Json)]
+    public JsonTypeOptions? JsonTypeOptions { get; set; }
+
+    [IfEquals("Type", NoxType.Temperature)]
+    public TemperatureTypeOptions? TemperatureTypeOptions { get; set; }
+
+    [IfEquals("Type", NoxType.Length)]
+    public LengthTypeOptions? LengthTypeOptions { get; set; }
 
     #endregion TypeOptions
 

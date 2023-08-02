@@ -11,10 +11,9 @@ internal static class NoxSolutionBridge
     public static void AddFunctions(TemplateContext context, NoxSolution noxSolution)
     {
         var scriptObject1 = new ScriptObject();
-        scriptObject1.Import("NoxGetSimpleKeyTypeForEntity", new Func<string,
+        scriptObject1.Import("SimpleKeyTypeForEntity", new Func<string,
             NoxType>(noxSolution.GetSimpleKeyTypeForEntity));
 
         context.PushGlobal(scriptObject1);
-
     }
 }

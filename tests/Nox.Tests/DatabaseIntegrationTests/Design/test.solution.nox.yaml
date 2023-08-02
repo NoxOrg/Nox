@@ -1,4 +1,4 @@
-﻿#
+#
 # workplace.solution.nox.yaml
 #
 # yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
@@ -121,6 +121,26 @@ domain:
             relationship: zeroOrMany
             entity: TestEntity
 
+    - name: TestEntityWithNuid
+      description: Entity created for testing nuid
+      keys:
+        - name: Id
+          isRequired: true
+          type: nuid
+          nuidTypeOptions:
+            separator: "."
+            propertyNames:
+             - "Name" 
+
+      attributes:
+
+        - name: Name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
     - name: TestEntityOneOrMany
       description: Entity created for testing database
 
@@ -174,6 +194,60 @@ domain:
             description: Test entity relationship to TestEntityOneOrMany
             relationship: oneOrMany
             entity: TestEntityOneOrMany
+
+    - name: TestEntityExactlyOne
+      description: Entity created for testing database
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: SecondTestEntityExactlyOneRelationship
+            description: Test entity relationship to SecondTestEntityExactlyOneRelationship
+            relationship: exactlyOne
+            entity: SecondTestEntityExactlyOne
+
+    - name: SecondTestEntityExactlyOne
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: TestEntityExactlyOneRelationship
+            description: Test entity relationship to TestEntityExactlyOneRelationship
+            relationship: exactlyOne
+            entity: TestEntityExactlyOne
 
     - name: TestEntityForTypes
       description: Entity created for testing database
@@ -232,6 +306,14 @@ domain:
 
         - name: StreetAddressTestField
           type: streetAddress
+        
+        - name: CurrencyCode3TestField
+          type: currencyCode3
+          
+          
+        - name: DayOfWeekTestField
+          type: dayOfWeek
+
 
         - name: JwtTokenTestField
           type: jwtToken
@@ -240,17 +322,20 @@ domain:
         #- name: GeoCoordTestField
         #  type: latLong
 
-        #- name: AreaTestField
-        #  type: area
+        - name: AreaTestField
+          type: area
 
-        #- name: BooleanTestField
-        #  type: boolean
+        - name: TimeZoneCodeTestField
+          type: timeZoneCode
 
-        #- name: CountryCode3TestField
-        #  type: countryCode3
+        - name: BooleanTestField
+          type: boolean
 
-        #- name: CountryNumberTestField
-        #  type: countryNumber
+        - name: CountryCode3TestField
+          type: countryCode3
+
+        - name: CountryNumberTestField
+          type: countryNumber
 
         #- name: CurrencyCodeTestField
         #  type: currencyCode
@@ -267,38 +352,44 @@ domain:
         #- name: DistanceTestField
         #  type: distance
 
-        #- name: EmailTestField
-        #  type: email
+        - name: EmailTestField
+          type: email
 
-        #- name: EncryptedTextTestField
-        #  type: encryptedText
+        - name: EncryptedTextTestField
+          type: encryptedText
 
         #- name: GuidTestField
         #  type: guid
 
-        #- name: HashedTextTestField
-        #  type: hashedText
+        - name: HashedTextTestField
+          type: hashedText
 
-        #- name: InternetDomainTestField
-        #  type: internetDomain
+        - name: InternetDomainTestField
+          type: internetDomain
 
-        #- name: IpAddressTestField
-        #  type: ipAddress
+        - name: IpAddressV4TestField
+          type: ipAddress
+          
+        - name: IpAddressV6TestField
+          type: ipAddress
 
-        #- name: LengthTestField
-        #  type: length
+        - name: JsonTestField
+          type: json
 
-        #- name: MacAddressTestField
-        #  type: macAddress
+        - name: LengthTestField
+          type: length
 
-        #- name: MonthTestField
-        #  type: month
+        - name: MacAddressTestField
+          type: macAddress
+
+        - name: MonthTestField
+          type: month
 
         #- name: NuidTestField
         #  type: nuid
 
-        #- name: PasswordTestField
-        #  type: password
+        - name: PasswordTestField
+          type: password
 
         #- name: PercentageTestField
         #  type: percentage
@@ -306,8 +397,12 @@ domain:
         #- name: PhoneNumberTestField
         #  type: phoneNumber
 
-        #- name: TempratureTestField
-        #  type: temperature
+        - name: TempratureTestField
+          type: temperature
+  
+
+        - name: TranslatedTextTestField
+          type: translatedText
 
         #- name: UriTestField
         #  type: uri
@@ -321,8 +416,30 @@ domain:
         #- name: YearTestField
         #  type: year
 
-        #- name: CultureCodeTestField
-        #  type: cultureCode
+        - name: CultureCodeTestField
+          type: cultureCode
 
-        #- name: LanguageCodeTestField
-        #  type: languageCode
+        - name: LanguageCodeTestField
+          type: languageCode
+          
+        - name: YamlTestField
+          type: yaml
+
+        - name: DateTimeDurationTestField
+          type: dateTimeDuration
+
+        - name: VatNumberTestField
+          type: vatNumber
+            
+        - name: DateTestField
+          type: date
+
+        - name: FileTestField
+          type: file
+
+        - name: FormulaTestField
+          type: formula
+          formulaTypeOptions:
+              expression: "2 + 2"
+              returns: int
+

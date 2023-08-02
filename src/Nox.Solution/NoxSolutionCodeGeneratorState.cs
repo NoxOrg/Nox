@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Linq;
 using System.Reflection;
+using Nox.Types;
 
 namespace Nox.Solution;
 
@@ -22,9 +24,10 @@ public class NoxSolutionCodeGeneratorState
     public string PersistenceNameSpace => $"{RootNameSpace}.Infrastructure.Persistence";
     public string ODataNameSpace => $"{RootNameSpace}.Presentation.Api.OData";
     public string Events => $"{RootNameSpace}.Application.Events";
-    public string GetEntityTypeFullName(string entityName) => $"{DomainNameSpace}.{entityName}";
-    public Type? GetEntityType(string entityName) => _entryAssembly.GetType(GetEntityTypeFullName(entityName));
 
+    public string GetEntityTypeFullName(string entityName) => $"{DomainNameSpace}.{entityName}";
+
+    public Type? GetEntityType(string entityName) => _entryAssembly.GetType(GetEntityTypeFullName(entityName));
 
     public string GetForeignKeyPropertyName(string foreignEntityName)
     {

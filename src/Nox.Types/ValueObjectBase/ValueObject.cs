@@ -3,20 +3,42 @@ using System.Collections.Generic;
 using System.Linq;
 
 namespace Nox.Types;
-
+/// <summary>
+/// Base abstract class for creating value objects in the Nox framework.
+/// A value object is an immutable type that represents an attribute or component of an entity.
+/// Value objects have no identity and are compared by their value rather than by reference.
+/// </summary>
+/// <typeparam name="T">The underlying type of the value object.</typeparam>
+/// <typeparam name="TValueObject">The specific type of the value object.</typeparam>
 public abstract class ValueObject<T, TValueObject> : INoxType
     where TValueObject : ValueObject<T, TValueObject>, new()
 {
+    /// <summary>
+    /// Gets or sets the value of the value object.
+    /// </summary>
     public virtual T Value { get; protected set; } = default!;
 
+  
+    
     protected ValueObject()
     { }
 
-    public TValueObject FromDatabase(T value)
+    /// <summary>
+    /// Creates a new instance of the value object from a database value. It does not validate the value and it is for internal use only.
+    /// </summary>
+    /// <param name="value">The value from the database.</param>
+    /// <returns>The newly created value object instance.</returns>
+    public static TValueObject FromDatabase(T value)
     {
         return new TValueObject { Value = value };
     }
 
+    /// <summary>
+    /// Creates a new instance of the value object from a given value.
+    /// </summary>
+    /// <param name="value">The value to be used for the value object.</param>
+    /// <returns>The newly created value object instance.</returns>
+    /// <exception cref="TypeValidationException">Thrown when the validation of the value object fails.</exception>
     public static TValueObject From(T value)
     {
         var newObject = new TValueObject
@@ -34,6 +56,10 @@ public abstract class ValueObject<T, TValueObject> : INoxType
         return newObject;
     }
 
+    /// <summary>
+    /// Validates the value object.
+    /// </summary>
+    /// <returns>A validation result indicating whether the value object is valid or not.</returns>
     internal virtual ValidationResult Validate()
     {
         return new ValidationResult() { };
@@ -113,5 +139,9 @@ public abstract class ValueObject<T, TValueObject> : INoxType
         return string.Join(",", this.GetEqualityComponents().Select(o => o.Value?.ToString() ?? string.Empty).ToArray());
     }
 
+    /// <summary>
+    /// Gets the underlying type of the value object.
+    /// </summary>
+    /// <returns>The type of the underlying value.</returns>
     public virtual Type GetUnderlyingType() => typeof(T);
 }
