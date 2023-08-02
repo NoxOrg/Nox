@@ -22,6 +22,7 @@ using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using Nox.Generator.Application;
 using Nox.Generator.Application.Queries;
+using Nox.Generator.Application.Commands;
 
 namespace Nox.Generator;
 
@@ -73,9 +74,10 @@ public class NoxCodeGenerator : IIncrementalGenerator
 
                     Application.Queries.QueryGenerator.Generate(context, codeGeneratorState);
                     ByIdQueryGenerator.Generate(context, codeGeneratorState);
-                    Application.Commands.DeleteByIdGenerator.Generate(context, codeGeneratorState);
 
-                    
+                    DeleteByIdCommandGenerator.Generate(context, codeGeneratorState);
+                    CreateCommandGenerator.Generate(context, codeGeneratorState);
+
 
                     DomainEventGenerator.Generate(context, codeGeneratorState);
                     
