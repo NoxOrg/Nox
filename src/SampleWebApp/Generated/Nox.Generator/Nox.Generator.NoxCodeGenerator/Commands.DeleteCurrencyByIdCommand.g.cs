@@ -22,12 +22,12 @@ public class DeleteCurrencyByIdCommandHandler: IRequestHandler<DeleteCurrencyByI
     public async Task<bool> Handle(DeleteCurrencyByIdCommand request, CancellationToken cancellationToken)
     {
         var entity = await DataDbContext.Currencies.FindAsync(request.key);
-        if (entity == null)
+        if (entity == null || entity.Deleted == true)
         {
             return false;
         }
 
-        DataDbContext.Currencies.Remove(entity);
+        entity.Delete();
         await DataDbContext.SaveChangesAsync(cancellationToken);
         return true;
     }

@@ -22,12 +22,12 @@ public class DeleteAllNoxTypeByIdCommandHandler: IRequestHandler<DeleteAllNoxTyp
     public async Task<bool> Handle(DeleteAllNoxTypeByIdCommand request, CancellationToken cancellationToken)
     {
         var entity = await DataDbContext.AllNoxTypes.FindAsync(request.key);
-        if (entity == null)
+        if (entity == null || entity.Deleted == true)
         {
             return false;
         }
 
-        DataDbContext.AllNoxTypes.Remove(entity);
+        entity.Delete();
         await DataDbContext.SaveChangesAsync(cancellationToken);
         return true;
     }

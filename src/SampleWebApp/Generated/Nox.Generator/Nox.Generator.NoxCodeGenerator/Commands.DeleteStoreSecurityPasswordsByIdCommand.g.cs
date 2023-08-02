@@ -22,12 +22,12 @@ public class DeleteStoreSecurityPasswordsByIdCommandHandler: IRequestHandler<Del
     public async Task<bool> Handle(DeleteStoreSecurityPasswordsByIdCommand request, CancellationToken cancellationToken)
     {
         var entity = await DataDbContext.StoreSecurityPasswords.FindAsync(request.key);
-        if (entity == null)
+        if (entity == null || entity.Deleted == true)
         {
             return false;
         }
 
-        DataDbContext.StoreSecurityPasswords.Remove(entity);
+        entity.Delete();
         await DataDbContext.SaveChangesAsync(cancellationToken);
         return true;
     }
