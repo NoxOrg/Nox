@@ -199,6 +199,11 @@ public class OAllNoxType : AuditableEntityBase
     /// CountryCode3 Nox Type.
     /// </summary>
     public String CountryCode3Field { get; set; } = default!;
+    
+    /// <summary>
+    /// Formula Nox Type.
+    /// </summary>
+    public String? FormulaField { get; set; } = default!;
 }
 
 /// <summary>
@@ -360,6 +365,11 @@ public class AllNoxTypeDto
     /// CountryCode3 Nox Type.
     /// </summary>
     public String CountryCode3Field { get; set; } = default!;
+    
+    /// <summary>
+    /// Formula Nox Type.
+    /// </summary>
+    public String? FormulaField { get; set; } = default!;
 }
 
 /// <summary>
