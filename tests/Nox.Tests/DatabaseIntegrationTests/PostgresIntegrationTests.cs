@@ -33,7 +33,6 @@ public class PostgresIntegrationTests : PostgresTestBase
         // languageCode
         // yaml
         // uri
-        // url
         // date
         // dateTimeSchedule
         // html
@@ -63,6 +62,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         var areaPersistUnitAs = AreaTypeUnit.SquareMeter;
         var cultureCode = "de-CH";
         var macAddress = "A1B2C3D4E5F6";
+        var url = "http://example.com/";
         var password = "Test123.";
         var dayOfWeek = 1;
         byte month = 7;
@@ -118,6 +118,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             CountryNumberTestField = CountryNumber.From(242),
             TimeZoneCodeTestField = TimeZoneCode.From("utc"),
             MacAddressTestField = MacAddress.From(macAddress),
+            UrlTestField = Url.From(url),
             HashedTextTestField = HashedText.From(text),
             PasswordTestField = Password.From(password),
             DayOfWeekTestField = DayOfWeek.From(1),
@@ -162,6 +163,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.CountryNumberTestField!.Value.Should().Be(242);
         testEntity.TimeZoneCodeTestField!.Value.Should().Be("UTC");
         testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
+        testEntity.UrlTestField!.Value.AbsoluteUri.Should().Be(url);
         testEntity.HashedTextTestField!.HashText.Should().Be(newItem.HashedTextTestField?.HashText);
         testEntity.HashedTextTestField!.Salt.Should().Be(newItem.HashedTextTestField?.Salt);
         testEntity.PasswordTestField!.HashedPassword.Should().Be(newItem.PasswordTestField.HashedPassword);

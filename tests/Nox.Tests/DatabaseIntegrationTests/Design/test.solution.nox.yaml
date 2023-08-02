@@ -432,6 +432,9 @@ domain:
         - name: FileTestField
           type: file
 
+        - name: UrlTestField
+          type: url
+
         - name: FormulaTestField
           type: formula
           formulaTypeOptions:

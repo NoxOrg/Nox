@@ -32,15 +32,26 @@ public class UrlTests
         actual.Value.AbsoluteUri.Should().Be(expected);
     }
 
-
     [Theory]
     [InlineData("abc://www.google.com/")]
-    public void BadUrl_Should_ThrowException(string input)
+    public void BadUri_Should_ThrowException(string input)
     {
         var uri = new System.Uri(input);
-        Action init = () => { var url = Url.From(uri); };
+        Action init = () => { Url.From(uri); };
 
         init.Should().Throw<TypeValidationException>();
     }
 
+    [Theory]
+    [InlineData("www.com")]
+    [InlineData("wwwgooglecom")]
+    [InlineData("www.googlecom")]
+    [InlineData("wwwgoogle/com")]
+    [InlineData("abc://www.google.com/")]
+    public void BadUrl_Should_ThrowException(string input)
+    {
+        Action init = () => { Url.From(input); };
+
+        init.Should().Throw<TypeValidationException>();
+    }
 }
