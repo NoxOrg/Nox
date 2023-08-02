@@ -45,7 +45,7 @@ namespace Nox.Domain
         {
             Deleted = true;
             DeletedAtUtc = DateTime.UtcNow;
-            // TODO DeletedBy
+            // TODO DeletedBy to be done by interceptor on db context...
         }
 
     }

@@ -1,4 +1,7 @@
 ﻿using FluentValidation;
+using MediatR;
+using SampleWebApp.Application.Queries;
+using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Behavior
 {
@@ -6,7 +9,9 @@ namespace SampleWebApp.Application.Behavior
     {
         public static IServiceCollection AddSecurityValidators(this IServiceCollection services)
         {
-            return services.AddSingleton<IValidator<Queries.GetStoreByIdQuery>, GetStoreByIdSecurityValidator>();
+            return services
+                .AddSingleton<IValidator<GetStoreByIdQuery>, GetStoreByIdSecurityValidator>()
+                .AddScoped<IPipelineBehavior<GetStoresQuery, IQueryable<OStore>>, GetStoresQuerySecurityFilter> ();
         }
     }
 }

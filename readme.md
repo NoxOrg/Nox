@@ -82,10 +82,11 @@ public string ToString(IFormatProvider formatProvider)
     return $"{Value.Latitude.ToString(formatProvider)} {Value.Longitude.ToString(formatProvider)}";
 }
 ```
+# Queries and Commands Extensability
 
-# Security And Other Validations Extension
+## Security And Other Validations
 
-To add security, or other business rule to generated queries our custom queries, add an IValidator for the query, example for securing GetStoreByIdquery
+To add security, or other business rule to generated queries, commands, orr custom queries, add an IValidator for the query, example for securing GetStoreByIdquery
 
 ```c#
  public class GetStoreByIdSecurityValidator : AbstractValidator<GetStoreByIdQuery>
@@ -109,6 +110,77 @@ services.AddSingleton<IValidator<Queries.GetStoreByIdQuery>, GetStoreByIdSecurit
 
 Response:
 ![Response example](/docs/images//securityexceptionexample.png)
+
+## Queries Filter Extension
+
+To add extra filter to generated queries, for security or other purposes, add a new Pipeline behavior (see MediatR), filtering Get Stores example:
+
+```c#
+  public class GetStoresQuerySecurityFilter : IPipelineBehavior<GetStoresQuery, IQueryable<OStore>>
+    {
+        public async Task<IQueryable<OStore>> Handle(GetStoresQuery request, RequestHandlerDelegate<IQueryable<OStore>> next, CancellationToken cancellationToken)
+        {
+            var result = await next();
+
+            return result.Where(store => store.Id == "EUR");
+        }
+    }
+```
+
+and register in the container
+
+```c#
+services.AddScoped<IPipelineBehavior<GetStoresQuery, IQueryable<OStore>>, GetStoresQuerySecurityFilter> ()
+```
+
+## Add new Queries to Existing Controllers
+
+To add a custom query to a generated controller, you need to:
+
+1. Create a partial class with the name of the controller
+1. Create a Query Request
+1. Create a Query Handler
+
+example:
+
+```c#
+/// <summary>
+/// Extending a OData controller example with additional queries (Action) and commands (Functions)
+/// </summary>
+public partial class CountriesController
+{
+    [HttpGet("GetCountriesIManage")]
+    public async Task<IResult> GetCountriesIManage()
+    {
+        var result = await _mediator.Send(new GetCountriesIManageQuery());
+        return Results.Ok(result);
+    }
+}
+
+
+namespace SampleWebApp.Application.Queries
+{
+    /// <summary>
+    /// Custom Query and Handler Example
+    /// </summary>
+    public record GetCountriesIManageQuery : IRequest<IQueryable<OCountry>>;
+
+    public class GetCountriesIManageQueryHandler : IRequestHandler<GetCountriesIManageQuery, IQueryable<OCountry>>
+    {
+        public GetCountriesIManageQueryHandler(ODataDbContext dataDbContext)
+        {
+            DataDbContext = dataDbContext;
+        }
+
+        public ODataDbContext DataDbContext { get; }
+
+        public Task<IQueryable<OCountry>> Handle(GetCountriesIManageQuery request, CancellationToken cancellationToken)
+        {
+            return Task.FromResult((IQueryable<OCountry>)DataDbContext.Countries.Where(country => country.Population > 12348));
+        }
+    }
+}
+```
 
 ## Versioning
 

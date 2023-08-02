@@ -66,6 +66,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         var password = "Test123.";
         var dayOfWeek = 1;
         byte month = 7;
+        var currencyNumber = (short)970;
         var dateTimeDurationInHours = 30.5;
         var date = new DateOnly(2023, 7, 14);
         var fileName = "MyFile";
@@ -123,6 +124,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             PasswordTestField = Password.From(password),
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
+            CurrencyNumberTestField = CurrencyNumber.From(currencyNumber),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
             JsonTestField = Json.From(addressJsonPretty),
             BooleanTestField = Types.Boolean.From(boolean),
@@ -169,6 +171,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.PasswordTestField!.Salt.Should().Be(newItem.PasswordTestField.Salt);
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
         testEntity.MonthTestField!.Value.Should().Be(month);
+        testEntity.CurrencyNumberTestField!.Value.Should().Be(currencyNumber);
         testEntity.DateTimeDurationTestField!.TotalHours.Should().Be(dateTimeDurationInHours);
         testEntity.JsonTestField!.Value.Should().Be(addressJsonMinified);
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);

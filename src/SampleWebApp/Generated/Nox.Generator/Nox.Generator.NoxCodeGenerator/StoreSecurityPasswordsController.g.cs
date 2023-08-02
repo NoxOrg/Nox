@@ -67,7 +67,7 @@ public partial class StoreSecurityPasswordsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post(StoreSecurityPasswordsDto storesecuritypasswords)
+    public async Task<ActionResult> Post([FromBody]StoreSecurityPasswordsDto storesecuritypasswords)
     {
         if (!ModelState.IsValid)
         {

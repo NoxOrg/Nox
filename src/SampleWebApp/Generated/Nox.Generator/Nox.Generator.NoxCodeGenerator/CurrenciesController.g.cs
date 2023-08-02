@@ -67,7 +67,7 @@ public partial class CurrenciesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post(CurrencyDto currency)
+    public async Task<ActionResult> Post([FromBody]CurrencyDto currency)
     {
         if (!ModelState.IsValid)
         {
