@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230802081352_InitialCreate")]
+    [Migration("20230802114801_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

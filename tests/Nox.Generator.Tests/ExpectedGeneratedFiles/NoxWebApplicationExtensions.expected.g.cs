@@ -23,8 +23,6 @@ public static class NoxWebApplicationBuilderExtension
         appBuilder.Services.AddSingleton<INoxDatabaseProvider, SqlServerDatabaseProvider>();
         appBuilder.Services.AddDbContext<TestWebAppDbContext>();
         appBuilder.Services.AddDbContext<ODataDbContext>();
-        var tmpProvider = appBuilder.Services.BuildServiceProvider();
-        var dbContext = tmpProvider.GetRequiredService<TestWebAppDbContext>();
         return appBuilder;
     }
     
