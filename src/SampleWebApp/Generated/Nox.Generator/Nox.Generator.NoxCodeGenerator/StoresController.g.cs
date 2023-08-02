@@ -11,6 +11,7 @@ using AutoMapper;
 using MediatR;
 using SampleWebApp.Application;
 using SampleWebApp.Application.Queries;
+using SampleWebApp.Application.Commands;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 using SampleWebApp.Infrastructure.Persistence;
@@ -157,16 +158,14 @@ public partial class StoresController : ODataController
         return _databaseContext.Stores.Any(p => p.Id == store);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] string Id)
+    public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var store = await _databaseContext.Stores.FindAsync(Id);
-        if (store == null)
+        var result = await _mediator.Send(new DeleteStoreByIdCommand(key));
+        if (!result)
         {
             return NotFound();
         }
         
-        _databaseContext.Stores.Remove(store);
-        await _databaseContext.SaveChangesAsync();
         return NoContent();
     }
 }

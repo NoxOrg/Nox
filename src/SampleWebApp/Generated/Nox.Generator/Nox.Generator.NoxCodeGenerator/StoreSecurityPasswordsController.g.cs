@@ -11,6 +11,7 @@ using AutoMapper;
 using MediatR;
 using SampleWebApp.Application;
 using SampleWebApp.Application.Queries;
+using SampleWebApp.Application.Commands;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 using SampleWebApp.Infrastructure.Persistence;
@@ -157,16 +158,14 @@ public partial class StoreSecurityPasswordsController : ODataController
         return _databaseContext.StoreSecurityPasswords.Any(p => p.Id == storesecuritypasswords);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] string Id)
+    public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var storesecuritypasswords = await _databaseContext.StoreSecurityPasswords.FindAsync(Id);
-        if (storesecuritypasswords == null)
+        var result = await _mediator.Send(new DeleteStoreSecurityPasswordsByIdCommand(key));
+        if (!result)
         {
             return NotFound();
         }
         
-        _databaseContext.StoreSecurityPasswords.Remove(storesecuritypasswords);
-        await _databaseContext.SaveChangesAsync();
         return NoContent();
     }
 }
