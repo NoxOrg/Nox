@@ -3,9 +3,9 @@
 #nullable enable
 
 using Nox.Types;
+using Nox.Domain;
 using System;
 using System.Collections.Generic;
-using DayOfWeek = Nox.Types.DayOfWeek;
 
 namespace TestWebApp.Domain;
 
@@ -53,7 +53,7 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public DayOfWeek? DayOfWeekTestField { get; set; } = null!;
+    public Nox.Types.DayOfWeek? DayOfWeekTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -83,7 +83,17 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public CurrencyNumber? CurrencyNumberTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Email? EmailTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public EncryptedText? EncryptedTextTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -94,6 +104,7 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public InternetDomain? InternetDomainTestField { get; set; } = null!;
+
     /// <summary>
     ///  (Optional).
     /// </summary>
@@ -142,6 +153,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Nox.Types.Uri? UriTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public CultureCode? CultureCodeTestField { get; set; } = null!;
 
     /// <summary>
@@ -153,16 +169,6 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public Yaml? YamlTestField { get; set; } = null!;
-
-    /// <summary>
-    ///  (Optional).
-    /// </summary>
-    public EncryptedText? EncryptedTextTestField { get; set; } = null!;
-
-    /// <summary>
-    ///  (Optional).
-    /// </summary>
-    public CurrencyNumber? CurrencyNumberTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -183,4 +189,9 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public Nox.Types.File? FileTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public int? FormulaTestField => 2 + 2;
 }

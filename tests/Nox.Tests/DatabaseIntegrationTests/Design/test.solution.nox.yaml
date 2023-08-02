@@ -399,8 +399,8 @@ domain:
         - name: TranslatedTextTestField
           type: translatedText
 
-        #- name: UriTestField
-        #  type: uri
+        - name: UriTestField
+          type: uri
 
         #- name: VolumeTestField
         #  type: volume
