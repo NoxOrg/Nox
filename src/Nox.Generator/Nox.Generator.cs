@@ -71,6 +71,8 @@ public class NoxCodeGenerator : IIncrementalGenerator
                 if (generate.Domain)
                 {
                     EntitiesGenerator.Generate(context, codeGeneratorState);
+                    EntityFactoryGenerator.Generate(context, codeGeneratorState);
+                    
 
                     Application.Queries.QueryGenerator.Generate(context, codeGeneratorState);
                     ByIdQueryGenerator.Generate(context, codeGeneratorState);
