@@ -101,6 +101,8 @@ public class PostgresIntegrationTests : PostgresTestBase
         var length = 314_598M;
         var persistLengthUnitAs = LengthTypeUnit.Meter;
 
+        var jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -134,6 +136,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
             InternetDomainTestField = InternetDomain.From(internetDomain),
             LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
+            JwtTokenTestField = JwtToken.From(jwtToken),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -188,5 +191,6 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.InternetDomainTestField!.Value.Should().Be(internetDomain);
         testEntity.LengthTestField!.ToFeet().Should().Be(length);
         testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
+        testEntity.JwtTokenTestField!.Value.Should().Be(jwtToken);
     }
 }
