@@ -62,7 +62,7 @@ public class Volume : Measurement<Volume, VolumeUnit>
     /// <param name="options">Options to create a <see cref="Volume"/>.</param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
-    private static Volume From(QuantityValue value, VolumeTypeOptions options)
+    public static Volume From(QuantityValue value, VolumeTypeOptions options)
     {
         var newObject = new Volume
         {
