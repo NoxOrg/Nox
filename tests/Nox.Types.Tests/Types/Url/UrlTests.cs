@@ -39,7 +39,9 @@ public class UrlTests
         var uri = new System.Uri(input);
         Action init = () => { Url.From(uri); };
 
-        init.Should().Throw<TypeValidationException>();
+        init.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
+            $"Could not create a Nox Url type as value {input} is not a valid Url.")
+        });
     }
 
     [Theory]
@@ -52,6 +54,8 @@ public class UrlTests
     {
         Action init = () => { Url.From(input); };
 
-        init.Should().Throw<TypeValidationException>();
+        init.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
+            $"Could not create a Nox Url type as value {input} is not a valid Url.")
+        });
     }
 }

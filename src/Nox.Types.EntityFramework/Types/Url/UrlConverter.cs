@@ -2,7 +2,7 @@
 
 namespace Nox.Types.EntityFramework.Types;
 
-public class UrlConverter : ValueConverter<Url, System.Uri>
+public class UrlConverter : ValueConverter<Url, string>
 {
-    public UrlConverter() : base(url => url.Value, url => Url.FromDatabase(url)) { }
+    public UrlConverter() : base(url => url.Value.AbsoluteUri, url => Url.FromDatabase(url)) { }
 }

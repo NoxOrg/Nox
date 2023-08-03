@@ -19,7 +19,7 @@ public sealed class Url : ValueObject<System.Uri, Url>
         if (!System.Uri.TryCreate(value, UriKind.Absolute, out var uriValue))
         {
             throw new TypeValidationException(
-                new List<ValidationFailure> { new(nameof(value), $"The string '{value}' you provided, is not a valid Uri.") }
+                new List<ValidationFailure> { new("Value", $"Could not create a Nox Url type as value {value} is not a valid Url.") }
             );
         }
 
@@ -35,17 +35,18 @@ public sealed class Url : ValueObject<System.Uri, Url>
         return newObject;
     }
 
+    /// <inheritdocs/>
+    public static Url FromDatabase(string value) => From(value);
+
     /// <inheritdoc />
     internal override ValidationResult Validate()
     {
         var result = base.Validate();
 
-        bool isValid = System.Uri.TryCreate(Value.ToString(), UriKind.Absolute, out var uriResult) && ValidSchemes.Contains(uriResult.Scheme);
-
-        if (!isValid)
+        if (!ValidSchemes.Contains(Value.Scheme))
         {
             result.Errors.Add(new ValidationFailure(
-                nameof(Value), $"Could not create a Nox Url type; as value {Value} is not a valid Url.")
+                nameof(Value), $"Could not create a Nox Url type as value {Value} is not a valid Url.")
             );
         }
 
