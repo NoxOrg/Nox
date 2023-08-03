@@ -211,4 +211,10 @@ public class DateTimeScheduleTests
         dateTimeSchedule1.EndDate.Should().Be(end);
         occurences.Count.Should().Be(1);
     }
+
+    [Fact]
+    public void test()
+    {
+        DateTimeSchedule.test("test ajla", "test descript", System.DateTime.Now, System.DateTime.Now.AddHours(2), System.DateTime.Now.AddMonths(2), Ical.Net.FrequencyType.Daily, 2);
+    }
 }

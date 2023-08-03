@@ -1,7 +1,13 @@
 ﻿using System.Globalization;
 using System;
 using System.Collections.Generic;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using System.Text;
+using Ical.Net.CalendarComponents;
+using Ical.Net;
+using Ical.Net.Serialization;
+using Ical.Net.DataTypes;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Http;
 
 namespace Nox.Types;
 
@@ -170,6 +176,40 @@ public class DateTimeSchedule : ValueObject<(System.DateTime StartDate, System.D
         }
 
         return occurrences;
+    }
+
+    public static void test(string eventTitle, string eventDescription, System.DateTime startDateTime, System.DateTime endDateTime, System.DateTime recurrenceEndDate, FrequencyType frequency, int frequencyInterval)
+    {
+        var calendar = new Ical.Net.Calendar();
+
+        var icalEvent = new CalendarEvent
+        {
+            Summary = eventTitle,
+            Description = eventDescription,
+            // start date of event
+            Start = new CalDateTime(startDateTime),
+            // end date of event, duration
+            End = new CalDateTime(endDateTime),
+
+        };
+
+        var recurrenceRule = new RecurrencePattern(frequency, frequencyInterval)
+        {
+            Until = recurrenceEndDate
+        };
+
+        icalEvent.RecurrenceRules = new List<RecurrencePattern> { recurrenceRule };
+
+        calendar.Events.Add(icalEvent);
+
+        var iCalSerializer = new CalendarSerializer();
+        string result = iCalSerializer.SerializeToString(calendar);
+
+        var bytes = Encoding.UTF8.GetBytes(result);
+        var fileStream = new System.IO.FileStream(
+        @"C:\\Users\\ajla.becic\\OneDrive - Authority Partners Inc\\Documents\\Nova fascikla\\DDayEvent.ics", System.IO.FileMode.Create, System.IO.FileAccess.Write);
+        fileStream.Write(bytes, 0, bytes.Length);
+        fileStream.Close();
     }
 }
 
