@@ -11,7 +11,7 @@ namespace Nox.Types;
 /// </summary>
 public class Weight : ValueObject<QuantityValue, Weight>
 {
-    internal const int QuantityValueDecimalPrecision = 6;
+    public const int QuantityValueDecimalPrecision = 6;
 
     private WeightTypeOptions _weightTypeOptions = new();
     private WeightUnit _weightUnit = null!;

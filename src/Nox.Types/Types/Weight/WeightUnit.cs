@@ -2,7 +2,7 @@
 
 namespace Nox.Types;
 
-internal sealed class WeightUnit : MeasurementUnit
+public sealed class WeightUnit : MeasurementUnit
 {
     public static readonly WeightUnit Kilogram = new(1, "Kilogram", "kg");
     public static readonly WeightUnit Pound = new(2, "Pound", "lb");

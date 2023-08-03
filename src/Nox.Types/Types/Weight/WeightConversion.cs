@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Nox.Types;
 
-internal sealed class WeightConversion : MeasurementConversion<WeightUnit>
+public sealed class WeightConversion : MeasurementConversion<WeightUnit>
 {
     private static readonly Dictionary<(WeightUnit, WeightUnit), Func<QuantityValue, QuantityValue>> _definedWeightConversionFormulas = new()
     {

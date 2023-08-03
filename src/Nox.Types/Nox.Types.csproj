@@ -24,7 +24,6 @@
   <ItemGroup>
     <None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
     <InternalsVisibleTo Include="Nox.Types.Tests" />
-	  <InternalsVisibleTo Include="Nox.EntityFramework.SqlServer" />
   </ItemGroup>
   
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
