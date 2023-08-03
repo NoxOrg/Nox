@@ -282,7 +282,8 @@ public class SqliteIntegrationTests : SqliteTestBase
             TextTestField2 = Text.From(text),
         };
 
-        newItem.SecondTestEntityExactlyOne = newItem2;
+        newItem.SecondTestEntityExactlyOne = newItem2; 
+        newItem.SecondTestEntityExactlyOneId = newItem2.Id;
         newItem2.TestEntityExactlyOne = newItem;
         DbContext.TestEntityExactlyOnes.Add(newItem);
         DbContext.SecondTestEntityExactlyOnes.Add(newItem2);
