@@ -21,7 +21,7 @@ public class GetCountryLocalNamesByIdQueryHandler: IRequestHandler<GetCountryLoc
 
     public Task<OCountryLocalNames?> Handle(GetCountryLocalNamesByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.CountryLocalNames.SingleOrDefault(r => r.Id.Equals(request.key));
+        var item = DataDbContext.CountryLocalNames.SingleOrDefault(r => !(r.Deleted == true) && r.Id.Equals(request.key));
         return Task.FromResult(item);
     }
 }
