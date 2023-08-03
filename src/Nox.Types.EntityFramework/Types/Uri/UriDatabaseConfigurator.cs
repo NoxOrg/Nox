@@ -41,6 +41,7 @@ public class UriDatabaseConfigurator : INoxTypeDatabaseConfigurator
             .Property(property.Name)
             .IsRequired(property.IsRequired)
             .IsUnicode(false)
+            .HasMaxLength(2047)
             .HasConversion<UriConverter>();
     }
 

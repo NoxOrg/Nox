@@ -25,4 +25,12 @@ public sealed class Uri : ValueObject<System.Uri, Uri>
         return newObject;
     }
 
+    public static Uri FromDatabase(string value)
+    {
+        return  new Uri
+        {
+            Value = new System.Uri(value, System.UriKind.Absolute)
+        };
+    }
+
 }
