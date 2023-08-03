@@ -7,7 +7,7 @@ using System.Globalization;
 
 namespace Nox.EntityFramework.SqlServer;
 
-public class SqlServerWeightDatabaseConfigurator : WeightDatabaseConfigurator
+public class SqlServerWeightDatabaseConfigurator : WeightDatabaseConfigurator, ISqlServerNoxTypeDatabaseConfigurator
 {
     public override bool IsDefault => false;
 

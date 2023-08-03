@@ -19,6 +19,7 @@
     <RepositoryType>git</RepositoryType>
     <PackageIcon>nox.png</PackageIcon>
   </PropertyGroup>
+   
 
   <ItemGroup>
     <None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
@@ -45,8 +46,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Attributes\" />
-    <Folder Include="Types\Entity\" />
     <Folder Include="Types\TranslatedText\" />
   </ItemGroup>
 

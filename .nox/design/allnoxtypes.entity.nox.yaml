@@ -41,4 +41,11 @@ attributes:
     description: CountryCode3 Nox Type
     type: countryCode3
     isRequired: true
+
+  - name: FormulaField
+    description: Formula Nox Type
+    type: formula
+    formulaTypeOptions:
+        expression: "CountryCode2Field.ToString()"
+        returns: string
     

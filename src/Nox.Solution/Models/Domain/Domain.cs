@@ -1,5 +1,6 @@
 ﻿using Nox.Types.Schema;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Nox.Solution;
 
@@ -14,5 +15,6 @@ public class Domain : DefinitionBase
     [Description("The collection of entities and their relationships with each other.")]
     [AdditionalProperties(false)]
     public IReadOnlyList<Entity> Entities { get; internal set; } = new List<Entity>();
-    
+
+    public Entity GetEntityByName(string entityName) => Entities.Single(entity => entity.Name == entityName);
 }

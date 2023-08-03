@@ -1,13 +1,8 @@
 using FluentAssertions;
-
 using Microsoft.EntityFrameworkCore;
-
 using Nox.Types;
-
 using System.Text.Json;
-
 using TestWebApp.Domain;
-
 using DayOfWeek = Nox.Types.DayOfWeek;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
@@ -69,12 +64,21 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var dayOfWeek = 1;
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
+        var currencyNumber = (short)970;
         var vatNumberValue = "44403198682";
         var vatNumberCountryCode2 = CountryCode2.From("FR");
         var date = new DateOnly(2023, 7, 14);
         var fileName = "MyFile";
         var fileSizeInBytes = 1000000UL;
         var fileUrl = "https://example.com/myfile.pdf";
+
+        using var aesAlgorithm = System.Security.Cryptography.Aes.Create();
+        var encryptedTextTypeOptions = new EncryptedTextTypeOptions
+        {
+            PublicKey = Convert.ToBase64String(aesAlgorithm.Key),
+            EncryptionAlgorithm = EncryptionAlgorithm.Aes,
+            Iv = Convert.ToBase64String(aesAlgorithm.IV)
+        };
 
         var addressJsonPretty = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { WriteIndented = true });
         var addressJsonMinified = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
@@ -97,6 +101,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var length = 314_598M;
         var persistLengthUnitAs = LengthTypeUnit.Meter;
 
+        var jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+
         var weight = 20.58M;
         var persistWeightUnitAs = WeightTypeUnit.Kilogram;
 
@@ -110,6 +116,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = persistAreaUnitAs }),
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
+            IpAddressV4TestField = IpAddress.From("192.168.12.100"),
+            IpAddressV6TestField = IpAddress.From("2001:0db8:3c4d:0015:0000:0000:1a2f:1a2b"),
             LanguageCodeTestField = LanguageCode.From(languageCode),
             CultureCodeTestField = CultureCode.From(cultureCode),
             TranslatedTextTestField = TranslatedText.From((CultureCode.From("ur-PK"), "شادی مبارک")),
@@ -122,16 +130,19 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
+            CurrencyNumberTestField = CurrencyNumber.From(currencyNumber),
             JsonTestField = Json.From(addressJsonPretty),
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
             VatNumberTestField = VatNumber.From(vatNumberValue, vatNumberCountryCode2),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
+            EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
             DateTestField = Date.From(date),
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
             InternetDomainTestField = InternetDomain.From(internetDomain),
             LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
+            JwtTokenTestField = JwtToken.From(jwtToken),
             WeightTestField = Weight.From(weight, new WeightTypeOptions() { Units = WeightTypeUnit.Pound, PersistAs = persistWeightUnitAs }),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
@@ -154,6 +165,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
         testEntity.AreaTestField!.Unit.Should().Be(persistAreaUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
+        testEntity.IpAddressV4TestField!.Value.Should().Be("192.168.12.100");
+        testEntity.IpAddressV6TestField!.Value.Should().Be("2001:db8:3c4d:15::1a2f:1a2b");
         testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
         testEntity.TranslatedTextTestField!.Value.Phrase.Should().BeEquivalentTo("شادی مبارک");
@@ -168,6 +181,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
         testEntity.MonthTestField!.Value.Should().Be(month);
         testEntity.DateTimeDurationTestField!.TotalHours.Should().Be(dateTimeDurationInHours);
+        testEntity.CurrencyNumberTestField!.Value.Should().Be(currencyNumber);
         testEntity.JsonTestField!.Value.Should().Be(addressJsonMinified);
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("p").Should().Be(addressJsonPretty);
@@ -181,6 +195,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
         testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
+        testEntity.EncryptedTextTestField!.DecryptText(encryptedTextTypeOptions).Should().Be(text);
         testEntity.DateTestField!.Value.Should().Be(date);
         testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);
         testEntity.FileTestField!.Value.PrettyName.Should().Be(fileName);
@@ -189,6 +204,9 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.LengthTestField!.ToFeet().Should().Be(length);
         testEntity.WeightTestField!.Unit.Should().Be(persistWeightUnitAs);
         testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
+        testEntity.JwtTokenTestField!.Value.Should().Be(jwtToken);
+        testEntity.WeightTestField!.Unit.Should().Be(persistWeightUnitAs);
+        testEntity.WeightTestField!.ToPounds().Should().Be(weight);
     }
 
     //[Fact]
@@ -260,20 +278,24 @@ public class SqlServerIntegrationTests : SqlServerTestBase
     //[Fact]
     public void GeneratedRelationship_SqlServer_ExactlyOne_ExactlyOne()
     {
-        var text = "TX";
+        var text = "T1";
+        var textId1 = "T2";
+        var textId2 = "T3";
 
         var newItem = new TestEntityExactlyOne()
         {
-            Id = Text.From(text),
+            Id = Text.From(textId1),
             TextTestField = Text.From(text),
         };
         var newItem2 = new SecondTestEntityExactlyOne()
         {
-            Id = Text.From(text),
+            Id = Text.From(textId2),
             TextTestField2 = Text.From(text),
         };
 
         newItem.SecondTestEntityExactlyOne = newItem2;
+        newItem.SecondTestEntityExactlyOneId = newItem2.Id;
+        newItem2.TestEntityExactlyOne = newItem;
         DbContext.TestEntityExactlyOnes.Add(newItem);
         DbContext.SecondTestEntityExactlyOnes.Add(newItem2);
         DbContext.SaveChanges();
@@ -284,6 +306,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var testEntity = DbContext.TestEntityExactlyOnes.Include(x => x.SecondTestEntityExactlyOne).First();
         var secondTestEntity = DbContext.SecondTestEntityExactlyOnes.Include(x => x.TestEntityExactlyOne).First();
 
+        Assert.Equal(testEntity.Id.Value, textId1);
+        Assert.Equal(secondTestEntity.Id.Value, textId2);
         Assert.NotNull(testEntity.SecondTestEntityExactlyOne);
         Assert.NotNull(secondTestEntity.TestEntityExactlyOne);
     }

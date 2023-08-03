@@ -65,6 +65,9 @@ namespace SampleWebApp.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("Deleted")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
 
@@ -123,6 +126,9 @@ namespace SampleWebApp.Migrations
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("Deleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
@@ -206,6 +212,9 @@ namespace SampleWebApp.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("Deleted")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
 
@@ -236,6 +245,9 @@ namespace SampleWebApp.Migrations
 
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("Deleted")
+                        .HasColumnType("bit");
 
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
@@ -274,6 +286,9 @@ namespace SampleWebApp.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("Deleted")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
 
@@ -311,6 +326,9 @@ namespace SampleWebApp.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<bool?>("Deleted")
+                        .HasColumnType("bit");
+
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
 
@@ -329,6 +347,13 @@ namespace SampleWebApp.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
 
+                    b.Property<string>("StoreId")
+                        .IsRequired()
+                        .HasMaxLength(3)
+                        .IsUnicode(false)
+                        .HasColumnType("char(3)")
+                        .IsFixedLength();
+
                     b.Property<DateTime?>("UpdatedAtUtc")
                         .HasColumnType("datetime2");
 
@@ -336,6 +361,9 @@ namespace SampleWebApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("StoreId")
+                        .IsUnique();
 
                     b.ToTable("StoreSecurityPasswords");
                 });
@@ -373,8 +401,7 @@ namespace SampleWebApp.Migrations
                                 .IsRequired()
                                 .HasMaxLength(64)
                                 .IsUnicode(false)
-                                .HasColumnType("char(64)")
-                                .IsFixedLength();
+                                .HasColumnType("varchar(64)");
 
                             b1.HasKey("AllNoxTypeId");
 
@@ -411,6 +438,23 @@ namespace SampleWebApp.Migrations
                         });
 
                     b.Navigation("PhysicalMoney")
+                        .IsRequired();
+                });
+
+            modelBuilder.Entity("SampleWebApp.Domain.StoreSecurityPasswords", b =>
+                {
+                    b.HasOne("SampleWebApp.Domain.Store", "Store")
+                        .WithOne("StoreSecurityPasswords")
+                        .HasForeignKey("SampleWebApp.Domain.StoreSecurityPasswords", "StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Store");
+                });
+
+            modelBuilder.Entity("SampleWebApp.Domain.Store", b =>
+                {
+                    b.Navigation("StoreSecurityPasswords")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

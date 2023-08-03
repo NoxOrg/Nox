@@ -66,6 +66,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         var password = "Test123.";
         var dayOfWeek = 1;
         byte month = 7;
+        var currencyNumber = (short)970;
         var dateTimeDurationInHours = 30.5;
         var date = new DateOnly(2023, 7, 14);
         var fileName = "MyFile";
@@ -85,11 +86,22 @@ public class PostgresIntegrationTests : PostgresTestBase
     - County: Geneva
     - County: Lausanne
 ";
+
+        using var aesAlgorithm = System.Security.Cryptography.Aes.Create();
+        var encryptedTextTypeOptions = new EncryptedTextTypeOptions
+        {
+            PublicKey = Convert.ToBase64String(aesAlgorithm.Key),
+            EncryptionAlgorithm = EncryptionAlgorithm.Aes,
+            Iv = Convert.ToBase64String(aesAlgorithm.IV)
+        };
+
         var internetDomain = "nox.org";
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
         var length = 314_598M;
         var persistLengthUnitAs = LengthTypeUnit.Meter;
+
+        var jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
         var weight = 20.58M;
         var persistWeightUnitAs = WeightTypeUnit.Kilogram;
@@ -115,16 +127,19 @@ public class PostgresIntegrationTests : PostgresTestBase
             PasswordTestField = Password.From(password),
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
+            CurrencyNumberTestField = CurrencyNumber.From(currencyNumber),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
             JsonTestField = Json.From(addressJsonPretty),
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
+            EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
             DateTestField = Date.From(date),
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
             InternetDomainTestField = InternetDomain.From(internetDomain),
             LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
+            JwtTokenTestField = JwtToken.From(jwtToken),
             WeightTestField = Weight.From(weight, new WeightTypeOptions() { Units = WeightTypeUnit.Pound, PersistAs = persistWeightUnitAs }),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
@@ -160,6 +175,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.PasswordTestField!.Salt.Should().Be(newItem.PasswordTestField.Salt);
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
         testEntity.MonthTestField!.Value.Should().Be(month);
+        testEntity.CurrencyNumberTestField!.Value.Should().Be(currencyNumber);
         testEntity.DateTimeDurationTestField!.TotalHours.Should().Be(dateTimeDurationInHours);
         testEntity.JsonTestField!.Value.Should().Be(addressJsonMinified);
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
@@ -171,6 +187,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
         testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
+        testEntity.EncryptedTextTestField!.DecryptText(encryptedTextTypeOptions).Should().Be(text);
         testEntity.DateTestField!.Value.Should().Be(date);
         testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);
         testEntity.FileTestField!.Value.PrettyName.Should().Be(fileName);
@@ -178,6 +195,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.InternetDomainTestField!.Value.Should().Be(internetDomain);
         testEntity.LengthTestField!.ToFeet().Should().Be(length);
         testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
+        testEntity.JwtTokenTestField!.Value.Should().Be(jwtToken);
         testEntity.WeightTestField!.Unit.Should().Be(persistWeightUnitAs);
         testEntity.WeightTestField!.ToPounds().Should().Be(weight);
     }

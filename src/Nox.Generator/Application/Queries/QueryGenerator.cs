@@ -22,7 +22,8 @@ internal static class QueryGenerator
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"Get{entity.PluralName}Query")
+                .WithClassName($"Get{entity.PluralName}Queries")
+                .WithFileNamePrefix($"Queries")
                 .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource(templateName);
         }
