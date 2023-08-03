@@ -10,6 +10,6 @@ namespace Nox.Factories
     /// </summary>    
     public interface INoxTypeFactory<T> where T : INoxType
     {
-        T CreateNoxType(Solution.Entity entityDefinition, string propertyName, dynamic value);
+        T? CreateNoxType(Solution.Entity entityDefinition, string propertyName, dynamic? value);
     }
 }

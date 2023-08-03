@@ -24,5 +24,8 @@ public class CountryLocalNamesFactory: EntityFactoryBase<CountryLocalNamesDto, C
 
     protected override void MapEntity(CountryLocalNames entity, Entity entityDefinition, CountryLocalNamesDto dto)
     {
+    #pragma warning disable CS0168 // Variable is declared but never used        
+        dynamic? noxTypeValue;
+    #pragma warning restore CS0168 // Variable is declared but never used
     }
 }

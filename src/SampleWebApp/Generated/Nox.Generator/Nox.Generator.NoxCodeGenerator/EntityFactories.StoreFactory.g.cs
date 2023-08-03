@@ -23,11 +23,15 @@ public class StoreFactory: EntityFactoryBase<StoreDto, Store>
     public  StoreFactory(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
 
     protected override void MapEntity(Store entity, Entity entityDefinition, StoreDto dto)
-    {            
+    {
+    #pragma warning disable CS0168 // Variable is declared but never used        
+        dynamic? noxTypeValue;
+    #pragma warning restore CS0168 // Variable is declared but never used            
     
-            if(dto.Name != null)
+            noxTypeValue =  CreateNoxType<Text>(entityDefinition,"Name",dto.Name);
+            if(noxTypeValue != null)
             {        
-                entity.Name = CreateNoxType<Text>(entityDefinition,"Name",dto.Name);
+                entity.Name = noxTypeValue;
             }            
     // TODO map PhysicalMoney Money remaining types and remove if else
     }

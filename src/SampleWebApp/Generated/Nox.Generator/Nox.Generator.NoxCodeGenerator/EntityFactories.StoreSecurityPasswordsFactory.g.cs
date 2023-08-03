@@ -23,16 +23,21 @@ public class StoreSecurityPasswordsFactory: EntityFactoryBase<StoreSecurityPassw
     public  StoreSecurityPasswordsFactory(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
 
     protected override void MapEntity(StoreSecurityPasswords entity, Entity entityDefinition, StoreSecurityPasswordsDto dto)
-    {            
+    {
+    #pragma warning disable CS0168 // Variable is declared but never used        
+        dynamic? noxTypeValue;
+    #pragma warning restore CS0168 // Variable is declared but never used            
     
-            if(dto.Name != null)
+            noxTypeValue =  CreateNoxType<Text>(entityDefinition,"Name",dto.Name);
+            if(noxTypeValue != null)
             {        
-                entity.Name = CreateNoxType<Text>(entityDefinition,"Name",dto.Name);
+                entity.Name = noxTypeValue;
             }            
     
-            if(dto.SecurityCamerasPassword != null)
+            noxTypeValue =  CreateNoxType<Text>(entityDefinition,"SecurityCamerasPassword",dto.SecurityCamerasPassword);
+            if(noxTypeValue != null)
             {        
-                entity.SecurityCamerasPassword = CreateNoxType<Text>(entityDefinition,"SecurityCamerasPassword",dto.SecurityCamerasPassword);
+                entity.SecurityCamerasPassword = noxTypeValue;
             }
     }
 }
