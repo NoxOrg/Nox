@@ -56,7 +56,7 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         Assert.True(generatedSources.Any(s => s.HintName == "GetCountriesByContinentQueryBase.g.cs"), "GetCountriesByContinentQuery.g.cs not generated");
         
         // check controllers
-        var controllerFileName = "CountriesController.g.cs";
+        var controllerFileName = "Controllers.CountriesController.g.cs";
         Assert.True(generatedSources.Any(s => s.HintName == controllerFileName), $"{controllerFileName} not generated");
         Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/CountriesController.expected.g.cs"), generatedSources.First(s => s.HintName == controllerFileName).SourceText.ToString());
         //can further extend this test to verify contents of source files.

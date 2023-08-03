@@ -1,7 +1,7 @@
 ﻿using Nox.Solution;
 using Nox.Types;
 
-namespace Nox.Factories
+namespace Nox.Factories.Types
 {
     public class NoxTypeTextFactory : NoxTypeFactoryBase<Text>
     {

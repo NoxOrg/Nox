@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using MediatR;
+using Nox.Application;
 using SampleWebApp.Application;
 using SampleWebApp.Application.Queries;
 using SampleWebApp.Application.Commands;
@@ -19,7 +20,7 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-public partial class CountryLocalNamesController : ODataController
+public partial class StoresController : ODataController
 {
     
     /// <summary>
@@ -37,7 +38,7 @@ public partial class CountryLocalNamesController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public CountryLocalNamesController(
+    public StoresController(
         ODataDbContext databaseContext,
         IMapper mapper,
         IMediator mediator
@@ -49,15 +50,15 @@ public partial class CountryLocalNamesController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<OCountryLocalNames>>> Get()
+    public async  Task<ActionResult<IQueryable<OStore>>> Get()
     {
-        var result = await _mediator.Send(new GetCountryLocalNamesQuery());
+        var result = await _mediator.Send(new GetStoresQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<OCountryLocalNames>> Get([FromRoute] String key)
+    public async Task<ActionResult<OStore>> Get([FromRoute] String key)
     {
-        var item = await _mediator.Send(new GetCountryLocalNamesByIdQuery(key));
+        var item = await _mediator.Send(new GetStoreByIdQuery(key));
         
         if (item == null)
         {
@@ -67,37 +68,30 @@ public partial class CountryLocalNamesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]CountryLocalNamesDto countrylocalnames)
+    public async Task<ActionResult> Post([FromBody]StoreDto store)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
+        var createdKey = await _mediator.Send(new CreateStoreCommand(store));
         
-        var entity = _mapper.Map<OCountryLocalNames>(countrylocalnames);
-        
-        entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
-        
-        _databaseContext.CountryLocalNames.Add(entity);
-        
-        await _databaseContext.SaveChangesAsync();
-        
-        return Created(entity);
+        return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OCountryLocalNames updatedCountryLocalNames)
+    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OStore updatedStore)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        if (key != updatedCountryLocalNames.Id)
+        if (key != updatedStore.Id)
         {
             return BadRequest();
         }
         
-        _databaseContext.Entry(updatedCountryLocalNames).State = EntityState.Modified;
+        _databaseContext.Entry(updatedStore).State = EntityState.Modified;
         
         try
         {
@@ -105,7 +99,7 @@ public partial class CountryLocalNamesController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!CountryLocalNamesExists(key))
+            if (!StoreExists(key))
             {
                 return NotFound();
             }
@@ -115,17 +109,17 @@ public partial class CountryLocalNamesController : ODataController
             }
         }
         
-        return Updated(updatedCountryLocalNames);
+        return Updated(updatedStore);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string countrylocalnames, [FromBody] Delta<OCountryLocalNames> Id)
+    public async Task<ActionResult> Patch([FromRoute] string store, [FromBody] Delta<OStore> Id)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = await _databaseContext.CountryLocalNames.FindAsync(countrylocalnames);
+        var entity = await _databaseContext.Stores.FindAsync(store);
         
         if (entity == null)
         {
@@ -140,7 +134,7 @@ public partial class CountryLocalNamesController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!CountryLocalNamesExists(countrylocalnames))
+            if (!StoreExists(store))
             {
                 return NotFound();
             }
@@ -153,14 +147,14 @@ public partial class CountryLocalNamesController : ODataController
         return Updated(entity);
     }
     
-    private bool CountryLocalNamesExists(string countrylocalnames)
+    private bool StoreExists(string store)
     {
-        return _databaseContext.CountryLocalNames.Any(p => p.Id == countrylocalnames);
+        return _databaseContext.Stores.Any(p => p.Id == store);
     }
     
     public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var result = await _mediator.Send(new DeleteCountryLocalNamesByIdCommand(key));
+        var result = await _mediator.Send(new DeleteStoreByIdCommand(key));
         if (!result)
         {
             return NotFound();

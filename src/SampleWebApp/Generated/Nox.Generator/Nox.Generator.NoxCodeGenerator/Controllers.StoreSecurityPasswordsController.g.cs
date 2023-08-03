@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using MediatR;
+using Nox.Application;
 using SampleWebApp.Application;
 using SampleWebApp.Application.Queries;
 using SampleWebApp.Application.Commands;
@@ -19,7 +20,7 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-public partial class StoresController : ODataController
+public partial class StoreSecurityPasswordsController : ODataController
 {
     
     /// <summary>
@@ -37,7 +38,7 @@ public partial class StoresController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public StoresController(
+    public StoreSecurityPasswordsController(
         ODataDbContext databaseContext,
         IMapper mapper,
         IMediator mediator
@@ -49,15 +50,15 @@ public partial class StoresController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<OStore>>> Get()
+    public async  Task<ActionResult<IQueryable<OStoreSecurityPasswords>>> Get()
     {
-        var result = await _mediator.Send(new GetStoresQuery());
+        var result = await _mediator.Send(new GetStoreSecurityPasswordsQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<OStore>> Get([FromRoute] String key)
+    public async Task<ActionResult<OStoreSecurityPasswords>> Get([FromRoute] String key)
     {
-        var item = await _mediator.Send(new GetStoreByIdQuery(key));
+        var item = await _mediator.Send(new GetStoreSecurityPasswordsByIdQuery(key));
         
         if (item == null)
         {
@@ -67,37 +68,30 @@ public partial class StoresController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]StoreDto store)
+    public async Task<ActionResult> Post([FromBody]StoreSecurityPasswordsDto storesecuritypasswords)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
+        var createdKey = await _mediator.Send(new CreateStoreSecurityPasswordsCommand(storesecuritypasswords));
         
-        var entity = _mapper.Map<OStore>(store);
-        
-        entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
-        
-        _databaseContext.Stores.Add(entity);
-        
-        await _databaseContext.SaveChangesAsync();
-        
-        return Created(entity);
+        return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OStore updatedStore)
+    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OStoreSecurityPasswords updatedStoreSecurityPasswords)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        if (key != updatedStore.Id)
+        if (key != updatedStoreSecurityPasswords.Id)
         {
             return BadRequest();
         }
         
-        _databaseContext.Entry(updatedStore).State = EntityState.Modified;
+        _databaseContext.Entry(updatedStoreSecurityPasswords).State = EntityState.Modified;
         
         try
         {
@@ -105,7 +99,7 @@ public partial class StoresController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!StoreExists(key))
+            if (!StoreSecurityPasswordsExists(key))
             {
                 return NotFound();
             }
@@ -115,17 +109,17 @@ public partial class StoresController : ODataController
             }
         }
         
-        return Updated(updatedStore);
+        return Updated(updatedStoreSecurityPasswords);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string store, [FromBody] Delta<OStore> Id)
+    public async Task<ActionResult> Patch([FromRoute] string storesecuritypasswords, [FromBody] Delta<OStoreSecurityPasswords> Id)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = await _databaseContext.Stores.FindAsync(store);
+        var entity = await _databaseContext.StoreSecurityPasswords.FindAsync(storesecuritypasswords);
         
         if (entity == null)
         {
@@ -140,7 +134,7 @@ public partial class StoresController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!StoreExists(store))
+            if (!StoreSecurityPasswordsExists(storesecuritypasswords))
             {
                 return NotFound();
             }
@@ -153,14 +147,14 @@ public partial class StoresController : ODataController
         return Updated(entity);
     }
     
-    private bool StoreExists(string store)
+    private bool StoreSecurityPasswordsExists(string storesecuritypasswords)
     {
-        return _databaseContext.Stores.Any(p => p.Id == store);
+        return _databaseContext.StoreSecurityPasswords.Any(p => p.Id == storesecuritypasswords);
     }
     
     public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var result = await _mediator.Send(new DeleteStoreByIdCommand(key));
+        var result = await _mediator.Send(new DeleteStoreSecurityPasswordsByIdCommand(key));
         if (!result)
         {
             return NotFound();
