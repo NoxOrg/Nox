@@ -1,4 +1,4 @@
-﻿namespace Nox.Enums;
+﻿namespace Nox.Types;
 
 public enum WeightTypeUnit
 {

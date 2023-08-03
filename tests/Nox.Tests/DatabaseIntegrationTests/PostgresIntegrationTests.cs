@@ -13,7 +13,7 @@ namespace Nox.Tests.DatabaseIntegrationTests;
 public class PostgresIntegrationTests : PostgresTestBase
 {
     //[Fact]
-    public void GeneratedEntity_SqlServer_CanSaveAndReadFields_AllTypes()
+    public void GeneratedEntity_Postgres_CanSaveAndReadFields_AllTypes()
     {
         // TODO:
         // array
@@ -91,6 +91,9 @@ public class PostgresIntegrationTests : PostgresTestBase
         var length = 314_598M;
         var persistLengthUnitAs = LengthTypeUnit.Meter;
 
+        var weight = 20.58M;
+        var persistWeightUnitAs = WeightTypeUnit.Kilogram;
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -122,6 +125,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
             InternetDomainTestField = InternetDomain.From(internetDomain),
             LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
+            WeightTestField = Weight.From(weight, new WeightTypeOptions() { Units = WeightTypeUnit.Pound, PersistAs = persistWeightUnitAs }),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -174,5 +178,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.InternetDomainTestField!.Value.Should().Be(internetDomain);
         testEntity.LengthTestField!.ToFeet().Should().Be(length);
         testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
+        testEntity.WeightTestField!.Unit.Should().Be(persistWeightUnitAs);
+        testEntity.WeightTestField!.ToPounds().Should().Be(weight);
     }
 }

@@ -2,9 +2,6 @@
 using FluentAssertions;
 using FluentAssertions.Execution;
 
-using Nox.Enums;
-using Nox.TypeOptions;
-
 using System.Globalization;
 
 namespace Nox.Types.Tests.Types;

@@ -1,7 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-using Nox.Enums;
-
 namespace Nox.Types.EntityFramework.Types;
 
 public class WeightToPoundsConverter : ValueConverter<Weight, decimal>

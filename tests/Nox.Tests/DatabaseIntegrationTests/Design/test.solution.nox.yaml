@@ -402,8 +402,8 @@ domain:
         #- name: VolumeTestField
         #  type: volume
 
-        #- name: WeightTestField
-        #  type: weight
+        - name: WeightTestField
+          type: weight
 
         #- name: YearTestField
         #  type: year
