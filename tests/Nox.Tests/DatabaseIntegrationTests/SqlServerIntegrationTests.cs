@@ -100,6 +100,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
 
         var length = 314_598M;
         var persistLengthUnitAs = LengthTypeUnit.Meter;
+        var phoneNumber = "38761000000";
 
         var newItem = new TestEntityForTypes()
         {
@@ -137,6 +138,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
             InternetDomainTestField = InternetDomain.From(internetDomain),
             LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
+            PhoneNumberTestField = PhoneNumber.From(phoneNumber),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -196,6 +198,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.InternetDomainTestField!.Value.Should().BeEquivalentTo(internetDomain);
         testEntity.LengthTestField!.ToFeet().Should().Be(length);
         testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
+        testEntity.PhoneNumberTestField!.Value.Should().Be(phoneNumber);
     }
 
     //[Fact]
@@ -283,7 +286,6 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         };
 
         newItem.SecondTestEntityExactlyOne = newItem2;
-        newItem.SecondTestEntityExactlyOneId = newItem2.Id;
         newItem2.TestEntityExactlyOne = newItem;
         DbContext.TestEntityExactlyOnes.Add(newItem);
         DbContext.SecondTestEntityExactlyOnes.Add(newItem2);

@@ -98,6 +98,7 @@ public class SqliteIntegrationTests : SqliteTestBase
 
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
+        var phoneNumber = "38761000000";
 
         var newItem = new TestEntityForTypes()
         {
@@ -135,6 +136,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
             InternetDomainTestField = InternetDomain.From(internetDomain),
             LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
+            PhoneNumberTestField = PhoneNumber.From(phoneNumber),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -193,6 +195,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.InternetDomainTestField!.Value.Should().Be(internetDomain);
         testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
         testEntity.LengthTestField!.ToFeet().Should().Be(length);
+        testEntity.PhoneNumberTestField!.Value.Should().Be(phoneNumber);
     }
 
     [Fact]
@@ -280,7 +283,6 @@ public class SqliteIntegrationTests : SqliteTestBase
         };
 
         newItem.SecondTestEntityExactlyOne = newItem2;
-        newItem.SecondTestEntityExactlyOneId = newItem2.Id;
         newItem2.TestEntityExactlyOne = newItem;
         DbContext.TestEntityExactlyOnes.Add(newItem);
         DbContext.SecondTestEntityExactlyOnes.Add(newItem2);
