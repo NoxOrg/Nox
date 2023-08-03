@@ -37,7 +37,6 @@ public class SqliteIntegrationTests : SqliteTestBase
         // json
         // time
         // translatedText
-        // markdown
         // jwtToken
 
         // TODO: commented types
@@ -139,6 +138,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
             DateTestField = Date.From(date),
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
+            MarkdownTestField = Markdown.From(text),
             InternetDomainTestField = InternetDomain.From(internetDomain),
             LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
             JwtTokenTestField = JwtToken.From(jwtToken),
@@ -198,6 +198,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);
         testEntity.FileTestField!.Value.PrettyName.Should().Be(fileName);
         testEntity.FileTestField!.Value.SizeInBytes.Should().Be(fileSizeInBytes);
+        testEntity.MarkdownTestField!.Value.Should().Be(text);
         testEntity.InternetDomainTestField!.Value.Should().Be(internetDomain);
         testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
         testEntity.LengthTestField!.ToFeet().Should().Be(length);
