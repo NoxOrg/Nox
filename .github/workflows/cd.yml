@@ -79,6 +79,21 @@ jobs:
         if: contains(github.ref,'refs/tags/v') || contains(github.ref,'refs/heads/main')
         run: dotnet nuget push ./artifacts/Nox.*.nupkg --api-key ${{secrets.NUGET_API_KEY}} --source https://api.nuget.org/v3/index.json
 
-      - name:  Publish Nox.Lib Warning
+      - name: Publish Nox.Lib Warning
+        if: contains(github.ref,'refs/tags/v') == false && contains(github.ref,'refs/heads/main') == false
+        run: echo "Skipping publishing, not in main branch or not building a tag. Current ${{ github.ref }}"
+
+      - name: Publish Schema
+        if: contains(github.ref,'refs/tags/v') || contains(github.ref,'refs/heads/main')
+        uses: SamKirkland/FTP-Deploy-Action@4.3.3
+        with:
+          server: ${{ secrets.ftp_server }}
+          username: ${{ secrets.ftp_user }}
+          password: ${{ secrets.ftp_password }}
+          protocol: ftps
+          local-dir: ./schemas/
+          dangerous-clean-slate: true
+
+      - name: Publish Schema Warning
         if: contains(github.ref,'refs/tags/v') == false && contains(github.ref,'refs/heads/main') == false
         run: echo "Skipping publishing, not in main branch or not building a tag. Current ${{ github.ref }}"
