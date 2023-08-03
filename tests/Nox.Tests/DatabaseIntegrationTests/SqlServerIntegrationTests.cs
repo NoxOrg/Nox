@@ -9,7 +9,7 @@ namespace Nox.Tests.DatabaseIntegrationTests;
 
 public class SqlServerIntegrationTests : SqlServerTestBase
 {
-    //[Fact]
+    // [Fact]
     public void GeneratedEntity_SqlServer_CanSaveAndReadFields_AllTypes()
     {
         // TODO:
@@ -94,8 +94,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
     - County: Lausanne
 ";
         var internetDomain = "nox.org";
-        var latitude = 47.3769343234;
-        var longitude = 8.5412875456;
+        var latitude = 47.376934;
+        var longitude = 8.541287;
 
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
@@ -203,7 +203,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
     }
 
-    //[Fact]
+    // [Fact]
     public void GeneratedRelationship_SqlServer_ZeroOrMany_OneOrMany()
     {
         var text = "TX";
@@ -236,7 +236,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.NotEmpty(secondTestEntity.TestEntities);
     }
 
-    //[Fact]
+    // [Fact]
     public void GeneratedRelationship_SqlServer_OneOrMany_OneOrMany()
     {
         var text = "TX";
@@ -269,7 +269,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.NotEmpty(secondTestEntity.TestEntityOneOrManies);
     }
 
-    //[Fact]
+    // [Fact]
     public void GeneratedRelationship_SqlServer_ExactlyOne_ExactlyOne()
     {
         var text = "T1";

@@ -99,8 +99,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
 
-        var latitude = 47.3769343234;
-        var longitude = 8.5412875456;
+        var latitude = 47.376934;
+        var longitude = 8.541287;
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),

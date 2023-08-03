@@ -12,7 +12,7 @@ namespace Nox.Tests.DatabaseIntegrationTests;
 
 public class PostgresIntegrationTests : PostgresTestBase
 {
-    //[Fact]
+    // [Fact]
     public void GeneratedEntity_SqlServer_CanSaveAndReadFields_AllTypes()
     {
         // TODO:
@@ -100,8 +100,8 @@ public class PostgresIntegrationTests : PostgresTestBase
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
         var length = 314_598M;
         var persistLengthUnitAs = LengthTypeUnit.Meter;
-        var latitude = 47.3769343234;
-        var longitude = 8.5412875456;
+        var latitude = 47.376934;
+        var longitude = 8.541287;
 
         var newItem = new TestEntityForTypes()
         {
