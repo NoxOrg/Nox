@@ -89,7 +89,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Url = Url.From(Sample_Url),
             IsLandLocked = Boolean.From(false),
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
-            VolumeInCubicMeters = Volume.FromCubicMeters(89_000),
+            VolumeInCubicMeters = Volume.From(89_000, VolumeTypeUnit.CubicMeter),
             WeightInKilograms = Weight.From(19_000, WeightTypeUnit.Kilogram),
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             HashedText = HashedText.From("Test123."),
@@ -164,7 +164,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             IsLandLocked = Boolean.From(true),
             ArabicName = TranslatedText.From((CultureCode.From("ar-SA"), "سوئٹزرلینڈ")),
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
-            VolumeInCubicMeters = Volume.FromCubicMeters(89_000),
+            VolumeInCubicMeters = Volume.From(89_000, VolumeTypeUnit.CubicMeter),
             WeightInKilograms = Weight.From(19_000, WeightTypeUnit.Kilogram),
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             HashedText = HashedText.From(("Test123.", "salt")),
@@ -228,7 +228,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.Url.Value.AbsoluteUri.Should().Be(Sample_Url);
         item.IsLandLocked.Value.Should().BeTrue();
         item.VolumeInCubicMeters.Value.Should().Be(89_000);
-        item.VolumeInCubicMeters.Unit.Should().Be(VolumeUnit.CubicMeter);
+        item.VolumeInCubicMeters.Unit.Should().Be(VolumeTypeUnit.CubicMeter);
         item.Flag.Url.Should().Be("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/320px-Flag_of_Switzerland.svg.png");
         item.Flag.PrettyName.Should().Be("Switzerland Flag");
         item.Flag.SizeInBytes.Should().Be(512);

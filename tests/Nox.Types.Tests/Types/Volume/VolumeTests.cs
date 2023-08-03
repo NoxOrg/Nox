@@ -13,7 +13,7 @@ public class VolumeTests
         var volume = Volume.From(27.1828);
 
         volume.Value.Should().Be(27.1828);
-        volume.Unit.Should().Be(VolumeUnit.CubicMeter);
+        volume.Unit.Should().Be(VolumeTypeUnit.CubicMeter);
     }
 
     [Fact]
@@ -22,7 +22,7 @@ public class VolumeTests
         var volume = Volume.From(27.18281828459045);
 
         volume.Value.Should().Be(27.182818);
-        volume.Unit.Should().Be(VolumeUnit.CubicMeter);
+        volume.Unit.Should().Be(VolumeTypeUnit.CubicMeter);
     }
 
     [Fact]
@@ -31,25 +31,25 @@ public class VolumeTests
         var volume = Volume.From(27.1828, VolumeUnit.CubicMeter);
 
         volume.Value.Should().Be(27.1828);
-        volume.Unit.Should().Be(VolumeUnit.CubicMeter);
+        volume.Unit.Should().Be(VolumeTypeUnit.CubicMeter);
     }
 
     [Fact]
     public void Volume_Constructor_WithUnitInCubicMeters_ReturnsSameValueAndUnit()
     {
-        var volume = Volume.FromCubicMeters(27.1828);
+        var volume = Volume.From(27.1828, VolumeTypeUnit.CubicMeter);
 
         volume.Value.Should().Be(27.1828);
-        volume.Unit.Should().Be(VolumeUnit.CubicMeter);
+        volume.Unit.Should().Be(VolumeTypeUnit.CubicMeter);
     }
 
     [Fact]
     public void Volume_Constructor_WithUnitInCubicFeet_ReturnsSameValueAndUnit()
     {
-        var volume = Volume.FromCubicFeet(959.951522);
+        var volume = Volume.From(959.951522, VolumeTypeUnit.CubicFoot);
 
         volume.Value.Should().Be(959.951522);
-        volume.Unit.Should().Be(VolumeUnit.CubicFoot);
+        volume.Unit.Should().Be(VolumeTypeUnit.CubicFoot);
     }
 
     [Fact]
@@ -114,7 +114,7 @@ public class VolumeTests
     {
         void Test()
         {
-            var volume = Volume.FromCubicMeters(27.1828);
+            var volume = Volume.From(27.1828, VolumeTypeUnit.CubicMeter);
             volume.ToString().Should().Be("27.1828 m³");
         }
 
@@ -128,7 +128,7 @@ public class VolumeTests
     {
         void Test()
         {
-            var volume = Volume.FromCubicMeters(27.1828);
+            var volume = Volume.From(27.1828, VolumeTypeUnit.CubicMeter);
             volume.ToString(new CultureInfo(culture)).Should().Be(expected);
         }
 
@@ -142,7 +142,7 @@ public class VolumeTests
     {
         void Test()
         {
-            var volume = Volume.FromCubicFeet(959.951522);
+            var volume = Volume.From(959.951522, VolumeTypeUnit.CubicFoot);
             volume.ToString().Should().Be("959.951522 ft³");
         }
 
@@ -156,7 +156,7 @@ public class VolumeTests
     {
         void Test()
         {
-            var volume = Volume.FromCubicFeet(959.951522);
+            var volume = Volume.From(959.951522, VolumeTypeUnit.CubicFoot);
             volume.ToString(new CultureInfo(culture)).Should().Be(expected);
         }
 
