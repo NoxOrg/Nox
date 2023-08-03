@@ -27,8 +27,8 @@ public class {{className}}: EntityFactoryBase<{{entity.Name}}Dto, {{entity.Name}
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    {{- for attribute in entity.Attributes }}            
-    {{ if attribute.Type == "Text" || attribute.Type == "Number" }}
+    {{- for attribute in entity.Attributes }}     
+    {{ if attribute.Type == "Text" || attribute.Type == "Number" || attribute.Type == "Area" #to be removed when we support all types}}
         noxTypeValue =  CreateNoxType<{{attribute.Type}}>(entityDefinition,"{{attribute.Name}}",dto.{{attribute.Name}});
         if(noxTypeValue != null)
         {        

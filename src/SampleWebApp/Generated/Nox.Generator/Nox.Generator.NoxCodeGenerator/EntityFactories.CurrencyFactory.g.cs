@@ -26,7 +26,7 @@ public class CurrencyFactory: EntityFactoryBase<CurrencyDto, Currency>
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used            
+    #pragma warning restore CS0168 // Variable is declared but never used     
     
             noxTypeValue =  CreateNoxType<Text>(entityDefinition,"Name",dto.Name);
             if(noxTypeValue != null)

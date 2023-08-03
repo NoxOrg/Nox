@@ -26,16 +26,16 @@ public class AllNoxTypeFactory: EntityFactoryBase<AllNoxTypeDto, AllNoxType>
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used            
+    #pragma warning restore CS0168 // Variable is declared but never used     
     
             noxTypeValue =  CreateNoxType<Text>(entityDefinition,"TextField",dto.TextField);
             if(noxTypeValue != null)
             {        
                 entity.TextField = noxTypeValue;
-            }            
-    // TODO map VatNumberField VatNumber remaining types and remove if else            
-    // TODO map CountryCode2Field CountryCode2 remaining types and remove if else            
-    // TODO map CountryCode3Field CountryCode3 remaining types and remove if else            
+            }     
+    // TODO map VatNumberField VatNumber remaining types and remove if else     
+    // TODO map CountryCode2Field CountryCode2 remaining types and remove if else     
+    // TODO map CountryCode3Field CountryCode3 remaining types and remove if else     
     // TODO map FormulaField Formula remaining types and remove if else
     }
 }
