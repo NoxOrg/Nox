@@ -22,12 +22,12 @@ public class Delete{{entity.Name}}ByIdCommandHandler: IRequestHandler<Delete{{en
     public async Task<bool> Handle(Delete{{entity.Name}}ByIdCommand request, CancellationToken cancellationToken)
     {
         var entity = await DataDbContext.{{entity.PluralName}}.FindAsync(request.key);
-        if (entity == null{{if isVersioned}} || entity.Deleted == true{{end}})
+        if (entity == null{{if (entity.Persistence?.IsVersioned ?? true)}} || entity.Deleted == true{{end}})
         {
             return false;
         }
 
-        {{ if isVersioned -}}
+        {{ if (entity.Persistence?.IsVersioned ?? true) -}}
         entity.Delete();
         {{- else -}}
         DataDbContext.{{entity.PluralName}}.Remove(entity);

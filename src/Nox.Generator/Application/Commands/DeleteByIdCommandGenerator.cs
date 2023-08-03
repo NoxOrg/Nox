@@ -24,7 +24,6 @@ internal static class DeleteByIdCommandGenerator
                 .WithClassName($"Delete{entity.Name}ByIdCommand")
                 .WithFileNamePrefix($"Commands")
                 .WithObject("entity", entity)
-                .WithObject("isVersioned", (entity.Persistence?.IsVersioned ?? true))
                 .GenerateSourceCodeFromResource(templateName);
 
         }
