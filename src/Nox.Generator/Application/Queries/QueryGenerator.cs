@@ -25,7 +25,6 @@ internal static class QueryGenerator
                 .WithClassName($"Get{entity.PluralName}Queries")
                 .WithFileNamePrefix($"Queries")
                 .WithObject("entity", entity)
-                .WithObject("isVersioned", (entity.Persistence?.IsVersioned ?? true))
                 .GenerateSourceCodeFromResource(templateName);
         }
     }

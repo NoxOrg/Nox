@@ -24,7 +24,6 @@ internal static class ByIdQueryGenerator
                 .WithClassName($"Get{entity.Name}ByIdQuery")
                 .WithFileNamePrefix($"Queries")
                 .WithObject("entity", entity)
-                .WithObject("isVersioned", (entity.Persistence?.IsVersioned ?? true))
                 .GenerateSourceCodeFromResource(templateName);
 
         }

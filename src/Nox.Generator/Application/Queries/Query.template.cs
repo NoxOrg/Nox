@@ -21,7 +21,7 @@ public class Get{{entity.PluralName}}QueryHandler : IRequestHandler<Get{{entity.
 
     public Task<IQueryable<O{{entity.Name}}>> Handle(Get{{entity.PluralName}}Query request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<O{{entity.Name}}>)DataDbContext.{{entity.PluralName}}{{if isVersioned}}.Where(r => !(r.Deleted == true)){{end}};
+        var item = (IQueryable<O{{entity.Name}}>)DataDbContext.{{entity.PluralName}}{{if (entity.Persistence?.IsVersioned ?? true)}}.Where(r => !(r.Deleted == true)){{end}};
         return Task.FromResult(item);
     }
 }
