@@ -24,8 +24,7 @@ internal static class CreateCommandGenerator
                 .WithClassName($"Create{entity.Name}Command")
                 .WithFileNamePrefix($"Commands")
                 .WithObject("entity", entity)
-                .GenerateSourceCodeFromResource(templateName);
-
+                .GenerateSourceCodeFromResource(templateName);            
         }
     }
 }

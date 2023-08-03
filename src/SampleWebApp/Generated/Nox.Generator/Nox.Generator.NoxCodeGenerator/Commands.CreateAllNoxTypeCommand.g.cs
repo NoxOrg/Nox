@@ -5,25 +5,39 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using SampleWebApp.Presentation.Api.OData;
+using Nox.Types;
+using Nox.Application;
+using Nox.Factories;
 using SampleWebApp.Infrastructure.Persistence;
+using SampleWebApp.Domain;
+using SampleWebApp.Presentation.Api.OData;
+
 
 namespace SampleWebApp.Application.Commands;
 
-public record CreateAllNoxTypeCommand() : IRequest<OAllNoxType>;
+//TODO support multiple keys and generated keys like nuid database number
+public record CreateAllNoxTypeCommand(AllNoxTypeDto EntityDto) : IRequest<Text>;
 
-public class CreateAllNoxTypeCommandHandler: IRequestHandler<CreateAllNoxTypeCommand, OAllNoxType>
+public class CreateAllNoxTypeCommandHandler: IRequestHandler<CreateAllNoxTypeCommand, Text>
 {
-    public  CreateAllNoxTypeCommandHandler(SampleWebAppDbContext dbContext)
+    public SampleWebAppDbContext DbContext { get; }
+    public IEntityFactory<AllNoxTypeDto,AllNoxType> EntityFactory { get; }
+
+    public  CreateAllNoxTypeCommandHandler(
+        SampleWebAppDbContext dbContext,
+        IEntityFactory<AllNoxTypeDto,AllNoxType> entityFactory)
     {
         DbContext = dbContext;
+        EntityFactory = entityFactory;
     }
-
-    public SampleWebAppDbContext DbContext { get; }
-
-    public async Task<OAllNoxType> Handle(CreateAllNoxTypeCommand request, CancellationToken cancellationToken)
-    {       
-        await Task.Delay(1000);
-        return default(OAllNoxType)!;
+    
+    public async Task<Text> Handle(CreateAllNoxTypeCommand request, CancellationToken cancellationToken)
+    {    
+        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
+        //TODO support multiple keys and generated keys like nuid database number, and other type
+        entityToCreate.Id = Text.From(Guid.NewGuid().ToString().Substring(0, 2));
+        DbContext.AllNoxTypes.Add(entityToCreate);
+        await DbContext.SaveChangesAsync();
+        return entityToCreate.Id;
     }
 }

@@ -4,22 +4,30 @@
 
 using MediatR;
 using System.Threading.Tasks;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
 using Nox.Domain;
+using Nox.Factories;
+using Nox.Types;
 using Nox.Application;
+using Nox.Extensions;
 using SampleWebApp.Presentation.Api.OData;
 using SampleWebApp.Domain;
 
 
 namespace SampleWebApp.Application;
 
-public class CurrencyFactory: EntityFactoryBase<OCurrency, Currency>
+public class CurrencyFactory: EntityFactoryBase<CurrencyDto, Currency>
 {
-    public  CurrencyFactory(NoxSolution noxSolution): base(noxSolution) { }
+    public  CurrencyFactory(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
 
-    protected override void MapEntity(Currency entity, Entity entityDefinition, OCurrency dto)
-    {
-        // TODO Map entity
+    protected override void MapEntity(Currency entity, Entity entityDefinition, CurrencyDto dto)
+    {            
+    
+            if(dto.Name != null)
+            {        
+                entity.Name = CreateNoxType<Text>(entityDefinition,"Name",dto.Name);
+            }
     }
 }

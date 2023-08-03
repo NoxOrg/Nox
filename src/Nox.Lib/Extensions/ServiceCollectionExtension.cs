@@ -1,7 +1,7 @@
 using System.Reflection;
 using Microsoft.Extensions.DependencyInjection;
-using Nox.Application;
 using Nox.Application.Behaviors;
+using Nox.Factories;
 using Nox.Secrets;
 using Nox.Secrets.Abstractions;
 using Nox.Solution;
@@ -27,7 +27,7 @@ public static class ServiceCollectionExtension
             .AddSecretsResolver()
             .AddNoxMediatR(entryAssembly)
             .AddNoxTypesDatabaseConfigurator(noxAssemblies)
-            .AddNoxEntityFactories(noxAssemblies)
+            .AddNoxFactories(noxAssemblies)
             .AddAutoMapper(entryAssembly);
     }
     private static IServiceCollection AddNoxMediatR(
@@ -57,13 +57,19 @@ public static class ServiceCollectionExtension
             .Build();
     }
 
-    private static IServiceCollection AddNoxEntityFactories(
+    private static IServiceCollection AddNoxFactories(
         this IServiceCollection services,
         Assembly[] noxAssemblies)
     {
         services.Scan(scan =>
           scan.FromAssemblies(noxAssemblies)
-          .AddClasses(classes => classes.AssignableTo(typeof(IEntityFactory<,>)))//.Where(_ => !_.IsGenericType))
+          .AddClasses(classes => classes.AssignableTo(typeof(IEntityFactory<,>)))
+          .AsImplementedInterfaces()
+          .WithSingletonLifetime());
+
+        services.Scan(scan =>
+          scan.FromAssemblies(noxAssemblies)
+          .AddClasses(classes => classes.AssignableTo(typeof(INoxTypeFactory<>)))//.Where(_ => !_.IsGenericType))
           .AsImplementedInterfaces()
           .WithSingletonLifetime());
 

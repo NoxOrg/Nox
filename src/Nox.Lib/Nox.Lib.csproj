@@ -123,4 +123,8 @@
 			<PackagePath>lib\$(TargetFramework)</PackagePath>
 		</Content>
 	</ItemGroup>
+	
+	<ItemGroup>
+	  <Folder Include="Extensions\Converters\" />
+	</ItemGroup>
 </Project>
