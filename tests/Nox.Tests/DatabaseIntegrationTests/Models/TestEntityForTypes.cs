@@ -173,6 +173,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Volume? VolumeTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public CultureCode? CultureCodeTestField { get; set; } = null!;
 
     /// <summary>

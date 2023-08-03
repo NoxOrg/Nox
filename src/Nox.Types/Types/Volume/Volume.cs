@@ -9,7 +9,7 @@ namespace Nox.Types;
 /// </summary>
 public class Volume : Measurement<Volume, VolumeUnit>
 {
-    public const int QuantityValueDecimalPrecision = 6;
+    public const ushort QuantityValueDecimalPrecision = 6;
 
     private VolumeTypeOptions _volumeTypeOptions = new();
     private readonly VolumeTypeUnit _unit;

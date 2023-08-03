@@ -29,7 +29,6 @@ public class PostgresIntegrationTests : PostgresTestBase
         // imageSvg
         // object
         // user
-        // cultureCode
         // languageCode
         // yaml
         // uri
@@ -39,8 +38,6 @@ public class PostgresIntegrationTests : PostgresTestBase
         // html
         // json
         // time
-        // translatedText
-        // jwtToken
 
         // TODO: commented types
 
@@ -61,6 +58,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         var year = (ushort)2023;
         var area = 198_090M;
         var areaPersistUnitAs = AreaTypeUnit.SquareMeter;
+        var volume = 198d;
         var cultureCode = "de-CH";
         var macAddress = "A1B2C3D4E5F6";
         var password = "Test123.";
@@ -118,6 +116,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
             AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = areaPersistUnitAs }),
+            VolumeTestField = Volume.From(volume),
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
@@ -169,6 +168,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.StreetAddressTestField!.Value.Should().BeEquivalentTo(addressItem);
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
         testEntity.AreaTestField!.Unit.Should().Be(areaPersistUnitAs);
+        testEntity.VolumeTestField!.ToCubicMeters().Should().Be(volume);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
         testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
         testEntity.YearTestField!.Value.Should().Be(year);
