@@ -103,6 +103,9 @@ public class SqlServerIntegrationTests : SqlServerTestBase
 
         var jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
+        var weight = 20.58M;
+        var persistWeightUnitAs = WeightTypeUnit.Kilogram;
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -140,6 +143,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             InternetDomainTestField = InternetDomain.From(internetDomain),
             LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
             JwtTokenTestField = JwtToken.From(jwtToken),
+            WeightTestField = Weight.From(weight, new WeightTypeOptions() { Units = WeightTypeUnit.Pound, PersistAs = persistWeightUnitAs }),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -198,8 +202,11 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.FileTestField!.Value.SizeInBytes.Should().Be(fileSizeInBytes);
         testEntity.InternetDomainTestField!.Value.Should().BeEquivalentTo(internetDomain);
         testEntity.LengthTestField!.ToFeet().Should().Be(length);
+        testEntity.WeightTestField!.Unit.Should().Be(persistWeightUnitAs);
         testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
         testEntity.JwtTokenTestField!.Value.Should().Be(jwtToken);
+        testEntity.WeightTestField!.Unit.Should().Be(persistWeightUnitAs);
+        testEntity.WeightTestField!.ToPounds().Should().Be(weight);
     }
 
     //[Fact]

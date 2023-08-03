@@ -98,6 +98,9 @@ public class NoxSimpleTypeDefinition
     [IfEquals("Type", NoxType.Length)]
     public LengthTypeOptions? LengthTypeOptions { get; set; }
 
+    [IfEquals("Type", NoxType.Weight)]
+    public WeightTypeOptions? WeightTypeOptions { get; set; }
+
     #endregion TypeOptions
 
     [Title("Is the attribute required? Boolean value.")]
