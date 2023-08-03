@@ -404,8 +404,8 @@ domain:
         #- name: UriTestField
         #  type: uri
 
-        #- name: VolumeTestField
-        #  type: volume
+        - name: VolumeTestField
+          type: volume
 
         - name: WeightTestField
           type: weight
