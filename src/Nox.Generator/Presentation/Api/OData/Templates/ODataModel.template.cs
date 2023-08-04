@@ -38,7 +38,7 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     /// <summary>
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
     /// </summary>
-    public {{keysFlattenComponentsTypeName[attribute.Name]}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}=default!;{{end}}
+    public {{keysFlattenComponentsTypeName[attribute.Name]}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
 {{- end }}
 {{- ######################################### Relationships###################################################### -}}
 {{- for relationship in entity.Relationships }}
