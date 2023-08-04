@@ -316,8 +316,8 @@ domain:
         - name: JwtTokenTestField
           type: jwtToken
 
-        #- name: GeoCoordTestField
-        #  type: latLong
+        - name: GeoCoordTestField
+          type: latLong
 
         - name: AreaTestField
           type: area

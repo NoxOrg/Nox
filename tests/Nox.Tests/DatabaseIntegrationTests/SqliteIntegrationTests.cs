@@ -110,7 +110,8 @@ public class SqliteIntegrationTests : SqliteTestBase
 
         var distance = 80.481727;
         var persistDistanceUnitAs = DistanceTypeUnit.Kilometer;
-
+        var latitude = 47.376934;
+        var longitude = 8.541287;
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -155,6 +156,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             DistanceTestField = Distance.From(distance, new DistanceTypeOptions() { Units = DistanceTypeUnit.Mile, PersistAs = persistDistanceUnitAs }),
             DatabaseNumberTestField = DatabaseNumber.FromDatabase(databaseNumber), //SQLite supports AutoIncrement only for column of type INTEGER PRIMARY KEY  https://www.sqlite.org/autoinc.html
             UriTestField = Types.Uri.From(sampleUri),
+            GeoCoordTestField = LatLong.From(latitude, longitude),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -223,6 +225,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
         testEntity.DatabaseNumberTestField!.Value.Should().BeGreaterThan(0);
         testEntity.UriTestField!.Value.Should().BeEquivalentTo(new System.Uri(sampleUri));
+        testEntity.GeoCoordTestField!.Latitude.Should().Be(latitude);
+        testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
     }
 
     [Fact]

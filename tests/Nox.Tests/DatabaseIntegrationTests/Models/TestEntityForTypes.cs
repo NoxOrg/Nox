@@ -63,6 +63,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public LatLong? GeoCoordTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Area? AreaTestField { get; set; } = null!;
 
     /// <summary>

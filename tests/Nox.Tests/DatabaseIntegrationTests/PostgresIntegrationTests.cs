@@ -102,6 +102,8 @@ public class PostgresIntegrationTests : PostgresTestBase
         var length = 314_598M;
         var persistLengthUnitAs = LengthTypeUnit.Meter;
         var sampleUri = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
+        var latitude = 47.376934;
+        var longitude = 8.541287;
 
         var jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
@@ -151,6 +153,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             WeightTestField = Weight.From(weight, new WeightTypeOptions() { Units = WeightTypeUnit.Pound, PersistAs = persistWeightUnitAs }),
             DistanceTestField = Distance.From(distance, new DistanceTypeOptions() { Units = DistanceTypeUnit.Mile, PersistAs = persistDistanceUnitAs }),
             UriTestField = Types.Uri.From(sampleUri),
+            GeoCoordTestField = LatLong.From(latitude, longitude),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -215,5 +218,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
         testEntity.DatabaseNumberTestField!.Value.Should().BeGreaterThan(0);
         testEntity.UriTestField!.Value.Should().Be(sampleUri);
+        testEntity.GeoCoordTestField!.Latitude.Should().Be(latitude);
+        testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
     }
 }

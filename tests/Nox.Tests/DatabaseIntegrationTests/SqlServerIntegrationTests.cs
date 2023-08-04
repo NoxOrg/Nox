@@ -96,6 +96,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
 ";
         var internetDomain = "nox.org";
         var percentage = 0.5f;
+        var latitude = 47.376934;
+        var longitude = 8.541287;
 
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
@@ -155,6 +157,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             WeightTestField = Weight.From(weight, new WeightTypeOptions() { Units = WeightTypeUnit.Pound, PersistAs = persistWeightUnitAs }),
             DistanceTestField = Distance.From(distance, new DistanceTypeOptions() { Units = DistanceTypeUnit.Mile, PersistAs = persistDistanceUnitAs }),
             UriTestField = Types.Uri.From(sampleUri),
+            GeoCoordTestField = LatLong.From(latitude, longitude),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -225,6 +228,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
         testEntity.DatabaseNumberTestField!.Value.Should().BeGreaterThan(0);
         testEntity.UriTestField!.Value.Should().BeEquivalentTo(sampleUri);
+        testEntity.GeoCoordTestField!.Latitude.Should().Be(latitude);
+        testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
     }
 
     // [Fact]
