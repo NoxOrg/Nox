@@ -4,10 +4,9 @@ using Nox.Solution;
 using Nox.Types;
 using Nox.Types.Extensions;
 using System;
-using System.Collections.Generic;
 using System.Linq;
 
-namespace Nox.Generator.Application.Queries;
+namespace Nox.Generator.Application.Dto;
 
 internal static class NoxTypeDtoGenerator
 {
@@ -20,7 +19,7 @@ internal static class NoxTypeDtoGenerator
             return;
         }
 
-        var templateName = @"Application.NoxTypesDto.NoxTypeDto";
+        var templateName = @"Application.Dto.NoxTypeDto";
 
         var compoundTypes = Enum.GetValues(typeof(NoxType))
            .Cast<NoxType>()

@@ -22,6 +22,7 @@ using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using Nox.Generator.Application.Queries;
 using Nox.Generator.Application.Commands;
+using Nox.Generator.Application.Dto;
 
 namespace Nox.Generator;
 
