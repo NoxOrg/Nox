@@ -107,6 +107,9 @@ public class PostgresIntegrationTests : PostgresTestBase
         var weight = 20.58M;
         var persistWeightUnitAs = WeightTypeUnit.Kilogram;
 
+        var distance = 80.481727;
+        var persistDistanceUnitAs = DistanceTypeUnit.Kilometer;
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -145,6 +148,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
             JwtTokenTestField = JwtToken.From(jwtToken),
             WeightTestField = Weight.From(weight, new WeightTypeOptions() { Units = WeightTypeUnit.Pound, PersistAs = persistWeightUnitAs }),
+            DistanceTestField = Distance.From(distance, new DistanceTypeOptions() { Units = DistanceTypeUnit.Mile, PersistAs = persistDistanceUnitAs }),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -205,5 +209,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.JwtTokenTestField!.Value.Should().Be(jwtToken);
         testEntity.WeightTestField!.Unit.Should().Be(persistWeightUnitAs);
         testEntity.WeightTestField!.ToPounds().Should().Be(weight);
+        testEntity.DistanceTestField!.ToMiles().Should().Be(distance);
+        testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
     }
 }
