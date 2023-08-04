@@ -145,7 +145,7 @@ public class OStore : AuditableEntityBase
     /// <summary>
     /// Physical Money in the Physical Store.
     /// </summary>
-    public String PhysicalMoney_CurrencyCode { get; set; } = default!;
+    public CurrencyCode PhysicalMoney_CurrencyCode { get; set; } = default!;
     
     /// <summary>
     /// Set of passwords for this store.
@@ -330,7 +330,7 @@ public class StoreDto
     /// <summary>
     /// Physical Money in the Physical Store.
     /// </summary>
-    public String PhysicalMoney_CurrencyCode { get; set; } = default!;
+    public CurrencyCode PhysicalMoney_CurrencyCode { get; set; } = default!;
 }
 
 /// <summary>

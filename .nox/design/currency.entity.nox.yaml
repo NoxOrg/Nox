@@ -22,6 +22,16 @@ keys:
       minLength: 3
       maxLength: 3
 
+  # TODO support nuid in Odata Post
+  #- name: Id
+  #  isRequired: true
+  #  description: The currency's primary key / identifier
+  #  type: nuid
+  #  nuidTypeOptions:
+  #      separator: "."
+  #      propertyNames:
+  #          - "Name" 
+
 attributes:
 
   - name: Name

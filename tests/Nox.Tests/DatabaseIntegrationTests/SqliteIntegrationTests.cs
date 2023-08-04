@@ -37,7 +37,6 @@ public class SqliteIntegrationTests : SqliteTestBase
         // json
         // time
         // translatedText
-        // markdown
         // jwtToken
 
         // TODO: commented types
@@ -64,6 +63,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var dayOfWeek = 1;
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
+        var year = (ushort)2023;
         var vatNumberValue = "44403198682";
         var vatNumberCountryCode2 = CountryCode2.From("FR");
         var date = new DateOnly(2023, 7, 14);
@@ -84,6 +84,7 @@ public class SqliteIntegrationTests : SqliteTestBase
     - County: Lausanne
 ";
         var internetDomain = "nox.org";
+        
 
         var length = 314_598M;
         var percentage = 0.5f;
@@ -99,6 +100,11 @@ public class SqliteIntegrationTests : SqliteTestBase
 
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
+
+        var jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+
+        var weight = 20.58M;
+        var persistWeightUnitAs = WeightTypeUnit.Kilogram;
 
         var newItem = new TestEntityForTypes()
         {
@@ -124,7 +130,9 @@ public class SqliteIntegrationTests : SqliteTestBase
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
+            CurrencyNumberTestField = CurrencyNumber.From(970),
             JsonTestField = Json.From(addressJsonPretty),
+            YearTestField = Year.From(year),
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
@@ -134,8 +142,11 @@ public class SqliteIntegrationTests : SqliteTestBase
             EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
             DateTestField = Date.From(date),
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
+            MarkdownTestField = Markdown.From(text),
             InternetDomainTestField = InternetDomain.From(internetDomain),
             LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
+            JwtTokenTestField = JwtToken.From(jwtToken),
+            WeightTestField = Weight.From(weight, new WeightTypeOptions() { Units = WeightTypeUnit.Pound, PersistAs = persistWeightUnitAs }),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -173,10 +184,12 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
         testEntity.MonthTestField!.Value.Should().Be(month);
         testEntity.DateTimeDurationTestField!.TotalHours.Should().Be(dateTimeDurationInHours);
+        testEntity.CurrencyNumberTestField!.Value.Should().Be(970);
         testEntity.JsonTestField!.Value.Should().Be(addressJsonMinified);
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("p").Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("m").Should().Be(addressJsonMinified);
+        testEntity.YearTestField!.Value.Should().Be(year);
         testEntity.BooleanTestField!.Value.Should().Be(boolean);
         testEntity.EmailTestField!.Value.Should().Be(email);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
@@ -191,9 +204,13 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);
         testEntity.FileTestField!.Value.PrettyName.Should().Be(fileName);
         testEntity.FileTestField!.Value.SizeInBytes.Should().Be(fileSizeInBytes);
+        testEntity.MarkdownTestField!.Value.Should().Be(text);
         testEntity.InternetDomainTestField!.Value.Should().Be(internetDomain);
         testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
         testEntity.LengthTestField!.ToFeet().Should().Be(length);
+        testEntity.JwtTokenTestField!.Value.Should().Be(jwtToken);
+        testEntity.WeightTestField!.Unit.Should().Be(persistWeightUnitAs);
+        testEntity.WeightTestField!.ToPounds().Should().Be(weight);
     }
 
     [Fact]

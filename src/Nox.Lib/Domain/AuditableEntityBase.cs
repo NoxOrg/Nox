@@ -1,8 +1,14 @@
 ﻿
 namespace Nox.Domain
 {
-    public abstract partial class AuditableEntityBase: IDeleteEntity
+    public abstract partial class AuditableEntityBase: IDeleteEntity, IEntity
     {
+        public AuditableEntityBase()
+        {            
+            CreatedAtUtc = DateTime.UtcNow;
+            // TODO CreatedBy to be done by interceptor on db context...
+        }
+
         /// <summary>
         /// The date and time when this entity was first created (in Coordinated Universal Time).
         /// </summary>
@@ -45,7 +51,7 @@ namespace Nox.Domain
         {
             Deleted = true;
             DeletedAtUtc = DateTime.UtcNow;
-            // TODO DeletedBy
+            // TODO DeletedBy to be done by interceptor on db context...
         }
 
     }

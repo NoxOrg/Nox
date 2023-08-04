@@ -90,7 +90,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             IsLandLocked = Boolean.From(false),
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
             VolumeInCubicMeters = Volume.FromCubicMeters(89_000),
-            WeightInKilograms = Weight.FromKilograms(19_000),
+            WeightInKilograms = Weight.From(19_000, WeightTypeUnit.Kilogram),
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             HashedText = HashedText.From("Test123."),
             ArabicName = TranslatedText.From((CultureCode.From("ar-SA"), "سوئٹزرلینڈ")),
@@ -165,7 +165,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             ArabicName = TranslatedText.From((CultureCode.From("ar-SA"), "سوئٹزرلینڈ")),
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
             VolumeInCubicMeters = Volume.FromCubicMeters(89_000),
-            WeightInKilograms = Weight.FromKilograms(19_000),
+            WeightInKilograms = Weight.From(19_000, WeightTypeUnit.Kilogram),
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             HashedText = HashedText.From(("Test123.", "salt")),
             CreateDate = DateTime.From(new System.DateTime(2023, 01, 01)),
@@ -202,7 +202,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.LatLong.Latitude.Should().Be(46.802496);
         item.LatLong.Longitude.Should().Be(8.234392);
         item.Population?.Value.Should().Be(8_703_654);
-        item.GrossDomesticProduct.CurrencyCode.Should().Be("CHF");
+        item.GrossDomesticProduct.CurrencyCode.ToString().Should().Be("CHF");
         item.GrossDomesticProduct.Value.CurrencyCode.Should().Be(CurrencyCode.CHF);
         item.GrossDomesticProduct.Amount.Should().Be(100);
         item.CountryCode2.Value.Should().Be("CH");
@@ -233,7 +233,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.Flag.PrettyName.Should().Be("Switzerland Flag");
         item.Flag.SizeInBytes.Should().Be(512);
         item.WeightInKilograms.Value.Should().Be(19_000);
-        item.WeightInKilograms.Unit.Should().Be(WeightUnit.Kilogram);
+        item.WeightInKilograms.Unit.Should().Be(WeightTypeUnit.Kilogram);
         item.HashedText.HashText.Should().Be(newItem.HashedText.HashText);
         item.HashedText.Salt.Should().Be(newItem.HashedText.Salt);
         item.CreateDate.Should().Be(DateTime.From(new System.DateTime(2023, 01, 01)));

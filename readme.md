@@ -108,6 +108,9 @@ The validator will be excuted before the request. Add the validator to the servi
 services.AddSingleton<IValidator<Queries.GetStoreByIdQuery>, GetStoreByIdSecurityValidator>();
 ```
 
+Response:
+![Response example](/docs/images//securityexceptionexample.png)
+
 ## Queries Filter Extension
 
 To add extra filter to generated queries, for security or other purposes, add a new Pipeline behavior (see MediatR), filtering Get Stores example:
@@ -130,8 +133,54 @@ and register in the container
 services.AddScoped<IPipelineBehavior<GetStoresQuery, IQueryable<OStore>>, GetStoresQuerySecurityFilter> ()
 ```
 
-Response:
-![Response example](/docs/images//securityexceptionexample.png)
+## Add new Queries to Existing Controllers
+
+To add a custom query to a generated controller, you need to:
+
+1. Create a partial class with the name of the controller
+1. Create a Query Request
+1. Create a Query Handler
+
+example:
+
+```c#
+/// <summary>
+/// Extending a OData controller example with additional queries (Action) and commands (Functions)
+/// </summary>
+public partial class CountriesController
+{
+    [HttpGet("GetCountriesIManage")]
+    public async Task<IResult> GetCountriesIManage()
+    {
+        var result = await _mediator.Send(new GetCountriesIManageQuery());
+        return Results.Ok(result);
+    }
+}
+
+
+namespace SampleWebApp.Application.Queries
+{
+    /// <summary>
+    /// Custom Query and Handler Example
+    /// </summary>
+    public record GetCountriesIManageQuery : IRequest<IQueryable<OCountry>>;
+
+    public class GetCountriesIManageQueryHandler : IRequestHandler<GetCountriesIManageQuery, IQueryable<OCountry>>
+    {
+        public GetCountriesIManageQueryHandler(ODataDbContext dataDbContext)
+        {
+            DataDbContext = dataDbContext;
+        }
+
+        public ODataDbContext DataDbContext { get; }
+
+        public Task<IQueryable<OCountry>> Handle(GetCountriesIManageQuery request, CancellationToken cancellationToken)
+        {
+            return Task.FromResult((IQueryable<OCountry>)DataDbContext.Countries.Where(country => country.Population > 12348));
+        }
+    }
+}
+```
 
 ## Versioning
 
