@@ -18,7 +18,7 @@ public class WeightConversionTests
     {
         var conversion = new WeightConversion(WeightUnit.Kilogram, WeightUnit.Pound);
 
-        conversion.Calculate(1).Should().Be(2.20462262);
+        conversion.Calculate(1).Should().Be(2.2046226218487758072297380135m);
     }
 
     [Fact]
@@ -30,6 +30,6 @@ public class WeightConversionTests
         var result2 = conversion.Calculate(1) * (QuantityValue)2.5;
 
         result1.Should().Be(result2);
-        result1.Should().Be(5.51155655);
+        result1.Should().Be(5.5115565546219395180743450338m);
     }
 }

@@ -24,11 +24,15 @@ public class {{className}}: EntityFactoryBase<{{entity.Name}}Dto, {{entity.Name}
 
     protected override void MapEntity({{entity.Name}} entity, Entity entityDefinition, {{entity.Name}}Dto dto)
     {
-    {{- for attribute in entity.Attributes }}            
-    {{ if attribute.Type == "Text" }}
-        if(dto.{{attribute.Name}} != null)
+    #pragma warning disable CS0168 // Variable is declared but never used        
+        dynamic? noxTypeValue;
+    #pragma warning restore CS0168 // Variable is declared but never used
+    {{- for attribute in entity.Attributes }}     
+    {{ if attribute.Type == "Text" || attribute.Type == "Number" || attribute.Type == "Area" #to be removed when we support all types}}
+        noxTypeValue =  CreateNoxType<{{attribute.Type}}>(entityDefinition,"{{attribute.Name}}",dto.{{attribute.Name}});
+        if(noxTypeValue != null)
         {        
-            entity.{{attribute.Name}} = CreateNoxType<{{attribute.Type}}>(entityDefinition,"{{attribute.Name}}",dto.{{attribute.Name}});
+            entity.{{attribute.Name}} = noxTypeValue;
         }
     {{- else -}}
         // TODO map {{attribute.Name}} {{attribute.Type}} remaining types and remove if else

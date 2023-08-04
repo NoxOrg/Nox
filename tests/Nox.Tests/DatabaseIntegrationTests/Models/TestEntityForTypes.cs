@@ -142,6 +142,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Weight? WeightTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public CultureCode? CultureCodeTestField { get; set; } = null!;
 
     /// <summary>
@@ -178,6 +183,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public Date? DateTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Markdown MarkdownTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).

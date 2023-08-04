@@ -24,7 +24,7 @@ public abstract class EntityFactoryBase<T, E> : IEntityFactory<T, E> where T : c
         MapEntity(entity, entityDefinition, dto);
         return entity;
     }
-    protected N CreateNoxType<N>(Entity entityDefinition, string attributeName, dynamic value) where N : INoxType
+    protected N? CreateNoxType<N>(Entity entityDefinition, string attributeName, dynamic? value) where N : INoxType
     {
         var typeFactory = ServiceProvider.GetService<INoxTypeFactory<N>>();
         return typeFactory!.CreateNoxType(entityDefinition, attributeName, value);

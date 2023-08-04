@@ -23,11 +23,15 @@ public class CurrencyFactory: EntityFactoryBase<CurrencyDto, Currency>
     public  CurrencyFactory(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
 
     protected override void MapEntity(Currency entity, Entity entityDefinition, CurrencyDto dto)
-    {            
+    {
+    #pragma warning disable CS0168 // Variable is declared but never used        
+        dynamic? noxTypeValue;
+    #pragma warning restore CS0168 // Variable is declared but never used     
     
-            if(dto.Name != null)
+            noxTypeValue =  CreateNoxType<Text>(entityDefinition,"Name",dto.Name);
+            if(noxTypeValue != null)
             {        
-                entity.Name = CreateNoxType<Text>(entityDefinition,"Name",dto.Name);
+                entity.Name = noxTypeValue;
             }
     }
 }

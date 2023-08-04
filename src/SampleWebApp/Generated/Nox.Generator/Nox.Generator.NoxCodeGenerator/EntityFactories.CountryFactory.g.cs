@@ -23,56 +23,83 @@ public class CountryFactory: EntityFactoryBase<CountryDto, Country>
     public  CountryFactory(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
 
     protected override void MapEntity(Country entity, Entity entityDefinition, CountryDto dto)
-    {            
+    {
+    #pragma warning disable CS0168 // Variable is declared but never used        
+        dynamic? noxTypeValue;
+    #pragma warning restore CS0168 // Variable is declared but never used     
     
-            if(dto.Name != null)
+            noxTypeValue =  CreateNoxType<Text>(entityDefinition,"Name",dto.Name);
+            if(noxTypeValue != null)
             {        
-                entity.Name = CreateNoxType<Text>(entityDefinition,"Name",dto.Name);
-            }            
+                entity.Name = noxTypeValue;
+            }     
     
-            if(dto.FormalName != null)
+            noxTypeValue =  CreateNoxType<Text>(entityDefinition,"FormalName",dto.FormalName);
+            if(noxTypeValue != null)
             {        
-                entity.FormalName = CreateNoxType<Text>(entityDefinition,"FormalName",dto.FormalName);
-            }            
-    // TODO map AlphaCode3 CountryCode3 remaining types and remove if else            
-    // TODO map AlphaCode2 CountryCode2 remaining types and remove if else            
-    // TODO map NumericCode Number remaining types and remove if else            
+                entity.FormalName = noxTypeValue;
+            }     
+    // TODO map AlphaCode3 CountryCode3 remaining types and remove if else     
+    // TODO map AlphaCode2 CountryCode2 remaining types and remove if else     
     
-            if(dto.DialingCodes != null)
+            noxTypeValue =  CreateNoxType<Number>(entityDefinition,"NumericCode",dto.NumericCode);
+            if(noxTypeValue != null)
             {        
-                entity.DialingCodes = CreateNoxType<Text>(entityDefinition,"DialingCodes",dto.DialingCodes);
-            }            
+                entity.NumericCode = noxTypeValue;
+            }     
     
-            if(dto.Capital != null)
+            noxTypeValue =  CreateNoxType<Text>(entityDefinition,"DialingCodes",dto.DialingCodes);
+            if(noxTypeValue != null)
             {        
-                entity.Capital = CreateNoxType<Text>(entityDefinition,"Capital",dto.Capital);
-            }            
+                entity.DialingCodes = noxTypeValue;
+            }     
     
-            if(dto.Demonym != null)
+            noxTypeValue =  CreateNoxType<Text>(entityDefinition,"Capital",dto.Capital);
+            if(noxTypeValue != null)
             {        
-                entity.Demonym = CreateNoxType<Text>(entityDefinition,"Demonym",dto.Demonym);
-            }            
-    // TODO map AreaInSquareKilometres Area remaining types and remove if else            
+                entity.Capital = noxTypeValue;
+            }     
     
-            if(dto.GeoRegion != null)
+            noxTypeValue =  CreateNoxType<Text>(entityDefinition,"Demonym",dto.Demonym);
+            if(noxTypeValue != null)
             {        
-                entity.GeoRegion = CreateNoxType<Text>(entityDefinition,"GeoRegion",dto.GeoRegion);
-            }            
+                entity.Demonym = noxTypeValue;
+            }     
     
-            if(dto.GeoSubRegion != null)
+            noxTypeValue =  CreateNoxType<Area>(entityDefinition,"AreaInSquareKilometres",dto.AreaInSquareKilometres);
+            if(noxTypeValue != null)
             {        
-                entity.GeoSubRegion = CreateNoxType<Text>(entityDefinition,"GeoSubRegion",dto.GeoSubRegion);
-            }            
+                entity.AreaInSquareKilometres = noxTypeValue;
+            }     
     
-            if(dto.GeoWorldRegion != null)
+            noxTypeValue =  CreateNoxType<Text>(entityDefinition,"GeoRegion",dto.GeoRegion);
+            if(noxTypeValue != null)
             {        
-                entity.GeoWorldRegion = CreateNoxType<Text>(entityDefinition,"GeoWorldRegion",dto.GeoWorldRegion);
-            }            
-    // TODO map Population Number remaining types and remove if else            
+                entity.GeoRegion = noxTypeValue;
+            }     
     
-            if(dto.TopLevelDomains != null)
+            noxTypeValue =  CreateNoxType<Text>(entityDefinition,"GeoSubRegion",dto.GeoSubRegion);
+            if(noxTypeValue != null)
             {        
-                entity.TopLevelDomains = CreateNoxType<Text>(entityDefinition,"TopLevelDomains",dto.TopLevelDomains);
+                entity.GeoSubRegion = noxTypeValue;
+            }     
+    
+            noxTypeValue =  CreateNoxType<Text>(entityDefinition,"GeoWorldRegion",dto.GeoWorldRegion);
+            if(noxTypeValue != null)
+            {        
+                entity.GeoWorldRegion = noxTypeValue;
+            }     
+    
+            noxTypeValue =  CreateNoxType<Number>(entityDefinition,"Population",dto.Population);
+            if(noxTypeValue != null)
+            {        
+                entity.Population = noxTypeValue;
+            }     
+    
+            noxTypeValue =  CreateNoxType<Text>(entityDefinition,"TopLevelDomains",dto.TopLevelDomains);
+            if(noxTypeValue != null)
+            {        
+                entity.TopLevelDomains = noxTypeValue;
             }
     }
 }

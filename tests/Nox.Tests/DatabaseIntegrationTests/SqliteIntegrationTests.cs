@@ -37,7 +37,6 @@ public class SqliteIntegrationTests : SqliteTestBase
         // json
         // time
         // translatedText
-        // markdown
         // jwtToken
 
         // TODO: commented types
@@ -102,6 +101,9 @@ public class SqliteIntegrationTests : SqliteTestBase
 
         var jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
+        var weight = 20.58M;
+        var persistWeightUnitAs = WeightTypeUnit.Kilogram;
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -136,9 +138,11 @@ public class SqliteIntegrationTests : SqliteTestBase
             EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
             DateTestField = Date.From(date),
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
+            MarkdownTestField = Markdown.From(text),
             InternetDomainTestField = InternetDomain.From(internetDomain),
             LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
             JwtTokenTestField = JwtToken.From(jwtToken),
+            WeightTestField = Weight.From(weight, new WeightTypeOptions() { Units = WeightTypeUnit.Pound, PersistAs = persistWeightUnitAs }),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -194,10 +198,13 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);
         testEntity.FileTestField!.Value.PrettyName.Should().Be(fileName);
         testEntity.FileTestField!.Value.SizeInBytes.Should().Be(fileSizeInBytes);
+        testEntity.MarkdownTestField!.Value.Should().Be(text);
         testEntity.InternetDomainTestField!.Value.Should().Be(internetDomain);
         testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
         testEntity.LengthTestField!.ToFeet().Should().Be(length);
         testEntity.JwtTokenTestField!.Value.Should().Be(jwtToken);
+        testEntity.WeightTestField!.Unit.Should().Be(persistWeightUnitAs);
+        testEntity.WeightTestField!.ToPounds().Should().Be(weight);
     }
 
     [Fact]

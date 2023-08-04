@@ -9,8 +9,8 @@ namespace Nox.Factories.Types
         {
         }
 
-        public override Number CreateNoxType(Entity entityDefinition, string propertyName, dynamic value)
-        {
+        public override Number? CreateNoxType(Entity entityDefinition, string propertyName, dynamic? value)
+        {            
             var attributeDefinition = entityDefinition.Attributes!.Single(attribute => attribute.Name == propertyName);
 
             return Number.From(value, attributeDefinition.NumberTypeOptions ?? new NumberTypeOptions());

@@ -40,4 +40,24 @@ public class MarkdownTests
     {
         Markdown.From(markdown).ToHtml().Should().Be(html);
     }
+
+    [Fact]
+    public void MarkdownOptions_Constructor_ReturnsDefaults()
+    {
+        var markdownOptions = new MarkdownTypeOptions();
+
+        markdownOptions.IsUnicode.Should().BeTrue();
+        markdownOptions.MinLength.Should().Be(0u);
+        markdownOptions.MaxLength.Should().Be(255u);
+    }
+
+    [Fact]
+    public void Markdown_Constructor_SpecifyingMaxLength_WithLongerLengthInput_ThrowsValidationException()
+    {
+        var maxLength = 3u;
+        var fromAct = () => Markdown.From("long text", new MarkdownTypeOptions { MaxLength = maxLength });
+
+        fromAct.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
+            $"Could not create a Markdown type that is 9 characters long and longer than the maximum specified length of {maxLength}") });
+    }
 }

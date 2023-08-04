@@ -12,7 +12,7 @@ namespace Nox.Factories
 
         public NoxSolution Solution { get; }
 
-        public abstract T CreateNoxType(Entity entityDefinition, string propertyName, dynamic value);
+        public abstract T? CreateNoxType(Entity entityDefinition, string propertyName, dynamic? value);
 
     }
 }
