@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 
 using Nox.Types;
 
@@ -12,7 +12,7 @@ namespace Nox.Tests.DatabaseIntegrationTests;
 
 public class PostgresIntegrationTests : PostgresTestBase
 {
-    //[Fact]
+    // [Fact]
     public void GeneratedEntity_Postgres_CanSaveAndReadFields_AllTypes()
     {
         // TODO:
@@ -58,6 +58,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             PostalCode = "61135"
         };
         var languageCode = "en";
+        var year = (ushort)2023;
         var area = 198_090M;
         var areaPersistUnitAs = AreaTypeUnit.SquareMeter;
         var cultureCode = "de-CH";
@@ -68,6 +69,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         var currencyNumber = (short)970;
         var dateTimeDurationInHours = 30.5;
         var date = new DateOnly(2023, 7, 14);
+        var percentage = 0.5f;
         var fileName = "MyFile";
         var fileSizeInBytes = 1000000UL;
         var fileUrl = "https://example.com/myfile.pdf";
@@ -99,11 +101,17 @@ public class PostgresIntegrationTests : PostgresTestBase
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
         var length = 314_598M;
         var persistLengthUnitAs = LengthTypeUnit.Meter;
+        var sampleUri = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
+        var latitude = 47.376934;
+        var longitude = 8.541287;
 
         var jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
         var weight = 20.58M;
         var persistWeightUnitAs = WeightTypeUnit.Kilogram;
+
+        var distance = 80.481727;
+        var persistDistanceUnitAs = DistanceTypeUnit.Kilometer;
 
         var newItem = new TestEntityForTypes()
         {
@@ -116,6 +124,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),
+            YearTestField = Year.From(year),
             CultureCodeTestField = CultureCode.From(cultureCode),
             TranslatedTextTestField = TranslatedText.From((CultureCode.From("ur-PK"), "شادی مبارک")),
             CountryCode3TestField = CountryCode3.From(countryCode3),
@@ -134,6 +143,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
+            PercentageTestField = Percentage.From(percentage),
             DateTestField = Date.From(date),
             MarkdownTestField = Markdown.From(text),
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
@@ -141,6 +151,9 @@ public class PostgresIntegrationTests : PostgresTestBase
             LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
             JwtTokenTestField = JwtToken.From(jwtToken),
             WeightTestField = Weight.From(weight, new WeightTypeOptions() { Units = WeightTypeUnit.Pound, PersistAs = persistWeightUnitAs }),
+            DistanceTestField = Distance.From(distance, new DistanceTypeOptions() { Units = DistanceTypeUnit.Mile, PersistAs = persistDistanceUnitAs }),
+            UriTestField = Types.Uri.From(sampleUri),
+            GeoCoordTestField = LatLong.From(latitude, longitude),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -163,6 +176,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.AreaTestField!.Unit.Should().Be(areaPersistUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
         testEntity.LanguageCodeTestField!.Value.Should().Be(languageCode);
+        testEntity.YearTestField!.Value.Should().Be(year);
         testEntity.CultureCodeTestField!.Value.Should().Be(cultureCode);
         testEntity.TranslatedTextTestField!.Value.Phrase.Should().BeEquivalentTo("شادی مبارک");
         testEntity.CountryCode3TestField!.Value.Should().Be(countryCode3);
@@ -188,6 +202,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
         testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
         testEntity.EncryptedTextTestField!.DecryptText(encryptedTextTypeOptions).Should().Be(text);
+        testEntity.PercentageTestField!.Value.Should().Be(percentage);
         testEntity.DateTestField!.Value.Should().Be(date);
         testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);
         testEntity.FileTestField!.Value.PrettyName.Should().Be(fileName);
@@ -199,5 +214,11 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.JwtTokenTestField!.Value.Should().Be(jwtToken);
         testEntity.WeightTestField!.Unit.Should().Be(persistWeightUnitAs);
         testEntity.WeightTestField!.ToPounds().Should().Be(weight);
+        testEntity.DistanceTestField!.ToMiles().Should().Be(distance);
+        testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
+        testEntity.DatabaseNumberTestField!.Value.Should().BeGreaterThan(0);
+        testEntity.UriTestField!.Value.Should().Be(sampleUri);
+        testEntity.GeoCoordTestField!.Latitude.Should().Be(latitude);
+        testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
     }
 }

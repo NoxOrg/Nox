@@ -63,6 +63,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var dayOfWeek = 1;
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
+        var year = (ushort)2023;
         var vatNumberValue = "44403198682";
         var vatNumberCountryCode2 = CountryCode2.From("FR");
         var date = new DateOnly(2023, 7, 14);
@@ -86,7 +87,9 @@ public class SqliteIntegrationTests : SqliteTestBase
         
 
         var length = 314_598M;
+        var percentage = 0.5f;
         var persistLengthUnitAs = LengthTypeUnit.Meter;
+        var sampleUri = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
 
         using var aesAlgorithm = System.Security.Cryptography.Aes.Create();
         var encryptedTextTypeOptions = new EncryptedTextTypeOptions
@@ -103,7 +106,12 @@ public class SqliteIntegrationTests : SqliteTestBase
 
         var weight = 20.58M;
         var persistWeightUnitAs = WeightTypeUnit.Kilogram;
+        var databaseNumber = 1U;
 
+        var distance = 80.481727;
+        var persistDistanceUnitAs = DistanceTypeUnit.Kilometer;
+        var latitude = 47.376934;
+        var longitude = 8.541287;
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -130,10 +138,12 @@ public class SqliteIntegrationTests : SqliteTestBase
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
             CurrencyNumberTestField = CurrencyNumber.From(970),
             JsonTestField = Json.From(addressJsonPretty),
+            YearTestField = Year.From(year),
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
             VatNumberTestField = VatNumber.From(vatNumberValue, vatNumberCountryCode2),
+            PercentageTestField = Percentage.From(percentage),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
             DateTestField = Date.From(date),
@@ -143,6 +153,10 @@ public class SqliteIntegrationTests : SqliteTestBase
             LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
             JwtTokenTestField = JwtToken.From(jwtToken),
             WeightTestField = Weight.From(weight, new WeightTypeOptions() { Units = WeightTypeUnit.Pound, PersistAs = persistWeightUnitAs }),
+            DistanceTestField = Distance.From(distance, new DistanceTypeOptions() { Units = DistanceTypeUnit.Mile, PersistAs = persistDistanceUnitAs }),
+            DatabaseNumberTestField = DatabaseNumber.FromDatabase(databaseNumber), //SQLite supports AutoIncrement only for column of type INTEGER PRIMARY KEY  https://www.sqlite.org/autoinc.html
+            UriTestField = Types.Uri.From(sampleUri),
+            GeoCoordTestField = LatLong.From(latitude, longitude),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -185,11 +199,13 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("p").Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("m").Should().Be(addressJsonMinified);
+        testEntity.YearTestField!.Value.Should().Be(year);
         testEntity.BooleanTestField!.Value.Should().Be(boolean);
         testEntity.EmailTestField!.Value.Should().Be(email);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
         testEntity.VatNumberTestField!.Value.Number.Should().Be(vatNumberValue);
         testEntity.VatNumberTestField!.Value.CountryCode2.Should().Be(vatNumberCountryCode2);
+        testEntity.PercentageTestField!.Value.Should().Be(percentage);
         testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
         testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
@@ -205,6 +221,12 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.JwtTokenTestField!.Value.Should().Be(jwtToken);
         testEntity.WeightTestField!.Unit.Should().Be(persistWeightUnitAs);
         testEntity.WeightTestField!.ToPounds().Should().Be(weight);
+        testEntity.DistanceTestField!.ToMiles().Should().Be(distance);
+        testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
+        testEntity.DatabaseNumberTestField!.Value.Should().BeGreaterThan(0);
+        testEntity.UriTestField!.Value.Should().BeEquivalentTo(new System.Uri(sampleUri));
+        testEntity.GeoCoordTestField!.Latitude.Should().Be(latitude);
+        testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
     }
 
     [Fact]

@@ -202,7 +202,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.LatLong.Latitude.Should().Be(46.802496);
         item.LatLong.Longitude.Should().Be(8.234392);
         item.Population?.Value.Should().Be(8_703_654);
-        item.GrossDomesticProduct.CurrencyCode.Should().Be("CHF");
+        item.GrossDomesticProduct.CurrencyCode.ToString().Should().Be("CHF");
         item.GrossDomesticProduct.Value.CurrencyCode.Should().Be(CurrencyCode.CHF);
         item.GrossDomesticProduct.Amount.Should().Be(100);
         item.CountryCode2.Value.Should().Be("CH");
@@ -212,7 +212,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.CountryNumber.Value.Should().Be(756);
         item.MonthOfPeakTourism.Value.Should().Be(7);
         item.DistanceInKm.Value.Should().Be(129.522785);
-        item.DistanceInKm.Unit.Should().Be(DistanceUnit.Kilometer);
+        item.DistanceInKm.Unit.Should().Be(DistanceTypeUnit.Kilometer);
         item.InternetDomain.Value.Should().Be("admin.ch");
         item.CountryCode3.Value.Should().Be("CHE");
         item.IPAddress.Value.Should().Be("102.129.143.255");

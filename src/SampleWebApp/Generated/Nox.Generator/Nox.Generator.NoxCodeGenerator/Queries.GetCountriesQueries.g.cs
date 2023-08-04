@@ -21,7 +21,9 @@ public class GetCountriesQueryHandler : IRequestHandler<GetCountriesQuery, IQuer
 
     public Task<IQueryable<OCountry>> Handle(GetCountriesQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<OCountry>)DataDbContext.Countries.Where(r => !(r.Deleted == true));
+        var item = (IQueryable<OCountry>)DataDbContext.Countries
+            .Where(r => !(r.Deleted == true))
+            .AsNoTracking();
         return Task.FromResult(item);
     }
 }

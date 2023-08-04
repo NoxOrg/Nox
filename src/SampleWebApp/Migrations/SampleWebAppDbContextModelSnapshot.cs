@@ -425,9 +425,8 @@ namespace SampleWebApp.Migrations
                             b1.Property<decimal>("Amount")
                                 .HasColumnType("decimal(15, 5)");
 
-                            b1.Property<string>("CurrencyCode")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                            b1.Property<int>("CurrencyCode")
+                                .HasColumnType("int");
 
                             b1.HasKey("StoreId");
 

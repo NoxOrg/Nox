@@ -3,9 +3,9 @@
 #nullable enable
 
 using Nox.Types;
+using Nox.Domain;
 using System;
 using System.Collections.Generic;
-using DayOfWeek = Nox.Types.DayOfWeek;
 
 namespace TestWebApp.Domain;
 
@@ -53,7 +53,17 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public DayOfWeek? DayOfWeekTestField { get; set; } = null!;
+    public Nox.Types.DayOfWeek? DayOfWeekTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public JwtToken? JwtTokenTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public LatLong? GeoCoordTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -83,7 +93,22 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public CurrencyNumber? CurrencyNumberTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Distance? DistanceTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Email? EmailTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public EncryptedText? EncryptedTextTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -94,6 +119,7 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public InternetDomain? InternetDomainTestField { get; set; } = null!;
+
     /// <summary>
     ///  (Optional).
     /// </summary>
@@ -132,6 +158,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Percentage? PercentageTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Temperature? TempratureTestField { get; set; } = null!;
 
     /// <summary>
@@ -142,7 +173,17 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Nox.Types.Uri? UriTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Weight? WeightTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Year? YearTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -162,16 +203,6 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public EncryptedText? EncryptedTextTestField { get; set; } = null!;
-
-    /// <summary>
-    ///  (Optional).
-    /// </summary>
-    public CurrencyNumber? CurrencyNumberTestField { get; set; } = null!;
-
-    /// <summary>
-    ///  (Optional).
-    /// </summary>
     public DateTimeDuration? DateTimeDurationTestField { get; set; } = null!;
 
     /// <summary>
@@ -187,7 +218,7 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Markdown MarkdownTestField { get; set; } = null!;
+    public Markdown? MarkdownTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -197,5 +228,10 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public JwtToken? JwtTokenTestField { get; set; } = null!;
+    public int? FormulaTestField => 2 + 2;
+
+    /// <summary>
+    ///  (Required).
+    /// </summary>
+    public DatabaseNumber DatabaseNumberTestField { get; set; } = null!;
 }

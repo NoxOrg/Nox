@@ -21,7 +21,9 @@ public class GetStoreSecurityPasswordsQueryHandler : IRequestHandler<GetStoreSec
 
     public Task<IQueryable<OStoreSecurityPasswords>> Handle(GetStoreSecurityPasswordsQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<OStoreSecurityPasswords>)DataDbContext.StoreSecurityPasswords.Where(r => !(r.Deleted == true));
+        var item = (IQueryable<OStoreSecurityPasswords>)DataDbContext.StoreSecurityPasswords
+            .Where(r => !(r.Deleted == true))
+            .AsNoTracking();
         return Task.FromResult(item);
     }
 }

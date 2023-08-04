@@ -316,8 +316,8 @@ domain:
         - name: JwtTokenTestField
           type: jwtToken
 
-        #- name: GeoCoordTestField
-        #  type: latLong
+        - name: GeoCoordTestField
+          type: latLong
 
         - name: AreaTestField
           type: area
@@ -346,8 +346,8 @@ domain:
         #- name: DateTimeRangeTestField
         #  type: dateTimeRange
 
-        #- name: DistanceTestField
-        #  type: distance
+        - name: DistanceTestField
+          type: distance
 
         - name: EmailTestField
           type: email
@@ -388,8 +388,8 @@ domain:
         - name: PasswordTestField
           type: password
 
-        #- name: PercentageTestField
-        #  type: percentage
+        - name: PercentageTestField
+          type: percentage
 
         #- name: PhoneNumberTestField
         #  type: phoneNumber
@@ -401,8 +401,8 @@ domain:
         - name: TranslatedTextTestField
           type: translatedText
 
-        #- name: UriTestField
-        #  type: uri
+        - name: UriTestField
+          type: uri
 
         #- name: VolumeTestField
         #  type: volume
@@ -410,8 +410,8 @@ domain:
         - name: WeightTestField
           type: weight
 
-        #- name: YearTestField
-        #  type: year
+        - name: YearTestField
+          type: year
 
         - name: CultureCodeTestField
           type: cultureCode
@@ -442,4 +442,8 @@ domain:
           formulaTypeOptions:
               expression: "2 + 2"
               returns: int
+        
+        - name: DatabaseNumberTestField
+          type: databaseNumber
+          isRequired: true
 

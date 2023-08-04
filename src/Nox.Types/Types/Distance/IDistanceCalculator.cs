@@ -2,5 +2,5 @@
 
 internal interface IDistanceCalculator
 {
-    double Calculate(LatLong origin, LatLong destination);
+    double Calculate(LatLong origin, LatLong destination, DistanceTypeUnit unit);
 }
