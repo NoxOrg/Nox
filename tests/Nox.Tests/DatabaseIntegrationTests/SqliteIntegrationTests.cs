@@ -89,6 +89,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var length = 314_598M;
         var percentage = 0.5f;
         var persistLengthUnitAs = LengthTypeUnit.Meter;
+        var sampleUri = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
 
         using var aesAlgorithm = System.Security.Cryptography.Aes.Create();
         var encryptedTextTypeOptions = new EncryptedTextTypeOptions
@@ -153,6 +154,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             WeightTestField = Weight.From(weight, new WeightTypeOptions() { Units = WeightTypeUnit.Pound, PersistAs = persistWeightUnitAs }),
             DistanceTestField = Distance.From(distance, new DistanceTypeOptions() { Units = DistanceTypeUnit.Mile, PersistAs = persistDistanceUnitAs }),
             DatabaseNumberTestField = DatabaseNumber.FromDatabase(databaseNumber), //SQLite supports AutoIncrement only for column of type INTEGER PRIMARY KEY  https://www.sqlite.org/autoinc.html
+            UriTestField = Types.Uri.From(sampleUri),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -220,6 +222,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.DistanceTestField!.ToMiles().Should().Be(distance);
         testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
         testEntity.DatabaseNumberTestField!.Value.Should().BeGreaterThan(0);
+        testEntity.UriTestField!.Value.Should().BeEquivalentTo(new System.Uri(sampleUri));
     }
 
     [Fact]

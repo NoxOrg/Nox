@@ -88,12 +88,12 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Distance? DistanceTestField { get; set; } = null!;
+    public CurrencyNumber? CurrencyNumberTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public CurrencyNumber? CurrencyNumberTestField { get; set; } = null!;
+    public Distance? DistanceTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -153,12 +153,22 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Percentage? PercentageTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Temperature? TempratureTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
     public TranslatedText? TranslatedTextTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Nox.Types.Uri? UriTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -199,11 +209,6 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public Date? DateTestField { get; set; } = null!;
-
-    /// <summary>
-    ///  (Optional).
-    /// </summary>
-    public Percentage? PercentageTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
