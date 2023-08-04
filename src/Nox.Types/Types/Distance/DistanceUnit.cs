@@ -2,7 +2,7 @@
 
 namespace Nox.Types;
 
-internal sealed class DistanceUnit : MeasurementUnit
+public sealed class DistanceUnit : MeasurementUnit
 {
     public static readonly DistanceUnit Kilometer = new(1, "Kilometer", "km");
     public static readonly DistanceUnit Mile = new(2, "Mile", "mi");

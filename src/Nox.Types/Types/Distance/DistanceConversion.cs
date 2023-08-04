@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 namespace Nox.Types;
 
-internal class DistanceConversion : MeasurementConversion<DistanceUnit>
+public class DistanceConversion : MeasurementConversion<DistanceUnit>
 {
     private static readonly Dictionary<(DistanceUnit, DistanceUnit), Func<QuantityValue, QuantityValue>> _definedDistanceConversionFormulas = new()
     {
