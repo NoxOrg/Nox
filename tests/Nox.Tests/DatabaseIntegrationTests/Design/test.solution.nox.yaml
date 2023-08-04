@@ -346,8 +346,8 @@ domain:
         #- name: DateTimeRangeTestField
         #  type: dateTimeRange
 
-        #- name: DistanceTestField
-        #  type: distance
+        - name: DistanceTestField
+          type: distance
 
         - name: EmailTestField
           type: email
@@ -388,8 +388,8 @@ domain:
         - name: PasswordTestField
           type: password
 
-        #- name: PercentageTestField
-        #  type: percentage
+        - name: PercentageTestField
+          type: percentage
 
         #- name: PhoneNumberTestField
         #  type: phoneNumber

@@ -212,7 +212,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.CountryNumber.Value.Should().Be(756);
         item.MonthOfPeakTourism.Value.Should().Be(7);
         item.DistanceInKm.Value.Should().Be(129.522785);
-        item.DistanceInKm.Unit.Should().Be(DistanceUnit.Kilometer);
+        item.DistanceInKm.Unit.Should().Be(DistanceTypeUnit.Kilometer);
         item.InternetDomain.Value.Should().Be("admin.ch");
         item.CountryCode3.Value.Should().Be("CHE");
         item.IPAddress.Value.Should().Be("102.129.143.255");
