@@ -6,12 +6,12 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a Nox <see cref="DateTimeRange"/> type and value object.
 /// </summary>
-public class DateTimeRange : ValueObject<(System.DateTime Start, System.DateTime End), DateTimeRange>
+public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset End), DateTimeRange>
 {
     /// <summary>
     /// Gets the start of the date time range.
     /// </summary>
-    public System.DateTime Start
+    public DateTimeOffset Start
     {
         get => Value.Start;
         private set => Value = (Start: value, End: Value.End);
@@ -20,7 +20,7 @@ public class DateTimeRange : ValueObject<(System.DateTime Start, System.DateTime
     /// <summary>
     /// Gets the end of the date time range.
     /// </summary>
-    public System.DateTime End
+    public DateTimeOffset End
     {
         get => Value.End;
         private set => Value = (Start: Value.Start, End: value);
@@ -38,7 +38,7 @@ public class DateTimeRange : ValueObject<(System.DateTime Start, System.DateTime
     /// <param name="end">The end.</param>
     /// <returns></returns>
     /// <exception cref="ValidationException"></exception>
-    public static DateTimeRange From(System.DateTime start, System.DateTime end)
+    public static DateTimeRange From(DateTimeOffset start, DateTimeOffset end)
         => From((start, end));
 
     /// <summary>
@@ -48,7 +48,7 @@ public class DateTimeRange : ValueObject<(System.DateTime Start, System.DateTime
     /// <param name="end">The end.</param>
     /// <returns></returns>
     /// <exception cref="ValidationException"></exception>
-    public static DateTimeRange From(System.DateTime start, TimeSpan duration)
+    public static DateTimeRange From(DateTimeOffset start, TimeSpan duration)
             => From((start, start.Add(duration)));
 
     internal override ValidationResult Validate()
@@ -57,7 +57,7 @@ public class DateTimeRange : ValueObject<(System.DateTime Start, System.DateTime
 
         if (Value.Start > Value.End)
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DateTimeRange type with Start value {Value.Start.ToString()} and End value {Value.End.ToString()} as start of the time range must be the same or after the end of the time range."));
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DateTimeRange type with Start value {Value.Start.ToString(CultureInfo.InvariantCulture)} and End value {Value.End.ToString(CultureInfo.InvariantCulture)} as start of the time range must be the same or after the end of the time range."));
         }
 
         return result;
@@ -67,7 +67,7 @@ public class DateTimeRange : ValueObject<(System.DateTime Start, System.DateTime
     /// Determines whether the specified date time is within the date time range.
     /// </summary>
     /// <param name="dateTime">The date time.</param>
-    public bool Contains(System.DateTime dateTime)
+    public bool Contains(DateTimeOffset dateTime)
         => dateTime >= Value.Start && dateTime <= Value.End;
 
     /// <summary>
