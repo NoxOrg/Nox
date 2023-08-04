@@ -140,6 +140,7 @@ public class Distance : ValueObject<QuantityValue, Distance>
         yield return new KeyValuePair<string, object>(nameof(Value), ToKilometers());
     }
 
+    /// <inheritdocs />
     public static Distance FromDatabase(QuantityValue distanceValue, DistanceTypeUnit distanceUnit)
     {
         return new Distance
