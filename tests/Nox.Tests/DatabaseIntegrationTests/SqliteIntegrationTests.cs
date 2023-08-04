@@ -105,6 +105,7 @@ public class SqliteIntegrationTests : SqliteTestBase
 
         var weight = 20.58M;
         var persistWeightUnitAs = WeightTypeUnit.Kilogram;
+        var databaseNumber = 1U;
 
         var distance = 80.481727;
         var persistDistanceUnitAs = DistanceTypeUnit.Kilometer;
@@ -151,6 +152,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             JwtTokenTestField = JwtToken.From(jwtToken),
             WeightTestField = Weight.From(weight, new WeightTypeOptions() { Units = WeightTypeUnit.Pound, PersistAs = persistWeightUnitAs }),
             DistanceTestField = Distance.From(distance, new DistanceTypeOptions() { Units = DistanceTypeUnit.Mile, PersistAs = persistDistanceUnitAs }),
+            DatabaseNumberTestField = DatabaseNumber.FromDatabase(databaseNumber), //SQLite supports AutoIncrement only for column of type INTEGER PRIMARY KEY  https://www.sqlite.org/autoinc.html
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -217,6 +219,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.WeightTestField!.ToPounds().Should().Be(weight);
         testEntity.DistanceTestField!.ToMiles().Should().Be(distance);
         testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
+        testEntity.DatabaseNumberTestField!.Value.Should().BeGreaterThan(0);
     }
 
     [Fact]

@@ -1,4 +1,4 @@
-﻿using FluentAssertions;
+using FluentAssertions;
 
 using Nox.Types;
 
@@ -12,7 +12,7 @@ namespace Nox.Tests.DatabaseIntegrationTests;
 
 public class PostgresIntegrationTests : PostgresTestBase
 {
-    //[Fact]
+    // [Fact]
     public void GeneratedEntity_Postgres_CanSaveAndReadFields_AllTypes()
     {
         // TODO:
@@ -211,5 +211,6 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.WeightTestField!.ToPounds().Should().Be(weight);
         testEntity.DistanceTestField!.ToMiles().Should().Be(distance);
         testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
+        testEntity.DatabaseNumberTestField!.Value.Should().BeGreaterThan(0);
     }
 }
