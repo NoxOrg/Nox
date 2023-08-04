@@ -192,6 +192,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Percentage? PercentageTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Markdown MarkdownTestField { get; set; } = null!;
 
     /// <summary>
