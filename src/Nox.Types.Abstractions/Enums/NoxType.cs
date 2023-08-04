@@ -22,7 +22,7 @@ public enum NoxType : uint
     
     [CompoundType]
     [CompoundComponent("Amount", typeof(decimal))]
-    [CompoundComponent("CurrencyCode", typeof(string))]
+    [CompoundComponent("CurrencyCode", typeof(CurrencyCode))]
     Money = 3500951620,
 
     [CompoundType]

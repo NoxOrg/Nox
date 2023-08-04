@@ -202,7 +202,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.LatLong.Latitude.Should().Be(46.802496);
         item.LatLong.Longitude.Should().Be(8.234392);
         item.Population?.Value.Should().Be(8_703_654);
-        item.GrossDomesticProduct.CurrencyCode.Should().Be("CHF");
+        item.GrossDomesticProduct.CurrencyCode.ToString().Should().Be("CHF");
         item.GrossDomesticProduct.Value.CurrencyCode.Should().Be(CurrencyCode.CHF);
         item.GrossDomesticProduct.Amount.Should().Be(100);
         item.CountryCode2.Value.Should().Be("CH");

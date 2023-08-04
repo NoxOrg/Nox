@@ -20,7 +20,7 @@ public static class ServiceCollectionExtension
         var noxAssemblies = allAssemblies
             .Where(a => a.Name != null && a.Name.StartsWith("Nox"))
             .Select(Assembly.Load)
-            .Union(new[] { Assembly.GetEntryAssembly()! }).ToArray();
+            .Union(new[] { entryAssembly! }).ToArray();
 
         return services
             .AddSingleton(typeof(NoxSolution), CreateSolution)
@@ -69,7 +69,7 @@ public static class ServiceCollectionExtension
 
         services.Scan(scan =>
           scan.FromAssemblies(noxAssemblies)
-          .AddClasses(classes => classes.AssignableTo(typeof(INoxTypeFactory<>)))//.Where(_ => !_.IsGenericType))
+          .AddClasses(classes => classes.AssignableTo(typeof(INoxTypeFactory<>)))
           .AsImplementedInterfaces()
           .WithSingletonLifetime());
 

@@ -20,7 +20,6 @@ using Nox.Generator.Presentation.Api.OData;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
-using Nox.Generator.Application;
 using Nox.Generator.Application.Queries;
 using Nox.Generator.Application.Commands;
 

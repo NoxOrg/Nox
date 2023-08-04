@@ -8,10 +8,12 @@ using SampleWebApp;
 //===================================================================================
 using SampleWebApp.Application;
 using SampleWebApp.SeedData;
-using SampleWebApp.Application.Queries;
-using MediatR;
-using FluentValidation;
 using SampleWebApp.Application.Behavior;
+
+//if (!Debugger.IsAttached)
+//{
+//    Debugger.Launch();
+//}
 
 var builder = WebApplication.CreateBuilder(args);
 
