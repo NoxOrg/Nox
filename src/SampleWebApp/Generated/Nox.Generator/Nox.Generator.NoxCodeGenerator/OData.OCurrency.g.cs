@@ -29,7 +29,7 @@ public partial class OCurrency : AuditableEntityBase
     /// <summary>
     /// The currency's name (Required).
     /// </summary>
-    public String Name { get; set; } =default!;
+    public String Name { get; set; } = default!;
 
     /// <summary>
     /// Currency is legal tender for ZeroOrMany Countries

@@ -16,23 +16,23 @@ public partial class CountryDto
     /// <summary>
     /// The country's common name (Required).
     /// </summary>
-    public String Name { get; set; } =default!;
+    public String Name { get; set; } = default!;
     /// <summary>
     /// The country's official name (Required).
     /// </summary>
-    public String FormalName { get; set; } =default!;
+    public String FormalName { get; set; } = default!;
     /// <summary>
     /// The country's official ISO 4217 alpha-3 code (Required).
     /// </summary>
-    public String AlphaCode3 { get; set; } =default!;
+    public String AlphaCode3 { get; set; } = default!;
     /// <summary>
     /// The country's official ISO 4217 alpha-2 code (Required).
     /// </summary>
-    public String AlphaCode2 { get; set; } =default!;
+    public String AlphaCode2 { get; set; } = default!;
     /// <summary>
     /// The country's official ISO 4217 alpha-3 code (Required).
     /// </summary>
-    public Int16 NumericCode { get; set; } =default!;
+    public Int16 NumericCode { get; set; } = default!;
     /// <summary>
     /// The country's phone dialing codes (comma-delimited) (Optional).
     /// </summary>
@@ -48,19 +48,19 @@ public partial class CountryDto
     /// <summary>
     /// Country area in square kilometers (Required).
     /// </summary>
-    public Decimal AreaInSquareKilometres { get; set; } =default!;
+    public Decimal AreaInSquareKilometres { get; set; } = default!;
     /// <summary>
     /// The region the country is in (Required).
     /// </summary>
-    public String GeoRegion { get; set; } =default!;
+    public String GeoRegion { get; set; } = default!;
     /// <summary>
     /// The sub-region the country is in (Required).
     /// </summary>
-    public String GeoSubRegion { get; set; } =default!;
+    public String GeoSubRegion { get; set; } = default!;
     /// <summary>
     /// The world region the country is in (Required).
     /// </summary>
-    public String GeoWorldRegion { get; set; } =default!;
+    public String GeoWorldRegion { get; set; } = default!;
     /// <summary>
     /// The estimated population of the country (Optional).
     /// </summary>

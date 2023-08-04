@@ -29,12 +29,12 @@ public partial class OStoreSecurityPasswords : AuditableEntityBase
     /// <summary>
     ///  (Required).
     /// </summary>
-    public String Name { get; set; } =default!;
+    public String Name { get; set; } = default!;
 
     /// <summary>
     ///  (Required).
     /// </summary>
-    public String SecurityCamerasPassword { get; set; } =default!;
+    public String SecurityCamerasPassword { get; set; } = default!;
 
     /// <summary>
     /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores
