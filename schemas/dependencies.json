@@ -7,9 +7,9 @@
     "null"
   ],
   "properties": {
-    "translations": {    
+    "uiLocalizations": {    
       "anyOf": [
-        { "$ref": "translations.json" },
+        { "$ref": "uiLocalizations.json" },
         {
           "additionalProperties": false, 
           "properties": {

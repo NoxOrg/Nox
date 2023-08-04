@@ -10,6 +10,8 @@
 	<PropertyGroup>
 		<EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
 		<CompilerGeneratedFilesOutputPath>Generated</CompilerGeneratedFilesOutputPath>
+		<DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+		<DockerComposeProjectPath>..\docker-compose.dcproj</DockerComposeProjectPath>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -32,8 +34,8 @@
 
 	<ItemGroup>
 		<AdditionalFiles Include="..\..\.nox\design\**\*.yaml" LinkBase="Design" />
-		<AdditionalFiles Update="..\..\.nox\design\elastic.monitoring.nox.yaml">
-			<Link>Design\elastic.monitoring.nox.yaml</Link>
+		<AdditionalFiles Update="..\..\.nox\design\**\*.yaml">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</AdditionalFiles>
 	</ItemGroup>
 
@@ -45,6 +47,7 @@
 		<ProjectReference Include="..\Nox.Generator\Nox.Generator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
 		<ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
 		<ProjectReference Include="..\Nox.Lib\Nox.Lib.csproj" />
+		<ProjectReference Include="..\Nox.Localization\Nox.Localization.csproj" />
 		<ProjectReference Include="..\Nox.Logging.Serilog\Nox.Logging.Serilog.csproj" />
 		<ProjectReference Include="..\Nox.Monitoring.ElasticApm\Nox.Monitoring.ElasticApm.csproj" />
 		<ProjectReference Include="..\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
@@ -62,6 +65,7 @@
 		</PackageReference>
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.8" />
 		<PackageReference Include="Microsoft.OData.Core" Version="7.17.0" />
+		<PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.18.1" />
 		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
 		<PackageReference Include="Microsoft.Data.Sqlite.Core" Version="7.0.8" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.8" />

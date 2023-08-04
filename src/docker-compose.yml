@@ -1,0 +1,24 @@
+version: '3.4'
+
+volumes:
+  sqlserver: 
+  
+services:
+  samplewebapp:
+    image: ${DOCKER_REGISTRY-}samplewebapp
+    build:
+      context: .
+      dockerfile: SampleWebApp/Dockerfile
+
+  samplewebapp-db:
+    container_name: SamplewebAppDb
+    image: "mcr.microsoft.com/azure-sql-edge:latest"
+    user: root
+    ports:
+      - "1433:1433"
+    environment:
+      SA_PASSWORD: "Developer*123"
+      ACCEPT_EULA: "Y"
+      MSSQL_PID: "Developer"
+    volumes:
+      - sqlserver:/var/opt/mssql/data

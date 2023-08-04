@@ -8,6 +8,8 @@ using Nox;
 using Nox.Solution;
 using Nox.Logging.Serilog;
 using Nox.Monitoring.ElasticApm;
+using Microsoft.Extensions.Localization;
+using Nox.Localization;
 using Nox.EntityFramework.SqlServer;
 using Nox.Types.EntityFramework.Abstractions;
 using SampleWebApp.Infrastructure.Persistence;
@@ -28,9 +30,9 @@ public static class NoxWebApplicationBuilderExtension
         appBuilder.Services.AddSingleton<INoxDatabaseConfigurator, SqlServerDatabaseProvider>();
         appBuilder.Services.AddSingleton<INoxDatabaseProvider, SqlServerDatabaseProvider>();
         appBuilder.Services.AddDbContext<SampleWebAppDbContext>();
+        appBuilder.Services.AddSingleton<NoxDbContext,SampleWebAppDbContext>();
         appBuilder.Services.AddDbContext<ODataDbContext>();
-        var tmpProvider = appBuilder.Services.BuildServiceProvider();
-        var dbContext = tmpProvider.GetRequiredService<SampleWebAppDbContext>();
+        appBuilder.Services.AddSingleton<IStringLocalizerFactory, SqlStringLocalizerFactory>();
         return appBuilder;
     }
     

@@ -1,4 +1,7 @@
-﻿using Nox;
+﻿using AspNetCoreLocalization;
+using Microsoft.Extensions.Localization;
+using SampleWebApp.Infrastructure.Persistence;
+using System.Globalization;
 
 namespace SampleWebApp.SeedData;
 
@@ -18,11 +21,36 @@ public static class DataSeederExtensions
         if (app.Environment.IsDevelopment())
         {
             using var scope = app.Services.CreateScope();
-            var dataSeeders = scope.ServiceProvider.GetServices<INoxDataSeeder>();
+            var services = scope.ServiceProvider;
+
+            var dataSeeders = services.GetServices<INoxDataSeeder>();
+            var dbContext = services.GetService<SampleWebAppDbContext>();
+
+            dbContext!.Database.EnsureDeleted();
+            dbContext!.Database.EnsureCreated();
 
             foreach (var dataSeeder in dataSeeders)
             {
                 dataSeeder.Seed();
+            }
+
+            // Seed localization
+            var factory = services.GetService<IStringLocalizerFactory>();
+
+            if ( factory is not null ) 
+            {
+                var currentCulture = CultureInfo.CurrentCulture;
+
+                CultureInfo.CurrentCulture = new CultureInfo("en");
+
+                var l = factory.Create(typeof(SharedResource)); ;
+
+                foreach (var c in dbContext.Countries)
+                {
+                    _ = l![$"Countries/{c.Id.Value}/Name"];
+                }
+
+                CultureInfo.CurrentCulture = currentCulture;
             }
         }
     }

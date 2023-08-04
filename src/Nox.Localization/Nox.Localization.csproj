@@ -7,12 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Interfaces\" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.9" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Localization.SqlLocalizer" Version="3.1.0" />
-    <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="7.0.9" />
+    <ProjectReference Include="..\Nox.Lib\Nox.Lib.csproj" />
+    <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
+    <ProjectReference Include="..\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
   </ItemGroup>
 
 </Project>

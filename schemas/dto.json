@@ -205,6 +205,12 @@
                         "null"
                       ]
                     },
+                    "isLocalized": {    
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
                     "casing": {    
                       "type": [
                         "string",
@@ -1186,21 +1192,7 @@
                         "type": [
                           "string",
                           "null"
-                        ],
-                        "properties": {
-                          "chars": {    
-                            "type": [
-                              "object",
-                              "null"
-                            ]
-                          },
-                          "length": {    
-                            "type": [
-                              "integer",
-                              "null"
-                            ]
-                          }
-                        }
+                        ]
                       }
                     }
                   }
@@ -3108,6 +3100,12 @@
                         "null"
                       ]
                     },
+                    "isLocalized": {    
+                      "type": [
+                        "boolean",
+                        "null"
+                      ]
+                    },
                     "casing": {    
                       "type": [
                         "string",
@@ -4089,21 +4087,7 @@
                         "type": [
                           "string",
                           "null"
-                        ],
-                        "properties": {
-                          "chars": {    
-                            "type": [
-                              "object",
-                              "null"
-                            ]
-                          },
-                          "length": {    
-                            "type": [
-                              "integer",
-                              "null"
-                            ]
-                          }
-                        }
+                        ]
                       }
                     }
                   }
@@ -5947,6 +5931,12 @@
                 "null"
               ]
             },
+            "isLocalized": {    
+              "type": [
+                "boolean",
+                "null"
+              ]
+            },
             "casing": {    
               "type": [
                 "string",
@@ -6718,21 +6708,7 @@
                 "type": [
                   "string",
                   "null"
-                ],
-                "properties": {
-                  "chars": {    
-                    "type": [
-                      "object",
-                      "null"
-                    ]
-                  },
-                  "length": {    
-                    "type": [
-                      "integer",
-                      "null"
-                    ]
-                  }
-                }
+                ]
               }
             }
           }

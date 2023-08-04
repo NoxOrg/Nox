@@ -73,4 +73,9 @@ public sealed class Text : ValueObject<string,Text>
 
         return result;
     }
+
+    public override string ToString()
+    {
+        return Value;
+    }
 }

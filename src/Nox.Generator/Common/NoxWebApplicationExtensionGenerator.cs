@@ -37,6 +37,8 @@ internal static class NoxWebApplicationExtensionGenerator
         code.AppendLine("using Nox.Solution;");
         code.AppendLine("using Nox.Logging.Serilog;");
         code.AppendLine("using Nox.Monitoring.ElasticApm;");
+        code.AppendLine("using Microsoft.Extensions.Localization;");
+        code.AppendLine("using Nox.Localization;");
         code.AppendLines(usings.ToArray());
         code.AppendLine("using Nox.Types.EntityFramework.Abstractions;");
         code.AppendLine($"using {solution.Name}.Infrastructure.Persistence;");
@@ -61,10 +63,13 @@ internal static class NoxWebApplicationExtensionGenerator
         code.AppendLine($"appBuilder.Services.AddSingleton<INoxDatabaseConfigurator, {dbProvider}>();");
         code.AppendLine($"appBuilder.Services.AddSingleton<INoxDatabaseProvider, {dbProvider}>();");
         code.AppendLine($"appBuilder.Services.AddDbContext<{dbContextName}>();");
+        code.AppendLine($"appBuilder.Services.AddSingleton<NoxDbContext,{dbContextName}>();");
         if(generatePresentation)
+        {
             code.AppendLine($"appBuilder.Services.AddDbContext<ODataDbContext>();");
-        code.AppendLine("var tmpProvider = appBuilder.Services.BuildServiceProvider();");
-        code.AppendLine("var dbContext = tmpProvider.GetRequiredService<SampleWebAppDbContext>();");
+        }
+        code.AppendLine($"appBuilder.Services.AddSingleton<IStringLocalizerFactory, SqlStringLocalizerFactory>();");
+        
         code.AppendLine("return appBuilder;");
         code.EndBlock();
         code.AppendLine();

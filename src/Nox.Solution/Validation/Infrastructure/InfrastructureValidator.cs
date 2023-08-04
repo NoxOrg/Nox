@@ -66,7 +66,7 @@ namespace Nox.Solution.Validation
                     
                     if (infra.Dependencies.Monitoring != null) servers.Add(infra.Dependencies.Monitoring);
                     
-                    if (infra.Dependencies.Translations != null) servers.Add(infra.Dependencies.Translations);
+                    if (infra.Dependencies.UiLocalizations != null) servers.Add(infra.Dependencies.UiLocalizations);
                     
                     if (infra.Dependencies.DataConnections != null)
                     {
