@@ -57,8 +57,6 @@ internal static class NoxWebApplicationExtensionGenerator
         code.AppendLine($"appBuilder.Services.AddDbContext<{dbContextName}>();");
         if (generatePresentation)
             code.AppendLine($"appBuilder.Services.AddDbContext<ODataDbContext>();");
-        code.AppendLine("var tmpProvider = appBuilder.Services.BuildServiceProvider();");
-        code.AppendLine($"var dbContext = tmpProvider.GetRequiredService<{dbContextName}>();");
         code.AppendLine("return appBuilder;");
         code.EndBlock();
         code.AppendLine();

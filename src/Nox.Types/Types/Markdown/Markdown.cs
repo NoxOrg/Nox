@@ -9,19 +9,29 @@ namespace Nox.Types;
 /// </summary>
 public sealed class Markdown : ValueObject<string, Markdown>
 {
+    private MarkdownTypeOptions _typeOptions = new();
+
     /// <summary>
     /// Creates a new instance of <see cref="Markdown"/>
     /// </summary>
     /// <param name="value"></param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
-    public new static Markdown From(string value)
-    {
-        value = value.Trim();
+    public new static Markdown From(string value) => From(value, new MarkdownTypeOptions());
 
+    /// <summary>
+    /// Creates a new instance of <see cref="Markdown"/>
+    /// </summary>
+    /// <param name="value"></param>
+    /// <param name="typeOptions"></param>
+    /// <returns></returns>
+    /// <exception cref="TypeValidationException"></exception>
+    public static Markdown From(string value, MarkdownTypeOptions typeOptions)
+    {
         var newObject = new Markdown
         {
-            Value = value,
+            Value = value.Trim(),
+            _typeOptions = typeOptions
         };
 
         var validationResult = newObject.Validate();
@@ -33,6 +43,33 @@ public sealed class Markdown : ValueObject<string, Markdown>
 
         return newObject;
     }
+
+    /// <summary>
+    /// Validates a <see cref="Markdown"/> object.
+    /// </summary>
+    /// <returns>true if the <see cref="Markdown"/> value is valid according to the default or specified <see cref="MarkdownTypeOptions"/>.</returns>
+    internal override ValidationResult Validate()
+    {
+        var result = base.Validate();
+
+        if (Value.Length < _typeOptions.MinLength)
+        {
+            result.Errors.Add( new ValidationFailure(nameof(Value), $"Could not create a {nameof(Markdown)} type that is {Value.Length} characters long and shorter than the minimum specified length of {_typeOptions.MinLength}"));
+        }
+
+        if (Value.Length > _typeOptions.MaxLength)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a {nameof(Markdown)} type that is {Value.Length} characters long and longer than the maximum specified length of {_typeOptions.MaxLength}"));
+        }
+
+        if (!_typeOptions.IsUnicode && Value.Any(c => c > 255))
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a non-UniCode {nameof(Markdown)} type that contains Unicode characters '{new string(Value.Where(c => c > 255).ToArray())}'"));
+        }
+
+        return result;
+    }
+
 
     /// <summary>
     /// Converts Markdown text to Html based on <a href="https://spec.commonmark.org/0.30/">CommonMarkdown</a> specification.

@@ -92,11 +92,17 @@ public class NoxSimpleTypeDefinition
     [IfEquals("Type", NoxType.Json)]
     public JsonTypeOptions? JsonTypeOptions { get; set; }
 
+    [IfEquals("Type", NoxType.Markdown)]
+    public MarkdownTypeOptions? MarkdownTypeOptions { get; set; }
+
     [IfEquals("Type", NoxType.Temperature)]
     public TemperatureTypeOptions? TemperatureTypeOptions { get; set; }
 
     [IfEquals("Type", NoxType.Length)]
     public LengthTypeOptions? LengthTypeOptions { get; set; }
+
+    [IfEquals("Type", NoxType.Weight)]
+    public WeightTypeOptions? WeightTypeOptions { get; set; }
 
     [IfEquals("Type", NoxType.Distance)]
     public DistanceTypeOptions? DistanceTypeOptions { get; set; }

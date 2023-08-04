@@ -147,6 +147,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Weight? WeightTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public CultureCode? CultureCodeTestField { get; set; } = null!;
 
     /// <summary>
@@ -187,5 +192,15 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Markdown MarkdownTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Nox.Types.File? FileTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public JwtToken? JwtTokenTestField { get; set; } = null!;
 }

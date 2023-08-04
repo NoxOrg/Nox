@@ -1,4 +1,4 @@
-using FluentAssertions;
+﻿using FluentAssertions;
 
 using Nox.Types;
 
@@ -13,7 +13,7 @@ namespace Nox.Tests.DatabaseIntegrationTests;
 public class PostgresIntegrationTests : PostgresTestBase
 {
     //[Fact]
-    public void GeneratedEntity_SqlServer_CanSaveAndReadFields_AllTypes()
+    public void GeneratedEntity_Postgres_CanSaveAndReadFields_AllTypes()
     {
         // TODO:
         // array
@@ -40,7 +40,6 @@ public class PostgresIntegrationTests : PostgresTestBase
         // json
         // time
         // translatedText
-        // markdown
         // jwtToken
 
         // TODO: commented types
@@ -101,6 +100,11 @@ public class PostgresIntegrationTests : PostgresTestBase
         var length = 314_598M;
         var persistLengthUnitAs = LengthTypeUnit.Meter;
 
+        var jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+
+        var weight = 20.58M;
+        var persistWeightUnitAs = WeightTypeUnit.Kilogram;
+
         var distance = 80.481727;
         var persistDistanceUnitAs = DistanceTypeUnit.Kilometer;
 
@@ -134,9 +138,12 @@ public class PostgresIntegrationTests : PostgresTestBase
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
             DateTestField = Date.From(date),
+            MarkdownTestField = Markdown.From(text),
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
             InternetDomainTestField = InternetDomain.From(internetDomain),
             LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
+            JwtTokenTestField = JwtToken.From(jwtToken),
+            WeightTestField = Weight.From(weight, new WeightTypeOptions() { Units = WeightTypeUnit.Pound, PersistAs = persistWeightUnitAs }),
             DistanceTestField = Distance.From(distance, new DistanceTypeOptions() { Units = DistanceTypeUnit.Mile, PersistAs = persistDistanceUnitAs }),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
@@ -189,9 +196,13 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);
         testEntity.FileTestField!.Value.PrettyName.Should().Be(fileName);
         testEntity.FileTestField!.Value.SizeInBytes.Should().Be(fileSizeInBytes);
+        testEntity.MarkdownTestField!.Value.Should().Be(text);
         testEntity.InternetDomainTestField!.Value.Should().Be(internetDomain);
         testEntity.LengthTestField!.ToFeet().Should().Be(length);
         testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
+        testEntity.JwtTokenTestField!.Value.Should().Be(jwtToken);
+        testEntity.WeightTestField!.Unit.Should().Be(persistWeightUnitAs);
+        testEntity.WeightTestField!.ToPounds().Should().Be(weight);
         testEntity.DistanceTestField!.ToMiles().Should().Be(distance);
         testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
     }
