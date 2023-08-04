@@ -12,12 +12,12 @@ using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 
-namespace SampleWebApp.Presentation.Api.OData;
+namespace SampleWebApp.Application.Dto;
 
 /// <summary>
 /// A set of security passwords to store cameras and databases.
 /// </summary>
-[AutoMap(typeof(StoreSecurityPasswordsDto))]
+[AutoMap(typeof(StoreSecurityPasswordsCreateDto))]
 public partial class OStoreSecurityPasswords : AuditableEntityBase
 {
 

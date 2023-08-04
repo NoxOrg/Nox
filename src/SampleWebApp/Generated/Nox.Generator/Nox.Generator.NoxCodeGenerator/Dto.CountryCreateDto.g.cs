@@ -6,12 +6,12 @@ using Nox.Abstractions;
 using Nox.Types;
 using System.Collections.Generic;
 
-namespace SampleWebApp.Presentation.Api.OData;
+namespace SampleWebApp.Application.Dto; 
 
 /// <summary>
 /// The list of countries.
 /// </summary>
-public partial class CountryDto
+public partial class CountryCreateDto
 {
     /// <summary>
     /// The country's common name (Required).

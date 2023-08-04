@@ -4,7 +4,8 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using {{ codeGeneratorState.ODataNameSpace}};
+using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+using {{codeGeneratorState.ODataNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Queries;
 

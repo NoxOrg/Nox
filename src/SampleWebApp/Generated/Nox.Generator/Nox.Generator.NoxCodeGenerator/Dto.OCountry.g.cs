@@ -12,12 +12,12 @@ using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 
-namespace SampleWebApp.Presentation.Api.OData;
+namespace SampleWebApp.Application.Dto;
 
 /// <summary>
 /// The list of countries.
 /// </summary>
-[AutoMap(typeof(CountryDto))]
+[AutoMap(typeof(CountryCreateDto))]
 public partial class OCountry : AuditableEntityBase
 {
 

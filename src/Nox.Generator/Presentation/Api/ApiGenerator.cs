@@ -61,6 +61,7 @@ internal static class ApiGenerator
 
 
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace};");
+            code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Dto;");
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Queries;");
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Commands;");
             code.AppendLine($"using {codeGeneratorState.DataTransferObjectsNameSpace};");
@@ -310,7 +311,7 @@ internal static class ApiGenerator
     private static void GeneratePost(string entityName, string variableName, CodeBuilder code)
     {
         // Method Post
-        code.AppendLine($"public async Task<ActionResult> Post([FromBody]{entityName}Dto {variableName})");
+        code.AppendLine($"public async Task<ActionResult> Post([FromBody]{entityName}CreateDto {variableName})");
 
 
         // Method content

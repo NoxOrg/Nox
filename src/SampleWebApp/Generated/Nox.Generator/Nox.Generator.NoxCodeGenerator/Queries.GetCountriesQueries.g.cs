@@ -4,6 +4,7 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SampleWebApp.Application.Dto;
 using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;

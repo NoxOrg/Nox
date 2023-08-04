@@ -6,12 +6,12 @@ using Nox.Abstractions;
 using Nox.Types;
 using System.Collections.Generic;
 
-namespace SampleWebApp.Presentation.Api.OData;
+namespace SampleWebApp.Application.Dto; 
 
 /// <summary>
 /// Stores.
 /// </summary>
-public partial class StoreDto
+public partial class StoreCreateDto
 {
     /// <summary>
     /// Store Name (Required).

@@ -11,21 +11,22 @@ using Nox.Factories;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Presentation.Api.OData;
+using SampleWebApp.Application.Dto;
 
 
 namespace SampleWebApp.Application.Commands;
 
 //TODO support multiple keys and generated keys like nuid database number
-public record CreateAllNoxTypeCommand(AllNoxTypeDto EntityDto) : IRequest<Text>;
+public record CreateAllNoxTypeCommand(AllNoxTypeCreateDto EntityDto) : IRequest<Text>;
 
 public class CreateAllNoxTypeCommandHandler: IRequestHandler<CreateAllNoxTypeCommand, Text>
 {
     public SampleWebAppDbContext DbContext { get; }
-    public IEntityFactory<AllNoxTypeDto,AllNoxType> EntityFactory { get; }
+    public IEntityFactory<AllNoxTypeCreateDto,AllNoxType> EntityFactory { get; }
 
     public  CreateAllNoxTypeCommandHandler(
         SampleWebAppDbContext dbContext,
-        IEntityFactory<AllNoxTypeDto,AllNoxType> entityFactory)
+        IEntityFactory<AllNoxTypeCreateDto,AllNoxType> entityFactory)
     {
         DbContext = dbContext;
         EntityFactory = entityFactory;

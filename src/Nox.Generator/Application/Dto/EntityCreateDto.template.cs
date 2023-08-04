@@ -6,7 +6,7 @@ using Nox.Abstractions;
 using Nox.Types;
 using System.Collections.Generic;
 
-namespace {{codeGeneratorState.ODataNameSpace }};
+namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto; 
 
 /// <summary>
 /// {{entity.Description}}.

@@ -12,17 +12,17 @@ using Nox.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
-using SampleWebApp.Presentation.Api.OData;
+using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
 
 namespace SampleWebApp.Application;
 
-public class CountryFactory: EntityFactoryBase<CountryDto, Country>
+public class CountryFactory: EntityFactoryBase<CountryCreateDto, Country>
 {
     public  CountryFactory(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
 
-    protected override void MapEntity(Country entity, Entity entityDefinition, CountryDto dto)
+    protected override void MapEntity(Country entity, Entity entityDefinition, CountryCreateDto dto)
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;

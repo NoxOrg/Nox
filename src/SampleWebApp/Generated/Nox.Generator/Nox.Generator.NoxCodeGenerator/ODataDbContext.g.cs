@@ -5,6 +5,7 @@
 using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Presentation.Api.OData;
 

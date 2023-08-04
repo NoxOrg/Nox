@@ -11,21 +11,22 @@ using Nox.Factories;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Presentation.Api.OData;
+using SampleWebApp.Application.Dto;
 
 
 namespace SampleWebApp.Application.Commands;
 
 //TODO support multiple keys and generated keys like nuid database number
-public record CreateCountryCommand(CountryDto EntityDto) : IRequest<Text>;
+public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<Text>;
 
 public class CreateCountryCommandHandler: IRequestHandler<CreateCountryCommand, Text>
 {
     public SampleWebAppDbContext DbContext { get; }
-    public IEntityFactory<CountryDto,Country> EntityFactory { get; }
+    public IEntityFactory<CountryCreateDto,Country> EntityFactory { get; }
 
     public  CreateCountryCommandHandler(
         SampleWebAppDbContext dbContext,
-        IEntityFactory<CountryDto,Country> entityFactory)
+        IEntityFactory<CountryCreateDto,Country> entityFactory)
     {
         DbContext = dbContext;
         EntityFactory = entityFactory;

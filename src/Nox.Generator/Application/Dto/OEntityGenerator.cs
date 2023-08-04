@@ -7,7 +7,7 @@ using Nox.Types.Extensions;
 
 namespace Nox.Generator.Presentation.Api.OData;
 
-internal static class ODataModelGenerator
+internal static class OEntityGenerator
 {
     public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
@@ -30,18 +30,11 @@ internal static class ODataModelGenerator
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"O{entity.Name}")
-                .WithFileNamePrefix("OData")
+                .WithFileNamePrefix("Dto")
                 .WithObject("entity", entity)
                 .WithObject("keysFlattenComponentsTypeName", KeysFlattenComponentsTypeName)
                 .WithObject("isVersioned", (entity.Persistence?.IsVersioned ?? true))
-                .GenerateSourceCodeFromResource("Presentation.Api.OData.Templates.ODataModel");
-
-            new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"{entity.Name}Dto")
-                .WithFileNamePrefix("OData")
-                .WithObject("entity", entity)
-                .WithObject("keysFlattenComponentsTypeName", KeysFlattenComponentsTypeName)
-                .GenerateSourceCodeFromResource("Presentation.Api.OData.Templates.ODataDtoModel");
+                .GenerateSourceCodeFromResource("Application.Dto.OEntity");         
         }
     }
 }

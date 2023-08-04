@@ -11,21 +11,22 @@ using Nox.Factories;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Presentation.Api.OData;
+using SampleWebApp.Application.Dto;
 
 
 namespace SampleWebApp.Application.Commands;
 
 //TODO support multiple keys and generated keys like nuid database number
-public record CreateStoreSecurityPasswordsCommand(StoreSecurityPasswordsDto EntityDto) : IRequest<Text>;
+public record CreateStoreSecurityPasswordsCommand(StoreSecurityPasswordsCreateDto EntityDto) : IRequest<Text>;
 
 public class CreateStoreSecurityPasswordsCommandHandler: IRequestHandler<CreateStoreSecurityPasswordsCommand, Text>
 {
     public SampleWebAppDbContext DbContext { get; }
-    public IEntityFactory<StoreSecurityPasswordsDto,StoreSecurityPasswords> EntityFactory { get; }
+    public IEntityFactory<StoreSecurityPasswordsCreateDto,StoreSecurityPasswords> EntityFactory { get; }
 
     public  CreateStoreSecurityPasswordsCommandHandler(
         SampleWebAppDbContext dbContext,
-        IEntityFactory<StoreSecurityPasswordsDto,StoreSecurityPasswords> entityFactory)
+        IEntityFactory<StoreSecurityPasswordsCreateDto,StoreSecurityPasswords> entityFactory)
     {
         DbContext = dbContext;
         EntityFactory = entityFactory;

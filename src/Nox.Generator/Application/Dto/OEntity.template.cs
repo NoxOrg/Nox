@@ -12,12 +12,12 @@ using Nox.Domain;
 using {{codeGeneratorState.DataTransferObjectsNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 
-namespace {{codeGeneratorState.ODataNameSpace}};
+namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-[AutoMap(typeof({{entity.Name}}Dto))]
+[AutoMap(typeof({{entity.Name}}CreateDto))]
 public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else}}EntityBase{{end}}
 {
 {{- for key in entity.Keys }}

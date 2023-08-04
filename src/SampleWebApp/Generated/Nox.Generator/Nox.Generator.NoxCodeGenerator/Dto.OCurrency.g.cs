@@ -12,12 +12,12 @@ using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 
-namespace SampleWebApp.Presentation.Api.OData;
+namespace SampleWebApp.Application.Dto;
 
 /// <summary>
 /// The list of currencies.
 /// </summary>
-[AutoMap(typeof(CurrencyDto))]
+[AutoMap(typeof(CurrencyCreateDto))]
 public partial class OCurrency : AuditableEntityBase
 {
 

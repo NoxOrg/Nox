@@ -12,17 +12,17 @@ using Nox.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
-using SampleWebApp.Presentation.Api.OData;
+using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
 
 namespace SampleWebApp.Application;
 
-public class StoreSecurityPasswordsFactory: EntityFactoryBase<StoreSecurityPasswordsDto, StoreSecurityPasswords>
+public class StoreSecurityPasswordsFactory: EntityFactoryBase<StoreSecurityPasswordsCreateDto, StoreSecurityPasswords>
 {
     public  StoreSecurityPasswordsFactory(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
 
-    protected override void MapEntity(StoreSecurityPasswords entity, Entity entityDefinition, StoreSecurityPasswordsDto dto)
+    protected override void MapEntity(StoreSecurityPasswords entity, Entity entityDefinition, StoreSecurityPasswordsCreateDto dto)
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;

@@ -11,21 +11,22 @@ using Nox.Factories;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ODataNameSpace}};
+using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 //TODO support multiple keys and generated keys like nuid database number
-public record Create{{entity.Name}}Command({{entity.Name}}Dto EntityDto) : IRequest<{{entity.Keys[0].Type}}>;
+public record Create{{entity.Name}}Command({{entity.Name}}CreateDto EntityDto) : IRequest<{{entity.Keys[0].Type}}>;
 
 public class Create{{entity.Name}}CommandHandler: IRequestHandler<Create{{entity.Name}}Command, {{entity.Keys[0].Type}}>
 {
     public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
-    public IEntityFactory<{{entity.Name}}Dto,{{entity.Name}}> EntityFactory { get; }
+    public IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> EntityFactory { get; }
 
     public  Create{{entity.Name}}CommandHandler(
         {{codeGeneratorState.Solution.Name}}DbContext dbContext,
-        IEntityFactory<{{entity.Name}}Dto,{{entity.Name}}> entityFactory)
+        IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> entityFactory)
     {
         DbContext = dbContext;
         EntityFactory = entityFactory;

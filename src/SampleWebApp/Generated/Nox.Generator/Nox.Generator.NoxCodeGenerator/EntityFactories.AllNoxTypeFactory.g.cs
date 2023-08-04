@@ -12,17 +12,17 @@ using Nox.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
-using SampleWebApp.Presentation.Api.OData;
+using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
 
 namespace SampleWebApp.Application;
 
-public class AllNoxTypeFactory: EntityFactoryBase<AllNoxTypeDto, AllNoxType>
+public class AllNoxTypeFactory: EntityFactoryBase<AllNoxTypeCreateDto, AllNoxType>
 {
     public  AllNoxTypeFactory(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
 
-    protected override void MapEntity(AllNoxType entity, Entity entityDefinition, AllNoxTypeDto dto)
+    protected override void MapEntity(AllNoxType entity, Entity entityDefinition, AllNoxTypeCreateDto dto)
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;

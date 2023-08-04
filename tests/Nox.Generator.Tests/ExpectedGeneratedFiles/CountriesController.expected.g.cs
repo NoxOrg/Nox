@@ -11,6 +11,7 @@ using AutoMapper;
 using MediatR;
 using Nox.Application;
 using SampleWebApp.Application;
+using SampleWebApp.Application.Dto;
 using SampleWebApp.Application.Queries;
 using SampleWebApp.Application.Commands;
 using SampleWebApp.Application.DataTransferObjects;
@@ -82,7 +83,7 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]CountryDto country)
+    public async Task<ActionResult> Post([FromBody]CountryCreateDto country)
     {
         if (!ModelState.IsValid)
         {

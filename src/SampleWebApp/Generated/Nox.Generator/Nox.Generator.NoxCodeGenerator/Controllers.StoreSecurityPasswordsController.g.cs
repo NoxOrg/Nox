@@ -11,6 +11,7 @@ using AutoMapper;
 using MediatR;
 using Nox.Application;
 using SampleWebApp.Application;
+using SampleWebApp.Application.Dto;
 using SampleWebApp.Application.Queries;
 using SampleWebApp.Application.Commands;
 using SampleWebApp.Application.DataTransferObjects;
@@ -68,7 +69,7 @@ public partial class StoreSecurityPasswordsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]StoreSecurityPasswordsDto storesecuritypasswords)
+    public async Task<ActionResult> Post([FromBody]StoreSecurityPasswordsCreateDto storesecuritypasswords)
     {
         if (!ModelState.IsValid)
         {

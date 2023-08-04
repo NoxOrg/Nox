@@ -88,6 +88,9 @@ public class NoxCodeGenerator : IIncrementalGenerator
                     CommandGenerator.Generate(context, codeGeneratorState);
 
                     Domain.CqrsGenerators.QueryGenerator.Generate(context, codeGeneratorState);
+
+                    OEntityGenerator.Generate(context, codeGeneratorState);
+                    EntityCreateDtoGenerator.Generate(context, codeGeneratorState);
                 }
 
                 if (generate.Infrastructure)
@@ -98,9 +101,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
                 if (generate.Presentation)
                 {
                     ODataServiceCollectionExtensions.Generate(context, codeGeneratorState);
-
-                    ODataModelGenerator.Generate(context, codeGeneratorState);
-
+                    
                     ODataDbContextGenerator.Generate(context, codeGeneratorState);
 
                     ApiGenerator.Generate(context, codeGeneratorState);

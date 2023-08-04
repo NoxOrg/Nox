@@ -12,12 +12,12 @@ using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 
-namespace SampleWebApp.Presentation.Api.OData;
+namespace SampleWebApp.Application.Dto;
 
 /// <summary>
 /// Stores.
 /// </summary>
-[AutoMap(typeof(StoreDto))]
+[AutoMap(typeof(StoreCreateDto))]
 public partial class OStore : AuditableEntityBase
 {
 

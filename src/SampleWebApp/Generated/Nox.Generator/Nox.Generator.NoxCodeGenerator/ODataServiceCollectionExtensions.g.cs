@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using Microsoft.AspNetCore.OData.Formatter.Serialization;
 using Nox.Lib;
+using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
