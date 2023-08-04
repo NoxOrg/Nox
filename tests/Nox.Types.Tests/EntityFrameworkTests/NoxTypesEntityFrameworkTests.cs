@@ -250,7 +250,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.CitiesCounties.Value.Should().Be(SwitzerlandCitiesCountiesYaml);
         item.File.Url.Should().Be("https://example.com/myfile.pdf");
         item.File.PrettyName.Should().Be("MyFile");
-        item.File.SizeInBytes.Should().Be(512UL);
+        item.File.SizeInBytes.Should().Be(512);
         item.PhoneNumber.Value.Should().Be("+41 848 700 700");
         Assert.Equal(JsonSerializer.Serialize(streetAddress), item.StreetAddressJson.Value);
         item.GuidUser.Value.Should().Be(guidUserId);

@@ -7,7 +7,7 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a Nox <see cref="File"/> type and value object.
 /// </summary>
-public sealed class File : ValueObject<(string Url, string PrettyName, ulong SizeInBytes), File>
+public sealed class File : ValueObject<(string Url, string PrettyName, uint SizeInBytes), File>
 {
     public const int MaxUrlLength = 2083;
     public const int MaxPrettyNameLength = 511;
@@ -35,7 +35,7 @@ public sealed class File : ValueObject<(string Url, string PrettyName, ulong Siz
     /// <summary>
     /// Gets the size of the file in bytes.
     /// </summary>
-    public ulong SizeInBytes
+    public uint SizeInBytes
     {
         get => Value.SizeInBytes;
         private set => Value = (Url: Value.Url, PrettyName: Value.PrettyName, SizeInBytes: value);
@@ -48,7 +48,7 @@ public sealed class File : ValueObject<(string Url, string PrettyName, ulong Siz
     /// <param name="options">The options.</param>
     /// <returns></returns>
     /// <exception cref="Nox.Types.TypeValidationException"></exception>
-    public static File From((string Url, string PrettyName, ulong SizeInBytes) value, FileTypeOptions options)
+    public static File From((string Url, string PrettyName, uint SizeInBytes) value, FileTypeOptions options)
     {
         var newObject = new File
         {
@@ -73,7 +73,7 @@ public sealed class File : ValueObject<(string Url, string PrettyName, ulong Siz
     /// <param name="prettyName">The pretty name of the file.</param>
     /// <param name="sizeInBytes">The size of the file in bytes.</param>
     /// <returns>An instance of the <see cref="File"/> class.</returns>
-    public static File From(string url, string prettyName, ulong sizeInBytes)
+    public static File From(string url, string prettyName, uint sizeInBytes)
         => From((url, prettyName, sizeInBytes));
 
     /// <summary>
@@ -83,7 +83,7 @@ public sealed class File : ValueObject<(string Url, string PrettyName, ulong Siz
     /// <param name="prettyName">The pretty name of the file.</param>
     /// <param name="sizeInBytes">The size of the file in bytes.</param>
     /// <returns>An instance of the <see cref="File"/> class.</returns>
-    public static File From(string url, string prettyName, ulong sizeInBytes, FileTypeOptions options)
+    public static File From(string url, string prettyName, uint sizeInBytes, FileTypeOptions options)
         => From((url, prettyName, sizeInBytes), options);
 
     /// <summary>

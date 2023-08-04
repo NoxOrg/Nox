@@ -69,7 +69,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         var time = new System.TimeOnly(11152500000);
         var percentage = 0.5f;
         var fileName = "MyFile";
-        var fileSizeInBytes = 1000000UL;
+        uint fileSizeInBytes = 1000000;
         var fileUrl = "https://example.com/myfile.pdf";
 
         var addressJsonPretty = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { WriteIndented = true });
@@ -125,7 +125,7 @@ public class PostgresIntegrationTests : PostgresTestBase
 
         var imageUrl = "https://example.com/image.png";
         var imagePrettyName = "Image";
-        var imageSizeInBytes = 128;
+        uint imageSizeInBytes = 128;
 
         var newItem = new TestEntityForTypes()
         {
@@ -135,7 +135,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
             AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = areaPersistUnitAs }),
-            VolumeTestField = Volume.From(volume, new VolumeTypeOptions { Unit = VolumeTypeUnit.CubicMeter, PersistAs = persistVolumeUnitAs }),
+            VolumeTestField = Volume.From(volume, new VolumeTypeOptions { Units = VolumeTypeUnit.CubicMeter, PersistAs = persistVolumeUnitAs }),
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             LanguageCodeTestField = LanguageCode.From(languageCode),

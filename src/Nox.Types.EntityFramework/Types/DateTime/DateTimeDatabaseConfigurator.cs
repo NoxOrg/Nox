@@ -1,12 +1,12 @@
-﻿
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
 namespace Nox.Types.EntityFramework.Types;
-public class PhoneNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
+public class DateTimeDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
-    public NoxType ForNoxType => NoxType.PhoneNumber;
+    public NoxType ForNoxType => NoxType.DateTime;
 
     public virtual bool IsDefault => true;
 
@@ -15,9 +15,13 @@ public class PhoneNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
         builder
             .Property(property.Name)
             .IsRequired(property.IsRequired)
-            .HasMaxLength(PhoneNumber.MaxPhoneNumberLength)
-            .HasConversion<PhoneNumberConverter>();
+            .HasConversion<DateTimeConverter>();
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
+
+    public virtual string? GetColumnType()
+    {
+        return null;
+    }
 }

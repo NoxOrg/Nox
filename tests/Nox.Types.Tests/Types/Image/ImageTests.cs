@@ -7,7 +7,7 @@ public class ImageTests
     [Theory]
     [InlineData("https://example.com/image.jpg", "Image1", 100)]
     [InlineData("https://example.com/image.png", "Image2", 200)]
-    public void Image_WithValidValues_ShouldBeValid(string url, string prettyName, int size)
+    public void Image_WithValidValues_ShouldBeValid(string url, string prettyName, uint size)
     {
         // Arrange & Act
         var image = Image.From(url, prettyName, size);
@@ -75,7 +75,7 @@ public class ImageTests
 
     [Theory]
     [InlineData("https://example.com/image.abc", "Image1", 100)]
-    public void Image_WithInvalidUrlExtension_ShouldBeInvalid(string url, string prettyName, int size)
+    public void Image_WithInvalidUrlExtension_ShouldBeInvalid(string url, string prettyName, uint size)
     {
         // Arrange & Act
         var action = () => Image.From(url, prettyName, size);

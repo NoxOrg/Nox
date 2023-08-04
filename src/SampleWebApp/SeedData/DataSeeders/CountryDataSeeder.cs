@@ -32,7 +32,7 @@ internal class CountryDataSeeder : SampleDataSeederBase<CountryModel, Country>
                 GeoRegion = Text.From(x.GeoRegion),
                 GeoSubRegion = Text.From(x.GeoSubRegion),
                 GeoWorldRegion = Text.From(x.GeoWorldRegion),
-                CreatedAtUtc = System.DateTime.Now
+                CreatedAtUtc = System.DateTime.UtcNow
             }).ToList();
 
         return entities;

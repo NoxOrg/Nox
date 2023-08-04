@@ -10,7 +10,7 @@ namespace Nox.Types;
 /// <summary>
 /// Represents an image value object that encapsulates image-related information.
 /// </summary>
-public sealed class Image : ValueObject<(string Url, string PrettyName, int SizeInBytes), Image>
+public sealed class Image : ValueObject<(string Url, string PrettyName, uint SizeInBytes), Image>
 {
     public const int MaxUrlLength = 2083;
     public const int MaxPrettyNameLength = 511;
@@ -38,7 +38,7 @@ public sealed class Image : ValueObject<(string Url, string PrettyName, int Size
     /// <summary>
     /// Gets or sets the size of the image in bytes.
     /// </summary>
-    public int SizeInBytes
+    public uint SizeInBytes
     {
         get => Value.SizeInBytes;
         private set => Value = (Value.Url, Value.PrettyName, value);
@@ -51,7 +51,7 @@ public sealed class Image : ValueObject<(string Url, string PrettyName, int Size
     /// <param name="prettyName">The pretty name of the image.</param>
     /// <param name="sizeInBytes">The size of the image in bytes.</param>
     /// <returns>An instance of the <see cref="Image"/> class.</returns>
-    public static Image From(string url, string prettyName, int sizeInBytes)
+    public static Image From(string url, string prettyName, uint sizeInBytes)
         => From((url, prettyName, sizeInBytes));
 
 
@@ -63,7 +63,7 @@ public sealed class Image : ValueObject<(string Url, string PrettyName, int Size
     /// <param name="sizeInBytes">The size of the image in bytes.</param>
     /// <param name="options">The <see cref="ImageTypeOptions"/> containing constraints for the value object.</param>
     /// <returns>An instance of the <see cref="Image"/> class.</returns>
-    public static Image From(string url, string prettyName, int sizeInBytes, ImageTypeOptions options)
+    public static Image From(string url, string prettyName, uint sizeInBytes, ImageTypeOptions options)
     {
         var newObject = new Image
         {

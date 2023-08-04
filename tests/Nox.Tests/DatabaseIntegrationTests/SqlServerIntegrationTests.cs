@@ -67,7 +67,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var date = new DateOnly(2023, 7, 14);
         var time = new System.TimeOnly(11152500000);
         var fileName = "MyFile";
-        var fileSizeInBytes = 1000000UL;
+        uint fileSizeInBytes = 1000000;
         var fileUrl = "https://example.com/myfile.pdf";
 
         using var aesAlgorithm = System.Security.Cryptography.Aes.Create();
@@ -126,7 +126,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
 
         var imageUrl = "https://example.com/image.png";
         var imagePrettyName = "Image";
-        var imageSizeInBytes = 128;
+        uint imageSizeInBytes = 128;
 
         var newItem = new TestEntityForTypes()
         {
@@ -136,7 +136,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
             AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = persistAreaUnitAs }),
-            VolumeTestField = Volume.From(volume, new VolumeTypeOptions { Unit = VolumeTypeUnit.CubicMeter, PersistAs = persistVolumeUnitAs }),
+            VolumeTestField = Volume.From(volume, new VolumeTypeOptions { Units = VolumeTypeUnit.CubicMeter, PersistAs = persistVolumeUnitAs }),
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             IpAddressV4TestField = IpAddress.From("192.168.12.100"),

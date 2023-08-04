@@ -8,7 +8,7 @@ public class FileTests
     [Theory]
     [InlineData("https://example.com/file.pdf", "MyPdfFile", 1024)]
     [InlineData("https://example.com/file.csv?x=y", "MyPdfFile2", 2048)]
-    public void From_WithTupleInputType_ShouldReturnValue(string url, string prettyName, ulong sizeInBytes)
+    public void From_WithTupleInputType_ShouldReturnValue(string url, string prettyName, uint sizeInBytes)
     {
         var file = File.From((url, prettyName, sizeInBytes));
 
@@ -20,7 +20,7 @@ public class FileTests
     [Theory]
     [InlineData("https://example.com/file.pdf", "MyPdfFile", 1024)]
     [InlineData("https://example.com/file.csv?x=y", "MyPdfFile2", 2048)]
-    public void From_WithIndividualInputs_ShouldReturnValue(string url, string prettyName, ulong sizeInBytes)
+    public void From_WithIndividualInputs_ShouldReturnValue(string url, string prettyName, uint sizeInBytes)
     {
         var file = File.From(url, prettyName, sizeInBytes);
 
@@ -99,7 +99,7 @@ public class FileTests
     [Theory]
     [InlineData("https://example.com/file.pdf", "MyPdfFile", 1024)]
     [InlineData("https://example.com/file.csv?x=y", "MyPdfFile2", 2048)]
-    public void UrlPrettyNameSizeInBytesProperties_WithValidObject_ShouldReturnValue(string url, string prettyName, ulong sizeInBytes)
+    public void UrlPrettyNameSizeInBytesProperties_WithValidObject_ShouldReturnValue(string url, string prettyName, uint sizeInBytes)
     {
         var file = File.From(url, prettyName, sizeInBytes);
 

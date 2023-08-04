@@ -10,7 +10,7 @@ public class VolumeTypeOptions
     public double MaxValue { get; set; } = DefaultMaxVolume;
 
     // Creation Properties
-    public VolumeTypeUnit Unit { get; set; } = VolumeTypeUnit.CubicMeter;
+    public VolumeTypeUnit Units { get; set; } = VolumeTypeUnit.CubicMeter;
 
     // Database Creation Properties
     public VolumeTypeUnit PersistAs { get; set; } = VolumeTypeUnit.CubicMeter;

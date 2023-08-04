@@ -24,7 +24,7 @@ internal class CurrencyDataSeeder : SampleDataSeederBase<CurrencyModel, Currency
                 var currency = new Currency
                 {
                     Name = Text.From(x.Name),
-                    CreatedAtUtc = System.DateTime.Now,
+                    CreatedAtUtc = System.DateTime.UtcNow,
                 };
                 currency.EnsureId();
                 return currency;

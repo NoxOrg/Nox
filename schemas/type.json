@@ -2582,7 +2582,7 @@
                 "null"
               ]
             },
-            "unit": {    
+            "units": {    
               "type": [
                 "string",
                 "null"

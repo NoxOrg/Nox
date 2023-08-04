@@ -14,7 +14,7 @@ public class VolumeTests
 
         typeOptions.MinValue.Should().Be(0);
         typeOptions.MaxValue.Should().Be(999_999_999_999_999);
-        typeOptions.Unit.Should().Be(VolumeTypeUnit.CubicMeter);
+        typeOptions.Units.Should().Be(VolumeTypeUnit.CubicMeter);
         typeOptions.PersistAs.Should().Be(VolumeTypeUnit.CubicMeter);
     }
 
@@ -39,7 +39,7 @@ public class VolumeTests
     [Fact]
     public void Volume_Constructor_WithUnit_ReturnsSameValueAndUnit()
     {
-        var volume = Volume.From(27.1828, new VolumeTypeOptions { Unit = VolumeTypeUnit.CubicFoot });
+        var volume = Volume.From(27.1828, new VolumeTypeOptions { Units = VolumeTypeUnit.CubicFoot });
 
         volume.Value.Should().Be(27.1828);
         volume.Unit.Should().Be(VolumeTypeUnit.CubicFoot);
@@ -177,9 +177,9 @@ public class VolumeTests
     [Fact]
     public void Volume_Equality_WithSameVolumeUnit_Tests()
     {
-        var volume1 = Volume.From(27.1828, new VolumeTypeOptions { Unit = VolumeTypeUnit.CubicMeter });
+        var volume1 = Volume.From(27.1828, new VolumeTypeOptions { Units = VolumeTypeUnit.CubicMeter });
 
-        var volume2 = Volume.From(27.1828, new VolumeTypeOptions { Unit = VolumeTypeUnit.CubicMeter });
+        var volume2 = Volume.From(27.1828, new VolumeTypeOptions { Units = VolumeTypeUnit.CubicMeter });
 
         AssertAreEquivalent(volume1, volume2);
     }
@@ -187,9 +187,9 @@ public class VolumeTests
     [Fact]
     public void Volume_Equality_WithDifferentVolumeUnit_Tests()
     {
-        var volume1 = Volume.From(27.1828, new VolumeTypeOptions { Unit = VolumeTypeUnit.CubicMeter });
+        var volume1 = Volume.From(27.1828, new VolumeTypeOptions { Units = VolumeTypeUnit.CubicMeter });
 
-        var volume2 = Volume.From(959.951522, new VolumeTypeOptions { Unit = VolumeTypeUnit.CubicFoot });
+        var volume2 = Volume.From(959.951522, new VolumeTypeOptions { Units = VolumeTypeUnit.CubicFoot });
 
         AssertAreEquivalent(volume1, volume2);
     }
@@ -197,9 +197,9 @@ public class VolumeTests
     [Fact]
     public void Volume_NonEquality_SpecifyingVolumeUnit_WithSameUnit_Tests()
     {
-        var volume1 = Volume.From(27.1828, new VolumeTypeOptions { Unit = VolumeTypeUnit.CubicMeter });
+        var volume1 = Volume.From(27.1828, new VolumeTypeOptions { Units = VolumeTypeUnit.CubicMeter });
 
-        var volume2 = Volume.From(959.951522, new VolumeTypeOptions { Unit = VolumeTypeUnit.CubicMeter });
+        var volume2 = Volume.From(959.951522, new VolumeTypeOptions { Units = VolumeTypeUnit.CubicMeter });
 
         AssertAreNotEquivalent(volume1, volume2);
     }
@@ -207,9 +207,9 @@ public class VolumeTests
     [Fact]
     public void Volume_NonEquality_SpecifyingVolumeUnit_WithDifferentUnit_Tests()
     {
-        var volume1 = Volume.From(27.1828, new VolumeTypeOptions { Unit = VolumeTypeUnit.CubicMeter });
+        var volume1 = Volume.From(27.1828, new VolumeTypeOptions { Units = VolumeTypeUnit.CubicMeter });
 
-        var volume2 = Volume.From(27.1828, new VolumeTypeOptions { Unit = VolumeTypeUnit.CubicFoot });
+        var volume2 = Volume.From(27.1828, new VolumeTypeOptions { Units = VolumeTypeUnit.CubicFoot });
 
         AssertAreNotEquivalent(volume1, volume2);
     }
@@ -243,7 +243,7 @@ public class VolumeTests
     [Fact]
     public void Volume_SpecifyingMaxValue_WithGreaterValueInput_ThrowsException()
     {
-        var action = () => Volume.From(7.5, new VolumeTypeOptions { MaxValue = 5, Unit = VolumeTypeUnit.CubicMeter });
+        var action = () => Volume.From(7.5, new VolumeTypeOptions { MaxValue = 5, Units = VolumeTypeUnit.CubicMeter });
 
         action.Should().Throw<TypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
@@ -254,7 +254,7 @@ public class VolumeTests
     [Fact]
     public void Volume_SpecifyingMinValue_WithLesserValueInput_ThrowsException()
     {
-        var action = () => Volume.From(7.5, new VolumeTypeOptions { MinValue = 10, Unit = VolumeTypeUnit.CubicMeter });
+        var action = () => Volume.From(7.5, new VolumeTypeOptions { MinValue = 10, Units = VolumeTypeUnit.CubicMeter });
 
         action.Should().Throw<TypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",

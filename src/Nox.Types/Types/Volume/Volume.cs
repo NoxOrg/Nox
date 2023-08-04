@@ -53,7 +53,7 @@ public class Volume : ValueObject<QuantityValue, Volume>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
     public static Volume From(QuantityValue value, VolumeTypeUnit unit)
-        => From(value, new VolumeTypeOptions { Unit = unit });
+        => From(value, new VolumeTypeOptions { Units = unit });
 
     /// <summary>
     /// Creates a new instance of <see cref="Volume"/> object with specified options.
@@ -67,7 +67,7 @@ public class Volume : ValueObject<QuantityValue, Volume>
         var newObject = new Volume
         {
             Value = value.Round(QuantityValueDecimalPrecision),
-            Unit = options.Unit,
+            Unit = options.Units,
             _volumeTypeOptions = options,
         };
 

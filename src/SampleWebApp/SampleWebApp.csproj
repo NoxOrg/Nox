@@ -74,7 +74,17 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Folder Include="Generated\Nox.Generator\Nox.Generator.NoxCodeGenerator\" />
+	  <Folder Include="Examples\" />
+	  <Folder Include="Generated\Nox.Generator\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="SeedData\data\constants.yaml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="SeedData\data\animals.yaml">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>
