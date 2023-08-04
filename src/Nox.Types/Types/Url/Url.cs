@@ -5,6 +5,8 @@ namespace Nox.Types;
 
 public sealed class Url : ValueObject<System.Uri, Url>
 {
+    public const ushort MaxLength = 2083;
+
     private static readonly List<string> ValidSchemes = new()
     {
         System.Uri.UriSchemeHttps,
@@ -16,6 +18,13 @@ public sealed class Url : ValueObject<System.Uri, Url>
 
     public static Url From(string value)
     {
+        if (value.Length > MaxLength)
+        {
+            throw new TypeValidationException(
+                new List<ValidationFailure> { new("Value", $"Could not create a Nox Url type as value {value} is greater than the specified maximum of {MaxLength}") }
+            );
+        }
+
         if (!System.Uri.TryCreate(value, UriKind.Absolute, out var uriValue))
         {
             throw new TypeValidationException(

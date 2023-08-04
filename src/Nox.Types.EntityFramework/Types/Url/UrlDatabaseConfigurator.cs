@@ -21,7 +21,7 @@ public class UrlDatabaseConfigurator : INoxTypeDatabaseConfigurator
         builder
             .Property(property.Name)
             .IsRequired(property.IsRequired)
-            .HasMaxLength(2000)
+            .HasMaxLength(Url.MaxLength)
             .HasConversion<UrlConverter>();
     }
 

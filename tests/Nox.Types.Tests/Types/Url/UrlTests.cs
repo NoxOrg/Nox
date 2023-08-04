@@ -58,4 +58,15 @@ public class UrlTests
             $"Could not create a Nox Url type as value {input} is not a valid Url.")
         });
     }
+
+    [Fact]
+    public void LongUrl_GreaterThanMaxLength_ThrowException()
+    {
+        string longUrl =  $"file://{new('a', Url.MaxLength)}/";
+        Action init = () => { Url.From(longUrl); };
+
+        init.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
+            $"Could not create a Nox Url type as value {longUrl} is greater than the specified maximum of 2083")
+        });
+    }
 }
