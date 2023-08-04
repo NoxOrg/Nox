@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using Azure;
+using MediatR;
 using Microsoft.Extensions.Logging;
 using Nox.Extensions;
 
@@ -12,11 +13,19 @@ namespace Nox.Application.Behaviors
 
         public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
         {
-            _logger.LogInformation("Handling {RequestName} ({@Request})", request.GetGenericTypeName(), request);
-            var response = await next();
-            _logger.LogInformation("{RequestName} handled - response: {@Response}", request.GetGenericTypeName(), response);
-
-            return response;
+            try
+            {
+                _logger.LogInformation("Handling {RequestName} ({@Request})", request.GetGenericTypeName(), request);
+                
+                var response = await next();
+                _logger.LogInformation("{RequestName} handled - response: {@Response}", request.GetGenericTypeName(), response);
+                return response;
+            }
+            catch (Exception ex)
+            {
+                _logger.LogError(ex, null);
+                throw;
+            }
         }
     }
 }

@@ -17,7 +17,7 @@ public class SolutionBuilderTests
     }
 
     [Fact]
-    public void Error_if_set_yaml_file_does_not_exist()
+    public void Throw_if_set_yaml_file_does_not_exist()
     {
         var noxConfigBuilder = new NoxSolutionBuilder()
             .UseYamlFile("./files/missing.solution.nox.yaml");
@@ -39,5 +39,27 @@ public class SolutionBuilderTests
         var noxConfigBuilder = new NoxSolutionBuilder();
         Assert.Throws<NoxSolutionConfigurationException>(() => noxConfigBuilder.Build());
         TestHelpers.RenameFilesInFolder("../../../../../.nox/design", "*.nox.zaml", "yaml");
+    }
+
+    [Fact]
+    public void Throw_if_missing_yaml()
+    {
+        var noxConfigBuilder = new NoxSolutionBuilder()
+            .UseYamlFile("./files/x.solution.nox.yaml");
+        Assert.Throws<NoxSolutionConfigurationException>(() => noxConfigBuilder.Build());
+    }
+
+    [Fact]
+    public void Must_not_throw_if_allow_missing_yaml()
+    {
+        var solution = new NoxSolutionBuilder()
+            .UseYamlFile("./files/x.solution.nox.yaml")
+            .AllowMissingSolutionYaml()
+            .Build();
+        Assert.NotNull(solution);
+        Assert.Null(solution.Application);
+        Assert.Null(solution.Infrastructure);
+        Assert.Null(solution.Domain);
+        Assert.Null(solution.Environments);
     }
 }

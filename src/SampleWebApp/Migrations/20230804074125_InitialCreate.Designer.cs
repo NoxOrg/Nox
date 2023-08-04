@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230802114801_InitialCreate")]
+    [Migration("20230804074125_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -428,9 +428,8 @@ namespace SampleWebApp.Migrations
                             b1.Property<decimal>("Amount")
                                 .HasColumnType("decimal(15, 5)");
 
-                            b1.Property<string>("CurrencyCode")
-                                .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                            b1.Property<int>("CurrencyCode")
+                                .HasColumnType("int");
 
                             b1.HasKey("StoreId");
 

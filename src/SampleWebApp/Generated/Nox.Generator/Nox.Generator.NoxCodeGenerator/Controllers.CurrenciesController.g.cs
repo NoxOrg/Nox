@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using MediatR;
+using Nox.Application;
 using SampleWebApp.Application;
 using SampleWebApp.Application.Queries;
 using SampleWebApp.Application.Commands;
@@ -19,7 +20,7 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-public partial class StoreSecurityPasswordsController : ODataController
+public partial class CurrenciesController : ODataController
 {
     
     /// <summary>
@@ -37,7 +38,7 @@ public partial class StoreSecurityPasswordsController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public StoreSecurityPasswordsController(
+    public CurrenciesController(
         ODataDbContext databaseContext,
         IMapper mapper,
         IMediator mediator
@@ -49,15 +50,15 @@ public partial class StoreSecurityPasswordsController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<OStoreSecurityPasswords>>> Get()
+    public async  Task<ActionResult<IQueryable<OCurrency>>> Get()
     {
-        var result = await _mediator.Send(new GetStoreSecurityPasswordsQuery());
+        var result = await _mediator.Send(new GetCurrenciesQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<OStoreSecurityPasswords>> Get([FromRoute] String key)
+    public async Task<ActionResult<OCurrency>> Get([FromRoute] String key)
     {
-        var item = await _mediator.Send(new GetStoreSecurityPasswordsByIdQuery(key));
+        var item = await _mediator.Send(new GetCurrencyByIdQuery(key));
         
         if (item == null)
         {
@@ -67,37 +68,30 @@ public partial class StoreSecurityPasswordsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]StoreSecurityPasswordsDto storesecuritypasswords)
+    public async Task<ActionResult> Post([FromBody]CurrencyDto currency)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
+        var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency));
         
-        var entity = _mapper.Map<OStoreSecurityPasswords>(storesecuritypasswords);
-        
-        entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
-        
-        _databaseContext.StoreSecurityPasswords.Add(entity);
-        
-        await _databaseContext.SaveChangesAsync();
-        
-        return Created(entity);
+        return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OStoreSecurityPasswords updatedStoreSecurityPasswords)
+    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OCurrency updatedCurrency)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        if (key != updatedStoreSecurityPasswords.Id)
+        if (key != updatedCurrency.Id)
         {
             return BadRequest();
         }
         
-        _databaseContext.Entry(updatedStoreSecurityPasswords).State = EntityState.Modified;
+        _databaseContext.Entry(updatedCurrency).State = EntityState.Modified;
         
         try
         {
@@ -105,7 +99,7 @@ public partial class StoreSecurityPasswordsController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!StoreSecurityPasswordsExists(key))
+            if (!CurrencyExists(key))
             {
                 return NotFound();
             }
@@ -115,17 +109,17 @@ public partial class StoreSecurityPasswordsController : ODataController
             }
         }
         
-        return Updated(updatedStoreSecurityPasswords);
+        return Updated(updatedCurrency);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string storesecuritypasswords, [FromBody] Delta<OStoreSecurityPasswords> Id)
+    public async Task<ActionResult> Patch([FromRoute] string currency, [FromBody] Delta<OCurrency> Id)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = await _databaseContext.StoreSecurityPasswords.FindAsync(storesecuritypasswords);
+        var entity = await _databaseContext.Currencies.FindAsync(currency);
         
         if (entity == null)
         {
@@ -140,7 +134,7 @@ public partial class StoreSecurityPasswordsController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!StoreSecurityPasswordsExists(storesecuritypasswords))
+            if (!CurrencyExists(currency))
             {
                 return NotFound();
             }
@@ -153,14 +147,14 @@ public partial class StoreSecurityPasswordsController : ODataController
         return Updated(entity);
     }
     
-    private bool StoreSecurityPasswordsExists(string storesecuritypasswords)
+    private bool CurrencyExists(string currency)
     {
-        return _databaseContext.StoreSecurityPasswords.Any(p => p.Id == storesecuritypasswords);
+        return _databaseContext.Currencies.Any(p => p.Id == currency);
     }
     
     public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var result = await _mediator.Send(new DeleteStoreSecurityPasswordsByIdCommand(key));
+        var result = await _mediator.Send(new DeleteCurrencyByIdCommand(key));
         if (!result)
         {
             return NotFound();

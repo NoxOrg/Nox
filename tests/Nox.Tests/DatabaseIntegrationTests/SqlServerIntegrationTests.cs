@@ -82,6 +82,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
 
         var addressJsonPretty = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { WriteIndented = true });
         var addressJsonMinified = JsonSerializer.Serialize(addressItem, new JsonSerializerOptions { AllowTrailingCommas = false, WriteIndented = false });
+        var year = (ushort)2023;
         var boolean = true;
         var email = "regus@regusignore.com";
         var switzerlandCitiesCountiesYaml = @"
@@ -94,6 +95,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
     - County: Lausanne
 ";
         var internetDomain = "nox.org";
+        var percentage = 0.5f;
         var latitude = 47.376934;
         var longitude = 8.541287;
 
@@ -102,6 +104,15 @@ public class SqlServerIntegrationTests : SqlServerTestBase
 
         var length = 314_598M;
         var persistLengthUnitAs = LengthTypeUnit.Meter;
+        var sampleUri = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
+
+        var jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
+
+        var weight = 20.58M;
+        var persistWeightUnitAs = WeightTypeUnit.Kilogram;
+
+        var distance = 80.481727;
+        var persistDistanceUnitAs = DistanceTypeUnit.Kilometer;
 
         var newItem = new TestEntityForTypes()
         {
@@ -129,16 +140,23 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
             CurrencyNumberTestField = CurrencyNumber.From(currencyNumber),
             JsonTestField = Json.From(addressJsonPretty),
+            YearTestField = Year.From(year),
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
             VatNumberTestField = VatNumber.From(vatNumberValue, vatNumberCountryCode2),
+            PercentageTestField = Percentage.From(percentage),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
             DateTestField = Date.From(date),
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
+            MarkdownTestField = Markdown.From(text),
             InternetDomainTestField = InternetDomain.From(internetDomain),
             LengthTestField = Length.From(length, new LengthTypeOptions() { Units = LengthTypeUnit.Foot, PersistAs = persistLengthUnitAs }),
+            JwtTokenTestField = JwtToken.From(jwtToken),
+            WeightTestField = Weight.From(weight, new WeightTypeOptions() { Units = WeightTypeUnit.Pound, PersistAs = persistWeightUnitAs }),
+            DistanceTestField = Distance.From(distance, new DistanceTypeOptions() { Units = DistanceTypeUnit.Mile, PersistAs = persistDistanceUnitAs }),
+            UriTestField = Types.Uri.From(sampleUri),
             GeoCoordTestField = LatLong.From(latitude, longitude),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
@@ -182,11 +200,13 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("p").Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("m").Should().Be(addressJsonMinified);
+        testEntity.YearTestField!.Value.Should().Be(year);
         testEntity.BooleanTestField!.Value.Should().Be(boolean);
         testEntity.EmailTestField!.Value.Should().Be(email);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(switzerlandCitiesCountiesYaml);
         testEntity.VatNumberTestField!.Value.Number.Should().Be(vatNumberValue);
         testEntity.VatNumberTestField!.Value.CountryCode2.Should().Be(vatNumberCountryCode2);
+        testEntity.PercentageTestField!.Value.Should().Be(percentage);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
         testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
@@ -196,9 +216,18 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);
         testEntity.FileTestField!.Value.PrettyName.Should().Be(fileName);
         testEntity.FileTestField!.Value.SizeInBytes.Should().Be(fileSizeInBytes);
+        testEntity.MarkdownTestField!.Value.Should().Be(text);
         testEntity.InternetDomainTestField!.Value.Should().BeEquivalentTo(internetDomain);
         testEntity.LengthTestField!.ToFeet().Should().Be(length);
+        testEntity.WeightTestField!.Unit.Should().Be(persistWeightUnitAs);
         testEntity.LengthTestField!.Unit.Should().Be(persistLengthUnitAs);
+        testEntity.JwtTokenTestField!.Value.Should().Be(jwtToken);
+        testEntity.WeightTestField!.Unit.Should().Be(persistWeightUnitAs);
+        testEntity.WeightTestField!.ToPounds().Should().Be(weight);
+        testEntity.DistanceTestField!.ToMiles().Should().Be(distance);
+        testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
+        testEntity.DatabaseNumberTestField!.Value.Should().BeGreaterThan(0);
+        testEntity.UriTestField!.Value.Should().BeEquivalentTo(sampleUri);
         testEntity.GeoCoordTestField!.Latitude.Should().Be(latitude);
         testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
     }

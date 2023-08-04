@@ -21,6 +21,9 @@ public class GetCountryLocalNamesQueryHandler : IRequestHandler<GetCountryLocalN
 
     public Task<IQueryable<OCountryLocalNames>> Handle(GetCountryLocalNamesQuery request, CancellationToken cancellationToken)
     {
-        return Task.FromResult((IQueryable<OCountryLocalNames>)DataDbContext.CountryLocalNames);
+        var item = (IQueryable<OCountryLocalNames>)DataDbContext.CountryLocalNames
+            .Where(r => !(r.Deleted == true))
+            .AsNoTracking();
+        return Task.FromResult(item);
     }
 }

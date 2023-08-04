@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using MediatR;
+using Nox.Application;
 using SampleWebApp.Application;
 using SampleWebApp.Application.Queries;
 using SampleWebApp.Application.Commands;
@@ -19,7 +20,7 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-public partial class CurrenciesController : ODataController
+public partial class CountryLocalNamesController : ODataController
 {
     
     /// <summary>
@@ -37,7 +38,7 @@ public partial class CurrenciesController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public CurrenciesController(
+    public CountryLocalNamesController(
         ODataDbContext databaseContext,
         IMapper mapper,
         IMediator mediator
@@ -49,15 +50,15 @@ public partial class CurrenciesController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<OCurrency>>> Get()
+    public async  Task<ActionResult<IQueryable<OCountryLocalNames>>> Get()
     {
-        var result = await _mediator.Send(new GetCurrenciesQuery());
+        var result = await _mediator.Send(new GetCountryLocalNamesQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<OCurrency>> Get([FromRoute] String key)
+    public async Task<ActionResult<OCountryLocalNames>> Get([FromRoute] String key)
     {
-        var item = await _mediator.Send(new GetCurrencyByIdQuery(key));
+        var item = await _mediator.Send(new GetCountryLocalNamesByIdQuery(key));
         
         if (item == null)
         {
@@ -67,37 +68,30 @@ public partial class CurrenciesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]CurrencyDto currency)
+    public async Task<ActionResult> Post([FromBody]CountryLocalNamesDto countrylocalnames)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
+        var createdKey = await _mediator.Send(new CreateCountryLocalNamesCommand(countrylocalnames));
         
-        var entity = _mapper.Map<OCurrency>(currency);
-        
-        entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
-        
-        _databaseContext.Currencies.Add(entity);
-        
-        await _databaseContext.SaveChangesAsync();
-        
-        return Created(entity);
+        return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OCurrency updatedCurrency)
+    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OCountryLocalNames updatedCountryLocalNames)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        if (key != updatedCurrency.Id)
+        if (key != updatedCountryLocalNames.Id)
         {
             return BadRequest();
         }
         
-        _databaseContext.Entry(updatedCurrency).State = EntityState.Modified;
+        _databaseContext.Entry(updatedCountryLocalNames).State = EntityState.Modified;
         
         try
         {
@@ -105,7 +99,7 @@ public partial class CurrenciesController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!CurrencyExists(key))
+            if (!CountryLocalNamesExists(key))
             {
                 return NotFound();
             }
@@ -115,17 +109,17 @@ public partial class CurrenciesController : ODataController
             }
         }
         
-        return Updated(updatedCurrency);
+        return Updated(updatedCountryLocalNames);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string currency, [FromBody] Delta<OCurrency> Id)
+    public async Task<ActionResult> Patch([FromRoute] string countrylocalnames, [FromBody] Delta<OCountryLocalNames> Id)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = await _databaseContext.Currencies.FindAsync(currency);
+        var entity = await _databaseContext.CountryLocalNames.FindAsync(countrylocalnames);
         
         if (entity == null)
         {
@@ -140,7 +134,7 @@ public partial class CurrenciesController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!CurrencyExists(currency))
+            if (!CountryLocalNamesExists(countrylocalnames))
             {
                 return NotFound();
             }
@@ -153,14 +147,14 @@ public partial class CurrenciesController : ODataController
         return Updated(entity);
     }
     
-    private bool CurrencyExists(string currency)
+    private bool CountryLocalNamesExists(string countrylocalnames)
     {
-        return _databaseContext.Currencies.Any(p => p.Id == currency);
+        return _databaseContext.CountryLocalNames.Any(p => p.Id == countrylocalnames);
     }
     
     public async Task<ActionResult> Delete([FromRoute] string key)
     {
-        var result = await _mediator.Send(new DeleteCurrencyByIdCommand(key));
+        var result = await _mediator.Send(new DeleteCountryLocalNamesByIdCommand(key));
         if (!result)
         {
             return NotFound();

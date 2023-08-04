@@ -21,6 +21,9 @@ public class GetCurrenciesQueryHandler : IRequestHandler<GetCurrenciesQuery, IQu
 
     public Task<IQueryable<OCurrency>> Handle(GetCurrenciesQuery request, CancellationToken cancellationToken)
     {
-        return Task.FromResult((IQueryable<OCurrency>)DataDbContext.Currencies);
+        var item = (IQueryable<OCurrency>)DataDbContext.Currencies
+            .Where(r => !(r.Deleted == true))
+            .AsNoTracking();
+        return Task.FromResult(item);
     }
 }

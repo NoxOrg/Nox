@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using AutoMapper;
 using MediatR;
+using Nox.Application;
 using SampleWebApp.Application;
 using SampleWebApp.Application.Queries;
 using SampleWebApp.Application.Commands;
@@ -73,16 +74,9 @@ public partial class AllNoxTypesController : ODataController
         {
             return BadRequest(ModelState);
         }
+        var createdKey = await _mediator.Send(new CreateAllNoxTypeCommand(allnoxtype));
         
-        var entity = _mapper.Map<OAllNoxType>(allnoxtype);
-        
-        entity.Id = Guid.NewGuid().ToString().Substring(0, 2);
-        
-        _databaseContext.AllNoxTypes.Add(entity);
-        
-        await _databaseContext.SaveChangesAsync();
-        
-        return Created(entity);
+        return Created(createdKey);
     }
     
     public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OAllNoxType updatedAllNoxType)
