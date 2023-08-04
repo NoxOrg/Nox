@@ -22,7 +22,9 @@ namespace Nox.Solution
 
         private IDictionary<string,Func<TextReader>>? _yamlFilesAndContent;
 
-        private string? _rootFileAndContentKey; 
+        private string? _rootFileAndContentKey;
+
+        private bool _mustThrowIfYamlNotFound = true;
 
         private EnvironmentVariableValueProvider _environmentVariableValueProvider = new (new EnvironmentProvider());
 
@@ -43,10 +45,15 @@ namespace Nox.Solution
             return this;
         }
 
-
         public NoxSolutionBuilder UseEnvironmentProvider(IEnvironmentProvider provider)
         {
             _environmentVariableValueProvider = new EnvironmentVariableValueProvider(provider);
+            return this;
+        }
+
+        public NoxSolutionBuilder AllowMissingSolutionYaml()
+        {
+            _mustThrowIfYamlNotFound = false;
             return this;
         }
 
@@ -59,6 +66,8 @@ namespace Nox.Solution
         public NoxSolution Build()
         {
             ResolveAndValidateFilesAndContent();
+
+            if (_yamlFilesAndContent == null) return new NoxSolution();
 
             var config = ResolveAndLoadConfiguration();
 
@@ -76,7 +85,14 @@ namespace Nox.Solution
 
             if (_yamlFilesAndContent is null || _yamlFilesAndContent.Count == 0)
             {
-                throw new NoxSolutionConfigurationException("No yaml file(s) specified or found");
+                if (_mustThrowIfYamlNotFound)
+                {
+                    throw new NoxSolutionConfigurationException("No yaml file(s) specified or found");    
+                }
+                else
+                {
+                    return;
+                }
             }
 
             if (_rootFileAndContentKey is null)
@@ -101,20 +117,26 @@ namespace Nox.Solution
             }
         }
 
-        private IDictionary<string, Func<TextReader>> LoadFromFileSystem()
+        private IDictionary<string, Func<TextReader>>? LoadFromFileSystem()
         {
             //If a yaml root configuration has not been specified, search for one in the .nox/design folder in the solution root folder
             if (string.IsNullOrWhiteSpace(_yamlFilePath))
             {
-                _yamlFilePath = Path.GetFullPath(FindRootYamlFile());
-            }
-            else
+                var rootYamlFile = FindRootYamlFile();
+                if (string.IsNullOrEmpty(rootYamlFile)) return null;
+                _yamlFilePath = Path.GetFullPath(FindRootYamlFile());            }
+            
+            if (!File.Exists(_yamlFilePath))
             {
-                //Ensure that the root yaml file exists
-                if (!File.Exists(_yamlFilePath))
+                if (_mustThrowIfYamlNotFound)
                 {
-                    throw new NoxSolutionConfigurationException($"Nox root yaml configuration file ({_yamlFilePath}) not found! Have you created a Nox yaml configuration for your solution? {DesignFolderBestPractice}");
+                    throw new NoxSolutionConfigurationException($"Nox root yaml configuration file ({_yamlFilePath}) not found! Have you created a Nox yaml configuration for your solution? {DesignFolderBestPractice}");    
                 }
+                else
+                {
+                    return null;
+                }
+                    
             }
 
             var path = Path.GetDirectoryName(_yamlFilePath);
@@ -129,8 +151,8 @@ namespace Nox.Solution
             _rootFileAndContentKey = Path.GetFileName(_yamlFilePath);
 
             return files.ToDictionary(
-                f => Path.GetFileName(f), 
-                f => new Func<TextReader>(() => new StreamReader(f)), 
+                f => Path.GetFileName(f),
+                f => new Func<TextReader>(() => new StreamReader(f)),
                 StringComparer.OrdinalIgnoreCase
             );
         }
@@ -242,6 +264,7 @@ namespace Nox.Solution
                 rootYaml = FindSolutionYamlFile(designFolder);
                 if (rootYaml != null) return rootYaml;
             }
+
             //look in solution root/.nox/design
             var solutionRoot = FindSolutionRoot();
             if (string.IsNullOrWhiteSpace(solutionRoot))
@@ -257,7 +280,17 @@ namespace Nox.Solution
 
             rootYaml = FindSolutionYamlFile(designFolder!);
             if (rootYaml == null)
-                throw new NoxSolutionConfigurationException("Unable to locate a *.solution.nox.yaml file, searched current folder, <current>/.nox/design and <solution root>/.nox/design");
+            {
+                if (_mustThrowIfYamlNotFound)
+                {
+                    throw new NoxSolutionConfigurationException("Unable to locate a *.solution.nox.yaml file, searched current folder, <current>/.nox/design and <solution root>/.nox/design");
+                }
+                else
+                {
+                    return "";
+                }
+            }
+
             return rootYaml;
         }
 
