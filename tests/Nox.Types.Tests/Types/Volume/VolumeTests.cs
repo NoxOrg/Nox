@@ -8,6 +8,17 @@ namespace Nox.Types.Tests.Types;
 public class VolumeTests
 {
     [Fact]
+    public void VolumeTypeOptions_Constructor_ReturnsDefaultValues()
+    {
+        var typeOptions = new VolumeTypeOptions();
+
+        typeOptions.MinValue.Should().Be(0);
+        typeOptions.MaxValue.Should().Be(999_999_999_999_999);
+        typeOptions.Unit.Should().Be(VolumeTypeUnit.CubicMeter);
+        typeOptions.PersistAs.Should().Be(VolumeTypeUnit.CubicMeter);
+    }
+
+    [Fact]
     public void Volume_Constructor_ReturnsSameValueAndDefaultUnit()
     {
         var volume = Volume.From(27.1828);
@@ -28,19 +39,19 @@ public class VolumeTests
     [Fact]
     public void Volume_Constructor_WithUnit_ReturnsSameValueAndUnit()
     {
-        var volume = Volume.From(27.1828, VolumeUnit.CubicMeter);
+        var volume = Volume.From(27.1828, VolumeUnit.CubicFoot);
 
         volume.Value.Should().Be(27.1828);
-        volume.Unit.Should().Be(VolumeTypeUnit.CubicMeter);
+        volume.Unit.Should().Be(VolumeTypeUnit.CubicFoot);
     }
 
     [Fact]
     public void Volume_Constructor_WithUnitInCubicMeters_ReturnsSameValueAndUnit()
     {
-        var volume = Volume.From(27.1828, VolumeTypeUnit.CubicMeter);
+        var volume = Volume.From(27.1828, VolumeTypeUnit.CubicFoot);
 
         volume.Value.Should().Be(27.1828);
-        volume.Unit.Should().Be(VolumeTypeUnit.CubicMeter);
+        volume.Unit.Should().Be(VolumeTypeUnit.CubicFoot);
     }
 
     [Fact]
@@ -58,7 +69,7 @@ public class VolumeTests
         var action = () => Volume.From(-28);
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Volume type as negative volume value -28 is not allowed.") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Volume type as negative value -28 is not allowed.") });
     }
 
     [Fact]
@@ -68,7 +79,7 @@ public class VolumeTests
 
         action.Should().Throw<TypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[]
-                { new ValidationFailure("Value", "Could not create a Nox type as value NaN is not allowed.") });
+                { new ValidationFailure("Value", "Could not create a Nox Volume type as negative value NaN is not allowed.") });
     }
 
     [Fact]
@@ -78,7 +89,7 @@ public class VolumeTests
 
         action.Should().Throw<TypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[]
-                { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
+                { new ValidationFailure("Value", "Could not create a Nox Volume type as value Infinity is not allowed.") });
     }
 
     [Fact]
@@ -88,7 +99,7 @@ public class VolumeTests
 
         action.Should().Throw<TypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[]
-                { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
+                { new ValidationFailure("Value", "Could not create a Nox Volume type as value Infinity is not allowed.") });
     }
 
     [Fact]
@@ -110,7 +121,7 @@ public class VolumeTests
     [Theory]
     [InlineData("en-US")]
     [InlineData("pt-PT")]
-    public void Volume_ValueInCubicMeters_ToString_IsCultureIndepdendent(string culture)
+    public void Volume_ValueInCubicMeters_ToString_IsCultureIndependent(string culture)
     {
         void Test()
         {

@@ -55,6 +55,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var area = 198_090M;
         var persistAreaUnitAs = AreaTypeUnit.SquareMeter;
         var volume = 198d;
+        var persistVolumeUnitAs = VolumeTypeUnit.CubicMeter;
         var cultureCode = "de-CH";
         var macAddress = "A1B2C3D4E5F6";
         var password = "Test123.";
@@ -116,7 +117,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             MoneyTestField = Money.From(money, currencyCode),
             CountryCode2TestField = CountryCode2.From(countryCode2),
             AreaTestField = Area.From(area, new AreaTypeOptions() { Units = AreaTypeUnit.SquareFoot, PersistAs = persistAreaUnitAs }),
-            VolumeTestField = Volume.From(volume),
+            VolumeTestField = Volume.From(volume, persistVolumeUnitAs),
             StreetAddressTestField = StreetAddress.From(addressItem),
             CurrencyCode3TestField = CurrencyCode3.From(currencyCode3),
             IpAddressV4TestField = IpAddress.From("192.168.12.100"),
@@ -173,6 +174,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.AreaTestField!.ToSquareFeet().Should().Be(area);
         testEntity.AreaTestField!.Unit.Should().Be(persistAreaUnitAs);
         testEntity.VolumeTestField!.ToCubicMeters().Should().Be(volume);
+        testEntity.VolumeTestField!.Unit.Should().Be(persistVolumeUnitAs);
         testEntity.CurrencyCode3TestField!.Value.Should().Be(currencyCode3);
         testEntity.IpAddressV4TestField!.Value.Should().Be("192.168.12.100");
         testEntity.IpAddressV6TestField!.Value.Should().Be("2001:db8:3c4d:15::1a2f:1a2b");
