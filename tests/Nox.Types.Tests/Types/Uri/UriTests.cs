@@ -6,7 +6,7 @@ namespace Nox.Types.Tests.Types;
 public class UriTests
 {
 
-    private const string Sample_Uri = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
+    private const string SampleUri = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
     private readonly ITestOutputHelper _testOutputHelper;
 
 
@@ -18,7 +18,7 @@ public class UriTests
     [Fact]
     public void NoxUri_ShouldBe_SameAs_SystemUri()
     {
-        var expected = new System.Uri(Sample_Uri);
+        var expected = new System.Uri(SampleUri);
         var actual = Uri.From(expected);
 
         actual.Value.Should().Be(expected);
@@ -28,8 +28,8 @@ public class UriTests
     [Fact]
     public void NoxUriFromString_ShouldBe_SameAs_SystemUri()
     {
-        var expected = new System.Uri(Sample_Uri);
-        var actual = Uri.From(Sample_Uri);
+        var expected = new System.Uri(SampleUri);
+        var actual = Uri.From(SampleUri);
 
         actual.Value.Should().Be(expected);
 
@@ -88,6 +88,16 @@ public class UriTests
     {
         Action init = () => { var url = Uri.From(badUri); };
 
+        init.Should().Throw<TypeValidationException>();
+    }
+
+    [Fact]
+    public void NoxUri_ShouldNotAllowLongUris()
+    {
+        var longUri = SampleUri + new string('a', 2083-SampleUri.Length +1);
+        
+        Action init = () => { Uri.From(longUri); };
+        
         init.Should().Throw<TypeValidationException>();
     }
 }
