@@ -9,7 +9,7 @@ namespace Nox.Tests.DatabaseIntegrationTests;
 
 public class SqlServerIntegrationTests : SqlServerTestBase
 {
-    //[Fact]
+    // [Fact]
     public void GeneratedEntity_SqlServer_CanSaveAndReadFields_AllTypes()
     {
         // TODO:
@@ -212,9 +212,10 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.JwtTokenTestField!.Value.Should().Be(jwtToken);
         testEntity.WeightTestField!.Unit.Should().Be(persistWeightUnitAs);
         testEntity.WeightTestField!.ToPounds().Should().Be(weight);
+        testEntity.DatabaseNumberTestField!.Value.Should().BeGreaterThan(0);
     }
 
-    //[Fact]
+    // [Fact]
     public void GeneratedRelationship_SqlServer_ZeroOrMany_OneOrMany()
     {
         var text = "TX";
@@ -247,7 +248,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.NotEmpty(secondTestEntity.TestEntities);
     }
 
-    //[Fact]
+    // [Fact]
     public void GeneratedRelationship_SqlServer_OneOrMany_OneOrMany()
     {
         var text = "TX";
@@ -280,7 +281,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.NotEmpty(secondTestEntity.TestEntityOneOrManies);
     }
 
-    //[Fact]
+    // [Fact]
     public void GeneratedRelationship_SqlServer_ExactlyOne_ExactlyOne()
     {
         var text = "T1";
