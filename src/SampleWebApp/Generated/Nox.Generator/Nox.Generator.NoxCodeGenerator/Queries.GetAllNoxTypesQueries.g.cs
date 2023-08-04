@@ -21,7 +21,9 @@ public class GetAllNoxTypesQueryHandler : IRequestHandler<GetAllNoxTypesQuery, I
 
     public Task<IQueryable<OAllNoxType>> Handle(GetAllNoxTypesQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<OAllNoxType>)DataDbContext.AllNoxTypes.Where(r => !(r.Deleted == true));
+        var item = (IQueryable<OAllNoxType>)DataDbContext.AllNoxTypes
+            .Where(r => !(r.Deleted == true))
+            .AsNoTracking();
         return Task.FromResult(item);
     }
 }

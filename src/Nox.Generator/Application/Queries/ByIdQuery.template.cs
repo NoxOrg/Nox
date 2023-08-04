@@ -21,7 +21,9 @@ public class Get{{entity.Name}}ByIdQueryHandler: IRequestHandler<Get{{entity.Nam
 
     public Task<O{{entity.Name}}?> Handle(Get{{entity.Name}}ByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.{{entity.PluralName}}.SingleOrDefault(r => {{if (entity.Persistence?.IsVersioned ?? true)}}!(r.Deleted == true) && {{end}}r.{{entity.Keys[0].Name}}.Equals(request.key));
+        var item = DataDbContext.{{entity.PluralName}}
+            .AsNoTracking()
+            .SingleOrDefault(r => {{if (entity.Persistence?.IsVersioned ?? true)}}!(r.Deleted == true) && {{end}}r.{{entity.Keys[0].Name}}.Equals(request.key));            
         return Task.FromResult(item);
     }
 }

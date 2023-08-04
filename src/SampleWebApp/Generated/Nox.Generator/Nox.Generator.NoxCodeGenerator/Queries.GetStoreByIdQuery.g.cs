@@ -21,7 +21,9 @@ public class GetStoreByIdQueryHandler: IRequestHandler<GetStoreByIdQuery, OStore
 
     public Task<OStore?> Handle(GetStoreByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.Stores.SingleOrDefault(r => !(r.Deleted == true) && r.Id.Equals(request.key));
+        var item = DataDbContext.Stores
+            .AsNoTracking()
+            .SingleOrDefault(r => !(r.Deleted == true) && r.Id.Equals(request.key));            
         return Task.FromResult(item);
     }
 }
