@@ -310,9 +310,11 @@ domain:
         - name: CurrencyCode3TestField
           type: currencyCode3
           
-          
         - name: DayOfWeekTestField
           type: dayOfWeek
+
+        - name: JwtTokenTestField
+          type: jwtToken
 
         #- name: GeoCoordTestField
         #  type: latLong
@@ -344,8 +346,8 @@ domain:
         #- name: DateTimeRangeTestField
         #  type: dateTimeRange
 
-        #- name: DistanceTestField
-        #  type: distance
+        - name: DistanceTestField
+          type: distance
 
         - name: EmailTestField
           type: email
@@ -386,8 +388,8 @@ domain:
         - name: PasswordTestField
           type: password
 
-        #- name: PercentageTestField
-        #  type: percentage
+        - name: PercentageTestField
+          type: percentage
 
         #- name: PhoneNumberTestField
         #  type: phoneNumber
@@ -405,11 +407,11 @@ domain:
         #- name: VolumeTestField
         #  type: volume
 
-        #- name: WeightTestField
-        #  type: weight
+        - name: WeightTestField
+          type: weight
 
-        #- name: YearTestField
-        #  type: year
+        - name: YearTestField
+          type: year
 
         - name: CultureCodeTestField
           type: cultureCode
@@ -429,6 +431,9 @@ domain:
         - name: DateTestField
           type: date
 
+        - name: MarkdownTestField
+          type: markdown
+
         - name: FileTestField
           type: file
 
@@ -437,4 +442,8 @@ domain:
           formulaTypeOptions:
               expression: "2 + 2"
               returns: int
+        
+        - name: DatabaseNumberTestField
+          type: databaseNumber
+          isRequired: true
 

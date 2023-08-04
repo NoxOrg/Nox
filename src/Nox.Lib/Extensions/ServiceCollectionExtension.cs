@@ -1,9 +1,7 @@
 using System.Reflection;
-using MediatR;
-using MediatR.Pipeline;
 using Microsoft.Extensions.DependencyInjection;
-using Nox.Application;
 using Nox.Application.Behaviors;
+using Nox.Factories;
 using Nox.Secrets;
 using Nox.Secrets.Abstractions;
 using Nox.Solution;
@@ -15,11 +13,21 @@ public static class ServiceCollectionExtension
 {
     public static IServiceCollection AddNoxLib(this IServiceCollection services, Assembly entryAssembly)
     {
+        var allAssemblies =
+            entryAssembly!.GetReferencedAssemblies();
+
+        // Nox + Entry Assembly
+        var noxAssemblies = allAssemblies
+            .Where(a => a.Name != null && a.Name.StartsWith("Nox"))
+            .Select(Assembly.Load)
+            .Union(new[] { entryAssembly! }).ToArray();
+
         return services
             .AddSingleton(typeof(NoxSolution), CreateSolution)
             .AddSecretsResolver()
             .AddNoxMediatR(entryAssembly)
-            .AddNoxTypesDatabaseConfigurator(entryAssembly)
+            .AddNoxTypesDatabaseConfigurator(noxAssemblies)
+            .AddNoxFactories(noxAssemblies)
             .AddAutoMapper(entryAssembly);
     }
     private static IServiceCollection AddNoxMediatR(
@@ -27,11 +35,12 @@ public static class ServiceCollectionExtension
         Assembly entryAssembly)
     {
         return services
-            .AddMediatR(cfg => { 
+            .AddMediatR(cfg =>
+            {
                 cfg.RegisterServicesFromAssembly(entryAssembly);
                 cfg.AddOpenBehavior(typeof(ValidatorBehavior<,>)); //Validation Extensibility
-                cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));                
-            });                    
+                cfg.AddOpenBehavior(typeof(LoggingBehavior<,>));
+            });
     }
 
     private static NoxSolution CreateSolution(IServiceProvider serviceProvider)
@@ -40,7 +49,7 @@ public static class ServiceCollectionExtension
             .OnResolveSecrets((_, args) =>
             {
                 var secretsConfig = args.SecretsConfig;
-                var secretKeys =  args.Variables;
+                var secretKeys = args.Variables;
                 var resolver = serviceProvider.GetRequiredService<INoxSecretsResolver>();
                 resolver.Configure(secretsConfig!, Assembly.GetEntryAssembly());
                 args.Secrets = resolver.Resolve(secretKeys!);
@@ -48,26 +57,35 @@ public static class ServiceCollectionExtension
             .Build();
     }
 
-    
+    private static IServiceCollection AddNoxFactories(
+        this IServiceCollection services,
+        Assembly[] noxAssemblies)
+    {
+        services.Scan(scan =>
+          scan.FromAssemblies(noxAssemblies)
+          .AddClasses(classes => classes.AssignableTo(typeof(IEntityFactory<,>)))
+          .AsImplementedInterfaces()
+          .WithSingletonLifetime());
+
+        services.Scan(scan =>
+          scan.FromAssemblies(noxAssemblies)
+          .AddClasses(classes => classes.AssignableTo(typeof(INoxTypeFactory<>)))
+          .AsImplementedInterfaces()
+          .WithSingletonLifetime());
+
+        return services;
+    }
 
     private static IServiceCollection AddNoxTypesDatabaseConfigurator(
         this IServiceCollection services,
-        Assembly entryAssembly)
+        Assembly[] noxAssemblies)
     {
-        var allAssemblies =
-            entryAssembly!.GetReferencedAssemblies();
-
-        // Nox + Entry Assembly
-        var noxAssemblies = allAssemblies
-            .Where(a => a.Name != null && a.Name.StartsWith("Nox"))
-            .Select(Assembly.Load)
-            .Union(new[]{Assembly.GetEntryAssembly()!});
-
         services.Scan(scan => scan
             .FromAssemblies(noxAssemblies)
             .AddClasses(classes => classes.AssignableTo<INoxTypeDatabaseConfigurator>())
             .As<INoxTypeDatabaseConfigurator>()
             .WithSingletonLifetime());
+
         return services;
     }
 }

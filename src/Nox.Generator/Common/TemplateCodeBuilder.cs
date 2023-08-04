@@ -24,6 +24,7 @@ internal class TemplateCodeBuilder
     private readonly NoxSolutionCodeGeneratorState _codeGeneratorState;
 
     private string? _className;
+    private string? _fileNamePrefix;
 
     private readonly Dictionary<string, object> _model;
 
@@ -51,7 +52,18 @@ internal class TemplateCodeBuilder
         _className = className;
         return this;
     }
-    
+    /// <summary>
+    /// Oprional prefix to the generated fie, example Domain.Entity.g.cs
+    /// Uses template name if undefined
+    /// </summary>
+    /// <param name="fileNamePrefix">Prefix to add to the file name. A dot will be added between the prefix and the class name</param>
+    /// <returns></returns>
+    public TemplateCodeBuilder WithFileNamePrefix(string fileNamePrefix)
+    {
+        _fileNamePrefix = fileNamePrefix;
+        return this;
+    }
+
     /// <summary>
     /// Extend the default model with a extended property to the extendedModel
     /// </summary>
@@ -82,8 +94,15 @@ internal class TemplateCodeBuilder
             template = reader.ReadToEnd();
         }
 
-        GenerateSourceCode(template, _model, $"{_className}.g.cs");
-     
+        if(!string.IsNullOrEmpty(_fileNamePrefix))
+        {
+            GenerateSourceCode(template, _model, $"{_fileNamePrefix}.{_className}.g.cs");
+        }
+        else
+        {
+            GenerateSourceCode(template, _model, $"{_className}.g.cs");
+        }
+             
         return this;
     }
 

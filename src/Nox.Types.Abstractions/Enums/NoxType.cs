@@ -16,13 +16,13 @@ public enum NoxType : uint
     Entity = 2276495181,
 
     [CompoundType]
-    [CompoundComponent("Lattitude",typeof(double))]
+    [CompoundComponent("Latitude",typeof(double))]
     [CompoundComponent("Longitude",typeof(double))]
     LatLong = 4061881939,
     
     [CompoundType]
     [CompoundComponent("Amount", typeof(decimal))]
-    [CompoundComponent("CurrencyCode", typeof(string))]
+    [CompoundComponent("CurrencyCode", typeof(CurrencyCode))]
     Money = 3500951620,
 
     [CompoundType]
