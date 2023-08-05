@@ -32,15 +32,41 @@ public class UrlTests
         actual.Value.AbsoluteUri.Should().Be(expected);
     }
 
+    [Theory]
+    [InlineData("abc://www.google.com/")]
+    public void BadUri_Should_ThrowException(string input)
+    {
+        var uri = new System.Uri(input);
+        Action init = () => { Url.From(uri); };
+
+        init.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
+            $"Could not create a Nox Url type as value {input} is not a valid Url.")
+        });
+    }
 
     [Theory]
+    [InlineData("www.com")]
+    [InlineData("wwwgooglecom")]
+    [InlineData("www.googlecom")]
+    [InlineData("wwwgoogle/com")]
     [InlineData("abc://www.google.com/")]
     public void BadUrl_Should_ThrowException(string input)
     {
-        var uri = new System.Uri(input);
-        Action init = () => { var url = Url.From(uri); };
+        Action init = () => { Url.From(input); };
 
-        init.Should().Throw<TypeValidationException>();
+        init.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
+            $"Could not create a Nox Url type as value {input} is not a valid Url.")
+        });
     }
 
+    [Fact]
+    public void LongUrl_GreaterThanMaxLength_ThrowException()
+    {
+        string longUrl =  $"file://{new('a', Url.MaxLength)}/";
+        Action init = () => { Url.From(longUrl); };
+
+        init.Should().Throw<TypeValidationException>().And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value",
+            $"Could not create a Nox Url type as value {longUrl} is greater than the specified maximum of 2083")
+        });
+    }
 }
