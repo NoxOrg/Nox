@@ -5,10 +5,6 @@ using Nox.Solution.Schema;
 using Nox.Solution.Exceptions;
 using Nox.Solution.Macros;
 using Nox.Solution.Utils;
-using Nox.Solution.Yaml;
-using YamlDotNet.RepresentationModel;
-using YamlDotNet.Serialization;
-using YamlDotNet.Serialization.NamingConventions;
 using System.Collections.Generic;
 using System;
 
@@ -85,14 +81,8 @@ namespace Nox.Solution
 
             if (_yamlFilesAndContent is null || _yamlFilesAndContent.Count == 0)
             {
-                if (_mustThrowIfYamlNotFound)
-                {
-                    throw new NoxSolutionConfigurationException("No yaml file(s) specified or found");    
-                }
-                else
-                {
-                    return;
-                }
+                DeterministicThrow("No yaml file(s) specified or found");
+                return;
             }
 
             if (_rootFileAndContentKey is null)
@@ -104,7 +94,7 @@ namespace Nox.Solution
 
                 if (solutionFiles.Length == 0)
                 {
-                    throw new NoxSolutionConfigurationException("No solution yaml file(s) specified or found.");
+                    DeterministicThrow("No solution yaml file(s) specified or found.");
                 }
 
                 if (solutionFiles.Length > 1)
@@ -125,18 +115,11 @@ namespace Nox.Solution
                 var rootYamlFile = FindRootYamlFile();
                 if (string.IsNullOrEmpty(rootYamlFile)) return null;
                 _yamlFilePath = Path.GetFullPath(FindRootYamlFile());            }
-            
+
             if (!File.Exists(_yamlFilePath))
             {
-                if (_mustThrowIfYamlNotFound)
-                {
-                    throw new NoxSolutionConfigurationException($"Nox root yaml configuration file ({_yamlFilePath}) not found! Have you created a Nox yaml configuration for your solution? {DesignFolderBestPractice}");    
-                }
-                else
-                {
-                    return null;
-                }
-                    
+                DeterministicThrow($"Nox root yaml configuration file ({_yamlFilePath}) not found! Have you created a Nox yaml configuration for your solution? {DesignFolderBestPractice}");
+                return null;
             }
 
             var path = Path.GetDirectoryName(_yamlFilePath);
@@ -269,26 +252,22 @@ namespace Nox.Solution
             var solutionRoot = FindSolutionRoot();
             if (string.IsNullOrWhiteSpace(solutionRoot))
             {
-                throw new NoxSolutionConfigurationException("Unable to locate the root folder of your solution. Have you created a git repo for your solution?");
+                DeterministicThrow("Unable to locate the root folder of your solution. Have you created a git repo for your solution?");
+                return "";
             }
 
             designFolder = FindNoxDesignFolder(solutionRoot!);
             if (string.IsNullOrWhiteSpace(designFolder))
             {
-                throw new NoxSolutionConfigurationException($"Unable to locate a .nox/design folder in your solution folder ({solutionRoot}). {DesignFolderBestPractice}");
+                DeterministicThrow($"Unable to locate a .nox/design folder in your solution folder ({solutionRoot}). {DesignFolderBestPractice}");    
+                return "";
             }
 
             rootYaml = FindSolutionYamlFile(designFolder!);
             if (rootYaml == null)
             {
-                if (_mustThrowIfYamlNotFound)
-                {
-                    throw new NoxSolutionConfigurationException("Unable to locate a *.solution.nox.yaml file, searched current folder, <current>/.nox/design and <solution root>/.nox/design");
-                }
-                else
-                {
-                    return "";
-                }
+                DeterministicThrow("Unable to locate a *.solution.nox.yaml file, searched current folder, <current>/.nox/design and <solution root>/.nox/design");
+                return "";
             }
 
             return rootYaml;
@@ -301,10 +280,21 @@ namespace Nox.Solution
             {
                 throw new NoxSolutionConfigurationException($"Found more than one *.solution.nox.yaml file in folder ({folder}). {DesignFolderBestPractice}");
             }
-            else if (solutionYamlFiles.Length == 1) return solutionYamlFiles[0];
+
+            if (solutionYamlFiles.Length == 1) return solutionYamlFiles[0];
 
             return null;
         }
+        
+        private void DeterministicThrow(string message)
+        {
+            if (_mustThrowIfYamlNotFound)
+            {
+                throw new NoxSolutionConfigurationException(message);
+            }
+        }
 
     }
+    
+    
 }
