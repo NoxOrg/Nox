@@ -385,6 +385,166 @@ namespace SampleWebApp.Migrations
 
             modelBuilder.Entity("SampleWebApp.Domain.AllNoxType", b =>
                 {
+                    b.OwnsOne("Nox.Types.File", "FileField", b1 =>
+                        {
+                            b1.Property<string>("AllNoxTypeId")
+                                .HasColumnType("char(3)");
+
+                            b1.Property<string>("PrettyName")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<decimal>("SizeInBytes")
+                                .HasColumnType("decimal(20,0)");
+
+                            b1.Property<string>("Url")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("AllNoxTypeId");
+
+                            b1.ToTable("AllNoxTypes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AllNoxTypeId");
+                        });
+
+                    b.OwnsOne("Nox.Types.HashedText", "HashedTexField", b1 =>
+                        {
+                            b1.Property<string>("AllNoxTypeId")
+                                .HasColumnType("char(3)");
+
+                            b1.Property<string>("HashText")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Salt")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("AllNoxTypeId");
+
+                            b1.ToTable("AllNoxTypes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AllNoxTypeId");
+                        });
+
+                    b.OwnsOne("Nox.Types.LatLong", "LatLongField", b1 =>
+                        {
+                            b1.Property<string>("AllNoxTypeId")
+                                .HasColumnType("char(3)");
+
+                            b1.Property<decimal>("Latitude")
+                                .HasPrecision(8, 6)
+                                .HasColumnType("decimal(8,6)");
+
+                            b1.Property<decimal>("Longitude")
+                                .HasPrecision(9, 6)
+                                .HasColumnType("decimal(9,6)");
+
+                            b1.HasKey("AllNoxTypeId");
+
+                            b1.ToTable("AllNoxTypes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AllNoxTypeId");
+                        });
+
+                    b.OwnsOne("Nox.Types.Password", "PasswordField", b1 =>
+                        {
+                            b1.Property<string>("AllNoxTypeId")
+                                .HasColumnType("char(3)");
+
+                            b1.Property<string>("HashedPassword")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Salt")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("AllNoxTypeId");
+
+                            b1.ToTable("AllNoxTypes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AllNoxTypeId");
+                        });
+
+                    b.OwnsOne("Nox.Types.StreetAddress", "StreetAddressField", b1 =>
+                        {
+                            b1.Property<string>("AllNoxTypeId")
+                                .HasColumnType("char(3)");
+
+                            b1.Property<string>("AddressLine1")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("AddressLine2")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("AdministrativeArea1")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("AdministrativeArea2")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("CountryId")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Locality")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Neighborhood")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("PostalCode")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Route")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<int>("StreetNumber")
+                                .HasColumnType("int");
+
+                            b1.HasKey("AllNoxTypeId");
+
+                            b1.ToTable("AllNoxTypes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AllNoxTypeId");
+                        });
+
+                    b.OwnsOne("Nox.Types.TranslatedText", "TranslatedTextField", b1 =>
+                        {
+                            b1.Property<string>("AllNoxTypeId")
+                                .HasColumnType("char(3)");
+
+                            b1.Property<string>("CultureCode")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.Property<string>("Phrase")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
+
+                            b1.HasKey("AllNoxTypeId");
+
+                            b1.ToTable("AllNoxTypes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AllNoxTypeId");
+                        });
+
                     b.OwnsOne("Nox.Types.VatNumber", "VatNumberField", b1 =>
                         {
                             b1.Property<string>("AllNoxTypeId")
@@ -411,8 +571,40 @@ namespace SampleWebApp.Migrations
                                 .HasForeignKey("AllNoxTypeId");
                         });
 
-                    b.Navigation("VatNumberField")
-                        .IsRequired();
+                    b.OwnsOne("Nox.Types.Money", "MoneyField", b1 =>
+                        {
+                            b1.Property<string>("AllNoxTypeId")
+                                .HasColumnType("char(3)");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("decimal(13, 4)");
+
+                            b1.Property<int>("CurrencyCode")
+                                .HasColumnType("int");
+
+                            b1.HasKey("AllNoxTypeId");
+
+                            b1.ToTable("AllNoxTypes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AllNoxTypeId");
+                        });
+
+                    b.Navigation("FileField");
+
+                    b.Navigation("HashedTexField");
+
+                    b.Navigation("LatLongField");
+
+                    b.Navigation("MoneyField");
+
+                    b.Navigation("PasswordField");
+
+                    b.Navigation("StreetAddressField");
+
+                    b.Navigation("TranslatedTextField");
+
+                    b.Navigation("VatNumberField");
                 });
 
             modelBuilder.Entity("SampleWebApp.Domain.Store", b =>

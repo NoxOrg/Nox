@@ -33,9 +33,16 @@ public class AllNoxTypeFactory: EntityFactoryBase<AllNoxTypeCreateDto, AllNoxTyp
             {        
                 entity.TextField = noxTypeValue;
             }     
-    // TODO map VatNumberField VatNumber remaining types and remove if else     
     // TODO map CountryCode2Field CountryCode2 remaining types and remove if else     
     // TODO map CountryCode3Field CountryCode3 remaining types and remove if else     
-    // TODO map FormulaField Formula remaining types and remove if else
+    // TODO map FormulaField Formula remaining types and remove if else     
+    // TODO map StreetAddressField StreetAddress remaining types and remove if else     
+    // TODO map FileField File remaining types and remove if else     
+    // TODO map TranslatedTextField TranslatedText remaining types and remove if else     
+    // TODO map VatNumberField VatNumber remaining types and remove if else     
+    // TODO map PasswordField Password remaining types and remove if else     
+    // TODO map MoneyField Money remaining types and remove if else     
+    // TODO map HashedTexField HashedText remaining types and remove if else     
+    // TODO map LatLongField LatLong remaining types and remove if else
     }
 }

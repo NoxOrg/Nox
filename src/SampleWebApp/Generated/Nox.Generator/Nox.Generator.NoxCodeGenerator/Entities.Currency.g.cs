@@ -23,7 +23,7 @@ public partial class Currency : AuditableEntityBase
     /// <summary>
     /// The currency's name (Required).
     /// </summary>
-    public Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
     /// Currency is legal tender for ZeroOrMany Countries
