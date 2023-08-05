@@ -16,5 +16,5 @@ public partial class CurrencyCreateDto
     /// <summary>
     /// The currency's name (Required).
     /// </summary>
-    public String Name { get; set; } = default!;
+    public System.String Name { get; set; } = default!;
 }

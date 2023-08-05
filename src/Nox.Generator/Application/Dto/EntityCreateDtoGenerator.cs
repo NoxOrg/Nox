@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
@@ -21,10 +22,9 @@ internal static class EntityCreateDtoGenerator
         }
         foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
         {
-            var KeysFlattenComponentsTypeName = entity
-                .Keys
-                .Concat(entity.Attributes ?? Enumerable.Empty<NoxSimpleTypeDefinition>())
-                .ToDictionary(x => x.Name, key1 => key1.Type.GetComponents(key1).First().Value.Name);
+            var attributes = entity.Attributes ?? Enumerable.Empty<NoxSimpleTypeDefinition>();
+             var componentsInfo = attributes
+                .ToDictionary(r => r.Name, key => new { IsSimpleType = key.Type.IsSimpleType(), ComponentType = GetSingleComponentType(key) });
 
             context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -32,8 +32,13 @@ internal static class EntityCreateDtoGenerator
                 .WithClassName($"{entity.Name}CreateDto")
                 .WithFileNamePrefix("Dto")
                 .WithObject("entity", entity)
-                .WithObject("keysFlattenComponentsTypeName", KeysFlattenComponentsTypeName)
+                .WithObject("componentsInfo", componentsInfo)
                 .GenerateSourceCodeFromResource("Application.Dto.EntityCreateDto");
         }
+    }
+
+    private static Type GetSingleComponentType(NoxSimpleTypeDefinition attribute)
+    {
+        return attribute.Type.GetComponents(attribute).FirstOrDefault().Value;
     }
 }

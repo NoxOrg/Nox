@@ -16,21 +16,21 @@ public partial class AllNoxTypeCreateDto
     /// <summary>
     /// Text Nox Type (Required).
     /// </summary>
-    public String TextField { get; set; } = default!;
+    public System.String TextField { get; set; } = default!;
     /// <summary>
     /// VatNumber Nox Type (Required).
     /// </summary>
-    public String VatNumberField { get; set; } = default!;
+    public VatNumberDto VatNumberField { get; set; } = default!;
     /// <summary>
     /// CountryCode2 Nox Type (Required).
     /// </summary>
-    public String CountryCode2Field { get; set; } = default!;
+    public System.String CountryCode2Field { get; set; } = default!;
     /// <summary>
     /// CountryCode3 Nox Type (Required).
     /// </summary>
-    public String CountryCode3Field { get; set; } = default!;
+    public System.String CountryCode3Field { get; set; } = default!;
     /// <summary>
     /// Formula Nox Type (Optional).
     /// </summary>
-    public String? FormulaField { get; set; } 
+    public System.String? FormulaField { get; set; } 
 }
