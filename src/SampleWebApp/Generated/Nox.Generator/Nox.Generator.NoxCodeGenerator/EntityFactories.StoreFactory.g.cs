@@ -26,13 +26,17 @@ public class StoreFactory: EntityFactoryBase<StoreCreateDto, Store>
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used     
+    #pragma warning restore CS0168 // Variable is declared but never used
     
-            noxTypeValue =  CreateNoxType<Text>(entityDefinition,"Name",dto.Name);
-            if(noxTypeValue != null)
-            {        
-                entity.Name = noxTypeValue;
-            }     
-    // TODO map PhysicalMoney Money remaining types and remove if else
+        noxTypeValue =  CreateNoxType<Text>(entityDefinition,"Name",dto.Name);
+        if(noxTypeValue != null)
+        {        
+            entity.Name = noxTypeValue;
+        }
+        noxTypeValue =  CreateNoxType<Money>(entityDefinition,"PhysicalMoney",dto.PhysicalMoney);
+        if(noxTypeValue != null)
+        {        
+            entity.PhysicalMoney = noxTypeValue;
+        }
     }
 }

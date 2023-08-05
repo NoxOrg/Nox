@@ -27,5 +27,6 @@ public class CountryLocalNamesFactory: EntityFactoryBase<CountryLocalNamesCreate
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
+    
     }
 }

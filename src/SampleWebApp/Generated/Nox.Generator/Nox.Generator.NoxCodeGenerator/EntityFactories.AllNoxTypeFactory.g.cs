@@ -26,23 +26,40 @@ public class AllNoxTypeFactory: EntityFactoryBase<AllNoxTypeCreateDto, AllNoxTyp
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used     
+    #pragma warning restore CS0168 // Variable is declared but never used
     
-            noxTypeValue =  CreateNoxType<Text>(entityDefinition,"TextField",dto.TextField);
-            if(noxTypeValue != null)
-            {        
-                entity.TextField = noxTypeValue;
-            }     
-    // TODO map CountryCode2Field CountryCode2 remaining types and remove if else     
-    // TODO map CountryCode3Field CountryCode3 remaining types and remove if else     
-    // TODO map FormulaField Formula remaining types and remove if else     
-    // TODO map StreetAddressField StreetAddress remaining types and remove if else     
-    // TODO map FileField File remaining types and remove if else     
-    // TODO map TranslatedTextField TranslatedText remaining types and remove if else     
-    // TODO map VatNumberField VatNumber remaining types and remove if else     
-    // TODO map PasswordField Password remaining types and remove if else     
-    // TODO map MoneyField Money remaining types and remove if else     
-    // TODO map HashedTexField HashedText remaining types and remove if else     
-    // TODO map LatLongField LatLong remaining types and remove if else
+        noxTypeValue =  CreateNoxType<Text>(entityDefinition,"TextField",dto.TextField);
+        if(noxTypeValue != null)
+        {        
+            entity.TextField = noxTypeValue;
+        }
+
+        // TODO map CountryCode2Field CountryCode2 remaining types and remove if else
+
+        // TODO map CountryCode3Field CountryCode3 remaining types and remove if else
+
+        // TODO map FormulaField Formula remaining types and remove if else
+        noxTypeValue =  CreateNoxType<StreetAddress>(entityDefinition,"StreetAddressField",dto.StreetAddressField);
+        if(noxTypeValue != null)
+        {        
+            entity.StreetAddressField = noxTypeValue;
+        }
+
+        // TODO map FileField File remaining types and remove if else
+
+        // TODO map TranslatedTextField TranslatedText remaining types and remove if else
+
+        // TODO map VatNumberField VatNumber remaining types and remove if else
+
+        // TODO map PasswordField Password remaining types and remove if else
+        noxTypeValue =  CreateNoxType<Money>(entityDefinition,"MoneyField",dto.MoneyField);
+        if(noxTypeValue != null)
+        {        
+            entity.MoneyField = noxTypeValue;
+        }
+
+        // TODO map HashedTexField HashedText remaining types and remove if else
+
+        // TODO map LatLongField LatLong remaining types and remove if else
     }
 }

@@ -11,7 +11,7 @@ namespace Nox.Factories.Types
 
         public override Money? CreateNoxType(Entity entityDefinition, string propertyName, dynamic? value)
         {
-            if(value == null)
+            if (value == null)
             {
                 return null;
             }
