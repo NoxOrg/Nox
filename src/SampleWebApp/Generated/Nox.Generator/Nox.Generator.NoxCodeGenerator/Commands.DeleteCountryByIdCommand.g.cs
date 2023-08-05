@@ -8,7 +8,7 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteCountryByIdCommand(String key) : IRequest<bool>;
+public record DeleteCountryByIdCommand(System.String key) : IRequest<bool>;
 
 public class DeleteCountryByIdCommandHandler: IRequestHandler<DeleteCountryByIdCommand, bool>
 {

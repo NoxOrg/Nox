@@ -34,10 +34,9 @@ internal static class NoxTypeDtoGenerator
         context.CancellationToken.ThrowIfCancellationRequested();
 
         new TemplateCodeBuilder(context, codeGeneratorState)
-            .WithClassName($"Dto")
-            .WithFileNamePrefix($"NoxTypes")
-            .WithObject("compoundTypes", compoundTypes)
-            //.WithObject("components", compound.Components)
+            .WithClassName($"CompoundNoxTypes")
+            .WithFileNamePrefix($"Dto")
+            .WithObject("compoundTypes", compoundTypes)            
             .GenerateSourceCodeFromResource(templateName);
-    }
+    }    
 }

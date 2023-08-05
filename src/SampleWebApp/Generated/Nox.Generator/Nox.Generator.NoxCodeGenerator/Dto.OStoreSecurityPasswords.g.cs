@@ -24,17 +24,17 @@ public partial class OStoreSecurityPasswords : AuditableEntityBase
     /// <summary>
     /// Passwords Primary Key (Required).
     /// </summary>
-    public String Id { get; set; } = null!;
+    public System.String Id { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
     /// </summary>
-    public String Name { get; set; } = default!;
+    public System.String Name { get; set; } = default!;
 
     /// <summary>
     ///  (Required).
     /// </summary>
-    public String SecurityCamerasPassword { get; set; } = default!;
+    public System.String SecurityCamerasPassword { get; set; } = default!;
 
     /// <summary>
     /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores

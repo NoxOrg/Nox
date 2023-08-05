@@ -57,7 +57,7 @@ public partial class AllNoxTypesController : ODataController
         return Ok(result);
     }
     
-    public async Task<ActionResult<OAllNoxType>> Get([FromRoute] String key)
+    public async Task<ActionResult<OAllNoxType>> Get([FromRoute] System.String key)
     {
         var item = await _mediator.Send(new GetAllNoxTypeByIdQuery(key));
         

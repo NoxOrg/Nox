@@ -57,7 +57,7 @@ public partial class StoresController : ODataController
         return Ok(result);
     }
     
-    public async Task<ActionResult<OStore>> Get([FromRoute] String key)
+    public async Task<ActionResult<OStore>> Get([FromRoute] System.String key)
     {
         var item = await _mediator.Send(new GetStoreByIdQuery(key));
         

@@ -9,7 +9,7 @@ using {{codeGeneratorState.ODataNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Queries;
 
-public record Get{{entity.Name }}ByIdQuery({{entity.KeysFlattenComponentsTypeName[0]}} key) : IRequest<O{{entity.Name}}?>;
+public record Get{{entity.Name }}ByIdQuery({{entity.KeysFlattenComponentsType[entity.Keys[0].Name]}} key) : IRequest<O{{entity.Name}}?>;
 
 public class Get{{entity.Name}}ByIdQueryHandler: IRequestHandler<Get{{entity.Name}}ByIdQuery, O{{entity.Name}}?>
 {

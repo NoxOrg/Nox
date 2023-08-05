@@ -57,7 +57,7 @@ public partial class CountryLocalNamesController : ODataController
         return Ok(result);
     }
     
-    public async Task<ActionResult<OCountryLocalNames>> Get([FromRoute] String key)
+    public async Task<ActionResult<OCountryLocalNames>> Get([FromRoute] System.String key)
     {
         var item = await _mediator.Send(new GetCountryLocalNamesByIdQuery(key));
         

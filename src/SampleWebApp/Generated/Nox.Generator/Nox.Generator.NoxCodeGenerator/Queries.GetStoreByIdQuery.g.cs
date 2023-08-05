@@ -9,7 +9,7 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetStoreByIdQuery(String key) : IRequest<OStore?>;
+public record GetStoreByIdQuery(System.String key) : IRequest<OStore?>;
 
 public class GetStoreByIdQueryHandler: IRequestHandler<GetStoreByIdQuery, OStore?>
 {

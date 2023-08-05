@@ -9,7 +9,7 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetCurrencyByIdQuery(String key) : IRequest<OCurrency?>;
+public record GetCurrencyByIdQuery(System.String key) : IRequest<OCurrency?>;
 
 public class GetCurrencyByIdQueryHandler: IRequestHandler<GetCurrencyByIdQuery, OCurrency?>
 {

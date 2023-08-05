@@ -360,7 +360,7 @@ internal static class ApiGenerator
 
         // We do not support Compound types as primary keys, this is validated on the schema
         // Method Get
-        code.AppendLine($"public async Task<ActionResult<O{entity.Name}>> Get([FromRoute] {entity.KeysFlattenComponentsTypeName[0]} key)");
+        code.AppendLine($"public async Task<ActionResult<O{entity.Name}>> Get([FromRoute] {entity.KeysFlattenComponentsType[entity.Keys[0].Name]} key)");
 
         // Method content
         code.StartBlock();

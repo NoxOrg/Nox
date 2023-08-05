@@ -24,7 +24,7 @@ internal static class EntityCreateDtoGenerator
         {
             var attributes = entity.Attributes ?? Enumerable.Empty<NoxSimpleTypeDefinition>();
              var componentsInfo = attributes
-                .ToDictionary(r => r.Name, key => new { IsSimpleType = key.Type.IsSimpleType(), ComponentType = GetSingleComponentType(key) });
+                .ToDictionary(r => r.Name, key => new { IsSimpleType = key.Type.IsSimpleType(), ComponentType = GetSingleComponentSimpleType(key) });
 
             context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -37,8 +37,11 @@ internal static class EntityCreateDtoGenerator
         }
     }
 
-    private static Type GetSingleComponentType(NoxSimpleTypeDefinition attribute)
+    private static Type? GetSingleComponentSimpleType(NoxSimpleTypeDefinition attribute)
     {
+        if (!attribute.Type.IsSimpleType())
+            return null;
+
         return attribute.Type.GetComponents(attribute).FirstOrDefault().Value;
     }
 }

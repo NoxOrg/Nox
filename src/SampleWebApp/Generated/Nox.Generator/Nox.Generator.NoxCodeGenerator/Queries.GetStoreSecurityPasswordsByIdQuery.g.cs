@@ -9,7 +9,7 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetStoreSecurityPasswordsByIdQuery(String key) : IRequest<OStoreSecurityPasswords?>;
+public record GetStoreSecurityPasswordsByIdQuery(System.String key) : IRequest<OStoreSecurityPasswords?>;
 
 public class GetStoreSecurityPasswordsByIdQueryHandler: IRequestHandler<GetStoreSecurityPasswordsByIdQuery, OStoreSecurityPasswords?>
 {

@@ -24,12 +24,12 @@ public partial class OCurrency : AuditableEntityBase
     /// <summary>
     /// The currency's primary key / identifier (Required).
     /// </summary>
-    public String Id { get; set; } = null!;
+    public System.String Id { get; set; } = null!;
 
     /// <summary>
     /// The currency's name (Required).
     /// </summary>
-    public String Name { get; set; } = default!;
+    public System.String Name { get; set; } = default!;
 
     /// <summary>
     /// Currency is legal tender for ZeroOrMany Countries

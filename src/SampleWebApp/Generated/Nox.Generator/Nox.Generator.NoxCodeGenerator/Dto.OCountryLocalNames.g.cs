@@ -24,5 +24,5 @@ public partial class OCountryLocalNames : AuditableEntityBase
     /// <summary>
     ///  (Required).
     /// </summary>
-    public String Id { get; set; } = null!;
+    public System.String Id { get; set; } = null!;
 }
