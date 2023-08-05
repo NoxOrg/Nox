@@ -1,0 +1,15 @@
+version: 2
+updates:
+  - package-ecosystem: "nuget"
+    directory: "/src" # Nox.Generator.sln
+    # Check for updates at 7 AM UTC
+    schedule:
+      interval: "daily"
+      time: "07:00"
+    groups:
+      dependencies:
+        patterns:
+          - "*"
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
