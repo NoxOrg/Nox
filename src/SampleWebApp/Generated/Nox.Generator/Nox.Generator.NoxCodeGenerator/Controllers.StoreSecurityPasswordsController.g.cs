@@ -80,7 +80,7 @@ public partial class StoreSecurityPasswordsController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OStoreSecurityPasswords updatedStoreSecurityPasswords)
+    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] OStoreSecurityPasswords updatedStoreSecurityPasswords)
     {
         if (!ModelState.IsValid)
         {
@@ -113,21 +113,21 @@ public partial class StoreSecurityPasswordsController : ODataController
         return Updated(updatedStoreSecurityPasswords);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string storesecuritypasswords, [FromBody] Delta<OStoreSecurityPasswords> Id)
+    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<OStoreSecurityPasswords> storesecuritypasswords)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = await _databaseContext.StoreSecurityPasswords.FindAsync(storesecuritypasswords);
+        var entity = await _databaseContext.StoreSecurityPasswords.FindAsync(key);
         
         if (entity == null)
         {
             return NotFound();
         }
         
-        Id.Patch(entity);
+        storesecuritypasswords.Patch(entity);
         
         try
         {
@@ -135,7 +135,7 @@ public partial class StoreSecurityPasswordsController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!StoreSecurityPasswordsExists(storesecuritypasswords))
+            if (!StoreSecurityPasswordsExists(key))
             {
                 return NotFound();
             }
@@ -148,12 +148,12 @@ public partial class StoreSecurityPasswordsController : ODataController
         return Updated(entity);
     }
     
-    private bool StoreSecurityPasswordsExists(string storesecuritypasswords)
+    private bool StoreSecurityPasswordsExists(System.String key)
     {
-        return _databaseContext.StoreSecurityPasswords.Any(p => p.Id == storesecuritypasswords);
+        return _databaseContext.StoreSecurityPasswords.Any(p => p.Id == key);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] string key)
+    public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new DeleteStoreSecurityPasswordsByIdCommand(key));
         if (!result)

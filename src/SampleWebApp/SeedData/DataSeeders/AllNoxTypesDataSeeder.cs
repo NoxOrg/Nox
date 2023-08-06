@@ -18,7 +18,6 @@ internal class AllNoxTypesDataSeeder : SampleDataSeederBase<AllNoxTypeModel, All
         var entities = models.Select(x =>
             new AllNoxType
             {
-                Id = Text.From(x.Id),
                 TextField = Text.From(x.TextField),
                 VatNumberField = VatNumber.From(x.VatNumber, CountryCode2.From(x.CountryCode2)),
                 CountryCode2Field = CountryCode2.From(x.CountryCode2),

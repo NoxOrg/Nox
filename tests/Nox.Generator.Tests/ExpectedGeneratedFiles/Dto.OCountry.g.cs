@@ -24,7 +24,7 @@ public partial class OCountry : AuditableEntityBase
     /// <summary>
     ///  (Required).
     /// </summary>
-    public System.String Id { get; set; } = null!;
+    public System.String Id { get; set; } = default!;
 
     /// <summary>
     /// The country's common name (Required).

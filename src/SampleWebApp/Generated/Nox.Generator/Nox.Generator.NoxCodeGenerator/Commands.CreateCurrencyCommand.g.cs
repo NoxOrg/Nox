@@ -35,8 +35,7 @@ public class CreateCurrencyCommandHandler: IRequestHandler<CreateCurrencyCommand
     public async Task<Text> Handle(CreateCurrencyCommand request, CancellationToken cancellationToken)
     {    
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
-        //TODO support multiple keys and generated keys like nuid database number, and other type
-        entityToCreate.Id = Text.From(Guid.NewGuid().ToString().Substring(0, 2));
+        //TODO for nuid property or key needs to call ensure id        
         DbContext.Currencies.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         return entityToCreate.Id;

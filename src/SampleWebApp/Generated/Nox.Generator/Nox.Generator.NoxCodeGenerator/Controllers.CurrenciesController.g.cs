@@ -80,7 +80,7 @@ public partial class CurrenciesController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OCurrency updatedCurrency)
+    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] OCurrency updatedCurrency)
     {
         if (!ModelState.IsValid)
         {
@@ -113,21 +113,21 @@ public partial class CurrenciesController : ODataController
         return Updated(updatedCurrency);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string currency, [FromBody] Delta<OCurrency> Id)
+    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<OCurrency> currency)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = await _databaseContext.Currencies.FindAsync(currency);
+        var entity = await _databaseContext.Currencies.FindAsync(key);
         
         if (entity == null)
         {
             return NotFound();
         }
         
-        Id.Patch(entity);
+        currency.Patch(entity);
         
         try
         {
@@ -135,7 +135,7 @@ public partial class CurrenciesController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!CurrencyExists(currency))
+            if (!CurrencyExists(key))
             {
                 return NotFound();
             }
@@ -148,12 +148,12 @@ public partial class CurrenciesController : ODataController
         return Updated(entity);
     }
     
-    private bool CurrencyExists(string currency)
+    private bool CurrencyExists(System.String key)
     {
-        return _databaseContext.Currencies.Any(p => p.Id == currency);
+        return _databaseContext.Currencies.Any(p => p.Id == key);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] string key)
+    public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new DeleteCurrencyByIdCommand(key));
         if (!result)

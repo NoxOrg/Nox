@@ -24,7 +24,7 @@ public partial class OStoreSecurityPasswords : AuditableEntityBase
     /// <summary>
     /// Passwords Primary Key (Required).
     /// </summary>
-    public System.String Id { get; set; } = null!;
+    public System.String Id { get; set; } = default!;
 
     /// <summary>
     ///  (Required).

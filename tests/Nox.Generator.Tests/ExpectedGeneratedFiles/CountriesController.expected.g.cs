@@ -94,7 +94,7 @@ public partial class CountriesController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OCountry updatedCountry)
+    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] OCountry updatedCountry)
     {
         if (!ModelState.IsValid)
         {
@@ -127,21 +127,21 @@ public partial class CountriesController : ODataController
         return Updated(updatedCountry);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string country, [FromBody] Delta<OCountry> Id)
+    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<OCountry> country)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = await _databaseContext.Countries.FindAsync(country);
+        var entity = await _databaseContext.Countries.FindAsync(key);
         
         if (entity == null)
         {
             return NotFound();
         }
         
-        Id.Patch(entity);
+        country.Patch(entity);
         
         try
         {
@@ -149,7 +149,7 @@ public partial class CountriesController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!CountryExists(country))
+            if (!CountryExists(key))
             {
                 return NotFound();
             }
@@ -162,12 +162,12 @@ public partial class CountriesController : ODataController
         return Updated(entity);
     }
     
-    private bool CountryExists(string country)
+    private bool CountryExists(System.String key)
     {
-        return _databaseContext.Countries.Any(p => p.Id == country);
+        return _databaseContext.Countries.Any(p => p.Id == key);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] string key)
+    public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new DeleteCountryByIdCommand(key));
         if (!result)

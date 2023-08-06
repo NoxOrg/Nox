@@ -80,7 +80,7 @@ public partial class CountryLocalNamesController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OCountryLocalNames updatedCountryLocalNames)
+    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] OCountryLocalNames updatedCountryLocalNames)
     {
         if (!ModelState.IsValid)
         {
@@ -113,21 +113,21 @@ public partial class CountryLocalNamesController : ODataController
         return Updated(updatedCountryLocalNames);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string countrylocalnames, [FromBody] Delta<OCountryLocalNames> Id)
+    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<OCountryLocalNames> countrylocalnames)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = await _databaseContext.CountryLocalNames.FindAsync(countrylocalnames);
+        var entity = await _databaseContext.CountryLocalNames.FindAsync(key);
         
         if (entity == null)
         {
             return NotFound();
         }
         
-        Id.Patch(entity);
+        countrylocalnames.Patch(entity);
         
         try
         {
@@ -135,7 +135,7 @@ public partial class CountryLocalNamesController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!CountryLocalNamesExists(countrylocalnames))
+            if (!CountryLocalNamesExists(key))
             {
                 return NotFound();
             }
@@ -148,12 +148,12 @@ public partial class CountryLocalNamesController : ODataController
         return Updated(entity);
     }
     
-    private bool CountryLocalNamesExists(string countrylocalnames)
+    private bool CountryLocalNamesExists(System.String key)
     {
-        return _databaseContext.CountryLocalNames.Any(p => p.Id == countrylocalnames);
+        return _databaseContext.CountryLocalNames.Any(p => p.Id == key);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] string key)
+    public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new DeleteCountryLocalNamesByIdCommand(key));
         if (!result)

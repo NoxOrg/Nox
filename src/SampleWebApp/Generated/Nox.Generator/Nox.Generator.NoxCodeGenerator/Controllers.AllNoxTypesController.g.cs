@@ -57,7 +57,7 @@ public partial class AllNoxTypesController : ODataController
         return Ok(result);
     }
     
-    public async Task<ActionResult<OAllNoxType>> Get([FromRoute] System.String key)
+    public async Task<ActionResult<OAllNoxType>> Get([FromRoute] System.Int32 key)
     {
         var item = await _mediator.Send(new GetAllNoxTypeByIdQuery(key));
         
@@ -80,7 +80,7 @@ public partial class AllNoxTypesController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OAllNoxType updatedAllNoxType)
+    public async Task<ActionResult> Put([FromRoute] System.Int32 key, [FromBody] OAllNoxType updatedAllNoxType)
     {
         if (!ModelState.IsValid)
         {
@@ -113,21 +113,21 @@ public partial class AllNoxTypesController : ODataController
         return Updated(updatedAllNoxType);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string allnoxtype, [FromBody] Delta<OAllNoxType> Id)
+    public async Task<ActionResult> Patch([FromRoute] System.Int32 key, [FromBody] Delta<OAllNoxType> allnoxtype)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = await _databaseContext.AllNoxTypes.FindAsync(allnoxtype);
+        var entity = await _databaseContext.AllNoxTypes.FindAsync(key);
         
         if (entity == null)
         {
             return NotFound();
         }
         
-        Id.Patch(entity);
+        allnoxtype.Patch(entity);
         
         try
         {
@@ -135,7 +135,7 @@ public partial class AllNoxTypesController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!AllNoxTypeExists(allnoxtype))
+            if (!AllNoxTypeExists(key))
             {
                 return NotFound();
             }
@@ -148,12 +148,12 @@ public partial class AllNoxTypesController : ODataController
         return Updated(entity);
     }
     
-    private bool AllNoxTypeExists(string allnoxtype)
+    private bool AllNoxTypeExists(System.Int32 key)
     {
-        return _databaseContext.AllNoxTypes.Any(p => p.Id == allnoxtype);
+        return _databaseContext.AllNoxTypes.Any(p => p.Id == key);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] string key)
+    public async Task<ActionResult> Delete([FromRoute] System.Int32 key)
     {
         var result = await _mediator.Send(new DeleteAllNoxTypeByIdCommand(key));
         if (!result)

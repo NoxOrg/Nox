@@ -16,9 +16,9 @@ public partial class AllNoxType : AuditableEntityBase
 {
 
     /// <summary>
-    /// The currency's primary key / identifier (Required).
+    /// DatabaseNumber Nox Type (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public DatabaseNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Text Nox Type (Required).

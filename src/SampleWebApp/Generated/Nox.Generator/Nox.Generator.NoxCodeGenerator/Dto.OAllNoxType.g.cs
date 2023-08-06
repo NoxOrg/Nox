@@ -22,9 +22,9 @@ public partial class OAllNoxType : AuditableEntityBase
 {
 
     /// <summary>
-    /// The currency's primary key / identifier (Required).
+    /// DatabaseNumber Nox Type (Required).
     /// </summary>
-    public System.String Id { get; set; } = null!;
+    public System.Int32 Id { get; set; } = default!;
 
     /// <summary>
     /// Text Nox Type (Required).

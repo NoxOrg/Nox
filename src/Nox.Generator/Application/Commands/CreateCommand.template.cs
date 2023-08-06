@@ -35,8 +35,7 @@ public class Create{{entity.Name}}CommandHandler: IRequestHandler<Create{{entity
     public async Task<{{entity.Keys[0].Type}}> Handle(Create{{entity.Name}}Command request, CancellationToken cancellationToken)
     {    
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
-        //TODO support multiple keys and generated keys like nuid database number, and other type
-        entityToCreate.{{entity.Keys[0].Name}} = Text.From(Guid.NewGuid().ToString().Substring(0, 2));
+        //TODO for nuid property or key needs to call ensure id        
         DbContext.{{entity.PluralName}}.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         return entityToCreate.{{entity.Keys[0].Name}};

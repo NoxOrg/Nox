@@ -30,7 +30,7 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     {{- # Navigation Property }}
     public virtual {{key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
     {{- else -}}
-    public {{entity.KeysFlattenComponentsType[key.Name]}} {{key.Name}} { get; set; } = null!; 
+    public {{entity.KeysFlattenComponentsType[key.Name]}} {{key.Name}} { get; set; } = default!; 
     {{- end}}
 {{- end }}
 {{- for attribute in entity.Attributes }}
