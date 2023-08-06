@@ -17,6 +17,7 @@ namespace SampleWebApp.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    NuidField = table.Column<long>(type: "bigint", nullable: false),
                     TextField = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     CountryCode2Field = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
                     CountryCode3Field = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
@@ -112,7 +113,7 @@ namespace SampleWebApp.Migrations
                 name: "Currencies",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -153,7 +154,7 @@ namespace SampleWebApp.Migrations
                 columns: table => new
                 {
                     CountriesId = table.Column<string>(type: "char(2)", nullable: false),
-                    CurrenciesId = table.Column<string>(type: "char(3)", nullable: false)
+                    CurrenciesId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {

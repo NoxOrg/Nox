@@ -28,6 +28,8 @@ public class AllNoxTypeFactory: EntityFactoryBase<AllNoxTypeCreateDto, AllNoxTyp
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
     
+
+        // TODO map NuidField Nuid remaining types and remove if else
         noxTypeValue =  CreateNoxType<Text>(entityDefinition,"TextField",dto.TextField);
         if(noxTypeValue != null)
         {        

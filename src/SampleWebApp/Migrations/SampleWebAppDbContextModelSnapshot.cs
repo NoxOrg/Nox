@@ -27,8 +27,8 @@ namespace SampleWebApp.Migrations
                     b.Property<string>("CountriesId")
                         .HasColumnType("char(2)");
 
-                    b.Property<string>("CurrenciesId")
-                        .HasColumnType("char(3)");
+                    b.Property<uint>("CurrenciesId")
+                        .HasColumnType("bigint");
 
                     b.HasKey("CountriesId", "CurrenciesId");
 
@@ -73,6 +73,9 @@ namespace SampleWebApp.Migrations
 
                     b.Property<string>("DeletedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<uint>("NuidField")
+                        .HasColumnType("bigint");
 
                     b.Property<string>("TextField")
                         .IsRequired()
@@ -234,11 +237,8 @@ namespace SampleWebApp.Migrations
 
             modelBuilder.Entity("SampleWebApp.Domain.Currency", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasMaxLength(3)
-                        .IsUnicode(false)
-                        .HasColumnType("char(3)")
-                        .IsFixedLength();
+                    b.Property<uint>("Id")
+                        .HasColumnType("bigint");
 
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");

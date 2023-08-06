@@ -13,6 +13,15 @@ keys:
 
 attributes:
 
+  - name: NuidField
+    isRequired: true
+    description: NuidField Type
+    type: nuid
+    nuidTypeOptions:
+        separator: "."
+        propertyNames:
+            - "TextField" 
+
   - name: TextField
     description: Text Nox Type
     type: text

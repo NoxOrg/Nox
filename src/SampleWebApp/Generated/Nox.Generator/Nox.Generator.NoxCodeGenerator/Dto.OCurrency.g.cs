@@ -24,7 +24,7 @@ public partial class OCurrency : AuditableEntityBase
     /// <summary>
     /// The currency's primary key / identifier (Required).
     /// </summary>
-    public System.String Id { get; set; } = default!;
+    public System.UInt32 Id { get; set; } = default!;
 
     /// <summary>
     /// The currency's name (Required).
