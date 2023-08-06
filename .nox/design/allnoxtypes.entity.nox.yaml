@@ -14,7 +14,7 @@ keys:
 attributes:
 
   - name: NuidField
-    isRequired: true
+    isRequired: false
     description: NuidField Type
     type: nuid
     nuidTypeOptions:

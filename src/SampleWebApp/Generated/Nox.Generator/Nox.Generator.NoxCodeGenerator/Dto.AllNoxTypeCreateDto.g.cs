@@ -14,9 +14,9 @@ namespace SampleWebApp.Application.Dto;
 public partial class AllNoxTypeCreateDto
 {
     /// <summary>
-    /// NuidField Type (Required).
+    /// NuidField Type (Optional).
     /// </summary>
-    public System.UInt32 NuidField { get; set; } = default!;
+    public System.UInt32? NuidField { get; set; } 
     /// <summary>
     /// Text Nox Type (Required).
     /// </summary>

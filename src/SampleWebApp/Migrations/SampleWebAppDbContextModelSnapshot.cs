@@ -74,7 +74,7 @@ namespace SampleWebApp.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<uint>("NuidField")
+                    b.Property<uint?>("NuidField")
                         .HasColumnType("bigint");
 
                     b.Property<string>("TextField")

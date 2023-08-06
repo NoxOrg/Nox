@@ -27,9 +27,9 @@ public partial class OAllNoxType : AuditableEntityBase
     public System.Int32 Id { get; set; } = default!;
 
     /// <summary>
-    /// NuidField Type (Required).
+    /// NuidField Type (Optional).
     /// </summary>
-    public System.UInt32 NuidField { get; set; } = default!;
+    public System.UInt32? NuidField { get; set; } 
 
     /// <summary>
     /// Text Nox Type (Required).
