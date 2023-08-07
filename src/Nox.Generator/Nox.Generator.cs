@@ -20,7 +20,9 @@ using Nox.Generator.Presentation.Api.OData;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
-using Nox.Generator.Application;
+using Nox.Generator.Application.Queries;
+using Nox.Generator.Application.Commands;
+using Nox.Generator.Application.Dto;
 
 namespace Nox.Generator;
 
@@ -68,17 +70,27 @@ public class NoxCodeGenerator : IIncrementalGenerator
                 
                 if (generate.Domain)
                 {
-                    EntityBaseGenerator.Generate(context, codeGeneratorState);
-
-                    AuditableEntityBaseGenerator.Generate(context, codeGeneratorState);
+                    NoxTypeDtoGenerator.Generate(context, codeGeneratorState);
 
                     EntitiesGenerator.Generate(context, codeGeneratorState);
+                    EntityFactoryGenerator.Generate(context, codeGeneratorState);
                     
+
+                    Application.Queries.QueryGenerator.Generate(context, codeGeneratorState);
+                    ByIdQueryGenerator.Generate(context, codeGeneratorState);
+
+                    DeleteByIdCommandGenerator.Generate(context, codeGeneratorState);
+                    CreateCommandGenerator.Generate(context, codeGeneratorState);
+
+
                     DomainEventGenerator.Generate(context, codeGeneratorState);
                     
                     CommandGenerator.Generate(context, codeGeneratorState);
-                    
-                    QueryGenerator.Generate(context, codeGeneratorState);
+
+                    Domain.CqrsGenerators.QueryGenerator.Generate(context, codeGeneratorState);
+
+                    OEntityGenerator.Generate(context, codeGeneratorState);
+                    EntityCreateDtoGenerator.Generate(context, codeGeneratorState);
                 }
 
                 if (generate.Infrastructure)
@@ -89,14 +101,10 @@ public class NoxCodeGenerator : IIncrementalGenerator
                 if (generate.Presentation)
                 {
                     ODataServiceCollectionExtensions.Generate(context, codeGeneratorState);
-
-                    ODataModelGenerator.Generate(context, codeGeneratorState);
-
+                    
                     ODataDbContextGenerator.Generate(context, codeGeneratorState);
 
                     ApiGenerator.Generate(context, codeGeneratorState);
-
-                    ApplicationServiceGenerator.Generate(context, codeGeneratorState);
                 }
 
                 if (generate.Application)
@@ -108,7 +116,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
         }
         catch (Exception e)
         {
-            _errors.Add(e.Message);
+            _errors.Add(e.Message +  e.StackTrace);
         }
 
         if (_errors.Any())

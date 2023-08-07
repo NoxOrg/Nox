@@ -53,17 +53,18 @@ public sealed class Nuid : ValueObject<uint, Nuid>, IComparable, IComparable<Nui
     {
         if (obj == null) return 1;
 
-        if (obj is not Nuid)
+        if (obj is not Nuid nuidObj)
         {
             throw new ArgumentException("Object must be of type NUID.", nameof(obj));
         }
-
-        return ((Nuid)obj).Value != Value ? 1 : 0;
+        return CompareTo(nuidObj);
     }
 
     public int CompareTo(Nuid? other)
     {
-        return CompareTo(other?.Value);
+        if (other is null) return 1;
+
+        return Value.CompareTo(other.Value);
     }
 
 #if NET7_0

@@ -10,5 +10,5 @@ public class JsonConverter : ValueConverter<Json, string>
     /// <summary>
     /// Initializes a new instance of the <see cref="JsonConverter"/> class.
     /// </summary>
-    public JsonConverter() : base(json => json.Value, jsonValue => Json.From(jsonValue)) { }
+    public JsonConverter() : base(json => json.Value, jsonValue => Json.FromDatabase(jsonValue)) { }
 }

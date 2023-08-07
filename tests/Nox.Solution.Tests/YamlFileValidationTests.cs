@@ -2,6 +2,7 @@ using FluentAssertions;
 using FluentValidation;
 using Nox.Solution.Exceptions;
 using Nox.Solution.Schema;
+using System;
 
 namespace Nox.Solution.Tests;
 
@@ -109,5 +110,20 @@ public class YamlFileValidationTests
 
         errors.Length.Should().Be(1);
         errors[0].ErrorMessage.Should().Be("Entity Currency: Key Id should not be Compound type.", errors[0].ErrorMessage);
+    }
+
+    [Fact]
+    public void Deserialize_OwnedRelationship_MultipleUse_ThrowsException()
+    {
+        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
+            .UseYamlFile($"./files/owned-relationship-used-twice.solution.nox.yaml")
+            .Build());
+
+        var errors = exception.Errors.ToArray();
+
+        Assert.Equal(2, errors.Length);
+
+        Assert.Equal("The owned relationship 'CountryLegalCurrencies' for entity 'Country' refers to an entity 'Currency' that is used in other owned relationships. Owned entities must be owned by one parent only.", errors[0].ErrorMessage);
+        Assert.Equal("The owned relationship 'StoreAcceptedCurrencies' for entity 'Store' refers to an entity 'Currency' that is used in other owned relationships. Owned entities must be owned by one parent only.", errors[1].ErrorMessage);
     }
 }

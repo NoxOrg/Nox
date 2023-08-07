@@ -19,10 +19,10 @@ public class Money : ValueObject<(decimal Amount, CurrencyCode CurrencyCode), Mo
         private set => Value = (value, Value.CurrencyCode);
     }
 
-    public string CurrencyCode
+    public CurrencyCode CurrencyCode
     {
-        get => Value.CurrencyCode.ToString();
-        private set => Value = (Value.Amount, (CurrencyCode)Enum.Parse(typeof(CurrencyCode),value));
+        get => Value.CurrencyCode;
+        private set => Value = (Value.Amount, value);
     }
 
     /// <summary>

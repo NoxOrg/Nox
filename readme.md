@@ -1,9 +1,10 @@
 # Local Development
+
 To run the SampleWebApp you need to have a SQL Server running, this is temporary until we provide the remain database providers.
 
 Using SQL Server on the root run `docker-compose -f .\docker-compose.sqlServer.yml up`
 
-Update database with migrations by running command `dotnet ef database update`
+Update database with migrations by running command `dotnet ef database update -c "SampleWebAppDbContext"`
 
 Run the Sample the database should be provisioned and properly setup its model.
 
@@ -12,6 +13,10 @@ Run the Sample the database should be provisioned and properly setup its model.
 Migration history do not need to be tracked, usually during local development you can delete 'Migration' folder and create a new migration.
 
 To generate initial migration you can use the following command `dotnet ef migrations add "InitialCreate" -c "SampleWebAppDbContext"`
+
+## Odata
+
+Odata end point in debug can be found in `\$odata`
 
 # Nox.Solution
 
@@ -36,12 +41,13 @@ Sample Yaml:
 
 ## Schemas Update
 
-**Until we automate this process** whenever add a new TypeOption to the Nox Solution you need to: 
+**Until we automate this process** whenever add a new TypeOption to the Nox Solution you need to:
+
 1. Add your new type to class `NoxSimpleTypeDefinition` inside the `#region TypeOptions`;
 2. Run the test in **NoxSolutionSchemaGenerate**, this test will generate the new schema files;
-3. Add and commit changed `.json` files to the solution. 
+3. Add and commit changed `.json` files to the solution.
 
-The is necessary for the CI pipeline to publish the new schemas. 
+The is necessary for the CI pipeline to publish the new schemas.
 
 # Nox Types
 
@@ -74,6 +80,105 @@ LatLong Nox type example:
 public string ToString(IFormatProvider formatProvider)
 {
     return $"{Value.Latitude.ToString(formatProvider)} {Value.Longitude.ToString(formatProvider)}";
+}
+```
+# Queries and Commands Extensability
+
+## Security And Other Validations
+
+To add security, or other business rule to generated queries, commands, orr custom queries, add an IValidator for the query, example for securing GetStoreByIdquery
+
+```c#
+ public class GetStoreByIdSecurityValidator : AbstractValidator<GetStoreByIdQuery>
+    {
+        public GetStoreByIdSecurityValidator(ILogger<GetStoreByIdQuery> logger)
+        {
+            // For the Current User
+            // TODO Get Stores that he can see.... 
+
+            // Do Validation The current user can only see EUR Store
+            RuleFor(query => query.key).Must(key => key == "EUR").WithMessage("No permissions to access this store");            
+        }
+    }
+```
+
+The validator will be excuted before the request. Add the validator to the service collection.
+
+```c#
+services.AddSingleton<IValidator<Queries.GetStoreByIdQuery>, GetStoreByIdSecurityValidator>();
+```
+
+Response:
+![Response example](/docs/images//securityexceptionexample.png)
+
+## Queries Filter Extension
+
+To add extra filter to generated queries, for security or other purposes, add a new Pipeline behavior (see MediatR), filtering Get Stores example:
+
+```c#
+  public class GetStoresQuerySecurityFilter : IPipelineBehavior<GetStoresQuery, IQueryable<OStore>>
+    {
+        public async Task<IQueryable<OStore>> Handle(GetStoresQuery request, RequestHandlerDelegate<IQueryable<OStore>> next, CancellationToken cancellationToken)
+        {
+            var result = await next();
+
+            return result.Where(store => store.Id == "EUR");
+        }
+    }
+```
+
+and register in the container
+
+```c#
+services.AddScoped<IPipelineBehavior<GetStoresQuery, IQueryable<OStore>>, GetStoresQuerySecurityFilter> ()
+```
+
+## Add new Queries to Existing Controllers
+
+To add a custom query to a generated controller, you need to:
+
+1. Create a partial class with the name of the controller
+1. Create a Query Request
+1. Create a Query Handler
+
+example:
+
+```c#
+/// <summary>
+/// Extending a OData controller example with additional queries (Action) and commands (Functions)
+/// </summary>
+public partial class CountriesController
+{
+    [HttpGet("GetCountriesIManage")]
+    public async Task<IResult> GetCountriesIManage()
+    {
+        var result = await _mediator.Send(new GetCountriesIManageQuery());
+        return Results.Ok(result);
+    }
+}
+
+
+namespace SampleWebApp.Application.Queries
+{
+    /// <summary>
+    /// Custom Query and Handler Example
+    /// </summary>
+    public record GetCountriesIManageQuery : IRequest<IQueryable<OCountry>>;
+
+    public class GetCountriesIManageQueryHandler : IRequestHandler<GetCountriesIManageQuery, IQueryable<OCountry>>
+    {
+        public GetCountriesIManageQueryHandler(ODataDbContext dataDbContext)
+        {
+            DataDbContext = dataDbContext;
+        }
+
+        public ODataDbContext DataDbContext { get; }
+
+        public Task<IQueryable<OCountry>> Handle(GetCountriesIManageQuery request, CancellationToken cancellationToken)
+        {
+            return Task.FromResult((IQueryable<OCountry>)DataDbContext.Countries.Where(country => country.Population > 12348));
+        }
+    }
 }
 ```
 

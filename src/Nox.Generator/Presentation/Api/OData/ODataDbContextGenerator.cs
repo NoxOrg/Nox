@@ -26,9 +26,10 @@ internal static class ODataDbContextGenerator
         code.AppendLine(@"using Microsoft.EntityFrameworkCore;");
         code.AppendLine(@"using Nox.Solution;");
         code.AppendLine(@"using Nox.Types.EntityFramework.Abstractions;");
+        code.AppendLine(@$"using {codeGeneratorState.ApplicationNameSpace}.Dto;");
 
         code.AppendLine();
-        code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
+        code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");        
         code.AppendLine();
 
         string dbContextName = "ODataDbContext";

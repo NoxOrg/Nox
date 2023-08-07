@@ -14,7 +14,7 @@ public abstract class SqlServerTestBase : IDisposable
     // TODO: currently works in manually set up database in docker
     // include database setup into repository (mybae use localdb or express)
     private const string _databaseNameTemplate = @"test_database_{0}";
-    private const string _databasePassword = @"";
+    private const string _databasePassword = @"Developer*123";
     private static string _inMemoryConnectionString = @"Server=localhost;User Id=SA;Password=" + _databasePassword + ";TrustServerCertificate=True;";
     private static string _databaseName = string.Empty;
     private const string _solutionFileAsEmbeddedResourceName = @"Nox.Tests.DatabaseIntegrationTests.Design.test.solution.nox.yaml";
@@ -58,8 +58,7 @@ public abstract class SqlServerTestBase : IDisposable
         var services = new ServiceCollection();
         // TODO  add ...BuilderExtension.cs generated class and call AddNox when Nox supports dynamic db providers
         // This will build dbcontext etc..
-        services.AddNoxLib();
-        services.AddNoxTypesDatabaseConfigurator(Assembly.GetExecutingAssembly());
+        services.AddNoxLib(Assembly.GetExecutingAssembly());
         using var serviceProvider = services.BuildServiceProvider();
 
         var databaseConfigurator = new SqlServerDatabaseProvider(serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());

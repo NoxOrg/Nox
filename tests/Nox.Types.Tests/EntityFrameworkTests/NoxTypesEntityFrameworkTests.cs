@@ -81,7 +81,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             LongestHikingTrailInMeters = Length.From(390_000),
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Flag = Image.From("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/320px-Flag_of_Switzerland.svg.png", "Switzerland Flag", 512),
-            Date = Date.From(new System.DateTime(2023, 11, 25), new()),
+            Date = Date.From(new DateOnly(2023, 11, 25), new()),
             StreetAddress = streetAddress,
             StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress)),
             LocalTimeZone = TimeZoneCode.From("CET"),
@@ -90,7 +90,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             IsLandLocked = Boolean.From(false),
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
             VolumeInCubicMeters = Volume.FromCubicMeters(89_000),
-            WeightInKilograms = Weight.FromKilograms(19_000),
+            WeightInKilograms = Weight.From(19_000, WeightTypeUnit.Kilogram),
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             HashedText = HashedText.From("Test123."),
             ArabicName = TranslatedText.From((CultureCode.From("ar-SA"), "سوئٹزرلینڈ")),
@@ -157,7 +157,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Uri = Uri.From(Sample_Uri),
             Url = Url.From(Sample_Url),
-            Date = Date.From(new System.DateTime(2023, 11, 25), new()),
+            Date = Date.From(new DateOnly(2023, 11, 25), new()),
             Flag = Image.From("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/320px-Flag_of_Switzerland.svg.png", "Switzerland Flag", 512),
             LocalTimeZone = TimeZoneCode.From("CET"),
             StreetAddressJson = Json.From(JsonSerializer.Serialize(streetAddress, new JsonSerializerOptions { WriteIndented = true })),
@@ -165,12 +165,12 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             ArabicName = TranslatedText.From((CultureCode.From("ar-SA"), "سوئٹزرلینڈ")),
             DateTimeDuration = DateTimeDuration.From(days: 10, 5, 2, 1),
             VolumeInCubicMeters = Volume.FromCubicMeters(89_000),
-            WeightInKilograms = Weight.FromKilograms(19_000),
+            WeightInKilograms = Weight.From(19_000, WeightTypeUnit.Kilogram),
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             HashedText = HashedText.From(("Test123.", "salt")),
             CreateDate = DateTime.From(new System.DateTime(2023, 01, 01)),
             CurrentTime = Time.From(11,35,50,375),
-            AverageTemperatureInCelsius = Temperature.FromCelsius(25),
+            AverageTemperatureInCelsius = Temperature.From(25),
             Description = Markdown.From("This a **big country**."),
             PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
             CitiesCounties = Yaml.From(SwitzerlandCitiesCountiesYaml),
@@ -202,7 +202,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.LatLong.Latitude.Should().Be(46.802496);
         item.LatLong.Longitude.Should().Be(8.234392);
         item.Population?.Value.Should().Be(8_703_654);
-        item.GrossDomesticProduct.CurrencyCode.Should().Be("CHF");
+        item.GrossDomesticProduct.CurrencyCode.ToString().Should().Be("CHF");
         item.GrossDomesticProduct.Value.CurrencyCode.Should().Be(CurrencyCode.CHF);
         item.GrossDomesticProduct.Amount.Should().Be(100);
         item.CountryCode2.Value.Should().Be("CH");
@@ -212,17 +212,17 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.CountryNumber.Value.Should().Be(756);
         item.MonthOfPeakTourism.Value.Should().Be(7);
         item.DistanceInKm.Value.Should().Be(129.522785);
-        item.DistanceInKm.Unit.Should().Be(DistanceUnit.Kilometer);
+        item.DistanceInKm.Unit.Should().Be(DistanceTypeUnit.Kilometer);
         item.InternetDomain.Value.Should().Be("admin.ch");
         item.CountryCode3.Value.Should().Be("CHE");
         item.IPAddress.Value.Should().Be("102.129.143.255");
         item.DateTimeRange.Start.Should().Be(new DateTimeOffset(2023, 01, 01, 0, 0, 0, 0, TimeSpan.Zero));
         item.DateTimeRange.End.Should().Be(new DateTimeOffset(2023, 02, 01, 0, 0, 0, TimeSpan.Zero));
         item.LongestHikingTrailInMeters.Value.Should().Be(390_000);
-        item.LongestHikingTrailInMeters.Unit.Should().Be(LengthUnit.Meter);
+        item.LongestHikingTrailInMeters.Unit.Should().Be(LengthTypeUnit.Meter);
         item.MACAddress.Value.Should().Be("AED4322CCFEF");
         item.CurrentTime.Value.Ticks.Should().Be(417503750000);
-        item.Date.Value.Should().Be(new System.DateTime(2023, 11, 25).Date);
+        item.Date.Value.Should().Be(new DateOnly(2023, 11, 25));
         item.LocalTimeZone.Value.Should().Be("CET");
         item.Uri.Value.AbsoluteUri.Should().Be(Sample_Uri);
         item.Url.Value.AbsoluteUri.Should().Be(Sample_Url);
@@ -233,7 +233,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.Flag.PrettyName.Should().Be("Switzerland Flag");
         item.Flag.SizeInBytes.Should().Be(512);
         item.WeightInKilograms.Value.Should().Be(19_000);
-        item.WeightInKilograms.Unit.Should().Be(WeightUnit.Kilogram);
+        item.WeightInKilograms.Unit.Should().Be(WeightTypeUnit.Kilogram);
         item.HashedText.HashText.Should().Be(newItem.HashedText.HashText);
         item.HashedText.Salt.Should().Be(newItem.HashedText.Salt);
         item.CreateDate.Should().Be(DateTime.From(new System.DateTime(2023, 01, 01)));

@@ -5,6 +5,7 @@
 using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
@@ -38,6 +39,8 @@ public class ODataDbContext : DbContext
         public DbSet<OStore> Stores { get; set; } = null!;
         
         public DbSet<OStoreSecurityPasswords> StoreSecurityPasswords { get; set; } = null!;
+        
+        public DbSet<OAllNoxType> AllNoxTypes { get; set; } = null!;
         
         public DbSet<OCountryLocalNames> CountryLocalNames { get; set; } = null!;
         

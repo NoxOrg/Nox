@@ -5,6 +5,9 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
+using Microsoft.AspNetCore.OData.Formatter.Serialization;
+using Nox.Lib;
+using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
@@ -22,6 +25,8 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntitySet<OStoreSecurityPasswords>("StoreSecurityPasswords");
 
+        builder.EntitySet<OAllNoxType>("AllNoxTypes");
+
         builder.EntitySet<OCountryLocalNames>("CountryLocalNames");
 
         services.AddControllers()
@@ -35,7 +40,7 @@ public static class ODataServiceCollectionExtensions
                         .Expand()
                         .SkipToken()
                         .SetMaxTop(100);
-                    var routeOptions = options.AddRouteComponents("api", builder.GetEdmModel()).RouteOptions;
+                    var routeOptions = options.AddRouteComponents("api", builder.GetEdmModel(), service => service.AddSingleton<IODataSerializerProvider, NoxODataSerializerProvider>()).RouteOptions;
                     routeOptions.EnableKeyInParenthesis = false;
                 }
             );

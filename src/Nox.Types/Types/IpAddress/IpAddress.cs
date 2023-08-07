@@ -39,6 +39,11 @@ public sealed class IpAddress : ValueObject<string, IpAddress>
     {
         var result = base.Validate();
 
+        if(Value.Length > 63)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox IP Address type as value {Value} has more than 63 characters."));
+        }
+
         if (!TryParse(Value, out var _))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox IP Address type as value {Value} is not a valid IP Address."));

@@ -15,6 +15,5 @@ internal static class NoxSolutionBridge
             NoxType>(noxSolution.GetSimpleKeyTypeForEntity));
 
         context.PushGlobal(scriptObject1);
-
     }
 }

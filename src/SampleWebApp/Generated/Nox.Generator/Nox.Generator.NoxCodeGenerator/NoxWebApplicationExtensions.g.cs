@@ -15,9 +15,7 @@ public static class NoxWebApplicationBuilderExtension
 {
     public static WebApplicationBuilder AddNox(this WebApplicationBuilder appBuilder)
     {
-        appBuilder.Services.AddNoxLib();
-        appBuilder.Services.AddAutoMapper(Assembly.GetExecutingAssembly());
-        appBuilder.Services.AddNoxTypesDatabaseConfigurator(Assembly.GetExecutingAssembly());
+        appBuilder.Services.AddNoxLib(Assembly.GetExecutingAssembly());
         appBuilder.Services.AddNoxOdata();
         appBuilder.Services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
         appBuilder.Services.AddSingleton<DbContextOptions<SampleWebAppDbContext>>();
@@ -25,8 +23,6 @@ public static class NoxWebApplicationBuilderExtension
         appBuilder.Services.AddSingleton<INoxDatabaseProvider, SqlServerDatabaseProvider>();
         appBuilder.Services.AddDbContext<SampleWebAppDbContext>();
         appBuilder.Services.AddDbContext<ODataDbContext>();
-        var tmpProvider = appBuilder.Services.BuildServiceProvider();
-        var dbContext = tmpProvider.GetRequiredService<SampleWebAppDbContext>();
         return appBuilder;
     }
     

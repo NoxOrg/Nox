@@ -39,6 +39,9 @@ public class EntityRelationship : DefinitionBase
     public bool CanNavigate { get; internal set; } = true;
 
     [YamlIgnore]
+    public bool ShouldGenerateForeignOnThisSide => NoxSolution.ShouldGenerateForeignOnThisSide(this);
+
+    [YamlIgnore]
     public RelatedEntityInfo Related { get; internal set; } = new();
 }
 

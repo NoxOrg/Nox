@@ -1,4 +1,4 @@
-﻿#
+#
 # workplace.solution.nox.yaml
 #
 # yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
@@ -310,12 +310,14 @@ domain:
         - name: CurrencyCode3TestField
           type: currencyCode3
           
-          
         - name: DayOfWeekTestField
           type: dayOfWeek
 
-        #- name: GeoCoordTestField
-        #  type: latLong
+        - name: JwtTokenTestField
+          type: jwtToken
+
+        - name: GeoCoordTestField
+          type: latLong
 
         - name: AreaTestField
           type: area
@@ -323,20 +325,20 @@ domain:
         - name: TimeZoneCodeTestField
           type: timeZoneCode
 
-        #- name: BooleanTestField
-        #  type: boolean
+        - name: BooleanTestField
+          type: boolean
 
         - name: CountryCode3TestField
           type: countryCode3
 
-        #- name: CountryNumberTestField
-        #  type: countryNumber
+        - name: CountryNumberTestField
+          type: countryNumber
 
         #- name: CurrencyCodeTestField
         #  type: currencyCode
 
-        #- name: CurrencyNumberTestField
-        #  type: currencyNumber
+        - name: CurrencyNumberTestField
+          type: currencyNumber
 
         #- name: DateTimeTestField
         #  type: dateTime
@@ -344,14 +346,14 @@ domain:
         - name: DateTimeRangeTestField
           type: dateTimeRange
 
-        #- name: DistanceTestField
-        #  type: distance
+        - name: DistanceTestField
+          type: distance
 
-        #- name: EmailTestField
-        #  type: email
+        - name: EmailTestField
+          type: email
 
-        #- name: EncryptedTextTestField
-        #  type: encryptedText
+        - name: EncryptedTextTestField
+          type: encryptedText
 
         #- name: GuidTestField
         #  type: guid
@@ -359,14 +361,20 @@ domain:
         - name: HashedTextTestField
           type: hashedText
 
-        #- name: InternetDomainTestField
-        #  type: internetDomain
+        - name: InternetDomainTestField
+          type: internetDomain
 
-        #- name: IpAddressTestField
-        #  type: ipAddress
+        - name: IpAddressV4TestField
+          type: ipAddress
+          
+        - name: IpAddressV6TestField
+          type: ipAddress
 
-        #- name: LengthTestField
-        #  type: length
+        - name: JsonTestField
+          type: json
+
+        - name: LengthTestField
+          type: length
 
         - name: MacAddressTestField
           type: macAddress
@@ -380,35 +388,65 @@ domain:
         - name: PasswordTestField
           type: password
 
-        #- name: PercentageTestField
-        #  type: percentage
+        - name: PercentageTestField
+          type: percentage
 
         #- name: PhoneNumberTestField
         #  type: phoneNumber
 
-        #- name: TempratureTestField
-        #  type: temperature
+        - name: TempratureTestField
+          type: temperature
+  
 
         - name: TranslatedTextTestField
           type: translatedText
 
-        #- name: UriTestField
-        #  type: uri
+        - name: UriTestField
+          type: uri
 
         #- name: VolumeTestField
         #  type: volume
 
-        #- name: WeightTestField
-        #  type: weight
+        - name: WeightTestField
+          type: weight
 
-        #- name: YearTestField
-        #  type: year
+        - name: YearTestField
+          type: year
 
         - name: CultureCodeTestField
           type: cultureCode
 
         - name: LanguageCodeTestField
           type: languageCode
+          
+        - name: YamlTestField
+          type: yaml
 
         - name: DateTimeDurationTestField
           type: dateTimeDuration
+
+        - name: VatNumberTestField
+          type: vatNumber
+            
+        - name: DateTestField
+          type: date
+
+        - name: MarkdownTestField
+          type: markdown
+
+        - name: FileTestField
+          type: file
+
+        - name: UrlTestField
+          type: url
+
+        - name: FormulaTestField
+          type: formula
+          formulaTypeOptions:
+              expression: "2 + 2"
+              returns: int
+        
+        - name: DatabaseNumberTestField
+          type: databaseNumber
+          isRequired: true
+

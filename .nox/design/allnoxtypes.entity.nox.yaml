@@ -1,0 +1,83 @@
+# allnoxtypes.entity.nox.yaml
+
+name: AllNoxType
+
+description: Entity to test all nox types
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: DatabaseNumber Nox Type
+    type: databaseNumber    
+
+attributes:
+
+  - name: NuidField
+    isRequired: false
+    description: NuidField Type
+    type: nuid
+    nuidTypeOptions:
+        separator: "."
+        propertyNames:
+            - "TextField" 
+
+  - name: TextField
+    description: Text Nox Type
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+
+  - name: CountryCode2Field
+    description: CountryCode2 Nox Type
+    type: countryCode2
+    isRequired: true
+
+  - name: CountryCode3Field
+    description: CountryCode3 Nox Type
+    type: countryCode3
+    isRequired: true
+
+  - name: FormulaField
+    description: Formula Nox Type
+    type: formula
+    formulaTypeOptions:
+        expression: "CountryCode2Field.ToString()"
+        returns: string
+
+# Compound Types ========================  
+  - name: StreetAddressField
+    description: StreetAddress Nox Type
+    type: streetAddress
+  - name: FileField
+    description: File Nox Type
+    type: file
+  - name: TranslatedTextField
+    description: TranslatedText Nox Type
+    type: translatedText
+  - name: VatNumberField
+    description: VatNumber Nox Type
+    type: vatNumber
+    vatNumberTypeOptions:
+        countryCode: "FR"  
+  - name: PasswordField
+    description: Password Nox Type
+    type: password
+  - name: MoneyField
+    description: Money Nox Type
+    type: money
+  #- name: ImageField
+  #  description: Image Nox Type
+  #  type: image
+  - name: HashedTexField
+    description: HashedTex Nox Type
+    type: hashedText
+  #- name: DateTimeRangeField
+  #  description: DateTimeRange Nox Type
+  #  type: dateTimeRange
+  - name: LatLongField
+    description: LatLongField Nox Type
+    type: latLong
+    

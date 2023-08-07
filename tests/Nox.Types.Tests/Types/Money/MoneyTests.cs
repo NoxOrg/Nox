@@ -16,7 +16,7 @@ public class MoneyTests
 
         // Assert
         Assert.Equal(value, money.Amount);
-        Assert.Equal("EUR", money.CurrencyCode);
+        Assert.Equal("EUR", money.CurrencyCode.ToString());
         Assert.Equal(CurrencyCode.EUR, money.Value.CurrencyCode);
     }
 
@@ -32,7 +32,7 @@ public class MoneyTests
 
         // Assert
         Assert.Equal(value, money.Amount);
-        Assert.Equal("GBP", money.CurrencyCode);
+        Assert.Equal("GBP", money.CurrencyCode.ToString());
         Assert.Equal(CurrencyCode.GBP, money.Value.CurrencyCode);
     }
 

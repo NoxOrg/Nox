@@ -6,7 +6,7 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a Nox <see cref="Text"/> type and value object. 
 /// </summary>
-public sealed class Text : ValueObject<string,Text>
+public sealed class Text : ValueObject<string, Text>
 {
     private TextTypeOptions _typeOptions = new();
 
@@ -19,7 +19,7 @@ public sealed class Text : ValueObject<string,Text>
     /// <param name="options">The <see cref="TextTypeOptions"/> containing constraints for the value object</param>
     /// <returns></returns>
     /// <exception cref="ValidationException">If the email address is invalid.</exception>
-    public static Text From(string value, TextTypeOptions options) 
+    public static Text From(string value, TextTypeOptions options)
     {
         var newObject = new Text
         {
@@ -48,7 +48,7 @@ public sealed class Text : ValueObject<string,Text>
 
         if (Value.Length < _typeOptions.MinLength)
         {
-            result.Errors.Add( new ValidationFailure(nameof(Value), $"Could not create a Nox Text type that is {Value.Length} characters long and shorter than the minimum specified length of {_typeOptions.MinLength}"));
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Text type that is {Value.Length} characters long and shorter than the minimum specified length of {_typeOptions.MinLength}"));
         }
 
         if (Value.Length > _typeOptions.MaxLength)
@@ -73,4 +73,16 @@ public sealed class Text : ValueObject<string,Text>
 
         return result;
     }
+
+    public bool Equals(Text? other)
+    {
+        if (other == null) return false;
+        return Value.Equals(other.Value);
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return ReferenceEquals(this, obj) || obj is Text other && Equals(other);
+    }
+    public override int GetHashCode() => Value.GetHashCode();
 }

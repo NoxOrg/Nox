@@ -192,6 +192,9 @@
   <data name="EntityOwnedRelationshipEntityMissing" xml:space="preserve">
     <value>The owned relationship '{0}' for entity '{1}' refers to an entity '{2}' that does not exist in the domain definition. Owned relationships must refer to entities that exist in the domain definition.</value>
   </data>
+  <data name="EntityOwnedRelationshipEntityUsedMultipleTimes" xml:space="preserve">
+    <value>The owned relationship '{0}' for entity '{1}' refers to an entity '{2}' that is used in other owned relationships. Owned entities must be owned by one parent only.</value>
+  </data>
   <data name="DomainQueryNameEmpty" xml:space="preserve">
     <value>a Domain query for entity '{0}' is missing a name. All domain queries must have a unique name.</value>
   </data>

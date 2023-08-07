@@ -1,10 +1,12 @@
-﻿using Nox.Types;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Nox.Types;
 using Nox.Types.Schema;
-using System.Collections.Generic;
 using Humanizer;
 using Nox.Solution.Events;
-using System.Linq;
-using Nox.Solution.Validation;
+using Nox.Types.Extensions;
+using YamlDotNet.Serialization;
+using YamlDotNet.Core.Tokens;
 
 namespace Nox.Solution;
 
@@ -70,11 +72,26 @@ public class Entity : DefinitionBase
 
     internal bool ApplyDefaults()
     {
-        if (string.IsNullOrWhiteSpace(PluralName)) PluralName = Name.Pluralize();
+        if (string.IsNullOrWhiteSpace(PluralName)) 
+            PluralName = Name.Pluralize();
+
+        
+        if(Keys != null)
+            //Keys are always simple type we validate this
+            KeysFlattenComponentsType = Keys                    
+                    .ToDictionary(key => key.Name, key => key.Type.GetComponents(key).First().Value);
+        
         if (Persistence != null) return true;
         Persistence = new EntityPersistence();
         return Persistence.ApplyDefaults(Name);
     }
+
+    /// <summary>
+    /// Flatten ordered list of key types
+    /// </summary>
+    [YamlIgnore]
+    public IReadOnlyDictionary<string, System.Type> KeysFlattenComponentsType { get; private set; } = new Dictionary<string, System.Type>();
+  
 
     public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()
     {
