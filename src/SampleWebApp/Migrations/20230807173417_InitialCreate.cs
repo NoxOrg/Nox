@@ -15,7 +15,7 @@ namespace SampleWebApp.Migrations
                 name: "AllNoxTypes",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
+                    Id = table.Column<decimal>(type: "decimal(20,0)", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NuidField = table.Column<long>(type: "bigint", nullable: true),
                     TextField = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),

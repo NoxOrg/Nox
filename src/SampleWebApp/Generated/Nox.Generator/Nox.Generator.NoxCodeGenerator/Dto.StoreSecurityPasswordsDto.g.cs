@@ -38,7 +38,7 @@ public partial class StoreSecurityPasswordsDto : AuditableEntityBase
     /// <summary>
     /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores
     /// </summary>  
-    //[ForeignKey("StoreId")]
+    //EF maps ForeignKey Automatically
     public virtual string StoreId { get; set; } = null!;
     public virtual StoreDto Store { get; set; } = null!;
 }

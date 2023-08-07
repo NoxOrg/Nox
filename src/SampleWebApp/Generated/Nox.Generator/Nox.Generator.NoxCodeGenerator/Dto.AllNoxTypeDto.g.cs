@@ -23,7 +23,7 @@ public partial class AllNoxTypeDto : AuditableEntityBase
     /// <summary>
     /// DatabaseNumber Nox Type (Required).
     /// </summary>
-    public System.Int32 Id { get; set; } = default!;
+    public System.UInt64 Id { get; set; } = default!;
 
     /// <summary>
     /// NuidField Type (Optional).
@@ -48,7 +48,7 @@ public partial class AllNoxTypeDto : AuditableEntityBase
     /// <summary>
     /// Formula Nox Type (Optional).
     /// </summary>
-    public System.String? FormulaField { get; set; } 
+    [NotMapped]public System.String? FormulaField { get; set; } 
 
     /// <summary>
     /// StreetAddress Nox Type (Optional).

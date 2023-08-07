@@ -38,6 +38,9 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
     /// </summary>
     {{ if componentsInfo[attribute.Name].IsSimpleType -}}
+        {{- if attribute.Type == "Formula" -}}
+    [NotMapped]
+        {{- end -}}
     public {{componentsInfo[attribute.Name].ComponentType}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
     {{- else -}}
     public {{attribute.Type}}Dto{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
