@@ -11,21 +11,22 @@ using Nox.Factories;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Presentation.Api.OData;
+using SampleWebApp.Application.Dto;
 
 
 namespace SampleWebApp.Application.Commands;
 
 //TODO support multiple keys and generated keys like nuid database number
-public record CreateStoreCommand(StoreDto EntityDto) : IRequest<Text>;
+public record CreateStoreCommand(StoreCreateDto EntityDto) : IRequest<Text>;
 
 public class CreateStoreCommandHandler: IRequestHandler<CreateStoreCommand, Text>
 {
     public SampleWebAppDbContext DbContext { get; }
-    public IEntityFactory<StoreDto,Store> EntityFactory { get; }
+    public IEntityFactory<StoreCreateDto,Store> EntityFactory { get; }
 
     public  CreateStoreCommandHandler(
         SampleWebAppDbContext dbContext,
-        IEntityFactory<StoreDto,Store> entityFactory)
+        IEntityFactory<StoreCreateDto,Store> entityFactory)
     {
         DbContext = dbContext;
         EntityFactory = entityFactory;
@@ -34,8 +35,7 @@ public class CreateStoreCommandHandler: IRequestHandler<CreateStoreCommand, Text
     public async Task<Text> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
     {    
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
-        //TODO support multiple keys and generated keys like nuid database number, and other type
-        entityToCreate.Id = Text.From(Guid.NewGuid().ToString().Substring(0, 2));
+        //TODO for nuid property or key needs to call ensure id        
         DbContext.Stores.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         return entityToCreate.Id;

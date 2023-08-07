@@ -12,29 +12,32 @@ using Nox.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
-using {{codeGeneratorState.ODataNameSpace}};
+using File = Nox.Types.File;
+using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 using {{codeGeneratorState.DomainNameSpace}};
 
 
 namespace {{codeGeneratorState.ApplicationNameSpace}};
 
-public class {{className}}: EntityFactoryBase<{{entity.Name}}Dto, {{entity.Name}}>
+public class {{className}}: EntityFactoryBase<{{entity.Name}}CreateDto, {{entity.Name}}>
 {
     public  {{className}}(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
 
-    protected override void MapEntity({{entity.Name}} entity, Entity entityDefinition, {{entity.Name}}Dto dto)
+    protected override void MapEntity({{entity.Name}} entity, Entity entityDefinition, {{entity.Name}}CreateDto dto)
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    {{- for attribute in entity.Attributes }}     
-    {{ if attribute.Type == "Text" || attribute.Type == "Number" || attribute.Type == "Area" #to be removed when we support all types}}
+    {{ for attribute in entity.Attributes }}
+    {{- #to be removed when we support all types -}}
+    {{- if attribute.Type == "File" ||  attribute.Type == "VatNumber" || attribute.Type == "StreetAddress" || attribute.Type == "Money" || attribute.Type == "Text" || attribute.Type == "Number" || attribute.Type == "Area" }}
         noxTypeValue =  CreateNoxType<{{attribute.Type}}>(entityDefinition,"{{attribute.Name}}",dto.{{attribute.Name}});
         if(noxTypeValue != null)
         {        
             entity.{{attribute.Name}} = noxTypeValue;
         }
-    {{- else -}}
+    {{- else }}
+
         // TODO map {{attribute.Name}} {{attribute.Type}} remaining types and remove if else
     {{- end}}        
     {{- end }}

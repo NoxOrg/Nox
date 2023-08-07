@@ -6,6 +6,7 @@ using Humanizer;
 using Nox.Solution.Events;
 using Nox.Types.Extensions;
 using YamlDotNet.Serialization;
+using YamlDotNet.Core.Tokens;
 
 namespace Nox.Solution;
 
@@ -77,8 +78,9 @@ public class Entity : DefinitionBase
         
         if(Keys != null)
             //Keys are always simple type we validate this
-            KeysFlattenComponentsTypeName = Keys.Select(key1 => key1.Type.GetComponents(key1).First().Value.Name).ToList();
-
+            KeysFlattenComponentsType = Keys                    
+                    .ToDictionary(key => key.Name, key => key.Type.GetComponents(key).First().Value);
+        
         if (Persistence != null) return true;
         Persistence = new EntityPersistence();
         return Persistence.ApplyDefaults(Name);
@@ -88,7 +90,7 @@ public class Entity : DefinitionBase
     /// Flatten ordered list of key types
     /// </summary>
     [YamlIgnore]
-    public IReadOnlyList<string> KeysFlattenComponentsTypeName { get; private set; } = new List<string>(0);
+    public IReadOnlyDictionary<string, System.Type> KeysFlattenComponentsType { get; private set; } = new Dictionary<string, System.Type>();
   
 
     public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()

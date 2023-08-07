@@ -152,11 +152,8 @@ public class Color : ValueObject<byte[], Color>
                _systemColor.A == otherColor._systemColor.A;
     }
 
-    /// <inheritdoc/>
-    public override int GetHashCode()
-    {
-        return base.GetHashCode();
-    }
+    /// <inheritdoc />
+    public override int GetHashCode() => base.GetHashCode();
 
     private static double ToProportion(byte b) => b / (double)Byte.MaxValue;
 

@@ -12,29 +12,29 @@ using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 
-namespace SampleWebApp.Presentation.Api.OData;
+namespace SampleWebApp.Application.Dto;
 
 /// <summary>
 /// A set of security passwords to store cameras and databases.
 /// </summary>
-[AutoMap(typeof(StoreSecurityPasswordsDto))]
+[AutoMap(typeof(StoreSecurityPasswordsCreateDto))]
 public partial class OStoreSecurityPasswords : AuditableEntityBase
 {
 
     /// <summary>
     /// Passwords Primary Key (Required).
     /// </summary>
-    public String Id { get; set; } = null!;
+    public System.String Id { get; set; } = default!;
 
     /// <summary>
     ///  (Required).
     /// </summary>
-    public String Name { get; set; } = default!;
+    public System.String Name { get; set; } = default!;
 
     /// <summary>
     ///  (Required).
     /// </summary>
-    public String SecurityCamerasPassword { get; set; } = default!;
+    public System.String SecurityCamerasPassword { get; set; } = default!;
 
     /// <summary>
     /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores

@@ -12,27 +12,32 @@ using Nox.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
-using SampleWebApp.Presentation.Api.OData;
+using File = Nox.Types.File;
+using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
 
 namespace SampleWebApp.Application;
 
-public class StoreFactory: EntityFactoryBase<StoreDto, Store>
+public class StoreFactory: EntityFactoryBase<StoreCreateDto, Store>
 {
     public  StoreFactory(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
 
-    protected override void MapEntity(Store entity, Entity entityDefinition, StoreDto dto)
+    protected override void MapEntity(Store entity, Entity entityDefinition, StoreCreateDto dto)
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used     
+    #pragma warning restore CS0168 // Variable is declared but never used
     
-            noxTypeValue =  CreateNoxType<Text>(entityDefinition,"Name",dto.Name);
-            if(noxTypeValue != null)
-            {        
-                entity.Name = noxTypeValue;
-            }     
-    // TODO map PhysicalMoney Money remaining types and remove if else
+        noxTypeValue =  CreateNoxType<Text>(entityDefinition,"Name",dto.Name);
+        if(noxTypeValue != null)
+        {        
+            entity.Name = noxTypeValue;
+        }
+        noxTypeValue =  CreateNoxType<Money>(entityDefinition,"PhysicalMoney",dto.PhysicalMoney);
+        if(noxTypeValue != null)
+        {        
+            entity.PhysicalMoney = noxTypeValue;
+        }
     }
 }

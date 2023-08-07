@@ -12,29 +12,29 @@ using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 
-namespace SampleWebApp.Presentation.Api.OData;
+namespace SampleWebApp.Application.Dto;
 
 /// <summary>
 /// Stores.
 /// </summary>
-[AutoMap(typeof(StoreDto))]
+[AutoMap(typeof(StoreCreateDto))]
 public partial class OStore : AuditableEntityBase
 {
 
     /// <summary>
     /// Store Primary Key (Required).
     /// </summary>
-    public String Id { get; set; } = null!;
+    public System.String Id { get; set; } = default!;
 
     /// <summary>
     /// Store Name (Required).
     /// </summary>
-    public String Name { get; set; } = default!;
+    public System.String Name { get; set; } = default!;
 
     /// <summary>
     /// Physical Money in the Physical Store (Required).
     /// </summary>
-    public Decimal PhysicalMoney { get; set; } = default!;
+    public MoneyDto PhysicalMoney { get; set; } = default!;
 
     /// <summary>
     /// Store Set of passwords for this store ExactlyOne StoreSecurityPasswords

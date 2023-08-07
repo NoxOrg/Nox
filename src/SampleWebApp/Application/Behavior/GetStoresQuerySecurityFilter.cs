@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using SampleWebApp.Application.Queries;
-using SampleWebApp.Presentation.Api.OData;
+using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Behavior
 {

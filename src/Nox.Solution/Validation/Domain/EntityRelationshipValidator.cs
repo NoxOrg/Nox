@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using System.Xml.Linq;
 using FluentValidation;
 using Nox.Solution.Extensions;
 
@@ -40,6 +41,11 @@ namespace Nox.Solution.Validation
                 RuleFor(er => entityName).Must(HaveReverseRelationship)
                     .WithMessage(er => string.Format(ValidationResources.CorrespondingRelationshipMissing, er.Name, entityName, er.Entity));
             }
+            else
+            {
+                RuleFor(er => entityName).Must(HaveOneParentOnly)
+                    .WithMessage(er => string.Format(ValidationResources.EntityOwnedRelationshipEntityUsedMultipleTimes, er.Name, entityName, er.Entity));
+            }
 
         }
 
@@ -61,6 +67,16 @@ namespace Nox.Solution.Validation
             var otherRelationship = toEvaluate.Related.Entity?.Relationships?.FirstOrDefault(e => e.Entity == thisEntity);
             toEvaluate.Related.EntityRelationship = otherRelationship!;
             return otherRelationship is not null;
+        }
+
+        private bool HaveOneParentOnly(EntityRelationship toEvaluate, string parentName)
+        {
+            var otherParents = _entities?.FirstOrDefault(e => 
+                e.Name != parentName &&
+                e.OwnedRelationships?.Any(o => o.Entity.Equals(toEvaluate.Entity)) == true
+                );
+
+            return otherParents is null;
         }
     }
 }

@@ -4,11 +4,12 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SampleWebApp.Application.Dto;
 using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetCountryLocalNamesByIdQuery(String key) : IRequest<OCountryLocalNames?>;
+public record GetCountryLocalNamesByIdQuery(System.String key) : IRequest<OCountryLocalNames?>;
 
 public class GetCountryLocalNamesByIdQueryHandler: IRequestHandler<GetCountryLocalNamesByIdQuery, OCountryLocalNames?>
 {

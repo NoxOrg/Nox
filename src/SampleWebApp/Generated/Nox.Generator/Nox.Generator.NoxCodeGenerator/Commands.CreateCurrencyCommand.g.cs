@@ -11,31 +11,31 @@ using Nox.Factories;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Presentation.Api.OData;
+using SampleWebApp.Application.Dto;
 
 
 namespace SampleWebApp.Application.Commands;
 
 //TODO support multiple keys and generated keys like nuid database number
-public record CreateCurrencyCommand(CurrencyDto EntityDto) : IRequest<Text>;
+public record CreateCurrencyCommand(CurrencyCreateDto EntityDto) : IRequest<Nuid>;
 
-public class CreateCurrencyCommandHandler: IRequestHandler<CreateCurrencyCommand, Text>
+public class CreateCurrencyCommandHandler: IRequestHandler<CreateCurrencyCommand, Nuid>
 {
     public SampleWebAppDbContext DbContext { get; }
-    public IEntityFactory<CurrencyDto,Currency> EntityFactory { get; }
+    public IEntityFactory<CurrencyCreateDto,Currency> EntityFactory { get; }
 
     public  CreateCurrencyCommandHandler(
         SampleWebAppDbContext dbContext,
-        IEntityFactory<CurrencyDto,Currency> entityFactory)
+        IEntityFactory<CurrencyCreateDto,Currency> entityFactory)
     {
         DbContext = dbContext;
         EntityFactory = entityFactory;
     }
     
-    public async Task<Text> Handle(CreateCurrencyCommand request, CancellationToken cancellationToken)
+    public async Task<Nuid> Handle(CreateCurrencyCommand request, CancellationToken cancellationToken)
     {    
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
-        //TODO support multiple keys and generated keys like nuid database number, and other type
-        entityToCreate.Id = Text.From(Guid.NewGuid().ToString().Substring(0, 2));
+        //TODO for nuid property or key needs to call ensure id        
         DbContext.Currencies.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         return entityToCreate.Id;

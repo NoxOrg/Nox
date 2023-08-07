@@ -12,24 +12,24 @@ using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 
-namespace SampleWebApp.Presentation.Api.OData;
+namespace SampleWebApp.Application.Dto;
 
 /// <summary>
 /// The list of currencies.
 /// </summary>
-[AutoMap(typeof(CurrencyDto))]
+[AutoMap(typeof(CurrencyCreateDto))]
 public partial class OCurrency : AuditableEntityBase
 {
 
     /// <summary>
     /// The currency's primary key / identifier (Required).
     /// </summary>
-    public String Id { get; set; } = null!;
+    public System.UInt32 Id { get; set; } = default!;
 
     /// <summary>
     /// The currency's name (Required).
     /// </summary>
-    public String Name { get; set; } = default!;
+    public System.String Name { get; set; } = default!;
 
     /// <summary>
     /// Currency is legal tender for ZeroOrMany Countries

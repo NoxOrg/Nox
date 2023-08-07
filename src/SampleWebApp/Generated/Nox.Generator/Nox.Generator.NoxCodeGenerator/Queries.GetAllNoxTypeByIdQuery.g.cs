@@ -4,11 +4,12 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SampleWebApp.Application.Dto;
 using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetAllNoxTypeByIdQuery(String key) : IRequest<OAllNoxType?>;
+public record GetAllNoxTypeByIdQuery(System.Int32 key) : IRequest<OAllNoxType?>;
 
 public class GetAllNoxTypeByIdQueryHandler: IRequestHandler<GetAllNoxTypeByIdQuery, OAllNoxType?>
 {

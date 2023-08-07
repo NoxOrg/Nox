@@ -12,12 +12,12 @@ using Nox.Domain;
 using {{codeGeneratorState.DataTransferObjectsNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 
-namespace {{codeGeneratorState.ODataNameSpace}};
+namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-[AutoMap(typeof({{entity.Name}}Dto))]
+[AutoMap(typeof({{entity.Name}}CreateDto))]
 public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else}}EntityBase{{end}}
 {
 {{- for key in entity.Keys }}
@@ -30,7 +30,7 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     {{- # Navigation Property }}
     public virtual {{key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
     {{- else -}}
-    public {{keysFlattenComponentsTypeName[key.Name]}} {{key.Name}} { get; set; } = null!; 
+    public {{entity.KeysFlattenComponentsType[key.Name]}} {{key.Name}} { get; set; } = default!; 
     {{- end}}
 {{- end }}
 {{- for attribute in entity.Attributes }}
@@ -38,7 +38,11 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     /// <summary>
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
     /// </summary>
-    public {{keysFlattenComponentsTypeName[attribute.Name]}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
+    {{ if componentsInfo[attribute.Name].IsSimpleType -}}
+    public {{componentsInfo[attribute.Name].ComponentType}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
+    {{- else -}}
+    public {{attribute.Type}}Dto{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
+    {{- end}}
 {{- end }}
 {{- ######################################### Relationships###################################################### -}}
 {{- for relationship in entity.Relationships }}

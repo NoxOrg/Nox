@@ -22,6 +22,7 @@ using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
 using Nox.Generator.Application.Queries;
 using Nox.Generator.Application.Commands;
+using Nox.Generator.Application.Dto;
 
 namespace Nox.Generator;
 
@@ -87,6 +88,9 @@ public class NoxCodeGenerator : IIncrementalGenerator
                     CommandGenerator.Generate(context, codeGeneratorState);
 
                     Domain.CqrsGenerators.QueryGenerator.Generate(context, codeGeneratorState);
+
+                    OEntityGenerator.Generate(context, codeGeneratorState);
+                    EntityCreateDtoGenerator.Generate(context, codeGeneratorState);
                 }
 
                 if (generate.Infrastructure)
@@ -97,9 +101,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
                 if (generate.Presentation)
                 {
                     ODataServiceCollectionExtensions.Generate(context, codeGeneratorState);
-
-                    ODataModelGenerator.Generate(context, codeGeneratorState);
-
+                    
                     ODataDbContextGenerator.Generate(context, codeGeneratorState);
 
                     ApiGenerator.Generate(context, codeGeneratorState);

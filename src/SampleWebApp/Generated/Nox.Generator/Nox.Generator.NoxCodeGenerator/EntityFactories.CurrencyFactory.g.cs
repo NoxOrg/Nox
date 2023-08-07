@@ -12,26 +12,27 @@ using Nox.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
-using SampleWebApp.Presentation.Api.OData;
+using File = Nox.Types.File;
+using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
 
 namespace SampleWebApp.Application;
 
-public class CurrencyFactory: EntityFactoryBase<CurrencyDto, Currency>
+public class CurrencyFactory: EntityFactoryBase<CurrencyCreateDto, Currency>
 {
     public  CurrencyFactory(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
 
-    protected override void MapEntity(Currency entity, Entity entityDefinition, CurrencyDto dto)
+    protected override void MapEntity(Currency entity, Entity entityDefinition, CurrencyCreateDto dto)
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used     
+    #pragma warning restore CS0168 // Variable is declared but never used
     
-            noxTypeValue =  CreateNoxType<Text>(entityDefinition,"Name",dto.Name);
-            if(noxTypeValue != null)
-            {        
-                entity.Name = noxTypeValue;
-            }
+        noxTypeValue =  CreateNoxType<Text>(entityDefinition,"Name",dto.Name);
+        if(noxTypeValue != null)
+        {        
+            entity.Name = noxTypeValue;
+        }
     }
 }

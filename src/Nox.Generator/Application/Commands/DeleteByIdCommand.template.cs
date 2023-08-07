@@ -8,7 +8,7 @@ using {{codeGeneratorState.ODataNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public record Delete{{entity.Name }}ByIdCommand({{entity.KeysFlattenComponentsTypeName[0]}} key) : IRequest<bool>;
+public record Delete{{entity.Name }}ByIdCommand({{entity.KeysFlattenComponentsType[entity.Keys[0].Name]}} key) : IRequest<bool>;
 
 public class Delete{{entity.Name}}ByIdCommandHandler: IRequestHandler<Delete{{entity.Name }}ByIdCommand, bool>
 {

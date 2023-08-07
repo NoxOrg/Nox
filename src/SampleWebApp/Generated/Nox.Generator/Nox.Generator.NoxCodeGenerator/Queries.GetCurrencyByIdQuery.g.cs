@@ -4,11 +4,12 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SampleWebApp.Application.Dto;
 using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetCurrencyByIdQuery(String key) : IRequest<OCurrency?>;
+public record GetCurrencyByIdQuery(System.UInt32 key) : IRequest<OCurrency?>;
 
 public class GetCurrencyByIdQueryHandler: IRequestHandler<GetCurrencyByIdQuery, OCurrency?>
 {

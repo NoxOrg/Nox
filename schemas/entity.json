@@ -228,30 +228,13 @@
       },
       "additionalProperties": false
     },
-    "keysFlattenComponentsTypeName": {    
+    "keysFlattenComponentsType": {    
       "type": [
-        "array",
+        "object",
         "null"
       ],
-      "items":   {
-        "type": [
-          "string",
-          "null"
-        ],
-        "properties": {
-          "chars": {    
-            "type": [
-              "object",
-              "null"
-            ]
-          },
-          "length": {    
-            "type": [
-              "integer",
-              "null"
-            ]
-          }
-        }
+      "additionalProperties":   {
+        "Type": "string"
       }
     }
   },

@@ -18,12 +18,28 @@ public partial class Currency : AuditableEntityBase
     /// <summary>
     /// The currency's primary key / identifier (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nuid Id {get; private set;} = null!;
+    
+    	public void EnsureId()
+    	{
+    		if(Id is null)
+    		{
+    			Id = Nuid.From("Currency." + string.Join(".", Name.Value.ToString()));
+    		}
+    		else
+    		{
+    			var currentNuid = Nuid.From("Currency." + string.Join(".", Name.Value.ToString()));
+    			if(Id != currentNuid)
+    			{
+    				throw new NoxNuidTypeException("Immutable nuid property Id value is different since it has been initialized");
+    			}
+    		}
+    	}
 
     /// <summary>
     /// The currency's name (Required).
     /// </summary>
-    public Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
     /// Currency is legal tender for ZeroOrMany Countries

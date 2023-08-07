@@ -8,7 +8,7 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteAllNoxTypeByIdCommand(String key) : IRequest<bool>;
+public record DeleteAllNoxTypeByIdCommand(System.Int32 key) : IRequest<bool>;
 
 public class DeleteAllNoxTypeByIdCommandHandler: IRequestHandler<DeleteAllNoxTypeByIdCommand, bool>
 {

@@ -12,17 +12,17 @@ using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 
-namespace SampleWebApp.Presentation.Api.OData;
+namespace SampleWebApp.Application.Dto;
 
 /// <summary>
 /// The name of a country in other languages.
 /// </summary>
-[AutoMap(typeof(CountryLocalNamesDto))]
+[AutoMap(typeof(CountryLocalNamesCreateDto))]
 public partial class OCountryLocalNames : AuditableEntityBase
 {
 
     /// <summary>
     ///  (Required).
     /// </summary>
-    public String Id { get; set; } = null!;
+    public System.String Id { get; set; } = default!;
 }

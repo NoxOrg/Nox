@@ -11,6 +11,7 @@ using AutoMapper;
 using MediatR;
 using Nox.Application;
 using SampleWebApp.Application;
+using SampleWebApp.Application.Dto;
 using SampleWebApp.Application.Queries;
 using SampleWebApp.Application.Commands;
 using SampleWebApp.Application.DataTransferObjects;
@@ -56,7 +57,7 @@ public partial class StoresController : ODataController
         return Ok(result);
     }
     
-    public async Task<ActionResult<OStore>> Get([FromRoute] String key)
+    public async Task<ActionResult<OStore>> Get([FromRoute] System.String key)
     {
         var item = await _mediator.Send(new GetStoreByIdQuery(key));
         
@@ -68,7 +69,7 @@ public partial class StoresController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]StoreDto store)
+    public async Task<ActionResult> Post([FromBody]StoreCreateDto store)
     {
         if (!ModelState.IsValid)
         {
@@ -79,7 +80,7 @@ public partial class StoresController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] string key, [FromBody] OStore updatedStore)
+    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] OStore updatedStore)
     {
         if (!ModelState.IsValid)
         {
@@ -112,21 +113,21 @@ public partial class StoresController : ODataController
         return Updated(updatedStore);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] string store, [FromBody] Delta<OStore> Id)
+    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<OStore> store)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = await _databaseContext.Stores.FindAsync(store);
+        var entity = await _databaseContext.Stores.FindAsync(key);
         
         if (entity == null)
         {
             return NotFound();
         }
         
-        Id.Patch(entity);
+        store.Patch(entity);
         
         try
         {
@@ -134,7 +135,7 @@ public partial class StoresController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!StoreExists(store))
+            if (!StoreExists(key))
             {
                 return NotFound();
             }
@@ -147,12 +148,12 @@ public partial class StoresController : ODataController
         return Updated(entity);
     }
     
-    private bool StoreExists(string store)
+    private bool StoreExists(System.String key)
     {
-        return _databaseContext.Stores.Any(p => p.Id == store);
+        return _databaseContext.Stores.Any(p => p.Id == key);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] string key)
+    public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new DeleteStoreByIdCommand(key));
         if (!result)

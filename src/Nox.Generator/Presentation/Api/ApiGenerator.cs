@@ -61,6 +61,7 @@ internal static class ApiGenerator
 
 
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace};");
+            code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Dto;");
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Queries;");
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Commands;");
             code.AppendLine($"using {codeGeneratorState.DataTransferObjectsNameSpace};");
@@ -135,13 +136,13 @@ internal static class ApiGenerator
             {
                 GeneratePut(entity, code);
 
-                GeneratePatch(entity, entityName, pluralName, keyName, variableName, code);
+                GeneratePatch(entity, entityName, pluralName, variableName, code);
             }
 
             if (entity.Persistence is null ||
                 entity.Persistence.Delete.IsEnabled)
             {
-                GenerateDelete(entityName, variableName, keyName, code);
+                GenerateDelete(entity, entityName, code);
             }
 
             // Generate GET request mapping for Queries
@@ -178,10 +179,10 @@ internal static class ApiGenerator
         }
     }
 
-    private static void GenerateDelete(string entityName, string variableName, string keyName, CodeBuilder code)
+    private static void GenerateDelete(Entity entity, string entityName, CodeBuilder code)
     {
         // Method Delete
-        code.AppendLine($"public async Task<ActionResult> Delete([FromRoute] string key)");
+        code.AppendLine($"public async Task<ActionResult> Delete([FromRoute] {entity.KeysFlattenComponentsType[entity.Keys![0].Name]} key)");
 
         // Method content
         code.StartBlock();
@@ -203,11 +204,13 @@ internal static class ApiGenerator
         // TODO Composite Keys
         if (entity.Keys is { Count: > 1 })
         {
+            //TODO Support to multiples keys, best pratctices?
             Debug.WriteLine("Put for composite keys Not implemented...");
             return;
         }
+        
         // Method Put
-        code.AppendLine($"public async Task<ActionResult> Put([FromRoute] string key, [FromBody] O{entity.Name} updated{entity.Name})");
+        code.AppendLine($"public async Task<ActionResult> Put([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] O{entity.Name} updated{entity.Name})");
 
         // Method content
         code.StartBlock();
@@ -246,7 +249,7 @@ internal static class ApiGenerator
         code.AppendLine();
     }
 
-    private static void GeneratePatch(Entity entity, string entityName, string pluralName, string variableName, string keyName, CodeBuilder code)
+    private static void GeneratePatch(Entity entity, string entityName, string pluralName, string variableName, CodeBuilder code)
     {
         // TODO Composite Keys
         if (entity.Keys is { Count: > 1 })
@@ -255,7 +258,7 @@ internal static class ApiGenerator
             return;
         }
         // Method Patch
-        code.AppendLine($"public async Task<ActionResult> Patch([FromRoute] string {keyName}, [FromBody] Delta<O{entityName}> {variableName})");
+        code.AppendLine($"public async Task<ActionResult> Patch([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] Delta<O{entityName}> {variableName})");
 
         // Method content
         code.StartBlock();
@@ -264,7 +267,7 @@ internal static class ApiGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"var entity = await _databaseContext.{entity.PluralName}.FindAsync({keyName});");
+        code.AppendLine($"var entity = await _databaseContext.{entity.PluralName}.FindAsync(key);");
         code.AppendLine();
         code.AppendLine($"if (entity == null)");
         code.StartBlock();
@@ -279,7 +282,7 @@ internal static class ApiGenerator
         code.EndBlock();
         code.AppendLine($"catch (DbUpdateConcurrencyException)");
         code.StartBlock();
-        code.AppendLine($"if (!{entityName}Exists({keyName}))");
+        code.AppendLine($"if (!{entityName}Exists(key))");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
@@ -296,11 +299,11 @@ internal static class ApiGenerator
         code.AppendLine();
 
         // Method Exists
-        code.AppendLine($"private bool {entityName}Exists(string {keyName})");
+        code.AppendLine($"private bool {entityName}Exists({entity.KeysFlattenComponentsType[entity.Keys![0].Name]} key)");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"return _databaseContext.{pluralName}.Any(p => p.Id == {keyName});");
+        code.AppendLine($"return _databaseContext.{pluralName}.Any(p => p.{entity.Keys![0].Name} == key);");
 
         // End method
         code.EndBlock();
@@ -310,7 +313,7 @@ internal static class ApiGenerator
     private static void GeneratePost(string entityName, string variableName, CodeBuilder code)
     {
         // Method Post
-        code.AppendLine($"public async Task<ActionResult> Post([FromBody]{entityName}Dto {variableName})");
+        code.AppendLine($"public async Task<ActionResult> Post([FromBody]{entityName}CreateDto {variableName})");
 
 
         // Method content
@@ -359,7 +362,7 @@ internal static class ApiGenerator
 
         // We do not support Compound types as primary keys, this is validated on the schema
         // Method Get
-        code.AppendLine($"public async Task<ActionResult<O{entity.Name}>> Get([FromRoute] {entity.KeysFlattenComponentsTypeName[0]} key)");
+        code.AppendLine($"public async Task<ActionResult<O{entity.Name}>> Get([FromRoute] {entity.KeysFlattenComponentsType[entity.Keys[0].Name]} key)");
 
         // Method content
         code.StartBlock();

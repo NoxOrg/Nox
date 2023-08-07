@@ -8,7 +8,7 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteCurrencyByIdCommand(String key) : IRequest<bool>;
+public record DeleteCurrencyByIdCommand(System.UInt32 key) : IRequest<bool>;
 
 public class DeleteCurrencyByIdCommandHandler: IRequestHandler<DeleteCurrencyByIdCommand, bool>
 {

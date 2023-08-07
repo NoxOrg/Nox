@@ -15,12 +15,37 @@ namespace SampleWebApp.Migrations
                 name: "AllNoxTypes",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    NuidField = table.Column<long>(type: "bigint", nullable: true),
                     TextField = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    VatNumberField_Number = table.Column<string>(type: "varchar(64)", unicode: false, maxLength: 64, nullable: false),
-                    VatNumberField_CountryCode2 = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
                     CountryCode2Field = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
                     CountryCode3Field = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
+                    StreetAddressField_StreetNumber = table.Column<int>(type: "int", nullable: true),
+                    StreetAddressField_AddressLine1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StreetAddressField_AddressLine2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StreetAddressField_Route = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StreetAddressField_Locality = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StreetAddressField_Neighborhood = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StreetAddressField_AdministrativeArea1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StreetAddressField_AdministrativeArea2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StreetAddressField_PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    StreetAddressField_CountryId = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FileField_Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FileField_PrettyName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FileField_SizeInBytes = table.Column<decimal>(type: "decimal(20,0)", nullable: true),
+                    TranslatedTextField_Phrase = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    TranslatedTextField_CultureCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    VatNumberField_Number = table.Column<string>(type: "varchar(64)", unicode: false, maxLength: 64, nullable: true),
+                    VatNumberField_CountryCode2 = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
+                    PasswordField_HashedPassword = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PasswordField_Salt = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MoneyField_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: true),
+                    MoneyField_CurrencyCode = table.Column<int>(type: "int", nullable: true),
+                    HashedTexField_HashText = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    HashedTexField_Salt = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    LatLongField_Latitude = table.Column<decimal>(type: "decimal(8,6)", precision: 8, scale: 6, nullable: true),
+                    LatLongField_Longitude = table.Column<decimal>(type: "decimal(9,6)", precision: 9, scale: 6, nullable: true),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -48,6 +73,8 @@ namespace SampleWebApp.Migrations
                     Capital = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: true),
                     Demonym = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: true),
                     AreaInSquareKilometres = table.Column<decimal>(type: "DECIMAL(14,6)", nullable: false),
+                    GeoCoord_Latitude = table.Column<decimal>(type: "decimal(8,6)", precision: 8, scale: 6, nullable: true),
+                    GeoCoord_Longitude = table.Column<decimal>(type: "decimal(9,6)", precision: 9, scale: 6, nullable: true),
                     GeoRegion = table.Column<string>(type: "varchar(8)", unicode: false, maxLength: 8, nullable: false),
                     GeoSubRegion = table.Column<string>(type: "varchar(32)", unicode: false, maxLength: 32, nullable: false),
                     GeoWorldRegion = table.Column<string>(type: "varchar(4)", unicode: false, maxLength: 4, nullable: false),
@@ -88,7 +115,7 @@ namespace SampleWebApp.Migrations
                 name: "Currencies",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -129,7 +156,7 @@ namespace SampleWebApp.Migrations
                 columns: table => new
                 {
                     CountriesId = table.Column<string>(type: "char(2)", nullable: false),
-                    CurrenciesId = table.Column<string>(type: "char(3)", nullable: false)
+                    CurrenciesId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
