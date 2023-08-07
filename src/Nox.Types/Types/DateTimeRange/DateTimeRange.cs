@@ -8,6 +8,8 @@ namespace Nox.Types;
 /// </summary>
 public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset End), DateTimeRange>
 {
+    private DateTimeRangeTypeOptions _dateTimeRangeTypeOptions = new();
+
     /// <summary>
     /// Gets the start of the date time range.
     /// </summary>
@@ -32,24 +34,56 @@ public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset E
     public TimeSpan Duration => Value.End - Value.Start;
 
     /// <summary>
-    /// Creates a new instance of <see cref="DateTimeRange"/> with specified start and end date and time
+    /// Creates a new instance of <see cref="DateTimeRange"/> with specified start and end date and time and with specified type options.
     /// </summary>
-    /// <param name="start">The start.</param>
-    /// <param name="end">The end.</param>
-    /// <returns></returns>
-    /// <exception cref="ValidationException"></exception>
-    public static DateTimeRange From(DateTimeOffset start, DateTimeOffset end)
-        => From((start, end));
+    /// <param name="value">The value.</param>
+    /// <param name="dateTimeRangeTypeOptions">The date time range type options.</param>
+    /// <exception cref="Nox.Types.TypeValidationException"></exception>
+    public static DateTimeRange From((DateTimeOffset Start, DateTimeOffset End) value, DateTimeRangeTypeOptions dateTimeRangeTypeOptions)
+    {
+        var newObject = new DateTimeRange
+        {
+            Value = value,
+            _dateTimeRangeTypeOptions = dateTimeRangeTypeOptions
+        };
+
+        var validationResult = newObject.Validate();
+
+        if (!validationResult.IsValid)
+        {
+            throw new TypeValidationException(validationResult.Errors);
+        }
+
+        return newObject;
+    }
 
     /// <summary>
-    /// Creates a new instance of <see cref="DateTimeRange"/> with specified start duration
+    /// Creates a new instance of <see cref="DateTimeRange"/> with specified start and end date and time and with default type options.
+    /// </summary>
+    /// <param name="value">The value.</param>
+    /// <exception cref="Nox.Types.TypeValidationException"></exception>
+    public new static DateTimeRange From((DateTimeOffset Start, DateTimeOffset End) value)
+        => From(value, new DateTimeRangeTypeOptions());
+
+    /// <summary>
+    /// Creates a new instance of <see cref="DateTimeRange"/> with specified start and end date and time and with specified type options.
     /// </summary>
     /// <param name="start">The start.</param>
     /// <param name="end">The end.</param>
-    /// <returns></returns>
+    /// <param name="dateTimeRangeTypeOptions">The date time range type options.</param>
     /// <exception cref="ValidationException"></exception>
-    public static DateTimeRange From(DateTimeOffset start, TimeSpan duration)
-            => From((start, start.Add(duration)));
+    public static DateTimeRange From(DateTimeOffset start, DateTimeOffset end, DateTimeRangeTypeOptions? dateTimeRangeTypeOptions = null)
+        => From((start, end), dateTimeRangeTypeOptions ?? new DateTimeRangeTypeOptions());
+
+    /// <summary>
+    /// Creates a new instance of <see cref="DateTimeRange"/> with specified start duration and with specified type options.
+    /// </summary>
+    /// <param name="start">The start.</param>
+    /// <param name="duration">The duration of the range.</param>
+    /// <param name="dateTimeRangeTypeOptions">The date time range type options.</param>
+    /// <exception cref="ValidationException"></exception>
+    public static DateTimeRange From(DateTimeOffset start, TimeSpan duration, DateTimeRangeTypeOptions? dateTimeRangeTypeOptions = null)
+            => From((start, start.Add(duration)), dateTimeRangeTypeOptions ?? new DateTimeRangeTypeOptions());
 
     internal override ValidationResult Validate()
     {
@@ -57,7 +91,17 @@ public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset E
 
         if (Value.Start > Value.End)
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DateTimeRange type with Start value {Value.Start.ToString(CultureInfo.InvariantCulture)} and End value {Value.End.ToString(CultureInfo.InvariantCulture)} as start of the time range must be the same or after the end of the time range."));
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DateTimeRange type with Start value {Value.Start.ToString(CultureInfo.InvariantCulture)} and End value {Value.End.ToString(CultureInfo.InvariantCulture)} as start of the time range must be the same or before the end of the time range."));
+        }
+
+        if (Value.Start < _dateTimeRangeTypeOptions.MinStartValue)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value.Start), $"Could not create a Nox DateTimeRange type as Start value {Value.Start.ToString(CultureInfo.InvariantCulture)} is less than than the minimum specified value of {_dateTimeRangeTypeOptions.MinStartValue.ToString(CultureInfo.InvariantCulture)}."));
+        }
+
+        if (Value.End > _dateTimeRangeTypeOptions.MaxEndValue)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value.End), $"Could not create a Nox DateTimeRange type as End value {Value.End.ToString(CultureInfo.InvariantCulture)} is greater than than the maximum specified value of {_dateTimeRangeTypeOptions.MaxEndValue.ToString(CultureInfo.InvariantCulture)}."));
         }
 
         return result;

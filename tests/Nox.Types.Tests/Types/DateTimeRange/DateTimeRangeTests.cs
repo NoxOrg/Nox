@@ -8,6 +8,15 @@ namespace Nox.Types.Tests.Types;
 public class DateTimeRangeTests
 {
     [Fact]
+    public void DateTimeRangeTypeOptions_Constructor_ReturnsDefaultValues()
+    {
+        var typeOptions = new DateTimeRangeTypeOptions();
+
+        typeOptions.MinStartValue.Should().Be(new DateTimeOffset(1800, 1, 1, 0, 0, 0, TimeSpan.Zero));
+        typeOptions.MaxEndValue.Should().Be(new DateTimeOffset(3000, 12, 31, 0, 0, 0, TimeSpan.Zero));
+    }
+
+    [Fact]
     public void From_WithValidStartAndEnd_ReturnsValue()
     {
         var start = new DateTimeOffset(System.DateTime.UtcNow);
@@ -59,7 +68,49 @@ public class DateTimeRangeTests
             var action = () => DateTimeRange.From(start, end);
 
             action.Should().Throw<TypeValidationException>()
-                .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTimeRange type with Start value {expectedStartStringOutput} and End value {expectedEndStringOutput} as start of the time range must be the same or after the end of the time range.") });
+                .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTimeRange type with Start value {expectedStartStringOutput} and End value {expectedEndStringOutput} as start of the time range must be the same or before the end of the time range.") });
+        }
+
+        TestUtility.RunInCulture(Test, "en-GB");
+    }
+
+    [Theory]
+    [InlineData("2023-05-02T00:00:00+00:00", "05/02/2023 00:00:00 +00:00")] // Date less than minimum, no tz offset
+    [InlineData("2025-01-01T00:00:00+01:00", "01/01/2025 00:00:00 +01:00")] // Same date, but tz offset is before minimum
+    public void From_WithStartLessThanMinStartValue_ThrowsValidationException(string startDateTimeString, string expectedEndStringOutput)
+    {
+        void Test()
+        {
+            var start = DateTimeOffset.Parse(startDateTimeString, CultureInfo.InvariantCulture);
+            var action = () => DateTimeRange.From(
+                start,
+                new DateTimeOffset(2026, 1, 1, 0, 0, 0, TimeSpan.Zero),
+                new DateTimeRangeTypeOptions { MinStartValue = new DateTimeOffset(2025, 01, 01, 0, 0, 0, 0, TimeSpan.Zero)}
+            );
+
+            action.Should().Throw<TypeValidationException>()
+                .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Start", $"Could not create a Nox DateTimeRange type as Start value {expectedEndStringOutput} is less than than the minimum specified value of 01/01/2025 00:00:00 +00:00.") });
+        }
+
+        TestUtility.RunInCulture(Test, "en-GB");
+    }
+
+    [Theory]
+    [InlineData("2026-05-02T00:00:00+00:00", "05/02/2026 00:00:00 +00:00")] // Date greater than maximum, no tz offset
+    [InlineData("2025-01-01T00:00:00-01:00", "01/01/2025 00:00:00 -01:00")] // Same date, but tz offset is after maximum
+    public void From_WithEndGreaterThanMaxEndValue_ThrowsValidationException(string endDateTimeString, string expectedEndStringOutput)
+    {
+        void Test()
+        {
+            var end = DateTimeOffset.Parse(endDateTimeString, CultureInfo.InvariantCulture);
+            var action = () => DateTimeRange.From(
+                new DateTimeOffset(2021, 1, 1, 0, 0, 0, TimeSpan.Zero), 
+                end,
+                new DateTimeRangeTypeOptions { MaxEndValue = new DateTimeOffset(2025, 01, 01, 0, 0, 0, 0, TimeSpan.Zero) }
+            );
+
+            action.Should().Throw<TypeValidationException>()
+                .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("End", $"Could not create a Nox DateTimeRange type as End value {expectedEndStringOutput} is greater than than the maximum specified value of 01/01/2025 00:00:00 +00:00.") });
         }
 
         TestUtility.RunInCulture(Test, "en-GB");
