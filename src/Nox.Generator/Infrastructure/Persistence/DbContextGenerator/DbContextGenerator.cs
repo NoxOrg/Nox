@@ -4,9 +4,11 @@ using Nox.Solution;
 
 namespace Nox.Generator.Infrastructure.Persistence.DbContextGenerator;
 
-internal static class DbContextGenerator
+internal class DbContextGenerator : INoxCodeGenerator
 {
-    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Infrastructure;
+
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
