@@ -67,34 +67,18 @@ public sealed class Nuid : ValueObject<uint, Nuid>, IComparable, IComparable<Nui
         return Value.CompareTo(other.Value);
     }
 
-#if NET7_0
-
     public override bool Equals([NotNullWhen(true)] object? obj)
     {
-        return obj is Nuid other && Equals(other);
+        return ReferenceEquals(this, obj) || obj is Nuid other && Equals(other);
     }
-
-#endif
-
-#if NETSTANDARD2_0
-
-    public override bool Equals(object obj)
-    {
-        return base.Equals(obj);
-    }
-
-#endif
 
     public bool Equals(Nuid? other)
     {
         return Value == other?.Value;
     }
 
-    public override int GetHashCode()
-    {
-        return (int)Value;
-    }
-
+    public override int GetHashCode() => Value.GetHashCode();
+      
     public static bool operator ==(Nuid a, Nuid b) => EqualsCore(a, b);
 
     public static bool operator !=(Nuid a, Nuid b) => !EqualsCore(a, b);

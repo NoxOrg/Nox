@@ -183,6 +183,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Nox.Types.Volume? VolumeTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Nox.Types.Weight? WeightTestField { get; set; } = null!;
 
     /// <summary>

@@ -102,6 +102,11 @@ public abstract class ValueObject<T, TValueObject> : INoxType
 
     public override bool Equals(object? obj)
     {
+        if(ReferenceEquals(this, obj))
+        {
+            return true;
+        }
+            
         if (obj == null || obj.GetType() != GetType())
         {
             return false;
@@ -109,7 +114,7 @@ public abstract class ValueObject<T, TValueObject> : INoxType
 
         var other = (ValueObject<T, TValueObject>)obj;
 
-        return this.GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
+        return GetEqualityComponents().SequenceEqual(other.GetEqualityComponents());
     }
 
     public override int GetHashCode()
