@@ -16,5 +16,5 @@ public partial class CurrencyDto
     /// <summary>
     /// The currency's name (Required).
     /// </summary>
-    public String Name { get; set; } =default!;
+    public String Name { get; set; } = default!;
 }

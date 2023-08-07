@@ -16,9 +16,9 @@ public partial class StoreSecurityPasswordsDto
     /// <summary>
     ///  (Required).
     /// </summary>
-    public String Name { get; set; } =default!;
+    public String Name { get; set; } = default!;
     /// <summary>
     ///  (Required).
     /// </summary>
-    public String SecurityCamerasPassword { get; set; } =default!;
+    public String SecurityCamerasPassword { get; set; } = default!;
 }

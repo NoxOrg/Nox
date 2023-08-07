@@ -29,12 +29,12 @@ public partial class OStore : AuditableEntityBase
     /// <summary>
     /// Store Name (Required).
     /// </summary>
-    public String Name { get; set; } =default!;
+    public String Name { get; set; } = default!;
 
     /// <summary>
     /// Physical Money in the Physical Store (Required).
     /// </summary>
-    public Decimal PhysicalMoney { get; set; } =default!;
+    public Decimal PhysicalMoney { get; set; } = default!;
 
     /// <summary>
     /// Store Set of passwords for this store ExactlyOne StoreSecurityPasswords
