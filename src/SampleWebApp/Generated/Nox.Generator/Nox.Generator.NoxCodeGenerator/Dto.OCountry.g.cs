@@ -72,6 +72,11 @@ public partial class OCountry : AuditableEntityBase
     public System.Decimal AreaInSquareKilometres { get; set; } = default!;
 
     /// <summary>
+    /// The the position of the workplace's point on the surface of the Earth (Optional).
+    /// </summary>
+    public LatLongDto? GeoCoord { get; set; } 
+
+    /// <summary>
     /// The region the country is in (Required).
     /// </summary>
     public System.String GeoRegion { get; set; } = default!;

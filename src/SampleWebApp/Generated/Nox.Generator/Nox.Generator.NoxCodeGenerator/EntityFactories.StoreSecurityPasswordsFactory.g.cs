@@ -12,6 +12,7 @@ using Nox.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
+using File = Nox.Types.File;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 

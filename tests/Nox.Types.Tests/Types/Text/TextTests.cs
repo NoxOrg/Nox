@@ -1,7 +1,19 @@
-﻿namespace Nox.Types.Tests.Types;
+﻿using FluentAssertions;
+
+namespace Nox.Types.Tests.Types;
 
 public class TextTests
 {
+
+    [Theory]
+    [InlineData("A", "A", true)]
+    [InlineData("A1", "A2", false)]
+    [InlineData("B", "C", false)]
+    public void Text_Equals_ShouldReturn(string a, string b, bool expected)
+    {
+        Text.From(a).Equals(Text.From(b)).Should().Be(expected);
+    }
+
     [Fact]
     public void Text_Constructor_ReturnsSameValue()
     {

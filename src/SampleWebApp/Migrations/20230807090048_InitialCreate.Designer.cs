@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230806170701_InitialCreate")]
+    [Migration("20230807090048_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -433,27 +433,6 @@ namespace SampleWebApp.Migrations
                                 .HasForeignKey("AllNoxTypeId");
                         });
 
-                    b.OwnsOne("Nox.Types.LatLong", "LatLongField", b1 =>
-                        {
-                            b1.Property<uint>("AllNoxTypeId")
-                                .HasColumnType("bigint");
-
-                            b1.Property<decimal>("Latitude")
-                                .HasPrecision(8, 6)
-                                .HasColumnType("decimal(8,6)");
-
-                            b1.Property<decimal>("Longitude")
-                                .HasPrecision(9, 6)
-                                .HasColumnType("decimal(9,6)");
-
-                            b1.HasKey("AllNoxTypeId");
-
-                            b1.ToTable("AllNoxTypes");
-
-                            b1.WithOwner()
-                                .HasForeignKey("AllNoxTypeId");
-                        });
-
                     b.OwnsOne("Nox.Types.Password", "PasswordField", b1 =>
                         {
                             b1.Property<uint>("AllNoxTypeId")
@@ -574,6 +553,27 @@ namespace SampleWebApp.Migrations
                                 .HasForeignKey("AllNoxTypeId");
                         });
 
+                    b.OwnsOne("Nox.Types.LatLong", "LatLongField", b1 =>
+                        {
+                            b1.Property<uint>("AllNoxTypeId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<decimal>("Latitude")
+                                .HasPrecision(8, 6)
+                                .HasColumnType("decimal(8,6)");
+
+                            b1.Property<decimal>("Longitude")
+                                .HasPrecision(9, 6)
+                                .HasColumnType("decimal(9,6)");
+
+                            b1.HasKey("AllNoxTypeId");
+
+                            b1.ToTable("AllNoxTypes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AllNoxTypeId");
+                        });
+
                     b.OwnsOne("Nox.Types.Money", "MoneyField", b1 =>
                         {
                             b1.Property<uint>("AllNoxTypeId")
@@ -608,6 +608,32 @@ namespace SampleWebApp.Migrations
                     b.Navigation("TranslatedTextField");
 
                     b.Navigation("VatNumberField");
+                });
+
+            modelBuilder.Entity("SampleWebApp.Domain.Country", b =>
+                {
+                    b.OwnsOne("Nox.Types.LatLong", "GeoCoord", b1 =>
+                        {
+                            b1.Property<string>("CountryId")
+                                .HasColumnType("char(2)");
+
+                            b1.Property<decimal>("Latitude")
+                                .HasPrecision(8, 6)
+                                .HasColumnType("decimal(8,6)");
+
+                            b1.Property<decimal>("Longitude")
+                                .HasPrecision(9, 6)
+                                .HasColumnType("decimal(9,6)");
+
+                            b1.HasKey("CountryId");
+
+                            b1.ToTable("Countries");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CountryId");
+                        });
+
+                    b.Navigation("GeoCoord");
                 });
 
             modelBuilder.Entity("SampleWebApp.Domain.Store", b =>

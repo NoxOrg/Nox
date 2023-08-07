@@ -12,6 +12,7 @@ using Nox.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
+using File = Nox.Types.File;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
@@ -46,12 +47,18 @@ public class AllNoxTypeFactory: EntityFactoryBase<AllNoxTypeCreateDto, AllNoxTyp
         {        
             entity.StreetAddressField = noxTypeValue;
         }
-
-        // TODO map FileField File remaining types and remove if else
+        noxTypeValue =  CreateNoxType<File>(entityDefinition,"FileField",dto.FileField);
+        if(noxTypeValue != null)
+        {        
+            entity.FileField = noxTypeValue;
+        }
 
         // TODO map TranslatedTextField TranslatedText remaining types and remove if else
-
-        // TODO map VatNumberField VatNumber remaining types and remove if else
+        noxTypeValue =  CreateNoxType<VatNumber>(entityDefinition,"VatNumberField",dto.VatNumberField);
+        if(noxTypeValue != null)
+        {        
+            entity.VatNumberField = noxTypeValue;
+        }
 
         // TODO map PasswordField Password remaining types and remove if else
         noxTypeValue =  CreateNoxType<Money>(entityDefinition,"MoneyField",dto.MoneyField);
