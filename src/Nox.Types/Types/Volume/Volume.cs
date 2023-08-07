@@ -52,16 +52,6 @@ public class Volume : ValueObject<QuantityValue, Volume>
     /// <param name="unit">Unit to create a <see cref="Volume"/>.</param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
-    public static Volume From(QuantityValue value, VolumeUnit unit)
-        => From(value, new VolumeTypeOptions { Unit = Enum.Parse<VolumeTypeUnit>(unit.Name) });
-
-    /// <summary>
-    /// Creates a new instance of <see cref="Volume"/> object in specified unit.
-    /// </summary>
-    /// <param name="value">Value to create a <see cref="Volume"/>.</param>
-    /// <param name="unit">Unit to create a <see cref="Volume"/>.</param>
-    /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
     public static Volume From(QuantityValue value, VolumeTypeUnit unit)
         => From(value, new VolumeTypeOptions { Unit = unit });
 
@@ -99,23 +89,19 @@ public class Volume : ValueObject<QuantityValue, Volume>
     /// </returns>
     internal override ValidationResult Validate()
     {
-        var result = base.Validate();
+        var result = Value.Validate();
 
-        if (double.IsInfinity((double)Value))
+        if (double.IsNaN((double)Value) || double.IsInfinity((double)Value))
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value),
-                $"Could not create a Nox {nameof(Volume)} type as value Infinity is not allowed."));
             return result;
         }
 
-        if (Value < 0 || double.IsNaN((double)Value))
+        if (Value < 0)
         {
             result.Errors.Add(new ValidationFailure(nameof(Value),
                 $"Could not create a Nox {nameof(Volume)} type as negative value {Value} is not allowed."));
         }
-
-
-        if (Value >= 0 && Value < _volumeTypeOptions.MinValue)
+        else if (Value < _volumeTypeOptions.MinValue)
         {
             result.Errors.Add(new ValidationFailure(nameof(Value),
                 $"Could not create a Nox Volume type as value {Value} {_volumeUnit} is lesser than the specified minimum of {_volumeTypeOptions.MinValue} {_volumeUnit}."));

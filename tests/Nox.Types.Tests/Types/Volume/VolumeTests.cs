@@ -39,7 +39,7 @@ public class VolumeTests
     [Fact]
     public void Volume_Constructor_WithUnit_ReturnsSameValueAndUnit()
     {
-        var volume = Volume.From(27.1828, VolumeUnit.CubicFoot);
+        var volume = Volume.From(27.1828, new VolumeTypeOptions { Unit = VolumeTypeUnit.CubicFoot });
 
         volume.Value.Should().Be(27.1828);
         volume.Unit.Should().Be(VolumeTypeUnit.CubicFoot);
@@ -79,7 +79,7 @@ public class VolumeTests
 
         action.Should().Throw<TypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[]
-                { new ValidationFailure("Value", "Could not create a Nox Volume type as negative value NaN is not allowed.") });
+                { new ValidationFailure("Value", "Could not create a Nox type as value NaN is not allowed.") });
     }
 
     [Fact]
@@ -89,7 +89,7 @@ public class VolumeTests
 
         action.Should().Throw<TypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[]
-                { new ValidationFailure("Value", "Could not create a Nox Volume type as value Infinity is not allowed.") });
+                { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
     }
 
     [Fact]
@@ -99,7 +99,7 @@ public class VolumeTests
 
         action.Should().Throw<TypeValidationException>()
             .And.Errors.Should().BeEquivalentTo(new[]
-                { new ValidationFailure("Value", "Could not create a Nox Volume type as value Infinity is not allowed.") });
+                { new ValidationFailure("Value", "Could not create a Nox type as value Infinity is not allowed.") });
     }
 
     [Fact]
@@ -177,9 +177,9 @@ public class VolumeTests
     [Fact]
     public void Volume_Equality_WithSameVolumeUnit_Tests()
     {
-        var volume1 = Volume.From(27.1828, VolumeUnit.CubicMeter);
+        var volume1 = Volume.From(27.1828, new VolumeTypeOptions { Unit = VolumeTypeUnit.CubicMeter });
 
-        var volume2 = Volume.From(27.1828, VolumeUnit.CubicMeter);
+        var volume2 = Volume.From(27.1828, new VolumeTypeOptions { Unit = VolumeTypeUnit.CubicMeter });
 
         AssertAreEquivalent(volume1, volume2);
     }
@@ -187,9 +187,9 @@ public class VolumeTests
     [Fact]
     public void Volume_Equality_WithDifferentVolumeUnit_Tests()
     {
-        var volume1 = Volume.From(27.1828, VolumeUnit.CubicMeter);
+        var volume1 = Volume.From(27.1828, new VolumeTypeOptions { Unit = VolumeTypeUnit.CubicMeter });
 
-        var volume2 = Volume.From(959.951522, VolumeUnit.CubicFoot);
+        var volume2 = Volume.From(959.951522, new VolumeTypeOptions { Unit = VolumeTypeUnit.CubicFoot });
 
         AssertAreEquivalent(volume1, volume2);
     }
@@ -197,9 +197,9 @@ public class VolumeTests
     [Fact]
     public void Volume_NonEquality_SpecifyingVolumeUnit_WithSameUnit_Tests()
     {
-        var volume1 = Volume.From(27.1828, VolumeUnit.CubicMeter);
+        var volume1 = Volume.From(27.1828, new VolumeTypeOptions { Unit = VolumeTypeUnit.CubicMeter });
 
-        var volume2 = Volume.From(959.951522, VolumeUnit.CubicMeter);
+        var volume2 = Volume.From(959.951522, new VolumeTypeOptions { Unit = VolumeTypeUnit.CubicMeter });
 
         AssertAreNotEquivalent(volume1, volume2);
     }
@@ -207,9 +207,9 @@ public class VolumeTests
     [Fact]
     public void Volume_NonEquality_SpecifyingVolumeUnit_WithDifferentUnit_Tests()
     {
-        var volume1 = Volume.From(27.1828, VolumeUnit.CubicMeter);
+        var volume1 = Volume.From(27.1828, new VolumeTypeOptions { Unit = VolumeTypeUnit.CubicMeter });
 
-        var volume2 = Volume.From(27.1828, VolumeUnit.CubicFoot);
+        var volume2 = Volume.From(27.1828, new VolumeTypeOptions { Unit = VolumeTypeUnit.CubicFoot });
 
         AssertAreNotEquivalent(volume1, volume2);
     }
