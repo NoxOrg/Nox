@@ -3,8 +3,7 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.OData;
-using Microsoft.OData.ModelBuilder;
+using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using MediatR;
 using Nox.Types;
@@ -105,6 +104,4 @@ public partial class CountryDto : AuditableEntityBase
     /// Country accepts as legal tender OneOrMany Currencies
     /// </summary>
     public virtual List<CurrencyDto> Currencies { get; set; } = new();
-
-    public List<CurrencyDto> CountryAcceptsCurrency => Currencies;
 }

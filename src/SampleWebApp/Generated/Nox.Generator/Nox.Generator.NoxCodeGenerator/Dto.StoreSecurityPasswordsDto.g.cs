@@ -3,8 +3,7 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.OData;
-using Microsoft.OData.ModelBuilder;
+using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using MediatR;
 using Nox.Types;
@@ -38,6 +37,8 @@ public partial class StoreSecurityPasswordsDto : AuditableEntityBase
 
     /// <summary>
     /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores
-    /// </summary>
+    /// </summary>  
+    //[ForeignKey("StoreId")]
+    public virtual string StoreId { get; set; } = null!;
     public virtual StoreDto Store { get; set; } = null!;
 }
