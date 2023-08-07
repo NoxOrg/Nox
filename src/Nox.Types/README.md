@@ -20,9 +20,152 @@ The Nox team took a broad approach when deciding which types are to be in scope 
 - Value objects are persisted as primitive types to supported databases.
 - Supports an extensive list of commonly used domain types.
 
+# Simple and Compound Types
+
+Nox.Types uses both simple and compound types to persist data. For `SimpleType` a single primitive data type is used to persist the data to the database. `CompoundType` is comprised of multiple `CompoundComponent` fields and these fields are individually persisted to the database.
+
+Looking at [NoxType.cs](https://github.com/NoxOrg/Nox.Generator/blob/feature/nox-types-readme/src/Nox.Types.Abstractions/Enums/NoxType.cs) reveals the full list of implemented enums. Notice a few examples of `SimpleType` comprised of `decimal`, `int`, `bool`, `string`, `short`, `DateTime` and `byte` in the code snippet below:
+
+```csharp
+[SimpleType(typeof(decimal))]
+Area = 998304025,
+
+[SimpleType(typeof(int))] 
+DatabaseNumber = 963275927,
+
+[SimpleType(typeof(bool))]
+Boolean = 2157507194,
+
+[SimpleType(typeof(string))]
+Color = 1567592592,
+
+[SimpleType(typeof(short))]
+CurrencyNumber = 2377452890,
+
+[SimpleType(typeof(DateTime))]
+Date = 463099971,
+
+[SimpleType(typeof(byte))]
+Month = 4186740261,
+
+```
+
+Conversely, the code snippet below illustrates a few examples of `CompoundType` which comprises two or more similar or differing primitive data types:
+
+```csharp
+[CompoundType]
+[CompoundComponent("Lattitude",typeof(double))]
+[CompoundComponent("Longitude",typeof(double))]
+LatLong = 4061881939,
+
+[CompoundType]
+[CompoundComponent("Amount", typeof(decimal))]
+[CompoundComponent("CurrencyCode", typeof(string))]
+Money = 3500951620,
+
+[CompoundType] 
+[CompoundComponent("From", typeof(DateTimeOffset))]
+[CompoundComponent("To", typeof(DateTimeOffset))]
+DateTimeRange = 3837929056,
+
+```
+
+# Working with Nox.Types
+
+Working with Nox.Types value objects are simple and intuitive. They follow the pattern of using a `From` method to instantiate them and offer a `ToString` method as well as an internal `Validate` method.
+
+A Nox.Types value object is an immutable self-contained unit, and as a result its properties are set at object creation time via the `From` method. Let's have a look at the [LatLong.cs](https://github.com/NoxOrg/Nox.Generator/blob/main/src/Nox.Types/Types/LatLong/LatLong.cs) class as an example of how creation, validation and presentation is handled.
+
+## Creation
+
+Nox.Types value objects are instantiated by calling the associated `From()` method and passing the appropriate arguments.
+
+```csharp
+# From LatLong.cs
+public static LatLong From(double latitude, double longitude)
+    => From((latitude,longitude));
+
+# From your class
+public void DemoLatLong()
+{
+    # Empire State Building
+    var vobjLatLong = LatLong.From(40.748817, -73.985428)
+}
+
+```
+
+## Validation
+
+Nox.Types value objects have internal validation methods that are called at creation time. The arguments passed to the `From` method must pass the validation criteria for the value object to be successfully instantiated.
+
+If we continue with the example above, we can see that the latitude and longitude passed have to fall within the respective known valid ranges.
+
+```csharp
+# From LatLong.cs
+internal override ValidationResult Validate()
+{
+    var result = base.Validate();
+
+    if (Value.Latitude > 90 || Value.Latitude < -90)
+    {
+        result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox LatLong type with latitude {Value.Latitude} as it is not in the range -90 to 90 degrees."));
+    }
+
+    if (Value.Longitude > 180 || Value.Longitude < -180)
+    {
+        result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox LatLong type with longitude {Value.Longitude} as it is not in the range -180 to 180 degrees."));
+    }
+
+    return result;
+}
+
+```
+
+## Presentation
+
+Each Nox.Types value objects offers a default public `ToString` method, and in some instances, one ore more `ToString` overloads which may handle more specific presentation needs depending on use case.
+
+Our example includes and addition overload for `ToString` which takes a format string, in this case to present latitude/longitude in degree/minutes/seconds format.
+
+```csharp
+# From LatLong.cs
+public override string ToString()
+{
+    return $"{Value.Latitude.ToString("0.000000", CultureInfo.InvariantCulture)} {Value.Longitude.ToString("0.000000", CultureInfo.InvariantCulture)}";
+}
+
+public string ToString(IFormatProvider formatProvider)
+{
+    return $"{Value.Latitude.ToString(formatProvider)} {Value.Longitude.ToString(formatProvider)}";
+}
+
+public string ToString(string format)
+{
+    return format.ToLower() switch
+    {
+        "dms" => ToDmsString(),
+        _ => ToString(),
+    };
+}
+
+# From your class
+public void DemoLatLong()
+{
+    # Empire State Building
+    var vobjLatLong = LatLong.From(40.748817, -73.985428)
+
+    Console.WriteLine(vobjLatLong.ToString())
+    # returns "40.748817 -73.985428"
+
+    Console.WriteLine(vobjLatLong.ToString("dms"))
+    # returns "40.7484° N 73.9857° W"
+}
+
+```
+
 # Using Nox.Types
 
-Nox.Types are used to describe the data types of several *domain entity* attributes within a Nox solution. These attributes include, but are not limited to, Domain Entity queries/commands/events/keys/attributes and Application DTO attributes/Event object type attributes.
+Within a Nox solution, Nox.Types are used to describe the data types of several *domain entity* attributes. These attributes include, but are not limited to, Domain Entity queries/commands/events/keys/attributes and Application DTO attributes/Event object type attributes.
 
 ## In a Nox Solution definition
 
@@ -159,6 +302,37 @@ domain:
 ```
 
 Examining the code snippet above will reveal several Nox.Types used to describe the various data attributes. These include [text](https://github.com/NoxOrg/Nox.Generator/blob/main/src/Nox.Types/Types/Text/Text.cs), [countryCode2](https://github.com/NoxOrg/Nox.Generator/blob/main/src/Nox.Types/Types/CountryCode2/CountryCode2.cs), [countryCode3](https://github.com/NoxOrg/Nox.Generator/tree/main/src/Nox.Types/Types/CountryCode3), [number](https://github.com/NoxOrg/Nox.Generator/blob/main/src/Nox.Types/Types/Number/Number.cs), [area](https://github.com/NoxOrg/Nox.Generator/tree/main/src/Nox.Types/Types/Area) and [latLong](https://github.com/NoxOrg/Nox.Generator/blob/main/src/Nox.Types/Types/LatLong/LatLong.cs).
+
+Click the links to view their respective implementations in the Nox library. You can view the complete list of implemented types in the [Nox.Types repo](https://github.com/NoxOrg/Nox.Generator/tree/main/src/Nox.Types/Types)
+
+## In a Nox class
+
+Any of the Nox.Types value objects can be used in class files by including the `using Nox.Types` statement. In the example below we're instantiating a *Money* object with the `Money.From()` method. We're passing a decimal value and converting the `string` currency to `CurrencyCode` enum by parsing it.
+
+```csharp
+using Nox.Types;
+
+namespace SampleCurrencyService
+{
+    public class DemoMoney
+    {
+        public Money? CashBalance { get; set; }
+
+        public DemoMoney(decimal amount, string currency)
+        {
+            Enum.TryParse(currency, out CurrencyCode sentCurrency);
+            CashBalance = Money.From(amount, sentCurrency);
+
+            var currSymbol = CurrencySymbol.GetCurrencySymbol(sentCurrency);
+
+            Console.WriteLine($"Money amount = {currSymbol}{CashBalance.ToString()}");
+        }
+    }
+}
+
+```
+
+Any of the Nox.Types value objects can be used in class files by including the `using Nox.Types` statement.
 
 Click the links to view their respective implementations in the Nox library. You can view the complete list of implemented types in the [Nox.Types repo](https://github.com/NoxOrg/Nox.Generator/tree/main/src/Nox.Types/Types)
 
