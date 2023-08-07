@@ -68,12 +68,14 @@ public class NoxCodeGenerator : IIncrementalGenerator
 
                 var generatorFlows = new[]
                 {
-                    NoxGeneratorKind.None,
-                    NoxGeneratorKind.Domain,
-                    NoxGeneratorKind.Infrastructure,
-                    NoxGeneratorKind.Presentation,
-                    NoxGeneratorKind.Application
-                };
+                    (NoxGeneratorKind.None,true),
+                    (NoxGeneratorKind.Domain,config.Domain),
+                    (NoxGeneratorKind.Infrastructure,config.Infrastructure),
+                    (NoxGeneratorKind.Presentation,config.Presentation),
+                    (NoxGeneratorKind.Application,config.Application)
+                }
+                .Where(x => x.Item2)
+                .Select(x => x.Item1);
 
                 var generatorInstances = CreateGeneratorInstances();
 
