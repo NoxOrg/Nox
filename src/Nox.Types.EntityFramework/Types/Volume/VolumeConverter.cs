@@ -2,11 +2,18 @@
 
 namespace Nox.Types.EntityFramework.Types;
 
-public class VolumeToCubicFeetConverter : ValueConverter<Volume, double>
+public class VolumeToCubicFeetConverter : ValueConverter<Volume, decimal>
 {
-    public VolumeToCubicFeetConverter() : base(volume => (double)volume.ToCubicFeet(), volumeValue => Volume.FromCubicFeet(volumeValue)) { }
+    public VolumeToCubicFeetConverter() :
+        base(volume => (decimal)volume.ToCubicFeet(), volumeValue => Volume.FromDatabase(volumeValue, VolumeTypeUnit.CubicFoot))
+    {
+    }
 }
-public class VolumeToCubicMetersConverter : ValueConverter<Volume, double>
+
+public class VolumeToCubicMetersConverter : ValueConverter<Volume, decimal>
 {
-    public VolumeToCubicMetersConverter() : base(volume => (double)volume.ToCubicMeters(), volumeValue => Volume.FromCubicMeters(volumeValue)) { }
+    public VolumeToCubicMetersConverter() :
+        base(volume => (decimal)volume.ToCubicMeters(), volumeValue => Volume.FromDatabase(volumeValue, VolumeTypeUnit.CubicMeter))
+    {
+    }
 }
