@@ -17,7 +17,6 @@ public class PostgresIntegrationTests : PostgresTestBase
     {
         // TODO:
         // array
-        // color
         // colour
         // databaseNumber
         // collection
@@ -67,6 +66,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         byte month = 7;
         var currencyNumber = (short)970;
         var dateTimeDurationInHours = 30.5;
+        var color = new byte[] { 1, 2, 3, 4 };
         var date = new DateOnly(2023, 7, 14);
         var percentage = 0.5f;
         var fileName = "MyFile";
@@ -144,6 +144,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
+            ColorTestField = Color.From(color),
             PercentageTestField = Percentage.From(percentage),
             DateTestField = Date.From(date),
             MarkdownTestField = Markdown.From(text),
@@ -206,6 +207,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
         testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
         testEntity.EncryptedTextTestField!.DecryptText(encryptedTextTypeOptions).Should().Be(text);
+        testEntity.ColorTestField!.Value.Should().Equal(color);
         testEntity.PercentageTestField!.Value.Should().Be(percentage);
         testEntity.DateTestField!.Value.Should().Be(date);
         testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);

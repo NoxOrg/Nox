@@ -133,7 +133,7 @@ public class ColorTests
     }
 
     [Fact]
-    public void Color_ToBytes_Contructor_Tests()
+    public void Color_ToBytes_Constructor_Tests()
     {
         var color = Nox.Types.Color.From(100, 193, 154, 107);
 
