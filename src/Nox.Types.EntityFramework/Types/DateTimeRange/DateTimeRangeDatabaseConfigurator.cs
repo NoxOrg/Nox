@@ -21,5 +21,5 @@ public class DateTimeRangeDatabaseConfigurator : INoxTypeDatabaseConfigurator
              .Ignore(nameof(DateTimeRange.Value));
     }
 
-    public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => throw new NotImplementedException();
+    public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
 }

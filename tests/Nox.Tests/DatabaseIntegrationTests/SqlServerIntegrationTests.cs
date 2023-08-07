@@ -68,8 +68,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var password = "Test123.";
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
-        var dateTimeRangeStart = new System.DateTime(2023, 4, 12);
-        var dateTimeRangeEnd = new System.DateTime(2023, 7, 10);
+        var dateTimeRangeStart = new DateTimeOffset(2023, 4, 12, 0, 0, 0, TimeSpan.FromHours(3));
+        var dateTimeRangeEnd = new DateTimeOffset(2023, 7, 10, 0, 0, 0, TimeSpan.FromHours(5));
 
         var newItem = new TestEntityForTypes()
         {
