@@ -66,6 +66,11 @@ public partial class Country : AuditableEntityBase
     public Nox.Types.Area AreaInSquareKilometres { get; set; } = null!;
 
     /// <summary>
+    /// The the position of the workplace's point on the surface of the Earth (Optional).
+    /// </summary>
+    public Nox.Types.LatLong? GeoCoord { get; set; } = null!;
+
+    /// <summary>
     /// The region the country is in (Required).
     /// </summary>
     public Nox.Types.Text GeoRegion { get; set; } = null!;

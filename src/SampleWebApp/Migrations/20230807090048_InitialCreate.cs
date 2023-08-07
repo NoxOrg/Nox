@@ -73,6 +73,8 @@ namespace SampleWebApp.Migrations
                     Capital = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: true),
                     Demonym = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: true),
                     AreaInSquareKilometres = table.Column<decimal>(type: "DECIMAL(14,6)", nullable: false),
+                    GeoCoord_Latitude = table.Column<decimal>(type: "decimal(8,6)", precision: 8, scale: 6, nullable: true),
+                    GeoCoord_Longitude = table.Column<decimal>(type: "decimal(9,6)", precision: 9, scale: 6, nullable: true),
                     GeoRegion = table.Column<string>(type: "varchar(8)", unicode: false, maxLength: 8, nullable: false),
                     GeoSubRegion = table.Column<string>(type: "varchar(32)", unicode: false, maxLength: 32, nullable: false),
                     GeoWorldRegion = table.Column<string>(type: "varchar(4)", unicode: false, maxLength: 4, nullable: false),
