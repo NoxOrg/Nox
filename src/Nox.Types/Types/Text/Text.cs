@@ -74,15 +74,15 @@ public sealed class Text : ValueObject<string, Text>
         return result;
     }
 
-    public bool Equals(Text? other)
-    {
-        if (other == null) return false;
-        return Value.Equals(other.Value);
-    }
+    //public bool Equals(Text? other)
+    //{
+    //    if (other == null) return false;
+    //    return Value.Equals(other.Value);
+    //}
 
-    public override bool Equals(object? obj)
-    {
-        return ReferenceEquals(this, obj) || obj is Text other && Equals(other);
-    }
-    public override int GetHashCode() => Value.GetHashCode();
+    //public override bool Equals(object? obj)
+    //{
+    //    return ReferenceEquals(this, obj) || obj is Text other && Equals(other);
+    //}
+    //public override int GetHashCode() => Value.GetHashCode();
 }
