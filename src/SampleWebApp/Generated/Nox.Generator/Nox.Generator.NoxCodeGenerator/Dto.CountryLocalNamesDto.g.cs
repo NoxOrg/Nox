@@ -18,7 +18,7 @@ namespace SampleWebApp.Application.Dto;
 /// The name of a country in other languages.
 /// </summary>
 [AutoMap(typeof(CountryLocalNamesCreateDto))]
-public partial class OCountryLocalNames : AuditableEntityBase
+public partial class CountryLocalNamesDto : AuditableEntityBase
 {
 
     /// <summary>

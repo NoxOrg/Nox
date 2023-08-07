@@ -18,7 +18,7 @@ namespace SampleWebApp.Application.Dto;
 /// Entity to test all nox types.
 /// </summary>
 [AutoMap(typeof(AllNoxTypeCreateDto))]
-public partial class OAllNoxType : AuditableEntityBase
+public partial class AllNoxTypeDto : AuditableEntityBase
 {
 
     /// <summary>

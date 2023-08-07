@@ -18,7 +18,7 @@ namespace SampleWebApp.Application.Dto;
 /// The list of currencies.
 /// </summary>
 [AutoMap(typeof(CurrencyCreateDto))]
-public partial class OCurrency : AuditableEntityBase
+public partial class CurrencyDto : AuditableEntityBase
 {
 
     /// <summary>
@@ -34,7 +34,7 @@ public partial class OCurrency : AuditableEntityBase
     /// <summary>
     /// Currency is legal tender for ZeroOrMany Countries
     /// </summary>
-    public virtual List<OCountry> Countries { get; set; } = new();
+    public virtual List<CountryDto> Countries { get; set; } = new();
 
-    public List<OCountry> CurrencyIsLegalTenderForCountry => Countries;
+    public List<CountryDto> CurrencyIsLegalTenderForCountry => Countries;
 }

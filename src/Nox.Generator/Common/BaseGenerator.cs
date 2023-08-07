@@ -119,7 +119,7 @@ internal class BaseGenerator
                 
                 if (generateDto)
                 {
-                    DtoGenerator.GenerateDto(context,
+                    DtoDynamicGenerator.GenerateDto(context,
                         codeGeneratorState,
                         typeDefinition.Name,
                         typeDefinition.Description,
@@ -150,7 +150,7 @@ internal class BaseGenerator
 
     private static void GenerateDtoFromDefinition(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, string typeName, ArrayTypeOptions options)
     {
-        DtoGenerator.GenerateDto(context,
+        DtoDynamicGenerator.GenerateDto(context,
             codeGeneratorState,
                                 typeName.ToUpperFirstChar(),
                                 options.Description,

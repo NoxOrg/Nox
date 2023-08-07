@@ -89,7 +89,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
 
                     Domain.CqrsGenerators.QueryGenerator.Generate(context, codeGeneratorState);
 
-                    OEntityGenerator.Generate(context, codeGeneratorState);
+                    EntityDtoGenerator.Generate(context, codeGeneratorState);
                     EntityCreateDtoGenerator.Generate(context, codeGeneratorState);
                 }
 
@@ -109,7 +109,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
 
                 if (generate.Application)
                 {
-                    DtoGenerator.Generate(context, codeGeneratorState);
+                    DtoDynamicGenerator.Generate(context, codeGeneratorState);
                     ApplicationEventGenerator.Generate(context, codeGeneratorState);
                 }
             }

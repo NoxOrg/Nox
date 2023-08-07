@@ -9,9 +9,9 @@ using {{codeGeneratorState.ODataNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Queries;
 
-public record Get{{entity.Name }}ByIdQuery({{entity.KeysFlattenComponentsType[entity.Keys[0].Name]}} key) : IRequest<O{{entity.Name}}?>;
+public record Get{{entity.Name }}ByIdQuery({{entity.KeysFlattenComponentsType[entity.Keys[0].Name]}} key) : IRequest<{{entity.Name}}Dto?>;
 
-public class Get{{entity.Name}}ByIdQueryHandler: IRequestHandler<Get{{entity.Name}}ByIdQuery, O{{entity.Name}}?>
+public class Get{{entity.Name}}ByIdQueryHandler: IRequestHandler<Get{{entity.Name}}ByIdQuery, {{entity.Name}}Dto?>
 {
     public  Get{{entity.Name}}ByIdQueryHandler(ODataDbContext dataDbContext)
     {
@@ -20,7 +20,7 @@ public class Get{{entity.Name}}ByIdQueryHandler: IRequestHandler<Get{{entity.Nam
 
     public ODataDbContext DataDbContext { get; }
 
-    public Task<O{{entity.Name}}?> Handle(Get{{entity.Name}}ByIdQuery request, CancellationToken cancellationToken)
+    public Task<{{entity.Name}}Dto?> Handle(Get{{entity.Name}}ByIdQuery request, CancellationToken cancellationToken)
     {    
         var item = DataDbContext.{{entity.PluralName}}
             .AsNoTracking()

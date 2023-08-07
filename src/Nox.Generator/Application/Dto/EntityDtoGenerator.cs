@@ -8,7 +8,7 @@ using Nox.Types.Extensions;
 
 namespace Nox.Generator.Presentation.Api.OData;
 
-internal static class OEntityGenerator
+internal static class EntityDtoGenerator
 {
     public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
     {
@@ -29,12 +29,12 @@ internal static class OEntityGenerator
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"O{entity.Name}")
+                .WithClassName($"{entity.Name}Dto")
                 .WithFileNamePrefix("Dto")
                 .WithObject("entity", entity)
                 .WithObject("componentsInfo", componentsInfo)
                 .WithObject("isVersioned", (entity.Persistence?.IsVersioned ?? true))
-                .GenerateSourceCodeFromResource("Application.Dto.OEntity");         
+                .GenerateSourceCodeFromResource("Application.Dto.EntityDto");         
         }
     }
 

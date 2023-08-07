@@ -51,13 +51,13 @@ public partial class CurrenciesController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<OCurrency>>> Get()
+    public async  Task<ActionResult<IQueryable<CurrencyDto>>> Get()
     {
         var result = await _mediator.Send(new GetCurrenciesQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<OCurrency>> Get([FromRoute] System.UInt32 key)
+    public async Task<ActionResult<CurrencyDto>> Get([FromRoute] System.UInt32 key)
     {
         var item = await _mediator.Send(new GetCurrencyByIdQuery(key));
         
@@ -80,7 +80,7 @@ public partial class CurrenciesController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.UInt32 key, [FromBody] OCurrency updatedCurrency)
+    public async Task<ActionResult> Put([FromRoute] System.UInt32 key, [FromBody] CurrencyDto updatedCurrency)
     {
         if (!ModelState.IsValid)
         {
@@ -113,7 +113,7 @@ public partial class CurrenciesController : ODataController
         return Updated(updatedCurrency);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<OCurrency> currency)
+    public async Task<ActionResult> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<CurrencyDto> currency)
     {
         if (!ModelState.IsValid)
         {

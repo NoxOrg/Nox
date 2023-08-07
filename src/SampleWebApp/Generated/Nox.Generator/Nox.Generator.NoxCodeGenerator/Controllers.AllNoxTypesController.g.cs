@@ -51,13 +51,13 @@ public partial class AllNoxTypesController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<OAllNoxType>>> Get()
+    public async  Task<ActionResult<IQueryable<AllNoxTypeDto>>> Get()
     {
         var result = await _mediator.Send(new GetAllNoxTypesQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<OAllNoxType>> Get([FromRoute] System.Int32 key)
+    public async Task<ActionResult<AllNoxTypeDto>> Get([FromRoute] System.Int32 key)
     {
         var item = await _mediator.Send(new GetAllNoxTypeByIdQuery(key));
         
@@ -80,7 +80,7 @@ public partial class AllNoxTypesController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int32 key, [FromBody] OAllNoxType updatedAllNoxType)
+    public async Task<ActionResult> Put([FromRoute] System.Int32 key, [FromBody] AllNoxTypeDto updatedAllNoxType)
     {
         if (!ModelState.IsValid)
         {
@@ -113,7 +113,7 @@ public partial class AllNoxTypesController : ODataController
         return Updated(updatedAllNoxType);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int32 key, [FromBody] Delta<OAllNoxType> allnoxtype)
+    public async Task<ActionResult> Patch([FromRoute] System.Int32 key, [FromBody] Delta<AllNoxTypeDto> allnoxtype)
     {
         if (!ModelState.IsValid)
         {

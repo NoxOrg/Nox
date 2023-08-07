@@ -51,13 +51,13 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<O{{relationship.Entity}}> {{relationship.EntityPlural}} { get; set; } = new();
+    public virtual List<{{relationship.Entity}}Dto> {{relationship.EntityPlural}} { get; set; } = new();
     {{- if relationship.EntityPlural != relationship.Name}}
 
-    public List<O{{relationship.Entity}}> {{relationship.Name}} => {{relationship.EntityPlural}};
+    public List<{{relationship.Entity}}Dto> {{relationship.Name}} => {{relationship.EntityPlural}};
     {{- end}}
     {{- else}}
-    public virtual O{{relationship.Entity}} {{if relationship.Relationship == "ZeroOrOne"}}?{{end}}{{relationship.Entity}} { get; set; } = null!;
+    public virtual {{relationship.Entity}}Dto {{if relationship.Relationship == "ZeroOrOne"}}?{{end}}{{relationship.Entity}} { get; set; } = null!;
     {{-end}}
 {{- end }}
 {{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}
@@ -70,10 +70,10 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     public virtual List<{{relationship.Entity}}> {{relationship.EntityPlural}} { get; set; } = new();
     {{- if (relationship.EntityPlural) != relationship.Name}}
     
-    public List<O{{relationship.Entity}}> {{relationship.Name}} => {{relationship.EntityPlural}};
+    public List<{{relationship.Entity}}Dto> {{relationship.Name}} => {{relationship.EntityPlural}};
     {{- end}}
     {{- else}}
-    public virtual O{{relationship.Entity}} {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.EntityPlural}} { get; set; } = null!;
+    public virtual {{relationship.Entity}}Dto {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.EntityPlural}} { get; set; } = null!;
     {{-end}}
 {{- end }}
 }

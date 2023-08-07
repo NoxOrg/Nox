@@ -43,13 +43,13 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="ExpectedGeneratedFiles\CountriesController.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Controllers.CountriesController.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\Country.expected.g.cs" />
-    <Compile Remove="ExpectedGeneratedFiles\CountryDto.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\CountryNameChangedAppEvent.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\CountryNameUpdatedEvent.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\Dto.CountryCreateDto.g.cs" />
-    <Compile Remove="ExpectedGeneratedFiles\Dto.OCountry.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Dto.CountryDto.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\DtoDynamic.CountryDto.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\GetCountriesByContinentQueryBase.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\NoxServiceCollectionExtension.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\SampleWebAppDbContext.expected.g.cs" />
@@ -110,7 +110,7 @@
     <AdditionalFiles Include="ExpectedGeneratedFiles\Dto.CountryCreateDto.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
-    <AdditionalFiles Include="ExpectedGeneratedFiles\Dto.OCountry.g.cs">
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Dto.CountryDto.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
     <AdditionalFiles Include="ExpectedGeneratedFiles\Country.expected.g.cs">
@@ -122,13 +122,13 @@
     <AdditionalFiles Include="ExpectedGeneratedFiles\CountryNameUpdatedEvent.expected.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
-    <AdditionalFiles Include="ExpectedGeneratedFiles\CountriesController.expected.g.cs">
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Controllers.CountriesController.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
     <AdditionalFiles Include="ExpectedGeneratedFiles\GetCountriesByContinentQueryBase.expected.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
-    <AdditionalFiles Include="ExpectedGeneratedFiles\CountryDto.expected.g.cs">
+    <AdditionalFiles Include="ExpectedGeneratedFiles\DtoDynamic.CountryDto.expected.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
     <AdditionalFiles Include="ExpectedGeneratedFiles\SampleWebAppDbContext.expected.g.cs">

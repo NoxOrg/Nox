@@ -15,29 +15,29 @@ using SampleWebApp.Domain;
 namespace SampleWebApp.Application.Dto;
 
 /// <summary>
-/// Stores.
+/// A set of security passwords to store cameras and databases.
 /// </summary>
-[AutoMap(typeof(StoreCreateDto))]
-public partial class OStore : AuditableEntityBase
+[AutoMap(typeof(StoreSecurityPasswordsCreateDto))]
+public partial class StoreSecurityPasswordsDto : AuditableEntityBase
 {
 
     /// <summary>
-    /// Store Primary Key (Required).
+    /// Passwords Primary Key (Required).
     /// </summary>
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    /// Store Name (Required).
+    ///  (Required).
     /// </summary>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// Physical Money in the Physical Store (Required).
+    ///  (Required).
     /// </summary>
-    public MoneyDto PhysicalMoney { get; set; } = default!;
+    public System.String SecurityCamerasPassword { get; set; } = default!;
 
     /// <summary>
-    /// Store Set of passwords for this store ExactlyOne StoreSecurityPasswords
+    /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores
     /// </summary>
-    public virtual OStoreSecurityPasswords StoreSecurityPasswords { get; set; } = null!;
+    public virtual StoreDto Store { get; set; } = null!;
 }

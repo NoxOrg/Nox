@@ -19,7 +19,7 @@ public static class ODataServiceCollectionExtensions
 
         {{- for entity in solution.Domain.Entities }}
 
-        builder.EntitySet<O{{entity.Name}}>("{{entity.PluralName}}");
+        builder.EntitySet<{{entity.Name}}Dto>("{{entity.PluralName}}");
 
         {{- end }}
 
