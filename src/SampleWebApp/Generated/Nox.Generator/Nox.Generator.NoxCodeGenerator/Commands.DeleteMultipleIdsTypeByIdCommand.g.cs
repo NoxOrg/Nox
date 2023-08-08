@@ -4,31 +4,39 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SampleWebApp.Presentation.Api.OData;
+using Nox.Application.Commands;
+using Nox.Solution;
+using Nox.Types;
+using SampleWebApp.Infrastructure.Persistence;
+using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Commands;
 
 public record DeleteMultipleIdsTypeByIdCommand(System.String key) : IRequest<bool>;
 
-public class DeleteMultipleIdsTypeByIdCommandHandler: IRequestHandler<DeleteMultipleIdsTypeByIdCommand, bool>
+public class DeleteMultipleIdsTypeByIdCommandHandler: CommandBase, IRequestHandler<DeleteMultipleIdsTypeByIdCommand, bool>
 {
-    public  DeleteMultipleIdsTypeByIdCommandHandler(ODataDbContext dataDbContext)
-    {
-        DataDbContext = dataDbContext;
-    }
+    public SampleWebAppDbContext DbContext { get; }
 
-    public ODataDbContext DataDbContext { get; }
+    public  DeleteMultipleIdsTypeByIdCommandHandler(
+        SampleWebAppDbContext dbContext,
+        NoxSolution noxSolution, 
+        IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+    {
+        DbContext = dbContext;
+    }    
 
     public async Task<bool> Handle(DeleteMultipleIdsTypeByIdCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DataDbContext.MultipleIdsTypes.FindAsync(request.key);
+        var key = CreateNoxTypeForKey<MultipleIdsType,Text>("Id1", request.key);
+        var entity = await DbContext.MultipleIdsTypes.FindAsync(key);
         if (entity == null || entity.Deleted == true)
         {
             return false;
         }
 
         entity.Delete();
-        await DataDbContext.SaveChangesAsync(cancellationToken);
+        await DbContext.SaveChangesAsync(cancellationToken);
         return true;
     }
 }
