@@ -167,7 +167,7 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Nox.Types.Temperature? TempratureTestField { get; set; } = null!;
+    public Nox.Types.Temperature? TemperatureTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -248,6 +248,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public Nox.Types.Url? UrlTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Nox.Types.User? UserTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).

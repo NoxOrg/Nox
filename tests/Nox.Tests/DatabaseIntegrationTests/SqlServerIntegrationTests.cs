@@ -24,7 +24,6 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         // imageJpg
         // imageSvg
         // object
-        // user
         // cultureCode
         // languageCode
         // yaml
@@ -137,6 +136,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             TimeZoneCodeTestField = TimeZoneCode.From("utc"),
             MacAddressTestField = MacAddress.From(macAddress),
             UrlTestField = Url.From(url),
+            UserTestField = User.From(email),
             HashedTextTestField = HashedText.From(text),
             PasswordTestField = Password.From(password),
             DayOfWeekTestField = DayOfWeek.From(1),
@@ -152,7 +152,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             VatNumberTestField = VatNumber.From(vatNumberValue, vatNumberCountryCode2),
             ColorTestField = Color.From(color),
             PercentageTestField = Percentage.From(percentage),
-            TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
+            TemperatureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
             DateTestField = Date.From(date),
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
@@ -166,7 +166,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             GeoCoordTestField = LatLong.From(latitude, longitude),
             DateTimeRangeTestField = DateTimeRange.From(dateTimeRangeStart, dateTimeRangeEnd),
         };
-        var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
+        var temperatureCelsius = newItem.TemperatureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
 
@@ -198,6 +198,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.TimeZoneCodeTestField!.Value.Should().Be("UTC");
         testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
         testEntity.UrlTestField!.Value.AbsoluteUri.Should().Be(url);
+        testEntity.UserTestField!.Value.Should().Be(email);
         testEntity.HashedTextTestField!.HashText.Should().Be(newItem.HashedTextTestField?.HashText);
         testEntity.HashedTextTestField!.Salt.Should().Be(newItem.HashedTextTestField?.Salt);
         testEntity.PasswordTestField!.HashedPassword.Should().Be(newItem.PasswordTestField.HashedPassword);
@@ -220,9 +221,9 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.ColorTestField!.Value.Should().Equal(color);
         testEntity.PercentageTestField!.Value.Should().Be(percentage);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
-        testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
-        testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
-        testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
+        testEntity.TemperatureTestField!.Value.Should().Be(temperatureCelsius);
+        testEntity.TemperatureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
+        testEntity.TemperatureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
         testEntity.EncryptedTextTestField!.DecryptText(encryptedTextTypeOptions).Should().Be(text);
         testEntity.DateTestField!.Value.Should().Be(date);
         testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);
