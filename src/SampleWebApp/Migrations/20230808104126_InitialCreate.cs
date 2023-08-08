@@ -18,9 +18,11 @@ namespace SampleWebApp.Migrations
                     Id = table.Column<decimal>(type: "decimal(20,0)", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NuidField = table.Column<long>(type: "bigint", nullable: true),
-                    TextField = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    BooleanField = table.Column<bool>(type: "bit", nullable: true),
                     CountryCode2Field = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
                     CountryCode3Field = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
+                    NumberField = table.Column<int>(type: "int", nullable: true),
+                    TextField = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     StreetAddressField_StreetNumber = table.Column<int>(type: "int", nullable: true),
                     StreetAddressField_AddressLine1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StreetAddressField_AddressLine2 = table.Column<string>(type: "nvarchar(max)", nullable: true),

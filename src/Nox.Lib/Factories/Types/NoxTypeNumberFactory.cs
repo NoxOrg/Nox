@@ -9,11 +9,13 @@ namespace Nox.Factories.Types
         {
         }
 
-        public override Number? CreateNoxType(Entity entityDefinition, string propertyName, dynamic? value)
-        {            
-            var attributeDefinition = entityDefinition.Attributes!.Single(attribute => attribute.Name == propertyName);
-
-            return Number.From(value, attributeDefinition.NumberTypeOptions ?? new NumberTypeOptions());
+        public override Number? CreateNoxType(NoxSimpleTypeDefinition simpleTypeDefinition, dynamic? value)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+            return Number.From(value, simpleTypeDefinition.NumberTypeOptions ?? new NumberTypeOptions());
         }
     }
 }

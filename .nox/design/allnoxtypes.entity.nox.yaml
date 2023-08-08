@@ -21,14 +21,11 @@ attributes:
         separator: "."
         propertyNames:
             - "TextField" 
+ 
 
-  - name: TextField
-    description: Text Nox Type
-    type: text
-    textTypeOptions:
-      minLength: 4
-      maxLength: 63
-    isRequired: true
+  - name: BooleanField
+    description: BooleanField Nox Type
+    type: boolean    
 
   - name: CountryCode2Field
     description: CountryCode2 Nox Type
@@ -93,6 +90,18 @@ attributes:
   - name: TimeField
     description: Time Nox Type
     type: time    
+    isRequired: true
+
+  - name: NumberField
+    description: NumberField Nox Type
+    type: number   
+
+  - name: TextField
+    description: Text Nox Type
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
     isRequired: true
 
 # Compound Types ========================  

@@ -13,6 +13,7 @@ using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
 using File = Nox.Types.File;
+using Boolean = Nox.Types.Boolean;
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 using {{codeGeneratorState.DomainNameSpace}};
 
@@ -30,8 +31,8 @@ public class {{className}}: EntityFactoryBase<{{entity.Name}}CreateDto, {{entity
     #pragma warning restore CS0168 // Variable is declared but never used
     {{ for attribute in entity.Attributes }}
     {{- #to be removed when we support all types -}}
-    {{- if attribute.Type == "LatLong" || attribute.Type == "TranslatedText" || attribute.Type == "File" || attribute.Type == "VatNumber" || attribute.Type == "StreetAddress" || attribute.Type == "Money" || attribute.Type == "Text" || attribute.Type == "Number" || attribute.Type == "Area" || attribute.Type == "Time" || attribute.Type == "TimeZoneCode" || attribute.Type == "Uri" || attribute.Type == "Url" || attribute.Type == "User" || attribute.Type == "Volume" || attribute.Type == "Weight" || attribute.Type == "Yaml" }}
-        noxTypeValue =  CreateNoxType<Nox.Types.{{attribute.Type}}>(entityDefinition,"{{attribute.Name}}",dto.{{attribute.Name}});
+    {{- if attribute.Type == "Boolean" || attribute.Type == "LatLong" ||  attribute.Type == "TranslatedText" ||  attribute.Type == "File" ||  attribute.Type == "VatNumber" || attribute.Type == "StreetAddress" || attribute.Type == "Money" || attribute.Type == "Text" || attribute.Type == "Number" || attribute.Type == "Area"  || attribute.Type == "TimeZoneCode" || attribute.Type == "Uri" || attribute.Type == "Url" || attribute.Type == "User" || attribute.Type == "Volume" || attribute.Type == "Weight" || attribute.Type == "Yaml" }}
+        noxTypeValue =  CreateNoxType<{{attribute.Type}}>(entityDefinition,"{{attribute.Name}}",dto.{{attribute.Name}});
         if(noxTypeValue != null)
         {        
             entity.{{attribute.Name}} = noxTypeValue;

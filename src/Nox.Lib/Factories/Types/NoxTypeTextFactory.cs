@@ -1,4 +1,5 @@
-﻿using Nox.Solution;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Nox.Solution;
 using Nox.Types;
 
 namespace Nox.Factories.Types
@@ -9,15 +10,14 @@ namespace Nox.Factories.Types
         {
         }
 
-        public override Text? CreateNoxType(Entity entityDefinition, string propertyName, dynamic? value)
+        public override Text? CreateNoxType(NoxSimpleTypeDefinition simpleTypeDefinition, dynamic? value)
         {
-            if(value == null)
+            if (value == null)
             {
                 return null;
             }
-            var attributeDefinition = entityDefinition.Attributes!.Single(attribute => attribute.Name == propertyName);
-
-            return Text.From(value, attributeDefinition.TextTypeOptions ?? new TextTypeOptions());
+            
+            return Text.From(value, simpleTypeDefinition.TextTypeOptions ?? new TextTypeOptions());
         }
     }
 }

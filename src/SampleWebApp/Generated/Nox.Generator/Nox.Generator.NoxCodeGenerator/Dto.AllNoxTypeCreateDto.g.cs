@@ -18,9 +18,9 @@ public partial class AllNoxTypeCreateDto
     /// </summary>
     public System.UInt32? NuidField { get; set; } 
     /// <summary>
-    /// Text Nox Type (Required).
+    /// BooleanField Nox Type (Optional).
     /// </summary>
-    public System.String TextField { get; set; } = default!;
+    public System.Boolean? BooleanField { get; set; } 
     /// <summary>
     /// CountryCode2 Nox Type (Required).
     /// </summary>
@@ -34,37 +34,13 @@ public partial class AllNoxTypeCreateDto
     /// </summary>
     public System.String? FormulaField { get; set; } 
     /// <summary>
-    /// Yaml Nox Type (Required).
+    /// NumberField Nox Type (Optional).
     /// </summary>
-    public System.String YamlField { get; set; } = default!;
+    public System.Int32? NumberField { get; set; } 
     /// <summary>
-    /// Weight Nox Type (Required).
+    /// Text Nox Type (Required).
     /// </summary>
-    public System.Double WeightField { get; set; } = default!;
-    /// <summary>
-    /// Volume Nox Type (Required).
-    /// </summary>
-    public System.Double VolumeField { get; set; } = default!;
-    /// <summary>
-    /// User Nox Type (Required).
-    /// </summary>
-    public System.String UserField { get; set; } = default!;
-    /// <summary>
-    /// Url Nox Type (Required).
-    /// </summary>
-    public System.String UrlField { get; set; } = default!;
-    /// <summary>
-    /// Uri Nox Type (Required).
-    /// </summary>
-    public System.String UriField { get; set; } = default!;
-    /// <summary>
-    /// TimeZoneCode Nox Type (Optional).
-    /// </summary>
-    public System.String? TimeZoneCodeField { get; set; } 
-    /// <summary>
-    /// Time Nox Type (Required).
-    /// </summary>
-    public System.DateTimeOffset TimeField { get; set; } = default!;
+    public System.String TextField { get; set; } = default!;
     /// <summary>
     /// StreetAddress Nox Type (Optional).
     /// </summary>

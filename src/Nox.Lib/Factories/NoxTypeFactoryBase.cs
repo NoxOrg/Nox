@@ -12,11 +12,12 @@ namespace Nox.Factories
 
         public NoxSolution Solution { get; }
 
-        public abstract T? CreateNoxType(Entity entityDefinition, string propertyName, dynamic? value);
-
-        protected static NoxSimpleTypeDefinition GetAttributeDefinition(Entity entityDefinition, string propertyName)
+        public virtual T? CreateNoxType(Entity entityDefinition, string propertyName, dynamic? value)
         {
-            return entityDefinition.Attributes!.Single(attribute => attribute.Name == propertyName);
+            var attributeDefinition = entityDefinition.Attributes!.Single(attribute => attribute.Name == propertyName);
+
+            return CreateNoxType(attributeDefinition, value);
         }
+        public abstract T? CreateNoxType(NoxSimpleTypeDefinition simpleTypeDefinition, dynamic? value);
     }
 }
