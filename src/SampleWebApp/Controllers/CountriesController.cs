@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Formatter;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
+using Microsoft.EntityFrameworkCore;
 using SampleWebApp.Application.Command;
 using SampleWebApp.Application.Queries;
 
@@ -59,10 +61,45 @@ public partial class CountriesController
     /// POST /countries/{key}/currencies 
     /// with a json body
     /// </summary>
-
     public async Task<IResult> PostToCurrencies([FromRoute] string key, [FromBody] SampleWebApp.Application.Dto.CurrencyCreateDto currency)
     {
         await Task.Delay(100);
         return Results.Ok(true);
-    }  
+    }
+
+    public async Task<ActionResult> Patch2([FromRoute] System.String key, [FromBody] Delta<SampleWebApp.Application.Dto.CountryDto> country)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var entity = await _databaseContext.Countries.FindAsync(key);
+
+        if (entity == null)
+        {
+            return NotFound();
+        }
+
+        country.Patch(entity);
+
+        try
+        {
+            await _databaseContext.SaveChangesAsync();
+        }
+        catch (DbUpdateConcurrencyException)
+        {
+            if (!CountryExists(key))
+            {
+                return NotFound();
+            }
+            else
+            {
+                throw;
+            }
+        }
+
+        return Updated(entity);
+    }
+
 }
