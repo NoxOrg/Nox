@@ -218,6 +218,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Time? TimeTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Nox.Types.VatNumber? VatNumberTestField { get; set; } = null!;
 
     /// <summary>

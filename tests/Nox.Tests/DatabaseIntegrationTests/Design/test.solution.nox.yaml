@@ -425,6 +425,9 @@ domain:
         - name: DateTimeDurationTestField
           type: dateTimeDuration
 
+        - name: TimeTestField
+          type: time
+
         - name: VatNumberTestField
           type: vatNumber
 

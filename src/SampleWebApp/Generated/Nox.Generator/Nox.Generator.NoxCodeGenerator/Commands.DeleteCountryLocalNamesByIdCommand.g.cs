@@ -4,31 +4,39 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SampleWebApp.Presentation.Api.OData;
+using Nox.Application.Commands;
+using Nox.Solution;
+using Nox.Types;
+using SampleWebApp.Infrastructure.Persistence;
+using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Commands;
 
 public record DeleteCountryLocalNamesByIdCommand(System.String key) : IRequest<bool>;
 
-public class DeleteCountryLocalNamesByIdCommandHandler: IRequestHandler<DeleteCountryLocalNamesByIdCommand, bool>
+public class DeleteCountryLocalNamesByIdCommandHandler: CommandBase, IRequestHandler<DeleteCountryLocalNamesByIdCommand, bool>
 {
-    public  DeleteCountryLocalNamesByIdCommandHandler(ODataDbContext dataDbContext)
-    {
-        DataDbContext = dataDbContext;
-    }
+    public SampleWebAppDbContext DbContext { get; }
 
-    public ODataDbContext DataDbContext { get; }
+    public  DeleteCountryLocalNamesByIdCommandHandler(
+        SampleWebAppDbContext dbContext,
+        NoxSolution noxSolution, 
+        IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+    {
+        DbContext = dbContext;
+    }    
 
     public async Task<bool> Handle(DeleteCountryLocalNamesByIdCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DataDbContext.CountryLocalNames.FindAsync(request.key);
+        var key = CreateNoxTypeForKey<CountryLocalNames,Text>("Id", request.key);
+        var entity = await DbContext.CountryLocalNames.FindAsync(key);
         if (entity == null || entity.Deleted == true)
         {
             return false;
         }
 
         entity.Delete();
-        await DataDbContext.SaveChangesAsync(cancellationToken);
+        await DbContext.SaveChangesAsync(cancellationToken);
         return true;
     }
 }

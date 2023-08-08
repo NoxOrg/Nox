@@ -4,31 +4,39 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SampleWebApp.Presentation.Api.OData;
+using Nox.Application.Commands;
+using Nox.Solution;
+using Nox.Types;
+using SampleWebApp.Infrastructure.Persistence;
+using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Commands;
 
 public record DeleteStoreByIdCommand(System.UInt32 key) : IRequest<bool>;
 
-public class DeleteStoreByIdCommandHandler: IRequestHandler<DeleteStoreByIdCommand, bool>
+public class DeleteStoreByIdCommandHandler: CommandBase, IRequestHandler<DeleteStoreByIdCommand, bool>
 {
-    public  DeleteStoreByIdCommandHandler(ODataDbContext dataDbContext)
-    {
-        DataDbContext = dataDbContext;
-    }
+    public SampleWebAppDbContext DbContext { get; }
 
-    public ODataDbContext DataDbContext { get; }
+    public  DeleteStoreByIdCommandHandler(
+        SampleWebAppDbContext dbContext,
+        NoxSolution noxSolution, 
+        IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+    {
+        DbContext = dbContext;
+    }    
 
     public async Task<bool> Handle(DeleteStoreByIdCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DataDbContext.Stores.FindAsync(request.key);
+        var key = CreateNoxTypeForKey<Store,Text>("Id", request.key);
+        var entity = await DbContext.Stores.FindAsync(key);
         if (entity == null || entity.Deleted == true)
         {
             return false;
         }
 
         entity.Delete();
-        await DataDbContext.SaveChangesAsync(cancellationToken);
+        await DbContext.SaveChangesAsync(cancellationToken);
         return true;
     }
 }
