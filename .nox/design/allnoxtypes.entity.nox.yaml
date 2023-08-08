@@ -65,13 +65,13 @@ attributes:
         maxValue: 500
     isRequired: true
 
-  - name: UserField
-    description: User Nox Type
-    type: user
-    userTypeOptions:
-        minLength: 10
-        maxLength: 200
-    isRequired: true
+  #- name: UserField
+  #  description: User Nox Type
+  #  type: user
+  #  userTypeOptions:
+  #      minLength: 10
+  #      maxLength: 200
+  #  isRequired: true
 
   - name: UrlField
     description: Url Nox Type

@@ -1,4 +1,5 @@
 ﻿using Nox.Solution;
+using Nox.Types;
 
 namespace Nox.Factories.Types
 {
@@ -8,7 +9,7 @@ namespace Nox.Factories.Types
         {
         }
 
-        public override Nox.Types.Uri? CreateNoxType(Entity entityDefinition, string propertyName, dynamic? value)
+        public override Nox.Types.Uri? CreateNoxType(NoxSimpleTypeDefinition simpleTypeDefinition, dynamic? value)
         {
             return value == null ? null : Nox.Types.Uri.From(value);
         }

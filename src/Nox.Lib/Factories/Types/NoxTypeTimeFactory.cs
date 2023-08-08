@@ -9,16 +9,14 @@ namespace Nox.Factories.Types
         {
         }
 
-        public override Time? CreateNoxType(Entity entityDefinition, string propertyName, dynamic? value)
+        public override Time? CreateNoxType(NoxSimpleTypeDefinition simpleTypeDefinition, dynamic? value)
         {
             if (value == null)
             {
                 return null;
             }
 
-            NoxSimpleTypeDefinition attributeDefinition = GetAttributeDefinition(entityDefinition, propertyName);
-
-            return Time.From(value, attributeDefinition.TimeTypeOptions ?? new TimeTypeOptions());
+            return Time.From(value, simpleTypeDefinition.TimeTypeOptions ?? new TimeTypeOptions());
         }        
     }
 }

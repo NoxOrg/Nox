@@ -9,7 +9,7 @@ namespace Nox.Factories.Types
         {
         }
 
-        public override Yaml? CreateNoxType(Entity entityDefinition, string propertyName, dynamic? value)
+        public override Yaml? CreateNoxType(NoxSimpleTypeDefinition simpleTypeDefinition, dynamic? value)
         {
             return value == null ? null : Yaml.From(value);
         }

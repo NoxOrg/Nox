@@ -9,16 +9,14 @@ namespace Nox.Factories.Types
         {
         }
 
-        public override Volume? CreateNoxType(Entity entityDefinition, string propertyName, dynamic? value)
+        public override Volume? CreateNoxType(NoxSimpleTypeDefinition simpleTypeDefinition, dynamic? value)
         {
             if (value == null)
             {
                 return null;
             }
 
-            NoxSimpleTypeDefinition attributeDefinition = GetAttributeDefinition(entityDefinition, propertyName);
-
-            return Volume.From(value, attributeDefinition.VolumeTypeOptions ?? new VolumeTypeOptions());
+            return Volume.From(value, simpleTypeDefinition.VolumeTypeOptions ?? new VolumeTypeOptions());
         }        
     }
 }

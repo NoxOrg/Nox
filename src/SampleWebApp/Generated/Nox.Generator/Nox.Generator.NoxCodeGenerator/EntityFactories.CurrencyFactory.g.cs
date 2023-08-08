@@ -12,8 +12,6 @@ using Nox.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
-using File = Nox.Types.File;
-using Boolean = Nox.Types.Boolean;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
@@ -30,7 +28,7 @@ public class CurrencyFactory: EntityFactoryBase<CurrencyCreateDto, Currency>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
     
-        noxTypeValue =  CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",dto.Name);
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",dto.Name);
         if(noxTypeValue != null)
         {        
             entity.Name = noxTypeValue;

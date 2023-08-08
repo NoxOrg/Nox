@@ -9,16 +9,14 @@ namespace Nox.Factories.Types
         {
         }
 
-        public override Weight? CreateNoxType(Entity entityDefinition, string propertyName, dynamic? value)
+        public override Weight? CreateNoxType(NoxSimpleTypeDefinition simpleTypeDefinition, dynamic? value)
         {
             if (value == null)
             {
                 return null;
             }
 
-            NoxSimpleTypeDefinition attributeDefinition = GetAttributeDefinition(entityDefinition, propertyName);
-
-            return Weight.From(value, attributeDefinition.WeightTypeOptions ?? new WeightTypeOptions());
+            return Weight.From(value, simpleTypeDefinition.WeightTypeOptions ?? new WeightTypeOptions());
         }        
     }
 }

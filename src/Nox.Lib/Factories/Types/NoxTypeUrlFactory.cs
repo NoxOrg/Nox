@@ -9,7 +9,7 @@ namespace Nox.Factories.Types
         {
         }
 
-        public override Url? CreateNoxType(Entity entityDefinition, string propertyName, dynamic? value)
+        public override Url? CreateNoxType(NoxSimpleTypeDefinition simpleTypeDefinition, dynamic? value)
         {
             return value == null ? null : Url.From(value);
         }

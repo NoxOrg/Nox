@@ -9,7 +9,7 @@ namespace Nox.Factories.Types
         {
         }
 
-        public override TimeZoneCode? CreateNoxType(Entity entityDefinition, string propertyName, dynamic? value)
+        public override TimeZoneCode? CreateNoxType(NoxSimpleTypeDefinition simpleTypeDefinition, dynamic? value)
         {
             return value == null ? null : TimeZoneCode.From(value);
         }
