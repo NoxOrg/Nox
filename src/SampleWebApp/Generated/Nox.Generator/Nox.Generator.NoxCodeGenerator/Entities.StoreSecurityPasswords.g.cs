@@ -23,12 +23,12 @@ public partial class StoreSecurityPasswords : AuditableEntityBase
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text SecurityCamerasPassword { get; set; } = null!;
+    public Nox.Types.Text SecurityCamerasPassword { get; set; } = null!;
 
     /// <summary>
     /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores

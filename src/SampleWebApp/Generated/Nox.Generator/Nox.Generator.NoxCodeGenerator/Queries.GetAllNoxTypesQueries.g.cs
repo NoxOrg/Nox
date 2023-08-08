@@ -4,13 +4,14 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SampleWebApp.Application.Dto;
 using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetAllNoxTypesQuery() : IRequest<IQueryable<OAllNoxType>>;
+public record GetAllNoxTypesQuery() : IRequest<IQueryable<AllNoxTypeDto>>;
 
-public class GetAllNoxTypesQueryHandler : IRequestHandler<GetAllNoxTypesQuery, IQueryable<OAllNoxType>>
+public class GetAllNoxTypesQueryHandler : IRequestHandler<GetAllNoxTypesQuery, IQueryable<AllNoxTypeDto>>
 {
     public  GetAllNoxTypesQueryHandler(ODataDbContext dataDbContext)
     {
@@ -19,8 +20,11 @@ public class GetAllNoxTypesQueryHandler : IRequestHandler<GetAllNoxTypesQuery, I
 
     public ODataDbContext DataDbContext { get; }
 
-    public Task<IQueryable<OAllNoxType>> Handle(GetAllNoxTypesQuery request, CancellationToken cancellationToken)
+    public Task<IQueryable<AllNoxTypeDto>> Handle(GetAllNoxTypesQuery request, CancellationToken cancellationToken)
     {
-        return Task.FromResult((IQueryable<OAllNoxType>)DataDbContext.AllNoxTypes);
+        var item = (IQueryable<AllNoxTypeDto>)DataDbContext.AllNoxTypes
+            .Where(r => !(r.Deleted == true))
+            .AsNoTracking();
+        return Task.FromResult(item);
     }
 }

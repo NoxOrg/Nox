@@ -1,4 +1,5 @@
 ﻿using MediatR;
+using SampleWebApp.Application.Dto;
 using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries
@@ -6,9 +7,9 @@ namespace SampleWebApp.Application.Queries
     /// <summary>
     /// Custom Query and Handler Example
     /// </summary>
-    public record GetCountriesIManageQuery : IRequest<IQueryable<OCountry>>;
+    public record GetCountriesIManageQuery : IRequest<IQueryable<CountryDto>>;
 
-    public class GetCountriesIManageQueryHandler : IRequestHandler<GetCountriesIManageQuery, IQueryable<OCountry>>
+    public class GetCountriesIManageQueryHandler : IRequestHandler<GetCountriesIManageQuery, IQueryable<CountryDto>>
     {
         public GetCountriesIManageQueryHandler(ODataDbContext dataDbContext)
         {
@@ -17,9 +18,9 @@ namespace SampleWebApp.Application.Queries
 
         public ODataDbContext DataDbContext { get; }
 
-        public Task<IQueryable<OCountry>> Handle(GetCountriesIManageQuery request, CancellationToken cancellationToken)
+        public Task<IQueryable<CountryDto>> Handle(GetCountriesIManageQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult((IQueryable<OCountry>)DataDbContext.Countries.Where(country => country.Population > 12348));
+            return Task.FromResult((IQueryable<CountryDto>)DataDbContext.Countries.Where(country => country.Population > 12348));
         }
     }
 }

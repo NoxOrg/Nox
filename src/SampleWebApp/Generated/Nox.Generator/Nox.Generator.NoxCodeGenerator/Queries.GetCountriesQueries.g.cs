@@ -4,13 +4,14 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SampleWebApp.Application.Dto;
 using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetCountriesQuery() : IRequest<IQueryable<OCountry>>;
+public record GetCountriesQuery() : IRequest<IQueryable<CountryDto>>;
 
-public class GetCountriesQueryHandler : IRequestHandler<GetCountriesQuery, IQueryable<OCountry>>
+public class GetCountriesQueryHandler : IRequestHandler<GetCountriesQuery, IQueryable<CountryDto>>
 {
     public  GetCountriesQueryHandler(ODataDbContext dataDbContext)
     {
@@ -19,8 +20,11 @@ public class GetCountriesQueryHandler : IRequestHandler<GetCountriesQuery, IQuer
 
     public ODataDbContext DataDbContext { get; }
 
-    public Task<IQueryable<OCountry>> Handle(GetCountriesQuery request, CancellationToken cancellationToken)
+    public Task<IQueryable<CountryDto>> Handle(GetCountriesQuery request, CancellationToken cancellationToken)
     {
-        return Task.FromResult((IQueryable<OCountry>)DataDbContext.Countries);
+        var item = (IQueryable<CountryDto>)DataDbContext.Countries
+            .Where(r => !(r.Deleted == true))
+            .AsNoTracking();
+        return Task.FromResult(item);
     }
 }

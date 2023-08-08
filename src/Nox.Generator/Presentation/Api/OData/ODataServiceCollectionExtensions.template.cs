@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using Microsoft.AspNetCore.OData.Formatter.Serialization;
 using Nox.Lib;
+using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 namespace {{codeGeneratorState.ODataNameSpace}};
 
@@ -18,7 +19,7 @@ public static class ODataServiceCollectionExtensions
 
         {{- for entity in solution.Domain.Entities }}
 
-        builder.EntitySet<O{{entity.Name}}>("{{entity.PluralName}}");
+        builder.EntitySet<{{entity.Name}}Dto>("{{entity.PluralName}}");
 
         {{- end }}
 

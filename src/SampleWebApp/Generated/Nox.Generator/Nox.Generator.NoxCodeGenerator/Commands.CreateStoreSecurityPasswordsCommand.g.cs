@@ -5,25 +5,39 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using SampleWebApp.Presentation.Api.OData;
+using Nox.Types;
+using Nox.Application;
+using Nox.Factories;
 using SampleWebApp.Infrastructure.Persistence;
+using SampleWebApp.Domain;
+using SampleWebApp.Presentation.Api.OData;
+using SampleWebApp.Application.Dto;
+
 
 namespace SampleWebApp.Application.Commands;
 
-public record CreateStoreSecurityPasswordsCommand() : IRequest<OStoreSecurityPasswords>;
+//TODO support multiple keys and generated keys like nuid database number
+public record CreateStoreSecurityPasswordsCommand(StoreSecurityPasswordsCreateDto EntityDto) : IRequest<Text>;
 
-public class CreateStoreSecurityPasswordsCommandHandler: IRequestHandler<CreateStoreSecurityPasswordsCommand, OStoreSecurityPasswords>
+public class CreateStoreSecurityPasswordsCommandHandler: IRequestHandler<CreateStoreSecurityPasswordsCommand, Text>
 {
-    public  CreateStoreSecurityPasswordsCommandHandler(SampleWebAppDbContext dbContext)
+    public SampleWebAppDbContext DbContext { get; }
+    public IEntityFactory<StoreSecurityPasswordsCreateDto,StoreSecurityPasswords> EntityFactory { get; }
+
+    public  CreateStoreSecurityPasswordsCommandHandler(
+        SampleWebAppDbContext dbContext,
+        IEntityFactory<StoreSecurityPasswordsCreateDto,StoreSecurityPasswords> entityFactory)
     {
         DbContext = dbContext;
+        EntityFactory = entityFactory;
     }
-
-    public SampleWebAppDbContext DbContext { get; }
-
-    public async Task<OStoreSecurityPasswords> Handle(CreateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
-    {       
-        await Task.Delay(1000);
-        return default(OStoreSecurityPasswords)!;
+    
+    public async Task<Text> Handle(CreateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
+    {    
+        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
+        //TODO for nuid property or key needs to call ensure id        
+        DbContext.StoreSecurityPasswords.Add(entityToCreate);
+        await DbContext.SaveChangesAsync();
+        return entityToCreate.Id;
     }
 }

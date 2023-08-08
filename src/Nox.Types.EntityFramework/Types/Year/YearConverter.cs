@@ -2,7 +2,7 @@
 
 namespace Nox.Types.EntityFramework.Types;
 
-public class YearToUShortConverter : ValueConverter<Year, ushort>
+public class YearConverter : ValueConverter<Year, ushort>
 {
-    public YearToUShortConverter() : base(year => year.Value, n => Year.From(n)) { }
+    public YearConverter() : base(year => year.Value, yearValue => Year.FromDatabase(yearValue)) { }
 }

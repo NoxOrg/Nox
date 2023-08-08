@@ -9,9 +9,11 @@ using static Nox.Generator.Common.BaseGenerator;
 
 namespace Nox.Generator.Presentation.Api;
 
-internal static class ApiGenerator
+internal class ApiGenerator : INoxCodeGenerator
 {
-    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Presentation;
+
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -47,7 +49,7 @@ internal static class ApiGenerator
             IReadOnlyCollection<DomainQuery> queries = entity.Queries ?? new List<DomainQuery>();
             IReadOnlyCollection<DomainCommand> commands = entity.Commands ?? new List<DomainCommand>();
 
-            var code = new CodeBuilder($"{pluralName}Controller.g.cs", context);
+            var code = new CodeBuilder($"Controllers.{pluralName}Controller.g.cs", context);
 
             // Namespace
             code.AppendLine($"using Microsoft.AspNetCore.Mvc;");
@@ -57,8 +59,10 @@ internal static class ApiGenerator
             code.AppendLine($"using Microsoft.EntityFrameworkCore;");
             code.AppendLine($"using AutoMapper;");
             code.AppendLine("using MediatR;");
+            code.AppendLine("using Nox.Application;");
 
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace};");
+            code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Dto;");
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Queries;");
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Commands;");
             code.AppendLine($"using {codeGeneratorState.DataTransferObjectsNameSpace};");
@@ -85,7 +89,7 @@ internal static class ApiGenerator
                 {
                     { dbContextName, "databaseContext" },
                     { "IMapper", "mapper" },
-                    { "IMediator", "mediator" },
+                    { "IMediator", "mediator" }
                 };
 
             foreach (var query in queries)
@@ -124,7 +128,7 @@ internal static class ApiGenerator
             if (entity.Persistence is null ||
                 entity.Persistence.Create.IsEnabled)
             {
-                GeneratePost(entityName, pluralName, variableName, keyName, code);
+                GeneratePost(entityName, variableName, code);
             }
 
             if (entity.Persistence is null ||
@@ -132,13 +136,13 @@ internal static class ApiGenerator
             {
                 GeneratePut(entity, code);
 
-                GeneratePatch(entity, entityName, pluralName, keyName, variableName, code);
+                GeneratePatch(entity, entityName, pluralName, variableName, code);
             }
 
             if (entity.Persistence is null ||
                 entity.Persistence.Delete.IsEnabled)
             {
-                GenerateDelete(entityName, variableName, keyName, code);
+                GenerateDelete(entity, entityName, code);
             }
 
             // Generate GET request mapping for Queries
@@ -175,20 +179,20 @@ internal static class ApiGenerator
         }
     }
 
-    private static void GenerateDelete(string entityName, string variableName, string keyName, CodeBuilder code)
+    private static void GenerateDelete(Entity entity, string entityName, CodeBuilder code)
     {
         // Method Delete
-        code.AppendLine($"public async Task<ActionResult> Delete([FromRoute] string key)");
+        code.AppendLine($"public async Task<ActionResult> Delete([FromRoute] {entity.KeysFlattenComponentsType[entity.Keys![0].Name]} key)");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand(key));");                
+        code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand(key));");
 
         code.AppendLine($"if (!result)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
-        code.AppendLine();        
+        code.AppendLine();
         code.AppendLine($"return NoContent();");
 
         // End method
@@ -200,11 +204,13 @@ internal static class ApiGenerator
         // TODO Composite Keys
         if (entity.Keys is { Count: > 1 })
         {
+            //TODO Support to multiples keys, best pratctices?
             Debug.WriteLine("Put for composite keys Not implemented...");
             return;
         }
+
         // Method Put
-        code.AppendLine($"public async Task<ActionResult> Put([FromRoute] string key, [FromBody] O{entity.Name} updated{entity.Name})");
+        code.AppendLine($"public async Task<ActionResult> Put([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] {entity.Name}Dto updated{entity.Name})");
 
         // Method content
         code.StartBlock();
@@ -243,7 +249,7 @@ internal static class ApiGenerator
         code.AppendLine();
     }
 
-    private static void GeneratePatch(Entity entity, string entityName, string pluralName, string variableName, string keyName, CodeBuilder code)
+    private static void GeneratePatch(Entity entity, string entityName, string pluralName, string variableName, CodeBuilder code)
     {
         // TODO Composite Keys
         if (entity.Keys is { Count: > 1 })
@@ -252,7 +258,7 @@ internal static class ApiGenerator
             return;
         }
         // Method Patch
-        code.AppendLine($"public async Task<ActionResult> Patch([FromRoute] string {keyName}, [FromBody] Delta<O{entityName}> {variableName})");
+        code.AppendLine($"public async Task<ActionResult> Patch([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] Delta<{entityName}Dto> {variableName})");
 
         // Method content
         code.StartBlock();
@@ -261,7 +267,7 @@ internal static class ApiGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"var entity = await _databaseContext.{entity.PluralName}.FindAsync({keyName});");
+        code.AppendLine($"var entity = await _databaseContext.{entity.PluralName}.FindAsync(key);");
         code.AppendLine();
         code.AppendLine($"if (entity == null)");
         code.StartBlock();
@@ -276,7 +282,7 @@ internal static class ApiGenerator
         code.EndBlock();
         code.AppendLine($"catch (DbUpdateConcurrencyException)");
         code.StartBlock();
-        code.AppendLine($"if (!{entityName}Exists({keyName}))");
+        code.AppendLine($"if (!{entityName}Exists(key))");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
@@ -293,21 +299,21 @@ internal static class ApiGenerator
         code.AppendLine();
 
         // Method Exists
-        code.AppendLine($"private bool {entityName}Exists(string {keyName})");
+        code.AppendLine($"private bool {entityName}Exists({entity.KeysFlattenComponentsType[entity.Keys![0].Name]} key)");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"return _databaseContext.{pluralName}.Any(p => p.Id == {keyName});");
+        code.AppendLine($"return _databaseContext.{pluralName}.Any(p => p.{entity.Keys![0].Name} == key);");
 
         // End method
         code.EndBlock();
         code.AppendLine();
     }
 
-    private static void GeneratePost(string entityName, string pluralName, string variableName, string keyName, CodeBuilder code)
+    private static void GeneratePost(string entityName, string variableName, CodeBuilder code)
     {
         // Method Post
-        code.AppendLine($"public async Task<ActionResult> Post([FromBody]{entityName}Dto {variableName})");
+        code.AppendLine($"public async Task<ActionResult> Post([FromBody]{entityName}CreateDto {variableName})");
 
         // Method content
         code.StartBlock();
@@ -315,20 +321,10 @@ internal static class ApiGenerator
         code.StartBlock();
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
-        code.AppendLine();
-        code.AppendLine($"var entity = _mapper.Map<O{entityName}>({variableName});");
-        code.AppendLine();
-        // TODO: temporal logic! Need to create an abstraction on top
-        code.AppendLine($"entity.{keyName} = Guid.NewGuid().ToString().Substring(0, 2);");
-        //code.AppendLine($"entity.CreatedBy = \"test\";");
-        //code.AppendLine($"entity.CreatedAtUtc = DateTime.UtcNow;");
+        code.AppendLine($"var createdKey = await _mediator.Send(new Create{entityName}Command({variableName}));");
 
         code.AppendLine();
-        code.AppendLine($"_databaseContext.{pluralName}.Add(entity);");
-        code.AppendLine();
-        code.AppendLine($"await _databaseContext.SaveChangesAsync();");
-        code.AppendLine();
-        code.AppendLine($"return Created(entity);");
+        code.AppendLine($"return Created(createdKey);");
 
         // End method
         code.EndBlock();
@@ -339,11 +335,11 @@ internal static class ApiGenerator
     {
         // Method Get
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public async  Task<ActionResult<IQueryable<O{entity.Name}>>> Get()");
+        code.AppendLine($"public async  Task<ActionResult<IQueryable<{entity.Name}Dto>>> Get()");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"var result = await _mediator.Send(new Get{entity.PluralName}Query());");                
+        code.AppendLine($"var result = await _mediator.Send(new Get{entity.PluralName}Query());");
         code.AppendLine($"return Ok(result);");
 
         // End method
@@ -362,13 +358,13 @@ internal static class ApiGenerator
             Debug.WriteLine($"Get for composite keys Not implemented, Entity - {entity.Name}...");
             return;
         }
-        
+
         // We do not support Compound types as primary keys, this is validated on the schema
         // Method Get
-        code.AppendLine($"public async Task<ActionResult<O{entity.Name}>> Get([FromRoute] {entity.KeysFlattenComponentsTypeName[0]} key)");
+        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Get([FromRoute] {entity.KeysFlattenComponentsType[entity.Keys[0].Name]} key)");
 
         // Method content
-        code.StartBlock();        
+        code.StartBlock();
         code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery(key));");
         code.AppendLine();
         code.AppendLine($"if (item == null)");

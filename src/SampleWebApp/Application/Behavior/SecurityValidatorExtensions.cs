@@ -2,6 +2,7 @@
 using MediatR;
 using SampleWebApp.Application.Queries;
 using SampleWebApp.Presentation.Api.OData;
+using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Behavior
 {
@@ -11,7 +12,7 @@ namespace SampleWebApp.Application.Behavior
         {
             return services
                 .AddSingleton<IValidator<GetStoreByIdQuery>, GetStoreByIdSecurityValidator>()
-                .AddScoped<IPipelineBehavior<GetStoresQuery, IQueryable<OStore>>, GetStoresQuerySecurityFilter> ();
+                .AddScoped<IPipelineBehavior<GetStoresQuery, IQueryable<StoreDto>>, GetStoresQuerySecurityFilter> ();
         }
     }
 }

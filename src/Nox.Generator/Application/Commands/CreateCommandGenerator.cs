@@ -4,9 +4,11 @@ using Nox.Solution;
 
 namespace Nox.Generator.Application.Commands;
 
-internal static class CreateCommandGenerator
+internal class CreateCommandGenerator : INoxCodeGenerator
 {
-    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
+
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -15,7 +17,7 @@ internal static class CreateCommandGenerator
             return;
         }
 
-        var templateName = @"Application.Commands.CreateCommand";        
+        var templateName = @"Application.Commands.CreateCommand";
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
@@ -25,7 +27,6 @@ internal static class CreateCommandGenerator
                 .WithFileNamePrefix($"Commands")
                 .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource(templateName);
-
         }
     }
 }

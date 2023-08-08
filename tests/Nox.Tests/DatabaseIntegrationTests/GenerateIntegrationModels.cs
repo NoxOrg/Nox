@@ -8,7 +8,7 @@ namespace Nox.Tests.DatabaseIntegrationTests
     {
         private const string BasePath = "../../../DatabaseIntegrationTests/Models/";
 
-        //[Fact]
+        // [Fact]
         public void GenerateIntegrationTestModels()
         {
             var _fixture = new GeneratorFixture();
@@ -32,7 +32,6 @@ namespace Nox.Tests.DatabaseIntegrationTests
 
             var classNames = new[]
             {
-                "AuditableEntityBase",
                 "TestWebAppDbContext",
                 "TestEntity",
                 "SecondTestEntity",

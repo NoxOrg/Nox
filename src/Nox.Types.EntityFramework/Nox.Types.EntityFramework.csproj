@@ -21,6 +21,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="Model\**" />
+	  <EmbeddedResource Remove="Model\**" />
+	  <None Remove="Model\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.9" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="7.0.9" />
 		<PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="7.0.9" />
@@ -44,7 +50,6 @@
 		<None Include="..\..\images\nox.png" Pack="true" PackagePath="" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Model\" />
 	  <Folder Include="Types\Uri\" />
 	  <Folder Include="Types\Yaml\" />
 	</ItemGroup>

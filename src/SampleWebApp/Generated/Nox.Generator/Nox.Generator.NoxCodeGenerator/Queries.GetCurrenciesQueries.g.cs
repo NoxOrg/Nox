@@ -4,13 +4,14 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SampleWebApp.Application.Dto;
 using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetCurrenciesQuery() : IRequest<IQueryable<OCurrency>>;
+public record GetCurrenciesQuery() : IRequest<IQueryable<CurrencyDto>>;
 
-public class GetCurrenciesQueryHandler : IRequestHandler<GetCurrenciesQuery, IQueryable<OCurrency>>
+public class GetCurrenciesQueryHandler : IRequestHandler<GetCurrenciesQuery, IQueryable<CurrencyDto>>
 {
     public  GetCurrenciesQueryHandler(ODataDbContext dataDbContext)
     {
@@ -19,8 +20,11 @@ public class GetCurrenciesQueryHandler : IRequestHandler<GetCurrenciesQuery, IQu
 
     public ODataDbContext DataDbContext { get; }
 
-    public Task<IQueryable<OCurrency>> Handle(GetCurrenciesQuery request, CancellationToken cancellationToken)
+    public Task<IQueryable<CurrencyDto>> Handle(GetCurrenciesQuery request, CancellationToken cancellationToken)
     {
-        return Task.FromResult((IQueryable<OCurrency>)DataDbContext.Currencies);
+        var item = (IQueryable<CurrencyDto>)DataDbContext.Currencies
+            .Where(r => !(r.Deleted == true))
+            .AsNoTracking();
+        return Task.FromResult(item);
     }
 }

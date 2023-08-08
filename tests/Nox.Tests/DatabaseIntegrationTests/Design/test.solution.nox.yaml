@@ -310,12 +310,14 @@ domain:
         - name: CurrencyCode3TestField
           type: currencyCode3
           
-          
         - name: DayOfWeekTestField
           type: dayOfWeek
 
-        #- name: GeoCoordTestField
-        #  type: latLong
+        - name: JwtTokenTestField
+          type: jwtToken
+
+        - name: GeoCoordTestField
+          type: latLong
 
         - name: AreaTestField
           type: area
@@ -344,8 +346,8 @@ domain:
         #- name: DateTimeRangeTestField
         #  type: dateTimeRange
 
-        #- name: DistanceTestField
-        #  type: distance
+        - name: DistanceTestField
+          type: distance
 
         - name: EmailTestField
           type: email
@@ -386,8 +388,8 @@ domain:
         - name: PasswordTestField
           type: password
 
-        #- name: PercentageTestField
-        #  type: percentage
+        - name: PercentageTestField
+          type: percentage
 
         - name: PhoneNumberTestField
           type: phoneNumber
@@ -399,17 +401,17 @@ domain:
         - name: TranslatedTextTestField
           type: translatedText
 
-        #- name: UriTestField
-        #  type: uri
+        - name: UriTestField
+          type: uri
 
-        #- name: VolumeTestField
-        #  type: volume
+        - name: VolumeTestField
+          type: volume
 
-        #- name: WeightTestField
-        #  type: weight
+        - name: WeightTestField
+          type: weight
 
-        #- name: YearTestField
-        #  type: year
+        - name: YearTestField
+          type: year
 
         - name: CultureCodeTestField
           type: cultureCode
@@ -429,12 +431,22 @@ domain:
         - name: DateTestField
           type: date
 
+        - name: MarkdownTestField
+          type: markdown
+
         - name: FileTestField
           type: file
+
+        - name: UrlTestField
+          type: url
 
         - name: FormulaTestField
           type: formula
           formulaTypeOptions:
               expression: "2 + 2"
               returns: int
+        
+        - name: DatabaseNumberTestField
+          type: databaseNumber
+          isRequired: true
 

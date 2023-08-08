@@ -8,7 +8,7 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteCountryByIdCommand(String key) : IRequest<bool>;
+public record DeleteCountryByIdCommand(System.String key) : IRequest<bool>;
 
 public class DeleteCountryByIdCommandHandler: IRequestHandler<DeleteCountryByIdCommand, bool>
 {
@@ -22,12 +22,12 @@ public class DeleteCountryByIdCommandHandler: IRequestHandler<DeleteCountryByIdC
     public async Task<bool> Handle(DeleteCountryByIdCommand request, CancellationToken cancellationToken)
     {
         var entity = await DataDbContext.Countries.FindAsync(request.key);
-        if (entity == null)
+        if (entity == null || entity.Deleted == true)
         {
             return false;
         }
 
-        DataDbContext.Countries.Remove(entity);
+        entity.Delete();
         await DataDbContext.SaveChangesAsync(cancellationToken);
         return true;
     }

@@ -1,11 +1,9 @@
 name: Publish Schemas
 
 on:
-  push:
-    branches: [ main ]
-    paths:
-      - schemas/**
-      - .github/workflows/schema_publish.yaml
+  workflow_dispatch:
+  release:
+    types: [released]
 
 jobs:
   schemas-deploy:

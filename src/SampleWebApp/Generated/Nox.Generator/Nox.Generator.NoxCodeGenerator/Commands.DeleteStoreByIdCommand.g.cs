@@ -8,7 +8,7 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteStoreByIdCommand(String key) : IRequest<bool>;
+public record DeleteStoreByIdCommand(System.String key) : IRequest<bool>;
 
 public class DeleteStoreByIdCommandHandler: IRequestHandler<DeleteStoreByIdCommand, bool>
 {
@@ -22,12 +22,12 @@ public class DeleteStoreByIdCommandHandler: IRequestHandler<DeleteStoreByIdComma
     public async Task<bool> Handle(DeleteStoreByIdCommand request, CancellationToken cancellationToken)
     {
         var entity = await DataDbContext.Stores.FindAsync(request.key);
-        if (entity == null)
+        if (entity == null || entity.Deleted == true)
         {
             return false;
         }
 
-        DataDbContext.Stores.Remove(entity);
+        entity.Delete();
         await DataDbContext.SaveChangesAsync(cancellationToken);
         return true;
     }

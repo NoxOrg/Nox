@@ -4,13 +4,14 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SampleWebApp.Application.Dto;
 using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetStoresQuery() : IRequest<IQueryable<OStore>>;
+public record GetStoresQuery() : IRequest<IQueryable<StoreDto>>;
 
-public class GetStoresQueryHandler : IRequestHandler<GetStoresQuery, IQueryable<OStore>>
+public class GetStoresQueryHandler : IRequestHandler<GetStoresQuery, IQueryable<StoreDto>>
 {
     public  GetStoresQueryHandler(ODataDbContext dataDbContext)
     {
@@ -19,8 +20,11 @@ public class GetStoresQueryHandler : IRequestHandler<GetStoresQuery, IQueryable<
 
     public ODataDbContext DataDbContext { get; }
 
-    public Task<IQueryable<OStore>> Handle(GetStoresQuery request, CancellationToken cancellationToken)
+    public Task<IQueryable<StoreDto>> Handle(GetStoresQuery request, CancellationToken cancellationToken)
     {
-        return Task.FromResult((IQueryable<OStore>)DataDbContext.Stores);
+        var item = (IQueryable<StoreDto>)DataDbContext.Stores
+            .Where(r => !(r.Deleted == true))
+            .AsNoTracking();
+        return Task.FromResult(item);
     }
 }

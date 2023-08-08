@@ -5,6 +5,7 @@
 using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
@@ -31,17 +32,17 @@ public class ODataDbContext : DbContext
             _dbProvider = databaseProvider;
         }
         
-        public DbSet<OCountry> Countries { get; set; } = null!;
+        public DbSet<CountryDto> Countries { get; set; } = null!;
         
-        public DbSet<OCurrency> Currencies { get; set; } = null!;
+        public DbSet<CurrencyDto> Currencies { get; set; } = null!;
         
-        public DbSet<OStore> Stores { get; set; } = null!;
+        public DbSet<StoreDto> Stores { get; set; } = null!;
         
-        public DbSet<OStoreSecurityPasswords> StoreSecurityPasswords { get; set; } = null!;
+        public DbSet<StoreSecurityPasswordsDto> StoreSecurityPasswords { get; set; } = null!;
         
-        public DbSet<OAllNoxType> AllNoxTypes { get; set; } = null!;
+        public DbSet<AllNoxTypeDto> AllNoxTypes { get; set; } = null!;
         
-        public DbSet<OCountryLocalNames> CountryLocalNames { get; set; } = null!;
+        public DbSet<CountryLocalNamesDto> CountryLocalNames { get; set; } = null!;
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -4,13 +4,14 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using SampleWebApp.Application.Dto;
 using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetStoreSecurityPasswordsQuery() : IRequest<IQueryable<OStoreSecurityPasswords>>;
+public record GetStoreSecurityPasswordsQuery() : IRequest<IQueryable<StoreSecurityPasswordsDto>>;
 
-public class GetStoreSecurityPasswordsQueryHandler : IRequestHandler<GetStoreSecurityPasswordsQuery, IQueryable<OStoreSecurityPasswords>>
+public class GetStoreSecurityPasswordsQueryHandler : IRequestHandler<GetStoreSecurityPasswordsQuery, IQueryable<StoreSecurityPasswordsDto>>
 {
     public  GetStoreSecurityPasswordsQueryHandler(ODataDbContext dataDbContext)
     {
@@ -19,8 +20,11 @@ public class GetStoreSecurityPasswordsQueryHandler : IRequestHandler<GetStoreSec
 
     public ODataDbContext DataDbContext { get; }
 
-    public Task<IQueryable<OStoreSecurityPasswords>> Handle(GetStoreSecurityPasswordsQuery request, CancellationToken cancellationToken)
+    public Task<IQueryable<StoreSecurityPasswordsDto>> Handle(GetStoreSecurityPasswordsQuery request, CancellationToken cancellationToken)
     {
-        return Task.FromResult((IQueryable<OStoreSecurityPasswords>)DataDbContext.StoreSecurityPasswords);
+        var item = (IQueryable<StoreSecurityPasswordsDto>)DataDbContext.StoreSecurityPasswords
+            .Where(r => !(r.Deleted == true))
+            .AsNoTracking();
+        return Task.FromResult(item);
     }
 }

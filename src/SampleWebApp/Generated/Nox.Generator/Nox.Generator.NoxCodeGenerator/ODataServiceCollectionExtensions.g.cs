@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using Microsoft.AspNetCore.OData.Formatter.Serialization;
 using Nox.Lib;
+using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
@@ -16,17 +17,17 @@ public static class ODataServiceCollectionExtensions
     {
         ODataModelBuilder builder = new ODataConventionModelBuilder();
 
-        builder.EntitySet<OCountry>("Countries");
+        builder.EntitySet<CountryDto>("Countries");
 
-        builder.EntitySet<OCurrency>("Currencies");
+        builder.EntitySet<CurrencyDto>("Currencies");
 
-        builder.EntitySet<OStore>("Stores");
+        builder.EntitySet<StoreDto>("Stores");
 
-        builder.EntitySet<OStoreSecurityPasswords>("StoreSecurityPasswords");
+        builder.EntitySet<StoreSecurityPasswordsDto>("StoreSecurityPasswords");
 
-        builder.EntitySet<OAllNoxType>("AllNoxTypes");
+        builder.EntitySet<AllNoxTypeDto>("AllNoxTypes");
 
-        builder.EntitySet<OCountryLocalNames>("CountryLocalNames");
+        builder.EntitySet<CountryLocalNamesDto>("CountryLocalNames");
 
         services.AddControllers()
             .AddOData(options =>

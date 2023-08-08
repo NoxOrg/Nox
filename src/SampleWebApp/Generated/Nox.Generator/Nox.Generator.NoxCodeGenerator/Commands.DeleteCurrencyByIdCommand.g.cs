@@ -8,7 +8,7 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteCurrencyByIdCommand(String key) : IRequest<bool>;
+public record DeleteCurrencyByIdCommand(System.UInt32 key) : IRequest<bool>;
 
 public class DeleteCurrencyByIdCommandHandler: IRequestHandler<DeleteCurrencyByIdCommand, bool>
 {
@@ -22,12 +22,12 @@ public class DeleteCurrencyByIdCommandHandler: IRequestHandler<DeleteCurrencyByI
     public async Task<bool> Handle(DeleteCurrencyByIdCommand request, CancellationToken cancellationToken)
     {
         var entity = await DataDbContext.Currencies.FindAsync(request.key);
-        if (entity == null)
+        if (entity == null || entity.Deleted == true)
         {
             return false;
         }
 
-        DataDbContext.Currencies.Remove(entity);
+        entity.Delete();
         await DataDbContext.SaveChangesAsync(cancellationToken);
         return true;
     }

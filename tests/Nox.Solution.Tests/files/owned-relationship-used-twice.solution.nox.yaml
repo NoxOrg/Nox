@@ -1,0 +1,91 @@
+#
+# owned-relationship-used-twice.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: TestService
+
+description: Yaml file for testing domain
+
+overview: https://regusit.atlassian.net/wiki/spaces/IE/pages/2546237453/QUARK+-+IWG+Engineering
+
+domain:
+
+  entities:
+
+    - name: Currency
+      description: The list of currencies
+      keys:
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+        - name: Name        
+          description: The currency name
+          type: text          
+          isRequired: true
+          textTypeOptions:
+            isUnicode: false
+            minLength: 10
+            maxLength: 20
+
+    - name: Country
+      description: The list of countries
+      keys:
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+        - name: Name        
+          description: The country's common name
+          type: text          
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      ownedRelationships:
+
+        - name: CountryLegalCurrencies
+          description: accepted currencies
+          relationship: oneOrMany
+          entity: Currency
+
+    - name: Store
+      description: The list of stores
+      keys:
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+        - name: Name        
+          description: The store's name
+          type: text          
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      ownedRelationships:
+
+        - name: StoreAcceptedCurrencies
+          description: accepted currencies
+          relationship: oneOrMany
+          entity: Currency

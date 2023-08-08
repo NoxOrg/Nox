@@ -15,17 +15,20 @@ internal class AllNoxTypesDataSeeder : SampleDataSeederBase<AllNoxTypeModel, All
 
     protected override IEnumerable<AllNoxType> TransformToEntities(IEnumerable<AllNoxTypeModel> models)
     {
-        var entities = models.Select(x =>
-            new AllNoxType
+        var entities = models.Select(x => Create(x)).ToList();
+
+        return entities;
+
+        static AllNoxType Create(AllNoxTypeModel x)
+        {
+            return new AllNoxType
             {
-                Id = Text.From(x.Id),
                 TextField = Text.From(x.TextField),
                 VatNumberField = VatNumber.From(x.VatNumber, CountryCode2.From(x.CountryCode2)),
                 CountryCode2Field = CountryCode2.From(x.CountryCode2),
                 CountryCode3Field = CountryCode3.From(x.CountryCode3),
                 CreatedAtUtc = System.DateTime.Now
-            }).ToList();
-
-        return entities;
+            };
+        }
     }
 }
