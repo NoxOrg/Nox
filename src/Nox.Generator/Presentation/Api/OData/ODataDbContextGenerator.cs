@@ -6,9 +6,11 @@ using static Nox.Generator.Common.BaseGenerator;
 
 namespace Nox.Generator.Presentation.Api.OData;
 
-internal static class ODataDbContextGenerator
+internal class ODataDbContextGenerator : INoxCodeGenerator
 {
-    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Presentation;
+
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -29,7 +31,7 @@ internal static class ODataDbContextGenerator
         code.AppendLine(@$"using {codeGeneratorState.ApplicationNameSpace}.Dto;");
 
         code.AppendLine();
-        code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");        
+        code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
         code.AppendLine();
 
         string dbContextName = "ODataDbContext";
@@ -61,7 +63,7 @@ internal static class ODataDbContextGenerator
 
         foreach (var entity in solution.Domain.Entities)
         {
-            code.AppendLine($"public DbSet<O{entity.Name}> {entity.PluralName} {{ get; set; }} = null!;");
+            code.AppendLine($"public DbSet<{entity.Name}Dto> {entity.PluralName} {{ get; set; }} = null!;");
             code.AppendLine();
         }
 

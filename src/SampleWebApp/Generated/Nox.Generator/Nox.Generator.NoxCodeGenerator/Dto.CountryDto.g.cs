@@ -3,8 +3,7 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.OData;
-using Microsoft.OData.ModelBuilder;
+using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using MediatR;
 using Nox.Types;
@@ -18,7 +17,7 @@ namespace SampleWebApp.Application.Dto;
 /// The list of countries.
 /// </summary>
 [AutoMap(typeof(CountryCreateDto))]
-public partial class OCountry : AuditableEntityBase
+public partial class CountryDto : AuditableEntityBase
 {
 
     /// <summary>
@@ -69,7 +68,7 @@ public partial class OCountry : AuditableEntityBase
     /// <summary>
     /// Country area in square kilometers (Required).
     /// </summary>
-    public System.Int32 AreaInSquareKilometres { get; set; } = default!;
+    public System.Decimal AreaInSquareKilometres { get; set; } = default!;
 
     /// <summary>
     /// The the position of the workplace's point on the surface of the Earth (Optional).
@@ -100,4 +99,9 @@ public partial class OCountry : AuditableEntityBase
     /// The top level internet domains regitered to the country (comma-delimited) (Optional).
     /// </summary>
     public System.String? TopLevelDomains { get; set; } 
+
+    /// <summary>
+    /// Country accepts as legal tender OneOrMany Currencies
+    /// </summary>
+    public virtual List<CurrencyDto> Currencies { get; set; } = new();
 }

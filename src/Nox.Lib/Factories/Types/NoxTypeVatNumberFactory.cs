@@ -3,9 +3,9 @@ using Nox.Types;
 
 namespace Nox.Factories.Types
 {
-    public class NoxTypeVarNumberFactory : NoxTypeFactoryBase<VatNumber>
+    public class NoxTypeVatNumberFactory : NoxTypeFactoryBase<VatNumber>
     {
-        public NoxTypeVarNumberFactory(NoxSolution solution) : base(solution)
+        public NoxTypeVatNumberFactory(NoxSolution solution) : base(solution)
         {
         }
 

@@ -30,6 +30,7 @@
     <InternalsVisibleTo Include="Nox.Types.EntityFramework" />
     <InternalsVisibleTo Include="Nox.Types.Tests" />
     <InternalsVisibleTo Include="Nox.Solution" />
+	<InternalsVisibleTo Include="Nox.Lib.Tests" />
   </ItemGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

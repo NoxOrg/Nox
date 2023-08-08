@@ -51,13 +51,13 @@ public partial class StoreSecurityPasswordsController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<OStoreSecurityPasswords>>> Get()
+    public async  Task<ActionResult<IQueryable<StoreSecurityPasswordsDto>>> Get()
     {
         var result = await _mediator.Send(new GetStoreSecurityPasswordsQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<OStoreSecurityPasswords>> Get([FromRoute] System.String key)
+    public async Task<ActionResult<StoreSecurityPasswordsDto>> Get([FromRoute] System.String key)
     {
         var item = await _mediator.Send(new GetStoreSecurityPasswordsByIdQuery(key));
         
@@ -80,7 +80,7 @@ public partial class StoreSecurityPasswordsController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] OStoreSecurityPasswords updatedStoreSecurityPasswords)
+    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] StoreSecurityPasswordsDto updatedStoreSecurityPasswords)
     {
         if (!ModelState.IsValid)
         {
@@ -113,7 +113,7 @@ public partial class StoreSecurityPasswordsController : ODataController
         return Updated(updatedStoreSecurityPasswords);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<OStoreSecurityPasswords> storesecuritypasswords)
+    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<StoreSecurityPasswordsDto> storesecuritypasswords)
     {
         if (!ModelState.IsValid)
         {

@@ -9,9 +9,9 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetStoreSecurityPasswordsByIdQuery(System.String key) : IRequest<OStoreSecurityPasswords?>;
+public record GetStoreSecurityPasswordsByIdQuery(System.String key) : IRequest<StoreSecurityPasswordsDto?>;
 
-public class GetStoreSecurityPasswordsByIdQueryHandler: IRequestHandler<GetStoreSecurityPasswordsByIdQuery, OStoreSecurityPasswords?>
+public class GetStoreSecurityPasswordsByIdQueryHandler: IRequestHandler<GetStoreSecurityPasswordsByIdQuery, StoreSecurityPasswordsDto?>
 {
     public  GetStoreSecurityPasswordsByIdQueryHandler(ODataDbContext dataDbContext)
     {
@@ -20,7 +20,7 @@ public class GetStoreSecurityPasswordsByIdQueryHandler: IRequestHandler<GetStore
 
     public ODataDbContext DataDbContext { get; }
 
-    public Task<OStoreSecurityPasswords?> Handle(GetStoreSecurityPasswordsByIdQuery request, CancellationToken cancellationToken)
+    public Task<StoreSecurityPasswordsDto?> Handle(GetStoreSecurityPasswordsByIdQuery request, CancellationToken cancellationToken)
     {    
         var item = DataDbContext.StoreSecurityPasswords
             .AsNoTracking()

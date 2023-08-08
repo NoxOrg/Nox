@@ -51,13 +51,13 @@ public partial class CountryLocalNamesController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<OCountryLocalNames>>> Get()
+    public async  Task<ActionResult<IQueryable<CountryLocalNamesDto>>> Get()
     {
         var result = await _mediator.Send(new GetCountryLocalNamesQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<OCountryLocalNames>> Get([FromRoute] System.String key)
+    public async Task<ActionResult<CountryLocalNamesDto>> Get([FromRoute] System.String key)
     {
         var item = await _mediator.Send(new GetCountryLocalNamesByIdQuery(key));
         
@@ -80,7 +80,7 @@ public partial class CountryLocalNamesController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] OCountryLocalNames updatedCountryLocalNames)
+    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] CountryLocalNamesDto updatedCountryLocalNames)
     {
         if (!ModelState.IsValid)
         {
@@ -113,7 +113,7 @@ public partial class CountryLocalNamesController : ODataController
         return Updated(updatedCountryLocalNames);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<OCountryLocalNames> countrylocalnames)
+    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<CountryLocalNamesDto> countrylocalnames)
     {
         if (!ModelState.IsValid)
         {

@@ -9,9 +9,11 @@ using static Nox.Generator.Common.BaseGenerator;
 
 namespace Nox.Generator.Presentation.Api;
 
-internal static class ApiGenerator
+internal class ApiGenerator : INoxCodeGenerator
 {
-    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Presentation;
+
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -59,7 +61,6 @@ internal static class ApiGenerator
             code.AppendLine("using MediatR;");
             code.AppendLine("using Nox.Application;");
 
-
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace};");
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Dto;");
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Queries;");
@@ -83,7 +84,6 @@ internal static class ApiGenerator
 
             AddField(code, "IMapper", "mapper", "The Automapper");
             AddField(code, "IMediator", "mediator", "The Mediator");
-
 
             var constructorParameters = new Dictionary<string, string>
                 {
@@ -208,9 +208,9 @@ internal static class ApiGenerator
             Debug.WriteLine("Put for composite keys Not implemented...");
             return;
         }
-        
+
         // Method Put
-        code.AppendLine($"public async Task<ActionResult> Put([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] O{entity.Name} updated{entity.Name})");
+        code.AppendLine($"public async Task<ActionResult> Put([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] {entity.Name}Dto updated{entity.Name})");
 
         // Method content
         code.StartBlock();
@@ -258,7 +258,7 @@ internal static class ApiGenerator
             return;
         }
         // Method Patch
-        code.AppendLine($"public async Task<ActionResult> Patch([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] Delta<O{entityName}> {variableName})");
+        code.AppendLine($"public async Task<ActionResult> Patch([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] Delta<{entityName}Dto> {variableName})");
 
         // Method content
         code.StartBlock();
@@ -315,7 +315,6 @@ internal static class ApiGenerator
         // Method Post
         code.AppendLine($"public async Task<ActionResult> Post([FromBody]{entityName}CreateDto {variableName})");
 
-
         // Method content
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid)");
@@ -336,7 +335,7 @@ internal static class ApiGenerator
     {
         // Method Get
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public async  Task<ActionResult<IQueryable<O{entity.Name}>>> Get()");
+        code.AppendLine($"public async  Task<ActionResult<IQueryable<{entity.Name}Dto>>> Get()");
 
         // Method content
         code.StartBlock();
@@ -362,7 +361,7 @@ internal static class ApiGenerator
 
         // We do not support Compound types as primary keys, this is validated on the schema
         // Method Get
-        code.AppendLine($"public async Task<ActionResult<O{entity.Name}>> Get([FromRoute] {entity.KeysFlattenComponentsType[entity.Keys[0].Name]} key)");
+        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Get([FromRoute] {entity.KeysFlattenComponentsType[entity.Keys[0].Name]} key)");
 
         // Method content
         code.StartBlock();

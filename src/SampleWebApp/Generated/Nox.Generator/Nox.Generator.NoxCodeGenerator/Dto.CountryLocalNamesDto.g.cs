@@ -3,8 +3,7 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.OData;
-using Microsoft.OData.ModelBuilder;
+using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using MediatR;
 using Nox.Types;
@@ -18,7 +17,7 @@ namespace SampleWebApp.Application.Dto;
 /// The name of a country in other languages.
 /// </summary>
 [AutoMap(typeof(CountryLocalNamesCreateDto))]
-public partial class OCountryLocalNames : AuditableEntityBase
+public partial class CountryLocalNamesDto : AuditableEntityBase
 {
 
     /// <summary>

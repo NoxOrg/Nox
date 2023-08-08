@@ -238,6 +238,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Nox.Types.Color? ColorTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Nox.Types.Url? UrlTestField { get; set; } = null!;
 
     /// <summary>

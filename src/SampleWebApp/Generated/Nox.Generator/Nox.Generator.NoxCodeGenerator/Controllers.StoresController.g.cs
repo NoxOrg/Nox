@@ -51,13 +51,13 @@ public partial class StoresController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<OStore>>> Get()
+    public async  Task<ActionResult<IQueryable<StoreDto>>> Get()
     {
         var result = await _mediator.Send(new GetStoresQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<OStore>> Get([FromRoute] System.String key)
+    public async Task<ActionResult<StoreDto>> Get([FromRoute] System.String key)
     {
         var item = await _mediator.Send(new GetStoreByIdQuery(key));
         
@@ -80,7 +80,7 @@ public partial class StoresController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] OStore updatedStore)
+    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] StoreDto updatedStore)
     {
         if (!ModelState.IsValid)
         {
@@ -113,7 +113,7 @@ public partial class StoresController : ODataController
         return Updated(updatedStore);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<OStore> store)
+    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<StoreDto> store)
     {
         if (!ModelState.IsValid)
         {

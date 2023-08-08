@@ -6,9 +6,11 @@ using Nox.Types;
 
 namespace Nox.Generator.Application.EventGenerator;
 
-internal static class ApplicationEventGenerator
+internal class ApplicationEventGenerator : INoxCodeGenerator
 {
-    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Application;
+
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -42,10 +44,10 @@ internal static class ApplicationEventGenerator
         GenerateProperties(context, code, evt);
 
         code.EndBlock();
-        
+
         code.GenerateSourceCode();
     }
-    
+
     private static void GenerateClassDocs(SourceProductionContext context, CodeBuilder code, ApplicationEvent evt)
     {
         if (evt.Description is not null)
@@ -56,8 +58,7 @@ internal static class ApplicationEventGenerator
             code.AppendLine($"/// </summary>");
         }
     }
-    
-    
+
     private static void GenerateProperties(SourceProductionContext context, CodeBuilder code, ApplicationEvent evt)
     {
         if (evt.ObjectTypeOptions != null)
@@ -65,18 +66,18 @@ internal static class ApplicationEventGenerator
             foreach (var attribute in evt.ObjectTypeOptions.Attributes)
             {
                 context.CancellationToken.ThrowIfCancellationRequested();
-        
+
                 GeneratePropertyDocs(context, code, attribute);
-        
+
                 var propType = attribute.Type;
                 var propName = attribute.Name;
                 var nullable = attribute.IsRequired ? string.Empty : "?";
-        
+
                 code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }} = null!;");
             }
         }
     }
-    
+
     private static void GeneratePropertyDocs(SourceProductionContext context, CodeBuilder code, NoxSimpleTypeDefinition prop)
     {
         if (!string.IsNullOrWhiteSpace(prop.Description))
@@ -84,7 +85,7 @@ internal static class ApplicationEventGenerator
             code.AppendLine();
             code.AppendLine($"/// <summary>");
             code.AppendLine($"/// {prop.Description!.TrimEnd('.')}.");
-            code.AppendLine($"/// </summary>"); 
+            code.AppendLine($"/// </summary>");
         }
     }
 }

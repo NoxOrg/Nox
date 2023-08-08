@@ -36,7 +36,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
 #if DEBUG
         if (!Debugger.IsAttached)
         {
-            //Debugger.Launch(); 
+            //Debugger.Launch();
         }
 #endif
         // var compilation = context.CompilationProvider.Select((ctx,token) => ctx.GlobalNamespace);
@@ -62,61 +62,41 @@ public class NoxCodeGenerator : IIncrementalGenerator
 
         try
         {
-            if (TryGetGeneratorConfig(noxYamls, out var generate) && TryGetNoxSolution(noxYamls, out var solution))
+            if (TryGetGeneratorConfig(noxYamls, out var config) && TryGetNoxSolution(noxYamls, out var solution))
             {
                 var codeGeneratorState = new NoxSolutionCodeGeneratorState(solution, Assembly.GetEntryAssembly()!);
 
-                NoxWebApplicationExtensionGenerator.Generate(context, solution, generate.Presentation);
-                
-                if (generate.Domain)
+                var generatorFlows = new[]
                 {
-                    NoxTypeDtoGenerator.Generate(context, codeGeneratorState);
-
-                    EntitiesGenerator.Generate(context, codeGeneratorState);
-                    EntityFactoryGenerator.Generate(context, codeGeneratorState);
-                    
-
-                    Application.Queries.QueryGenerator.Generate(context, codeGeneratorState);
-                    ByIdQueryGenerator.Generate(context, codeGeneratorState);
-
-                    DeleteByIdCommandGenerator.Generate(context, codeGeneratorState);
-                    CreateCommandGenerator.Generate(context, codeGeneratorState);
-
-
-                    DomainEventGenerator.Generate(context, codeGeneratorState);
-                    
-                    CommandGenerator.Generate(context, codeGeneratorState);
-
-                    Domain.CqrsGenerators.QueryGenerator.Generate(context, codeGeneratorState);
-
-                    OEntityGenerator.Generate(context, codeGeneratorState);
-                    EntityCreateDtoGenerator.Generate(context, codeGeneratorState);
+                    (NoxGeneratorKind.None,true),
+                    (NoxGeneratorKind.Domain,config.Domain),
+                    (NoxGeneratorKind.Infrastructure,config.Infrastructure),
+                    (NoxGeneratorKind.Presentation,config.Presentation),
+                    (NoxGeneratorKind.Application,config.Application)
                 }
+                .Where(x => x.Item2)
+                .Select(x => x.Item1)
+                .ToArray();
 
-                if (generate.Infrastructure)
+                var generatorInstances = Assembly
+                    .GetExecutingAssembly()
+                    .GetTypes()
+                    .Where(x => x.IsClass && typeof(INoxCodeGenerator).IsAssignableFrom(x))
+                    .Select(x => (INoxCodeGenerator)Activator.CreateInstance(x))
+                    .ToArray();
+
+                foreach (var flow in generatorFlows)
                 {
-                    DbContextGenerator.Generate(context, codeGeneratorState);
-                }
-
-                if (generate.Presentation)
-                {
-                    ODataServiceCollectionExtensions.Generate(context, codeGeneratorState);
-                    
-                    ODataDbContextGenerator.Generate(context, codeGeneratorState);
-
-                    ApiGenerator.Generate(context, codeGeneratorState);
-                }
-
-                if (generate.Application)
-                {
-                    DtoGenerator.Generate(context, codeGeneratorState);
-                    ApplicationEventGenerator.Generate(context, codeGeneratorState);
+                    foreach (var flowInstance in generatorInstances.Where(x => x.GeneratorKind == flow))
+                    {
+                        flowInstance.Generate(context, codeGeneratorState, config);
+                    }
                 }
             }
         }
         catch (Exception e)
         {
-            _errors.Add(e.Message +  e.StackTrace);
+            _errors.Add(e.Message + e.StackTrace);
         }
 
         if (_errors.Any())
@@ -157,12 +137,11 @@ public class NoxCodeGenerator : IIncrementalGenerator
             return false;
         }
 
-
         var solutionFileAndContent = noxYamls
             .Where(s => s.Source is not null)
-            .ToDictionary( 
-                s => s.Path, 
-                s => new Func<TextReader>(() => new StringReader(s.Source!.ToString()) )
+            .ToDictionary(
+                s => s.Path,
+                s => new Func<TextReader>(() => new StringReader(s.Source!.ToString()))
             );
 
         try
@@ -177,7 +156,6 @@ public class NoxCodeGenerator : IIncrementalGenerator
             if (e.InnerException is not null)
             {
                 _errors.Add(e.InnerException.Message);
-
             }
 
             return false;
@@ -236,6 +214,4 @@ public class NoxCodeGenerator : IIncrementalGenerator
 
         return true;
     }
-
 }
-
