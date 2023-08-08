@@ -3,8 +3,7 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.OData;
-using Microsoft.OData.ModelBuilder;
+using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using MediatR;
 using Nox.Types;
@@ -18,7 +17,7 @@ namespace SampleWebApp.Application.Dto;
 /// Stores.
 /// </summary>
 [AutoMap(typeof(StoreCreateDto))]
-public partial class OStore : AuditableEntityBase
+public partial class StoreDto : AuditableEntityBase
 {
 
     /// <summary>
@@ -39,5 +38,5 @@ public partial class OStore : AuditableEntityBase
     /// <summary>
     /// Store Set of passwords for this store ExactlyOne StoreSecurityPasswords
     /// </summary>
-    public virtual OStoreSecurityPasswords StoreSecurityPasswords { get; set; } = null!;
+    public virtual StoreSecurityPasswordsDto StoreSecurityPasswords { get; set; } = null!;
 }

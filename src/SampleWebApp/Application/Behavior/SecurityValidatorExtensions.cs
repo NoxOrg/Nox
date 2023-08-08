@@ -12,7 +12,7 @@ namespace SampleWebApp.Application.Behavior
         {
             return services
                 .AddSingleton<IValidator<GetStoreByIdQuery>, GetStoreByIdSecurityValidator>()
-                .AddScoped<IPipelineBehavior<GetStoresQuery, IQueryable<OStore>>, GetStoresQuerySecurityFilter> ();
+                .AddScoped<IPipelineBehavior<GetStoresQuery, IQueryable<StoreDto>>, GetStoresQuerySecurityFilter> ();
         }
     }
 }

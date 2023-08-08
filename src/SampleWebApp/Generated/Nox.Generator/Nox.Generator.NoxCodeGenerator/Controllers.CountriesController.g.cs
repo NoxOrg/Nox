@@ -65,13 +65,13 @@ public partial class CountriesController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<OCountry>>> Get()
+    public async  Task<ActionResult<IQueryable<CountryDto>>> Get()
     {
         var result = await _mediator.Send(new GetCountriesQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<OCountry>> Get([FromRoute] System.String key)
+    public async Task<ActionResult<CountryDto>> Get([FromRoute] System.String key)
     {
         var item = await _mediator.Send(new GetCountryByIdQuery(key));
         
@@ -94,7 +94,7 @@ public partial class CountriesController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] OCountry updatedCountry)
+    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] CountryDto updatedCountry)
     {
         if (!ModelState.IsValid)
         {
@@ -127,7 +127,7 @@ public partial class CountriesController : ODataController
         return Updated(updatedCountry);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<OCountry> country)
+    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<CountryDto> country)
     {
         if (!ModelState.IsValid)
         {

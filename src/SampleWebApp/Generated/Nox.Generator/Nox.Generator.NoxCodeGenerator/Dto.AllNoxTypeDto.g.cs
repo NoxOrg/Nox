@@ -3,8 +3,7 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.OData;
-using Microsoft.OData.ModelBuilder;
+using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using MediatR;
 using Nox.Types;
@@ -18,13 +17,13 @@ namespace SampleWebApp.Application.Dto;
 /// Entity to test all nox types.
 /// </summary>
 [AutoMap(typeof(AllNoxTypeCreateDto))]
-public partial class OAllNoxType : AuditableEntityBase
+public partial class AllNoxTypeDto : AuditableEntityBase
 {
 
     /// <summary>
     /// DatabaseNumber Nox Type (Required).
     /// </summary>
-    public System.Int32 Id { get; set; } = default!;
+    public System.UInt64 Id { get; set; } = default!;
 
     /// <summary>
     /// NuidField Type (Optional).
@@ -49,7 +48,7 @@ public partial class OAllNoxType : AuditableEntityBase
     /// <summary>
     /// Formula Nox Type (Optional).
     /// </summary>
-    public System.String? FormulaField { get; set; } 
+    [NotMapped]public System.String? FormulaField { get; set; } 
 
     /// <summary>
     /// StreetAddress Nox Type (Optional).

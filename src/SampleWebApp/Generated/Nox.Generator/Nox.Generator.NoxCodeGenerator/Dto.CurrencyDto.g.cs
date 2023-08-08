@@ -3,8 +3,7 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.OData;
-using Microsoft.OData.ModelBuilder;
+using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using MediatR;
 using Nox.Types;
@@ -18,7 +17,7 @@ namespace SampleWebApp.Application.Dto;
 /// The list of currencies.
 /// </summary>
 [AutoMap(typeof(CurrencyCreateDto))]
-public partial class OCurrency : AuditableEntityBase
+public partial class CurrencyDto : AuditableEntityBase
 {
 
     /// <summary>
@@ -34,7 +33,5 @@ public partial class OCurrency : AuditableEntityBase
     /// <summary>
     /// Currency is legal tender for ZeroOrMany Countries
     /// </summary>
-    public virtual List<OCountry> Countries { get; set; } = new();
-
-    public List<OCountry> CurrencyIsLegalTenderForCountry => Countries;
+    public virtual List<CountryDto> Countries { get; set; } = new();
 }

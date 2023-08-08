@@ -75,18 +75,19 @@ public class NoxCodeGenerator : IIncrementalGenerator
                     (NoxGeneratorKind.Application,config.Application)
                 }
                 .Where(x => x.Item2)
-                .Select(x => x.Item1);
+                .Select(x => x.Item1)
+                .ToArray();
 
-                var generatorInstances = CreateGeneratorInstances();
+                var generatorInstances = Assembly
+                    .GetExecutingAssembly()
+                    .GetTypes()
+                    .Where(x => x.IsClass && typeof(INoxCodeGenerator).IsAssignableFrom(x))
+                    .Select(x => (INoxCodeGenerator)Activator.CreateInstance(x))
+                    .ToArray();
 
                 foreach (var flow in generatorFlows)
                 {
-                    if (!generatorInstances.TryGetValue(flow, out var flowInstances))
-                    {
-                        continue;
-                    }
-
-                    foreach (var flowInstance in flowInstances)
+                    foreach (var flowInstance in generatorInstances.Where(x => x.GeneratorKind == flow))
                     {
                         flowInstance.Generate(context, codeGeneratorState, config);
                     }
@@ -112,41 +113,6 @@ public class NoxCodeGenerator : IIncrementalGenerator
         }
 
         _debug.GenerateSourceCode();
-    }
-
-    private static Dictionary<NoxGeneratorKind, INoxCodeGenerator[]> CreateGeneratorInstances()
-    {
-        return new INoxCodeGenerator[] {
-                    CreateGenerator<NoxWebApplicationExtensionGenerator>(),
-
-                    CreateGenerator<NoxTypeDtoGenerator>(),
-                    CreateGenerator<EntitiesGenerator>(),
-                    CreateGenerator<EntityFactoryGenerator>(),
-                    CreateGenerator<Application.Queries.QueryGenerator>(),
-                    CreateGenerator<ByIdQueryGenerator>(),
-                    CreateGenerator<DeleteByIdCommandGenerator>(),
-                    CreateGenerator<CreateCommandGenerator>(),
-                    CreateGenerator<DomainEventGenerator>(),
-                    CreateGenerator<CommandGenerator>(),
-                    CreateGenerator<Domain.CqrsGenerators.QueryGenerator>(),
-                    CreateGenerator<OEntityGenerator>(),
-                    CreateGenerator<EntityCreateDtoGenerator>(),
-
-                    CreateGenerator<DbContextGenerator>(),
-
-                    CreateGenerator<ODataServiceCollectionExtensions>(),
-                    CreateGenerator<ODataDbContextGenerator>(),
-                    CreateGenerator<ApiGenerator>(),
-
-                    CreateGenerator<DtoGenerator>(),
-                    CreateGenerator<ApplicationEventGenerator>()
-                }.GroupBy(x => x.GeneratorKind, x => x)
-         .ToDictionary(x => x.Key, x => x.ToArray());
-    }
-
-    private static INoxCodeGenerator CreateGenerator<TGenerator>() where TGenerator : INoxCodeGenerator, new()
-    {
-        return new TGenerator();
     }
 
     private static bool TryGetNoxSolution(ImmutableArray<(string Path, SourceText? Source)> noxYamls,

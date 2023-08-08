@@ -9,9 +9,9 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetCurrencyByIdQuery(System.UInt32 key) : IRequest<OCurrency?>;
+public record GetCurrencyByIdQuery(System.UInt32 key) : IRequest<CurrencyDto?>;
 
-public class GetCurrencyByIdQueryHandler: IRequestHandler<GetCurrencyByIdQuery, OCurrency?>
+public class GetCurrencyByIdQueryHandler: IRequestHandler<GetCurrencyByIdQuery, CurrencyDto?>
 {
     public  GetCurrencyByIdQueryHandler(ODataDbContext dataDbContext)
     {
@@ -20,7 +20,7 @@ public class GetCurrencyByIdQueryHandler: IRequestHandler<GetCurrencyByIdQuery, 
 
     public ODataDbContext DataDbContext { get; }
 
-    public Task<OCurrency?> Handle(GetCurrencyByIdQuery request, CancellationToken cancellationToken)
+    public Task<CurrencyDto?> Handle(GetCurrencyByIdQuery request, CancellationToken cancellationToken)
     {    
         var item = DataDbContext.Currencies
             .AsNoTracking()

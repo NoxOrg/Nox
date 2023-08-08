@@ -9,9 +9,9 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetCountryByIdQuery(System.String key) : IRequest<OCountry?>;
+public record GetCountryByIdQuery(System.String key) : IRequest<CountryDto?>;
 
-public class GetCountryByIdQueryHandler: IRequestHandler<GetCountryByIdQuery, OCountry?>
+public class GetCountryByIdQueryHandler: IRequestHandler<GetCountryByIdQuery, CountryDto?>
 {
     public  GetCountryByIdQueryHandler(ODataDbContext dataDbContext)
     {
@@ -20,7 +20,7 @@ public class GetCountryByIdQueryHandler: IRequestHandler<GetCountryByIdQuery, OC
 
     public ODataDbContext DataDbContext { get; }
 
-    public Task<OCountry?> Handle(GetCountryByIdQuery request, CancellationToken cancellationToken)
+    public Task<CountryDto?> Handle(GetCountryByIdQuery request, CancellationToken cancellationToken)
     {    
         var item = DataDbContext.Countries
             .AsNoTracking()

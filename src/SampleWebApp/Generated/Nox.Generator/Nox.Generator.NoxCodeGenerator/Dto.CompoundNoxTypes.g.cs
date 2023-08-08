@@ -7,7 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace SampleWebApp.Application.Dto;
 
 [Owned]
-public record StreetAddressDto(System.Int32 StreetNumber,System.String AddressLine1,System.String AddressLine2,System.String AddressLine3,System.String Route,System.String Locality,System.String Neighbourhood,System.String AdministrativeArea1,System.String AdministrativeArea2,System.String PostalCode,System.String CountryCode2);
+public record StreetAddressDto(System.Int32 StreetNumber,System.String AddressLine1,System.String AddressLine2,System.String Route,System.String Locality,System.String Neighborhood,System.String AdministrativeArea1,System.String AdministrativeArea2,System.String PostalCode,System.String CountryId);
 
 [Owned]
 public record FileDto(System.String Url,System.String PrettyName,System.UInt64 SizeInBytes);

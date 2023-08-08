@@ -3,8 +3,7 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.OData;
-using Microsoft.OData.ModelBuilder;
+using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using MediatR;
 using Nox.Types;
@@ -39,6 +38,9 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
     /// </summary>
     {{ if componentsInfo[attribute.Name].IsSimpleType -}}
+        {{- if attribute.Type == "Formula" -}}
+    [NotMapped]
+        {{- end -}}
     public {{componentsInfo[attribute.Name].ComponentType}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
     {{- else -}}
     public {{attribute.Type}}Dto{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
@@ -51,13 +53,13 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<O{{relationship.Entity}}> {{relationship.EntityPlural}} { get; set; } = new();
-    {{- if relationship.EntityPlural != relationship.Name}}
-
-    public List<O{{relationship.Entity}}> {{relationship.Name}} => {{relationship.EntityPlural}};
-    {{- end}}
+    public virtual List<{{relationship.Entity}}Dto> {{relationship.EntityPlural}} { get; set; } = new();
     {{- else}}
-    public virtual O{{relationship.Entity}} {{if relationship.Relationship == "ZeroOrOne"}}?{{end}}{{relationship.Entity}} { get; set; } = null!;
+        {{- if relationship.ShouldGenerateForeignOnThisSide}}  
+    //EF maps ForeignKey Automatically
+    public virtual string {{if relationship.Relationship == "ZeroOrOne"}}?{{end}}{{relationship.Entity}}Id { get; set; } = null!;
+        {{- end}}
+    public virtual {{relationship.Entity}}Dto {{if relationship.Relationship == "ZeroOrOne"}}?{{end}}{{relationship.Entity}} { get; set; } = null!;
     {{-end}}
 {{- end }}
 {{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}
@@ -70,10 +72,10 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     public virtual List<{{relationship.Entity}}> {{relationship.EntityPlural}} { get; set; } = new();
     {{- if (relationship.EntityPlural) != relationship.Name}}
     
-    public List<O{{relationship.Entity}}> {{relationship.Name}} => {{relationship.EntityPlural}};
+    public List<{{relationship.Entity}}Dto> {{relationship.Name}} => {{relationship.EntityPlural}};
     {{- end}}
     {{- else}}
-    public virtual O{{relationship.Entity}} {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.EntityPlural}} { get; set; } = null!;
+    public virtual {{relationship.Entity}}Dto {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.EntityPlural}} { get; set; } = null!;
     {{-end}}
 {{- end }}
 }

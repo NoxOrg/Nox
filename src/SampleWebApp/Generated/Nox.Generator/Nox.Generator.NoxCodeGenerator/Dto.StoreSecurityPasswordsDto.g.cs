@@ -3,8 +3,7 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.OData;
-using Microsoft.OData.ModelBuilder;
+using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using MediatR;
 using Nox.Types;
@@ -18,7 +17,7 @@ namespace SampleWebApp.Application.Dto;
 /// A set of security passwords to store cameras and databases.
 /// </summary>
 [AutoMap(typeof(StoreSecurityPasswordsCreateDto))]
-public partial class OStoreSecurityPasswords : AuditableEntityBase
+public partial class StoreSecurityPasswordsDto : AuditableEntityBase
 {
 
     /// <summary>
@@ -38,6 +37,8 @@ public partial class OStoreSecurityPasswords : AuditableEntityBase
 
     /// <summary>
     /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores
-    /// </summary>
-    public virtual OStore Store { get; set; } = null!;
+    /// </summary>  
+    //EF maps ForeignKey Automatically
+    public virtual string StoreId { get; set; } = null!;
+    public virtual StoreDto Store { get; set; } = null!;
 }

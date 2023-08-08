@@ -210,7 +210,7 @@ internal class ApiGenerator : INoxCodeGenerator
         }
 
         // Method Put
-        code.AppendLine($"public async Task<ActionResult> Put([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] O{entity.Name} updated{entity.Name})");
+        code.AppendLine($"public async Task<ActionResult> Put([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] {entity.Name}Dto updated{entity.Name})");
 
         // Method content
         code.StartBlock();
@@ -258,7 +258,7 @@ internal class ApiGenerator : INoxCodeGenerator
             return;
         }
         // Method Patch
-        code.AppendLine($"public async Task<ActionResult> Patch([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] Delta<O{entityName}> {variableName})");
+        code.AppendLine($"public async Task<ActionResult> Patch([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] Delta<{entityName}Dto> {variableName})");
 
         // Method content
         code.StartBlock();
@@ -335,7 +335,7 @@ internal class ApiGenerator : INoxCodeGenerator
     {
         // Method Get
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public async  Task<ActionResult<IQueryable<O{entity.Name}>>> Get()");
+        code.AppendLine($"public async  Task<ActionResult<IQueryable<{entity.Name}Dto>>> Get()");
 
         // Method content
         code.StartBlock();
@@ -361,7 +361,7 @@ internal class ApiGenerator : INoxCodeGenerator
 
         // We do not support Compound types as primary keys, this is validated on the schema
         // Method Get
-        code.AppendLine($"public async Task<ActionResult<O{entity.Name}>> Get([FromRoute] {entity.KeysFlattenComponentsType[entity.Keys[0].Name]} key)");
+        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Get([FromRoute] {entity.KeysFlattenComponentsType[entity.Keys[0].Name]} key)");
 
         // Method content
         code.StartBlock();

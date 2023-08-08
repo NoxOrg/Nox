@@ -334,7 +334,7 @@ domain:
 
 application:
   dataTransferObjects:
-    - name: CountryDto
+    - name: CustomCountryDto
       description: Dto for country information
       attributes:
         - name: Id

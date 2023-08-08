@@ -9,9 +9,9 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetCountryLocalNamesByIdQuery(System.String key) : IRequest<OCountryLocalNames?>;
+public record GetCountryLocalNamesByIdQuery(System.String key) : IRequest<CountryLocalNamesDto?>;
 
-public class GetCountryLocalNamesByIdQueryHandler: IRequestHandler<GetCountryLocalNamesByIdQuery, OCountryLocalNames?>
+public class GetCountryLocalNamesByIdQueryHandler: IRequestHandler<GetCountryLocalNamesByIdQuery, CountryLocalNamesDto?>
 {
     public  GetCountryLocalNamesByIdQueryHandler(ODataDbContext dataDbContext)
     {
@@ -20,7 +20,7 @@ public class GetCountryLocalNamesByIdQueryHandler: IRequestHandler<GetCountryLoc
 
     public ODataDbContext DataDbContext { get; }
 
-    public Task<OCountryLocalNames?> Handle(GetCountryLocalNamesByIdQuery request, CancellationToken cancellationToken)
+    public Task<CountryLocalNamesDto?> Handle(GetCountryLocalNamesByIdQuery request, CancellationToken cancellationToken)
     {    
         var item = DataDbContext.CountryLocalNames
             .AsNoTracking()
