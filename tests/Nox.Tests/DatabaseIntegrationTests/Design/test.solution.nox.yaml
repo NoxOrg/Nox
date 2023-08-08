@@ -343,8 +343,8 @@ domain:
         #- name: DateTimeTestField
         #  type: dateTime
 
-        #- name: DateTimeRangeTestField
-        #  type: dateTimeRange
+        - name: DateTimeRangeTestField
+          type: dateTimeRange
 
         - name: DistanceTestField
           type: distance

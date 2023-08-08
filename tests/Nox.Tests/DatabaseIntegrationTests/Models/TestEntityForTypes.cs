@@ -23,32 +23,32 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text TextTestField { get; set; } = null!;
+    public Nox.Types.Text TextTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Number NumberTestField { get; set; } = null!;
+    public Nox.Types.Number NumberTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Money? MoneyTestField { get; set; } = null!;
+    public Nox.Types.Money? MoneyTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public CountryCode2? CountryCode2TestField { get; set; } = null!;
+    public Nox.Types.CountryCode2? CountryCode2TestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public StreetAddress? StreetAddressTestField { get; set; } = null!;
+    public Nox.Types.StreetAddress? StreetAddressTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public CurrencyCode3? CurrencyCode3TestField { get; set; } = null!;
+    public Nox.Types.CurrencyCode3? CurrencyCode3TestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -58,22 +58,22 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public JwtToken? JwtTokenTestField { get; set; } = null!;
+    public Nox.Types.JwtToken? JwtTokenTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public LatLong? GeoCoordTestField { get; set; } = null!;
+    public Nox.Types.LatLong? GeoCoordTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Area? AreaTestField { get; set; } = null!;
+    public Nox.Types.Area? AreaTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public TimeZoneCode? TimeZoneCodeTestField { get; set; } = null!;
+    public Nox.Types.TimeZoneCode? TimeZoneCodeTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -83,97 +83,97 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public CountryCode3? CountryCode3TestField { get; set; } = null!;
+    public Nox.Types.CountryCode3? CountryCode3TestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public CountryNumber? CountryNumberTestField { get; set; } = null!;
+    public Nox.Types.CountryNumber? CountryNumberTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public CurrencyNumber? CurrencyNumberTestField { get; set; } = null!;
+    public Nox.Types.CurrencyNumber? CurrencyNumberTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Distance? DistanceTestField { get; set; } = null!;
+    public Nox.Types.DateTimeRange? DateTimeRangeTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Email? EmailTestField { get; set; } = null!;
+    public Nox.Types.Distance? DistanceTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public EncryptedText? EncryptedTextTestField { get; set; } = null!;
+    public Nox.Types.Email? EmailTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public HashedText? HashedTextTestField { get; set; } = null!;
+    public Nox.Types.EncryptedText? EncryptedTextTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public InternetDomain? InternetDomainTestField { get; set; } = null!;
+    public Nox.Types.HashedText? HashedTextTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public IpAddress? IpAddressV4TestField { get; set; } = null!;
+    public Nox.Types.InternetDomain? InternetDomainTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public IpAddress? IpAddressV6TestField { get; set; } = null!;
+    public Nox.Types.IpAddress? IpAddressV4TestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Url? UrlTestField { get; set; } = null!;
+    public Nox.Types.IpAddress? IpAddressV6TestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Json? JsonTestField { get; set; } = null!;
+    public Nox.Types.Json? JsonTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Length? LengthTestField { get; set; } = null!;
+    public Nox.Types.Length? LengthTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public MacAddress? MacAddressTestField { get; set; } = null!;
+    public Nox.Types.MacAddress? MacAddressTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Month? MonthTestField { get; set; } = null!;
+    public Nox.Types.Month? MonthTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Password? PasswordTestField { get; set; } = null!;
+    public Nox.Types.Password? PasswordTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Percentage? PercentageTestField { get; set; } = null!;
+    public Nox.Types.Percentage? PercentageTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Temperature? TempratureTestField { get; set; } = null!;
+    public Nox.Types.Temperature? TempratureTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public TranslatedText? TranslatedTextTestField { get; set; } = null!;
+    public Nox.Types.TranslatedText? TranslatedTextTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -183,57 +183,52 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Weight? WeightTestField { get; set; } = null!;
+    public Nox.Types.Volume? VolumeTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Year? YearTestField { get; set; } = null!;
+    public Nox.Types.Weight? WeightTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Volume? VolumeTestField { get; set; } = null!;
+    public Nox.Types.Year? YearTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public CultureCode? CultureCodeTestField { get; set; } = null!;
+    public Nox.Types.CultureCode? CultureCodeTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public LanguageCode? LanguageCodeTestField { get; set; } = null!;
+    public Nox.Types.LanguageCode? LanguageCodeTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Yaml? YamlTestField { get; set; } = null!;
+    public Nox.Types.Yaml? YamlTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public DateTimeDuration? DateTimeDurationTestField { get; set; } = null!;
+    public Nox.Types.DateTimeDuration? DateTimeDurationTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public VatNumber? VatNumberTestField { get; set; } = null!;
+    public Nox.Types.VatNumber? VatNumberTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Color? ColorTestField { get; set; } = null!;
+    public Nox.Types.Date? DateTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Date? DateTestField { get; set; } = null!;
-
-    /// <summary>
-    ///  (Optional).
-    /// </summary>
-    public Markdown? MarkdownTestField { get; set; } = null!;
+    public Nox.Types.Markdown? MarkdownTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -243,10 +238,20 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Nox.Types.Color? ColorTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Nox.Types.Url? UrlTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public int? FormulaTestField => 2 + 2;
 
     /// <summary>
     ///  (Required).
     /// </summary>
-    public DatabaseNumber DatabaseNumberTestField { get; set; } = null!;
+    public Nox.Types.DatabaseNumber DatabaseNumberTestField { get; set; } = null!;
 }
