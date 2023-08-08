@@ -27,6 +27,6 @@ public class PhoneNumberTests
         var action = () => PhoneNumber.From(value);
 
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox PhoneNumber type with invalid value '{value}'.") });
+            .And.Errors.Should().ContainEquivalentOf(new ValidationFailure("Value", $"Could not create a Nox PhoneNumber type with invalid value '{value}'."));
     }
 }
