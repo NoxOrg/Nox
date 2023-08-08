@@ -29,7 +29,7 @@ public class CurrencyFactory: EntityFactoryBase<CurrencyCreateDto, Currency>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
     
-        noxTypeValue =  CreateNoxType<Text>(entityDefinition,"Name",dto.Name);
+        noxTypeValue =  CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",dto.Name);
         if(noxTypeValue != null)
         {        
             entity.Name = noxTypeValue;

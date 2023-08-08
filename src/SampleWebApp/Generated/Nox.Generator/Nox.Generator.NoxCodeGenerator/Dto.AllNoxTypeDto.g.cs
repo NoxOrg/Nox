@@ -51,6 +51,46 @@ public partial class AllNoxTypeDto : AuditableEntityBase
     [NotMapped]public System.String? FormulaField { get; set; } 
 
     /// <summary>
+    /// Yaml Nox Type (Required).
+    /// </summary>
+    public System.String YamlField { get; set; } = default!;
+
+    /// <summary>
+    /// Weight Nox Type (Required).
+    /// </summary>
+    public System.Double WeightField { get; set; } = default!;
+
+    /// <summary>
+    /// Volume Nox Type (Required).
+    /// </summary>
+    public System.Double VolumeField { get; set; } = default!;
+
+    /// <summary>
+    /// User Nox Type (Required).
+    /// </summary>
+    public System.String UserField { get; set; } = default!;
+
+    /// <summary>
+    /// Url Nox Type (Required).
+    /// </summary>
+    public System.String UrlField { get; set; } = default!;
+
+    /// <summary>
+    /// Uri Nox Type (Required).
+    /// </summary>
+    public System.String UriField { get; set; } = default!;
+
+    /// <summary>
+    /// TimeZoneCode Nox Type (Optional).
+    /// </summary>
+    public System.String? TimeZoneCodeField { get; set; } 
+
+    /// <summary>
+    /// Time Nox Type (Required).
+    /// </summary>
+    public System.DateTimeOffset TimeField { get; set; } = default!;
+
+    /// <summary>
     /// StreetAddress Nox Type (Optional).
     /// </summary>
     public StreetAddressDto? StreetAddressField { get; set; } 

@@ -14,5 +14,9 @@ namespace Nox.Factories
 
         public abstract T? CreateNoxType(Entity entityDefinition, string propertyName, dynamic? value);
 
+        protected static NoxSimpleTypeDefinition GetAttributeDefinition(Entity entityDefinition, string propertyName)
+        {
+            return entityDefinition.Attributes!.Single(attribute => attribute.Name == propertyName);
+        }
     }
 }

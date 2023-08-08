@@ -46,6 +46,46 @@ public partial class AllNoxType : AuditableEntityBase
     public string? FormulaField => CountryCode2Field.ToString();
 
     /// <summary>
+    /// Yaml Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Yaml YamlField { get; set; } = null!;
+
+    /// <summary>
+    /// Weight Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Weight WeightField { get; set; } = null!;
+
+    /// <summary>
+    /// Volume Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Volume VolumeField { get; set; } = null!;
+
+    /// <summary>
+    /// User Nox Type (Required).
+    /// </summary>
+    public Nox.Types.User UserField { get; set; } = null!;
+
+    /// <summary>
+    /// Url Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Url UrlField { get; set; } = null!;
+
+    /// <summary>
+    /// Uri Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Uri UriField { get; set; } = null!;
+
+    /// <summary>
+    /// TimeZoneCode Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.TimeZoneCode? TimeZoneCodeField { get; set; } = null!;
+
+    /// <summary>
+    /// Time Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Time TimeField { get; set; } = null!;
+
+    /// <summary>
     /// StreetAddress Nox Type (Optional).
     /// </summary>
     public Nox.Types.StreetAddress? StreetAddressField { get; set; } = null!;
