@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230807173417_InitialCreate")]
+    [Migration("20230808104126_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -48,6 +48,9 @@ namespace SampleWebApp.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<ulong>("Id"));
 
+                    b.Property<bool?>("BooleanField")
+                        .HasColumnType("bit");
+
                     b.Property<string>("CountryCode2Field")
                         .IsRequired()
                         .HasMaxLength(2)
@@ -79,6 +82,9 @@ namespace SampleWebApp.Migrations
 
                     b.Property<uint?>("NuidField")
                         .HasColumnType("bigint");
+
+                    b.Property<int?>("NumberField")
+                        .HasColumnType("int");
 
                     b.Property<string>("TextField")
                         .IsRequired()

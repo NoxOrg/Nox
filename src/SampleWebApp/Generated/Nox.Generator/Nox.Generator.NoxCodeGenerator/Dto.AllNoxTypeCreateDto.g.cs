@@ -18,9 +18,9 @@ public partial class AllNoxTypeCreateDto
     /// </summary>
     public System.UInt32? NuidField { get; set; } 
     /// <summary>
-    /// Text Nox Type (Required).
+    /// BooleanField Nox Type (Optional).
     /// </summary>
-    public System.String TextField { get; set; } = default!;
+    public System.Boolean? BooleanField { get; set; } 
     /// <summary>
     /// CountryCode2 Nox Type (Required).
     /// </summary>
@@ -33,6 +33,14 @@ public partial class AllNoxTypeCreateDto
     /// Formula Nox Type (Optional).
     /// </summary>
     public System.String? FormulaField { get; set; } 
+    /// <summary>
+    /// NumberField Nox Type (Optional).
+    /// </summary>
+    public System.Int32? NumberField { get; set; } 
+    /// <summary>
+    /// Text Nox Type (Required).
+    /// </summary>
+    public System.String TextField { get; set; } = default!;
     /// <summary>
     /// StreetAddress Nox Type (Optional).
     /// </summary>

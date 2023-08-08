@@ -13,6 +13,7 @@ using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
 using File = Nox.Types.File;
+using Boolean = Nox.Types.Boolean;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
@@ -31,10 +32,10 @@ public class AllNoxTypeFactory: EntityFactoryBase<AllNoxTypeCreateDto, AllNoxTyp
     
 
         // TODO map NuidField Nuid remaining types and remove if else
-        noxTypeValue =  CreateNoxType<Text>(entityDefinition,"TextField",dto.TextField);
+        noxTypeValue =  CreateNoxType<Boolean>(entityDefinition,"BooleanField",dto.BooleanField);
         if(noxTypeValue != null)
         {        
-            entity.TextField = noxTypeValue;
+            entity.BooleanField = noxTypeValue;
         }
 
         // TODO map CountryCode2Field CountryCode2 remaining types and remove if else
@@ -42,6 +43,16 @@ public class AllNoxTypeFactory: EntityFactoryBase<AllNoxTypeCreateDto, AllNoxTyp
         // TODO map CountryCode3Field CountryCode3 remaining types and remove if else
 
         // TODO map FormulaField Formula remaining types and remove if else
+        noxTypeValue =  CreateNoxType<Number>(entityDefinition,"NumberField",dto.NumberField);
+        if(noxTypeValue != null)
+        {        
+            entity.NumberField = noxTypeValue;
+        }
+        noxTypeValue =  CreateNoxType<Text>(entityDefinition,"TextField",dto.TextField);
+        if(noxTypeValue != null)
+        {        
+            entity.TextField = noxTypeValue;
+        }
         noxTypeValue =  CreateNoxType<StreetAddress>(entityDefinition,"StreetAddressField",dto.StreetAddressField);
         if(noxTypeValue != null)
         {        

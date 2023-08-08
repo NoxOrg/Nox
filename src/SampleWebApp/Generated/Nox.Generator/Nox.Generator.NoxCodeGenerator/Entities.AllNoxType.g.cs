@@ -26,9 +26,9 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.Nuid? NuidField { get; set; } = null!;
 
     /// <summary>
-    /// Text Nox Type (Required).
+    /// BooleanField Nox Type (Optional).
     /// </summary>
-    public Nox.Types.Text TextField { get; set; } = null!;
+    public Nox.Types.Boolean? BooleanField { get; set; } = null!;
 
     /// <summary>
     /// CountryCode2 Nox Type (Required).
@@ -44,6 +44,16 @@ public partial class AllNoxType : AuditableEntityBase
     /// Formula Nox Type (Optional).
     /// </summary>
     public string? FormulaField => CountryCode2Field.ToString();
+
+    /// <summary>
+    /// NumberField Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.Number? NumberField { get; set; } = null!;
+
+    /// <summary>
+    /// Text Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Text TextField { get; set; } = null!;
 
     /// <summary>
     /// StreetAddress Nox Type (Optional).
