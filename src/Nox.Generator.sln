@@ -88,6 +88,10 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Logging", "Logging", "{1EC3
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Secrets.Abstractions", "Nox.Secrets.Abstractions\Nox.Secrets.Abstractions.csproj", "{EFD695A2-1BC9-447C-98E4-E601AD8BF934}"
 EndProject
+Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{CB319BA6-AB78-47EA-BE41-DD3A76BCE99E}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{7E40364B-2534-4C15-A199-07628AEE9634}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -223,6 +227,7 @@ Global
 		{15E06324-A80A-4CC5-A1DA-524A7FE847C4} = {110C16ED-A11D-4B5A-ABB2-0E0F4692C77A}
 		{7BD651E7-3B5C-4118-963C-629C34F30258} = {1EC38150-0AA2-4D31-B9B3-84E25D7BBD7D}
 		{EFD695A2-1BC9-447C-98E4-E601AD8BF934} = {2B151195-53F6-45CD-84D5-F1E18CDFF1B0}
+		{CB319BA6-AB78-47EA-BE41-DD3A76BCE99E} = {7E40364B-2534-4C15-A199-07628AEE9634}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E72B357-9E1E-43B5-9868-8D2B74CB2AF0}
