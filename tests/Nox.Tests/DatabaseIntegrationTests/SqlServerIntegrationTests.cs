@@ -38,10 +38,6 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         // dateTimeSchedule
         // html
         // json
-        // time
-        // translatedText
-        // markdown
-        // jwtToken
 
         // TODO: commented types
 
@@ -75,6 +71,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var vatNumberCountryCode2 = CountryCode2.From("FR");
         var color = new byte[] { 1, 2, 3, 4 };
         var date = new DateOnly(2023, 7, 14);
+        var time = new System.TimeOnly(11152500000);
         var fileName = "MyFile";
         var fileSizeInBytes = 1000000UL;
         var fileUrl = "https://example.com/myfile.pdf";
@@ -150,6 +147,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
+            TimeTestField = Time.From(time.Ticks),
             CurrencyNumberTestField = CurrencyNumber.From(currencyNumber),
             JsonTestField = Json.From(addressJsonPretty),
             YearTestField = Year.From(year),
@@ -212,6 +210,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
         testEntity.MonthTestField!.Value.Should().Be(month);
         testEntity.DateTimeDurationTestField!.TotalHours.Should().Be(dateTimeDurationInHours);
+        testEntity.TimeTestField!.ToString("hh:mm").Should().Be(time.ToString("hh:mm"));
         testEntity.CurrencyNumberTestField!.Value.Should().Be(currencyNumber);
         testEntity.JsonTestField!.Value.Should().Be(addressJsonMinified);
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);

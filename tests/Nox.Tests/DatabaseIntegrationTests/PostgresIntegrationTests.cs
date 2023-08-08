@@ -35,7 +35,6 @@ public class PostgresIntegrationTests : PostgresTestBase
         // dateTimeSchedule
         // html
         // json
-        // time
 
         // TODO: commented types
 
@@ -68,6 +67,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         var dateTimeDurationInHours = 30.5;
         var color = new byte[] { 1, 2, 3, 4 };
         var date = new DateOnly(2023, 7, 14);
+        var time = new System.TimeOnly(11152500000);
         var percentage = 0.5f;
         var fileName = "MyFile";
         var fileSizeInBytes = 1000000UL;
@@ -141,6 +141,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             MonthTestField = Month.From(month),
             CurrencyNumberTestField = CurrencyNumber.From(currencyNumber),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
+            TimeTestField = Time.From(time.Ticks),
             JsonTestField = Json.From(addressJsonPretty),
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
@@ -200,6 +201,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.MonthTestField!.Value.Should().Be(month);
         testEntity.CurrencyNumberTestField!.Value.Should().Be(currencyNumber);
         testEntity.DateTimeDurationTestField!.TotalHours.Should().Be(dateTimeDurationInHours);
+        testEntity.TimeTestField!.ToString("hh:mm").Should().Be(time.ToString("hh:mm"));
         testEntity.JsonTestField!.Value.Should().Be(addressJsonMinified);
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
         testEntity.JsonTestField!.ToString("p").Should().Be(addressJsonPretty);

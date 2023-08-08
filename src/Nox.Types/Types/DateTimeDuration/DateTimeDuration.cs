@@ -8,7 +8,7 @@ public sealed class DateTimeDuration : ValueObject<long, DateTimeDuration>
     private DateTimeDurationTypeOptions _dateTimeDurationTypeOptions = new();
     private TimeSpan _duration;
 
-    /// <inheritdoc/>
+    /// <inheritdocs />
     public new static DateTimeDuration FromDatabase(long value)
     {
         return new DateTimeDuration 
