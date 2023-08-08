@@ -35,6 +35,7 @@ public partial class CountriesController
 
     /// <summary>
     /// Example using OData Reference Routing <see cref="https://learn.microsoft.com/en-us/odata/webapi-8/fundamentals/ref-routing?tabs=net60%2Cvisual-studio"/>
+    /// Delete /countries/{key}/currencies/{relatedKey}
     /// </summary>
     /// <returns></returns>
     public async Task<IResult> DeleteRefToCurrencies([FromRoute] string key, [FromRoute] int relatedKey)
@@ -52,4 +53,16 @@ public partial class CountriesController
         await Task.Delay(100);
         return Results.Ok(true);
     }
+
+    /// <summary>
+    /// Example of adding a Related entity to Countries
+    /// POST /countries/{key}/currencies 
+    /// with a json body
+    /// </summary>
+
+    public async Task<IResult> PostToCurrencies([FromRoute] string key, [FromBody] SampleWebApp.Application.Dto.CurrencyCreateDto currency)
+    {
+        await Task.Delay(100);
+        return Results.Ok(true);
+    }  
 }
