@@ -131,6 +131,16 @@ internal class SchemaProperty
     {
         Items = schemaProperty;
     }
+    
+    /// <summary>
+    /// Sets the 'Pattern' keyword to a <see cref="SchemaProperty"/> for arrays and collections.
+    /// </summary>
+    /// <param name="pattern"></param>
+    public void SetPatternIfNull(string? pattern)
+    {
+        Pattern ??= pattern;
+    }
+
 
     /// <summary>
     /// Copies selected properties from another <see cref="SchemaProperty"/>.

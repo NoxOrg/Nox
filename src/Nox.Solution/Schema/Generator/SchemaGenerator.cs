@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Collections.Generic;
 using System.IO;
+using Nox.Solution.Extensions;
 using Nox.Solution.Schema.Serialization;
 
 namespace Nox.Solution.Schema;
@@ -39,6 +40,11 @@ internal class SchemaGenerator
         _schemaPropertyCache.Add(type, schemaInfo);
 
         if (schemaInfo.SuppressProperties)
+        {
+            return schemaInfo;
+        }
+        
+        if (type.IsSimpleType())
         {
             return schemaInfo;
         }
@@ -131,7 +137,7 @@ internal class SchemaGenerator
         if (schemaProperty.Format is not null)
             jb.AppendProperty("format", schemaProperty.Format);
         
-        if (schemaProperty.Pattern is not null)
+        if (schemaProperty.Pattern is not null && (schemaProperty.Items is null || schemaProperty.Items.Ignore) )
             jb.AppendProperty("pattern", schemaProperty.Pattern);
 
         if (schemaProperty.Enum is not null)
@@ -161,6 +167,7 @@ internal class SchemaGenerator
 
         if (schemaProperty.Items is not null && !schemaProperty.Items.Ignore)
         {
+            schemaProperty.Items.SetPatternIfNull(schemaProperty.Pattern);
             jb.AppendIndented("\"items\": ");
             jb.AppendLines(WriteSchema(schemaProperty.Items, schemaPath).TrimEnd()+",", false);
         }

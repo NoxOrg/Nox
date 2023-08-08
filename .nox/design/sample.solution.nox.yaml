@@ -10,7 +10,7 @@ description: Sample Nox solution yaml configuration
 
 variables:
    DATABASE_PROVIDER: slqServer   
-   DATABASE_SERVER: localhost
+   DATABASE_SERVER: SamplewebAppDb
    DATABASE_USER: sa
    DATABASE_PASSWORD: Developer*123
    DATABASE_PORT: 5432
@@ -400,7 +400,17 @@ application:
         name: Country
         targetType: entity
         
-  
+  localization:
+
+    supportedCultures:
+      - en-GB
+      - en-US
+      - de-CH
+      - fr-CH
+      - it-CH
+      - fr-FR
+
+    defaultCulture: en-GB  
     
 
 infrastructure:
@@ -501,10 +511,11 @@ infrastructure:
 #    monitoring:
 #      $ref: elastic.monitoring.nox.yaml
 
-    translations:
+    uiLocalizations:
       name: SampleTranslationService
+      provider: sqlServer
       serverUri: translator.iwgplc.com
-      port: 443
+      port: 1433
 
     dataConnections:
       - name: CountryJsonData

@@ -5,7 +5,7 @@ namespace Nox.Solution;
 
 [GenerateJsonSchema]
 [Title("A definition for application components used in a Nox solution.")]
-[Description("A definition for Integrations, DataTransferObjects and other pertinent components pertaining to a Nox solution application component.")]
+[Description("A definition for Integrations, DataTransferObjects and other pertinent components pertaining to a Nox solution.")]
 [AdditionalProperties(false)]
 public class Application: DefinitionBase
 {
@@ -23,4 +23,6 @@ public class Application: DefinitionBase
     [Description("The collection of events that this application can raise to the outside world.")]
     [AdditionalProperties(false)]
     public IReadOnlyList<ApplicationEvent>? Events { get; internal set; }
+    
+    public Localization? Localization { get; internal set; } 
 }
