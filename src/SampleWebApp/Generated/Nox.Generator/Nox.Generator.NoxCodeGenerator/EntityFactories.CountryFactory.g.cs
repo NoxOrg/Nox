@@ -68,8 +68,11 @@ public class CountryFactory: EntityFactoryBase<CountryCreateDto, Country>
         {        
             entity.AreaInSquareKilometres = noxTypeValue;
         }
-
-        // TODO map GeoCoord LatLong remaining types and remove if else
+        noxTypeValue =  CreateNoxType<LatLong>(entityDefinition,"GeoCoord",dto.GeoCoord);
+        if(noxTypeValue != null)
+        {        
+            entity.GeoCoord = noxTypeValue;
+        }
         noxTypeValue =  CreateNoxType<Text>(entityDefinition,"GeoRegion",dto.GeoRegion);
         if(noxTypeValue != null)
         {        

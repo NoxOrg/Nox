@@ -71,7 +71,10 @@ public class AllNoxTypeFactory: EntityFactoryBase<AllNoxTypeCreateDto, AllNoxTyp
         }
 
         // TODO map HashedTexField HashedText remaining types and remove if else
-
-        // TODO map LatLongField LatLong remaining types and remove if else
+        noxTypeValue =  CreateNoxType<LatLong>(entityDefinition,"LatLongField",dto.LatLongField);
+        if(noxTypeValue != null)
+        {        
+            entity.LatLongField = noxTypeValue;
+        }
     }
 }
