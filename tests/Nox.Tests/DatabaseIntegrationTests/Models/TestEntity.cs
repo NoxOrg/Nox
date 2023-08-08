@@ -3,6 +3,7 @@
 #nullable enable
 
 using Nox.Types;
+using Nox.Domain;
 using System;
 using System.Collections.Generic;
 
@@ -22,7 +23,7 @@ public partial class TestEntity : AuditableEntityBase
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text TextTestField { get; set; } = null!;
+    public Nox.Types.Text TextTestField { get; set; } = null!;
 
     /// <summary>
     /// TestEntity Test entity relationship to SecondTestEntity OneOrMany SecondTestEntities

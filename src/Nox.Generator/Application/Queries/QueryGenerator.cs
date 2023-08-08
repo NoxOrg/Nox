@@ -4,9 +4,11 @@ using Nox.Solution;
 
 namespace Nox.Generator.Application.Queries;
 
-internal static class QueryGenerator
+internal class QueryGenerator : INoxCodeGenerator
 {
-    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
+
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -22,7 +24,8 @@ internal static class QueryGenerator
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"Get{entity.PluralName}Query")
+                .WithClassName($"Get{entity.PluralName}Queries")
+                .WithFileNamePrefix($"Queries")
                 .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource(templateName);
         }

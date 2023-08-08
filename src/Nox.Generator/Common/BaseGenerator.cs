@@ -1,9 +1,9 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Application.DtoGenerator;
 using Nox.Solution;
 using Nox.Types;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Nox.Generator.Common;
 
@@ -119,7 +119,7 @@ internal class BaseGenerator
                 
                 if (generateDto)
                 {
-                    DtoGenerator.GenerateDto(context,
+                    DtoDynamicGenerator.GenerateDto(context,
                         codeGeneratorState,
                         typeDefinition.Name,
                         typeDefinition.Description,
@@ -150,7 +150,7 @@ internal class BaseGenerator
 
     private static void GenerateDtoFromDefinition(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, string typeName, ArrayTypeOptions options)
     {
-        DtoGenerator.GenerateDto(context,
+        DtoDynamicGenerator.GenerateDto(context,
             codeGeneratorState,
                                 typeName.ToUpperFirstChar(),
                                 options.Description,

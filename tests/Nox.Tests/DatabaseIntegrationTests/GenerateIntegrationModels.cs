@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.OData.Results;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Nox.Generator.Tests;
 
@@ -33,7 +32,6 @@ namespace Nox.Tests.DatabaseIntegrationTests
 
             var classNames = new[]
             {
-                "AuditableEntityBase",
                 "TestWebAppDbContext",
                 "TestEntity",
                 "SecondTestEntity",

@@ -3,6 +3,7 @@
 #nullable enable
 
 using Nox.Types;
+using Nox.Domain;
 using System;
 using System.Collections.Generic;
 
@@ -55,7 +56,11 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     /// <summary>
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
     /// </summary>
-    public {{attribute.Type}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } = null!;
+    {{ if attribute.Type == "Formula" -}}
+    public {{attribute.FormulaTypeOptions.Returns}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}} => {{attribute.FormulaTypeOptions.Expression}};
+    {{- else -}}
+    public Nox.Types.{{attribute.Type}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } = null!;
+    {{- end}}
 {{- end }}
 {{- ######################################### Relationships###################################################### -}}
 {{- for relationship in entity.Relationships }}
@@ -71,6 +76,13 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     {{- end}}
     {{- else}}
     public virtual {{relationship.Entity}} {{if relationship.Relationship == "ZeroOrOne"}}?{{end}}{{relationship.Entity}} { get; set; } = null!;
+    {{- if relationship.ShouldGenerateForeignOnThisSide}}
+
+    /// <summary>
+    /// Foreign key for relationship {{relationship.Relationship}} to entity {{relationship.Entity}}
+    /// </summary>
+    public {{relationship.Related.Entity.Keys[0].Type}} {{relationship.Entity}}Id { get; set; } = null!;
+    {{- end}}
     {{-end}}
 {{- end }}
 {{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}

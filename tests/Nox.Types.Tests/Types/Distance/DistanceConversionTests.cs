@@ -10,7 +10,7 @@ public class DistanceConversionTests
     {
         var conversion = new DistanceConversion(DistanceUnit.Mile, DistanceUnit.Kilometer);
 
-        conversion.Calculate(1).Should().Be(1.60934400315);
+        conversion.Calculate(1).Should().Be(1.60934400315m);
     }
 
     [Fact]
@@ -18,7 +18,7 @@ public class DistanceConversionTests
     {
         var conversion = new DistanceConversion(DistanceUnit.Kilometer, DistanceUnit.Mile);
 
-        conversion.Calculate(1).Should().Be(0.62137119102);
+        conversion.Calculate(1).Should().Be(0.6213711910211121725892641078m);
     }
 
     [Fact]
@@ -30,6 +30,6 @@ public class DistanceConversionTests
         var result2 = conversion.Calculate(1) * (QuantityValue)2.5;
 
         result1.Should().Be(result2);
-        result1.Should().Be(1.5534279775500002);
+        result1.Should().Be(1.5534279775527804314731602695m);
     }
 }

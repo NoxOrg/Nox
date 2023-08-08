@@ -16,27 +16,26 @@ public enum NoxType : uint
     Entity = 2276495181,
 
     [CompoundType]
-    [CompoundComponent("Lattitude",typeof(double))]
+    [CompoundComponent("Latitude",typeof(double))]
     [CompoundComponent("Longitude",typeof(double))]
     LatLong = 4061881939,
     
     [CompoundType]
     [CompoundComponent("Amount", typeof(decimal))]
-    [CompoundComponent("CurrencyCode", typeof(string))]
+    [CompoundComponent("CurrencyCode", typeof(CurrencyCode))]
     Money = 3500951620,
 
     [CompoundType]
     [CompoundComponent("StreetNumber",typeof(int))]
     [CompoundComponent("AddressLine1", typeof(string))]
-    [CompoundComponent("AddressLine2", typeof(string))]
-    [CompoundComponent("AddressLine3", typeof(string))]
+    [CompoundComponent("AddressLine2", typeof(string))]    
     [CompoundComponent("Route", typeof(string))]
     [CompoundComponent("Locality", typeof(string))]
-    [CompoundComponent("Neighbourhood", typeof(string))]
+    [CompoundComponent("Neighborhood", typeof(string))]
     [CompoundComponent("AdministrativeArea1", typeof(string))]
     [CompoundComponent("AdministrativeArea2", typeof(string))]
     [CompoundComponent("PostalCode", typeof(string))]
-    [CompoundComponent("CountryCode2", typeof(string))]
+    [CompoundComponent("CountryId", typeof(string))]
     StreetAddress = 499179285,
     
     [CompoundType] 
@@ -65,7 +64,7 @@ public enum NoxType : uint
     [SimpleType(typeof(decimal))]
     Area = 998304025,
 
-    [SimpleType(typeof(int))] 
+    [SimpleType(typeof(ulong))] 
     DatabaseNumber = 963275927,
     
     [SimpleType(typeof(bool))]

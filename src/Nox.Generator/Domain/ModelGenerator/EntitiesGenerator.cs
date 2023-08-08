@@ -4,11 +4,11 @@ using Nox.Solution;
 
 namespace Nox.Generator.Domain.ModelGenerator;
 
-internal static class EntitiesGenerator
+internal class EntitiesGenerator : INoxCodeGenerator
 {
-    public static void Generate(
-        SourceProductionContext context,
-        NoxSolutionCodeGeneratorState codeGeneratorState)
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
+
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -20,6 +20,7 @@ internal static class EntitiesGenerator
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName(entity.Name)
+                .WithFileNamePrefix($"Entities")
                 .WithObject("entity", entity)
                 .WithObject("isVersioned", (entity.Persistence?.IsVersioned ?? true))
                 .GenerateSourceCodeFromResource("Domain.ModelGenerator.Entity");

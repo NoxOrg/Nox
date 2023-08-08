@@ -410,7 +410,18 @@ namespace Nox.Solution {
                 return ResourceManager.GetString("EntityOwnedRelationshipEntityMissing", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Looks up a localized string similar to The owned relationship &apos;{0}&apos; for entity &apos;{1}&apos; refers to an entity &apos;{2}&apos; that is used in other owned relationships. Owned entities must be owned by one parent only.
+        /// </summary>
+        internal static string EntityOwnedRelationshipEntityUsedMultipleTimes
+        {
+            get
+            {
+                return ResourceManager.GetString("EntityOwnedRelationshipEntityUsedMultipleTimes", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Looks up a localized string similar to The owned relationship &apos;{0}&apos; is duplicated. Owned relationships must be unique in a domain definition..
         /// </summary>

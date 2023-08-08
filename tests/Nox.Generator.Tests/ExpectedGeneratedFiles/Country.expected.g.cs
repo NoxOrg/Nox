@@ -3,6 +3,7 @@
 #nullable enable
 
 using Nox.Types;
+using Nox.Domain;
 using System;
 using System.Collections.Generic;
 
@@ -38,10 +39,10 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     /// The country's common name (Required).
     /// </summary>
-    public Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
     /// The country's official name (Required).
     /// </summary>
-    public Text FormalName { get; set; } = null!;
+    public Nox.Types.Text FormalName { get; set; } = null!;
 }

@@ -16,11 +16,11 @@ keys:
   - name: Id
     isRequired: true
     description: The currency's primary key / identifier
-    type: text
-    textTypeOptions:
-      isUnicode: false
-      minLength: 3
-      maxLength: 3
+    type: nuid
+    nuidTypeOptions:
+        separator: "."
+        propertyNames:
+            - "Name" 
 
 attributes:
 
