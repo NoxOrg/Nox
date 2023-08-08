@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "title": "A definition for application components used in a Nox solution.",
-  "description": "A definition for Integrations, DataTransferObjects and other pertinent components pertaining to a Nox solution application component.",
+  "description": "A definition for Integrations, DataTransferObjects and other pertinent components pertaining to a Nox solution.",
   "type": [
     "object",
     "null"
@@ -111,6 +111,21 @@
         ]
       },
       "additionalProperties": false
+    },
+    "localization": {    
+      "anyOf": [
+        { "$ref": "localization.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
     }
   },
   "additionalProperties": false

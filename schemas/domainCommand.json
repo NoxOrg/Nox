@@ -26,21 +26,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -138,21 +124,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -1241,21 +1213,7 @@
                         "type": [
                           "string",
                           "null"
-                        ],
-                        "properties": {
-                          "chars": {    
-                            "type": [
-                              "object",
-                              "null"
-                            ]
-                          },
-                          "length": {    
-                            "type": [
-                              "integer",
-                              "null"
-                            ]
-                          }
-                        }
+                        ]
                       }
                     }
                   }
@@ -3996,21 +3954,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -5099,21 +5043,7 @@
                         "type": [
                           "string",
                           "null"
-                        ],
-                        "properties": {
-                          "chars": {    
-                            "type": [
-                              "object",
-                              "null"
-                            ]
-                          },
-                          "length": {    
-                            "type": [
-                              "integer",
-                              "null"
-                            ]
-                          }
-                        }
+                        ]
                       }
                     }
                   }
@@ -7854,21 +7784,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -7974,21 +7890,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -8083,21 +7985,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -8386,21 +8274,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -8483,21 +8357,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -8588,21 +8448,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -8697,21 +8543,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -8811,21 +8643,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -8872,21 +8690,7 @@
                 "type": [
                   "string",
                   "null"
-                ],
-                "properties": {
-                  "chars": {    
-                    "type": [
-                      "object",
-                      "null"
-                    ]
-                  },
-                  "length": {    
-                    "type": [
-                      "integer",
-                      "null"
-                    ]
-                  }
-                }
+                ]
               }
             }
           }
@@ -8940,21 +8744,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -9049,21 +8839,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -9178,21 +8954,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -9285,21 +9047,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -9396,21 +9144,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -9510,21 +9244,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -9613,21 +9333,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -9729,21 +9435,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -9852,21 +9544,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -9964,21 +9642,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -10085,21 +9749,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -10388,21 +10038,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -10499,21 +10135,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -10596,21 +10218,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -10699,21 +10307,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -10808,21 +10402,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -10919,21 +10499,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -11042,21 +10608,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -11165,21 +10717,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -11288,21 +10826,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
@@ -11412,21 +10936,7 @@
             "type": [
               "string",
               "null"
-            ],
-            "properties": {
-              "chars": {    
-                "type": [
-                  "object",
-                  "null"
-                ]
-              },
-              "length": {    
-                "type": [
-                  "integer",
-                  "null"
-                ]
-              }
-            }
+            ]
           }
         },
         "name": {    
