@@ -52,8 +52,11 @@ public class AllNoxTypeFactory: EntityFactoryBase<AllNoxTypeCreateDto, AllNoxTyp
         {        
             entity.FileField = noxTypeValue;
         }
-
-        // TODO map TranslatedTextField TranslatedText remaining types and remove if else
+        noxTypeValue =  CreateNoxType<TranslatedText>(entityDefinition,"TranslatedTextField",dto.TranslatedTextField);
+        if(noxTypeValue != null)
+        {        
+            entity.TranslatedTextField = noxTypeValue;
+        }
         noxTypeValue =  CreateNoxType<VatNumber>(entityDefinition,"VatNumberField",dto.VatNumberField);
         if(noxTypeValue != null)
         {        
