@@ -1,27 +1,149 @@
 [
   {
-    "Id": "USD",
-    "Name": "US Dollar",
-    "PhysicalMoney": 100
+    "Name": "Shippi Tivoli Einkaufscenter",
+    "Address": "Shopping Center, 8957 Spreitenbach, CH",
+    "Longitude": 8.36949,
+    "Latitude": 47.4223,
+    "Phone": "+41 56 419 55 00"
   },
   {
-    "Id": "UAH",
-    "Name": "Ukrainian Hryvna",
-    "PhysicalMoney": 200
+    "Name": "Galeries Lafayette Haussmann",
+    "Address": "40 Bd Haussmann, 75009 Paris, FR",
+    "Longitude": 2.33243,
+    "Latitude": 48.8732,
+    "Phone": "+33 1 42 82 34 56"
   },
   {
-    "Id": "EUR",
-    "Name": "Euro",
-    "PhysicalMoney": 300
+    "Name": "Wien Mitte The Mall",
+    "Address": "Landstraßer Hauptstraße 1b, 1030 Wien, AU",
+    "Longitude": 16.38467,
+    "Latitude": 48.20623,
+    "Phone": "+43 1 8907251"
   },
   {
-    "Id": "GBP",
-    "Name": "British Pound Sterling",
-    "PhysicalMoney": 400
+    "Name": "Galleria Vittorio Emanuele II",
+    "Address": "P.za del Duomo, 20123 Milano, IT",
+    "Longitude": 9.19001,
+    "Latitude": 45.46565,
+    "Phone": "+39 02 8845 5555"
   },
   {
-    "Id": "JPY",
-    "Name": "Japanese Yen",
-    "PhysicalMoney": 500
+    "Name": "Metropole Shopping Monte-Carlo",
+    "Address": "17 Av. des Spélugues, 98000 Monte-Carlo, MC",
+    "Longitude": 7.42826,
+    "Latitude": 43.74106,
+    "Phone": "+377 92 16 77 01"
+  },
+  {
+    "Name": "Arenas de Barcelona",
+    "Address": "Gran Via de les Corts Catalanes planta Cúpula, 08015 Barcelona, ES",
+    "Longitude": 2.14895,
+    "Latitude": 41.37667,
+    "Phone": "+34 932 89 02 44"
+  },
+  {
+    "Name": "KaDeWe - Kaufhaus des Westens",
+    "Address": "Tauentzienstraße 21-24, 10789 Berlin, DE",
+    "Longitude": 13.34095,
+    "Latitude": 52.50159,
+    "Phone": "+49 30 21210"
+  },
+  {
+    "Name": "Fisketorvet Copenhagen Mall",
+    "Address": "Kalvebod Brygge 59, 1560 København, DK",
+    "Longitude": 12.56128,
+    "Latitude": 55.66198,
+    "Phone": "+45 33 36 64 00"
+  },
+  {
+    "Name": "Sturegallerian",
+    "Address": "Sturegatan 4, 114 35 Stockholm, SE",
+    "Longitude": 18.07525,
+    "Latitude": 59.33608,
+    "Phone": "+46 8 442 83 80"
+  },
+  {
+    "Name": "Aker Brygge",
+    "Address": "Støperigata 2, 0250 Oslo, NO",
+    "Longitude": 10.72504,
+    "Latitude": 59.90993,
+    "Phone": "+47 22 83 26 80"
+  },
+  {
+    "Name": "Kamppi Helsinki",
+    "Address": "Urho Kekkosen katu 1, 00100 Helsinki, FI",
+    "Longitude": 24.93532,
+    "Latitude": 60.16981,
+    "Phone": "+358 40 5670939"
+  },
+  {
+    "Name": "Amoreiras",
+    "Address": "Av. Eng. Duarte Pacheco, 1070 103 Lisboa, PT",
+    "Longitude": -9.1616,
+    "Latitude": 38.72347,
+    "Phone": "+351 21 381 0200"
+  },
+  {
+    "Name": "St Pancras International",
+    "Address": "Euston Rd., N1C 4QP London,GB",
+    "Longitude": -0.12685,
+    "Latitude": 51.53189,
+    "Phone": "+44 20 7843 7688"
+  },
+  {
+    "Name": "Buchanan Galleries",
+    "Address": "220 Buchanan St, G1 2FF Glasgow,GB",
+    "Longitude": -4.25117,
+    "Latitude": 55.86367,
+    "Phone": "+44 141 333 9898"
+  },
+  {
+    "Name": "George's Street Arcade",
+    "Address": "South Great George's Street, D02 YX28 Dublin, IR",
+    "Longitude": -6.26423,
+    "Latitude": 53.34256,
+    "Phone": "+353 1 283 6077"
+  },
+  {
+    "Name": "Smáralind",
+    "Address": "Smáralind Hagasmári 1, 201 Kópavogur, IS",
+    "Longitude": -21.88348,
+    "Latitude": 64.10102,
+    "Phone": "+354 528 8000"
+  },
+  {
+    "Name": "Athens Metro Mall",
+    "Address": "Par. Leof. Vouliagmenis 276, 173 43 Ag.Dimitrios, GR",
+    "Longitude": 23.73997,
+    "Latitude": 37.93946,
+    "Phone": "+30 21 0976 9444"
+  },
+  {
+    "Name": "Elektrownia Powiśle",
+    "Address": "Dobra 42, 00-312 Warszawa, PL",
+    "Longitude": 21.02783,
+    "Latitude": 52.24077,
+    "Phone": "+48 22 128 56 00"
+  },
+  {
+    "Name": "Galeries Royales Saint Hubert",
+    "Address": "Galerie du Roi 5, 1000 Brussel, BE",
+    "Longitude": 4.35458,
+    "Latitude": 50.84835,
+    "Phone": "+32 2 545 09 90"
+  },
+  {
+    "Name": "De Bijenkorf",
+    "Address": "Dam 1, 1012 JS Amsterdam, NL",
+    "Longitude": 4.89394,
+    "Latitude": 52.37335,
+    "Phone": "+31 20 808 9333"
+  },
+  {
+    "Name": "Azrieli Center",
+    "Address": "132 Menahem Begin,6329302 Tel-Aviv, IL",
+    "Longitude": 34.78857851,
+    "Latitude": 32.07125972,
+    "Phone": "+972 3 608 1199"
   }
 ]

@@ -18,7 +18,23 @@ public partial class Store : AuditableEntityBase
     /// <summary>
     /// Store Primary Key (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public Nuid Id {get; private set;} = null!;
+    
+    	public void EnsureId()
+    	{
+    		if(Id is null)
+    		{
+    			Id = Nuid.From("Store." + string.Join(".", Name.Value.ToString(),Address.Value.ToString()));
+    		}
+    		else
+    		{
+    			var currentNuid = Nuid.From("Store." + string.Join(".", Name.Value.ToString(),Address.Value.ToString()));
+    			if(Id != currentNuid)
+    			{
+    				throw new NoxNuidTypeException("Immutable nuid property Id value is different since it has been initialized");
+    			}
+    		}
+    	}
 
     /// <summary>
     /// Store Name (Required).
@@ -26,9 +42,19 @@ public partial class Store : AuditableEntityBase
     public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
-    /// Physical Money in the Physical Store (Required).
+    /// Store address (Required).
     /// </summary>
-    public Nox.Types.Money PhysicalMoney { get; set; } = null!;
+    public Nox.Types.StreetAddress Address { get; set; } = null!;
+
+    /// <summary>
+    /// Store location coordinates (Required).
+    /// </summary>
+    public Nox.Types.LatLong LatLong { get; set; } = null!;
+
+    /// <summary>
+    /// Store phone number (Required).
+    /// </summary>
+    public Nox.Types.Text Phone { get; set; } = null!;
 
     /// <summary>
     /// Store Set of passwords for this store ExactlyOne StoreSecurityPasswords

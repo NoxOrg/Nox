@@ -8,7 +8,7 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteStoreByIdCommand(System.String key) : IRequest<bool>;
+public record DeleteStoreByIdCommand(System.UInt32 key) : IRequest<bool>;
 
 public class DeleteStoreByIdCommandHandler: IRequestHandler<DeleteStoreByIdCommand, bool>
 {

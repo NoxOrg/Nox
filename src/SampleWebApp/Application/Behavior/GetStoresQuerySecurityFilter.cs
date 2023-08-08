@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using SampleWebApp.Application.Queries;
 using SampleWebApp.Application.Dto;
+using Nox.Types;
 
 namespace SampleWebApp.Application.Behavior
 {
@@ -10,7 +11,7 @@ namespace SampleWebApp.Application.Behavior
         {
             var result = await next();
 
-            return result.Where(store => store.Id == "EUR");
+            return result.Where(store => store.Id == Nuid.From("Shippi Tivoli Einkaufscenter.Shopping Center, 8957 Spreitenbach, CH").Value);
         }
     }
 }

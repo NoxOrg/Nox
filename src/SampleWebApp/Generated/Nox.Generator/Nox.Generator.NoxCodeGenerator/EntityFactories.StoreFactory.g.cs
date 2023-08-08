@@ -35,10 +35,20 @@ public class StoreFactory: EntityFactoryBase<StoreCreateDto, Store>
         {        
             entity.Name = noxTypeValue;
         }
-        noxTypeValue =  CreateNoxType<Money>(entityDefinition,"PhysicalMoney",dto.PhysicalMoney);
+        noxTypeValue =  CreateNoxType<StreetAddress>(entityDefinition,"Address",dto.Address);
         if(noxTypeValue != null)
         {        
-            entity.PhysicalMoney = noxTypeValue;
+            entity.Address = noxTypeValue;
+        }
+        noxTypeValue =  CreateNoxType<LatLong>(entityDefinition,"LatLong",dto.LatLong);
+        if(noxTypeValue != null)
+        {        
+            entity.LatLong = noxTypeValue;
+        }
+        noxTypeValue =  CreateNoxType<Text>(entityDefinition,"Phone",dto.Phone);
+        if(noxTypeValue != null)
+        {        
+            entity.Phone = noxTypeValue;
         }
     }
 }

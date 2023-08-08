@@ -29,20 +29,17 @@ internal static class CountryPostalCodeValidator
             .Select(x => x.Pattern)
             .ToList();
 
-        var isValid = true;
-
         foreach (var pattern in patterns)
         {
             var isMath = Regex.IsMatch(postalCode, pattern);
 
-            if (!isMath)
+            if (isMath)
             {
-                isValid = false;
-                break;
+                return true;
             }
         }
 
-        return isValid;
+        return false;
     }
 
     private static readonly List<(string CountryCode, string Pattern)> _postalCodeMapping = new()
@@ -124,6 +121,7 @@ internal static class CountryPostalCodeValidator
         ("IN",@"^\d{6}$"),
         ("ID",@"^\d{5}$"),
         ("IR",@"^\d{5}-\d{5}$"),
+        ("IR",@"^[A-Z][0-9]{2}\s[A-Z0-9]{4}$"),
         ("IQ",@"^\d{5}$"),
         ("IM",@"^[Ii[Mm]\d{1,2}\s\d\[A-Z]{2}$"),
         ("IL",@"^\b\d{5}(\d{2})?$"),

@@ -18,7 +18,15 @@ public partial class StoreCreateDto
     /// </summary>
     public System.String Name { get; set; } = default!;
     /// <summary>
-    /// Physical Money in the Physical Store (Required).
+    /// Store address (Required).
     /// </summary>
-    public MoneyDto PhysicalMoney { get; set; } = default!;
+    public StreetAddressDto Address { get; set; } = default!;
+    /// <summary>
+    /// Store location coordinates (Required).
+    /// </summary>
+    public LatLongDto LatLong { get; set; } = default!;
+    /// <summary>
+    /// Store phone number (Required).
+    /// </summary>
+    public System.String Phone { get; set; } = default!;
 }

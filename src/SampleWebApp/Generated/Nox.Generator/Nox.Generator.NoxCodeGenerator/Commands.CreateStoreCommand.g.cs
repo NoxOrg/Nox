@@ -17,9 +17,9 @@ using SampleWebApp.Application.Dto;
 namespace SampleWebApp.Application.Commands;
 
 //TODO support multiple keys and generated keys like nuid database number
-public record CreateStoreCommand(StoreCreateDto EntityDto) : IRequest<Text>;
+public record CreateStoreCommand(StoreCreateDto EntityDto) : IRequest<Nuid>;
 
-public class CreateStoreCommandHandler: IRequestHandler<CreateStoreCommand, Text>
+public class CreateStoreCommandHandler: IRequestHandler<CreateStoreCommand, Nuid>
 {
     public SampleWebAppDbContext DbContext { get; }
     public IEntityFactory<StoreCreateDto,Store> EntityFactory { get; }
@@ -32,7 +32,7 @@ public class CreateStoreCommandHandler: IRequestHandler<CreateStoreCommand, Text
         EntityFactory = entityFactory;
     }
     
-    public async Task<Text> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
+    public async Task<Nuid> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
     {    
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
         //TODO for nuid property or key needs to call ensure id        

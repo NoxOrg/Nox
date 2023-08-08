@@ -184,7 +184,7 @@ domain:
           type: text
           textTypeOptions:
             minLength: 4
-            maxLength: 63
+            maxLength: 120
           isRequired: true
 
         - name: AlphaCode3
@@ -229,7 +229,7 @@ domain:
           type: area
           areaTypeOptions:
             minValue: 0
-            maxValue: 20000000 # 20,000,000 > Russia
+            maxValue: 200000000 # 20,000,000 > Russia
             units: squareFoot
             persistAs: squareFoot
           isRequired: true
@@ -242,15 +242,15 @@ domain:
           description: The region the country is in
           type: text
           textTypeOptions:
-            isUnicode: false
-            maxLength: 8
+            isUnicode: true
+            maxLength: 32
           isRequired: true
 
         - name: GeoSubRegion
           description: The sub-region the country is in
           type: text
           textTypeOptions:
-            isUnicode: false
+            isUnicode: true
             maxLength: 32
           isRequired: true
 
@@ -258,8 +258,9 @@ domain:
           description: The world region the country is in
           type: text
           textTypeOptions:
-            isUnicode: false
-            maxLength: 4
+            isUnicode: true
+            minLength: 0
+            maxLength: 32
           isRequired: true
 
         - name: Population

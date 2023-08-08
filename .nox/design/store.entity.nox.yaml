@@ -9,11 +9,12 @@ keys:
   - name: Id
     isRequired: true
     description: Store Primary Key
-    type: text
-    textTypeOptions:
-      isUnicode: false
-      minLength: 3
-      maxLength: 3
+    type: nuid
+    nuidTypeOptions:
+      separator: "."
+      propertyNames:
+       - "Name"
+       - "Address" 
 
 attributes:
 
@@ -25,15 +26,20 @@ attributes:
       maxLength: 63
     isRequired: true
 
-  - name: PhysicalMoney
-    description: Physical Money in the Physical Store
-    type: money
-    moneyTypeOptions:
-      defaultCurrency: GBP      
-      decimalDigits: 5
-      integerDigits: 10
+  - name: Address
+    description: Store address
+    type: streetAddress
     isRequired: true
-    
+
+  - name: LatLong
+    description: Store location coordinates
+    type: latLong
+    isRequired: true
+
+  - name: Phone
+    description: Store phone number
+    type: text
+    isRequired: true
 relationships:
 
     - name: PasswordsRel

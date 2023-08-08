@@ -38,5 +38,5 @@ public partial class StoreSecurityPasswords : AuditableEntityBase
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Store
     /// </summary>
-    public Text StoreId { get; set; } = null!;
+    public Nuid StoreId { get; set; } = null!;
 }

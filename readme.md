@@ -103,7 +103,7 @@ To add security, or other business rule to generated queries, commands, orr cust
             // TODO Get Stores that he can see.... 
 
             // Do Validation The current user can only see EUR Store
-            RuleFor(query => query.key).Must(key => key == "EUR").WithMessage("No permissions to access this store");            
+            RuleFor(query => query.key).Must(key => key == Nuid.From("Shippi Tivoli Einkaufscenter.Shopping Center, 8957 Spreitenbach, CH").Value).WithMessage("No permissions to access this store");            
         }
     }
 ```

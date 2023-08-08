@@ -18,12 +18,30 @@ internal class StoreDataSeeder : SampleDataSeederBase<StoreModel, Store>
         var entities = models.Select(x =>
             new Store
             {
-                Id = Text.From(x.Id),
                 Name = Text.From(x.Name),
-                PhysicalMoney = Money.From(x.PhysicalMoney, CurrencyCode.USD),
+                Address = StreetAddress.From(CreateAddressItem(x.Address)),
+                LatLong = LatLong.From(x.Latitude, x.Longitude),
+                Phone = Text.From(x.Phone),// TODO: should be Phone type
                 CreatedAtUtc = System.DateTime.Now
             }).ToList();
-
+        entities.ForEach(x => x.EnsureId());
         return entities;
+    }
+
+    private static StreetAddressItem CreateAddressItem(string input)
+    {
+        //Suppose address format is:Shopping Center, 8957-11 Spreitenbach, CH
+        var addressChunks = input.Split(",")
+            .Select(x => x.TrimStart().TrimEnd())
+            .ToArray();
+        var postalData = addressChunks[1].Split(" ");
+
+        return new StreetAddressItem
+        {
+            AddressLine1 = addressChunks[0],
+            PostalCode = string.Join(" ", postalData.Take(postalData.Length - 1)),
+            Locality = postalData[postalData.Length - 1],
+            CountryId = CountryCode2.From(addressChunks[2])
+        };
     }
 }
