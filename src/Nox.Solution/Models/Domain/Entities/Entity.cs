@@ -68,7 +68,7 @@ public class Entity : DefinitionBase
     [Title("Attributes that describe this entity.")]
     [Description("Define one or more attribute(s) that describes the composition of this domain entity.")]
     [AdditionalProperties(false)]
-    public IReadOnlyList<NoxSimpleTypeDefinition>? Attributes { get; internal set; }
+    public virtual IReadOnlyList<NoxSimpleTypeDefinition>? Attributes { get; internal set; }
 
     internal bool ApplyDefaults()
     {

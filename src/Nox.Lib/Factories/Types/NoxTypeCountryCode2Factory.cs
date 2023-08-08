@@ -10,9 +10,9 @@ namespace Nox.Factories.Types
         {
         }
 
-        public override CountryCode2? CreateNoxType(Entity entityDefinition, string propertyName, dynamic? value)
+        public override CountryCode2? CreateNoxType(NoxSimpleTypeDefinition simpleTypeDefinition, dynamic? value)
         {
-            return CountryCode3.From(value);
+            return CountryCode2.From(value); ;
         }
     }
 }

@@ -9,9 +9,11 @@ using static Nox.Generator.Common.BaseGenerator;
 
 namespace Nox.Generator.Application.DtoGenerator;
 
-internal static class DtoDynamicGenerator
+internal class DtoDynamicGenerator : INoxCodeGenerator
 {
-    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Application;
+
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -46,10 +48,9 @@ internal static class DtoDynamicGenerator
         GenerateProperties(context, code, attributes);
 
         code.EndBlock();
-        
+
         code.GenerateSourceCode();
     }
-    
 
     private static void GenerateDto(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, DataTransferObject dto)
     {
@@ -73,10 +74,10 @@ internal static class DtoDynamicGenerator
         GenerateProperties(context, code, dto.Attributes);
 
         code.EndBlock();
-        
+
         code.GenerateSourceCode();
     }
-    
+
     private static void GenerateProperties(SourceProductionContext context, CodeBuilder code, IEnumerable<NoxSimpleTypeDefinition> attributes)
     {
         var attributesList = attributes.ToList();
@@ -92,7 +93,7 @@ internal static class DtoDynamicGenerator
             var nullable = attribute.IsRequired ? string.Empty : "?";
 
             code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }} = null!;");
-            
+
             if (i != attributesList.Count - 1)
             {
                 code.AppendLine();

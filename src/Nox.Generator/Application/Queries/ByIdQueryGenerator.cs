@@ -5,9 +5,11 @@ using System.Linq;
 
 namespace Nox.Generator.Application.Queries;
 
-internal static class ByIdQueryGenerator
+internal class ByIdQueryGenerator : INoxCodeGenerator
 {
-    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
+
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -16,7 +18,7 @@ internal static class ByIdQueryGenerator
             return;
         }
 
-        var templateName = @"Application.Queries.ByIdQuery";        
+        var templateName = @"Application.Queries.ByIdQuery";
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
@@ -29,7 +31,6 @@ internal static class ByIdQueryGenerator
                 .WithObject("entity", entity)
                 .WithObject("primaryKeys", primaryKeys)
                 .GenerateSourceCodeFromResource(templateName);
-
         }
     }
 }

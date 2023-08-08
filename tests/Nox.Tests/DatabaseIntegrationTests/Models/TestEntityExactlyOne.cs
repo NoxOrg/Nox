@@ -23,7 +23,7 @@ public partial class TestEntityExactlyOne : AuditableEntityBase
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text TextTestField { get; set; } = null!;
+    public Nox.Types.Text TextTestField { get; set; } = null!;
 
     /// <summary>
     /// TestEntityExactlyOne Test entity relationship to SecondTestEntityExactlyOneRelationship ExactlyOne SecondTestEntityExactlyOnes

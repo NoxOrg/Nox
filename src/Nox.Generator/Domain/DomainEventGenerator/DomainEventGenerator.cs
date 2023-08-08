@@ -8,9 +8,11 @@ using static Nox.Generator.Common.BaseGenerator;
 
 namespace Nox.Generator.Domain.DomainEventGenerator;
 
-internal static class DomainEventGenerator
+internal class DomainEventGenerator : INoxCodeGenerator
 {
-    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
+
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -24,12 +26,12 @@ internal static class DomainEventGenerator
             foreach (var evt in entity.Events)
             {
                 context.CancellationToken.ThrowIfCancellationRequested();
-                GenerateEvent(context, codeGeneratorState, evt);    
-            }            
+                GenerateEvent(context, codeGeneratorState, evt);
+            }
         }
 #pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
     }
-    
+
     private static void GenerateEvent(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, DomainEvent evt)
     {
         var code = new CodeBuilder($"{evt.Name}.g.cs", context);
@@ -50,10 +52,10 @@ internal static class DomainEventGenerator
         GenerateProperties(context, code, evt);
 
         code.EndBlock();
-        
+
         code.GenerateSourceCode();
     }
-    
+
     private static void GenerateProperties(SourceProductionContext context, CodeBuilder code, DomainEvent evt)
     {
         if (evt.ObjectTypeOptions != null)
@@ -61,13 +63,13 @@ internal static class DomainEventGenerator
             foreach (var attribute in evt.ObjectTypeOptions.Attributes)
             {
                 context.CancellationToken.ThrowIfCancellationRequested();
-        
+
                 GenerateDocs(code, attribute.Description);
-        
+
                 var propType = attribute.Type;
                 var propName = attribute.Name;
                 var nullable = attribute.IsRequired ? string.Empty : "?";
-        
+
                 code.AppendLine($"public {propType}{nullable} {propName} {{ get; set; }} = null!;");
             }
         }

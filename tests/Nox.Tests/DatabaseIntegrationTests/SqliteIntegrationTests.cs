@@ -1,8 +1,13 @@
 using FluentAssertions;
+
 using Microsoft.EntityFrameworkCore;
+
 using Nox.Types;
+
+using System;
 using System.Text.Json;
 using TestWebApp.Domain;
+
 using DayOfWeek = Nox.Types.DayOfWeek;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
@@ -14,7 +19,6 @@ public class SqliteIntegrationTests : SqliteTestBase
     {
         // TODO:
         // array
-        // color
         // colour
         // databaseNumber
         // collection
@@ -33,7 +37,6 @@ public class SqliteIntegrationTests : SqliteTestBase
         // dateTimeSchedule
         // html
         // json
-        // time
 
         // TODO: commented types
 
@@ -65,7 +68,9 @@ public class SqliteIntegrationTests : SqliteTestBase
         var year = (ushort)2023;
         var vatNumberValue = "44403198682";
         var vatNumberCountryCode2 = CountryCode2.From("FR");
+        var color = new byte[] { 1, 2, 3, 4 };
         var date = new DateOnly(2023, 7, 14);
+        var time = new System.TimeOnly(11152500000);
         var fileName = "MyFile";
         var fileSizeInBytes = 1000000UL;
         var fileUrl = "https://example.com/myfile.pdf";
@@ -111,6 +116,10 @@ public class SqliteIntegrationTests : SqliteTestBase
         var persistDistanceUnitAs = DistanceTypeUnit.Kilometer;
         var latitude = 47.376934;
         var longitude = 8.541287;
+
+        var dateTimeRangeStart = new DateTimeOffset(2023, 4, 12, 0, 0, 0, TimeSpan.FromHours(3));
+        var dateTimeRangeEnd = new DateTimeOffset(2023, 7, 10, 0, 0, 0, TimeSpan.FromHours(5));
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -137,6 +146,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             DayOfWeekTestField = DayOfWeek.From(1),
             MonthTestField = Month.From(month),
             DateTimeDurationTestField = DateTimeDuration.FromHours(dateTimeDurationInHours),
+            TimeTestField = Time.From(time.Ticks),
             CurrencyNumberTestField = CurrencyNumber.From(970),
             JsonTestField = Json.From(addressJsonPretty),
             YearTestField = Year.From(year),
@@ -144,6 +154,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
             VatNumberTestField = VatNumber.From(vatNumberValue, vatNumberCountryCode2),
+            ColorTestField = Color.From(color),
             PercentageTestField = Percentage.From(percentage),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
@@ -158,6 +169,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             DatabaseNumberTestField = DatabaseNumber.FromDatabase(databaseNumber), //SQLite supports AutoIncrement only for column of type INTEGER PRIMARY KEY  https://www.sqlite.org/autoinc.html
             UriTestField = Types.Uri.From(sampleUri),
             GeoCoordTestField = LatLong.From(latitude, longitude),
+            DateTimeRangeTestField = DateTimeRange.From(dateTimeRangeStart, dateTimeRangeEnd),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -198,6 +210,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.DayOfWeekTestField!.Value.Should().Be(dayOfWeek);
         testEntity.MonthTestField!.Value.Should().Be(month);
         testEntity.DateTimeDurationTestField!.TotalHours.Should().Be(dateTimeDurationInHours);
+        testEntity.TimeTestField!.ToString("hh:mm").Should().Be(time.ToString("hh:mm"));
         testEntity.CurrencyNumberTestField!.Value.Should().Be(970);
         testEntity.JsonTestField!.Value.Should().Be(addressJsonMinified);
         testEntity.JsonTestField!.ToString(string.Empty).Should().Be(addressJsonPretty);
@@ -209,6 +222,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
         testEntity.VatNumberTestField!.Value.Number.Should().Be(vatNumberValue);
         testEntity.VatNumberTestField!.Value.CountryCode2.Should().Be(vatNumberCountryCode2);
+        testEntity.ColorTestField!.Value.Should().Equal(color);
         testEntity.PercentageTestField!.Value.Should().Be(percentage);
         testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
@@ -231,6 +245,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.UriTestField!.Value.Should().BeEquivalentTo(new System.Uri(sampleUri));
         testEntity.GeoCoordTestField!.Latitude.Should().Be(latitude);
         testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
+        testEntity.DateTimeRangeTestField!.Start.Should().Be(dateTimeRangeStart);
+        testEntity.DateTimeRangeTestField!.End.Should().Be(dateTimeRangeEnd);
     }
 
     [Fact]

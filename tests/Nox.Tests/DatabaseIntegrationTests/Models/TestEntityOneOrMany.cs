@@ -23,7 +23,7 @@ public partial class TestEntityOneOrMany : AuditableEntityBase
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text TextTestField { get; set; } = null!;
+    public Nox.Types.Text TextTestField { get; set; } = null!;
 
     /// <summary>
     /// TestEntityOneOrMany Test entity relationship to SecondTestEntityOneOrMany OneOrMany SecondTestEntityOneOrManies

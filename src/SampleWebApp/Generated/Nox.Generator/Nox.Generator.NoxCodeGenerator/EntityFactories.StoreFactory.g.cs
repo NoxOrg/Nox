@@ -13,6 +13,7 @@ using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
 using File = Nox.Types.File;
+using Boolean = Nox.Types.Boolean;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
