@@ -9,7 +9,7 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetCurrencyByIdQuery(System.UInt32 key) : IRequest<CurrencyDto?>;
+public record GetCurrencyByIdQuery(System.UInt32 Id) : IRequest<CurrencyDto?>;
 
 public class GetCurrencyByIdQueryHandler: IRequestHandler<GetCurrencyByIdQuery, CurrencyDto?>
 {
@@ -24,7 +24,9 @@ public class GetCurrencyByIdQueryHandler: IRequestHandler<GetCurrencyByIdQuery, 
     {    
         var item = DataDbContext.Currencies
             .AsNoTracking()
-            .SingleOrDefault(r => !(r.Deleted == true) && r.Id.Equals(request.key));            
+            .SingleOrDefault(r =>
+                r.Id.Equals(request.Id) &&
+                !(r.Deleted == true));
         return Task.FromResult(item);
     }
 }

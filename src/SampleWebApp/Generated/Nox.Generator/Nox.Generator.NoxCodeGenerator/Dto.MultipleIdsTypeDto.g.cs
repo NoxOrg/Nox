@@ -18,16 +18,27 @@ using SampleWebApp.Domain;
 namespace SampleWebApp.Application.Dto;
 
 /// <summary>
-/// The name of a country in other languages.
+/// Entity to test all nox types.
 /// </summary>
-[AutoMap(typeof(CountryLocalNamesCreateDto))]
-[PrimaryKey(nameof(Id))]
-public partial class CountryLocalNamesDto : AuditableEntityBase
+[AutoMap(typeof(MultipleIdsTypeCreateDto))]
+[PrimaryKey(nameof(Id1), nameof(Id2))]
+public partial class MultipleIdsTypeDto : AuditableEntityBase
 {
 
     /// <summary>
-    ///  (Required).
+    /// First Id (Required).
     /// </summary>
     [Key, Column(Order=1)]
-    public System.String Id { get; set; } = default!;
+    public System.String Id1 { get; set; } = default!;
+
+    /// <summary>
+    /// Second Id (Required).
+    /// </summary>
+    [Key, Column(Order=2)]
+    public System.String Id2 { get; set; } = default!;
+
+    /// <summary>
+    /// Name of the entity (Required).
+    /// </summary>
+    public System.String Name { get; set; } = default!;
 }

@@ -3,6 +3,10 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.OData;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OData.ModelBuilder;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using MediatR;
@@ -17,12 +21,14 @@ namespace SampleWebApp.Application.Dto;
 /// The list of currencies.
 /// </summary>
 [AutoMap(typeof(CurrencyCreateDto))]
+[PrimaryKey(nameof(Id))]
 public partial class CurrencyDto : AuditableEntityBase
 {
 
     /// <summary>
     /// The currency's primary key / identifier (Required).
     /// </summary>
+    [Key, Column(Order=1)]
     public System.UInt32 Id { get; set; } = default!;
 
     /// <summary>

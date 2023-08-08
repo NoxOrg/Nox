@@ -3,6 +3,10 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.OData;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OData.ModelBuilder;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using MediatR;
@@ -17,8 +21,10 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 /// {{entity.Description}}.
 /// </summary>
 [AutoMap(typeof({{entity.Name}}CreateDto))]
+[PrimaryKey({{primaryKeyParams}})]
 public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else}}EntityBase{{end}}
 {
+{{- index = 0 -}}
 {{- for key in entity.Keys }}
 
     /// <summary>
@@ -28,8 +34,9 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     public {{SimpleKeyTypeForEntity key.EntityTypeOptions.Entity}} {{key.EntityTypeOptions.Entity}}Id { get; set; } = null!;
     {{- # Navigation Property }}
     public virtual {{key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
-    {{- else -}}
-    public {{entity.KeysFlattenComponentsType[key.Name]}} {{key.Name}} { get; set; } = default!; 
+    {{- else -}} 
+    [Key, Column(Order={{++index}})]
+public {{entity.KeysFlattenComponentsType[key.Name]}} {{key.Name}} { get; set; } = default!; 
     {{- end}}
 {{- end }}
 {{- for attribute in entity.Attributes }}

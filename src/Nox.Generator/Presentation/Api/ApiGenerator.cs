@@ -347,26 +347,26 @@ internal static class ApiGenerator
         code.EndBlock();
         code.AppendLine();
 
-        // TODO Composite Keys
-        if (entity.Keys is { Count: > 1 })
+        if (entity.Keys is null)
         {
-            Debug.WriteLine($"Get for composite keys Not implemented, Entity - {entity.Name}...");
-            return;
-        }
-
-        if (entity.Keys!.Count > 1)
-        {
-            Debug.WriteLine($"Get for composite keys Not implemented, Entity - {entity.Name}...");
+            Debug.WriteLine($"Key(s) should be defined for Get by id query, Entity - {entity.Name}...");
             return;
         }
 
         // We do not support Compound types as primary keys, this is validated on the schema
         // Method Get
-        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Get([FromRoute] {entity.KeysFlattenComponentsType[entity.Keys[0].Name]} key)");
+        var primaryKeys = entity.Keys.Count() > 1 ?
+            string.Join(", ", entity.Keys.Select(k => $"[FromRoute] {entity.KeysFlattenComponentsType[k.Name]} key{k.Name}")) :
+            $"[FromRoute] {entity.KeysFlattenComponentsType[entity.Keys[0].Name]} key";
+        var primaryKeysQuery = entity.Keys.Count() > 1 ?
+            string.Join(", ", entity.Keys.Select(k => $"key{k.Name}")) :
+            $"key";
+
+        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Get({primaryKeys})");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery(key));");
+        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({primaryKeysQuery}));");
         code.AppendLine();
         code.AppendLine($"if (item == null)");
         code.StartBlock();

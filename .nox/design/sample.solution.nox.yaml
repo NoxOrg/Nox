@@ -281,6 +281,8 @@ domain:
     - $ref: store-security-passwords.entity.nox.yaml
   
     - $ref: allnoxtypes.entity.nox.yaml
+  
+    - $ref: multipleIdsType.entity.nox.yaml
     
     - name: CountryLocalNames
       description: The name of a country in other languages

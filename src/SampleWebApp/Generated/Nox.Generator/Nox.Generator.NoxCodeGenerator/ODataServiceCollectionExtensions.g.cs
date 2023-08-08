@@ -27,6 +27,8 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntitySet<AllNoxTypeDto>("AllNoxTypes");
 
+        builder.EntitySet<MultipleIdsTypeDto>("MultipleIdsTypes");
+
         builder.EntitySet<CountryLocalNamesDto>("CountryLocalNames");
 
         services.AddControllers()

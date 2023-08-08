@@ -3,6 +3,10 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.OData;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OData.ModelBuilder;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using MediatR;
@@ -17,12 +21,14 @@ namespace SampleWebApp.Application.Dto;
 /// Stores.
 /// </summary>
 [AutoMap(typeof(StoreCreateDto))]
+[PrimaryKey(nameof(Id))]
 public partial class StoreDto : AuditableEntityBase
 {
 
     /// <summary>
     /// Store Primary Key (Required).
     /// </summary>
+    [Key, Column(Order=1)]
     public System.String Id { get; set; } = default!;
 
     /// <summary>

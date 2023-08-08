@@ -25,7 +25,8 @@ internal static class EntityDtoGenerator
             var attributes = entity.Attributes ?? Enumerable.Empty<NoxSimpleTypeDefinition>();
             var componentsInfo = attributes
                .ToDictionary(r => r.Name, key => new { IsSimpleType = key.Type.IsSimpleType(), ComponentType = GetSingleComponentSimpleType(key) });
-           
+            var primaryKeyParams = string.Join(", ", entity.Keys.Select(k => $"nameof({k.Name})"));
+
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
@@ -33,6 +34,7 @@ internal static class EntityDtoGenerator
                 .WithFileNamePrefix("Dto")
                 .WithObject("entity", entity)
                 .WithObject("componentsInfo", componentsInfo)
+                .WithObject("primaryKeyParams", primaryKeyParams)
                 .WithObject("isVersioned", (entity.Persistence?.IsVersioned ?? true))
                 .GenerateSourceCodeFromResource("Application.Dto.EntityDto");         
         }

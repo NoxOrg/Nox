@@ -41,6 +41,8 @@ public partial class SampleWebAppDbContext : DbContext
 
     public DbSet<AllNoxType> AllNoxTypes { get; set; } = null!;
 
+    public DbSet<MultipleIdsType> MultipleIdsTypes { get; set; } = null!;
+
     public DbSet<CountryLocalNames> CountryLocalNames { get; set; } = null!;
 
 

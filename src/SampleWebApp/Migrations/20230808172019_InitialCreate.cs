@@ -131,6 +131,26 @@ namespace SampleWebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "MultipleIdsTypes",
+                columns: table => new
+                {
+                    Id1 = table.Column<string>(type: "varchar(3)", unicode: false, maxLength: 3, nullable: false),
+                    Id2 = table.Column<string>(type: "varchar(3)", unicode: false, maxLength: 3, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Deleted = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_MultipleIdsTypes", x => new { x.Id1, x.Id2 });
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Stores",
                 columns: table => new
                 {
@@ -225,6 +245,9 @@ namespace SampleWebApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "CountryLocalNames");
+
+            migrationBuilder.DropTable(
+                name: "MultipleIdsTypes");
 
             migrationBuilder.DropTable(
                 name: "StoreSecurityPasswords");

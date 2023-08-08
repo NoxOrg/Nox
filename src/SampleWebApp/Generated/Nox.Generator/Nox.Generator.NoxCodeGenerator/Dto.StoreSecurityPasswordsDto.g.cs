@@ -3,6 +3,10 @@
 #nullable enable
 
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.OData;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.OData.ModelBuilder;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using MediatR;
@@ -17,12 +21,14 @@ namespace SampleWebApp.Application.Dto;
 /// A set of security passwords to store cameras and databases.
 /// </summary>
 [AutoMap(typeof(StoreSecurityPasswordsCreateDto))]
+[PrimaryKey(nameof(Id))]
 public partial class StoreSecurityPasswordsDto : AuditableEntityBase
 {
 
     /// <summary>
     /// Passwords Primary Key (Required).
     /// </summary>
+    [Key, Column(Order=1)]
     public System.String Id { get; set; } = default!;
 
     /// <summary>
