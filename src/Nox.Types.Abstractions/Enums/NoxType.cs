@@ -100,7 +100,7 @@ public enum NoxType : uint
     [SimpleType(typeof(short))]
     Year = 3709785124,
     
-    [SimpleType(typeof(DateTime))]
+    [SimpleType(typeof(DateTimeOffset))]
     DateTime = 2998644573,
 
     [SimpleType(typeof(TimeSpan))]

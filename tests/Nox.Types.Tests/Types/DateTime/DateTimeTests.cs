@@ -250,7 +250,7 @@ public class DateTimeTests
     public void Equals_ReturnsTrue()
     {
 
-        var systemDatetime = new DateTimeOffset(System.DateTime.UtcNow);
+        var systemDatetime = new DateTimeOffset(System.DateTime.Now);
         var datetime = DateTime.From(systemDatetime);
         var datetime2 = DateTime.From(systemDatetime);
 

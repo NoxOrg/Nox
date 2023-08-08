@@ -114,6 +114,7 @@ public class PostgresIntegrationTests : PostgresTestBase
 
         var dateTimeRangeStart = new DateTimeOffset(2023, 4, 12, 0, 0, 0, TimeSpan.FromHours(3));
         var dateTimeRangeEnd = new DateTimeOffset(2023, 7, 10, 0, 0, 0, TimeSpan.FromHours(5));
+        var dateTime = System.DateTime.UtcNow;
 
         var newItem = new TestEntityForTypes()
         {
@@ -161,6 +162,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             UriTestField = Types.Uri.From(sampleUri),
             GeoCoordTestField = LatLong.From(latitude, longitude),
             DateTimeRangeTestField = DateTimeRange.From(dateTimeRangeStart, dateTimeRangeEnd),
+            DateTimeTestField = Types.DateTime.From(dateTime),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -234,5 +236,6 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
         testEntity.DateTimeRangeTestField!.Start.Should().Be(dateTimeRangeStart);
         testEntity.DateTimeRangeTestField!.End.Should().Be(dateTimeRangeEnd);
+        testEntity.DateTimeTestField!.Should().Be(newItem.DateTimeTestField);
     }
 }
