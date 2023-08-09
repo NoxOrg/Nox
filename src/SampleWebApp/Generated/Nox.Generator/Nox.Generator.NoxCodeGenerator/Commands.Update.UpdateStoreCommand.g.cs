@@ -15,27 +15,31 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateStoreCommand(System.String key, StoreDto EntityDto) : IRequest<bool>;
+public record UpdateStoreCommand(System.String key, StoreUpdateDto EntityDto) : IRequest<bool>;
 
 public class UpdateStoreCommandHandler: CommandBase, IRequestHandler<UpdateStoreCommand, bool>
 {
     public SampleWebAppDbContext DbContext { get; }    
+    public IEntityMapper<Store> EntityMapper { get; }
 
     public  UpdateStoreCommandHandler(
         SampleWebAppDbContext dbContext,        
         NoxSolution noxSolution,
-        IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+        IServiceProvider serviceProvider,
+        IEntityMapper<Store> entityMapper): base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;        
+        EntityMapper = entityMapper;
     }
     
     public async Task<bool> Handle(UpdateStoreCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.Stores.FindAsync(CreateNoxTypeForKey<Store,Text>("Id", request.EntityDto));
+        var entity = await DbContext.Stores.FindAsync(CreateNoxTypeForKey<Store,Text>("Id", request.key));
         if (entity == null)
         {
             return false;
         }
+        EntityMapper.MapToEntity(entity, GetEntityDefinition<Store>(), request.EntityDto);
         // Todo map dto
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();             

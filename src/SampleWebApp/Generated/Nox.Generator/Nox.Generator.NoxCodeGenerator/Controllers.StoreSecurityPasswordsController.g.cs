@@ -80,72 +80,31 @@ public partial class StoreSecurityPasswordsController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] StoreSecurityPasswordsDto updatedStoreSecurityPasswords)
+    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] StoreSecurityPasswordsUpdateDto storeSecurityPasswords)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        if (key != updatedStoreSecurityPasswords.Id)
-        {
-            return BadRequest();
-        }
+        var updated = await _mediator.Send(new UpdateStoreSecurityPasswordsCommand(key,storeSecurityPasswords));
         
-        _databaseContext.Entry(updatedStoreSecurityPasswords).State = EntityState.Modified;
-        
-        try
-        {
-            await _databaseContext.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!StoreSecurityPasswordsExists(key))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
-        
-        return Updated(updatedStoreSecurityPasswords);
-    }
-    
-    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<StoreSecurityPasswordsDto> storesecuritypasswords)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var entity = await _databaseContext.StoreSecurityPasswords.FindAsync(key);
-        
-        if (entity == null)
+        if (!updated)
         {
             return NotFound();
         }
-        
-        storesecuritypasswords.Patch(entity);
-        
-        try
+        return Updated(storeSecurityPasswords);
+    }
+    
+    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<StoreSecurityPasswordsUpdateDto> storeSecurityPasswords)
+    {
+        if (!ModelState.IsValid)
         {
-            await _databaseContext.SaveChangesAsync();
+            return BadRequest(ModelState);
         }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!StoreSecurityPasswordsExists(key))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
+         await Task.Delay(1000);//TODO Map to command
         
-        return Updated(entity);
+        return Updated(storeSecurityPasswords);
     }
     
     private bool StoreSecurityPasswordsExists(System.String key)

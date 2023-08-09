@@ -15,27 +15,31 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateAllNoxTypeCommand(System.UInt64 key, AllNoxTypeDto EntityDto) : IRequest<bool>;
+public record UpdateAllNoxTypeCommand(System.UInt64 key, AllNoxTypeUpdateDto EntityDto) : IRequest<bool>;
 
 public class UpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler<UpdateAllNoxTypeCommand, bool>
 {
     public SampleWebAppDbContext DbContext { get; }    
+    public IEntityMapper<AllNoxType> EntityMapper { get; }
 
     public  UpdateAllNoxTypeCommandHandler(
         SampleWebAppDbContext dbContext,        
         NoxSolution noxSolution,
-        IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+        IServiceProvider serviceProvider,
+        IEntityMapper<AllNoxType> entityMapper): base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;        
+        EntityMapper = entityMapper;
     }
     
     public async Task<bool> Handle(UpdateAllNoxTypeCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.AllNoxTypes.FindAsync(CreateNoxTypeForKey<AllNoxType,DatabaseNumber>("Id", request.EntityDto));
+        var entity = await DbContext.AllNoxTypes.FindAsync(CreateNoxTypeForKey<AllNoxType,DatabaseNumber>("Id", request.key));
         if (entity == null)
         {
             return false;
         }
+        EntityMapper.MapToEntity(entity, GetEntityDefinition<AllNoxType>(), request.EntityDto);
         // Todo map dto
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();             

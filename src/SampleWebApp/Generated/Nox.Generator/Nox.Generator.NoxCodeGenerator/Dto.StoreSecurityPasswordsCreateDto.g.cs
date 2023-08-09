@@ -11,14 +11,8 @@ namespace SampleWebApp.Application.Dto;
 /// <summary>
 /// A set of security passwords to store cameras and databases.
 /// </summary>
-public partial class StoreSecurityPasswordsCreateDto
+public partial class StoreSecurityPasswordsCreateDto : StoreSecurityPasswordsUpdateDto
 {
-    /// <summary>
-    ///  (Required).
-    /// </summary>
-    public System.String Name { get; set; } = default!;
-    /// <summary>
-    ///  (Required).
-    /// </summary>
-    public System.String SecurityCamerasPassword { get; set; } = default!;
+    // TODO Add Manual Keys to be set by the user
+
 }

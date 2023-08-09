@@ -17,11 +17,12 @@ namespace SampleWebApp.Application.Dto;
 /// The name of a country in other languages.
 /// </summary>
 [AutoMap(typeof(CountryLocalNamesCreateDto))]
-public partial class CountryLocalNamesDto : AuditableEntityBase
+public partial class CountryLocalNamesDto 
 {
 
     /// <summary>
     ///  (Required).
     /// </summary>
     public System.String Id { get; set; } = default!;
+    public bool? Deleted { get; set; }
 }

@@ -9,10 +9,9 @@ using System.Collections.Generic;
 namespace SampleWebApp.Application.Dto; 
 
 /// <summary>
-/// The list of currencies.
+/// The name of a country in other languages.
 /// </summary>
-public partial class CurrencyCreateDto : CurrencyUpdateDto
+public partial class CountryLocalNamesUpdateDto
 {
-    // TODO Add Manual Keys to be set by the user
-
+    //TODO Add owned Entities and update odata endpoints
 }

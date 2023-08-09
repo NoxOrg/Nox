@@ -15,27 +15,31 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateCurrencyCommand(System.UInt32 key, CurrencyDto EntityDto) : IRequest<bool>;
+public record UpdateCurrencyCommand(System.UInt32 key, CurrencyUpdateDto EntityDto) : IRequest<bool>;
 
 public class UpdateCurrencyCommandHandler: CommandBase, IRequestHandler<UpdateCurrencyCommand, bool>
 {
     public SampleWebAppDbContext DbContext { get; }    
+    public IEntityMapper<Currency> EntityMapper { get; }
 
     public  UpdateCurrencyCommandHandler(
         SampleWebAppDbContext dbContext,        
         NoxSolution noxSolution,
-        IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+        IServiceProvider serviceProvider,
+        IEntityMapper<Currency> entityMapper): base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;        
+        EntityMapper = entityMapper;
     }
     
     public async Task<bool> Handle(UpdateCurrencyCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.Currencies.FindAsync(CreateNoxTypeForKey<Currency,Nuid>("Id", request.EntityDto));
+        var entity = await DbContext.Currencies.FindAsync(CreateNoxTypeForKey<Currency,Nuid>("Id", request.key));
         if (entity == null)
         {
             return false;
         }
+        EntityMapper.MapToEntity(entity, GetEntityDefinition<Currency>(), request.EntityDto);
         // Todo map dto
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();             
