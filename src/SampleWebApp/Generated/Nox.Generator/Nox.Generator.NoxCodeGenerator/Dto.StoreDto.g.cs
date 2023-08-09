@@ -21,14 +21,12 @@ namespace SampleWebApp.Application.Dto;
 /// Stores.
 /// </summary>
 [AutoMap(typeof(StoreCreateDto))]
-[PrimaryKey(nameof(Id))]
 public partial class StoreDto : AuditableEntityBase
 {
 
     /// <summary>
     /// Store Primary Key (Required).
     /// </summary>
-    [Key, Column(Order=1)]
     public System.String Id { get; set; } = default!;
 
     /// <summary>

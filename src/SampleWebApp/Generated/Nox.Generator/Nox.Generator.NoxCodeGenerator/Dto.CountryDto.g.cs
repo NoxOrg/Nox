@@ -21,14 +21,12 @@ namespace SampleWebApp.Application.Dto;
 /// The list of countries.
 /// </summary>
 [AutoMap(typeof(CountryCreateDto))]
-[PrimaryKey(nameof(Id))]
 public partial class CountryDto : AuditableEntityBase
 {
 
     /// <summary>
     ///  (Required).
     /// </summary>
-    [Key, Column(Order=1)]
     public System.String Id { get; set; } = default!;
 
     /// <summary>

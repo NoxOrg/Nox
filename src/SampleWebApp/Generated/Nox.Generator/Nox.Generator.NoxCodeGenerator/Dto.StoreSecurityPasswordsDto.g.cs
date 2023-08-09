@@ -21,14 +21,12 @@ namespace SampleWebApp.Application.Dto;
 /// A set of security passwords to store cameras and databases.
 /// </summary>
 [AutoMap(typeof(StoreSecurityPasswordsCreateDto))]
-[PrimaryKey(nameof(Id))]
 public partial class StoreSecurityPasswordsDto : AuditableEntityBase
 {
 
     /// <summary>
     /// Passwords Primary Key (Required).
     /// </summary>
-    [Key, Column(Order=1)]
     public System.String Id { get; set; } = default!;
 
     /// <summary>

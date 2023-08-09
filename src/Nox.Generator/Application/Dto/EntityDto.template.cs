@@ -21,7 +21,6 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 /// {{entity.Description}}.
 /// </summary>
 [AutoMap(typeof({{entity.Name}}CreateDto))]
-[PrimaryKey({{primaryKeyParams}})]
 public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else}}EntityBase{{end}}
 {
 {{- index = 0 -}}
@@ -35,7 +34,6 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     {{- # Navigation Property }}
     public virtual {{key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
     {{- else -}} 
-    [Key, Column(Order={{++index}})]
 public {{entity.KeysFlattenComponentsType[key.Name]}} {{key.Name}} { get; set; } = default!; 
     {{- end}}
 {{- end }}
