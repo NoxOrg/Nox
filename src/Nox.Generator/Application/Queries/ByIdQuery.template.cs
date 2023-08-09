@@ -26,7 +26,7 @@ public class Get{{entity.Name}}ByIdQueryHandler: IRequestHandler<Get{{entity.Nam
             .AsNoTracking()
             .SingleOrDefault(r =>                  
             {{- for key in entity.Keys }}
-                r.{{key.Name}}.Equals(request.{{key.Name}}) && 
+                r.{{key.Name}}.Equals(request.key{{key.Name}}) && 
             {{- end -}}
             {{- if (entity.Persistence?.IsVersioned ?? true)}}
                 !(r.Deleted == true)

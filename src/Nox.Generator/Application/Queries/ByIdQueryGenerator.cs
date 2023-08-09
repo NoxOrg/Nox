@@ -23,7 +23,7 @@ internal class ByIdQueryGenerator : INoxCodeGenerator
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            var primaryKeys = string.Join(", ", entity.Keys.Select(k=> $"{entity.KeysFlattenComponentsType[k.Name]} {k.Name}"));
+            var primaryKeys = string.Join(", ", entity.Keys.Select(k=> $"{entity.KeysFlattenComponentsType[k.Name]} key{k.Name}"));
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Get{entity.Name}ByIdQuery")
