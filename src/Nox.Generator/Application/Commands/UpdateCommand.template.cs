@@ -15,9 +15,9 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public record Update{{entity.Name}}Command({{entity.Name}}Dto EntityDto) : IRequest;
+public record Update{{entity.Name}}Command({{entity.KeysFlattenComponentsType[entity.Keys[0].Name]}} key, {{entity.Name}}Dto EntityDto) : IRequest<bool>;
 
-public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<Update{{entity.Name}}Command>
+public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<Update{{entity.Name}}Command, bool>
 {
     public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }    
 
@@ -29,14 +29,16 @@ public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<U
         DbContext = dbContext;        
     }
     
-    public async Task Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
     {
-        await Task.Delay(10);
-        return;
-        //var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
-        ////TODO for nuid property or key needs to call ensure id        
-        //DbContext.{{entity.PluralName}}.Add(entityToCreate);
-        //await DbContext.SaveChangesAsync();
-        //return entityToCreate.{{entity.Keys[0].Name}};
+        var entity = await DbContext.{{entity.PluralName}}.FindAsync(CreateNoxTypeForKey<{{entity.Name}},{{entity.Keys[0].Type}}>("{{entity.Keys[0].Name}}", request.EntityDto));
+        if (entity == null)
+        {
+            return false;
+        }
+        // Todo map dto
+        DbContext.Entry(entity).State = EntityState.Modified;
+        var result = await DbContext.SaveChangesAsync();             
+        return result > 0;        
     }
 }

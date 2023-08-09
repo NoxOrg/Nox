@@ -14,7 +14,6 @@ namespace SampleWebApp.Domain;
 /// </summary>
 public partial class StoreSecurityPasswords : AuditableEntityBase
 {
-
     /// <summary>
     /// Passwords Primary Key (Required).
     /// </summary>
@@ -38,5 +37,5 @@ public partial class StoreSecurityPasswords : AuditableEntityBase
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Store
     /// </summary>
-    public Text StoreId { get; set; } = null!;
+    public Nox.Types.Text StoreId { get; set; } = null!;
 }

@@ -10,10 +10,10 @@ description: Sample Nox solution yaml configuration
 
 variables:
    DATABASE_PROVIDER: slqServer   
-   DATABASE_SERVER: SamplewebAppDb
+   DATABASE_SERVER: 127.0.0.1
    DATABASE_USER: sa
    DATABASE_PASSWORD: Developer*123
-   DATABASE_PORT: 5432
+   DATABASE_PORT: 1433
    
 environments:
 

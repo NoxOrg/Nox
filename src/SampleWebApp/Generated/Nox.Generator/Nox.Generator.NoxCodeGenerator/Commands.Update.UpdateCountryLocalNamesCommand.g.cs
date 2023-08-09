@@ -15,9 +15,9 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateCountryLocalNamesCommand(CountryLocalNamesDto EntityDto) : IRequest;
+public record UpdateCountryLocalNamesCommand(System.String key, CountryLocalNamesDto EntityDto) : IRequest<bool>;
 
-public class UpdateCountryLocalNamesCommandHandler: CommandBase, IRequestHandler<UpdateCountryLocalNamesCommand>
+public class UpdateCountryLocalNamesCommandHandler: CommandBase, IRequestHandler<UpdateCountryLocalNamesCommand, bool>
 {
     public SampleWebAppDbContext DbContext { get; }    
 
@@ -29,14 +29,16 @@ public class UpdateCountryLocalNamesCommandHandler: CommandBase, IRequestHandler
         DbContext = dbContext;        
     }
     
-    public async Task Handle(UpdateCountryLocalNamesCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(UpdateCountryLocalNamesCommand request, CancellationToken cancellationToken)
     {
-        await Task.Delay(10);
-        return;
-        //var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
-        ////TODO for nuid property or key needs to call ensure id        
-        //DbContext.CountryLocalNames.Add(entityToCreate);
-        //await DbContext.SaveChangesAsync();
-        //return entityToCreate.Id;
+        var entity = await DbContext.CountryLocalNames.FindAsync(CreateNoxTypeForKey<CountryLocalNames,Text>("Id", request.EntityDto));
+        if (entity == null)
+        {
+            return false;
+        }
+        // Todo map dto
+        DbContext.Entry(entity).State = EntityState.Modified;
+        var result = await DbContext.SaveChangesAsync();             
+        return result > 0;        
     }
 }

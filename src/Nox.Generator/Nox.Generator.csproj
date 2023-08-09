@@ -72,10 +72,6 @@
 		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Application\Dto\Templates\" />
-	</ItemGroup>
-
 	<PropertyGroup>
 		<GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
 	</PropertyGroup>

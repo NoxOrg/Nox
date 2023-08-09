@@ -34,6 +34,34 @@ public partial class AllNoxTypeCreateDto
     /// </summary>
     public System.String? FormulaField { get; set; } 
     /// <summary>
+    /// Yaml Nox Type (Optional).
+    /// </summary>
+    public System.String? YamlField { get; set; } 
+    /// <summary>
+    /// Weight Nox Type (Optional).
+    /// </summary>
+    public System.Double? WeightField { get; set; } 
+    /// <summary>
+    /// Volume Nox Type (Optional).
+    /// </summary>
+    public System.Double? VolumeField { get; set; } 
+    /// <summary>
+    /// Url Nox Type (Optional).
+    /// </summary>
+    public System.String? UrlField { get; set; } 
+    /// <summary>
+    /// Uri Nox Type (Optional).
+    /// </summary>
+    public System.String? UriField { get; set; } 
+    /// <summary>
+    /// TimeZoneCode Nox Type (Optional).
+    /// </summary>
+    public System.String? TimeZoneCodeField { get; set; } 
+    /// <summary>
+    /// Time Nox Type (Optional).
+    /// </summary>
+    public System.DateTimeOffset? TimeField { get; set; } 
+    /// <summary>
     /// NumberField Nox Type (Optional).
     /// </summary>
     public System.Int32? NumberField { get; set; } 
