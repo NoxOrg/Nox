@@ -8,7 +8,7 @@ namespace Nox.Tests.DatabaseIntegrationTests
     {
         private const string BasePath = "../../../DatabaseIntegrationTests/Models/";
 
-        // [Fact]
+        //[Fact]
         public void GenerateIntegrationTestModels()
         {
             var _fixture = new GeneratorFixture();
@@ -33,14 +33,34 @@ namespace Nox.Tests.DatabaseIntegrationTests
             var classNames = new[]
             {
                 "TestWebAppDbContext",
-                "TestEntity",
-                "SecondTestEntity",
-                "TestEntityOneOrMany",
-                "SecondTestEntityOneOrMany",
-                "TestEntityForTypes",
-                "TestEntityWithNuid",
-                "TestEntityExactlyOne",
-                "SecondTestEntityExactlyOne"
+                "Entities.TestEntityZeroOrOne",
+                "Entities.SecondTestEntityZeroOrOne",
+                "Entities.ThirdTestEntityZeroOrOne",
+                "Entities.TestEntityOneOrMany",
+                "Entities.SecondTestEntityOneOrMany",
+                "Entities.ThirdTestEntityOneOrMany",
+                "Entities.TestEntityForTypes",
+                "Entities.TestEntityWithNuid",
+                "Entities.TestEntityExactlyOne",
+                "Entities.SecondTestEntityExactlyOne",
+                "Entities.ThirdTestEntityExactlyOne",
+                "Entities.TestEntityZeroOrMany",
+                "Entities.SecondTestEntityZeroOrMany",
+                "Entities.ThirdTestEntityZeroOrMany",
+                "Entities.TestEntityZeroOrOneToZeroOrMany",
+                "Entities.TestEntityZeroOrManyToZeroOrOne",
+                "Entities.TestEntityExactlyOneToOneOrMany",
+                "Entities.TestEntityOneOrManyToExactlyOne",
+                "Entities.TestEntityExactlyOneToZeroOrMany",
+                "Entities.TestEntityZeroOrManyToExactlyOne",
+                "Entities.TestEntityOneOrManyToZeroOrMany",
+                "Entities.TestEntityZeroOrManyToOneOrMany",
+                "Entities.TestEntityZeroOrOneToOneOrMany",
+                "Entities.TestEntityOneOrManyToZeroOrOne",
+                "Entities.TestEntityZeroOrOneToExactlyOne",
+                "Entities.TestEntityExactlyOneToZeroOrOne",
+                //"TestEntityOwnedRelationship",
+                //"SecondTestEntityOwnedRelationship",
             };
 
             foreach (var className in classNames)
@@ -53,7 +73,7 @@ namespace Nox.Tests.DatabaseIntegrationTests
 
         private static void CreateClass(GeneratorRunResult result, string filePath)
         {
-            var singleResult = result.GeneratedSources.First(x => x.HintName.Contains(filePath));
+            var singleResult = result.GeneratedSources.First(x => x.HintName.Equals($"{filePath}.g.cs"));
             var fileContent = singleResult.SourceText.ToString();
             File.WriteAllText($"{BasePath}{filePath}.cs", fileContent);
         }

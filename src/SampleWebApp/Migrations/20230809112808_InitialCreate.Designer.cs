@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230809091528_InitialCreate")]
+    [Migration("20230809112808_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -384,7 +384,6 @@ namespace SampleWebApp.Migrations
                         .HasColumnType("nvarchar(63)");
 
                     b.Property<string>("StoreId")
-                        .IsRequired()
                         .HasMaxLength(3)
                         .IsUnicode(false)
                         .HasColumnType("char(3)")
@@ -399,7 +398,8 @@ namespace SampleWebApp.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("StoreId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[StoreId] IS NOT NULL");
 
                     b.ToTable("StoreSecurityPasswords");
                 });
@@ -698,9 +698,7 @@ namespace SampleWebApp.Migrations
                 {
                     b.HasOne("SampleWebApp.Domain.Store", "Store")
                         .WithOne("StoreSecurityPasswords")
-                        .HasForeignKey("SampleWebApp.Domain.StoreSecurityPasswords", "StoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SampleWebApp.Domain.StoreSecurityPasswords", "StoreId");
 
                     b.Navigation("Store");
                 });

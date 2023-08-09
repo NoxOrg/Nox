@@ -22,18 +22,16 @@ public class NoxSolution : Solution
     {
         var fullRelationshipModels = new List<EntityRelationshipWithType>();
 
-        if (entity?.Relationships == null)
+        if (entity?.Relationships != null)
         {
-            return fullRelationshipModels;
-        }
-
-        foreach (var relationship in entity.Relationships)
-        {
-            fullRelationshipModels.Add(new EntityRelationshipWithType
+            foreach (var relationship in entity.Relationships)
             {
-                Relationship = relationship,
-                RelationshipEntityType = getTypeByNameFunc(relationship.Entity)!
-            });
+                fullRelationshipModels.Add(new EntityRelationshipWithType
+                {
+                    Relationship = relationship,
+                    RelationshipEntityType = getTypeByNameFunc(relationship.Entity)!
+                });
+            }
         }
 
         return fullRelationshipModels;
@@ -70,6 +68,34 @@ public class NoxSolution : Solution
         }
 
         return !isIgnored;
+    }
+
+    internal static bool HasRelationshipWithSingularEntity(EntityRelationship relationship)
+    {
+        return
+            relationship.Relationship == EntityRelationshipType.ExactlyOne ||
+            relationship.Relationship == EntityRelationshipType.ZeroOrOne;
+    }
+
+    internal static bool ShouldUseRelationshipNameAsNavigation(EntityRelationship relationship)
+    {
+        var hasReferenceToSingularEntity = HasRelationshipWithSingularEntity(relationship);
+        var hasReferenceToManyEntities = !hasReferenceToSingularEntity;
+        var relationshipNameIsEqualToSingularName = relationship.Name == relationship.Entity;
+        var relationshipNameIsEqualToPluralName = relationship.Name == relationship.EntityPlural;
+
+        return
+            (hasReferenceToSingularEntity && relationshipNameIsEqualToSingularName) ||
+            (hasReferenceToManyEntities && relationshipNameIsEqualToPluralName);
+
+    }
+
+    internal static bool IsManyRelationshipOnOtherSide(EntityRelationship relationship)
+    {
+        return
+            relationship.Related.EntityRelationship.Relationship == EntityRelationshipType.ZeroOrMany ||
+            relationship.Related.EntityRelationship.Relationship == EntityRelationshipType.OneOrMany;
+
     }
 
     public NoxType GetSimpleKeyTypeForEntity(string entityName)

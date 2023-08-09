@@ -14,7 +14,6 @@ namespace TestWebApp.Domain;
 /// </summary>
 public partial class SecondTestEntityOneOrMany : AuditableEntityBase
 {
-
     /// <summary>
     ///  (Required).
     /// </summary>
@@ -30,5 +29,5 @@ public partial class SecondTestEntityOneOrMany : AuditableEntityBase
     /// </summary>
     public virtual List<TestEntityOneOrMany> TestEntityOneOrManies { get; set; } = new();
 
-    public List<TestEntityOneOrMany> TestEntityRelationship => TestEntityOneOrManies;
+    public List<TestEntityOneOrMany> TestEntityOneOrManyRelationship => TestEntityOneOrManies;
 }

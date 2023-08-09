@@ -14,7 +14,6 @@ namespace TestWebApp.Domain;
 /// </summary>
 public partial class TestEntityForTypes : AuditableEntityBase
 {
-
     /// <summary>
     ///  (Required).
     /// </summary>
@@ -218,7 +217,7 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Time? TimeTestField { get; set; } = null!;
+    public Nox.Types.Time? TimeTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).

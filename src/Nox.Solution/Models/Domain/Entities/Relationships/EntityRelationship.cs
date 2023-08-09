@@ -42,6 +42,15 @@ public class EntityRelationship : DefinitionBase
     public bool ShouldGenerateForeignOnThisSide => NoxSolution.ShouldGenerateForeignOnThisSide(this);
 
     [YamlIgnore]
+    public bool HasRelationshipWithSingularEntity => NoxSolution.HasRelationshipWithSingularEntity(this);
+
+    [YamlIgnore]
+    public bool ShouldUseRelationshipNameAsNavigation => NoxSolution.ShouldUseRelationshipNameAsNavigation(this);
+
+    [YamlIgnore]
+    public bool IsManyRelationshipOnOtherSide => NoxSolution.IsManyRelationshipOnOtherSide(this);
+
+    [YamlIgnore]
     public RelatedEntityInfo Related { get; internal set; } = new();
 }
 

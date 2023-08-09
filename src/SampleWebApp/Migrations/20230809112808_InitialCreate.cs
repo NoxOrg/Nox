@@ -191,7 +191,7 @@ namespace SampleWebApp.Migrations
                     Id = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     SecurityCamerasPassword = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    StoreId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
+                    StoreId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -207,8 +207,7 @@ namespace SampleWebApp.Migrations
                         name: "FK_StoreSecurityPasswords_Stores_StoreId",
                         column: x => x.StoreId,
                         principalTable: "Stores",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
@@ -220,7 +219,8 @@ namespace SampleWebApp.Migrations
                 name: "IX_StoreSecurityPasswords_StoreId",
                 table: "StoreSecurityPasswords",
                 column: "StoreId",
-                unique: true);
+                unique: true,
+                filter: "[StoreId] IS NOT NULL");
         }
 
         /// <inheritdoc />

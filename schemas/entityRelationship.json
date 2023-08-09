@@ -60,6 +60,24 @@
         "null"
       ]
     },
+    "hasRelationshipWithSingularEntity": {    
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "shouldUseRelationshipNameAsNavigation": {    
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "isManyRelationshipOnOtherSide": {    
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
     "related": {    
       "type": [
         "object",
