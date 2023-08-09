@@ -28,7 +28,7 @@ public class DeleteStoreByIdCommandHandler: CommandBase, IRequestHandler<DeleteS
 
     public async Task<bool> Handle(DeleteStoreByIdCommand request, CancellationToken cancellationToken)
     {
-        var key = CreateNoxTypeForKey<Store,Text>("Id", request.key);
+        var key = CreateNoxTypeForKey<Store,Nuid>("Id", request.key);
         var entity = await DbContext.Stores.FindAsync(key);
         if (entity == null || entity.Deleted == true)
         {
