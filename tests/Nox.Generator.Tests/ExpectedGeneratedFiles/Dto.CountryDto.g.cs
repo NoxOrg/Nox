@@ -17,7 +17,7 @@ namespace SampleWebApp.Application.Dto;
 /// The list of countries.
 /// </summary>
 [AutoMap(typeof(CountryCreateDto))]
-public partial class CountryDto : AuditableEntityBase
+public partial class CountryDto 
 {
 
     /// <summary>
@@ -99,4 +99,5 @@ public partial class CountryDto : AuditableEntityBase
     /// The top level internet domains regitered to the country (comma-delimited) (Optional).
     /// </summary>
     public System.String? TopLevelDomains { get; set; } 
+    public bool? Deleted { get; set; }
 }

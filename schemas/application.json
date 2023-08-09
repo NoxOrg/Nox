@@ -111,6 +111,21 @@
         ]
       },
       "additionalProperties": false
+    },
+    "localization": {    
+      "anyOf": [
+        { "$ref": "localization.json" },
+        {
+          "additionalProperties": false, 
+          "properties": {
+            "$ref": {
+              "type": "string",
+              "format": "uri",
+              "pattern": "^[^\\s]*$"
+            }
+          }
+        }
+      ]
     }
   },
   "additionalProperties": false

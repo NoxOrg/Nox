@@ -11,10 +11,8 @@ namespace SampleWebApp.Application.Dto;
 /// <summary>
 /// The list of currencies.
 /// </summary>
-public partial class CurrencyCreateDto
+public partial class CurrencyCreateDto : CurrencyUpdateDto
 {
-    /// <summary>
-    /// The currency's name (Required).
-    /// </summary>
-    public System.String Name { get; set; } = default!;
+    // TODO Add Manual Keys to be set by the user
+
 }

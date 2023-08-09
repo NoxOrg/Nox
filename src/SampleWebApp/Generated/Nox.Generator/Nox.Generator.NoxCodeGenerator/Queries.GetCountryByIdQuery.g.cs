@@ -9,7 +9,7 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetCountryByIdQuery(System.String Id) : IRequest<CountryDto?>;
+public record GetCountryByIdQuery(System.String key) : IRequest<CountryDto?>;
 
 public class GetCountryByIdQueryHandler: IRequestHandler<GetCountryByIdQuery, CountryDto?>
 {
@@ -24,9 +24,7 @@ public class GetCountryByIdQueryHandler: IRequestHandler<GetCountryByIdQuery, Co
     {    
         var item = DataDbContext.Countries
             .AsNoTracking()
-            .SingleOrDefault(r =>
-                r.Id.Equals(request.Id) &&
-                !(r.Deleted == true));
+            .SingleOrDefault(r => !(r.Deleted == true) && r.Id.Equals(request.key));            
         return Task.FromResult(item);
     }
 }

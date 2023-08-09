@@ -9,7 +9,7 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetStoreByIdQuery(System.String Id) : IRequest<StoreDto?>;
+public record GetStoreByIdQuery(System.String key) : IRequest<StoreDto?>;
 
 public class GetStoreByIdQueryHandler: IRequestHandler<GetStoreByIdQuery, StoreDto?>
 {
@@ -24,9 +24,7 @@ public class GetStoreByIdQueryHandler: IRequestHandler<GetStoreByIdQuery, StoreD
     {    
         var item = DataDbContext.Stores
             .AsNoTracking()
-            .SingleOrDefault(r =>
-                r.Id.Equals(request.Id) &&
-                !(r.Deleted == true));
+            .SingleOrDefault(r => !(r.Deleted == true) && r.Id.Equals(request.key));            
         return Task.FromResult(item);
     }
 }

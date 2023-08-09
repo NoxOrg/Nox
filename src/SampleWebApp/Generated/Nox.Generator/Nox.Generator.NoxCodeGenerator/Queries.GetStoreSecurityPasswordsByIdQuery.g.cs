@@ -9,7 +9,7 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetStoreSecurityPasswordsByIdQuery(System.String Id) : IRequest<StoreSecurityPasswordsDto?>;
+public record GetStoreSecurityPasswordsByIdQuery(System.String key) : IRequest<StoreSecurityPasswordsDto?>;
 
 public class GetStoreSecurityPasswordsByIdQueryHandler: IRequestHandler<GetStoreSecurityPasswordsByIdQuery, StoreSecurityPasswordsDto?>
 {
@@ -24,9 +24,7 @@ public class GetStoreSecurityPasswordsByIdQueryHandler: IRequestHandler<GetStore
     {    
         var item = DataDbContext.StoreSecurityPasswords
             .AsNoTracking()
-            .SingleOrDefault(r =>
-                r.Id.Equals(request.Id) &&
-                !(r.Deleted == true));
+            .SingleOrDefault(r => !(r.Deleted == true) && r.Id.Equals(request.key));            
         return Task.FromResult(item);
     }
 }

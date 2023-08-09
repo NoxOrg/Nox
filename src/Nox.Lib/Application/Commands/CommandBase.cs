@@ -21,11 +21,16 @@ public abstract class CommandBase
     
     public N? CreateNoxTypeForKey<E, N>(string keyName, dynamic? value) where N : INoxType
     {
-        var entityDefinition = NoxSolution.Domain!.GetEntityByName(typeof(E).Name);
+        var entityDefinition = GetEntityDefinition<E>();
         var key = entityDefinition.Keys!.Single(entity => entity.Name == keyName);
 
         var typeFactory = ServiceProvider.GetService<INoxTypeFactory<N>>();
         return typeFactory!.CreateNoxType(key, value);
+    }
+
+    public Entity GetEntityDefinition<E>()
+    {
+        return NoxSolution.Domain!.GetEntityByName(typeof(E).Name);
     }
 }
 

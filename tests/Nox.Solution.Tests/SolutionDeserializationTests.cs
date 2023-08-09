@@ -343,10 +343,13 @@ public class SolutionDeserializationTests
         Assert.Equal("localhost", noxConfig.Infrastructure.Dependencies.Monitoring!.ServerUri);
         Assert.Equal(8200, noxConfig.Infrastructure.Dependencies.Monitoring!.Port);
         
-        Assert.NotNull(noxConfig.Infrastructure.Dependencies.Translations);
-        Assert.Equal("SampleTranslationService", noxConfig.Infrastructure.Dependencies.Translations!.Name);
-        Assert.Equal("translator.iwgplc.com", noxConfig.Infrastructure.Dependencies.Translations!.ServerUri);
-        Assert.Equal(443, noxConfig.Infrastructure.Dependencies.Translations!.Port);
+        Assert.NotNull(noxConfig.Infrastructure.Dependencies.UiLocalizations);
+        Assert.Equal("SampleCurrencyDb.Localization", noxConfig.Infrastructure.Dependencies.UiLocalizations!.Name);
+        Assert.Equal("sqlserver.iwgplc.com", noxConfig.Infrastructure.Dependencies.UiLocalizations!.ServerUri);
+        Assert.Equal(1433, noxConfig.Infrastructure.Dependencies.UiLocalizations!.Port);
+        Assert.Equal(DatabaseServerProvider.SqlServer, noxConfig.Infrastructure.Dependencies.UiLocalizations.Provider);
+        Assert.Equal("sqluser", noxConfig.Infrastructure.Dependencies.UiLocalizations.User);
+        Assert.Equal("sqlpassword", noxConfig.Infrastructure.Dependencies.UiLocalizations.Password);
         
         Assert.NotNull(noxConfig.Infrastructure.Security);
         Assert.NotNull(noxConfig.Infrastructure.Security.Secrets);
