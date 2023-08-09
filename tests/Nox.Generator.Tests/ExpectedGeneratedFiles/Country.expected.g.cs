@@ -14,7 +14,6 @@ namespace SampleWebApp.Domain;
 /// </summary>
 public partial class Country : AuditableEntityBase
 {
-
     /// <summary>
     ///  (Required).
     /// </summary>

@@ -14,7 +14,6 @@ namespace TestWebApp.Domain;
 /// </summary>
 public partial class TestEntityWithNuid : AuditableEntityBase
 {
-
     /// <summary>
     ///  (Required).
     /// </summary>

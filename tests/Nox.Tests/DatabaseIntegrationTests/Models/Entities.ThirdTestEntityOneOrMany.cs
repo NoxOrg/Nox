@@ -12,9 +12,8 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public partial class TestEntityOneOrMany : AuditableEntityBase
+public partial class ThirdTestEntityOneOrMany : AuditableEntityBase
 {
-
     /// <summary>
     ///  (Required).
     /// </summary>
@@ -26,9 +25,9 @@ public partial class TestEntityOneOrMany : AuditableEntityBase
     public Nox.Types.Text TextTestField { get; set; } = null!;
 
     /// <summary>
-    /// TestEntityOneOrMany Test entity relationship to SecondTestEntityOneOrMany OneOrMany SecondTestEntityOneOrManies
+    /// ThirdTestEntityOneOrMany Test entity relationship to ThirdTestEntityZeroOrMany OneOrMany ThirdTestEntityZeroOrManies
     /// </summary>
-    public virtual List<SecondTestEntityOneOrMany> SecondTestEntityOneOrManies { get; set; } = new();
+    public virtual List<ThirdTestEntityZeroOrMany> ThirdTestEntityZeroOrManies { get; set; } = new();
 
-    public List<SecondTestEntityOneOrMany> SecondTestEntityRelationship => SecondTestEntityOneOrManies;
+    public List<ThirdTestEntityZeroOrMany> ThirdTestEntityZeroOrManyRelationship => ThirdTestEntityZeroOrManies;
 }

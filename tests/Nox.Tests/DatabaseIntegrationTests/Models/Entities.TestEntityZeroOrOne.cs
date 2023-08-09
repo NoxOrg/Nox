@@ -12,9 +12,8 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public partial class TestEntityExactlyOne : AuditableEntityBase
+public partial class TestEntityZeroOrOne : AuditableEntityBase
 {
-
     /// <summary>
     ///  (Required).
     /// </summary>
@@ -26,12 +25,12 @@ public partial class TestEntityExactlyOne : AuditableEntityBase
     public Nox.Types.Text TextTestField { get; set; } = null!;
 
     /// <summary>
-    /// TestEntityExactlyOne Test entity relationship to SecondTestEntityExactlyOneRelationship ExactlyOne SecondTestEntityExactlyOnes
+    /// TestEntityZeroOrOne Test entity relationship to SecondTestEntity ZeroOrOne SecondTestEntityZeroOrOnes
     /// </summary>
-    public virtual SecondTestEntityExactlyOne SecondTestEntityExactlyOne { get; set; } = null!;
+    public virtual SecondTestEntityZeroOrOne? SecondTestEntityZeroOrOne { get; set; } = null!;
 
     /// <summary>
-    /// Foreign key for relationship ExactlyOne to entity SecondTestEntityExactlyOne
+    /// Foreign key for relationship ZeroOrOne to entity SecondTestEntityZeroOrOne
     /// </summary>
-    public Text SecondTestEntityExactlyOneId { get; set; } = null!;
+    public Nox.Types.Text SecondTestEntityZeroOrOneId { get; set; } = null!;
 }

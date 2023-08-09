@@ -31,9 +31,9 @@ public partial class TestWebAppDbContext : DbContext
         }
 
 
-    public DbSet<TestEntity> TestEntities { get; set; } = null!;
+    public DbSet<TestEntityZeroOrOne> TestEntityZeroOrOnes { get; set; } = null!;
 
-    public DbSet<SecondTestEntity> SecondTestEntities { get; set; } = null!;
+    public DbSet<SecondTestEntityZeroOrOne> SecondTestEntityZeroOrOnes { get; set; } = null!;
 
     public DbSet<TestEntityWithNuid> TestEntityWithNuids { get; set; } = null!;
 
@@ -41,9 +41,45 @@ public partial class TestWebAppDbContext : DbContext
 
     public DbSet<SecondTestEntityOneOrMany> SecondTestEntityOneOrManies { get; set; } = null!;
 
+    public DbSet<TestEntityZeroOrMany> TestEntityZeroOrManies { get; set; } = null!;
+
+    public DbSet<SecondTestEntityZeroOrMany> SecondTestEntityZeroOrManies { get; set; } = null!;
+
+    public DbSet<ThirdTestEntityOneOrMany> ThirdTestEntityOneOrManies { get; set; } = null!;
+
+    public DbSet<ThirdTestEntityZeroOrMany> ThirdTestEntityZeroOrManies { get; set; } = null!;
+
+    public DbSet<ThirdTestEntityExactlyOne> ThirdTestEntityExactlyOnes { get; set; } = null!;
+
+    public DbSet<ThirdTestEntityZeroOrOne> ThirdTestEntityZeroOrOnes { get; set; } = null!;
+
     public DbSet<TestEntityExactlyOne> TestEntityExactlyOnes { get; set; } = null!;
 
     public DbSet<SecondTestEntityExactlyOne> SecondTestEntityExactlyOnes { get; set; } = null!;
+
+    public DbSet<TestEntityZeroOrOneToZeroOrMany> TestEntityZeroOrOneToZeroOrManies { get; set; } = null!;
+
+    public DbSet<TestEntityZeroOrManyToZeroOrOne> TestEntityZeroOrManyToZeroOrOnes { get; set; } = null!;
+
+    public DbSet<TestEntityExactlyOneToOneOrMany> TestEntityExactlyOneToOneOrManies { get; set; } = null!;
+
+    public DbSet<TestEntityOneOrManyToExactlyOne> TestEntityOneOrManyToExactlyOnes { get; set; } = null!;
+
+    public DbSet<TestEntityExactlyOneToZeroOrMany> TestEntityExactlyOneToZeroOrManies { get; set; } = null!;
+
+    public DbSet<TestEntityZeroOrManyToExactlyOne> TestEntityZeroOrManyToExactlyOnes { get; set; } = null!;
+
+    public DbSet<TestEntityOneOrManyToZeroOrMany> TestEntityOneOrManyToZeroOrManies { get; set; } = null!;
+
+    public DbSet<TestEntityZeroOrManyToOneOrMany> TestEntityZeroOrManyToOneOrManies { get; set; } = null!;
+
+    public DbSet<TestEntityZeroOrOneToOneOrMany> TestEntityZeroOrOneToOneOrManies { get; set; } = null!;
+
+    public DbSet<TestEntityOneOrManyToZeroOrOne> TestEntityOneOrManyToZeroOrOnes { get; set; } = null!;
+
+    public DbSet<TestEntityZeroOrOneToExactlyOne> TestEntityZeroOrOneToExactlyOnes { get; set; } = null!;
+
+    public DbSet<TestEntityExactlyOneToZeroOrOne> TestEntityExactlyOneToZeroOrOnes { get; set; } = null!;
 
     public DbSet<TestEntityForTypes> TestEntityForTypes { get; set; } = null!;
 
