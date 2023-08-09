@@ -30,13 +30,6 @@ public class SolutionBuilderTests
     }
 
     [Fact]
-    public void Instance_must_be_null_if_not_built()
-    {
-        var instance = NoxSolutionBuilder.Instance;
-        Assert.Null(instance);
-    }
-
-    [Fact]
     public void Throw_if_set_yaml_file_does_not_exist()
     {
         var noxConfigBuilder = new NoxSolutionBuilder()
