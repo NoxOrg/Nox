@@ -1,8 +1,13 @@
 using FluentAssertions;
+
 using Microsoft.EntityFrameworkCore;
+
 using Nox.Types;
+
 using System.Text.Json;
+
 using TestWebApp.Domain;
+
 using DayOfWeek = Nox.Types.DayOfWeek;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
@@ -14,7 +19,6 @@ public class SqlServerIntegrationTests : SqlServerTestBase
     {
         // TODO:
         // array
-        // color
         // colour
         // databaseNumber
         // collection
@@ -69,6 +73,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var currencyNumber = (short)970;
         var vatNumberValue = "44403198682";
         var vatNumberCountryCode2 = CountryCode2.From("FR");
+        var color = new byte[] { 1, 2, 3, 4 };
         var date = new DateOnly(2023, 7, 14);
         var fileName = "MyFile";
         var fileSizeInBytes = 1000000UL;
@@ -116,6 +121,9 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var distance = 80.481727;
         var persistDistanceUnitAs = DistanceTypeUnit.Kilometer;
 
+        var dateTimeRangeStart = new DateTimeOffset(2023, 4, 12, 0, 0, 0, TimeSpan.FromHours(3));
+        var dateTimeRangeEnd = new DateTimeOffset(2023, 7, 10, 0, 0, 0, TimeSpan.FromHours(5));
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -149,6 +157,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
             VatNumberTestField = VatNumber.From(vatNumberValue, vatNumberCountryCode2),
+            ColorTestField = Color.From(color),
             PercentageTestField = Percentage.From(percentage),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
@@ -162,6 +171,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             DistanceTestField = Distance.From(distance, new DistanceTypeOptions() { Units = DistanceTypeUnit.Mile, PersistAs = persistDistanceUnitAs }),
             UriTestField = Types.Uri.From(sampleUri),
             GeoCoordTestField = LatLong.From(latitude, longitude),
+            DateTimeRangeTestField = DateTimeRange.From(dateTimeRangeStart, dateTimeRangeEnd),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -213,6 +223,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(switzerlandCitiesCountiesYaml);
         testEntity.VatNumberTestField!.Value.Number.Should().Be(vatNumberValue);
         testEntity.VatNumberTestField!.Value.CountryCode2.Should().Be(vatNumberCountryCode2);
+        testEntity.ColorTestField!.Value.Should().Equal(color);
         testEntity.PercentageTestField!.Value.Should().Be(percentage);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
         testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
@@ -234,9 +245,11 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.DistanceTestField!.ToMiles().Should().Be(distance);
         testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
         testEntity.DatabaseNumberTestField!.Value.Should().BeGreaterThan(0);
-        testEntity.UriTestField!.Value.Should().BeEquivalentTo(sampleUri);
+        testEntity.UriTestField!.Value.Should().BeEquivalentTo(new System.Uri(sampleUri));
         testEntity.GeoCoordTestField!.Latitude.Should().Be(latitude);
         testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
+        testEntity.DateTimeRangeTestField!.Start.Should().Be(dateTimeRangeStart);
+        testEntity.DateTimeRangeTestField!.End.Should().Be(dateTimeRangeEnd);
     }
 
     // [Fact]

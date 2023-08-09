@@ -8,9 +8,11 @@ using Nox.Types.Extensions;
 
 namespace Nox.Generator.Application.Dto;
 
-internal static class EntityCreateDtoGenerator
+internal class EntityCreateDtoGenerator : INoxCodeGenerator
 {
-    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
+
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
         NoxSolution solution = codeGeneratorState.Solution;
         context.CancellationToken.ThrowIfCancellationRequested();
@@ -23,8 +25,8 @@ internal static class EntityCreateDtoGenerator
         foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
         {
             var attributes = entity.Attributes ?? Enumerable.Empty<NoxSimpleTypeDefinition>();
-             var componentsInfo = attributes
-                .ToDictionary(r => r.Name, key => new { IsSimpleType = key.Type.IsSimpleType(), ComponentType = GetSingleComponentSimpleType(key) });
+            var componentsInfo = attributes
+               .ToDictionary(r => r.Name, key => new { IsSimpleType = key.Type.IsSimpleType(), ComponentType = GetSingleComponentSimpleType(key) });
 
             context.CancellationToken.ThrowIfCancellationRequested();
 

@@ -4,9 +4,11 @@ using Nox.Solution;
 
 namespace Nox.Generator.Common;
 
-internal static class NoxWebApplicationExtensionGenerator
+internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
 {
-    public static void Generate(SourceProductionContext context, NoxSolution solution, bool generatePresentation)
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.None;
+
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -14,7 +16,7 @@ internal static class NoxWebApplicationExtensionGenerator
 
         var usings = new List<string>();
         var dbProvider = "";
-        
+        var solution = codeGeneratorState.Solution;
         if (solution.Infrastructure?.Persistence is { DatabaseServer: not null })
         {
             var dbServer = solution.Infrastructure.Persistence.DatabaseServer;
@@ -24,13 +26,14 @@ internal static class NoxWebApplicationExtensionGenerator
                     usings.Add("using Nox.EntityFramework.SqlServer;");
                     dbProvider = "SqlServerDatabaseProvider";
                     break;
+
                 case DatabaseServerProvider.Postgres:
                     usings.Add("using Nox.EntityFramework.Postgres;");
                     dbProvider = "PostgresDatabaseProvider";
                     break;
             }
         }
-        
+
         code.AppendLine("using Microsoft.EntityFrameworkCore;");
         code.AppendLine("using System.Reflection;");
         code.AppendLine("using Nox;");
@@ -38,32 +41,31 @@ internal static class NoxWebApplicationExtensionGenerator
         code.AppendLines(usings.ToArray());
         code.AppendLine("using Nox.Types.EntityFramework.Abstractions;");
         code.AppendLine($"using {solution.Name}.Infrastructure.Persistence;");
-        if(generatePresentation)
+        if (config.Presentation)
             code.AppendLine($"using {solution.Name}.Presentation.Api.OData;");
-        code.AppendLine();        
+        code.AppendLine();
 
         code.AppendLine("public static class NoxWebApplicationBuilderExtension");
         code.StartBlock();
         code.AppendLine("public static WebApplicationBuilder AddNox(this WebApplicationBuilder appBuilder)");
         code.StartBlock();
-        code.AppendLine($"appBuilder.Services.AddNoxLib(Assembly.GetExecutingAssembly());");                          
+        code.AppendLine($"appBuilder.Services.AddNoxLib(Assembly.GetExecutingAssembly());");
         code.AppendLine("appBuilder.Services.AddNoxOdata();");
         var dbContextName = $"{solution.Name}DbContext";
-                
+
         code.AppendLine($"appBuilder.Services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));");
         code.AppendLine($"appBuilder.Services.AddSingleton<DbContextOptions<{dbContextName}>>();");
         code.AppendLine($"appBuilder.Services.AddSingleton<INoxDatabaseConfigurator, {dbProvider}>();");
         code.AppendLine($"appBuilder.Services.AddSingleton<INoxDatabaseProvider, {dbProvider}>();");
         code.AppendLine($"appBuilder.Services.AddDbContext<{dbContextName}>();");
-        if (generatePresentation)
+        if (config.Presentation)
             code.AppendLine($"appBuilder.Services.AddDbContext<ODataDbContext>();");
         code.AppendLine("return appBuilder;");
         code.EndBlock();
         code.AppendLine();
-        
+
         code.EndBlock();
 
         code.GenerateSourceCode();
-
     }
 }

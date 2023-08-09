@@ -17,7 +17,6 @@ public class PostgresIntegrationTests : PostgresTestBase
     {
         // TODO:
         // array
-        // color
         // colour
         // databaseNumber
         // collection
@@ -67,6 +66,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         byte month = 7;
         var currencyNumber = (short)970;
         var dateTimeDurationInHours = 30.5;
+        var color = new byte[] { 1, 2, 3, 4 };
         var date = new DateOnly(2023, 7, 14);
         var percentage = 0.5f;
         var fileName = "MyFile";
@@ -112,6 +112,9 @@ public class PostgresIntegrationTests : PostgresTestBase
         var distance = 80.481727;
         var persistDistanceUnitAs = DistanceTypeUnit.Kilometer;
 
+        var dateTimeRangeStart = new DateTimeOffset(2023, 4, 12, 0, 0, 0, TimeSpan.FromHours(3));
+        var dateTimeRangeEnd = new DateTimeOffset(2023, 7, 10, 0, 0, 0, TimeSpan.FromHours(5));
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -144,6 +147,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
             TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
+            ColorTestField = Color.From(color),
             PercentageTestField = Percentage.From(percentage),
             DateTestField = Date.From(date),
             MarkdownTestField = Markdown.From(text),
@@ -155,6 +159,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             DistanceTestField = Distance.From(distance, new DistanceTypeOptions() { Units = DistanceTypeUnit.Mile, PersistAs = persistDistanceUnitAs }),
             UriTestField = Types.Uri.From(sampleUri),
             GeoCoordTestField = LatLong.From(latitude, longitude),
+            DateTimeRangeTestField = DateTimeRange.From(dateTimeRangeStart, dateTimeRangeEnd),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -206,6 +211,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
         testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
         testEntity.EncryptedTextTestField!.DecryptText(encryptedTextTypeOptions).Should().Be(text);
+        testEntity.ColorTestField!.Value.Should().Equal(color);
         testEntity.PercentageTestField!.Value.Should().Be(percentage);
         testEntity.DateTestField!.Value.Should().Be(date);
         testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);
@@ -221,8 +227,10 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.DistanceTestField!.ToMiles().Should().Be(distance);
         testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
         testEntity.DatabaseNumberTestField!.Value.Should().BeGreaterThan(0);
-        testEntity.UriTestField!.Value.Should().Be(sampleUri);
+        testEntity.UriTestField!.Value.Should().BeEquivalentTo(new System.Uri(sampleUri));
         testEntity.GeoCoordTestField!.Latitude.Should().Be(latitude);
         testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
+        testEntity.DateTimeRangeTestField!.Start.Should().Be(dateTimeRangeStart);
+        testEntity.DateTimeRangeTestField!.End.Should().Be(dateTimeRangeEnd);
     }
 }

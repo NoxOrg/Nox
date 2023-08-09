@@ -8,9 +8,11 @@ using System.Linq;
 
 namespace Nox.Generator.Application.Dto;
 
-internal static class NoxTypeDtoGenerator
+internal class NoxTypeDtoGenerator : INoxCodeGenerator
 {
-    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
+
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -30,13 +32,12 @@ internal static class NoxTypeDtoGenerator
            })
            .Where(x => x.Components.Count() > 1).ToArray();
 
-
         context.CancellationToken.ThrowIfCancellationRequested();
 
         new TemplateCodeBuilder(context, codeGeneratorState)
             .WithClassName($"CompoundNoxTypes")
             .WithFileNamePrefix($"Dto")
-            .WithObject("compoundTypes", compoundTypes)            
+            .WithObject("compoundTypes", compoundTypes)
             .GenerateSourceCodeFromResource(templateName);
-    }    
+    }
 }

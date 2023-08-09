@@ -2,10 +2,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Nox.Types.EntityFramework;
 
-public class ColorConverter : ValueConverter<Nox.Types.Color, byte[]>
+public class ColorConverter : ValueConverter<Color, byte[]>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ColorConverter" /> class.
     /// </summary>
-    public ColorConverter() : base(color => color.Value, colorValue => Nox.Types.Color.FromDatabase(colorValue)) { }
+    public ColorConverter() : base(color => color.Value, colorValue => Color.FromDatabase(colorValue)) { }
 }
