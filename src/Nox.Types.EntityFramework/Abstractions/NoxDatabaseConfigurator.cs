@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
+using Nox.Solution.Extensions;
 using System.Diagnostics;
 
 namespace Nox.Types.EntityFramework.Abstractions
@@ -59,9 +60,9 @@ namespace Nox.Types.EntityFramework.Abstractions
             {
                 // ManyToMany does not need to be handled
                 // Handle ZeroOrOne or ExactlyOne scenario with foreign key.
-                if (relationshipToCreate.Relationship.HasRelationshipWithSingularEntity &&
-                    relationshipToCreate.Relationship.ShouldGenerateForeignOnThisSide &&
-                    !relationshipToCreate.Relationship.IsManyRelationshipOnOtherSide)
+                if (relationshipToCreate.Relationship.HasRelationshipWithSingularEntity() &&
+                    relationshipToCreate.Relationship.ShouldGenerateForeignOnThisSide() &&
+                    !relationshipToCreate.Relationship.IsManyRelationshipOnOtherSide())
                 {
                     builder
                         .HasOne(relationshipToCreate.Relationship.Entity)
@@ -72,7 +73,7 @@ namespace Nox.Types.EntityFramework.Abstractions
                     SetupForeignKey(codeGeneratorState, builder, entity, relationshipToCreate);
                 }
 
-                if (!relationshipToCreate.Relationship.ShouldUseRelationshipNameAsNavigation)
+                if (!relationshipToCreate.Relationship.ShouldUseRelationshipNameAsNavigation())
                 {
                     builder.Ignore(relationshipToCreate.Relationship.Name);
                 }
