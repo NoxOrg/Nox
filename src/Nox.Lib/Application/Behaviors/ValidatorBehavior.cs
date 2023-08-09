@@ -33,7 +33,7 @@ namespace Nox.Application.Behaviors
                 _logger.LogWarning("Validation errors - {Type} - Command: {@requests} - Errors: {@Errors}", typeName, request, failures);
 
                 throw new Exception(
-                    $"Validation Errors for {typeof(TRequest).Name}", new ValidationException(failures.First().ErrorMessage, failures));
+                    $"Validation Errors for {typeof(TRequest).Name}", new ValidationException(failures[0].ErrorMessage, failures));
             }
 
             return await next();

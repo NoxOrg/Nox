@@ -34,33 +34,33 @@ public partial class AllNoxTypeCreateDto
     /// </summary>
     public System.String? FormulaField { get; set; } 
     /// <summary>
-    /// Yaml Nox Type (Required).
+    /// Yaml Nox Type (Optional).
     /// </summary>
-    public System.String YamlField { get; set; } = default!;
+    public System.String? YamlField { get; set; } 
     /// <summary>
-    /// Weight Nox Type (Required).
+    /// Weight Nox Type (Optional).
     /// </summary>
-    public System.Double WeightField { get; set; } = default!;
+    public System.Double? WeightField { get; set; } 
     /// <summary>
-    /// Volume Nox Type (Required).
+    /// Volume Nox Type (Optional).
     /// </summary>
-    public System.Double VolumeField { get; set; } = default!;
+    public System.Double? VolumeField { get; set; } 
     /// <summary>
-    /// Url Nox Type (Required).
+    /// Url Nox Type (Optional).
     /// </summary>
-    public System.String UrlField { get; set; } = default!;
+    public System.String? UrlField { get; set; } 
     /// <summary>
-    /// Uri Nox Type (Required).
+    /// Uri Nox Type (Optional).
     /// </summary>
-    public System.String UriField { get; set; } = default!;
+    public System.String? UriField { get; set; } 
     /// <summary>
     /// TimeZoneCode Nox Type (Optional).
     /// </summary>
     public System.String? TimeZoneCodeField { get; set; } 
     /// <summary>
-    /// Time Nox Type (Required).
+    /// Time Nox Type (Optional).
     /// </summary>
-    public System.DateTimeOffset TimeField { get; set; } = default!;
+    public System.DateTimeOffset? TimeField { get; set; } 
     /// <summary>
     /// NumberField Nox Type (Optional).
     /// </summary>

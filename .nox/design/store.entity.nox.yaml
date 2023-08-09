@@ -40,9 +40,9 @@ attributes:
     description: Store phone number
     type: text
     isRequired: true
-relationships:
+#relationships:
 
-    - name: PasswordsRel
-      description: Set of passwords for this store
-      relationship: exactlyOne
-      entity: StoreSecurityPasswords
+#    - name: PasswordsRel
+#      description: Set of passwords for this store
+#      relationship: exactlyOne
+#      entity: StoreSecurityPasswords

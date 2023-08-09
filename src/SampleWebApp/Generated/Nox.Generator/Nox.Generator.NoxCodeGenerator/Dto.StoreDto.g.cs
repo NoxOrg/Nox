@@ -44,9 +44,4 @@ public partial class StoreDto : AuditableEntityBase
     /// Store phone number (Required).
     /// </summary>
     public System.String Phone { get; set; } = default!;
-
-    /// <summary>
-    /// Store Set of passwords for this store ExactlyOne StoreSecurityPasswords
-    /// </summary>
-    public virtual StoreSecurityPasswordsDto StoreSecurityPasswords { get; set; } = null!;
 }

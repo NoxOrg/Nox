@@ -89,7 +89,7 @@ namespace SampleWebApp.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
 
-                    b.Property<DateTime>("TimeField")
+                    b.Property<DateTime?>("TimeField")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("TimeZoneCodeField")
@@ -104,24 +104,21 @@ namespace SampleWebApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UriField")
-                        .IsRequired()
                         .HasMaxLength(2083)
                         .IsUnicode(false)
                         .HasColumnType("varchar(2083)");
 
                     b.Property<string>("UrlField")
-                        .IsRequired()
                         .HasMaxLength(2083)
                         .HasColumnType("nvarchar(2083)");
 
-                    b.Property<decimal>("VolumeField")
+                    b.Property<decimal?>("VolumeField")
                         .HasColumnType("DECIMAL(9, 6)");
 
-                    b.Property<decimal>("WeightField")
+                    b.Property<decimal?>("WeightField")
                         .HasColumnType("DECIMAL(9, 6)");
 
                     b.Property<string>("YamlField")
-                        .IsRequired()
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");
 
@@ -153,7 +150,7 @@ namespace SampleWebApp.Migrations
                         .IsFixedLength();
 
                     b.Property<decimal>("AreaInSquareKilometres")
-                        .HasColumnType("DECIMAL(15, 6)");
+                        .HasColumnType("DECIMAL(14, 6)");
 
                     b.Property<string>("Capital")
                         .HasMaxLength(63)
@@ -386,9 +383,6 @@ namespace SampleWebApp.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
 
-                    b.Property<uint>("StoreId")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime?>("UpdatedAtUtc")
                         .HasColumnType("datetime2");
 
@@ -396,9 +390,6 @@ namespace SampleWebApp.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("StoreId")
-                        .IsUnique();
 
                     b.ToTable("StoreSecurityPasswords");
                 });
@@ -747,23 +738,6 @@ namespace SampleWebApp.Migrations
                         .IsRequired();
 
                     b.Navigation("LatLong")
-                        .IsRequired();
-                });
-
-            modelBuilder.Entity("SampleWebApp.Domain.StoreSecurityPasswords", b =>
-                {
-                    b.HasOne("SampleWebApp.Domain.Store", "Store")
-                        .WithOne("StoreSecurityPasswords")
-                        .HasForeignKey("SampleWebApp.Domain.StoreSecurityPasswords", "StoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Store");
-                });
-
-            modelBuilder.Entity("SampleWebApp.Domain.Store", b =>
-                {
-                    b.Navigation("StoreSecurityPasswords")
                         .IsRequired();
                 });
 #pragma warning restore 612, 618

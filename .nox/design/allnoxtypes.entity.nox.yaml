@@ -47,7 +47,6 @@ attributes:
   - name: YamlField
     description: Yaml Nox Type
     type: yaml
-    isRequired: true
 
   - name: WeightField
     description: Weight Nox Type
@@ -55,7 +54,6 @@ attributes:
     weightTypeOptions:
         minValue: 10
         maxValue: 300
-    isRequired: true
 
   - name: VolumeField
     description: Volume Nox Type
@@ -63,7 +61,6 @@ attributes:
     volumeTypeOptions:
         minValue: 100
         maxValue: 500
-    isRequired: true
 
   #- name: UserField
   #  description: User Nox Type
@@ -76,12 +73,10 @@ attributes:
   - name: UrlField
     description: Url Nox Type
     type: url
-    isRequired: true
 
   - name: UriField
     description: Uri Nox Type
     type: uri
-    isRequired: true
 
   - name: TimeZoneCodeField
     description: TimeZoneCode Nox Type
@@ -89,8 +84,7 @@ attributes:
 
   - name: TimeField
     description: Time Nox Type
-    type: time    
-    isRequired: true
+    type: time
 
   - name: NumberField
     description: NumberField Nox Type

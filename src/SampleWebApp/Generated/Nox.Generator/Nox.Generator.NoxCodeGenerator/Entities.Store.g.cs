@@ -55,9 +55,4 @@ public partial class Store : AuditableEntityBase
     /// Store phone number (Required).
     /// </summary>
     public Nox.Types.Text Phone { get; set; } = null!;
-
-    /// <summary>
-    /// Store Set of passwords for this store ExactlyOne StoreSecurityPasswords
-    /// </summary>
-    public virtual StoreSecurityPasswords StoreSecurityPasswords { get; set; } = null!;
 }

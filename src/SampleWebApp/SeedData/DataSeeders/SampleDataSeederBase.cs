@@ -26,7 +26,6 @@ internal abstract class SampleDataSeederBase<TModel, TEntity> : INoxDataSeeder
 
         var modelData = JsonSerializer.Deserialize<IEnumerable<TModel>>(jsonText)!;
         var entities = TransformToEntities(modelData);
-
         dbSet.AddRange(entities);
 
         _dbContext.SaveChanges();

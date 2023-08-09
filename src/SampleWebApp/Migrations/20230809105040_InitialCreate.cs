@@ -21,13 +21,13 @@ namespace SampleWebApp.Migrations
                     BooleanField = table.Column<bool>(type: "bit", nullable: true),
                     CountryCode2Field = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
                     CountryCode3Field = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
-                    YamlField = table.Column<string>(type: "varchar(max)", unicode: false, nullable: false),
-                    WeightField = table.Column<decimal>(type: "DECIMAL(9,6)", nullable: false),
-                    VolumeField = table.Column<decimal>(type: "DECIMAL(9,6)", nullable: false),
-                    UrlField = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: false),
-                    UriField = table.Column<string>(type: "varchar(2083)", unicode: false, maxLength: 2083, nullable: false),
+                    YamlField = table.Column<string>(type: "varchar(max)", unicode: false, nullable: true),
+                    WeightField = table.Column<decimal>(type: "DECIMAL(9,6)", nullable: true),
+                    VolumeField = table.Column<decimal>(type: "DECIMAL(9,6)", nullable: true),
+                    UrlField = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: true),
+                    UriField = table.Column<string>(type: "varchar(2083)", unicode: false, maxLength: 2083, nullable: true),
                     TimeZoneCodeField = table.Column<string>(type: "varchar(5)", unicode: false, maxLength: 5, nullable: true),
-                    TimeField = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    TimeField = table.Column<DateTime>(type: "datetime2", nullable: true),
                     NumberField = table.Column<int>(type: "int", nullable: true),
                     TextField = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     StreetAddressField_StreetNumber = table.Column<int>(type: "int", nullable: true),
@@ -81,7 +81,7 @@ namespace SampleWebApp.Migrations
                     DialingCodes = table.Column<string>(type: "varchar(31)", unicode: false, maxLength: 31, nullable: true),
                     Capital = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: true),
                     Demonym = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: true),
-                    AreaInSquareKilometres = table.Column<decimal>(type: "DECIMAL(15,6)", nullable: false),
+                    AreaInSquareKilometres = table.Column<decimal>(type: "DECIMAL(14,6)", nullable: false),
                     GeoCoord_Latitude = table.Column<decimal>(type: "decimal(8,6)", precision: 8, scale: 6, nullable: true),
                     GeoCoord_Longitude = table.Column<decimal>(type: "decimal(9,6)", precision: 9, scale: 6, nullable: true),
                     GeoRegion = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
@@ -172,6 +172,26 @@ namespace SampleWebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "StoreSecurityPasswords",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    SecurityCamerasPassword = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Deleted = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_StoreSecurityPasswords", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "CountryCurrency",
                 columns: table => new
                 {
@@ -195,43 +215,10 @@ namespace SampleWebApp.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
-            migrationBuilder.CreateTable(
-                name: "StoreSecurityPasswords",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    SecurityCamerasPassword = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    StoreId = table.Column<long>(type: "bigint", nullable: false),
-                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DeletedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_StoreSecurityPasswords", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_StoreSecurityPasswords_Stores_StoreId",
-                        column: x => x.StoreId,
-                        principalTable: "Stores",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
             migrationBuilder.CreateIndex(
                 name: "IX_CountryCurrency_CurrenciesId",
                 table: "CountryCurrency",
                 column: "CurrenciesId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_StoreSecurityPasswords_StoreId",
-                table: "StoreSecurityPasswords",
-                column: "StoreId",
-                unique: true);
         }
 
         /// <inheritdoc />
@@ -247,6 +234,9 @@ namespace SampleWebApp.Migrations
                 name: "CountryLocalNames");
 
             migrationBuilder.DropTable(
+                name: "Stores");
+
+            migrationBuilder.DropTable(
                 name: "StoreSecurityPasswords");
 
             migrationBuilder.DropTable(
@@ -254,9 +244,6 @@ namespace SampleWebApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "Currencies");
-
-            migrationBuilder.DropTable(
-                name: "Stores");
         }
     }
 }

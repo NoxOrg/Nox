@@ -29,14 +29,4 @@ public partial class StoreSecurityPasswords : AuditableEntityBase
     ///  (Required).
     /// </summary>
     public Nox.Types.Text SecurityCamerasPassword { get; set; } = null!;
-
-    /// <summary>
-    /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores
-    /// </summary>
-    public virtual Store Store { get; set; } = null!;
-
-    /// <summary>
-    /// Foreign key for relationship ExactlyOne to entity Store
-    /// </summary>
-    public Nuid StoreId { get; set; } = null!;
 }

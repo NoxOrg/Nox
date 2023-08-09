@@ -46,29 +46,29 @@ public partial class AllNoxType : AuditableEntityBase
     public string? FormulaField => CountryCode2Field.ToString();
 
     /// <summary>
-    /// Yaml Nox Type (Required).
+    /// Yaml Nox Type (Optional).
     /// </summary>
-    public Nox.Types.Yaml YamlField { get; set; } = null!;
+    public Nox.Types.Yaml? YamlField { get; set; } = null!;
 
     /// <summary>
-    /// Weight Nox Type (Required).
+    /// Weight Nox Type (Optional).
     /// </summary>
-    public Nox.Types.Weight WeightField { get; set; } = null!;
+    public Nox.Types.Weight? WeightField { get; set; } = null!;
 
     /// <summary>
-    /// Volume Nox Type (Required).
+    /// Volume Nox Type (Optional).
     /// </summary>
-    public Nox.Types.Volume VolumeField { get; set; } = null!;
+    public Nox.Types.Volume? VolumeField { get; set; } = null!;
 
     /// <summary>
-    /// Url Nox Type (Required).
+    /// Url Nox Type (Optional).
     /// </summary>
-    public Nox.Types.Url UrlField { get; set; } = null!;
+    public Nox.Types.Url? UrlField { get; set; } = null!;
 
     /// <summary>
-    /// Uri Nox Type (Required).
+    /// Uri Nox Type (Optional).
     /// </summary>
-    public Nox.Types.Uri UriField { get; set; } = null!;
+    public Nox.Types.Uri? UriField { get; set; } = null!;
 
     /// <summary>
     /// TimeZoneCode Nox Type (Optional).
@@ -76,9 +76,9 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.TimeZoneCode? TimeZoneCodeField { get; set; } = null!;
 
     /// <summary>
-    /// Time Nox Type (Required).
+    /// Time Nox Type (Optional).
     /// </summary>
-    public Nox.Types.Time TimeField { get; set; } = null!;
+    public Nox.Types.Time? TimeField { get; set; } = null!;
 
     /// <summary>
     /// NumberField Nox Type (Optional).

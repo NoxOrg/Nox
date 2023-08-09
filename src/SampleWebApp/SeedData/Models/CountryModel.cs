@@ -11,7 +11,7 @@
         public string Name { get; set; } = string.Empty;
         public string FormalName { get; set; } = string.Empty;
         public int NumericCode { get; set; }
-        public decimal Population { get; set; }
+        public double Population { get; set; }
         public string TopLevelDomains { get; set; } = string.Empty;
         public string GeoRegion { get; set; } = string.Empty;
         public string GeoSubRegion { get; set; } = string.Empty;
