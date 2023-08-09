@@ -16,26 +16,26 @@ using SampleWebApp.Application.Dto;
 namespace SampleWebApp.Application.Commands;
 
 //TODO support multiple keys and generated keys like nuid database number
-public record CreateStoreCommand(StoreCreateDto EntityDto) : IRequest<Nuid>;
+public record CreateVendingMachineCommand(VendingMachineCreateDto EntityDto) : IRequest<DatabaseNumber>;
 
-public class CreateStoreCommandHandler: IRequestHandler<CreateStoreCommand, Nuid>
+public class CreateVendingMachineCommandHandler: IRequestHandler<CreateVendingMachineCommand, DatabaseNumber>
 {
     public SampleWebAppDbContext DbContext { get; }
-    public IEntityFactory<StoreCreateDto,Store> EntityFactory { get; }
+    public IEntityFactory<VendingMachineCreateDto,VendingMachine> EntityFactory { get; }
 
-    public  CreateStoreCommandHandler(
+    public  CreateVendingMachineCommandHandler(
         SampleWebAppDbContext dbContext,
-        IEntityFactory<StoreCreateDto,Store> entityFactory)
+        IEntityFactory<VendingMachineCreateDto,VendingMachine> entityFactory)
     {
         DbContext = dbContext;
         EntityFactory = entityFactory;
     }
     
-    public async Task<Nuid> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
+    public async Task<DatabaseNumber> Handle(CreateVendingMachineCommand request, CancellationToken cancellationToken)
     {    
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
         //TODO for nuid property or key needs to call ensure id        
-        DbContext.Stores.Add(entityToCreate);
+        DbContext.VendingMachines.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         return entityToCreate.Id;
     }

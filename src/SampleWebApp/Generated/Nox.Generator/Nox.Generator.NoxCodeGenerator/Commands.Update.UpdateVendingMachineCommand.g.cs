@@ -15,13 +15,13 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateStoreCommand(StoreDto EntityDto) : IRequest;
+public record UpdateVendingMachineCommand(VendingMachineDto EntityDto) : IRequest;
 
-public class UpdateStoreCommandHandler: CommandBase, IRequestHandler<UpdateStoreCommand>
+public class UpdateVendingMachineCommandHandler: CommandBase, IRequestHandler<UpdateVendingMachineCommand>
 {
     public SampleWebAppDbContext DbContext { get; }    
 
-    public  UpdateStoreCommandHandler(
+    public  UpdateVendingMachineCommandHandler(
         SampleWebAppDbContext dbContext,        
         NoxSolution noxSolution,
         IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -29,13 +29,13 @@ public class UpdateStoreCommandHandler: CommandBase, IRequestHandler<UpdateStore
         DbContext = dbContext;        
     }
     
-    public async Task Handle(UpdateStoreCommand request, CancellationToken cancellationToken)
+    public async Task Handle(UpdateVendingMachineCommand request, CancellationToken cancellationToken)
     {
         await Task.Delay(10);
         return;
         //var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
         ////TODO for nuid property or key needs to call ensure id        
-        //DbContext.Stores.Add(entityToCreate);
+        //DbContext.VendingMachines.Add(entityToCreate);
         //await DbContext.SaveChangesAsync();
         //return entityToCreate.Id;
     }

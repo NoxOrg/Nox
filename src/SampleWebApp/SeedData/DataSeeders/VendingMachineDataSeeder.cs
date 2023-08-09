@@ -5,26 +5,26 @@ using SampleWebApp.SeedData.Models;
 
 namespace SampleWebApp.SeedData;
 
-internal class StoreDataSeeder : SampleDataSeederBase<StoreModel, Store>
+internal class VendingMachineDataSeeder : SampleDataSeederBase<VendingMachineModel, VendingMachine>
 {
-    public StoreDataSeeder(SampleWebAppDbContext dbContext) : base(dbContext)
+    public VendingMachineDataSeeder(SampleWebAppDbContext dbContext) : base(dbContext)
     {
     }
 
-    protected override string SourceFile => "stores.json";
+    protected override string SourceFile => "vending-machines.json";
 
-    protected override IEnumerable<Store> TransformToEntities(IEnumerable<StoreModel> models)
+    protected override IEnumerable<VendingMachine> TransformToEntities(IEnumerable<VendingMachineModel> models)
     {
         var entities = models.Select(x =>
-            new Store
+            new VendingMachine
             {
                 Name = Text.From(x.Name),
                 Address = StreetAddress.From(CreateAddressItem(x.Address)),
                 LatLong = LatLong.From(x.Latitude, x.Longitude),
-                Phone = Text.From(x.Phone),// TODO: should be Phone type
+                SupportNumber = Text.From(x.Phone),// TODO: should be Phone type
                 CreatedAtUtc = System.DateTime.Now
             }).ToList();
-        entities.ForEach(x => x.EnsureId());
+
         return entities;
     }
 

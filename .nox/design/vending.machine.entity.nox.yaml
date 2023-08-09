@@ -1,25 +1,19 @@
 # store.entity.nox.yaml
 
-name: Store
+name: VendingMachine
 
-description: Stores
+description: Vending machines
 
 keys:
 
   - name: Id
     isRequired: true
-    description: Store Primary Key
-    type: nuid
-    nuidTypeOptions:
-      separator: "."
-      propertyNames:
-       - "Name"
-       - "Address" 
-
+    description: Vending machine Primary Key
+    type: databaseNumber
 attributes:
 
   - name: Name
-    description: Store Name
+    description: Vending machine Name
     type: text
     textTypeOptions:
       minLength: 4
@@ -27,17 +21,17 @@ attributes:
     isRequired: true
 
   - name: Address
-    description: Store address
+    description: Vending machine's address
     type: streetAddress
     isRequired: true
 
   - name: LatLong
-    description: Store location coordinates
+    description: Vending machine' location coordinates
     type: latLong
     isRequired: true
 
-  - name: Phone
-    description: Store phone number
+  - name: SupportNumber
+    description: Vending machine's support number
     type: text
     isRequired: true
 #relationships:

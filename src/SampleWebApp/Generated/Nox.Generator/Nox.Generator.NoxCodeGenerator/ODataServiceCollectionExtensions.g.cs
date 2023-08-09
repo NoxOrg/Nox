@@ -21,7 +21,7 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntitySet<CurrencyDto>("Currencies");
 
-        builder.EntitySet<StoreDto>("Stores");
+        builder.EntitySet<VendingMachineDto>("VendingMachines");
 
         builder.EntitySet<StoreSecurityPasswordsDto>("StoreSecurityPasswords");
 

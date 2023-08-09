@@ -184,7 +184,7 @@ domain:
           type: text
           textTypeOptions:
             minLength: 4
-            maxLength: 120
+            maxLength: 63
           isRequired: true
 
         - name: AlphaCode3
@@ -242,8 +242,8 @@ domain:
           description: The region the country is in
           type: text
           textTypeOptions:
-            isUnicode: true
-            maxLength: 32
+            isUnicode: false
+            maxLength: 16
           isRequired: true
 
         - name: GeoSubRegion
@@ -258,7 +258,7 @@ domain:
           description: The world region the country is in
           type: text
           textTypeOptions:
-            isUnicode: true
+            isUnicode: false
             minLength: 0
             maxLength: 32
           isRequired: true
@@ -277,7 +277,7 @@ domain:
 
     - $ref: currency.entity.nox.yaml
   
-    - $ref: store.entity.nox.yaml
+    - $ref: vending.machine.entity.nox.yaml
 
     - $ref: store-security-passwords.entity.nox.yaml
   

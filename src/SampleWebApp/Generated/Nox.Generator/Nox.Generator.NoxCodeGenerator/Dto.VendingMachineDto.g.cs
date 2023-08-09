@@ -14,34 +14,34 @@ using SampleWebApp.Domain;
 namespace SampleWebApp.Application.Dto;
 
 /// <summary>
-/// Stores.
+/// Vending machines.
 /// </summary>
-[AutoMap(typeof(StoreCreateDto))]
-public partial class StoreDto : AuditableEntityBase
+[AutoMap(typeof(VendingMachineCreateDto))]
+public partial class VendingMachineDto : AuditableEntityBase
 {
 
     /// <summary>
-    /// Store Primary Key (Required).
+    /// Vending machine Primary Key (Required).
     /// </summary>
-    public System.UInt32 Id { get; set; } = default!;
+    public System.UInt64 Id { get; set; } = default!;
 
     /// <summary>
-    /// Store Name (Required).
+    /// Vending machine Name (Required).
     /// </summary>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// Store address (Required).
+    /// Vending machine's address (Required).
     /// </summary>
     public StreetAddressDto Address { get; set; } = default!;
 
     /// <summary>
-    /// Store location coordinates (Required).
+    /// Vending machine' location coordinates (Required).
     /// </summary>
     public LatLongDto LatLong { get; set; } = default!;
 
     /// <summary>
-    /// Store phone number (Required).
+    /// Vending machine's support number (Required).
     /// </summary>
-    public System.String Phone { get; set; } = default!;
+    public System.String SupportNumber { get; set; } = default!;
 }

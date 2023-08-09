@@ -128,7 +128,7 @@ To add extra filter to generated queries, for security or other purposes, add a 
         {
             var result = await next();
 
-            return result.Where(store => store.Id == "EUR");
+            return result.Where(store => store.Id == 1);
         }
     }
 ```

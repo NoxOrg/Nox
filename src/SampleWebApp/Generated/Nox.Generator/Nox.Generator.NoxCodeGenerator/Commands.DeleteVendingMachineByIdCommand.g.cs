@@ -12,13 +12,13 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteStoreByIdCommand(System.UInt32 key) : IRequest<bool>;
+public record DeleteVendingMachineByIdCommand(System.UInt64 key) : IRequest<bool>;
 
-public class DeleteStoreByIdCommandHandler: CommandBase, IRequestHandler<DeleteStoreByIdCommand, bool>
+public class DeleteVendingMachineByIdCommandHandler: CommandBase, IRequestHandler<DeleteVendingMachineByIdCommand, bool>
 {
     public SampleWebAppDbContext DbContext { get; }
 
-    public  DeleteStoreByIdCommandHandler(
+    public  DeleteVendingMachineByIdCommandHandler(
         SampleWebAppDbContext dbContext,
         NoxSolution noxSolution, 
         IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -26,10 +26,10 @@ public class DeleteStoreByIdCommandHandler: CommandBase, IRequestHandler<DeleteS
         DbContext = dbContext;
     }    
 
-    public async Task<bool> Handle(DeleteStoreByIdCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteVendingMachineByIdCommand request, CancellationToken cancellationToken)
     {
-        var key = CreateNoxTypeForKey<Store,Nuid>("Id", request.key);
-        var entity = await DbContext.Stores.FindAsync(key);
+        var key = CreateNoxTypeForKey<VendingMachine,DatabaseNumber>("Id", request.key);
+        var entity = await DbContext.VendingMachines.FindAsync(key);
         if (entity == null || entity.Deleted == true)
         {
             return false;

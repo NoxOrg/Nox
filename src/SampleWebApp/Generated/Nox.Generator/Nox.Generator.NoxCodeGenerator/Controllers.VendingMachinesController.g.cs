@@ -21,7 +21,7 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-public partial class StoresController : ODataController
+public partial class VendingMachinesController : ODataController
 {
     
     /// <summary>
@@ -39,7 +39,7 @@ public partial class StoresController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public StoresController(
+    public VendingMachinesController(
         ODataDbContext databaseContext,
         IMapper mapper,
         IMediator mediator
@@ -51,15 +51,15 @@ public partial class StoresController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<StoreDto>>> Get()
+    public async  Task<ActionResult<IQueryable<VendingMachineDto>>> Get()
     {
-        var result = await _mediator.Send(new GetStoresQuery());
+        var result = await _mediator.Send(new GetVendingMachinesQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<StoreDto>> Get([FromRoute] System.UInt32 key)
+    public async Task<ActionResult<VendingMachineDto>> Get([FromRoute] System.UInt64 key)
     {
-        var item = await _mediator.Send(new GetStoreByIdQuery(key));
+        var item = await _mediator.Send(new GetVendingMachineByIdQuery(key));
         
         if (item == null)
         {
@@ -69,30 +69,30 @@ public partial class StoresController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]StoreCreateDto store)
+    public async Task<ActionResult> Post([FromBody]VendingMachineCreateDto vendingmachine)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateStoreCommand(store));
+        var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingmachine));
         
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.UInt32 key, [FromBody] StoreDto updatedStore)
+    public async Task<ActionResult> Put([FromRoute] System.UInt64 key, [FromBody] VendingMachineDto updatedVendingMachine)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        if (key != updatedStore.Id)
+        if (key != updatedVendingMachine.Id)
         {
             return BadRequest();
         }
         
-        _databaseContext.Entry(updatedStore).State = EntityState.Modified;
+        _databaseContext.Entry(updatedVendingMachine).State = EntityState.Modified;
         
         try
         {
@@ -100,7 +100,7 @@ public partial class StoresController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!StoreExists(key))
+            if (!VendingMachineExists(key))
             {
                 return NotFound();
             }
@@ -110,24 +110,24 @@ public partial class StoresController : ODataController
             }
         }
         
-        return Updated(updatedStore);
+        return Updated(updatedVendingMachine);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<StoreDto> store)
+    public async Task<ActionResult> Patch([FromRoute] System.UInt64 key, [FromBody] Delta<VendingMachineDto> vendingmachine)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var entity = await _databaseContext.Stores.FindAsync(key);
+        var entity = await _databaseContext.VendingMachines.FindAsync(key);
         
         if (entity == null)
         {
             return NotFound();
         }
         
-        store.Patch(entity);
+        vendingmachine.Patch(entity);
         
         try
         {
@@ -135,7 +135,7 @@ public partial class StoresController : ODataController
         }
         catch (DbUpdateConcurrencyException)
         {
-            if (!StoreExists(key))
+            if (!VendingMachineExists(key))
             {
                 return NotFound();
             }
@@ -148,14 +148,14 @@ public partial class StoresController : ODataController
         return Updated(entity);
     }
     
-    private bool StoreExists(System.UInt32 key)
+    private bool VendingMachineExists(System.UInt64 key)
     {
-        return _databaseContext.Stores.Any(p => p.Id == key);
+        return _databaseContext.VendingMachines.Any(p => p.Id == key);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.UInt32 key)
+    public async Task<ActionResult> Delete([FromRoute] System.UInt64 key)
     {
-        var result = await _mediator.Send(new DeleteStoreByIdCommand(key));
+        var result = await _mediator.Send(new DeleteVendingMachineByIdCommand(key));
         if (!result)
         {
             return NotFound();

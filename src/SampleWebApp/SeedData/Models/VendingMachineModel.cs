@@ -2,7 +2,7 @@
 
 namespace SampleWebApp.SeedData.Models
 {
-    public class StoreModel
+    public class VendingMachineModel
     {
         public string Name { get; set; } = string.Empty;
         public string Address { get; set; } = string.Empty;

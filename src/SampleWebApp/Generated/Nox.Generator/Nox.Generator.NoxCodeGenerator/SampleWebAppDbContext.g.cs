@@ -35,7 +35,7 @@ public partial class SampleWebAppDbContext : DbContext
 
     public DbSet<Currency> Currencies { get; set; } = null!;
 
-    public DbSet<Store> Stores { get; set; } = null!;
+    public DbSet<VendingMachine> VendingMachines { get; set; } = null!;
 
     public DbSet<StoreSecurityPasswords> StoreSecurityPasswords { get; set; } = null!;
 

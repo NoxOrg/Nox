@@ -74,7 +74,7 @@ namespace SampleWebApp.Migrations
                 {
                     Id = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    FormalName = table.Column<string>(type: "nvarchar(120)", maxLength: 120, nullable: false),
+                    FormalName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     AlphaCode3 = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
                     AlphaCode2 = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
                     NumericCode = table.Column<short>(type: "smallint", nullable: false),
@@ -84,9 +84,9 @@ namespace SampleWebApp.Migrations
                     AreaInSquareKilometres = table.Column<decimal>(type: "DECIMAL(14,6)", nullable: false),
                     GeoCoord_Latitude = table.Column<decimal>(type: "decimal(8,6)", precision: 8, scale: 6, nullable: true),
                     GeoCoord_Longitude = table.Column<decimal>(type: "decimal(9,6)", precision: 9, scale: 6, nullable: true),
-                    GeoRegion = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    GeoRegion = table.Column<string>(type: "varchar(16)", unicode: false, maxLength: 16, nullable: false),
                     GeoSubRegion = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    GeoWorldRegion = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    GeoWorldRegion = table.Column<string>(type: "varchar(32)", unicode: false, maxLength: 32, nullable: false),
                     Population = table.Column<int>(type: "int", nullable: true),
                     TopLevelDomains = table.Column<string>(type: "nvarchar(31)", maxLength: 31, nullable: true),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
@@ -140,38 +140,6 @@ namespace SampleWebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Stores",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    Address_StreetNumber = table.Column<int>(type: "int", nullable: false),
-                    Address_AddressLine1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address_AddressLine2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address_Route = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address_Locality = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address_Neighborhood = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address_AdministrativeArea1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address_AdministrativeArea2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address_PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Address_CountryId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LatLong_Latitude = table.Column<decimal>(type: "decimal(8,6)", precision: 8, scale: 6, nullable: false),
-                    LatLong_Longitude = table.Column<decimal>(type: "decimal(9,6)", precision: 9, scale: 6, nullable: false),
-                    Phone = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DeletedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Stores", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "StoreSecurityPasswords",
                 columns: table => new
                 {
@@ -189,6 +157,39 @@ namespace SampleWebApp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_StoreSecurityPasswords", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "VendingMachines",
+                columns: table => new
+                {
+                    Id = table.Column<decimal>(type: "decimal(20,0)", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    Address_StreetNumber = table.Column<int>(type: "int", nullable: false),
+                    Address_AddressLine1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address_AddressLine2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address_Route = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address_Locality = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address_Neighborhood = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address_AdministrativeArea1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address_AdministrativeArea2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address_PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address_CountryId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LatLong_Latitude = table.Column<decimal>(type: "decimal(8,6)", precision: 8, scale: 6, nullable: false),
+                    LatLong_Longitude = table.Column<decimal>(type: "decimal(9,6)", precision: 9, scale: 6, nullable: false),
+                    SupportNumber = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Deleted = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_VendingMachines", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -234,10 +235,10 @@ namespace SampleWebApp.Migrations
                 name: "CountryLocalNames");
 
             migrationBuilder.DropTable(
-                name: "Stores");
+                name: "StoreSecurityPasswords");
 
             migrationBuilder.DropTable(
-                name: "StoreSecurityPasswords");
+                name: "VendingMachines");
 
             migrationBuilder.DropTable(
                 name: "Countries");

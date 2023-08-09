@@ -36,7 +36,7 @@ public class ODataDbContext : DbContext
         
         public DbSet<CurrencyDto> Currencies { get; set; } = null!;
         
-        public DbSet<StoreDto> Stores { get; set; } = null!;
+        public DbSet<VendingMachineDto> VendingMachines { get; set; } = null!;
         
         public DbSet<StoreSecurityPasswordsDto> StoreSecurityPasswords { get; set; } = null!;
         

@@ -11,8 +11,8 @@ namespace SampleWebApp.Application.Behavior
         public static IServiceCollection AddSecurityValidators(this IServiceCollection services)
         {
             return services
-                .AddSingleton<IValidator<GetStoreByIdQuery>, GetStoreByIdSecurityValidator>()
-                .AddScoped<IPipelineBehavior<GetStoresQuery, IQueryable<StoreDto>>, GetStoresQuerySecurityFilter> ();
+                .AddSingleton<IValidator<GetVendingMachineByIdQuery>, GetVendingMachineByIdSecurityValidator>()
+                .AddScoped<IPipelineBehavior<GetVendingMachinesQuery, IQueryable<VendingMachineDto>>, GetVendingMachinesQuerySecurityFilter>();
         }
     }
 }

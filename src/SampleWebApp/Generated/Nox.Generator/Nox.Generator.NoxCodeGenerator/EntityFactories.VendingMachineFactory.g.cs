@@ -18,11 +18,11 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application;
 
-public class StoreFactory: EntityFactoryBase<StoreCreateDto, Store>
+public class VendingMachineFactory: EntityFactoryBase<VendingMachineCreateDto, VendingMachine>
 {
-    public  StoreFactory(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public  VendingMachineFactory(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
 
-    protected override void MapEntity(Store entity, Entity entityDefinition, StoreCreateDto dto)
+    protected override void MapEntity(VendingMachine entity, Entity entityDefinition, VendingMachineCreateDto dto)
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
@@ -43,10 +43,10 @@ public class StoreFactory: EntityFactoryBase<StoreCreateDto, Store>
         {        
             entity.LatLong = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Phone",dto.Phone);
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"SupportNumber",dto.SupportNumber);
         if(noxTypeValue != null)
         {        
-            entity.Phone = noxTypeValue;
+            entity.SupportNumber = noxTypeValue;
         }
     }
 }

@@ -9,20 +9,20 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetStoreByIdQuery(System.UInt32 key) : IRequest<StoreDto?>;
+public record GetVendingMachineByIdQuery(System.UInt64 key) : IRequest<VendingMachineDto?>;
 
-public class GetStoreByIdQueryHandler: IRequestHandler<GetStoreByIdQuery, StoreDto?>
+public class GetVendingMachineByIdQueryHandler: IRequestHandler<GetVendingMachineByIdQuery, VendingMachineDto?>
 {
-    public  GetStoreByIdQueryHandler(ODataDbContext dataDbContext)
+    public  GetVendingMachineByIdQueryHandler(ODataDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public ODataDbContext DataDbContext { get; }
 
-    public Task<StoreDto?> Handle(GetStoreByIdQuery request, CancellationToken cancellationToken)
+    public Task<VendingMachineDto?> Handle(GetVendingMachineByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.Stores
+        var item = DataDbContext.VendingMachines
             .AsNoTracking()
             .SingleOrDefault(r => !(r.Deleted == true) && r.Id.Equals(request.key));            
         return Task.FromResult(item);
