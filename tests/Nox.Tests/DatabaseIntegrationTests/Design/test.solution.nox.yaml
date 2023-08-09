@@ -445,6 +445,9 @@ domain:
 
         - name: UrlTestField
           type: url
+        
+        - name: DateTimeScheduleTestField
+          type: dateTimeSchedule
 
         - name: FormulaTestField
           type: formula

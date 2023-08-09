@@ -218,7 +218,7 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Time? TimeTestField { get; set; } = null!;
+    public Nox.Types.Time? TimeTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -249,6 +249,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public Nox.Types.Url? UrlTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Nox.Types.DateTimeSchedule? DateTimeScheduleTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
