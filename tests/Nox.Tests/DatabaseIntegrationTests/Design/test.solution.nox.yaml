@@ -309,7 +309,7 @@ domain:
         
         - name: CurrencyCode3TestField
           type: currencyCode3
-          
+
         - name: DayOfWeekTestField
           type: dayOfWeek
 
@@ -343,8 +343,8 @@ domain:
         #- name: DateTimeTestField
         #  type: dateTime
 
-        #- name: DateTimeRangeTestField
-        #  type: dateTimeRange
+        - name: DateTimeRangeTestField
+          type: dateTimeRange
 
         - name: DistanceTestField
           type: distance
@@ -366,7 +366,7 @@ domain:
 
         - name: IpAddressV4TestField
           type: ipAddress
-          
+
         - name: IpAddressV6TestField
           type: ipAddress
 
@@ -418,7 +418,7 @@ domain:
 
         - name: LanguageCodeTestField
           type: languageCode
-          
+
         - name: YamlTestField
           type: yaml
 
@@ -427,7 +427,7 @@ domain:
 
         - name: VatNumberTestField
           type: vatNumber
-            
+
         - name: DateTestField
           type: date
 
@@ -436,6 +436,9 @@ domain:
 
         - name: FileTestField
           type: file
+
+        - name: ColorTestField
+          type: color
 
         - name: UrlTestField
           type: url

@@ -77,7 +77,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             InternetDomain = InternetDomain.From("admin.ch"),
             CountryCode3 = CountryCode3.From("CHE"),
             IPAddress = IpAddress.From("102.129.143.255"),
-            DateTimeRange = DateTimeRange.From(new System.DateTime(2023, 01, 01), new System.DateTime(2023, 02, 01)),
+            DateTimeRange = DateTimeRange.From(new DateTimeOffset(2023, 01, 01, 0, 0, 0, TimeSpan.Zero), new DateTimeOffset(2023, 02, 01, 0, 0, 0, TimeSpan.Zero)),
             LongestHikingTrailInMeters = Length.From(390_000),
             MACAddress = MacAddress.From("AE-D4-32-2C-CF-EF"),
             Flag = Image.From("https://upload.wikimedia.org/wikipedia/commons/thumb/f/f3/Flag_of_Switzerland.svg/320px-Flag_of_Switzerland.svg.png", "Switzerland Flag", 512),
@@ -148,7 +148,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             CountryNumber = CountryNumber.From(756),
             MonthOfPeakTourism = Month.From(7),
             DistanceInKm = Distance.From(129.522785),
-            DateTimeRange = DateTimeRange.From(new System.DateTime(2023, 01, 01), new System.DateTime(2023, 02, 01)),
+            DateTimeRange = DateTimeRange.From(new DateTimeOffset(2023, 01, 01, 0, 0, 0, TimeSpan.Zero), new DateTimeOffset(2023, 02, 01, 0, 0, 0, TimeSpan.Zero)),
             InternetDomain = InternetDomain.From("admin.ch"),
             CountryCode3 = CountryCode3.From("CHE"),
             IPAddress = IpAddress.From("102.129.143.255"),
@@ -216,8 +216,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.InternetDomain.Value.Should().Be("admin.ch");
         item.CountryCode3.Value.Should().Be("CHE");
         item.IPAddress.Value.Should().Be("102.129.143.255");
-        item.DateTimeRange.Start.Should().Be(new System.DateTime(2023, 01, 01));
-        item.DateTimeRange.End.Should().Be(new System.DateTime(2023, 02, 01));
+        item.DateTimeRange.Start.Should().Be(new DateTimeOffset(2023, 01, 01, 0, 0, 0, 0, TimeSpan.Zero));
+        item.DateTimeRange.End.Should().Be(new DateTimeOffset(2023, 02, 01, 0, 0, 0, TimeSpan.Zero));
         item.LongestHikingTrailInMeters.Value.Should().Be(390_000);
         item.LongestHikingTrailInMeters.Unit.Should().Be(LengthTypeUnit.Meter);
         item.MACAddress.Value.Should().Be("AED4322CCFEF");

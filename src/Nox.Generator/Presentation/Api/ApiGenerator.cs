@@ -9,9 +9,11 @@ using static Nox.Generator.Common.BaseGenerator;
 
 namespace Nox.Generator.Presentation.Api;
 
-internal static class ApiGenerator
+internal class ApiGenerator : INoxCodeGenerator
 {
-    public static void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState)
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Presentation;
+
+    public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -59,7 +61,6 @@ internal static class ApiGenerator
             code.AppendLine("using MediatR;");
             code.AppendLine("using Nox.Application;");
 
-
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace};");
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Dto;");
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Queries;");
@@ -83,7 +84,6 @@ internal static class ApiGenerator
 
             AddField(code, "IMapper", "mapper", "The Automapper");
             AddField(code, "IMediator", "mediator", "The Mediator");
-
 
             var constructorParameters = new Dictionary<string, string>
                 {
@@ -208,7 +208,7 @@ internal static class ApiGenerator
             Debug.WriteLine("Put for composite keys Not implemented...");
             return;
         }
-        
+
         // Method Put
         code.AppendLine($"public async Task<ActionResult> Put([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] {entity.Name}Dto updated{entity.Name})");
 
@@ -314,7 +314,6 @@ internal static class ApiGenerator
     {
         // Method Post
         code.AppendLine($"public async Task<ActionResult> Post([FromBody]{entityName}CreateDto {variableName})");
-
 
         // Method content
         code.StartBlock();

@@ -39,5 +39,5 @@ public partial class TestEntityWithNuid : AuditableEntityBase
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Name { get; set; } = null!;
+    public Nox.Types.Text Name { get; set; } = null!;
 }

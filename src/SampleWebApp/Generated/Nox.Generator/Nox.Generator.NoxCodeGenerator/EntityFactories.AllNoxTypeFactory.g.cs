@@ -52,8 +52,11 @@ public class AllNoxTypeFactory: EntityFactoryBase<AllNoxTypeCreateDto, AllNoxTyp
         {        
             entity.FileField = noxTypeValue;
         }
-
-        // TODO map TranslatedTextField TranslatedText remaining types and remove if else
+        noxTypeValue =  CreateNoxType<TranslatedText>(entityDefinition,"TranslatedTextField",dto.TranslatedTextField);
+        if(noxTypeValue != null)
+        {        
+            entity.TranslatedTextField = noxTypeValue;
+        }
         noxTypeValue =  CreateNoxType<VatNumber>(entityDefinition,"VatNumberField",dto.VatNumberField);
         if(noxTypeValue != null)
         {        
@@ -68,7 +71,10 @@ public class AllNoxTypeFactory: EntityFactoryBase<AllNoxTypeCreateDto, AllNoxTyp
         }
 
         // TODO map HashedTexField HashedText remaining types and remove if else
-
-        // TODO map LatLongField LatLong remaining types and remove if else
+        noxTypeValue =  CreateNoxType<LatLong>(entityDefinition,"LatLongField",dto.LatLongField);
+        if(noxTypeValue != null)
+        {        
+            entity.LatLongField = noxTypeValue;
+        }
     }
 }
