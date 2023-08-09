@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis;
@@ -42,7 +43,7 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         Assert.Single(allOutputs);
 
         var generatedSources = result.GeneratedSources;
-        Assert.Equal(19, generatedSources.Length);
+        Assert.Equal(29, generatedSources.Length);
         Assert.True(generatedSources.Any(s => s.HintName == "NoxWebApplicationExtensions.g.cs"), "NoxWebApplicationExtensions.g.cs not generated");
 
         // Check base files
@@ -56,9 +57,17 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         Assert.True(generatedSources.Any(s => s.HintName == "GetCountriesByContinentQueryBase.g.cs"), "GetCountriesByContinentQuery.g.cs not generated");
 
         // check controllers
-        var controllerFileName = "Controllers.CountriesController.g.cs";
-        Assert.True(generatedSources.Any(s => s.HintName == controllerFileName), $"{controllerFileName} not generated");
-        Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/Controllers.CountriesController.g.cs"), generatedSources.First(s => s.HintName == controllerFileName).SourceText.ToString());
+        CheckController("Controllers.CountriesController.g.cs", generatedSources);
+        CheckController("Controllers.CompoundKeysEntitiesController.g.cs", generatedSources);
+
         //can further extend this test to verify contents of source files.
+    }
+
+    private void CheckController(string controllerFileName, ImmutableArray<GeneratedSourceResult> generatedSources)
+    {
+        Assert.True(generatedSources.Any(s => s.HintName == controllerFileName), $"{controllerFileName} not generated");
+        Assert.Equal(File.ReadAllText($"./ExpectedGeneratedFiles/{controllerFileName}"), 
+            generatedSources.First(s => s.HintName == controllerFileName).SourceText.ToString());
+
     }
 }
