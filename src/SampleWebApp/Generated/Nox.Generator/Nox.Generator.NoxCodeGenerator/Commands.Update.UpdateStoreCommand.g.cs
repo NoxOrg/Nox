@@ -15,9 +15,9 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateStoreCommand(StoreDto EntityDto) : IRequest;
+public record UpdateStoreCommand(System.String key, StoreDto EntityDto) : IRequest<bool>;
 
-public class UpdateStoreCommandHandler: CommandBase, IRequestHandler<UpdateStoreCommand>
+public class UpdateStoreCommandHandler: CommandBase, IRequestHandler<UpdateStoreCommand, bool>
 {
     public SampleWebAppDbContext DbContext { get; }    
 
@@ -29,14 +29,16 @@ public class UpdateStoreCommandHandler: CommandBase, IRequestHandler<UpdateStore
         DbContext = dbContext;        
     }
     
-    public async Task Handle(UpdateStoreCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(UpdateStoreCommand request, CancellationToken cancellationToken)
     {
-        await Task.Delay(10);
-        return;
-        //var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
-        ////TODO for nuid property or key needs to call ensure id        
-        //DbContext.Stores.Add(entityToCreate);
-        //await DbContext.SaveChangesAsync();
-        //return entityToCreate.Id;
+        var entity = await DbContext.Stores.FindAsync(CreateNoxTypeForKey<Store,Text>("Id", request.EntityDto));
+        if (entity == null)
+        {
+            return false;
+        }
+        // Todo map dto
+        DbContext.Entry(entity).State = EntityState.Modified;
+        var result = await DbContext.SaveChangesAsync();             
+        return result > 0;        
     }
 }

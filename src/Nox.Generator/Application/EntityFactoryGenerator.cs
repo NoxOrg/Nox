@@ -16,7 +16,7 @@ internal class EntityFactoryGenerator : INoxCodeGenerator
         {
             return;
         }
-
+        
         var templateName = @"Application.EntityFactory";
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {

@@ -15,9 +15,9 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateCurrencyCommand(CurrencyDto EntityDto) : IRequest;
+public record UpdateCurrencyCommand(System.UInt32 key, CurrencyDto EntityDto) : IRequest<bool>;
 
-public class UpdateCurrencyCommandHandler: CommandBase, IRequestHandler<UpdateCurrencyCommand>
+public class UpdateCurrencyCommandHandler: CommandBase, IRequestHandler<UpdateCurrencyCommand, bool>
 {
     public SampleWebAppDbContext DbContext { get; }    
 
@@ -29,14 +29,16 @@ public class UpdateCurrencyCommandHandler: CommandBase, IRequestHandler<UpdateCu
         DbContext = dbContext;        
     }
     
-    public async Task Handle(UpdateCurrencyCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(UpdateCurrencyCommand request, CancellationToken cancellationToken)
     {
-        await Task.Delay(10);
-        return;
-        //var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
-        ////TODO for nuid property or key needs to call ensure id        
-        //DbContext.Currencies.Add(entityToCreate);
-        //await DbContext.SaveChangesAsync();
-        //return entityToCreate.Id;
+        var entity = await DbContext.Currencies.FindAsync(CreateNoxTypeForKey<Currency,Nuid>("Id", request.EntityDto));
+        if (entity == null)
+        {
+            return false;
+        }
+        // Todo map dto
+        DbContext.Entry(entity).State = EntityState.Modified;
+        var result = await DbContext.SaveChangesAsync();             
+        return result > 0;        
     }
 }

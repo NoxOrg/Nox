@@ -15,9 +15,9 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateStoreSecurityPasswordsCommand(StoreSecurityPasswordsDto EntityDto) : IRequest;
+public record UpdateStoreSecurityPasswordsCommand(System.String key, StoreSecurityPasswordsDto EntityDto) : IRequest<bool>;
 
-public class UpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRequestHandler<UpdateStoreSecurityPasswordsCommand>
+public class UpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRequestHandler<UpdateStoreSecurityPasswordsCommand, bool>
 {
     public SampleWebAppDbContext DbContext { get; }    
 
@@ -29,14 +29,16 @@ public class UpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRequestHa
         DbContext = dbContext;        
     }
     
-    public async Task Handle(UpdateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(UpdateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
     {
-        await Task.Delay(10);
-        return;
-        //var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
-        ////TODO for nuid property or key needs to call ensure id        
-        //DbContext.StoreSecurityPasswords.Add(entityToCreate);
-        //await DbContext.SaveChangesAsync();
-        //return entityToCreate.Id;
+        var entity = await DbContext.StoreSecurityPasswords.FindAsync(CreateNoxTypeForKey<StoreSecurityPasswords,Text>("Id", request.EntityDto));
+        if (entity == null)
+        {
+            return false;
+        }
+        // Todo map dto
+        DbContext.Entry(entity).State = EntityState.Modified;
+        var result = await DbContext.SaveChangesAsync();             
+        return result > 0;        
     }
 }
