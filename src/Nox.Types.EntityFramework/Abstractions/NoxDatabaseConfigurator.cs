@@ -81,21 +81,17 @@ namespace Nox.Types.EntityFramework.Abstractions
 
         private void SetupForeignKey(NoxSolutionCodeGeneratorState codeGeneratorState, EntityTypeBuilder builder, Entity entity, EntityRelationshipWithType relationshipToCreate)
         {
-                    // Right now assuming that there is always one key present
-                    var key = relationshipToCreate.Relationship.Related.Entity.Keys![0];
-                    if (TypesDatabaseConfigurations.TryGetValue(key.Type,
-                        out var databaseConfiguration))
-                    {
-                        var keyToBeConfigured = key.ShallowCopy();
-                        keyToBeConfigured.Name = $"{relationshipToCreate.Relationship.Related.Entity.Name}Id";
-                        keyToBeConfigured.Description = $"Foreign key for entity {relationshipToCreate.Relationship.Related.Entity.Name}";
+            // Right now assuming that there is always one key present
+            var key = relationshipToCreate.Relationship.Related.Entity.Keys![0];
+            if (TypesDatabaseConfigurations.TryGetValue(key.Type,
+                out var databaseConfiguration))
+            {
+                var keyToBeConfigured = key.ShallowCopy();
+                keyToBeConfigured.Name = $"{relationshipToCreate.Relationship.Related.Entity.Name}Id";
+                keyToBeConfigured.Description = $"Foreign key for entity {relationshipToCreate.Relationship.Related.Entity.Name}";
                 keyToBeConfigured.IsRequired = false;
-                        keyToBeConfigured.IsReadonly = false;
-                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, keyToBeConfigured, entity, false);
-                    }
-                }
-
-                builder.Ignore(relationshipToCreate.Relationship.Name);
+                keyToBeConfigured.IsReadonly = false;
+                databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, keyToBeConfigured, entity, false);
             }
         }
 
