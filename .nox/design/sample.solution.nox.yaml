@@ -250,7 +250,7 @@ domain:
           description: The sub-region the country is in
           type: text
           textTypeOptions:
-            isUnicode: true
+            isUnicode: false
             maxLength: 32
           isRequired: true
 

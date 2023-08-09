@@ -95,15 +95,15 @@ public string ToString(IFormatProvider formatProvider)
 To add security, or other business rule to generated queries, commands, orr custom queries, add an IValidator for the query, example for securing GetStoreByIdquery
 
 ```c#
- public class GetStoreByIdSecurityValidator : AbstractValidator<GetStoreByIdQuery>
+ public class GetVendingMachineByIdSecurityValidator : AbstractValidator<GetVendingMachineByIdQuery>
     {
-        public GetStoreByIdSecurityValidator(ILogger<GetStoreByIdQuery> logger)
+        public GetVendingMachineByIdSecurityValidator(ILogger<GetVendingMachineByIdQuery> logger)
         {
             // For the Current User
-            // TODO Get Stores that he can see.... 
+            // TODO Get Vending machines that he can see.... 
 
             // Do Validation The current user can only see EUR Store
-            RuleFor(query => query.key).Must(key => key == Nuid.From("Shippi Tivoli Einkaufscenter.Shopping Center, 8957 Spreitenbach, CH").Value).WithMessage("No permissions to access this store");            
+            RuleFor(query => query.key).Must(key => key == 1).WithMessage("No permissions to access this Vending Machine");            
         }
     }
 ```
@@ -111,7 +111,7 @@ To add security, or other business rule to generated queries, commands, orr cust
 The validator will be excuted before the request. Add the validator to the service collection.
 
 ```c#
-services.AddSingleton<IValidator<Queries.GetStoreByIdQuery>, GetStoreByIdSecurityValidator>();
+services.AddSingleton<IValidator<Queries.GetVendingMachineByIdQuery>, GetVendingMachineByIdSecurityValidator>();
 ```
 
 Response:

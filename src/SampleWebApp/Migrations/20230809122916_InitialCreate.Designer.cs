@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230809122107_InitialCreate")]
+    [Migration("20230809122916_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -200,8 +200,8 @@ namespace SampleWebApp.Migrations
                     b.Property<string>("GeoSubRegion")
                         .IsRequired()
                         .HasMaxLength(32)
-                        .IsUnicode(true)
-                        .HasColumnType("nvarchar(32)");
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(32)");
 
                     b.Property<string>("GeoWorldRegion")
                         .IsRequired()

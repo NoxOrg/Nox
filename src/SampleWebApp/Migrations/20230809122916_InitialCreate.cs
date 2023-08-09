@@ -85,7 +85,7 @@ namespace SampleWebApp.Migrations
                     GeoCoord_Latitude = table.Column<decimal>(type: "decimal(8,6)", precision: 8, scale: 6, nullable: true),
                     GeoCoord_Longitude = table.Column<decimal>(type: "decimal(9,6)", precision: 9, scale: 6, nullable: true),
                     GeoRegion = table.Column<string>(type: "varchar(16)", unicode: false, maxLength: 16, nullable: false),
-                    GeoSubRegion = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    GeoSubRegion = table.Column<string>(type: "varchar(32)", unicode: false, maxLength: 32, nullable: false),
                     GeoWorldRegion = table.Column<string>(type: "varchar(32)", unicode: false, maxLength: 32, nullable: false),
                     Population = table.Column<int>(type: "int", nullable: true),
                     TopLevelDomains = table.Column<string>(type: "nvarchar(31)", maxLength: 31, nullable: true),
