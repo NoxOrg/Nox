@@ -17,6 +17,26 @@ public class SolutionBuilderTests
     }
 
     [Fact]
+    public void Can_get_instance_after_builder_build()
+    {
+        var noxConfig = new NoxSolutionBuilder()
+            .UseYamlFile("./files/minimal.solution.nox.yaml")
+            .Build();
+        var instance = NoxSolutionBuilder.Instance;
+        Assert.NotNull(instance);
+        Assert.NotNull(instance);
+        Assert.Equal("MinimalService", instance.Name);
+        Assert.Equal("Minimal yaml file for tests", instance.Description);
+    }
+
+    [Fact]
+    public void Instance_must_be_null_if_not_built()
+    {
+        var instance = NoxSolutionBuilder.Instance;
+        Assert.Null(instance);
+    }
+
+    [Fact]
     public void Throw_if_set_yaml_file_does_not_exist()
     {
         var noxConfigBuilder = new NoxSolutionBuilder()

@@ -23,8 +23,8 @@ namespace Nox.Solution
         private bool _mustThrowIfYamlNotFound = true;
 
         private EnvironmentVariableValueProvider _environmentVariableValueProvider = new (new EnvironmentProvider());
-        
-        
+
+        public static NoxSolution? Instance { get; internal set; }
 
         public delegate void ResolveSecretsEventHandler(object sender, INoxSolutionSecretsEventArgs args);
         public event ResolveSecretsEventHandler? OnResolveSecretsEvent;
@@ -70,7 +70,7 @@ namespace Nox.Solution
             var config = ResolveAndLoadConfiguration();
 
             config.Validate();
-
+            Instance = config;
             return config;
         }
 
