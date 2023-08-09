@@ -18,11 +18,11 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application;
 
-public class CurrencyFactory: EntityFactoryBase<CurrencyCreateDto, Currency>
+public class StoreMapper: EntityMapperBase<Store>
 {
-    public  CurrencyFactory(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public  StoreMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
 
-    protected override void MapEntity(Currency entity, Entity entityDefinition, CurrencyCreateDto dto)
+    public override void MapToEntity(Store entity, Entity entityDefinition, dynamic dto)
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
@@ -32,6 +32,11 @@ public class CurrencyFactory: EntityFactoryBase<CurrencyCreateDto, Currency>
         if(noxTypeValue != null)
         {        
             entity.Name = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"PhysicalMoney",dto.PhysicalMoney);
+        if(noxTypeValue != null)
+        {        
+            entity.PhysicalMoney = noxTypeValue;
         }
     }
 }

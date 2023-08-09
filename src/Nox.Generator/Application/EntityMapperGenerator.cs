@@ -4,7 +4,7 @@ using Nox.Solution;
 
 namespace Nox.Generator.Application.Commands;
 
-internal class EntityFactoryGenerator : INoxCodeGenerator
+internal class EntityMapperGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
 
@@ -17,14 +17,14 @@ internal class EntityFactoryGenerator : INoxCodeGenerator
             return;
         }
         
-        var templateName = @"Application.EntityFactory";
+        var templateName = @"Application.EntityMapper";
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"{entity.Name}Factory")
-                .WithFileNamePrefix($"EntityFactories")
+                .WithClassName($"{entity.Name}Mapper")
+                .WithFileNamePrefix($"Factories")
                 .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource(templateName);
         }

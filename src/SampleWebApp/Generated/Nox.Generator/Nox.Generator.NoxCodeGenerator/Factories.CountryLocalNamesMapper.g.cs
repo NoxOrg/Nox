@@ -18,11 +18,11 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application;
 
-public class CountryLocalNamesFactory: EntityFactoryBase<CountryLocalNamesCreateDto, CountryLocalNames>
+public class CountryLocalNamesMapper: EntityMapperBase<CountryLocalNames>
 {
-    public  CountryLocalNamesFactory(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public  CountryLocalNamesMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
 
-    protected override void MapEntity(CountryLocalNames entity, Entity entityDefinition, CountryLocalNamesCreateDto dto)
+    public override void MapToEntity(CountryLocalNames entity, Entity entityDefinition, dynamic dto)
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;

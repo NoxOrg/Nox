@@ -18,11 +18,11 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application;
 
-public class StoreSecurityPasswordsFactory: EntityFactoryBase<StoreSecurityPasswordsCreateDto, StoreSecurityPasswords>
+public class StoreSecurityPasswordsMapper: EntityMapperBase<StoreSecurityPasswords>
 {
-    public  StoreSecurityPasswordsFactory(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public  StoreSecurityPasswordsMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
 
-    protected override void MapEntity(StoreSecurityPasswords entity, Entity entityDefinition, StoreSecurityPasswordsCreateDto dto)
+    public override void MapToEntity(StoreSecurityPasswords entity, Entity entityDefinition, dynamic dto)
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
