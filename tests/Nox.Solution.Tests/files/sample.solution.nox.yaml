@@ -401,17 +401,17 @@ application:
         name: Country
         targetType: entity
         
-  localization:
-
-    supportedCultures:
-      - en-GB
-      - en-US
-      - de-CH
-      - fr-CH
-      - it-CH
-      - fr-FR
-
-    defaultCulture: en-GB
+#  localization:
+#
+#    supportedCultures:
+#      - en-GB
+#      - en-US
+#      - de-CH
+#      - fr-CH
+#      - it-CH
+#      - fr-FR
+#
+#    defaultCulture: en-GB
        
 
 infrastructure:
