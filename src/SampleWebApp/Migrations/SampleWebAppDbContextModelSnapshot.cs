@@ -17,7 +17,7 @@ namespace SampleWebApp.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -89,11 +89,38 @@ namespace SampleWebApp.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
 
+                    b.Property<DateTime?>("TimeField")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("TimeZoneCodeField")
+                        .HasMaxLength(5)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(5)");
+
                     b.Property<DateTime?>("UpdatedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("UriField")
+                        .HasMaxLength(2083)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(2083)");
+
+                    b.Property<string>("UrlField")
+                        .HasMaxLength(2083)
+                        .HasColumnType("nvarchar(2083)");
+
+                    b.Property<decimal?>("VolumeField")
+                        .HasColumnType("DECIMAL(9, 6)");
+
+                    b.Property<decimal?>("WeightField")
+                        .HasColumnType("DECIMAL(9, 6)");
+
+                    b.Property<string>("YamlField")
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)");
 
                     b.HasKey("Id");
 
