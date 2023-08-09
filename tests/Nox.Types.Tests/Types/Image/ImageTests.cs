@@ -26,7 +26,18 @@ public class ImageTests
 
         // Assert
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Image type with an empty Url.") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Url", "Could not create a Nox Image type with an empty Url.") });
+    }
+
+    [Fact]
+    public void Image_WithUrlLongerThanMaxAllowed_ShouldBeInvalid()
+    {
+        // Arrange & Act
+        var action = () => Image.From("https://www.example.com/abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890abcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrst/image.jpg", "Image1", 100);
+
+        // Assert
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Url", "Could not create a Nox Image type with an Url length greater than max allowed length of 2083.") });
     }
 
     [Fact]
@@ -37,7 +48,18 @@ public class ImageTests
 
         // Assert
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Image type with an empty PrettyName.") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("PrettyName", "Could not create a Nox Image type with an empty PrettyName.") });
+    }
+
+    [Fact]
+    public void Image_WithPrettyNameLongerThanMaxAllowed_ShouldBeInvalid()
+    {
+        // Arrange & Act
+        var action = () => Image.From("https://example.com/image.jpg", "LoremipsumdolorsitametconsecteturadipisicingelitseddoeiusmodtemporincididuntutlaboreetdoloremagnaaliquaUtencimadminimveniamquisnostrudexercitationullamcolaborisnisiutaliquipexeacommodoconsequatDuisautereprehenderitvoluptatevelitesscillumdoloreeufugiatnullapariaturexcepteursintoccaecatcupidatatnonproidentsuntinculpaquiofficiadeseruntmollitanimidestlaborumIpsumsuscipitlaboreetdoloremquesuntinerrorreprehendereavoluptatemcupiditateprovidentquodexplicabononminusquiaipsumquianumquamadmodisuntvoluptasreprehenderitdolorumquianonrationevoluptatemseundaequamrerumquidemquiamollitiaadipiscielitIustoorerumnobissedquismagnamaliquamquiaconsequunturmagnido", 100);
+
+        // Assert
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("PrettyName", "Could not create a Nox Image type with a PrettyName length greater than max allowed length of 511.") });
     }
 
     [Fact]
@@ -48,7 +70,7 @@ public class ImageTests
 
         // Assert
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Image type with a Size of 0.") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("SizeInBytes", "Could not create a Nox Image type with a Size of 0.") });
     }
 
     [Theory]
@@ -60,7 +82,7 @@ public class ImageTests
 
         // Assert
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox Image type with an image having an unsupported extension '{url}'.") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Url", $"Could not create a Nox Image type with an image having an unsupported extension '{url}'.") });
     }
 
     [Fact]
@@ -71,7 +93,7 @@ public class ImageTests
 
         // Assert
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Image type with an invalid Url 'invalid url'.") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Url", "Could not create a Nox Image type with an invalid Url 'invalid url'.") });
     }
 
     [Fact]
@@ -88,7 +110,7 @@ public class ImageTests
 
         // Assert
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", "Could not create a Nox Image type with an image having an unsupported extension 'https://example.com/image.png'.") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Url", "Could not create a Nox Image type with an image having an unsupported extension 'https://example.com/image.png'.") });
     }
 
     [Fact]

@@ -120,6 +120,10 @@ public class SqliteIntegrationTests : SqliteTestBase
         var dateTimeRangeStart = new DateTimeOffset(2023, 4, 12, 0, 0, 0, TimeSpan.FromHours(3));
         var dateTimeRangeEnd = new DateTimeOffset(2023, 7, 10, 0, 0, 0, TimeSpan.FromHours(5));
 
+        var imageUrl = "https://example.com/image.png";
+        var imagePrettyName = "Image";
+        var imageSizeInBytes = 128;
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -169,6 +173,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             UriTestField = Types.Uri.From(sampleUri),
             GeoCoordTestField = LatLong.From(latitude, longitude),
             DateTimeRangeTestField = DateTimeRange.From(dateTimeRangeStart, dateTimeRangeEnd),
+            ImageTestField = Image.From(imageUrl, imagePrettyName, imageSizeInBytes),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -245,6 +250,9 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
         testEntity.DateTimeRangeTestField!.Start.Should().Be(dateTimeRangeStart);
         testEntity.DateTimeRangeTestField!.End.Should().Be(dateTimeRangeEnd);
+        testEntity.ImageTestField!.Url.Should().Be(imageUrl);
+        testEntity.ImageTestField!.PrettyName.Should().Be(imagePrettyName);
+        testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
     }
 
     [Fact]

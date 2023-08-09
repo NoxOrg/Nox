@@ -9,6 +9,9 @@ namespace Nox.Types;
 /// </summary>
 public sealed class File : ValueObject<(string Url, string PrettyName, ulong SizeInBytes), File>
 {
+    public const int MaxUrlLength = 2083;
+    public const int MaxPrettyNameLength = 511;
+
     private FileTypeOptions _fileTypeOptions = new();
 
     /// <summary>
@@ -108,6 +111,10 @@ public sealed class File : ValueObject<(string Url, string PrettyName, ulong Siz
         {
             result.Errors.Add(new ValidationFailure(nameof(Value.Url), "Could not create a Nox File type with an empty Url."));
         }
+        else if (Value.Url.Length > MaxUrlLength)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value.Url), $"Could not create a Nox File type with an Url length greater than max allowed length of {MaxUrlLength}."));
+        }
         else if (!System.Uri.TryCreate(Value.Url, UriKind.Absolute, out _))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value.Url), $"Could not create a Nox File type with an invalid Url '{Value.Url}'."));
@@ -120,6 +127,10 @@ public sealed class File : ValueObject<(string Url, string PrettyName, ulong Siz
         if (string.IsNullOrWhiteSpace(Value.PrettyName))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value.PrettyName), "Could not create a Nox File type with an empty PrettyName."));
+        }
+        else if (Value.PrettyName.Length > MaxPrettyNameLength)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value.PrettyName), $"Could not create a Nox File type with a PrettyName length greater than max allowed length of {MaxPrettyNameLength}."));
         }
 
         return result;
