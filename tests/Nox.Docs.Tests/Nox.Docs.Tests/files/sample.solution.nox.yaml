@@ -498,10 +498,10 @@ infrastructure:
       serverUri: localhost
       port: 8200
 
-    translations:
-      name: SampleTranslationService
-      serverUri: translator.iwgplc.com
-      port: 443
+#    translations:
+#      name: SampleTranslationService
+#      serverUri: translator.iwgplc.com
+#      port: 443
 
     dataConnections:
       - name: CountryJsonData

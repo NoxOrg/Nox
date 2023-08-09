@@ -44,6 +44,54 @@ attributes:
         expression: "CountryCode2Field.ToString()"
         returns: string
 
+  - name: YamlField
+    description: Yaml Nox Type
+    type: yaml
+    isRequired: true
+
+  - name: WeightField
+    description: Weight Nox Type
+    type: weight
+    weightTypeOptions:
+        minValue: 10
+        maxValue: 300
+    isRequired: true
+
+  - name: VolumeField
+    description: Volume Nox Type
+    type: volume
+    volumeTypeOptions:
+        minValue: 100
+        maxValue: 500
+    isRequired: true
+
+  #- name: UserField
+  #  description: User Nox Type
+  #  type: user
+  #  userTypeOptions:
+  #      minLength: 10
+  #      maxLength: 200
+  #  isRequired: true
+
+  - name: UrlField
+    description: Url Nox Type
+    type: url
+    isRequired: true
+
+  - name: UriField
+    description: Uri Nox Type
+    type: uri
+    isRequired: true
+
+  - name: TimeZoneCodeField
+    description: TimeZoneCode Nox Type
+    type: timeZoneCode
+
+  - name: TimeField
+    description: Time Nox Type
+    type: time    
+    isRequired: true
+
   - name: NumberField
     description: NumberField Nox Type
     type: number   

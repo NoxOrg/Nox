@@ -180,10 +180,11 @@ infrastructure:
       serverUri: localhost
       port: 8200
 
-    translations:
+    uiLocalizations:
       name: SampleTranslationService
+      provider: sqlServer
       serverUri: translator.iwgplc.com
-      port: 443
+      port: 1433
 
     dataConnections:
       - name: CountryJsonData

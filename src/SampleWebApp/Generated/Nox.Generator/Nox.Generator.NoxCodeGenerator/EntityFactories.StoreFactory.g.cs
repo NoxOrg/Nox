@@ -12,8 +12,6 @@ using Nox.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
-using File = Nox.Types.File;
-using Boolean = Nox.Types.Boolean;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
@@ -30,22 +28,22 @@ public class StoreFactory: EntityFactoryBase<StoreCreateDto, Store>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
     
-        noxTypeValue =  CreateNoxType<Text>(entityDefinition,"Name",dto.Name);
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",dto.Name);
         if(noxTypeValue != null)
         {        
             entity.Name = noxTypeValue;
         }
-        noxTypeValue =  CreateNoxType<StreetAddress>(entityDefinition,"Address",dto.Address);
+        noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition,"Address",dto.Address);
         if(noxTypeValue != null)
         {        
             entity.Address = noxTypeValue;
         }
-        noxTypeValue =  CreateNoxType<LatLong>(entityDefinition,"LatLong",dto.LatLong);
+        noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition,"LatLong",dto.LatLong);
         if(noxTypeValue != null)
         {        
             entity.LatLong = noxTypeValue;
         }
-        noxTypeValue =  CreateNoxType<Text>(entityDefinition,"Phone",dto.Phone);
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Phone",dto.Phone);
         if(noxTypeValue != null)
         {        
             entity.Phone = noxTypeValue;

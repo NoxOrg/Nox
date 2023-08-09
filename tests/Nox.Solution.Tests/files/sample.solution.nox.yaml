@@ -400,6 +400,19 @@ application:
       target:
         name: Country
         targetType: entity
+        
+#  localization:
+#
+#    supportedCultures:
+#      - en-GB
+#      - en-US
+#      - de-CH
+#      - fr-CH
+#      - it-CH
+#      - fr-FR
+#
+#    defaultCulture: en-GB
+       
 
 infrastructure:
   
@@ -495,10 +508,21 @@ infrastructure:
       serverUri: localhost
       port: 8200
 
-    translations:
-      name: SampleTranslationService
-      serverUri: translator.iwgplc.com
-      port: 443
+    uiLocalizations:
+      name: SampleCurrencyDb.Localization
+
+      # Sql Server
+      serverUri: sqlserver.iwgplc.com
+      provider: sqlServer
+      port: 1433
+      user: sqluser
+      password: sqlpassword
+
+      ### Postgres
+      #provider: postgres
+
+      ### MySql  
+      #provider: mySql
 
     dataConnections:
       - name: CountryJsonData
