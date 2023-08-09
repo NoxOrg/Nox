@@ -62,11 +62,6 @@ public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset E
         }
     }
 
-    public new static DateTimeRange FromDatabase((DateTimeOffset start, DateTimeOffset end) value)
-    {
-        return new DateTimeRange { Value = value };
-    }
-
     /// <summary>
     /// Gets the duration of the date time range.
     /// </summary>
