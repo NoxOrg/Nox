@@ -15,7 +15,7 @@ namespace SampleWebApp.Migrations
                 name: "AllNoxTypes",
                 columns: table => new
                 {
-                    Id = table.Column<decimal>(type: "decimal(20,0)", nullable: false)
+                    Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     NuidField = table.Column<long>(type: "bigint", nullable: true),
                     BooleanField = table.Column<bool>(type: "bit", nullable: true),
@@ -27,7 +27,7 @@ namespace SampleWebApp.Migrations
                     UrlField = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: true),
                     UriField = table.Column<string>(type: "varchar(2083)", unicode: false, maxLength: 2083, nullable: true),
                     TimeZoneCodeField = table.Column<string>(type: "varchar(5)", unicode: false, maxLength: 5, nullable: true),
-                    TimeField = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    TimeField = table.Column<TimeSpan>(type: "time", nullable: true),
                     NumberField = table.Column<int>(type: "int", nullable: true),
                     TextField = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     StreetAddressField_StreetNumber = table.Column<int>(type: "int", nullable: true),

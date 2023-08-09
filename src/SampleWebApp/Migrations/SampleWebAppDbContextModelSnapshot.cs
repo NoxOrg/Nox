@@ -39,11 +39,11 @@ namespace SampleWebApp.Migrations
 
             modelBuilder.Entity("SampleWebApp.Domain.AllNoxType", b =>
                 {
-                    b.Property<ulong>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(20,0)");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<ulong>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<bool?>("BooleanField")
                         .HasColumnType("bit");
@@ -89,8 +89,8 @@ namespace SampleWebApp.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
 
-                    b.Property<DateTime?>("TimeField")
-                        .HasColumnType("datetime2");
+                    b.Property<TimeSpan?>("TimeField")
+                        .HasColumnType("time");
 
                     b.Property<string>("TimeZoneCodeField")
                         .HasMaxLength(5)
@@ -420,8 +420,8 @@ namespace SampleWebApp.Migrations
                 {
                     b.OwnsOne("Nox.Types.File", "FileField", b1 =>
                         {
-                            b1.Property<ulong>("AllNoxTypeId")
-                                .HasColumnType("decimal(20,0)");
+                            b1.Property<long>("AllNoxTypeId")
+                                .HasColumnType("bigint");
 
                             b1.Property<string>("PrettyName")
                                 .IsRequired()
@@ -444,8 +444,8 @@ namespace SampleWebApp.Migrations
 
                     b.OwnsOne("Nox.Types.HashedText", "HashedTexField", b1 =>
                         {
-                            b1.Property<ulong>("AllNoxTypeId")
-                                .HasColumnType("decimal(20,0)");
+                            b1.Property<long>("AllNoxTypeId")
+                                .HasColumnType("bigint");
 
                             b1.Property<string>("HashText")
                                 .IsRequired()
@@ -465,8 +465,8 @@ namespace SampleWebApp.Migrations
 
                     b.OwnsOne("Nox.Types.Password", "PasswordField", b1 =>
                         {
-                            b1.Property<ulong>("AllNoxTypeId")
-                                .HasColumnType("decimal(20,0)");
+                            b1.Property<long>("AllNoxTypeId")
+                                .HasColumnType("bigint");
 
                             b1.Property<string>("HashedPassword")
                                 .IsRequired()
@@ -486,8 +486,8 @@ namespace SampleWebApp.Migrations
 
                     b.OwnsOne("Nox.Types.StreetAddress", "StreetAddressField", b1 =>
                         {
-                            b1.Property<ulong>("AllNoxTypeId")
-                                .HasColumnType("decimal(20,0)");
+                            b1.Property<long>("AllNoxTypeId")
+                                .HasColumnType("bigint");
 
                             b1.Property<string>("AddressLine1")
                                 .IsRequired()
@@ -538,8 +538,8 @@ namespace SampleWebApp.Migrations
 
                     b.OwnsOne("Nox.Types.TranslatedText", "TranslatedTextField", b1 =>
                         {
-                            b1.Property<ulong>("AllNoxTypeId")
-                                .HasColumnType("decimal(20,0)");
+                            b1.Property<long>("AllNoxTypeId")
+                                .HasColumnType("bigint");
 
                             b1.Property<string>("CultureCode")
                                 .IsRequired()
@@ -559,8 +559,8 @@ namespace SampleWebApp.Migrations
 
                     b.OwnsOne("Nox.Types.VatNumber", "VatNumberField", b1 =>
                         {
-                            b1.Property<ulong>("AllNoxTypeId")
-                                .HasColumnType("decimal(20,0)");
+                            b1.Property<long>("AllNoxTypeId")
+                                .HasColumnType("bigint");
 
                             b1.Property<string>("CountryCode2")
                                 .IsRequired()
@@ -585,8 +585,8 @@ namespace SampleWebApp.Migrations
 
                     b.OwnsOne("Nox.Types.LatLong", "LatLongField", b1 =>
                         {
-                            b1.Property<ulong>("AllNoxTypeId")
-                                .HasColumnType("decimal(20,0)");
+                            b1.Property<long>("AllNoxTypeId")
+                                .HasColumnType("bigint");
 
                             b1.Property<decimal>("Latitude")
                                 .HasPrecision(8, 6)
@@ -606,8 +606,8 @@ namespace SampleWebApp.Migrations
 
                     b.OwnsOne("Nox.Types.Money", "MoneyField", b1 =>
                         {
-                            b1.Property<ulong>("AllNoxTypeId")
-                                .HasColumnType("decimal(20,0)");
+                            b1.Property<long>("AllNoxTypeId")
+                                .HasColumnType("bigint");
 
                             b1.Property<decimal>("Amount")
                                 .HasColumnType("decimal(13, 4)");
