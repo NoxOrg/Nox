@@ -6,7 +6,6 @@
 //  - allnoxtypes.entity.nox.yaml
 //  - currency.entity.nox.yaml
 //  - elastic.monitoring.nox.yaml
-//  - multipleIdsType.entity.nox.yaml
 //  - sample.solution.nox.yaml
 //  - store-security-passwords.entity.nox.yaml
 //  - store.entity.nox.yaml

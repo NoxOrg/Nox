@@ -11,6 +11,11 @@ keys:
     description: DatabaseNumber Nox Type
     type: databaseNumber    
 
+  - name: TextId
+    isRequired: true
+    description: Second Text Id
+    type: text
+
 attributes:
 
   - name: NuidField

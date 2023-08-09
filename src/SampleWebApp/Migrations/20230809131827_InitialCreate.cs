@@ -17,6 +17,7 @@ namespace SampleWebApp.Migrations
                 {
                     Id = table.Column<decimal>(type: "decimal(20,0)", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    TextId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     NuidField = table.Column<long>(type: "bigint", nullable: true),
                     BooleanField = table.Column<bool>(type: "bit", nullable: true),
                     CountryCode2Field = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
@@ -58,7 +59,7 @@ namespace SampleWebApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AllNoxTypes", x => x.Id);
+                    table.PrimaryKey("PK_AllNoxTypes", x => new { x.Id, x.TextId });
                 });
 
             migrationBuilder.CreateTable(
@@ -130,26 +131,6 @@ namespace SampleWebApp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Currencies", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "MultipleIdsTypes",
-                columns: table => new
-                {
-                    Id1 = table.Column<string>(type: "varchar(3)", unicode: false, maxLength: 3, nullable: false),
-                    Id2 = table.Column<string>(type: "varchar(3)", unicode: false, maxLength: 3, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DeletedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_MultipleIdsTypes", x => new { x.Id1, x.Id2 });
                 });
 
             migrationBuilder.CreateTable(
@@ -247,9 +228,6 @@ namespace SampleWebApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "CountryLocalNames");
-
-            migrationBuilder.DropTable(
-                name: "MultipleIdsTypes");
 
             migrationBuilder.DropTable(
                 name: "StoreSecurityPasswords");

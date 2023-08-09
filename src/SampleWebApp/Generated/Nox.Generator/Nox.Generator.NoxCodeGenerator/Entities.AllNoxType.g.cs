@@ -21,6 +21,11 @@ public partial class AllNoxType : AuditableEntityBase
     public DatabaseNumber Id { get; set; } = null!;
 
     /// <summary>
+    /// Second Text Id (Required).
+    /// </summary>
+    public Text TextId { get; set; } = null!;
+
+    /// <summary>
     /// NuidField Type (Optional).
     /// </summary>
     public Nox.Types.Nuid? NuidField { get; set; } = null!;

@@ -42,8 +42,6 @@ public class ODataDbContext : DbContext
         
         public DbSet<AllNoxTypeDto> AllNoxTypes { get; set; } = null!;
         
-        public DbSet<MultipleIdsTypeDto> MultipleIdsTypes { get; set; } = null!;
-        
         public DbSet<CountryLocalNamesDto> CountryLocalNames { get; set; } = null!;
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)

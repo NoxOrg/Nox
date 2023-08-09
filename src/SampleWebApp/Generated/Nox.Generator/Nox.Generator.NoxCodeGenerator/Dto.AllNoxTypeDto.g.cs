@@ -21,7 +21,7 @@ namespace SampleWebApp.Application.Dto;
 /// Entity to test all nox types.
 /// </summary>
 [AutoMap(typeof(AllNoxTypeCreateDto))]
-[PrimaryKey(nameof(Id))]
+[PrimaryKey(nameof(Id), nameof(TextId))]
 public partial class AllNoxTypeDto : AuditableEntityBase
 {
 
@@ -30,6 +30,12 @@ public partial class AllNoxTypeDto : AuditableEntityBase
     /// </summary>
     [Key, Column(Order=1)]
     public System.UInt64 Id { get; set; } = default!;
+
+    /// <summary>
+    /// Second Text Id (Required).
+    /// </summary>
+    [Key, Column(Order=2)]
+    public System.String TextId { get; set; } = default!;
 
     /// <summary>
     /// NuidField Type (Optional).

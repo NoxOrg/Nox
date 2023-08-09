@@ -9,7 +9,7 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetAllNoxTypeByIdQuery(System.UInt64 Id) : IRequest<AllNoxTypeDto?>;
+public record GetAllNoxTypeByIdQuery(System.UInt64 Id, System.String TextId) : IRequest<AllNoxTypeDto?>;
 
 public class GetAllNoxTypeByIdQueryHandler: IRequestHandler<GetAllNoxTypeByIdQuery, AllNoxTypeDto?>
 {
@@ -26,6 +26,7 @@ public class GetAllNoxTypeByIdQueryHandler: IRequestHandler<GetAllNoxTypeByIdQue
             .AsNoTracking()
             .SingleOrDefault(r =>
                 r.Id.Equals(request.Id) &&
+                r.TextId.Equals(request.TextId) &&
                 !(r.Deleted == true));
         return Task.FromResult(item);
     }
