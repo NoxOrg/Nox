@@ -23,6 +23,8 @@ namespace Nox.Solution
         private bool _mustThrowIfYamlNotFound = true;
 
         private EnvironmentVariableValueProvider _environmentVariableValueProvider = new (new EnvironmentProvider());
+        
+        
 
         public delegate void ResolveSecretsEventHandler(object sender, INoxSolutionSecretsEventArgs args);
         public event ResolveSecretsEventHandler? OnResolveSecretsEvent;
@@ -192,7 +194,7 @@ namespace Nox.Solution
             return config;
         }
 
-        private string FindSolutionRoot()
+        private static string? FindSolutionRoot()
         {
             var path = new DirectoryInfo(Directory.GetCurrentDirectory());
             var startPath = path;
@@ -220,7 +222,7 @@ namespace Nox.Solution
             return startPath.FullName;
         }
 
-        private string? FindNoxDesignFolder(string rootPath)
+        private static string? FindNoxDesignFolder(string rootPath)
         {
             var path = new DirectoryInfo(rootPath);
             if (path.GetDirectories(".nox").Any())
@@ -273,7 +275,7 @@ namespace Nox.Solution
             return rootYaml;
         }
 
-        private string? FindSolutionYamlFile(string folder)
+        private static string? FindSolutionYamlFile(string folder)
         {
             var solutionYamlFiles = Directory.GetFiles(folder, "*.solution.nox.yaml");
             if (solutionYamlFiles.Length > 1)
