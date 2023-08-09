@@ -10,10 +10,10 @@ namespace SampleWebApp.Application.Behavior
         public GetVendingMachineByIdSecurityValidator(ILogger<GetVendingMachineByIdQuery> logger)
         {
             // For the Current User
-            // TODO Get Stores that he can see....
+            // TODO Get vending machines that he can see....
 
-            // Do Validation The current user can only see EUR Store
-            RuleFor(query => query.key).Must(key => key == 1).WithMessage("No permissions to access this store");
+            // Do Validation The current user can only see vending machine with Id equals 1
+            RuleFor(query => query.key).Must(key => key == 1).WithMessage("No permissions to access this vending machine");
         }
     }
 }
