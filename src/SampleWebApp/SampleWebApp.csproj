@@ -31,7 +31,6 @@
 
 	<ItemGroup>
 		<AdditionalFiles Include="..\..\.nox\design\**\*.yaml" LinkBase="Design" />
-		<AdditionalFiles Remove="..\..\.nox\design\multipleIdsType.entity.nox.yaml" />
 		<AdditionalFiles Update="..\..\.nox\design\elastic.monitoring.nox.yaml">
 			<Link>Design\elastic.monitoring.nox.yaml</Link>
 		</AdditionalFiles>
