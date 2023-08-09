@@ -16,7 +16,10 @@ public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset E
     public DateTimeOffset Start
     {
         get => Value.Start;
-        private set => Value = (Start: value, End: Value.End);
+        private set
+        {
+            Value = (Start: value.ToOffset(StartTimeZoneOffset), End: Value.End);
+        }
     }
 
     /// <summary>
@@ -25,7 +28,43 @@ public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset E
     public DateTimeOffset End
     {
         get => Value.End;
-        private set => Value = (Start: Value.Start, End: value);
+        private set
+        {
+            Value = (Start: Value.Start, End: value.ToOffset(EndTimeZoneOffset));
+        }
+    }
+
+    private TimeSpan _startTimeZoneOffset;
+    public TimeSpan StartTimeZoneOffset
+    {
+        get => _startTimeZoneOffset;
+        private set
+        {
+            _startTimeZoneOffset = value;
+            if (Value.Start.Offset != _startTimeZoneOffset)
+            {
+                Value = (Value.Start.ToOffset(value), End: Value.End);
+            }
+        }
+    }
+
+    private TimeSpan _endTimeZoneOffset;
+    public TimeSpan EndTimeZoneOffset
+    {
+        get => _endTimeZoneOffset;
+        private set
+        {
+            _endTimeZoneOffset = value;
+            if (Value.End.Offset != _endTimeZoneOffset)
+            {
+                Value = (Start: Value.Start, End: Value.End.ToOffset(value));
+            }
+        }
+    }
+
+    public new static DateTimeRange FromDatabase((DateTimeOffset start, DateTimeOffset end) value)
+    {
+        return new DateTimeRange { Value = value };
     }
 
     /// <summary>
@@ -44,7 +83,9 @@ public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset E
         var newObject = new DateTimeRange
         {
             Value = value,
-            _dateTimeRangeTypeOptions = dateTimeRangeTypeOptions
+            _dateTimeRangeTypeOptions = dateTimeRangeTypeOptions,
+            StartTimeZoneOffset = value.Start.Offset,
+            EndTimeZoneOffset = value.End.Offset,
         };
 
         var validationResult = newObject.Validate();
