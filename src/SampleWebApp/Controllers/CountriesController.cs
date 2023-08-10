@@ -66,40 +66,4 @@ public partial class CountriesController
         await Task.Delay(100);
         return Results.Ok(true);
     }
-
-    public async Task<ActionResult> Patch2([FromRoute] System.String key, [FromBody] Delta<SampleWebApp.Application.Dto.CountryDto> country)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-
-        var entity = await _databaseContext.Countries.FindAsync(key);
-
-        if (entity == null)
-        {
-            return NotFound();
-        }
-
-        country.Patch(entity);
-
-        try
-        {
-            await _databaseContext.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!CountryExists(key))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
-
-        return Updated(entity);
-    }
-
 }
