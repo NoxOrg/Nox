@@ -17,7 +17,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 /// {{entity.Description}}.
 /// </summary>
 [AutoMap(typeof({{entity.Name}}CreateDto))]
-public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else}}EntityBase{{end}}
+public partial class {{className}} 
 {
 {{- for key in entity.Keys }}
 
@@ -46,36 +46,9 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     public {{attribute.Type}}Dto{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
     {{- end}}
 {{- end }}
-{{- ######################################### Relationships###################################################### -}}
-{{- for relationship in entity.Relationships }}
 
-    /// <summary>
-    /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
-    /// </summary>
-    {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<{{relationship.Entity}}Dto> {{relationship.EntityPlural}} { get; set; } = new();
-    {{- else}}
-        {{- if relationship.ShouldGenerateForeignOnThisSide}}  
-    //EF maps ForeignKey Automatically
-    public virtual string {{if relationship.Relationship == "ZeroOrOne"}}?{{end}}{{relationship.Entity}}Id { get; set; } = null!;
-        {{- end}}
-    public virtual {{relationship.Entity}}Dto {{if relationship.Relationship == "ZeroOrOne"}}?{{end}}{{relationship.Entity}} { get; set; } = null!;
-    {{-end}}
-{{- end }}
-{{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}
 
-    /// <summary>
-    /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
-    /// </summary>
-	[AutoExpand]
-    {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<{{relationship.Entity}}> {{relationship.EntityPlural}} { get; set; } = new();
-    {{- if (relationship.EntityPlural) != relationship.Name}}
-    
-    public List<{{relationship.Entity}}Dto> {{relationship.Name}} => {{relationship.EntityPlural}};
-    {{- end}}
-    {{- else}}
-    public virtual {{relationship.Entity}}Dto {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.EntityPlural}} { get; set; } = null!;
-    {{-end}}
-{{- end }}
+{{- if isVersioned #TODO do not expose Deleted on end points??}}
+    public bool? Deleted { get; set; }
+{{- end}}
 }

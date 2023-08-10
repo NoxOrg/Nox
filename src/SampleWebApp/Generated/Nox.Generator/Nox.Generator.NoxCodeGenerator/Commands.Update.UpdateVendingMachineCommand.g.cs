@@ -15,28 +15,34 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateVendingMachineCommand(VendingMachineDto EntityDto) : IRequest;
+public record UpdateVendingMachineCommand(System.UInt64 key, VendingMachineUpdateDto EntityDto) : IRequest<bool>;
 
-public class UpdateVendingMachineCommandHandler: CommandBase, IRequestHandler<UpdateVendingMachineCommand>
+public class UpdateVendingMachineCommandHandler: CommandBase, IRequestHandler<UpdateVendingMachineCommand, bool>
 {
     public SampleWebAppDbContext DbContext { get; }    
+    public IEntityMapper<VendingMachine> EntityMapper { get; }
 
     public  UpdateVendingMachineCommandHandler(
         SampleWebAppDbContext dbContext,        
         NoxSolution noxSolution,
-        IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+        IServiceProvider serviceProvider,
+        IEntityMapper<VendingMachine> entityMapper): base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;        
+        EntityMapper = entityMapper;
     }
     
-    public async Task Handle(UpdateVendingMachineCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(UpdateVendingMachineCommand request, CancellationToken cancellationToken)
     {
-        await Task.Delay(10);
-        return;
-        //var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
-        ////TODO for nuid property or key needs to call ensure id        
-        //DbContext.VendingMachines.Add(entityToCreate);
-        //await DbContext.SaveChangesAsync();
-        //return entityToCreate.Id;
+        var entity = await DbContext.VendingMachines.FindAsync(CreateNoxTypeForKey<VendingMachine,DatabaseNumber>("Id", request.key));
+        if (entity == null)
+        {
+            return false;
+        }
+        EntityMapper.MapToEntity(entity, GetEntityDefinition<VendingMachine>(), request.EntityDto);
+        // Todo map dto
+        DbContext.Entry(entity).State = EntityState.Modified;
+        var result = await DbContext.SaveChangesAsync();             
+        return result > 0;        
     }
 }

@@ -14,7 +14,6 @@ namespace SampleWebApp.Domain;
 /// </summary>
 public partial class AllNoxType : AuditableEntityBase
 {
-
     /// <summary>
     /// DatabaseNumber Nox Type (Required).
     /// </summary>

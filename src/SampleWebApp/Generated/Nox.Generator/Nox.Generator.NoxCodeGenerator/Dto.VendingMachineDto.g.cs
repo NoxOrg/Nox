@@ -17,7 +17,7 @@ namespace SampleWebApp.Application.Dto;
 /// Vending machines.
 /// </summary>
 [AutoMap(typeof(VendingMachineCreateDto))]
-public partial class VendingMachineDto : AuditableEntityBase
+public partial class VendingMachineDto 
 {
 
     /// <summary>
@@ -44,4 +44,5 @@ public partial class VendingMachineDto : AuditableEntityBase
     /// Vending machine's support number (Required).
     /// </summary>
     public System.String SupportNumber { get; set; } = default!;
+    public bool? Deleted { get; set; }
 }

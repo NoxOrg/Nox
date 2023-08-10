@@ -80,72 +80,31 @@ public partial class CountryLocalNamesController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] CountryLocalNamesDto updatedCountryLocalNames)
+    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] CountryLocalNamesUpdateDto countryLocalNames)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        if (key != updatedCountryLocalNames.Id)
-        {
-            return BadRequest();
-        }
+        var updated = await _mediator.Send(new UpdateCountryLocalNamesCommand(key,countryLocalNames));
         
-        _databaseContext.Entry(updatedCountryLocalNames).State = EntityState.Modified;
-        
-        try
-        {
-            await _databaseContext.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!CountryLocalNamesExists(key))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
-        
-        return Updated(updatedCountryLocalNames);
-    }
-    
-    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<CountryLocalNamesDto> countrylocalnames)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var entity = await _databaseContext.CountryLocalNames.FindAsync(key);
-        
-        if (entity == null)
+        if (!updated)
         {
             return NotFound();
         }
-        
-        countrylocalnames.Patch(entity);
-        
-        try
+        return Updated(countryLocalNames);
+    }
+    
+    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<CountryLocalNamesUpdateDto> countryLocalNames)
+    {
+        if (!ModelState.IsValid)
         {
-            await _databaseContext.SaveChangesAsync();
+            return BadRequest(ModelState);
         }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!CountryLocalNamesExists(key))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
+         await Task.Delay(1000);//TODO Map to command
         
-        return Updated(entity);
+        return Updated(countryLocalNames);
     }
     
     private bool CountryLocalNamesExists(System.String key)

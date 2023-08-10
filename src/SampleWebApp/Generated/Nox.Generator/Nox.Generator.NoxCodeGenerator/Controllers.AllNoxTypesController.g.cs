@@ -80,72 +80,31 @@ public partial class AllNoxTypesController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.UInt64 key, [FromBody] AllNoxTypeDto updatedAllNoxType)
+    public async Task<ActionResult> Put([FromRoute] System.UInt64 key, [FromBody] AllNoxTypeUpdateDto allNoxType)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        if (key != updatedAllNoxType.Id)
-        {
-            return BadRequest();
-        }
+        var updated = await _mediator.Send(new UpdateAllNoxTypeCommand(key,allNoxType));
         
-        _databaseContext.Entry(updatedAllNoxType).State = EntityState.Modified;
-        
-        try
-        {
-            await _databaseContext.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!AllNoxTypeExists(key))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
-        
-        return Updated(updatedAllNoxType);
-    }
-    
-    public async Task<ActionResult> Patch([FromRoute] System.UInt64 key, [FromBody] Delta<AllNoxTypeDto> allnoxtype)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var entity = await _databaseContext.AllNoxTypes.FindAsync(key);
-        
-        if (entity == null)
+        if (!updated)
         {
             return NotFound();
         }
-        
-        allnoxtype.Patch(entity);
-        
-        try
+        return Updated(allNoxType);
+    }
+    
+    public async Task<ActionResult> Patch([FromRoute] System.UInt64 key, [FromBody] Delta<AllNoxTypeUpdateDto> allNoxType)
+    {
+        if (!ModelState.IsValid)
         {
-            await _databaseContext.SaveChangesAsync();
+            return BadRequest(ModelState);
         }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!AllNoxTypeExists(key))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
+         await Task.Delay(1000);//TODO Map to command
         
-        return Updated(entity);
+        return Updated(allNoxType);
     }
     
     private bool AllNoxTypeExists(System.UInt64 key)

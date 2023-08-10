@@ -14,7 +14,6 @@ namespace SampleWebApp.Domain;
 /// </summary>
 public partial class VendingMachine : AuditableEntityBase
 {
-
     /// <summary>
     /// Vending machine Primary Key (Required).
     /// </summary>

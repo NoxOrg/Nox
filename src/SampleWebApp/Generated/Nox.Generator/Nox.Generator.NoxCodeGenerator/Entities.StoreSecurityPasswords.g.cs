@@ -14,7 +14,6 @@ namespace SampleWebApp.Domain;
 /// </summary>
 public partial class StoreSecurityPasswords : AuditableEntityBase
 {
-
     /// <summary>
     /// Passwords Primary Key (Required).
     /// </summary>

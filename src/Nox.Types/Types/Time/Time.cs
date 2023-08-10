@@ -6,7 +6,7 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a time of day, as would be read from a clock, within the range 00:00:00 to 23:59:59.9999999.
 /// </summary>
-public sealed class Time : ValueObject<TimeOnly, Time> // This should be TimeOnly
+public sealed class Time : ValueObject<TimeOnly, Time>
 {
     private TimeTypeOptions _timeTypeOptions = new();
 

@@ -80,72 +80,31 @@ public partial class VendingMachinesController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.UInt64 key, [FromBody] VendingMachineDto updatedVendingMachine)
+    public async Task<ActionResult> Put([FromRoute] System.UInt64 key, [FromBody] VendingMachineUpdateDto vendingMachine)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        if (key != updatedVendingMachine.Id)
-        {
-            return BadRequest();
-        }
+        var updated = await _mediator.Send(new UpdateVendingMachineCommand(key,vendingMachine));
         
-        _databaseContext.Entry(updatedVendingMachine).State = EntityState.Modified;
-        
-        try
-        {
-            await _databaseContext.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!VendingMachineExists(key))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
-        
-        return Updated(updatedVendingMachine);
-    }
-    
-    public async Task<ActionResult> Patch([FromRoute] System.UInt64 key, [FromBody] Delta<VendingMachineDto> vendingmachine)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var entity = await _databaseContext.VendingMachines.FindAsync(key);
-        
-        if (entity == null)
+        if (!updated)
         {
             return NotFound();
         }
-        
-        vendingmachine.Patch(entity);
-        
-        try
+        return Updated(vendingMachine);
+    }
+    
+    public async Task<ActionResult> Patch([FromRoute] System.UInt64 key, [FromBody] Delta<VendingMachineUpdateDto> vendingMachine)
+    {
+        if (!ModelState.IsValid)
         {
-            await _databaseContext.SaveChangesAsync();
+            return BadRequest(ModelState);
         }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!VendingMachineExists(key))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
+         await Task.Delay(1000);//TODO Map to command
         
-        return Updated(entity);
+        return Updated(vendingMachine);
     }
     
     private bool VendingMachineExists(System.UInt64 key)

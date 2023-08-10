@@ -17,7 +17,7 @@ namespace SampleWebApp.Application.Dto;
 /// Entity to test all nox types.
 /// </summary>
 [AutoMap(typeof(AllNoxTypeCreateDto))]
-public partial class AllNoxTypeDto : AuditableEntityBase
+public partial class AllNoxTypeDto 
 {
 
     /// <summary>
@@ -134,4 +134,5 @@ public partial class AllNoxTypeDto : AuditableEntityBase
     /// LatLongField Nox Type (Optional).
     /// </summary>
     public LatLongDto? LatLongField { get; set; } 
+    public bool? Deleted { get; set; }
 }

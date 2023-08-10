@@ -15,28 +15,34 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateAllNoxTypeCommand(AllNoxTypeDto EntityDto) : IRequest;
+public record UpdateAllNoxTypeCommand(System.UInt64 key, AllNoxTypeUpdateDto EntityDto) : IRequest<bool>;
 
-public class UpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler<UpdateAllNoxTypeCommand>
+public class UpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler<UpdateAllNoxTypeCommand, bool>
 {
     public SampleWebAppDbContext DbContext { get; }    
+    public IEntityMapper<AllNoxType> EntityMapper { get; }
 
     public  UpdateAllNoxTypeCommandHandler(
         SampleWebAppDbContext dbContext,        
         NoxSolution noxSolution,
-        IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+        IServiceProvider serviceProvider,
+        IEntityMapper<AllNoxType> entityMapper): base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;        
+        EntityMapper = entityMapper;
     }
     
-    public async Task Handle(UpdateAllNoxTypeCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(UpdateAllNoxTypeCommand request, CancellationToken cancellationToken)
     {
-        await Task.Delay(10);
-        return;
-        //var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
-        ////TODO for nuid property or key needs to call ensure id        
-        //DbContext.AllNoxTypes.Add(entityToCreate);
-        //await DbContext.SaveChangesAsync();
-        //return entityToCreate.Id;
+        var entity = await DbContext.AllNoxTypes.FindAsync(CreateNoxTypeForKey<AllNoxType,DatabaseNumber>("Id", request.key));
+        if (entity == null)
+        {
+            return false;
+        }
+        EntityMapper.MapToEntity(entity, GetEntityDefinition<AllNoxType>(), request.EntityDto);
+        // Todo map dto
+        DbContext.Entry(entity).State = EntityState.Modified;
+        var result = await DbContext.SaveChangesAsync();             
+        return result > 0;        
     }
 }
