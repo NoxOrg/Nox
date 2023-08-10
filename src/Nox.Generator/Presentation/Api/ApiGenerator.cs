@@ -182,11 +182,11 @@ internal class ApiGenerator : INoxCodeGenerator
     private static void GenerateDelete(Entity entity, string entityName, CodeBuilder code)
     {
         // Method Delete
-        code.AppendLine($"public async Task<ActionResult> Delete([FromRoute] {entity.KeysFlattenComponentsType[entity.Keys![0].Name]} key)");
+        code.AppendLine($"public async Task<ActionResult> Delete({primaryKeysFromRoute(entity)})");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand(key));");
+        code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand({primaryKeysQuery(entity)}));");
 
         code.AppendLine($"if (!result)");
         code.StartBlock();
@@ -334,18 +334,11 @@ internal class ApiGenerator : INoxCodeGenerator
 
         // We do not support Compound types as primary keys, this is validated on the schema
         // Method Get
-        var primaryKeys = entity.Keys.Count() > 1 ?
-            string.Join(", ", entity.Keys.Select(k => $"[FromRoute] {entity.KeysFlattenComponentsType[k.Name]} key{k.Name}")) :
-            $"[FromRoute] {entity.KeysFlattenComponentsType[entity.Keys[0].Name]} key";
-        var primaryKeysQuery = entity.Keys.Count() > 1 ?
-            string.Join(", ", entity.Keys.Select(k => $"key{k.Name}")) :
-            $"key";
-
-        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Get({primaryKeys})");
+        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Get({primaryKeysFromRoute(entity)})");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({primaryKeysQuery}));");
+        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({primaryKeysQuery(entity)}));");
         code.AppendLine();
         code.AppendLine($"if (item == null)");
         code.StartBlock();
@@ -372,5 +365,22 @@ internal class ApiGenerator : INoxCodeGenerator
         // End method
         code.EndBlock();
         code.AppendLine();
+    }
+
+    private static string primaryKeysFromRoute(Entity entity)
+    {
+        if (entity.Keys.Count() > 1)
+            return string.Join(", ", entity.Keys.Select(k => $"[FromRoute] {entity.KeysFlattenComponentsType[k.Name]} key{k.Name}"));
+        else if (entity.Keys is not null)
+            return $"[FromRoute] {entity.KeysFlattenComponentsType[entity.Keys[0].Name]} key";
+
+        return "";
+    }
+
+    private static string primaryKeysQuery(Entity entity)
+    {
+        return entity.Keys.Count() > 1 ?
+            string.Join(", ", entity.Keys.Select(k => $"key{k.Name}")) :
+            $"key";
     }
 }

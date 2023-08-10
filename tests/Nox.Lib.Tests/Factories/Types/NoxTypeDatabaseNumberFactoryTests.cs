@@ -12,7 +12,7 @@ namespace Nox.Lib.Tests.Factories.Types
         {
             // Arrange            
             NoxTypeDatabaseNumberFactory sut = new NoxTypeDatabaseNumberFactory(noxSolution);
-            ulong value = 11;
+            long value = 11;
 
             // Act
             var entity = sut.CreateNoxType(fixture.EntityDefinition, fixture.PropertyName, value);
