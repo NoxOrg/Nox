@@ -941,3 +941,7 @@ domain:
         - name: DatabaseNumberTestField
           type: databaseNumber
           isRequired: true
+
+        - name: HtmlTestField
+          type: html
+
