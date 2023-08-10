@@ -22,6 +22,7 @@ namespace SampleWebApp.Migrations
                     BooleanField = table.Column<bool>(type: "bit", nullable: true),
                     CountryCode2Field = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
                     CountryCode3Field = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
+                    CountryNumberField = table.Column<short>(type: "smallint", nullable: true),
                     YamlField = table.Column<string>(type: "varchar(max)", unicode: false, nullable: true),
                     WeightField = table.Column<decimal>(type: "DECIMAL(9,6)", nullable: true),
                     VolumeField = table.Column<decimal>(type: "DECIMAL(9,6)", nullable: true),

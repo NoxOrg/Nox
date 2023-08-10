@@ -27,7 +27,6 @@ attributes:
         propertyNames:
             - "TextField" 
  
-
   - name: BooleanField
     description: BooleanField Nox Type
     type: boolean    
@@ -41,6 +40,11 @@ attributes:
     description: CountryCode3 Nox Type
     type: countryCode3
     isRequired: true
+
+  - name: CountryNumberField
+    description: CountryNumber Nox Type
+    type: countryNumber
+    isRequired: false
 
   - name: FormulaField
     description: Formula Nox Type
