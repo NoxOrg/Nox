@@ -1,10 +1,18 @@
 ﻿using System;
+using Nox.Cron;
 using Quartz;
 
 namespace Nox.Types;
 
 public class DateTimeSchedule : ValueObject<string, DateTimeSchedule>
 {
+    /// <summary>
+    ///  Creates and validates a new instance of <see cref="DateTimeSchedule"/>
+    /// </summary>
+    /// <param name="value">CronJob expression</param>
+    /// <returns>New <see cref="DateTimeSchedule"/> object.</returns>
+    public static DateTimeSchedule FromEnglishPhrase(string englishPhrase) => From(GetCronExpressionFromPhrase(englishPhrase));
+
     /// <summary>
     ///  Creates and validates a new instance of <see cref="DateTimeSchedule"/>
     /// </summary>
@@ -46,5 +54,10 @@ public class DateTimeSchedule : ValueObject<string, DateTimeSchedule>
         }
 
         return result;
+    }
+
+    private static string GetCronExpressionFromPhrase(string englishPhrase)
+    {
+        return englishPhrase.ToCronExpression().ToString();
     }
 }
