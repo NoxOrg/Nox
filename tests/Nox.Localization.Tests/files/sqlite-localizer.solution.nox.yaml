@@ -1,0 +1,25 @@
+#
+# sqlite-localizer.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+name: SqliteLocalizerService
+
+description: Sqlite localizer yaml file for tests
+
+infrastructure:
+  persistence: 
+    databaseServer: 
+      name: TestDb
+      provider: sqLite
+      serverUri: nox.db
+  
+  dependencies:
+    uiLocalizations: 
+      name: TestLocalization
+      provider: sqLite
+      serverUri: localization.db
+
+
+

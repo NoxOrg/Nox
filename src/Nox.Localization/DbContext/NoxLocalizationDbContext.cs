@@ -9,8 +9,6 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
 {
     private const string LocalizationSchema = "l10n";
 
-    private readonly NoxSolution _noxSolution;
-
     private readonly INoxDatabaseProvider _dbProvider;
 
     private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
@@ -19,23 +17,21 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
     public DbSet<Translation> Translations { get; set; } = default!;
 
     public NoxLocalizationDbContext(
-        NoxSolution noxSolution,
         INoxDatabaseProvider databaseProvider,
         INoxClientAssemblyProvider clientAssemblyProvider
     ) 
     {
         _dbProvider = databaseProvider;
         _clientAssemblyProvider = clientAssemblyProvider;
-        _noxSolution = noxSolution;
     } 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
 
-        var appName = _noxSolution.Name;
+        var appName = NoxSolutionBuilder.Instance!.Name;
 
-        var dbServer = _noxSolution.Infrastructure?.Persistence.DatabaseServer;
+        var dbServer = NoxSolutionBuilder.Instance.Infrastructure?.Persistence.DatabaseServer;
 
         if(dbServer is not null)
         {
@@ -50,15 +46,15 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
     {
         // Schema 'dbo': Domain State
 
-        if (_noxSolution.Domain != null)
+        if (NoxSolutionBuilder.Instance!.Domain != null)
         {
-            var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
-            foreach (var entity in _noxSolution.Domain.Entities)
+            var codeGeneratorState = new NoxSolutionCodeGeneratorState(NoxSolutionBuilder.Instance, _clientAssemblyProvider.ClientAssembly);
+            foreach (var entity in NoxSolutionBuilder.Instance!.Domain.Entities)
             {
                 var type = codeGeneratorState.GetEntityType(entity.Name);
                 if (type != null)
                 {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, _noxSolution.GetRelationshipsToCreate(codeGeneratorState.GetEntityType, entity));
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, NoxSolutionBuilder.Instance!.GetRelationshipsToCreate(codeGeneratorState.GetEntityType, entity));
                 }
             }
         }

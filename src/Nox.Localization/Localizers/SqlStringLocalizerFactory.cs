@@ -1,5 +1,6 @@
 using System.Collections.Concurrent;
 using Microsoft.Extensions.Localization;
+using Nox.Localization.Abstractions;
 using Nox.Localization.DbContext;
 
 namespace Nox.Localization.Localizers;
@@ -8,13 +9,13 @@ public class SqlStringLocalizerFactory: IStringLocalizerFactory
 {
     private const string _globalSourceName = "GLOBAL";
 
-    private readonly NoxLocalizationDbContext _dbContext;
+    private readonly INoxLocalizationDbContextFactory _contextFactory;
 
     private static readonly ConcurrentDictionary<string, IStringLocalizer> _resourceLocalizations = new ();
 
-    public SqlStringLocalizerFactory(NoxLocalizationDbContext dbContext)
+    public SqlStringLocalizerFactory(INoxLocalizationDbContextFactory contextFactory)
     {
-        _dbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
+        _contextFactory = contextFactory;
     }
 
     public IStringLocalizer Create(Type resourceSource)
@@ -34,7 +35,9 @@ public class SqlStringLocalizerFactory: IStringLocalizerFactory
             return sqlStringLocalizer;
         }
 
-        sqlStringLocalizer = new SqlStringLocalizer(resourceName, _dbContext);
+        var dbContext = _contextFactory.CreateContext();
+        
+        sqlStringLocalizer = new SqlStringLocalizer(resourceName, dbContext);
 
         return _resourceLocalizations.GetOrAdd(resourceName, sqlStringLocalizer);
     }

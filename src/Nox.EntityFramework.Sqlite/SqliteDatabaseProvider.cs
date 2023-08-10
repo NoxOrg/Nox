@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.Sqlite;
+using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
 
 using Nox.Types.EntityFramework.Abstractions;
@@ -17,7 +18,16 @@ public sealed class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDataba
     }
     public DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
     {
-        throw new NotImplementedException();
+        var csb = new SqliteConnectionStringBuilder(dbServer.Options)
+        {
+            DataSource = dbServer.ServerUri,
+            Password = dbServer.Password,
+            
+        };
+        ConnectionString = csb.ConnectionString;
+
+        return optionsBuilder
+            .UseSqlite(csb.ConnectionString);
     }
 
     public string ToTableNameForSql(string table, string schema)

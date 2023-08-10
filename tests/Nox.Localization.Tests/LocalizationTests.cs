@@ -6,62 +6,41 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Nox.Localization.Extensions;
+using Nox.Solution;
 
 namespace Nox.Localization.Tests;
 
-public class LocalizationTests
+public class LocalizationTests: IClassFixture<WebApplicationFixture>
 {
     // IStringLocalizer _userModelLocalizer; // always in model db as seperate schema "l11n"
     // IStringLocalizer _appModelLocalizer; // db
     // IStringLocalizer _appUiLocalizer;  // static
+    
+    private readonly WebApplicationFixture _fixture;
 
+    public LocalizationTests(WebApplicationFixture fixture)
+    {
+        _fixture = fixture;
+    }
+
+    
+    
     [Fact]
     public void Localizer_Returns_Default_Value()
     {
-        // var en_GB_localizer = GetStringLocalizer("en-GB");
-        //
-        // en_GB_localizer!["Hello World!"].Value.Should().Be("Hello World!.en-GB");
-        //
-        // en_GB_localizer!["Bye {0}!", "World"].Value.Should().Be("Bye World!.en-GB"); ;
-        //
+        _fixture.SetCulture("en-GB");
+        var factory = _fixture.FixtureWebApplication!.Services.GetRequiredService<IStringLocalizerFactory>();
+        var enGbLocalizer = factory.Create(typeof(LocalizationTests));
+
+        enGbLocalizer["Hello World!"].Value.Should().Be("Hello World!.en-GB");
+        
+        enGbLocalizer["Bye {0}!", "World"].Value.Should().Be("Bye World!.en-GB"); ;
+
         // var fr_FR_localizer = GetStringLocalizer("fr-FR");
         //
         // fr_FR_localizer!["Hello World!"].Value.Should().Be("Bonjour Monde!");
         //
         // fr_FR_localizer!["Bye {0}!", "Ricardo"].Value.Should().Be("Bye Ricardo!.fr-FR");
 
-    }
-
-    private static IStringLocalizer GetStringLocalizer(string? culture = null)
-    {
-        // Optionally Override culture
-
-        if(culture is not null) 
-        { 
-            CultureInfo.CurrentCulture = new CultureInfo(culture); // http request or message header
-        }
-
-        // Simulate app startup
-
-        var builder = WebApplication.CreateBuilder();
-
-        builder.Services.AddNoxLib(Assembly.GetExecutingAssembly());
-
-        builder.Services.AddNoxLocalization();
-
-        builder.Services.AddDbContext<TestDbContext>( options =>
-        {
-            options.UseSqlite("Data Source=localization.db");
-        });
-
-        var app = builder.Build();
-
-        app.UseNox();
-
-        var factory = app.Services.GetRequiredService<IStringLocalizerFactory>();
-
-        // Simulate DI creation
-
-        return factory.Create(typeof(LocalizationTests)); ;
     }
 }

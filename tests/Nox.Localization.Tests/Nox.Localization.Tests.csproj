@@ -32,4 +32,11 @@
         <ProjectReference Include="..\..\src\Nox.Localization\Nox.Localization.csproj" />
     </ItemGroup>
 
+
+    <ItemGroup>
+      <None Update="files\sqlite-localizer.solution.nox.yaml">
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+    </ItemGroup>
+
 </Project>
