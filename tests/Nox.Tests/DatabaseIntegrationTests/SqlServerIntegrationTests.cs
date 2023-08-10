@@ -29,7 +29,6 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         // languageCode
         // yaml
         // uri
-        // date
         // dateTimeSchedule
         // json
 

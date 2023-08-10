@@ -31,9 +31,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         // languageCode
         // yaml
         // uri
-        // date
         // dateTimeSchedule
-        // html
         // json
 
         // TODO: commented types
