@@ -23,7 +23,7 @@ public partial class AllNoxTypeDto
     /// <summary>
     /// DatabaseNumber Nox Type (Required).
     /// </summary>
-    public System.UInt64 Id { get; set; } = default!;
+    public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
     /// Second Text Id (Required).

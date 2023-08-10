@@ -9,7 +9,7 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetAllNoxTypeByIdQuery(System.UInt64 keyId, System.String keyTextId) : IRequest<AllNoxTypeDto?>;
+public record GetAllNoxTypeByIdQuery(System.Int64 keyId, System.String keyTextId) : IRequest<AllNoxTypeDto?>;
 
 public class GetAllNoxTypeByIdQueryHandler: IRequestHandler<GetAllNoxTypeByIdQuery, AllNoxTypeDto?>
 {

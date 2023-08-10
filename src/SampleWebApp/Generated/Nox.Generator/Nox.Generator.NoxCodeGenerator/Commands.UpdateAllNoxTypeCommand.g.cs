@@ -15,7 +15,7 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateAllNoxTypeCommand(System.UInt64 key, AllNoxTypeUpdateDto EntityDto) : IRequest<bool>;
+public record UpdateAllNoxTypeCommand(System.Int64 key, AllNoxTypeUpdateDto EntityDto) : IRequest<bool>;
 
 public class UpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler<UpdateAllNoxTypeCommand, bool>
 {
