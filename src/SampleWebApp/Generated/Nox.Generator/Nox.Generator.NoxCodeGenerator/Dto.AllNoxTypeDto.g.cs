@@ -26,6 +26,11 @@ public partial class AllNoxTypeDto
     public System.UInt64 Id { get; set; } = default!;
 
     /// <summary>
+    /// Second Text Id (Required).
+    /// </summary>
+    public System.String TextId { get; set; } = default!;
+
+    /// <summary>
     /// NuidField Type (Optional).
     /// </summary>
     public System.UInt32? NuidField { get; set; } 
