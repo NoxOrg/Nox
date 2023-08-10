@@ -1,0 +1,25 @@
+﻿@using Cryptocash.Ui
+@using System.Dynamic
+@using System.Data
+@using Cryptocash.Ui.Data.Generated.VendingMachines;
+@using Cryptocash.Ui.Pages.Generic
+@using MudBlazor
+
+@page "/VendingMachines"
+
+@inherits ApiManagementPageBase<VendingMachinesEntity>
+
+@if (!IsLoading)
+{
+    <MudPaper Class="d-flex align-center justify-center mud-width-full" Style="padding:100px;" Elevation="0">
+        <MudText Class="ms-2">Placeholder for @GlobalData?.CurrentApiDefinition?.Name Api</MudText>
+    </MudPaper>
+}
+else
+{
+    <MudPaper Class="d-flex align-center justify-center mud-width-full" Style="padding:100px;" Elevation="0">
+        <MudProgressCircular Color="Color.Info"
+                             Size="Size.Large"
+                             Indeterminate="true" />
+    </MudPaper>
+}

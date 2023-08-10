@@ -1,0 +1,56 @@
+﻿@using Cryptocash.Ui.Component
+@using Cryptocash.Ui.Data;
+
+@inherits MainLayoutBase
+
+<PageTitle>@GlobalData.ApiName</PageTitle>
+
+<MudThemeProvider />
+
+<MudDrawerContainer Class="mud-height-full">
+    <MudDrawer @bind-Open="@DrawerOpen" Fixed="true" Variant="@DrawerVariant.Mini" Color="Color.Dark" Style="position:fixed;">
+        <MudDrawerHeader Style="padding:0px">
+            <table style="width:100%">
+                <tr>
+                    <td style="text-align:right">
+                        @if (DrawerOpen)
+                        {
+                            <MudIconButton Icon="@Icons.Material.Filled.ChevronLeft" OnClick="ToggleDrawer" Color="Color.Inherit" Style="padding:18px 20px 0px 0px;margin-top:-11px;"></MudIconButton>
+                        }
+                        else
+                        {
+                            <MudIconButton Icon="@Icons.Material.Filled.ChevronRight" OnClick="ToggleDrawer" Color="Color.Inherit" Style="padding:18px 15px 0px 0px;margin-top:-11px;"></MudIconButton>
+                        }
+                    </td>
+                </tr>
+            </table>
+        </MudDrawerHeader>
+        <MudNavMenu Style="margin-top:20px;">
+            @if (GlobalData.ApiDefinitions != null)
+            {
+                @foreach (ApiDefinition CurrentApiDefinition in GlobalData.ApiDefinitions!)
+                {
+                    var Icon = CurrentApiDefinition.Icon;
+                    var Href = CurrentApiDefinition.PageLink;
+                    <MudNavLink Match="NavLinkMatch.Prefix" Icon="@Icon" IconColor="Color.Inherit" Href="@Href" ActiveClass="custom-linkHighlighted">@CurrentApiDefinition.Name</MudNavLink>
+                }
+            }           
+        </MudNavMenu>
+    </MudDrawer>
+    <CascadingValue Value="@GlobalData">        
+        <div>
+            <main>            
+                <UiHeader />
+                <article class="content px-4"> 
+                    @Body
+                </article>
+            </main>
+        </div>
+    </CascadingValue>
+</MudDrawerContainer>
+
+<style>
+    .custom-linkHighlighted {
+        color: #e24a53;
+    }
+</style>
