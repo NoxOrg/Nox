@@ -17,7 +17,7 @@ namespace SampleWebApp.Application.Dto;
 /// Stores.
 /// </summary>
 [AutoMap(typeof(StoreCreateDto))]
-public partial class StoreDto : AuditableEntityBase
+public partial class StoreDto 
 {
 
     /// <summary>
@@ -34,9 +34,5 @@ public partial class StoreDto : AuditableEntityBase
     /// Physical Money in the Physical Store (Required).
     /// </summary>
     public MoneyDto PhysicalMoney { get; set; } = default!;
-
-    /// <summary>
-    /// Store Set of passwords for this store ExactlyOne StoreSecurityPasswords
-    /// </summary>
-    public virtual StoreSecurityPasswordsDto StoreSecurityPasswords { get; set; } = null!;
+    public bool? Deleted { get; set; }
 }

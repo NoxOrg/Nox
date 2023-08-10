@@ -10,10 +10,10 @@ description: Sample Nox solution yaml configuration
 
 variables:
    DATABASE_PROVIDER: slqServer   
-   DATABASE_SERVER: localhost
+   DATABASE_SERVER: 127.0.0.1
    DATABASE_USER: sa
    DATABASE_PASSWORD: Developer*123
-   DATABASE_PORT: 5432
+   DATABASE_PORT: 1433
    
 environments:
 
@@ -400,8 +400,18 @@ application:
         name: Country
         targetType: entity
         
-  
-    
+#  localization:
+#
+#    supportedCultures:
+#      - en-GB
+#      - en-US
+#      - de-CH
+#      - fr-CH
+#      - it-CH
+#      - fr-FR
+#
+#    defaultCulture: en-GB
+
 
 infrastructure:
   
@@ -500,11 +510,12 @@ infrastructure:
 ### In order to use elastic monitoring in the sample you have to start the elastic stack docker instance by running 'docker-compose -f docker-compose.elastic.yaml up -d'
 #    monitoring:
 #      $ref: elastic.monitoring.nox.yaml
-
-    translations:
+    
+    uiLocalizations:
       name: SampleTranslationService
+      provider: sqlServer
       serverUri: translator.iwgplc.com
-      port: 443
+      port: 1433    
 
     dataConnections:
       - name: CountryJsonData

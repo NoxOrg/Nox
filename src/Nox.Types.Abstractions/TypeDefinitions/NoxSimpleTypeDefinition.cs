@@ -110,6 +110,9 @@ public class NoxSimpleTypeDefinition
     [IfEquals("Type", NoxType.Distance)]
     public DistanceTypeOptions? DistanceTypeOptions { get; set; }
 
+    [IfEquals("Type", NoxType.DateTimeRange)]
+    public DateTimeRangeTypeOptions? DateTimeRangeTypeOptions { get; set; }
+
     #endregion TypeOptions
 
     [Title("Is the attribute required? Boolean value.")]

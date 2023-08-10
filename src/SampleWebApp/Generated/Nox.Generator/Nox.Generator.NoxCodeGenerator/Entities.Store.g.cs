@@ -14,7 +14,6 @@ namespace SampleWebApp.Domain;
 /// </summary>
 public partial class Store : AuditableEntityBase
 {
-
     /// <summary>
     /// Store Primary Key (Required).
     /// </summary>

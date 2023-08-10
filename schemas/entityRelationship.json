@@ -60,6 +60,12 @@
         "null"
       ]
     },
+    "isManyRelationshipOnOtherSide": {    
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
     "related": {    
       "type": [
         "object",

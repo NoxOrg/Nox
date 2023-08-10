@@ -10,7 +10,6 @@ using Nox.Application;
 using Nox.Factories;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
-using {{codeGeneratorState.ODataNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 

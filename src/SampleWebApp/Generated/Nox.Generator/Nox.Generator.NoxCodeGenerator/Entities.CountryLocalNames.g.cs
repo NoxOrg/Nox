@@ -14,7 +14,6 @@ namespace SampleWebApp.Domain;
 /// </summary>
 public partial class CountryLocalNames : AuditableEntityBase
 {
-
     /// <summary>
     ///  (Required).
     /// </summary>

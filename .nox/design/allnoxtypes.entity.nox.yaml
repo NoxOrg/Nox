@@ -11,6 +11,11 @@ keys:
     description: DatabaseNumber Nox Type
     type: databaseNumber    
 
+  - name: TextId
+    isRequired: true
+    description: Second Text Id
+    type: text
+
 attributes:
 
   - name: NuidField
@@ -21,14 +26,10 @@ attributes:
         separator: "."
         propertyNames:
             - "TextField" 
-
-  - name: TextField
-    description: Text Nox Type
-    type: text
-    textTypeOptions:
-      minLength: 4
-      maxLength: 63
-    isRequired: true
+ 
+  - name: BooleanField
+    description: BooleanField Nox Type
+    type: boolean    
 
   - name: CountryCode2Field
     description: CountryCode2 Nox Type
@@ -40,12 +41,71 @@ attributes:
     type: countryCode3
     isRequired: true
 
+  - name: CountryNumberField
+    description: CountryNumber Nox Type
+    type: countryNumber
+    isRequired: false
+
   - name: FormulaField
     description: Formula Nox Type
     type: formula
     formulaTypeOptions:
         expression: "CountryCode2Field.ToString()"
         returns: string
+
+  - name: YamlField
+    description: Yaml Nox Type
+    type: yaml
+
+  - name: WeightField
+    description: Weight Nox Type
+    type: weight
+    weightTypeOptions:
+        minValue: 10
+        maxValue: 300
+
+  - name: VolumeField
+    description: Volume Nox Type
+    type: volume
+    volumeTypeOptions:
+        minValue: 100
+        maxValue: 500
+
+  #- name: UserField
+  #  description: User Nox Type
+  #  type: user
+  #  userTypeOptions:
+  #      minLength: 10
+  #      maxLength: 200
+  #  isRequired: true
+
+  - name: UrlField
+    description: Url Nox Type
+    type: url
+
+  - name: UriField
+    description: Uri Nox Type
+    type: uri
+
+  - name: TimeZoneCodeField
+    description: TimeZoneCode Nox Type
+    type: timeZoneCode
+
+  - name: TimeField
+    description: Time Nox Type
+    type: time
+
+  - name: NumberField
+    description: NumberField Nox Type
+    type: number   
+
+  - name: TextField
+    description: Text Nox Type
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
 
 # Compound Types ========================  
   - name: StreetAddressField

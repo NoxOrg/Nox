@@ -22,54 +22,19 @@ public class NoxSolution : Solution
     {
         var fullRelationshipModels = new List<EntityRelationshipWithType>();
 
-        if (entity?.Relationships == null)
+        if (entity?.Relationships != null)
         {
-            return fullRelationshipModels;
-        }
-
-        foreach (var relationship in entity.Relationships)
-        {
-            fullRelationshipModels.Add(new EntityRelationshipWithType
+            foreach (var relationship in entity.Relationships)
             {
-                Relationship = relationship,
-                RelationshipEntityType = getTypeByNameFunc(relationship.Entity)!
-            });
+                fullRelationshipModels.Add(new EntityRelationshipWithType
+                {
+                    Relationship = relationship,
+                    RelationshipEntityType = getTypeByNameFunc(relationship.Entity)!
+                });
+            }
         }
 
         return fullRelationshipModels;
-    }
-
-    internal static bool ShouldGenerateForeignOnThisSide(EntityRelationship relationship)
-    {
-        var isIgnored = false;
-
-        var pairRelationship = relationship.Related.EntityRelationship;
-        if (pairRelationship != null)
-        {
-            // ManyToMany does not need to be handled as it doesn't have special logic
-            // Will be always ignored by default
-            if (relationship.Relationship == EntityRelationshipType.OneOrMany ||
-                relationship.Relationship == EntityRelationshipType.ZeroOrMany)
-            {
-                isIgnored = true;
-            }
-            // If ZeroOrOne vs ExactlyOne handle on ExactlyOne side
-            else if (pairRelationship.Relationship == EntityRelationshipType.ExactlyOne &&
-                relationship.Relationship == EntityRelationshipType.ZeroOrOne)
-            {
-                isIgnored = true;
-            }
-            // If same type on both sides cover on first by ascending alphabetical sort
-            else if (pairRelationship.Relationship == relationship.Relationship &&
-                     // Ascending alphabetical sort
-                     string.Compare(relationship.Entity, pairRelationship.Entity,
-                         StringComparison.InvariantCulture) > 0)
-            {
-                isIgnored = true;
-            }
-        }
-
-        return !isIgnored;
     }
 
     public NoxType GetSimpleKeyTypeForEntity(string entityName)

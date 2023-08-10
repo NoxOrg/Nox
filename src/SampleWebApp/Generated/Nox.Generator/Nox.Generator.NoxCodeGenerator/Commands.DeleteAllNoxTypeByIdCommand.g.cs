@@ -4,31 +4,39 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using SampleWebApp.Presentation.Api.OData;
+using Nox.Application.Commands;
+using Nox.Solution;
+using Nox.Types;
+using SampleWebApp.Infrastructure.Persistence;
+using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Commands;
 
 public record DeleteAllNoxTypeByIdCommand(System.UInt64 key) : IRequest<bool>;
 
-public class DeleteAllNoxTypeByIdCommandHandler: IRequestHandler<DeleteAllNoxTypeByIdCommand, bool>
+public class DeleteAllNoxTypeByIdCommandHandler: CommandBase, IRequestHandler<DeleteAllNoxTypeByIdCommand, bool>
 {
-    public  DeleteAllNoxTypeByIdCommandHandler(ODataDbContext dataDbContext)
-    {
-        DataDbContext = dataDbContext;
-    }
+    public SampleWebAppDbContext DbContext { get; }
 
-    public ODataDbContext DataDbContext { get; }
+    public  DeleteAllNoxTypeByIdCommandHandler(
+        SampleWebAppDbContext dbContext,
+        NoxSolution noxSolution, 
+        IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+    {
+        DbContext = dbContext;
+    }    
 
     public async Task<bool> Handle(DeleteAllNoxTypeByIdCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DataDbContext.AllNoxTypes.FindAsync(request.key);
+        var key = CreateNoxTypeForKey<AllNoxType,DatabaseNumber>("Id", request.key);
+        var entity = await DbContext.AllNoxTypes.FindAsync(key);
         if (entity == null || entity.Deleted == true)
         {
             return false;
         }
 
         entity.Delete();
-        await DataDbContext.SaveChangesAsync(cancellationToken);
+        await DbContext.SaveChangesAsync(cancellationToken);
         return true;
     }
 }

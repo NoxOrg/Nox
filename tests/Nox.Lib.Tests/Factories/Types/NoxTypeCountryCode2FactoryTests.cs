@@ -15,11 +15,11 @@ namespace Nox.Lib.Tests.Factories.Types
             string countryCode = "PT";
 
             // Act
-            var countrCode2 = sut.CreateNoxType(fixture.EntityDefinition, fixture.PropertyName, countryCode);
+            var entity = sut.CreateNoxType(fixture.EntityDefinition, fixture.PropertyName, countryCode);
 
             // Assert
-            countrCode2.Should().NotBeNull();
-            countrCode2!.Value.Should().Be(countryCode);
+            entity.Should().NotBeNull();
+            entity!.Value.Should().Be(countryCode);
         }
     }
 }

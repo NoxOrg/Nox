@@ -14,11 +14,14 @@ namespace SampleWebApp.Domain;
 /// </summary>
 public partial class AllNoxType : AuditableEntityBase
 {
-
     /// <summary>
     /// DatabaseNumber Nox Type (Required).
     /// </summary>
     public DatabaseNumber Id { get; set; } = null!;
+    /// <summary>
+    /// Second Text Id (Required).
+    /// </summary>
+    public Text TextId { get; set; } = null!;
 
     /// <summary>
     /// NuidField Type (Optional).
@@ -26,9 +29,9 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.Nuid? NuidField { get; set; } = null!;
 
     /// <summary>
-    /// Text Nox Type (Required).
+    /// BooleanField Nox Type (Optional).
     /// </summary>
-    public Nox.Types.Text TextField { get; set; } = null!;
+    public Nox.Types.Boolean? BooleanField { get; set; } = null!;
 
     /// <summary>
     /// CountryCode2 Nox Type (Required).
@@ -41,9 +44,59 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.CountryCode3 CountryCode3Field { get; set; } = null!;
 
     /// <summary>
+    /// CountryNumber Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.CountryNumber? CountryNumberField { get; set; } = null!;
+
+    /// <summary>
     /// Formula Nox Type (Optional).
     /// </summary>
     public string? FormulaField => CountryCode2Field.ToString();
+
+    /// <summary>
+    /// Yaml Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.Yaml? YamlField { get; set; } = null!;
+
+    /// <summary>
+    /// Weight Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.Weight? WeightField { get; set; } = null!;
+
+    /// <summary>
+    /// Volume Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.Volume? VolumeField { get; set; } = null!;
+
+    /// <summary>
+    /// Url Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.Url? UrlField { get; set; } = null!;
+
+    /// <summary>
+    /// Uri Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.Uri? UriField { get; set; } = null!;
+
+    /// <summary>
+    /// TimeZoneCode Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.TimeZoneCode? TimeZoneCodeField { get; set; } = null!;
+
+    /// <summary>
+    /// Time Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.Time? TimeField { get; set; } = null!;
+
+    /// <summary>
+    /// NumberField Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.Number? NumberField { get; set; } = null!;
+
+    /// <summary>
+    /// Text Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Text TextField { get; set; } = null!;
 
     /// <summary>
     /// StreetAddress Nox Type (Optional).

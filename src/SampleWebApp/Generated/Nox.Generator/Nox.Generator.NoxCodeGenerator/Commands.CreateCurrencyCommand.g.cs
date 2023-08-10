@@ -10,7 +10,6 @@ using Nox.Application;
 using Nox.Factories;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
-using SampleWebApp.Presentation.Api.OData;
 using SampleWebApp.Application.Dto;
 
 

@@ -8,9 +8,12 @@ namespace Nox.Factories.Types
         public NoxTypeCountryCode3Factory(NoxSolution solution) : base(solution)
         {
         }
-
-        public override CountryCode3? CreateNoxType(Entity entityDefinition, string propertyName, dynamic? value)
+        public override CountryCode3? CreateNoxType(NoxSimpleTypeDefinition simpleTypeDefinition, dynamic? value)
         {
+            if (value == null)
+            {
+                return null;
+            }
             return CountryCode3.From(value);
         }
     }
