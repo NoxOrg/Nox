@@ -258,7 +258,6 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Required).
     /// </summary>
     public Nox.Types.DatabaseNumber DatabaseNumberTestField { get; set; } = null!;
-    public DatabaseNumber DatabaseNumberTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
