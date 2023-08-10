@@ -21,7 +21,7 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-public partial class AllNoxTypesController : ODataController
+public partial class CompoundKeysEntitiesController : ODataController
 {
     
     /// <summary>
@@ -39,7 +39,7 @@ public partial class AllNoxTypesController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public AllNoxTypesController(
+    public CompoundKeysEntitiesController(
         ODataDbContext databaseContext,
         IMapper mapper,
         IMediator mediator
@@ -51,15 +51,15 @@ public partial class AllNoxTypesController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<AllNoxTypeDto>>> Get()
+    public async  Task<ActionResult<IQueryable<CompoundKeysEntityDto>>> Get()
     {
-        var result = await _mediator.Send(new GetAllNoxTypesQuery());
+        var result = await _mediator.Send(new GetCompoundKeysEntitiesQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<AllNoxTypeDto>> Get([FromRoute] System.UInt64 keyId, [FromRoute] System.String keyTextId)
+    public async Task<ActionResult<CompoundKeysEntityDto>> Get([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)
     {
-        var item = await _mediator.Send(new GetAllNoxTypeByIdQuery(keyId, keyTextId));
+        var item = await _mediator.Send(new GetCompoundKeysEntityByIdQuery(keyId1, keyId2));
         
         if (item == null)
         {
@@ -69,20 +69,20 @@ public partial class AllNoxTypesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]AllNoxTypeCreateDto allnoxtype)
+    public async Task<ActionResult> Post([FromBody]CompoundKeysEntityCreateDto compoundkeysentity)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateAllNoxTypeCommand(allnoxtype));
+        var createdKey = await _mediator.Send(new CreateCompoundKeysEntityCommand(compoundkeysentity));
         
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.UInt64 key)
+    public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
-        var result = await _mediator.Send(new DeleteAllNoxTypeByIdCommand(key));
+        var result = await _mediator.Send(new DeleteCompoundKeysEntityByIdCommand(key));
         if (!result)
         {
             return NotFound();

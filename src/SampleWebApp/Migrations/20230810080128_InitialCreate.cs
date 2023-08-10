@@ -17,10 +17,12 @@ namespace SampleWebApp.Migrations
                 {
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    TextId = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     NuidField = table.Column<long>(type: "bigint", nullable: true),
                     BooleanField = table.Column<bool>(type: "bit", nullable: true),
                     CountryCode2Field = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
                     CountryCode3Field = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
+                    CountryNumberField = table.Column<short>(type: "smallint", nullable: true),
                     YamlField = table.Column<string>(type: "varchar(max)", unicode: false, nullable: true),
                     WeightField = table.Column<decimal>(type: "DECIMAL(9,6)", nullable: true),
                     VolumeField = table.Column<decimal>(type: "DECIMAL(9,6)", nullable: true),
@@ -65,7 +67,7 @@ namespace SampleWebApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AllNoxTypes", x => x.Id);
+                    table.PrimaryKey("PK_AllNoxTypes", x => new { x.Id, x.TextId });
                 });
 
             migrationBuilder.CreateTable(

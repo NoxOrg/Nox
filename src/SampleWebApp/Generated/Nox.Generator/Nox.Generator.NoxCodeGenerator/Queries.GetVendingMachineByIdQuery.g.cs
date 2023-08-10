@@ -9,7 +9,7 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetVendingMachineByIdQuery(System.UInt64 key) : IRequest<VendingMachineDto?>;
+public record GetVendingMachineByIdQuery(System.UInt64 keyId) : IRequest<VendingMachineDto?>;
 
 public class GetVendingMachineByIdQueryHandler: IRequestHandler<GetVendingMachineByIdQuery, VendingMachineDto?>
 {
@@ -24,7 +24,9 @@ public class GetVendingMachineByIdQueryHandler: IRequestHandler<GetVendingMachin
     {    
         var item = DataDbContext.VendingMachines
             .AsNoTracking()
-            .SingleOrDefault(r => !(r.Deleted == true) && r.Id.Equals(request.key));            
+            .SingleOrDefault(r =>
+                r.Id.Equals(request.keyId) &&
+                !(r.Deleted == true));
         return Task.FromResult(item);
     }
 }

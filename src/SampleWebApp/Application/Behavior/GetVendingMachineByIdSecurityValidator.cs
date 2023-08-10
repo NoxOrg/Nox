@@ -13,7 +13,7 @@ namespace SampleWebApp.Application.Behavior
             // TODO Get vending machines that he can see....
 
             // Do Validation The current user can only see vending machine with Id equals 1
-            RuleFor(query => query.key).Must(key => key == 1).WithMessage("No permissions to access this vending machine");
+            RuleFor(query => query.keyId).Must(key => key == 1).WithMessage("No permissions to access this vending machine");
         }
     }
 }

@@ -31,6 +31,10 @@ public partial class AllNoxTypeUpdateDto
     /// </summary>
     public System.String CountryCode3Field { get; set; } = default!;
     /// <summary>
+    /// CountryNumber Nox Type (Optional).
+    /// </summary>
+    public System.Int16? CountryNumberField { get; set; } 
+    /// <summary>
     /// Formula Nox Type (Optional).
     /// </summary>
     public System.String? FormulaField { get; set; } 

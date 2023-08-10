@@ -18,6 +18,10 @@ public partial class AllNoxType : AuditableEntityBase
     /// DatabaseNumber Nox Type (Required).
     /// </summary>
     public DatabaseNumber Id { get; set; } = null!;
+    /// <summary>
+    /// Second Text Id (Required).
+    /// </summary>
+    public Text TextId { get; set; } = null!;
 
     /// <summary>
     /// NuidField Type (Optional).
@@ -38,6 +42,11 @@ public partial class AllNoxType : AuditableEntityBase
     /// CountryCode3 Nox Type (Required).
     /// </summary>
     public Nox.Types.CountryCode3 CountryCode3Field { get; set; } = null!;
+
+    /// <summary>
+    /// CountryNumber Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.CountryNumber? CountryNumberField { get; set; } = null!;
 
     /// <summary>
     /// Formula Nox Type (Optional).
