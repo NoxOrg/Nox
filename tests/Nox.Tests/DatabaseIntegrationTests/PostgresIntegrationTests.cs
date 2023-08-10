@@ -31,9 +31,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         // languageCode
         // yaml
         // uri
-        // date
         // dateTimeSchedule
-        // html
         // json
 
         // TODO: commented types
@@ -115,6 +113,14 @@ public class PostgresIntegrationTests : PostgresTestBase
         var dateTimeRangeStart = new DateTimeOffset(2023, 4, 12, 0, 0, 0, TimeSpan.FromHours(3));
         var dateTimeRangeEnd = new DateTimeOffset(2023, 7, 10, 0, 0, 0, TimeSpan.FromHours(5));
 
+        var html = @"
+<html>
+    <body>
+    Plain text
+    <p> Paragraph text </p>
+    </body>
+</html>";
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -161,6 +167,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             UriTestField = Types.Uri.From(sampleUri),
             GeoCoordTestField = LatLong.From(latitude, longitude),
             DateTimeRangeTestField = DateTimeRange.From(dateTimeRangeStart, dateTimeRangeEnd),
+            HtmlTestField = Html.From(html),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -238,5 +245,6 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.DateTimeRangeTestField!.End.ToString().Should().Be(dateTimeRangeEnd.ToString());
         testEntity.DateTimeRangeTestField.StartTimeZoneOffset.Should().Be(dateTimeRangeStart.Offset);
         testEntity.DateTimeRangeTestField.EndTimeZoneOffset.Should().Be(dateTimeRangeEnd.Offset);
+        testEntity.HtmlTestField!.Value.Should().Be(html);
     }
 }

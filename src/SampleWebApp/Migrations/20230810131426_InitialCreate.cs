@@ -29,6 +29,8 @@ namespace SampleWebApp.Migrations
                     UrlField = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: true),
                     UriField = table.Column<string>(type: "varchar(2083)", unicode: false, maxLength: 2083, nullable: true),
                     TimeZoneCodeField = table.Column<string>(type: "varchar(5)", unicode: false, maxLength: 5, nullable: true),
+                    TemperatureField = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    PercentageField = table.Column<float>(type: "real", maxLength: 2, nullable: true),
                     TimeField = table.Column<TimeSpan>(type: "time", nullable: true),
                     NumberField = table.Column<int>(type: "int", nullable: true),
                     TextField = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),

@@ -91,6 +91,13 @@ namespace SampleWebApp.Migrations
                     b.Property<int?>("NumberField")
                         .HasColumnType("int");
 
+                    b.Property<float?>("PercentageField")
+                        .HasMaxLength(2)
+                        .HasColumnType("real");
+
+                    b.Property<decimal?>("TemperatureField")
+                        .HasColumnType("decimal(18,2)");
+
                     b.Property<string>("TextField")
                         .IsRequired()
                         .HasMaxLength(63)

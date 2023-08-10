@@ -2,6 +2,7 @@
 using MediatR;
 using Microsoft.Extensions.Logging;
 using Nox.Extensions;
+using Nox.Types;
 
 namespace Nox.Application.Behaviors
 {
@@ -26,14 +27,12 @@ namespace Nox.Application.Behaviors
                 .Select(v => v.Validate(request))
                 .SelectMany(result => result.Errors)
                 .Where(error => error != null)
+                .Select(x => new ValidationFailure($"{typeName}.{x.PropertyName}", x.ErrorMessage))
                 .ToList();
 
             if (failures.Any())
             {
-                _logger.LogWarning("Validation errors - {Type} - Command: {@requests} - Errors: {@Errors}", typeName, request, failures);
-
-                throw new Exception(
-                    $"Validation Errors for {typeof(TRequest).Name}", new ValidationException(failures[0].ErrorMessage, failures));
+                throw new TypeValidationException(failures);
             }
 
             return await next();

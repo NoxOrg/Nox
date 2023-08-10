@@ -63,6 +63,14 @@ public partial class AllNoxTypeUpdateDto
     /// </summary>
     public System.String? TimeZoneCodeField { get; set; } 
     /// <summary>
+    /// Temperature Nox Type (Optional).
+    /// </summary>
+    public System.Single? TemperatureField { get; set; } 
+    /// <summary>
+    /// Percentage Nox Type (Optional).
+    /// </summary>
+    public System.Single? PercentageField { get; set; } 
+    /// <summary>
     /// Time Nox Type (Optional).
     /// </summary>
     public System.DateTimeOffset? TimeField { get; set; } 
