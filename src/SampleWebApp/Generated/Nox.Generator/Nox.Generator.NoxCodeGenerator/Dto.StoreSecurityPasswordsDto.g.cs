@@ -34,5 +34,12 @@ public partial class StoreSecurityPasswordsDto
     ///  (Required).
     /// </summary>
     public System.String SecurityCamerasPassword { get; set; } = default!;
+
+    /// <summary>
+    /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores
+    /// </summary>  
+    //EF maps ForeignKey Automatically
+    public virtual string StoreId { get; set; } = null!;
+    public virtual StoreDto Store { get; set; } = null!;
     public bool? Deleted { get; set; }
 }
