@@ -136,7 +136,7 @@ internal class ApiGenerator : INoxCodeGenerator
             {
                 GeneratePut(entity, code);
 
-                GeneratePatch(entity, entityName, pluralName, variableName, code);
+                GeneratePatch(entity, entityName, pluralName, code);
             }
 
             if (entity.Persistence is null ||
@@ -210,7 +210,7 @@ internal class ApiGenerator : INoxCodeGenerator
         }
 
         // Method Put
-        code.AppendLine($"public async Task<ActionResult> Put([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] {entity.Name}Dto updated{entity.Name})");
+        code.AppendLine($"public async Task<ActionResult> Put([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] {entity.Name}UpdateDto {entity.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();
@@ -218,38 +218,22 @@ internal class ApiGenerator : INoxCodeGenerator
         code.StartBlock();
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
+        code.AppendLine();        
+        code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command(key,{entity.Name.ToLowerFirstChar()}));");
         code.AppendLine();
-        code.AppendLine($"if (key != updated{entity.Name}.Id)");
-        code.StartBlock();
-        code.AppendLine($"return BadRequest();");
-        code.EndBlock();
-        code.AppendLine();
-        code.AppendLine($"_databaseContext.Entry(updated{entity.Name}).State = EntityState.Modified;");
-        code.AppendLine();
-        code.AppendLine($"try");
-        code.StartBlock();
-        code.AppendLine($"await _databaseContext.SaveChangesAsync();");
-        code.EndBlock();
-        code.AppendLine($"catch (DbUpdateConcurrencyException)");
-        code.StartBlock();
-        code.AppendLine($"if (!{entity.Name}Exists(key))");
+        
+        code.AppendLine($"if (!updated)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
-        code.AppendLine($"else");
-        code.StartBlock();
-        code.AppendLine($"throw;");
-        code.EndBlock();
-        code.EndBlock();
-        code.AppendLine();
-        code.AppendLine($"return Updated(updated{entity.Name});");
+        code.AppendLine($"return Updated({entity.Name.ToLowerFirstChar()});");
 
         // End method
         code.EndBlock();
         code.AppendLine();
     }
 
-    private static void GeneratePatch(Entity entity, string entityName, string pluralName, string variableName, CodeBuilder code)
+    private static void GeneratePatch(Entity entity, string entityName, string pluralName, CodeBuilder code)
     {
         // TODO Composite Keys
         if (entity.Keys is { Count: > 1 })
@@ -258,7 +242,7 @@ internal class ApiGenerator : INoxCodeGenerator
             return;
         }
         // Method Patch
-        code.AppendLine($"public async Task<ActionResult> Patch([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] Delta<{entityName}Dto> {variableName})");
+        code.AppendLine($"public async Task<ActionResult> Patch([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] Delta<{entityName}UpdateDto> {entity.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();
@@ -266,33 +250,10 @@ internal class ApiGenerator : INoxCodeGenerator
         code.StartBlock();
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
+        code.AppendLine(" await Task.Delay(1000);//TODO Map to command");
+
         code.AppendLine();
-        code.AppendLine($"var entity = await _databaseContext.{entity.PluralName}.FindAsync(key);");
-        code.AppendLine();
-        code.AppendLine($"if (entity == null)");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
-        code.AppendLine();
-        code.AppendLine($"{variableName}.Patch(entity);");
-        code.AppendLine();
-        code.AppendLine($"try");
-        code.StartBlock();
-        code.AppendLine($"await _databaseContext.SaveChangesAsync();");
-        code.EndBlock();
-        code.AppendLine($"catch (DbUpdateConcurrencyException)");
-        code.StartBlock();
-        code.AppendLine($"if (!{entityName}Exists(key))");
-        code.StartBlock();
-        code.AppendLine($"return NotFound();");
-        code.EndBlock();
-        code.AppendLine($"else");
-        code.StartBlock();
-        code.AppendLine($"throw;");
-        code.EndBlock();
-        code.EndBlock();
-        code.AppendLine();
-        code.AppendLine($"return Updated(entity);");
+        code.AppendLine($"return Updated({entity.Name.ToLowerFirstChar()});");
 
         // End method
         code.EndBlock();
@@ -346,26 +307,26 @@ internal class ApiGenerator : INoxCodeGenerator
         code.EndBlock();
         code.AppendLine();
 
-        // TODO Composite Keys
-        if (entity.Keys is { Count: > 1 })
+        if (entity.Keys is null)
         {
-            Debug.WriteLine($"Get for composite keys Not implemented, Entity - {entity.Name}...");
-            return;
-        }
-
-        if (entity.Keys!.Count > 1)
-        {
-            Debug.WriteLine($"Get for composite keys Not implemented, Entity - {entity.Name}...");
+            Debug.WriteLine($"Key(s) should be defined for Get by id query, Entity - {entity.Name}...");
             return;
         }
 
         // We do not support Compound types as primary keys, this is validated on the schema
         // Method Get
-        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Get([FromRoute] {entity.KeysFlattenComponentsType[entity.Keys[0].Name]} key)");
+        var primaryKeys = entity.Keys.Count() > 1 ?
+            string.Join(", ", entity.Keys.Select(k => $"[FromRoute] {entity.KeysFlattenComponentsType[k.Name]} key{k.Name}")) :
+            $"[FromRoute] {entity.KeysFlattenComponentsType[entity.Keys[0].Name]} key";
+        var primaryKeysQuery = entity.Keys.Count() > 1 ?
+            string.Join(", ", entity.Keys.Select(k => $"key{k.Name}")) :
+            $"key";
+
+        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Get({primaryKeys})");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery(key));");
+        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({primaryKeysQuery}));");
         code.AppendLine();
         code.AppendLine($"if (item == null)");
         code.StartBlock();

@@ -94,72 +94,31 @@ public partial class CountriesController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] CountryDto updatedCountry)
+    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] CountryUpdateDto country)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        if (key != updatedCountry.Id)
-        {
-            return BadRequest();
-        }
+        var updated = await _mediator.Send(new UpdateCountryCommand(key,country));
         
-        _databaseContext.Entry(updatedCountry).State = EntityState.Modified;
-        
-        try
-        {
-            await _databaseContext.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!CountryExists(key))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
-        
-        return Updated(updatedCountry);
-    }
-    
-    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<CountryDto> country)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var entity = await _databaseContext.Countries.FindAsync(key);
-        
-        if (entity == null)
+        if (!updated)
         {
             return NotFound();
         }
-        
-        country.Patch(entity);
-        
-        try
+        return Updated(country);
+    }
+    
+    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<CountryUpdateDto> country)
+    {
+        if (!ModelState.IsValid)
         {
-            await _databaseContext.SaveChangesAsync();
+            return BadRequest(ModelState);
         }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!CountryExists(key))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
+         await Task.Delay(1000);//TODO Map to command
         
-        return Updated(entity);
+        return Updated(country);
     }
     
     private bool CountryExists(System.String key)

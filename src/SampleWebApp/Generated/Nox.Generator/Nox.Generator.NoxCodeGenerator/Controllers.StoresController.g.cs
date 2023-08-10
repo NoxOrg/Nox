@@ -80,72 +80,31 @@ public partial class StoresController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] StoreDto updatedStore)
+    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] StoreUpdateDto store)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        if (key != updatedStore.Id)
-        {
-            return BadRequest();
-        }
+        var updated = await _mediator.Send(new UpdateStoreCommand(key,store));
         
-        _databaseContext.Entry(updatedStore).State = EntityState.Modified;
-        
-        try
-        {
-            await _databaseContext.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!StoreExists(key))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
-        
-        return Updated(updatedStore);
-    }
-    
-    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<StoreDto> store)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var entity = await _databaseContext.Stores.FindAsync(key);
-        
-        if (entity == null)
+        if (!updated)
         {
             return NotFound();
         }
-        
-        store.Patch(entity);
-        
-        try
+        return Updated(store);
+    }
+    
+    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<StoreUpdateDto> store)
+    {
+        if (!ModelState.IsValid)
         {
-            await _databaseContext.SaveChangesAsync();
+            return BadRequest(ModelState);
         }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!StoreExists(key))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
+         await Task.Delay(1000);//TODO Map to command
         
-        return Updated(entity);
+        return Updated(store);
     }
     
     private bool StoreExists(System.String key)

@@ -13,8 +13,8 @@ namespace Nox.Solution.Validation
             RuleFor(p => p.Monitoring!)
                 .SetValidator(v => new ServerBaseValidator("the infrastructure, dependencies, monitoring server", servers));
             
-            RuleFor(p => p.Translations!)
-                .SetValidator(v => new ServerBaseValidator("the infrastructure, dependencies, translations server", servers));
+            RuleFor(p => p.UiLocalizations!)
+                .SetValidator(v => new LocalizationsValidator(servers));
 
             RuleForEach(p => p.DataConnections)
                 .SetValidator(v => new DataConnectionValidator(servers));

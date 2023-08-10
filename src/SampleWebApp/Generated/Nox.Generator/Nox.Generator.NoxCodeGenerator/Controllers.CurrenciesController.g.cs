@@ -80,72 +80,31 @@ public partial class CurrenciesController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.UInt32 key, [FromBody] CurrencyDto updatedCurrency)
+    public async Task<ActionResult> Put([FromRoute] System.UInt32 key, [FromBody] CurrencyUpdateDto currency)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        if (key != updatedCurrency.Id)
-        {
-            return BadRequest();
-        }
+        var updated = await _mediator.Send(new UpdateCurrencyCommand(key,currency));
         
-        _databaseContext.Entry(updatedCurrency).State = EntityState.Modified;
-        
-        try
-        {
-            await _databaseContext.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!CurrencyExists(key))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
-        
-        return Updated(updatedCurrency);
-    }
-    
-    public async Task<ActionResult> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<CurrencyDto> currency)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var entity = await _databaseContext.Currencies.FindAsync(key);
-        
-        if (entity == null)
+        if (!updated)
         {
             return NotFound();
         }
-        
-        currency.Patch(entity);
-        
-        try
+        return Updated(currency);
+    }
+    
+    public async Task<ActionResult> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<CurrencyUpdateDto> currency)
+    {
+        if (!ModelState.IsValid)
         {
-            await _databaseContext.SaveChangesAsync();
+            return BadRequest(ModelState);
         }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!CurrencyExists(key))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
+         await Task.Delay(1000);//TODO Map to command
         
-        return Updated(entity);
+        return Updated(currency);
     }
     
     private bool CurrencyExists(System.UInt32 key)

@@ -6,7 +6,6 @@ namespace Nox.Types.Tests.Types;
 /// <summary>
 /// The time tests.
 /// </summary>
-
 public class TimeTests
 {
     [Fact]
@@ -124,7 +123,7 @@ public class TimeTests
             int minute = 22;
             int seconds = 35;
             int milliseconds = 947;
-            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => _ =
+            Assert.Throws<ArgumentOutOfRangeException>(() => _ =
               Time.From(hour, minute, seconds, milliseconds)
             );
         }
@@ -154,8 +153,8 @@ public class TimeTests
         void Test()
         {
             long ticks = 11111525000000;
-            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => _ =
-              Time.From(ticks)
+            Assert.Throws<ArgumentOutOfRangeException>(() => _ =
+                Time.From(ticks)
             );
         }
 
@@ -168,10 +167,9 @@ public class TimeTests
         void Test()
         {
             long ticks = -11111525000000;
-            var exception = Assert.Throws<ArgumentOutOfRangeException>(() => _ =
-              Time.From(ticks)
+            Assert.Throws<ArgumentOutOfRangeException>(() => _ =
+                Time.From(ticks)
             );
-
         }
 
         TestUtility.RunInCulture(Test, "en-GB");

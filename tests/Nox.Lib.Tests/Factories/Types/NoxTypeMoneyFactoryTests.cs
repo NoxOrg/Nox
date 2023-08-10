@@ -20,12 +20,12 @@ namespace Nox.Lib.Tests.Factories.Types
             var dto = new MoneyDto(amount, currencyCode);
 
             // Act
-            var money = sut.CreateNoxType(fixture.EntityDefinition, fixture.PropertyName, dto);
+            var entity = sut.CreateNoxType(fixture.EntityDefinition, fixture.PropertyName, dto);
 
             // Assert
-            money.Should().NotBeNull();
-            money!.Amount.Should().Be(amount);
-            money!.CurrencyCode.Should().Be(currencyCode);
+            entity.Should().NotBeNull();
+            entity!.Amount.Should().Be(amount);
+            entity!.CurrencyCode.Should().Be(currencyCode);
         }
     }
 

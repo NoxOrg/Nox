@@ -1,18 +1,16 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
-using Nox.Solution;
 using Nox.Generator.Common.TemplateScriptsBridges;
+using Nox.Solution;
 using Scriban;
 using Scriban.Parsing;
 using Scriban.Runtime;
+using System.Collections.Generic;
+using System.IO;
+using System.Reflection;
+using System.Text;
 
 namespace Nox.Generator.Common;
-
 
 internal class TemplateCodeBuilder
 
@@ -108,7 +106,8 @@ internal class TemplateCodeBuilder
 
     private string ComputeDefaultClassName(string templateFileName)
     {
-        return templateFileName.Split('.').Last();
+        var templateNameParts = templateFileName.Split('.');
+        return templateNameParts[templateNameParts.Length - 1];
     }
 
     private void GenerateSourceCode(string template, object model, string sourceFileName)
@@ -131,6 +130,4 @@ internal class TemplateCodeBuilder
             SourceText.From(strongTemplate.Render(context),
             Encoding.UTF8));
     }
-
-   
 }
