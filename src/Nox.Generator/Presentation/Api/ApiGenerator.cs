@@ -134,9 +134,9 @@ internal class ApiGenerator : INoxCodeGenerator
             if (entity.Persistence is null ||
                 entity.Persistence.Update.IsEnabled)
             {
-                GeneratePut(entity, code);
+                GeneratePut(entity, code, codeGeneratorState.Solution);
 
-                GeneratePatch(entity, entityName, pluralName, code);
+                GeneratePatch(entity, entityName, pluralName, code, codeGeneratorState.Solution);
             }
 
             if (entity.Persistence is null ||
@@ -199,10 +199,10 @@ internal class ApiGenerator : INoxCodeGenerator
         code.EndBlock();
     }
 
-    private static void GeneratePut(Entity entity, CodeBuilder code)
+    private static void GeneratePut(Entity entity, CodeBuilder code, NoxSolution solution)
     {
         // Method Put
-        code.AppendLine($"public async Task<ActionResult> Put({primaryKeysFromRoute(entity)}, [FromBody] {entity.Name}UpdateDto {entity.Name.ToLowerFirstChar()})");
+        code.AppendLine($"public async Task<ActionResult> Put({PrimaryKeysFromRoute(entity, solution)}, [FromBody] {entity.Name}UpdateDto {entity.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();
@@ -225,10 +225,10 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine();
     }
 
-    private static void GeneratePatch(Entity entity, string entityName, string pluralName, CodeBuilder code)
+    private static void GeneratePatch(Entity entity, string entityName, string pluralName, CodeBuilder code, NoxSolution solution)
     {
         // Method Patch
-        code.AppendLine($"public async Task<ActionResult> Patch({primaryKeysFromRoute(entity)}, [FromBody] Delta<{entityName}UpdateDto> {entity.Name.ToLowerFirstChar()})");
+        code.AppendLine($"public async Task<ActionResult> Patch({PrimaryKeysFromRoute(entity, solution)}, [FromBody] Delta<{entityName}UpdateDto> {entity.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();

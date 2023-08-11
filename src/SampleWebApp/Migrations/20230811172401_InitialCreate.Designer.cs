@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230811162848_InitialCreate")]
+    [Migration("20230811172401_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -321,6 +321,52 @@ namespace SampleWebApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Currencies");
+                });
+
+            modelBuilder.Entity("SampleWebApp.Domain.CurrencyCashBalance", b =>
+                {
+                    b.Property<string>("StoreId")
+                        .HasMaxLength(3)
+                        .IsUnicode(false)
+                        .HasColumnType("char(3)")
+                        .IsFixedLength();
+
+                    b.Property<uint>("CurrencyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("OperationLimit")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("UpdatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("StoreId", "CurrencyId");
+
+                    b.HasIndex("CurrencyId")
+                        .IsUnique();
+
+                    b.HasIndex("StoreId")
+                        .IsUnique();
+
+                    b.ToTable("CurrencyCashBalances");
                 });
 
             modelBuilder.Entity("SampleWebApp.Domain.Store", b =>
@@ -708,6 +754,50 @@ namespace SampleWebApp.Migrations
                         });
 
                     b.Navigation("GeoCoord");
+                });
+
+            modelBuilder.Entity("SampleWebApp.Domain.CurrencyCashBalance", b =>
+                {
+                    b.HasOne("SampleWebApp.Domain.Currency", "Currency")
+                        .WithOne()
+                        .HasForeignKey("SampleWebApp.Domain.CurrencyCashBalance", "CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SampleWebApp.Domain.Store", "Store")
+                        .WithOne()
+                        .HasForeignKey("SampleWebApp.Domain.CurrencyCashBalance", "StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("Nox.Types.Money", "Amount", b1 =>
+                        {
+                            b1.Property<string>("CurrencyCashBalanceStoreId")
+                                .HasColumnType("char(3)");
+
+                            b1.Property<uint>("CurrencyCashBalanceCurrencyId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("decimal(15, 5)");
+
+                            b1.Property<int>("CurrencyCode")
+                                .HasColumnType("int");
+
+                            b1.HasKey("CurrencyCashBalanceStoreId", "CurrencyCashBalanceCurrencyId");
+
+                            b1.ToTable("CurrencyCashBalances");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CurrencyCashBalanceStoreId", "CurrencyCashBalanceCurrencyId");
+                        });
+
+                    b.Navigation("Amount")
+                        .IsRequired();
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("Store");
                 });
 
             modelBuilder.Entity("SampleWebApp.Domain.Store", b =>
