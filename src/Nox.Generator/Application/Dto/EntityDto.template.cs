@@ -28,7 +28,7 @@ public partial class {{className}}
     /// {{key.Description}} (Required).
     /// </summary>    
     {{ if key.Type == "Entity" -}}
-    public {{SingleKeyPrimitiveTypeForEntity key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
+    public {{SingleKeyPrimitiveTypeForEntity key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = default!; 
     {{- else -}}
     public {{entity.KeysFlattenComponentsType[key.Name]}} {{key.Name}} { get; set; } = default!; 
     {{- end}}

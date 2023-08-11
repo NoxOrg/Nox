@@ -282,7 +282,7 @@ domain:
   
     - $ref: allnoxtypes.entity.nox.yaml
   
-    #- $ref: currencyCashBalance.entity.nox.yaml
+    - $ref: currencyCashBalance.entity.nox.yaml
         
     - name: CountryLocalNames
       description: The name of a country in other languages

@@ -46,6 +46,8 @@ public class ODataDbContext : DbContext
         
         public DbSet<AllNoxTypeDto> AllNoxTypes { get; set; } = null!;
         
+        public DbSet<CurrencyCashBalanceDto> CurrencyCashBalances { get; set; } = null!;
+        
         public DbSet<CountryLocalNamesDto> CountryLocalNames { get; set; } = null!;
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -90,6 +92,13 @@ public class ODataDbContext : DbContext
                 
                 builder.HasKey("Id");
                 builder.HasKey("TextId");
+            }
+            {
+                var type = typeof(CurrencyCashBalanceDto);
+                var builder = modelBuilder.Entity(type!);
+                
+                builder.HasKey("StoreId");
+                builder.HasKey("CurrencyId");
             }
             {
                 var type = typeof(CountryLocalNamesDto);

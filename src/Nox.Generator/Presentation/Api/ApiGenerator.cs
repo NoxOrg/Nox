@@ -114,7 +114,7 @@ internal class ApiGenerator : INoxCodeGenerator
             if (entity.Persistence is null ||
                 entity.Persistence.Read.IsEnabled)
             {
-                GenerateGet(entity, code);
+                GenerateGet(entity, code, codeGeneratorState.Solution);
 
                 if (entity.OwnedRelationships != null)
                 {
@@ -142,7 +142,7 @@ internal class ApiGenerator : INoxCodeGenerator
             if (entity.Persistence is null ||
                 entity.Persistence.Delete.IsEnabled)
             {
-                GenerateDelete(entity, entityName, code);
+                GenerateDelete(entity, entityName, code, codeGeneratorState.Solution);
             }
 
             // Generate GET request mapping for Queries
@@ -179,10 +179,10 @@ internal class ApiGenerator : INoxCodeGenerator
         }
     }
 
-    private static void GenerateDelete(Entity entity, string entityName, CodeBuilder code)
+    private static void GenerateDelete(Entity entity, string entityName, CodeBuilder code, NoxSolution solution)
     {
         // Method Delete
-        code.AppendLine($"public async Task<ActionResult> Delete({primaryKeysFromRoute(entity)})");
+        code.AppendLine($"public async Task<ActionResult> Delete({PrimaryKeysFromRoute(entity, solution)})");
 
         // Method content
         code.StartBlock();
@@ -311,7 +311,7 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine();
     }
 
-    private static void GenerateGet(Entity entity, CodeBuilder code)
+    private static void GenerateGet(Entity entity, CodeBuilder code, NoxSolution solution)
     {
         // Method Get
         code.AppendLine($"[EnableQuery]");
@@ -334,7 +334,7 @@ internal class ApiGenerator : INoxCodeGenerator
 
         // We do not support Compound types as primary keys, this is validated on the schema
         // Method Get
-        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Get({primaryKeysFromRoute(entity)})");
+        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Get({PrimaryKeysFromRoute(entity, solution)})");
 
         // Method content
         code.StartBlock();
@@ -367,10 +367,10 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine();
     }
 
-    private static string primaryKeysFromRoute(Entity entity)
+    private static string PrimaryKeysFromRoute(Entity entity, NoxSolution solution)
     {
         if (entity.Keys.Count() > 1)
-            return string.Join(", ", entity.Keys.Select(k => $"[FromRoute] {entity.KeysFlattenComponentsType[k.Name]} key{k.Name}"));
+            return string.Join(", ", entity.Keys.Select(k => $"[FromRoute] {solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
         else if (entity.Keys is not null)
             return $"[FromRoute] {entity.KeysFlattenComponentsType[entity.Keys[0].Name]} key";
 
