@@ -100,6 +100,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Localization.Tests", ".
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Localization.Sqlite", "Nox.Localization.Sqlite\Nox.Localization.Sqlite.csproj", "{4039D4E7-DBF9-46C0-A23D-BF299922C108}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nox.Localization.SqlServer", "Nox.Localization.SqlServer\Nox.Localization.SqlServer.csproj", "{68DCC550-BF01-44AF-AA83-93C50E89F23D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -222,6 +224,10 @@ Global
 		{4039D4E7-DBF9-46C0-A23D-BF299922C108}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4039D4E7-DBF9-46C0-A23D-BF299922C108}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4039D4E7-DBF9-46C0-A23D-BF299922C108}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68DCC550-BF01-44AF-AA83-93C50E89F23D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68DCC550-BF01-44AF-AA83-93C50E89F23D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68DCC550-BF01-44AF-AA83-93C50E89F23D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68DCC550-BF01-44AF-AA83-93C50E89F23D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -255,6 +261,7 @@ Global
 		{6201A401-BF1D-46CC-8388-972BDF162605} = {6730457C-4A23-46A7-9A4C-E1F5B02ADF8F}
 		{7BD651E7-3B5C-4118-963C-629C34F30258} = {1EC38150-0AA2-4D31-B9B3-84E25D7BBD7D}
 		{4039D4E7-DBF9-46C0-A23D-BF299922C108} = {6730457C-4A23-46A7-9A4C-E1F5B02ADF8F}
+		{68DCC550-BF01-44AF-AA83-93C50E89F23D} = {6730457C-4A23-46A7-9A4C-E1F5B02ADF8F}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {0E72B357-9E1E-43B5-9868-8D2B74CB2AF0}
