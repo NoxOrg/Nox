@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
@@ -18,8 +19,22 @@ public class DateTimeRangeDatabaseConfigurator : INoxTypeDatabaseConfigurator
         Entity entity, bool isKey)
     {
         builder
-             .OwnsOne(typeof(DateTimeRange), property.Name)
-             .Ignore(nameof(DateTimeRange.Value));
+            .OwnsOne(typeof(DateTimeRange), property.Name, dtr =>
+            {
+                dtr.Property(nameof(DateTimeRange.Start))
+                    .HasConversion<DateTimeRangeConverter>();
+
+                dtr.Property(nameof(DateTimeRange.End))
+                    .HasConversion<DateTimeRangeConverter>();
+
+                dtr.Property(nameof(DateTimeRange.StartTimeZoneOffset))
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
+
+                dtr.Property(nameof(DateTimeRange.EndTimeZoneOffset))
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
+
+                dtr.Ignore(nameof(DateTimeRange.Value));
+            });
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;

@@ -4,24 +4,32 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using {{codeGeneratorState.ODataNameSpace}};
+using Nox.Application.Commands;
+using Nox.Solution;
+using Nox.Types;
+using {{codeGeneratorState.PersistenceNameSpace}};
+using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 public record Delete{{entity.Name }}ByIdCommand({{entity.KeysFlattenComponentsType[entity.Keys[0].Name]}} key) : IRequest<bool>;
 
-public class Delete{{entity.Name}}ByIdCommandHandler: IRequestHandler<Delete{{entity.Name }}ByIdCommand, bool>
+public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase, IRequestHandler<Delete{{entity.Name }}ByIdCommand, bool>
 {
-    public  Delete{{entity.Name}}ByIdCommandHandler(ODataDbContext dataDbContext)
-    {
-        DataDbContext = dataDbContext;
-    }
+    public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 
-    public ODataDbContext DataDbContext { get; }
+    public  Delete{{entity.Name}}ByIdCommandHandler(
+        {{codeGeneratorState.Solution.Name}}DbContext dbContext,
+        NoxSolution noxSolution, 
+        IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+    {
+        DbContext = dbContext;
+    }    
 
     public async Task<bool> Handle(Delete{{entity.Name}}ByIdCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DataDbContext.{{entity.PluralName}}.FindAsync(request.key);
+        var key = CreateNoxTypeForKey<{{entity.Name}},{{entity.Keys[0].Type}}>("{{entity.Keys[0].Name}}", request.key);
+        var entity = await DbContext.{{entity.PluralName}}.FindAsync(key);
         if (entity == null{{if (entity.Persistence?.IsVersioned ?? true)}} || entity.Deleted == true{{end}})
         {
             return false;
@@ -30,9 +38,9 @@ public class Delete{{entity.Name}}ByIdCommandHandler: IRequestHandler<Delete{{en
         {{ if (entity.Persistence?.IsVersioned ?? true) -}}
         entity.Delete();
         {{- else -}}
-        DataDbContext.{{entity.PluralName}}.Remove(entity);
+        DbContext.{{entity.PluralName}}.Remove(entity);
         {{- end}}
-        await DataDbContext.SaveChangesAsync(cancellationToken);
+        await DbContext.SaveChangesAsync(cancellationToken);
         return true;
     }
 }

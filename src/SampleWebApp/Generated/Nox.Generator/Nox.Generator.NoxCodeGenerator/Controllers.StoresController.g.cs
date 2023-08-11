@@ -80,72 +80,50 @@ public partial class StoresController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] StoreDto updatedStore)
+    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] StoreUpdateDto store)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        if (key != updatedStore.Id)
-        {
-            return BadRequest();
-        }
+        var updated = await _mediator.Send(new UpdateStoreCommand(key,store));
         
-        _databaseContext.Entry(updatedStore).State = EntityState.Modified;
-        
-        try
-        {
-            await _databaseContext.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!StoreExists(key))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
-        
-        return Updated(updatedStore);
-    }
-    
-    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<StoreDto> store)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var entity = await _databaseContext.Stores.FindAsync(key);
-        
-        if (entity == null)
+        if (!updated)
         {
             return NotFound();
         }
-        
-        store.Patch(entity);
-        
-        try
+        return Updated(store);
+    }
+    
+    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<StoreUpdateDto> store)
+    {
+        if (!ModelState.IsValid)
         {
-            await _databaseContext.SaveChangesAsync();
+            return BadRequest(ModelState);
         }
-        catch (DbUpdateConcurrencyException)
+        var updateProperties = new Dictionary<string, dynamic>();
+        var deletedProperties = new List<string>();
+
+        foreach (var propertyName in store.GetChangedPropertyNames())
         {
-            if (!StoreExists(key))
+            if(store.TryGetPropertyValue(propertyName, out dynamic value))
             {
-                return NotFound();
+                updateProperties[propertyName] = value;                
             }
             else
             {
-                throw;
+                deletedProperties.Add(propertyName);
             }
         }
         
-        return Updated(entity);
+        var updated = await _mediator.Send(new PartialUpdateStoreCommand(key,updateProperties,deletedProperties));
+        
+        if (!updated)
+        {
+            return NotFound();
+        }
+        return Updated(store);
     }
     
     private bool StoreExists(System.String key)

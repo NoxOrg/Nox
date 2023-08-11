@@ -43,6 +43,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="ExpectedGeneratedFiles\Controllers.CompoundKeysEntitiesController.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\Controllers.CountriesController.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\Country.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\CountryNameChangedAppEvent.expected.g.cs" />
@@ -122,6 +123,9 @@
     <AdditionalFiles Include="ExpectedGeneratedFiles\CountryNameUpdatedEvent.expected.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
+	<AdditionalFiles Include="ExpectedGeneratedFiles\Controllers.CompoundKeysEntitiesController.g.cs">
+		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	</AdditionalFiles>
     <AdditionalFiles Include="ExpectedGeneratedFiles\Controllers.CountriesController.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>

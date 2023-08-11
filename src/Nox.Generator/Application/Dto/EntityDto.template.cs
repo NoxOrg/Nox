@@ -17,7 +17,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 /// {{entity.Description}}.
 /// </summary>
 [AutoMap(typeof({{entity.Name}}CreateDto))]
-public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else}}EntityBase{{end}}
+public partial class {{className}} 
 {
 {{- for key in entity.Keys }}
 
@@ -78,4 +78,8 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     public virtual {{relationship.Entity}}Dto {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.EntityPlural}} { get; set; } = null!;
     {{-end}}
 {{- end }}
+
+{{- if isVersioned #TODO do not expose Deleted on end points??}}
+    public bool? Deleted { get; set; }
+{{- end}}
 }

@@ -9,7 +9,7 @@ namespace Nox.Solution;
 [AdditionalProperties(false)]
 public class Dependencies
 {
-    public Translations? Translations { get; internal set; }
+    public UiLocalizations? UiLocalizations { get; internal set; }
 
     [Title("The definition namespace for data connections pertaining to a Nox solution.")]
     [Description("Define data connections pertinent to a Nox solution here. Possible data formats include Json, Excel, CSV, XML and Parquet.")]

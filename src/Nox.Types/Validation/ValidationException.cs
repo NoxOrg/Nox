@@ -1,20 +1,24 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.Serialization;
 
 namespace Nox.Types;
 
+[Serializable]
 public class TypeValidationException : Exception
 {
+    private readonly List<ValidationFailure> _errors = new();
+    public IReadOnlyList<ValidationFailure> Errors => _errors;
 
-    private IList<ValidationFailure> _errors = new List<ValidationFailure>();
-
-    public IReadOnlyList<ValidationFailure> Errors => _errors.ToList();
-    
-    public TypeValidationException(IList<ValidationFailure> errors)
-    : base($"The Nox type validation failed with {errors.Count} error(s).")
+    public TypeValidationException(IEnumerable<ValidationFailure> errors)
+    : base($"The Nox type validation failed with {errors.Count()} error(s).")
     {
-        _errors = errors;
+        _errors.AddRange(errors);
     }
 
+    protected TypeValidationException(SerializationInfo serializationInfo, StreamingContext streamingContext)
+        : base(serializationInfo, streamingContext)
+    {
+    }
 }
