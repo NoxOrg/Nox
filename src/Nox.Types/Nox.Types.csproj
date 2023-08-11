@@ -40,7 +40,6 @@
 
   <ItemGroup>
     <PackageReference Include="Nox.Cron" Version="1.0.13" />
-    <PackageReference Include="Quartz" Version="3.7.0" />
     <PackageReference Include="System.IO.Hashing" Version="7.0.0" />
     <PackageReference Include="System.Text.Json" Version="7.0.3" />
     <PackageReference Include="YamlDotNet" Version="13.1.1" />
