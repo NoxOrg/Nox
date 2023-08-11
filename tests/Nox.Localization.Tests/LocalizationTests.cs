@@ -1,4 +1,5 @@
 using FluentAssertions;
+using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 
@@ -11,7 +12,7 @@ public class LocalizationTests: IClassFixture<WebApplicationFixture>
     // IStringLocalizer _appUiLocalizer;  // static
     
     private readonly WebApplicationFixture _fixture;
-
+    
     public LocalizationTests(WebApplicationFixture fixture)
     {
         _fixture = fixture;

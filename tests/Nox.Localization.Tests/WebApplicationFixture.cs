@@ -1,6 +1,7 @@
 using System.Globalization;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
@@ -16,11 +17,13 @@ namespace Nox.Localization.Tests;
 public class WebApplicationFixture
 {
     public WebApplication? FixtureWebApplication { get; }
+    private NoxLocalizationDbContext _dummyContext;
 
     public void InitDatabase()
     {
         if (FixtureWebApplication == null) throw new ArgumentNullException(nameof(FixtureWebApplication));
         var dbContextFactory = FixtureWebApplication.Services.GetRequiredService<INoxLocalizationDbContextFactory>();
+        _dummyContext = dbContextFactory.CreateContext();
         var context = dbContextFactory.CreateContext();
         context.Database.ExecuteSql($"DELETE FROM Translations;");
         AddTranslation(context, "en-GB", "Hello World!", "Hello World!");
