@@ -1,18 +1,15 @@
 using System.Globalization;
 using System.Reflection;
 using Microsoft.AspNetCore.Builder;
-using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
 using Nox.Localization.DbContext;
 using Nox.Localization.Extensions;
 using Nox.Localization.Models;
-using Nox.Localization.Sqlite.Extensions;
+using Nox.Localization.SqlServer.Extensions;
 using Nox.Solution;
-using Nox.Types.EntityFramework.Abstractions;
 
-namespace Nox.Localization.Tests;
+namespace Nox.Localization.SqlServer.Tests;
 
 public class WebApplicationFixture
 {
@@ -23,7 +20,7 @@ public class WebApplicationFixture
         if (FixtureWebApplication == null) throw new ArgumentNullException(nameof(FixtureWebApplication));
         var dbContextFactory = FixtureWebApplication.Services.GetRequiredService<INoxLocalizationDbContextFactory>();
         var context = dbContextFactory.CreateContext();
-        context.Database.ExecuteSql($"DELETE FROM Translations;");
+        context.Database.ExecuteSql($"DELETE FROM l10n.Translations;");
         AddTranslation(context, "en-GB", "Hello World!", "Hello World!");
         AddTranslation(context, "en-GB", "Bye {0}!", "Bye {0}!");
         AddTranslation(context, "fr-FR", "Hello World!", "Bonjour Monde!");
@@ -37,7 +34,7 @@ public class WebApplicationFixture
         {
             CultureCode = cultureCode,
             LastUpdatedUtc = DateTime.UtcNow,
-            ResourceKey = "Nox.Localization.Tests.LocalizationTests",
+            ResourceKey = "Nox.Localization.SqlServer.Tests.SqlServerLocalizationTests",
             Validated = false,
             Key = key,
             Text = text
@@ -50,7 +47,7 @@ public class WebApplicationFixture
         var builder = WebApplication.CreateBuilder();
 
         var solution = new NoxSolutionBuilder()
-            .UseYamlFile("./files/sqlite-localizer.solution.nox.yaml")
+            .UseYamlFile("./files/sqlserver-localizer.solution.nox.yaml")
             .Build();
         builder.Services.AddSingleton<NoxSolution>(solution);
         
@@ -58,7 +55,7 @@ public class WebApplicationFixture
         
         builder.UseNoxLocalization(opt =>
         {
-            opt.WithSqliteStore(solution.Infrastructure!.Dependencies!.UiLocalizations!);
+            opt.WithSqlServerStore();
         });
         
         var app = builder.Build();

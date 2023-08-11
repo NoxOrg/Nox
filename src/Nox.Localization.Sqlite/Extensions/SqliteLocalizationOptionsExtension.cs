@@ -11,19 +11,11 @@ namespace Nox.Localization.Sqlite.Extensions;
 
 public static class SqliteLocalizationOptionsExtension
 {
-    public static NoxLocalizationOptionsBuilder WithSqliteStore(this NoxLocalizationOptionsBuilder optionsBuilder, DatabaseServer serverConfig)
+    public static NoxLocalizationOptionsBuilder WithSqliteStore(this NoxLocalizationOptionsBuilder optionsBuilder)
     {
         optionsBuilder.Services.TryAddSingleton<INoxDatabaseProvider, SqliteDatabaseProvider>();
         
         optionsBuilder.Services.AddDbContext<NoxLocalizationDbContext>();
-        
-        // optionsBuilder.Services.AddDbContext<NoxLocalizationDbContext>( options =>
-        // {
-        //     options.UseSqlite(serverConfig.ServerUri, dbOptions =>
-        //     {
-        //         dbOptions.MigrationsAssembly("Nox.Localization.Sqlite");
-        //     });
-        // });
         return optionsBuilder;
     }
 }

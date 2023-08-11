@@ -47,10 +47,21 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
             {
                 dbServer = NoxSolutionBuilder.Instance.Infrastructure?.Persistence.DatabaseServer;
             }
-            
+
+            string? migrationsAssembly = null;
             if(dbServer is not null)
             {
-                _databaseProvider!.ConfigureDbContext(optionsBuilder, appName, dbServer, "Nox.Localization.Sqlite");
+                switch (dbServer.Provider)
+                {
+                    case DatabaseServerProvider.SqLite:
+                        migrationsAssembly = "Nox.Localization.Sqlite";
+                        break;
+                    case DatabaseServerProvider.SqlServer:
+                        migrationsAssembly = "Nox.Localization.SqlServer";
+                        break;
+                        
+                }
+                _databaseProvider!.ConfigureDbContext(optionsBuilder, appName, dbServer, migrationsAssembly);
             }
         }
     }

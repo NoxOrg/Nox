@@ -1,11 +1,10 @@
 using FluentAssertions;
-using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 
-namespace Nox.Localization.Tests;
+namespace Nox.Localization.Sqlite.Tests;
 
-public class LocalizationTests: IClassFixture<WebApplicationFixture>
+public class SqliteLocalizationTests: IClassFixture<WebApplicationFixture>
 {
     // IStringLocalizer _userModelLocalizer; // always in model db as seperate schema "l11n"
     // IStringLocalizer _appModelLocalizer; // db
@@ -13,7 +12,7 @@ public class LocalizationTests: IClassFixture<WebApplicationFixture>
     
     private readonly WebApplicationFixture _fixture;
     
-    public LocalizationTests(WebApplicationFixture fixture)
+    public SqliteLocalizationTests(WebApplicationFixture fixture)
     {
         _fixture = fixture;
         _fixture.InitDatabase();
@@ -29,7 +28,7 @@ public class LocalizationTests: IClassFixture<WebApplicationFixture>
         _fixture.SetCulture("en-GB");
         
         var factory = _fixture.FixtureWebApplication!.Services.GetRequiredService<IStringLocalizerFactory>();
-        var localizer = factory.Create(typeof(LocalizationTests));
+        var localizer = factory.Create(typeof(SqliteLocalizationTests));
         
         localizer["Hello World!"].Value.Should().Be("Hello World!");
         
