@@ -34,5 +34,10 @@ public partial class StoreDto
     /// Physical Money in the Physical Store (Required).
     /// </summary>
     public MoneyDto PhysicalMoney { get; set; } = default!;
+
+    /// <summary>
+    /// Store Set of passwords for this store ExactlyOne StoreSecurityPasswords
+    /// </summary>
+    public virtual StoreSecurityPasswordsDto StoreSecurityPasswords { get; set; } = null!;
     public bool? Deleted { get; set; }
 }

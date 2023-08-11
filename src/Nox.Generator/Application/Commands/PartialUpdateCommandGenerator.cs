@@ -4,7 +4,7 @@ using Nox.Solution;
 
 namespace Nox.Generator.Application.Commands;
 
-internal class UpdateCommandGenerator : INoxCodeGenerator
+internal class PartialUpdateCommandGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
 
@@ -17,13 +17,13 @@ internal class UpdateCommandGenerator : INoxCodeGenerator
             return;
         }
 
-        var templateName = @"Application.Commands.UpdateCommand";
+        var templateName = @"Application.Commands.PartialUpdateCommand";
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
-                .WithClassName($"Update{entity.Name}Command")
+                .WithClassName($"PartialUpdate{entity.Name}Command")
                 .WithFileNamePrefix($"Commands")
                 .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource(templateName);

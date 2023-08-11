@@ -71,6 +71,7 @@ attributes:
         minValue: 100
         maxValue: 500
 
+     # No DB config at the moment
   #- name: UserField
   #  description: User Nox Type
   #  type: user
@@ -90,6 +91,19 @@ attributes:
   - name: TimeZoneCodeField
     description: TimeZoneCode Nox Type
     type: timeZoneCode
+
+  - name: TemperatureField
+    description: Temperature Nox Type
+    type: temperature
+
+    # No DB config at the moment
+  # - name: PhoneNumberField
+  #   description: PhoneNumber Nox Type
+  #   type: phoneNumber
+
+  - name: PercentageField
+    description: Percentage Nox Type
+    type: percentage
 
   - name: TimeField
     description: Time Nox Type

@@ -102,8 +102,27 @@ public partial class CountryLocalNamesController : ODataController
         {
             return BadRequest(ModelState);
         }
-         await Task.Delay(1000);//TODO Map to command
+        var updateProperties = new Dictionary<string, dynamic>();
+        var deletedProperties = new List<string>();
+
+        foreach (var propertyName in countryLocalNames.GetChangedPropertyNames())
+        {
+            if(countryLocalNames.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }
+            else
+            {
+                deletedProperties.Add(propertyName);
+            }
+        }
         
+        var updated = await _mediator.Send(new PartialUpdateCountryLocalNamesCommand(key,updateProperties,deletedProperties));
+        
+        if (!updated)
+        {
+            return NotFound();
+        }
         return Updated(countryLocalNames);
     }
     

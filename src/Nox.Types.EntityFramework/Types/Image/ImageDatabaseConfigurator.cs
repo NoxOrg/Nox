@@ -1,13 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
 namespace Nox.Types.EntityFramework.Types;
 
-public class FileDatabaseConfigurator : INoxTypeDatabaseConfigurator
+public class ImageDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
-    public NoxType ForNoxType => NoxType.File;
+    public NoxType ForNoxType => NoxType.Image;
 
     public bool IsDefault => true;
 
@@ -18,12 +17,12 @@ public class FileDatabaseConfigurator : INoxTypeDatabaseConfigurator
         Entity entity,
         bool isKey)
     {
-        builder.OwnsOne(typeof(File), property.Name,
+        builder.OwnsOne(typeof(Image), property.Name,
             x =>
             {
-                x.Ignore(nameof(File.Value));
-                x.Property(nameof(File.Url)).HasMaxLength(File.MaxUrlLength);
-                x.Property(nameof(File.PrettyName)).HasMaxLength(File.MaxPrettyNameLength);
+                x.Ignore(nameof(Image.Value));
+                x.Property(nameof(Image.Url)).HasMaxLength(Image.MaxUrlLength);
+                x.Property(nameof(Image.PrettyName)).HasMaxLength(Image.MaxPrettyNameLength);
             });
     }
 

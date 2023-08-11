@@ -84,6 +84,16 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.TimeZoneCode? TimeZoneCodeField { get; set; } = null!;
 
     /// <summary>
+    /// Temperature Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.Temperature? TemperatureField { get; set; } = null!;
+
+    /// <summary>
+    /// Percentage Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.Percentage? PercentageField { get; set; } = null!;
+
+    /// <summary>
     /// Time Nox Type (Optional).
     /// </summary>
     public Nox.Types.Time? TimeField { get; set; } = null!;

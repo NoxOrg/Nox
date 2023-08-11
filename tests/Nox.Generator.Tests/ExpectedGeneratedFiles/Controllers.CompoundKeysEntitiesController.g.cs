@@ -80,9 +80,9 @@ public partial class CompoundKeysEntitiesController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.String key)
+    public async Task<ActionResult> Delete([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)
     {
-        var result = await _mediator.Send(new DeleteCompoundKeysEntityByIdCommand(key));
+        var result = await _mediator.Send(new DeleteCompoundKeysEntityByIdCommand(keyId1, keyId2));
         if (!result)
         {
             return NotFound();

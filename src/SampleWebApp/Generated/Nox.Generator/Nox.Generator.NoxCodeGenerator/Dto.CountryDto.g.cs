@@ -99,5 +99,10 @@ public partial class CountryDto
     /// The top level internet domains regitered to the country (comma-delimited) (Optional).
     /// </summary>
     public System.String? TopLevelDomains { get; set; } 
+
+    /// <summary>
+    /// Country accepts as legal tender OneOrMany Currencies
+    /// </summary>
+    public virtual List<CurrencyDto> Currencies { get; set; } = new();
     public bool? Deleted { get; set; }
 }

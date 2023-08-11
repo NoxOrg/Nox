@@ -57,7 +57,7 @@ public partial class AllNoxTypesController : ODataController
         return Ok(result);
     }
     
-    public async Task<ActionResult<AllNoxTypeDto>> Get([FromRoute] System.UInt64 keyId, [FromRoute] System.String keyTextId)
+    public async Task<ActionResult<AllNoxTypeDto>> Get([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId)
     {
         var item = await _mediator.Send(new GetAllNoxTypeByIdQuery(keyId, keyTextId));
         
@@ -80,9 +80,9 @@ public partial class AllNoxTypesController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.UInt64 key)
+    public async Task<ActionResult> Delete([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId)
     {
-        var result = await _mediator.Send(new DeleteAllNoxTypeByIdCommand(key));
+        var result = await _mediator.Send(new DeleteAllNoxTypeByIdCommand(keyId, keyTextId));
         if (!result)
         {
             return NotFound();

@@ -4,5 +4,5 @@ namespace Nox.Types.EntityFramework.Types;
 
 public class DatabaseNumberConverter : ValueConverter<DatabaseNumber, long>
 {
-    public DatabaseNumberConverter() : base(databaseNumber => (long)databaseNumber.Value, currentNumber => DatabaseNumber.FromDatabase((ulong)currentNumber)) { }
+    public DatabaseNumberConverter() : base(databaseNumber => (long)databaseNumber.Value, currentNumber => DatabaseNumber.FromDatabase((long)currentNumber)) { }
 }

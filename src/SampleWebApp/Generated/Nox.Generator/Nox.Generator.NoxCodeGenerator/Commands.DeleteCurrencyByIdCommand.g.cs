@@ -12,7 +12,7 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteCurrencyByIdCommand(System.UInt32 key) : IRequest<bool>;
+public record DeleteCurrencyByIdCommand(System.UInt32 keyId) : IRequest<bool>;
 
 public class DeleteCurrencyByIdCommandHandler: CommandBase, IRequestHandler<DeleteCurrencyByIdCommand, bool>
 {
@@ -28,8 +28,9 @@ public class DeleteCurrencyByIdCommandHandler: CommandBase, IRequestHandler<Dele
 
     public async Task<bool> Handle(DeleteCurrencyByIdCommand request, CancellationToken cancellationToken)
     {
-        var key = CreateNoxTypeForKey<Currency,Nuid>("Id", request.key);
-        var entity = await DbContext.Currencies.FindAsync(key);
+        var keyId = CreateNoxTypeForKey<Currency,Nuid>("Id", request.keyId);
+
+        var entity = await DbContext.Currencies.FindAsync(keyId);
         if (entity == null || entity.Deleted == true)
         {
             return false;

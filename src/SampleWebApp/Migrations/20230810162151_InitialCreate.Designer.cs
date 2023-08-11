@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230810072348_InitialCreate")]
+    [Migration("20230810162151_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -93,6 +93,13 @@ namespace SampleWebApp.Migrations
 
                     b.Property<int?>("NumberField")
                         .HasColumnType("int");
+
+                    b.Property<float?>("PercentageField")
+                        .HasMaxLength(2)
+                        .HasColumnType("real");
+
+                    b.Property<decimal?>("TemperatureField")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("TextField")
                         .IsRequired()

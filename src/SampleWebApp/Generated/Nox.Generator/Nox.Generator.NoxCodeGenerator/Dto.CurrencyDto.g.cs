@@ -29,5 +29,10 @@ public partial class CurrencyDto
     /// The currency's name (Required).
     /// </summary>
     public System.String Name { get; set; } = default!;
+
+    /// <summary>
+    /// Currency is legal tender for ZeroOrMany Countries
+    /// </summary>
+    public virtual List<CountryDto> Countries { get; set; } = new();
     public bool? Deleted { get; set; }
 }
