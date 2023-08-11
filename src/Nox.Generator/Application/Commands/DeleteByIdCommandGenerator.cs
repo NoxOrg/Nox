@@ -23,7 +23,7 @@ internal class DeleteByIdCommandGenerator : INoxCodeGenerator
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            var primaryKeys = string.Join(", ", entity.Keys.Select(k => $"{entity.KeysFlattenComponentsType[k.Name]} key{k.Name}"));
+            var primaryKeys = string.Join(", ", entity.Keys.Select(k => $"{codeGeneratorState.Solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
             var primaryKeysQuery = string.Join(", ", entity.Keys.Select(k => $"key{k.Name}"));
 
             new TemplateCodeBuilder(context, codeGeneratorState)

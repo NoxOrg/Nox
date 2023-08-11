@@ -14,28 +14,28 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 //TODO support multiple keys and generated keys like nuid database number
-public record CreateCountryLocalNamesCommand(CountryLocalNamesCreateDto EntityDto) : IRequest<System.String>;
+public record CreateCurrencyCashBalanceCommand(CurrencyCashBalanceCreateDto EntityDto) : IRequest<System.String>;
 
-public class CreateCountryLocalNamesCommandHandler: IRequestHandler<CreateCountryLocalNamesCommand, System.String>
+public class CreateCurrencyCashBalanceCommandHandler: IRequestHandler<CreateCurrencyCashBalanceCommand, System.String>
 {
     public SampleWebAppDbContext DbContext { get; }
-    public IEntityFactory<CountryLocalNamesCreateDto,CountryLocalNames> EntityFactory { get; }
+    public IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> EntityFactory { get; }
 
-    public  CreateCountryLocalNamesCommandHandler(
+    public  CreateCurrencyCashBalanceCommandHandler(
         SampleWebAppDbContext dbContext,
-        IEntityFactory<CountryLocalNamesCreateDto,CountryLocalNames> entityFactory)
+        IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> entityFactory)
     {
         DbContext = dbContext;
         EntityFactory = entityFactory;
     }
     
-    public async Task<System.String> Handle(CreateCountryLocalNamesCommand request, CancellationToken cancellationToken)
+    public async Task<System.String> Handle(CreateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
     {    
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
         //TODO for nuid property or key needs to call ensure id        
-        DbContext.CountryLocalNames.Add(entityToCreate);
+        DbContext.CurrencyCashBalances.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
-        //return entityToCreate.Id.Value;
+        //return entityToCreate.StoreId.Value;
         return default(System.String)!;
 }
 }

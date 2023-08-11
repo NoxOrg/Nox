@@ -17,7 +17,13 @@ public static class ODataServiceCollectionExtensions
     {
         ODataModelBuilder builder = new ODataConventionModelBuilder();
 
+        builder.EntityType<CountryDto>().HasKey(e => new { e.Id });
+        builder.EntityType<CurrencyDto>().HasKey(e => new { e.Id });
+        builder.EntityType<StoreDto>().HasKey(e => new { e.Id });
+        builder.EntityType<StoreSecurityPasswordsDto>().HasKey(e => new { e.Id });
         builder.EntityType<AllNoxTypeDto>().HasKey(e => new { e.Id, e.TextId });
+        builder.EntityType<CurrencyCashBalanceDto>().HasKey(e => new { e.StoreId, e.CurrencyId });
+        builder.EntityType<CountryLocalNamesDto>().HasKey(e => new { e.Id });
 
 
         builder.EntitySet<CountryDto>("Countries");
@@ -29,6 +35,8 @@ public static class ODataServiceCollectionExtensions
         builder.EntitySet<StoreSecurityPasswordsDto>("StoreSecurityPasswords");
 
         builder.EntitySet<AllNoxTypeDto>("AllNoxTypes");
+
+        builder.EntitySet<CurrencyCashBalanceDto>("CurrencyCashBalances");
 
         builder.EntitySet<CountryLocalNamesDto>("CountryLocalNames");
 

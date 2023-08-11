@@ -46,6 +46,8 @@ public class ODataDbContext : DbContext
         
         public DbSet<AllNoxTypeDto> AllNoxTypes { get; set; } = null!;
         
+        public DbSet<CurrencyCashBalanceDto> CurrencyCashBalances { get; set; } = null!;
+        
         public DbSet<CountryLocalNamesDto> CountryLocalNames { get; set; } = null!;
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -57,4 +59,52 @@ public class ODataDbContext : DbContext
             }
         }
         
+         protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            {
+                var type = typeof(CountryDto);
+                var builder = modelBuilder.Entity(type!);
+                
+                builder.HasKey("Id");
+            }
+            {
+                var type = typeof(CurrencyDto);
+                var builder = modelBuilder.Entity(type!);
+                
+                builder.HasKey("Id");
+            }
+            {
+                var type = typeof(StoreDto);
+                var builder = modelBuilder.Entity(type!);
+                
+                builder.HasKey("Id");
+            }
+            {
+                var type = typeof(StoreSecurityPasswordsDto);
+                var builder = modelBuilder.Entity(type!);
+                
+                builder.HasKey("Id");
+            }
+            {
+                var type = typeof(AllNoxTypeDto);
+                var builder = modelBuilder.Entity(type!);
+                
+                builder.HasKey("Id");
+                builder.HasKey("TextId");
+            }
+            {
+                var type = typeof(CurrencyCashBalanceDto);
+                var builder = modelBuilder.Entity(type!);
+                
+                builder.HasKey("StoreId");
+                builder.HasKey("CurrencyId");
+            }
+            {
+                var type = typeof(CountryLocalNamesDto);
+                var builder = modelBuilder.Entity(type!);
+                
+                builder.HasKey("Id");
+            }
+        }
     }

@@ -12,11 +12,11 @@ keys:
       entity: Store
     isRequired: true
 
-    #- name: Currency
-    #  type: entity
-    #  entityTypeOptions:
-    #    entity: Currency
-    #  isRequired: true
+  - name: CurrencyId
+    type: entity
+    entityTypeOptions:
+       entity: Currency
+    isRequired: true
 
 attributes:
   
