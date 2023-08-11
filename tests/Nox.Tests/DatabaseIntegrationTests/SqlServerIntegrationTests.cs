@@ -102,6 +102,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var length = 314_598M;
         var persistLengthUnitAs = LengthTypeUnit.Meter;
         var sampleUri = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
+        var phoneNumber = "38761000000";
 
         var jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
@@ -177,6 +178,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             DateTimeRangeTestField = DateTimeRange.From(dateTimeRangeStart, dateTimeRangeEnd),
             HtmlTestField = Html.From(html),
             ImageTestField = Image.From(imageUrl, imagePrettyName, imageSizeInBytes),
+            PhoneNumberTestField = PhoneNumber.From(phoneNumber),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -264,6 +266,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.ImageTestField!.Url.Should().Be(imageUrl);
         testEntity.ImageTestField!.PrettyName.Should().Be(imagePrettyName);
         testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
+        testEntity.PhoneNumberTestField!.Value.Should().Be(phoneNumber);
     }
 
     //[Fact]

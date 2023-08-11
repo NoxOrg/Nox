@@ -9,6 +9,7 @@ namespace Nox.Types;
 public sealed class PhoneNumber : ValueObject<string, PhoneNumber>
 {
     private static readonly Regex _phoneNumberRegex = new(@"^(?:\+\d{1,3}[\s\-]?)?(?:\(\d{1,4}\)|\d{1,4})\s*\-?\s*(?:\d{1,4}\s*\-?\s*){1,4}$", RegexOptions.Compiled, TimeSpan.FromSeconds(1));
+    public static readonly int MaxPhoneNumberLength = 30;
 
     /// <summary>
     /// Validates a <see cref="PhoneNumber"/> object.
@@ -21,6 +22,11 @@ public sealed class PhoneNumber : ValueObject<string, PhoneNumber>
         if (!_phoneNumberRegex.IsMatch(Value))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox PhoneNumber type with invalid value '{Value}'."));
+        }
+
+        if(Value.Length > MaxPhoneNumberLength)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox PhoneNumber type because the maximum length should be {MaxPhoneNumberLength}."));
         }
 
         return result;

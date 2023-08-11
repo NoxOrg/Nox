@@ -11,6 +11,7 @@ public enum NoxType : uint
 
     // Compound Types - requires multiple fields to persist
     [CompoundType]
+    // Entity depends on the concrete instance and if it supports multiple keys or not!
     [CompoundComponent("Type", typeof(string))]
     [CompoundComponent("Id", typeof(uint))]
     Entity = 2276495181,

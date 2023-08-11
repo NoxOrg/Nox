@@ -877,8 +877,8 @@ domain:
         - name: PercentageTestField
           type: percentage
 
-        #- name: PhoneNumberTestField
-        #  type: phoneNumber
+        - name: PhoneNumberTestField
+          type: phoneNumber
 
         - name: TempratureTestField
           type: temperature

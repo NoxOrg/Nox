@@ -12,6 +12,7 @@ using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
+{{- keyType = SingleTypeForKey entity.Keys[0] }}
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 

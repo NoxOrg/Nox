@@ -3,6 +3,7 @@
 #nullable enable
 
 using Microsoft.EntityFrameworkCore;
+using Nox;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using SampleWebApp.Application.Dto;
@@ -22,14 +23,17 @@ public class ODataDbContext : DbContext
     /// The database provider.
     /// </summary>
     protected readonly INoxDatabaseProvider _dbProvider;
+    protected readonly INoxClientAssemblyProvider _clientAssemblyProvider;
         public ODataDbContext(
             DbContextOptions<ODataDbContext> options,
             NoxSolution noxSolution,
-            INoxDatabaseProvider databaseProvider
+            INoxDatabaseProvider databaseProvider,
+            INoxClientAssemblyProvider clientAssemblyProvider
         ) : base(options)
         {
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
+            _clientAssemblyProvider = clientAssemblyProvider;
         }
         
         public DbSet<CountryDto> Countries { get; set; } = null!;

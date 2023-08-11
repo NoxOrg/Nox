@@ -51,6 +51,7 @@ public partial class {{className}} : DbContext
             var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
             foreach (var entity in _noxSolution.Domain.Entities)
             {
+                Console.WriteLine($"{{className}} Configure database for Entity {entity.Name}");
                 var type = codeGeneratorState.GetEntityType(entity.Name);
                 if (type != null)
                 {

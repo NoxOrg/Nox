@@ -2,10 +2,13 @@
 
 #nullable enable
 
-using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using MediatR;
+
+using Microsoft.AspNetCore.Http;
+
+using System.ComponentModel.DataAnnotations.Schema;
+
 using Nox.Types;
 using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
@@ -22,12 +25,12 @@ public partial class AllNoxTypeDto
 
     /// <summary>
     /// DatabaseNumber Nox Type (Required).
-    /// </summary>
+    /// </summary>    
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
     /// Second Text Id (Required).
-    /// </summary>
+    /// </summary>    
     public System.String TextId { get; set; } = default!;
 
     /// <summary>

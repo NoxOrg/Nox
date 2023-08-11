@@ -12,7 +12,6 @@ using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
 
-
 namespace SampleWebApp.Application.Commands;
 
 public record UpdateStoreCommand(System.String keyId, StoreUpdateDto EntityDto) : IRequest<bool>;
