@@ -5,6 +5,7 @@
 using Nox.Abstractions;
 using Nox.Types;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto; 
 
@@ -18,6 +19,9 @@ public partial class {{className}}
     /// <summary>
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
     /// </summary>
+    {{- if attribute.IsRequired}}
+    [Required(ErrorMessage = "{{attribute.Name}} is required")]
+    {{ end}}
     {{ if componentsInfo[attribute.Name].IsSimpleType -}}
     public {{componentsInfo[attribute.Name].ComponentType}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
     {{- else -}}
