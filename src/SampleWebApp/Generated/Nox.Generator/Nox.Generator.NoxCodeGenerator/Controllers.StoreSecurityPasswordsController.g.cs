@@ -87,7 +87,7 @@ public partial class StoreSecurityPasswordsController : ODataController
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateStoreSecurityPasswordsCommand(key,storeSecurityPasswords));
+        var updated = await _mediator.Send(new UpdateStoreSecurityPasswordsCommand(key, storeSecurityPasswords));
         
         if (!updated)
         {
@@ -117,7 +117,7 @@ public partial class StoreSecurityPasswordsController : ODataController
             }
         }
         
-        var updated = await _mediator.Send(new PartialUpdateStoreSecurityPasswordsCommand(key,updateProperties,deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateStoreSecurityPasswordsCommand(key, updateProperties, deletedProperties));
         
         if (!updated)
         {

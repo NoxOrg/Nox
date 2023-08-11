@@ -201,16 +201,8 @@ internal class ApiGenerator : INoxCodeGenerator
 
     private static void GeneratePut(Entity entity, CodeBuilder code)
     {
-        // TODO Composite Keys
-        if (entity.Keys is { Count: > 1 })
-        {
-            //TODO Support to multiples keys, best pratctices?
-            Debug.WriteLine("Put for composite keys Not implemented...");
-            return;
-        }
-
         // Method Put
-        code.AppendLine($"public async Task<ActionResult> Put([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] {entity.Name}UpdateDto {entity.Name.ToLowerFirstChar()})");
+        code.AppendLine($"public async Task<ActionResult> Put({primaryKeysFromRoute(entity)}, [FromBody] {entity.Name}UpdateDto {entity.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();
@@ -219,7 +211,7 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();        
-        code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command(key,{entity.Name.ToLowerFirstChar()}));");
+        code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({primaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}));");
         code.AppendLine();
         
         code.AppendLine($"if (!updated)");
@@ -235,14 +227,8 @@ internal class ApiGenerator : INoxCodeGenerator
 
     private static void GeneratePatch(Entity entity, string entityName, string pluralName, CodeBuilder code)
     {
-        // TODO Composite Keys
-        if (entity.Keys is { Count: > 1 })
-        {
-            Debug.WriteLine("Patch for composite keys Not implemented...");
-            return;
-        }
         // Method Patch
-        code.AppendLine($"public async Task<ActionResult> Patch([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] Delta<{entityName}UpdateDto> {entity.Name.ToLowerFirstChar()})");
+        code.AppendLine($"public async Task<ActionResult> Patch({primaryKeysFromRoute(entity)}, [FromBody] Delta<{entityName}UpdateDto> {entity.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();
@@ -265,7 +251,7 @@ internal class ApiGenerator : INoxCodeGenerator
             }}
         }}");
         code.AppendLine();
-        code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command(key,updateProperties,deletedProperties));");
+        code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({primaryKeysQuery(entity)}, updateProperties, deletedProperties));");
         code.AppendLine();
 
         code.AppendLine($"if (!updated)");

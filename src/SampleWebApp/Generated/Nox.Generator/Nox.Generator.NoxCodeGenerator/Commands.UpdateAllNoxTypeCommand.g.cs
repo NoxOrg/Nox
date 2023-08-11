@@ -15,7 +15,7 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateAllNoxTypeCommand(System.Int64 key, AllNoxTypeUpdateDto EntityDto) : IRequest<bool>;
+public record UpdateAllNoxTypeCommand(System.Int64 keyId, System.String keyTextId, AllNoxTypeUpdateDto EntityDto) : IRequest<bool>;
 
 public class UpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler<UpdateAllNoxTypeCommand, bool>
 {
@@ -34,7 +34,10 @@ public class UpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler<Update
     
     public async Task<bool> Handle(UpdateAllNoxTypeCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.AllNoxTypes.FindAsync(CreateNoxTypeForKey<AllNoxType,DatabaseNumber>("Id", request.key));
+        var keyId = CreateNoxTypeForKey<AllNoxType,DatabaseNumber>("Id", request.keyId);
+        var keyTextId = CreateNoxTypeForKey<AllNoxType,Text>("TextId", request.keyTextId);
+    
+        var entity = await DbContext.AllNoxTypes.FindAsync(keyId, keyTextId);
         if (entity == null)
         {
             return false;

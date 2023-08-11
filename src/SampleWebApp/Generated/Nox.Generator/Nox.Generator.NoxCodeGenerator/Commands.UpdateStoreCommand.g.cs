@@ -15,7 +15,7 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateStoreCommand(System.String key, StoreUpdateDto EntityDto) : IRequest<bool>;
+public record UpdateStoreCommand(System.String keyId, StoreUpdateDto EntityDto) : IRequest<bool>;
 
 public class UpdateStoreCommandHandler: CommandBase, IRequestHandler<UpdateStoreCommand, bool>
 {
@@ -34,7 +34,9 @@ public class UpdateStoreCommandHandler: CommandBase, IRequestHandler<UpdateStore
     
     public async Task<bool> Handle(UpdateStoreCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.Stores.FindAsync(CreateNoxTypeForKey<Store,Text>("Id", request.key));
+        var keyId = CreateNoxTypeForKey<Store,Text>("Id", request.keyId);
+    
+        var entity = await DbContext.Stores.FindAsync(keyId);
         if (entity == null)
         {
             return false;
