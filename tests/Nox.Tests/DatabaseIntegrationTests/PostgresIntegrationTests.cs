@@ -121,6 +121,10 @@ public class PostgresIntegrationTests : PostgresTestBase
     </body>
 </html>";
 
+        var imageUrl = "https://example.com/image.png";
+        var imagePrettyName = "Image";
+        var imageSizeInBytes = 128;
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -168,6 +172,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             GeoCoordTestField = LatLong.From(latitude, longitude),
             DateTimeRangeTestField = DateTimeRange.From(dateTimeRangeStart, dateTimeRangeEnd),
             HtmlTestField = Html.From(html),
+            ImageTestField = Image.From(imageUrl, imagePrettyName, imageSizeInBytes),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -246,5 +251,8 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.DateTimeRangeTestField.StartTimeZoneOffset.Should().Be(dateTimeRangeStart.Offset);
         testEntity.DateTimeRangeTestField.EndTimeZoneOffset.Should().Be(dateTimeRangeEnd.Offset);
         testEntity.HtmlTestField!.Value.Should().Be(html);
+        testEntity.ImageTestField!.Url.Should().Be(imageUrl);
+        testEntity.ImageTestField!.PrettyName.Should().Be(imagePrettyName);
+        testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
     }
 }
