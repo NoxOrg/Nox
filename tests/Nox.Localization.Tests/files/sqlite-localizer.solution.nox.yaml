@@ -19,7 +19,7 @@ infrastructure:
     uiLocalizations: 
       name: TestLocalization
       provider: sqLite
-      serverUri: localization.db
+      serverUri: "file::memory:?cache=shared"
 
 
 
