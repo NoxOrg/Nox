@@ -15,15 +15,10 @@ public class PhoneNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
         builder
             .Property(property.Name)
             .IsRequired(property.IsRequired)
-            .HasMaxLength(30)
+            .HasMaxLength(PhoneNumber.MaxPhoneNumberLength)
             .HasConversion<PhoneNumberConverter>();
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
-
-    public virtual string? GetColumnType()
-    {
-        return null;
-    }
 }
 
