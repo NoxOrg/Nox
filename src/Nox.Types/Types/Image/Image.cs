@@ -12,7 +12,9 @@ namespace Nox.Types;
 /// </summary>
 public sealed class Image : ValueObject<(string Url, string PrettyName, int SizeInBytes), Image>
 {
-    
+    public const int MaxUrlLength = 2083;
+    public const int MaxPrettyNameLength = 511;
+
     private ImageTypeOptions _imageTypeOptions = new();
     
     /// <summary>
@@ -115,25 +117,33 @@ public sealed class Image : ValueObject<(string Url, string PrettyName, int Size
 
         if (string.IsNullOrWhiteSpace(Value.Url))
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Image type with an empty Url."));
+            result.Errors.Add(new ValidationFailure(nameof(Value.Url), "Could not create a Nox Image type with an empty Url."));
+        }
+        else if (Value.Url.Length > MaxUrlLength)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value.Url), $"Could not create a Nox Image type with an Url length greater than max allowed length of {MaxUrlLength}."));
         }
         else if (!System.Uri.TryCreate(Value.Url, UriKind.Absolute, out _))
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Image type with an invalid Url '{Value.Url}'."));
+            result.Errors.Add(new ValidationFailure(nameof(Value.Url), $"Could not create a Nox Image type with an invalid Url '{Value.Url}'."));
         }
         else if (!_imageTypeOptions.ImageFormatTypes.SupportedExtensions().Contains(Path.GetExtension(Value.Url).ToLower()))
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Image type with an image having an unsupported extension '{Value.Url}'."));
+            result.Errors.Add(new ValidationFailure(nameof(Value.Url), $"Could not create a Nox Image type with an image having an unsupported extension '{Value.Url}'."));
         }
 
         if (string.IsNullOrWhiteSpace(Value.PrettyName))
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Image type with an empty PrettyName."));
+            result.Errors.Add(new ValidationFailure(nameof(Value.PrettyName), $"Could not create a Nox Image type with an empty PrettyName."));
+        }
+        else if(Value.PrettyName.Length > MaxPrettyNameLength)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value.PrettyName), $"Could not create a Nox Image type with a PrettyName length greater than max allowed length of {MaxPrettyNameLength}."));
         }
 
         if (Value.SizeInBytes <= 0)
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox Image type with a Size of {Value.SizeInBytes}."));
+            result.Errors.Add(new ValidationFailure(nameof(Value.SizeInBytes), $"Could not create a Nox Image type with a Size of {Value.SizeInBytes}."));
         }
 
         return result;

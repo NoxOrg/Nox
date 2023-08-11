@@ -12,7 +12,7 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteAllNoxTypeByIdCommand(System.UInt64 key) : IRequest<bool>;
+public record DeleteAllNoxTypeByIdCommand(System.Int64 key) : IRequest<bool>;
 
 public class DeleteAllNoxTypeByIdCommandHandler: CommandBase, IRequestHandler<DeleteAllNoxTypeByIdCommand, bool>
 {

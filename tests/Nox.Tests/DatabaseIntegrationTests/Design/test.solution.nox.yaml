@@ -935,9 +935,15 @@ domain:
         - name: FormulaTestField
           type: formula
           formulaTypeOptions:
-              expression: "2 + 2"
-              returns: int
+            expression: "2 + 2"
+            returns: int
         
         - name: DatabaseNumberTestField
           type: databaseNumber
           isRequired: true
+
+        - name: HtmlTestField
+          type: html
+
+        - name: ImageTestField
+          type: image

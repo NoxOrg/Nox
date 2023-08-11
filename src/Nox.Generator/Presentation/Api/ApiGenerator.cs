@@ -250,9 +250,28 @@ internal class ApiGenerator : INoxCodeGenerator
         code.StartBlock();
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
-        code.AppendLine(" await Task.Delay(1000);//TODO Map to command");
+        code.AppendLine(@$"var updateProperties = new Dictionary<string, dynamic>();
+        var deletedProperties = new List<string>();
 
+        foreach (var propertyName in {entity.Name.ToLowerFirstChar()}.GetChangedPropertyNames())
+        {{
+            if({entity.Name.ToLowerFirstChar()}.TryGetPropertyValue(propertyName, out dynamic value))
+            {{
+                updateProperties[propertyName] = value;                
+            }}
+            else
+            {{
+                deletedProperties.Add(propertyName);
+            }}
+        }}");
         code.AppendLine();
+        code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command(key,updateProperties,deletedProperties));");
+        code.AppendLine();
+
+        code.AppendLine($"if (!updated)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
         code.AppendLine($"return Updated({entity.Name.ToLowerFirstChar()});");
 
         // End method

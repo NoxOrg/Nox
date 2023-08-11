@@ -5,9 +5,9 @@ using Nox.Types.EntityFramework.Abstractions;
 
 namespace Nox.Types.EntityFramework.Types;
 
-public class FileDatabaseConfigurator : INoxTypeDatabaseConfigurator
+public class HtmlDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
-    public NoxType ForNoxType => NoxType.File;
+    public NoxType ForNoxType => NoxType.Html;
 
     public bool IsDefault => true;
 
@@ -18,13 +18,11 @@ public class FileDatabaseConfigurator : INoxTypeDatabaseConfigurator
         Entity entity,
         bool isKey)
     {
-        builder.OwnsOne(typeof(File), property.Name,
-            x =>
-            {
-                x.Ignore(nameof(File.Value));
-                x.Property(nameof(File.Url)).HasMaxLength(File.MaxUrlLength);
-                x.Property(nameof(File.PrettyName)).HasMaxLength(File.MaxPrettyNameLength);
-            });
+        builder
+            .Property(property.Name)
+            .IsRequired(property.IsRequired)
+            .IsUnicode(true)
+            .HasConversion<HtmlConverter>();
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;

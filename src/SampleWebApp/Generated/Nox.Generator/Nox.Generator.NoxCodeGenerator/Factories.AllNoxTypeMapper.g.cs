@@ -76,6 +76,16 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         {        
             entity.TimeZoneCodeField = noxTypeValue;
         }
+        noxTypeValue = CreateNoxType<Nox.Types.Temperature>(entityDefinition,"TemperatureField",dto.TemperatureField);
+        if(noxTypeValue != null)
+        {        
+            entity.TemperatureField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Percentage>(entityDefinition,"PercentageField",dto.PercentageField);
+        if(noxTypeValue != null)
+        {        
+            entity.PercentageField = noxTypeValue;
+        }
 
         // TODO map TimeField Time remaining types and remove if else
         noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"NumberField",dto.NumberField);
