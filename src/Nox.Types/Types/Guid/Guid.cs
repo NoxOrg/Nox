@@ -8,6 +8,11 @@ namespace Nox.Types;
 public sealed class Guid : ValueObject<System.Guid, Guid>
 {
     /// <summary>
+    /// A instance of the <see cref="Guid"/> object whose Value is all zeros.
+    /// </summary>
+    public static Guid Empty => From("00000000-0000-0000-0000-000000000000");
+
+    /// <summary>
     /// Creates a <see cref="Guid"/> object from a <see cref="System.String"/>.
     /// </summary>
     /// <param name="value">String to be parsed to <see cref="Guid"/>.</param>
@@ -45,4 +50,22 @@ public sealed class Guid : ValueObject<System.Guid, Guid>
     /// </summary>
     /// <returns>A new <see cref="Guid"/> object.</returns>
     public static Guid NewGuid() => new() { Value = System.Guid.NewGuid() };
+
+
+    /// <summary>
+    /// Validates a <see cref="Guid"/> object.
+    /// </summary>
+    /// <returns>true if the <see cref="Guid"/> value is valid .</returns>
+    internal override ValidationResult Validate()
+    {
+        var result = base.Validate();
+
+        if (Value == System.Guid.Empty)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value),
+                $"Could not create a Nox {nameof(Guid)} type as empty Guid is not allowed."));
+        }
+
+        return result;
+    }
 }
