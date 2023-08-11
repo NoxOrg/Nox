@@ -17,7 +17,7 @@ namespace Nox.Localization.Tests;
 public class WebApplicationFixture
 {
     public WebApplication? FixtureWebApplication { get; }
-    private NoxLocalizationDbContext _dummyContext;
+    private NoxLocalizationDbContext? _dummyContext;
 
     public void InitDatabase()
     {
@@ -31,6 +31,11 @@ public class WebApplicationFixture
         AddTranslation(context, "fr-FR", "Hello World!", "Bonjour Monde!");
         AddTranslation(context, "fr-FR", "Bye {0}!", "au revoir {0}!");
         context.SaveChanges();
+    }
+
+    public void Dispose()
+    {
+        _dummyContext!.Dispose();
     }
 
     private void AddTranslation(NoxLocalizationDbContext context, string cultureCode, string key, string text)
