@@ -937,9 +937,13 @@ domain:
           formulaTypeOptions:
             expression: "2 + 2"
             returns: int
-        
+
         - name: DatabaseNumberTestField
           type: databaseNumber
+          isRequired: true
+
+        - name: DatabaseGuidTestField
+          type: databaseGuid
           isRequired: true
 
         - name: HtmlTestField
