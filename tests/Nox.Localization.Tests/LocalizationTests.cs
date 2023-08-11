@@ -15,6 +15,7 @@ public class LocalizationTests: IClassFixture<WebApplicationFixture>
     public LocalizationTests(WebApplicationFixture fixture)
     {
         _fixture = fixture;
+        _fixture.InitDatabase();
     }
     
     [Fact]

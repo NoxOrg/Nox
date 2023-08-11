@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Nox.Localization.DbContext;
 using Nox.Localization.Extensions;
+using Nox.Localization.Models;
 using Nox.Localization.Sqlite.Extensions;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
@@ -15,6 +16,32 @@ namespace Nox.Localization.Tests;
 public class WebApplicationFixture
 {
     public WebApplication? FixtureWebApplication { get; }
+
+    public void InitDatabase()
+    {
+        if (FixtureWebApplication == null) throw new ArgumentNullException(nameof(FixtureWebApplication));
+        var dbContextFactory = FixtureWebApplication.Services.GetRequiredService<INoxLocalizationDbContextFactory>();
+        var context = dbContextFactory.CreateContext();
+        context.Database.ExecuteSql($"DELETE FROM Translations;");
+        AddTranslation(context, "en-GB", "Hello World!", "Hello World!");
+        AddTranslation(context, "en-GB", "Bye {0}!", "Bye {0}!");
+        AddTranslation(context, "fr-FR", "Hello World!", "Bonjour Monde!");
+        AddTranslation(context, "fr-FR", "Bye {0}!", "au revoir {0}!");
+        context.SaveChanges();
+    }
+
+    private void AddTranslation(NoxLocalizationDbContext context, string cultureCode, string key, string text)
+    {
+        context.Translations.Add(new Translation
+        {
+            CultureCode = cultureCode,
+            LastUpdatedUtc = DateTime.UtcNow,
+            ResourceKey = "Nox.Localization.Tests.LocalizationTests",
+            Validated = false,
+            Key = key,
+            Text = text
+        });
+    }
 
     public WebApplicationFixture()
     {
