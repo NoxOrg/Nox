@@ -47,7 +47,8 @@ public class WebApplicationFixture
     {
         if(culture is not null) 
         { 
-            CultureInfo.CurrentCulture = new CultureInfo(culture); // http request or message header
+            CultureInfo.CurrentUICulture = new CultureInfo(culture);
+            CultureInfo.CurrentCulture = new CultureInfo(culture); 
         }
     }
 }

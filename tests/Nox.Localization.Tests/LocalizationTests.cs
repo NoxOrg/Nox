@@ -1,13 +1,6 @@
-using System.Globalization;
-using System.Reflection;
 using FluentAssertions;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
-using Nox.Localization.DbContext;
-using Nox.Localization.Extensions;
-using Nox.Solution;
 
 namespace Nox.Localization.Tests;
 
@@ -23,8 +16,6 @@ public class LocalizationTests: IClassFixture<WebApplicationFixture>
     {
         _fixture = fixture;
     }
-
-    
     
     [Fact]
     public void Localizer_Returns_Default_Value()
@@ -32,17 +23,17 @@ public class LocalizationTests: IClassFixture<WebApplicationFixture>
         _fixture.SetCulture("en-GB");
         
         var factory = _fixture.FixtureWebApplication!.Services.GetRequiredService<IStringLocalizerFactory>();
-        var enGbLocalizer = factory.Create(typeof(LocalizationTests));
-
-        enGbLocalizer["Hello World!"].Value.Should().Be("Hello World!.en-GB");
+        var localizer = factory.Create(typeof(LocalizationTests));
         
-        enGbLocalizer["Bye {0}!", "World"].Value.Should().Be("Bye World!.en-GB"); ;
+        localizer["Hello World!"].Value.Should().Be("Hello World!");
+        
+        localizer["Bye {0}!", "World"].Value.Should().Be("Bye World!");
 
-        // var fr_FR_localizer = GetStringLocalizer("fr-FR");
-        //
-        // fr_FR_localizer!["Hello World!"].Value.Should().Be("Bonjour Monde!");
-        //
-        // fr_FR_localizer!["Bye {0}!", "Ricardo"].Value.Should().Be("Bye Ricardo!.fr-FR");
+        _fixture.SetCulture("fr-FR");
+        
+        localizer!["Hello World!"].Value.Should().Be("Bonjour Monde!");
+        
+        localizer!["Bye {0}!", "World"].Value.Should().Be("au revoir World!");
 
     }
 }
