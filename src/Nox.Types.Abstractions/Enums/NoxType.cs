@@ -19,7 +19,7 @@ public enum NoxType : uint
     [CompoundComponent("Latitude",typeof(double))]
     [CompoundComponent("Longitude",typeof(double))]
     LatLong = 4061881939,
-    
+
     [CompoundType]
     [CompoundComponent("Amount", typeof(decimal))]
     [CompoundComponent("CurrencyCode", typeof(CurrencyCode))]
@@ -28,7 +28,7 @@ public enum NoxType : uint
     [CompoundType]
     [CompoundComponent("StreetNumber",typeof(int))]
     [CompoundComponent("AddressLine1", typeof(string))]
-    [CompoundComponent("AddressLine2", typeof(string))]    
+    [CompoundComponent("AddressLine2", typeof(string))]
     [CompoundComponent("Route", typeof(string))]
     [CompoundComponent("Locality", typeof(string))]
     [CompoundComponent("Neighborhood", typeof(string))]
@@ -37,13 +37,13 @@ public enum NoxType : uint
     [CompoundComponent("PostalCode", typeof(string))]
     [CompoundComponent("CountryId", typeof(string))]
     StreetAddress = 499179285,
-    
-    [CompoundType] 
+
+    [CompoundType]
     [CompoundComponent("CultureCode", typeof(string))]
     [CompoundComponent("Phrase", typeof(string))]
     TranslatedText = 967269030,
-    
-    [CompoundType] 
+
+    [CompoundType]
     [CompoundComponent("From", typeof(DateTimeOffset))]
     [CompoundComponent("To", typeof(DateTimeOffset))]
     DateTimeRange = 3837929056,
@@ -64,12 +64,12 @@ public enum NoxType : uint
     [SimpleType(typeof(decimal))]
     Area = 998304025,
 
-    [SimpleType(typeof(long))] 
+    [SimpleType(typeof(long))]
     DatabaseNumber = 963275927,
-    
+
     [SimpleType(typeof(bool))]
     Boolean = 2157507194,
-    
+
     [SimpleType(typeof(string))]
     Color = 1567592592,
 
@@ -81,13 +81,13 @@ public enum NoxType : uint
 
     [SimpleType(typeof(short))]
     CountryNumber = 2635883247,
-    
+
     [SimpleType(typeof(string))]
     CultureCode = 1724900727,
 
     [SimpleType(typeof(string))]
     CurrencyCode3 = 2794068101,
-    
+
     [SimpleType(typeof(short))]
     CurrencyNumber = 2377452890,
 
@@ -99,7 +99,7 @@ public enum NoxType : uint
 
     [SimpleType(typeof(short))]
     Year = 3709785124,
-    
+
     [SimpleType(typeof(DateTime))]
     DateTime = 2998644573,
 
@@ -115,60 +115,63 @@ public enum NoxType : uint
 
     [SimpleType(typeof(byte))]
     DayOfWeek = 491349974,
-    
-    [SimpleType(typeof(double))] 
+
+    [SimpleType(typeof(double))]
     Distance = 1460893529,
 
     [SimpleType(typeof(string))]
     Email = 3393987164,
-    
+
     [SimpleType(typeof(string))]
     EncryptedText = 1841598137,
-    
+
     [SimpleType(typeof(string))]
     Formula = 2602269623,
-    
+
     [SimpleType(typeof(Guid))]
     Guid = 1043908053,
+
+    [SimpleType(typeof(Guid))]
+    DatabaseGuid = 963275929,
 
     [CompoundType]
     [CompoundComponent("HashText", typeof(string))]
     [CompoundComponent("Salt", typeof(string))]
     HashedText = 3656553818,
-    
+
     [SimpleType(typeof(string))]
     Html = 2477180992,
-    
-    [CompoundType] 
+
+    [CompoundType]
     [CompoundComponent("Url", typeof(string))]
     [CompoundComponent("PrettyName", typeof(string))]
     [CompoundComponent("SizeInBytes", typeof(int))]
     Image = 3650429592,
-    
+
     [SimpleType(typeof(string))]
     InternetDomain = 1821438912,
-    
+
     [SimpleType(typeof(string))]
     IpAddress = 443053997,
-    
+
     [SimpleType(typeof(string))]
     Json = 3200665055,
-    
+
     [SimpleType(typeof(string))]
     JwtToken = 2477463586,
-    
+
     [SimpleType(typeof(string))]
     LanguageCode = 3654380314,
-    
+
     [SimpleType(typeof(double))]
     Length = 1024984906,
 
     [SimpleType(typeof(string))]
     MacAddress = 404844511,
-    
+
     [SimpleType(typeof(string))]
     Markdown = 2745254000,
-    
+
     [SimpleType(typeof(uint))]
     Nuid = 3304944825,
 
@@ -185,25 +188,25 @@ public enum NoxType : uint
 
     [SimpleType(typeof(string))]
     PhoneNumber = 3655711066,
-    
+
     [SimpleType(typeof(float))]
     Temperature = 1744108624,
-    
+
     [SimpleType(typeof(string))]
     Text = 1432028016,
 
-    [SimpleType(typeof(DateTimeOffset))] 
+    [SimpleType(typeof(DateTimeOffset))]
     Time = 2288042805,
-    
+
     [SimpleType(typeof(string))]
     TimeZoneCode = 906030230,
-    
-    [SimpleType(typeof(string))] 
+
+    [SimpleType(typeof(string))]
     Uri = 2293621128,
-    
+
     [SimpleType(typeof(string))]
     Url = 2010611594,
-    
+
     [SimpleType(typeof(string))]
     User = 2972321043,
 
@@ -212,7 +215,7 @@ public enum NoxType : uint
 
     [SimpleType(typeof(double))]
     Weight = 760317285,
-    
+
     [SimpleType(typeof(string))]
     Yaml = 3788751714
 }
