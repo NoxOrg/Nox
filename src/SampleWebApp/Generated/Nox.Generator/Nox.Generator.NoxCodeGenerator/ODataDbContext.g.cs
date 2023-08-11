@@ -57,4 +57,45 @@ public class ODataDbContext : DbContext
             }
         }
         
+         protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            base.OnModelCreating(modelBuilder);
+            {
+                var type = typeof(CountryDto);
+                var builder = modelBuilder.Entity(type!);
+                
+                builder.HasKey("Id");
+            }
+            {
+                var type = typeof(CurrencyDto);
+                var builder = modelBuilder.Entity(type!);
+                
+                builder.HasKey("Id");
+            }
+            {
+                var type = typeof(StoreDto);
+                var builder = modelBuilder.Entity(type!);
+                
+                builder.HasKey("Id");
+            }
+            {
+                var type = typeof(StoreSecurityPasswordsDto);
+                var builder = modelBuilder.Entity(type!);
+                
+                builder.HasKey("Id");
+            }
+            {
+                var type = typeof(AllNoxTypeDto);
+                var builder = modelBuilder.Entity(type!);
+                
+                builder.HasKey("Id");
+                builder.HasKey("TextId");
+            }
+            {
+                var type = typeof(CountryLocalNamesDto);
+                var builder = modelBuilder.Entity(type!);
+                
+                builder.HasKey("Id");
+            }
+        }
     }
