@@ -24,13 +24,8 @@ public class UserDatabaseConfigurator : INoxTypeDatabaseConfigurator
             .IsRequired(property.IsRequired)
             .HasMaxLength(userOptions.MaxLength)
             .If(userOptions.MaxLength == userOptions.MinLength, builder2 => builder2.IsFixedLength())
-            .IfNotNull(GetColumnType(userOptions), b => b.HasColumnType(GetColumnType(userOptions)))
             .HasConversion<UserConverter>();
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
-    public virtual string? GetColumnType(UserTypeOptions typeOptions)
-    {
-        return null;
-    }
 }
