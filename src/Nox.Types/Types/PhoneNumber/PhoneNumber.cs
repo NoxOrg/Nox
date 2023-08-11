@@ -26,7 +26,7 @@ public sealed class PhoneNumber : ValueObject<string, PhoneNumber>
 
         if(Value.Length > MaxPhoneNumberLength)
         {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox PhoneNumber type because the maximum length should be {_maxPhoneNumberLength}."));
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox PhoneNumber type because the maximum length should be {MaxPhoneNumberLength}."));
         }
 
         return result;
