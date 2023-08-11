@@ -19,7 +19,7 @@ infrastructure:
     uiLocalizations: 
       name: TestLocalization
       provider: sqLite
-      serverUri: "Data Source=localization;Mode=Memory;Cache=Shared"
+      serverUri: localization.db
 
 
 

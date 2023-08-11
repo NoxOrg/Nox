@@ -19,7 +19,11 @@ public class LocalizationTests: IClassFixture<WebApplicationFixture>
         _fixture.InitDatabase();
     }
     
+#if DEBUG
     [Fact]
+#else
+    [Fact (Skip = "Only available in local tests, github does not like an in memory sqlite database")]
+#endif      
     public void Localizer_Returns_Default_Value()
     {
         _fixture.SetCulture("en-GB");
