@@ -443,14 +443,16 @@ namespace SampleWebApp.Migrations
 
                             b1.Property<string>("PrettyName")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(511)
+                                .HasColumnType("nvarchar(511)");
 
                             b1.Property<decimal>("SizeInBytes")
                                 .HasColumnType("decimal(20,0)");
 
                             b1.Property<string>("Url")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(2083)
+                                .HasColumnType("nvarchar(2083)");
 
                             b1.HasKey("AllNoxTypeId", "AllNoxTypeTextId");
 
