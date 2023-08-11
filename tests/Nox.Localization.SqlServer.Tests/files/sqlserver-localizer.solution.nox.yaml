@@ -1,0 +1,40 @@
+#
+# sqlserver-localizer.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+name: SqlServerLocalizerService
+
+description: SqlServer localizer yaml file for tests
+
+variables:
+  DATABASE_PROVIDER: sqlServer
+  DATABASE_SERVER: localhost
+  DATABASE_USER: sa
+  DATABASE_PASSWORD: Developer*123
+  DATABASE_PORT: 1433
+
+infrastructure:
+  persistence: 
+    databaseServer: 
+      name: TestDb
+      provider: ${{ env.DATABASE_PROVIDER }}
+      serverUri: ${{ env.DATABASE_SERVER }}
+      user: ${{ env.DATABASE_USER }}
+      password: ${{ env.DATABASE_PASSWORD }}
+      port: ${{ env.DATABASE_PORT }}
+      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;
+  
+  dependencies:
+    uiLocalizations:
+      name: LocalizationTest
+      provider: ${{ env.DATABASE_PROVIDER }}
+      serverUri: ${{ env.DATABASE_SERVER }}
+      user: ${{ env.DATABASE_USER }}
+      password: ${{ env.DATABASE_PASSWORD }}
+      port: ${{ env.DATABASE_PORT }}
+      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;
+
+
+
