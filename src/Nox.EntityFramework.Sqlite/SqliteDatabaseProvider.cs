@@ -16,7 +16,8 @@ public sealed class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDataba
     {
 
     }
-    public DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
+    
+    public DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer, string? migrationsAssembly = null)
     {
         var csb = new SqliteConnectionStringBuilder(dbServer.Options)
         {
@@ -27,7 +28,13 @@ public sealed class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDataba
         ConnectionString = csb.ConnectionString;
 
         return optionsBuilder
-            .UseSqlite(csb.ConnectionString);
+            .UseSqlite(csb.ConnectionString, dbOpt =>
+            {
+                if (!string.IsNullOrWhiteSpace(migrationsAssembly))
+                {
+                    dbOpt.MigrationsAssembly(migrationsAssembly);
+                }
+            });
     }
 
     public string ToTableNameForSql(string table, string schema)
@@ -39,4 +46,5 @@ public sealed class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDataba
     {
         throw new NotImplementedException();
     }
+
 }

@@ -35,9 +35,10 @@
         <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
         <ProjectReference Include="..\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
     </ItemGroup>
-
-
-
+    
+    <ItemGroup>
+      <Folder Include="Abstractions\" />
+    </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>

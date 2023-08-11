@@ -1,6 +1,4 @@
-using Nox.Localization.DbContext;
-
-namespace Nox.Localization.Abstractions;
+namespace Nox.Localization.DbContext;
 
 public interface INoxLocalizationDbContextFactory
 {

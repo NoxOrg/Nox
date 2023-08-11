@@ -7,7 +7,7 @@ using Nox.Localization.DbContext;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
-namespace Nox.Localization.Extensions;
+namespace Nox.Localization.Sqlite.Extensions;
 
 public static class SqliteLocalizationOptionsExtension
 {
@@ -15,10 +15,15 @@ public static class SqliteLocalizationOptionsExtension
     {
         optionsBuilder.Services.TryAddSingleton<INoxDatabaseProvider, SqliteDatabaseProvider>();
         
-        optionsBuilder.Services.AddDbContext<NoxLocalizationDbContext>( options =>
-        {
-            options.UseSqlite(serverConfig.ServerUri);
-        });
+        optionsBuilder.Services.AddDbContext<NoxLocalizationDbContext>();
+        
+        // optionsBuilder.Services.AddDbContext<NoxLocalizationDbContext>( options =>
+        // {
+        //     options.UseSqlite(serverConfig.ServerUri, dbOptions =>
+        //     {
+        //         dbOptions.MigrationsAssembly("Nox.Localization.Sqlite");
+        //     });
+        // });
         return optionsBuilder;
     }
 }

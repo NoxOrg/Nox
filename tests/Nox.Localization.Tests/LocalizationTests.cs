@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
+using Nox.Localization.DbContext;
 using Nox.Localization.Extensions;
 using Nox.Solution;
 
@@ -29,6 +30,7 @@ public class LocalizationTests: IClassFixture<WebApplicationFixture>
     public void Localizer_Returns_Default_Value()
     {
         _fixture.SetCulture("en-GB");
+        
         var factory = _fixture.FixtureWebApplication!.Services.GetRequiredService<IStringLocalizerFactory>();
         var enGbLocalizer = factory.Create(typeof(LocalizationTests));
 

@@ -9,19 +9,24 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
 {
     private const string LocalizationSchema = "l10n";
 
-    private readonly INoxDatabaseProvider _dbProvider;
+    private readonly INoxDatabaseProvider? _databaseProvider;
 
-    private readonly INoxClientAssemblyProvider _clientAssemblyProvider;
+    private readonly INoxClientAssemblyProvider? _clientAssemblyProvider;
 
     // Schema: 'i10n'
     public DbSet<Translation> Translations { get; set; } = default!;
 
+    public NoxLocalizationDbContext(DbContextOptions<NoxLocalizationDbContext> options): base(options)
+    {
+        
+    }
+    
     public NoxLocalizationDbContext(
         INoxDatabaseProvider databaseProvider,
-        INoxClientAssemblyProvider clientAssemblyProvider
+        INoxClientAssemblyProvider? clientAssemblyProvider = null
     ) 
     {
-        _dbProvider = databaseProvider;
+        _databaseProvider = databaseProvider;
         _clientAssemblyProvider = clientAssemblyProvider;
     } 
 
@@ -29,32 +34,35 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
     {
         base.OnConfiguring(optionsBuilder);
 
-        var appName = NoxSolutionBuilder.Instance!.Name;
-
-        var dbServer = NoxSolutionBuilder.Instance.Infrastructure?.Persistence.DatabaseServer;
-
-        if(dbServer is not null)
+        if (NoxSolutionBuilder.Instance != null)
         {
-            _dbProvider.ConfigureDbContext(optionsBuilder, appName, dbServer);
+            var appName = NoxSolutionBuilder.Instance.Name;
+
+            var dbServer = NoxSolutionBuilder.Instance.Infrastructure?.Persistence.DatabaseServer;
+            if(dbServer is not null)
+            {
+                _databaseProvider!.ConfigureDbContext(optionsBuilder, appName, dbServer, "Nox.Localization.Sqlite");
+            }
         }
-
-        //optionsBuilder.MigrationsAssembly("ImportExportLocalization");
-
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Schema 'dbo': Domain State
 
-        if (NoxSolutionBuilder.Instance!.Domain != null)
+        if (NoxSolutionBuilder.Instance != null)
         {
-            var codeGeneratorState = new NoxSolutionCodeGeneratorState(NoxSolutionBuilder.Instance, _clientAssemblyProvider.ClientAssembly);
-            foreach (var entity in NoxSolutionBuilder.Instance!.Domain.Entities)
+            if (NoxSolutionBuilder.Instance.Domain != null)
             {
-                var type = codeGeneratorState.GetEntityType(entity.Name);
-                if (type != null)
+                var codeGeneratorState = new NoxSolutionCodeGeneratorState(NoxSolutionBuilder.Instance, _clientAssemblyProvider!.ClientAssembly);
+                foreach (var entity in NoxSolutionBuilder.Instance!.Domain.Entities)
                 {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, NoxSolutionBuilder.Instance!.GetRelationshipsToCreate(codeGeneratorState.GetEntityType, entity));
+                    var type = codeGeneratorState.GetEntityType(entity.Name);
+                    if (type != null)
+                    {
+                        ((INoxDatabaseConfigurator)_databaseProvider!).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity,
+                            NoxSolutionBuilder.Instance!.GetRelationshipsToCreate(codeGeneratorState.GetEntityType, entity));
+                    }
                 }
             }
         }
@@ -70,10 +78,7 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
 
         // Schema 'migrations': Migrations
 
-
-
         base.OnModelCreating(modelBuilder);
-
     }
 
     private void ConfigureLocalization(ModelBuilder builder)
@@ -81,6 +86,5 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
         builder.Entity<Translation>().ToTable("Translations", LocalizationSchema);
         builder.Entity<Translation>().HasKey(m => m.Id);
         builder.Entity<Translation>().HasAlternateKey(c => new { c.Key, c.CultureCode, c.ResourceKey });
-        base.OnModelCreating(builder);
     }
 }

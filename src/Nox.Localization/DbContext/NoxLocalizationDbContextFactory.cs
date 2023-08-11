@@ -1,4 +1,5 @@
-using Nox.Localization.Abstractions;
+using Microsoft.EntityFrameworkCore.Design;
+using Nox.Abstractions.Localization;
 using Nox.Types.EntityFramework.Abstractions;
 
 namespace Nox.Localization.DbContext;
@@ -20,4 +21,6 @@ public class NoxLocalizationDbContextFactory: INoxLocalizationDbContextFactory
     {
         return new NoxLocalizationDbContext(_dbProvider, _clientAssemblyProvider);
     }
+
+    
 }

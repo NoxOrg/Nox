@@ -2,7 +2,6 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
 using Nox.Abstractions.Localization;
-using Nox.Localization.Abstractions;
 using Nox.Localization.DbContext;
 using Nox.Localization.Localizers;
 
