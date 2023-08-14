@@ -23,6 +23,7 @@ internal class AllNoxTypesDataSeeder : SampleDataSeederBase<AllNoxTypeModel, All
         {
             return new AllNoxType
             {
+                TextId = Text.From(x.Id),
                 BooleanField = Nox.Types.Boolean.From(x.Boolean),         
                 CountryCode2Field = CountryCode2.From(x.CountryCode2),
                 CountryCode3Field = CountryCode3.From(x.CountryCode3),

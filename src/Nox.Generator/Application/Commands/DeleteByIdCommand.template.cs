@@ -14,7 +14,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 public record Delete{{entity.Name }}ByIdCommand({{entity.KeysFlattenComponentsType[entity.Keys[0].Name]}} key) : IRequest<bool>;
 
-public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase<Delete{{entity.Name }}ByIdCommand, bool>
+public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase, IRequestHandler<Delete{{entity.Name }}ByIdCommand, bool>
 {
     public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 
@@ -26,7 +26,7 @@ public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase<Delete{{entity
         DbContext = dbContext;
     }    
 
-    public async override Task<bool> Handle(Delete{{entity.Name}}ByIdCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(Delete{{entity.Name}}ByIdCommand request, CancellationToken cancellationToken)
     {
         var key = CreateNoxTypeForKey<{{entity.Name}},{{entity.Keys[0].Type}}>("{{entity.Keys[0].Name}}", request.key);
         var entity = await DbContext.{{entity.PluralName}}.FindAsync(key);

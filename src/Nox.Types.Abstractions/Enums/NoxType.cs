@@ -64,7 +64,7 @@ public enum NoxType : uint
     [SimpleType(typeof(decimal))]
     Area = 998304025,
 
-    [SimpleType(typeof(ulong))] 
+    [SimpleType(typeof(long))] 
     DatabaseNumber = 963275927,
     
     [SimpleType(typeof(bool))]

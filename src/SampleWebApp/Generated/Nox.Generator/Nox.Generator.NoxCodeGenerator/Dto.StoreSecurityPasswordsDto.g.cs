@@ -17,7 +17,7 @@ namespace SampleWebApp.Application.Dto;
 /// A set of security passwords to store cameras and databases.
 /// </summary>
 [AutoMap(typeof(StoreSecurityPasswordsCreateDto))]
-public partial class StoreSecurityPasswordsDto : AuditableEntityBase
+public partial class StoreSecurityPasswordsDto 
 {
 
     /// <summary>
@@ -41,4 +41,5 @@ public partial class StoreSecurityPasswordsDto : AuditableEntityBase
     //EF maps ForeignKey Automatically
     public virtual string StoreId { get; set; } = null!;
     public virtual StoreDto Store { get; set; } = null!;
+    public bool? Deleted { get; set; }
 }

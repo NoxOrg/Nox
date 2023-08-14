@@ -17,7 +17,7 @@ namespace SampleWebApp.Application.Dto;
 /// The list of countries.
 /// </summary>
 [AutoMap(typeof(CountryCreateDto))]
-public partial class CountryDto : AuditableEntityBase
+public partial class CountryDto 
 {
 
     /// <summary>
@@ -104,4 +104,5 @@ public partial class CountryDto : AuditableEntityBase
     /// Country accepts as legal tender OneOrMany Currencies
     /// </summary>
     public virtual List<CurrencyDto> Currencies { get; set; } = new();
+    public bool? Deleted { get; set; }
 }

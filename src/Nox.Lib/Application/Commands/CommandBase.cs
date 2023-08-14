@@ -1,12 +1,15 @@
-﻿using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
 
 namespace Nox.Application.Commands;
 
-public abstract class CommandBase<TRequest, TResponse>: IRequestHandler<TRequest, TResponse> where TRequest : IRequest<TResponse>
+/// <summary>
+/// Nox Command base command
+/// </summary>
+
+public abstract class CommandBase
 {
     public NoxSolution NoxSolution { get; }
     public IServiceProvider ServiceProvider { get; }
@@ -16,15 +19,18 @@ public abstract class CommandBase<TRequest, TResponse>: IRequestHandler<TRequest
         ServiceProvider = serviceProvider;
     }
     
-    public abstract Task<TResponse> Handle(TRequest request, CancellationToken cancellationToken);
-
-    public N? CreateNoxTypeForKey<E,N>(string keyName, dynamic? value) where N : INoxType
+    public N? CreateNoxTypeForKey<E, N>(string keyName, dynamic? value) where N : INoxType
     {
-        var entityDefinition = NoxSolution.Domain!.GetEntityByName(typeof(E).Name);
+        var entityDefinition = GetEntityDefinition<E>();
         var key = entityDefinition.Keys!.Single(entity => entity.Name == keyName);
 
         var typeFactory = ServiceProvider.GetService<INoxTypeFactory<N>>();
-        return typeFactory!.CreateNoxType(key, value);        
-    }    
+        return typeFactory!.CreateNoxType(key, value);
+    }
+
+    public Entity GetEntityDefinition<E>()
+    {
+        return NoxSolution.Domain!.GetEntityByName(typeof(E).Name);
+    }
 }
 

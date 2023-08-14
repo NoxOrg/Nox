@@ -31,9 +31,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         // languageCode
         // yaml
         // uri
-        // date
         // dateTimeSchedule
-        // html
         // json
 
         // TODO: commented types
@@ -116,6 +114,18 @@ public class PostgresIntegrationTests : PostgresTestBase
         var dateTimeRangeEnd = new DateTimeOffset(2023, 7, 10, 0, 0, 0, TimeSpan.FromHours(5));
         var dateTime = System.DateTime.UtcNow;
 
+        var html = @"
+<html>
+    <body>
+    Plain text
+    <p> Paragraph text </p>
+    </body>
+</html>";
+
+        var imageUrl = "https://example.com/image.png";
+        var imagePrettyName = "Image";
+        var imageSizeInBytes = 128;
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -162,6 +172,8 @@ public class PostgresIntegrationTests : PostgresTestBase
             UriTestField = Types.Uri.From(sampleUri),
             GeoCoordTestField = LatLong.From(latitude, longitude),
             DateTimeRangeTestField = DateTimeRange.From(dateTimeRangeStart, dateTimeRangeEnd),
+            HtmlTestField = Html.From(html),
+            ImageTestField = Image.From(imageUrl, imagePrettyName, imageSizeInBytes),
             DateTimeTestField = Types.DateTime.From(dateTime),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
@@ -236,6 +248,14 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
         testEntity.DateTimeRangeTestField!.Start.Should().Be(dateTimeRangeStart);
         testEntity.DateTimeRangeTestField!.End.Should().Be(dateTimeRangeEnd);
+        testEntity.DateTimeRangeTestField!.Start.ToString().Should().Be(dateTimeRangeStart.ToString());
+        testEntity.DateTimeRangeTestField!.End.ToString().Should().Be(dateTimeRangeEnd.ToString());
+        testEntity.DateTimeRangeTestField.StartTimeZoneOffset.Should().Be(dateTimeRangeStart.Offset);
+        testEntity.DateTimeRangeTestField.EndTimeZoneOffset.Should().Be(dateTimeRangeEnd.Offset);
+        testEntity.HtmlTestField!.Value.Should().Be(html);
+        testEntity.ImageTestField!.Url.Should().Be(imageUrl);
+        testEntity.ImageTestField!.PrettyName.Should().Be(imagePrettyName);
+        testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
         testEntity.DateTimeTestField!.Should().Be(newItem.DateTimeTestField);
     }
 }

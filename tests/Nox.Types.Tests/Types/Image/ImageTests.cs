@@ -2,8 +2,6 @@ using FluentAssertions;
 
 namespace Nox.Types.Tests.Types;
 
-using Xunit;
-
 public class ImageTests
 {
     [Theory]
@@ -20,19 +18,59 @@ public class ImageTests
         image.SizeInBytes.Should().Be(size);
     }
 
-    [Theory]
-    [InlineData("", "Image1", 100)]
-    [InlineData("https://example.com/image.jpg", "", 200)]
-    [InlineData("https://example.com/image.jpg", "Image1", 0)]
-    public void Image_WithInvalidValues_ShouldBeInvalid(string url, string prettyName, int size)
+    [Fact]
+    public void Image_WithEmptyUrl_ShouldBeInvalid()
     {
         // Arrange & Act
-        var exception = Assert.Throws<TypeValidationException>(() => _ = Image.From(url, prettyName, size));
+        var action = () => Image.From("", "Image1", 100);
 
         // Assert
-        exception.Should().NotBeNull();
-        exception.Errors.Should().HaveCount(1);
-        exception.Errors[0].ErrorMessage.Should().StartWith("Could not create a Nox Image type");
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Url", "Could not create a Nox Image type with an empty Url.") });
+    }
+
+    [Fact]
+    public void Image_WithUrlLongerThanMaxAllowed_ShouldBeInvalid()
+    {
+        // Arrange & Act
+        var action = () => Image.From($"https://www.example.com/{new string('a', 2050)}/image.jpg", "Image1", 100);
+
+        // Assert
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Url", "Could not create a Nox Image type with an Url length greater than max allowed length of 2083.") });
+    }
+
+    [Fact]
+    public void Image_WithEmptyPrettyName_ShouldBeInvalid()
+    {
+        // Arrange & Act
+        var action = () => Image.From("https://example.com/image.jpg", "", 100);
+
+        // Assert
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("PrettyName", "Could not create a Nox Image type with an empty PrettyName.") });
+    }
+
+    [Fact]
+    public void Image_WithPrettyNameLongerThanMaxAllowed_ShouldBeInvalid()
+    {
+        // Arrange & Act
+        var action = () => Image.From("https://example.com/image.jpg", new string('a', 512), 100);
+
+        // Assert
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("PrettyName", "Could not create a Nox Image type with a PrettyName length greater than max allowed length of 511.") });
+    }
+
+    [Fact]
+    public void Image_WithZeroSizeInBytes_ShouldBeInvalid()
+    {
+        // Arrange & Act
+        var action = () => Image.From("https://example.com/image.jpg", "Image1", 0);
+
+        // Assert
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("SizeInBytes", "Could not create a Nox Image type with a Size of 0.") });
     }
 
     [Theory]
@@ -40,54 +78,50 @@ public class ImageTests
     public void Image_WithInvalidUrlExtension_ShouldBeInvalid(string url, string prettyName, int size)
     {
         // Arrange & Act
-        var exception = Assert.Throws<TypeValidationException>(() => _ = Image.From(url, prettyName, size));
+        var action = () => Image.From(url, prettyName, size);
 
         // Assert
-        exception.Should().NotBeNull();
-        exception.Errors.Should().HaveCount(1);
-        exception.Errors[0].ErrorMessage.Should().Be($"Could not create a Nox Image type with an image having an unsupported extension '{url}'.");
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Url", $"Could not create a Nox Image type with an image having an unsupported extension '{url}'.") });
     }
 
     [Fact]
     public void Image_WithInvalidUrl_ShouldBeInvalid()
     {
         // Arrange & Act
-        var exception = Assert.Throws<TypeValidationException>(() => _ = Image.From("invalid url", "Image1", 100));
+        var action = () => Image.From("invalid url", "Image1", 100);
 
         // Assert
-        exception.Should().NotBeNull();
-        exception.Errors.Should().HaveCount(1);
-        exception.Errors[0].ErrorMessage.Should().Be($"Could not create a Nox Image type with an invalid Url 'invalid url'.");
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Url", "Could not create a Nox Image type with an invalid Url 'invalid url'.") });
     }
 
     [Fact]
     public void Image_With_Unsupported_Extension_ShouldBeInvalid()
     {
-        // Arrange &
-
+        // Arrange
         var imageTypeOptions = new ImageTypeOptions
         {
             ImageFormatTypes = new List<ImageFormatType> { ImageFormatType.Jpeg, ImageFormatType.Bmp }
         };
+
         // Act
-        var exception = Assert.Throws<TypeValidationException>(() =>
-            _ = Image.From("https://example.com/image.png", "Image1", 100, imageTypeOptions));
+        var action = () => Image.From("https://example.com/image.png", "Image1", 100, imageTypeOptions);
 
         // Assert
-        exception.Should().NotBeNull();
-        exception.Errors.Should().HaveCount(1);
-        exception.Errors[0].ErrorMessage.Should().Be($"Could not create a Nox Image type with an image having an unsupported extension 'https://example.com/image.png'.");
+        action.Should().Throw<TypeValidationException>()
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Url", "Could not create a Nox Image type with an image having an unsupported extension 'https://example.com/image.png'.") });
     }
 
     [Fact]
     public void Image_With_Supported_Extension_ShouldBeValid()
     {
-        // Arrange &
-
+        // Arrange
         var imageTypeOptions = new ImageTypeOptions
         {
             ImageFormatTypes = new List<ImageFormatType> { ImageFormatType.Jpeg, ImageFormatType.Bmp }
         };
+
         // Act
         var image = Image.From("https://example.com/image.jpg", "Image1", 100, imageTypeOptions);
         var image2 = Image.From("https://example.com/image.bmp", "Image2", 100, imageTypeOptions);

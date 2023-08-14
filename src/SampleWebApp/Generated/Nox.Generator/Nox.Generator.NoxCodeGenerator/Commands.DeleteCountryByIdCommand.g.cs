@@ -14,7 +14,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record DeleteCountryByIdCommand(System.String key) : IRequest<bool>;
 
-public class DeleteCountryByIdCommandHandler: CommandBase<DeleteCountryByIdCommand, bool>
+public class DeleteCountryByIdCommandHandler: CommandBase, IRequestHandler<DeleteCountryByIdCommand, bool>
 {
     public SampleWebAppDbContext DbContext { get; }
 
@@ -26,7 +26,7 @@ public class DeleteCountryByIdCommandHandler: CommandBase<DeleteCountryByIdComma
         DbContext = dbContext;
     }    
 
-    public async override Task<bool> Handle(DeleteCountryByIdCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteCountryByIdCommand request, CancellationToken cancellationToken)
     {
         var key = CreateNoxTypeForKey<Country,Text>("Id", request.key);
         var entity = await DbContext.Countries.FindAsync(key);

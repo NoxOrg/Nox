@@ -1,0 +1,34 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "The localization settings for the solution.",
+  "description": "The supported localization and defaults for the solution.",
+  "type": [
+    "object",
+    "null"
+  ],
+  "required": [
+    "supportedCultures",
+    "defaultCulture"
+  ],
+  "properties": {
+    "supportedCultures": {    
+      "title": "The list of culture codes supported by the solution.",
+      "description": "The list of culture codes that the solution supports.",
+      "type": "array",
+      "items":   {
+        "type": [
+          "string",
+          "null"
+        ],
+        "pattern": "^[a-z]{2}-[A-Z]{2}$"
+      }
+    },
+    "defaultCulture": {    
+      "title": "The default culture code for the solution.",
+      "description": "The default culture code used for formatting and translation.",
+      "type": "string",
+      "pattern": "^[a-z]{2}-[A-Z]{2}$"
+    }
+  },
+  "additionalProperties": false
+}

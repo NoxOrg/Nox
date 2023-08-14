@@ -14,7 +14,6 @@ namespace SampleWebApp.Domain;
 /// </summary>
 public partial class Currency : AuditableEntityBase
 {
-
     /// <summary>
     /// The currency's primary key / identifier (Required).
     /// </summary>

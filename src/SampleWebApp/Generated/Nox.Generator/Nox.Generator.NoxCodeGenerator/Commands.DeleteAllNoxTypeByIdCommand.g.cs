@@ -12,9 +12,9 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteAllNoxTypeByIdCommand(System.UInt64 key) : IRequest<bool>;
+public record DeleteAllNoxTypeByIdCommand(System.Int64 key) : IRequest<bool>;
 
-public class DeleteAllNoxTypeByIdCommandHandler: CommandBase<DeleteAllNoxTypeByIdCommand, bool>
+public class DeleteAllNoxTypeByIdCommandHandler: CommandBase, IRequestHandler<DeleteAllNoxTypeByIdCommand, bool>
 {
     public SampleWebAppDbContext DbContext { get; }
 
@@ -26,7 +26,7 @@ public class DeleteAllNoxTypeByIdCommandHandler: CommandBase<DeleteAllNoxTypeByI
         DbContext = dbContext;
     }    
 
-    public async override Task<bool> Handle(DeleteAllNoxTypeByIdCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteAllNoxTypeByIdCommand request, CancellationToken cancellationToken)
     {
         var key = CreateNoxTypeForKey<AllNoxType,DatabaseNumber>("Id", request.key);
         var entity = await DbContext.AllNoxTypes.FindAsync(key);

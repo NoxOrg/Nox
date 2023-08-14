@@ -1,4 +1,5 @@
 ﻿using Humanizer;
+using Nox.Solution.Extensions;
 using Nox.Types.Schema;
 using YamlDotNet.Serialization;
 
@@ -39,7 +40,10 @@ public class EntityRelationship : DefinitionBase
     public bool CanNavigate { get; internal set; } = true;
 
     [YamlIgnore]
-    public bool ShouldGenerateForeignOnThisSide => NoxSolution.ShouldGenerateForeignOnThisSide(this);
+    public bool ShouldGenerateForeignOnThisSide => EntityRelationshipExtensions.ShouldGenerateForeignOnThisSide(this);
+
+    [YamlIgnore]
+    public bool IsManyRelationshipOnOtherSide => EntityRelationshipExtensions.IsManyRelationshipOnOtherSide(this);
 
     [YamlIgnore]
     public RelatedEntityInfo Related { get; internal set; } = new();
