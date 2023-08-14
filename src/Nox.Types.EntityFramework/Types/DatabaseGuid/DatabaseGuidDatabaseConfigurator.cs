@@ -19,7 +19,7 @@ public class DatabaseGuidDatabaseConfigurator : INoxTypeDatabaseConfigurator
     /// Gets a value indicating whether this configurator is the default one for the associated Nox type.
     /// In this case, it is set to true, indicating that this is the default configurator for DatabaseGuid.
     /// </summary>
-    public bool IsDefault => true;
+    public virtual bool IsDefault => true;
 
     /// <summary>
     /// Configures the database entity property for the DatabaseGuid type.
@@ -51,4 +51,9 @@ public class DatabaseGuidDatabaseConfigurator : INoxTypeDatabaseConfigurator
     /// <param name="key">The NoxSimpleTypeDefinition representing the key property.</param>
     /// <returns>The name of the key property.</returns>
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
+
+    public virtual string? DefaultValue()
+    {
+        return null;
+    }
 }
