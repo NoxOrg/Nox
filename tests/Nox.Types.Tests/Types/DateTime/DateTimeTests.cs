@@ -65,7 +65,7 @@ public class DateTimeTests
     public void From_ValidDateTimeString_ReturnsValue()
     {
         var datetimeExpected = DateTimeOffset.Now;
-        var datetime = DateTime.From(datetimeExpected.ToString());
+        var datetime = DateTime.From(datetimeExpected.ToString(CultureInfo.InvariantCulture));
 
         datetime.Value.Year.Should().Be(datetimeExpected.Year);
         datetime.Value.Month.Should().Be(datetimeExpected.Month);

@@ -90,7 +90,7 @@ public sealed class DateTime : ValueObject<DateTimeOffset, DateTime>
         var result = base.Validate();
 
         // validate date by options
-        if(_dateTimeTypeOptions.AllowFutureOnly && Value < DateTimeOffset.Now)
+        if(_dateTimeTypeOptions.AllowFutureOnly && Value < DateTimeOffset.UtcNow)
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DateTime type as value {Value} is in the past"));
         }
