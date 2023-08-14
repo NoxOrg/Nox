@@ -139,19 +139,9 @@ public partial class AllNoxTypeDto
     public VatNumberDto? VatNumberField { get; set; } 
 
     /// <summary>
-    /// Password Nox Type (Optional).
-    /// </summary>
-    public PasswordDto? PasswordField { get; set; } 
-
-    /// <summary>
     /// Money Nox Type (Optional).
     /// </summary>
     public MoneyDto? MoneyField { get; set; } 
-
-    /// <summary>
-    /// HashedTex Nox Type (Optional).
-    /// </summary>
-    public HashedTextDto? HashedTexField { get; set; } 
 
     /// <summary>
     /// LatLongField Nox Type (Optional).

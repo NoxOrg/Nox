@@ -147,4 +147,9 @@ public partial class AllNoxType : AuditableEntityBase
     /// LatLongField Nox Type (Optional).
     /// </summary>
     public Nox.Types.LatLong? LatLongField { get; set; } = null!;
+
+    /// <summary>
+    /// EncryptedText Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.EncryptedText? EncryptedTextField { get; set; } = null!;
 }

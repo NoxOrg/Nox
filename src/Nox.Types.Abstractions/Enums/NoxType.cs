@@ -123,7 +123,7 @@ public enum NoxType : uint
     [SimpleType(typeof(string))]
     Email = 3393987164,
     
-    [SimpleType(typeof(string))]
+    [SimpleType(typeof(string), Read = false, Update = false)]
     EncryptedText = 1841598137,
     
     [SimpleType(typeof(string))]
@@ -132,7 +132,7 @@ public enum NoxType : uint
     [SimpleType(typeof(Guid))]
     Guid = 1043908053,
 
-    [CompoundType]
+    [CompoundType(Read = false, Update = false)]
     [CompoundComponent("HashText", typeof(string))]
     [CompoundComponent("Salt", typeof(string))]
     HashedText = 3656553818,
@@ -176,7 +176,7 @@ public enum NoxType : uint
     [SimpleType(typeof(NumberTypeComponentsDiscover))]
     Number = 4223714796,
 
-    [CompoundType]
+    [CompoundType(Read = false, Update = false)]
     [CompoundComponent("HashedPassword", typeof(string))]
     [CompoundComponent("Salt", typeof(string))]
     Password = 1755902638,
