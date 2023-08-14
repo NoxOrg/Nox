@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Cryptocash.Ui.Data;
+using Cryptocash.Ui.Generated.Data;
 
-namespace Cryptocash.Ui.Component
+namespace Cryptocash.Ui.Generated.Component
 {
     public class UiHeaderBase : ComponentBase
     {

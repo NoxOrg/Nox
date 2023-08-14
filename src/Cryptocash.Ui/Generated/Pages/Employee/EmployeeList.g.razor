@@ -1,13 +1,13 @@
 ﻿@using Cryptocash.Ui
 @using System.Dynamic
 @using System.Data
-@using Cryptocash.Ui.Data.Generated.Bookings;
-@using Cryptocash.Ui.Pages.Generic
+@using Cryptocash.Ui.Generated.Data.Employee
+@using Cryptocash.Ui.Generated.Pages.Generic
 @using MudBlazor
 
-@page "/Bookings"
+@page "/Employee"
 
-@inherits ApiManagementPageBase<BookingsEntity>
+@inherits ListEntityPageBase<EmployeeEntity>
 
 @if (!IsLoading)
 {

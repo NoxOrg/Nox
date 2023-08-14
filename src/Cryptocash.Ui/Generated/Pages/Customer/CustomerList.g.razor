@@ -1,13 +1,13 @@
 ﻿@using Cryptocash.Ui
 @using System.Dynamic
 @using System.Data
-@using Cryptocash.Ui.Data.Generated.VendingMachines;
-@using Cryptocash.Ui.Pages.Generic
+@using Cryptocash.Ui.Generated.Data.Customer;
+@using Cryptocash.Ui.Generated.Pages.Generic
 @using MudBlazor
 
-@page "/VendingMachines"
+@page "/Customer"
 
-@inherits ApiManagementPageBase<VendingMachinesEntity>
+@inherits ListEntityPageBase<CustomerEntity>
 
 @if (!IsLoading)
 {

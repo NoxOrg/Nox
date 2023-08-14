@@ -1,4 +1,4 @@
-namespace Cryptocash.Ui.Data
+namespace Cryptocash.Ui.Generated.Data
 {
     /// <summary>
     /// Class ApiDefinition which defines and manages Api info
@@ -25,7 +25,7 @@ namespace Cryptocash.Ui.Data
         /// <summary>
         /// Property Link used for href of Api navigation link
         /// </summary>
-        public string? PageLink { get; set; }        
+        public string? PageLink { get; set; }
 
         #endregion
     }

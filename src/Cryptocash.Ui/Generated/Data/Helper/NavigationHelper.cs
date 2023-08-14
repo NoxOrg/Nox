@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 
-namespace Cryptocash.Ui.Data.Helper
+namespace Cryptocash.Ui.Generated.Data.Helper
 {
     /// <summary>
     /// Navigation helper class to enable easy to redirect to another internal blazor page

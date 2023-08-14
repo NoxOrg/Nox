@@ -1,4 +1,4 @@
-namespace Cryptocash.Ui.Data
+namespace Cryptocash.Ui.Generated.Data
 {
     using System;
 

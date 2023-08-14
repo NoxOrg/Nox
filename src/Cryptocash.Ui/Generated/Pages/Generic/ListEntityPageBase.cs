@@ -1,14 +1,13 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Cryptocash.Ui.Data;
-using Cryptocash.Ui.Data.Helper;
+using Cryptocash.Ui.Generated.Data;
 
-namespace Cryptocash.Ui.Pages.Generic
+namespace Cryptocash.Ui.Generated.Pages.Generic
 {
     /// <summary>
-    /// PageBase Class to handle ApiManagement related pages note: T is used to reduce the amount of generator code required
+    /// PageBase Class to handle List Entity related pages note: T is used to reduce the amount of generator code required
     /// </summary>
     /// <typeparam name="T"></typeparam>
-    public class ApiManagementPageBase<T> : ComponentBase
+    public class ListEntityPageBase<T> : ComponentBase
     {
         #region Declarations
 
