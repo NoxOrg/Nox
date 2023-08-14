@@ -10,7 +10,7 @@ public sealed class Guid : ValueObject<System.Guid, Guid>
     /// <summary>
     /// A instance of the <see cref="Guid"/> object whose Value is all zeros.
     /// </summary>
-    public static Guid Empty => From("00000000-0000-0000-0000-000000000000");
+    public static Guid Empty => new() { Value = System.Guid.Empty };
 
     /// <summary>
     /// Creates a <see cref="Guid"/> object from a <see cref="System.String"/>.

@@ -53,7 +53,7 @@ public sealed class User : ValueObject<string, User>
         
         if (validateFormat)
         {
-            bool? validGuid = _userTypeOptions.ValidGuidFormat ? System.Guid.TryParse(Value, out var guidResult) : null;
+            bool? validGuid = _userTypeOptions.ValidGuidFormat ? System.Guid.TryParse(Value, out _) : null;
 
             bool? validEmail = _userTypeOptions.ValidEmailFormat ? Email.EmailRegex.IsMatch(Value) : null;
 
