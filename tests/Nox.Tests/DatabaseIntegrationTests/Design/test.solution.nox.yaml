@@ -880,9 +880,8 @@ domain:
         - name: PhoneNumberTestField
           type: phoneNumber
 
-        - name: TempratureTestField
+        - name: TemperatureTestField
           type: temperature
-  
 
         - name: TranslatedTextTestField
           type: translatedText
@@ -931,6 +930,9 @@ domain:
 
         - name: UrlTestField
           type: url
+
+        - name: UserTestField
+          type: user
 
         - name: FormulaTestField
           type: formula
