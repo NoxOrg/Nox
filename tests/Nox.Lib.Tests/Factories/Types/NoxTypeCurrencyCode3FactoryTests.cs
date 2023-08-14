@@ -38,7 +38,7 @@ namespace Nox.Lib.Tests.Factories.Types
         }
 
         [Theory, AutoMoqData]
-        public void CreateNoxType_FromDto_WhenValueIsInvalid_IsValid(NoxSolution noxSolution, EntityDefinitionFixture fixture)
+        public void CreateNoxType_FromDto_WhenValueIsInvalid_ThrowsException(NoxSolution noxSolution, EntityDefinitionFixture fixture)
         {
             // Arrange
             var sut = new NoxTypeCultureCodeFactory(noxSolution);
