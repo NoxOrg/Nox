@@ -1,7 +1,7 @@
 using FluentAssertions;
 
 using Nox.Types;
-
+using System.Globalization;
 using System.Text.Json;
 
 using TestWebApp.Domain;
@@ -256,7 +256,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.ImageTestField!.Url.Should().Be(imageUrl);
         testEntity.ImageTestField!.PrettyName.Should().Be(imagePrettyName);
         testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
-        testEntity.DateTimeTestField!.ToString("yyyy-MM-dd HH:mm:ss \"GMT\"zzz").Should().Be(dateTime.ToString("yyyy-MM-dd HH:mm:ss \"GMT\"zzz"));
+        testEntity.DateTimeTestField!.ToString().Should().Be(dateTime.ToString(CultureInfo.InvariantCulture));
         testEntity.DateTimeTestField!.TimeZoneOffset.Should().Be(dateTime.Offset);
     }
 }

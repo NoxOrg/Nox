@@ -73,7 +73,7 @@ public sealed class DateTime : ValueObject<DateTimeOffset, DateTime>
     public static DateTime From(string dateTime, DateTimeTypeOptions? options = null)
     {
         options ??= new DateTimeTypeOptions();
-        if (!DateTimeOffset.TryParse(dateTime, null as IFormatProvider, out DateTimeOffset dateTimeParse))
+        if (!DateTimeOffset.TryParse(dateTime, CultureInfo.InvariantCulture, out DateTimeOffset dateTimeParse))
         {
             throw new ArgumentOutOfRangeException(nameof(dateTime), dateTime, "Invalid datetime");
         }
