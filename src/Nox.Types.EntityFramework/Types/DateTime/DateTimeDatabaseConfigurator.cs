@@ -13,9 +13,16 @@ public class DateTimeDatabaseConfigurator : INoxTypeDatabaseConfigurator
     public void ConfigureEntityProperty(NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState, EntityTypeBuilder builder, NoxSimpleTypeDefinition property, Entity entity, bool isKey)
     {
         builder
-            .Property(property.Name)
-            .IsRequired(property.IsRequired)
-            .HasConversion<DateTimeConverter>();
+            .OwnsOne(typeof(DateTime), property.Name, dtr =>
+            {
+                dtr.Property(nameof(DateTime.DateTimeValue))
+                    .HasConversion<DateTimeRangeConverter>();
+
+                dtr.Property(nameof(DateTime.TimeZoneOffset))
+                    .UsePropertyAccessMode(PropertyAccessMode.Property);
+
+                dtr.Ignore(nameof(DateTime.Value));
+            });
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;

@@ -125,8 +125,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var imageUrl = "https://example.com/image.png";
         var imagePrettyName = "Image";
         var imageSizeInBytes = 128;
-
-        var dateTime = System.DateTime.UtcNow;
+        var dateTime = new DateTimeOffset(System.DateTime.Now);
 
         var newItem = new TestEntityForTypes()
         {
@@ -266,7 +265,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.ImageTestField!.Url.Should().Be(imageUrl);
         testEntity.ImageTestField!.PrettyName.Should().Be(imagePrettyName);
         testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
-        testEntity.DateTimeTestField!.Should().Be(newItem.DateTimeTestField);
+        testEntity.DateTimeTestField!.ToString("yyyy-MM-dd HH:mm:ss \"GMT\"zzz").Should().Be(dateTime.ToString("yyyy-MM-dd HH:mm:ss \"GMT\"zzz"));
+        testEntity.DateTimeTestField!.TimeZoneOffset.Should().Be(dateTime.Offset);
     }
 
     [Fact]

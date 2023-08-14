@@ -112,7 +112,7 @@ public class PostgresIntegrationTests : PostgresTestBase
 
         var dateTimeRangeStart = new DateTimeOffset(2023, 4, 12, 0, 0, 0, TimeSpan.FromHours(3));
         var dateTimeRangeEnd = new DateTimeOffset(2023, 7, 10, 0, 0, 0, TimeSpan.FromHours(5));
-        var dateTime = System.DateTime.UtcNow;
+        var dateTime = new DateTimeOffset(System.DateTime.Now);
 
         var html = @"
 <html>
@@ -256,6 +256,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.ImageTestField!.Url.Should().Be(imageUrl);
         testEntity.ImageTestField!.PrettyName.Should().Be(imagePrettyName);
         testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
-        testEntity.DateTimeTestField!.Should().Be(newItem.DateTimeTestField);
+        testEntity.DateTimeTestField!.ToString("yyyy-MM-dd HH:mm:ss \"GMT\"zzz").Should().Be(dateTime.ToString("yyyy-MM-dd HH:mm:ss \"GMT\"zzz"));
+        testEntity.DateTimeTestField!.TimeZoneOffset.Should().Be(dateTime.Offset);
     }
 }

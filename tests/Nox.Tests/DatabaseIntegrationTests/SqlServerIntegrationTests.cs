@@ -102,7 +102,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var length = 314_598M;
         var persistLengthUnitAs = LengthTypeUnit.Meter;
         var sampleUri = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
-        var dateTime = System.DateTime.UtcNow;
+        var dateTime = new DateTimeOffset(System.DateTime.Now);
 
         var jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
@@ -266,10 +266,11 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.ImageTestField!.Url.Should().Be(imageUrl);
         testEntity.ImageTestField!.PrettyName.Should().Be(imagePrettyName);
         testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
-        testEntity.DateTimeTestField!.Should().Be(newItem.DateTimeTestField);
+        testEntity.DateTimeTestField!.ToString("yyyy-MM-dd HH:mm:ss \"GMT\"zzz").Should().Be(dateTime.ToString("yyyy-MM-dd HH:mm:ss \"GMT\"zzz"));
+        testEntity.DateTimeTestField!.TimeZoneOffset.Should().Be(dateTime.Offset);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_SqlServer_ZeroOrMany_ZeroOrMany()
     {
         var text = "TX";
@@ -308,7 +309,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(secondTestEntity.TestEntityZeroOrManies[0].Id.Value, textId1);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_SqlServer_OneOrMany_OneOrMany()
     {
         var text = "TX";
@@ -347,7 +348,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(secondTestEntity.TestEntityOneOrManies[0].Id.Value, textId1);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_SqlServer_ExactlyOne_ExactlyOne()
     {
         var text = "TX";
@@ -385,7 +386,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(secondTestEntity.TestEntityExactlyOne.Id.Value, textId1);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_SqlServer_ZeroOrOne_ZeroOrOne()
     {
         var text = "TX";
@@ -423,7 +424,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(secondTestEntity.TestEntityZeroOrOne.Id.Value, textId1);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_Sqlite_ZeroOrOne_ZeroOrMany()
     {
         var text = "TX";
@@ -461,7 +462,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(secondTestEntity.TestEntityZeroOrOneToZeroOrManies[0].Id.Value, textId1);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_Sqlite_ZeroOrOne_OneOrMany()
     {
         var text = "TX";
@@ -499,7 +500,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(secondTestEntity.TestEntityZeroOrOneToOneOrManies[0].Id.Value, textId1);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_Sqlite_ZeroOrOne_ExactlyOne()
     {
         var text = "TX";
@@ -537,7 +538,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(secondTestEntity.TestEntityZeroOrOneToExactlyOne.Id.Value, textId1);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_Sqlite_OneOrMany_ExactlyOne()
     {
         var text = "TX";
@@ -575,7 +576,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(secondTestEntity.TestEntityExactlyOneToOneOrManies[0].Id.Value, textId1);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_Sqlite_ExactlyOne_ZeroOrMany()
     {
         var text = "TX";
@@ -613,7 +614,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(secondTestEntity.TestEntityZeroOrManyToExactlyOne.Id.Value, textId1);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_Sqlite_ZeroOrMany_OneOrMany()
     {
         var text = "TX";

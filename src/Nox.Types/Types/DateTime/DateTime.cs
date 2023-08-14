@@ -5,8 +5,30 @@ namespace Nox.Types;
 public sealed class DateTime : ValueObject<DateTimeOffset, DateTime>
 {
     private DateTimeTypeOptions _dateTimeTypeOptions = new();
+    private TimeSpan _timeZoneOffset;
 
     public DateTime() { Value = DateTimeOffset.MinValue; }
+
+    public DateTimeOffset DateTimeValue
+    {
+        get => Value;
+
+        private set => Value = value.ToOffset(TimeZoneOffset);
+    }
+
+    public TimeSpan TimeZoneOffset
+    {
+        get => _timeZoneOffset;
+        private set
+        {
+            _timeZoneOffset = value;
+            if (Value.Offset != _timeZoneOffset)
+            {
+                Value = Value.ToOffset(value);
+            }
+        }
+    }
+
 
     /// <inheritdoc cref="From(DateTimeOffset ,Nox.Types.DateTimeTypeOptions)"/>
     public new static DateTime From(DateTimeOffset dateTime) => From(dateTime, new DateTimeTypeOptions());
@@ -22,7 +44,8 @@ public sealed class DateTime : ValueObject<DateTimeOffset, DateTime>
         var newObject = new DateTime
         {
             Value = dateTime,
-            _dateTimeTypeOptions = options
+            _dateTimeTypeOptions = options,
+            TimeZoneOffset = dateTime.Offset
         };
 
         var validationResult = newObject.Validate();
