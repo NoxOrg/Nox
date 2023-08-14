@@ -108,6 +108,18 @@ public class DateTimeTests
     }
 
     [Fact]
+    public void From_UsingSystemDateTime_ReturnsValue()
+    {
+        var datetimeExpected = System.DateTime.UtcNow;
+        var datetime = DateTime.From(datetimeExpected);
+
+        datetime.Value.Year.Should().Be(datetimeExpected.Year);
+        datetime.Value.Month.Should().Be(datetimeExpected.Month);
+        datetime.Value.Day.Should().Be(datetimeExpected.Day);
+        datetime.TimeZoneOffset.Should().Be(TimeSpan.Zero);
+    }
+
+    [Fact]
     public void OperatorPlus_ReturnsValue_TestCopy()
     {
         var datetimeOriginalExpected = new DateTimeOffset(System.DateTime.UtcNow);

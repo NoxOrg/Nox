@@ -29,6 +29,12 @@ public sealed class DateTime : ValueObject<DateTimeOffset, DateTime>
         }
     }
 
+    /// <summary>
+    /// Creates <see cref="DateTime"/> object from sent <see cref="System.DateTime"/>
+    /// </summary>
+    /// <param name="dateTime"></param>
+    /// <returns>New <see cref="DateTime"/> object</returns>
+    public static DateTime From(System.DateTime dateTime) => From(new DateTimeOffset(dateTime), new DateTimeTypeOptions());
 
     /// <inheritdoc cref="From(DateTimeOffset ,Nox.Types.DateTimeTypeOptions)"/>
     public new static DateTime From(DateTimeOffset dateTime) => From(dateTime, new DateTimeTypeOptions());
