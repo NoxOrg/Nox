@@ -84,6 +84,7 @@ public class PostgresIntegrationTests : PostgresTestBase
     - County: Geneva
     - County: Lausanne
 ";
+        var phoneNumber = "38761000000";
 
         using var aesAlgorithm = System.Security.Cryptography.Aes.Create();
         var encryptedTextTypeOptions = new EncryptedTextTypeOptions
@@ -173,6 +174,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             DateTimeRangeTestField = DateTimeRange.From(dateTimeRangeStart, dateTimeRangeEnd),
             HtmlTestField = Html.From(html),
             ImageTestField = Image.From(imageUrl, imagePrettyName, imageSizeInBytes),
+            PhoneNumberTestField = PhoneNumber.From(phoneNumber),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -254,5 +256,6 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.ImageTestField!.Url.Should().Be(imageUrl);
         testEntity.ImageTestField!.PrettyName.Should().Be(imagePrettyName);
         testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
+        testEntity.PhoneNumberTestField!.Value.Should().Be(phoneNumber);
     }
 }

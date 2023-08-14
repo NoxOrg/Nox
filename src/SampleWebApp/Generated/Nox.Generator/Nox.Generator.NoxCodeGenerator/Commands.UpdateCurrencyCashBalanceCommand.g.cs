@@ -14,31 +14,31 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateAllNoxTypeCommand(System.Int64 key, AllNoxTypeUpdateDto EntityDto) : IRequest<bool>;
+public record UpdateCurrencyCashBalanceCommand(System.String key, CurrencyCashBalanceUpdateDto EntityDto) : IRequest<bool>;
 
-public class UpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler<UpdateAllNoxTypeCommand, bool>
+public class UpdateCurrencyCashBalanceCommandHandler: CommandBase, IRequestHandler<UpdateCurrencyCashBalanceCommand, bool>
 {
     public SampleWebAppDbContext DbContext { get; }    
-    public IEntityMapper<AllNoxType> EntityMapper { get; }
+    public IEntityMapper<CurrencyCashBalance> EntityMapper { get; }
 
-    public  UpdateAllNoxTypeCommandHandler(
+    public  UpdateCurrencyCashBalanceCommandHandler(
         SampleWebAppDbContext dbContext,        
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
-        IEntityMapper<AllNoxType> entityMapper): base(noxSolution, serviceProvider)
+        IEntityMapper<CurrencyCashBalance> entityMapper): base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;        
         EntityMapper = entityMapper;
     }
     
-    public async Task<bool> Handle(UpdateAllNoxTypeCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(UpdateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.AllNoxTypes.FindAsync(CreateNoxTypeForKey<AllNoxType,DatabaseNumber>("Id", request.key));
+        var entity = await DbContext.CurrencyCashBalances.FindAsync(CreateNoxTypeForKey<CurrencyCashBalance,Text>("StoreId", request.key));
         if (entity == null)
         {
             return false;
         }
-        EntityMapper.MapToEntity(entity, GetEntityDefinition<AllNoxType>(), request.EntityDto);
+        EntityMapper.MapToEntity(entity, GetEntityDefinition<CurrencyCashBalance>(), request.EntityDto);
         // Todo map dto
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();             

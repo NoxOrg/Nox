@@ -99,6 +99,7 @@ public class SqliteIntegrationTests : SqliteTestBase
 
         var temperatureFahrenheit = 88;
         var temperaturePersistUnitAs = TemperatureTypeUnit.Celsius;
+        var phoneNumber = "38761000000";
 
         var jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
@@ -178,6 +179,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             DateTimeRangeTestField = DateTimeRange.From(dateTimeRangeStart, dateTimeRangeEnd),
             HtmlTestField = Html.From(html),
             ImageTestField = Image.From(imageUrl, imagePrettyName, imageSizeInBytes),
+            PhoneNumberTestField = PhoneNumber.From(phoneNumber),
         };
         var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -263,6 +265,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.ImageTestField!.Url.Should().Be(imageUrl);
         testEntity.ImageTestField!.PrettyName.Should().Be(imagePrettyName);
         testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
+        testEntity.PhoneNumberTestField!.Value.Should().Be(phoneNumber);
     }
 
     [Fact]
@@ -362,6 +365,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         };
 
         newItem.SecondTestEntityExactlyOne = newItem2;
+        newItem.SecondTestEntityExactlyOne = newItem2; 
+        newItem.SecondTestEntityExactlyOneId = newItem2.Id;
         newItem2.TestEntityExactlyOne = newItem;
         DbContext.TestEntityExactlyOnes.Add(newItem);
         DbContext.SecondTestEntityExactlyOnes.Add(newItem2);

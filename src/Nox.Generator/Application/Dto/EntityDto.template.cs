@@ -2,10 +2,13 @@
 
 #nullable enable
 
-using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using MediatR;
+
+using Microsoft.AspNetCore.Http;
+
+using System.ComponentModel.DataAnnotations.Schema;
+
 using Nox.Types;
 using Nox.Domain;
 using {{codeGeneratorState.DataTransferObjectsNameSpace}};
@@ -23,11 +26,9 @@ public partial class {{className}}
 
     /// <summary>
     /// {{key.Description}} (Required).
-    /// </summary>
+    /// </summary>    
     {{ if key.Type == "Entity" -}}
-    public {{SimpleKeyTypeForEntity key.EntityTypeOptions.Entity}} {{key.EntityTypeOptions.Entity}}Id { get; set; } = null!;
-    {{- # Navigation Property }}
-    public virtual {{key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
+    public {{SingleKeyPrimitiveTypeForEntity key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = default!; 
     {{- else -}}
     public {{entity.KeysFlattenComponentsType[key.Name]}} {{key.Name}} { get; set; } = default!; 
     {{- end}}

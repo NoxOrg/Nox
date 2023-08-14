@@ -268,4 +268,9 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public Nox.Types.Image? ImageTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public PhoneNumber? PhoneNumberTestField { get; set; } = null!;
 }

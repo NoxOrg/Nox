@@ -12,6 +12,7 @@ using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
+{{- keyType = SingleTypeForKey entity.Keys[0] }}
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
@@ -34,7 +35,7 @@ public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<U
     
     public async Task<bool> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.{{entity.PluralName}}.FindAsync(CreateNoxTypeForKey<{{entity.Name}},{{entity.Keys[0].Type}}>("{{entity.Keys[0].Name}}", request.key));
+        var entity = await DbContext.{{entity.PluralName}}.FindAsync(CreateNoxTypeForKey<{{entity.Name}},{{keyType}}>("{{entity.Keys[0].Name}}", request.key));
         if (entity == null)
         {
             return false;

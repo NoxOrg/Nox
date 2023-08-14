@@ -12,6 +12,8 @@ using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
+{{- keyType = SingleTypeForKey entity.Keys[0] }}
+
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 public record PartialUpdate{{entity.Name}}Command({{entity.KeysFlattenComponentsType[entity.Keys[0].Name]}} key, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<bool>;
@@ -33,7 +35,7 @@ public class PartialUpdate{{entity.Name}}CommandHandler: CommandBase, IRequestHa
     
     public async Task<bool> Handle(PartialUpdate{{entity.Name}}Command request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.{{entity.PluralName}}.FindAsync(CreateNoxTypeForKey<{{entity.Name}},{{entity.Keys[0].Type}}>("{{entity.Keys[0].Name}}", request.key));
+        var entity = await DbContext.{{entity.PluralName}}.FindAsync(CreateNoxTypeForKey<{{entity.Name}},{{keyType}}>("{{entity.Keys[0].Name}}", request.key));
         if (entity == null)
         {
             return false;
