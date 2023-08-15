@@ -12,7 +12,7 @@ public class PostgresDatabaseGuidDatabaseConfiguration : DatabaseGuidDatabaseCon
     /// https://www.npgsql.org/efcore/modeling/generated-properties.html#guiduuid-generation
     /// </summary>
     /// <returns></returns>
-    public override string? DefaultValue()
+    protected override string? DefaultValue()
     {
         return "gen_random_uuid()";
     }

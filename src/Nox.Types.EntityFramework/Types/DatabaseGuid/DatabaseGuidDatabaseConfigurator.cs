@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
@@ -41,6 +42,7 @@ public class DatabaseGuidDatabaseConfigurator : INoxTypeDatabaseConfigurator
             .Property(property.Name)
             .IsRequired(property.IsRequired)
             .HasConversion<DatabaseGuidConverter>()
+            .IfNotNull(DefaultValue(), propertyBuilder => propertyBuilder.HasDefaultValueSql(DefaultValue()))
             .ValueGeneratedOnAdd();
     }
 
@@ -52,7 +54,7 @@ public class DatabaseGuidDatabaseConfigurator : INoxTypeDatabaseConfigurator
     /// <returns>The name of the key property.</returns>
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
 
-    public virtual string? DefaultValue()
+    protected virtual string? DefaultValue()
     {
         return null;
     }
