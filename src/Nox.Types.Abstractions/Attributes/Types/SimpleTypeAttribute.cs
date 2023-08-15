@@ -6,11 +6,14 @@ namespace Nox.Types;
 /// 
 /// </summary>
 [AttributeUsage(AttributeTargets.Field, AllowMultiple = false)]
-public class SimpleTypeAttribute : Attribute
+public class SimpleTypeAttribute : Attribute, IDtoGenerateControl
 {
     public INoxTypeComponentsDiscover ComponentDiscover { get; }
 
-    public SimpleTypeAttribute(Type underlyingType)
+    public virtual bool Read { get; set; }
+    public virtual bool Update { get; set; }
+
+    public SimpleTypeAttribute(Type underlyingType, bool read = true, bool update = true)
     {
         if (typeof(INoxTypeComponentsDiscover).IsAssignableFrom(underlyingType))
         {
@@ -20,5 +23,8 @@ public class SimpleTypeAttribute : Attribute
         {
             ComponentDiscover = new NoxTypeComponentsDiscover(underlyingType);
         }
+
+        Read = read;
+        Update = update;
     }
 }

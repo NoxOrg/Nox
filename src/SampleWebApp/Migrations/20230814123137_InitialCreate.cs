@@ -59,6 +59,7 @@ namespace SampleWebApp.Migrations
                     HashedTexField_Salt = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LatLongField_Latitude = table.Column<decimal>(type: "decimal(8,6)", precision: 8, scale: 6, nullable: true),
                     LatLongField_Longitude = table.Column<decimal>(type: "decimal(9,6)", precision: 9, scale: 6, nullable: true),
+                    EncryptedTextField = table.Column<byte[]>(type: "varbinary(max)", unicode: false, nullable: true),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
