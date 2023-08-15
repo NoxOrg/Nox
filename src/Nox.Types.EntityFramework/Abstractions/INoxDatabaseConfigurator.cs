@@ -5,5 +5,10 @@ namespace Nox.Types.EntityFramework.Abstractions;
 
 public interface INoxDatabaseConfigurator
 {
-    void ConfigureEntity(NoxSolutionCodeGeneratorState codeGeneratorState, EntityTypeBuilder builder, Entity entity, IReadOnlyList<EntityRelationshipWithType> relationshipsToCreate);
+    void ConfigureEntity(
+        NoxSolutionCodeGeneratorState codeGeneratorState,
+        EntityTypeBuilder builder,
+        Entity entity,
+        NoxSolution noxSolution,
+        Func<string, Type?> getTypeByNameFunc);
 }

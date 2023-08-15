@@ -55,7 +55,7 @@ public partial class SampleWebAppDbContext : DbContext
                 var type = codeGeneratorState.GetEntityType(entity.Name);
                 if (type != null)
                 {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, _noxSolution.GetRelationshipsToCreate(codeGeneratorState.GetEntityType, entity));
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, _noxSolution, codeGeneratorState.GetEntityType);
                 }
             }
         }

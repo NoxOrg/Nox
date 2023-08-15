@@ -167,6 +167,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Nox.Types.PhoneNumber? PhoneNumberTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Nox.Types.Temperature? TemperatureTestField { get; set; } = null!;
 
     /// <summary>
@@ -273,9 +278,4 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public Nox.Types.Image? ImageTestField { get; set; } = null!;
-
-    /// <summary>
-    ///  (Optional).
-    /// </summary>
-    public PhoneNumber? PhoneNumberTestField { get; set; } = null!;
 }

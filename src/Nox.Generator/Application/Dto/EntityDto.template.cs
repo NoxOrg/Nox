@@ -13,6 +13,7 @@ using Nox.Types;
 using Nox.Domain;
 using {{codeGeneratorState.DataTransferObjectsNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
+using Microsoft.OData.ModelBuilder;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 

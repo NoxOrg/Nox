@@ -81,6 +81,22 @@ public partial class TestWebAppDbContext : DbContext
 
     public DbSet<TestEntityExactlyOneToZeroOrOne> TestEntityExactlyOneToZeroOrOnes { get; set; } = null!;
 
+    public DbSet<TestEntityOwnedRelationshipExactlyOne> TestEntityOwnedRelationshipExactlyOnes { get; set; } = null!;
+
+    public DbSet<SecondTestEntityOwnedRelationshipExactlyOne> SecondTestEntityOwnedRelationshipExactlyOnes { get; set; } = null!;
+
+    public DbSet<TestEntityOwnedRelationshipZeroOrOne> TestEntityOwnedRelationshipZeroOrOnes { get; set; } = null!;
+
+    public DbSet<SecondTestEntityOwnedRelationshipZeroOrOne> SecondTestEntityOwnedRelationshipZeroOrOnes { get; set; } = null!;
+
+    public DbSet<TestEntityOwnedRelationshipOneOrMany> TestEntityOwnedRelationshipOneOrManies { get; set; } = null!;
+
+    public DbSet<SecondTestEntityOwnedRelationshipOneOrMany> SecondTestEntityOwnedRelationshipOneOrManies { get; set; } = null!;
+
+    public DbSet<TestEntityOwnedRelationshipZeroOrMany> TestEntityOwnedRelationshipZeroOrManies { get; set; } = null!;
+
+    public DbSet<SecondTestEntityOwnedRelationshipZeroOrMany> SecondTestEntityOwnedRelationshipZeroOrManies { get; set; } = null!;
+
     public DbSet<TestEntityForTypes> TestEntityForTypes { get; set; } = null!;
 
 
@@ -101,10 +117,18 @@ public partial class TestWebAppDbContext : DbContext
             var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
             foreach (var entity in _noxSolution.Domain.Entities)
             {
+                Console.WriteLine($"TestWebAppDbContext Configure database for Entity {entity.Name}");
+
+                // Ignore owned entities configuration as they are configured inside entity constructor
+                if (_noxSolution.IsOwnedEntity(entity))
+                {
+                    continue;
+                }
+
                 var type = codeGeneratorState.GetEntityType(entity.Name);
                 if (type != null)
                 {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, _noxSolution.GetRelationshipsToCreate(codeGeneratorState.GetEntityType, entity));
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, _noxSolution, codeGeneratorState.GetEntityType);
                 }
             }
         }

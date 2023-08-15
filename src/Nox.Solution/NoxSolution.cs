@@ -19,7 +19,8 @@ public class NoxSolution : Solution
         validator.ValidateAndThrow(this);
     }
 
-    public List<EntityRelationshipWithType> GetRelationshipsToCreate(Func<string, Type?> getTypeByNameFunc,
+    public List<EntityRelationshipWithType> GetRelationshipsToCreate(
+        Func<string, Type?> getTypeByNameFunc,
         Entity entity)
     {
         var fullRelationshipModels = new List<EntityRelationshipWithType>();
@@ -37,6 +38,53 @@ public class NoxSolution : Solution
         }
 
         return fullRelationshipModels;
+    }
+
+    public List<EntityRelationshipWithType> GetOwnedRelationshipsToCreate(
+        Func<string, Type?> getTypeByNameFunc,
+        Entity entity)
+    {
+        var fullRelationshipModels = new List<EntityRelationshipWithType>();
+
+        if (entity?.OwnedRelationships != null)
+        {
+            foreach (var relationship in entity.OwnedRelationships)
+            {
+                fullRelationshipModels.Add(new EntityRelationshipWithType
+                {
+                    Relationship = relationship,
+                    RelationshipEntityType = getTypeByNameFunc(relationship.Entity)!
+                });
+            }
+        }
+
+        return fullRelationshipModels;
+    }
+
+    public bool IsOwnedEntity(Entity entity)
+    {
+        if (Domain == null)
+        {
+            return false;
+        }
+
+        foreach(var domainEntity in Domain.Entities)
+        {
+            if (domainEntity?.OwnedRelationships != null)
+            {
+#pragma warning disable S3267 // Loops should be simplified with "LINQ" expressions
+                foreach (var relationship in domainEntity.OwnedRelationships)
+                {
+                    if (relationship.Entity.Equals(entity.Name))
+                    {
+                        return true;
+                    }
+                }
+#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
+            }
+        }
+
+        return false;
     }
 
     /// <summary>

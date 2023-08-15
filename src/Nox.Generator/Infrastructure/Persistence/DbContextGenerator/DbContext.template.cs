@@ -52,10 +52,17 @@ public partial class {{className}} : DbContext
             foreach (var entity in _noxSolution.Domain.Entities)
             {
                 Console.WriteLine($"{{className}} Configure database for Entity {entity.Name}");
+
+                // Ignore owned entities configuration as they are configured inside entity constructor
+                if (_noxSolution.IsOwnedEntity(entity))
+                {
+                    continue;
+                }
+
                 var type = codeGeneratorState.GetEntityType(entity.Name);
                 if (type != null)
                 {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, _noxSolution.GetRelationshipsToCreate(codeGeneratorState.GetEntityType, entity));
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, _noxSolution, codeGeneratorState.GetEntityType);
                 }
             }
         }
