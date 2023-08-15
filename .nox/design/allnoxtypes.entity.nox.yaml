@@ -154,4 +154,7 @@ attributes:
   - name: LatLongField
     description: LatLongField Nox Type
     type: latLong
+  - name: EncryptedTextField
+    description: EncryptedText Nox Type
+    type: encryptedText
     

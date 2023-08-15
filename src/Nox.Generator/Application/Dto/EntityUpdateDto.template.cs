@@ -15,6 +15,9 @@ public partial class {{className}}
 {
     //TODO Add owned Entities and update odata endpoints
 {{- for attribute in entity.Attributes }}
+    {{- if componentsInfo[attribute.Name].IsUpdatable == false -}}
+    {{ continue; }}
+    {{- end}}
     /// <summary>
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
     /// </summary>
