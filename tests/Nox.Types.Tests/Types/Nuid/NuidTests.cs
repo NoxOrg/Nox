@@ -8,7 +8,7 @@ public class NuidTests
     private const string TestStringValue = "!#123TestValue456!#";
     private const uint ExpectedNuidValue = 598674021;
     private const string ExpectedBase36 = "XTNFW9";
-    private readonly Guid ExpectedGuid = new("00000000-0000-0000-0000-000023af0a65");
+    private readonly System.Guid ExpectedGuid = new("00000000-0000-0000-0000-000023af0a65");
 
     [Fact]
     public void FromString_ConstructInstancesFromSameSource_ShouldReturnEqualNuids()
