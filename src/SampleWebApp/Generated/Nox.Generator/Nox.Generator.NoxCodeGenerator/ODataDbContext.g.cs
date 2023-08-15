@@ -4,6 +4,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using Nox;
+using Nox.Abstractions;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using SampleWebApp.Application.Dto;

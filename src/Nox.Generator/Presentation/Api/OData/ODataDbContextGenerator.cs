@@ -27,6 +27,7 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
         // Namespace
         code.AppendLine(@"using Microsoft.EntityFrameworkCore;");
         code.AppendLine(@"using Nox;");
+        code.AppendLine(@"using Nox.Abstractions;");
         code.AppendLine(@"using Nox.Solution;");
         code.AppendLine(@"using Nox.Types.EntityFramework.Abstractions;");
         code.AppendLine(@$"using {codeGeneratorState.ApplicationNameSpace}.Dto;");

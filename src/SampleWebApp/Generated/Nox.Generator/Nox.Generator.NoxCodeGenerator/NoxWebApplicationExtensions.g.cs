@@ -4,6 +4,7 @@
 
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
+using Nox.Abstractions;
 using Nox;
 using Nox.Solution;
 using Nox.EntityFramework.SqlServer;
