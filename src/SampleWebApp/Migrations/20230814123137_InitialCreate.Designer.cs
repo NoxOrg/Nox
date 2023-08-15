@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230811165917_InitialCreate")]
+    [Migration("20230814123137_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -87,6 +87,10 @@ namespace SampleWebApp.Migrations
 
                     b.Property<string>("DeletedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("EncryptedTextField")
+                        .IsUnicode(false)
+                        .HasColumnType("varbinary(max)");
 
                     b.Property<uint?>("NuidField")
                         .HasColumnType("bigint");

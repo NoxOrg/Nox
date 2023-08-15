@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Types;
 using Nox.Application;
 using Nox.Factories;
+using Nox.Solution.Extensions;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
@@ -31,8 +32,8 @@ public class CreateCountryCommandHandler: IRequestHandler<CreateCountryCommand, 
     
     public async Task<System.String> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
     {    
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
-        //TODO for nuid property or key needs to call ensure id        
+        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+	
         DbContext.Countries.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         //return entityToCreate.Id.Value;

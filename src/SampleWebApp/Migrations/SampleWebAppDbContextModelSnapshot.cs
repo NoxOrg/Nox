@@ -85,6 +85,10 @@ namespace SampleWebApp.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("EncryptedTextField")
+                        .IsUnicode(false)
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<uint?>("NuidField")
                         .HasColumnType("bigint");
 

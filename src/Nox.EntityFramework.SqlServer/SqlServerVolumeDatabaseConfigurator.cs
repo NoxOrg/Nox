@@ -1,5 +1,4 @@
-﻿using Nox.TypeOptions;
-using Nox.Types;
+﻿using Nox.Types;
 using Nox.Types.Common;
 using Nox.Types.EntityFramework.Types;
 

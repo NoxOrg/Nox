@@ -27,7 +27,6 @@ public class PostgresIntegrationTests : PostgresTestBase
         // imageJpg
         // imageSvg
         // object
-        // user
         // languageCode
         // yaml
         // uri
@@ -146,6 +145,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             TimeZoneCodeTestField = TimeZoneCode.From("utc"),
             MacAddressTestField = MacAddress.From(macAddress),
             UrlTestField = Url.From(url),
+            UserTestField = User.From(email),
             HashedTextTestField = HashedText.From(text),
             PasswordTestField = Password.From(password),
             DayOfWeekTestField = DayOfWeek.From(1),
@@ -157,7 +157,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
-            TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
+            TemperatureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
             ColorTestField = Color.From(color),
             PercentageTestField = Percentage.From(percentage),
@@ -176,7 +176,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             ImageTestField = Image.From(imageUrl, imagePrettyName, imageSizeInBytes),
             PhoneNumberTestField = PhoneNumber.From(phoneNumber),
         };
-        var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
+        var temperatureCelsius = newItem.TemperatureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
 
@@ -207,6 +207,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.TimeZoneCodeTestField!.Value.Should().Be("UTC");
         testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
         testEntity.UrlTestField!.Value.AbsoluteUri.Should().Be(url);
+        testEntity.UserTestField!.Value.Should().Be(email);
         testEntity.HashedTextTestField!.HashText.Should().Be(newItem.HashedTextTestField?.HashText);
         testEntity.HashedTextTestField!.Salt.Should().Be(newItem.HashedTextTestField?.Salt);
         testEntity.PasswordTestField!.HashedPassword.Should().Be(newItem.PasswordTestField.HashedPassword);
@@ -223,9 +224,9 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.BooleanTestField!.Value.Should().Be(boolean);
         testEntity.EmailTestField!.Value.Should().Be(email);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
-        testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
-        testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
-        testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
+        testEntity.TemperatureTestField!.Value.Should().Be(temperatureCelsius);
+        testEntity.TemperatureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
+        testEntity.TemperatureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
         testEntity.EncryptedTextTestField!.DecryptText(encryptedTextTypeOptions).Should().Be(text);
         testEntity.ColorTestField!.Value.Should().Equal(color);
         testEntity.PercentageTestField!.Value.Should().Be(percentage);

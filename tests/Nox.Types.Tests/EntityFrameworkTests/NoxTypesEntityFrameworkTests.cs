@@ -2,9 +2,6 @@ using FluentAssertions;
 using System.Text.Json;
 using System.Security.Cryptography;
 
-using System;
-using Nox.TypeOptions;
-
 namespace Nox.Types.Tests.EntityFrameworkTests;
 
 public class NoxTypesEntityFrameworkTests : TestWithSqlite

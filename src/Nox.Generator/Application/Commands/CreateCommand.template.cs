@@ -34,7 +34,13 @@ public class Create{{entity.Name}}CommandHandler: IRequestHandler<Create{{entity
     public async Task<{{keyType}}> Handle(Create{{entity.Name}}Command request, CancellationToken cancellationToken)
     {    
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
-        //TODO for nuid property or key needs to call ensure id        
+        
+		{{- for key in entity.Keys ~}}
+		{{- if key.Type == "Nuid" }} 
+		entityToCreate.Ensure{{key.Name}}();
+		{{- end }}
+		{{- end }}
+	
         DbContext.{{entity.PluralName}}.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         //return entityToCreate.{{entity.Keys[0].Name}}.Value;

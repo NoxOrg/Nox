@@ -132,5 +132,7 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         {        
             entity.LatLongField = noxTypeValue;
         }
+
+        // TODO map EncryptedTextField EncryptedText remaining types and remove if else
     }
 }
