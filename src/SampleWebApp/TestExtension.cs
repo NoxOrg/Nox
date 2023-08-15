@@ -1,7 +1,10 @@
 using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Nox;
+using Nox.Abstractions;
 using Nox.EntityFramework.SqlServer;
+using Nox.Localization.Extensions;
+using Nox.Localization.SqlServer.Extensions;
 using Nox.Types.EntityFramework.Abstractions;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Presentation.Api.OData;
@@ -22,7 +25,10 @@ public static class TestExtension
         appBuilder.Services.AddDbContext<SampleWebAppDbContext>();
         appBuilder.Services.AddDbContext<ODataDbContext>();
 
-        appBuilder.AddNoxLocalization();
+        appBuilder.UseNoxLocalization(options =>
+        {
+            options.WithSqlServerStore();
+        });
         
         return appBuilder;
     }
