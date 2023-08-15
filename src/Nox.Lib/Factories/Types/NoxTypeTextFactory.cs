@@ -20,4 +20,21 @@ namespace Nox.Factories.Types
             return Text.From(value, simpleTypeDefinition.TextTypeOptions ?? new TextTypeOptions());
         }
     }
+
+    public class NoxTypeDateTimeFactory : NoxTypeFactoryBase<Nox.Types.DateTime>
+    {
+        public NoxTypeDateTimeFactory(NoxSolution solution) : base(solution)
+        {
+        }
+
+        public override Nox.Types.DateTime? CreateNoxType(NoxSimpleTypeDefinition simpleTypeDefinition, dynamic? value)
+        {
+            if (value == null)
+            {
+                return null;
+            }
+
+            return Nox.Types.DateTime.From(value);
+        }
+    }
 }

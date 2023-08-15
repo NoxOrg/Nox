@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230811165917_InitialCreate")]
+    [Migration("20230815130236_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -73,20 +73,41 @@ namespace SampleWebApp.Migrations
                     b.Property<short?>("CountryNumberField")
                         .HasColumnType("smallint");
 
-                    b.Property<DateTime>("CreatedAtUtc")
+                    b.Property<DateTime?>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
 
-                    b.Property<bool?>("Deleted")
-                        .HasColumnType("bit");
+                    b.Property<string>("CreatedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
+
+                    b.Property<string>("DeletedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime?>("LastUpdatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastUpdatedBy")
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
+
+                    b.Property<string>("LastUpdatedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<uint?>("NuidField")
                         .HasColumnType("bigint");
@@ -114,12 +135,6 @@ namespace SampleWebApp.Migrations
                         .HasMaxLength(5)
                         .IsUnicode(false)
                         .HasColumnType("varchar(5)");
-
-                    b.Property<DateTime?>("UpdatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("UriField")
                         .HasMaxLength(2083)
@@ -175,20 +190,29 @@ namespace SampleWebApp.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
 
-                    b.Property<DateTime>("CreatedAtUtc")
+                    b.Property<DateTime?>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
 
-                    b.Property<bool?>("Deleted")
-                        .HasColumnType("bit");
+                    b.Property<string>("CreatedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
+
+                    b.Property<string>("DeletedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Demonym")
                         .HasMaxLength(63)
@@ -224,6 +248,18 @@ namespace SampleWebApp.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(4)");
 
+                    b.Property<DateTime?>("LastUpdatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastUpdatedBy")
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
+
+                    b.Property<string>("LastUpdatedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(63)
@@ -241,12 +277,6 @@ namespace SampleWebApp.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(31)");
 
-                    b.Property<DateTime?>("UpdatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
                     b.HasKey("Id");
 
                     b.ToTable("Countries");
@@ -260,26 +290,41 @@ namespace SampleWebApp.Migrations
                         .HasColumnType("char(2)")
                         .IsFixedLength();
 
-                    b.Property<DateTime>("CreatedAtUtc")
+                    b.Property<DateTime?>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
 
-                    b.Property<bool?>("Deleted")
-                        .HasColumnType("bit");
+                    b.Property<string>("CreatedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
 
-                    b.Property<DateTime?>("UpdatedAtUtc")
+                    b.Property<string>("DeletedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime?>("LastUpdatedAtUtc")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<string>("LastUpdatedBy")
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
+
+                    b.Property<string>("LastUpdatedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
 
                     b.HasKey("Id");
 
@@ -291,32 +336,47 @@ namespace SampleWebApp.Migrations
                     b.Property<uint>("Id")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("CreatedAtUtc")
+                    b.Property<DateTime?>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
 
-                    b.Property<bool?>("Deleted")
-                        .HasColumnType("bit");
+                    b.Property<string>("CreatedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
+
+                    b.Property<string>("DeletedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime?>("LastUpdatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastUpdatedBy")
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
+
+                    b.Property<string>("LastUpdatedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(63)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
-
-                    b.Property<DateTime?>("UpdatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -334,29 +394,44 @@ namespace SampleWebApp.Migrations
                     b.Property<uint>("CurrencyId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime>("CreatedAtUtc")
+                    b.Property<DateTime?>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
 
-                    b.Property<bool?>("Deleted")
-                        .HasColumnType("bit");
+                    b.Property<string>("CreatedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
+
+                    b.Property<string>("DeletedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime?>("LastUpdatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastUpdatedBy")
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
+
+                    b.Property<string>("LastUpdatedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<decimal?>("OperationLimit")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime?>("UpdatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("StoreId", "CurrencyId");
 
@@ -377,32 +452,47 @@ namespace SampleWebApp.Migrations
                         .HasColumnType("char(3)")
                         .IsFixedLength();
 
-                    b.Property<DateTime>("CreatedAtUtc")
+                    b.Property<DateTime?>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
 
-                    b.Property<bool?>("Deleted")
-                        .HasColumnType("bit");
+                    b.Property<string>("CreatedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
+
+                    b.Property<string>("DeletedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime?>("LastUpdatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastUpdatedBy")
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
+
+                    b.Property<string>("LastUpdatedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(63)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
-
-                    b.Property<DateTime?>("UpdatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -417,20 +507,41 @@ namespace SampleWebApp.Migrations
                         .HasColumnType("char(3)")
                         .IsFixedLength();
 
-                    b.Property<DateTime>("CreatedAtUtc")
+                    b.Property<DateTime?>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
 
-                    b.Property<bool?>("Deleted")
-                        .HasColumnType("bit");
+                    b.Property<string>("CreatedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
+
+                    b.Property<string>("DeletedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<DateTime?>("LastUpdatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("LastUpdatedBy")
+                        .HasMaxLength(511)
+                        .HasColumnType("nvarchar(511)");
+
+                    b.Property<string>("LastUpdatedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -449,12 +560,6 @@ namespace SampleWebApp.Migrations
                         .IsUnicode(false)
                         .HasColumnType("char(3)")
                         .IsFixedLength();
-
-                    b.Property<DateTime?>("UpdatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 

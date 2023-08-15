@@ -126,6 +126,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         var imagePrettyName = "Image";
         var imageSizeInBytes = 128;
 
+        //var dateTime = new System.DateTime(2023, 5, 12, 12, 12, 12, DateTimeKind.Utc);
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -180,6 +182,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             HtmlTestField = Html.From(html),
             ImageTestField = Image.From(imageUrl, imagePrettyName, imageSizeInBytes),
             PhoneNumberTestField = PhoneNumber.From(phoneNumber),
+            //DateTimeTestField = Types.DateTime.From(dateTime),
         };
         var temperatureCelsius = newItem.TemperatureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -267,6 +270,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.ImageTestField!.PrettyName.Should().Be(imagePrettyName);
         testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
         testEntity.PhoneNumberTestField!.Value.Should().Be(phoneNumber);
+        //testEntity.DateTimeTestField!.Value.Should().Be(dateTime);
     }
 
     [Fact]

@@ -34,13 +34,13 @@ public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase, IRequestHandl
     {{- end }}
 
         var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysQuery}});
-        if (entity == null{{if (entity.Persistence?.IsVersioned ?? true)}} || entity.Deleted == true{{end}})
+        if (entity is null{{if (entity.Persistence?.IsAudited ?? true)}} || entity.IsDeleted.Value == true{{end}})
         {
             return false;
         }
 
-        {{ if (entity.Persistence?.IsVersioned ?? true) -}}
-        entity.Delete();
+        {{ if (entity.Persistence?.IsAudited ?? true) -}}
+        entity.Deleted();
         {{- else -}}
         DbContext.{{entity.PluralName}}.Remove(entity);
         {{- end}}

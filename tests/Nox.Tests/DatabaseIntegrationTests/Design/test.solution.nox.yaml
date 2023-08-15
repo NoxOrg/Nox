@@ -742,7 +742,7 @@ domain:
         icon: world
 
       persistence:
-        isVersioned: true
+        isAudited: true
         tableName: TestEntityForTypes
         schema: dbo
         create:
@@ -826,8 +826,8 @@ domain:
         - name: CurrencyNumberTestField
           type: currencyNumber
 
-        #- name: DateTimeTestField
-        #  type: dateTime
+        - name: DateTimeTestField
+          type: dateTime
 
         - name: DateTimeRangeTestField
           type: dateTimeRange

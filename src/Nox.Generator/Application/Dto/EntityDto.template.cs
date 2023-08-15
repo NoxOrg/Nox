@@ -80,7 +80,8 @@ public partial class {{className}}
     {{-end}}
 {{- end }}
 
-{{- if isVersioned #TODO do not expose Deleted on end points??}}
-    public bool? Deleted { get; set; }
+{{- if isAudited #TODO do not expose Deleted on end points??}}
+
+    public bool? IsDeleted { get; set; }
 {{- end}}
 }

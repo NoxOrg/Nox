@@ -100,7 +100,7 @@ namespace Nox.Types.EntityFramework.Abstractions
             NoxSolutionCodeGeneratorState codeGeneratorState,
             EntityTypeBuilder builder,
             Entity entity)
-        {            
+        {
             if (entity.Keys is { Count: > 0 })
             {
                 var keysPropertyNames = new List<string>(entity.Keys.Count);
@@ -162,11 +162,39 @@ namespace Nox.Types.EntityFramework.Abstractions
             {
                 foreach (var property in entity.Attributes)
                 {
-                    if (TypesDatabaseConfigurations.TryGetValue(property.Type,
-                        out var databaseConfiguration))
+                    if (TypesDatabaseConfigurations.TryGetValue(property.Type, out var databaseConfiguration))
                     {
-                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity,
-                            false);
+                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity, false);
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"Type {property.Type} not found");
+                    }
+                }
+            }
+
+            if (entity.Persistence?.IsAudited == true)
+            {
+                var auditableEntityAttributes = new NoxSimpleTypeDefinition[]
+                {
+                    new NoxSimpleTypeDefinition { Name = "CreatedAtUtc", Type = NoxType.DateTime, IsRequired = true, },
+                    new NoxSimpleTypeDefinition { Name = "CreatedBy", Type = NoxType.User, IsRequired = true, },
+                    new NoxSimpleTypeDefinition { Name = "CreatedVia", Type = NoxType.Text, IsRequired = true, },
+
+                    new NoxSimpleTypeDefinition { Name = "LastUpdatedAtUtc", Type = NoxType.DateTime, },
+                    new NoxSimpleTypeDefinition { Name = "LastUpdatedBy", Type = NoxType.User, },
+                    new NoxSimpleTypeDefinition { Name = "LastUpdatedVia", Type = NoxType.Text, },
+
+                    new NoxSimpleTypeDefinition { Name = "DeletedAtUtc", Type = NoxType.DateTime, },
+                    new NoxSimpleTypeDefinition { Name = "DeletedBy", Type = NoxType.User, },
+                    new NoxSimpleTypeDefinition { Name = "DeletedVia", Type = NoxType.Text, },
+                };
+
+                foreach (var property in auditableEntityAttributes)
+                {
+                    if (TypesDatabaseConfigurations.TryGetValue(property.Type, out var databaseConfiguration))
+                    {
+                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity, false);
                     }
                     else
                     {

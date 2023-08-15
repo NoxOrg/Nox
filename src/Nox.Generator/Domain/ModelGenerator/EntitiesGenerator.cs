@@ -22,7 +22,7 @@ internal class EntitiesGenerator : INoxCodeGenerator
                 .WithClassName(entity.Name)
                 .WithFileNamePrefix($"Entities")
                 .WithObject("entity", entity)
-                .WithObject("isVersioned", (entity.Persistence?.IsVersioned ?? true))
+                .WithObject("isAudited", (entity.Persistence?.IsAudited ?? true))
                 .GenerateSourceCodeFromResource("Domain.ModelGenerator.Entity");
         }
     }

@@ -35,7 +35,7 @@ internal class EntityDtoGenerator : INoxCodeGenerator
                 .WithFileNamePrefix("Dto")
                 .WithObject("entity", entity)
                 .WithObject("componentsInfo", componentsInfo)
-                .WithObject("isVersioned", (entity.Persistence?.IsVersioned ?? true))
+                .WithObject("isAudited", (entity.Persistence?.IsAudited ?? true))
                 .GenerateSourceCodeFromResource("Application.Dto.EntityDto");         
         }
     }
