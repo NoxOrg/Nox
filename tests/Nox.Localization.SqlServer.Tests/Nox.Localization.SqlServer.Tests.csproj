@@ -31,6 +31,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\..\src\Nox.Localization.SqlServer\Nox.Localization.SqlServer.csproj" />
+      <ProjectReference Include="..\Nox.Lib.Tests\Nox.Lib.Tests.csproj" />
     </ItemGroup>
 
 </Project>

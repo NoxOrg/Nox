@@ -8,7 +8,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using Npgsql;
 
 using System.Reflection;
-
+using Nox.Abstractions;
 using TestWebApp.Infrastructure.Persistence;
 
 namespace Nox.Tests.DatabaseIntegrationTests;

@@ -35,6 +35,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj" />
       <ProjectReference Include="..\..\src\Nox.Localization.Sqlite\Nox.Localization.Sqlite.csproj" />
     </ItemGroup>
 

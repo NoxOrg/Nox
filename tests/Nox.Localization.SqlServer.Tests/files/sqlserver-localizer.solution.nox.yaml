@@ -14,7 +14,7 @@ variables:
   DATABASE_USER: sa
   DATABASE_PASSWORD: Developer*123
   DATABASE_PORT: 1433
-
+  
 infrastructure:
   persistence: 
     databaseServer: 

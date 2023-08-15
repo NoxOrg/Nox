@@ -31,8 +31,8 @@ public class CreateCurrencyCashBalanceCommandHandler: IRequestHandler<CreateCurr
     
     public async Task<System.String> Handle(CreateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
     {    
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
-        //TODO for nuid property or key needs to call ensure id        
+        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+	
         DbContext.CurrencyCashBalances.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         //return entityToCreate.StoreId.Value;

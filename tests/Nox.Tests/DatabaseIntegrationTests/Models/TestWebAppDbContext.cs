@@ -8,6 +8,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Diagnostics;
+using Nox.Abstractions;
 using TestWebApp.Domain;
 
 namespace TestWebApp.Infrastructure.Persistence;

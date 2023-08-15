@@ -3,6 +3,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Nox.Abstractions;
 using Nox.Localization.DbContext;
 using Nox.Localization.Extensions;
 using Nox.Localization.Models;

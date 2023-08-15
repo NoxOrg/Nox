@@ -21,6 +21,10 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <FrameworkReference Include="Microsoft.AspNetCore.App" />
+    </ItemGroup>
+
+    <ItemGroup>
         <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.10" />
         <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.10" />
     </ItemGroup>
@@ -30,13 +34,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Nox.Lib\Nox.Lib.csproj" />
+        <ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
         <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
         <ProjectReference Include="..\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
-    </ItemGroup>
-    
-    <ItemGroup>
-      <Folder Include="Abstractions\" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

@@ -37,6 +37,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj" />
       <ProjectReference Include="..\Nox.Localization\Nox.Localization.csproj" />
     </ItemGroup>
 

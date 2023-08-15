@@ -72,6 +72,9 @@
 		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
 	</ItemGroup>
 
+
+
+
 	<PropertyGroup>
 		<GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
 	</PropertyGroup>

@@ -1,9 +1,6 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Nox.EntityFramework.Sqlite;
 using Nox.Localization.DbContext;
-using Nox.Solution;
-using Nox.Types.EntityFramework.Abstractions;
 
 namespace Nox.Localization.Sqlite.DbContext;
 
