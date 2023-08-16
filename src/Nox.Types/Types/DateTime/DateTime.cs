@@ -88,10 +88,9 @@ public sealed class DateTime : ValueObject<DateTimeOffset, DateTime>
     internal override ValidationResult Validate()
     {
         var result = base.Validate();
-        var x = DateTimeOffset.UtcNow.ToOffset(TimeZoneOffset);
 
         // validate date by options
-        if (_dateTimeTypeOptions.AllowFutureOnly && TrimDateForCompare(Value) < TrimDateForCompare(x))
+        if (_dateTimeTypeOptions.AllowFutureOnly && TrimDateForCompare(Value) < TrimDateForCompare(DateTimeOffset.UtcNow.ToOffset(TimeZoneOffset)))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DateTime type as value {Value} is in the past"));
         }
