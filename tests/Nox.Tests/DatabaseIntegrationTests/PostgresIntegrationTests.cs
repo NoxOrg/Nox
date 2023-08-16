@@ -114,6 +114,7 @@ public class PostgresIntegrationTests : PostgresTestBase
 
         var dateTimeRangeStart = new DateTimeOffset(2023, 4, 12, 0, 0, 0, TimeSpan.FromHours(3));
         var dateTimeRangeEnd = new DateTimeOffset(2023, 7, 10, 0, 0, 0, TimeSpan.FromHours(5));
+        var cronJobExpression = "0 0 12 ? * 2,3,4,5,6 *";
 
         var html = @"
 <html>
@@ -178,6 +179,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             HtmlTestField = Html.From(html),
             ImageTestField = Image.From(imageUrl, imagePrettyName, imageSizeInBytes),
             PhoneNumberTestField = PhoneNumber.From(phoneNumber),
+            DateTimeScheduleTestField = DateTimeSchedule.From(cronJobExpression),
         };
         var temperatureCelsius = newItem.TemperatureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -262,5 +264,6 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.ImageTestField!.PrettyName.Should().Be(imagePrettyName);
         testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
         testEntity.PhoneNumberTestField!.Value.Should().Be(phoneNumber);
+        testEntity.DateTimeScheduleTestField!.Value.Should().Be(cronJobExpression);
     }
 }

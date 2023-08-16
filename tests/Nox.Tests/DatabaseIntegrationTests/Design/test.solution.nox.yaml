@@ -930,6 +930,9 @@ domain:
 
         - name: UrlTestField
           type: url
+        
+        - name: DateTimeScheduleTestField
+          type: dateTimeSchedule
 
         - name: UserTestField
           type: user
