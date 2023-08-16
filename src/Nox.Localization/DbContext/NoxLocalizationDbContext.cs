@@ -16,7 +16,7 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
     // Schema: 'i10n'
     public DbSet<Translation> Translations { get; set; } = default!;
 
-    //This constructor is used at design time for migrations.
+    //This constructor is used at design time for migrations. It remains internal so that derived applications are forced to user the public constructor
     internal NoxLocalizationDbContext(DbContextOptions<NoxLocalizationDbContext> options): base(options)
     {
         
