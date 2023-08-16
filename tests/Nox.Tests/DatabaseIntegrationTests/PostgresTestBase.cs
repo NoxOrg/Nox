@@ -18,7 +18,8 @@ public abstract class PostgresTestBase : IDisposable
     // TODO: currently works in manually set up database in docker
     // include database setup into repository (mybae use localdb or express)
     private const string _databaseNameTemplate = @"test_database_{0}";
-    private static string _inMemoryConnectionString = @"Host=localhost:54320;Username=sa;Password=Password!123;";
+    private const string _databasePassword = @"";
+    private static string _inMemoryConnectionString = @"Host=localhost;Username=sa;Password=" + _databasePassword + ";";
     private static string _databaseName = string.Empty;
     private const string _solutionFileAsEmbeddedResourceName = @"Nox.Tests.DatabaseIntegrationTests.Design.test.solution.nox.yaml";
     private readonly NpgsqlConnection _connection;
@@ -27,7 +28,6 @@ public abstract class PostgresTestBase : IDisposable
 
     protected PostgresTestBase()
     {
-        AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
         _connection = new NpgsqlConnection(_inMemoryConnectionString);
         _connection.Open();
 
