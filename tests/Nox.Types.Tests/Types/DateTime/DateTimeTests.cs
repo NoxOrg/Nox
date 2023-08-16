@@ -16,12 +16,42 @@ public class DateTimeTests
     }
 
     [Fact]
-    public void From_WithDateTimeTypeOptions_InvalidValue_ThrowsException()
+    public void From_AllowFutureOnly_Past_ThrowsException()
     {
         DateTimeTypeOptions dateTimeTypeOptions = new() { AllowFutureOnly = true };
         Action comparison = () => DateTime.From(new DateTimeOffset(2000, 01, 01, 0, 0, 0, 0, TimeSpan.Zero), dateTimeTypeOptions);
 
         comparison.Should().Throw<TypeValidationException>();
+    }
+
+    [Fact]
+    public void From_AllowFutureOnly_Now_ReturnsValue()
+    {
+        var datetimeNow = System.DateTime.Now;
+        DateTimeTypeOptions dateTimeTypeOptions = new() { AllowFutureOnly = true };
+        var datetime = DateTime.From(new DateTimeOffset(datetimeNow), dateTimeTypeOptions);
+
+        datetime.Value.Year.Should().Be(datetimeNow.Year);
+        datetime.Value.Month.Should().Be(datetimeNow.Month);
+        datetime.Value.Day.Should().Be(datetimeNow.Day);
+        datetime.Value.Hour.Should().Be(datetimeNow.Hour);
+        datetime.Value.Minute.Should().Be(datetimeNow.Minute);
+        datetime.Value.Second.Should().Be(datetimeNow.Second);
+    }
+
+    [Fact]
+    public void From_AllowFutureOnly_Future_ReturnsValue()
+    {
+        var datetimeNow = System.DateTime.Now.AddDays(1);
+        DateTimeTypeOptions dateTimeTypeOptions = new() { AllowFutureOnly = true };
+        var datetime = DateTime.From(new DateTimeOffset(datetimeNow), dateTimeTypeOptions);
+
+        datetime.Value.Year.Should().Be(datetimeNow.Year);
+        datetime.Value.Month.Should().Be(datetimeNow.Month);
+        datetime.Value.Day.Should().Be(datetimeNow.Day);
+        datetime.Value.Hour.Should().Be(datetimeNow.Hour);
+        datetime.Value.Minute.Should().Be(datetimeNow.Minute);
+        datetime.Value.Second.Should().Be(datetimeNow.Second);
     }
 
     [Fact]

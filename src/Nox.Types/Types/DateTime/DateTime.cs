@@ -88,9 +88,10 @@ public sealed class DateTime : ValueObject<DateTimeOffset, DateTime>
     internal override ValidationResult Validate()
     {
         var result = base.Validate();
+        var x = DateTimeOffset.UtcNow.ToOffset(TimeZoneOffset);
 
         // validate date by options
-        if(_dateTimeTypeOptions.AllowFutureOnly && Value < DateTimeOffset.UtcNow)
+        if (_dateTimeTypeOptions.AllowFutureOnly && TrimDateForCompare(Value) < TrimDateForCompare(x))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DateTime type as value {Value} is in the past"));
         }
@@ -191,6 +192,11 @@ public sealed class DateTime : ValueObject<DateTimeOffset, DateTime>
     public string ToString(string format, IFormatProvider formatProvider)
     {
         return Value.ToString(format, formatProvider);
+    }
+
+    private System.DateTime TrimDateForCompare(DateTimeOffset dateTime)
+    {
+        return new System.DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, DateTimeKind.Unspecified);
     }
 }
 
