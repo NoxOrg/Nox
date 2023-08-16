@@ -6,13 +6,13 @@ using Nox.Types;
 
 namespace Nox.Lib.Tests.Factories.Types
 {
-    public class NoxTypeCultureCodeFactoryTests
+    public class NoxTypeCurrencyCode3FactoryTests
     {
         [Theory, AutoMoqData]
         public void CreateNoxType_FromDto_IsValid(NoxSolution noxSolution, EntityDefinitionFixture fixture)
         {
             // Arrange
-            var sut = new NoxTypeCultureCodeFactory(noxSolution);
+            var sut = new NoxTypeCurrencyCode3Factory(noxSolution);
             var cultureCode = "USD";
 
             // Act
@@ -27,7 +27,7 @@ namespace Nox.Lib.Tests.Factories.Types
         public void CreateNoxType_FromDto_WhenValueIsNull_IsValid(NoxSolution noxSolution, EntityDefinitionFixture fixture)
         {
             // Arrange
-            var sut = new NoxTypeCultureCodeFactory(noxSolution);
+            var sut = new NoxTypeCurrencyCode3Factory(noxSolution);
             string? cultureCode = null;
 
             // Act
@@ -41,7 +41,7 @@ namespace Nox.Lib.Tests.Factories.Types
         public void CreateNoxType_FromDto_WhenValueIsInvalid_ThrowsException(NoxSolution noxSolution, EntityDefinitionFixture fixture)
         {
             // Arrange
-            var sut = new NoxTypeCultureCodeFactory(noxSolution);
+            var sut = new NoxTypeCurrencyCode3Factory(noxSolution);
             string? cultureCode = "AAA";
 
             // Act

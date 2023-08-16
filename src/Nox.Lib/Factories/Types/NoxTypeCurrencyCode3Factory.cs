@@ -3,9 +3,9 @@ using Nox.Types;
 
 namespace Nox.Factories.Types
 {
-    public class NoxTypeCultureCodeFactory : NoxTypeFactoryBase<CurrencyCode3>
+    public class NoxTypeCurrencyCode3Factory : NoxTypeFactoryBase<CurrencyCode3>
     {
-        public NoxTypeCultureCodeFactory(NoxSolution solution) : base(solution)
+        public NoxTypeCurrencyCode3Factory(NoxSolution solution) : base(solution)
         {
         }
 

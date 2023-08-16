@@ -5,7 +5,7 @@ namespace Nox.Factories
 {
     public abstract class NoxTypeFactoryBase<T> : INoxTypeFactory<T> where T : INoxType
     {
-        protected NoxTypeFactoryBase(NoxSolution solution)
+        public NoxTypeFactoryBase(NoxSolution solution)
         {
             Solution = solution;
         }
