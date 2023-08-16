@@ -3,7 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.EntityFramework.SqlServer;
 using Nox.Solution;
+using Nox.Types.EntityFramework;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Enums;
 using TestWebApp.Infrastructure.Persistence;
 
 namespace Nox.Tests.Fixtures
@@ -33,7 +35,7 @@ namespace Nox.Tests.Fixtures
                 }
             };
 
-            var databaseConfigurator = new SqlServerDatabaseProvider(serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());
+            var databaseConfigurator = new SqlServerDatabaseProvider(NoxDataStoreType.EntityStore, serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());
             var solution = new NoxSolutionBuilder()
                 .UseYamlFilesAndContent(solutionFileDictionary)
                 .Build();

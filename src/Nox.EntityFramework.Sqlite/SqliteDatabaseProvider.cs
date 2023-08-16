@@ -1,7 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
-
+using Nox.Types.EntityFramework;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Enums;
 

@@ -6,6 +6,7 @@ using Nox;
 using Nox.Abstractions;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Enums;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Diagnostics;
@@ -22,12 +23,12 @@ public partial class SampleWebAppDbContext : DbContext
     public SampleWebAppDbContext(
             DbContextOptions<SampleWebAppDbContext> options,
             NoxSolution noxSolution,
-            INoxDatabaseProvider databaseProvider,
+            IEnumerable<INoxDatabaseProvider> databaseProviders,
             INoxClientAssemblyProvider clientAssemblyProvider
         ) : base(options)
         {
             _noxSolution = noxSolution;
-            _dbProvider = databaseProvider;
+            _dbProvider = databaseProviders.Single(p => p.StoreType == NoxDataStoreType.EntityStore);
             _clientAssemblyProvider = clientAssemblyProvider;
         }
 

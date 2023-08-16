@@ -9,6 +9,7 @@ using Nox;
 using Nox.Solution;
 using Nox.EntityFramework.SqlServer;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Enums;
 using TestWebApp.Infrastructure.Persistence;
 using TestWebApp.Presentation.Api.OData;
 
@@ -20,8 +21,14 @@ public static class NoxWebApplicationBuilderExtension
         appBuilder.Services.AddNoxOdata();
         appBuilder.Services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
         appBuilder.Services.AddSingleton<DbContextOptions<TestWebAppDbContext>>();
-        appBuilder.Services.AddSingleton<INoxDatabaseConfigurator, SqlServerDatabaseProvider>();
-        appBuilder.Services.AddSingleton<INoxDatabaseProvider, SqlServerDatabaseProvider>();
+        appBuilder.Services.AddSingleton<INoxDatabaseConfigurator>(provider => new SqlServerDatabaseProvider(
+            NoxDataStoreType.EntityStore,
+            provider.GetServices<INoxTypeDatabaseConfigurator>())
+        );
+        appBuilder.Services.AddSingleton<INoxDatabaseProvider>(provider => new SqlServerDatabaseProvider(
+            NoxDataStoreType.EntityStore,
+            provider.GetServices<INoxTypeDatabaseConfigurator>())
+        );
         appBuilder.Services.AddDbContext<TestWebAppDbContext>();
         appBuilder.Services.AddDbContext<ODataDbContext>();
         return appBuilder;

@@ -5,6 +5,8 @@ using Nox.EntityFramework.SqlServer;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using System.Reflection;
+using Nox.Types.EntityFramework;
+using Nox.Types.EntityFramework.Enums;
 using TestWebApp.Infrastructure.Persistence;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
@@ -61,7 +63,7 @@ public abstract class SqlServerTestBase : IDisposable
         services.AddNoxLib(Assembly.GetExecutingAssembly());
         using var serviceProvider = services.BuildServiceProvider();
 
-        var databaseConfigurator = new SqlServerDatabaseProvider(serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());
+        var databaseConfigurator = new SqlServerDatabaseProvider(NoxDataStoreType.EntityStore,serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());
         var solution = new NoxSolutionBuilder()
             .UseYamlFilesAndContent(solutionFileDictionary)
             .Build();

@@ -41,6 +41,7 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
         code.AppendLine("using Nox.Solution;");
         code.AppendLines(usings.ToArray());
         code.AppendLine("using Nox.Types.EntityFramework.Abstractions;");
+        code.AppendLine("using Nox.Types.EntityFramework.Enums;");
         code.AppendLine($"using {solution.Name}.Infrastructure.Persistence;");
         if (config.Presentation)
             code.AppendLine($"using {solution.Name}.Presentation.Api.OData;");
@@ -56,8 +57,20 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
 
         code.AppendLine($"appBuilder.Services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));");
         code.AppendLine($"appBuilder.Services.AddSingleton<DbContextOptions<{dbContextName}>>();");
-        code.AppendLine($"appBuilder.Services.AddSingleton<INoxDatabaseConfigurator, {dbProvider}>();");
-        code.AppendLine($"appBuilder.Services.AddSingleton<INoxDatabaseProvider, {dbProvider}>();");
+        code.AppendLine($"appBuilder.Services.AddSingleton<INoxDatabaseConfigurator>(provider => new {dbProvider}(");
+        code.Indent();
+        code.AppendLine("NoxDataStoreType.EntityStore,");
+        code.AppendLine("provider.GetServices<INoxTypeDatabaseConfigurator>())");
+        code.UnIndent();
+        code.AppendLine(");");
+       
+        code.AppendLine($"appBuilder.Services.AddSingleton<INoxDatabaseProvider>(provider => new {dbProvider}(");
+        code.Indent();
+        code.AppendLine("NoxDataStoreType.EntityStore,");
+        code.AppendLine("provider.GetServices<INoxTypeDatabaseConfigurator>())");
+        code.UnIndent();
+        code.AppendLine(");");
+        
         code.AppendLine($"appBuilder.Services.AddDbContext<{dbContextName}>();");
         if (config.Presentation)
             code.AppendLine($"appBuilder.Services.AddDbContext<ODataDbContext>();");

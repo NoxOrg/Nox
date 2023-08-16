@@ -30,6 +30,7 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
         code.AppendLine(@"using Nox.Abstractions;");
         code.AppendLine(@"using Nox.Solution;");
         code.AppendLine(@"using Nox.Types.EntityFramework.Abstractions;");
+        code.AppendLine(@"using Nox.Types.EntityFramework.Enums;");
         code.AppendLine(@$"using {codeGeneratorState.ApplicationNameSpace}.Dto;");
 
         code.AppendLine();
@@ -52,16 +53,17 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
         // Constructor content
 
         // Add constructor
-        code.Indent();
         code.AppendLine($"public {dbContextName}(");
-        code.AppendLine($"    DbContextOptions<{dbContextName}> options,");
-        code.AppendLine("    NoxSolution noxSolution,");
-        code.AppendLine("    INoxDatabaseProvider databaseProvider,");
-        code.AppendLine("    INoxClientAssemblyProvider clientAssemblyProvider");
+        code.Indent();
+        code.AppendLine($"DbContextOptions<{dbContextName}> options,");
+        code.AppendLine("NoxSolution noxSolution,");
+        code.AppendLine("IEnumerable<INoxDatabaseProvider> databaseProviders,");
+        code.AppendLine("INoxClientAssemblyProvider clientAssemblyProvider");
+        code.UnIndent();
         code.AppendLine(") : base(options)");
         code.StartBlock();
         code.AppendLine("_noxSolution = noxSolution;");
-        code.AppendLine("_dbProvider = databaseProvider;");
+        code.AppendLine("_dbProvider = databaseProviders.Single(p => p.StoreType == NoxDataStoreType.EntityStore);");
         code.AppendLine("_clientAssemblyProvider = clientAssemblyProvider;");
         code.EndBlock();
         code.AppendLine();

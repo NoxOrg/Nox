@@ -9,6 +9,8 @@ using Npgsql;
 
 using System.Reflection;
 using Nox.Abstractions;
+using Nox.Types.EntityFramework;
+using Nox.Types.EntityFramework.Enums;
 using TestWebApp.Infrastructure.Persistence;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
@@ -65,7 +67,7 @@ public abstract class PostgresTestBase : IDisposable
         services.AddNoxLib(Assembly.GetExecutingAssembly());
         using var serviceProvider = services.BuildServiceProvider();
 
-        var databaseConfigurator = new PostgresDatabaseProvider(serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());
+        var databaseConfigurator = new PostgresDatabaseProvider(NoxDataStoreType.EntityStore, serviceProvider.GetServices<INoxTypeDatabaseConfigurator>());
         var solution = new NoxSolutionBuilder()
             .UseYamlFilesAndContent(solutionFileDictionary)
             .Build();
