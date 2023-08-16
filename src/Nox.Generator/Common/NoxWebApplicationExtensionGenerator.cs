@@ -15,23 +15,55 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
         var code = new CodeBuilder($"NoxWebApplicationExtensions.g.cs", context);
 
         var usings = new List<string>();
-        var dbProvider = "";
+        
+        var entityStoreDbProvider = "";
+        
         var solution = codeGeneratorState.Solution;
+
+        DatabaseServer? entityStoreServer = null;
+        
         if (solution.Infrastructure?.Persistence is { DatabaseServer: not null })
         {
-            var dbServer = solution.Infrastructure.Persistence.DatabaseServer;
-            switch (dbServer.Provider)
+            entityStoreServer = solution.Infrastructure.Persistence.DatabaseServer;
+            switch (entityStoreServer.Provider)
             {
                 case DatabaseServerProvider.SqlServer:
                     usings.Add("using Nox.EntityFramework.SqlServer;");
-                    dbProvider = "SqlServerDatabaseProvider";
+                    entityStoreDbProvider = "SqlServerDatabaseProvider";
                     break;
 
                 case DatabaseServerProvider.Postgres:
                     usings.Add("using Nox.EntityFramework.Postgres;");
-                    dbProvider = "PostgresDatabaseProvider";
+                    entityStoreDbProvider = "PostgresDatabaseProvider";
                     break;
             }
+        }
+
+        var localizationStoreDbProvider = entityStoreDbProvider;
+        var localizationStoreServer = entityStoreServer;
+
+        if (solution.Application is { Localization: not null })
+        {
+            usings.Add("using Nox.Localization;");
+            if (solution.Infrastructure is { Dependencies.UiLocalizations: not null })
+            {
+                localizationStoreServer = solution.Infrastructure.Dependencies.UiLocalizations;
+            }
+
+            if (localizationStoreServer != null)
+            {
+                switch (localizationStoreServer.Provider)
+                {
+                    case DatabaseServerProvider.SqLite:
+                        usings.Add("using Nox.Localization.Sqlite;");
+                        localizationStoreDbProvider = "SqlServerDatabaseProvider";
+                        break;
+                    case DatabaseServerProvider.SqlServer:
+                        usings.Add("using Nox.Localization.SqlServer;");
+                        localizationStoreDbProvider = "SqliteDatabaseProvider";
+                        break;
+                }
+            }       
         }
 
         code.AppendLine("using Microsoft.EntityFrameworkCore;");
@@ -57,14 +89,14 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
 
         code.AppendLine($"appBuilder.Services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));");
         code.AppendLine($"appBuilder.Services.AddSingleton<DbContextOptions<{dbContextName}>>();");
-        code.AppendLine($"appBuilder.Services.AddSingleton<INoxDatabaseConfigurator>(provider => new {dbProvider}(");
+        code.AppendLine($"appBuilder.Services.AddSingleton<INoxDatabaseConfigurator>(provider => new {entityStoreDbProvider}(");
         code.Indent();
         code.AppendLine("NoxDataStoreType.EntityStore,");
         code.AppendLine("provider.GetServices<INoxTypeDatabaseConfigurator>())");
         code.UnIndent();
         code.AppendLine(");");
        
-        code.AppendLine($"appBuilder.Services.AddSingleton<INoxDatabaseProvider>(provider => new {dbProvider}(");
+        code.AppendLine($"appBuilder.Services.AddSingleton<INoxDatabaseProvider>(provider => new {entityStoreDbProvider}(");
         code.Indent();
         code.AppendLine("NoxDataStoreType.EntityStore,");
         code.AppendLine("provider.GetServices<INoxTypeDatabaseConfigurator>())");
@@ -74,6 +106,25 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
         code.AppendLine($"appBuilder.Services.AddDbContext<{dbContextName}>();");
         if (config.Presentation)
             code.AppendLine($"appBuilder.Services.AddDbContext<ODataDbContext>();");
+
+        if (localizationStoreServer != null && !string.IsNullOrWhiteSpace(localizationStoreDbProvider))
+        {
+            code.AppendLine("appBuilder.UseNoxLocalization(opt =>");
+            code.StartBlock();
+            switch (localizationStoreServer.Provider)
+            {
+                case DatabaseServerProvider.SqLite:
+                    code.AppendLine("opt.WithSqliteStore();");
+                    break;
+                
+                case DatabaseServerProvider.SqlServer:
+                    code.AppendLine("opt.WithSqlServerStore();");
+                    break;
+            }
+            code.EndBlockWithBracket();
+        }
+        
+        
         code.AppendLine("return appBuilder;");
         code.EndBlock();
         code.AppendLine();

@@ -3,11 +3,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.Localization;
 using Nox.Abstractions;
-using Nox.Localization.DbContext;
-using Nox.Localization.Localizers;
-using Nox.Solution;
 
-namespace Nox.Localization.Extensions;
+namespace Nox.Localization;
 
 public static class ApplicationBuilderExtensions
 {

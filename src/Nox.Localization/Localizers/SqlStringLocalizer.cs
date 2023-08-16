@@ -1,10 +1,8 @@
 using System.Collections.Concurrent;
 using System.Globalization;
 using Microsoft.Extensions.Localization;
-using Nox.Localization.DbContext;
-using Nox.Localization.Models;
 
-namespace Nox.Localization.Localizers;
+namespace Nox.Localization;
 
 public class SqlStringLocalizer: IStringLocalizer
 {

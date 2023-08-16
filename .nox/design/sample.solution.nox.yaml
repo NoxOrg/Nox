@@ -310,6 +310,18 @@ application:
             maxLength: 2
             minLength: 2
             
+  localization:
+
+    supportedCultures:
+      - en-GB
+      - en-US
+      - de-CH
+      - fr-CH
+      - it-CH
+      - fr-FR
+
+    defaultCulture: en-GB
+  
   events:
     - name: CountryNameChangedAppEvent
       description: An application event raised when the name of a country changes
@@ -477,10 +489,13 @@ infrastructure:
 #      $ref: elastic.monitoring.nox.yaml
     
     uiLocalizations:
-      name: SampleTranslationService
+      name: SampleWebAppTranslationsDb
+      serverUri: ${{ env.DATABASE_SERVER }}
       provider: sqlServer
-      serverUri: translator.iwgplc.com
-      port: 1433    
+      port: 1433
+      user: sa
+      password: ${{ env.DATABASE_PASSWORD}}
+      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;    
 
     dataConnections:
       - name: CountryJsonData

@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Nox.Localization.DbContext;
 
-namespace Nox.Localization.SqlServer.DbContext;
+namespace Nox.Localization.SqlServer;
 
 public class DesignTimeContextFactory: IDesignTimeDbContextFactory<NoxLocalizationDbContext>
 {

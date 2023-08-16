@@ -1,10 +1,9 @@
 using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
-using Nox.Localization.Models;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
-namespace Nox.Localization.DbContext;
+namespace Nox.Localization;
 
 public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
 {
@@ -18,7 +17,7 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
     public DbSet<Translation> Translations { get; set; } = default!;
 
     //This constructor is used at design time for migrations.
-    public NoxLocalizationDbContext(DbContextOptions<NoxLocalizationDbContext> options): base(options)
+    internal NoxLocalizationDbContext(DbContextOptions<NoxLocalizationDbContext> options): base(options)
     {
         
     }

@@ -1,4 +1,4 @@
-namespace Nox.Localization.Models;
+namespace Nox.Localization;
 
 public class Translation
 {

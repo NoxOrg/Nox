@@ -1,8 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Design;
-using Nox.Localization.DbContext;
 
-namespace Nox.Localization.Sqlite.DbContext;
+namespace Nox.Localization.Sqlite;
 
 public class DesignTimeContextFactory: IDesignTimeDbContextFactory<NoxLocalizationDbContext>
 {

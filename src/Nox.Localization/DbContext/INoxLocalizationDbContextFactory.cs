@@ -1,4 +1,4 @@
-namespace Nox.Localization.DbContext;
+namespace Nox.Localization;
 
 public interface INoxLocalizationDbContextFactory
 {

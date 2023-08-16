@@ -1,10 +1,8 @@
-using Microsoft.EntityFrameworkCore.Design;
 using Nox.Abstractions;
-using Nox.Types.EntityFramework;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Enums;
 
-namespace Nox.Localization.DbContext;
+namespace Nox.Localization;
 
 public class NoxLocalizationDbContextFactory: INoxLocalizationDbContextFactory
 {
