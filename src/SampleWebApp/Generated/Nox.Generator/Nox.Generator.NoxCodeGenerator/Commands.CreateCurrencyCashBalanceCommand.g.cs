@@ -14,9 +14,11 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 //TODO support multiple keys and generated keys like nuid database number
-public record CreateCurrencyCashBalanceCommand(CurrencyCashBalanceCreateDto EntityDto) : IRequest<System.String>;
+public record CreateCurrencyCashBalanceResponse(System.String keyStoreId, System.UInt32 keyCurrencyId);
 
-public class CreateCurrencyCashBalanceCommandHandler: IRequestHandler<CreateCurrencyCashBalanceCommand, System.String>
+public record CreateCurrencyCashBalanceCommand(CurrencyCashBalanceCreateDto EntityDto) : IRequest<CreateCurrencyCashBalanceResponse>;
+
+public class CreateCurrencyCashBalanceCommandHandler: IRequestHandler<CreateCurrencyCashBalanceCommand, CreateCurrencyCashBalanceResponse>
 {
     public SampleWebAppDbContext DbContext { get; }
     public IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> EntityFactory { get; }
@@ -29,13 +31,13 @@ public class CreateCurrencyCashBalanceCommandHandler: IRequestHandler<CreateCurr
         EntityFactory = entityFactory;
     }
     
-    public async Task<System.String> Handle(CreateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
+    public async Task<CreateCurrencyCashBalanceResponse> Handle(CreateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
     {    
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 	
         DbContext.CurrencyCashBalances.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         //return entityToCreate.StoreId.Value;
-        return default(System.String)!;
+        return new CreateCurrencyCashBalanceResponse(default(System.String)!, default(System.UInt32)!);
 }
 }
