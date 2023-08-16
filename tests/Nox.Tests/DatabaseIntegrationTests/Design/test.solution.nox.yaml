@@ -841,8 +841,8 @@ domain:
         - name: EncryptedTextTestField
           type: encryptedText
 
-        #- name: GuidTestField
-        #  type: guid
+        - name: GuidTestField
+          type: guid
 
         - name: HashedTextTestField
           type: hashedText

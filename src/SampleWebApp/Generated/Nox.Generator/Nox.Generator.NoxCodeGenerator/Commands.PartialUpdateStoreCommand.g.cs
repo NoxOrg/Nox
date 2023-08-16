@@ -14,7 +14,7 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateStoreCommand(System.String key, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<bool>;
+public record PartialUpdateStoreCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<bool>;
 
 public class PartialUpdateStoreCommandHandler: CommandBase, IRequestHandler<PartialUpdateStoreCommand, bool>
 {
@@ -33,7 +33,9 @@ public class PartialUpdateStoreCommandHandler: CommandBase, IRequestHandler<Part
     
     public async Task<bool> Handle(PartialUpdateStoreCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.Stores.FindAsync(CreateNoxTypeForKey<Store,Text>("Id", request.key));
+        var keyId = CreateNoxTypeForKey<Store,Text>("Id", request.keyId);
+    
+        var entity = await DbContext.Stores.FindAsync(keyId);
         if (entity == null)
         {
             return false;
