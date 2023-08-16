@@ -103,7 +103,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var length = 314_598M;
         var persistLengthUnitAs = LengthTypeUnit.Meter;
         var sampleUri = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
-        var dateTime = new DateTimeOffset(System.DateTime.Now);
+        var dateTime = new DateTimeOffset(2023, 4, 12, 0, 0, 0, TimeSpan.FromHours(3));
 
         var jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 

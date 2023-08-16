@@ -16,7 +16,7 @@ public class DateTimeDatabaseConfigurator : INoxTypeDatabaseConfigurator
             .OwnsOne(typeof(DateTime), property.Name, dtr =>
             {
                 dtr.Property(nameof(DateTime.DateTimeValue))
-                    .HasConversion<DateTimeConverter>();
+                    .HasConversion<DateTimeOffsetConverter>();
 
                 dtr.Property(nameof(DateTime.TimeZoneOffset))
                     .UsePropertyAccessMode(PropertyAccessMode.Property);

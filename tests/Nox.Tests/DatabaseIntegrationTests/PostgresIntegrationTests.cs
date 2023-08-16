@@ -112,7 +112,7 @@ public class PostgresIntegrationTests : PostgresTestBase
 
         var dateTimeRangeStart = new DateTimeOffset(2023, 4, 12, 0, 0, 0, TimeSpan.FromHours(3));
         var dateTimeRangeEnd = new DateTimeOffset(2023, 7, 10, 0, 0, 0, TimeSpan.FromHours(5));
-        var dateTime = new DateTimeOffset(System.DateTime.Now);
+        var dateTime = new DateTimeOffset(2023, 7, 10, 0, 0, 0, TimeSpan.FromHours(5));
 
         var html = @"
 <html>
