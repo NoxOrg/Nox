@@ -17,6 +17,8 @@ public static class ODataServiceCollectionExtensions
     {
         ODataModelBuilder builder = new ODataConventionModelBuilder();
 
+        {{ hasKeyForCompoundKeys -}}
+        
         {{- for entity in solution.Domain.Entities }}
 
         builder.EntitySet<{{entity.Name}}Dto>("{{entity.PluralName}}");

@@ -18,9 +18,13 @@ public class FileDatabaseConfigurator : INoxTypeDatabaseConfigurator
         Entity entity,
         bool isKey)
     {
-        builder
-            .OwnsOne(typeof(File), property.Name)
-            .Ignore(nameof(File.Value));
+        builder.OwnsOne(typeof(File), property.Name,
+            x =>
+            {
+                x.Ignore(nameof(File.Value));
+                x.Property(nameof(File.Url)).HasMaxLength(File.MaxUrlLength);
+                x.Property(nameof(File.PrettyName)).HasMaxLength(File.MaxPrettyNameLength);
+            });
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;

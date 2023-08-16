@@ -2,10 +2,13 @@
 
 #nullable enable
 
-using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using MediatR;
+
+using Microsoft.AspNetCore.Http;
+
+using System.ComponentModel.DataAnnotations.Schema;
+
 using Nox.Types;
 using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
@@ -17,12 +20,12 @@ namespace SampleWebApp.Application.Dto;
 /// A set of security passwords to store cameras and databases.
 /// </summary>
 [AutoMap(typeof(StoreSecurityPasswordsCreateDto))]
-public partial class StoreSecurityPasswordsDto : AuditableEntityBase
+public partial class StoreSecurityPasswordsDto 
 {
 
     /// <summary>
     /// Passwords Primary Key (Required).
-    /// </summary>
+    /// </summary>    
     public System.String Id { get; set; } = default!;
 
     /// <summary>
@@ -41,4 +44,5 @@ public partial class StoreSecurityPasswordsDto : AuditableEntityBase
     //EF maps ForeignKey Automatically
     public virtual string StoreId { get; set; } = null!;
     public virtual StoreDto Store { get; set; } = null!;
+    public bool? Deleted { get; set; }
 }

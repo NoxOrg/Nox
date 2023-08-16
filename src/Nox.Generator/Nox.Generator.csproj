@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFramework>netstandard2.0</TargetFramework>
@@ -53,9 +53,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<PackageReference Include="YamlDotNet" Version="13.1.1" PrivateAssets="all" GeneratePathProperty="true" />
+		<PackageReference Include="YamlDotNet" Version="13.2.0" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="Humanizer.Core" Version="2.14.1" PrivateAssets="all" GeneratePathProperty="true" />
-		<PackageReference Include="FluentValidation" Version="11.6.0" PrivateAssets="all" GeneratePathProperty="true" />
+		<PackageReference Include="FluentValidation" Version="11.7.1" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="System.Text.Json" Version="7.0.3" PrivateAssets="all" GeneratePathProperty="true" />
 		<PackageReference Include="Scriban" Version="5.7.0" IncludeAssets="Build" />
 	</ItemGroup>
@@ -70,10 +70,6 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Folder Include="Application\Dto\Templates\" />
 	</ItemGroup>
 
 	<PropertyGroup>

@@ -1,6 +1,8 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
+using Nox.Types;
+using System.Linq;
 
 namespace Nox.Generator.Application.Queries;
 
@@ -21,11 +23,14 @@ internal class ByIdQueryGenerator : INoxCodeGenerator
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
+            
+            var primaryKeys = string.Join(", ", entity.Keys.Select(k=> $"{codeGeneratorState.Solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Get{entity.Name}ByIdQuery")
                 .WithFileNamePrefix($"Queries")
                 .WithObject("entity", entity)
+                .WithObject("primaryKeys", primaryKeys)
                 .GenerateSourceCodeFromResource(templateName);
         }
     }

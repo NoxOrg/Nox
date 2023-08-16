@@ -12,9 +12,9 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteStoreByIdCommand(System.String key) : IRequest<bool>;
+public record DeleteStoreByIdCommand(System.String keyId) : IRequest<bool>;
 
-public class DeleteStoreByIdCommandHandler: CommandBase<DeleteStoreByIdCommand, bool>
+public class DeleteStoreByIdCommandHandler: CommandBase, IRequestHandler<DeleteStoreByIdCommand, bool>
 {
     public SampleWebAppDbContext DbContext { get; }
 
@@ -26,10 +26,11 @@ public class DeleteStoreByIdCommandHandler: CommandBase<DeleteStoreByIdCommand, 
         DbContext = dbContext;
     }    
 
-    public async override Task<bool> Handle(DeleteStoreByIdCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteStoreByIdCommand request, CancellationToken cancellationToken)
     {
-        var key = CreateNoxTypeForKey<Store,Text>("Id", request.key);
-        var entity = await DbContext.Stores.FindAsync(key);
+        var keyId = CreateNoxTypeForKey<Store,Text>("Id", request.keyId);
+
+        var entity = await DbContext.Stores.FindAsync(keyId);
         if (entity == null || entity.Deleted == true)
         {
             return false;

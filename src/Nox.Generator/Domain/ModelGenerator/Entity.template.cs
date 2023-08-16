@@ -15,15 +15,14 @@ namespace {{codeGeneratorState.DomainNameSpace}};
 public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else}}EntityBase{{end}}
 {
 {{- for key in entity.Keys }}
-
     /// <summary>
     /// {{key.Description}} (Required).
     /// </summary>
     {{ if key.Type == "Entity" -}}
-    public {{SimpleKeyTypeForEntity key.EntityTypeOptions.Entity}} {{key.EntityTypeOptions.Entity}}Id { get; set; } = null!;
+    public {{SingleKeyTypeForEntity key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
     {{- # Navigation Property }}
 
-    public virtual {{key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
+    public virtual {{key.EntityTypeOptions.Entity}} {{key.EntityTypeOptions.Entity}} { get; set; } = null!;
 
     {{- else if key.Type == "Nuid" -}}
 	{{- prefix = key.NuidTypeOptions.Prefix | object.default entity.Name + key.NuidTypeOptions.Separator -}}
@@ -75,13 +74,13 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     public List<{{relationship.Entity}}> {{relationship.Name}} => {{relationship.EntityPlural}};
     {{- end}}
     {{- else}}
-    public virtual {{relationship.Entity}} {{if relationship.Relationship == "ZeroOrOne"}}?{{end}}{{relationship.Entity}} { get; set; } = null!;
-    {{- if relationship.ShouldGenerateForeignOnThisSide}}
+    public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
+    {{- if relationship.ShouldGenerateForeignOnThisSide && !relationship.IsManyRelationshipOnOtherSide}}
 
     /// <summary>
     /// Foreign key for relationship {{relationship.Relationship}} to entity {{relationship.Entity}}
     /// </summary>
-    public {{relationship.Related.Entity.Keys[0].Type}} {{relationship.Entity}}Id { get; set; } = null!;
+    public Nox.Types.{{relationship.Related.Entity.Keys[0].Type}} {{relationship.Entity}}Id { get; set; } = null!;
     {{- end}}
     {{-end}}
 {{- end }}
@@ -97,7 +96,7 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     public List<{{relationship.Entity}}> {{relationship.Name}} => {{relationship.EntityPlural}};
     {{- end}}
     {{- else}}
-    public virtual {{relationship.Entity}} {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.EntityPlural}} { get; set; } = null!;
+     public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
     {{-end}}
 {{- end }}
 }

@@ -2,10 +2,13 @@
 
 #nullable enable
 
-using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using MediatR;
+
+using Microsoft.AspNetCore.Http;
+
+using System.ComponentModel.DataAnnotations.Schema;
+
 using Nox.Types;
 using Nox.Domain;
 using {{codeGeneratorState.DataTransferObjectsNameSpace}};
@@ -17,22 +20,23 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 /// {{entity.Description}}.
 /// </summary>
 [AutoMap(typeof({{entity.Name}}CreateDto))]
-public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else}}EntityBase{{end}}
+public partial class {{className}} 
 {
 {{- for key in entity.Keys }}
 
     /// <summary>
     /// {{key.Description}} (Required).
-    /// </summary>
+    /// </summary>    
     {{ if key.Type == "Entity" -}}
-    public {{SimpleKeyTypeForEntity key.EntityTypeOptions.Entity}} {{key.EntityTypeOptions.Entity}}Id { get; set; } = null!;
-    {{- # Navigation Property }}
-    public virtual {{key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
+    public {{SingleKeyPrimitiveTypeForEntity key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = default!; 
     {{- else -}}
     public {{entity.KeysFlattenComponentsType[key.Name]}} {{key.Name}} { get; set; } = default!; 
     {{- end}}
 {{- end }}
 {{- for attribute in entity.Attributes }}
+    {{- if componentsInfo[attribute.Name].IsReadable == false -}}
+        {{ continue; }}
+    {{- end}}
 
     /// <summary>
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
@@ -78,4 +82,8 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     public virtual {{relationship.Entity}}Dto {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.EntityPlural}} { get; set; } = null!;
     {{-end}}
 {{- end }}
+
+{{- if isVersioned #TODO do not expose Deleted on end points??}}
+    public bool? Deleted { get; set; }
+{{- end}}
 }

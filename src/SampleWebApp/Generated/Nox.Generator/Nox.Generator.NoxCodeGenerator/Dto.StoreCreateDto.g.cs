@@ -11,14 +11,8 @@ namespace SampleWebApp.Application.Dto;
 /// <summary>
 /// Stores.
 /// </summary>
-public partial class StoreCreateDto
+public partial class StoreCreateDto : StoreUpdateDto
 {
-    /// <summary>
-    /// Store Name (Required).
-    /// </summary>
-    public System.String Name { get; set; } = default!;
-    /// <summary>
-    /// Physical Money in the Physical Store (Required).
-    /// </summary>
-    public MoneyDto PhysicalMoney { get; set; } = default!;
+    // TODO Add Manual Keys to be set by the user
+
 }

@@ -12,13 +12,11 @@ using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
 
-
 namespace SampleWebApp.Application.Commands;
-
 //TODO support multiple keys and generated keys like nuid database number
-public record CreateStoreSecurityPasswordsCommand(StoreSecurityPasswordsCreateDto EntityDto) : IRequest<Text>;
+public record CreateStoreSecurityPasswordsCommand(StoreSecurityPasswordsCreateDto EntityDto) : IRequest<System.String>;
 
-public class CreateStoreSecurityPasswordsCommandHandler: IRequestHandler<CreateStoreSecurityPasswordsCommand, Text>
+public class CreateStoreSecurityPasswordsCommandHandler: IRequestHandler<CreateStoreSecurityPasswordsCommand, System.String>
 {
     public SampleWebAppDbContext DbContext { get; }
     public IEntityFactory<StoreSecurityPasswordsCreateDto,StoreSecurityPasswords> EntityFactory { get; }
@@ -31,12 +29,13 @@ public class CreateStoreSecurityPasswordsCommandHandler: IRequestHandler<CreateS
         EntityFactory = entityFactory;
     }
     
-    public async Task<Text> Handle(CreateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
+    public async Task<System.String> Handle(CreateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
     {    
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
-        //TODO for nuid property or key needs to call ensure id        
+        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+	
         DbContext.StoreSecurityPasswords.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
-        return entityToCreate.Id;
-    }
+        //return entityToCreate.Id.Value;
+        return default(System.String)!;
+}
 }

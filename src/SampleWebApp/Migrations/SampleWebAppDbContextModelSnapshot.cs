@@ -17,7 +17,7 @@ namespace SampleWebApp.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "7.0.9")
+                .HasAnnotation("ProductVersion", "7.0.10")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -39,11 +39,16 @@ namespace SampleWebApp.Migrations
 
             modelBuilder.Entity("SampleWebApp.Domain.AllNoxType", b =>
                 {
-                    b.Property<ulong>("Id")
+                    b.Property<long>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("decimal(20,0)");
+                        .HasColumnType("bigint");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<ulong>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("TextId")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<bool?>("BooleanField")
                         .HasColumnType("bit");
@@ -62,6 +67,9 @@ namespace SampleWebApp.Migrations
                         .HasColumnType("char(3)")
                         .IsFixedLength();
 
+                    b.Property<short?>("CountryNumberField")
+                        .HasColumnType("smallint");
+
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
@@ -77,11 +85,22 @@ namespace SampleWebApp.Migrations
                     b.Property<string>("DeletedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<byte[]>("EncryptedTextField")
+                        .IsUnicode(false)
+                        .HasColumnType("varbinary(max)");
+
                     b.Property<uint?>("NuidField")
                         .HasColumnType("bigint");
 
                     b.Property<int?>("NumberField")
                         .HasColumnType("int");
+
+                    b.Property<float?>("PercentageField")
+                        .HasMaxLength(2)
+                        .HasColumnType("real");
+
+                    b.Property<decimal?>("TemperatureField")
+                        .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("TextField")
                         .IsRequired()
@@ -89,13 +108,40 @@ namespace SampleWebApp.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
 
+                    b.Property<TimeSpan?>("TimeField")
+                        .HasColumnType("time");
+
+                    b.Property<string>("TimeZoneCodeField")
+                        .HasMaxLength(5)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(5)");
+
                     b.Property<DateTime?>("UpdatedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("UpdatedBy")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.Property<string>("UriField")
+                        .HasMaxLength(2083)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(2083)");
+
+                    b.Property<string>("UrlField")
+                        .HasMaxLength(2083)
+                        .HasColumnType("nvarchar(2083)");
+
+                    b.Property<decimal?>("VolumeField")
+                        .HasColumnType("DECIMAL(9, 6)");
+
+                    b.Property<decimal?>("WeightField")
+                        .HasColumnType("DECIMAL(9, 6)");
+
+                    b.Property<string>("YamlField")
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(max)");
+
+                    b.HasKey("Id", "TextId");
 
                     b.ToTable("AllNoxTypes");
                 });
@@ -278,6 +324,52 @@ namespace SampleWebApp.Migrations
                     b.ToTable("Currencies");
                 });
 
+            modelBuilder.Entity("SampleWebApp.Domain.CurrencyCashBalance", b =>
+                {
+                    b.Property<string>("StoreId")
+                        .HasMaxLength(3)
+                        .IsUnicode(false)
+                        .HasColumnType("char(3)")
+                        .IsFixedLength();
+
+                    b.Property<uint>("CurrencyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("OperationLimit")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("UpdatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("StoreId", "CurrencyId");
+
+                    b.HasIndex("CurrencyId")
+                        .IsUnique();
+
+                    b.HasIndex("StoreId")
+                        .IsUnique();
+
+                    b.ToTable("CurrencyCashBalances");
+                });
+
             modelBuilder.Entity("SampleWebApp.Domain.Store", b =>
                 {
                     b.Property<string>("Id")
@@ -354,7 +446,6 @@ namespace SampleWebApp.Migrations
                         .HasColumnType("nvarchar(63)");
 
                     b.Property<string>("StoreId")
-                        .IsRequired()
                         .HasMaxLength(3)
                         .IsUnicode(false)
                         .HasColumnType("char(3)")
@@ -369,7 +460,8 @@ namespace SampleWebApp.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("StoreId")
-                        .IsUnique();
+                        .IsUnique()
+                        .HasFilter("[StoreId] IS NOT NULL");
 
                     b.ToTable("StoreSecurityPasswords");
                 });
@@ -393,32 +485,40 @@ namespace SampleWebApp.Migrations
                 {
                     b.OwnsOne("Nox.Types.File", "FileField", b1 =>
                         {
-                            b1.Property<ulong>("AllNoxTypeId")
-                                .HasColumnType("decimal(20,0)");
+                            b1.Property<long>("AllNoxTypeId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("AllNoxTypeTextId")
+                                .HasColumnType("nvarchar(255)");
 
                             b1.Property<string>("PrettyName")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(511)
+                                .HasColumnType("nvarchar(511)");
 
                             b1.Property<decimal>("SizeInBytes")
                                 .HasColumnType("decimal(20,0)");
 
                             b1.Property<string>("Url")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(2083)
+                                .HasColumnType("nvarchar(2083)");
 
-                            b1.HasKey("AllNoxTypeId");
+                            b1.HasKey("AllNoxTypeId", "AllNoxTypeTextId");
 
                             b1.ToTable("AllNoxTypes");
 
                             b1.WithOwner()
-                                .HasForeignKey("AllNoxTypeId");
+                                .HasForeignKey("AllNoxTypeId", "AllNoxTypeTextId");
                         });
 
                     b.OwnsOne("Nox.Types.HashedText", "HashedTexField", b1 =>
                         {
-                            b1.Property<ulong>("AllNoxTypeId")
-                                .HasColumnType("decimal(20,0)");
+                            b1.Property<long>("AllNoxTypeId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("AllNoxTypeTextId")
+                                .HasColumnType("nvarchar(255)");
 
                             b1.Property<string>("HashText")
                                 .IsRequired()
@@ -428,18 +528,21 @@ namespace SampleWebApp.Migrations
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.HasKey("AllNoxTypeId");
+                            b1.HasKey("AllNoxTypeId", "AllNoxTypeTextId");
 
                             b1.ToTable("AllNoxTypes");
 
                             b1.WithOwner()
-                                .HasForeignKey("AllNoxTypeId");
+                                .HasForeignKey("AllNoxTypeId", "AllNoxTypeTextId");
                         });
 
                     b.OwnsOne("Nox.Types.Password", "PasswordField", b1 =>
                         {
-                            b1.Property<ulong>("AllNoxTypeId")
-                                .HasColumnType("decimal(20,0)");
+                            b1.Property<long>("AllNoxTypeId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("AllNoxTypeTextId")
+                                .HasColumnType("nvarchar(255)");
 
                             b1.Property<string>("HashedPassword")
                                 .IsRequired()
@@ -449,18 +552,21 @@ namespace SampleWebApp.Migrations
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.HasKey("AllNoxTypeId");
+                            b1.HasKey("AllNoxTypeId", "AllNoxTypeTextId");
 
                             b1.ToTable("AllNoxTypes");
 
                             b1.WithOwner()
-                                .HasForeignKey("AllNoxTypeId");
+                                .HasForeignKey("AllNoxTypeId", "AllNoxTypeTextId");
                         });
 
                     b.OwnsOne("Nox.Types.StreetAddress", "StreetAddressField", b1 =>
                         {
-                            b1.Property<ulong>("AllNoxTypeId")
-                                .HasColumnType("decimal(20,0)");
+                            b1.Property<long>("AllNoxTypeId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("AllNoxTypeTextId")
+                                .HasColumnType("nvarchar(255)");
 
                             b1.Property<string>("AddressLine1")
                                 .IsRequired()
@@ -501,18 +607,21 @@ namespace SampleWebApp.Migrations
                             b1.Property<int>("StreetNumber")
                                 .HasColumnType("int");
 
-                            b1.HasKey("AllNoxTypeId");
+                            b1.HasKey("AllNoxTypeId", "AllNoxTypeTextId");
 
                             b1.ToTable("AllNoxTypes");
 
                             b1.WithOwner()
-                                .HasForeignKey("AllNoxTypeId");
+                                .HasForeignKey("AllNoxTypeId", "AllNoxTypeTextId");
                         });
 
                     b.OwnsOne("Nox.Types.TranslatedText", "TranslatedTextField", b1 =>
                         {
-                            b1.Property<ulong>("AllNoxTypeId")
-                                .HasColumnType("decimal(20,0)");
+                            b1.Property<long>("AllNoxTypeId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("AllNoxTypeTextId")
+                                .HasColumnType("nvarchar(255)");
 
                             b1.Property<string>("CultureCode")
                                 .IsRequired()
@@ -522,18 +631,21 @@ namespace SampleWebApp.Migrations
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.HasKey("AllNoxTypeId");
+                            b1.HasKey("AllNoxTypeId", "AllNoxTypeTextId");
 
                             b1.ToTable("AllNoxTypes");
 
                             b1.WithOwner()
-                                .HasForeignKey("AllNoxTypeId");
+                                .HasForeignKey("AllNoxTypeId", "AllNoxTypeTextId");
                         });
 
                     b.OwnsOne("Nox.Types.VatNumber", "VatNumberField", b1 =>
                         {
-                            b1.Property<ulong>("AllNoxTypeId")
-                                .HasColumnType("decimal(20,0)");
+                            b1.Property<long>("AllNoxTypeId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("AllNoxTypeTextId")
+                                .HasColumnType("nvarchar(255)");
 
                             b1.Property<string>("CountryCode2")
                                 .IsRequired()
@@ -548,18 +660,21 @@ namespace SampleWebApp.Migrations
                                 .IsUnicode(false)
                                 .HasColumnType("varchar(64)");
 
-                            b1.HasKey("AllNoxTypeId");
+                            b1.HasKey("AllNoxTypeId", "AllNoxTypeTextId");
 
                             b1.ToTable("AllNoxTypes");
 
                             b1.WithOwner()
-                                .HasForeignKey("AllNoxTypeId");
+                                .HasForeignKey("AllNoxTypeId", "AllNoxTypeTextId");
                         });
 
                     b.OwnsOne("Nox.Types.LatLong", "LatLongField", b1 =>
                         {
-                            b1.Property<ulong>("AllNoxTypeId")
-                                .HasColumnType("decimal(20,0)");
+                            b1.Property<long>("AllNoxTypeId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("AllNoxTypeTextId")
+                                .HasColumnType("nvarchar(255)");
 
                             b1.Property<decimal>("Latitude")
                                 .HasPrecision(8, 6)
@@ -569,18 +684,21 @@ namespace SampleWebApp.Migrations
                                 .HasPrecision(9, 6)
                                 .HasColumnType("decimal(9,6)");
 
-                            b1.HasKey("AllNoxTypeId");
+                            b1.HasKey("AllNoxTypeId", "AllNoxTypeTextId");
 
                             b1.ToTable("AllNoxTypes");
 
                             b1.WithOwner()
-                                .HasForeignKey("AllNoxTypeId");
+                                .HasForeignKey("AllNoxTypeId", "AllNoxTypeTextId");
                         });
 
                     b.OwnsOne("Nox.Types.Money", "MoneyField", b1 =>
                         {
-                            b1.Property<ulong>("AllNoxTypeId")
-                                .HasColumnType("decimal(20,0)");
+                            b1.Property<long>("AllNoxTypeId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("AllNoxTypeTextId")
+                                .HasColumnType("nvarchar(255)");
 
                             b1.Property<decimal>("Amount")
                                 .HasColumnType("decimal(13, 4)");
@@ -588,12 +706,12 @@ namespace SampleWebApp.Migrations
                             b1.Property<int>("CurrencyCode")
                                 .HasColumnType("int");
 
-                            b1.HasKey("AllNoxTypeId");
+                            b1.HasKey("AllNoxTypeId", "AllNoxTypeTextId");
 
                             b1.ToTable("AllNoxTypes");
 
                             b1.WithOwner()
-                                .HasForeignKey("AllNoxTypeId");
+                                .HasForeignKey("AllNoxTypeId", "AllNoxTypeTextId");
                         });
 
                     b.Navigation("FileField");
@@ -639,6 +757,50 @@ namespace SampleWebApp.Migrations
                     b.Navigation("GeoCoord");
                 });
 
+            modelBuilder.Entity("SampleWebApp.Domain.CurrencyCashBalance", b =>
+                {
+                    b.HasOne("SampleWebApp.Domain.Currency", "Currency")
+                        .WithOne()
+                        .HasForeignKey("SampleWebApp.Domain.CurrencyCashBalance", "CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SampleWebApp.Domain.Store", "Store")
+                        .WithOne()
+                        .HasForeignKey("SampleWebApp.Domain.CurrencyCashBalance", "StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("Nox.Types.Money", "Amount", b1 =>
+                        {
+                            b1.Property<string>("CurrencyCashBalanceStoreId")
+                                .HasColumnType("char(3)");
+
+                            b1.Property<uint>("CurrencyCashBalanceCurrencyId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("decimal(15, 5)");
+
+                            b1.Property<int>("CurrencyCode")
+                                .HasColumnType("int");
+
+                            b1.HasKey("CurrencyCashBalanceStoreId", "CurrencyCashBalanceCurrencyId");
+
+                            b1.ToTable("CurrencyCashBalances");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CurrencyCashBalanceStoreId", "CurrencyCashBalanceCurrencyId");
+                        });
+
+                    b.Navigation("Amount")
+                        .IsRequired();
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("Store");
+                });
+
             modelBuilder.Entity("SampleWebApp.Domain.Store", b =>
                 {
                     b.OwnsOne("Nox.Types.Money", "PhysicalMoney", b1 =>
@@ -668,9 +830,7 @@ namespace SampleWebApp.Migrations
                 {
                     b.HasOne("SampleWebApp.Domain.Store", "Store")
                         .WithOne("StoreSecurityPasswords")
-                        .HasForeignKey("SampleWebApp.Domain.StoreSecurityPasswords", "StoreId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                        .HasForeignKey("SampleWebApp.Domain.StoreSecurityPasswords", "StoreId");
 
                     b.Navigation("Store");
                 });

@@ -94,72 +94,50 @@ public partial class CountriesController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] CountryDto updatedCountry)
+    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] CountryUpdateDto country)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        if (key != updatedCountry.Id)
-        {
-            return BadRequest();
-        }
+        var updated = await _mediator.Send(new UpdateCountryCommand(key, country));
         
-        _databaseContext.Entry(updatedCountry).State = EntityState.Modified;
-        
-        try
-        {
-            await _databaseContext.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!CountryExists(key))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
-        
-        return Updated(updatedCountry);
-    }
-    
-    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<CountryDto> country)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var entity = await _databaseContext.Countries.FindAsync(key);
-        
-        if (entity == null)
+        if (!updated)
         {
             return NotFound();
         }
-        
-        country.Patch(entity);
-        
-        try
+        return Updated(country);
+    }
+    
+    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<CountryUpdateDto> country)
+    {
+        if (!ModelState.IsValid)
         {
-            await _databaseContext.SaveChangesAsync();
+            return BadRequest(ModelState);
         }
-        catch (DbUpdateConcurrencyException)
+        var updateProperties = new Dictionary<string, dynamic>();
+        var deletedProperties = new List<string>();
+
+        foreach (var propertyName in country.GetChangedPropertyNames())
         {
-            if (!CountryExists(key))
+            if(country.TryGetPropertyValue(propertyName, out dynamic value))
             {
-                return NotFound();
+                updateProperties[propertyName] = value;                
             }
             else
             {
-                throw;
+                deletedProperties.Add(propertyName);
             }
         }
         
-        return Updated(entity);
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties, deletedProperties));
+        
+        if (!updated)
+        {
+            return NotFound();
+        }
+        return Updated(country);
     }
     
     private bool CountryExists(System.String key)

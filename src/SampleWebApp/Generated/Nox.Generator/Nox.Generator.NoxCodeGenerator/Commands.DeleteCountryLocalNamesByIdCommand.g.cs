@@ -12,9 +12,9 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteCountryLocalNamesByIdCommand(System.String key) : IRequest<bool>;
+public record DeleteCountryLocalNamesByIdCommand(System.String keyId) : IRequest<bool>;
 
-public class DeleteCountryLocalNamesByIdCommandHandler: CommandBase<DeleteCountryLocalNamesByIdCommand, bool>
+public class DeleteCountryLocalNamesByIdCommandHandler: CommandBase, IRequestHandler<DeleteCountryLocalNamesByIdCommand, bool>
 {
     public SampleWebAppDbContext DbContext { get; }
 
@@ -26,10 +26,11 @@ public class DeleteCountryLocalNamesByIdCommandHandler: CommandBase<DeleteCountr
         DbContext = dbContext;
     }    
 
-    public async override Task<bool> Handle(DeleteCountryLocalNamesByIdCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(DeleteCountryLocalNamesByIdCommand request, CancellationToken cancellationToken)
     {
-        var key = CreateNoxTypeForKey<CountryLocalNames,Text>("Id", request.key);
-        var entity = await DbContext.CountryLocalNames.FindAsync(key);
+        var keyId = CreateNoxTypeForKey<CountryLocalNames,Text>("Id", request.keyId);
+
+        var entity = await DbContext.CountryLocalNames.FindAsync(keyId);
         if (entity == null || entity.Deleted == true)
         {
             return false;

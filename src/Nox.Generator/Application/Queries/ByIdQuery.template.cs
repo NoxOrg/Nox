@@ -9,7 +9,7 @@ using {{codeGeneratorState.ODataNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Queries;
 
-public record Get{{entity.Name }}ByIdQuery({{entity.KeysFlattenComponentsType[entity.Keys[0].Name]}} key) : IRequest<{{entity.Name}}Dto?>;
+public record Get{{entity.Name }}ByIdQuery({{primaryKeys}}) : IRequest<{{entity.Name}}Dto?>;
 
 public class Get{{entity.Name}}ByIdQueryHandler: IRequestHandler<Get{{entity.Name}}ByIdQuery, {{entity.Name}}Dto?>
 {
@@ -24,7 +24,16 @@ public class Get{{entity.Name}}ByIdQueryHandler: IRequestHandler<Get{{entity.Nam
     {    
         var item = DataDbContext.{{entity.PluralName}}
             .AsNoTracking()
-            .SingleOrDefault(r => {{if (entity.Persistence?.IsVersioned ?? true)}}!(r.Deleted == true) && {{end}}r.{{entity.Keys[0].Name}}.Equals(request.key));            
+            .SingleOrDefault(r =>                  
+            {{- for key in entity.Keys }}
+                r.{{key.Name}}.Equals(request.key{{key.Name}}) && 
+            {{- end -}}
+            {{- if (entity.Persistence?.IsVersioned ?? true)}}
+                !(r.Deleted == true)
+            {{- else}}
+                true
+            {{end -}}
+            );
         return Task.FromResult(item);
     }
 }

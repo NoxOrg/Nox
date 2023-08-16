@@ -2,10 +2,13 @@
 
 #nullable enable
 
-using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using MediatR;
+
+using Microsoft.AspNetCore.Http;
+
+using System.ComponentModel.DataAnnotations.Schema;
+
 using Nox.Types;
 using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
@@ -17,12 +20,12 @@ namespace SampleWebApp.Application.Dto;
 /// The list of countries.
 /// </summary>
 [AutoMap(typeof(CountryCreateDto))]
-public partial class CountryDto : AuditableEntityBase
+public partial class CountryDto 
 {
 
     /// <summary>
     ///  (Required).
-    /// </summary>
+    /// </summary>    
     public System.String Id { get; set; } = default!;
 
     /// <summary>
@@ -104,4 +107,5 @@ public partial class CountryDto : AuditableEntityBase
     /// Country accepts as legal tender OneOrMany Currencies
     /// </summary>
     public virtual List<CurrencyDto> Currencies { get; set; } = new();
+    public bool? Deleted { get; set; }
 }

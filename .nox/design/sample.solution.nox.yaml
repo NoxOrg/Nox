@@ -10,10 +10,10 @@ description: Sample Nox solution yaml configuration
 
 variables:
    DATABASE_PROVIDER: slqServer   
-   DATABASE_SERVER: localhost
+   DATABASE_SERVER: 127.0.0.1
    DATABASE_USER: sa
    DATABASE_PASSWORD: Developer*123
-   DATABASE_PORT: 5432
+   DATABASE_PORT: 1433
    
 environments:
 
@@ -281,7 +281,9 @@ domain:
     - $ref: store-security-passwords.entity.nox.yaml
   
     - $ref: allnoxtypes.entity.nox.yaml
-    
+  
+    - $ref: currencyCashBalance.entity.nox.yaml
+        
     - name: CountryLocalNames
       description: The name of a country in other languages
 
@@ -294,44 +296,7 @@ domain:
             isUnicode: false
             minLength: 2
             maxLength: 2
-
-# JS commented this out to get sample to run - complaining about no keys
-#    - name: CurrencyCashBalance
-#
-#      description: The cash balance in Store
-#
-#      keys:
-#
-#        - name: Store
-#          type: entity
-#          entityTypeOptions:
-#            entity: Store
-#          isRequired: true
-#
-#        - name: Currency
-#          type: entity
-#          entityTypeOptions:
-#            entity: Currency
-#          isRequired: true
-#
-#      attributes:
-#
-#        - name: Amount
-#          description: The amount
-#          type: number
-#          numberTypeOptions:
-#            minValue: 0
-#            decimalDigits: 4
-#          isRequired: true
-#
-#        - name: OperationLimit
-#          description: The Operation Limit
-#          type: number
-#          numberTypeOptions:
-#            minValue: 0
-#            decimalDigits: 4
-#          isRequired: false
-
+    
 application:
   dataTransferObjects:
     - name: CustomCountryDto
@@ -400,8 +365,18 @@ application:
         name: Country
         targetType: entity
         
-  
-    
+#  localization:
+#
+#    supportedCultures:
+#      - en-GB
+#      - en-US
+#      - de-CH
+#      - fr-CH
+#      - it-CH
+#      - fr-FR
+#
+#    defaultCulture: en-GB
+
 
 infrastructure:
   
@@ -500,11 +475,12 @@ infrastructure:
 ### In order to use elastic monitoring in the sample you have to start the elastic stack docker instance by running 'docker-compose -f docker-compose.elastic.yaml up -d'
 #    monitoring:
 #      $ref: elastic.monitoring.nox.yaml
-
-    translations:
+    
+    uiLocalizations:
       name: SampleTranslationService
+      provider: sqlServer
       serverUri: translator.iwgplc.com
-      port: 443
+      port: 1433    
 
     dataConnections:
       - name: CountryJsonData

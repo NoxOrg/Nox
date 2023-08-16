@@ -1,5 +1,4 @@
-﻿using Nox.TypeOptions;
-using Nox.Types.Schema;
+﻿using Nox.Types.Schema;
 
 namespace Nox.Types;
 
@@ -109,6 +108,9 @@ public class NoxSimpleTypeDefinition
 
     [IfEquals("Type", NoxType.Distance)]
     public DistanceTypeOptions? DistanceTypeOptions { get; set; }
+
+    [IfEquals("Type", NoxType.DateTimeRange)]
+    public DateTimeRangeTypeOptions? DateTimeRangeTypeOptions { get; set; }
 
     #endregion TypeOptions
 

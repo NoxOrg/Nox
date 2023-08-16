@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using Nox.Types;
 using System.Linq;
+using Nox.Types.Extensions;
+using YamlDotNet.Core.Tokens;
 
 namespace Nox.Solution;
 
@@ -22,60 +24,78 @@ public class NoxSolution : Solution
     {
         var fullRelationshipModels = new List<EntityRelationshipWithType>();
 
-        if (entity?.Relationships == null)
+        if (entity?.Relationships != null)
         {
-            return fullRelationshipModels;
-        }
-
-        foreach (var relationship in entity.Relationships)
-        {
-            fullRelationshipModels.Add(new EntityRelationshipWithType
+            foreach (var relationship in entity.Relationships)
             {
-                Relationship = relationship,
-                RelationshipEntityType = getTypeByNameFunc(relationship.Entity)!
-            });
+                fullRelationshipModels.Add(new EntityRelationshipWithType
+                {
+                    Relationship = relationship,
+                    RelationshipEntityType = getTypeByNameFunc(relationship.Entity)!
+                });
+            }
         }
 
         return fullRelationshipModels;
     }
 
-    internal static bool ShouldGenerateForeignOnThisSide(EntityRelationship relationship)
+    /// <summary>
+    /// Key Nox.Type for and Entity with single key . If NoxType is Entity again, then we recursively get the entity primary key type!
+    /// </summary>
+    /// <param name="entityName"></param>
+    /// <returns></returns>
+    public NoxType GetSingleKeyTypeForEntity(string entityName)
     {
-        var isIgnored = false;
-
-        var pairRelationship = relationship.Related.EntityRelationship;
-        if (pairRelationship != null)
-        {
-            // ManyToMany does not need to be handled as it doesn't have special logic
-            // Will be always ignored by default
-            if (relationship.Relationship == EntityRelationshipType.OneOrMany ||
-                relationship.Relationship == EntityRelationshipType.ZeroOrMany)
-            {
-                isIgnored = true;
-            }
-            // If ZeroOrOne vs ExactlyOne handle on ExactlyOne side
-            else if (pairRelationship.Relationship == EntityRelationshipType.ExactlyOne &&
-                relationship.Relationship == EntityRelationshipType.ZeroOrOne)
-            {
-                isIgnored = true;
-            }
-            // If same type on both sides cover on first by ascending alphabetical sort
-            else if (pairRelationship.Relationship == relationship.Relationship &&
-                     // Ascending alphabetical sort
-                     string.Compare(relationship.Entity, pairRelationship.Entity,
-                         StringComparison.InvariantCulture) > 0)
-            {
-                isIgnored = true;
-            }
-        }
-
-        return !isIgnored;
-    }
-
-    public NoxType GetSimpleKeyTypeForEntity(string entityName)
-    {
-        var entity = this.Domain!.Entities.Single(entity => entity.Name.Equals(entityName));
+        var entity = Domain!.Entities.Single(entity => entity.Name.Equals(entityName));
 
         return entity.Keys!.Single().Type;
+    }
+
+    /// <summary>
+    /// Key Nox.Type for a key definition, If type is Entity again, then we recursively get the entity primary key type!
+    /// </summary>
+    /// <param name="keyDefinition"></param>
+    /// <returns></returns>
+    public NoxType GetSingleTypeForKey(NoxSimpleTypeDefinition keyDefinition)
+    {
+        if(keyDefinition.Type != NoxType.Entity)
+        {
+            return keyDefinition.Type;
+        }
+        // Obtain the reference entity
+        var entity = Domain!.Entities.Single(entity => entity.Name.Equals(keyDefinition.EntityTypeOptions!.Entity));
+
+        return GetSingleTypeForKey(entity.Keys![0]);
+    }
+
+    /// <summary>
+    /// Key Primitive for a key definition, If type is Entity again, then we recursively get the entity primary key type!
+    /// </summary>
+    /// <param name="keyDefinition"></param>
+    /// <returns></returns>
+    public string GetSinglePrimitiveTypeForKey(NoxSimpleTypeDefinition keyDefinition)
+    {
+        if (keyDefinition.Type != NoxType.Entity)
+        {
+            return keyDefinition.Type.GetComponents(keyDefinition).Single().Value.ToString();
+        }
+        // Obtain the reference entity
+        var entity = Domain!.Entities.Single(entity => entity.Name.Equals(keyDefinition.EntityTypeOptions!.Entity));
+
+        return GetSinglePrimitiveTypeForKey(entity.Keys![0]);
+    }
+
+
+    /// <summary>
+    /// Key Primitive type for and Entity with single key 
+    /// </summary>
+    /// <param name="entityName"></param>
+    /// <returns></returns>
+    public string GetSingleKeyPrimitiveTypeForEntity(string entityName)
+    {
+        var entity = Domain!.Entities.Single(entity => entity.Name.Equals(entityName));
+        var key = entity.Keys!.Single();
+        // Single, because keys cannot be compound type
+        return key.Type.GetComponents(key).Single().Value.ToString();
     }
 }

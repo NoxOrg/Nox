@@ -11,6 +11,7 @@ public enum NoxType : uint
 
     // Compound Types - requires multiple fields to persist
     [CompoundType]
+    // Entity depends on the concrete instance and if it supports multiple keys or not!
     [CompoundComponent("Type", typeof(string))]
     [CompoundComponent("Id", typeof(uint))]
     Entity = 2276495181,
@@ -64,7 +65,7 @@ public enum NoxType : uint
     [SimpleType(typeof(decimal))]
     Area = 998304025,
 
-    [SimpleType(typeof(ulong))] 
+    [SimpleType(typeof(long))] 
     DatabaseNumber = 963275927,
     
     [SimpleType(typeof(bool))]
@@ -122,7 +123,7 @@ public enum NoxType : uint
     [SimpleType(typeof(string))]
     Email = 3393987164,
     
-    [SimpleType(typeof(string))]
+    [SimpleType(typeof(string), Read = false, Update = false)]
     EncryptedText = 1841598137,
     
     [SimpleType(typeof(string))]
@@ -131,7 +132,7 @@ public enum NoxType : uint
     [SimpleType(typeof(Guid))]
     Guid = 1043908053,
 
-    [CompoundType]
+    [CompoundType(Read = false, Update = false)]
     [CompoundComponent("HashText", typeof(string))]
     [CompoundComponent("Salt", typeof(string))]
     HashedText = 3656553818,
@@ -175,7 +176,7 @@ public enum NoxType : uint
     [SimpleType(typeof(NumberTypeComponentsDiscover))]
     Number = 4223714796,
 
-    [CompoundType]
+    [CompoundType(Read = false, Update = false)]
     [CompoundComponent("HashedPassword", typeof(string))]
     [CompoundComponent("Salt", typeof(string))]
     Password = 1755902638,

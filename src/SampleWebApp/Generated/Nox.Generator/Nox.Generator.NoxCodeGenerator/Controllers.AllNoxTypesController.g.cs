@@ -57,9 +57,9 @@ public partial class AllNoxTypesController : ODataController
         return Ok(result);
     }
     
-    public async Task<ActionResult<AllNoxTypeDto>> Get([FromRoute] System.UInt64 key)
+    public async Task<ActionResult<AllNoxTypeDto>> Get([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId)
     {
-        var item = await _mediator.Send(new GetAllNoxTypeByIdQuery(key));
+        var item = await _mediator.Send(new GetAllNoxTypeByIdQuery(keyId, keyTextId));
         
         if (item == null)
         {
@@ -80,82 +80,60 @@ public partial class AllNoxTypesController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.UInt64 key, [FromBody] AllNoxTypeDto updatedAllNoxType)
+    public async Task<ActionResult> Put([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId, [FromBody] AllNoxTypeUpdateDto allNoxType)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        if (key != updatedAllNoxType.Id)
-        {
-            return BadRequest();
-        }
+        var updated = await _mediator.Send(new UpdateAllNoxTypeCommand(keyId, keyTextId, allNoxType));
         
-        _databaseContext.Entry(updatedAllNoxType).State = EntityState.Modified;
-        
-        try
-        {
-            await _databaseContext.SaveChangesAsync();
-        }
-        catch (DbUpdateConcurrencyException)
-        {
-            if (!AllNoxTypeExists(key))
-            {
-                return NotFound();
-            }
-            else
-            {
-                throw;
-            }
-        }
-        
-        return Updated(updatedAllNoxType);
-    }
-    
-    public async Task<ActionResult> Patch([FromRoute] System.UInt64 key, [FromBody] Delta<AllNoxTypeDto> allnoxtype)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var entity = await _databaseContext.AllNoxTypes.FindAsync(key);
-        
-        if (entity == null)
+        if (!updated)
         {
             return NotFound();
         }
-        
-        allnoxtype.Patch(entity);
-        
-        try
+        return Updated(allNoxType);
+    }
+    
+    public async Task<ActionResult> Patch([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId, [FromBody] Delta<AllNoxTypeUpdateDto> allNoxType)
+    {
+        if (!ModelState.IsValid)
         {
-            await _databaseContext.SaveChangesAsync();
+            return BadRequest(ModelState);
         }
-        catch (DbUpdateConcurrencyException)
+        var updateProperties = new Dictionary<string, dynamic>();
+        var deletedProperties = new List<string>();
+
+        foreach (var propertyName in allNoxType.GetChangedPropertyNames())
         {
-            if (!AllNoxTypeExists(key))
+            if(allNoxType.TryGetPropertyValue(propertyName, out dynamic value))
             {
-                return NotFound();
+                updateProperties[propertyName] = value;                
             }
             else
             {
-                throw;
+                deletedProperties.Add(propertyName);
             }
         }
         
-        return Updated(entity);
+        var updated = await _mediator.Send(new PartialUpdateAllNoxTypeCommand(keyId, keyTextId, updateProperties, deletedProperties));
+        
+        if (!updated)
+        {
+            return NotFound();
+        }
+        return Updated(allNoxType);
     }
     
-    private bool AllNoxTypeExists(System.UInt64 key)
+    private bool AllNoxTypeExists(System.Int64 key)
     {
         return _databaseContext.AllNoxTypes.Any(p => p.Id == key);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.UInt64 key)
+    public async Task<ActionResult> Delete([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId)
     {
-        var result = await _mediator.Send(new DeleteAllNoxTypeByIdCommand(key));
+        var result = await _mediator.Send(new DeleteAllNoxTypeByIdCommand(keyId, keyTextId));
         if (!result)
         {
             return NotFound();

@@ -18,7 +18,7 @@ namespace Nox.Tests
         [Fact]
         public void NuidTypeImmutable_OnceSet_ShouldBeUnchanged()
         {
-            var nameValue = Guid.NewGuid().ToString();
+            var nameValue = System.Guid.NewGuid().ToString();
             var entity = new TestEntityWithNuid
             {
                 Name = Text.From(nameValue)
@@ -38,7 +38,7 @@ namespace Nox.Tests
         [Fact]
         public void NuidTypeImmutable_TryChangeImmutableProperty_ShouldThrow()
         {
-            var nameValue = Guid.NewGuid().ToString();
+            var nameValue = System.Guid.NewGuid().ToString();
             var entity = new TestEntityWithNuid
             {
                 Name = Text.From(nameValue)

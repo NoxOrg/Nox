@@ -7,6 +7,7 @@ using System.Text.Json;
 using TestWebApp.Domain;
 
 using DayOfWeek = Nox.Types.DayOfWeek;
+using Guid = Nox.Types.Guid;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
 
@@ -27,13 +28,10 @@ public class PostgresIntegrationTests : PostgresTestBase
         // imageJpg
         // imageSvg
         // object
-        // user
         // languageCode
         // yaml
         // uri
-        // date
         // dateTimeSchedule
-        // html
         // json
 
         // TODO: commented types
@@ -60,6 +58,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         var cultureCode = "de-CH";
         var macAddress = "A1B2C3D4E5F6";
         var url = "http://example.com/";
+        var guid = System.Guid.NewGuid();
         var password = "Test123.";
         var dayOfWeek = 1;
         byte month = 7;
@@ -86,6 +85,7 @@ public class PostgresIntegrationTests : PostgresTestBase
     - County: Geneva
     - County: Lausanne
 ";
+        var phoneNumber = "38761000000";
 
         using var aesAlgorithm = System.Security.Cryptography.Aes.Create();
         var encryptedTextTypeOptions = new EncryptedTextTypeOptions
@@ -116,6 +116,18 @@ public class PostgresIntegrationTests : PostgresTestBase
         var dateTimeRangeEnd = new DateTimeOffset(2023, 7, 10, 0, 0, 0, TimeSpan.FromHours(5));
         var cronJobExpression = "0 0 12 ? * 2,3,4,5,6 *";
 
+        var html = @"
+<html>
+    <body>
+    Plain text
+    <p> Paragraph text </p>
+    </body>
+</html>";
+
+        var imageUrl = "https://example.com/image.png";
+        var imagePrettyName = "Image";
+        var imageSizeInBytes = 128;
+
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
@@ -136,6 +148,8 @@ public class PostgresIntegrationTests : PostgresTestBase
             TimeZoneCodeTestField = TimeZoneCode.From("utc"),
             MacAddressTestField = MacAddress.From(macAddress),
             UrlTestField = Url.From(url),
+            UserTestField = User.From(email),
+            GuidTestField = Guid.From(guid),
             HashedTextTestField = HashedText.From(text),
             PasswordTestField = Password.From(password),
             DayOfWeekTestField = DayOfWeek.From(1),
@@ -147,7 +161,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             BooleanTestField = Types.Boolean.From(boolean),
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
-            TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
+            TemperatureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
             ColorTestField = Color.From(color),
             PercentageTestField = Percentage.From(percentage),
@@ -162,9 +176,12 @@ public class PostgresIntegrationTests : PostgresTestBase
             UriTestField = Types.Uri.From(sampleUri),
             GeoCoordTestField = LatLong.From(latitude, longitude),
             DateTimeRangeTestField = DateTimeRange.From(dateTimeRangeStart, dateTimeRangeEnd),
+            HtmlTestField = Html.From(html),
+            ImageTestField = Image.From(imageUrl, imagePrettyName, imageSizeInBytes),
+            PhoneNumberTestField = PhoneNumber.From(phoneNumber),
             DateTimeScheduleTestField = DateTimeSchedule.From(cronJobExpression),
         };
-        var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
+        var temperatureCelsius = newItem.TemperatureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
 
@@ -195,6 +212,8 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.TimeZoneCodeTestField!.Value.Should().Be("UTC");
         testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
         testEntity.UrlTestField!.Value.AbsoluteUri.Should().Be(url);
+        testEntity.UserTestField!.Value.Should().Be(email);
+        testEntity.GuidTestField!.Value.Should().Be(guid);
         testEntity.HashedTextTestField!.HashText.Should().Be(newItem.HashedTextTestField?.HashText);
         testEntity.HashedTextTestField!.Salt.Should().Be(newItem.HashedTextTestField?.Salt);
         testEntity.PasswordTestField!.HashedPassword.Should().Be(newItem.PasswordTestField.HashedPassword);
@@ -211,9 +230,9 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.BooleanTestField!.Value.Should().Be(boolean);
         testEntity.EmailTestField!.Value.Should().Be(email);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
-        testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
-        testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
-        testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
+        testEntity.TemperatureTestField!.Value.Should().Be(temperatureCelsius);
+        testEntity.TemperatureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
+        testEntity.TemperatureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
         testEntity.EncryptedTextTestField!.DecryptText(encryptedTextTypeOptions).Should().Be(text);
         testEntity.ColorTestField!.Value.Should().Equal(color);
         testEntity.PercentageTestField!.Value.Should().Be(percentage);
@@ -236,6 +255,15 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
         testEntity.DateTimeRangeTestField!.Start.Should().Be(dateTimeRangeStart);
         testEntity.DateTimeRangeTestField!.End.Should().Be(dateTimeRangeEnd);
+        testEntity.DateTimeRangeTestField!.Start.ToString().Should().Be(dateTimeRangeStart.ToString());
+        testEntity.DateTimeRangeTestField!.End.ToString().Should().Be(dateTimeRangeEnd.ToString());
+        testEntity.DateTimeRangeTestField.StartTimeZoneOffset.Should().Be(dateTimeRangeStart.Offset);
+        testEntity.DateTimeRangeTestField.EndTimeZoneOffset.Should().Be(dateTimeRangeEnd.Offset);
+        testEntity.HtmlTestField!.Value.Should().Be(html);
+        testEntity.ImageTestField!.Url.Should().Be(imageUrl);
+        testEntity.ImageTestField!.PrettyName.Should().Be(imagePrettyName);
+        testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
+        testEntity.PhoneNumberTestField!.Value.Should().Be(phoneNumber);
         testEntity.DateTimeScheduleTestField!.Value.Should().Be(cronJobExpression);
     }
 }

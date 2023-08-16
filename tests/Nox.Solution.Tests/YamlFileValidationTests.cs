@@ -47,7 +47,7 @@ public class YamlFileValidationTests
         Assert.Contains("[\"name\"]", exception.Message);
         Assert.Contains("[\"serverUri\"]", exception.Message);
         Assert.Contains("dataConnection", exception.Message);
-        Assert.Equal(19, errorCount);
+        Assert.Equal(20, errorCount);
     }
 
     [Theory]
@@ -109,7 +109,7 @@ public class YamlFileValidationTests
         var errors = exception.Errors.ToArray();
 
         errors.Length.Should().Be(1);
-        errors[0].ErrorMessage.Should().Be("Entity Currency: Key Id should not be Compound type.", errors[0].ErrorMessage);
+        errors[0].ErrorMessage.Should().Be("Entity Currency: Key Id cannot be Compound type.", errors[0].ErrorMessage);
     }
 
     [Fact]

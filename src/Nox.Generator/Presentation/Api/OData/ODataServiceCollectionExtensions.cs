@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
@@ -18,9 +19,17 @@ internal class ODataServiceCollectionExtensions : INoxCodeGenerator
             return;
         }
 
+        var hasKeyForCompoundKeys = "";
+        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
+        {           
+            hasKeyForCompoundKeys += $"builder.EntityType<{entity.Name}Dto>().HasKey(e => new {{{string.Join(",", entity.Keys.Select(k => $" e.{k.Name}"))} }});\n";
+        }
+
         var templateName = @"Presentation.Api.OData.ODataServiceCollectionExtensions";
 
         new TemplateCodeBuilder(context, codeGeneratorState)
+            .WithObject("hasKeyForCompoundKeys", hasKeyForCompoundKeys)
             .GenerateSourceCodeFromResource(templateName);
+
     }
 }
