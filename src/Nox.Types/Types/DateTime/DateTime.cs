@@ -51,6 +51,7 @@ public sealed class DateTime : ValueObject<DateTimeOffset, DateTime>
         {
             Value = dateTime,
             _dateTimeTypeOptions = options,
+            DateTimeValue = dateTime,
             TimeZoneOffset = dateTime.Offset
         };
 
