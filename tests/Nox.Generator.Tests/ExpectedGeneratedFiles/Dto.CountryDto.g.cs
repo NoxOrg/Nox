@@ -102,5 +102,6 @@ public partial class CountryDto
     /// The top level internet domains regitered to the country (comma-delimited) (Optional).
     /// </summary>
     public System.String? TopLevelDomains { get; set; } 
-    public bool? Deleted { get; set; }
+
+    public bool? IsDeleted { get; set; }
 }
