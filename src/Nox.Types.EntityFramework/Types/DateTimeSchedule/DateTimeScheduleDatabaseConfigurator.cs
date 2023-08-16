@@ -21,9 +21,4 @@ public class DateTimeScheduleDatabaseConfigurator : INoxTypeDatabaseConfigurator
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
-
-    public virtual string? GetColumnType()
-    {
-        return null;
-    }
 }
