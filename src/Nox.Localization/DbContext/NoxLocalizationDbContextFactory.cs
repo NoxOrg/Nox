@@ -1,6 +1,5 @@
 using Microsoft.EntityFrameworkCore.Design;
 using Nox.Abstractions;
-using Nox.Abstractions.Localization;
 using Nox.Types.EntityFramework.Abstractions;
 
 namespace Nox.Localization.DbContext;

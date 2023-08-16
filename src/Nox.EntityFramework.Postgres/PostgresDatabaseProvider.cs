@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Enums;
 using Npgsql;
 
 namespace Nox.EntityFramework.Postgres;
@@ -8,9 +9,14 @@ namespace Nox.EntityFramework.Postgres;
 public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProvider 
 {
     private string _connectionString = string.Empty;
+    
+    private readonly NoxDataStoreType _storeType;
 
-    public PostgresDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators) : base(configurators, typeof(IPostgresNoxTypeDatabaseConfigurator))
+    public NoxDataStoreType StoreType => _storeType;
+
+    public PostgresDatabaseProvider(NoxDataStoreType storeType, IEnumerable<INoxTypeDatabaseConfigurator> configurators) : base(configurators, typeof(IPostgresNoxTypeDatabaseConfigurator))
     {
+        _storeType = storeType;
     }
 
     public string ConnectionString

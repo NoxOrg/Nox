@@ -17,11 +17,13 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
     // Schema: 'i10n'
     public DbSet<Translation> Translations { get; set; } = default!;
 
+    //This constructor is used at design time for migrations.
     public NoxLocalizationDbContext(DbContextOptions<NoxLocalizationDbContext> options): base(options)
     {
         
     }
     
+    //This is the runtime constructor
     public NoxLocalizationDbContext(
         INoxDatabaseProvider databaseProvider,
         INoxClientAssemblyProvider? clientAssemblyProvider = null
@@ -33,8 +35,6 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        base.OnConfiguring(optionsBuilder);
-
         if (NoxSolutionBuilder.Instance != null)
         {
             var appName = NoxSolutionBuilder.Instance.Name;
@@ -65,6 +65,7 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
                 _databaseProvider!.ConfigureDbContext(optionsBuilder, appName, dbServer, migrationsAssembly);
             }
         }
+        base.OnConfiguring(optionsBuilder);
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

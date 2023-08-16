@@ -1,6 +1,6 @@
 using Microsoft.Extensions.DependencyInjection;
 
-namespace Nox.Abstractions.Localization;
+namespace Nox.Abstractions;
 
 public class NoxLocalizationOptionsBuilder
 {

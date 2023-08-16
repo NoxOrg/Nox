@@ -2,6 +2,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Enums;
 
 namespace Nox.EntityFramework.SqlServer;
 
@@ -9,15 +10,21 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
 {
     private string _connectionString = string.Empty;
 
+    private readonly NoxDataStoreType _storeType;
+
+    public NoxDataStoreType StoreType => _storeType;
+
     public string ConnectionString
     {
         get => _connectionString;
         set => SetConnectionString(value);
     }
     
-    public SqlServerDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators): base(configurators, typeof(ISqlServerNoxTypeDatabaseConfigurator))
+    public SqlServerDatabaseProvider(NoxDataStoreType storeType, IEnumerable<INoxTypeDatabaseConfigurator> configurators): base(configurators, typeof(ISqlServerNoxTypeDatabaseConfigurator))
     {
+        _storeType = storeType;
     }
+    
 
     public DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer, string? migrationsAssembly = null)
     {
