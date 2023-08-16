@@ -16,9 +16,9 @@ public class DayOfWeekTests
 
     [Theory]
     [InlineData(-6)]
-    [InlineData((-1))]
-    [InlineData((-4))]
-    public void DayOfWeek_Constructor_WithValueLess_ThanMinimiunSpecified_ThrowsValidationException(int value)
+    [InlineData(-1)]
+    [InlineData(-4)]
+    public void DayOfWeek_Constructor_WithValueLess_ThanMinimumSpecified_ThrowsValidationException(int value)
     {
         // Arrange & Act
         var action = () => DayOfWeek.From(value);
@@ -31,7 +31,7 @@ public class DayOfWeekTests
     [InlineData(7)]
     [InlineData(10)]
     [InlineData(20)]
-    public void DayOfWeek_Constructor_WithValueGreater_ThanMaximunSpecified_ThrowsValidationException(int value)
+    public void DayOfWeek_Constructor_WithValueGreater_ThanMaximumSpecified_ThrowsValidationException(int value)
     {
         // Arrange & Act
         var action = () => DayOfWeek.From(value);
@@ -46,22 +46,22 @@ public class DayOfWeekTests
         // Arrange
         var dayOfWeek1 = DayOfWeek.From(1);
 
-        var DayOfWeek2 = DayOfWeek.From(1);
+        var dayOfWeek2 = DayOfWeek.From(1);
 
         // Assert
-        dayOfWeek1.Should().Be(DayOfWeek2);
+        dayOfWeek1.Should().Be(dayOfWeek2);
     }
 
     [Fact]
     public void DayOfWeek_NotEqual_Tests()
     {
         // Arrange
-        var DayOfWeek1 = DayOfWeek.From(1);
+        var dayOfWeek1 = DayOfWeek.From(1);
 
-        var DayOfWeek2 = DayOfWeek.From(2);
+        var dayOfWeek2 = DayOfWeek.From(2);
 
         // Assert
-        DayOfWeek1.Should().NotBe(DayOfWeek2);
+        dayOfWeek1.Should().NotBe(dayOfWeek2);
     }
 
 
@@ -76,14 +76,14 @@ public class DayOfWeekTests
         dayOfWeek.ToString().Should().Be("Monday");
         dayOfWeek2.ToString().Should().Be("Tuesday");
     }
-    
-    
+
+
     [Fact]
     public void DayOfWeek_ToWeekDay_Tests()
     {
         // Arrange
         var dayOfWeek = DayOfWeek.From(1);
-        
+
         // Assert
         dayOfWeek.ToWeekDay().Should().Be(System.DayOfWeek.Monday);
     }
