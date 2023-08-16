@@ -31,6 +31,10 @@ public static class NoxWebApplicationBuilderExtension
         );
         appBuilder.Services.AddDbContext<TestWebAppDbContext>();
         appBuilder.Services.AddDbContext<ODataDbContext>();
+        appBuilder.UseNoxLocalization(opt =>
+        {
+            opt.WithSqlServerStore();
+        });
         return appBuilder;
     }
     
