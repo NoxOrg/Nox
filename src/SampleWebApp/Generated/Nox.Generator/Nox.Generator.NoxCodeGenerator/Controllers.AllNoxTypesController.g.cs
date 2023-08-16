@@ -80,6 +80,57 @@ public partial class AllNoxTypesController : ODataController
         return Created(createdKey);
     }
     
+    public async Task<ActionResult> Put([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId, [FromBody] AllNoxTypeUpdateDto allNoxType)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var updated = await _mediator.Send(new UpdateAllNoxTypeCommand(keyId, keyTextId, allNoxType));
+        
+        if (!updated)
+        {
+            return NotFound();
+        }
+        return Updated(allNoxType);
+    }
+    
+    public async Task<ActionResult> Patch([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId, [FromBody] Delta<AllNoxTypeUpdateDto> allNoxType)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var updateProperties = new Dictionary<string, dynamic>();
+        var deletedProperties = new List<string>();
+
+        foreach (var propertyName in allNoxType.GetChangedPropertyNames())
+        {
+            if(allNoxType.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }
+            else
+            {
+                deletedProperties.Add(propertyName);
+            }
+        }
+        
+        var updated = await _mediator.Send(new PartialUpdateAllNoxTypeCommand(keyId, keyTextId, updateProperties, deletedProperties));
+        
+        if (!updated)
+        {
+            return NotFound();
+        }
+        return Updated(allNoxType);
+    }
+    
+    private bool AllNoxTypeExists(System.Int64 key)
+    {
+        return _databaseContext.AllNoxTypes.Any(p => p.Id == key);
+    }
+    
     public async Task<ActionResult> Delete([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId)
     {
         var result = await _mediator.Send(new DeleteAllNoxTypeByIdCommand(keyId, keyTextId));

@@ -14,7 +14,7 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateCountryLocalNamesCommand(System.String key, CountryLocalNamesUpdateDto EntityDto) : IRequest<bool>;
+public record UpdateCountryLocalNamesCommand(System.String keyId, CountryLocalNamesUpdateDto EntityDto) : IRequest<bool>;
 
 public class UpdateCountryLocalNamesCommandHandler: CommandBase, IRequestHandler<UpdateCountryLocalNamesCommand, bool>
 {
@@ -33,7 +33,9 @@ public class UpdateCountryLocalNamesCommandHandler: CommandBase, IRequestHandler
     
     public async Task<bool> Handle(UpdateCountryLocalNamesCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.CountryLocalNames.FindAsync(CreateNoxTypeForKey<CountryLocalNames,Text>("Id", request.key));
+        var keyId = CreateNoxTypeForKey<CountryLocalNames,Text>("Id", request.keyId);
+    
+        var entity = await DbContext.CountryLocalNames.FindAsync(keyId);
         if (entity == null)
         {
             return false;

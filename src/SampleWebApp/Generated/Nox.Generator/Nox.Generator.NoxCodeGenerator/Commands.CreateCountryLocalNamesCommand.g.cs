@@ -8,7 +8,6 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Types;
 using Nox.Application;
 using Nox.Factories;
-using Nox.Solution.Extensions;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
