@@ -186,7 +186,7 @@ internal class ApiGenerator : INoxCodeGenerator
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand({primaryKeysQuery(entity)}));");
+        code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand({PrimaryKeysQuery(entity)}));");
 
         code.AppendLine($"if (!result)");
         code.StartBlock();
@@ -211,7 +211,7 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();        
-        code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({primaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}));");
+        code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({PrimaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}));");
         code.AppendLine();
         
         code.AppendLine($"if (!updated)");
@@ -251,7 +251,7 @@ internal class ApiGenerator : INoxCodeGenerator
             }}
         }}");
         code.AppendLine();
-        code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({primaryKeysQuery(entity)}, updateProperties, deletedProperties));");
+        code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties, deletedProperties));");
         code.AppendLine();
 
         code.AppendLine($"if (!updated)");
@@ -324,7 +324,7 @@ internal class ApiGenerator : INoxCodeGenerator
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({primaryKeysQuery(entity)}));");
+        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity)}));");
         code.AppendLine();
         code.AppendLine($"if (item == null)");
         code.StartBlock();
@@ -363,7 +363,7 @@ internal class ApiGenerator : INoxCodeGenerator
         return "";
     }
 
-    private static string primaryKeysQuery(Entity entity)
+    private static string PrimaryKeysQuery(Entity entity)
     {
         return entity.Keys.Count() > 1 ?
             string.Join(", ", entity.Keys.Select(k => $"key{k.Name}")) :

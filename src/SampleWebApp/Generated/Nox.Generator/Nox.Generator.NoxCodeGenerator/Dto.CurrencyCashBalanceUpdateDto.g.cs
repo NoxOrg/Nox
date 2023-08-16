@@ -5,6 +5,7 @@
 using Nox.Abstractions;
 using Nox.Types;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SampleWebApp.Application.Dto; 
 
@@ -17,6 +18,8 @@ public partial class CurrencyCashBalanceUpdateDto
     /// <summary>
     /// The amount (Required).
     /// </summary>
+    [Required(ErrorMessage = "Amount is required")]
+    
     public MoneyDto Amount { get; set; } = default!;
     /// <summary>
     /// The Operation Limit (Optional).
