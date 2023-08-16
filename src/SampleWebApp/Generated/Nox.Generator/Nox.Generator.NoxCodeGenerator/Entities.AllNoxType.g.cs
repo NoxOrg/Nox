@@ -59,6 +59,11 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.CurrencyCode3? CurrencyCode3Field { get; set; } = null!;
 
     /// <summary>
+    /// DatetimeField Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.DateTime? DateTimeField { get; set; } = null!;
+
+    /// <summary>
     /// Formula Nox Type (Optional).
     /// </summary>
     public string? FormulaField => CountryCode2Field.ToString();

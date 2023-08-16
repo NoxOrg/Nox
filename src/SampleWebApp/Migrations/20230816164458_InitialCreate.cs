@@ -25,6 +25,8 @@ namespace SampleWebApp.Migrations
                     CountryNumberField = table.Column<short>(type: "smallint", nullable: true),
                     CultureCodeField = table.Column<string>(type: "varchar(10)", unicode: false, maxLength: 10, nullable: true),
                     CurrencyCode3Field = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
+                    DateTimeField_DateTimeValue = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DateTimeField_TimeZoneOffset = table.Column<TimeSpan>(type: "time", nullable: true),
                     HtmlField = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MarkdownField = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     YamlField = table.Column<string>(type: "varchar(max)", unicode: false, nullable: true),

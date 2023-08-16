@@ -503,6 +503,28 @@ namespace SampleWebApp.Migrations
 
             modelBuilder.Entity("SampleWebApp.Domain.AllNoxType", b =>
                 {
+                    b.OwnsOne("Nox.Types.DateTime", "DateTimeField", b1 =>
+                        {
+                            b1.Property<long>("AllNoxTypeId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("AllNoxTypeTextId")
+                                .HasColumnType("nvarchar(255)");
+
+                            b1.Property<DateTime>("DateTimeValue")
+                                .HasColumnType("datetime2");
+
+                            b1.Property<TimeSpan>("TimeZoneOffset")
+                                .HasColumnType("time");
+
+                            b1.HasKey("AllNoxTypeId", "AllNoxTypeTextId");
+
+                            b1.ToTable("AllNoxTypes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AllNoxTypeId", "AllNoxTypeTextId");
+                        });
+
                     b.OwnsOne("Nox.Types.File", "FileField", b1 =>
                         {
                             b1.Property<long>("AllNoxTypeId")
@@ -733,6 +755,8 @@ namespace SampleWebApp.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("AllNoxTypeId", "AllNoxTypeTextId");
                         });
+
+                    b.Navigation("DateTimeField");
 
                     b.Navigation("FileField");
 
