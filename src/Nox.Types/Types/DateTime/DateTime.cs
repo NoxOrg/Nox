@@ -90,7 +90,7 @@ public sealed class DateTime : ValueObject<DateTimeOffset, DateTime>
         var result = base.Validate();
 
         // validate date by options
-        if (_dateTimeTypeOptions.AllowFutureOnly && TrimDateForCompare(Value) < TrimDateForCompare(DateTimeOffset.UtcNow.ToOffset(TimeZoneOffset)))
+        if (_dateTimeTypeOptions.AllowFutureOnly && TrimDateForComparison(Value) < TrimDateForComparison(DateTimeOffset.UtcNow.ToOffset(TimeZoneOffset)))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DateTime type as value {Value} is in the past"));
         }
@@ -193,7 +193,7 @@ public sealed class DateTime : ValueObject<DateTimeOffset, DateTime>
         return Value.ToString(format, formatProvider);
     }
 
-    private System.DateTime TrimDateForCompare(DateTimeOffset dateTime)
+    private System.DateTime TrimDateForComparison(DateTimeOffset dateTime)
     {
         return new System.DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, DateTimeKind.Unspecified);
     }
