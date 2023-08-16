@@ -309,5 +309,21 @@ public class DateTimeTests
 
         (datetime.Equals(datetime2)).Should().BeFalse();
     }
+
+    [Fact]
+    public void From_WithTimeSpan_ReturnsValue()
+    {
+        var datetimeParam = new System.DateTime(2023, 5, 1, 3, 0, 0, DateTimeKind.Unspecified);
+        var datetimeExpected = new DateTimeOffset(datetimeParam, TimeSpan.Zero);
+        var datetime = DateTime.From(datetimeParam, TimeSpan.FromHours(5));
+
+        datetime.DateTimeValue.Year.Should().Be(datetimeExpected.Year);
+        datetime.DateTimeValue.Month.Should().Be(datetimeExpected.Month);
+        datetime.DateTimeValue.Day.Should().Be(datetimeExpected.Day);
+        datetime.DateTimeValue.Hour.Should().Be(datetimeExpected.Hour);
+        datetime.DateTimeValue.Minute.Should().Be(datetimeExpected.Minute);
+        datetime.DateTimeValue.Second.Should().Be(datetimeExpected.Second);
+        datetime.TimeZoneOffset.Should().Be(TimeSpan.FromHours(5));
+    }
 }
 

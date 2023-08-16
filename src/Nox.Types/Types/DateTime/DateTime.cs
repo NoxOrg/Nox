@@ -33,11 +33,28 @@ public sealed class DateTime : ValueObject<DateTimeOffset, DateTime>
     /// Creates <see cref="DateTime"/> object from sent <see cref="System.DateTime"/>
     /// </summary>
     /// <param name="dateTime"></param>
+    /// <param name="options"></param>
     /// <returns>New <see cref="DateTime"/> object</returns>
-    public static DateTime From(System.DateTime dateTime) => From(new DateTimeOffset(dateTime), new DateTimeTypeOptions());
+    public static DateTime From(System.DateTime dateTime, DateTimeTypeOptions? options = null)
+    {
+        options ??= new DateTimeTypeOptions();
+        return From(new DateTimeOffset(dateTime), options);
+    }
 
-    /// <inheritdoc cref="From(DateTimeOffset ,Nox.Types.DateTimeTypeOptions)"/>
-    public new static DateTime From(DateTimeOffset dateTime) => From(dateTime, new DateTimeTypeOptions());
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="dateTime"></param>
+    /// <param name="timespan"></param>
+    /// <param name="options"></param>
+    /// <returns></returns>
+    /// <exception cref="TypeValidationException"></exception>
+    public static DateTime From(System.DateTime dateTime, TimeSpan timespan, DateTimeTypeOptions? options = null)
+    {
+        options ??= new DateTimeTypeOptions();
+        var datetimeoffset = new DateTimeOffset(dateTime, timespan);
+        return From(datetimeoffset, options);
+    }
 
     /// <summary>
     /// Creates and validates a new instance of <see cref="DateTime"/> from parsed value of <paramref name="dateTime"/>.
@@ -45,8 +62,9 @@ public sealed class DateTime : ValueObject<DateTimeOffset, DateTime>
     /// <param name="dateTime"></param>
     /// <param name="options"></param>
     /// <returns>New <see cref="DateTime"/> object from parsed value of <paramref name="dateTime"/>.</returns>
-    public static DateTime From(DateTimeOffset dateTime, DateTimeTypeOptions options)
+    public static DateTime From(DateTimeOffset dateTime, DateTimeTypeOptions? options = null)
     {
+        options ??= new DateTimeTypeOptions();
         var newObject = new DateTime
         {
             Value = dateTime,
