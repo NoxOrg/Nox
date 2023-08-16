@@ -26,6 +26,7 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
 
         // Namespace
         code.AppendLine(@"using Microsoft.EntityFrameworkCore;");
+        code.AppendLine(@"using Nox;");
         code.AppendLine(@"using Nox.Solution;");
         code.AppendLine(@"using Nox.Types.EntityFramework.Abstractions;");
         code.AppendLine(@$"using {codeGeneratorState.ApplicationNameSpace}.Dto;");
@@ -45,6 +46,7 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
 
         AddField(code, "NoxSolution", "noxSolution", "The Nox solution configuration");
         AddField(code, "INoxDatabaseProvider", "dbProvider", "The database provider");
+        AddField(code, "INoxClientAssemblyProvider", "clientAssemblyProvider", "");
 
         // Constructor content
 
@@ -53,11 +55,13 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
         code.AppendLine($"public {dbContextName}(");
         code.AppendLine($"    DbContextOptions<{dbContextName}> options,");
         code.AppendLine("    NoxSolution noxSolution,");
-        code.AppendLine("    INoxDatabaseProvider databaseProvider");
+        code.AppendLine("    INoxDatabaseProvider databaseProvider,");
+        code.AppendLine("    INoxClientAssemblyProvider clientAssemblyProvider");
         code.AppendLine(") : base(options)");
         code.StartBlock();
         code.AppendLine("_noxSolution = noxSolution;");
         code.AppendLine("_dbProvider = databaseProvider;");
+        code.AppendLine("_clientAssemblyProvider = clientAssemblyProvider;");
         code.EndBlock();
         code.AppendLine();
 
@@ -69,8 +73,50 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
 
         AddDbContextOnConfiguring(code, codeGeneratorState);
 
+        AddOnModelCreating(solution, code);
+
+        code.EndBlock();
+
         code.EndBlock();
 
         code.GenerateSourceCode();
     }
+
+    private static void AddOnModelCreating(NoxSolution solution, CodeBuilder code)
+    {
+        code.AppendLine(@$" protected override void OnModelCreating(ModelBuilder modelBuilder)");
+        code.StartBlock();
+        code.AppendLine(@$"base.OnModelCreating(modelBuilder);");
+
+        foreach (var entity in solution.Domain!.Entities)
+        {
+            code.StartBlock();
+            code.AppendLine($"var type = typeof({entity.Name}Dto);");
+            code.AppendLine($"var builder = modelBuilder.Entity(type!);");
+            code.AppendLine();
+            foreach (var key in entity.Keys!)
+            {
+                {
+                    code.AppendLine($"builder.HasKey(\"{key.Name}\");");
+
+                }
+            }
+            code.EndBlock();
+        }
+    }
+
+    internal static void AddDbContextOnConfiguring(CodeBuilder code, NoxSolutionCodeGeneratorState codeGeneratorState)
+    {
+        code.AppendLine("protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)");
+        code.StartBlock();
+        code.AppendLine("base.OnConfiguring(optionsBuilder);");
+        code.AppendLine("if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })");
+        code.StartBlock();
+        code.AppendLine($"_dbProvider.ConfigureDbContext(optionsBuilder, \"{codeGeneratorState.Solution.Name}\", _noxSolution.Infrastructure!.Persistence.DatabaseServer); ");
+        code.EndBlock();
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+
 }

@@ -37,7 +37,7 @@
 		<PackageReference Include="Swashbuckle.AspNetCore.Annotations" Version="6.5.0" />
 		<PackageReference Include="AutoMapper" Version="12.0.1" />
 		<PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
-		<PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.OData" Version="8.2.1" />
 		<PackageReference Include="Microsoft.OData.ModelBuilder" Version="1.0.9" />
 	</ItemGroup>
 

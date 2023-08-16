@@ -21,8 +21,12 @@ namespace SampleWebApp.Migrations
                     NuidField = table.Column<long>(type: "bigint", nullable: true),
                     BooleanField = table.Column<bool>(type: "bit", nullable: true),
                     CountryCode2Field = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
-                    CountryCode3Field = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
+                    CountryCode3Field = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
                     CountryNumberField = table.Column<short>(type: "smallint", nullable: true),
+                    CultureCodeField = table.Column<string>(type: "varchar(10)", unicode: false, maxLength: 10, nullable: true),
+                    CurrencyCode3Field = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
+                    HtmlField = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    MarkdownField = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     YamlField = table.Column<string>(type: "varchar(max)", unicode: false, nullable: true),
                     WeightField = table.Column<decimal>(type: "DECIMAL(9,6)", nullable: true),
                     VolumeField = table.Column<decimal>(type: "DECIMAL(9,6)", nullable: true),
@@ -44,8 +48,8 @@ namespace SampleWebApp.Migrations
                     StreetAddressField_AdministrativeArea2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StreetAddressField_PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StreetAddressField_CountryId = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FileField_Url = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    FileField_PrettyName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    FileField_Url = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: true),
+                    FileField_PrettyName = table.Column<string>(type: "nvarchar(511)", maxLength: 511, nullable: true),
                     FileField_SizeInBytes = table.Column<decimal>(type: "decimal(20,0)", nullable: true),
                     TranslatedTextField_Phrase = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TranslatedTextField_CultureCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -59,6 +63,7 @@ namespace SampleWebApp.Migrations
                     HashedTexField_Salt = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     LatLongField_Latitude = table.Column<decimal>(type: "decimal(8,6)", precision: 8, scale: 6, nullable: true),
                     LatLongField_Longitude = table.Column<decimal>(type: "decimal(9,6)", precision: 9, scale: 6, nullable: true),
+                    EncryptedTextField = table.Column<byte[]>(type: "varbinary(max)", unicode: false, nullable: true),
                     CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
@@ -189,6 +194,40 @@ namespace SampleWebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "CurrencyCashBalances",
+                columns: table => new
+                {
+                    StoreId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
+                    CurrencyId = table.Column<long>(type: "bigint", nullable: false),
+                    Amount_Amount = table.Column<decimal>(type: "decimal(15,5)", nullable: false),
+                    Amount_CurrencyCode = table.Column<int>(type: "int", nullable: false),
+                    OperationLimit = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
+                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DeletedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Deleted = table.Column<bool>(type: "bit", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CurrencyCashBalances", x => new { x.StoreId, x.CurrencyId });
+                    table.ForeignKey(
+                        name: "FK_CurrencyCashBalances_Currencies_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currencies",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_CurrencyCashBalances_Stores_StoreId",
+                        column: x => x.StoreId,
+                        principalTable: "Stores",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "StoreSecurityPasswords",
                 columns: table => new
                 {
@@ -220,6 +259,18 @@ namespace SampleWebApp.Migrations
                 column: "CurrenciesId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_CurrencyCashBalances_CurrencyId",
+                table: "CurrencyCashBalances",
+                column: "CurrencyId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CurrencyCashBalances_StoreId",
+                table: "CurrencyCashBalances",
+                column: "StoreId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_StoreSecurityPasswords_StoreId",
                 table: "StoreSecurityPasswords",
                 column: "StoreId",
@@ -238,6 +289,9 @@ namespace SampleWebApp.Migrations
 
             migrationBuilder.DropTable(
                 name: "CountryLocalNames");
+
+            migrationBuilder.DropTable(
+                name: "CurrencyCashBalances");
 
             migrationBuilder.DropTable(
                 name: "StoreSecurityPasswords");

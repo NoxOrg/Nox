@@ -5,6 +5,7 @@ using System.Globalization;
 using System.Text.Json;
 using TestWebApp.Domain;
 using DayOfWeek = Nox.Types.DayOfWeek;
+using Guid = Nox.Types.Guid;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
 
@@ -25,7 +26,6 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         // imageJpg
         // imageSvg
         // object
-        // user
         // cultureCode
         // languageCode
         // yaml
@@ -56,6 +56,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var cultureCode = "de-CH";
         var macAddress = "A1B2C3D4E5F6";
         var url = "http://example.com/";
+        var guid = System.Guid.NewGuid();
         var password = "Test123.";
         var dayOfWeek = 1;
         byte month = 7;
@@ -103,7 +104,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var length = 314_598M;
         var persistLengthUnitAs = LengthTypeUnit.Meter;
         var sampleUri = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
-        var dateTime = new DateTimeOffset(2023, 4, 12, 0, 0, 0, TimeSpan.FromHours(3));
+        var phoneNumber = "38761000000";
+		var dateTime = new DateTimeOffset(2023, 4, 12, 0, 0, 0, TimeSpan.FromHours(3));
 
         var jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
@@ -115,6 +117,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
 
         var dateTimeRangeStart = new DateTimeOffset(2023, 4, 12, 0, 0, 0, TimeSpan.FromHours(3));
         var dateTimeRangeEnd = new DateTimeOffset(2023, 7, 10, 0, 0, 0, TimeSpan.FromHours(5));
+        var cronJobExpression = "0 0 12 ? * 2,3,4,5,6 *";
 
         var html = @"
 <html>
@@ -149,6 +152,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             TimeZoneCodeTestField = TimeZoneCode.From("utc"),
             MacAddressTestField = MacAddress.From(macAddress),
             UrlTestField = Url.From(url),
+            UserTestField = User.From(email),
+            GuidTestField = Guid.From(guid),
             HashedTextTestField = HashedText.From(text),
             PasswordTestField = Password.From(password),
             DayOfWeekTestField = DayOfWeek.From(1),
@@ -164,7 +169,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             VatNumberTestField = VatNumber.From(vatNumberValue, vatNumberCountryCode2),
             ColorTestField = Color.From(color),
             PercentageTestField = Percentage.From(percentage),
-            TempratureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
+            TemperatureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
             DateTestField = Date.From(date),
             FileTestField = Types.File.From(fileUrl, fileName, fileSizeInBytes),
@@ -179,9 +184,9 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             DateTimeRangeTestField = DateTimeRange.From(dateTimeRangeStart, dateTimeRangeEnd),
             HtmlTestField = Html.From(html),
             ImageTestField = Image.From(imageUrl, imagePrettyName, imageSizeInBytes),
-            DateTimeTestField = Types.DateTime.From(dateTime),
+            PhoneNumberTestField = PhoneNumber.From(phoneNumber),
         };
-        var temperatureCelsius = newItem.TempratureTestField.ToCelsius();
+        var temperatureCelsius = newItem.TemperatureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
         DbContext.SaveChanges();
 
@@ -213,6 +218,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.TimeZoneCodeTestField!.Value.Should().Be("UTC");
         testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
         testEntity.UrlTestField!.Value.AbsoluteUri.Should().Be(url);
+        testEntity.UserTestField!.Value.Should().Be(email);
+        testEntity.GuidTestField!.Value.Should().Be(guid);
         testEntity.HashedTextTestField!.HashText.Should().Be(newItem.HashedTextTestField?.HashText);
         testEntity.HashedTextTestField!.Salt.Should().Be(newItem.HashedTextTestField?.Salt);
         testEntity.PasswordTestField!.HashedPassword.Should().Be(newItem.PasswordTestField.HashedPassword);
@@ -235,9 +242,9 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.ColorTestField!.Value.Should().Equal(color);
         testEntity.PercentageTestField!.Value.Should().Be(percentage);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
-        testEntity.TempratureTestField!.Value.Should().Be(temperatureCelsius);
-        testEntity.TempratureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
-        testEntity.TempratureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
+        testEntity.TemperatureTestField!.Value.Should().Be(temperatureCelsius);
+        testEntity.TemperatureTestField!.ToFahrenheit().Should().Be(temperatureFahrenheit);
+        testEntity.TemperatureTestField!.Unit.Should().Be(temperaturePersistUnitAs);
         testEntity.EncryptedTextTestField!.DecryptText(encryptedTextTypeOptions).Should().Be(text);
         testEntity.DateTestField!.Value.Should().Be(date);
         testEntity.FileTestField!.Value.Url.Should().Be(fileUrl);
@@ -267,7 +274,9 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.ImageTestField!.Url.Should().Be(imageUrl);
         testEntity.ImageTestField!.PrettyName.Should().Be(imagePrettyName);
         testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
-        testEntity.DateTimeTestField!.ToString().Should().Be(dateTime.ToString(CultureInfo.InvariantCulture));
+        testEntity.PhoneNumberTestField!.Value.Should().Be(phoneNumber);
+        testEntity.DateTimeScheduleTestField!.Value.Should().Be(cronJobExpression);
+		testEntity.DateTimeTestField!.ToString().Should().Be(dateTime.ToString(CultureInfo.InvariantCulture));
         testEntity.DateTimeTestField!.TimeZoneOffset.Should().Be(dateTime.Offset);
     }
 

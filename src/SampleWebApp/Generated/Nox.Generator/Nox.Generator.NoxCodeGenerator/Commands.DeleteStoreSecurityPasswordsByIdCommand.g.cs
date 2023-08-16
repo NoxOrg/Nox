@@ -12,7 +12,7 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteStoreSecurityPasswordsByIdCommand(System.String key) : IRequest<bool>;
+public record DeleteStoreSecurityPasswordsByIdCommand(System.String keyId) : IRequest<bool>;
 
 public class DeleteStoreSecurityPasswordsByIdCommandHandler: CommandBase, IRequestHandler<DeleteStoreSecurityPasswordsByIdCommand, bool>
 {
@@ -28,8 +28,9 @@ public class DeleteStoreSecurityPasswordsByIdCommandHandler: CommandBase, IReque
 
     public async Task<bool> Handle(DeleteStoreSecurityPasswordsByIdCommand request, CancellationToken cancellationToken)
     {
-        var key = CreateNoxTypeForKey<StoreSecurityPasswords,Text>("Id", request.key);
-        var entity = await DbContext.StoreSecurityPasswords.FindAsync(key);
+        var keyId = CreateNoxTypeForKey<StoreSecurityPasswords,Text>("Id", request.keyId);
+
+        var entity = await DbContext.StoreSecurityPasswords.FindAsync(keyId);
         if (entity == null || entity.Deleted == true)
         {
             return false;

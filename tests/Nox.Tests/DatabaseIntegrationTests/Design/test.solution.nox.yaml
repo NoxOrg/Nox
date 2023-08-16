@@ -841,8 +841,8 @@ domain:
         - name: EncryptedTextTestField
           type: encryptedText
 
-        #- name: GuidTestField
-        #  type: guid
+        - name: GuidTestField
+          type: guid
 
         - name: HashedTextTestField
           type: hashedText
@@ -877,12 +877,11 @@ domain:
         - name: PercentageTestField
           type: percentage
 
-        #- name: PhoneNumberTestField
-        #  type: phoneNumber
+        - name: PhoneNumberTestField
+          type: phoneNumber
 
-        - name: TempratureTestField
+        - name: TemperatureTestField
           type: temperature
-  
 
         - name: TranslatedTextTestField
           type: translatedText
@@ -931,6 +930,12 @@ domain:
 
         - name: UrlTestField
           type: url
+        
+        - name: DateTimeScheduleTestField
+          type: dateTimeSchedule
+
+        - name: UserTestField
+          type: user
 
         - name: FormulaTestField
           type: formula

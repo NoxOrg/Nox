@@ -12,7 +12,7 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteCountryByIdCommand(System.String key) : IRequest<bool>;
+public record DeleteCountryByIdCommand(System.String keyId) : IRequest<bool>;
 
 public class DeleteCountryByIdCommandHandler: CommandBase, IRequestHandler<DeleteCountryByIdCommand, bool>
 {
@@ -28,8 +28,9 @@ public class DeleteCountryByIdCommandHandler: CommandBase, IRequestHandler<Delet
 
     public async Task<bool> Handle(DeleteCountryByIdCommand request, CancellationToken cancellationToken)
     {
-        var key = CreateNoxTypeForKey<Country,Text>("Id", request.key);
-        var entity = await DbContext.Countries.FindAsync(key);
+        var keyId = CreateNoxTypeForKey<Country,Text>("Id", request.keyId);
+
+        var entity = await DbContext.Countries.FindAsync(keyId);
         if (entity == null || entity.Deleted == true)
         {
             return false;

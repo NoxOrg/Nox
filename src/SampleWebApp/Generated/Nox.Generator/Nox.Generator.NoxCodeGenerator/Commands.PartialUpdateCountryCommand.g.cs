@@ -14,7 +14,7 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateCountryCommand(System.String key, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<bool>;
+public record PartialUpdateCountryCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<bool>;
 
 public class PartialUpdateCountryCommandHandler: CommandBase, IRequestHandler<PartialUpdateCountryCommand, bool>
 {
@@ -33,7 +33,9 @@ public class PartialUpdateCountryCommandHandler: CommandBase, IRequestHandler<Pa
     
     public async Task<bool> Handle(PartialUpdateCountryCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.Countries.FindAsync(CreateNoxTypeForKey<Country,Text>("Id", request.key));
+        var keyId = CreateNoxTypeForKey<Country,Text>("Id", request.keyId);
+    
+        var entity = await DbContext.Countries.FindAsync(keyId);
         if (entity == null)
         {
             return false;

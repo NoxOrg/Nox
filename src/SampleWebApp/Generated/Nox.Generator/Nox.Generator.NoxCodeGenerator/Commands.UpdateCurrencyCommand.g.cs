@@ -12,10 +12,9 @@ using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
 
-
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateCurrencyCommand(System.UInt32 key, CurrencyUpdateDto EntityDto) : IRequest<bool>;
+public record UpdateCurrencyCommand(System.UInt32 keyId, CurrencyUpdateDto EntityDto) : IRequest<bool>;
 
 public class UpdateCurrencyCommandHandler: CommandBase, IRequestHandler<UpdateCurrencyCommand, bool>
 {
@@ -34,7 +33,9 @@ public class UpdateCurrencyCommandHandler: CommandBase, IRequestHandler<UpdateCu
     
     public async Task<bool> Handle(UpdateCurrencyCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.Currencies.FindAsync(CreateNoxTypeForKey<Currency,Nuid>("Id", request.key));
+        var keyId = CreateNoxTypeForKey<Currency,Nuid>("Id", request.keyId);
+    
+        var entity = await DbContext.Currencies.FindAsync(keyId);
         if (entity == null)
         {
             return false;

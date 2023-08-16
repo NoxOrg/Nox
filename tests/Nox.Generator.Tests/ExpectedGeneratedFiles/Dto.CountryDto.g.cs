@@ -2,10 +2,13 @@
 
 #nullable enable
 
-using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using MediatR;
+
+using Microsoft.AspNetCore.Http;
+
+using System.ComponentModel.DataAnnotations.Schema;
+
 using Nox.Types;
 using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
@@ -22,7 +25,7 @@ public partial class CountryDto
 
     /// <summary>
     ///  (Required).
-    /// </summary>
+    /// </summary>    
     public System.String Id { get; set; } = default!;
 
     /// <summary>

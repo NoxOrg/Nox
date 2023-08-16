@@ -167,7 +167,7 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Nox.Types.Temperature? TempratureTestField { get; set; } = null!;
+    public Nox.Types.Temperature? TemperatureTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -252,6 +252,21 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Nox.Types.User? UserTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Nox.Types.Guid? GuidTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Nox.Types.DateTimeSchedule? DateTimeScheduleTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public int? FormulaTestField => 2 + 2;
 
     /// <summary>
@@ -270,6 +285,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     public Nox.Types.Image? ImageTestField { get; set; } = null!;
 
     /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public PhoneNumber? PhoneNumberTestField { get; set; } = null!;
+	
+	 /// <summary>
     ///  (Required).
     /// </summary>
     public Nox.Types.DateTime DateTimeTestField { get; set; } = null!;

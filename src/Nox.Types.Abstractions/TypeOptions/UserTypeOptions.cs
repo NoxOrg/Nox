@@ -1,6 +1,4 @@
-﻿using Nox.Types;
-
-namespace Nox.TypeOptions;
+﻿namespace Nox.Types;
 
 public class UserTypeOptions
 {
