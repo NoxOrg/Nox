@@ -5,6 +5,7 @@
 using Nox.Abstractions;
 using Nox.Types;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SampleWebApp.Application.Dto; 
 
@@ -17,5 +18,7 @@ public partial class CurrencyUpdateDto
     /// <summary>
     /// The currency's name (Required).
     /// </summary>
+    [Required(ErrorMessage = "Name is required")]
+    
     public System.String Name { get; set; } = default!;
 }

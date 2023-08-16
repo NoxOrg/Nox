@@ -1,5 +1,5 @@
-﻿using Nox.TypeOptions;
-using System;
+﻿using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace Nox.Types;
 
@@ -44,7 +44,7 @@ public sealed class User : ValueObject<string, User>
     /// Validates a <see cref="User"/> object.
     /// </summary>
     /// <returns>true if the <see cref="User"/> value is valid according to the default or specified <see cref="UserTypeOptions"/>.</returns>
-    /// <exception cref="NotSupportedException">If the <see cref="UserFormatType"/> is not implemented by this method.</exception>
+    /// <exception cref="NotSupportedException">If the <see cref="User"/> is not valid according to the <see cref="UserTypeOptions"/>.</exception>
     internal override ValidationResult Validate()
     {
         var result = base.Validate();
@@ -53,13 +53,13 @@ public sealed class User : ValueObject<string, User>
         
         if (validateFormat)
         {
-            bool? validGuid = _userTypeOptions.ValidGuidFormat ? Guid.TryParse(Value, out var guidResult) : null;
+            bool? validGuid = _userTypeOptions.ValidGuidFormat ? System.Guid.TryParse(Value, out _) : null;
 
             bool? validEmail = _userTypeOptions.ValidEmailFormat ? Email.EmailRegex.IsMatch(Value) : null;
 
             if (validGuid != null && validEmail != null)
             {
-                if (!validGuid.Value! && !validEmail.Value!)
+                if (!validGuid.Value && !validEmail.Value)
                 {
                     result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox User type {Value} as it is not a valid guid or email address."));
                 }

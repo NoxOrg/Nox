@@ -5,6 +5,7 @@
 using Nox.Abstractions;
 using Nox.Types;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SampleWebApp.Application.Dto; 
 
@@ -25,10 +26,14 @@ public partial class AllNoxTypeUpdateDto
     /// <summary>
     /// CountryCode2 Nox Type (Required).
     /// </summary>
+    [Required(ErrorMessage = "CountryCode2Field is required")]
+    
     public System.String CountryCode2Field { get; set; } = default!;
     /// <summary>
     /// CountryCode3 Nox Type (Required).
     /// </summary>
+    [Required(ErrorMessage = "CountryCode3Field is required")]
+    
     public System.String CountryCode3Field { get; set; } = default!;
     /// <summary>
     /// CountryNumber Nox Type (Optional).
@@ -81,6 +86,8 @@ public partial class AllNoxTypeUpdateDto
     /// <summary>
     /// Text Nox Type (Required).
     /// </summary>
+    [Required(ErrorMessage = "TextField is required")]
+    
     public System.String TextField { get; set; } = default!;
     /// <summary>
     /// StreetAddress Nox Type (Optional).
@@ -99,17 +106,9 @@ public partial class AllNoxTypeUpdateDto
     /// </summary>
     public VatNumberDto? VatNumberField { get; set; } 
     /// <summary>
-    /// Password Nox Type (Optional).
-    /// </summary>
-    public PasswordDto? PasswordField { get; set; } 
-    /// <summary>
     /// Money Nox Type (Optional).
     /// </summary>
     public MoneyDto? MoneyField { get; set; } 
-    /// <summary>
-    /// HashedTex Nox Type (Optional).
-    /// </summary>
-    public HashedTextDto? HashedTexField { get; set; } 
     /// <summary>
     /// LatLongField Nox Type (Optional).
     /// </summary>

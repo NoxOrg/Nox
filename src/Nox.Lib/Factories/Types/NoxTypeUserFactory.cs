@@ -1,5 +1,4 @@
 ﻿using Nox.Solution;
-using Nox.TypeOptions;
 using Nox.Types;
 
 namespace Nox.Factories.Types

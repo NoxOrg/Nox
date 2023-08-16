@@ -252,4 +252,9 @@ public sealed class Country
     /// Gets or sets dayOfWeek
     /// </summary>
     public DayOfWeek DayOfWeek { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets dayOfWeek
+    /// </summary>
+    public DateTimeSchedule DateTimeSchedule { get; set; } = null!;
 }

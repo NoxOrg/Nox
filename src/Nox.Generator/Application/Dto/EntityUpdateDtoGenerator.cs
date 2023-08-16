@@ -26,7 +26,11 @@ internal class EntityUpdateDtoGenerator : INoxCodeGenerator
         {
             var attributes = entity.Attributes ?? Enumerable.Empty<NoxSimpleTypeDefinition>();
             var componentsInfo = attributes
-               .ToDictionary(r => r.Name, key => new { IsSimpleType = key.Type.IsSimpleType(), ComponentType = GetSingleComponentSimpleType(key) });
+               .ToDictionary(r => r.Name, key => new { 
+                   IsSimpleType = key.Type.IsSimpleType(), 
+                   ComponentType = GetSingleComponentSimpleType(key),
+                   IsUpdatable = key.Type.IsUpdatableType()
+               });
 
             context.CancellationToken.ThrowIfCancellationRequested();
 
