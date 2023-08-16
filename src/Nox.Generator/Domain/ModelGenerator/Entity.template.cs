@@ -20,11 +20,10 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     /// </summary>
     {{ if key.Type == "Entity" -}}
     public {{SingleKeyTypeForEntity key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
-    {{- # Navigation Property }}
+{{- # Navigation Property}}
 
-    public virtual {{key.EntityTypeOptions.Entity}} {{key.EntityTypeOptions.Entity}} { get; set; } = null!;
-
-    {{- else if key.Type == "Nuid" -}}
+public virtual {{key.EntityTypeOptions.Entity}} {{key.EntityTypeOptions.Entity}} { get; set; } = null!;
+{{ else if key.Type == "Nuid" -}}
 	{{- prefix = key.NuidTypeOptions.Prefix | object.default entity.Name + key.NuidTypeOptions.Separator -}}
     {{- codeGeneratorNuidGetter = "Nuid.From(\""+prefix+"\" + string.Join(\""+key.NuidTypeOptions.Separator +"\", "+ (key.NuidTypeOptions.PropertyNames | array.join "," @(do; ret $0 + ".Value.ToString()"; end)) +"))" -}}
     public {{key.Type}} {{key.Name}} {get; private set;} = null!;
@@ -44,10 +43,10 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
 			}
 		}
 	}
-	
+
     {{- else -}}
 
-    public {{key.Type}} {{key.Name}} { get; set; } = null!; 
+    public {{key.Type}} {{key.Name}} { get; set; } = null!;
     {{- end}}
 {{- end }}
 {{- for attribute in entity.Attributes }}
@@ -82,7 +81,7 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     /// </summary>
     public Nox.Types.{{relationship.Related.Entity.Keys[0].Type}} {{relationship.Entity}}Id { get; set; } = null!;
     {{- end}}
-    {{-end}}
+    {{- end}}
 {{- end }}
 {{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}
 
@@ -92,11 +91,11 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
     public virtual List<{{relationship.Entity}}> {{relationship.EntityPlural}} { get; set; } = new();
     {{- if (relationship.EntityPlural) != relationship.Name}}
-    
+
     public List<{{relationship.Entity}}> {{relationship.Name}} => {{relationship.EntityPlural}};
     {{- end}}
     {{- else}}
-     public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
-    {{-end}}
+    public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
+    {{- end}}
 {{- end }}
 }

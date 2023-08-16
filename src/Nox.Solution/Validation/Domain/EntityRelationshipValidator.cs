@@ -38,7 +38,8 @@ namespace Nox.Solution.Validation
 
             if (bindToOtherRelationship)
             {
-                RuleFor(er => entityName).Must(HaveReverseRelationship)
+                RuleFor(er => entityName)
+                    .Must(HaveReverseRelationship)
                     .WithMessage(er => string.Format(ValidationResources.CorrespondingRelationshipMissing, er.Name, entityName, er.Entity));
             }
             else
@@ -66,7 +67,14 @@ namespace Nox.Solution.Validation
         {
             var otherRelationship = toEvaluate.Related.Entity?.Relationships?.FirstOrDefault(e => e.Entity == thisEntity);
             toEvaluate.Related.EntityRelationship = otherRelationship!;
-            return otherRelationship is not null;
+
+            if (otherRelationship is not null)
+            {
+                return true;
+            }
+
+            var isKeyForOtherEntity = _entities?.Any(x => x.Keys != null && x.Keys.Any(x => x.Type == Types.NoxType.Entity && x.EntityTypeOptions!.Entity == thisEntity));
+            return isKeyForOtherEntity.HasValue && isKeyForOtherEntity.Value;
         }
 
         private bool HaveOneParentOnly(EntityRelationship toEvaluate, string parentName)

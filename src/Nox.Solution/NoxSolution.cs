@@ -1,11 +1,10 @@
 using FluentValidation;
 using Nox.Solution.Validation;
+using Nox.Types;
+using Nox.Types.Extensions;
 using System;
 using System.Collections.Generic;
-using Nox.Types;
 using System.Linq;
-using Nox.Types.Extensions;
-using YamlDotNet.Core.Tokens;
 
 namespace Nox.Solution;
 
@@ -19,7 +18,8 @@ public class NoxSolution : Solution
         validator.ValidateAndThrow(this);
     }
 
-    public List<EntityRelationshipWithType> GetRelationshipsToCreate(Func<string, Type?> getTypeByNameFunc,
+    public List<EntityRelationshipWithType> GetRelationshipsToCreate(
+        Func<string, Type?> getTypeByNameFunc,
         Entity entity)
     {
         var fullRelationshipModels = new List<EntityRelationshipWithType>();

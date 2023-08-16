@@ -7,6 +7,7 @@ using Nox.Solution.Macros;
 using Nox.Solution.Utils;
 using System.Collections.Generic;
 using System;
+using Nox.Types;
 
 namespace Nox.Solution
 {
@@ -189,9 +190,77 @@ namespace Nox.Solution
             // Validate and deserialize
             var config = NoxSchemaValidator.Deserialize<NoxSolution>(yaml);
 
+            CreateImplicitEntities(config);
+
             config.RootYamlFile = _yamlFilePath;
 
             return config;
+        }
+
+        private void CreateImplicitEntities(NoxSolution config)
+        {
+            AddImplicitRelationshipsFromKeys(config);
+        }
+
+        private void AddImplicitRelationshipsFromKeys(NoxSolution config)
+        {
+            if (config.Domain == null)
+            {
+                return;
+            }
+
+            foreach (var entity in config.Domain.Entities)
+            {
+                if (entity.Keys == null)
+                {
+                    continue;
+                }
+
+                var relationshipsToBeAddedFromImplicitKeys = new List<EntityRelationship>();
+                if (entity.Relationships != null)
+                {
+                    relationshipsToBeAddedFromImplicitKeys.AddRange(entity.Relationships);
+                }
+
+                var keysWithEntityType = entity.Keys.Where(x => x.Type == NoxType.Entity).ToList();
+                foreach (var key in keysWithEntityType)
+                {
+                    var correspondingEntity = config.Domain.Entities.FirstOrDefault(x => x.Name.Equals(key.EntityTypeOptions!.Entity));
+                    if (correspondingEntity == null || correspondingEntity.Relationships == null)
+                    {
+                        // Will fail on validation stage with proper error
+                        continue;
+                    }
+
+                    var correspondingRelationship = correspondingEntity.Relationships.FirstOrDefault(x => x.Entity.Equals(entity.Name));
+                    if (correspondingRelationship == null)
+                    {
+                        // Will fail on validation stage with proper error
+                        continue;
+                    }
+
+                    var relationship = new EntityRelationship
+                    {
+                        CanNavigate = false,
+                        Entity = correspondingEntity.Name,
+                        Name = $"{entity.Name}_{correspondingEntity.Name}_Impl",
+                        Description = $"Implicit relationship {entity.Name}-{correspondingEntity.Name} from entity key",
+                        Relationship = correspondingRelationship.Relationship,
+                        Related = new RelatedEntityInfo
+                        {
+                            Entity = correspondingEntity,
+                            EntityRelationship = correspondingRelationship
+                        }
+                    };
+
+                    correspondingRelationship.Related.Entity = entity;
+                    correspondingRelationship.Related.EntityRelationship = relationship;
+
+                    relationshipsToBeAddedFromImplicitKeys.Add(correspondingRelationship);
+                }
+
+                entity.Relationships = relationshipsToBeAddedFromImplicitKeys;
+            }
         }
 
         private static string? FindSolutionRoot()

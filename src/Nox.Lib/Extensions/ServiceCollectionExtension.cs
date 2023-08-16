@@ -30,6 +30,7 @@ public static class ServiceCollectionExtension
             .AddNoxFactories(noxAssemblies)
             .AddAutoMapper(entryAssembly);
     }
+
     private static IServiceCollection AddNoxMediatR(
         this IServiceCollection services,
         Assembly entryAssembly)
