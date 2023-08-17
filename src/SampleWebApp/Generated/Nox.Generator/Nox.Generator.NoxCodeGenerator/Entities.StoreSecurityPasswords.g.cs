@@ -33,6 +33,7 @@ public partial class StoreSecurityPasswords : AuditableEntityBase
     /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores
     /// </summary>
     public virtual Store Store { get; set; } = null!;
+
     public Store StoreRel => Store;
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Store

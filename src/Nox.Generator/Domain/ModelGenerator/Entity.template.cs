@@ -76,6 +76,7 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     {{- else}}
     public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;    
     {{- if relationship.Entity != relationship.Name}}
+
     public {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} => {{relationship.Entity}};
 
     {{- end}}
