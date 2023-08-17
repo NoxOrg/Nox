@@ -9,7 +9,7 @@ using SampleWebApp.Presentation.Api.OData;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetCountryByIdQuery(System.String keyId) : IRequest<CountryDto?>;
+public record GetCountryByIdQuery(System.Int64 keyId) : IRequest<CountryDto?>;
 
 public class GetCountryByIdQueryHandler: IRequestHandler<GetCountryByIdQuery, CountryDto?>
 {

@@ -14,7 +14,7 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateCountryCommand(System.String keyId, CountryUpdateDto EntityDto) : IRequest<bool>;
+public record UpdateCountryCommand(System.Int64 keyId, CountryUpdateDto EntityDto) : IRequest<bool>;
 
 public class UpdateCountryCommandHandler: CommandBase, IRequestHandler<UpdateCountryCommand, bool>
 {
@@ -33,7 +33,7 @@ public class UpdateCountryCommandHandler: CommandBase, IRequestHandler<UpdateCou
     
     public async Task<bool> Handle(UpdateCountryCommand request, CancellationToken cancellationToken)
     {
-        var keyId = CreateNoxTypeForKey<Country,Text>("Id", request.keyId);
+        var keyId = CreateNoxTypeForKey<Country,DatabaseNumber>("Id", request.keyId);
     
         var entity = await DbContext.Countries.FindAsync(keyId);
         if (entity == null)
@@ -41,6 +41,8 @@ public class UpdateCountryCommandHandler: CommandBase, IRequestHandler<UpdateCou
             return false;
         }
         EntityMapper.MapToEntity(entity, GetEntityDefinition<Country>(), request.EntityDto);
+        entity.Updated();
+
         // Todo map dto
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();             

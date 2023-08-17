@@ -34,6 +34,7 @@ public class CreateAllNoxTypeCommandHandler: IRequestHandler<CreateAllNoxTypeCom
     public async Task<CreateAllNoxTypeResponse> Handle(CreateAllNoxTypeCommand request, CancellationToken cancellationToken)
     {    
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+        entityToCreate.Created();
 	
         DbContext.AllNoxTypes.Add(entityToCreate);
         await DbContext.SaveChangesAsync();

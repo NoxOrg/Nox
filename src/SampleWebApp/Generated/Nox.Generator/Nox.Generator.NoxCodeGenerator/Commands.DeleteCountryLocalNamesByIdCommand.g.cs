@@ -35,7 +35,6 @@ public class DeleteCountryLocalNamesByIdCommandHandler: CommandBase, IRequestHan
         {
             return false;
         }
-
         entity.Deleted();
         await DbContext.SaveChangesAsync(cancellationToken);
         return true;

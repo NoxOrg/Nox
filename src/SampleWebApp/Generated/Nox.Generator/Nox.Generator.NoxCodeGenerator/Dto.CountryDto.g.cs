@@ -26,7 +26,7 @@ public partial class CountryDto
     /// <summary>
     ///  (Required).
     /// </summary>    
-    public System.String Id { get; set; } = default!;
+    public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
     /// The country's common name (Required).

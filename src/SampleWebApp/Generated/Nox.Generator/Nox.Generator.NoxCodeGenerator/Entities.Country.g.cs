@@ -17,7 +17,7 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public DatabaseNumber Id { get; set; } = null!;
 
     /// <summary>
     /// The country's common name (Required).

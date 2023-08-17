@@ -41,6 +41,8 @@ public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRe
             return false;
         }
         //EntityMapper.MapToEntity(entity, GetEntityDefinition<StoreSecurityPasswords>(), request.EntityDto);
+        entity.Updated();
+
         //// Todo map dto
         //DbContext.Entry(entity).State = EntityState.Modified;
         //var result = await DbContext.SaveChangesAsync();             

@@ -34,6 +34,7 @@ public class CreateStoreCommandHandler: IRequestHandler<CreateStoreCommand, Crea
     public async Task<CreateStoreResponse> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
     {    
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+        entityToCreate.Created();
 	
         DbContext.Stores.Add(entityToCreate);
         await DbContext.SaveChangesAsync();

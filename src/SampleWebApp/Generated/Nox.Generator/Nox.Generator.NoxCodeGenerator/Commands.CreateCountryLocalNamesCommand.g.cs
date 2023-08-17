@@ -34,6 +34,7 @@ public class CreateCountryLocalNamesCommandHandler: IRequestHandler<CreateCountr
     public async Task<CreateCountryLocalNamesResponse> Handle(CreateCountryLocalNamesCommand request, CancellationToken cancellationToken)
     {    
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+        entityToCreate.Created();
 	
         DbContext.CountryLocalNames.Add(entityToCreate);
         await DbContext.SaveChangesAsync();

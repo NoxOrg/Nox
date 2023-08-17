@@ -34,6 +34,7 @@ public class CreateStoreSecurityPasswordsCommandHandler: IRequestHandler<CreateS
     public async Task<CreateStoreSecurityPasswordsResponse> Handle(CreateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
     {    
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+        entityToCreate.Created();
 	
         DbContext.StoreSecurityPasswords.Add(entityToCreate);
         await DbContext.SaveChangesAsync();

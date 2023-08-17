@@ -162,12 +162,8 @@ domain:
       keys:
 
         - name: Id
-          type: text
+          type: databaseNumber
           isRequired: true
-          textTypeOptions:
-            isUnicode: false
-            minLength: 2
-            maxLength: 2
 
       attributes:
 

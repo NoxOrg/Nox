@@ -35,7 +35,6 @@ public class DeleteCurrencyByIdCommandHandler: CommandBase, IRequestHandler<Dele
         {
             return false;
         }
-
         entity.Deleted();
         await DbContext.SaveChangesAsync(cancellationToken);
         return true;

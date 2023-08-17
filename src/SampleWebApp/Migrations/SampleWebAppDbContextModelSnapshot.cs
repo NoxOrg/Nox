@@ -24,8 +24,8 @@ namespace SampleWebApp.Migrations
 
             modelBuilder.Entity("CountryCurrency", b =>
                 {
-                    b.Property<string>("CountriesId")
-                        .HasColumnType("char(2)");
+                    b.Property<long>("CountriesId")
+                        .HasColumnType("bigint");
 
                     b.Property<uint>("CurrenciesId")
                         .HasColumnType("bigint");
@@ -191,11 +191,11 @@ namespace SampleWebApp.Migrations
 
             modelBuilder.Entity("SampleWebApp.Domain.Country", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasMaxLength(2)
-                        .IsUnicode(false)
-                        .HasColumnType("char(2)")
-                        .IsFixedLength();
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<string>("AlphaCode2")
                         .IsRequired()
@@ -880,8 +880,8 @@ namespace SampleWebApp.Migrations
                 {
                     b.OwnsOne("Nox.Types.LatLong", "GeoCoord", b1 =>
                         {
-                            b1.Property<string>("CountryId")
-                                .HasColumnType("char(2)");
+                            b1.Property<long>("CountryId")
+                                .HasColumnType("bigint");
 
                             b1.Property<decimal>("Latitude")
                                 .HasPrecision(8, 6)

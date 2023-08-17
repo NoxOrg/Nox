@@ -41,6 +41,8 @@ public class PartialUpdateCurrencyCommandHandler: CommandBase, IRequestHandler<P
             return false;
         }
         //EntityMapper.MapToEntity(entity, GetEntityDefinition<Currency>(), request.EntityDto);
+        entity.Updated();
+
         //// Todo map dto
         //DbContext.Entry(entity).State = EntityState.Modified;
         //var result = await DbContext.SaveChangesAsync();             

@@ -28,10 +28,10 @@ public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase, IRequestHandl
 
     public async Task<bool> Handle(Delete{{entity.Name}}ByIdCommand request, CancellationToken cancellationToken)
     {
-    {{- for key in entity.Keys }}
+        {{- for key in entity.Keys }}
         {{- keyType = SingleTypeForKey key }}
         var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{keyType}}>("{{key.Name}}", request.key{{key.Name}});        
-    {{- end }}
+        {{- end }}
 
         var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysQuery}});
         if (entity is null{{if (entity.Persistence?.IsAudited ?? true)}} || entity.IsDeleted.Value == true{{end}})
@@ -39,7 +39,7 @@ public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase, IRequestHandl
             return false;
         }
 
-        {{ if (entity.Persistence?.IsAudited ?? true) -}}
+        {{- if (entity.Persistence?.IsAudited ?? true)}}
         entity.Deleted();
         {{- else -}}
         DbContext.{{entity.PluralName}}.Remove(entity);

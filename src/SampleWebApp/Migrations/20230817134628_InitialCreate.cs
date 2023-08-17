@@ -85,7 +85,8 @@ namespace SampleWebApp.Migrations
                 name: "Countries",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     FormalName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     AlphaCode3 = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
@@ -185,7 +186,7 @@ namespace SampleWebApp.Migrations
                 name: "CountryCurrency",
                 columns: table => new
                 {
-                    CountriesId = table.Column<string>(type: "char(2)", nullable: false),
+                    CountriesId = table.Column<long>(type: "bigint", nullable: false),
                     CurrenciesId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>

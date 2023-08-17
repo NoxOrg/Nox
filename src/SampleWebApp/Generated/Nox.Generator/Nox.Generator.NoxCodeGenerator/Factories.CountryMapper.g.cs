@@ -38,10 +38,16 @@ public class CountryMapper: EntityMapperBase<Country>
         {        
             entity.FormalName = noxTypeValue;
         }
-
-        // TODO map AlphaCode3 CountryCode3 remaining types and remove if else
-
-        // TODO map AlphaCode2 CountryCode2 remaining types and remove if else
+        noxTypeValue = CreateNoxType<Nox.Types.CountryCode3>(entityDefinition,"AlphaCode3",dto.AlphaCode3);
+        if(noxTypeValue != null)
+        {        
+            entity.AlphaCode3 = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition,"AlphaCode2",dto.AlphaCode2);
+        if(noxTypeValue != null)
+        {        
+            entity.AlphaCode2 = noxTypeValue;
+        }
         noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"NumericCode",dto.NumericCode);
         if(noxTypeValue != null)
         {        

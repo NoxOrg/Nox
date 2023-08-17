@@ -36,7 +36,6 @@ public class DeleteAllNoxTypeByIdCommandHandler: CommandBase, IRequestHandler<De
         {
             return false;
         }
-
         entity.Deleted();
         await DbContext.SaveChangesAsync(cancellationToken);
         return true;

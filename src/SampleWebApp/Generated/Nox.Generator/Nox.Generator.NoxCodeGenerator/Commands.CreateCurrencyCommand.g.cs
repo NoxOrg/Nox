@@ -35,6 +35,7 @@ public class CreateCurrencyCommandHandler: IRequestHandler<CreateCurrencyCommand
     {    
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto); 
 		entityToCreate.EnsureId();
+        entityToCreate.Created();
 	
         DbContext.Currencies.Add(entityToCreate);
         await DbContext.SaveChangesAsync();

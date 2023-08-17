@@ -42,6 +42,10 @@ public class Create{{entity.Name}}CommandHandler: IRequestHandler<Create{{entity
 		entityToCreate.Ensure{{key.Name}}();
 		{{- end }}
 		{{- end }}
+
+        {{- if (entity.Persistence?.IsAudited ?? true)}}
+        entityToCreate.Created();
+        {{- end}}
 	
         DbContext.{{entity.PluralName}}.Add(entityToCreate);
         await DbContext.SaveChangesAsync();

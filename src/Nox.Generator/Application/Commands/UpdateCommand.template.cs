@@ -33,9 +33,9 @@ public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<U
     
     public async Task<bool> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
     {
-    {{- for key in entity.Keys }}
+        {{- for key in entity.Keys }}
         var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.key{{key.Name}});
-    {{- end }}
+        {{- end }}
     
         var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysQuery}});
         if (entity == null)
@@ -43,6 +43,11 @@ public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<U
             return false;
         }
         EntityMapper.MapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.EntityDto);
+        
+        {{- if (entity.Persistence?.IsAudited ?? true)}}
+        entity.Updated();
+        {{- end}}
+
         // Todo map dto
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();             

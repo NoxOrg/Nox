@@ -16,7 +16,6 @@ internal class CountryDataSeeder : SampleDataSeederBase<CountryModel, Country>
     {
         return new Country
         {
-            Id = Text.From(model.AlphaCode2),
             AlphaCode2 = CountryCode2.From(model.AlphaCode2),
             AlphaCode3 = CountryCode3.From(model.AlphaCode3),
             AreaInSquareKilometres = Area.From(model.AreaInSquareKilometres, AreaTypeUnit.SquareMeter),

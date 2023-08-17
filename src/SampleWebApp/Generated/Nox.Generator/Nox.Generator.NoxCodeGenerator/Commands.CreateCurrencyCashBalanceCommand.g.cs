@@ -34,6 +34,7 @@ public class CreateCurrencyCashBalanceCommandHandler: IRequestHandler<CreateCurr
     public async Task<CreateCurrencyCashBalanceResponse> Handle(CreateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
     {    
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+        entityToCreate.Created();
 	
         DbContext.CurrencyCashBalances.Add(entityToCreate);
         await DbContext.SaveChangesAsync();

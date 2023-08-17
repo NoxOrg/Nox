@@ -36,7 +36,6 @@ public class DeleteCurrencyCashBalanceByIdCommandHandler: CommandBase, IRequestH
         {
             return false;
         }
-
         entity.Deleted();
         await DbContext.SaveChangesAsync(cancellationToken);
         return true;

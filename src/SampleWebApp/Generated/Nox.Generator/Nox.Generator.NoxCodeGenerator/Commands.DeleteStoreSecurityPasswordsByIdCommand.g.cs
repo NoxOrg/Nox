@@ -35,7 +35,6 @@ public class DeleteStoreSecurityPasswordsByIdCommandHandler: CommandBase, IReque
         {
             return false;
         }
-
         entity.Deleted();
         await DbContext.SaveChangesAsync(cancellationToken);
         return true;
