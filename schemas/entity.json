@@ -228,6 +228,12 @@
       },
       "additionalProperties": false
     },
+    "isOwnedEntity": {    
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
     "keysFlattenComponentsType": {    
       "type": [
         "object",

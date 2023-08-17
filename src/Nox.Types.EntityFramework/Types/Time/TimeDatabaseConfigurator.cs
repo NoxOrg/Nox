@@ -1,13 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nox.Solution;
+﻿using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.EntityBuilderAdapter;
+
 namespace Nox.Types.EntityFramework.Types;
 
 /// <summary>
 /// The time type database configuration.
 /// </summary>
-public class TimeDatabaseConfiguration : INoxTypeDatabaseConfigurator
+public class TimeDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
     /// <inheritdoc/>
     public NoxType ForNoxType => NoxType.Time;
@@ -16,7 +16,12 @@ public class TimeDatabaseConfiguration : INoxTypeDatabaseConfigurator
     public bool IsDefault => true;
 
     /// <inheritdoc/>
-    public void ConfigureEntityProperty(NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState, EntityTypeBuilder builder, NoxSimpleTypeDefinition property, Entity entity, bool isKey)
+    public void ConfigureEntityProperty(
+        NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
+        IEntityBuilderAdapter builder,
+        NoxSimpleTypeDefinition property,
+        Entity entity,
+        bool isKey)
     {
         builder
             .Property(property.Name)

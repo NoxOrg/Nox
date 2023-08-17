@@ -25,7 +25,7 @@ public partial class CountryDto
 
     /// <summary>
     ///  (Required).
-    /// </summary>    
+    /// </summary>
     public System.String Id { get; set; } = default!;
 
     /// <summary>

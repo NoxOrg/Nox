@@ -13,6 +13,7 @@ using Nox.Types;
 using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
+using Microsoft.OData.ModelBuilder;
 
 namespace SampleWebApp.Application.Dto;
 
@@ -25,12 +26,12 @@ public partial class CurrencyCashBalanceDto
 
     /// <summary>
     ///  (Required).
-    /// </summary>    
+    /// </summary>
     public System.String StoreId { get; set; } = default!;
 
     /// <summary>
     ///  (Required).
-    /// </summary>    
+    /// </summary>
     public System.UInt32 CurrencyId { get; set; } = default!;
 
     /// <summary>

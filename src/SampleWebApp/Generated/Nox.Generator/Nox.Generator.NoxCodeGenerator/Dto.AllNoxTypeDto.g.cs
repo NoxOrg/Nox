@@ -13,6 +13,7 @@ using Nox.Types;
 using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
+using Microsoft.OData.ModelBuilder;
 
 namespace SampleWebApp.Application.Dto;
 
@@ -25,12 +26,12 @@ public partial class AllNoxTypeDto
 
     /// <summary>
     /// DatabaseNumber Nox Type (Required).
-    /// </summary>    
+    /// </summary>
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
     /// Second Text Id (Required).
-    /// </summary>    
+    /// </summary>
     public System.String TextId { get; set; } = default!;
 
     /// <summary>

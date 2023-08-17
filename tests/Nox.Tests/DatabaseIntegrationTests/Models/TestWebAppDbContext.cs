@@ -8,6 +8,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Diagnostics;
+using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using TestWebApp.Domain;
 
 namespace TestWebApp.Infrastructure.Persistence;
@@ -32,73 +33,35 @@ public partial class TestWebAppDbContext : DbContext
 
 
     public DbSet<TestEntityZeroOrOne> TestEntityZeroOrOnes { get; set; } = null!;
-
     public DbSet<SecondTestEntityZeroOrOne> SecondTestEntityZeroOrOnes { get; set; } = null!;
-
     public DbSet<TestEntityWithNuid> TestEntityWithNuids { get; set; } = null!;
-
     public DbSet<TestEntityOneOrMany> TestEntityOneOrManies { get; set; } = null!;
-
     public DbSet<SecondTestEntityOneOrMany> SecondTestEntityOneOrManies { get; set; } = null!;
-
     public DbSet<TestEntityZeroOrMany> TestEntityZeroOrManies { get; set; } = null!;
-
     public DbSet<SecondTestEntityZeroOrMany> SecondTestEntityZeroOrManies { get; set; } = null!;
-
     public DbSet<ThirdTestEntityOneOrMany> ThirdTestEntityOneOrManies { get; set; } = null!;
-
     public DbSet<ThirdTestEntityZeroOrMany> ThirdTestEntityZeroOrManies { get; set; } = null!;
-
     public DbSet<ThirdTestEntityExactlyOne> ThirdTestEntityExactlyOnes { get; set; } = null!;
-
     public DbSet<ThirdTestEntityZeroOrOne> ThirdTestEntityZeroOrOnes { get; set; } = null!;
-
     public DbSet<TestEntityExactlyOne> TestEntityExactlyOnes { get; set; } = null!;
-
     public DbSet<SecondTestEntityExactlyOne> SecondTestEntityExactlyOnes { get; set; } = null!;
-
     public DbSet<TestEntityZeroOrOneToZeroOrMany> TestEntityZeroOrOneToZeroOrManies { get; set; } = null!;
-
     public DbSet<TestEntityZeroOrManyToZeroOrOne> TestEntityZeroOrManyToZeroOrOnes { get; set; } = null!;
-
     public DbSet<TestEntityExactlyOneToOneOrMany> TestEntityExactlyOneToOneOrManies { get; set; } = null!;
-
     public DbSet<TestEntityOneOrManyToExactlyOne> TestEntityOneOrManyToExactlyOnes { get; set; } = null!;
-
     public DbSet<TestEntityExactlyOneToZeroOrMany> TestEntityExactlyOneToZeroOrManies { get; set; } = null!;
-
     public DbSet<TestEntityZeroOrManyToExactlyOne> TestEntityZeroOrManyToExactlyOnes { get; set; } = null!;
-
     public DbSet<TestEntityOneOrManyToZeroOrMany> TestEntityOneOrManyToZeroOrManies { get; set; } = null!;
-
     public DbSet<TestEntityZeroOrManyToOneOrMany> TestEntityZeroOrManyToOneOrManies { get; set; } = null!;
-
     public DbSet<TestEntityZeroOrOneToOneOrMany> TestEntityZeroOrOneToOneOrManies { get; set; } = null!;
-
     public DbSet<TestEntityOneOrManyToZeroOrOne> TestEntityOneOrManyToZeroOrOnes { get; set; } = null!;
-
     public DbSet<TestEntityZeroOrOneToExactlyOne> TestEntityZeroOrOneToExactlyOnes { get; set; } = null!;
-
     public DbSet<TestEntityExactlyOneToZeroOrOne> TestEntityExactlyOneToZeroOrOnes { get; set; } = null!;
-
     public DbSet<TestEntityOwnedRelationshipExactlyOne> TestEntityOwnedRelationshipExactlyOnes { get; set; } = null!;
-
-    public DbSet<SecondTestEntityOwnedRelationshipExactlyOne> SecondTestEntityOwnedRelationshipExactlyOnes { get; set; } = null!;
-
     public DbSet<TestEntityOwnedRelationshipZeroOrOne> TestEntityOwnedRelationshipZeroOrOnes { get; set; } = null!;
-
-    public DbSet<SecondTestEntityOwnedRelationshipZeroOrOne> SecondTestEntityOwnedRelationshipZeroOrOnes { get; set; } = null!;
-
     public DbSet<TestEntityOwnedRelationshipOneOrMany> TestEntityOwnedRelationshipOneOrManies { get; set; } = null!;
-
-    public DbSet<SecondTestEntityOwnedRelationshipOneOrMany> SecondTestEntityOwnedRelationshipOneOrManies { get; set; } = null!;
-
     public DbSet<TestEntityOwnedRelationshipZeroOrMany> TestEntityOwnedRelationshipZeroOrManies { get; set; } = null!;
-
-    public DbSet<SecondTestEntityOwnedRelationshipZeroOrMany> SecondTestEntityOwnedRelationshipZeroOrManies { get; set; } = null!;
-
     public DbSet<TestEntityForTypes> TestEntityForTypes { get; set; } = null!;
-
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -128,7 +91,7 @@ public partial class TestWebAppDbContext : DbContext
                 var type = codeGeneratorState.GetEntityType(entity.Name);
                 if (type != null)
                 {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, _noxSolution, codeGeneratorState.GetEntityType);
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity, _noxSolution, codeGeneratorState.GetEntityType);
                 }
             }
         }

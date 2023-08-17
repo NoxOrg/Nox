@@ -27,10 +27,5 @@ public partial class TestEntityOwnedRelationshipExactlyOne : AuditableEntityBase
     /// <summary>
     /// TestEntityOwnedRelationshipExactlyOne Test entity relationship to SecondTestEntityOwnedRelationshipExactlyOne ExactlyOne SecondTestEntityOwnedRelationshipExactlyOnes
     /// </summary>
-    public virtual SecondTestEntityOwnedRelationshipExactlyOne SecondTestEntityOwnedRelationshipExactlyOne { get; set; } = null!;
-
-    /// <summary>
-    /// Foreign key for relationship ExactlyOne to entity SecondTestEntityOwnedRelationshipExactlyOne
-    /// </summary>
-    public Nox.Types.Text SecondTestEntityOwnedRelationshipExactlyOneId { get; set; } = null!;
+     public virtual SecondTestEntityOwnedRelationshipExactlyOne SecondTestEntityOwnedRelationshipExactlyOne { get; set; } = null!;
 }

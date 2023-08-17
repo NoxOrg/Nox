@@ -724,8 +724,8 @@ public class SqliteIntegrationTests : SqliteTestBase
     public void GeneratedRelationship_Sqlite_Owned_ExactlyOne_ExactlyOne()
     {
         var text = "TestTextValue";
+        var text2 = "TestTextValue2";
         var textId1 = "TestTextValue1";
-        var textId2 = "TestTextValue2";
 
         var newItem = new TestEntityOwnedRelationshipExactlyOne()
         {
@@ -734,8 +734,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         };
         var newItem2 = new SecondTestEntityOwnedRelationshipExactlyOne()
         {
-            Id1 = Text.From(textId2),
-            TextTestField2 = Text.From(text),
+            TextTestField2 = Text.From(text2),
         };
 
         newItem.SecondTestEntityOwnedRelationshipExactlyOne = newItem2;
@@ -746,12 +745,10 @@ public class SqliteIntegrationTests : SqliteTestBase
         RecreateDbContext();
 
         var testEntity = DbContext.TestEntityOwnedRelationshipExactlyOnes.Include(x => x.SecondTestEntityOwnedRelationshipExactlyOne).First();
-        var secondTestEntity = testEntity.SecondTestEntityOwnedRelationshipExactlyOne;
 
         Assert.Equal(testEntity.Id.Value, textId1);
-        Assert.Equal(secondTestEntity.Id1.Value, textId2);
         Assert.NotNull(testEntity.SecondTestEntityOwnedRelationshipExactlyOne);
-        Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipExactlyOne.Id1.Value, textId2);
+        Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipExactlyOne.TextTestField2.Value, text2);
     }
 
     [Fact]
@@ -759,7 +756,7 @@ public class SqliteIntegrationTests : SqliteTestBase
     {
         var text = "TestTextValue";
         var textId1 = "TestTextValue1";
-        var textId2 = "TestTextValue2";
+        var text2 = "TestTextValue2";
 
         var newItem = new TestEntityOwnedRelationshipZeroOrOne()
         {
@@ -768,8 +765,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         };
         var newItem2 = new SecondTestEntityOwnedRelationshipZeroOrOne()
         {
-            Id1 = Text.From(textId2),
-            TextTestField2 = Text.From(text),
+            TextTestField2 = Text.From(text2),
         };
 
         newItem.SecondTestEntityOwnedRelationshipZeroOrOne = newItem2;
@@ -780,11 +776,9 @@ public class SqliteIntegrationTests : SqliteTestBase
         RecreateDbContext();
 
         var testEntity = DbContext.TestEntityOwnedRelationshipZeroOrOnes.Include(x => x.SecondTestEntityOwnedRelationshipZeroOrOne).First();
-        var secondTestEntity = testEntity.SecondTestEntityOwnedRelationshipZeroOrOne;
 
         Assert.Equal(testEntity.Id.Value, textId1);
-        Assert.Equal(secondTestEntity!.Id1.Value, textId2);
         Assert.NotNull(testEntity.SecondTestEntityOwnedRelationshipZeroOrOne);
-        Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipZeroOrOne.Id1.Value, textId2);
+        Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipZeroOrOne.TextTestField2.Value, text2);
     }
 }

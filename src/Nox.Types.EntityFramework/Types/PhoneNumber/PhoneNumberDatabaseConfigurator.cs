@@ -1,7 +1,6 @@
-﻿
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nox.Solution;
+﻿using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.EntityBuilderAdapter;
 
 namespace Nox.Types.EntityFramework.Types;
 public class PhoneNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
@@ -10,7 +9,12 @@ public class PhoneNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public virtual bool IsDefault => true;
 
-    public void ConfigureEntityProperty(NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState, EntityTypeBuilder builder, NoxSimpleTypeDefinition property, Entity entity, bool isKey)
+    public void ConfigureEntityProperty(
+        NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
+        IEntityBuilderAdapter builder,
+        NoxSimpleTypeDefinition property,
+        Entity entity,
+        bool isKey)
     {
         builder
             .Property(property.Name)

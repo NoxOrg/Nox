@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Nox.Types;
-using Nox.Types.Schema;
-using Humanizer;
+﻿using Humanizer;
 using Nox.Solution.Events;
+using Nox.Types;
 using Nox.Types.Extensions;
+using Nox.Types.Schema;
+using System.Collections.Generic;
+using System.Linq;
 using YamlDotNet.Serialization;
-using YamlDotNet.Core.Tokens;
 
 namespace Nox.Solution;
 
@@ -20,7 +19,7 @@ public class Entity : DefinitionBase
     [Title("The name of the entity. Contains no spaces.")]
     [Description("The name of the abstract or real-world entity. It should be a commonly used singular noun and be unique within a solution.")]
     [Pattern(@"^[^\s]*$")]
-    public string Name { get; internal set; } = null!;
+    public string Name { get;  set; } = null!;
 
     [Title("A phrase describing the entity.")]
     [Description("A description of the entity and what it represents in the real world.")]
@@ -63,12 +62,15 @@ public class Entity : DefinitionBase
     [Required]
     [Title("Keys for this entity.")]
     [Description("Define one or more keys for this entity.")]
-    public IReadOnlyList<NoxSimpleTypeDefinition>? Keys { get; internal set; }
+    public IReadOnlyList<NoxSimpleTypeDefinition>? Keys { get;  set; }
 
     [Title("Attributes that describe this entity.")]
     [Description("Define one or more attribute(s) that describes the composition of this domain entity.")]
     [AdditionalProperties(false)]
     public virtual IReadOnlyList<NoxSimpleTypeDefinition>? Attributes { get; internal set; }
+
+    [YamlIgnore]
+    public bool IsOwnedEntity { get; set; }
 
     internal bool ApplyDefaults()
     {
@@ -91,7 +93,6 @@ public class Entity : DefinitionBase
     /// </summary>
     [YamlIgnore]
     public IReadOnlyDictionary<string, System.Type> KeysFlattenComponentsType { get; private set; } = new Dictionary<string, System.Type>();
-  
 
     public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()
     {

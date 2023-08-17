@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nox.Solution;
+﻿using Nox.Solution;
+using Nox.Types.EntityFramework.EntityBuilderAdapter;
 
 namespace Nox.Types.EntityFramework.Abstractions;
 
@@ -20,7 +20,7 @@ public interface INoxTypeDatabaseConfigurator
     /// Configure ModelBuilder Property for a Type
     /// </summary>
 
-    void ConfigureEntityProperty(NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState, EntityTypeBuilder builder,
+    void ConfigureEntityProperty(NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState, IEntityBuilderAdapter builder,
         NoxSimpleTypeDefinition property, Entity entity, bool isKey);
 
     /// <summary>

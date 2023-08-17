@@ -1,6 +1,6 @@
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.EntityBuilderAdapter;
 
 namespace Nox.Types.EntityFramework.Types.DayOfWeek;
 
@@ -11,7 +11,7 @@ public class DayOfWeekDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
-        EntityTypeBuilder builder,
+        IEntityBuilderAdapter builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
         bool isKey)
@@ -21,6 +21,6 @@ public class DayOfWeekDatabaseConfigurator : INoxTypeDatabaseConfigurator
             .IsRequired(property.IsRequired)
             .HasConversion<DayOfWeekConverter>();
     }
-    
+
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
 }

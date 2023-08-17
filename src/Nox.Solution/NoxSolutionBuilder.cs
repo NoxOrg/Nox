@@ -189,9 +189,22 @@ namespace Nox.Solution
             // Validate and deserialize
             var config = NoxSchemaValidator.Deserialize<NoxSolution>(yaml);
 
+            EvaluateCalculatedProperties(config);
+
             config.RootYamlFile = _yamlFilePath;
 
             return config;
+        }
+
+        private void EvaluateCalculatedProperties(NoxSolution config)
+        {
+            if (config.Domain != null)
+            {
+                foreach (var entity in config.Domain.Entities)
+                {
+                    entity.IsOwnedEntity = config.IsOwnedEntity(entity);
+                }
+            }
         }
 
         private static string? FindSolutionRoot()

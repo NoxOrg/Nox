@@ -13,6 +13,7 @@ using Nox.Types;
 using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
+using Microsoft.OData.ModelBuilder;
 
 namespace SampleWebApp.Application.Dto;
 
@@ -25,7 +26,7 @@ public partial class StoreSecurityPasswordsDto
 
     /// <summary>
     /// Passwords Primary Key (Required).
-    /// </summary>    
+    /// </summary>
     public System.String Id { get; set; } = default!;
 
     /// <summary>

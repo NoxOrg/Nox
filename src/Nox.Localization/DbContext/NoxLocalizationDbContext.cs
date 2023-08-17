@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Localization.Models;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.EntityBuilderAdapter;
 
 namespace Nox.Localization.DbContext;
 
@@ -64,7 +65,7 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
                 var type = codeGeneratorState.GetEntityType(entity.Name);
                 if (type != null)
                 {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, _noxSolution, codeGeneratorState.GetEntityType);
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity, _noxSolution, codeGeneratorState.GetEntityType);
                 }
             }
         }

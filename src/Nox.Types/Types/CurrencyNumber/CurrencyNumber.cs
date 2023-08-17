@@ -6,7 +6,7 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a Nox <see cref="CurrencyNumber"/> type and value object.
 /// Supports ETL Process's and allows to get the proper <see cref="CurrencyCode"/>
-/// </summary>    
+/// </summary>
 [Serializable]
 public sealed class CurrencyNumber : ValueObject<short, CurrencyNumber>
 {

@@ -8,6 +8,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Diagnostics;
+using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.PersistenceNameSpace}};
@@ -30,9 +31,11 @@ public partial class {{className}} : DbContext
             _clientAssemblyProvider = clientAssemblyProvider;
         }
 
-{{ for entity in solution.Domain.Entities }}
+{{ for entity in solution.Domain.Entities -}}
+{{- if (!entity.IsOwnedEntity) }}
     public DbSet<{{entity.Name}}> {{entity.PluralName}} { get; set; } = null!;
-{{ end }}
+{{- end }}
+{{- end }}
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -62,7 +65,7 @@ public partial class {{className}} : DbContext
                 var type = codeGeneratorState.GetEntityType(entity.Name);
                 if (type != null)
                 {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, _noxSolution, codeGeneratorState.GetEntityType);
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity, _noxSolution, codeGeneratorState.GetEntityType);
                 }
             }
         }
