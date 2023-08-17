@@ -140,11 +140,6 @@ public partial class CountriesController : ODataController
         return Updated(country);
     }
     
-    private bool CountryExists(System.String key)
-    {
-        return _databaseContext.Countries.Any(p => p.Id == key);
-    }
-    
     public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new DeleteCountryByIdCommand(key));

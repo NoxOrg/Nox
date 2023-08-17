@@ -126,11 +126,6 @@ public partial class CompoundKeysEntitiesController : ODataController
         return Updated(compoundKeysEntity);
     }
     
-    private bool CompoundKeysEntityExists(System.String key)
-    {
-        return _databaseContext.CompoundKeysEntities.Any(p => p.Id1 == key);
-    }
-    
     public async Task<ActionResult> Delete([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)
     {
         var result = await _mediator.Send(new DeleteCompoundKeysEntityByIdCommand(keyId1, keyId2));
