@@ -29,6 +29,7 @@ namespace SampleWebApp.Migrations
                     HtmlField = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MarkdownField = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     YamlField = table.Column<string>(type: "varchar(max)", unicode: false, nullable: true),
+                    YearField = table.Column<int>(type: "int", nullable: true),
                     WeightField = table.Column<decimal>(type: "DECIMAL(9,6)", nullable: true),
                     VolumeField = table.Column<decimal>(type: "DECIMAL(9,6)", nullable: true),
                     UrlField = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: true),

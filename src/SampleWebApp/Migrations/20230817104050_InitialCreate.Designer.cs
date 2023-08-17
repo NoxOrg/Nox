@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230817084128_InitialCreate")]
+    [Migration("20230817104050_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -166,6 +166,9 @@ namespace SampleWebApp.Migrations
                     b.Property<string>("YamlField")
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");
+
+                    b.Property<ushort?>("YearField")
+                        .HasColumnType("int");
 
                     b.HasKey("Id", "TextId");
 

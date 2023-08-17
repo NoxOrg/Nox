@@ -82,6 +82,11 @@ attributes:
     description: Yaml Nox Type
     type: yaml
 
+  - name: YearField
+    description: YearField Nox Type
+    type: year
+    isRequired: false
+
   - name: WeightField
     description: Weight Nox Type
     type: weight

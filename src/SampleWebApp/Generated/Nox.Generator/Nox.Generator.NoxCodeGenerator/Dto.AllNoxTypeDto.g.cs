@@ -94,6 +94,11 @@ public partial class AllNoxTypeDto
     public System.String? YamlField { get; set; } 
 
     /// <summary>
+    /// YearField Nox Type (Optional).
+    /// </summary>
+    public System.Int16? YearField { get; set; } 
+
+    /// <summary>
     /// Weight Nox Type (Optional).
     /// </summary>
     public System.Double? WeightField { get; set; } 

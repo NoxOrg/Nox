@@ -76,6 +76,11 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         {        
             entity.YamlField = noxTypeValue;
         }
+        noxTypeValue = CreateNoxType<Nox.Types.Year>(entityDefinition,"YearField",dto.YearField);
+        if(noxTypeValue != null)
+        {        
+            entity.YearField = noxTypeValue;
+        }
         noxTypeValue = CreateNoxType<Nox.Types.Weight>(entityDefinition,"WeightField",dto.WeightField);
         if(noxTypeValue != null)
         {        

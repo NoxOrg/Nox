@@ -84,6 +84,11 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.Yaml? YamlField { get; set; } = null!;
 
     /// <summary>
+    /// YearField Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.Year? YearField { get; set; } = null!;
+
+    /// <summary>
     /// Weight Nox Type (Optional).
     /// </summary>
     public Nox.Types.Weight? WeightField { get; set; } = null!;

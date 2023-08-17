@@ -164,6 +164,9 @@ namespace SampleWebApp.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");
 
+                    b.Property<ushort?>("YearField")
+                        .HasColumnType("int");
+
                     b.HasKey("Id", "TextId");
 
                     b.ToTable("AllNoxTypes");
