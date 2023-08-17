@@ -236,8 +236,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.WeightInKilograms.Unit.Should().Be(WeightTypeUnit.Kilogram);
         item.HashedText.HashText.Should().Be(newItem.HashedText.HashText);
         item.HashedText.Salt.Should().Be(newItem.HashedText.Salt);
-        item.CreateDate!.ToString("yyyy-MM-dd HH:mm:ss \"GMT\"zzz").Should().Be(dateTime.ToString("yyyy-MM-dd HH:mm:ss \"GMT\"zzz"));
-        item.CreateDate!.TimeZoneOffset.Should().Be(dateTime.Offset);
+        item.CreateDate!.Value.Should().Be(dateTime);
+        item.CreateDate!.Value.Offset.Should().Be(dateTime.Offset);
         item.DateTimeDuration.Value.Should().Be(new TimeSpan(10, 5, 2, 1).Ticks);
         item.Nuid.Value.Should().Be(NuidDefinition.NuidValue);
         Assert.Equal(newItem.Password, item.Password);

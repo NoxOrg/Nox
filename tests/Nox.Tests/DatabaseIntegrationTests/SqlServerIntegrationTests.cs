@@ -4,6 +4,7 @@ using Nox.Types;
 using System.Globalization;
 using System.Text.Json;
 using TestWebApp.Domain;
+using DateTime = Nox.Types.DateTime;
 using DayOfWeek = Nox.Types.DayOfWeek;
 using Guid = Nox.Types.Guid;
 
@@ -11,7 +12,7 @@ namespace Nox.Tests.DatabaseIntegrationTests;
 
 public class SqlServerIntegrationTests : SqlServerTestBase
 {
-    //[Fact]
+   // [Fact]
     public void GeneratedEntity_SqlServer_CanSaveAndReadFields_AllTypes()
     {
         // TODO:
@@ -185,6 +186,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             HtmlTestField = Html.From(html),
             ImageTestField = Image.From(imageUrl, imagePrettyName, imageSizeInBytes),
             PhoneNumberTestField = PhoneNumber.From(phoneNumber),
+            DateTimeTestField = DateTime.From(dateTime),
         };
         var temperatureCelsius = newItem.TemperatureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -276,8 +278,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
         testEntity.PhoneNumberTestField!.Value.Should().Be(phoneNumber);
         testEntity.DateTimeScheduleTestField!.Value.Should().Be(cronJobExpression);
-		testEntity.DateTimeTestField!.ToString().Should().Be(dateTime.ToString(CultureInfo.InvariantCulture));
-        testEntity.DateTimeTestField!.TimeZoneOffset.Should().Be(dateTime.Offset);
+        testEntity.DateTimeTestField!.Value.Should().Be(dateTime);
     }
 
     //[Fact]

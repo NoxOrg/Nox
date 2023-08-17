@@ -1,5 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
@@ -10,20 +10,14 @@ public class DateTimeDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public virtual bool IsDefault => true;
 
-    public void ConfigureEntityProperty(NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState, EntityTypeBuilder builder, NoxSimpleTypeDefinition property, Entity entity, bool isKey)
+    public virtual void ConfigureEntityProperty(NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState, EntityTypeBuilder builder, NoxSimpleTypeDefinition property, Entity entity, bool isKey)
     {
         builder
-            .OwnsOne(typeof(DateTime), property.Name, dtr =>
-            {
-                dtr.Property(nameof(DateTime.DateTimeValue))
-                    .HasConversion<DateTimeOffsetConverter>();
-
-                dtr.Property(nameof(DateTime.TimeZoneOffset))
-                    .UsePropertyAccessMode(PropertyAccessMode.Property);
-
-                dtr.Ignore(nameof(DateTime.Value));
-            });
+          .Property(property.Name)
+          .IsRequired(property.IsRequired)          
+          .HasConversion<DateTimeConverter>();        
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
 }
+

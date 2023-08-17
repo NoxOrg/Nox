@@ -5,29 +5,9 @@ namespace Nox.Types;
 public sealed class DateTime : ValueObject<DateTimeOffset, DateTime>
 {
     private DateTimeTypeOptions _dateTimeTypeOptions = new();
-    private TimeSpan _timeZoneOffset;
 
     public DateTime() { Value = DateTimeOffset.MinValue; }
 
-    public DateTimeOffset DateTimeValue
-    {
-        get => Value;
-
-        private set => Value = value.ToOffset(TimeZoneOffset);
-    }
-
-    public TimeSpan TimeZoneOffset
-    {
-        get => _timeZoneOffset;
-        private set
-        {
-            _timeZoneOffset = value;
-            if (Value.Offset != _timeZoneOffset)
-            {
-                Value = Value.ToOffset(value);
-            }
-        }
-    }
 
     /// <summary>
     /// Creates <see cref="DateTime"/> object from sent <see cref="System.DateTime"/>
@@ -69,8 +49,6 @@ public sealed class DateTime : ValueObject<DateTimeOffset, DateTime>
         {
             Value = dateTime,
             _dateTimeTypeOptions = options,
-            DateTimeValue = dateTime,
-            TimeZoneOffset = dateTime.Offset
         };
 
         var validationResult = newObject.Validate();
@@ -109,7 +87,7 @@ public sealed class DateTime : ValueObject<DateTimeOffset, DateTime>
         var result = base.Validate();
 
         // validate date by options
-        if (_dateTimeTypeOptions.AllowFutureOnly && TrimDateForComparison(Value) < TrimDateForComparison(DateTimeOffset.UtcNow.ToOffset(TimeZoneOffset)))
+        if (_dateTimeTypeOptions.AllowFutureOnly && Value < DateTimeOffset.UtcNow)
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DateTime type as value {Value} is in the past"));
         }

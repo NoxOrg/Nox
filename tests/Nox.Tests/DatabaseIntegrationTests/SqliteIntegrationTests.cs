@@ -278,7 +278,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.PhoneNumberTestField!.Value.Should().Be(phoneNumber);
         testEntity.DateTimeScheduleTestField!.Value.Should().Be(cronJobExpression);
 		testEntity.DateTimeTestField!.ToString().Should().Be(dateTime.ToString(CultureInfo.InvariantCulture));
-        testEntity.DateTimeTestField!.TimeZoneOffset.Should().Be(dateTime.Offset);
+        testEntity.DateTimeTestField!.Value.Offset.Should().Be(dateTime.Offset);
     }
 
     [Fact]

@@ -27,7 +27,7 @@ public class DateTimeTests
     [Fact]
     public void From_AllowFutureOnly_Now_ReturnsValue()
     {
-        var datetimeNow = System.DateTime.Now;
+        var datetimeNow = System.DateTime.Now.AddMinutes(1);
         DateTimeTypeOptions dateTimeTypeOptions = new() { AllowFutureOnly = true };
         var datetime = DateTime.From(new DateTimeOffset(datetimeNow), dateTimeTypeOptions);
 
@@ -146,7 +146,7 @@ public class DateTimeTests
         datetime.Value.Year.Should().Be(datetimeExpected.Year);
         datetime.Value.Month.Should().Be(datetimeExpected.Month);
         datetime.Value.Day.Should().Be(datetimeExpected.Day);
-        datetime.TimeZoneOffset.Should().Be(TimeSpan.Zero);
+        datetime.Value.Offset.Should().Be(TimeSpan.Zero);
     }
 
     [Fact]
@@ -317,13 +317,13 @@ public class DateTimeTests
         var datetimeExpected = new DateTimeOffset(datetimeParam, TimeSpan.Zero);
         var datetime = DateTime.From(datetimeParam, TimeSpan.FromHours(5));
 
-        datetime.DateTimeValue.Year.Should().Be(datetimeExpected.Year);
-        datetime.DateTimeValue.Month.Should().Be(datetimeExpected.Month);
-        datetime.DateTimeValue.Day.Should().Be(datetimeExpected.Day);
-        datetime.DateTimeValue.Hour.Should().Be(datetimeExpected.Hour);
-        datetime.DateTimeValue.Minute.Should().Be(datetimeExpected.Minute);
-        datetime.DateTimeValue.Second.Should().Be(datetimeExpected.Second);
-        datetime.TimeZoneOffset.Should().Be(TimeSpan.FromHours(5));
+        datetime.Value.Year.Should().Be(datetimeExpected.Year);
+        datetime.Value.Month.Should().Be(datetimeExpected.Month);
+        datetime.Value.Day.Should().Be(datetimeExpected.Day);
+        datetime.Value.Hour.Should().Be(datetimeExpected.Hour);
+        datetime.Value.Minute.Should().Be(datetimeExpected.Minute);
+        datetime.Value.Second.Should().Be(datetimeExpected.Second);
+        datetime.Value.Offset.Should().Be(TimeSpan.FromHours(5));
     }
 }
 

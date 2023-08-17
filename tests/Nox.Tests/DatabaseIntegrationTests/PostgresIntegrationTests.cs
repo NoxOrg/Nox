@@ -13,7 +13,7 @@ namespace Nox.Tests.DatabaseIntegrationTests;
 
 public class PostgresIntegrationTests : PostgresTestBase
 {
-    // [Fact]
+    //[Fact]
     public void GeneratedEntity_Postgres_CanSaveAndReadFields_AllTypes()
     {
         // TODO:
@@ -267,7 +267,8 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
         testEntity.PhoneNumberTestField!.Value.Should().Be(phoneNumber);
         testEntity.DateTimeScheduleTestField!.Value.Should().Be(cronJobExpression);
-		testEntity.DateTimeTestField!.ToString().Should().Be(dateTime.ToString(CultureInfo.InvariantCulture));
-        testEntity.DateTimeTestField!.TimeZoneOffset.Should().Be(dateTime.Offset);
+        //PostGres is always UTC
+        testEntity.DateTimeTestField!.Value.Should().Be(dateTime.UtcDateTime);        
+        testEntity.DateTimeTestField!.Value.Offset.Should().Be(TimeSpan.Zero);
     }
 }
