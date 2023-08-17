@@ -42,7 +42,7 @@ public class UpdateCurrencyCashBalanceCommandHandler: CommandBase, IRequestHandl
             return false;
         }
         EntityMapper.MapToEntity(entity, GetEntityDefinition<CurrencyCashBalance>(), request.EntityDto);
-        // Todo map dto
+        
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();             
         return result > 0;        

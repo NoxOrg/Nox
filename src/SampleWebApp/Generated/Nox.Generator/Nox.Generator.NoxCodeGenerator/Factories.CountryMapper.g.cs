@@ -98,4 +98,9 @@ public class CountryMapper: EntityMapperBase<Country>
             entity.TopLevelDomains = noxTypeValue;
         }
     }
+
+    public override void PartialMapToEntity(Country entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, List<string> deletedPropertyNames)
+    {
+
+    }
 }

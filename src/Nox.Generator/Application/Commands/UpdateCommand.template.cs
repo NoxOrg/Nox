@@ -43,7 +43,7 @@ public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<U
             return false;
         }
         EntityMapper.MapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.EntityDto);
-        // Todo map dto
+        
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();             
         return result > 0;        
