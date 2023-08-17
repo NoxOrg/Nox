@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230815130236_InitialCreate")]
+    [Migration("20230817071220_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -73,14 +73,16 @@ namespace SampleWebApp.Migrations
                     b.Property<short?>("CountryNumberField")
                         .HasColumnType("smallint");
 
-                    b.Property<DateTime?>("CreatedAtUtc")
+                    b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasMaxLength(511)
                         .HasColumnType("nvarchar(511)");
 
                     b.Property<string>("CreatedVia")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(255)");
@@ -190,14 +192,16 @@ namespace SampleWebApp.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
 
-                    b.Property<DateTime?>("CreatedAtUtc")
+                    b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasMaxLength(511)
                         .HasColumnType("nvarchar(511)");
 
                     b.Property<string>("CreatedVia")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(255)");
@@ -290,14 +294,16 @@ namespace SampleWebApp.Migrations
                         .HasColumnType("char(2)")
                         .IsFixedLength();
 
-                    b.Property<DateTime?>("CreatedAtUtc")
+                    b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasMaxLength(511)
                         .HasColumnType("nvarchar(511)");
 
                     b.Property<string>("CreatedVia")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(255)");
@@ -336,14 +342,16 @@ namespace SampleWebApp.Migrations
                     b.Property<uint>("Id")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime?>("CreatedAtUtc")
+                    b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasMaxLength(511)
                         .HasColumnType("nvarchar(511)");
 
                     b.Property<string>("CreatedVia")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(255)");
@@ -394,14 +402,16 @@ namespace SampleWebApp.Migrations
                     b.Property<uint>("CurrencyId")
                         .HasColumnType("bigint");
 
-                    b.Property<DateTime?>("CreatedAtUtc")
+                    b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasMaxLength(511)
                         .HasColumnType("nvarchar(511)");
 
                     b.Property<string>("CreatedVia")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(255)");
@@ -452,14 +462,16 @@ namespace SampleWebApp.Migrations
                         .HasColumnType("char(3)")
                         .IsFixedLength();
 
-                    b.Property<DateTime?>("CreatedAtUtc")
+                    b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasMaxLength(511)
                         .HasColumnType("nvarchar(511)");
 
                     b.Property<string>("CreatedVia")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(255)");
@@ -507,14 +519,16 @@ namespace SampleWebApp.Migrations
                         .HasColumnType("char(3)")
                         .IsFixedLength();
 
-                    b.Property<DateTime?>("CreatedAtUtc")
+                    b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("CreatedBy")
+                        .IsRequired()
                         .HasMaxLength(511)
                         .HasColumnType("nvarchar(511)");
 
                     b.Property<string>("CreatedVia")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(255)");

@@ -101,7 +101,6 @@ public partial class TestWebAppDbContext : DbContext
             var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
             foreach (var entity in _noxSolution.Domain.Entities)
             {
-                Console.WriteLine($"TestWebAppDbContext Configure database for Entity {entity.Name}");
                 var type = codeGeneratorState.GetEntityType(entity.Name);
                 if (type != null)
                 {

@@ -64,8 +64,6 @@
         /// <param name="system">The system which the operation is made from.</param>
         public virtual void Created(Types.User user, Types.Text system)
         {
-            CreatedAtUtc = Types.DateTime.From(System.DateTime.UtcNow);
-
             //Default values are fine.
             CreatedBy = user;
             CreatedVia = system;
@@ -92,17 +90,17 @@
 
         public virtual void Created()
         {
-            Created(user: Types.User.From("N/A"), system: Types.Text.From("N/A"));
+            Created(user: Types.User.From(Guid.Empty.ToString()), system: Types.Text.From("N/A"));
         }
 
         public virtual void Updated()
         {
-            Updated(user: Types.User.From("N/A"), system: Types.Text.From("N/A"));
+            Updated(user: Types.User.From(Guid.Empty.ToString()), system: Types.Text.From("N/A"));
         }
 
         public virtual void Deleted()
         {
-            Deleted(user: Types.User.From("N/A"), system: Types.Text.From("N/A"));
+            Deleted(user: Types.User.From(Guid.Empty.ToString()), system: Types.Text.From("N/A"));
         }
 
         #endregion
