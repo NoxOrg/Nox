@@ -14,9 +14,9 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateStoreCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<StoreKeyDto?>;
+public record PartialUpdateStoreCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<bool>;
 
-public class PartialUpdateStoreCommandHandler: CommandBase, IRequestHandler<PartialUpdateStoreCommand, StoreKeyDto?>
+public class PartialUpdateStoreCommandHandler: CommandBase, IRequestHandler<PartialUpdateStoreCommand, bool>
 {
     public SampleWebAppDbContext DbContext { get; }    
     public IEntityMapper<Store> EntityMapper { get; }
@@ -31,20 +31,19 @@ public class PartialUpdateStoreCommandHandler: CommandBase, IRequestHandler<Part
         EntityMapper = entityMapper;
     }
     
-    public async Task<StoreKeyDto?> Handle(PartialUpdateStoreCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(PartialUpdateStoreCommand request, CancellationToken cancellationToken)
     {
         var keyId = CreateNoxTypeForKey<Store,Text>("Id", request.keyId);
     
         var entity = await DbContext.Stores.FindAsync(keyId);
         if (entity == null)
         {
-            return null;
+            return false;
         }
-        //EntityMapper.MapToEntity(entity, GetEntityDefinition<Store>(), request.EntityDto);
-        //// Todo map dto
-        //DbContext.Entry(entity).State = EntityState.Modified;
-        //var result = await DbContext.SaveChangesAsync();             
-        //return result > 0;        
-        return new StoreKeyDto(entity.Id.Value);
+        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Store>(), request.UpdatedProperties, request.DeletedPropertyNames);
+
+        DbContext.Entry(entity).State = EntityState.Modified;
+        var result = await DbContext.SaveChangesAsync();
+        return result > 0;                
     }
 }

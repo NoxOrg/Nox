@@ -39,4 +39,9 @@ public class StoreMapper: EntityMapperBase<Store>
             entity.PhysicalMoney = noxTypeValue;
         }
     }
+
+    public override void PartialMapToEntity(Store entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, List<string> deletedPropertyNames)
+    {
+
+    }
 }

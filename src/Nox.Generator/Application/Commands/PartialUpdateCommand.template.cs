@@ -42,11 +42,10 @@ public class PartialUpdate{{entity.Name}}CommandHandler: CommandBase, IRequestHa
         {
             return null;
         }
-        //EntityMapper.MapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.EntityDto);
-        //// Todo map dto
-        //DbContext.Entry(entity).State = EntityState.Modified;
-        //var result = await DbContext.SaveChangesAsync();             
-        //return result > 0;        
+        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.UpdatedProperties, request.DeletedPropertyNames);
+
+        DbContext.Entry(entity).State = EntityState.Modified;
+        var result = await DbContext.SaveChangesAsync();
         return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
     }
 }

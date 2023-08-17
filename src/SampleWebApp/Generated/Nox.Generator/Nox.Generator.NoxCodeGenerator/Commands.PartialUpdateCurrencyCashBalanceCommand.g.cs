@@ -14,9 +14,9 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateCurrencyCashBalanceCommand(System.String keyStoreId, System.UInt32 keyCurrencyId, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<CurrencyCashBalanceKeyDto?>;
+public record PartialUpdateCurrencyCashBalanceCommand(System.String keyStoreId, System.UInt32 keyCurrencyId, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<bool>;
 
-public class PartialUpdateCurrencyCashBalanceCommandHandler: CommandBase, IRequestHandler<PartialUpdateCurrencyCashBalanceCommand, CurrencyCashBalanceKeyDto?>
+public class PartialUpdateCurrencyCashBalanceCommandHandler: CommandBase, IRequestHandler<PartialUpdateCurrencyCashBalanceCommand, bool>
 {
     public SampleWebAppDbContext DbContext { get; }    
     public IEntityMapper<CurrencyCashBalance> EntityMapper { get; }
@@ -31,7 +31,7 @@ public class PartialUpdateCurrencyCashBalanceCommandHandler: CommandBase, IReque
         EntityMapper = entityMapper;
     }
     
-    public async Task<CurrencyCashBalanceKeyDto?> Handle(PartialUpdateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
+    public async Task<bool> Handle(PartialUpdateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
     {
         var keyStoreId = CreateNoxTypeForKey<CurrencyCashBalance,Text>("StoreId", request.keyStoreId);
         var keyCurrencyId = CreateNoxTypeForKey<CurrencyCashBalance,Nuid>("CurrencyId", request.keyCurrencyId);
@@ -39,13 +39,12 @@ public class PartialUpdateCurrencyCashBalanceCommandHandler: CommandBase, IReque
         var entity = await DbContext.CurrencyCashBalances.FindAsync(keyStoreId, keyCurrencyId);
         if (entity == null)
         {
-            return null;
+            return false;
         }
-        //EntityMapper.MapToEntity(entity, GetEntityDefinition<CurrencyCashBalance>(), request.EntityDto);
-        //// Todo map dto
-        //DbContext.Entry(entity).State = EntityState.Modified;
-        //var result = await DbContext.SaveChangesAsync();             
-        //return result > 0;        
-        return new CurrencyCashBalanceKeyDto(entity.StoreId.Value, entity.CurrencyId.Value);
+        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<CurrencyCashBalance>(), request.UpdatedProperties, request.DeletedPropertyNames);
+
+        DbContext.Entry(entity).State = EntityState.Modified;
+        var result = await DbContext.SaveChangesAsync();
+        return result > 0;                
     }
 }
