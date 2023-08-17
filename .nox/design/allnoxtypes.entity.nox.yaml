@@ -56,10 +56,10 @@ attributes:
     type: currencyCode3
     isRequired: false
 
-  # - name: DateTimeField
-  #   description: DatetimeField Nox Type
-  #   type: dateTime
-  #   isRequired: false
+  - name: DateTimeField
+    description: DatetimeField Nox Type
+    type: dateTime
+    isRequired: false
 
   - name: FormulaField
     description: Formula Nox Type

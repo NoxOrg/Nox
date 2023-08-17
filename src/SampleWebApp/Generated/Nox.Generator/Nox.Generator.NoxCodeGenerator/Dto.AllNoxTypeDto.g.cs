@@ -69,6 +69,11 @@ public partial class AllNoxTypeDto
     public System.String? CurrencyCode3Field { get; set; } 
 
     /// <summary>
+    /// DatetimeField Nox Type (Optional).
+    /// </summary>
+    public System.DateTimeOffset? DateTimeField { get; set; } 
+
+    /// <summary>
     /// Formula Nox Type (Optional).
     /// </summary>
     [NotMapped]public System.String? FormulaField { get; set; } 

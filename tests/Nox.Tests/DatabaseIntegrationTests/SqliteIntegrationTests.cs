@@ -1,6 +1,7 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Nox.Types;
+using System.Globalization;
 using System.Text.Json;
 using TestWebApp.Domain;
 
@@ -128,6 +129,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var imageUrl = "https://example.com/image.png";
         var imagePrettyName = "Image";
         var imageSizeInBytes = 128;
+        var dateTime = new DateTimeOffset(System.DateTime.Now);
 
         var newItem = new TestEntityForTypes()
         {
@@ -185,6 +187,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             ImageTestField = Image.From(imageUrl, imagePrettyName, imageSizeInBytes),
             PhoneNumberTestField = PhoneNumber.From(phoneNumber),
             DateTimeScheduleTestField = DateTimeSchedule.From(cronJobExpression),
+			DateTimeTestField = Types.DateTime.From(dateTime),
         };
         var temperatureCelsius = newItem.TemperatureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -274,6 +277,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
         testEntity.PhoneNumberTestField!.Value.Should().Be(phoneNumber);
         testEntity.DateTimeScheduleTestField!.Value.Should().Be(cronJobExpression);
+		testEntity.DateTimeTestField!.ToString().Should().Be(dateTime.ToString(CultureInfo.InvariantCulture));
+        testEntity.DateTimeTestField!.Value.Offset.Should().Be(dateTime.Offset);
     }
 
     [Fact]

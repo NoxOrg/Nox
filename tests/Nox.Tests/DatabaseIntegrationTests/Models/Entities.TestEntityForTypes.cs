@@ -288,4 +288,9 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public PhoneNumber? PhoneNumberTestField { get; set; } = null!;
+	
+	 /// <summary>
+    ///  (Required).
+    /// </summary>
+    public Nox.Types.DateTime DateTimeTestField { get; set; } = null!;
 }

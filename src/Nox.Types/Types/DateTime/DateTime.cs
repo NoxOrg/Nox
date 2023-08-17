@@ -2,14 +2,39 @@
 using System.Globalization;
 
 namespace Nox.Types;
-public sealed class DateTime : ValueObject<System.DateTime, DateTime>
+public sealed class DateTime : ValueObject<DateTimeOffset, DateTime>
 {
     private DateTimeTypeOptions _dateTimeTypeOptions = new();
 
-    public DateTime() { Value = System.DateTime.MinValue; }
+    public DateTime() { Value = DateTimeOffset.MinValue; }
 
-    /// <inheritdoc cref="From(System.DateTime,Nox.Types.DateTimeTypeOptions)"/>
-    public new static DateTime From(System.DateTime dateTime) => From(dateTime, new DateTimeTypeOptions());
+
+    /// <summary>
+    /// Creates <see cref="DateTime"/> object from sent <see cref="System.DateTime"/>
+    /// </summary>
+    /// <param name="dateTime"></param>
+    /// <param name="options"></param>
+    /// <returns>New <see cref="DateTime"/> object</returns>
+    public static DateTime From(System.DateTime dateTime, DateTimeTypeOptions? options = null)
+    {
+        options ??= new DateTimeTypeOptions();
+        return From(new DateTimeOffset(dateTime), options);
+    }
+
+    /// <summary>
+    /// 
+    /// </summary>
+    /// <param name="dateTime"></param>
+    /// <param name="timespan"></param>
+    /// <param name="options"></param>
+    /// <returns></returns>
+    /// <exception cref="TypeValidationException"></exception>
+    public static DateTime From(System.DateTime dateTime, TimeSpan timespan, DateTimeTypeOptions? options = null)
+    {
+        options ??= new DateTimeTypeOptions();
+        var datetimeoffset = new DateTimeOffset(dateTime, timespan);
+        return From(datetimeoffset, options);
+    }
 
     /// <summary>
     /// Creates and validates a new instance of <see cref="DateTime"/> from parsed value of <paramref name="dateTime"/>.
@@ -17,12 +42,13 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
     /// <param name="dateTime"></param>
     /// <param name="options"></param>
     /// <returns>New <see cref="DateTime"/> object from parsed value of <paramref name="dateTime"/>.</returns>
-    public static DateTime From(System.DateTime dateTime, DateTimeTypeOptions options)
+    public static DateTime From(DateTimeOffset dateTime, DateTimeTypeOptions? options = null)
     {
+        options ??= new DateTimeTypeOptions();
         var newObject = new DateTime
         {
             Value = dateTime,
-            _dateTimeTypeOptions = options
+            _dateTimeTypeOptions = options,
         };
 
         var validationResult = newObject.Validate();
@@ -44,7 +70,7 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
     public static DateTime From(string dateTime, DateTimeTypeOptions? options = null)
     {
         options ??= new DateTimeTypeOptions();
-        if (!System.DateTime.TryParse(dateTime, out System.DateTime dateTimeParse))
+        if (!DateTimeOffset.TryParse(dateTime, CultureInfo.InvariantCulture, out DateTimeOffset dateTimeParse))
         {
             throw new ArgumentOutOfRangeException(nameof(dateTime), dateTime, "Invalid datetime");
         }
@@ -61,7 +87,7 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
         var result = base.Validate();
 
         // validate date by options
-        if(_dateTimeTypeOptions.AllowFutureOnly && Value < System.DateTime.Now)
+        if (_dateTimeTypeOptions.AllowFutureOnly && Value < DateTimeOffset.UtcNow)
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DateTime type as value {Value} is in the past"));
         }
@@ -81,7 +107,7 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
 
     public static DateTime operator +(DateTime dateTime, TimeSpan timeSpan)
     {
-        System.DateTime newDateTime = dateTime.Value.Add(timeSpan);
+        DateTimeOffset newDateTime = dateTime.Value.Add(timeSpan);
         return From(newDateTime);
     }
 
@@ -162,6 +188,11 @@ public sealed class DateTime : ValueObject<System.DateTime, DateTime>
     public string ToString(string format, IFormatProvider formatProvider)
     {
         return Value.ToString(format, formatProvider);
+    }
+
+    private System.DateTime TrimDateForComparison(DateTimeOffset dateTime)
+    {
+        return new System.DateTime(dateTime.Year, dateTime.Month, dateTime.Day, dateTime.Hour, dateTime.Minute, dateTime.Second, DateTimeKind.Unspecified);
     }
 }
 

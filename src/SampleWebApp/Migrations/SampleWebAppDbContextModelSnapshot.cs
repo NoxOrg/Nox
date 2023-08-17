@@ -87,6 +87,9 @@ namespace SampleWebApp.Migrations
                         .HasColumnType("char(3)")
                         .IsFixedLength();
 
+                    b.Property<DateTimeOffset?>("DateTimeField")
+                        .HasColumnType("datetimeoffset");
+
                     b.Property<bool?>("Deleted")
                         .HasColumnType("bit");
 

@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230816154659_InitialCreate")]
+    [Migration("20230817084128_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -89,6 +89,9 @@ namespace SampleWebApp.Migrations
                         .IsUnicode(false)
                         .HasColumnType("char(3)")
                         .IsFixedLength();
+
+                    b.Property<DateTimeOffset?>("DateTimeField")
+                        .HasColumnType("datetimeoffset");
 
                     b.Property<bool?>("Deleted")
                         .HasColumnType("bit");
