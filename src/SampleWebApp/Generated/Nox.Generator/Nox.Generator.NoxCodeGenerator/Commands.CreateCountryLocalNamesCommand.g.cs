@@ -14,11 +14,9 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 //TODO support multiple keys and generated keys like nuid database number
-public record CreateCountryLocalNamesResponse(System.String keyId);
+public record CreateCountryLocalNamesCommand(CountryLocalNamesCreateDto EntityDto) : IRequest<CountryLocalNamesKeyDto>;
 
-public record CreateCountryLocalNamesCommand(CountryLocalNamesCreateDto EntityDto) : IRequest<CreateCountryLocalNamesResponse>;
-
-public class CreateCountryLocalNamesCommandHandler: IRequestHandler<CreateCountryLocalNamesCommand, CreateCountryLocalNamesResponse>
+public class CreateCountryLocalNamesCommandHandler: IRequestHandler<CreateCountryLocalNamesCommand, CountryLocalNamesKeyDto>
 {
     public SampleWebAppDbContext DbContext { get; }
     public IEntityFactory<CountryLocalNamesCreateDto,CountryLocalNames> EntityFactory { get; }
@@ -31,13 +29,12 @@ public class CreateCountryLocalNamesCommandHandler: IRequestHandler<CreateCountr
         EntityFactory = entityFactory;
     }
     
-    public async Task<CreateCountryLocalNamesResponse> Handle(CreateCountryLocalNamesCommand request, CancellationToken cancellationToken)
+    public async Task<CountryLocalNamesKeyDto> Handle(CreateCountryLocalNamesCommand request, CancellationToken cancellationToken)
     {    
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 	
         DbContext.CountryLocalNames.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
-        //return entityToCreate.Id.Value;
-        return new CreateCountryLocalNamesResponse(default(System.String)!);
+        return new CountryLocalNamesKeyDto(entityToCreate.Id.Value);
 }
 }

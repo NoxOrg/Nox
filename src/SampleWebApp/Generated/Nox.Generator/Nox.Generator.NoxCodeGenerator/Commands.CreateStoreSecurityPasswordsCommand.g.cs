@@ -14,11 +14,9 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 //TODO support multiple keys and generated keys like nuid database number
-public record CreateStoreSecurityPasswordsResponse(System.String keyId);
+public record CreateStoreSecurityPasswordsCommand(StoreSecurityPasswordsCreateDto EntityDto) : IRequest<StoreSecurityPasswordsKeyDto>;
 
-public record CreateStoreSecurityPasswordsCommand(StoreSecurityPasswordsCreateDto EntityDto) : IRequest<CreateStoreSecurityPasswordsResponse>;
-
-public class CreateStoreSecurityPasswordsCommandHandler: IRequestHandler<CreateStoreSecurityPasswordsCommand, CreateStoreSecurityPasswordsResponse>
+public class CreateStoreSecurityPasswordsCommandHandler: IRequestHandler<CreateStoreSecurityPasswordsCommand, StoreSecurityPasswordsKeyDto>
 {
     public SampleWebAppDbContext DbContext { get; }
     public IEntityFactory<StoreSecurityPasswordsCreateDto,StoreSecurityPasswords> EntityFactory { get; }
@@ -31,13 +29,12 @@ public class CreateStoreSecurityPasswordsCommandHandler: IRequestHandler<CreateS
         EntityFactory = entityFactory;
     }
     
-    public async Task<CreateStoreSecurityPasswordsResponse> Handle(CreateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
+    public async Task<StoreSecurityPasswordsKeyDto> Handle(CreateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
     {    
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 	
         DbContext.StoreSecurityPasswords.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
-        //return entityToCreate.Id.Value;
-        return new CreateStoreSecurityPasswordsResponse(default(System.String)!);
+        return new StoreSecurityPasswordsKeyDto(entityToCreate.Id.Value);
 }
 }

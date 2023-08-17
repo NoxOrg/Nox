@@ -31,6 +31,7 @@ internal class EntityDtoGenerator : INoxCodeGenerator
                    ComponentType = GetSingleComponentSimpleType(key),
                    IsReadable = key.Type.IsReadableType()
                });
+            var primaryKeys = string.Join(", ", entity.Keys.Select(k => $"{codeGeneratorState.Solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
 
             context.CancellationToken.ThrowIfCancellationRequested();
 
@@ -39,6 +40,7 @@ internal class EntityDtoGenerator : INoxCodeGenerator
                 .WithFileNamePrefix("Dto")
                 .WithObject("entity", entity)
                 .WithObject("componentsInfo", componentsInfo)
+                .WithObject("primaryKeys", primaryKeys)
                 .WithObject("isVersioned", (entity.Persistence?.IsVersioned ?? true))
                 .GenerateSourceCodeFromResource("Application.Dto.EntityDto");         
         }

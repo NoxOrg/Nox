@@ -14,9 +14,9 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateStoreSecurityPasswordsCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<bool>;
+public record PartialUpdateStoreSecurityPasswordsCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<StoreSecurityPasswordsKeyDto?>;
 
-public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRequestHandler<PartialUpdateStoreSecurityPasswordsCommand, bool>
+public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRequestHandler<PartialUpdateStoreSecurityPasswordsCommand, StoreSecurityPasswordsKeyDto?>
 {
     public SampleWebAppDbContext DbContext { get; }    
     public IEntityMapper<StoreSecurityPasswords> EntityMapper { get; }
@@ -31,20 +31,20 @@ public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRe
         EntityMapper = entityMapper;
     }
     
-    public async Task<bool> Handle(PartialUpdateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
+    public async Task<StoreSecurityPasswordsKeyDto?> Handle(PartialUpdateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
     {
         var keyId = CreateNoxTypeForKey<StoreSecurityPasswords,Text>("Id", request.keyId);
     
         var entity = await DbContext.StoreSecurityPasswords.FindAsync(keyId);
         if (entity == null)
         {
-            return false;
+            return null;
         }
         //EntityMapper.MapToEntity(entity, GetEntityDefinition<StoreSecurityPasswords>(), request.EntityDto);
         //// Todo map dto
         //DbContext.Entry(entity).State = EntityState.Modified;
         //var result = await DbContext.SaveChangesAsync();             
         //return result > 0;        
-        return true;
+        return new StoreSecurityPasswordsKeyDto(entity.Id.Value);
     }
 }

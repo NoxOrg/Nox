@@ -14,11 +14,9 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 //TODO support multiple keys and generated keys like nuid database number
-public record CreateStoreResponse(System.String keyId);
+public record CreateStoreCommand(StoreCreateDto EntityDto) : IRequest<StoreKeyDto>;
 
-public record CreateStoreCommand(StoreCreateDto EntityDto) : IRequest<CreateStoreResponse>;
-
-public class CreateStoreCommandHandler: IRequestHandler<CreateStoreCommand, CreateStoreResponse>
+public class CreateStoreCommandHandler: IRequestHandler<CreateStoreCommand, StoreKeyDto>
 {
     public SampleWebAppDbContext DbContext { get; }
     public IEntityFactory<StoreCreateDto,Store> EntityFactory { get; }
@@ -31,13 +29,12 @@ public class CreateStoreCommandHandler: IRequestHandler<CreateStoreCommand, Crea
         EntityFactory = entityFactory;
     }
     
-    public async Task<CreateStoreResponse> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
+    public async Task<StoreKeyDto> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
     {    
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 	
         DbContext.Stores.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
-        //return entityToCreate.Id.Value;
-        return new CreateStoreResponse(default(System.String)!);
+        return new StoreKeyDto(entityToCreate.Id.Value);
 }
 }

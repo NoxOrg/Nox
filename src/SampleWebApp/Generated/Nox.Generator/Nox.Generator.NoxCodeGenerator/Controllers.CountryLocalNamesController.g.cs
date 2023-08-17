@@ -89,7 +89,7 @@ public partial class CountryLocalNamesController : ODataController
         
         var updated = await _mediator.Send(new UpdateCountryLocalNamesCommand(key, countryLocalNames));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
@@ -119,7 +119,7 @@ public partial class CountryLocalNamesController : ODataController
         
         var updated = await _mediator.Send(new PartialUpdateCountryLocalNamesCommand(key, updateProperties, deletedProperties));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }

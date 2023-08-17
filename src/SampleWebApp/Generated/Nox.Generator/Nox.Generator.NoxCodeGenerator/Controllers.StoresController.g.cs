@@ -89,7 +89,7 @@ public partial class StoresController : ODataController
         
         var updated = await _mediator.Send(new UpdateStoreCommand(key, store));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
@@ -119,7 +119,7 @@ public partial class StoresController : ODataController
         
         var updated = await _mediator.Send(new PartialUpdateStoreCommand(key, updateProperties, deletedProperties));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
