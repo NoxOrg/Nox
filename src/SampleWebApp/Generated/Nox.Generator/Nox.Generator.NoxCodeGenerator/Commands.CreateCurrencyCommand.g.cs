@@ -8,16 +8,17 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Types;
 using Nox.Application;
 using Nox.Factories;
-using Nox.Solution.Extensions;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 //TODO support multiple keys and generated keys like nuid database number
-public record CreateCurrencyCommand(CurrencyCreateDto EntityDto) : IRequest<System.UInt32>;
+public record CreateCurrencyResponse(System.UInt32 keyId);
 
-public class CreateCurrencyCommandHandler: IRequestHandler<CreateCurrencyCommand, System.UInt32>
+public record CreateCurrencyCommand(CurrencyCreateDto EntityDto) : IRequest<CreateCurrencyResponse>;
+
+public class CreateCurrencyCommandHandler: IRequestHandler<CreateCurrencyCommand, CreateCurrencyResponse>
 {
     public SampleWebAppDbContext DbContext { get; }
     public IEntityFactory<CurrencyCreateDto,Currency> EntityFactory { get; }
@@ -30,7 +31,7 @@ public class CreateCurrencyCommandHandler: IRequestHandler<CreateCurrencyCommand
         EntityFactory = entityFactory;
     }
     
-    public async Task<System.UInt32> Handle(CreateCurrencyCommand request, CancellationToken cancellationToken)
+    public async Task<CreateCurrencyResponse> Handle(CreateCurrencyCommand request, CancellationToken cancellationToken)
     {    
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto); 
 		entityToCreate.EnsureId();
@@ -38,6 +39,6 @@ public class CreateCurrencyCommandHandler: IRequestHandler<CreateCurrencyCommand
         DbContext.Currencies.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         //return entityToCreate.Id.Value;
-        return default(System.UInt32)!;
+        return new CreateCurrencyResponse(default(System.UInt32)!);
 }
 }

@@ -3,7 +3,7 @@ using Nox.Types.EntityFramework.Types;
 
 namespace Nox.EntityFramework.Postgres;
 
-public class PostgresTextDatabaseConfiguration : TextDatabaseConfigurator
+public class PostgresTextDatabaseConfiguration : TextDatabaseConfigurator, IPostgresNoxTypeDatabaseConfigurator
 {
     public override bool IsDefault => false;
 

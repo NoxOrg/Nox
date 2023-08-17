@@ -14,7 +14,7 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateCurrencyCashBalanceCommand(System.String key, CurrencyCashBalanceUpdateDto EntityDto) : IRequest<bool>;
+public record UpdateCurrencyCashBalanceCommand(System.String keyStoreId, System.UInt32 keyCurrencyId, CurrencyCashBalanceUpdateDto EntityDto) : IRequest<bool>;
 
 public class UpdateCurrencyCashBalanceCommandHandler: CommandBase, IRequestHandler<UpdateCurrencyCashBalanceCommand, bool>
 {
@@ -33,7 +33,10 @@ public class UpdateCurrencyCashBalanceCommandHandler: CommandBase, IRequestHandl
     
     public async Task<bool> Handle(UpdateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.CurrencyCashBalances.FindAsync(CreateNoxTypeForKey<CurrencyCashBalance,Text>("StoreId", request.key));
+        var keyStoreId = CreateNoxTypeForKey<CurrencyCashBalance,Text>("StoreId", request.keyStoreId);
+        var keyCurrencyId = CreateNoxTypeForKey<CurrencyCashBalance,Nuid>("CurrencyId", request.keyCurrencyId);
+    
+        var entity = await DbContext.CurrencyCashBalances.FindAsync(keyStoreId, keyCurrencyId);
         if (entity == null)
         {
             return false;

@@ -1672,17 +1672,15 @@
                   "properties": {
                     "minValue": {    
                       "type": [
-                        "string",
+                        "object",
                         "null"
-                      ],
-                      "format": "date-time"
+                      ]
                     },
                     "maxValue": {    
                       "type": [
-                        "string",
+                        "object",
                         "null"
-                      ],
-                      "format": "date-time"
+                      ]
                     },
                     "allowFutureOnly": {    
                       "type": [
@@ -5613,17 +5611,15 @@
                   "properties": {
                     "minValue": {    
                       "type": [
-                        "string",
+                        "object",
                         "null"
-                      ],
-                      "format": "date-time"
+                      ]
                     },
                     "maxValue": {    
                       "type": [
-                        "string",
+                        "object",
                         "null"
-                      ],
-                      "format": "date-time"
+                      ]
                     },
                     "allowFutureOnly": {    
                       "type": [
@@ -9303,17 +9299,15 @@
           "properties": {
             "minValue": {    
               "type": [
-                "string",
+                "object",
                 "null"
-              ],
-              "format": "date-time"
+              ]
             },
             "maxValue": {    
               "type": [
-                "string",
+                "object",
                 "null"
-              ],
-              "format": "date-time"
+              ]
             },
             "allowFutureOnly": {    
               "type": [

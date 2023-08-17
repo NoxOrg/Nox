@@ -87,7 +87,7 @@ public partial class StoresController : ODataController
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateStoreCommand(key,store));
+        var updated = await _mediator.Send(new UpdateStoreCommand(key, store));
         
         if (!updated)
         {
@@ -117,18 +117,13 @@ public partial class StoresController : ODataController
             }
         }
         
-        var updated = await _mediator.Send(new PartialUpdateStoreCommand(key,updateProperties,deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateStoreCommand(key, updateProperties, deletedProperties));
         
         if (!updated)
         {
             return NotFound();
         }
         return Updated(store);
-    }
-    
-    private bool StoreExists(System.String key)
-    {
-        return _databaseContext.Stores.Any(p => p.Id == key);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)

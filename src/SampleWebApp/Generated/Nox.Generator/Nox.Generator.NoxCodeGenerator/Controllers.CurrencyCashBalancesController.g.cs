@@ -80,6 +80,52 @@ public partial class CurrencyCashBalancesController : ODataController
         return Created(createdKey);
     }
     
+    public async Task<ActionResult> Put([FromRoute] System.String keyStoreId, [FromRoute] System.UInt32 keyCurrencyId, [FromBody] CurrencyCashBalanceUpdateDto currencyCashBalance)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var updated = await _mediator.Send(new UpdateCurrencyCashBalanceCommand(keyStoreId, keyCurrencyId, currencyCashBalance));
+        
+        if (!updated)
+        {
+            return NotFound();
+        }
+        return Updated(currencyCashBalance);
+    }
+    
+    public async Task<ActionResult> Patch([FromRoute] System.String keyStoreId, [FromRoute] System.UInt32 keyCurrencyId, [FromBody] Delta<CurrencyCashBalanceUpdateDto> currencyCashBalance)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var updateProperties = new Dictionary<string, dynamic>();
+        var deletedProperties = new List<string>();
+
+        foreach (var propertyName in currencyCashBalance.GetChangedPropertyNames())
+        {
+            if(currencyCashBalance.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }
+            else
+            {
+                deletedProperties.Add(propertyName);
+            }
+        }
+        
+        var updated = await _mediator.Send(new PartialUpdateCurrencyCashBalanceCommand(keyStoreId, keyCurrencyId, updateProperties, deletedProperties));
+        
+        if (!updated)
+        {
+            return NotFound();
+        }
+        return Updated(currencyCashBalance);
+    }
+    
     public async Task<ActionResult> Delete([FromRoute] System.String keyStoreId, [FromRoute] System.UInt32 keyCurrencyId)
     {
         var result = await _mediator.Send(new DeleteCurrencyCashBalanceByIdCommand(keyStoreId, keyCurrencyId));
