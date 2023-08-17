@@ -61,24 +61,9 @@ namespace Nox.Types.EntityFramework.Abstractions
             {
                 // One to ?? (// Many to Many are setup by EF)
                 if (relationshipToCreate.Relationship.ShouldGenerateForeignOnThisSide() && relationshipToCreate.Relationship.WithSingleEntity())
-                {
-                    //One to One
-                    if (!relationshipToCreate.Relationship.IsManyRelationshipOnOtherSide())
-                    {
-//#if DEBUG2
-                        Console.WriteLine($"***Relationship oneToOne {entity.Name} ," +
-                            $"Name {relationshipToCreate.Relationship.Name} " +
-                            $"HasOne {relationshipToCreate.Relationship.Entity} " +
-                            $"WithOne {entity.Name}" +
-                            $"ForeignKey {relationshipToCreate.Relationship.Entity}Id " +
-                            $"");
-//#endif
-                        builder
-                            .HasOne(relationshipToCreate.Relationship.Entity)
-                            .WithOne(entity.Name)
-                            .HasForeignKey(entity.Name, $"{relationshipToCreate.Relationship.Entity}Id");
-                    }
-                    else //One to Many
+                {                    
+                    //One to Many
+                    if (relationshipToCreate.Relationship.IsManyRelationshipOnOtherSide())
                     {
 //#if DEBUG
                         Console.WriteLine($"***Relationship oneToMany {entity.Name}," +
@@ -94,6 +79,22 @@ namespace Nox.Types.EntityFramework.Abstractions
                             .WithMany(entity.PluralName)
                             .HasForeignKey($"{relationshipToCreate.Relationship.Entity}Id");
                     }
+                    else //One to One
+                    {
+//#if DEBUG2
+                        Console.WriteLine($"***Relationship oneToOne {entity.Name} ," +
+                            $"Name {relationshipToCreate.Relationship.Name} " +
+                            $"HasOne {relationshipToCreate.Relationship.Entity} " +
+                            $"WithOne {entity.Name}" +
+                            $"ForeignKey {relationshipToCreate.Relationship.Entity}Id " +
+                            $"");
+//#endif
+                        builder
+                            .HasOne(relationshipToCreate.Relationship.Entity)
+                            .WithOne(entity.Name)
+                            .HasForeignKey(entity.Name, $"{relationshipToCreate.Relationship.Entity}Id");
+                    }       
+                    
                     // Setup foreign key property
                     ConfigureRelationForeignKeyProperty(codeGeneratorState, builder, entity, relationshipToCreate);
                 }               

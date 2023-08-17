@@ -46,7 +46,7 @@ public static class EntityRelationshipExtensions
 
     public static bool ShouldUseRelationshipNameAsNavigation(this EntityRelationship relationship)
     {
-        var hasReferenceToSingularEntity = WithSingleEntity(relationship);
+        var hasReferenceToSingularEntity = relationship.WithSingleEntity();
         var hasReferenceToManyEntities = !hasReferenceToSingularEntity;
         var relationshipNameIsEqualToSingularName = relationship.Name == relationship.Entity;
         var relationshipNameIsEqualToPluralName = relationship.Name == relationship.EntityPlural;
