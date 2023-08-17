@@ -13,7 +13,6 @@ using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
-//TODO support multiple keys and generated keys like nuid database number
 public record CreateCurrencyCommand(CurrencyCreateDto EntityDto) : IRequest<CurrencyKeyDto>;
 
 public class CreateCurrencyCommandHandler: IRequestHandler<CreateCurrencyCommand, CurrencyKeyDto>

@@ -43,7 +43,10 @@ public class UpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRequestHa
         EntityMapper.MapToEntity(entity, GetEntityDefinition<StoreSecurityPasswords>(), request.EntityDto);
         
         DbContext.Entry(entity).State = EntityState.Modified;
-        var result = await DbContext.SaveChangesAsync();             
+        var result = await DbContext.SaveChangesAsync();
+        if(result < 1)
+            return null;
+
         return new StoreSecurityPasswordsKeyDto(entity.Id.Value);
     }
 }

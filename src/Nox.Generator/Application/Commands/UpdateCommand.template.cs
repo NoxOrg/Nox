@@ -45,7 +45,10 @@ public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<U
         EntityMapper.MapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.EntityDto);
         
         DbContext.Entry(entity).State = EntityState.Modified;
-        var result = await DbContext.SaveChangesAsync();             
+        var result = await DbContext.SaveChangesAsync();
+        if(result < 1)
+            return null;
+
         return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
     }
 }

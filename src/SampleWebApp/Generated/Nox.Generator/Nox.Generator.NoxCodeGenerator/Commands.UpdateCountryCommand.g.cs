@@ -43,7 +43,10 @@ public class UpdateCountryCommandHandler: CommandBase, IRequestHandler<UpdateCou
         EntityMapper.MapToEntity(entity, GetEntityDefinition<Country>(), request.EntityDto);
         
         DbContext.Entry(entity).State = EntityState.Modified;
-        var result = await DbContext.SaveChangesAsync();             
+        var result = await DbContext.SaveChangesAsync();
+        if(result < 1)
+            return null;
+
         return new CountryKeyDto(entity.Id.Value);
     }
 }

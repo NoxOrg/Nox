@@ -13,7 +13,6 @@ using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
-//TODO support multiple keys and generated keys like nuid database number
 public record CreateStoreCommand(StoreCreateDto EntityDto) : IRequest<StoreKeyDto>;
 
 public class CreateStoreCommandHandler: IRequestHandler<CreateStoreCommand, StoreKeyDto>

@@ -43,7 +43,10 @@ public class UpdateCountryLocalNamesCommandHandler: CommandBase, IRequestHandler
         EntityMapper.MapToEntity(entity, GetEntityDefinition<CountryLocalNames>(), request.EntityDto);
         
         DbContext.Entry(entity).State = EntityState.Modified;
-        var result = await DbContext.SaveChangesAsync();             
+        var result = await DbContext.SaveChangesAsync();
+        if(result < 1)
+            return null;
+
         return new CountryLocalNamesKeyDto(entity.Id.Value);
     }
 }
