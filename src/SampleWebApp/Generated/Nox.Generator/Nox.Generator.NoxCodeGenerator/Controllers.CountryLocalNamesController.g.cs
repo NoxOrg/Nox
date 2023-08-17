@@ -126,11 +126,6 @@ public partial class CountryLocalNamesController : ODataController
         return Updated(countryLocalNames);
     }
     
-    private bool CountryLocalNamesExists(System.String key)
-    {
-        return _databaseContext.CountryLocalNames.Any(p => p.Id == key);
-    }
-    
     public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new DeleteCountryLocalNamesByIdCommand(key));

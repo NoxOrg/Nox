@@ -126,11 +126,6 @@ public partial class CurrenciesController : ODataController
         return Updated(currency);
     }
     
-    private bool CurrencyExists(System.UInt32 key)
-    {
-        return _databaseContext.Currencies.Any(p => p.Id == key);
-    }
-    
     public async Task<ActionResult> Delete([FromRoute] System.UInt32 key)
     {
         var result = await _mediator.Send(new DeleteCurrencyByIdCommand(key));

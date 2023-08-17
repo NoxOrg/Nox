@@ -126,11 +126,6 @@ public partial class StoreSecurityPasswordsController : ODataController
         return Updated(storeSecurityPasswords);
     }
     
-    private bool StoreSecurityPasswordsExists(System.String key)
-    {
-        return _databaseContext.StoreSecurityPasswords.Any(p => p.Id == key);
-    }
-    
     public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new DeleteStoreSecurityPasswordsByIdCommand(key));
