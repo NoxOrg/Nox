@@ -19,7 +19,7 @@ public class Entity : DefinitionBase
     [Title("The name of the entity. Contains no spaces.")]
     [Description("The name of the abstract or real-world entity. It should be a commonly used singular noun and be unique within a solution.")]
     [Pattern(@"^[^\s]*$")]
-    public string Name { get;  set; } = null!;
+    public string Name { get; internal set; } = null!;
 
     [Title("A phrase describing the entity.")]
     [Description("A description of the entity and what it represents in the real world.")]
@@ -62,7 +62,7 @@ public class Entity : DefinitionBase
     [Required]
     [Title("Keys for this entity.")]
     [Description("Define one or more keys for this entity.")]
-    public IReadOnlyList<NoxSimpleTypeDefinition>? Keys { get;  set; }
+    public IReadOnlyList<NoxSimpleTypeDefinition>? Keys { get; internal set; }
 
     [Title("Attributes that describe this entity.")]
     [Description("Define one or more attribute(s) that describes the composition of this domain entity.")]
