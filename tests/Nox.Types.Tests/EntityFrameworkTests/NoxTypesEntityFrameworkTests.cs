@@ -2,9 +2,6 @@ using FluentAssertions;
 using System.Text.Json;
 using System.Security.Cryptography;
 
-using System;
-using Nox.TypeOptions;
-
 namespace Nox.Types.Tests.EntityFrameworkTests;
 
 public class NoxTypesEntityFrameworkTests : TestWithSqlite
@@ -111,6 +108,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             CurrencyNumber = CurrencyNumber.From(999),
             Color = Color.From(255,255,255,0),
             DayOfWeek = DayOfWeek.From(1),
+            DateTimeSchedule = DateTimeSchedule.From("0 0 12 ? * 2,3,4,5,6 *"),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -142,9 +140,9 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Name = Text.From("Switzerland"),
             LatLong = LatLong.From(46.802496, 8.234392),
             Population = Number.From(8_703_654),
-            GrossDomesticProduct = Money.From(100, CurrencyCode.CHF, new MoneyTypeOptions(){MaxValue = 101, MinValue = 0}),
+            GrossDomesticProduct = Money.From(100, CurrencyCode.CHF, new MoneyTypeOptions() { MaxValue = 101, MinValue = 0 }),
             CountryCode2 = CountryCode2.From("CH"),
-            AreaInSqKm = Area.From(41_290_000,AreaTypeUnit.SquareMeter),
+            AreaInSqKm = Area.From(41_290_000, AreaTypeUnit.SquareMeter),
             CultureCode = CultureCode.From("de-CH"),
             CountryNumber = CountryNumber.From(756),
             MonthOfPeakTourism = Month.From(7),
@@ -170,7 +168,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             HashedText = HashedText.From(("Test123.", "salt")),
             CreateDate = DateTime.From(new System.DateTime(2023, 01, 01)),
-            CurrentTime = Time.From(11,35,50,375),
+            CurrentTime = Time.From(11, 35, 50, 375),
             AverageTemperatureInCelsius = Temperature.From(25),
             Description = Markdown.From("This a **big country**."),
             PageHtml = Html.From("<html><body>Switzerland Website</body></html>"),
@@ -179,15 +177,16 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             PhoneNumber = PhoneNumber.From("+41 848 700 700"),
             GuidUser = User.From(guidUserId),
             EmailUser = User.From("user@iwgplc.ch"),
-            StringUser = User.From("stringUser", new UserTypeOptions { ValidEmailFormat = false, ValidGuidFormat= false}),
+            StringUser = User.From("stringUser", new UserTypeOptions { ValidEmailFormat = false, ValidGuidFormat = false }),
             InfoEmail = Email.From("info@iwgplc.ch"),
             SecretPassword = EncryptedText.FromPlainText("12345678", encryptTypeOptions),
             DatabaseId = DatabaseNumber.FromDatabase(10U),
             DatabaseGuid = DatabaseGuid.FromDatabase(Guid.NewGuid()),
             Password = Password.From("Test123."),
             CurrencyNumber = CurrencyNumber.From(840),
-            Color = Color.From(255,120,95,230),
+            Color = Color.From(255, 120, 95, 230),
             DayOfWeek = DayOfWeek.From(1),
+            DateTimeSchedule = DateTimeSchedule.From("0 0 12 ? * 2,3,4,5,6 *"),
         };
         DbContext.Countries!.Add(newItem);
         DbContext.SaveChanges();
@@ -265,6 +264,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.CurrencyNumber.Value.Should().Be(840);
         item.Color.Value.Should().Equal(new byte[] { 255, 120, 95, 230 });
         item.DayOfWeek.Value.Should().Be(1);
+        item.DateTimeSchedule.Should().Be(newItem.DateTimeSchedule);
     }
 
     private static StreetAddress CreateStreetAddress()

@@ -80,6 +80,57 @@ public partial class CompoundKeysEntitiesController : ODataController
         return Created(createdKey);
     }
     
+    public async Task<ActionResult> Put([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] CompoundKeysEntityUpdateDto compoundKeysEntity)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var updated = await _mediator.Send(new UpdateCompoundKeysEntityCommand(keyId1, keyId2, compoundKeysEntity));
+        
+        if (!updated)
+        {
+            return NotFound();
+        }
+        return Updated(compoundKeysEntity);
+    }
+    
+    public async Task<ActionResult> Patch([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] Delta<CompoundKeysEntityUpdateDto> compoundKeysEntity)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var updateProperties = new Dictionary<string, dynamic>();
+        var deletedProperties = new List<string>();
+
+        foreach (var propertyName in compoundKeysEntity.GetChangedPropertyNames())
+        {
+            if(compoundKeysEntity.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }
+            else
+            {
+                deletedProperties.Add(propertyName);
+            }
+        }
+        
+        var updated = await _mediator.Send(new PartialUpdateCompoundKeysEntityCommand(keyId1, keyId2, updateProperties, deletedProperties));
+        
+        if (!updated)
+        {
+            return NotFound();
+        }
+        return Updated(compoundKeysEntity);
+    }
+    
+    private bool CompoundKeysEntityExists(System.String key)
+    {
+        return _databaseContext.CompoundKeysEntities.Any(p => p.Id1 == key);
+    }
+    
     public async Task<ActionResult> Delete([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)
     {
         var result = await _mediator.Send(new DeleteCompoundKeysEntityByIdCommand(keyId1, keyId2));

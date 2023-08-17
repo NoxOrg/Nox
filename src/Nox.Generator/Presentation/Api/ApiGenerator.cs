@@ -114,7 +114,7 @@ internal class ApiGenerator : INoxCodeGenerator
             if (entity.Persistence is null ||
                 entity.Persistence.Read.IsEnabled)
             {
-                GenerateGet(entity, code);
+                GenerateGet(entity, code, codeGeneratorState.Solution);
 
                 if (entity.OwnedRelationships != null)
                 {
@@ -134,15 +134,15 @@ internal class ApiGenerator : INoxCodeGenerator
             if (entity.Persistence is null ||
                 entity.Persistence.Update.IsEnabled)
             {
-                GeneratePut(entity, code);
+                GeneratePut(entity, code, codeGeneratorState.Solution);
 
-                GeneratePatch(entity, entityName, pluralName, code);
+                GeneratePatch(entity, entityName, pluralName, code, codeGeneratorState.Solution);
             }
 
             if (entity.Persistence is null ||
                 entity.Persistence.Delete.IsEnabled)
             {
-                GenerateDelete(entity, entityName, code);
+                GenerateDelete(entity, entityName, code, codeGeneratorState.Solution);
             }
 
             // Generate GET request mapping for Queries
@@ -179,14 +179,14 @@ internal class ApiGenerator : INoxCodeGenerator
         }
     }
 
-    private static void GenerateDelete(Entity entity, string entityName, CodeBuilder code)
+    private static void GenerateDelete(Entity entity, string entityName, CodeBuilder code, NoxSolution solution)
     {
         // Method Delete
-        code.AppendLine($"public async Task<ActionResult> Delete({primaryKeysFromRoute(entity)})");
+        code.AppendLine($"public async Task<ActionResult> Delete({PrimaryKeysFromRoute(entity, solution)})");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand({primaryKeysQuery(entity)}));");
+        code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand({PrimaryKeysQuery(entity)}));");
 
         code.AppendLine($"if (!result)");
         code.StartBlock();
@@ -199,18 +199,10 @@ internal class ApiGenerator : INoxCodeGenerator
         code.EndBlock();
     }
 
-    private static void GeneratePut(Entity entity, CodeBuilder code)
+    private static void GeneratePut(Entity entity, CodeBuilder code, NoxSolution solution)
     {
-        // TODO Composite Keys
-        if (entity.Keys is { Count: > 1 })
-        {
-            //TODO Support to multiples keys, best pratctices?
-            Debug.WriteLine("Put for composite keys Not implemented...");
-            return;
-        }
-
         // Method Put
-        code.AppendLine($"public async Task<ActionResult> Put([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] {entity.Name}UpdateDto {entity.Name.ToLowerFirstChar()})");
+        code.AppendLine($"public async Task<ActionResult> Put({PrimaryKeysFromRoute(entity, solution)}, [FromBody] {entity.Name}UpdateDto {entity.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();
@@ -219,7 +211,7 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();        
-        code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command(key,{entity.Name.ToLowerFirstChar()}));");
+        code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({PrimaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}));");
         code.AppendLine();
         
         code.AppendLine($"if (!updated)");
@@ -233,16 +225,10 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine();
     }
 
-    private static void GeneratePatch(Entity entity, string entityName, string pluralName, CodeBuilder code)
+    private static void GeneratePatch(Entity entity, string entityName, string pluralName, CodeBuilder code, NoxSolution solution)
     {
-        // TODO Composite Keys
-        if (entity.Keys is { Count: > 1 })
-        {
-            Debug.WriteLine("Patch for composite keys Not implemented...");
-            return;
-        }
         // Method Patch
-        code.AppendLine($"public async Task<ActionResult> Patch([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] Delta<{entityName}UpdateDto> {entity.Name.ToLowerFirstChar()})");
+        code.AppendLine($"public async Task<ActionResult> Patch({PrimaryKeysFromRoute(entity, solution)}, [FromBody] Delta<{entityName}UpdateDto> {entity.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();
@@ -265,7 +251,7 @@ internal class ApiGenerator : INoxCodeGenerator
             }}
         }}");
         code.AppendLine();
-        code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command(key,updateProperties,deletedProperties));");
+        code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties, deletedProperties));");
         code.AppendLine();
 
         code.AppendLine($"if (!updated)");
@@ -311,7 +297,7 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine();
     }
 
-    private static void GenerateGet(Entity entity, CodeBuilder code)
+    private static void GenerateGet(Entity entity, CodeBuilder code, NoxSolution solution)
     {
         // Method Get
         code.AppendLine($"[EnableQuery]");
@@ -334,11 +320,11 @@ internal class ApiGenerator : INoxCodeGenerator
 
         // We do not support Compound types as primary keys, this is validated on the schema
         // Method Get
-        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Get({primaryKeysFromRoute(entity)})");
+        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Get({PrimaryKeysFromRoute(entity, solution)})");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({primaryKeysQuery(entity)}));");
+        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity)}));");
         code.AppendLine();
         code.AppendLine($"if (item == null)");
         code.StartBlock();
@@ -367,17 +353,17 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine();
     }
 
-    private static string primaryKeysFromRoute(Entity entity)
+    private static string PrimaryKeysFromRoute(Entity entity, NoxSolution solution)
     {
         if (entity.Keys.Count() > 1)
-            return string.Join(", ", entity.Keys.Select(k => $"[FromRoute] {entity.KeysFlattenComponentsType[k.Name]} key{k.Name}"));
+            return string.Join(", ", entity.Keys.Select(k => $"[FromRoute] {solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
         else if (entity.Keys is not null)
             return $"[FromRoute] {entity.KeysFlattenComponentsType[entity.Keys[0].Name]} key";
 
         return "";
     }
 
-    private static string primaryKeysQuery(Entity entity)
+    private static string PrimaryKeysQuery(Entity entity)
     {
         return entity.Keys.Count() > 1 ?
             string.Join(", ", entity.Keys.Select(k => $"key{k.Name}")) :

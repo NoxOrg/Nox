@@ -87,7 +87,7 @@ public partial class StoresController : ODataController
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateStoreCommand(key,store));
+        var updated = await _mediator.Send(new UpdateStoreCommand(key, store));
         
         if (!updated)
         {
@@ -117,7 +117,7 @@ public partial class StoresController : ODataController
             }
         }
         
-        var updated = await _mediator.Send(new PartialUpdateStoreCommand(key,updateProperties,deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateStoreCommand(key, updateProperties, deletedProperties));
         
         if (!updated)
         {

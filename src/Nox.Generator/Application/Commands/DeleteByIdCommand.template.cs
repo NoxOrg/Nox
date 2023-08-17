@@ -29,7 +29,8 @@ public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase, IRequestHandl
     public async Task<bool> Handle(Delete{{entity.Name}}ByIdCommand request, CancellationToken cancellationToken)
     {
     {{- for key in entity.Keys }}
-        var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{key.Type}}>("{{key.Name}}", request.key{{key.Name}});
+        {{- keyType = SingleTypeForKey key }}
+        var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{keyType}}>("{{key.Name}}", request.key{{key.Name}});        
     {{- end }}
 
         var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysQuery}});

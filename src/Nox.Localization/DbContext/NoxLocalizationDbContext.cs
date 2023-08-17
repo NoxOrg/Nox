@@ -58,6 +58,7 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
                 var type = codeGeneratorState.GetEntityType(entity.Name);
                 if (type != null)
                 {
+                    Console.WriteLine($"NoxLocalizationDbContext Configure database for Entity {entity.Name}");
                     ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, _noxSolution.GetRelationshipsToCreate(codeGeneratorState.GetEntityType, entity));
                 }
             }

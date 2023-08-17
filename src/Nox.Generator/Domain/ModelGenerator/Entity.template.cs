@@ -19,10 +19,10 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     /// {{key.Description}} (Required).
     /// </summary>
     {{ if key.Type == "Entity" -}}
-    public {{SimpleKeyTypeForEntity key.EntityTypeOptions.Entity}} {{key.EntityTypeOptions.Entity}}Id { get; set; } = null!;
+    public {{SingleKeyTypeForEntity key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
     {{- # Navigation Property }}
 
-    public virtual {{key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
+    public virtual {{key.EntityTypeOptions.Entity}} {{key.EntityTypeOptions.Entity}} { get; set; } = null!;
 
     {{- else if key.Type == "Nuid" -}}
 	{{- prefix = key.NuidTypeOptions.Prefix | object.default entity.Name + key.NuidTypeOptions.Separator -}}

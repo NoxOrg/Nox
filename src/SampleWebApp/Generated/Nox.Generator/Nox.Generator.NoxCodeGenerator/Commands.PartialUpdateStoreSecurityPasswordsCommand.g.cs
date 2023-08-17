@@ -14,7 +14,7 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateStoreSecurityPasswordsCommand(System.String key, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<bool>;
+public record PartialUpdateStoreSecurityPasswordsCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<bool>;
 
 public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRequestHandler<PartialUpdateStoreSecurityPasswordsCommand, bool>
 {
@@ -33,7 +33,9 @@ public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRe
     
     public async Task<bool> Handle(PartialUpdateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.StoreSecurityPasswords.FindAsync(CreateNoxTypeForKey<StoreSecurityPasswords,Text>("Id", request.key));
+        var keyId = CreateNoxTypeForKey<StoreSecurityPasswords,Text>("Id", request.keyId);
+    
+        var entity = await DbContext.StoreSecurityPasswords.FindAsync(keyId);
         if (entity == null)
         {
             return false;

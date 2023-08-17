@@ -12,13 +12,13 @@ using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
 
-
 namespace SampleWebApp.Application.Commands;
-
 //TODO support multiple keys and generated keys like nuid database number
-public record CreateCountryLocalNamesCommand(CountryLocalNamesCreateDto EntityDto) : IRequest<Text>;
+public record CreateCountryLocalNamesResponse(System.String keyId);
 
-public class CreateCountryLocalNamesCommandHandler: IRequestHandler<CreateCountryLocalNamesCommand, Text>
+public record CreateCountryLocalNamesCommand(CountryLocalNamesCreateDto EntityDto) : IRequest<CreateCountryLocalNamesResponse>;
+
+public class CreateCountryLocalNamesCommandHandler: IRequestHandler<CreateCountryLocalNamesCommand, CreateCountryLocalNamesResponse>
 {
     public SampleWebAppDbContext DbContext { get; }
     public IEntityFactory<CountryLocalNamesCreateDto,CountryLocalNames> EntityFactory { get; }
@@ -31,12 +31,13 @@ public class CreateCountryLocalNamesCommandHandler: IRequestHandler<CreateCountr
         EntityFactory = entityFactory;
     }
     
-    public async Task<Text> Handle(CreateCountryLocalNamesCommand request, CancellationToken cancellationToken)
+    public async Task<CreateCountryLocalNamesResponse> Handle(CreateCountryLocalNamesCommand request, CancellationToken cancellationToken)
     {    
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
-        //TODO for nuid property or key needs to call ensure id        
+        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+	
         DbContext.CountryLocalNames.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
-        return entityToCreate.Id;
-    }
+        //return entityToCreate.Id.Value;
+        return new CreateCountryLocalNamesResponse(default(System.String)!);
+}
 }

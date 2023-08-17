@@ -18,6 +18,7 @@ namespace Nox.Factories
 
             return CreateNoxType(attributeDefinition, value);
         }
+
         public abstract T? CreateNoxType(NoxSimpleTypeDefinition simpleTypeDefinition, dynamic? value);
     }
 }

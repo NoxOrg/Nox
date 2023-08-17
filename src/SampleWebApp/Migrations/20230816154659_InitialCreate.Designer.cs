@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230810162151_InitialCreate")]
+    [Migration("20230816154659_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -64,7 +64,6 @@ namespace SampleWebApp.Migrations
                         .IsFixedLength();
 
                     b.Property<string>("CountryCode3Field")
-                        .IsRequired()
                         .HasMaxLength(3)
                         .IsUnicode(false)
                         .HasColumnType("char(3)")
@@ -79,6 +78,18 @@ namespace SampleWebApp.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CultureCodeField")
+                        .HasMaxLength(10)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(10)")
+                        .IsFixedLength(false);
+
+                    b.Property<string>("CurrencyCode3Field")
+                        .HasMaxLength(3)
+                        .IsUnicode(false)
+                        .HasColumnType("char(3)")
+                        .IsFixedLength();
+
                     b.Property<bool?>("Deleted")
                         .HasColumnType("bit");
 
@@ -87,6 +98,19 @@ namespace SampleWebApp.Migrations
 
                     b.Property<string>("DeletedBy")
                         .HasColumnType("nvarchar(max)");
+
+                    b.Property<byte[]>("EncryptedTextField")
+                        .IsUnicode(false)
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("HtmlField")
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MarkdownField")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<uint?>("NuidField")
                         .HasColumnType("bigint");
@@ -323,6 +347,52 @@ namespace SampleWebApp.Migrations
                     b.ToTable("Currencies");
                 });
 
+            modelBuilder.Entity("SampleWebApp.Domain.CurrencyCashBalance", b =>
+                {
+                    b.Property<string>("StoreId")
+                        .HasMaxLength(3)
+                        .IsUnicode(false)
+                        .HasColumnType("char(3)")
+                        .IsFixedLength();
+
+                    b.Property<uint>("CurrencyId")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTime>("CreatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("CreatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool?>("Deleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("DeletedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("DeletedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<decimal?>("OperationLimit")
+                        .HasColumnType("decimal(18,2)");
+
+                    b.Property<DateTime?>("UpdatedAtUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("StoreId", "CurrencyId");
+
+                    b.HasIndex("CurrencyId")
+                        .IsUnique();
+
+                    b.HasIndex("StoreId")
+                        .IsUnique();
+
+                    b.ToTable("CurrencyCashBalances");
+                });
+
             modelBuilder.Entity("SampleWebApp.Domain.Store", b =>
                 {
                     b.Property<string>("Id")
@@ -446,14 +516,16 @@ namespace SampleWebApp.Migrations
 
                             b1.Property<string>("PrettyName")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(511)
+                                .HasColumnType("nvarchar(511)");
 
                             b1.Property<decimal>("SizeInBytes")
                                 .HasColumnType("decimal(20,0)");
 
                             b1.Property<string>("Url")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(2083)
+                                .HasColumnType("nvarchar(2083)");
 
                             b1.HasKey("AllNoxTypeId", "AllNoxTypeTextId");
 
@@ -706,6 +778,50 @@ namespace SampleWebApp.Migrations
                         });
 
                     b.Navigation("GeoCoord");
+                });
+
+            modelBuilder.Entity("SampleWebApp.Domain.CurrencyCashBalance", b =>
+                {
+                    b.HasOne("SampleWebApp.Domain.Currency", "Currency")
+                        .WithOne()
+                        .HasForeignKey("SampleWebApp.Domain.CurrencyCashBalance", "CurrencyId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("SampleWebApp.Domain.Store", "Store")
+                        .WithOne()
+                        .HasForeignKey("SampleWebApp.Domain.CurrencyCashBalance", "StoreId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsOne("Nox.Types.Money", "Amount", b1 =>
+                        {
+                            b1.Property<string>("CurrencyCashBalanceStoreId")
+                                .HasColumnType("char(3)");
+
+                            b1.Property<uint>("CurrencyCashBalanceCurrencyId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<decimal>("Amount")
+                                .HasColumnType("decimal(15, 5)");
+
+                            b1.Property<int>("CurrencyCode")
+                                .HasColumnType("int");
+
+                            b1.HasKey("CurrencyCashBalanceStoreId", "CurrencyCashBalanceCurrencyId");
+
+                            b1.ToTable("CurrencyCashBalances");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CurrencyCashBalanceStoreId", "CurrencyCashBalanceCurrencyId");
+                        });
+
+                    b.Navigation("Amount")
+                        .IsRequired();
+
+                    b.Navigation("Currency");
+
+                    b.Navigation("Store");
                 });
 
             modelBuilder.Entity("SampleWebApp.Domain.Store", b =>

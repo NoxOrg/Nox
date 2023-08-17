@@ -21,9 +21,8 @@ internal class ODataServiceCollectionExtensions : INoxCodeGenerator
 
         var hasKeyForCompoundKeys = "";
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
-        {
-            if (entity.Keys?.Count() > 1)
-                hasKeyForCompoundKeys += $"builder.EntityType<{entity.Name}Dto>().HasKey(e => new {{{string.Join(",", entity.Keys.Select(k => $" e.{k.Name}"))} }});\n";
+        {           
+            hasKeyForCompoundKeys += $"builder.EntityType<{entity.Name}Dto>().HasKey(e => new {{{string.Join(",", entity.Keys.Select(k => $" e.{k.Name}"))} }});\n";
         }
 
         var templateName = @"Presentation.Api.OData.ODataServiceCollectionExtensions";

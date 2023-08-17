@@ -87,7 +87,7 @@ public partial class CountryLocalNamesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateCountryLocalNamesCommand(key,countryLocalNames));
+        var updated = await _mediator.Send(new UpdateCountryLocalNamesCommand(key, countryLocalNames));
         
         if (!updated)
         {
@@ -117,7 +117,7 @@ public partial class CountryLocalNamesController : ODataController
             }
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCountryLocalNamesCommand(key,updateProperties,deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateCountryLocalNamesCommand(key, updateProperties, deletedProperties));
         
         if (!updated)
         {

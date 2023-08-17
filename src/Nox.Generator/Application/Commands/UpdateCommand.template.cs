@@ -12,10 +12,9 @@ using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
-
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public record Update{{entity.Name}}Command({{entity.KeysFlattenComponentsType[entity.Keys[0].Name]}} key, {{entity.Name}}UpdateDto EntityDto) : IRequest<bool>;
+public record Update{{entity.Name}}Command({{primaryKeys}}, {{entity.Name}}UpdateDto EntityDto) : IRequest<bool>;
 
 public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<Update{{entity.Name}}Command, bool>
 {
@@ -34,7 +33,11 @@ public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<U
     
     public async Task<bool> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.{{entity.PluralName}}.FindAsync(CreateNoxTypeForKey<{{entity.Name}},{{entity.Keys[0].Type}}>("{{entity.Keys[0].Name}}", request.key));
+    {{- for key in entity.Keys }}
+        var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.key{{key.Name}});
+    {{- end }}
+    
+        var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysQuery}});
         if (entity == null)
         {
             return false;

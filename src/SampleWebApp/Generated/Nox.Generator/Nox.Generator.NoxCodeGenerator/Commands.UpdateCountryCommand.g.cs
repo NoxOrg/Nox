@@ -12,10 +12,9 @@ using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
 
-
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateCountryCommand(System.String key, CountryUpdateDto EntityDto) : IRequest<bool>;
+public record UpdateCountryCommand(System.String keyId, CountryUpdateDto EntityDto) : IRequest<bool>;
 
 public class UpdateCountryCommandHandler: CommandBase, IRequestHandler<UpdateCountryCommand, bool>
 {
@@ -34,7 +33,9 @@ public class UpdateCountryCommandHandler: CommandBase, IRequestHandler<UpdateCou
     
     public async Task<bool> Handle(UpdateCountryCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.Countries.FindAsync(CreateNoxTypeForKey<Country,Text>("Id", request.key));
+        var keyId = CreateNoxTypeForKey<Country,Text>("Id", request.keyId);
+    
+        var entity = await DbContext.Countries.FindAsync(keyId);
         if (entity == null)
         {
             return false;

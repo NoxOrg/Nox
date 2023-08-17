@@ -14,7 +14,7 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateAllNoxTypeCommand(System.Int64 key, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<bool>;
+public record PartialUpdateAllNoxTypeCommand(System.Int64 keyId, System.String keyTextId, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<bool>;
 
 public class PartialUpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler<PartialUpdateAllNoxTypeCommand, bool>
 {
@@ -33,7 +33,10 @@ public class PartialUpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler
     
     public async Task<bool> Handle(PartialUpdateAllNoxTypeCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.AllNoxTypes.FindAsync(CreateNoxTypeForKey<AllNoxType,DatabaseNumber>("Id", request.key));
+        var keyId = CreateNoxTypeForKey<AllNoxType,DatabaseNumber>("Id", request.keyId);
+        var keyTextId = CreateNoxTypeForKey<AllNoxType,Text>("TextId", request.keyTextId);
+    
+        var entity = await DbContext.AllNoxTypes.FindAsync(keyId, keyTextId);
         if (entity == null)
         {
             return false;

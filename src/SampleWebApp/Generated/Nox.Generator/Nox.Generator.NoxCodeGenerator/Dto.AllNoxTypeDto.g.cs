@@ -2,10 +2,13 @@
 
 #nullable enable
 
-using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations.Schema;
 using AutoMapper;
 using MediatR;
+
+using Microsoft.AspNetCore.Http;
+
+using System.ComponentModel.DataAnnotations.Schema;
+
 using Nox.Types;
 using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
@@ -22,12 +25,12 @@ public partial class AllNoxTypeDto
 
     /// <summary>
     /// DatabaseNumber Nox Type (Required).
-    /// </summary>
+    /// </summary>    
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
     /// Second Text Id (Required).
-    /// </summary>
+    /// </summary>    
     public System.String TextId { get; set; } = default!;
 
     /// <summary>
@@ -46,9 +49,9 @@ public partial class AllNoxTypeDto
     public System.String CountryCode2Field { get; set; } = default!;
 
     /// <summary>
-    /// CountryCode3 Nox Type (Required).
+    /// CountryCode3 Nox Type (Optional).
     /// </summary>
-    public System.String CountryCode3Field { get; set; } = default!;
+    public System.String? CountryCode3Field { get; set; } 
 
     /// <summary>
     /// CountryNumber Nox Type (Optional).
@@ -56,9 +59,29 @@ public partial class AllNoxTypeDto
     public System.Int16? CountryNumberField { get; set; } 
 
     /// <summary>
+    /// CultureCode Nox Type (Optional).
+    /// </summary>
+    public System.String? CultureCodeField { get; set; } 
+
+    /// <summary>
+    /// CurrencyCode3Field Nox Type (Optional).
+    /// </summary>
+    public System.String? CurrencyCode3Field { get; set; } 
+
+    /// <summary>
     /// Formula Nox Type (Optional).
     /// </summary>
     [NotMapped]public System.String? FormulaField { get; set; } 
+
+    /// <summary>
+    /// HtmlField Nox Type (Optional).
+    /// </summary>
+    public System.String? HtmlField { get; set; } 
+
+    /// <summary>
+    /// MarkdownField Nox Type (Optional).
+    /// </summary>
+    public System.String? MarkdownField { get; set; } 
 
     /// <summary>
     /// Yaml Nox Type (Optional).
@@ -136,19 +159,9 @@ public partial class AllNoxTypeDto
     public VatNumberDto? VatNumberField { get; set; } 
 
     /// <summary>
-    /// Password Nox Type (Optional).
-    /// </summary>
-    public PasswordDto? PasswordField { get; set; } 
-
-    /// <summary>
     /// Money Nox Type (Optional).
     /// </summary>
     public MoneyDto? MoneyField { get; set; } 
-
-    /// <summary>
-    /// HashedTex Nox Type (Optional).
-    /// </summary>
-    public HashedTextDto? HashedTexField { get; set; } 
 
     /// <summary>
     /// LatLongField Nox Type (Optional).
