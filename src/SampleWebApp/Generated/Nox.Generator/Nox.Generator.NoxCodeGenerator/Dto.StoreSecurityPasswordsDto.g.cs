@@ -47,5 +47,5 @@ public partial class StoreSecurityPasswordsDto
 
     public System.DateTime? DeletedAtUtc { get; set; }
 
-    public System.Boolean? IsDeleted => DeletedAtUtc is not null;
+    public System.Boolean IsDeleted => DeletedAtUtc is not null;
 }

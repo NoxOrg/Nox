@@ -11,7 +11,7 @@ namespace Nox.Types.EntityFramework.Abstractions
         protected readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesDatabaseConfigurations = new();
 
         // TODO: This needs to be resolved dynamically
-        private static NoxSimpleTypeDefinition[] AuditableEntityAttributes = new
+        private static NoxSimpleTypeDefinition[] AuditableEntityAttributes = new[]
         {
             new NoxSimpleTypeDefinition { Name = "CreatedAtUtc", Type = NoxType.DateTime, IsRequired = true, },
             new NoxSimpleTypeDefinition { Name = "CreatedBy", Type = NoxType.User, IsRequired = true, },

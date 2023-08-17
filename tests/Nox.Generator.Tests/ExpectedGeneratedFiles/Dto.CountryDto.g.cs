@@ -103,5 +103,7 @@ public partial class CountryDto
     /// </summary>
     public System.String? TopLevelDomains { get; set; } 
 
-    public bool? IsDeleted { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }
+
+    public System.Boolean IsDeleted => DeletedAtUtc is not null;
 }
