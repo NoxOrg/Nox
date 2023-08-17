@@ -30,6 +30,7 @@ public partial class TestEntityZeroOrOne : AuditableEntityBase
     public virtual SecondTestEntityZeroOrOne? SecondTestEntityZeroOrOne { get; set; } = null!;
 
     public SecondTestEntityZeroOrOne? SecondTestEntityZeroOrOneRelationship => SecondTestEntityZeroOrOne;
+
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity SecondTestEntityZeroOrOne
     /// </summary>

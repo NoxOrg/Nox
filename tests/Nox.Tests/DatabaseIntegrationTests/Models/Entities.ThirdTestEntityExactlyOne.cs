@@ -30,6 +30,7 @@ public partial class ThirdTestEntityExactlyOne : AuditableEntityBase
     public virtual ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOne { get; set; } = null!;
 
     public ThirdTestEntityZeroOrOne ThirdTestEntityZeroOrOneRelationship => ThirdTestEntityZeroOrOne;
+
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity ThirdTestEntityZeroOrOne
     /// </summary>
