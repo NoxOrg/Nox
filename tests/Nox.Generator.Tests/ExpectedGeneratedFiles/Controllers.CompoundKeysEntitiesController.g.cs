@@ -89,7 +89,7 @@ public partial class CompoundKeysEntitiesController : ODataController
         
         var updated = await _mediator.Send(new UpdateCompoundKeysEntityCommand(keyId1, keyId2, compoundKeysEntity));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
@@ -119,7 +119,7 @@ public partial class CompoundKeysEntitiesController : ODataController
         
         var updated = await _mediator.Send(new PartialUpdateCompoundKeysEntityCommand(keyId1, keyId2, updateProperties, deletedProperties));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
