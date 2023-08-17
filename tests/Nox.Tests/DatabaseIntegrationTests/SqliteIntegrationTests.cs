@@ -131,8 +131,6 @@ public class SqliteIntegrationTests : SqliteTestBase
         var imageSizeInBytes = 128;
         var dateTime = new DateTimeOffset(System.DateTime.Now);
 
-        //var dateTime = new System.DateTime(2023, 5, 12, 12, 12, 12, DateTimeKind.Utc);
-
         var newItem = new TestEntityForTypes()
         {
             Id = Text.From(countryCode2),
