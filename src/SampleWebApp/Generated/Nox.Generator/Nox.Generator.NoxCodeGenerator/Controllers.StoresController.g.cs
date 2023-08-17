@@ -126,11 +126,6 @@ public partial class StoresController : ODataController
         return Updated(store);
     }
     
-    private bool StoreExists(System.String key)
-    {
-        return _databaseContext.Stores.Any(p => p.Id == key);
-    }
-    
     public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new DeleteStoreByIdCommand(key));

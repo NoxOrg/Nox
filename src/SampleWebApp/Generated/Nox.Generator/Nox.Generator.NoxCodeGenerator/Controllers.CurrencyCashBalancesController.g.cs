@@ -126,11 +126,6 @@ public partial class CurrencyCashBalancesController : ODataController
         return Updated(currencyCashBalance);
     }
     
-    private bool CurrencyCashBalanceExists(System.String key)
-    {
-        return _databaseContext.CurrencyCashBalances.Any(p => p.StoreId == key);
-    }
-    
     public async Task<ActionResult> Delete([FromRoute] System.String keyStoreId, [FromRoute] System.UInt32 keyCurrencyId)
     {
         var result = await _mediator.Send(new DeleteCurrencyCashBalanceByIdCommand(keyStoreId, keyCurrencyId));

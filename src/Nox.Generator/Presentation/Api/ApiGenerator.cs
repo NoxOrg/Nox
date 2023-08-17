@@ -262,18 +262,7 @@ internal class ApiGenerator : INoxCodeGenerator
 
         // End method
         code.EndBlock();
-        code.AppendLine();
-
-        // Method Exists
-        code.AppendLine($"private bool {entityName}Exists({entity.KeysFlattenComponentsType[entity.Keys![0].Name]} key)");
-
-        // Method content
-        code.StartBlock();
-        code.AppendLine($"return _databaseContext.{pluralName}.Any(p => p.{entity.Keys![0].Name} == key);");
-
-        // End method
-        code.EndBlock();
-        code.AppendLine();
+        code.AppendLine();        
     }
 
     private static void GeneratePost(string entityName, string variableName, CodeBuilder code)

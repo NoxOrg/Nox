@@ -126,11 +126,6 @@ public partial class AllNoxTypesController : ODataController
         return Updated(allNoxType);
     }
     
-    private bool AllNoxTypeExists(System.Int64 key)
-    {
-        return _databaseContext.AllNoxTypes.Any(p => p.Id == key);
-    }
-    
     public async Task<ActionResult> Delete([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId)
     {
         var result = await _mediator.Send(new DeleteAllNoxTypeByIdCommand(keyId, keyTextId));
