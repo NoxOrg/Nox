@@ -9,13 +9,13 @@ public class DatabaseGuidTests
     {
         var databaseGuid = new DatabaseGuid();
 
-        databaseGuid.Value.Should().Be(Guid.Empty);
+        databaseGuid.Value.Should().Be(System.Guid.Empty);
     }
 
     [Fact]
     public void DatabaseGuid_Equals_ReturnTrue()
     {
-        var initialValue = Guid.NewGuid();
+        var initialValue = System.Guid.NewGuid();
 
         var databaseGuid1 = DatabaseGuid.FromDatabase(initialValue);
         var databaseGuid2 = DatabaseGuid.FromDatabase(initialValue);
@@ -26,7 +26,7 @@ public class DatabaseGuidTests
     [Fact]
     public void DatabaseGuid_FromMethod_ThrowsException()
     {
-        var action = () => DatabaseGuid.From(Guid.NewGuid());
+        var action = () => DatabaseGuid.From(System.Guid.NewGuid());
 
         action.Should().Throw<InvalidOperationException>()
             .And.Message.Should().Be("DatabaseGuid can only be created with FromDatabase.");

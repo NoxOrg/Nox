@@ -259,7 +259,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.DistanceTestField!.ToMiles().Should().Be(distance);
         testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
         testEntity.DatabaseNumberTestField!.Value.Should().BeGreaterThan(0);
-        testEntity.DatabaseGuidTestField!.Value.Should().NotBe(Guid.Empty);
+        testEntity.DatabaseGuidTestField!.Value.Should().NotBe(System.Guid.Empty);
         testEntity.UriTestField!.Value.Should().BeEquivalentTo(new System.Uri(sampleUri));
         testEntity.GeoCoordTestField!.Latitude.Should().Be(latitude);
         testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);

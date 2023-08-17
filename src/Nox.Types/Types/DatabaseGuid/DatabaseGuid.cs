@@ -15,5 +15,5 @@ public sealed class DatabaseGuid : ValueObject<System.Guid, DatabaseGuid>
     /// <summary>
     /// <see cref="DatabaseGuid"/> object can only be created with <see cref="ValueObject{T,TValueObject}.FromDatabase"/>.
     /// </summary>
-    public new static DatabaseGuid From(Guid _) => throw new InvalidOperationException($"{nameof(DatabaseGuid)} can only be created with {nameof(FromDatabase)}.");
+    public new static DatabaseGuid From(System.Guid _) => throw new InvalidOperationException($"{nameof(DatabaseGuid)} can only be created with {nameof(FromDatabase)}.");
 }

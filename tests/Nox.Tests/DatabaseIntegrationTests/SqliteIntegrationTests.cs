@@ -106,7 +106,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var weight = 20.58M;
         var persistWeightUnitAs = WeightTypeUnit.Kilogram;
         var databaseNumber = 1U;
-        var databaseGuid = Guid.NewGuid();
+        var databaseGuid = System.Guid.NewGuid();
 
         var distance = 80.481727;
         var persistDistanceUnitAs = DistanceTypeUnit.Kilometer;
@@ -260,7 +260,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.DistanceTestField!.ToMiles().Should().Be(distance);
         testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
         testEntity.DatabaseNumberTestField!.Value.Should().BeGreaterThan(0);
-        testEntity.DatabaseGuidTestField!.Value.Should().NotBe(Guid.Empty);
+        testEntity.DatabaseGuidTestField!.Value.Should().NotBe(System.Guid.Empty);
         testEntity.UriTestField!.Value.Should().BeEquivalentTo(new System.Uri(sampleUri));
         testEntity.GeoCoordTestField!.Latitude.Should().Be(latitude);
         testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
