@@ -28,5 +28,7 @@ public partial class CountryLocalNamesDto
     /// </summary>    
     public System.String Id { get; set; } = default!;
 
-    public bool? IsDeleted { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }
+
+    public System.Boolean? IsDeleted => DeletedAtUtc is not null;
 }

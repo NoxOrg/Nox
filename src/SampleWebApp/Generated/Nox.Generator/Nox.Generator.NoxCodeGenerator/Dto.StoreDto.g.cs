@@ -43,5 +43,7 @@ public partial class StoreDto
     /// </summary>
     public virtual StoreSecurityPasswordsDto StoreSecurityPasswords { get; set; } = null!;
 
-    public bool? IsDeleted { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }
+
+    public System.Boolean? IsDeleted => DeletedAtUtc is not null;
 }

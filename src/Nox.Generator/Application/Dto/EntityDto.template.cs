@@ -82,7 +82,7 @@ public partial class {{className}}
 
 {{- if isAudited #TODO do not expose Deleted on end points??}}
 
-    public System.DateTime? DeletedAtUtc { get; set }
+    public System.DateTime? DeletedAtUtc { get; set; }
 
     public System.Boolean? IsDeleted => DeletedAtUtc is not null;
 {{- end}}

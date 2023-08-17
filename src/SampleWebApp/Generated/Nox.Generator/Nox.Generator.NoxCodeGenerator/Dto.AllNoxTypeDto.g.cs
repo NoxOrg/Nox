@@ -158,5 +158,7 @@ public partial class AllNoxTypeDto
     /// </summary>
     public LatLongDto? LatLongField { get; set; } 
 
-    public bool? IsDeleted { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }
+
+    public System.Boolean? IsDeleted => DeletedAtUtc is not null;
 }

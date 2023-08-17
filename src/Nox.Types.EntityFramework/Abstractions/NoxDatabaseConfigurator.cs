@@ -10,6 +10,22 @@ namespace Nox.Types.EntityFramework.Abstractions
         //We could use the container to manage this
         protected readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesDatabaseConfigurations = new();
 
+        // TODO: This needs to be resolved dynamically
+        private static NoxSimpleTypeDefinition[] AuditableEntityAttributes = new
+        {
+            new NoxSimpleTypeDefinition { Name = "CreatedAtUtc", Type = NoxType.DateTime, IsRequired = true, },
+            new NoxSimpleTypeDefinition { Name = "CreatedBy", Type = NoxType.User, IsRequired = true, },
+            new NoxSimpleTypeDefinition { Name = "CreatedVia", Type = NoxType.Text, IsRequired = true, },
+
+            new NoxSimpleTypeDefinition { Name = "LastUpdatedAtUtc", Type = NoxType.DateTime, },
+            new NoxSimpleTypeDefinition { Name = "LastUpdatedBy", Type = NoxType.User, },
+            new NoxSimpleTypeDefinition { Name = "LastUpdatedVia", Type = NoxType.Text, },
+
+            new NoxSimpleTypeDefinition { Name = "DeletedAtUtc", Type = NoxType.DateTime, },
+            new NoxSimpleTypeDefinition { Name = "DeletedBy", Type = NoxType.User, },
+            new NoxSimpleTypeDefinition { Name = "DeletedVia", Type = NoxType.Text, },
+        };
+
         /// <summary>
         ///
         /// </summary>
@@ -48,11 +64,6 @@ namespace Nox.Types.EntityFramework.Abstractions
             ConfigureAttributes(codeGeneratorState, builder, entity);
 
             ConfigureRelationships(codeGeneratorState, builder, entity, relationshipsToCreate);
-
-            ConfigureAuditableFields(codeGeneratorState, builder, entity);
-
-                    // Setup one to one foreign key
-                    ConfigureRelationForeignKeyProperty(codeGeneratorState, builder, entity, relationshipToCreate);
         }
 
         private void ConfigureKeys(
@@ -135,6 +146,22 @@ namespace Nox.Types.EntityFramework.Abstractions
                     }
                 }
             }
+
+            // TODO: This needs to be refactored
+            if (entity.Persistence?.IsAudited == true)
+            {
+                foreach (var property in AuditableEntityAttributes)
+                {
+                    if (TypesDatabaseConfigurations.TryGetValue(property.Type, out var databaseConfiguration))
+                    {
+                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity, false);
+                    }
+                    else
+                    {
+                        Debug.WriteLine($"Type {property.Type} not found");
+                    }
+                }
+            }
         }
 
         public virtual void ConfigureRelationships(
@@ -184,43 +211,6 @@ namespace Nox.Types.EntityFramework.Abstractions
                 keyToBeConfigured.IsRequired = false;
                 keyToBeConfigured.IsReadonly = false;
                 databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, keyToBeConfigured, entity, false);
-            }
-        }
-
-        private void ConfigureAuditableFields(
-           NoxSolutionCodeGeneratorState codeGeneratorState,
-           EntityTypeBuilder builder,
-           Entity entity)
-        {
-            // TODO: refactor
-            if (entity.Persistence?.IsAudited == true)
-            {
-                var auditableEntityAttributes = new NoxSimpleTypeDefinition[]
-                {
-                    new NoxSimpleTypeDefinition { Name = "CreatedAtUtc", Type = NoxType.DateTime, IsRequired = true, },
-                    new NoxSimpleTypeDefinition { Name = "CreatedBy", Type = NoxType.User, IsRequired = true, },
-                    new NoxSimpleTypeDefinition { Name = "CreatedVia", Type = NoxType.Text, IsRequired = true, },
-
-                    new NoxSimpleTypeDefinition { Name = "LastUpdatedAtUtc", Type = NoxType.DateTime, },
-                    new NoxSimpleTypeDefinition { Name = "LastUpdatedBy", Type = NoxType.User, },
-                    new NoxSimpleTypeDefinition { Name = "LastUpdatedVia", Type = NoxType.Text, },
-
-                    new NoxSimpleTypeDefinition { Name = "DeletedAtUtc", Type = NoxType.DateTime, },
-                    new NoxSimpleTypeDefinition { Name = "DeletedBy", Type = NoxType.User, },
-                    new NoxSimpleTypeDefinition { Name = "DeletedVia", Type = NoxType.Text, },
-                };
-
-                foreach (var property in auditableEntityAttributes)
-                {
-                    if (TypesDatabaseConfigurations.TryGetValue(property.Type, out var databaseConfiguration))
-                    {
-                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity, false);
-                    }
-                    else
-                    {
-                        Debug.WriteLine($"Type {property.Type} not found");
-                    }
-                }
             }
         }
     }
