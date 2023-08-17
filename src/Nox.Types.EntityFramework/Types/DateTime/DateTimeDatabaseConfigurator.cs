@@ -1,11 +1,9 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
 namespace Nox.Types.EntityFramework.Types;
-
 public class DateTimeDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
     public NoxType ForNoxType => NoxType.DateTime;
@@ -16,12 +14,9 @@ public class DateTimeDatabaseConfigurator : INoxTypeDatabaseConfigurator
     {
         builder
           .Property(property.Name)
-          .IsRequired(property.IsRequired)          
-          .HasConversion<DateTimeConverter>();        
+          .IsRequired(property.IsRequired)
+          .HasConversion<DateTimeConverter>();
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
-
-    public virtual string? GetColumnType() => null;
 }
-
