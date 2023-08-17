@@ -214,7 +214,7 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({PrimaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}));");
         code.AppendLine();
         
-        code.AppendLine($"if (!updated)");
+        code.AppendLine($"if (updated is null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
@@ -254,7 +254,7 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties, deletedProperties));");
         code.AppendLine();
 
-        code.AppendLine($"if (!updated)");
+        code.AppendLine($"if (updated is null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();

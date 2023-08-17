@@ -27,7 +27,7 @@ internal class AllNoxTypesDataSeeder : SampleDataSeederBase<AllNoxTypeModel, All
                 BooleanField = Nox.Types.Boolean.From(x.Boolean),         
                 CountryCode2Field = CountryCode2.From(x.CountryCode2),
                 CountryCode3Field = CountryCode3.From(x.CountryCode3),
-                DateTimeField = Nox.Types.DateTime.From(System.DateTime.Now, TimeSpan.FromHours(1)),
+                DateTimeField = Nox.Types.DateTime.From(System.DateTime.UtcNow, TimeSpan.FromHours(0)),
                 TextField = Text.From(x.TextField),
                 VatNumberField = VatNumber.From(x.VatNumber, CountryCode2.From(x.CountryCode2)),
                 CreatedAtUtc = System.DateTime.Now

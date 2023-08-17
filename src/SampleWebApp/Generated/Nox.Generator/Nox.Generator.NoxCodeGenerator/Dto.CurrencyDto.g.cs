@@ -16,6 +16,8 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
+public record CurrencyKeyDto(System.UInt32 keyId);
+
 /// <summary>
 /// The list of currencies.
 /// </summary>

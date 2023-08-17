@@ -103,7 +103,7 @@ public partial class CountriesController : ODataController
         
         var updated = await _mediator.Send(new UpdateCountryCommand(key, country));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
@@ -133,7 +133,7 @@ public partial class CountriesController : ODataController
         
         var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties, deletedProperties));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }

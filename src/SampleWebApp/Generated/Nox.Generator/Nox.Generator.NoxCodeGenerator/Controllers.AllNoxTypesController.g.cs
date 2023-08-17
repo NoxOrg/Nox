@@ -89,7 +89,7 @@ public partial class AllNoxTypesController : ODataController
         
         var updated = await _mediator.Send(new UpdateAllNoxTypeCommand(keyId, keyTextId, allNoxType));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
@@ -119,7 +119,7 @@ public partial class AllNoxTypesController : ODataController
         
         var updated = await _mediator.Send(new PartialUpdateAllNoxTypeCommand(keyId, keyTextId, updateProperties, deletedProperties));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }

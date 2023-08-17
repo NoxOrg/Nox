@@ -89,7 +89,7 @@ public partial class CurrenciesController : ODataController
         
         var updated = await _mediator.Send(new UpdateCurrencyCommand(key, currency));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
@@ -119,7 +119,7 @@ public partial class CurrenciesController : ODataController
         
         var updated = await _mediator.Send(new PartialUpdateCurrencyCommand(key, updateProperties, deletedProperties));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
