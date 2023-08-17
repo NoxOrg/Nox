@@ -60,7 +60,7 @@ namespace Nox.Types.EntityFramework.Abstractions
             foreach (var relationshipToCreate in relationshipsToCreate)
             {
                 // One to ?? (// Many to Many are setup by EF)
-                if (relationshipToCreate.Relationship.ShouldGenerateForeignOnThisSide() && relationshipToCreate.Relationship.WithSingleEntity())
+                if (relationshipToCreate.Relationship.ShouldGenerateForeignKeyOnThisSide() && relationshipToCreate.Relationship.WithSingleEntity())
                 {
                     //One to Many
                     if (relationshipToCreate.Relationship.IsManyRelationshipOnOtherSide())
