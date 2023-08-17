@@ -78,9 +78,9 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     {{- if relationship.Entity != relationship.Name}}
 
     public {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} => {{relationship.Entity}};
-
     {{- end}}
     {{- if relationship.ShouldGenerateForeignOnThisSide}}
+
     /// <summary>
     /// Foreign key for relationship {{relationship.Relationship}} to entity {{relationship.Entity}}
     /// </summary>
