@@ -35,8 +35,16 @@
 
     <ItemGroup>
         <ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
+        <ProjectReference Include="..\Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj" />
+        <ProjectReference Include="..\Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj" />
         <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
         <ProjectReference Include="..\Nox.Types.EntityFramework\Nox.Types.EntityFramework.csproj" />
+        <ProjectReference Include="..\Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Sqlite\" />
+      <Folder Include="SqlServer\" />
     </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">

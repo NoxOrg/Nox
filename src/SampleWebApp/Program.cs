@@ -1,6 +1,5 @@
 using Nox;
 using Nox.Abstractions;
-using SampleWebApp;
 
 //Include this if you want to use Serilog for logging and elastic Apm for monitoring
 // using Nox.Logging.Serilog;

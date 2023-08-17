@@ -30,7 +30,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Nox.Localization.SqlServer\Nox.Localization.SqlServer.csproj" />
+      <ProjectReference Include="..\..\src\Nox.Localization\Nox.Localization.csproj" />
       <ProjectReference Include="..\Nox.Lib.Tests\Nox.Lib.Tests.csproj" />
     </ItemGroup>
 

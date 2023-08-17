@@ -45,8 +45,7 @@
 		<ProjectReference Include="..\Nox.EntityFramework.Postgres\Nox.EntityFramework.Postgres.csproj" />
 		<ProjectReference Include="..\Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj" />
 		<ProjectReference Include="..\Nox.EntityFramework.SqlServer\Nox.EntityFramework.SqlServer.csproj" />
-		<ProjectReference Include="..\Nox.Localization.Sqlite\Nox.Localization.Sqlite.csproj" />
-		<ProjectReference Include="..\Nox.Localization.SqlServer\Nox.Localization.SqlServer.csproj" />
+		<ProjectReference Include="..\Nox.Localization\Nox.Localization.csproj" />
 		<ProjectReference Include="..\Nox.Secrets\Nox.Secrets.csproj" />
 		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
 		<ProjectReference Include="..\Nox.Abstractions\Nox.Abstractions.csproj" />
@@ -121,6 +120,10 @@
 			<PackagePath>lib\$(TargetFramework)</PackagePath>
 		</Content>
 		<Content Include="$(OutputPath)\Nox.Abstractions.dll">
+			<Pack>true</Pack>
+			<PackagePath>lib\$(TargetFramework)</PackagePath>
+		</Content>
+		<Content Include="$(OutputPath)\Nox.Localization.dll">
 			<Pack>true</Pack>
 			<PackagePath>lib\$(TargetFramework)</PackagePath>
 		</Content>
