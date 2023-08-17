@@ -28,4 +28,9 @@ public partial class TestEntityExactlyOneToZeroOrMany : AuditableEntityBase
     /// TestEntityExactlyOneToZeroOrMany Test entity relationship to TestEntityZeroOrManyToExactlyOne ExactlyOne TestEntityZeroOrManyToExactlyOnes
     /// </summary>
     public virtual TestEntityZeroOrManyToExactlyOne TestEntityZeroOrManyToExactlyOne { get; set; } = null!;
+
+    /// <summary>
+    /// Foreign key for relationship ExactlyOne to entity TestEntityZeroOrManyToExactlyOne
+    /// </summary>
+    public Nox.Types.Text TestEntityZeroOrManyToExactlyOneId { get; set; } = null!;
 }

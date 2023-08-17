@@ -28,4 +28,6 @@ public partial class SecondTestEntityExactlyOne : AuditableEntityBase
     /// SecondTestEntityExactlyOne Test entity relationship to TestEntityExactlyOneRelationship ExactlyOne TestEntityExactlyOnes
     /// </summary>
     public virtual TestEntityExactlyOne TestEntityExactlyOne { get; set; } = null!;
+
+    public TestEntityExactlyOne TestEntityExactlyOneRelationship => TestEntityExactlyOne;
 }

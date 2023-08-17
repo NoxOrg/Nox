@@ -37,7 +37,7 @@ public static class EntityRelationshipExtensions
         return !isIgnored;
     }
 
-    public static bool HasRelationshipWithSingularEntity(this EntityRelationship relationship)
+    public static bool WithSingleEntity(this EntityRelationship relationship)
     {
         return
             relationship.Relationship == EntityRelationshipType.ExactlyOne ||
@@ -46,7 +46,7 @@ public static class EntityRelationshipExtensions
 
     public static bool ShouldUseRelationshipNameAsNavigation(this EntityRelationship relationship)
     {
-        var hasReferenceToSingularEntity = HasRelationshipWithSingularEntity(relationship);
+        var hasReferenceToSingularEntity = relationship.WithSingleEntity();
         var hasReferenceToManyEntities = !hasReferenceToSingularEntity;
         var relationshipNameIsEqualToSingularName = relationship.Name == relationship.Entity;
         var relationshipNameIsEqualToPluralName = relationship.Name == relationship.EntityPlural;
