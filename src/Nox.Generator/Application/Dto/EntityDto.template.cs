@@ -34,6 +34,9 @@ public partial class {{className}}
     {{- end}}
 {{- end }}
 {{- for attribute in entity.Attributes }}
+    {{- if componentsInfo[attribute.Name].IsReadable == false -}}
+        {{ continue; }}
+    {{- end}}
 
     /// <summary>
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).

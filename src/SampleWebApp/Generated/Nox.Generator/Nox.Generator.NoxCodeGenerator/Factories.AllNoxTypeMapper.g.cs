@@ -44,12 +44,42 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         {        
             entity.CountryNumberField = noxTypeValue;
         }
+        noxTypeValue = CreateNoxType<Nox.Types.CultureCode>(entityDefinition,"CultureCodeField",dto.CultureCodeField);
+        if(noxTypeValue != null)
+        {        
+            entity.CultureCodeField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition,"CurrencyCode3Field",dto.CurrencyCode3Field);
+        if(noxTypeValue != null)
+        {        
+            entity.CurrencyCode3Field = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition,"DateTimeField",dto.DateTimeField);
+        if(noxTypeValue != null)
+        {        
+            entity.DateTimeField = noxTypeValue;
+        }
 
         // TODO map FormulaField Formula remaining types and remove if else
+        noxTypeValue = CreateNoxType<Nox.Types.Html>(entityDefinition,"HtmlField",dto.HtmlField);
+        if(noxTypeValue != null)
+        {        
+            entity.HtmlField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Markdown>(entityDefinition,"MarkdownField",dto.MarkdownField);
+        if(noxTypeValue != null)
+        {        
+            entity.MarkdownField = noxTypeValue;
+        }
         noxTypeValue = CreateNoxType<Nox.Types.Yaml>(entityDefinition,"YamlField",dto.YamlField);
         if(noxTypeValue != null)
         {        
             entity.YamlField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Year>(entityDefinition,"YearField",dto.YearField);
+        if(noxTypeValue != null)
+        {        
+            entity.YearField = noxTypeValue;
         }
         noxTypeValue = CreateNoxType<Nox.Types.Weight>(entityDefinition,"WeightField",dto.WeightField);
         if(noxTypeValue != null)
@@ -132,5 +162,7 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         {        
             entity.LatLongField = noxTypeValue;
         }
+
+        // TODO map EncryptedTextField EncryptedText remaining types and remove if else
     }
 }

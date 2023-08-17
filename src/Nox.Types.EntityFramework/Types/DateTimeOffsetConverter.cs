@@ -2,9 +2,9 @@
 
 namespace Nox.Types.EntityFramework.Types;
 
-public class DateTimeRangeConverter : ValueConverter<DateTimeOffset, System.DateTime>
+public class DateTimeOffsetConverter : ValueConverter<DateTimeOffset, System.DateTime>
 {
-    public DateTimeRangeConverter()
+    public DateTimeOffsetConverter()
         : base(
             d => d.UtcDateTime,
             d => new DateTimeOffset(d, TimeSpan.Zero))

@@ -12,7 +12,11 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
+<<<<<<<< HEAD:src/SampleWebApp/Migrations/20230817071220_InitialCreate.Designer.cs
     [Migration("20230817071220_InitialCreate")]
+========
+    [Migration("20230817104050_InitialCreate")]
+>>>>>>>> main:src/SampleWebApp/Migrations/20230817104050_InitialCreate.Designer.cs
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -64,7 +68,6 @@ namespace SampleWebApp.Migrations
                         .IsFixedLength();
 
                     b.Property<string>("CountryCode3Field")
-                        .IsRequired()
                         .HasMaxLength(3)
                         .IsUnicode(false)
                         .HasColumnType("char(3)")
@@ -81,11 +84,31 @@ namespace SampleWebApp.Migrations
                         .HasMaxLength(511)
                         .HasColumnType("nvarchar(511)");
 
+<<<<<<<< HEAD:src/SampleWebApp/Migrations/20230817071220_InitialCreate.Designer.cs
                     b.Property<string>("CreatedVia")
                         .IsRequired()
                         .HasMaxLength(255)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(255)");
+========
+                    b.Property<string>("CultureCodeField")
+                        .HasMaxLength(10)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(10)")
+                        .IsFixedLength(false);
+
+                    b.Property<string>("CurrencyCode3Field")
+                        .HasMaxLength(3)
+                        .IsUnicode(false)
+                        .HasColumnType("char(3)")
+                        .IsFixedLength();
+
+                    b.Property<DateTimeOffset?>("DateTimeField")
+                        .HasColumnType("datetimeoffset");
+
+                    b.Property<bool?>("Deleted")
+                        .HasColumnType("bit");
+>>>>>>>> main:src/SampleWebApp/Migrations/20230817104050_InitialCreate.Designer.cs
 
                     b.Property<DateTime?>("DeletedAtUtc")
                         .HasColumnType("datetime2");
@@ -107,6 +130,19 @@ namespace SampleWebApp.Migrations
                         .HasColumnType("nvarchar(511)");
 
                     b.Property<string>("LastUpdatedVia")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<byte[]>("EncryptedTextField")
+                        .IsUnicode(false)
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("HtmlField")
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MarkdownField")
                         .HasMaxLength(255)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(255)");
@@ -156,6 +192,9 @@ namespace SampleWebApp.Migrations
                     b.Property<string>("YamlField")
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");
+
+                    b.Property<ushort?>("YearField")
+                        .HasColumnType("int");
 
                     b.HasKey("Id", "TextId");
 

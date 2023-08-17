@@ -14,9 +14,11 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 //TODO support multiple keys and generated keys like nuid database number
-public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<System.String>;
+public record CreateCountryResponse(System.String keyId);
 
-public class CreateCountryCommandHandler: IRequestHandler<CreateCountryCommand, System.String>
+public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<CreateCountryResponse>;
+
+public class CreateCountryCommandHandler: IRequestHandler<CreateCountryCommand, CreateCountryResponse>
 {
     public SampleWebAppDbContext DbContext { get; }
     public IEntityFactory<CountryCreateDto,Country> EntityFactory { get; }
@@ -29,13 +31,13 @@ public class CreateCountryCommandHandler: IRequestHandler<CreateCountryCommand, 
         EntityFactory = entityFactory;
     }
     
-    public async Task<System.String> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
+    public async Task<CreateCountryResponse> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
     {    
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
-        //TODO for nuid property or key needs to call ensure id        
+        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+	
         DbContext.Countries.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         //return entityToCreate.Id.Value;
-        return default(System.String)!;
+        return new CreateCountryResponse(default(System.String)!);
 }
 }

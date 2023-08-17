@@ -1,0 +1,10 @@
+﻿<AuthorizeView>
+    <Authorized>
+        <MudIconButton Icon="@Icons.Material.Filled.AccountCircle" Color="Color.Info" Style="padding-top:15px;" />
+        <MudText Style="padding:20px 0px 15px 0px;">@context.User.Identity?.Name</MudText>
+        <MudLink Href="MicrosoftIdentity/Account/SignOut" Color="Color.Info" Style="padding:20px 15px 15px 15px;">Log out</MudLink>
+    </Authorized>
+    <NotAuthorized>
+        <MudLink Href="MicrosoftIdentity/Account/SignIn" Color="Color.Info" Style="padding:20px 15px 15px 15px;">Log in</MudLink>
+    </NotAuthorized>
+</AuthorizeView>

@@ -178,3 +178,15 @@ domain:
           type: text
           textTypeOptions:
             maxLength: 31
+
+        - name: EncryptedTextField
+          description: EncryptedText Nox Type
+          type: encryptedText
+
+        - name: HashedTextField
+          description: HashedText Nox Type
+          type: hashedText
+
+        - name: PasswordField
+          description: Password Nox Type
+          type: password

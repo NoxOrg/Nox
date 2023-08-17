@@ -14,7 +14,7 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateCurrencyCashBalanceCommand(System.String key, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<bool>;
+public record PartialUpdateCurrencyCashBalanceCommand(System.String keyStoreId, System.UInt32 keyCurrencyId, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<bool>;
 
 public class PartialUpdateCurrencyCashBalanceCommandHandler: CommandBase, IRequestHandler<PartialUpdateCurrencyCashBalanceCommand, bool>
 {
@@ -33,7 +33,10 @@ public class PartialUpdateCurrencyCashBalanceCommandHandler: CommandBase, IReque
     
     public async Task<bool> Handle(PartialUpdateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.CurrencyCashBalances.FindAsync(CreateNoxTypeForKey<CurrencyCashBalance,Text>("StoreId", request.key));
+        var keyStoreId = CreateNoxTypeForKey<CurrencyCashBalance,Text>("StoreId", request.keyStoreId);
+        var keyCurrencyId = CreateNoxTypeForKey<CurrencyCashBalance,Nuid>("CurrencyId", request.keyCurrencyId);
+    
+        var entity = await DbContext.CurrencyCashBalances.FindAsync(keyStoreId, keyCurrencyId);
         if (entity == null)
         {
             return false;

@@ -22,10 +22,10 @@ public class DateTimeRangeDatabaseConfigurator : INoxTypeDatabaseConfigurator
             .OwnsOne(typeof(DateTimeRange), property.Name, dtr =>
             {
                 dtr.Property(nameof(DateTimeRange.Start))
-                    .HasConversion<DateTimeRangeConverter>();
+                    .HasConversion<DateTimeOffsetConverter>();
 
                 dtr.Property(nameof(DateTimeRange.End))
-                    .HasConversion<DateTimeRangeConverter>();
+                    .HasConversion<DateTimeOffsetConverter>();
 
                 dtr.Property(nameof(DateTimeRange.StartTimeZoneOffset))
                     .UsePropertyAccessMode(PropertyAccessMode.Property);

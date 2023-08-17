@@ -39,11 +39,26 @@ attributes:
   - name: CountryCode3Field
     description: CountryCode3 Nox Type
     type: countryCode3
-    isRequired: true
+    isRequired: false
 
   - name: CountryNumberField
     description: CountryNumber Nox Type
     type: countryNumber
+    isRequired: false
+
+  - name: CultureCodeField
+    description: CultureCode Nox Type
+    type: cultureCode
+    isRequired: false
+
+  - name: CurrencyCode3Field
+    description: CurrencyCode3Field Nox Type
+    type: currencyCode3
+    isRequired: false
+
+  - name: DateTimeField
+    description: DatetimeField Nox Type
+    type: dateTime
     isRequired: false
 
   - name: FormulaField
@@ -53,9 +68,24 @@ attributes:
         expression: "CountryCode2Field.ToString()"
         returns: string
 
+  - name: HtmlField
+    description: HtmlField Nox Type
+    type: html
+    isRequired: false
+
+  - name: MarkdownField
+    description: MarkdownField Nox Type
+    type: markdown
+    isRequired: false
+
   - name: YamlField
     description: Yaml Nox Type
     type: yaml
+
+  - name: YearField
+    description: YearField Nox Type
+    type: year
+    isRequired: false
 
   - name: WeightField
     description: Weight Nox Type
@@ -154,4 +184,7 @@ attributes:
   - name: LatLongField
     description: LatLongField Nox Type
     type: latLong
+  - name: EncryptedTextField
+    description: EncryptedText Nox Type
+    type: encryptedText
     

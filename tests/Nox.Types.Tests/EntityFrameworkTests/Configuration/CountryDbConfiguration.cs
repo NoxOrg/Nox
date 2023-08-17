@@ -37,7 +37,6 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.VolumeInCubicMeters).HasConversion<VolumeToCubicMetersConverter>();
         builder.Property(e => e.WeightInKilograms).HasConversion<WeightToKilogramsConverter>();
         builder.Property(e => e.Nuid).HasConversion<NuidConverter>();
-        builder.Property(e => e.CreateDate).HasConversion<DateTimeConverter>();
         builder.Property(e => e.CurrentTime).HasConversion<TimeConverter>();
         builder.Property(e => e.AverageTemperatureInCelsius).HasConversion<TemperatureToCelsiusConverter>();
         builder.Property(e => e.Description).HasConversion<MarkdownConverter>();
@@ -53,6 +52,8 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.Property(e => e.CurrencyNumber).HasConversion<CurrencyNumberConverter>();
         builder.Property(e => e.Color).HasConversion<ColorConverter>();
         builder.Property(e => e.DayOfWeek).HasConversion<DayOfWeekConverter>();
+        builder.Property(e => e.DateTimeSchedule).HasConversion<DateTimeScheduleConverter>();
+        builder.Property(e => e.CreateDate).HasConversion<DateTimeConverter>();
 
         // Configure Multi-value ValueObjects
         builder.OwnsOne(e => e.LatLong).Ignore(p => p.Value);
@@ -68,5 +69,6 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
             .Property(x => x.CultureCode).HasConversion<CultureCodeConverter>();
         builder.OwnsOne(e=>e.Flag).Ignore(p=>p.Value);
         builder.OwnsOne(e => e.Password).Ignore(p => p.Value);
+        
     }
 }

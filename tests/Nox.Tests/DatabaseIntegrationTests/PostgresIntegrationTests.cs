@@ -1,18 +1,19 @@
 using FluentAssertions;
 
 using Nox.Types;
-
+using System.Globalization;
 using System.Text.Json;
 
 using TestWebApp.Domain;
 
 using DayOfWeek = Nox.Types.DayOfWeek;
+using Guid = Nox.Types.Guid;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
 
 public class PostgresIntegrationTests : PostgresTestBase
 {
-    // [Fact]
+    //[Fact]
     public void GeneratedEntity_Postgres_CanSaveAndReadFields_AllTypes()
     {
         // TODO:
@@ -57,6 +58,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         var cultureCode = "de-CH";
         var macAddress = "A1B2C3D4E5F6";
         var url = "http://example.com/";
+        var guid = System.Guid.NewGuid();
         var password = "Test123.";
         var dayOfWeek = 1;
         byte month = 7;
@@ -112,6 +114,8 @@ public class PostgresIntegrationTests : PostgresTestBase
 
         var dateTimeRangeStart = new DateTimeOffset(2023, 4, 12, 0, 0, 0, TimeSpan.FromHours(3));
         var dateTimeRangeEnd = new DateTimeOffset(2023, 7, 10, 0, 0, 0, TimeSpan.FromHours(5));
+        var cronJobExpression = "0 0 12 ? * 2,3,4,5,6 *";
+		var dateTime = new DateTimeOffset(2023, 7, 10, 0, 0, 0, TimeSpan.FromHours(5));
 
         var html = @"
 <html>
@@ -146,6 +150,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             MacAddressTestField = MacAddress.From(macAddress),
             UrlTestField = Url.From(url),
             UserTestField = User.From(email),
+            GuidTestField = Guid.From(guid),
             HashedTextTestField = HashedText.From(text),
             PasswordTestField = Password.From(password),
             DayOfWeekTestField = DayOfWeek.From(1),
@@ -175,6 +180,8 @@ public class PostgresIntegrationTests : PostgresTestBase
             HtmlTestField = Html.From(html),
             ImageTestField = Image.From(imageUrl, imagePrettyName, imageSizeInBytes),
             PhoneNumberTestField = PhoneNumber.From(phoneNumber),
+            DateTimeScheduleTestField = DateTimeSchedule.From(cronJobExpression),
+			DateTimeTestField = Types.DateTime.From(dateTime),
         };
         var temperatureCelsius = newItem.TemperatureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -208,6 +215,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
         testEntity.UrlTestField!.Value.AbsoluteUri.Should().Be(url);
         testEntity.UserTestField!.Value.Should().Be(email);
+        testEntity.GuidTestField!.Value.Should().Be(guid);
         testEntity.HashedTextTestField!.HashText.Should().Be(newItem.HashedTextTestField?.HashText);
         testEntity.HashedTextTestField!.Salt.Should().Be(newItem.HashedTextTestField?.Salt);
         testEntity.PasswordTestField!.HashedPassword.Should().Be(newItem.PasswordTestField.HashedPassword);
@@ -258,5 +266,9 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.ImageTestField!.PrettyName.Should().Be(imagePrettyName);
         testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
         testEntity.PhoneNumberTestField!.Value.Should().Be(phoneNumber);
+        testEntity.DateTimeScheduleTestField!.Value.Should().Be(cronJobExpression);
+        //PostGres is always UTC
+        testEntity.DateTimeTestField!.Value.Should().Be(dateTime.UtcDateTime);        
+        testEntity.DateTimeTestField!.Value.Offset.Should().Be(TimeSpan.Zero);
     }
 }

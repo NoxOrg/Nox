@@ -37,7 +37,7 @@ public sealed class Nuid : ValueObject<uint, Nuid>, IComparable, IComparable<Nui
         return Base36Converter.ToBase36(Value);
     }
 
-    public Guid ToGuid()
+    public System.Guid ToGuid()
     {
         byte[] bytes = new byte[16];
         BitConverter
@@ -46,7 +46,7 @@ public sealed class Nuid : ValueObject<uint, Nuid>, IComparable, IComparable<Nui
             .ToArray()
             .CopyTo(bytes, 12);
 
-        return new Guid(bytes);
+        return new System.Guid(bytes);
     }
 
     public int CompareTo(object? obj)

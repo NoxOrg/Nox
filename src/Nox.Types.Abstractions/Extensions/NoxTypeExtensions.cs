@@ -50,5 +50,25 @@ public static class NoxTypeExtensions
         }
         return EmptyComponents;
     }
-  
+
+    public static bool IsReadableType(this NoxType noxType)
+    {
+        return (noxType.DtoGenerateControl()?.Read) ?? true;
+    }
+
+    public static bool IsUpdatableType(this NoxType noxType)
+    {
+        return (noxType.DtoGenerateControl()?.Update) ?? true;
+    }
+
+    private static IDtoGenerateControl? DtoGenerateControl(this NoxType noxType)
+    {
+        if (noxType.IsSimpleType())
+            return noxType.ToMemberInfo().GetCustomAttribute<SimpleTypeAttribute>();
+        else if (noxType.IsCompoundType())
+            return noxType.ToMemberInfo().GetCustomAttribute<CompoundTypeAttribute>();
+
+        return null;
+    }
+
 }
