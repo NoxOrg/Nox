@@ -28,4 +28,8 @@ public partial class TestEntityZeroOrOneToZeroOrMany : AuditableEntityBase
     /// TestEntityZeroOrOneToZeroOrMany Test entity relationship to TestEntityZeroOrManyToZeroOrOne ZeroOrOne TestEntityZeroOrManyToZeroOrOnes
     /// </summary>
     public virtual TestEntityZeroOrManyToZeroOrOne? TestEntityZeroOrManyToZeroOrOne { get; set; } = null!;
+    /// <summary>
+    /// Foreign key for relationship ZeroOrOne to entity TestEntityZeroOrManyToZeroOrOne
+    /// </summary>
+    public Nox.Types.Text? TestEntityZeroOrManyToZeroOrOneId { get; set; } = null!;
 }

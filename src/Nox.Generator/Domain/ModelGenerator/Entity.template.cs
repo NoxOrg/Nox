@@ -74,13 +74,16 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     public List<{{relationship.Entity}}> {{relationship.Name}} => {{relationship.EntityPlural}};
     {{- end}}
     {{- else}}
-    public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
-    {{- if relationship.ShouldGenerateForeignOnThisSide && !relationship.IsManyRelationshipOnOtherSide}}
+    public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;    
+    {{- if relationship.Entity != relationship.Name}}
+    public {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} => {{relationship.Entity}};
 
+    {{- end}}
+    {{- if relationship.ShouldGenerateForeignOnThisSide}}
     /// <summary>
     /// Foreign key for relationship {{relationship.Relationship}} to entity {{relationship.Entity}}
     /// </summary>
-    public Nox.Types.{{relationship.Related.Entity.Keys[0].Type}} {{relationship.Entity}}Id { get; set; } = null!;
+    public Nox.Types.{{relationship.Related.Entity.Keys[0].Type}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}}Id { get; set; } = null!;
     {{- end}}
     {{-end}}
 {{- end }}
