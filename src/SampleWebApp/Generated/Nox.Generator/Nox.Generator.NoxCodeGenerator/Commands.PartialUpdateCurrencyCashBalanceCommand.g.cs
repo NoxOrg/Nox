@@ -14,7 +14,7 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateCurrencyCashBalanceCommand(System.String keyStoreId, System.UInt32 keyCurrencyId, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<CurrencyCashBalanceKeyDto?>;
+public record PartialUpdateCurrencyCashBalanceCommand(System.String keyStoreId, System.UInt32 keyCurrencyId, Dictionary<string, dynamic> UpdatedProperties, HashSet<string> DeletedPropertyNames) : IRequest <CurrencyCashBalanceKeyDto?>;
 
 public class PartialUpdateCurrencyCashBalanceCommandHandler: CommandBase, IRequestHandler<PartialUpdateCurrencyCashBalanceCommand, CurrencyCashBalanceKeyDto?>
 {

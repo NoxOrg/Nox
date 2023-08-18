@@ -42,7 +42,7 @@ public class {{className}}: EntityMapperBase<{{entity.Name}}>
     {{- end }}
     }
 
-    public override void PartialMapToEntity({{entity.Name}} entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, List<string> deletedPropertyNames)
+    public override void PartialMapToEntity({{entity.Name}} entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
     {
 
     }

@@ -40,7 +40,7 @@ public class StoreMapper: EntityMapperBase<Store>
         }
     }
 
-    public override void PartialMapToEntity(Store entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, List<string> deletedPropertyNames)
+    public override void PartialMapToEntity(Store entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
     {
 
     }

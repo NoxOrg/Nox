@@ -95,7 +95,7 @@ public partial class StoresController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new List<string>();
+        var deletedProperties = new HashSet<string>();
 
         foreach (var propertyName in store.GetChangedPropertyNames())
         {

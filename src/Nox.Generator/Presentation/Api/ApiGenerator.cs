@@ -233,7 +233,7 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine(@$"var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new List<string>();
+        var deletedProperties = new HashSet<string>();
 
         foreach (var propertyName in {entity.Name.ToLowerFirstChar()}.GetChangedPropertyNames())
         {{

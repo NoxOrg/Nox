@@ -40,7 +40,7 @@ public class CurrencyCashBalanceMapper: EntityMapperBase<CurrencyCashBalance>
         }
     }
 
-    public override void PartialMapToEntity(CurrencyCashBalance entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, List<string> deletedPropertyNames)
+    public override void PartialMapToEntity(CurrencyCashBalance entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
     {
 
     }

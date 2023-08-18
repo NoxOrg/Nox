@@ -30,7 +30,7 @@ public class CountryLocalNamesMapper: EntityMapperBase<CountryLocalNames>
     
     }
 
-    public override void PartialMapToEntity(CountryLocalNames entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, List<string> deletedPropertyNames)
+    public override void PartialMapToEntity(CountryLocalNames entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
     {
 
     }

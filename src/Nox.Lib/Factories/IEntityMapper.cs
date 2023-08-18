@@ -19,5 +19,5 @@ public interface IEntityMapper<E> where E : IEntity
     /// <param name="entityDefinition">Entity Definition</param>
     /// <param name="updatedProperties">Properties to update</param>
     /// <param name="deletedPropertyNames">Properties to unset</param>
-    void PartialMapToEntity(E entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, List<string> deletedPropertyNames);
+    void PartialMapToEntity(E entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames);
 }

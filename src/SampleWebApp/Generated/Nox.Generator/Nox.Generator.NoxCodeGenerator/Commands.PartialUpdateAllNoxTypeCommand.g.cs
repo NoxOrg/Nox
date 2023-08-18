@@ -14,7 +14,7 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateAllNoxTypeCommand(System.Int64 keyId, System.String keyTextId, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<AllNoxTypeKeyDto?>;
+public record PartialUpdateAllNoxTypeCommand(System.Int64 keyId, System.String keyTextId, Dictionary<string, dynamic> UpdatedProperties, HashSet<string> DeletedPropertyNames) : IRequest <AllNoxTypeKeyDto?>;
 
 public class PartialUpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler<PartialUpdateAllNoxTypeCommand, AllNoxTypeKeyDto?>
 {

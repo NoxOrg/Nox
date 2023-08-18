@@ -14,7 +14,7 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public record PartialUpdate{{entity.Name}}Command({{primaryKeys}}, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<{{entity.Name}}KeyDto?>;
+public record PartialUpdate{{entity.Name}}Command({{primaryKeys}}, Dictionary<string, dynamic> UpdatedProperties, HashSet<string> DeletedPropertyNames) : IRequest <{{entity.Name}}KeyDto?>;
 
 public class PartialUpdate{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<PartialUpdate{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {

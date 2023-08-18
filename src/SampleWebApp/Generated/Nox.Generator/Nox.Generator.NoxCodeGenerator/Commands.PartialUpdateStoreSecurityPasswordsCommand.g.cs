@@ -14,7 +14,7 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateStoreSecurityPasswordsCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<StoreSecurityPasswordsKeyDto?>;
+public record PartialUpdateStoreSecurityPasswordsCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, HashSet<string> DeletedPropertyNames) : IRequest <StoreSecurityPasswordsKeyDto?>;
 
 public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRequestHandler<PartialUpdateStoreSecurityPasswordsCommand, StoreSecurityPasswordsKeyDto?>
 {

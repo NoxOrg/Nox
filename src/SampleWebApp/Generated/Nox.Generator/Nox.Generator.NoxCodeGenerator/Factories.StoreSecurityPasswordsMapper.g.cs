@@ -40,7 +40,7 @@ public class StoreSecurityPasswordsMapper: EntityMapperBase<StoreSecurityPasswor
         }
     }
 
-    public override void PartialMapToEntity(StoreSecurityPasswords entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, List<string> deletedPropertyNames)
+    public override void PartialMapToEntity(StoreSecurityPasswords entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
     {
 
     }

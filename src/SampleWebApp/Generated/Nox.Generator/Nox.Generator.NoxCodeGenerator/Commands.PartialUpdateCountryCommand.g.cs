@@ -14,7 +14,7 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateCountryCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<CountryKeyDto?>;
+public record PartialUpdateCountryCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, HashSet<string> DeletedPropertyNames) : IRequest <CountryKeyDto?>;
 
 public class PartialUpdateCountryCommandHandler: CommandBase, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
 {

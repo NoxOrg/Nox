@@ -14,7 +14,7 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateStoreCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<StoreKeyDto?>;
+public record PartialUpdateStoreCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, HashSet<string> DeletedPropertyNames) : IRequest <StoreKeyDto?>;
 
 public class PartialUpdateStoreCommandHandler: CommandBase, IRequestHandler<PartialUpdateStoreCommand, StoreKeyDto?>
 {
