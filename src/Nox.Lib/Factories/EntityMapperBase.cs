@@ -15,7 +15,7 @@ public abstract class EntityMapperBase<E>: IEntityMapper<E> where E : IEntity
     public EntityMapperBase(NoxSolution noxSolution, IServiceProvider serviceProvider)
     {
         NoxSolution = noxSolution;
-        ServiceProvider = serviceProvider;
+        ServiceProvider = serviceProvider;              
     }
     public N? CreateNoxType<N>(Entity entityDefinition, string attributeName, dynamic? value) where N : INoxType
     {

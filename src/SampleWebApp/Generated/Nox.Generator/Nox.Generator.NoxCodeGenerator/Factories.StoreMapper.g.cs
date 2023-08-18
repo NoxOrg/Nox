@@ -12,6 +12,7 @@ using Nox.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
+using Nox.Exceptions;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
@@ -46,7 +47,38 @@ public class StoreMapper: EntityMapperBase<Store>
     }
 
     public override void PartialMapToEntity(Store entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
-    {
-
+    {    
+        if(deletedPropertyNames.Contains("Name"))
+        {
+            throw new EntityAttributeIsNotNullableException("Store", "Name");
+        }
+        else if (updatedProperties.TryGetValue("Name", out dynamic? value))
+        {
+            var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
+            if(noxTypeValue == null)
+            {
+                throw new EntityAttributeIsNotNullableException("Store", "Name");
+            }
+            else
+            {
+                entity.Name = noxTypeValue;
+            }
+        }    
+        if(deletedPropertyNames.Contains("PhysicalMoney"))
+        {
+            throw new EntityAttributeIsNotNullableException("Store", "PhysicalMoney");
+        }
+        else if (updatedProperties.TryGetValue("PhysicalMoney", out dynamic? value))
+        {
+            var noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"PhysicalMoney",value);
+            if(noxTypeValue == null)
+            {
+                throw new EntityAttributeIsNotNullableException("Store", "PhysicalMoney");
+            }
+            else
+            {
+                entity.PhysicalMoney = noxTypeValue;
+            }
+        }
     }
 }

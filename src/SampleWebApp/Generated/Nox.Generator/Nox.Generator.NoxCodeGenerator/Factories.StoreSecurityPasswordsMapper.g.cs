@@ -12,6 +12,7 @@ using Nox.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
+using Nox.Exceptions;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
@@ -46,7 +47,38 @@ public class StoreSecurityPasswordsMapper: EntityMapperBase<StoreSecurityPasswor
     }
 
     public override void PartialMapToEntity(StoreSecurityPasswords entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
-    {
-
+    {    
+        if(deletedPropertyNames.Contains("Name"))
+        {
+            throw new EntityAttributeIsNotNullableException("StoreSecurityPasswords", "Name");
+        }
+        else if (updatedProperties.TryGetValue("Name", out dynamic? value))
+        {
+            var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
+            if(noxTypeValue == null)
+            {
+                throw new EntityAttributeIsNotNullableException("StoreSecurityPasswords", "Name");
+            }
+            else
+            {
+                entity.Name = noxTypeValue;
+            }
+        }    
+        if(deletedPropertyNames.Contains("SecurityCamerasPassword"))
+        {
+            throw new EntityAttributeIsNotNullableException("StoreSecurityPasswords", "SecurityCamerasPassword");
+        }
+        else if (updatedProperties.TryGetValue("SecurityCamerasPassword", out dynamic? value))
+        {
+            var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"SecurityCamerasPassword",value);
+            if(noxTypeValue == null)
+            {
+                throw new EntityAttributeIsNotNullableException("StoreSecurityPasswords", "SecurityCamerasPassword");
+            }
+            else
+            {
+                entity.SecurityCamerasPassword = noxTypeValue;
+            }
+        }
     }
 }
