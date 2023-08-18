@@ -58,7 +58,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         var url = "http://example.com/";
         var guid = System.Guid.NewGuid();
         var password = "Test123.";
-        var dayOfWeek = 1;
+        ushort dayOfWeek = 1;
         byte month = 7;
         var currencyNumber = (short)970;
         var dateTimeDurationInHours = 30.5;

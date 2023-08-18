@@ -12,7 +12,7 @@ public class NoxTypeDayOfWeekFactoryTests
     {
         // Arrange
         NoxTypeDayOfWeekFactory sut = new NoxTypeDayOfWeekFactory(noxSolution);
-        var value = 1;
+        ushort value = 1;
 
         // Act
         var entity = sut.CreateNoxType(fixture.EntityDefinition, fixture.PropertyName, value);
