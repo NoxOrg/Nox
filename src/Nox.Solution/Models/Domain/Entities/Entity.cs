@@ -83,7 +83,7 @@ public class Entity : DefinitionBase
         return Persistence.ApplyDefaults(Name);
     }
     
-    public NoxSimpleTypeDefinition GetAttributeByName(string entityName)
+    public NoxSimpleTypeDefinition? GetAttributeByName(string entityName)
     {
         lock (this)
         {
@@ -96,11 +96,26 @@ public class Entity : DefinitionBase
                 }
             }
         }
-        return _attributesByName[entityName];
+        return _attributesByName.TryGetValue(entityName, out var attribute) ? attribute : null;
+    }
+
+    public NoxSimpleTypeDefinition? GetKeyByName(string entityName)
+    {
+        lock (this)
+        {
+            if (_keysByName is null && Keys is not null)
+            {
+                _keysByName = Keys.ToDictionary(key => key.Name, key => key);
+            }
+        }
+        return _keysByName?.TryGetValue(entityName, out var key) == true ? key : null;
     }
 
     [YamlIgnore]
     private Dictionary<string, NoxSimpleTypeDefinition>? _attributesByName;
+
+    [YamlIgnore]
+    private Dictionary<string, NoxSimpleTypeDefinition>? _keysByName;
 
     public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()
     {

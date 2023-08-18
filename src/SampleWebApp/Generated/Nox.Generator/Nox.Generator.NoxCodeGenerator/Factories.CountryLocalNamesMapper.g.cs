@@ -27,7 +27,12 @@ public class CountryLocalNamesMapper: EntityMapperBase<CountryLocalNames>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Id", dto.Id);        
+        if(noxTypeValue != null)
+        {        
+            entity.Id = noxTypeValue;
+        }
     }
 
     public override void PartialMapToEntity(CountryLocalNames entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
