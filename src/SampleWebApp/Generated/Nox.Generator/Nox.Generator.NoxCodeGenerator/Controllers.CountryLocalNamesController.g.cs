@@ -89,7 +89,7 @@ public partial class CountryLocalNamesController : ODataController
         
         var updated = await _mediator.Send(new UpdateCountryLocalNamesCommand(key, countryLocalNames));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
@@ -119,16 +119,11 @@ public partial class CountryLocalNamesController : ODataController
         
         var updated = await _mediator.Send(new PartialUpdateCountryLocalNamesCommand(key, updateProperties, deletedProperties));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
         return Updated(countryLocalNames);
-    }
-    
-    private bool CountryLocalNamesExists(System.String key)
-    {
-        return _databaseContext.CountryLocalNames.Any(p => p.Id == key);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)

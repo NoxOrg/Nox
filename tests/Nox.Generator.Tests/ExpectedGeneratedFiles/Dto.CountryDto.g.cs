@@ -16,6 +16,8 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
+public record CountryKeyDto(System.String keyId);
+
 /// <summary>
 /// The list of countries.
 /// </summary>

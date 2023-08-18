@@ -826,8 +826,8 @@ domain:
         - name: CurrencyNumberTestField
           type: currencyNumber
 
-        #- name: DateTimeTestField
-        #  type: dateTime
+        - name: DateTimeTestField
+          type: dateTime
 
         - name: DateTimeRangeTestField
           type: dateTimeRange

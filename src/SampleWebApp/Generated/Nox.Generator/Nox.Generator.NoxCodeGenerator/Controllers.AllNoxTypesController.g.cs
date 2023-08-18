@@ -89,7 +89,7 @@ public partial class AllNoxTypesController : ODataController
         
         var updated = await _mediator.Send(new UpdateAllNoxTypeCommand(keyId, keyTextId, allNoxType));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
@@ -119,16 +119,11 @@ public partial class AllNoxTypesController : ODataController
         
         var updated = await _mediator.Send(new PartialUpdateAllNoxTypeCommand(keyId, keyTextId, updateProperties, deletedProperties));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
         return Updated(allNoxType);
-    }
-    
-    private bool AllNoxTypeExists(System.Int64 key)
-    {
-        return _databaseContext.AllNoxTypes.Any(p => p.Id == key);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId)

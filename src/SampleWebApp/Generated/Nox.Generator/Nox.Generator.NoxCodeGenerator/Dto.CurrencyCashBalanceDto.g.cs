@@ -16,6 +16,8 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
+public record CurrencyCashBalanceKeyDto(System.String keyStoreId, System.UInt32 keyCurrencyId);
+
 /// <summary>
 /// The cash balance in Store.
 /// </summary>

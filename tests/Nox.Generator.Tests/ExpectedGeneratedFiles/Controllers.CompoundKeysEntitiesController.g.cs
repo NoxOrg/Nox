@@ -89,7 +89,7 @@ public partial class CompoundKeysEntitiesController : ODataController
         
         var updated = await _mediator.Send(new UpdateCompoundKeysEntityCommand(keyId1, keyId2, compoundKeysEntity));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
@@ -119,16 +119,11 @@ public partial class CompoundKeysEntitiesController : ODataController
         
         var updated = await _mediator.Send(new PartialUpdateCompoundKeysEntityCommand(keyId1, keyId2, updateProperties, deletedProperties));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
         return Updated(compoundKeysEntity);
-    }
-    
-    private bool CompoundKeysEntityExists(System.String key)
-    {
-        return _databaseContext.CompoundKeysEntities.Any(p => p.Id1 == key);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)

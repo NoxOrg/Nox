@@ -16,6 +16,8 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
+public record CountryLocalNamesKeyDto(System.String keyId);
+
 /// <summary>
 /// The name of a country in other languages.
 /// </summary>

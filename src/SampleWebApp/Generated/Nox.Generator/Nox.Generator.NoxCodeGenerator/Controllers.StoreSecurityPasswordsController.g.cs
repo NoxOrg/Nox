@@ -89,7 +89,7 @@ public partial class StoreSecurityPasswordsController : ODataController
         
         var updated = await _mediator.Send(new UpdateStoreSecurityPasswordsCommand(key, storeSecurityPasswords));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
@@ -119,16 +119,11 @@ public partial class StoreSecurityPasswordsController : ODataController
         
         var updated = await _mediator.Send(new PartialUpdateStoreSecurityPasswordsCommand(key, updateProperties, deletedProperties));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
         return Updated(storeSecurityPasswords);
-    }
-    
-    private bool StoreSecurityPasswordsExists(System.String key)
-    {
-        return _databaseContext.StoreSecurityPasswords.Any(p => p.Id == key);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)

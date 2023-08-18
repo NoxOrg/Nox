@@ -16,6 +16,8 @@ using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
+public record {{entity.Name}}KeyDto({{primaryKeys}});
+
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
