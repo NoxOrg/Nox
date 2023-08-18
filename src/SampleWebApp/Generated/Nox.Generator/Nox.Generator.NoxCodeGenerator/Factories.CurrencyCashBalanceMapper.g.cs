@@ -39,4 +39,9 @@ public class CurrencyCashBalanceMapper: EntityMapperBase<CurrencyCashBalance>
             entity.OperationLimit = noxTypeValue;
         }
     }
+
+    public override void PartialMapToEntity(CurrencyCashBalance entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
+    {
+
+    }
 }

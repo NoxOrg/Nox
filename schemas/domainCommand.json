@@ -1672,17 +1672,15 @@
                   "properties": {
                     "minValue": {    
                       "type": [
-                        "string",
+                        "object",
                         "null"
-                      ],
-                      "format": "date-time"
+                      ]
                     },
                     "maxValue": {    
                       "type": [
-                        "string",
+                        "object",
                         "null"
-                      ],
-                      "format": "date-time"
+                      ]
                     },
                     "allowFutureOnly": {    
                       "type": [
@@ -3958,6 +3956,7 @@
                     "cultureCode",
                     "currencyCode3",
                     "currencyNumber",
+                    "databaseGuid",
                     "databaseNumber",
                     "dateTimeSchedule",
                     "dayOfWeek",
@@ -5613,17 +5612,15 @@
                   "properties": {
                     "minValue": {    
                       "type": [
-                        "string",
+                        "object",
                         "null"
-                      ],
-                      "format": "date-time"
+                      ]
                     },
                     "maxValue": {    
                       "type": [
-                        "string",
+                        "object",
                         "null"
-                      ],
-                      "format": "date-time"
+                      ]
                     },
                     "allowFutureOnly": {    
                       "type": [
@@ -7899,6 +7896,7 @@
                     "cultureCode",
                     "currencyCode3",
                     "currencyNumber",
+                    "databaseGuid",
                     "databaseNumber",
                     "dateTimeSchedule",
                     "dayOfWeek",
@@ -9303,17 +9301,15 @@
           "properties": {
             "minValue": {    
               "type": [
-                "string",
+                "object",
                 "null"
-              ],
-              "format": "date-time"
+              ]
             },
             "maxValue": {    
               "type": [
-                "string",
+                "object",
                 "null"
-              ],
-              "format": "date-time"
+              ]
             },
             "allowFutureOnly": {    
               "type": [
@@ -11281,6 +11277,7 @@
             "cultureCode",
             "currencyCode3",
             "currencyNumber",
+            "databaseGuid",
             "databaseNumber",
             "dateTimeSchedule",
             "dayOfWeek",

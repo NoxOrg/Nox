@@ -1,8 +1,6 @@
 ﻿// Generated
 
 #nullable enable
-
-using AutoMapper;
 using MediatR;
 
 using Microsoft.AspNetCore.Http;
@@ -17,10 +15,11 @@ using Microsoft.OData.ModelBuilder;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
+public record {{entity.Name}}KeyDto({{primaryKeys}});
+
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-[AutoMap(typeof({{entity.Name}}CreateDto))]
 public partial class {{className}} 
 {
 {{- for key in entity.Keys }}
@@ -31,19 +30,22 @@ public partial class {{className}}
     {{ if key.Type == "Entity" -}}
     public {{SingleKeyPrimitiveTypeForEntity key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = default!; 
     {{- else -}}
-    public {{entity.KeysFlattenComponentsType[key.Name]}} {{key.Name}} { get; set; } = default!; 
+    public {{SinglePrimitiveTypeForKey key}} {{key.Name}} { get; set; } = default!; 
     {{- end}}
 {{- end }}
 {{- for attribute in entity.Attributes }}
+    {{- if !IsNoxTypeReadable attribute.Type -}}
+        {{ continue; }}
+    {{- end}}
 
     /// <summary>
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
     /// </summary>
-    {{ if componentsInfo[attribute.Name].IsSimpleType -}}
+    {{ if IsNoxTypeSimpleType attribute.Type -}}
         {{- if attribute.Type == "Formula" -}}
     [NotMapped]
         {{- end -}}
-    public {{componentsInfo[attribute.Name].ComponentType}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
+    public {{SinglePrimitiveTypeForKey attribute}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
     {{- else -}}
     public {{attribute.Type}}Dto{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
     {{- end}}
@@ -81,7 +83,7 @@ public partial class {{className}}
     {{-end}}
 {{- end }}
 
-{{- if isVersioned #TODO do not expose Deleted on end points??}}
+{{- if entity.Persistence?.IsVersioned == true #TODO do not expose Deleted on end points??}}
     public bool? Deleted { get; set; }
 {{- end}}
 }

@@ -27,18 +27,32 @@ public static class ODataServiceCollectionExtensions
 
 
         builder.EntitySet<CountryDto>("Countries");
+        builder.EntityType<CountryKeyDto>();
+        builder.EntityType<CountryDto>().Ignore(e => e.Deleted);
 
         builder.EntitySet<CurrencyDto>("Currencies");
+        builder.EntityType<CurrencyKeyDto>();
+        builder.EntityType<CurrencyDto>().Ignore(e => e.Deleted);
 
         builder.EntitySet<StoreDto>("Stores");
+        builder.EntityType<StoreKeyDto>();
+        builder.EntityType<StoreDto>().Ignore(e => e.Deleted);
 
         builder.EntitySet<StoreSecurityPasswordsDto>("StoreSecurityPasswords");
+        builder.EntityType<StoreSecurityPasswordsKeyDto>();
+        builder.EntityType<StoreSecurityPasswordsDto>().Ignore(e => e.Deleted);
 
         builder.EntitySet<AllNoxTypeDto>("AllNoxTypes");
+        builder.EntityType<AllNoxTypeKeyDto>();
+        builder.EntityType<AllNoxTypeDto>().Ignore(e => e.Deleted);
 
         builder.EntitySet<CurrencyCashBalanceDto>("CurrencyCashBalances");
+        builder.EntityType<CurrencyCashBalanceKeyDto>();
+        builder.EntityType<CurrencyCashBalanceDto>().Ignore(e => e.Deleted);
 
         builder.EntitySet<CountryLocalNamesDto>("CountryLocalNames");
+        builder.EntityType<CountryLocalNamesKeyDto>();
+        builder.EntityType<CountryLocalNamesDto>().Ignore(e => e.Deleted);
 
         services.AddControllers()
             .AddOData(options =>

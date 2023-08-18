@@ -13,10 +13,9 @@ using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
-//TODO support multiple keys and generated keys like nuid database number
-public record CreateAllNoxTypeCommand(AllNoxTypeCreateDto EntityDto) : IRequest<System.Int64>;
+public record CreateAllNoxTypeCommand(AllNoxTypeCreateDto EntityDto) : IRequest<AllNoxTypeKeyDto>;
 
-public class CreateAllNoxTypeCommandHandler: IRequestHandler<CreateAllNoxTypeCommand, System.Int64>
+public class CreateAllNoxTypeCommandHandler: IRequestHandler<CreateAllNoxTypeCommand, AllNoxTypeKeyDto>
 {
     public SampleWebAppDbContext DbContext { get; }
     public IEntityFactory<AllNoxTypeCreateDto,AllNoxType> EntityFactory { get; }
@@ -29,13 +28,12 @@ public class CreateAllNoxTypeCommandHandler: IRequestHandler<CreateAllNoxTypeCom
         EntityFactory = entityFactory;
     }
     
-    public async Task<System.Int64> Handle(CreateAllNoxTypeCommand request, CancellationToken cancellationToken)
+    public async Task<AllNoxTypeKeyDto> Handle(CreateAllNoxTypeCommand request, CancellationToken cancellationToken)
     {    
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
-        //TODO for nuid property or key needs to call ensure id        
+        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+	
         DbContext.AllNoxTypes.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
-        //return entityToCreate.Id.Value;
-        return default(System.Int64)!;
+        return new AllNoxTypeKeyDto(entityToCreate.Id.Value, entityToCreate.TextId.Value);
 }
 }

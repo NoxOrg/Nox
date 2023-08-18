@@ -39,7 +39,7 @@ public class DatabaseNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
     {
         builder
             .Property(property.Name)
-            .IsRequired(isKey || property.IsRequired)
+            .IsRequired(property.IsRequired)
             .HasConversion<DatabaseNumberConverter>()
             .ValueGeneratedOnAdd();
     }

@@ -34,4 +34,9 @@ public class CurrencyMapper: EntityMapperBase<Currency>
             entity.Name = noxTypeValue;
         }
     }
+
+    public override void PartialMapToEntity(Currency entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
+    {
+
+    }
 }

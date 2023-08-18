@@ -1,8 +1,6 @@
 ﻿// Generated
 
 #nullable enable
-
-using AutoMapper;
 using MediatR;
 
 using Microsoft.AspNetCore.Http;
@@ -17,10 +15,11 @@ using Microsoft.OData.ModelBuilder;
 
 namespace SampleWebApp.Application.Dto;
 
+public record CountryLocalNamesKeyDto(System.String keyId);
+
 /// <summary>
 /// The name of a country in other languages.
 /// </summary>
-[AutoMap(typeof(CountryLocalNamesCreateDto))]
 public partial class CountryLocalNamesDto 
 {
 

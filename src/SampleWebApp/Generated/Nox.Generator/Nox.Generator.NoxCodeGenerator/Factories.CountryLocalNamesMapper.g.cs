@@ -29,4 +29,9 @@ public class CountryLocalNamesMapper: EntityMapperBase<CountryLocalNames>
     #pragma warning restore CS0168 // Variable is declared but never used
     
     }
+
+    public override void PartialMapToEntity(CountryLocalNames entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
+    {
+
+    }
 }

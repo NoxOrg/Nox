@@ -39,4 +39,9 @@ public class StoreSecurityPasswordsMapper: EntityMapperBase<StoreSecurityPasswor
             entity.SecurityCamerasPassword = noxTypeValue;
         }
     }
+
+    public override void PartialMapToEntity(StoreSecurityPasswords entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
+    {
+
+    }
 }

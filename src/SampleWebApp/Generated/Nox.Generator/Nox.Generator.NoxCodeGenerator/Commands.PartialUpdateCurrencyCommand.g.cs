@@ -14,9 +14,9 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateCurrencyCommand(System.UInt32 key, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<bool>;
+public record PartialUpdateCurrencyCommand(System.UInt32 keyId, Dictionary<string, dynamic> UpdatedProperties, HashSet<string> DeletedPropertyNames) : IRequest <CurrencyKeyDto?>;
 
-public class PartialUpdateCurrencyCommandHandler: CommandBase, IRequestHandler<PartialUpdateCurrencyCommand, bool>
+public class PartialUpdateCurrencyCommandHandler: CommandBase, IRequestHandler<PartialUpdateCurrencyCommand, CurrencyKeyDto?>
 {
     public SampleWebAppDbContext DbContext { get; }    
     public IEntityMapper<Currency> EntityMapper { get; }
@@ -31,18 +31,19 @@ public class PartialUpdateCurrencyCommandHandler: CommandBase, IRequestHandler<P
         EntityMapper = entityMapper;
     }
     
-    public async Task<bool> Handle(PartialUpdateCurrencyCommand request, CancellationToken cancellationToken)
+    public async Task<CurrencyKeyDto?> Handle(PartialUpdateCurrencyCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.Currencies.FindAsync(CreateNoxTypeForKey<Currency,Nuid>("Id", request.key));
+        var keyId = CreateNoxTypeForKey<Currency,Nuid>("Id", request.keyId);
+    
+        var entity = await DbContext.Currencies.FindAsync(keyId);
         if (entity == null)
         {
-            return false;
+            return null;
         }
-        //EntityMapper.MapToEntity(entity, GetEntityDefinition<Currency>(), request.EntityDto);
-        //// Todo map dto
-        //DbContext.Entry(entity).State = EntityState.Modified;
-        //var result = await DbContext.SaveChangesAsync();             
-        //return result > 0;        
-        return true;
+        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Currency>(), request.UpdatedProperties, request.DeletedPropertyNames);
+
+        DbContext.Entry(entity).State = EntityState.Modified;
+        var result = await DbContext.SaveChangesAsync();
+        return new CurrencyKeyDto(entity.Id.Value);
     }
 }

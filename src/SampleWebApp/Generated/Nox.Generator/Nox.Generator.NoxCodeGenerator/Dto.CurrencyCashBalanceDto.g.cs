@@ -1,8 +1,6 @@
 ﻿// Generated
 
 #nullable enable
-
-using AutoMapper;
 using MediatR;
 
 using Microsoft.AspNetCore.Http;
@@ -17,10 +15,11 @@ using Microsoft.OData.ModelBuilder;
 
 namespace SampleWebApp.Application.Dto;
 
+public record CurrencyCashBalanceKeyDto(System.String keyStoreId, System.UInt32 keyCurrencyId);
+
 /// <summary>
 /// The cash balance in Store.
 /// </summary>
-[AutoMap(typeof(CurrencyCashBalanceCreateDto))]
 public partial class CurrencyCashBalanceDto 
 {
 
