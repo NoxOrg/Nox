@@ -86,8 +86,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Secrets.Abstractions", 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Lib.Tests", "..\tests\Nox.Lib.Tests\Nox.Lib.Tests.csproj", "{AF35AF6F-8678-4CEB-90C6-5713DE84E977}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Docker", "Docker", "{7E40364B-2534-4C15-A199-07628AEE9634}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Localization", "Localization", "{6730457C-4A23-46A7-9A4C-E1F5B02ADF8F}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Localization", "Nox.Localization\Nox.Localization.csproj", "{81AE7FD9-B84B-495D-9637-EAB7AE496445}"
