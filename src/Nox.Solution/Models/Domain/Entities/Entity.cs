@@ -91,7 +91,25 @@ public class Entity : DefinitionBase
     /// </summary>
     [YamlIgnore]
     public IReadOnlyDictionary<string, System.Type> KeysFlattenComponentsType { get; private set; } = new Dictionary<string, System.Type>();
-  
+
+    public NoxSimpleTypeDefinition GetAttributeByName(string entityName)
+    {
+        lock (this)
+        {
+            if (_attributesByName == null)
+            {
+                _attributesByName = new();
+                for (int i = 0; i < Attributes!.Count; i++)
+                {
+                    _attributesByName.Add(Attributes[i].Name, Attributes[i]);
+                }
+            }
+        }
+        return _attributesByName[entityName];
+    }
+
+    [YamlIgnore]
+    private Dictionary<string, NoxSimpleTypeDefinition>? _attributesByName;
 
     public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()
     {
