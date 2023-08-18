@@ -6,7 +6,7 @@ namespace Nox.Localization.Tests.Common;
 public class TestEntity
 {
     [Key]
-    public Number Id { get; set; }
+    public Number? Id { get; set; }
 
     public Text? Name { get; set; }
 }
