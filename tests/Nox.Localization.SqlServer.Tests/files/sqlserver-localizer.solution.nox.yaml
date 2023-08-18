@@ -26,15 +26,5 @@ infrastructure:
       port: ${{ env.DATABASE_PORT }}
       options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;
   
-  dependencies:
-    uiLocalizations:
-      name: LocalizationTest
-      provider: ${{ env.DATABASE_PROVIDER }}
-      serverUri: ${{ env.DATABASE_SERVER }}
-      user: ${{ env.DATABASE_USER }}
-      password: ${{ env.DATABASE_PASSWORD }}
-      port: ${{ env.DATABASE_PORT }}
-      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;
-
 
 

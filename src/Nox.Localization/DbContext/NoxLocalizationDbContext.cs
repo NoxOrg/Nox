@@ -37,17 +37,9 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
         if (NoxSolutionBuilder.Instance != null)
         {
             var appName = NoxSolutionBuilder.Instance.Name;
-
-            DatabaseServer? dbServer = null;
-            if (NoxSolutionBuilder.Instance.Infrastructure?.Dependencies?.UiLocalizations != null)
-            {
-                dbServer = NoxSolutionBuilder.Instance.Infrastructure?.Dependencies.UiLocalizations;
-            }
-            else
-            {
-                dbServer = NoxSolutionBuilder.Instance.Infrastructure?.Persistence.DatabaseServer;
-            }
-
+    
+            var dbServer = NoxSolutionBuilder.Instance.Infrastructure?.Persistence.DatabaseServer;
+    
             if(dbServer is not null)
             {
                 _databaseProvider!.ConfigureDbContext(optionsBuilder, appName, dbServer);
@@ -59,24 +51,24 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         // Schema 'dbo': Domain State
-
-        if (NoxSolutionBuilder.Instance != null)
-        {
-            if (NoxSolutionBuilder.Instance.Domain != null)
-            {
-                var codeGeneratorState = new NoxSolutionCodeGeneratorState(NoxSolutionBuilder.Instance, _clientAssemblyProvider!.ClientAssembly);
-                foreach (var entity in NoxSolutionBuilder.Instance!.Domain.Entities)
-                {
-                    var type = codeGeneratorState.GetEntityType(entity.Name);
-                    if (type != null)
-                    {
-                        ((INoxDatabaseConfigurator)_databaseProvider!).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity,
-                            NoxSolutionBuilder.Instance!.GetRelationshipsToCreate(codeGeneratorState.GetEntityType, entity));
-                    }
-                }
-            }
-        }
-
+        //
+        // if (NoxSolutionBuilder.Instance != null)
+        // {
+        //     if (NoxSolutionBuilder.Instance.Domain != null)
+        //     {
+        //         var codeGeneratorState = new NoxSolutionCodeGeneratorState(NoxSolutionBuilder.Instance, _clientAssemblyProvider!.ClientAssembly);
+        //         foreach (var entity in NoxSolutionBuilder.Instance!.Domain.Entities)
+        //         {
+        //             var type = codeGeneratorState.GetEntityType(entity.Name);
+        //             if (type != null)
+        //             {
+        //                 ((INoxDatabaseConfigurator)_databaseProvider!).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity,
+        //                     NoxSolutionBuilder.Instance!.GetRelationshipsToCreate(codeGeneratorState.GetEntityType, entity));
+        //             }
+        //         }
+        //     }
+        // }
+        
         // Schema 'l10n': Localization
         ConfigureLocalization(modelBuilder);
 

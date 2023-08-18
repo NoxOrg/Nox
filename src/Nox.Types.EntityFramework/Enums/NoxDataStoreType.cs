@@ -6,6 +6,5 @@ public enum NoxDataStoreType
     JobStore,
     MetaStore,
     MigrationStore,
-    IntegrationStore,
-    LocalizationStore
+    IntegrationStore
 }

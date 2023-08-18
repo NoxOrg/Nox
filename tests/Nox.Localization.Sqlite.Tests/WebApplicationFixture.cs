@@ -4,7 +4,12 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Nox.Abstractions;
+using Nox.EntityFramework.Sqlite;
+using Nox.EntityFramework.SqlServer;
+using Nox.Localization.Tests.Common;
 using Nox.Solution;
+using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Enums;
 
 namespace Nox.Localization.Sqlite.Tests;
 
@@ -41,27 +46,38 @@ public class WebApplicationFixture
     public WebApplicationFixture()
     {
         // Simulate app startup
-        var builder = WebApplication.CreateBuilder();
-
         var solution = new NoxSolutionBuilder()
             .UseYamlFile("./files/sqlite-localizer.solution.nox.yaml")
             .Build();
-        builder.Services.AddSingleton<NoxSolution>(solution);
         
-        builder.Services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
-        
-        builder.UseNoxLocalization(opt =>
-        {
-            opt.WithSqliteStore();
-        });
-        
-        var app = builder.Build();
+        var host = WebApplication.CreateBuilder();
+        host.Services.AddSingleton<NoxSolution>(solution);
+        host.Services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
 
+        host.Services.AddNoxLib(Assembly.GetExecutingAssembly());
+        host.Services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
+        host.Services.AddSingleton<DbContextOptions<TestDbContext>>();
+        host.Services.AddSingleton<INoxDatabaseConfigurator>(provider => new SqliteDatabaseProvider(
+            NoxDataStoreType.EntityStore,
+            provider.GetServices<INoxTypeDatabaseConfigurator>())
+        );
+        host.Services.AddSingleton<INoxDatabaseProvider>(provider => new SqliteDatabaseProvider(
+            NoxDataStoreType.EntityStore,
+            provider.GetServices<INoxTypeDatabaseConfigurator>())
+        );
+        
+        host.Services.AddDbContext<TestDbContext>();
+        host.Services.AddNoxLocalization();
+        
+        var app = host.Build();
+        app.UseNox();
+        
         var dbContextFactory = app.Services.GetRequiredService<INoxLocalizationDbContextFactory>();
         var context = dbContextFactory.CreateContext();
         context.Database.Migrate();
         
         app.UseNox();
+        
         FixtureWebApplication = app;
     }
 

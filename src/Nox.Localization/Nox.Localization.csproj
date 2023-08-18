@@ -42,10 +42,6 @@
         <ProjectReference Include="..\Nox.EntityFramework.Sqlite\Nox.EntityFramework.Sqlite.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Sqlite\" />
-      <Folder Include="SqlServer\" />
-    </ItemGroup>
 
     <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
         <TreatWarningsAsErrors>True</TreatWarningsAsErrors>

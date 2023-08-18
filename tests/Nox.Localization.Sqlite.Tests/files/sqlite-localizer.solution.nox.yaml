@@ -13,13 +13,8 @@ infrastructure:
     databaseServer: 
       name: TestDb
       provider: sqLite
-      serverUri: nox.db
-  
-  dependencies:
-    uiLocalizations: 
-      name: TestLocalization
-      provider: sqLite
-      serverUri: localization.db
+      serverUri: files/nox.db
+
 
 
 

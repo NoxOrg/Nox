@@ -13,7 +13,7 @@ public class NoxLocalizationDbContextFactory: INoxLocalizationDbContextFactory
         IEnumerable<INoxDatabaseProvider> databaseProviders,
         INoxClientAssemblyProvider clientAssemblyProvider)
     {
-        _databaseProvider = databaseProviders.Single(p => p.StoreType == NoxDataStoreType.LocalizationStore);
+        _databaseProvider = databaseProviders.Single(p => p.StoreType == NoxDataStoreType.EntityStore);
         _clientAssemblyProvider = clientAssemblyProvider;
     }
     
