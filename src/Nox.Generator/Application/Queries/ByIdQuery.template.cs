@@ -29,7 +29,7 @@ public class Get{{entity.Name}}ByIdQueryHandler: IRequestHandler<Get{{entity.Nam
                 r.{{key.Name}}.Equals(request.key{{key.Name}}) && 
             {{- end -}}
             {{- if (entity.Persistence?.IsAudited ?? true)}}
-                !(r.IsDeleted == true)
+                r.DeletedAtUtc == null
             {{- else}}
                 true
             {{end -}}

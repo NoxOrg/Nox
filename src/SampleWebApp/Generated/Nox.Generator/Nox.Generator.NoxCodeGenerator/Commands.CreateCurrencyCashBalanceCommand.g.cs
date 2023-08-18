@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Types;
 using Nox.Application;
 using Nox.Factories;
+using Nox.Abstractions;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
@@ -20,25 +21,42 @@ public record CreateCurrencyCashBalanceCommand(CurrencyCashBalanceCreateDto Enti
 
 public class CreateCurrencyCashBalanceCommandHandler: IRequestHandler<CreateCurrencyCashBalanceCommand, CreateCurrencyCashBalanceResponse>
 {
+    private readonly IUserProvider _userProvider;
+    private readonly ISystemProvider _systemProvider;
+
     public SampleWebAppDbContext DbContext { get; }
     public IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> EntityFactory { get; }
 
     public  CreateCurrencyCashBalanceCommandHandler(
         SampleWebAppDbContext dbContext,
-        IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> entityFactory)
+        IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> entityFactory,
+        IUserProvider userProvider,
+        ISystemProvider systemProvider)
     {
         DbContext = dbContext;
         EntityFactory = entityFactory;
+        _userProvider = userProvider;
+        _systemProvider = systemProvider;
     }
     
     public async Task<CreateCurrencyCashBalanceResponse> Handle(CreateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
     {    
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-        entityToCreate.Created();
+        var entityToCreate = CreateEntity(request);
 	
         DbContext.CurrencyCashBalances.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         //return entityToCreate.StoreId.Value;
         return new CreateCurrencyCashBalanceResponse(default(System.String)!, default(System.UInt32)!);
-}
+    }
+
+    private CurrencyCashBalance CreateEntity(CreateCurrencyCashBalanceCommand request)
+    {
+        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+        
+        var createdBy = _userProvider.GetUser();
+        var createdVia = _systemProvider.GetSystem();
+        entityToCreate.Created(createdBy, createdVia);
+
+        return entityToCreate;
+    }
 }

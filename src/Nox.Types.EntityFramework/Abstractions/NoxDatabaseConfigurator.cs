@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Solution.Extensions;
+using Nox.Types.EntityFramework.Configurations;
 using System.Diagnostics;
 
 namespace Nox.Types.EntityFramework.Abstractions
@@ -10,21 +11,7 @@ namespace Nox.Types.EntityFramework.Abstractions
         //We could use the container to manage this
         protected readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesDatabaseConfigurations = new();
 
-        // TODO: This needs to be resolved dynamically
-        private static NoxSimpleTypeDefinition[] AuditableEntityAttributes = new[]
-        {
-            new NoxSimpleTypeDefinition { Name = "CreatedAtUtc", Type = NoxType.DateTime, IsRequired = true, },
-            new NoxSimpleTypeDefinition { Name = "CreatedBy", Type = NoxType.User, IsRequired = true, },
-            new NoxSimpleTypeDefinition { Name = "CreatedVia", Type = NoxType.Text, IsRequired = true, },
-
-            new NoxSimpleTypeDefinition { Name = "LastUpdatedAtUtc", Type = NoxType.DateTime, },
-            new NoxSimpleTypeDefinition { Name = "LastUpdatedBy", Type = NoxType.User, },
-            new NoxSimpleTypeDefinition { Name = "LastUpdatedVia", Type = NoxType.Text, },
-
-            new NoxSimpleTypeDefinition { Name = "DeletedAtUtc", Type = NoxType.DateTime, },
-            new NoxSimpleTypeDefinition { Name = "DeletedBy", Type = NoxType.User, },
-            new NoxSimpleTypeDefinition { Name = "DeletedVia", Type = NoxType.Text, },
-        };
+        private static readonly NoxSimpleTypeDefinition[] AuditableEntityAttributes = new AuditableEntityBaseConfiguration().ToArray();
 
         /// <summary>
         ///
@@ -132,36 +119,38 @@ namespace Nox.Types.EntityFramework.Abstractions
             EntityTypeBuilder builder,
             Entity entity)
         {
-            if (entity.Attributes is { Count: > 0 })
+            var allEntityAttributes = GetAllEntityAttributes(entity);
+
+            foreach (var property in allEntityAttributes)
             {
-                foreach (var property in entity.Attributes)
+                if (TypesDatabaseConfigurations.TryGetValue(property.Type, out var databaseConfiguration))
                 {
-                    if (TypesDatabaseConfigurations.TryGetValue(property.Type, out var databaseConfiguration))
-                    {
-                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity, false);
-                    }
-                    else
-                    {
-                        Debug.WriteLine($"Type {property.Type} not found");
-                    }
+                    databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity, false);
+                }
+                else
+                {
+                    Debug.WriteLine($"Type {property.Type} not found");
                 }
             }
 
-            // TODO: This needs to be refactored
+        }
+
+        private static List<NoxSimpleTypeDefinition> GetAllEntityAttributes(Entity entity)
+        {
+            var totalCapacity = entity.Attributes?.Count ?? 0 + AuditableEntityAttributes.Length;
+            var allEntityAttributes = new List<NoxSimpleTypeDefinition>(totalCapacity);
+
+            if (entity.Attributes is { Count: > 0 })
+            {
+                allEntityAttributes.AddRange(entity.Attributes);
+            }
+
             if (entity.Persistence?.IsAudited == true)
             {
-                foreach (var property in AuditableEntityAttributes)
-                {
-                    if (TypesDatabaseConfigurations.TryGetValue(property.Type, out var databaseConfiguration))
-                    {
-                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity, false);
-                    }
-                    else
-                    {
-                        Debug.WriteLine($"Type {property.Type} not found");
-                    }
-                }
+                allEntityAttributes.AddRange(AuditableEntityAttributes);
             }
+
+            return allEntityAttributes;
         }
 
         public virtual void ConfigureRelationships(

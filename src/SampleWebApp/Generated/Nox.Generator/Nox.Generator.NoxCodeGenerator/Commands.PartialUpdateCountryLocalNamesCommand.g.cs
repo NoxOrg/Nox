@@ -41,7 +41,7 @@ public class PartialUpdateCountryLocalNamesCommandHandler: CommandBase, IRequest
             return false;
         }
         //EntityMapper.MapToEntity(entity, GetEntityDefinition<CountryLocalNames>(), request.EntityDto);
-        entity.Updated();
+        //entity.Updated();
 
         //// Todo map dto
         //DbContext.Entry(entity).State = EntityState.Modified;

@@ -109,6 +109,4 @@ public partial class CountryDto
     public virtual List<CurrencyDto> Currencies { get; set; } = new();
 
     public System.DateTime? DeletedAtUtc { get; set; }
-
-    public System.Boolean IsDeleted => DeletedAtUtc is not null;
 }

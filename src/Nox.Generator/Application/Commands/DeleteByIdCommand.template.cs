@@ -40,7 +40,7 @@ public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase, IRequestHandl
         }
 
         {{- if (entity.Persistence?.IsAudited ?? true)}}
-        entity.Deleted();
+        //entity.Deleted();
         {{- else -}}
         DbContext.{{entity.PluralName}}.Remove(entity);
         {{- end}}

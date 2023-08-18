@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Types;
 using Nox.Application;
 using Nox.Factories;
+using Nox.Abstractions;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
@@ -20,25 +21,42 @@ public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<Create
 
 public class CreateCountryCommandHandler: IRequestHandler<CreateCountryCommand, CreateCountryResponse>
 {
+    private readonly IUserProvider _userProvider;
+    private readonly ISystemProvider _systemProvider;
+
     public SampleWebAppDbContext DbContext { get; }
     public IEntityFactory<CountryCreateDto,Country> EntityFactory { get; }
 
     public  CreateCountryCommandHandler(
         SampleWebAppDbContext dbContext,
-        IEntityFactory<CountryCreateDto,Country> entityFactory)
+        IEntityFactory<CountryCreateDto,Country> entityFactory,
+        IUserProvider userProvider,
+        ISystemProvider systemProvider)
     {
         DbContext = dbContext;
         EntityFactory = entityFactory;
+        _userProvider = userProvider;
+        _systemProvider = systemProvider;
     }
     
     public async Task<CreateCountryResponse> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
     {    
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-        entityToCreate.Created();
+        var entityToCreate = CreateEntity(request);
 	
         DbContext.Countries.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         //return entityToCreate.Id.Value;
         return new CreateCountryResponse(default(System.Int64)!);
-}
+    }
+
+    private Country CreateEntity(CreateCountryCommand request)
+    {
+        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+        
+        var createdBy = _userProvider.GetUser();
+        var createdVia = _systemProvider.GetSystem();
+        entityToCreate.Created(createdBy, createdVia);
+
+        return entityToCreate;
+    }
 }

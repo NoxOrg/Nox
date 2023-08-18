@@ -35,7 +35,7 @@ public class DeleteStoreByIdCommandHandler: CommandBase, IRequestHandler<DeleteS
         {
             return false;
         }
-        entity.Deleted();
+        //entity.Deleted();
         await DbContext.SaveChangesAsync(cancellationToken);
         return true;
     }

@@ -26,7 +26,7 @@ public class GetStoreByIdQueryHandler: IRequestHandler<GetStoreByIdQuery, StoreD
             .AsNoTracking()
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
-                !(r.IsDeleted == true));
+                r.DeletedAtUtc == null);
         return Task.FromResult(item);
     }
 }

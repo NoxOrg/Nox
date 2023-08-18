@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Types;
 using Nox.Application;
 using Nox.Factories;
+using Nox.Abstractions;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
@@ -20,26 +21,43 @@ public record CreateCurrencyCommand(CurrencyCreateDto EntityDto) : IRequest<Crea
 
 public class CreateCurrencyCommandHandler: IRequestHandler<CreateCurrencyCommand, CreateCurrencyResponse>
 {
+    private readonly IUserProvider _userProvider;
+    private readonly ISystemProvider _systemProvider;
+
     public SampleWebAppDbContext DbContext { get; }
     public IEntityFactory<CurrencyCreateDto,Currency> EntityFactory { get; }
 
     public  CreateCurrencyCommandHandler(
         SampleWebAppDbContext dbContext,
-        IEntityFactory<CurrencyCreateDto,Currency> entityFactory)
+        IEntityFactory<CurrencyCreateDto,Currency> entityFactory,
+        IUserProvider userProvider,
+        ISystemProvider systemProvider)
     {
         DbContext = dbContext;
         EntityFactory = entityFactory;
+        _userProvider = userProvider;
+        _systemProvider = systemProvider;
     }
     
     public async Task<CreateCurrencyResponse> Handle(CreateCurrencyCommand request, CancellationToken cancellationToken)
     {    
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto); 
-		entityToCreate.EnsureId();
-        entityToCreate.Created();
+        var entityToCreate = CreateEntity(request);
 	
         DbContext.Currencies.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         //return entityToCreate.Id.Value;
         return new CreateCurrencyResponse(default(System.UInt32)!);
-}
+    }
+
+    private Currency CreateEntity(CreateCurrencyCommand request)
+    {
+        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto); 
+		entityToCreate.EnsureId();
+        
+        var createdBy = _userProvider.GetUser();
+        var createdVia = _systemProvider.GetSystem();
+        entityToCreate.Created(createdBy, createdVia);
+
+        return entityToCreate;
+    }
 }

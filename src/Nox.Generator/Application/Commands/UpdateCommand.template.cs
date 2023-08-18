@@ -45,7 +45,7 @@ public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<U
         EntityMapper.MapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.EntityDto);
         
         {{- if (entity.Persistence?.IsAudited ?? true)}}
-        entity.Updated();
+        //entity.Updated();
         {{- end}}
 
         // Todo map dto

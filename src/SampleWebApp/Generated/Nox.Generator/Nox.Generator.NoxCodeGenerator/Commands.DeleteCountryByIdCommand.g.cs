@@ -35,7 +35,7 @@ public class DeleteCountryByIdCommandHandler: CommandBase, IRequestHandler<Delet
         {
             return false;
         }
-        entity.Deleted();
+        //entity.Deleted();
         await DbContext.SaveChangesAsync(cancellationToken);
         return true;
     }

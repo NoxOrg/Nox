@@ -41,7 +41,7 @@ public class UpdateCountryCommandHandler: CommandBase, IRequestHandler<UpdateCou
             return false;
         }
         EntityMapper.MapToEntity(entity, GetEntityDefinition<Country>(), request.EntityDto);
-        entity.Updated();
+        //entity.Updated();
 
         // Todo map dto
         DbContext.Entry(entity).State = EntityState.Modified;

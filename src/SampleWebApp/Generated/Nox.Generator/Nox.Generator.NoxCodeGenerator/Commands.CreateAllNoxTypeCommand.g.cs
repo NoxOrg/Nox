@@ -8,6 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Types;
 using Nox.Application;
 using Nox.Factories;
+using Nox.Abstractions;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
@@ -20,25 +21,42 @@ public record CreateAllNoxTypeCommand(AllNoxTypeCreateDto EntityDto) : IRequest<
 
 public class CreateAllNoxTypeCommandHandler: IRequestHandler<CreateAllNoxTypeCommand, CreateAllNoxTypeResponse>
 {
+    private readonly IUserProvider _userProvider;
+    private readonly ISystemProvider _systemProvider;
+
     public SampleWebAppDbContext DbContext { get; }
     public IEntityFactory<AllNoxTypeCreateDto,AllNoxType> EntityFactory { get; }
 
     public  CreateAllNoxTypeCommandHandler(
         SampleWebAppDbContext dbContext,
-        IEntityFactory<AllNoxTypeCreateDto,AllNoxType> entityFactory)
+        IEntityFactory<AllNoxTypeCreateDto,AllNoxType> entityFactory,
+        IUserProvider userProvider,
+        ISystemProvider systemProvider)
     {
         DbContext = dbContext;
         EntityFactory = entityFactory;
+        _userProvider = userProvider;
+        _systemProvider = systemProvider;
     }
     
     public async Task<CreateAllNoxTypeResponse> Handle(CreateAllNoxTypeCommand request, CancellationToken cancellationToken)
     {    
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-        entityToCreate.Created();
+        var entityToCreate = CreateEntity(request);
 	
         DbContext.AllNoxTypes.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         //return entityToCreate.Id.Value;
         return new CreateAllNoxTypeResponse(default(System.Int64)!, default(System.String)!);
-}
+    }
+
+    private AllNoxType CreateEntity(CreateAllNoxTypeCommand request)
+    {
+        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+        
+        var createdBy = _userProvider.GetUser();
+        var createdVia = _systemProvider.GetSystem();
+        entityToCreate.Created(createdBy, createdVia);
+
+        return entityToCreate;
+    }
 }

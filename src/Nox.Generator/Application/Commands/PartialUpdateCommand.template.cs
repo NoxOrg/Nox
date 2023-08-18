@@ -45,7 +45,7 @@ public class PartialUpdate{{entity.Name}}CommandHandler: CommandBase, IRequestHa
         //EntityMapper.MapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.EntityDto);
         
         {{- if (entity.Persistence?.IsAudited ?? true) }}
-        entity.Updated();
+        //entity.Updated();
         {{- end}}
 
         //// Todo map dto

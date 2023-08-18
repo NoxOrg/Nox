@@ -41,7 +41,7 @@ public class UpdateCurrencyCommandHandler: CommandBase, IRequestHandler<UpdateCu
             return false;
         }
         EntityMapper.MapToEntity(entity, GetEntityDefinition<Currency>(), request.EntityDto);
-        entity.Updated();
+        //entity.Updated();
 
         // Todo map dto
         DbContext.Entry(entity).State = EntityState.Modified;

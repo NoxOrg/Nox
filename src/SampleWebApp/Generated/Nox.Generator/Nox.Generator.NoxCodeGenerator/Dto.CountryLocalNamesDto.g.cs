@@ -29,6 +29,4 @@ public partial class CountryLocalNamesDto
     public System.String Id { get; set; } = default!;
 
     public System.DateTime? DeletedAtUtc { get; set; }
-
-    public System.Boolean IsDeleted => DeletedAtUtc is not null;
 }

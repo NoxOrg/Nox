@@ -179,6 +179,4 @@ public partial class AllNoxTypeDto
     public LatLongDto? LatLongField { get; set; } 
 
     public System.DateTime? DeletedAtUtc { get; set; }
-
-    public System.Boolean IsDeleted => DeletedAtUtc is not null;
 }

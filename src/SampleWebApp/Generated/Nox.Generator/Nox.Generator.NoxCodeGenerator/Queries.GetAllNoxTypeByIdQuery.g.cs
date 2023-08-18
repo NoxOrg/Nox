@@ -27,7 +27,7 @@ public class GetAllNoxTypeByIdQueryHandler: IRequestHandler<GetAllNoxTypeByIdQue
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.TextId.Equals(request.keyTextId) &&
-                !(r.IsDeleted == true));
+                r.DeletedAtUtc == null);
         return Task.FromResult(item);
     }
 }
