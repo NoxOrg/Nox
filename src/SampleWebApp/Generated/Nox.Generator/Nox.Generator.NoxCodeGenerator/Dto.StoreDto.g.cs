@@ -1,8 +1,6 @@
 ﻿// Generated
 
 #nullable enable
-
-using AutoMapper;
 using MediatR;
 
 using Microsoft.AspNetCore.Http;
@@ -21,7 +19,6 @@ public record StoreKeyDto(System.String keyId);
 /// <summary>
 /// Stores.
 /// </summary>
-[AutoMap(typeof(StoreCreateDto))]
 public partial class StoreDto 
 {
 

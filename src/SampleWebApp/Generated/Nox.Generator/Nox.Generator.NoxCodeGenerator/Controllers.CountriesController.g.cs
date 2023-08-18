@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using MediatR;
 using Nox.Application;
 using SampleWebApp.Application;
@@ -30,11 +29,6 @@ public partial class CountriesController : ODataController
     protected readonly ODataDbContext _databaseContext;
     
     /// <summary>
-    /// The Automapper.
-    /// </summary>
-    protected readonly IMapper _mapper;
-    
-    /// <summary>
     /// The Mediator.
     /// </summary>
     protected readonly IMediator _mediator;
@@ -51,14 +45,12 @@ public partial class CountriesController : ODataController
     
     public CountriesController(
         ODataDbContext databaseContext,
-        IMapper mapper,
         IMediator mediator,
         GetCountriesByContinentQueryBase getCountriesByContinent,
         UpdatePopulationStatisticsCommandHandlerBase updatePopulationStatistics
     )
     {
         _databaseContext = databaseContext;
-        _mapper = mapper;
         _mediator = mediator;
         _getCountriesByContinent = getCountriesByContinent;
         _updatePopulationStatistics = updatePopulationStatistics;

@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using MediatR;
 using Nox.Application;
 using SampleWebApp.Application;
@@ -30,23 +29,16 @@ public partial class StoresController : ODataController
     protected readonly ODataDbContext _databaseContext;
     
     /// <summary>
-    /// The Automapper.
-    /// </summary>
-    protected readonly IMapper _mapper;
-    
-    /// <summary>
     /// The Mediator.
     /// </summary>
     protected readonly IMediator _mediator;
     
     public StoresController(
         ODataDbContext databaseContext,
-        IMapper mapper,
         IMediator mediator
     )
     {
         _databaseContext = databaseContext;
-        _mapper = mapper;
         _mediator = mediator;
     }
     

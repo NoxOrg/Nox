@@ -57,7 +57,6 @@ internal class ApiGenerator : INoxCodeGenerator
             code.AppendLine($"using Microsoft.AspNetCore.OData.Query;");
             code.AppendLine($"using Microsoft.AspNetCore.OData.Routing.Controllers;");
             code.AppendLine($"using Microsoft.EntityFrameworkCore;");
-            code.AppendLine($"using AutoMapper;");
             code.AppendLine("using MediatR;");
             code.AppendLine("using Nox.Application;");
 
@@ -80,15 +79,12 @@ internal class ApiGenerator : INoxCodeGenerator
             code.StartBlock();
 
             // db context
-            AddField(code, dbContextName, "databaseContext", "The OData DbContext for CRUD operations");
-
-            AddField(code, "IMapper", "mapper", "The Automapper");
+            AddField(code, dbContextName, "databaseContext", "The OData DbContext for CRUD operations");            
             AddField(code, "IMediator", "mediator", "The Mediator");
 
             var constructorParameters = new Dictionary<string, string>
                 {
-                    { dbContextName, "databaseContext" },
-                    { "IMapper", "mapper" },
+                    { dbContextName, "databaseContext" },                    
                     { "IMediator", "mediator" }
                 };
 
