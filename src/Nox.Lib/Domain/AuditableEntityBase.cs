@@ -2,6 +2,9 @@
 {
     public abstract partial class AuditableEntityBase : IEntity, IAuditCreated, IAuditUpdated, IAuditDeleted
     {
+        private static readonly Types.User DefaultUser = Types.User.From(Guid.Empty.ToString());
+        private static readonly Types.Text DefaultSystem = Types.Text.From("N/A");
+
         protected AuditableEntityBase()
         {
             // TODO: CreatedBy to be done by interceptor on db context...
@@ -15,12 +18,12 @@
         /// <summary>
         /// The user that created the entity.
         /// </summary>
-        public virtual Types.User CreatedBy { get; private set; } = Types.User.From(Guid.Empty.ToString());
+        public virtual Types.User CreatedBy { get; private set; } = DefaultUser;
 
         /// <summary>
         /// The system that the entity created from.
         /// </summary>
-        public virtual Types.Text CreatedVia { get; private set; } = Types.Text.From(string.Empty);
+        public virtual Types.Text CreatedVia { get; private set; } = DefaultSystem;
 
         /// <summary>
         /// The date and time when this entity was last updated (in Coordinated Universal Time).
@@ -90,17 +93,17 @@
 
         public virtual void Created()
         {
-            Created(user: Types.User.From(Guid.Empty.ToString()), system: Types.Text.From("N/A"));
+            Created(user: DefaultUser, system: DefaultSystem);
         }
 
         public virtual void Updated()
         {
-            Updated(user: Types.User.From(Guid.Empty.ToString()), system: Types.Text.From("N/A"));
+            Updated(user: DefaultUser, system: DefaultSystem);
         }
 
         public virtual void Deleted()
         {
-            Deleted(user: Types.User.From(Guid.Empty.ToString()), system: Types.Text.From("N/A"));
+            Deleted(user: DefaultUser, system: DefaultSystem);
         }
 
         #endregion
