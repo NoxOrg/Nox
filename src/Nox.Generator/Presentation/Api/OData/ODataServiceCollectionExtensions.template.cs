@@ -23,7 +23,11 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntitySet<{{entity.Name}}Dto>("{{entity.PluralName}}");
         builder.EntityType<{{entity.Name}}KeyDto>();
+        {{- if entity.Persistence?.IsVersioned ~}}
 
+        builder.EntityType<{{entity.Name}}Dto>().Ignore(e => e.Deleted);
+
+        {{- end }}
         {{- end }}
 
         services.AddControllers()

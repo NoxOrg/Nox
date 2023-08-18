@@ -12,7 +12,7 @@ namespace {{codeGeneratorState.DomainNameSpace}};
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else}}EntityBase{{end}}
+public partial class {{className}} : {{if entity.Persistence?.IsVersioned}}AuditableEntityBase{{else}}EntityBase{{end}}
 {
 {{- for key in entity.Keys }}
     /// <summary>
