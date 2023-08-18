@@ -12,13 +12,11 @@ using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
-{{- keyType = SingleTypeForKey entity.Keys[0] }}
-
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public record PartialUpdate{{entity.Name}}Command({{entity.KeysFlattenComponentsType[entity.Keys[0].Name]}} key, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<bool>;
+public record PartialUpdate{{entity.Name}}Command({{primaryKeys}}, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<{{entity.Name}}KeyDto?>;
 
-public class PartialUpdate{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<PartialUpdate{{entity.Name}}Command, bool>
+public class PartialUpdate{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<PartialUpdate{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
     public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }    
     public IEntityMapper<{{entity.Name}}> EntityMapper { get; }
@@ -33,18 +31,21 @@ public class PartialUpdate{{entity.Name}}CommandHandler: CommandBase, IRequestHa
         EntityMapper = entityMapper;
     }
     
-    public async Task<bool> Handle(PartialUpdate{{entity.Name}}Command request, CancellationToken cancellationToken)
+    public async Task<{{entity.Name}}KeyDto?> Handle(PartialUpdate{{entity.Name}}Command request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.{{entity.PluralName}}.FindAsync(CreateNoxTypeForKey<{{entity.Name}},{{keyType}}>("{{entity.Keys[0].Name}}", request.key));
+    {{- for key in entity.Keys }}
+        var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.key{{key.Name}});
+    {{- end }}
+    
+        var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysFindQuery}});
         if (entity == null)
         {
-            return false;
+            return null;
         }
-        //EntityMapper.MapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.EntityDto);
-        //// Todo map dto
-        //DbContext.Entry(entity).State = EntityState.Modified;
-        //var result = await DbContext.SaveChangesAsync();             
-        //return result > 0;        
-        return true;
+        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.UpdatedProperties, request.DeletedPropertyNames);
+
+        DbContext.Entry(entity).State = EntityState.Modified;
+        var result = await DbContext.SaveChangesAsync();
+        return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
     }
 }

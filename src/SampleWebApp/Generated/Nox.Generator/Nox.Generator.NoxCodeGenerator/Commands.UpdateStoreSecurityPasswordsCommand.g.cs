@@ -14,9 +14,9 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateStoreSecurityPasswordsCommand(System.String key, StoreSecurityPasswordsUpdateDto EntityDto) : IRequest<bool>;
+public record UpdateStoreSecurityPasswordsCommand(System.String keyId, StoreSecurityPasswordsUpdateDto EntityDto) : IRequest<StoreSecurityPasswordsKeyDto?>;
 
-public class UpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRequestHandler<UpdateStoreSecurityPasswordsCommand, bool>
+public class UpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRequestHandler<UpdateStoreSecurityPasswordsCommand, StoreSecurityPasswordsKeyDto?>
 {
     public SampleWebAppDbContext DbContext { get; }    
     public IEntityMapper<StoreSecurityPasswords> EntityMapper { get; }
@@ -31,17 +31,22 @@ public class UpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRequestHa
         EntityMapper = entityMapper;
     }
     
-    public async Task<bool> Handle(UpdateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
+    public async Task<StoreSecurityPasswordsKeyDto?> Handle(UpdateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.StoreSecurityPasswords.FindAsync(CreateNoxTypeForKey<StoreSecurityPasswords,Text>("Id", request.key));
+        var keyId = CreateNoxTypeForKey<StoreSecurityPasswords,Text>("Id", request.keyId);
+    
+        var entity = await DbContext.StoreSecurityPasswords.FindAsync(keyId);
         if (entity == null)
         {
-            return false;
+            return null;
         }
         EntityMapper.MapToEntity(entity, GetEntityDefinition<StoreSecurityPasswords>(), request.EntityDto);
-        // Todo map dto
+        
         DbContext.Entry(entity).State = EntityState.Modified;
-        var result = await DbContext.SaveChangesAsync();             
-        return result > 0;        
+        var result = await DbContext.SaveChangesAsync();
+        if(result < 1)
+            return null;
+
+        return new StoreSecurityPasswordsKeyDto(entity.Id.Value);
     }
 }

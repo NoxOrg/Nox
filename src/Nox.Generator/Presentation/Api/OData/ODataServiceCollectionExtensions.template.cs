@@ -22,6 +22,7 @@ public static class ODataServiceCollectionExtensions
         {{- for entity in solution.Domain.Entities }}
 
         builder.EntitySet<{{entity.Name}}Dto>("{{entity.PluralName}}");
+        builder.EntityType<{{entity.Name}}KeyDto>();
 
         {{- end }}
 

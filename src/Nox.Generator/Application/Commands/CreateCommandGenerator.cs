@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
+using System.Linq;
 
 namespace Nox.Generator.Application.Commands;
 
@@ -22,10 +23,13 @@ internal class CreateCommandGenerator : INoxCodeGenerator
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
+            var primaryKeysQuery = string.Join(", ", entity.Keys.Select(k => $"entityToCreate.{k.Name}.Value"));
+
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Create{entity.Name}Command")
                 .WithFileNamePrefix($"Commands")
                 .WithObject("entity", entity)
+                .WithObject("primaryKeysQuery", primaryKeysQuery)
                 .GenerateSourceCodeFromResource(templateName);
         }
     }

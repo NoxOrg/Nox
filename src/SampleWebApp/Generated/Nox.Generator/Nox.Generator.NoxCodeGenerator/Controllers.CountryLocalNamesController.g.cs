@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using MediatR;
 using Nox.Application;
 using SampleWebApp.Application;
@@ -30,23 +29,16 @@ public partial class CountryLocalNamesController : ODataController
     protected readonly ODataDbContext _databaseContext;
     
     /// <summary>
-    /// The Automapper.
-    /// </summary>
-    protected readonly IMapper _mapper;
-    
-    /// <summary>
     /// The Mediator.
     /// </summary>
     protected readonly IMediator _mediator;
     
     public CountryLocalNamesController(
         ODataDbContext databaseContext,
-        IMapper mapper,
         IMediator mediator
     )
     {
         _databaseContext = databaseContext;
-        _mapper = mapper;
         _mediator = mediator;
     }
     
@@ -87,9 +79,9 @@ public partial class CountryLocalNamesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateCountryLocalNamesCommand(key,countryLocalNames));
+        var updated = await _mediator.Send(new UpdateCountryLocalNamesCommand(key, countryLocalNames));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
@@ -117,18 +109,13 @@ public partial class CountryLocalNamesController : ODataController
             }
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCountryLocalNamesCommand(key,updateProperties,deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateCountryLocalNamesCommand(key, updateProperties, deletedProperties));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
         return Updated(countryLocalNames);
-    }
-    
-    private bool CountryLocalNamesExists(System.String key)
-    {
-        return _databaseContext.CountryLocalNames.Any(p => p.Id == key);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)

@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using MediatR;
 using Nox.Application;
 using SampleWebApp.Application;
@@ -30,11 +29,6 @@ public partial class CountriesController : ODataController
     protected readonly ODataDbContext _databaseContext;
     
     /// <summary>
-    /// The Automapper.
-    /// </summary>
-    protected readonly IMapper _mapper;
-    
-    /// <summary>
     /// The Mediator.
     /// </summary>
     protected readonly IMediator _mediator;
@@ -51,14 +45,12 @@ public partial class CountriesController : ODataController
     
     public CountriesController(
         ODataDbContext databaseContext,
-        IMapper mapper,
         IMediator mediator,
         GetCountriesByContinentQueryBase getCountriesByContinent,
         UpdatePopulationStatisticsCommandHandlerBase updatePopulationStatistics
     )
     {
         _databaseContext = databaseContext;
-        _mapper = mapper;
         _mediator = mediator;
         _getCountriesByContinent = getCountriesByContinent;
         _updatePopulationStatistics = updatePopulationStatistics;
@@ -101,9 +93,9 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateCountryCommand(key,country));
+        var updated = await _mediator.Send(new UpdateCountryCommand(key, country));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
@@ -131,18 +123,13 @@ public partial class CountriesController : ODataController
             }
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key,updateProperties,deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties, deletedProperties));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
         return Updated(country);
-    }
-    
-    private bool CountryExists(System.String key)
-    {
-        return _databaseContext.Countries.Any(p => p.Id == key);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)

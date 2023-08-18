@@ -1,21 +1,23 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Nox.Types;
+using System.Globalization;
 using System.Text.Json;
 using TestWebApp.Domain;
+using DateTime = Nox.Types.DateTime;
 using DayOfWeek = Nox.Types.DayOfWeek;
+using Guid = Nox.Types.Guid;
 
 namespace Nox.Tests.DatabaseIntegrationTests;
 
 public class SqlServerIntegrationTests : SqlServerTestBase
 {
-    //[Fact]
+   // [Fact]
     public void GeneratedEntity_SqlServer_CanSaveAndReadFields_AllTypes()
     {
         // TODO:
         // array
         // colour
-        // databaseNumber
         // collection
         // entity
         // formula
@@ -54,6 +56,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var cultureCode = "de-CH";
         var macAddress = "A1B2C3D4E5F6";
         var url = "http://example.com/";
+        var guid = System.Guid.NewGuid();
         var password = "Test123.";
         var dayOfWeek = 1;
         byte month = 7;
@@ -102,6 +105,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var persistLengthUnitAs = LengthTypeUnit.Meter;
         var sampleUri = "https://user:password@www.contoso.com:80/Home/Index.htm?q1=v1&q2=v2#FragmentName";
         var phoneNumber = "38761000000";
+		var dateTime = new DateTimeOffset(2023, 4, 12, 0, 0, 0, TimeSpan.FromHours(3));
 
         var jwtToken = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c";
 
@@ -113,6 +117,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
 
         var dateTimeRangeStart = new DateTimeOffset(2023, 4, 12, 0, 0, 0, TimeSpan.FromHours(3));
         var dateTimeRangeEnd = new DateTimeOffset(2023, 7, 10, 0, 0, 0, TimeSpan.FromHours(5));
+        var cronJobExpression = "0 0 12 ? * 2,3,4,5,6 *";
 
         var html = @"
 <html>
@@ -148,6 +153,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             MacAddressTestField = MacAddress.From(macAddress),
             UrlTestField = Url.From(url),
             UserTestField = User.From(email),
+            GuidTestField = Guid.From(guid),
             HashedTextTestField = HashedText.From(text),
             PasswordTestField = Password.From(password),
             DayOfWeekTestField = DayOfWeek.From(1),
@@ -179,6 +185,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             HtmlTestField = Html.From(html),
             ImageTestField = Image.From(imageUrl, imagePrettyName, imageSizeInBytes),
             PhoneNumberTestField = PhoneNumber.From(phoneNumber),
+            DateTimeTestField = DateTime.From(dateTime),
         };
         var temperatureCelsius = newItem.TemperatureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -213,6 +220,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.MacAddressTestField!.Value.Should().Be(macAddress);
         testEntity.UrlTestField!.Value.AbsoluteUri.Should().Be(url);
         testEntity.UserTestField!.Value.Should().Be(email);
+        testEntity.GuidTestField!.Value.Should().Be(guid);
         testEntity.HashedTextTestField!.HashText.Should().Be(newItem.HashedTextTestField?.HashText);
         testEntity.HashedTextTestField!.Salt.Should().Be(newItem.HashedTextTestField?.Salt);
         testEntity.PasswordTestField!.HashedPassword.Should().Be(newItem.PasswordTestField.HashedPassword);
@@ -254,6 +262,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.DistanceTestField!.ToMiles().Should().Be(distance);
         testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
         testEntity.DatabaseNumberTestField!.Value.Should().BeGreaterThan(0);
+        testEntity.DatabaseGuidTestField!.Value.Should().NotBe(System.Guid.Empty);
         testEntity.UriTestField!.Value.Should().BeEquivalentTo(new System.Uri(sampleUri));
         testEntity.GeoCoordTestField!.Latitude.Should().Be(latitude);
         testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
@@ -268,6 +277,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.ImageTestField!.PrettyName.Should().Be(imagePrettyName);
         testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
         testEntity.PhoneNumberTestField!.Value.Should().Be(phoneNumber);
+        testEntity.DateTimeScheduleTestField!.Value.Should().Be(cronJobExpression);
+        testEntity.DateTimeTestField!.Value.Should().Be(dateTime);
     }
 
     //[Fact]

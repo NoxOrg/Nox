@@ -37,8 +37,7 @@ builder.Services.AddSwaggerGen();
 builder.Services
     .AddScoped<GetCountriesByContinentQueryBase, GetCountriesByContinentQuery>()
     .AddScoped<UpdatePopulationStatisticsCommandHandlerBase, UpdatePopulationStatisticsCommandHandler>()
-    .AddScoped<INoxMessenger, NoxMessenger>()
-    .AddSecurityValidators();
+    .AddScoped<INoxMessenger, NoxMessenger>();    
 // ======================================================
 
 builder.AddSeedData();

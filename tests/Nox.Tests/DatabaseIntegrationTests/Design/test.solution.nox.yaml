@@ -826,8 +826,8 @@ domain:
         - name: CurrencyNumberTestField
           type: currencyNumber
 
-        #- name: DateTimeTestField
-        #  type: dateTime
+        - name: DateTimeTestField
+          type: dateTime
 
         - name: DateTimeRangeTestField
           type: dateTimeRange
@@ -841,8 +841,8 @@ domain:
         - name: EncryptedTextTestField
           type: encryptedText
 
-        #- name: GuidTestField
-        #  type: guid
+        - name: GuidTestField
+          type: guid
 
         - name: HashedTextTestField
           type: hashedText
@@ -930,6 +930,9 @@ domain:
 
         - name: UrlTestField
           type: url
+        
+        - name: DateTimeScheduleTestField
+          type: dateTimeSchedule
 
         - name: UserTestField
           type: user
@@ -939,9 +942,13 @@ domain:
           formulaTypeOptions:
             expression: "2 + 2"
             returns: int
-        
+
         - name: DatabaseNumberTestField
           type: databaseNumber
+          isRequired: true
+
+        - name: DatabaseGuidTestField
+          type: databaseGuid
           isRequired: true
 
         - name: HtmlTestField
