@@ -12,7 +12,11 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
+<<<<<<<< HEAD:src/SampleWebApp/Migrations/20230818131355_InitialCreate.Designer.cs
     [Migration("20230818131355_InitialCreate")]
+========
+    [Migration("20230818133142_InitialCreate")]
+>>>>>>>> main:src/SampleWebApp/Migrations/20230818133142_InitialCreate.Designer.cs
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -69,8 +73,8 @@ namespace SampleWebApp.Migrations
                         .HasColumnType("char(3)")
                         .IsFixedLength();
 
-                    b.Property<short?>("CountryNumberField")
-                        .HasColumnType("smallint");
+                    b.Property<ushort?>("CountryNumberField")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
