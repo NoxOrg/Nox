@@ -27,18 +27,25 @@ public static class ODataServiceCollectionExtensions
 
 
         builder.EntitySet<CountryDto>("Countries");
+        builder.EntityType<CountryKeyDto>();
 
         builder.EntitySet<CurrencyDto>("Currencies");
+        builder.EntityType<CurrencyKeyDto>();
 
         builder.EntitySet<StoreDto>("Stores");
+        builder.EntityType<StoreKeyDto>();
 
         builder.EntitySet<StoreSecurityPasswordsDto>("StoreSecurityPasswords");
+        builder.EntityType<StoreSecurityPasswordsKeyDto>();
 
         builder.EntitySet<AllNoxTypeDto>("AllNoxTypes");
+        builder.EntityType<AllNoxTypeKeyDto>();
 
         builder.EntitySet<CurrencyCashBalanceDto>("CurrencyCashBalances");
+        builder.EntityType<CurrencyCashBalanceKeyDto>();
 
         builder.EntitySet<CountryLocalNamesDto>("CountryLocalNames");
+        builder.EntityType<CountryLocalNamesKeyDto>();
 
         services.AddControllers()
             .AddOData(options =>

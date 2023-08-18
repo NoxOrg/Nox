@@ -25,7 +25,7 @@ public class EntityRelationship : DefinitionBase
     [Required]
     [Title("The type/cardinality of the relationship.")]
     [Description("The cardinality (type) of relationship with the target entity, e.g. OneOrMany, ZeroOrOne, etc.")]
-    public EntityRelationshipType Relationship { get; internal set; } = new();
+    public virtual EntityRelationshipType Relationship { get; internal set; } = new();
 
     [Required]
     [Title("The target entity that relates to this entity.")]
@@ -40,17 +40,17 @@ public class EntityRelationship : DefinitionBase
     public bool CanNavigate { get; internal set; } = true;
 
     [YamlIgnore]
-    public bool ShouldGenerateForeignOnThisSide => EntityRelationshipExtensions.ShouldGenerateForeignOnThisSide(this);
+    public bool ShouldGenerateForeignOnThisSide => EntityRelationshipExtensions.ShouldGenerateForeignKeyOnThisSide(this);
 
     [YamlIgnore]
     public bool IsManyRelationshipOnOtherSide => EntityRelationshipExtensions.IsManyRelationshipOnOtherSide(this);
 
     [YamlIgnore]
-    public RelatedEntityInfo Related { get; internal set; } = new();
+    public virtual RelatedEntityInfo Related { get; internal set; } = new();
 }
 
 public class RelatedEntityInfo
 {
     public Entity Entity { get; internal set; } = null!;
-    public EntityRelationship EntityRelationship { get; internal set; } = null!;
+    public virtual EntityRelationship EntityRelationship { get; internal set; } = null!;
 }

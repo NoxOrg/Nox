@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using MediatR;
 using Nox.Application;
 using SampleWebApp.Application;
@@ -30,23 +29,16 @@ public partial class CurrencyCashBalancesController : ODataController
     protected readonly ODataDbContext _databaseContext;
     
     /// <summary>
-    /// The Automapper.
-    /// </summary>
-    protected readonly IMapper _mapper;
-    
-    /// <summary>
     /// The Mediator.
     /// </summary>
     protected readonly IMediator _mediator;
     
     public CurrencyCashBalancesController(
         ODataDbContext databaseContext,
-        IMapper mapper,
         IMediator mediator
     )
     {
         _databaseContext = databaseContext;
-        _mapper = mapper;
         _mediator = mediator;
     }
     
@@ -89,7 +81,7 @@ public partial class CurrencyCashBalancesController : ODataController
         
         var updated = await _mediator.Send(new UpdateCurrencyCashBalanceCommand(keyStoreId, keyCurrencyId, currencyCashBalance));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
@@ -119,16 +111,11 @@ public partial class CurrencyCashBalancesController : ODataController
         
         var updated = await _mediator.Send(new PartialUpdateCurrencyCashBalanceCommand(keyStoreId, keyCurrencyId, updateProperties, deletedProperties));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
         return Updated(currencyCashBalance);
-    }
-    
-    private bool CurrencyCashBalanceExists(System.String key)
-    {
-        return _databaseContext.CurrencyCashBalances.Any(p => p.StoreId == key);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String keyStoreId, [FromRoute] System.UInt32 keyCurrencyId)

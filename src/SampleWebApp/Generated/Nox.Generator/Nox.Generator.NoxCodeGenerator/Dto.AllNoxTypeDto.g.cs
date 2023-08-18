@@ -1,8 +1,6 @@
 ﻿// Generated
 
 #nullable enable
-
-using AutoMapper;
 using MediatR;
 
 using Microsoft.AspNetCore.Http;
@@ -16,10 +14,11 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
+public record AllNoxTypeKeyDto(System.Int64 keyId, System.String keyTextId);
+
 /// <summary>
 /// Entity to test all nox types.
 /// </summary>
-[AutoMap(typeof(AllNoxTypeCreateDto))]
 public partial class AllNoxTypeDto 
 {
 

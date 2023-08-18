@@ -165,4 +165,9 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
 
         // TODO map EncryptedTextField EncryptedText remaining types and remove if else
     }
+
+    public override void PartialMapToEntity(AllNoxType entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, List<string> deletedPropertyNames)
+    {
+
+    }
 }
