@@ -1,3 +1,4 @@
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
@@ -5,24 +6,24 @@ using Nox.Types.EntityFramework.Abstractions;
 namespace Nox.Types.EntityFramework.Types;
 
 /// <summary>
-/// Configurator for the DatabaseNumber Nox type in the database.
-/// This class implements the INoxTypeDatabaseConfigurator interface to provide configuration details for the DatabaseNumber Nox type in the database.
+/// Configurator for the DatabaseGuid Nox type in the database.
+/// This class implements the INoxTypeDatabaseConfigurator interface to provide configuration details for the DatabaseGuid Nox type in the database.
 /// </summary>
-public class DatabaseNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
+public class DatabaseGuidDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
     /// <summary>
-    /// Gets the NoxType associated with this configurator, which is DatabaseNumber.
+    /// Gets the NoxType associated with this configurator, which is DatabaseGuid.
     /// </summary>
-    public NoxType ForNoxType => NoxType.DatabaseNumber;
+    public NoxType ForNoxType => NoxType.DatabaseGuid;
 
     /// <summary>
     /// Gets a value indicating whether this configurator is the default one for the associated Nox type.
-    /// In this case, it is set to true, indicating that this is the default configurator for DatabaseNumber.
+    /// In this case, it is set to true, indicating that this is the default configurator for DatabaseGuid.
     /// </summary>
-    public bool IsDefault => true;
+    public virtual bool IsDefault => true;
 
     /// <summary>
-    /// Configures the database entity property for the DatabaseNumber type.
+    /// Configures the database entity property for the DatabaseGuid type.
     /// This method is called by the NoxSolutionCodeGeneratorState during the code generation process to set up the entity property in the database.
     /// </summary>
     /// <param name="noxSolutionCodeGeneratorState">The state of the Nox solution code generator.</param>
@@ -40,15 +41,21 @@ public class DatabaseNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
         builder
             .Property(property.Name)
             .IsRequired(property.IsRequired)
-            .HasConversion<DatabaseNumberConverter>()
+            .HasConversion<DatabaseGuidConverter>()
+            .IfNotNull(DefaultValue(), propertyBuilder => propertyBuilder.HasDefaultValueSql(DefaultValue()))
             .ValueGeneratedOnAdd();
     }
 
     /// <summary>
-    /// Gets the name of the key property for the DatabaseNumber type.
+    /// Gets the name of the key property for the DatabaseGuid type.
     /// This method is called by the NoxSolutionCodeGeneratorState to retrieve the name of the key property for the type.
     /// </summary>
     /// <param name="key">The NoxSimpleTypeDefinition representing the key property.</param>
     /// <returns>The name of the key property.</returns>
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
+
+    protected virtual string? DefaultValue()
+    {
+        return null;
+    }
 }
