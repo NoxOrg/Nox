@@ -37,6 +37,43 @@ namespace SampleWebApp.Migrations
                     b.ToTable("CountryCurrency");
                 });
 
+            modelBuilder.Entity("Nox.Localization.Translation", b =>
+                {
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
+
+                    b.Property<string>("CultureCode")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Key")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<DateTime>("LastUpdatedUtc")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("ResourceKey")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Text")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Validated")
+                        .HasColumnType("bit");
+
+                    b.HasKey("Id");
+
+                    b.HasAlternateKey("Key", "CultureCode", "ResourceKey");
+
+                    b.ToTable("Translations", "l10n");
+                });
+
             modelBuilder.Entity("SampleWebApp.Domain.AllNoxType", b =>
                 {
                     b.Property<long>("Id")

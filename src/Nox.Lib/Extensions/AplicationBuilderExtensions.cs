@@ -18,6 +18,7 @@ namespace Nox
             builder.UseMiddleware<NoxExceptionHanderMiddleware>();
 
             builder.UseRequestLocalization();
+            builder.UseNoxLocalization();
         }
         
         private static IApplicationBuilder UseNoxLocalization(this IApplicationBuilder builder) 

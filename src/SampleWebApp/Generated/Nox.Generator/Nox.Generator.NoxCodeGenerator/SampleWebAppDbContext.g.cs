@@ -2,7 +2,6 @@
 
 #nullable enable
 
-using System.ComponentModel.DataAnnotations.Schema;
 using Nox;
 using Nox.Abstractions;
 using Nox.Solution;
@@ -12,7 +11,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Diagnostics;
 using SampleWebApp.Domain;
+
 using Nox.Localization;
+
 
 namespace SampleWebApp.Infrastructure.Persistence;
 
@@ -48,7 +49,9 @@ public partial class SampleWebAppDbContext : DbContext
     public DbSet<CurrencyCashBalance> CurrencyCashBalances { get; set; } = null!;
 
     public DbSet<CountryLocalNames> CountryLocalNames { get; set; } = null!;
-    
+
+
+
     // Schema: 'l10n'
     public DbSet<Translation> Translations { get; set; } = default!;
 
@@ -64,10 +67,9 @@ public partial class SampleWebAppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        if (_noxSolution.Application is { Localization: not null })
-        {
-            ConfigureLocalization(modelBuilder);    
-        }
+
+        ConfigureLocalization(modelBuilder); 
+
         
         base.OnModelCreating(modelBuilder);
         if (_noxSolution.Domain != null)
@@ -84,11 +86,13 @@ public partial class SampleWebAppDbContext : DbContext
             }
         }
     }
-    
+
+
     private void ConfigureLocalization(ModelBuilder builder)
     {
-        builder.Entity<Translation>().ToTable("Translations", LocalizationSchema);
+        builder.Entity<Translation>().ToTable("Translations", "l10n");
         builder.Entity<Translation>().HasKey(m => m.Id);
         builder.Entity<Translation>().HasAlternateKey(c => new { c.Key, c.CultureCode, c.ResourceKey });
     }
+
 }

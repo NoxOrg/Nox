@@ -78,7 +78,7 @@ public partial class SampleWebAppDbContext : DbContext
 
     private void ConfigureLocalization(ModelBuilder builder)
     {
-        builder.Entity<Translation>().ToTable("Translations", LocalizationSchema);
+        builder.Entity<Translation>().ToTable("Translations", "l10n");
         builder.Entity<Translation>().HasKey(m => m.Id);
         builder.Entity<Translation>().HasAlternateKey(c => new { c.Key, c.CultureCode, c.ResourceKey });
     }

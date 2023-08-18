@@ -41,4 +41,18 @@ public class SqliteLocalizationTests: IClassFixture<WebApplicationFixture>
         localizer!["Bye {0}!", "World"].Value.Should().Be("au revoir World!");
 
     }
+
+    public void Temp()
+    {
+        // var defaultCultureName = dollar.getLocalizedValue("Name");
+        // var enUsCultureName = dollar.getLocalizedValue("Name", "en-US");
+        // var frFrCultureName = dollar.getLocalizedValue("Name", "fr-FR"); // must find fr-FR or fall back to fr or fall back to default-culture
+        //
+        // dollar.setLocalizedValue("Name", "fr-FR", "bonjour");
+        
+        //if culture id default store in entity field and translations table
+        //
+
+
+    }
 }

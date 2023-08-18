@@ -58,6 +58,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.UseNox();
+
 //Include this to use elastic Apm monitoring
 //app.UseNoxElasticMonitoring();
 //==========================================
