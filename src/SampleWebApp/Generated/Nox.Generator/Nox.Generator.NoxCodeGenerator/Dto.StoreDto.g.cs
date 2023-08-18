@@ -1,8 +1,6 @@
 ﻿// Generated
 
 #nullable enable
-
-using AutoMapper;
 using MediatR;
 
 using Microsoft.AspNetCore.Http;
@@ -16,10 +14,11 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
+public record StoreKeyDto(System.String keyId);
+
 /// <summary>
 /// Stores.
 /// </summary>
-[AutoMap(typeof(StoreCreateDto))]
 public partial class StoreDto 
 {
 

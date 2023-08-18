@@ -103,6 +103,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             InfoEmail = Email.From("info@iwgplc.ch"),
             SecretPassword = EncryptedText.FromPlainText("12345678", encryptTypeOptions),
             DatabaseId = DatabaseNumber.FromDatabase(10U),
+            DatabaseGuid = DatabaseGuid.FromDatabase(System.Guid.NewGuid()),
             Password = Password.From("Test123."),
             CurrencyNumber = CurrencyNumber.From(999),
             Color = Color.From(255,255,255,0),
@@ -133,6 +134,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             PublicKey = Convert.ToBase64String(aesAlg.Key),
             Iv = Convert.ToBase64String(aesAlg.IV)
         };
+        var dateTime = new DateTimeOffset(2023, 01, 01, 0, 0, 0, 0, TimeSpan.Zero);
 
         var newItem = new Country()
         {
@@ -166,7 +168,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             WeightInKilograms = Weight.From(19_000, WeightTypeUnit.Kilogram),
             Nuid = Nuid.From(NuidDefinition.NuidStringValue),
             HashedText = HashedText.From(("Test123.", "salt")),
-            CreateDate = DateTime.From(new System.DateTime(2023, 01, 01)),
+            CreateDate = DateTime.From(dateTime),
             CurrentTime = Time.From(11, 35, 50, 375),
             AverageTemperatureInCelsius = Temperature.From(25),
             Description = Markdown.From("This a **big country**."),
@@ -180,6 +182,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             InfoEmail = Email.From("info@iwgplc.ch"),
             SecretPassword = EncryptedText.FromPlainText("12345678", encryptTypeOptions),
             DatabaseId = DatabaseNumber.FromDatabase(10U),
+            DatabaseGuid = DatabaseGuid.FromDatabase(System.Guid.NewGuid()),
             Password = Password.From("Test123."),
             CurrencyNumber = CurrencyNumber.From(840),
             Color = Color.From(255, 120, 95, 230),
@@ -235,7 +238,8 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.WeightInKilograms.Unit.Should().Be(WeightTypeUnit.Kilogram);
         item.HashedText.HashText.Should().Be(newItem.HashedText.HashText);
         item.HashedText.Salt.Should().Be(newItem.HashedText.Salt);
-        item.CreateDate.Should().Be(DateTime.From(new System.DateTime(2023, 01, 01)));
+        item.CreateDate!.Value.Should().Be(dateTime);
+        item.CreateDate!.Value.Offset.Should().Be(dateTime.Offset);
         item.DateTimeDuration.Value.Should().Be(new TimeSpan(10, 5, 2, 1).Ticks);
         item.Nuid.Value.Should().Be(NuidDefinition.NuidValue);
         Assert.Equal(newItem.Password, item.Password);

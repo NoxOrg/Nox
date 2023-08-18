@@ -1,6 +1,7 @@
 using FluentAssertions;
 using Microsoft.EntityFrameworkCore;
 using Nox.Types;
+using System.Globalization;
 using System.Text.Json;
 using TestWebApp.Domain;
 
@@ -17,7 +18,6 @@ public class SqliteIntegrationTests : SqliteTestBase
         // TODO:
         // array
         // colour
-        // databaseNumber
         // collection
         // entity
         // formula
@@ -107,6 +107,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var weight = 20.58M;
         var persistWeightUnitAs = WeightTypeUnit.Kilogram;
         var databaseNumber = 1U;
+        var databaseGuid = System.Guid.NewGuid();
 
         var distance = 80.481727;
         var persistDistanceUnitAs = DistanceTypeUnit.Kilometer;
@@ -128,6 +129,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var imageUrl = "https://example.com/image.png";
         var imagePrettyName = "Image";
         var imageSizeInBytes = 128;
+        var dateTime = new DateTimeOffset(System.DateTime.Now);
 
         var newItem = new TestEntityForTypes()
         {
@@ -178,6 +180,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             WeightTestField = Weight.From(weight, new WeightTypeOptions() { Units = WeightTypeUnit.Pound, PersistAs = persistWeightUnitAs }),
             DistanceTestField = Distance.From(distance, new DistanceTypeOptions() { Units = DistanceTypeUnit.Mile, PersistAs = persistDistanceUnitAs }),
             DatabaseNumberTestField = DatabaseNumber.FromDatabase(databaseNumber), //SQLite supports AutoIncrement only for column of type INTEGER PRIMARY KEY  https://www.sqlite.org/autoinc.html
+            DatabaseGuidTestField = DatabaseGuid.FromDatabase(databaseGuid),
             UriTestField = Types.Uri.From(sampleUri),
             GeoCoordTestField = LatLong.From(latitude, longitude),
             DateTimeRangeTestField = DateTimeRange.From(dateTimeRangeStart, dateTimeRangeEnd),
@@ -185,6 +188,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             ImageTestField = Image.From(imageUrl, imagePrettyName, imageSizeInBytes),
             PhoneNumberTestField = PhoneNumber.From(phoneNumber),
             DateTimeScheduleTestField = DateTimeSchedule.From(cronJobExpression),
+			DateTimeTestField = Types.DateTime.From(dateTime),
         };
         var temperatureCelsius = newItem.TemperatureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -259,6 +263,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.DistanceTestField!.ToMiles().Should().Be(distance);
         testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
         testEntity.DatabaseNumberTestField!.Value.Should().BeGreaterThan(0);
+        testEntity.DatabaseGuidTestField!.Value.Should().NotBe(System.Guid.Empty);
         testEntity.UriTestField!.Value.Should().BeEquivalentTo(new System.Uri(sampleUri));
         testEntity.GeoCoordTestField!.Latitude.Should().Be(latitude);
         testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
@@ -274,6 +279,8 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
         testEntity.PhoneNumberTestField!.Value.Should().Be(phoneNumber);
         testEntity.DateTimeScheduleTestField!.Value.Should().Be(cronJobExpression);
+		testEntity.DateTimeTestField!.ToString().Should().Be(dateTime.ToString(CultureInfo.InvariantCulture));
+        testEntity.DateTimeTestField!.Value.Offset.Should().Be(dateTime.Offset);
     }
 
     [Fact]
