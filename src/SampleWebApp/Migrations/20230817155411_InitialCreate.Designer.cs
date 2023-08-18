@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230816154659_InitialCreate")]
+    [Migration("20230817155411_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -90,6 +90,9 @@ namespace SampleWebApp.Migrations
                         .HasColumnType("char(3)")
                         .IsFixedLength();
 
+                    b.Property<DateTimeOffset?>("DateTimeField")
+                        .HasColumnType("datetimeoffset");
+
                     b.Property<bool?>("Deleted")
                         .HasColumnType("bit");
 
@@ -163,6 +166,9 @@ namespace SampleWebApp.Migrations
                     b.Property<string>("YamlField")
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");
+
+                    b.Property<ushort?>("YearField")
+                        .HasColumnType("int");
 
                     b.HasKey("Id", "TextId");
 

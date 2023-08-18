@@ -1,8 +1,6 @@
 ﻿// Generated
 
 #nullable enable
-
-using AutoMapper;
 using MediatR;
 
 using Microsoft.AspNetCore.Http;
@@ -16,10 +14,11 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
+public record CurrencyKeyDto(System.UInt32 keyId);
+
 /// <summary>
 /// The list of currencies.
 /// </summary>
-[AutoMap(typeof(CurrencyCreateDto))]
 public partial class CurrencyDto 
 {
 

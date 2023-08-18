@@ -1,8 +1,6 @@
 ﻿// Generated
 
 #nullable enable
-
-using AutoMapper;
 using MediatR;
 
 using Microsoft.AspNetCore.Http;
@@ -16,10 +14,11 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
+public record AllNoxTypeKeyDto(System.Int64 keyId, System.String keyTextId);
+
 /// <summary>
 /// Entity to test all nox types.
 /// </summary>
-[AutoMap(typeof(AllNoxTypeCreateDto))]
 public partial class AllNoxTypeDto 
 {
 
@@ -69,6 +68,11 @@ public partial class AllNoxTypeDto
     public System.String? CurrencyCode3Field { get; set; } 
 
     /// <summary>
+    /// DatetimeField Nox Type (Optional).
+    /// </summary>
+    public System.DateTimeOffset? DateTimeField { get; set; } 
+
+    /// <summary>
     /// Formula Nox Type (Optional).
     /// </summary>
     [NotMapped]public System.String? FormulaField { get; set; } 
@@ -87,6 +91,11 @@ public partial class AllNoxTypeDto
     /// Yaml Nox Type (Optional).
     /// </summary>
     public System.String? YamlField { get; set; } 
+
+    /// <summary>
+    /// YearField Nox Type (Optional).
+    /// </summary>
+    public System.Int16? YearField { get; set; } 
 
     /// <summary>
     /// Weight Nox Type (Optional).

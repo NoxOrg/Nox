@@ -7,8 +7,8 @@ public class DateTimeTests
     [Fact]
     public void From_WithValidDate_ReturnsValue()
     {
-        var datetimeExpected = System.DateTime.Now;
-        var datetime = DateTime.From(new System.DateTime(datetimeExpected.Year, datetimeExpected.Month, datetimeExpected.Day));
+        var datetimeExpected = DateTimeOffset.Now;
+        var datetime = DateTime.From(new DateTimeOffset(datetimeExpected.Year, datetimeExpected.Month, datetimeExpected.Day, 0, 0, 0, 0, TimeSpan.Zero));
 
         datetime.Value.Year.Should().Be(datetimeExpected.Year);
         datetime.Value.Month.Should().Be(datetimeExpected.Month);
@@ -16,19 +16,49 @@ public class DateTimeTests
     }
 
     [Fact]
-    public void From_WithDateTimeTypeOptions_InvalidValue_ThrowsException()
+    public void From_AllowFutureOnly_Past_ThrowsException()
     {
         DateTimeTypeOptions dateTimeTypeOptions = new() { AllowFutureOnly = true };
-        Action comparison = () => DateTime.From(new System.DateTime(2000, 01, 01), dateTimeTypeOptions);
+        Action comparison = () => DateTime.From(new DateTimeOffset(2000, 01, 01, 0, 0, 0, 0, TimeSpan.Zero), dateTimeTypeOptions);
 
         comparison.Should().Throw<TypeValidationException>();
     }
 
     [Fact]
+    public void From_AllowFutureOnly_Now_ReturnsValue()
+    {
+        var datetimeNow = System.DateTime.Now.AddMinutes(1);
+        DateTimeTypeOptions dateTimeTypeOptions = new() { AllowFutureOnly = true };
+        var datetime = DateTime.From(new DateTimeOffset(datetimeNow), dateTimeTypeOptions);
+
+        datetime.Value.Year.Should().Be(datetimeNow.Year);
+        datetime.Value.Month.Should().Be(datetimeNow.Month);
+        datetime.Value.Day.Should().Be(datetimeNow.Day);
+        datetime.Value.Hour.Should().Be(datetimeNow.Hour);
+        datetime.Value.Minute.Should().Be(datetimeNow.Minute);
+        datetime.Value.Second.Should().Be(datetimeNow.Second);
+    }
+
+    [Fact]
+    public void From_AllowFutureOnly_Future_ReturnsValue()
+    {
+        var datetimeNow = System.DateTime.Now.AddDays(1);
+        DateTimeTypeOptions dateTimeTypeOptions = new() { AllowFutureOnly = true };
+        var datetime = DateTime.From(new DateTimeOffset(datetimeNow), dateTimeTypeOptions);
+
+        datetime.Value.Year.Should().Be(datetimeNow.Year);
+        datetime.Value.Month.Should().Be(datetimeNow.Month);
+        datetime.Value.Day.Should().Be(datetimeNow.Day);
+        datetime.Value.Hour.Should().Be(datetimeNow.Hour);
+        datetime.Value.Minute.Should().Be(datetimeNow.Minute);
+        datetime.Value.Second.Should().Be(datetimeNow.Second);
+    }
+
+    [Fact]
     public void From_WithYearTypeOptions_InvalidValue_ThrowsException()
     {
-        DateTimeTypeOptions dateTimeTypeOptions = new() { MaxValue = new System.DateTime(2022, 01, 01) };
-        Action comparison = () => DateTime.From(new System.DateTime(2023, 01, 01), dateTimeTypeOptions);
+        DateTimeTypeOptions dateTimeTypeOptions = new() { MaxValue = new DateTimeOffset(2022, 01, 01, 0, 0, 0, 0, TimeSpan.Zero) };
+        Action comparison = () => DateTime.From(new DateTimeOffset(2023, 01, 01, 0, 0, 0, 0, TimeSpan.Zero), dateTimeTypeOptions);
 
         comparison.Should().Throw<TypeValidationException>();
     }
@@ -36,8 +66,8 @@ public class DateTimeTests
     [Fact]
     public void From_WithValidDateTime_ReturnsValue()
     {
-        var datetimeExpected = System.DateTime.Now;
-        var datetime = DateTime.From(new System.DateTime(datetimeExpected.Year, datetimeExpected.Month, datetimeExpected.Day, datetimeExpected.Hour, datetimeExpected.Minute, datetimeExpected.Second));
+        var datetimeExpected = DateTimeOffset.Now;
+        var datetime = DateTime.From(new DateTimeOffset(datetimeExpected.Year, datetimeExpected.Month, datetimeExpected.Day, datetimeExpected.Hour, datetimeExpected.Minute, datetimeExpected.Second, TimeSpan.Zero));
 
         datetime.Value.Year.Should().Be(datetimeExpected.Year);
         datetime.Value.Month.Should().Be(datetimeExpected.Month);
@@ -50,7 +80,7 @@ public class DateTimeTests
     [Fact]
     public void From_SystemDateTime_ReturnsValue()
     {
-        var datetimeExpected = System.DateTime.Now;
+        var datetimeExpected = DateTimeOffset.Now;
         var datetime = DateTime.From(datetimeExpected);
 
         datetime.Value.Year.Should().Be(datetimeExpected.Year);
@@ -64,8 +94,8 @@ public class DateTimeTests
     [Fact]
     public void From_ValidDateTimeString_ReturnsValue()
     {
-        var datetimeExpected = System.DateTime.Now;
-        var datetime = DateTime.From(datetimeExpected.ToString());
+        var datetimeExpected = DateTimeOffset.Now;
+        var datetime = DateTime.From(datetimeExpected.ToString(CultureInfo.InvariantCulture));
 
         datetime.Value.Year.Should().Be(datetimeExpected.Year);
         datetime.Value.Month.Should().Be(datetimeExpected.Month);
@@ -108,10 +138,22 @@ public class DateTimeTests
     }
 
     [Fact]
+    public void From_UsingSystemDateTime_ReturnsValue()
+    {
+        var datetimeExpected = System.DateTime.UtcNow;
+        var datetime = DateTime.From(datetimeExpected);
+
+        datetime.Value.Year.Should().Be(datetimeExpected.Year);
+        datetime.Value.Month.Should().Be(datetimeExpected.Month);
+        datetime.Value.Day.Should().Be(datetimeExpected.Day);
+        datetime.Value.Offset.Should().Be(TimeSpan.Zero);
+    }
+
+    [Fact]
     public void OperatorPlus_ReturnsValue_TestCopy()
     {
-        var datetimeOriginalExpected = System.DateTime.UtcNow;
-        var datetimeOriginal = DateTime.From(System.DateTime.UtcNow);
+        var datetimeOriginalExpected = new DateTimeOffset(System.DateTime.UtcNow);
+        var datetimeOriginal = DateTime.From(new DateTimeOffset(System.DateTime.UtcNow));
         var timeSpan = TimeSpan.FromDays(20);
 
         var datetimeExpected = datetimeOriginalExpected + timeSpan;
@@ -136,7 +178,7 @@ public class DateTimeTests
     public void OperatorMinus_ReturnsValue_TestCopy()
     {
 
-        var systemDatetime = System.DateTime.UtcNow;
+        var systemDatetime = new DateTimeOffset(System.DateTime.UtcNow);
         var timeSpan = TimeSpan.FromDays(20);
         var datetimeOriginal = DateTime.From(systemDatetime);
         var datetimeDaysAdded = DateTime.From(systemDatetime.Add(timeSpan));
@@ -150,7 +192,7 @@ public class DateTimeTests
     public void EquationSigns_NotEqual_ReturnsValue()
     {
 
-        var systemDatetime = System.DateTime.UtcNow;
+        var systemDatetime = new DateTimeOffset(System.DateTime.UtcNow);
         var timeSpan = TimeSpan.FromDays(20);
         var datetime = DateTime.From(systemDatetime);
         var datetimeDaysAdded = DateTime.From(systemDatetime.Add(timeSpan));
@@ -172,7 +214,7 @@ public class DateTimeTests
     public void EquationSigns_Equal_ReturnsValue()
     {
 
-        var systemDatetime = System.DateTime.UtcNow;
+        var systemDatetime = new DateTimeOffset(System.DateTime.UtcNow);
         var datetime = DateTime.From(systemDatetime);
         var datetime2 = DateTime.From(systemDatetime);
 
@@ -192,7 +234,7 @@ public class DateTimeTests
     [InlineData("en-GB", "dd MMM HH:mm:ss", "20 Jun 10:05:00")]
     public void ToString_WithCultureAndFormatParameters_ReturnsFormattedString(string culture, string format, string expectedResult)
     {
-        var datetime = DateTime.From(new System.DateTime(2023, 6, 20, 10, 5, 0));
+        var datetime = DateTime.From(new DateTimeOffset(2023, 6, 20, 10, 5, 0, 0, TimeSpan.Zero));
 
         var dateTimeString = datetime.ToString(format, new CultureInfo(culture));
 
@@ -200,13 +242,13 @@ public class DateTimeTests
     }
 
     [Theory]
-    [InlineData("en-GB", "06/20/2023 10:05:00")]
-    [InlineData("en-US", "06/20/2023 10:05:00")]
+    [InlineData("en-GB", "06/20/2023 10:05:00 +00:00")]
+    [InlineData("en-US", "06/20/2023 10:05:00 +00:00")]
     public void ToString_WithoutParameters_ReturnsFormattedStringInInvariantCulture(string culture, string expectedResult)
     {
         void Test()
         {
-            var dateTime = DateTime.From(new System.DateTime(2023, 6, 20, 10, 5, 0));
+            var dateTime = DateTime.From(new DateTimeOffset(2023, 6, 20, 10, 5, 0, 0, TimeSpan.Zero));
 
             var dateTimeString = dateTime.ToString();
 
@@ -226,7 +268,7 @@ public class DateTimeTests
     {
         void Test()
         {
-            var dateTime = DateTime.From(new System.DateTime(2023, 6, 20, 10, 5, 0));
+            var dateTime = DateTime.From(new DateTimeOffset(2023, 6, 20, 10, 5, 0, 0, TimeSpan.Zero));
             var dateTimeString = dateTime.ToString(format);
 
             Assert.Equal(expectedResult, dateTimeString);
@@ -236,11 +278,11 @@ public class DateTimeTests
     }
 
     [Theory]
-    [InlineData("en-GB", "20/06/2023 10:05:00")]
-    [InlineData("en-US", "6/20/2023 10:05:00 AM")]
+    [InlineData("en-GB", "20/06/2023 10:05:00 +01:00")]
+    [InlineData("en-US", "6/20/2023 10:05:00 AM +01:00")]
     public void ToString_WithCultureParameter_ReturnsFormattedString(string culture, string expectedResult)
     {
-        var dateTime = DateTime.From(new System.DateTime(2023, 6, 20, 10, 5, 0));
+        var dateTime = DateTime.From(new DateTimeOffset(2023, 6, 20, 10, 5, 0, 0, new TimeSpan(1,0,0)));
         var dateTimeString = dateTime.ToString(new CultureInfo(culture));
 
         Assert.Equal(expectedResult, dateTimeString);
@@ -250,7 +292,7 @@ public class DateTimeTests
     public void Equals_ReturnsTrue()
     {
 
-        var systemDatetime = System.DateTime.UtcNow;
+        var systemDatetime = new DateTimeOffset(System.DateTime.Now);
         var datetime = DateTime.From(systemDatetime);
         var datetime2 = DateTime.From(systemDatetime);
 
@@ -261,11 +303,27 @@ public class DateTimeTests
     public void Equals_ReturnsFalse()
     {
 
-        var systemDatetime = System.DateTime.UtcNow;
+        var systemDatetime = new DateTimeOffset(System.DateTime.UtcNow);
         var datetime = DateTime.From(systemDatetime);
         var datetime2 = DateTime.From(systemDatetime.AddDays(20));
 
         (datetime.Equals(datetime2)).Should().BeFalse();
+    }
+
+    [Fact]
+    public void From_WithTimeSpan_ReturnsValue()
+    {
+        var datetimeParam = new System.DateTime(2023, 5, 1, 3, 0, 0, DateTimeKind.Unspecified);
+        var datetimeExpected = new DateTimeOffset(datetimeParam, TimeSpan.Zero);
+        var datetime = DateTime.From(datetimeParam, TimeSpan.FromHours(5));
+
+        datetime.Value.Year.Should().Be(datetimeExpected.Year);
+        datetime.Value.Month.Should().Be(datetimeExpected.Month);
+        datetime.Value.Day.Should().Be(datetimeExpected.Day);
+        datetime.Value.Hour.Should().Be(datetimeExpected.Hour);
+        datetime.Value.Minute.Should().Be(datetimeExpected.Minute);
+        datetime.Value.Second.Should().Be(datetimeExpected.Second);
+        datetime.Value.Offset.Should().Be(TimeSpan.FromHours(5));
     }
 }
 
