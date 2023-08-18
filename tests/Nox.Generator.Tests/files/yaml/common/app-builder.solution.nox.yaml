@@ -8,6 +8,14 @@ name: TestWebApp
 
 description: Test Nox solution yaml configuration
 
+application:
+  localization:
+    supportedCultures:
+      - en-GB
+      - fr-FR
+        
+    defaultCulture: en-GB
+
 infrastructure:
   
   persistence:

@@ -1,7 +1,9 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 using Nox.Abstractions;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Enums;
 
 namespace Nox.Localization;
 
@@ -10,42 +12,32 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
     private const string LocalizationSchema = "l10n";
 
     private readonly INoxDatabaseProvider? _databaseProvider;
-
-    private readonly INoxClientAssemblyProvider? _clientAssemblyProvider;
+    private readonly NoxSolution _noxSolution;
 
     // Schema: 'i10n'
     public DbSet<Translation> Translations { get; set; } = default!;
-
-    //This constructor is used at design time for migrations. It remains internal so that derived applications are forced to user the public constructor
-    internal NoxLocalizationDbContext(DbContextOptions<NoxLocalizationDbContext> options): base(options)
-    {
-        
-    }
     
-    //This is the runtime constructor
     public NoxLocalizationDbContext(
-        INoxDatabaseProvider databaseProvider,
-        INoxClientAssemblyProvider? clientAssemblyProvider = null
-    ) 
+        NoxSolution noxSolution,
+        IEnumerable<INoxDatabaseProvider> databaseProviders
+    )
     {
-        _databaseProvider = databaseProvider;
-        _clientAssemblyProvider = clientAssemblyProvider;
+        _noxSolution = noxSolution;
+        _databaseProvider = databaseProviders.Single(p => p.StoreType == NoxDataStoreType.EntityStore);
     } 
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
-        if (NoxSolutionBuilder.Instance != null)
-        {
-            var appName = NoxSolutionBuilder.Instance.Name;
-    
-            var dbServer = NoxSolutionBuilder.Instance.Infrastructure?.Persistence.DatabaseServer;
-    
-            if(dbServer is not null)
-            {
-                _databaseProvider!.ConfigureDbContext(optionsBuilder, appName, dbServer);
-            }
-        }
         base.OnConfiguring(optionsBuilder);
+        var appName = _noxSolution.Name;
+
+        var dbServer = _noxSolution.Infrastructure?.Persistence.DatabaseServer;
+    
+        if(dbServer is not null)
+        {
+            _databaseProvider!.ConfigureDbContext(optionsBuilder, appName, dbServer);
+        }
+        
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)

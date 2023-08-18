@@ -24,7 +24,7 @@ namespace Nox
         {
             var solution = builder.ApplicationServices.GetRequiredService<NoxSolution>();
 
-            var supportedCultures = solution?.Application?.Localization?.SupportedCultures
+            var supportedCultures = solution.Application?.Localization?.SupportedCultures
                 .Select(s => new CultureInfo(s)).ToList(); 
 
             if (supportedCultures is null) return builder;

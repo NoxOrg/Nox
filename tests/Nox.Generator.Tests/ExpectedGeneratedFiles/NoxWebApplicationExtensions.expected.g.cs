@@ -8,6 +8,7 @@ using Nox.Abstractions;
 using Nox;
 using Nox.Solution;
 using Nox.EntityFramework.SqlServer;
+using Nox.Localization;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Enums;
 using TestWebApp.Infrastructure.Persistence;
@@ -31,10 +32,7 @@ public static class NoxWebApplicationBuilderExtension
         );
         appBuilder.Services.AddDbContext<TestWebAppDbContext>();
         appBuilder.Services.AddDbContext<ODataDbContext>();
-        appBuilder.UseNoxLocalization(opt =>
-        {
-            opt.WithSqlServerStore();
-        });
+        appBuilder.Services.AddNoxLocalization();
         return appBuilder;
     }
     

@@ -11,6 +11,9 @@ using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Diagnostics;
 using {{codeGeneratorState.DomainNameSpace}};
+{{ if solution.Application != null &&  solution.Application.Localization != null }}
+using Nox.Localization;
+{{ end }}
 
 namespace {{codeGeneratorState.PersistenceNameSpace}};
 
@@ -36,6 +39,11 @@ public partial class {{className}} : DbContext
     public DbSet<{{entity.Name}}> {{entity.PluralName}} { get; set; } = null!;
 {{ end }}
 
+{{ if solution.Application != null &&  solution.Application.Localization != null }}
+    // Schema: 'l10n'
+    public DbSet<Translation> Translations { get; set; } = default!;
+{{ end }}
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
@@ -47,6 +55,10 @@ public partial class {{className}} : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
+{{ if solution.Application != null &&  solution.Application.Localization != null }}
+        ConfigureLocalization(modelBuilder); 
+{{ end }}
+        
         base.OnModelCreating(modelBuilder);
         if (_noxSolution.Domain != null)
         {
@@ -62,4 +74,13 @@ public partial class {{className}} : DbContext
             }
         }
     }
+
+{{ if solution.Application != null &&  solution.Application.Localization != null }}
+    private void ConfigureLocalization(ModelBuilder builder)
+    {
+        builder.Entity<Translation>().ToTable("Translations", LocalizationSchema);
+        builder.Entity<Translation>().HasKey(m => m.Id);
+        builder.Entity<Translation>().HasAlternateKey(c => new { c.Key, c.CultureCode, c.ResourceKey });
+    }
+{{ end }}
 }
