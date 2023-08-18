@@ -14,9 +14,9 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateCurrencyCommand(System.UInt32 key, CurrencyUpdateDto EntityDto) : IRequest<bool>;
+public record UpdateCurrencyCommand(System.UInt32 keyId, CurrencyUpdateDto EntityDto) : IRequest<CurrencyKeyDto?>;
 
-public class UpdateCurrencyCommandHandler: CommandBase, IRequestHandler<UpdateCurrencyCommand, bool>
+public class UpdateCurrencyCommandHandler: CommandBase, IRequestHandler<UpdateCurrencyCommand, CurrencyKeyDto?>
 {
     public SampleWebAppDbContext DbContext { get; }    
     public IEntityMapper<Currency> EntityMapper { get; }
@@ -31,17 +31,22 @@ public class UpdateCurrencyCommandHandler: CommandBase, IRequestHandler<UpdateCu
         EntityMapper = entityMapper;
     }
     
-    public async Task<bool> Handle(UpdateCurrencyCommand request, CancellationToken cancellationToken)
+    public async Task<CurrencyKeyDto?> Handle(UpdateCurrencyCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.Currencies.FindAsync(CreateNoxTypeForKey<Currency,Nuid>("Id", request.key));
+        var keyId = CreateNoxTypeForKey<Currency,Nuid>("Id", request.keyId);
+    
+        var entity = await DbContext.Currencies.FindAsync(keyId);
         if (entity == null)
         {
-            return false;
+            return null;
         }
         EntityMapper.MapToEntity(entity, GetEntityDefinition<Currency>(), request.EntityDto);
-        // Todo map dto
+        
         DbContext.Entry(entity).State = EntityState.Modified;
-        var result = await DbContext.SaveChangesAsync();             
-        return result > 0;        
+        var result = await DbContext.SaveChangesAsync();
+        if(result < 1)
+            return null;
+
+        return new CurrencyKeyDto(entity.Id.Value);
     }
 }

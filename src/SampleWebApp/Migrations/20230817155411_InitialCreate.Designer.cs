@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230814123137_InitialCreate")]
+    [Migration("20230817155411_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -64,7 +64,6 @@ namespace SampleWebApp.Migrations
                         .IsFixedLength();
 
                     b.Property<string>("CountryCode3Field")
-                        .IsRequired()
                         .HasMaxLength(3)
                         .IsUnicode(false)
                         .HasColumnType("char(3)")
@@ -79,6 +78,21 @@ namespace SampleWebApp.Migrations
                     b.Property<string>("CreatedBy")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("CultureCodeField")
+                        .HasMaxLength(10)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(10)")
+                        .IsFixedLength(false);
+
+                    b.Property<string>("CurrencyCode3Field")
+                        .HasMaxLength(3)
+                        .IsUnicode(false)
+                        .HasColumnType("char(3)")
+                        .IsFixedLength();
+
+                    b.Property<DateTimeOffset?>("DateTimeField")
+                        .HasColumnType("datetimeoffset");
+
                     b.Property<bool?>("Deleted")
                         .HasColumnType("bit");
 
@@ -91,6 +105,15 @@ namespace SampleWebApp.Migrations
                     b.Property<byte[]>("EncryptedTextField")
                         .IsUnicode(false)
                         .HasColumnType("varbinary(max)");
+
+                    b.Property<string>("HtmlField")
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("MarkdownField")
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
 
                     b.Property<uint?>("NuidField")
                         .HasColumnType("bigint");
@@ -143,6 +166,9 @@ namespace SampleWebApp.Migrations
                     b.Property<string>("YamlField")
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");
+
+                    b.Property<ushort?>("YearField")
+                        .HasColumnType("int");
 
                     b.HasKey("Id", "TextId");
 

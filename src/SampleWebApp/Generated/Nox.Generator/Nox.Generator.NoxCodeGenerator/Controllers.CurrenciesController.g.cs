@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using MediatR;
 using Nox.Application;
 using SampleWebApp.Application;
@@ -30,23 +29,16 @@ public partial class CurrenciesController : ODataController
     protected readonly ODataDbContext _databaseContext;
     
     /// <summary>
-    /// The Automapper.
-    /// </summary>
-    protected readonly IMapper _mapper;
-    
-    /// <summary>
     /// The Mediator.
     /// </summary>
     protected readonly IMediator _mediator;
     
     public CurrenciesController(
         ODataDbContext databaseContext,
-        IMapper mapper,
         IMediator mediator
     )
     {
         _databaseContext = databaseContext;
-        _mapper = mapper;
         _mediator = mediator;
     }
     
@@ -87,9 +79,9 @@ public partial class CurrenciesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateCurrencyCommand(key,currency));
+        var updated = await _mediator.Send(new UpdateCurrencyCommand(key, currency));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
@@ -117,18 +109,13 @@ public partial class CurrenciesController : ODataController
             }
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCurrencyCommand(key,updateProperties,deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateCurrencyCommand(key, updateProperties, deletedProperties));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
         return Updated(currency);
-    }
-    
-    private bool CurrencyExists(System.UInt32 key)
-    {
-        return _databaseContext.Currencies.Any(p => p.Id == key);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.UInt32 key)
