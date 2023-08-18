@@ -74,24 +74,15 @@ public class Entity : DefinitionBase
     {
         if (string.IsNullOrWhiteSpace(PluralName)) 
             PluralName = Name.Pluralize();
+        
+        if (Persistence != null)
+            return true;
 
-        
-        if(Keys != null)
-            //Keys are always simple type we validate this
-            KeysFlattenComponentsType = Keys                    
-                    .ToDictionary(key => key.Name, key => key.Type.GetComponents(key).First().Value);
-        
-        if (Persistence != null) return true;
         Persistence = new EntityPersistence();
+        
         return Persistence.ApplyDefaults(Name);
     }
-
-    /// <summary>
-    /// Flatten ordered list of key types
-    /// </summary>
-    [YamlIgnore]
-    public IReadOnlyDictionary<string, System.Type> KeysFlattenComponentsType { get; private set; } = new Dictionary<string, System.Type>();
-
+    
     public NoxSimpleTypeDefinition GetAttributeByName(string entityName)
     {
         lock (this)

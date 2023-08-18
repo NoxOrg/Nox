@@ -343,7 +343,7 @@ internal class ApiGenerator : INoxCodeGenerator
         if (entity.Keys.Count() > 1)
             return string.Join(", ", entity.Keys.Select(k => $"[FromRoute] {solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
         else if (entity.Keys is not null)
-            return $"[FromRoute] {entity.KeysFlattenComponentsType[entity.Keys[0].Name]} key";
+            return $"[FromRoute] {solution.GetSinglePrimitiveTypeForKey(entity.Keys[0])} key";
 
         return "";
     }
