@@ -1,6 +1,7 @@
 ﻿using Nox.Types.Schema;
 using System.Collections.Generic;
 using System.Linq;
+using YamlDotNet.Serialization;
 
 namespace Nox.Solution;
 
@@ -16,5 +17,22 @@ public class Domain : DefinitionBase
     [AdditionalProperties(false)]
     public IReadOnlyList<Entity> Entities { get; internal set; } = new List<Entity>();
 
-    public Entity GetEntityByName(string entityName) => Entities.Single(entity => entity.Name == entityName);
+    public Entity GetEntityByName(string entityName)
+    {
+        lock (this)
+        {
+            if (_entitiesByName == null)
+            {
+                _entitiesByName = new();
+                for (int i = 0; i < Entities.Count; i++)
+                {
+                    _entitiesByName.Add(Entities[i].Name, Entities[i]);
+                }
+            }
+        }
+        return _entitiesByName[entityName];
+    }
+
+    [YamlIgnore]
+    private Dictionary<string, Entity>? _entitiesByName;
 }
