@@ -12,6 +12,7 @@ using Nox.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
+using Nox.Exceptions;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
@@ -101,6 +102,66 @@ public class CountryMapper: EntityMapperBase<Country>
 
     public override void PartialMapToEntity(Country entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
     {
-
+      
+        if(deletedPropertyNames.Contains("Name"))
+        {
+            throw new EntityAttributeIsNotNullableException("Country", "Name");
+        }  
+        if(deletedPropertyNames.Contains("FormalName"))
+        {
+            throw new EntityAttributeIsNotNullableException("Country", "FormalName");
+        }  
+        if(deletedPropertyNames.Contains("AlphaCode3"))
+        {
+            throw new EntityAttributeIsNotNullableException("Country", "AlphaCode3");
+        }  
+        if(deletedPropertyNames.Contains("AlphaCode2"))
+        {
+            throw new EntityAttributeIsNotNullableException("Country", "AlphaCode2");
+        }  
+        if(deletedPropertyNames.Contains("NumericCode"))
+        {
+            throw new EntityAttributeIsNotNullableException("Country", "NumericCode");
+        }  
+        if(deletedPropertyNames.Contains("DialingCodes"))
+        {
+            entity.DialingCodes = null;
+        }  
+        if(deletedPropertyNames.Contains("Capital"))
+        {
+            entity.Capital = null;
+        }  
+        if(deletedPropertyNames.Contains("Demonym"))
+        {
+            entity.Demonym = null;
+        }  
+        if(deletedPropertyNames.Contains("AreaInSquareKilometres"))
+        {
+            throw new EntityAttributeIsNotNullableException("Country", "AreaInSquareKilometres");
+        }  
+        if(deletedPropertyNames.Contains("GeoCoord"))
+        {
+            entity.GeoCoord = null;
+        }  
+        if(deletedPropertyNames.Contains("GeoRegion"))
+        {
+            throw new EntityAttributeIsNotNullableException("Country", "GeoRegion");
+        }  
+        if(deletedPropertyNames.Contains("GeoSubRegion"))
+        {
+            throw new EntityAttributeIsNotNullableException("Country", "GeoSubRegion");
+        }  
+        if(deletedPropertyNames.Contains("GeoWorldRegion"))
+        {
+            throw new EntityAttributeIsNotNullableException("Country", "GeoWorldRegion");
+        }  
+        if(deletedPropertyNames.Contains("Population"))
+        {
+            entity.Population = null;
+        }  
+        if(deletedPropertyNames.Contains("TopLevelDomains"))
+        {
+            entity.TopLevelDomains = null;
+        }    
     }
 }

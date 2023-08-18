@@ -12,6 +12,7 @@ using Nox.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
+using Nox.Exceptions;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
@@ -42,6 +43,14 @@ public class StoreSecurityPasswordsMapper: EntityMapperBase<StoreSecurityPasswor
 
     public override void PartialMapToEntity(StoreSecurityPasswords entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
     {
-
+      
+        if(deletedPropertyNames.Contains("Name"))
+        {
+            throw new EntityAttributeIsNotNullableException("StoreSecurityPasswords", "Name");
+        }  
+        if(deletedPropertyNames.Contains("SecurityCamerasPassword"))
+        {
+            throw new EntityAttributeIsNotNullableException("StoreSecurityPasswords", "SecurityCamerasPassword");
+        }    
     }
 }

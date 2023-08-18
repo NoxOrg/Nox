@@ -12,6 +12,7 @@ using Nox.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
+using Nox.Exceptions;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
@@ -168,6 +169,118 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
 
     public override void PartialMapToEntity(AllNoxType entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
     {
-
+      
+        if(deletedPropertyNames.Contains("NuidField"))
+        {
+            entity.NuidField = null;
+        }  
+        if(deletedPropertyNames.Contains("BooleanField"))
+        {
+            entity.BooleanField = null;
+        }  
+        if(deletedPropertyNames.Contains("CountryCode2Field"))
+        {
+            throw new EntityAttributeIsNotNullableException("AllNoxType", "CountryCode2Field");
+        }  
+        if(deletedPropertyNames.Contains("CountryCode3Field"))
+        {
+            entity.CountryCode3Field = null;
+        }  
+        if(deletedPropertyNames.Contains("CountryNumberField"))
+        {
+            entity.CountryNumberField = null;
+        }  
+        if(deletedPropertyNames.Contains("CultureCodeField"))
+        {
+            entity.CultureCodeField = null;
+        }  
+        if(deletedPropertyNames.Contains("CurrencyCode3Field"))
+        {
+            entity.CurrencyCode3Field = null;
+        }  
+        if(deletedPropertyNames.Contains("DateTimeField"))
+        {
+            entity.DateTimeField = null;
+        }  
+        if(deletedPropertyNames.Contains("HtmlField"))
+        {
+            entity.HtmlField = null;
+        }  
+        if(deletedPropertyNames.Contains("MarkdownField"))
+        {
+            entity.MarkdownField = null;
+        }  
+        if(deletedPropertyNames.Contains("YamlField"))
+        {
+            entity.YamlField = null;
+        }  
+        if(deletedPropertyNames.Contains("YearField"))
+        {
+            entity.YearField = null;
+        }  
+        if(deletedPropertyNames.Contains("WeightField"))
+        {
+            entity.WeightField = null;
+        }  
+        if(deletedPropertyNames.Contains("VolumeField"))
+        {
+            entity.VolumeField = null;
+        }  
+        if(deletedPropertyNames.Contains("UrlField"))
+        {
+            entity.UrlField = null;
+        }  
+        if(deletedPropertyNames.Contains("UriField"))
+        {
+            entity.UriField = null;
+        }  
+        if(deletedPropertyNames.Contains("TimeZoneCodeField"))
+        {
+            entity.TimeZoneCodeField = null;
+        }  
+        if(deletedPropertyNames.Contains("TemperatureField"))
+        {
+            entity.TemperatureField = null;
+        }  
+        if(deletedPropertyNames.Contains("PercentageField"))
+        {
+            entity.PercentageField = null;
+        }  
+        if(deletedPropertyNames.Contains("TimeField"))
+        {
+            entity.TimeField = null;
+        }  
+        if(deletedPropertyNames.Contains("NumberField"))
+        {
+            entity.NumberField = null;
+        }  
+        if(deletedPropertyNames.Contains("TextField"))
+        {
+            throw new EntityAttributeIsNotNullableException("AllNoxType", "TextField");
+        }  
+        if(deletedPropertyNames.Contains("StreetAddressField"))
+        {
+            entity.StreetAddressField = null;
+        }  
+        if(deletedPropertyNames.Contains("FileField"))
+        {
+            entity.FileField = null;
+        }  
+        if(deletedPropertyNames.Contains("TranslatedTextField"))
+        {
+            entity.TranslatedTextField = null;
+        }  
+        if(deletedPropertyNames.Contains("VatNumberField"))
+        {
+            entity.VatNumberField = null;
+        }  
+        if(deletedPropertyNames.Contains("MoneyField"))
+        {
+            entity.MoneyField = null;
+        }  
+        if(deletedPropertyNames.Contains("LatLongField"))
+        {
+            entity.LatLongField = null;
+        }    
     }
 }

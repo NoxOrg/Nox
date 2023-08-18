@@ -12,6 +12,7 @@ using Nox.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
+using Nox.Exceptions;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
@@ -42,6 +43,14 @@ public class CurrencyCashBalanceMapper: EntityMapperBase<CurrencyCashBalance>
 
     public override void PartialMapToEntity(CurrencyCashBalance entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
     {
-
+      
+        if(deletedPropertyNames.Contains("Amount"))
+        {
+            throw new EntityAttributeIsNotNullableException("CurrencyCashBalance", "Amount");
+        }  
+        if(deletedPropertyNames.Contains("OperationLimit"))
+        {
+            entity.OperationLimit = null;
+        }    
     }
 }

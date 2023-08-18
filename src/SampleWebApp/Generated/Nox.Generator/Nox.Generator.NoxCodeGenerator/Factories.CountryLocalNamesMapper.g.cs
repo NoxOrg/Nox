@@ -12,6 +12,7 @@ using Nox.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
+using Nox.Exceptions;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
@@ -32,6 +33,6 @@ public class CountryLocalNamesMapper: EntityMapperBase<CountryLocalNames>
 
     public override void PartialMapToEntity(CountryLocalNames entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
     {
-
+        
     }
 }
