@@ -34,6 +34,8 @@ public partial class StoreSecurityPasswords : AuditableEntityBase
     /// </summary>
     public virtual Store Store { get; set; } = null!;
 
+    public Store StoreRel => Store;
+
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Store
     /// </summary>

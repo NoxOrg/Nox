@@ -57,7 +57,6 @@ internal class ApiGenerator : INoxCodeGenerator
             code.AppendLine($"using Microsoft.AspNetCore.OData.Query;");
             code.AppendLine($"using Microsoft.AspNetCore.OData.Routing.Controllers;");
             code.AppendLine($"using Microsoft.EntityFrameworkCore;");
-            code.AppendLine($"using AutoMapper;");
             code.AppendLine("using MediatR;");
             code.AppendLine("using Nox.Application;");
 
@@ -80,15 +79,12 @@ internal class ApiGenerator : INoxCodeGenerator
             code.StartBlock();
 
             // db context
-            AddField(code, dbContextName, "databaseContext", "The OData DbContext for CRUD operations");
-
-            AddField(code, "IMapper", "mapper", "The Automapper");
+            AddField(code, dbContextName, "databaseContext", "The OData DbContext for CRUD operations");            
             AddField(code, "IMediator", "mediator", "The Mediator");
 
             var constructorParameters = new Dictionary<string, string>
                 {
-                    { dbContextName, "databaseContext" },
-                    { "IMapper", "mapper" },
+                    { dbContextName, "databaseContext" },                    
                     { "IMediator", "mediator" }
                 };
 
@@ -214,7 +210,7 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({PrimaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}));");
         code.AppendLine();
         
-        code.AppendLine($"if (!updated)");
+        code.AppendLine($"if (updated is null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
@@ -254,7 +250,7 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties, deletedProperties));");
         code.AppendLine();
 
-        code.AppendLine($"if (!updated)");
+        code.AppendLine($"if (updated is null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
@@ -262,18 +258,7 @@ internal class ApiGenerator : INoxCodeGenerator
 
         // End method
         code.EndBlock();
-        code.AppendLine();
-
-        // Method Exists
-        code.AppendLine($"private bool {entityName}Exists({entity.KeysFlattenComponentsType[entity.Keys![0].Name]} key)");
-
-        // Method content
-        code.StartBlock();
-        code.AppendLine($"return _databaseContext.{pluralName}.Any(p => p.{entity.Keys![0].Name} == key);");
-
-        // End method
-        code.EndBlock();
-        code.AppendLine();
+        code.AppendLine();        
     }
 
     private static void GeneratePost(string entityName, string variableName, CodeBuilder code)

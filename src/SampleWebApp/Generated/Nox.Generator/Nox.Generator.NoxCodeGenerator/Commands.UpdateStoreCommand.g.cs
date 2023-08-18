@@ -14,9 +14,9 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateStoreCommand(System.String keyId, StoreUpdateDto EntityDto) : IRequest<bool>;
+public record UpdateStoreCommand(System.String keyId, StoreUpdateDto EntityDto) : IRequest<StoreKeyDto?>;
 
-public class UpdateStoreCommandHandler: CommandBase, IRequestHandler<UpdateStoreCommand, bool>
+public class UpdateStoreCommandHandler: CommandBase, IRequestHandler<UpdateStoreCommand, StoreKeyDto?>
 {
     public SampleWebAppDbContext DbContext { get; }    
     public IEntityMapper<Store> EntityMapper { get; }
@@ -31,19 +31,22 @@ public class UpdateStoreCommandHandler: CommandBase, IRequestHandler<UpdateStore
         EntityMapper = entityMapper;
     }
     
-    public async Task<bool> Handle(UpdateStoreCommand request, CancellationToken cancellationToken)
+    public async Task<StoreKeyDto?> Handle(UpdateStoreCommand request, CancellationToken cancellationToken)
     {
         var keyId = CreateNoxTypeForKey<Store,Text>("Id", request.keyId);
     
         var entity = await DbContext.Stores.FindAsync(keyId);
         if (entity == null)
         {
-            return false;
+            return null;
         }
         EntityMapper.MapToEntity(entity, GetEntityDefinition<Store>(), request.EntityDto);
-        // Todo map dto
+        
         DbContext.Entry(entity).State = EntityState.Modified;
-        var result = await DbContext.SaveChangesAsync();             
-        return result > 0;        
+        var result = await DbContext.SaveChangesAsync();
+        if(result < 1)
+            return null;
+
+        return new StoreKeyDto(entity.Id.Value);
     }
 }

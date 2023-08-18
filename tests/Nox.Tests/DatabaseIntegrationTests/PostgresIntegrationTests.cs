@@ -1,7 +1,7 @@
 using FluentAssertions;
 
 using Nox.Types;
-
+using System.Globalization;
 using System.Text.Json;
 
 using TestWebApp.Domain;
@@ -13,13 +13,12 @@ namespace Nox.Tests.DatabaseIntegrationTests;
 
 public class PostgresIntegrationTests : PostgresTestBase
 {
-    // [Fact]
+    //[Fact]
     public void GeneratedEntity_Postgres_CanSaveAndReadFields_AllTypes()
     {
         // TODO:
         // array
         // colour
-        // databaseNumber
         // collection
         // entity
         // formula
@@ -115,6 +114,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         var dateTimeRangeStart = new DateTimeOffset(2023, 4, 12, 0, 0, 0, TimeSpan.FromHours(3));
         var dateTimeRangeEnd = new DateTimeOffset(2023, 7, 10, 0, 0, 0, TimeSpan.FromHours(5));
         var cronJobExpression = "0 0 12 ? * 2,3,4,5,6 *";
+		var dateTime = new DateTimeOffset(2023, 7, 10, 0, 0, 0, TimeSpan.FromHours(5));
 
         var html = @"
 <html>
@@ -180,6 +180,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             ImageTestField = Image.From(imageUrl, imagePrettyName, imageSizeInBytes),
             PhoneNumberTestField = PhoneNumber.From(phoneNumber),
             DateTimeScheduleTestField = DateTimeSchedule.From(cronJobExpression),
+			DateTimeTestField = Types.DateTime.From(dateTime),
         };
         var temperatureCelsius = newItem.TemperatureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
@@ -250,6 +251,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.DistanceTestField!.ToMiles().Should().Be(distance);
         testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
         testEntity.DatabaseNumberTestField!.Value.Should().BeGreaterThan(0);
+        testEntity.DatabaseGuidTestField!.Value.Should().NotBe(System.Guid.Empty);
         testEntity.UriTestField!.Value.Should().BeEquivalentTo(new System.Uri(sampleUri));
         testEntity.GeoCoordTestField!.Latitude.Should().Be(latitude);
         testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
@@ -265,5 +267,8 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.ImageTestField!.SizeInBytes.Should().Be(imageSizeInBytes);
         testEntity.PhoneNumberTestField!.Value.Should().Be(phoneNumber);
         testEntity.DateTimeScheduleTestField!.Value.Should().Be(cronJobExpression);
+        //PostGres is always UTC
+        testEntity.DateTimeTestField!.Value.Should().Be(dateTime.UtcDateTime);        
+        testEntity.DateTimeTestField!.Value.Offset.Should().Be(TimeSpan.Zero);
     }
 }

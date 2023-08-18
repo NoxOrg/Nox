@@ -54,6 +54,11 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         {        
             entity.CurrencyCode3Field = noxTypeValue;
         }
+        noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition,"DateTimeField",dto.DateTimeField);
+        if(noxTypeValue != null)
+        {        
+            entity.DateTimeField = noxTypeValue;
+        }
 
         // TODO map FormulaField Formula remaining types and remove if else
         noxTypeValue = CreateNoxType<Nox.Types.Html>(entityDefinition,"HtmlField",dto.HtmlField);
@@ -70,6 +75,11 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         if(noxTypeValue != null)
         {        
             entity.YamlField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Year>(entityDefinition,"YearField",dto.YearField);
+        if(noxTypeValue != null)
+        {        
+            entity.YearField = noxTypeValue;
         }
         noxTypeValue = CreateNoxType<Nox.Types.Weight>(entityDefinition,"WeightField",dto.WeightField);
         if(noxTypeValue != null)
@@ -154,5 +164,10 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         }
 
         // TODO map EncryptedTextField EncryptedText remaining types and remove if else
+    }
+
+    public override void PartialMapToEntity(AllNoxType entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, List<string> deletedPropertyNames)
+    {
+
     }
 }

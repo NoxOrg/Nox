@@ -4,9 +4,9 @@ namespace Nox.Solution.Extensions;
 
 public static class EntityRelationshipExtensions
 {
-    public static bool ShouldGenerateForeignOnThisSide(this EntityRelationship relationship)
+    public static bool ShouldGenerateForeignKeyOnThisSide(this EntityRelationship relationship)
     {
-        var isIgnored = false;
+        var generate = true;
 
         var pairRelationship = relationship.Related.EntityRelationship;
         if (pairRelationship != null)
@@ -16,13 +16,13 @@ public static class EntityRelationshipExtensions
             if (relationship.Relationship == EntityRelationshipType.OneOrMany ||
                 relationship.Relationship == EntityRelationshipType.ZeroOrMany)
             {
-                isIgnored = true;
+                generate = false;
             }
             // If ZeroOrOne vs ExactlyOne handle on ExactlyOne side
             else if (pairRelationship.Relationship == EntityRelationshipType.ExactlyOne &&
                 relationship.Relationship == EntityRelationshipType.ZeroOrOne)
             {
-                isIgnored = true;
+                generate = false;
             }
             // If same type on both sides cover on first by ascending alphabetical sort
             else if (pairRelationship.Relationship == relationship.Relationship &&
@@ -30,14 +30,14 @@ public static class EntityRelationshipExtensions
                      string.Compare(relationship.Entity, pairRelationship.Entity,
                          StringComparison.InvariantCulture) > 0)
             {
-                isIgnored = true;
+                generate = false;
             }
         }
 
-        return !isIgnored;
+        return generate;
     }
 
-    public static bool HasRelationshipWithSingularEntity(this EntityRelationship relationship)
+    public static bool WithSingleEntity(this EntityRelationship relationship)
     {
         return
             relationship.Relationship == EntityRelationshipType.ExactlyOne ||
@@ -46,7 +46,7 @@ public static class EntityRelationshipExtensions
 
     public static bool ShouldUseRelationshipNameAsNavigation(this EntityRelationship relationship)
     {
-        var hasReferenceToSingularEntity = HasRelationshipWithSingularEntity(relationship);
+        var hasReferenceToSingularEntity = relationship.WithSingleEntity();
         var hasReferenceToManyEntities = !hasReferenceToSingularEntity;
         var relationshipNameIsEqualToSingularName = relationship.Name == relationship.Entity;
         var relationshipNameIsEqualToPluralName = relationship.Name == relationship.EntityPlural;

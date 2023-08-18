@@ -826,8 +826,8 @@ domain:
         - name: CurrencyNumberTestField
           type: currencyNumber
 
-        #- name: DateTimeTestField
-        #  type: dateTime
+        - name: DateTimeTestField
+          type: dateTime
 
         - name: DateTimeRangeTestField
           type: dateTimeRange
@@ -942,9 +942,13 @@ domain:
           formulaTypeOptions:
             expression: "2 + 2"
             returns: int
-        
+
         - name: DatabaseNumberTestField
           type: databaseNumber
+          isRequired: true
+
+        - name: DatabaseGuidTestField
+          type: databaseGuid
           isRequired: true
 
         - name: HtmlTestField

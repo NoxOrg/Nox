@@ -1,8 +1,6 @@
 ﻿// Generated
 
 #nullable enable
-
-using AutoMapper;
 using MediatR;
 
 using Microsoft.AspNetCore.Http;
@@ -16,10 +14,11 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
+public record StoreSecurityPasswordsKeyDto(System.String keyId);
+
 /// <summary>
 /// A set of security passwords to store cameras and databases.
 /// </summary>
-[AutoMap(typeof(StoreSecurityPasswordsCreateDto))]
 public partial class StoreSecurityPasswordsDto 
 {
 

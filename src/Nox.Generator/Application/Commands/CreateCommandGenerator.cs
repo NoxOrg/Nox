@@ -23,14 +23,12 @@ internal class CreateCommandGenerator : INoxCodeGenerator
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            var primaryKeys = string.Join(", ", entity.Keys.Select(k => $"{codeGeneratorState.Solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
-            var primaryKeysQuery = string.Join(", ", entity.Keys.Select(k => $"default({codeGeneratorState.Solution.GetSinglePrimitiveTypeForKey(k)})!"));
+            var primaryKeysQuery = string.Join(", ", entity.Keys.Select(k => $"entityToCreate.{k.Name}.Value"));
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Create{entity.Name}Command")
                 .WithFileNamePrefix($"Commands")
                 .WithObject("entity", entity)
-                .WithObject("primaryKeys", primaryKeys)
                 .WithObject("primaryKeysQuery", primaryKeysQuery)
                 .GenerateSourceCodeFromResource(templateName);
         }
