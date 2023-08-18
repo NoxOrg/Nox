@@ -126,7 +126,7 @@ public enum NoxType : uint
     [SimpleType(typeof(string), Read = false, Update = false)]
     EncryptedText = 1841598137,
 
-    [SimpleType(typeof(string))]
+    [SimpleType(typeof(string), Update = false)]
     Formula = 2602269623,
 
     [SimpleType(typeof(Guid))]

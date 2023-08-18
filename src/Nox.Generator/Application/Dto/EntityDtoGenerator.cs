@@ -25,12 +25,7 @@ internal class EntityDtoGenerator : INoxCodeGenerator
         foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
         {
             var attributes = entity.Attributes ?? Enumerable.Empty<NoxSimpleTypeDefinition>();
-            var componentsInfo = attributes
-               .ToDictionary(r => r.Name, key => new { 
-                   IsSimpleType = key.Type.IsSimpleType(), 
-                   ComponentType = GetSingleComponentSimpleType(key),
-                   IsReadable = key.Type.IsReadableType()
-               });
+            
             var primaryKeys = string.Join(", ", entity.Keys.Select(k => $"{codeGeneratorState.Solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
 
             context.CancellationToken.ThrowIfCancellationRequested();
@@ -39,18 +34,8 @@ internal class EntityDtoGenerator : INoxCodeGenerator
                 .WithClassName($"{entity.Name}Dto")
                 .WithFileNamePrefix("Dto")
                 .WithObject("entity", entity)
-                .WithObject("componentsInfo", componentsInfo)
-                .WithObject("primaryKeys", primaryKeys)
-                .WithObject("isVersioned", (entity.Persistence?.IsVersioned ?? true))
+                .WithObject("primaryKeys", primaryKeys)                
                 .GenerateSourceCodeFromResource("Application.Dto.EntityDto");         
-        }
-    }
-
-    private static Type? GetSingleComponentSimpleType(NoxSimpleTypeDefinition attribute)
-    {
-        if (!attribute.Type.IsSimpleType())
-            return null;
-
-        return attribute.Type.GetComponents(attribute).FirstOrDefault().Value;
+        }        
     }
 }

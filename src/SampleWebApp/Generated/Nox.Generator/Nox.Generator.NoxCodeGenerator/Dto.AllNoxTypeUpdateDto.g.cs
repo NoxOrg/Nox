@@ -50,10 +50,6 @@ public partial class AllNoxTypeUpdateDto
     /// </summary>
     public System.DateTimeOffset? DateTimeField { get; set; } 
     /// <summary>
-    /// Formula Nox Type (Optional).
-    /// </summary>
-    public System.String? FormulaField { get; set; } 
-    /// <summary>
     /// HtmlField Nox Type (Optional).
     /// </summary>
     public System.String? HtmlField { get; set; } 
