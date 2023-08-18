@@ -94,7 +94,7 @@ public enum NoxType : uint
     [SimpleType(typeof(string))]
     CountryCode3 = 1150137395,
 
-    [SimpleType(typeof(short))]
+    [SimpleType(typeof(ushort))]
     CountryNumber = 2635883247,
 
     [SimpleType(typeof(string))]
@@ -218,6 +218,6 @@ public enum NoxType : uint
     [SimpleType(typeof(string))]
     Yaml = 3788751714,
 
-    [SimpleType(typeof(short))]
+    [SimpleType(typeof(ushort))]
     Year = 3709785124,
 }

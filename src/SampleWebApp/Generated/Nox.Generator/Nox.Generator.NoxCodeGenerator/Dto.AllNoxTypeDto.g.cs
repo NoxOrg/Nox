@@ -55,7 +55,7 @@ public partial class AllNoxTypeDto
     /// <summary>
     /// CountryNumber Nox Type (Optional).
     /// </summary>
-    public System.Int16? CountryNumberField { get; set; } 
+    public System.UInt16? CountryNumberField { get; set; } 
 
     /// <summary>
     /// CultureCode Nox Type (Optional).
@@ -95,7 +95,7 @@ public partial class AllNoxTypeDto
     /// <summary>
     /// YearField Nox Type (Optional).
     /// </summary>
-    public System.Int16? YearField { get; set; } 
+    public System.UInt16? YearField { get; set; } 
 
     /// <summary>
     /// Weight Nox Type (Optional).

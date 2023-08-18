@@ -12,7 +12,7 @@ namespace Nox.Lib.Tests.Factories.Types
         {
             // Arrange            
             NoxTypeCountryNumberFactory sut = new NoxTypeCountryNumberFactory(noxSolution);
-            short value = 004;
+            ushort value = 004;
 
             // Act
             var entity = sut.CreateNoxType(fixture.EntityDefinition, fixture.PropertyName, value);
@@ -27,7 +27,7 @@ namespace Nox.Lib.Tests.Factories.Types
         {
             // Arrange            
             NoxTypeCountryNumberFactory sut = new NoxTypeCountryNumberFactory(noxSolution);
-            short value = 001;
+            ushort value = 001;
 
             // Act
             // Assert

@@ -66,8 +66,8 @@ namespace SampleWebApp.Migrations
                         .HasColumnType("char(3)")
                         .IsFixedLength();
 
-                    b.Property<short?>("CountryNumberField")
-                        .HasColumnType("smallint");
+                    b.Property<ushort?>("CountryNumberField")
+                        .HasColumnType("int");
 
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");

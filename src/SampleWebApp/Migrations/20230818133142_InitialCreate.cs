@@ -22,7 +22,7 @@ namespace SampleWebApp.Migrations
                     BooleanField = table.Column<bool>(type: "bit", nullable: true),
                     CountryCode2Field = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
                     CountryCode3Field = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
-                    CountryNumberField = table.Column<short>(type: "smallint", nullable: true),
+                    CountryNumberField = table.Column<int>(type: "int", nullable: true),
                     CultureCodeField = table.Column<string>(type: "varchar(10)", unicode: false, maxLength: 10, nullable: true),
                     CurrencyCode3Field = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
                     DateTimeField = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
