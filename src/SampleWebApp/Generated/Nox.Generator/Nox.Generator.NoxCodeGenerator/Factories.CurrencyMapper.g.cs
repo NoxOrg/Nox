@@ -37,11 +37,22 @@ public class CurrencyMapper: EntityMapperBase<Currency>
     }
 
     public override void PartialMapToEntity(Currency entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
-    {
-      
+    {    
         if(deletedPropertyNames.Contains("Name"))
         {
             throw new EntityAttributeIsNotNullableException("Currency", "Name");
-        }    
+        }
+        else if (updatedProperties.TryGetValue("Name", out dynamic? value))
+        {
+            var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
+            if(noxTypeValue == null)
+            {
+                throw new EntityAttributeIsNotNullableException("Currency", "Name");
+            }
+            else
+            {
+                entity.Name = noxTypeValue;
+            }
+        }
     }
 }
