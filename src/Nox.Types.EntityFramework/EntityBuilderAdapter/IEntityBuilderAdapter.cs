@@ -8,6 +8,8 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
 
         public ReferenceNavigationBuilder HasOne(string? navigationName);
 
+        public ReferenceNavigationBuilder HasOne(string relatedTypeName, string? navigationName);
+
         public void Ignore(string propertyName);
 
         public KeyBuilder HasKey(params string[] propertyNames);

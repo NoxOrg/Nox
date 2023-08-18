@@ -11,6 +11,7 @@ using Nox.Types;
 using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
+using Microsoft.OData.ModelBuilder;
 
 namespace SampleWebApp.Application.Dto;
 

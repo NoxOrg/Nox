@@ -41,6 +41,18 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
             }
         }
 
+        public ReferenceNavigationBuilder HasOne(string relatedTypeName, string? navigationName)
+        {
+            if (EntityTypeBuilder != null)
+            {
+                return EntityTypeBuilder.HasOne(relatedTypeName, navigationName);
+            }
+            else
+            {
+                return OwnedNavigationBuilder!.HasOne(relatedTypeName, navigationName!);
+            }
+        }
+
         public void Ignore(string propertyName)
         {
             if (EntityTypeBuilder != null)
