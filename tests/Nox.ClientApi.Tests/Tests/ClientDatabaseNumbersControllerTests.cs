@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Nox.ClientApi.Tests.Tests
 {
+    [Collection("Sequential")]
     public class ClientDatabaseNumbersControllerTests
     {
         [Theory, AutoMoqData]

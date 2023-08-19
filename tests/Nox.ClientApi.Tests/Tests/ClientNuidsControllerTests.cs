@@ -9,6 +9,7 @@ using Nox.Types;
 
 namespace Nox.ClientApi.Tests.Tests
 {
+    [Collection("Sequential")]
     public class ClientNuidsControllerTests
     {
         [Theory, AutoMoqData]
