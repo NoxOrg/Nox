@@ -24,11 +24,6 @@ public partial class AllNoxType : AuditableEntityBase
     public Text TextId { get; set; } = null!;
 
     /// <summary>
-    /// NuidField Type (Optional).
-    /// </summary>
-    public Nox.Types.Nuid? NuidField { get; set; } = null!;
-
-    /// <summary>
     /// BooleanField Nox Type (Optional).
     /// </summary>
     public Nox.Types.Boolean? BooleanField { get; set; } = null!;
@@ -94,6 +89,26 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.Html? HtmlField { get; set; } = null!;
 
     /// <summary>
+    /// Internet Domain Nox Type (Required).
+    /// </summary>
+    public Nox.Types.InternetDomain InternetDomainField { get; set; } = null!;
+
+    /// <summary>
+    /// IpAddress Nox Type (Required).
+    /// </summary>
+    public Nox.Types.IpAddress IpAddressField { get; set; } = null!;
+
+    /// <summary>
+    /// Json Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Json JsonField { get; set; } = null!;
+
+    /// <summary>
+    /// JwtToken Nox Type (Required).
+    /// </summary>
+    public Nox.Types.JwtToken JwtTokenField { get; set; } = null!;
+
+    /// <summary>
     /// Language Code Nox Type (Required).
     /// </summary>
     public Nox.Types.LanguageCode LanguageCodeField { get; set; } = null!;
@@ -122,6 +137,16 @@ public partial class AllNoxType : AuditableEntityBase
     /// Temperature Nox Type (Required).
     /// </summary>
     public Nox.Types.Temperature TemperatureField { get; set; } = null!;
+
+    /// <summary>
+    /// Month Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Month MonthField { get; set; } = null!;
+
+    /// <summary>
+    /// NuidField Type (Optional).
+    /// </summary>
+    public Nox.Types.Nuid? NuidField { get; set; } = null!;
 
     /// <summary>
     /// Yaml Nox Type (Optional).
@@ -192,11 +217,6 @@ public partial class AllNoxType : AuditableEntityBase
     /// TranslatedText Nox Type (Optional).
     /// </summary>
     public Nox.Types.TranslatedText? TranslatedTextField { get; set; } = null!;
-
-    /// <summary>
-    /// VatNumber Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.VatNumber? VatNumberField { get; set; } = null!;
 
     /// <summary>
     /// Password Nox Type (Optional).

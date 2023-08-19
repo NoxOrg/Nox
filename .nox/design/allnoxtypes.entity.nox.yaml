@@ -17,19 +17,15 @@ keys:
     type: text
 
 attributes:
-
-  - name: NuidField
-    isRequired: false
-    description: NuidField Type
-    type: nuid
-    nuidTypeOptions:
-        separator: "."
-        propertyNames:
-            - "TextField" 
  
   - name: BooleanField
     description: BooleanField Nox Type
-    type: boolean    
+    type: boolean
+
+  #- name: ColorField
+  #  description: Color Nox Type
+  #  type: color
+  #  isRequired: true
 
   - name: CountryCode2Field
     description: CountryCode2 Nox Type
@@ -93,6 +89,26 @@ attributes:
     type: html
     isRequired: false
 
+  - name: InternetDomainField
+    description: Internet Domain Nox Type
+    type: internetDomain
+    isRequired: true
+
+  - name: IpAddressField
+    description: IpAddress Nox Type
+    type: ipAddress
+    isRequired: true
+
+  - name: JsonField
+    description: Json Nox Type
+    type: json
+    isRequired: true
+
+  - name: JwtTokenField
+    description: JwtToken Nox Type
+    type: jwtToken
+    isRequired: true
+
   - name: LanguageCodeField
     description: Language Code Nox Type
     type: languageCode
@@ -126,6 +142,19 @@ attributes:
       units: fahrenheit
     isRequired: true
 
+  - name: MonthField
+    description: Month Nox Type
+    type: month
+    isRequired: true
+
+  - name: NuidField
+    isRequired: false
+    description: NuidField Type
+    type: nuid
+    nuidTypeOptions:
+        separator: "."
+        propertyNames:
+            - "TextField" 
   - name: YamlField
     description: Yaml Nox Type
     type: yaml
@@ -205,11 +234,11 @@ attributes:
   - name: TranslatedTextField
     description: TranslatedText Nox Type
     type: translatedText
-  - name: VatNumberField
-    description: VatNumber Nox Type
-    type: vatNumber
-    vatNumberTypeOptions:
-        countryCode: "FR"  
+  #- name: VatNumberField
+  #  description: VatNumber Nox Type
+  #  type: vatNumber
+  #  vatNumberTypeOptions:
+  #      countryCode: "FR"  
   - name: PasswordField
     description: Password Nox Type
     type: password

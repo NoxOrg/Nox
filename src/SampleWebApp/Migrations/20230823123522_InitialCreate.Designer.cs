@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebAppdeprecated.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230823115547_InitialCreate")]
+    [Migration("20230823123522_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -136,6 +136,25 @@ namespace SampleWebAppdeprecated.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("InternetDomainField")
+                        .IsRequired()
+                        .HasMaxLength(63)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(63)");
+
+                    b.Property<string>("IpAddressField")
+                        .IsRequired()
+                        .HasMaxLength(63)
+                        .HasColumnType("nvarchar(63)");
+
+                    b.Property<string>("JsonField")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("JwtTokenField")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("LanguageCodeField")
                         .IsRequired()
                         .HasMaxLength(2)
@@ -170,6 +189,9 @@ namespace SampleWebAppdeprecated.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<byte>("MonthField")
+                        .HasColumnType("tinyint");
 
                     b.Property<uint?>("NuidField")
                         .HasColumnType("bigint");
@@ -775,35 +797,6 @@ namespace SampleWebAppdeprecated.Migrations
                                 .HasForeignKey("AllNoxTypeId", "AllNoxTypeTextId");
                         });
 
-                    b.OwnsOne("Nox.Types.VatNumber", "VatNumberField", b1 =>
-                        {
-                            b1.Property<long>("AllNoxTypeId")
-                                .HasColumnType("bigint");
-
-                            b1.Property<string>("AllNoxTypeTextId")
-                                .HasColumnType("nvarchar(255)");
-
-                            b1.Property<string>("CountryCode")
-                                .IsRequired()
-                                .HasMaxLength(2)
-                                .IsUnicode(false)
-                                .HasColumnType("char(2)")
-                                .IsFixedLength();
-
-                            b1.Property<string>("Number")
-                                .IsRequired()
-                                .HasMaxLength(64)
-                                .IsUnicode(false)
-                                .HasColumnType("varchar(64)");
-
-                            b1.HasKey("AllNoxTypeId", "AllNoxTypeTextId");
-
-                            b1.ToTable("AllNoxTypes");
-
-                            b1.WithOwner()
-                                .HasForeignKey("AllNoxTypeId", "AllNoxTypeTextId");
-                        });
-
                     b.OwnsOne("Nox.Types.LatLong", "LatLongField", b1 =>
                         {
                             b1.Property<long>("AllNoxTypeId")
@@ -863,8 +856,6 @@ namespace SampleWebAppdeprecated.Migrations
                     b.Navigation("StreetAddressField");
 
                     b.Navigation("TranslatedTextField");
-
-                    b.Navigation("VatNumberField");
                 });
 
             modelBuilder.Entity("SampleWebApp.Domain.Country", b =>

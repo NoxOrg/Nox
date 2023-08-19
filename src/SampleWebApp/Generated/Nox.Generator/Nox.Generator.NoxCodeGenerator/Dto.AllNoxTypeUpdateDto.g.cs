@@ -16,10 +16,6 @@ public partial class AllNoxTypeUpdateDto
 {
     //TODO Add owned Entities and update odata endpoints
     /// <summary>
-    /// NuidField Type (Optional).
-    /// </summary>
-    public System.UInt32? NuidField { get; set; } 
-    /// <summary>
     /// BooleanField Nox Type (Optional).
     /// </summary>
     public System.Boolean? BooleanField { get; set; } 
@@ -82,6 +78,30 @@ public partial class AllNoxTypeUpdateDto
     /// </summary>
     public System.String? HtmlField { get; set; } 
     /// <summary>
+    /// Internet Domain Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "InternetDomainField is required")]
+    
+    public System.String InternetDomainField { get; set; } = default!;
+    /// <summary>
+    /// IpAddress Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "IpAddressField is required")]
+    
+    public System.String IpAddressField { get; set; } = default!;
+    /// <summary>
+    /// Json Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "JsonField is required")]
+    
+    public System.String JsonField { get; set; } = default!;
+    /// <summary>
+    /// JwtToken Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "JwtTokenField is required")]
+    
+    public System.String JwtTokenField { get; set; } = default!;
+    /// <summary>
     /// Language Code Nox Type (Required).
     /// </summary>
     [Required(ErrorMessage = "LanguageCodeField is required")]
@@ -117,6 +137,16 @@ public partial class AllNoxTypeUpdateDto
     [Required(ErrorMessage = "TemperatureField is required")]
     
     public System.Decimal TemperatureField { get; set; } = default!;
+    /// <summary>
+    /// Month Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "MonthField is required")]
+    
+    public System.Byte MonthField { get; set; } = default!;
+    /// <summary>
+    /// NuidField Type (Optional).
+    /// </summary>
+    public System.UInt32? NuidField { get; set; } 
     /// <summary>
     /// Yaml Nox Type (Optional).
     /// </summary>
@@ -175,10 +205,6 @@ public partial class AllNoxTypeUpdateDto
     /// TranslatedText Nox Type (Optional).
     /// </summary>
     public TranslatedTextDto? TranslatedTextField { get; set; } 
-    /// <summary>
-    /// VatNumber Nox Type (Optional).
-    /// </summary>
-    public VatNumberDto? VatNumberField { get; set; } 
     /// <summary>
     /// Money Nox Type (Optional).
     /// </summary>
