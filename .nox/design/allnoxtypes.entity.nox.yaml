@@ -73,10 +73,38 @@ attributes:
     type: html
     isRequired: false
 
+  - name: LanguageCodeField
+    description: Language Code Nox Type
+    type: languageCode
+    isRequired: true
+
+  - name: LengthField
+    description: Length Nox Type
+    type: length
+    isRequired: true
+
+  - name: MacAddressField
+    description: MacAddress Nox Type
+    type: macAddress
+    isRequired: true
+
   - name: MarkdownField
-    description: MarkdownField Nox Type
+    description: Mark down Nox Type
     type: markdown
-    isRequired: false
+    isRequired: true
+
+  - name: PhoneNumberField
+    description: Phone Number Nox Type
+    type: phoneNumber
+    isRequired: true
+
+  - name: TemperatureField
+    description: Temperature Nox Type
+    type: temperature
+    temperatureTypeOptions:
+      persistAs: celsius
+      units: fahrenheit
+    isRequired: true
 
   - name: YamlField
     description: Yaml Nox Type
@@ -121,10 +149,6 @@ attributes:
   - name: TimeZoneCodeField
     description: TimeZoneCode Nox Type
     type: timeZoneCode
-
-  - name: TemperatureField
-    description: Temperature Nox Type
-    type: temperature
 
     # No DB config at the moment
   # - name: PhoneNumberField

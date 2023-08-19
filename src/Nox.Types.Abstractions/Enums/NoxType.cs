@@ -164,7 +164,7 @@ public enum NoxType : uint
     [SimpleType(typeof(string))]
     LanguageCode = 3654380314,
 
-    [SimpleType(typeof(double))]
+    [SimpleType(typeof(decimal))]
     Length = 1024984906,
 
     [SimpleType(typeof(string))]
@@ -188,7 +188,7 @@ public enum NoxType : uint
     [SimpleType(typeof(string))]
     PhoneNumber = 3655711066,
 
-    [SimpleType(typeof(float))]
+    [SimpleType(typeof(decimal))]
     Temperature = 1744108624,
 
     [SimpleType(typeof(string))]
