@@ -2,7 +2,6 @@ using FluentValidation;
 using Nox.Solution.Validation;
 using Nox.Types;
 using Nox.Types.Extensions;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -20,7 +19,7 @@ public class NoxSolution : Solution
     }
 
     public List<EntityRelationshipWithType> GetRelationshipsToCreate(
-        Func<string, Type?> getTypeByNameFunc,
+        NoxSolutionCodeGeneratorState codeGeneratorState,
         Entity entity)
     {
         var fullRelationshipModels = new List<EntityRelationshipWithType>();
@@ -32,7 +31,7 @@ public class NoxSolution : Solution
                 fullRelationshipModels.Add(new EntityRelationshipWithType
                 {
                     Relationship = relationship,
-                    RelationshipEntityType = getTypeByNameFunc(relationship.Entity)!
+                    RelationshipEntityType = codeGeneratorState.GetEntityType(relationship.Entity)!
                 });
             }
         }
@@ -41,7 +40,7 @@ public class NoxSolution : Solution
     }
 
     public List<EntityRelationshipWithType> GetOwnedRelationshipsToCreate(
-        Func<string, Type?> getTypeByNameFunc,
+        NoxSolutionCodeGeneratorState codeGeneratorState,
         Entity entity)
     {
         var fullRelationshipModels = new List<EntityRelationshipWithType>();
@@ -53,7 +52,7 @@ public class NoxSolution : Solution
                 fullRelationshipModels.Add(new EntityRelationshipWithType
                 {
                     Relationship = relationship,
-                    RelationshipEntityType = getTypeByNameFunc(relationship.Entity)!
+                    RelationshipEntityType = codeGeneratorState.GetEntityType(relationship.Entity)!
                 });
             }
         }

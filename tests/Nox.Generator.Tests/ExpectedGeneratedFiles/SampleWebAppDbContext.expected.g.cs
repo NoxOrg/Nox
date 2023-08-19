@@ -31,7 +31,6 @@ public partial class SampleWebAppDbContext : DbContext
             _clientAssemblyProvider = clientAssemblyProvider;
         }
 
-
     public DbSet<Country> Countries { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -49,12 +48,12 @@ public partial class SampleWebAppDbContext : DbContext
         if (_noxSolution.Domain != null)
         {
             var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
-            foreach (var entity in _noxSolution.Domain.Entities)
+            foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
             {
                 Console.WriteLine($"SampleWebAppDbContext Configure database for Entity {entity.Name}");
 
                 // Ignore owned entities configuration as they are configured inside entity constructor
-                if (_noxSolution.IsOwnedEntity(entity))
+                if (codeGeneratorState.Solution.IsOwnedEntity(entity))
                 {
                     continue;
                 }
@@ -62,7 +61,7 @@ public partial class SampleWebAppDbContext : DbContext
                 var type = codeGeneratorState.GetEntityType(entity.Name);
                 if (type != null)
                 {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity, _noxSolution, codeGeneratorState.GetEntityType);
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity, codeGeneratorState.GetEntityType);
                 }
             }
         }

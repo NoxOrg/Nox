@@ -40,11 +40,10 @@ namespace Nox.Types.EntityFramework.Abstractions
         public virtual void ConfigureEntity(
             NoxSolutionCodeGeneratorState codeGeneratorState,
             IEntityBuilder builder,
-            Entity entity,
-            Func<string, Type?> getTypeByNameFunc)
+            Entity entity)
         {
-            var relationshipsToCreate = codeGeneratorState.Solution.GetRelationshipsToCreate(getTypeByNameFunc, entity);
-            var ownedRelationshipsToCreate = codeGeneratorState.Solution.GetOwnedRelationshipsToCreate(getTypeByNameFunc, entity);
+            var relationshipsToCreate = codeGeneratorState.Solution.GetRelationshipsToCreate(codeGeneratorState, entity);
+            var ownedRelationshipsToCreate = codeGeneratorState.Solution.GetOwnedRelationshipsToCreate(codeGeneratorState, entity);
 
             ConfigureKeys(codeGeneratorState, builder, entity);
 
@@ -52,7 +51,7 @@ namespace Nox.Types.EntityFramework.Abstractions
 
             ConfigureRelationships(codeGeneratorState, builder, entity, relationshipsToCreate);
 
-            ConfigureOwnedRelationships(codeGeneratorState, builder, entity, ownedRelationshipsToCreate, getTypeByNameFunc);
+            ConfigureOwnedRelationships(codeGeneratorState, builder, entity, ownedRelationshipsToCreate);
         }
 
         public virtual void ConfigureRelationships(
@@ -116,8 +115,7 @@ namespace Nox.Types.EntityFramework.Abstractions
             NoxSolutionCodeGeneratorState codeGeneratorState,
             IEntityBuilder builder,
             Entity entity,
-            IReadOnlyList<EntityRelationshipWithType> ownedRelationshipsToCreate,
-            Func<string, Type?> getTypeByNameFunc)
+            IReadOnlyList<EntityRelationshipWithType> ownedRelationshipsToCreate)
         {
             foreach (var relationshipToCreate in ownedRelationshipsToCreate)
             {
@@ -126,7 +124,7 @@ namespace Nox.Types.EntityFramework.Abstractions
                     builder
                         .OwnsOne(relationshipToCreate.RelationshipEntityType, relationshipToCreate.Relationship.Entity, x =>
                         {
-                            ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter.EntityBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity, getTypeByNameFunc);
+                            ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter.EntityBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity);
                         });
                 }
                 else
@@ -134,7 +132,7 @@ namespace Nox.Types.EntityFramework.Abstractions
                     builder
                         .OwnsMany(relationshipToCreate.RelationshipEntityType, relationshipToCreate.Relationship.EntityPlural, x =>
                         {
-                            ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter.EntityBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity, getTypeByNameFunc);
+                            ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter.EntityBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity);
                         });
                 }
 

@@ -8,6 +8,5 @@ public interface INoxDatabaseConfigurator
     void ConfigureEntity(
         NoxSolutionCodeGeneratorState codeGeneratorState,
         IEntityBuilder builder,
-        Entity entity,
-        Func<string, Type?> getTypeByNameFunc);
+        Entity entity);
 }
