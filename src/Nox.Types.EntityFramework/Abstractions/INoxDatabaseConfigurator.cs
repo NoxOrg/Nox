@@ -7,8 +7,7 @@ public interface INoxDatabaseConfigurator
 {
     void ConfigureEntity(
         NoxSolutionCodeGeneratorState codeGeneratorState,
-        IEntityBuilderAdapter builder,
+        IEntityBuilder builder,
         Entity entity,
-        NoxSolution noxSolution,
         Func<string, Type?> getTypeByNameFunc);
 }

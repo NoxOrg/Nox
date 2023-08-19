@@ -2,7 +2,7 @@
 
 namespace Nox.Types.EntityFramework.EntityBuilderAdapter
 {
-    public interface IEntityBuilderAdapter
+    public interface IEntityBuilder
     {
         public PropertyBuilder Property(string propertyName);
 

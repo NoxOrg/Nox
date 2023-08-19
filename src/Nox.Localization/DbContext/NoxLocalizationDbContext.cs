@@ -44,7 +44,6 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
         }
 
         //optionsBuilder.MigrationsAssembly("ImportExportLocalization");
-
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -65,7 +64,7 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
                 var type = codeGeneratorState.GetEntityType(entity.Name);
                 if (type != null)
                 {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity, _noxSolution, codeGeneratorState.GetEntityType);
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity, codeGeneratorState.GetEntityType);
                 }
             }
         }

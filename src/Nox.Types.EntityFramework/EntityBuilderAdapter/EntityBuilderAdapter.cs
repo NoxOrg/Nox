@@ -2,7 +2,7 @@
 
 namespace Nox.Types.EntityFramework.EntityBuilderAdapter
 {
-    public class EntityBuilderAdapter : IEntityBuilderAdapter
+    public class EntityBuilderAdapter : IEntityBuilder
     {
         public EntityBuilderAdapter(EntityTypeBuilder entityTypeBuilder)
         {

@@ -30,7 +30,7 @@ public class TranslatedTextDatabaseConfiguration : INoxTypeDatabaseConfigurator
     /// <param name="isKey">If true, is key.</param>
     public void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
-        IEntityBuilderAdapter builder,
+        IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
         bool isKey)

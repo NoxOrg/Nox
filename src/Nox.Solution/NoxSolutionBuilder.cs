@@ -189,14 +189,14 @@ namespace Nox.Solution
             // Validate and deserialize
             var config = NoxSchemaValidator.Deserialize<NoxSolution>(yaml);
 
-            EvaluateCalculatedProperties(config);
+            ComputeIsOwnedEntityForAllEntities(config);
 
             config.RootYamlFile = _yamlFilePath;
 
             return config;
         }
 
-        private void EvaluateCalculatedProperties(NoxSolution config)
+        private void ComputeIsOwnedEntityForAllEntities(NoxSolution config)
         {
             if (config.Domain != null)
             {

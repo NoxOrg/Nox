@@ -39,13 +39,12 @@ namespace Nox.Types.EntityFramework.Abstractions
 
         public virtual void ConfigureEntity(
             NoxSolutionCodeGeneratorState codeGeneratorState,
-            IEntityBuilderAdapter builder,
+            IEntityBuilder builder,
             Entity entity,
-            NoxSolution noxSolution,
             Func<string, Type?> getTypeByNameFunc)
         {
-            var relationshipsToCreate = noxSolution.GetRelationshipsToCreate(getTypeByNameFunc, entity);
-            var ownedRelationshipsToCreate = noxSolution.GetOwnedRelationshipsToCreate(getTypeByNameFunc, entity);
+            var relationshipsToCreate = codeGeneratorState.Solution.GetRelationshipsToCreate(getTypeByNameFunc, entity);
+            var ownedRelationshipsToCreate = codeGeneratorState.Solution.GetOwnedRelationshipsToCreate(getTypeByNameFunc, entity);
 
             ConfigureKeys(codeGeneratorState, builder, entity);
 
@@ -53,12 +52,12 @@ namespace Nox.Types.EntityFramework.Abstractions
 
             ConfigureRelationships(codeGeneratorState, builder, entity, relationshipsToCreate);
 
-            ConfigureOwnedRelationships(codeGeneratorState, builder, entity, ownedRelationshipsToCreate, noxSolution, getTypeByNameFunc);
+            ConfigureOwnedRelationships(codeGeneratorState, builder, entity, ownedRelationshipsToCreate, getTypeByNameFunc);
         }
 
         public virtual void ConfigureRelationships(
             NoxSolutionCodeGeneratorState codeGeneratorState,
-            IEntityBuilderAdapter builder,
+            IEntityBuilder builder,
             Entity entity,
             IReadOnlyList<EntityRelationshipWithType> relationshipsToCreate)
         {
@@ -115,10 +114,9 @@ namespace Nox.Types.EntityFramework.Abstractions
 
         public virtual void ConfigureOwnedRelationships(
             NoxSolutionCodeGeneratorState codeGeneratorState,
-            IEntityBuilderAdapter builder,
+            IEntityBuilder builder,
             Entity entity,
             IReadOnlyList<EntityRelationshipWithType> ownedRelationshipsToCreate,
-            NoxSolution noxSolution,
             Func<string, Type?> getTypeByNameFunc)
         {
             foreach (var relationshipToCreate in ownedRelationshipsToCreate)
@@ -128,7 +126,7 @@ namespace Nox.Types.EntityFramework.Abstractions
                     builder
                         .OwnsOne(relationshipToCreate.RelationshipEntityType, relationshipToCreate.Relationship.Entity, x =>
                         {
-                            ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter.EntityBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity, noxSolution, getTypeByNameFunc);
+                            ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter.EntityBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity, getTypeByNameFunc);
                         });
                 }
                 else
@@ -136,7 +134,7 @@ namespace Nox.Types.EntityFramework.Abstractions
                     builder
                         .OwnsMany(relationshipToCreate.RelationshipEntityType, relationshipToCreate.Relationship.EntityPlural, x =>
                         {
-                            ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter.EntityBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity, noxSolution, getTypeByNameFunc);
+                            ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter.EntityBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity, getTypeByNameFunc);
                         });
                 }
 
@@ -149,7 +147,7 @@ namespace Nox.Types.EntityFramework.Abstractions
 
         private void ConfigureRelationForeignKeyProperty(
             NoxSolutionCodeGeneratorState codeGeneratorState,
-            IEntityBuilderAdapter builder,
+            IEntityBuilder builder,
             Entity entity,
             EntityRelationshipWithType relationshipToCreate)
         {
@@ -174,7 +172,7 @@ namespace Nox.Types.EntityFramework.Abstractions
 
         private void ConfigureKeys(
             NoxSolutionCodeGeneratorState codeGeneratorState,
-            IEntityBuilderAdapter builder,
+            IEntityBuilder builder,
             Entity entity)
         {
             if (entity.Keys is { Count: > 0 })
@@ -208,7 +206,7 @@ namespace Nox.Types.EntityFramework.Abstractions
 
         private void ConfigureEntityKeyForEntityForeignKey(
             NoxSolutionCodeGeneratorState codeGeneratorState,
-            IEntityBuilderAdapter builder,
+            IEntityBuilder builder,
             Entity entity,
             NoxSimpleTypeDefinition key)
         {
@@ -235,7 +233,7 @@ namespace Nox.Types.EntityFramework.Abstractions
 
         private void ConfigureAttributes(
             NoxSolutionCodeGeneratorState codeGeneratorState,
-            IEntityBuilderAdapter builder,
+            IEntityBuilder builder,
             Entity entity)
         {
             if (entity.Attributes is { Count: > 0 })

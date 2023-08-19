@@ -11,7 +11,7 @@ public class PercentageDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
-        IEntityBuilderAdapter builder,
+        IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
         bool isKey)

@@ -13,9 +13,9 @@ public class MacAddressDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
-        IEntityBuilderAdapter builder, 
-        NoxSimpleTypeDefinition property, 
-        Entity entity, 
+        IEntityBuilder builder,
+        NoxSimpleTypeDefinition property,
+        Entity entity,
         bool isKey)
     {
         builder

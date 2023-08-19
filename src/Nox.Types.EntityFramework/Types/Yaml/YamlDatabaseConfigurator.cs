@@ -8,10 +8,10 @@ public class YamlDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
     public NoxType ForNoxType => NoxType.Yaml;
     public bool IsDefault => true;
-    
+
     public void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
-        IEntityBuilderAdapter builder,
+        IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
         bool isKey)
@@ -22,6 +22,6 @@ public class YamlDatabaseConfigurator : INoxTypeDatabaseConfigurator
             .IsUnicode(false)
             .HasConversion<YamlConverter>();
     }
-    
+
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
 }

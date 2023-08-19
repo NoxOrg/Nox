@@ -11,15 +11,15 @@ public class DateTimeDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public virtual void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
-        IEntityBuilderAdapter builder,
+        IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
         bool isKey)
     {
         builder
           .Property(property.Name)
-          .IsRequired(property.IsRequired)          
-          .HasConversion<DateTimeConverter>();        
+          .IsRequired(property.IsRequired)
+          .HasConversion<DateTimeConverter>();
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;

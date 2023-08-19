@@ -20,7 +20,7 @@ public interface INoxTypeDatabaseConfigurator
     /// Configure ModelBuilder Property for a Type
     /// </summary>
 
-    void ConfigureEntityProperty(NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState, IEntityBuilderAdapter builder,
+    void ConfigureEntityProperty(NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState, IEntityBuilder builder,
         NoxSimpleTypeDefinition property, Entity entity, bool isKey);
 
     /// <summary>

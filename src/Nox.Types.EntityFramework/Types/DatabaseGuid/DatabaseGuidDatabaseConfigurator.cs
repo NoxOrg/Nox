@@ -33,7 +33,7 @@ public class DatabaseGuidDatabaseConfigurator : INoxTypeDatabaseConfigurator
     /// <param name="isKey">A flag indicating whether the property is a key property.</param>
     public void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
-        IEntityBuilderAdapter builder,
+        IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
         bool isKey)

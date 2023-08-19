@@ -11,9 +11,9 @@ public class PostgresDateTimeDatabaseConfiguration : DateTimeDatabaseConfigurato
 
     public override void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
-        IEntityBuilderAdapter builder,
+        IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
-        Entity entity, 
+        Entity entity,
         bool isKey)
     {
         builder

@@ -9,10 +9,10 @@ public class CultureCodeDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
     public NoxType ForNoxType => NoxType.CultureCode;
     public bool IsDefault => true;
-    
+
     public void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
-        IEntityBuilderAdapter builder,
+        IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
         bool isKey)
@@ -25,6 +25,6 @@ public class CultureCodeDatabaseConfigurator : INoxTypeDatabaseConfigurator
             .HasMaxLength(10)
             .HasConversion<CultureCodeConverter>();
     }
-    
+
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
 }

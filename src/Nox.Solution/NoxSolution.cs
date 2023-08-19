@@ -11,6 +11,7 @@ namespace Nox.Solution;
 public class NoxSolution : Solution
 {
     public string? RootYamlFile { get; internal set; }
+    private HashSet<string>? _ownedEntitiesNames { get; set; }
 
     internal void Validate()
     {
@@ -62,28 +63,27 @@ public class NoxSolution : Solution
 
     public bool IsOwnedEntity(Entity entity)
     {
+        // Cannot rely on constructor in this scenario as
+        // constructor execution during deserialization doesn't contain a Domain set
+        if (_ownedEntitiesNames == null)
+        {
+            InitOwnedEntitiesList();
+        }
+
+        return _ownedEntitiesNames!.Contains(entity.Name);
+    }
+
+    private void InitOwnedEntitiesList()
+    {
         if (Domain == null)
         {
-            return false;
+            return;
         }
 
-        foreach(var domainEntity in Domain.Entities)
-        {
-            if (domainEntity?.OwnedRelationships != null)
-            {
-#pragma warning disable S3267 // Loops should be simplified with "LINQ" expressions
-                foreach (var relationship in domainEntity.OwnedRelationships)
-                {
-                    if (relationship.Entity.Equals(entity.Name))
-                    {
-                        return true;
-                    }
-                }
-#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
-            }
-        }
-
-        return false;
+        var ownedEntities = Domain.Entities
+            .Where(x => x?.OwnedRelationships != null)
+            .SelectMany(x => x.OwnedRelationships!.Select(x => x.Name));
+        _ownedEntitiesNames = new HashSet<string>(ownedEntities);
     }
 
     /// <summary>
