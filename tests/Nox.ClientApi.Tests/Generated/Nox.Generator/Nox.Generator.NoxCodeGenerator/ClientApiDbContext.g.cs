@@ -33,6 +33,8 @@ public partial class ClientApiDbContext : DbContext
 
     public DbSet<ClientDatabaseNumber> ClientDatabaseNumbers { get; set; } = null!;
 
+    public DbSet<ClientNuid> ClientNuids { get; set; } = null!;
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

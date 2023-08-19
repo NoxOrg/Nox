@@ -9,9 +9,9 @@ using System.Collections.Generic;
 namespace ClientApi.Application.Dto; 
 
 /// <summary>
-/// Client DatabaseNumber Key.
+/// Client Nuid Key.
 /// </summary>
-public partial class ClientDatabaseNumberCreateDto : ClientDatabaseNumberUpdateDto
+public partial class ClientNuidCreateDto : ClientNuidUpdateDto
 {
     // TODO Add Manual Keys to be set by the user
 

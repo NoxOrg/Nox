@@ -35,6 +35,9 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<AdditionalFiles Include=".nox\design\Entitities\nuid.entity.nox.yaml">
+		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
 		<AdditionalFiles Include=".nox\design\Entitities\databasenumber.entity.nox.yaml">
 		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</AdditionalFiles>

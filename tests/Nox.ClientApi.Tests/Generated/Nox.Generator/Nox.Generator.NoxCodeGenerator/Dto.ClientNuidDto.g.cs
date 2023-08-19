@@ -14,18 +14,18 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public record ClientDatabaseNumberKeyDto(System.Int64 keyId);
+public record ClientNuidKeyDto(System.UInt32 keyId);
 
 /// <summary>
-/// Client DatabaseNumber Key.
+/// Client Nuid Key.
 /// </summary>
-public partial class ClientDatabaseNumberDto 
+public partial class ClientNuidDto 
 {
 
     /// <summary>
-    /// The unique identifier (Required).
+    /// NuidField Type (Required).
     /// </summary>    
-    public System.Int64 Id { get; set; } = default!;
+    public System.UInt32 Id { get; set; } = default!;
 
     /// <summary>
     /// The Name (Required).

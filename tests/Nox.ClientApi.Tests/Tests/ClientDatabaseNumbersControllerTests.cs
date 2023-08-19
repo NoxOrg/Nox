@@ -8,7 +8,7 @@ using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Nox.ClientApi.Tests.Tests
 {
-    public class ClientDatabaseNumberTests
+    public class ClientDatabaseNumbersControllerTests
     {
         [Theory, AutoMoqData]
         public async void Post_ReturnsAutoNumberId(ApiFixture apiFixture)

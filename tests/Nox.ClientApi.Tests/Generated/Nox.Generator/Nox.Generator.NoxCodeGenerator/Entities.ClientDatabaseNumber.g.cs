@@ -10,7 +10,7 @@ using System.Collections.Generic;
 namespace ClientApi.Domain;
 
 /// <summary>
-/// Client Database Number.
+/// Client DatabaseNumber Key.
 /// </summary>
 public partial class ClientDatabaseNumber : AuditableEntityBase
 {

@@ -20,6 +20,8 @@ namespace Nox.ClientApi.Tests
 
             // Manually Register the Controllers
             builder.Services.AddSingleton<ClientDatabaseNumbersController>();
+            builder.Services.AddSingleton<ClientNuidsController>();
+
 
             app = builder.Build();
 
@@ -35,6 +37,8 @@ namespace Nox.ClientApi.Tests
 
         public IServiceProvider ServiceProvider => app!.Services;
         public ClientDatabaseNumbersController? ClientDatabaseNumbersController => ServiceProvider?.GetService<ClientDatabaseNumbersController>();
+        public ClientNuidsController? ClientNuidsController => ServiceProvider?.GetService<ClientNuidsController>();
+
         public IFixture Fixture { get; }
 
         private void Dispose(bool disposing)

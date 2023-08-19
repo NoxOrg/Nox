@@ -18,11 +18,16 @@ public static class ODataServiceCollectionExtensions
         ODataModelBuilder builder = new ODataConventionModelBuilder();
 
         builder.EntityType<ClientDatabaseNumberDto>().HasKey(e => new { e.Id });
+        builder.EntityType<ClientNuidDto>().HasKey(e => new { e.Id });
 
 
         builder.EntitySet<ClientDatabaseNumberDto>("ClientDatabaseNumbers");
         builder.EntityType<ClientDatabaseNumberKeyDto>();
         builder.EntityType<ClientDatabaseNumberDto>().Ignore(e => e.Deleted);
+
+        builder.EntitySet<ClientNuidDto>("ClientNuids");
+        builder.EntityType<ClientNuidKeyDto>();
+        builder.EntityType<ClientNuidDto>().Ignore(e => e.Deleted);
 
         services.AddControllers()
             .AddOData(options =>

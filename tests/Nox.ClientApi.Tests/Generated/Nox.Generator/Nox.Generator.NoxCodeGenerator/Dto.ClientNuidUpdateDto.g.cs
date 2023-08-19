@@ -10,9 +10,9 @@ using System.ComponentModel.DataAnnotations;
 namespace ClientApi.Application.Dto; 
 
 /// <summary>
-/// Client DatabaseNumber Key.
+/// Client Nuid Key.
 /// </summary>
-public partial class ClientDatabaseNumberUpdateDto
+public partial class ClientNuidUpdateDto
 {
     //TODO Add owned Entities and update odata endpoints
     /// <summary>

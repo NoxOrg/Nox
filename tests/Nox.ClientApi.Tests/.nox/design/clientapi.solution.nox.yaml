@@ -14,6 +14,8 @@ domain:
 
     - $ref: ./Entities/databasenumber.entity.nox.yaml
   
+    - $ref: ./Entities/nuid.entity.nox.yaml
+  
 
 infrastructure:
   

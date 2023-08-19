@@ -2,16 +2,20 @@
 # customer.entity.nox.yaml
 #
 
-name: ClientDatabaseNumber
+name: ClientNuid
 
-description: Client DatabaseNumber Key
+description: Client Nuid Key
 
 keys:
 
   - name: Id
     isRequired: true
-    description: The unique identifier 
-    type: databaseNumber
+    description: NuidField Type
+    type: nuid
+    nuidTypeOptions:
+        separator: "."
+        propertyNames:
+            - "Name" 
 
 attributes:
 

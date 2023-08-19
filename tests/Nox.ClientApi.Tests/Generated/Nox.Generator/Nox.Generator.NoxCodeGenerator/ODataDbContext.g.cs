@@ -38,6 +38,8 @@ public class ODataDbContext : DbContext
         
         public DbSet<ClientDatabaseNumberDto> ClientDatabaseNumbers { get; set; } = null!;
         
+        public DbSet<ClientNuidDto> ClientNuids { get; set; } = null!;
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -52,6 +54,12 @@ public class ODataDbContext : DbContext
             base.OnModelCreating(modelBuilder);
             {
                 var type = typeof(ClientDatabaseNumberDto);
+                var builder = modelBuilder.Entity(type!);
+                
+                builder.HasKey("Id");
+            }
+            {
+                var type = typeof(ClientNuidDto);
                 var builder = modelBuilder.Entity(type!);
                 
                 builder.HasKey("Id");
