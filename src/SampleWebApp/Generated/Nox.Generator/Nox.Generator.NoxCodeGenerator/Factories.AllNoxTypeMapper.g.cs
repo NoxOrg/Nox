@@ -67,10 +67,32 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         {        
             entity.HtmlField = noxTypeValue;
         }
+
+        // TODO map LanguageCodeField LanguageCode remaining types and remove if else
+        noxTypeValue = CreateNoxType<Nox.Types.Length>(entityDefinition,"LengthField",dto.LengthField);
+        if(noxTypeValue != null)
+        {        
+            entity.LengthField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.MacAddress>(entityDefinition,"MacAddressField",dto.MacAddressField);
+        if(noxTypeValue != null)
+        {        
+            entity.MacAddressField = noxTypeValue;
+        }
         noxTypeValue = CreateNoxType<Nox.Types.Markdown>(entityDefinition,"MarkdownField",dto.MarkdownField);
         if(noxTypeValue != null)
         {        
             entity.MarkdownField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.PhoneNumber>(entityDefinition,"PhoneNumberField",dto.PhoneNumberField);
+        if(noxTypeValue != null)
+        {        
+            entity.PhoneNumberField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Temperature>(entityDefinition,"TemperatureField",dto.TemperatureField);
+        if(noxTypeValue != null)
+        {        
+            entity.TemperatureField = noxTypeValue;
         }
         noxTypeValue = CreateNoxType<Nox.Types.Yaml>(entityDefinition,"YamlField",dto.YamlField);
         if(noxTypeValue != null)
@@ -106,11 +128,6 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         if(noxTypeValue != null)
         {        
             entity.TimeZoneCodeField = noxTypeValue;
-        }
-        noxTypeValue = CreateNoxType<Nox.Types.Temperature>(entityDefinition,"TemperatureField",dto.TemperatureField);
-        if(noxTypeValue != null)
-        {        
-            entity.TemperatureField = noxTypeValue;
         }
         noxTypeValue = CreateNoxType<Nox.Types.Percentage>(entityDefinition,"PercentageField",dto.PercentageField);
         if(noxTypeValue != null)
@@ -313,20 +330,100 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
                 entity.HtmlField = noxTypeValue;
             }
         }    
+        if(deletedPropertyNames.Contains("LanguageCodeField"))
+        {
+            throw new EntityAttributeIsNotNullableException("AllNoxType", "LanguageCodeField");
+        }
+        else if (updatedProperties.TryGetValue("LanguageCodeField", out dynamic? value))
+        {
+            var noxTypeValue = CreateNoxType<Nox.Types.LanguageCode>(entityDefinition,"LanguageCodeField",value);
+            if(noxTypeValue == null)
+            {
+                throw new EntityAttributeIsNotNullableException("AllNoxType", "LanguageCodeField");
+            }
+            else
+            {
+                entity.LanguageCodeField = noxTypeValue;
+            }
+        }    
+        if(deletedPropertyNames.Contains("LengthField"))
+        {
+            throw new EntityAttributeIsNotNullableException("AllNoxType", "LengthField");
+        }
+        else if (updatedProperties.TryGetValue("LengthField", out dynamic? value))
+        {
+            var noxTypeValue = CreateNoxType<Nox.Types.Length>(entityDefinition,"LengthField",value);
+            if(noxTypeValue == null)
+            {
+                throw new EntityAttributeIsNotNullableException("AllNoxType", "LengthField");
+            }
+            else
+            {
+                entity.LengthField = noxTypeValue;
+            }
+        }    
+        if(deletedPropertyNames.Contains("MacAddressField"))
+        {
+            throw new EntityAttributeIsNotNullableException("AllNoxType", "MacAddressField");
+        }
+        else if (updatedProperties.TryGetValue("MacAddressField", out dynamic? value))
+        {
+            var noxTypeValue = CreateNoxType<Nox.Types.MacAddress>(entityDefinition,"MacAddressField",value);
+            if(noxTypeValue == null)
+            {
+                throw new EntityAttributeIsNotNullableException("AllNoxType", "MacAddressField");
+            }
+            else
+            {
+                entity.MacAddressField = noxTypeValue;
+            }
+        }    
         if(deletedPropertyNames.Contains("MarkdownField"))
         {
-            entity.MarkdownField = null;
+            throw new EntityAttributeIsNotNullableException("AllNoxType", "MarkdownField");
         }
         else if (updatedProperties.TryGetValue("MarkdownField", out dynamic? value))
         {
             var noxTypeValue = CreateNoxType<Nox.Types.Markdown>(entityDefinition,"MarkdownField",value);
             if(noxTypeValue == null)
             {
-                entity.MarkdownField = null;
+                throw new EntityAttributeIsNotNullableException("AllNoxType", "MarkdownField");
             }
             else
             {
                 entity.MarkdownField = noxTypeValue;
+            }
+        }    
+        if(deletedPropertyNames.Contains("PhoneNumberField"))
+        {
+            throw new EntityAttributeIsNotNullableException("AllNoxType", "PhoneNumberField");
+        }
+        else if (updatedProperties.TryGetValue("PhoneNumberField", out dynamic? value))
+        {
+            var noxTypeValue = CreateNoxType<Nox.Types.PhoneNumber>(entityDefinition,"PhoneNumberField",value);
+            if(noxTypeValue == null)
+            {
+                throw new EntityAttributeIsNotNullableException("AllNoxType", "PhoneNumberField");
+            }
+            else
+            {
+                entity.PhoneNumberField = noxTypeValue;
+            }
+        }    
+        if(deletedPropertyNames.Contains("TemperatureField"))
+        {
+            throw new EntityAttributeIsNotNullableException("AllNoxType", "TemperatureField");
+        }
+        else if (updatedProperties.TryGetValue("TemperatureField", out dynamic? value))
+        {
+            var noxTypeValue = CreateNoxType<Nox.Types.Temperature>(entityDefinition,"TemperatureField",value);
+            if(noxTypeValue == null)
+            {
+                throw new EntityAttributeIsNotNullableException("AllNoxType", "TemperatureField");
+            }
+            else
+            {
+                entity.TemperatureField = noxTypeValue;
             }
         }    
         if(deletedPropertyNames.Contains("YamlField"))
@@ -439,22 +536,6 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
             else
             {
                 entity.TimeZoneCodeField = noxTypeValue;
-            }
-        }    
-        if(deletedPropertyNames.Contains("TemperatureField"))
-        {
-            entity.TemperatureField = null;
-        }
-        else if (updatedProperties.TryGetValue("TemperatureField", out dynamic? value))
-        {
-            var noxTypeValue = CreateNoxType<Nox.Types.Temperature>(entityDefinition,"TemperatureField",value);
-            if(noxTypeValue == null)
-            {
-                entity.TemperatureField = null;
-            }
-            else
-            {
-                entity.TemperatureField = noxTypeValue;
             }
         }    
         if(deletedPropertyNames.Contains("PercentageField"))

@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230818133142_InitialCreate")]
+    [Migration("20230818141441_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -69,8 +69,8 @@ namespace SampleWebApp.Migrations
                         .HasColumnType("char(3)")
                         .IsFixedLength();
 
-                    b.Property<ushort?>("CountryNumberField")
-                        .HasColumnType("int");
+                    b.Property<short?>("CountryNumberField")
+                        .HasColumnType("smallint");
 
                     b.Property<DateTime>("CreatedAtUtc")
                         .HasColumnType("datetime2");
@@ -110,7 +110,25 @@ namespace SampleWebApp.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("LanguageCodeField")
+                        .IsRequired()
+                        .HasMaxLength(2)
+                        .IsUnicode(false)
+                        .HasColumnType("char(2)")
+                        .IsFixedLength();
+
+                    b.Property<decimal>("LengthField")
+                        .HasColumnType("DECIMAL(21, 6)");
+
+                    b.Property<string>("MacAddressField")
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .IsUnicode(false)
+                        .HasColumnType("char(12)")
+                        .IsFixedLength();
+
                     b.Property<string>("MarkdownField")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(255)");
@@ -125,7 +143,12 @@ namespace SampleWebApp.Migrations
                         .HasMaxLength(2)
                         .HasColumnType("real");
 
-                    b.Property<decimal?>("TemperatureField")
+                    b.Property<string>("PhoneNumberField")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<decimal>("TemperatureField")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("TextField")
