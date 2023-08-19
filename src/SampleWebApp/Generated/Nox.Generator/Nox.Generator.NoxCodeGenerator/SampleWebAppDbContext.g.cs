@@ -43,7 +43,6 @@ public partial class SampleWebAppDbContext : DbContext
 
     public DbSet<CurrencyCashBalance> CurrencyCashBalances { get; set; } = null!;
 
-    public DbSet<CountryLocalNames> CountryLocalNames { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

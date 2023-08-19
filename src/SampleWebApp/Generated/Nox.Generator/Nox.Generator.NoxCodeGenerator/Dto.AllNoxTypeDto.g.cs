@@ -174,5 +174,6 @@ public partial class AllNoxTypeDto
     /// LatLongField Nox Type (Optional).
     /// </summary>
     public LatLongDto? LatLongField { get; set; } 
+
     public bool? Deleted { get; set; }
 }

@@ -39,5 +39,6 @@ public partial class StoreDto
     /// Store Set of passwords for this store ExactlyOne StoreSecurityPasswords
     /// </summary>
     public virtual StoreSecurityPasswordsDto StoreSecurityPasswords { get; set; } = null!;
+
     public bool? Deleted { get; set; }
 }

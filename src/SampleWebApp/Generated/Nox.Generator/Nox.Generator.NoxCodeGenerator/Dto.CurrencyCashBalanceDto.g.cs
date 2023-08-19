@@ -39,5 +39,6 @@ public partial class CurrencyCashBalanceDto
     /// The Operation Limit (Optional).
     /// </summary>
     public System.Decimal? OperationLimit { get; set; } 
+
     public bool? Deleted { get; set; }
 }

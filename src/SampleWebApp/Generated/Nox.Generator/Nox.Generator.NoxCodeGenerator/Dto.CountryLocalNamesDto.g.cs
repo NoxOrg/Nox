@@ -24,5 +24,6 @@ public partial class CountryLocalNamesDto
     ///  (Required).
     /// </summary>
     public System.String Id { get; set; } = default!;
+
     public bool? Deleted { get; set; }
 }

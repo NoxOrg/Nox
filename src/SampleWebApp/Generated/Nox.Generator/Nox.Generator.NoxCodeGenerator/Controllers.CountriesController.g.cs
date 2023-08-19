@@ -75,6 +75,12 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
+    [EnableQuery]
+    public ActionResult<IQueryable<CountryLocalNames>> GetCountryLocalNames([FromRoute] string key)
+    {
+        return Ok(_databaseContext.Countries.Where(d => d.Id.Equals(key)).SelectMany(m => m.CountryLocalNames));
+    }
+    
     public async Task<ActionResult> Post([FromBody]CountryCreateDto country)
     {
         if (!ModelState.IsValid)

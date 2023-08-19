@@ -34,5 +34,6 @@ public partial class CurrencyDto
     /// Currency is legal tender for ZeroOrMany Countries
     /// </summary>
     public virtual List<CountryDto> Countries { get; set; } = new();
+
     public bool? Deleted { get; set; }
 }

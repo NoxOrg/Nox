@@ -104,5 +104,12 @@ public partial class CountryDto
     /// Country accepts as legal tender OneOrMany Currencies
     /// </summary>
     public virtual List<CurrencyDto> Currencies { get; set; } = new();
+
+    /// <summary>
+    /// Country is also know as OneOrMany CountryLocalNames
+    /// </summary>
+	[AutoExpand]
+    public virtual List<CountryLocalNames> CountryLocalNames { get; set; } = new();
+
     public bool? Deleted { get; set; }
 }
