@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using YamlDotNet.Serialization;
 using Nox.Solution.Extensions;
 using Nox.Types.Schema;
+using System.Collections.Concurrent;
 
 namespace Nox.Solution.Schema;
 
@@ -258,36 +259,39 @@ internal class SchemaProperty
 
         // Add default for unused enums
 
-        var spRest = new SchemaProperty(ActualType);
-
-        foreach (var nonConditional in nonConditionals)
+        if (enums.Count > 0) 
         {
-            SchemaProperty propToAdd;
+            var spRest = new SchemaProperty(ActualType);
 
-            if (dependentFieldName == nonConditional.Key)
+            foreach (var nonConditional in nonConditionals)
             {
-                propToAdd = new(nonConditional.Value.UnderlyingType);
-                propToAdd.Name = dependentFieldName;
-                propToAdd.Enum = enums;
-                propToAdd.IsNullable = false;
-                propToAdd.IsRequired = true;
-            }
-            else
-            {
-                propToAdd = nonConditional.Value;
+                SchemaProperty propToAdd;
+
+                if (dependentFieldName == nonConditional.Key)
+                {
+                    propToAdd = new(nonConditional.Value.UnderlyingType);
+                    propToAdd.Name = dependentFieldName;
+                    propToAdd.Enum = enums;
+                    propToAdd.IsNullable = false;
+                    propToAdd.IsRequired = true;
+                }
+                else
+                {
+                    propToAdd = nonConditional.Value;
+                }
+
+                spRest.AddProperty(propToAdd);
+
             }
 
-            spRest.AddProperty(propToAdd);
-
+            spRest.GenerateSchema = false;
+            spRest.IsNullable = false;
+            spRest.IsRequired = true;
+            spRest.Title = null;
+            spRest.Description = null;
+            spRest.IsAnyOfSchema = true;
+            AnyOf.Add(spRest);
         }
-
-        spRest.GenerateSchema = false;
-        spRest.IsNullable = false;
-        spRest.IsRequired = true;
-        spRest.Title = null;
-        spRest.Description = null;
-        spRest.IsAnyOfSchema = true;
-        AnyOf.Add(spRest);
 
         AdditionalProperties = true;
         Properties = null;
@@ -370,6 +374,9 @@ internal class SchemaProperty
         return null;
     }
 
+    /// <summary>Cache for enum results</summary>
+    private static readonly ConcurrentDictionary<Type, Lazy<string[]>> _enumCache = new();
+
     /// <summary>
     /// Converts enum values to JSON schema "enums". Converts them to camelCase if they don't look like codes or abbreviations.
     /// </summary>
@@ -378,6 +385,16 @@ internal class SchemaProperty
     private static List<string>? ToEnumValues(Type? type)
     {
         if (type is null || !type.IsEnum) return null;
+
+        return _enumCache.GetOrAdd(type, 
+            key => new Lazy<string[]>(
+                () => GetEnumValuesAsStringArray(key)
+            )).Value.ToList();
+
+    }
+
+    private static string[] GetEnumValuesAsStringArray(Type type)
+    {
 
         var enumNames = System.Enum.GetNames(type);
 
@@ -390,11 +407,11 @@ internal class SchemaProperty
 
             if (firstLength < 4 && enumNames.All(n => n.Length == firstLength)) 
             {
-                return enumNames.OrderBy(e => e).ToList();
+                return enumNames.OrderBy(e => e).ToArray();
             }
         }
 
-      return enumNames.Select(n => n.ToCamelCase()).OrderBy(e => e).ToList();
+      return enumNames.Select(n => n.ToCamelCase()).OrderBy(e => e).ToArray();
 
     }
 

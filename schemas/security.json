@@ -1,0 +1,332 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "The definition namespace for security settings pertaining to a Nox solution.",
+  "description": "Define security settings pertinent to a Nox solution here. These may include secrets among other.",
+  "type": [
+    "object",
+    "null"
+  ],
+  "properties": {
+    "secrets": {    
+      "title": "The definition namespace for secrets used in a Nox solution.",
+      "description": "Specify properties pertinent to secrets as configured within a Nox solution here. Examples include servers and validity period.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "properties": {
+        "organizationSecretsServer": {    
+          "title": "The definition namespace for the secrets server used in a Nox solution.",
+          "description": "Specify properties pertinent to the secrets server here. Examples include name, serverUri, Port, connection credentials and provider",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "provider",
+            "name",
+            "serverUri"
+          ],
+          "properties": {
+            "provider": {    
+              "title": "The secrets server provider.",
+              "description": "The provider used for this secrets server. Examples include AzureKeyVault, AwsKeyManagementService and HashicorpVault.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "awsKeyManagementService",
+                "azureKeyVault",
+                "hashicorpVault"
+              ],
+              "additionalProperties": false
+            },
+            "validFor": {    
+              "title": "The definition namespace for the validity period of secrets as defined in a Nox solution.",
+              "description": "Specify the validity period of secrets pertaining to the solution here. Possible units of measure include days, hours, minutes and seconds.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "days": {    
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "hours": {    
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "minutes": {    
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "seconds": {    
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "name": {    
+              "title": "The unique name of this server component in the solution.",
+              "description": "The name of this server component in the solution. The name must be unique in the solution configuration",
+              "type": "string",
+              "pattern": "^[^\\s]*$"
+            },
+            "serverUri": {    
+              "title": "Hostname, IP address or URI.",
+              "description": "The name, address, URI or IP of the server to connect to.",
+              "type": "string"
+            },
+            "port": {    
+              "title": "Server port",
+              "description": "The port to connect to.",
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "user": {    
+              "title": "Username.",
+              "description": "The username to use when connecting to this server.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "password": {    
+              "title": "Password.",
+              "description": "The password to use when connecting to this server.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "options": {    
+              "title": "Additional options.",
+              "description": "A list of additional options to set when connecting to this server.",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        },
+        "solutionSecretsServer": {    
+          "title": "The definition namespace for the secrets server used in a Nox solution.",
+          "description": "Specify properties pertinent to the secrets server here. Examples include name, serverUri, Port, connection credentials and provider",
+          "type": [
+            "object",
+            "null"
+          ],
+          "required": [
+            "provider",
+            "name",
+            "serverUri"
+          ],
+          "properties": {
+            "provider": {    
+              "title": "The secrets server provider.",
+              "description": "The provider used for this secrets server. Examples include AzureKeyVault, AwsKeyManagementService and HashicorpVault.",
+              "type": [
+                "string",
+                "null"
+              ],
+              "enum": [
+                "awsKeyManagementService",
+                "azureKeyVault",
+                "hashicorpVault"
+              ],
+              "additionalProperties": false
+            },
+            "validFor": {    
+              "title": "The definition namespace for the validity period of secrets as defined in a Nox solution.",
+              "description": "Specify the validity period of secrets pertaining to the solution here. Possible units of measure include days, hours, minutes and seconds.",
+              "type": [
+                "object",
+                "null"
+              ],
+              "properties": {
+                "days": {    
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "hours": {    
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "minutes": {    
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                },
+                "seconds": {    
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                }
+              },
+              "additionalProperties": false
+            },
+            "name": {    
+              "title": "The unique name of this server component in the solution.",
+              "description": "The name of this server component in the solution. The name must be unique in the solution configuration",
+              "type": "string",
+              "pattern": "^[^\\s]*$"
+            },
+            "serverUri": {    
+              "title": "Hostname, IP address or URI.",
+              "description": "The name, address, URI or IP of the server to connect to.",
+              "type": "string"
+            },
+            "port": {    
+              "title": "Server port",
+              "description": "The port to connect to.",
+              "type": [
+                "integer",
+                "null"
+              ]
+            },
+            "user": {    
+              "title": "Username.",
+              "description": "The username to use when connecting to this server.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "password": {    
+              "title": "Password.",
+              "description": "The password to use when connecting to this server.",
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "options": {    
+              "title": "Additional options.",
+              "description": "A list of additional options to set when connecting to this server.",
+              "type": [
+                "string",
+                "null"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": false
+    },
+    "userIdentity": {    
+      "title": "Configuration for the end-user identity provider.",
+      "description": "Specify the settings required to authenticate the application to the end-user identity provider.",
+      "type": [
+        "object",
+        "null"
+      ],
+      "required": [
+        "provider"
+      ],
+      "anyOf": [
+        {
+          "required": [
+            "provider"
+          ],
+          "properties": {
+            "provider": {    
+              "const": "azureAd"
+            },
+            "azureAdOptions": {    
+              "title": "The options to connect to the Azure AD identity provider.",
+              "description": "Specify the properties required to connect the application with the Azure AD identity provider. See https://learn.microsoft.com/en-us/azure/api-management/api-management-howto-protect-backend-with-aad",
+              "type": [
+                "object",
+                "null"
+              ],
+              "required": [
+                "instance",
+                "domain",
+                "tenantId",
+                "clientId",
+                "callbackPath",
+                "signedOutCallbackPath"
+              ],
+              "properties": {
+                "instance": {    
+                  "title": "The URL of the Azure AD instance.",
+                  "description": "The URL of the Azure AD instance that your application should use for authentication. It typically has a format like https://login.microsoftonline.com/.",
+                  "type": "string",
+                  "format": "uri"
+                },
+                "domain": {    
+                  "title": "The domain name associated with your Azure AD tenant.",
+                  "description": "Used to define the domain name associated with your Azure AD tenant.",
+                  "type": "string"
+                },
+                "tenantId": {    
+                  "title": "The GUID that uniquely identifies your Azure AD tenant.",
+                  "description": "The GUID that uniquely identifies your Azure AD tenant. It's sometimes referred to as the Directory ID.",
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "clientId": {    
+                  "title": "The Application ID of your registered application in Azure AD.",
+                  "description": "The Application ID of your registered application in Azure AD. The application ID is used to identify your application when it communicates with Azure AD.",
+                  "type": "string",
+                  "format": "uuid"
+                },
+                "callbackPath": {    
+                  "title": "The URL path where Azure AD should redirect users after sign-in.",
+                  "description": "The URL path that Azure AD should redirect users to after they have signed in. It's often set to something like /signin-oidc.",
+                  "type": "string",
+                  "format": "uri"
+                },
+                "signedOutCallbackPath": {    
+                  "title": "The URL path where Azure AD should redirect users after sign-out.",
+                  "description": "the URL path to which Azure AD should redirect users after they have signed out from the application. This callback path is used to handle post-sign-out actions and provide a seamless user experience during the sign-out process.",
+                  "type": "string",
+                  "format": "uri"
+                }
+              },
+              "additionalProperties": false
+            }
+          },
+          "additionalProperties": false
+        },
+        {
+          "type": "object",
+          "required": [
+            "provider"
+          ],
+          "properties": {
+            "provider": {    
+              "type": "string",
+              "enum": [
+                "forgeRock"
+              ]
+            }
+          },
+          "additionalProperties": false
+        }
+      ]
+    }
+  },
+  "additionalProperties": false
+}
