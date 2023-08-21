@@ -16,8 +16,10 @@ public sealed class SqliteDatabaseProvider : NoxDatabaseConfigurator, INoxDataba
 
     }
     public DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)
-    {
-        throw new NotImplementedException();
+    {        
+        return optionsBuilder            
+            .UseSqlite(dbServer.Options,
+                opts => { opts.MigrationsHistoryTable("MigrationsHistory", "migrations"); });
     }
 
     public string ToTableNameForSql(string table, string schema)

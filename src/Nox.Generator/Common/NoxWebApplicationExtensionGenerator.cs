@@ -31,6 +31,10 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
                     usings.Add("using Nox.EntityFramework.Postgres;");
                     dbProvider = "PostgresDatabaseProvider";
                     break;
+                case DatabaseServerProvider.SqLite:
+                    usings.Add("using Nox.EntityFramework.Sqlite;");
+                    dbProvider = "SqliteDatabaseProvider";
+                    break;
             }
         }
 

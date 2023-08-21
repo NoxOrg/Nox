@@ -36,7 +36,7 @@ public partial class AllNoxTypeUpdateDto
     /// <summary>
     /// CountryNumber Nox Type (Optional).
     /// </summary>
-    public System.Int16? CountryNumberField { get; set; } 
+    public System.UInt16? CountryNumberField { get; set; } 
     /// <summary>
     /// CultureCode Nox Type (Optional).
     /// </summary>
@@ -54,9 +54,41 @@ public partial class AllNoxTypeUpdateDto
     /// </summary>
     public System.String? HtmlField { get; set; } 
     /// <summary>
-    /// MarkdownField Nox Type (Optional).
+    /// Language Code Nox Type (Required).
     /// </summary>
-    public System.String? MarkdownField { get; set; } 
+    [Required(ErrorMessage = "LanguageCodeField is required")]
+    
+    public System.String LanguageCodeField { get; set; } = default!;
+    /// <summary>
+    /// Length Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "LengthField is required")]
+    
+    public System.Decimal LengthField { get; set; } = default!;
+    /// <summary>
+    /// MacAddress Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "MacAddressField is required")]
+    
+    public System.String MacAddressField { get; set; } = default!;
+    /// <summary>
+    /// Mark down Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "MarkdownField is required")]
+    
+    public System.String MarkdownField { get; set; } = default!;
+    /// <summary>
+    /// Phone Number Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "PhoneNumberField is required")]
+    
+    public System.String PhoneNumberField { get; set; } = default!;
+    /// <summary>
+    /// Temperature Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "TemperatureField is required")]
+    
+    public System.Decimal TemperatureField { get; set; } = default!;
     /// <summary>
     /// Yaml Nox Type (Optional).
     /// </summary>
@@ -64,7 +96,7 @@ public partial class AllNoxTypeUpdateDto
     /// <summary>
     /// YearField Nox Type (Optional).
     /// </summary>
-    public System.Int16? YearField { get; set; } 
+    public System.UInt16? YearField { get; set; } 
     /// <summary>
     /// Weight Nox Type (Optional).
     /// </summary>
@@ -85,10 +117,6 @@ public partial class AllNoxTypeUpdateDto
     /// TimeZoneCode Nox Type (Optional).
     /// </summary>
     public System.String? TimeZoneCodeField { get; set; } 
-    /// <summary>
-    /// Temperature Nox Type (Optional).
-    /// </summary>
-    public System.Single? TemperatureField { get; set; } 
     /// <summary>
     /// Percentage Nox Type (Optional).
     /// </summary>
