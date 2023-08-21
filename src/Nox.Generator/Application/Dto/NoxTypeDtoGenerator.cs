@@ -25,12 +25,13 @@ internal class NoxTypeDtoGenerator : INoxCodeGenerator
 
         var compoundTypes = Enum.GetValues(typeof(NoxType))
            .Cast<NoxType>()
+           .Where( x => x.IsCompoundType() )
            .Select(x =>
            {
                var components = x.GetCompoundComponents().Select(c => c.Value + " " + c.Key);
                return new { NoxType = x, Components = components };
            })
-           .Where(x => x.Components.Count() > 1).ToArray();
+           .ToArray();
 
         context.CancellationToken.ThrowIfCancellationRequested();
 
