@@ -24,5 +24,5 @@ public abstract class EntityMapperBase<E>: IEntityMapper<E> where E : Domain.IEn
     }
 
     public abstract void MapToEntity(E entity, Entity entityDefinition, dynamic dto);
-    public abstract void PartialMapToEntity(E entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames);
+    public abstract void PartialMapToEntity(E entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties);
 }

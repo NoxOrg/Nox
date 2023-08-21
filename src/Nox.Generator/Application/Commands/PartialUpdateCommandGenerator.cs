@@ -19,7 +19,7 @@ internal class PartialUpdateCommandGenerator : INoxCodeGenerator
         }
 
         var templateName = @"Application.Commands.PartialUpdateCommand";
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
+        foreach (var entity in codeGeneratorState.Solution.Domain.Entities.Where(x => !x.IsOwnedEntity))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 

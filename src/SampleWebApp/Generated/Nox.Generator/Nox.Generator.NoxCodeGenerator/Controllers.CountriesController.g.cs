@@ -75,6 +75,12 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
+    [EnableQuery]
+    public ActionResult<IQueryable<CountryLocalNames>> GetCountryLocalNames([FromRoute] string key)
+    {
+        return Ok(_databaseContext.Countries.Where(d => d.Id.Equals(key)).SelectMany(m => m.CountryLocalNames));
+    }
+    
     public async Task<ActionResult> Post([FromBody]CountryCreateDto country)
     {
         if (!ModelState.IsValid)
@@ -109,21 +115,16 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new HashSet<string>();
-
+        
         foreach (var propertyName in country.GetChangedPropertyNames())
         {
             if(country.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties));
         
         if (updated is null)
         {

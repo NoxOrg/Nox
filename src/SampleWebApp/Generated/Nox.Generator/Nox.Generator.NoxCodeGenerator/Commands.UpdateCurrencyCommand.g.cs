@@ -18,30 +18,30 @@ public record UpdateCurrencyCommand(System.UInt32 keyId, CurrencyUpdateDto Entit
 
 public class UpdateCurrencyCommandHandler: CommandBase, IRequestHandler<UpdateCurrencyCommand, CurrencyKeyDto?>
 {
-    public SampleWebAppDbContext DbContext { get; }    
+    public SampleWebAppDbContext DbContext { get; }
     public IEntityMapper<Currency> EntityMapper { get; }
 
     public  UpdateCurrencyCommandHandler(
-        SampleWebAppDbContext dbContext,        
+        SampleWebAppDbContext dbContext,
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
         IEntityMapper<Currency> entityMapper): base(noxSolution, serviceProvider)
     {
-        DbContext = dbContext;        
+        DbContext = dbContext;
         EntityMapper = entityMapper;
     }
-    
+
     public async Task<CurrencyKeyDto?> Handle(UpdateCurrencyCommand request, CancellationToken cancellationToken)
     {
         var keyId = CreateNoxTypeForKey<Currency,Nuid>("Id", request.keyId);
-    
+
         var entity = await DbContext.Currencies.FindAsync(keyId);
         if (entity == null)
         {
             return null;
         }
         EntityMapper.MapToEntity(entity, GetEntityDefinition<Currency>(), request.EntityDto);
-        
+
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();
         if(result < 1)

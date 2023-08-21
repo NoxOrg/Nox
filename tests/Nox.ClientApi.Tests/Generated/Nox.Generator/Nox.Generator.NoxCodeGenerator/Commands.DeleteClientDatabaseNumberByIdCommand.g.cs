@@ -20,11 +20,11 @@ public class DeleteClientDatabaseNumberByIdCommandHandler: CommandBase, IRequest
 
     public  DeleteClientDatabaseNumberByIdCommandHandler(
         ClientApiDbContext dbContext,
-        NoxSolution noxSolution, 
+        NoxSolution noxSolution,
         IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;
-    }    
+    }
 
     public async Task<bool> Handle(DeleteClientDatabaseNumberByIdCommand request, CancellationToken cancellationToken)
     {

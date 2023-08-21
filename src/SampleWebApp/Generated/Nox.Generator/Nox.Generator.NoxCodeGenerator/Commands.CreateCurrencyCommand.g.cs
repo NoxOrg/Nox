@@ -27,14 +27,14 @@ public class CreateCurrencyCommandHandler: IRequestHandler<CreateCurrencyCommand
         DbContext = dbContext;
         EntityFactory = entityFactory;
     }
-    
+
     public async Task<CurrencyKeyDto> Handle(CreateCurrencyCommand request, CancellationToken cancellationToken)
-    {    
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto); 
+    {
+        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		entityToCreate.EnsureId();
-	
+
         DbContext.Currencies.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         return new CurrencyKeyDto(entityToCreate.Id.Value);
-}
+    }
 }

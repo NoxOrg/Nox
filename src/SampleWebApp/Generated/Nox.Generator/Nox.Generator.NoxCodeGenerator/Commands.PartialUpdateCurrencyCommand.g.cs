@@ -14,33 +14,33 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateCurrencyCommand(System.UInt32 keyId, Dictionary<string, dynamic> UpdatedProperties, HashSet<string> DeletedPropertyNames) : IRequest <CurrencyKeyDto?>;
+public record PartialUpdateCurrencyCommand(System.UInt32 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CurrencyKeyDto?>;
 
 public class PartialUpdateCurrencyCommandHandler: CommandBase, IRequestHandler<PartialUpdateCurrencyCommand, CurrencyKeyDto?>
 {
-    public SampleWebAppDbContext DbContext { get; }    
+    public SampleWebAppDbContext DbContext { get; }
     public IEntityMapper<Currency> EntityMapper { get; }
 
     public PartialUpdateCurrencyCommandHandler(
-        SampleWebAppDbContext dbContext,        
+        SampleWebAppDbContext dbContext,
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
         IEntityMapper<Currency> entityMapper): base(noxSolution, serviceProvider)
     {
-        DbContext = dbContext;        
+        DbContext = dbContext;
         EntityMapper = entityMapper;
     }
-    
+
     public async Task<CurrencyKeyDto?> Handle(PartialUpdateCurrencyCommand request, CancellationToken cancellationToken)
     {
         var keyId = CreateNoxTypeForKey<Currency,Nuid>("Id", request.keyId);
-    
+
         var entity = await DbContext.Currencies.FindAsync(keyId);
         if (entity == null)
         {
             return null;
         }
-        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Currency>(), request.UpdatedProperties, request.DeletedPropertyNames);
+        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Currency>(), request.UpdatedProperties);
 
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();

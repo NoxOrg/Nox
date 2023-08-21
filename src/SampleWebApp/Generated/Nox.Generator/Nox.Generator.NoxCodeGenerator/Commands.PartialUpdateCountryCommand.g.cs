@@ -14,33 +14,33 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateCountryCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, HashSet<string> DeletedPropertyNames) : IRequest <CountryKeyDto?>;
+public record PartialUpdateCountryCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CountryKeyDto?>;
 
 public class PartialUpdateCountryCommandHandler: CommandBase, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
 {
-    public SampleWebAppDbContext DbContext { get; }    
+    public SampleWebAppDbContext DbContext { get; }
     public IEntityMapper<Country> EntityMapper { get; }
 
     public PartialUpdateCountryCommandHandler(
-        SampleWebAppDbContext dbContext,        
+        SampleWebAppDbContext dbContext,
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
         IEntityMapper<Country> entityMapper): base(noxSolution, serviceProvider)
     {
-        DbContext = dbContext;        
+        DbContext = dbContext;
         EntityMapper = entityMapper;
     }
-    
+
     public async Task<CountryKeyDto?> Handle(PartialUpdateCountryCommand request, CancellationToken cancellationToken)
     {
         var keyId = CreateNoxTypeForKey<Country,Text>("Id", request.keyId);
-    
+
         var entity = await DbContext.Countries.FindAsync(keyId);
         if (entity == null)
         {
             return null;
         }
-        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Country>(), request.UpdatedProperties, request.DeletedPropertyNames);
+        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Country>(), request.UpdatedProperties);
 
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();

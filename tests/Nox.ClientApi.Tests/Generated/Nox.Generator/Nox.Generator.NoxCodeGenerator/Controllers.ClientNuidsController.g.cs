@@ -95,21 +95,16 @@ public partial class ClientNuidsController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new HashSet<string>();
-
+        
         foreach (var propertyName in clientNuid.GetChangedPropertyNames())
         {
             if(clientNuid.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateClientNuidCommand(key, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateClientNuidCommand(key, updateProperties));
         
         if (updated is null)
         {

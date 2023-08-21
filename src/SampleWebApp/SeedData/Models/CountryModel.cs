@@ -1,4 +1,4 @@
-﻿namespace SampleWebApp.SeedData
+﻿namespace SampleWebApp.SeedData.Models
 {
     public class CountryModel
     {
@@ -16,5 +16,6 @@
         public string GeoRegion { get; set; } = string.Empty;
         public string GeoSubRegion { get; set; } = string.Empty;
         public string GeoWorldRegion { get; set; } = string.Empty;
+        public List<CountryLocalName> CountryLocalNames { get; set; } = new List<CountryLocalName>();
     }
 }

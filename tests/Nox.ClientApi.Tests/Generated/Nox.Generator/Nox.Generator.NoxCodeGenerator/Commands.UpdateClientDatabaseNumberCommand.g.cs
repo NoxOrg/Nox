@@ -18,30 +18,30 @@ public record UpdateClientDatabaseNumberCommand(System.Int64 keyId, ClientDataba
 
 public class UpdateClientDatabaseNumberCommandHandler: CommandBase, IRequestHandler<UpdateClientDatabaseNumberCommand, ClientDatabaseNumberKeyDto?>
 {
-    public ClientApiDbContext DbContext { get; }    
+    public ClientApiDbContext DbContext { get; }
     public IEntityMapper<ClientDatabaseNumber> EntityMapper { get; }
 
     public  UpdateClientDatabaseNumberCommandHandler(
-        ClientApiDbContext dbContext,        
+        ClientApiDbContext dbContext,
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
         IEntityMapper<ClientDatabaseNumber> entityMapper): base(noxSolution, serviceProvider)
     {
-        DbContext = dbContext;        
+        DbContext = dbContext;
         EntityMapper = entityMapper;
     }
-    
+
     public async Task<ClientDatabaseNumberKeyDto?> Handle(UpdateClientDatabaseNumberCommand request, CancellationToken cancellationToken)
     {
         var keyId = CreateNoxTypeForKey<ClientDatabaseNumber,DatabaseNumber>("Id", request.keyId);
-    
+
         var entity = await DbContext.ClientDatabaseNumbers.FindAsync(keyId);
         if (entity == null)
         {
             return null;
         }
         EntityMapper.MapToEntity(entity, GetEntityDefinition<ClientDatabaseNumber>(), request.EntityDto);
-        
+
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();
         if(result < 1)

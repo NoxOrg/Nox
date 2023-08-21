@@ -27,19 +27,19 @@ public class Create{{entity.Name}}CommandHandler: IRequestHandler<Create{{entity
         DbContext = dbContext;
         EntityFactory = entityFactory;
     }
-    
+
     public async Task<{{entity.Name}}KeyDto> Handle(Create{{entity.Name}}Command request, CancellationToken cancellationToken)
-    {    
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
-        
+    {
+        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+
 		{{- for key in entity.Keys ~}}
-		{{- if key.Type == "Nuid" }} 
+		{{- if key.Type == "Nuid" }}
 		entityToCreate.Ensure{{key.Name}}();
 		{{- end }}
 		{{- end }}
-	
+
         DbContext.{{entity.PluralName}}.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         return new {{entity.Name}}KeyDto({{primaryKeysQuery}});
-}
+    }
 }

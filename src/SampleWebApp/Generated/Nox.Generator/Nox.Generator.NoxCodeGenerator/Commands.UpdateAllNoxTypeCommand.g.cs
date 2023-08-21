@@ -18,31 +18,31 @@ public record UpdateAllNoxTypeCommand(System.Int64 keyId, System.String keyTextI
 
 public class UpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler<UpdateAllNoxTypeCommand, AllNoxTypeKeyDto?>
 {
-    public SampleWebAppDbContext DbContext { get; }    
+    public SampleWebAppDbContext DbContext { get; }
     public IEntityMapper<AllNoxType> EntityMapper { get; }
 
     public  UpdateAllNoxTypeCommandHandler(
-        SampleWebAppDbContext dbContext,        
+        SampleWebAppDbContext dbContext,
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
         IEntityMapper<AllNoxType> entityMapper): base(noxSolution, serviceProvider)
     {
-        DbContext = dbContext;        
+        DbContext = dbContext;
         EntityMapper = entityMapper;
     }
-    
+
     public async Task<AllNoxTypeKeyDto?> Handle(UpdateAllNoxTypeCommand request, CancellationToken cancellationToken)
     {
         var keyId = CreateNoxTypeForKey<AllNoxType,DatabaseNumber>("Id", request.keyId);
         var keyTextId = CreateNoxTypeForKey<AllNoxType,Text>("TextId", request.keyTextId);
-    
+
         var entity = await DbContext.AllNoxTypes.FindAsync(keyId, keyTextId);
         if (entity == null)
         {
             return null;
         }
         EntityMapper.MapToEntity(entity, GetEntityDefinition<AllNoxType>(), request.EntityDto);
-        
+
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();
         if(result < 1)

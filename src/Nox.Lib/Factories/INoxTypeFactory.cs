@@ -7,10 +7,10 @@ namespace Nox.Factories
 
     /// <summary>
     /// Factory for Entity created by using a dto
-    /// </summary>    
+    /// </summary>
     public interface INoxTypeFactory<T> where T : INoxType
     {
         T? CreateNoxType(Solution.Entity entityDefinition, string propertyName, dynamic? value);
-        T? CreateNoxType(NoxSimpleTypeDefinition simpleTypeDefinition, dynamic? value);        
+        T? CreateNoxType(NoxSimpleTypeDefinition simpleTypeDefinition, dynamic? value);
     }
 }

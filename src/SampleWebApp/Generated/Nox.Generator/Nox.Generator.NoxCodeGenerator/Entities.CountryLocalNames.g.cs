@@ -12,7 +12,7 @@ namespace SampleWebApp.Domain;
 /// <summary>
 /// The name of a country in other languages.
 /// </summary>
-public partial class CountryLocalNames : AuditableEntityBase
+public partial class CountryLocalNames
 {
     /// <summary>
     ///  (Required).

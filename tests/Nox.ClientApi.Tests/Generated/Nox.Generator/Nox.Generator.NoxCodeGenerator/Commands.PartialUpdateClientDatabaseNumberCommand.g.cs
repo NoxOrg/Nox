@@ -14,33 +14,33 @@ using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
 
-public record PartialUpdateClientDatabaseNumberCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, HashSet<string> DeletedPropertyNames) : IRequest <ClientDatabaseNumberKeyDto?>;
+public record PartialUpdateClientDatabaseNumberCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <ClientDatabaseNumberKeyDto?>;
 
 public class PartialUpdateClientDatabaseNumberCommandHandler: CommandBase, IRequestHandler<PartialUpdateClientDatabaseNumberCommand, ClientDatabaseNumberKeyDto?>
 {
-    public ClientApiDbContext DbContext { get; }    
+    public ClientApiDbContext DbContext { get; }
     public IEntityMapper<ClientDatabaseNumber> EntityMapper { get; }
 
     public PartialUpdateClientDatabaseNumberCommandHandler(
-        ClientApiDbContext dbContext,        
+        ClientApiDbContext dbContext,
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
         IEntityMapper<ClientDatabaseNumber> entityMapper): base(noxSolution, serviceProvider)
     {
-        DbContext = dbContext;        
+        DbContext = dbContext;
         EntityMapper = entityMapper;
     }
-    
+
     public async Task<ClientDatabaseNumberKeyDto?> Handle(PartialUpdateClientDatabaseNumberCommand request, CancellationToken cancellationToken)
     {
         var keyId = CreateNoxTypeForKey<ClientDatabaseNumber,DatabaseNumber>("Id", request.keyId);
-    
+
         var entity = await DbContext.ClientDatabaseNumbers.FindAsync(keyId);
         if (entity == null)
         {
             return null;
         }
-        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<ClientDatabaseNumber>(), request.UpdatedProperties, request.DeletedPropertyNames);
+        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<ClientDatabaseNumber>(), request.UpdatedProperties);
 
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();
