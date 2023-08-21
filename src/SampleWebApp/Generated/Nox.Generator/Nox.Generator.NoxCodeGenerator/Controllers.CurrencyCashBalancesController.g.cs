@@ -85,7 +85,7 @@ public partial class CurrencyCashBalancesController : ODataController
         {
             return NotFound();
         }
-        return Updated(currencyCashBalance);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.String keyStoreId, [FromRoute] System.UInt32 keyCurrencyId, [FromBody] Delta<CurrencyCashBalanceUpdateDto> currencyCashBalance)
