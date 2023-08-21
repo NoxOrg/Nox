@@ -4,10 +4,11 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application.Commands;
+using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
-using Nox.Factories;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
@@ -18,6 +19,9 @@ public record PartialUpdateStoreCommand(System.String keyId, Dictionary<string, 
 
 public class PartialUpdateStoreCommandHandler: CommandBase, IRequestHandler<PartialUpdateStoreCommand, bool>
 {
+    private readonly IUserProvider _userProvider;
+    private readonly ISystemProvider _systemProvider;
+
     public SampleWebAppDbContext DbContext { get; }    
     public IEntityMapper<Store> EntityMapper { get; }
 
@@ -25,10 +29,14 @@ public class PartialUpdateStoreCommandHandler: CommandBase, IRequestHandler<Part
         SampleWebAppDbContext dbContext,        
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
-        IEntityMapper<Store> entityMapper): base(noxSolution, serviceProvider)
+        IEntityMapper<Store> entityMapper,
+        IUserProvider userProvider,
+        ISystemProvider systemProvider) : base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;        
         EntityMapper = entityMapper;
+        _userProvider = userProvider;
+        _systemProvider = systemProvider;
     }
     
     public async Task<bool> Handle(PartialUpdateStoreCommand request, CancellationToken cancellationToken)
@@ -41,7 +49,10 @@ public class PartialUpdateStoreCommandHandler: CommandBase, IRequestHandler<Part
             return false;
         }
         //EntityMapper.MapToEntity(entity, GetEntityDefinition<Store>(), request.EntityDto);
-        //entity.Updated();
+        
+        var updatedBy = _userProvider.GetUser();
+        var updatedVia = _systemProvider.GetSystem();
+        entity.Updated(updatedBy, updatedVia);
 
         //// Todo map dto
         //DbContext.Entry(entity).State = EntityState.Modified;

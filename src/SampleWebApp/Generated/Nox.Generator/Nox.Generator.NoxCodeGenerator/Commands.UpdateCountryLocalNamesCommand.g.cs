@@ -4,6 +4,7 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -18,6 +19,9 @@ public record UpdateCountryLocalNamesCommand(System.String keyId, CountryLocalNa
 
 public class UpdateCountryLocalNamesCommandHandler: CommandBase, IRequestHandler<UpdateCountryLocalNamesCommand, bool>
 {
+    private readonly IUserProvider _userProvider;
+    private readonly ISystemProvider _systemProvider;
+
     public SampleWebAppDbContext DbContext { get; }    
     public IEntityMapper<CountryLocalNames> EntityMapper { get; }
 
@@ -25,10 +29,14 @@ public class UpdateCountryLocalNamesCommandHandler: CommandBase, IRequestHandler
         SampleWebAppDbContext dbContext,        
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
-        IEntityMapper<CountryLocalNames> entityMapper): base(noxSolution, serviceProvider)
+        IEntityMapper<CountryLocalNames> entityMapper,
+        IUserProvider userProvider,
+        ISystemProvider systemProvider): base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;        
         EntityMapper = entityMapper;
+        _userProvider = userProvider;
+        _systemProvider = systemProvider;
     }
     
     public async Task<bool> Handle(UpdateCountryLocalNamesCommand request, CancellationToken cancellationToken)
@@ -41,7 +49,10 @@ public class UpdateCountryLocalNamesCommandHandler: CommandBase, IRequestHandler
             return false;
         }
         EntityMapper.MapToEntity(entity, GetEntityDefinition<CountryLocalNames>(), request.EntityDto);
-        //entity.Updated();
+
+        var updatedBy = _userProvider.GetUser();
+        var updatedVia = _systemProvider.GetSystem();
+        entity.Updated(updatedBy, updatedVia);
 
         // Todo map dto
         DbContext.Entry(entity).State = EntityState.Modified;

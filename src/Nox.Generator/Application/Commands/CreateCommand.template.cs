@@ -5,12 +5,12 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Nox.Types;
-using Nox.Application;
-using Nox.Factories;
 {{- if (entity.Persistence?.IsAudited ?? true)}}
 using Nox.Abstractions;
 {{- end}}
+using Nox.Application;
+using Nox.Factories;
+using Nox.Types;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;

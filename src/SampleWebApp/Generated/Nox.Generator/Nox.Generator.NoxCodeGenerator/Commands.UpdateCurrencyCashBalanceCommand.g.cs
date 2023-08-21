@@ -4,6 +4,7 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -18,6 +19,9 @@ public record UpdateCurrencyCashBalanceCommand(System.String keyStoreId, System.
 
 public class UpdateCurrencyCashBalanceCommandHandler: CommandBase, IRequestHandler<UpdateCurrencyCashBalanceCommand, bool>
 {
+    private readonly IUserProvider _userProvider;
+    private readonly ISystemProvider _systemProvider;
+
     public SampleWebAppDbContext DbContext { get; }    
     public IEntityMapper<CurrencyCashBalance> EntityMapper { get; }
 
@@ -25,10 +29,14 @@ public class UpdateCurrencyCashBalanceCommandHandler: CommandBase, IRequestHandl
         SampleWebAppDbContext dbContext,        
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
-        IEntityMapper<CurrencyCashBalance> entityMapper): base(noxSolution, serviceProvider)
+        IEntityMapper<CurrencyCashBalance> entityMapper,
+        IUserProvider userProvider,
+        ISystemProvider systemProvider): base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;        
         EntityMapper = entityMapper;
+        _userProvider = userProvider;
+        _systemProvider = systemProvider;
     }
     
     public async Task<bool> Handle(UpdateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
@@ -42,7 +50,10 @@ public class UpdateCurrencyCashBalanceCommandHandler: CommandBase, IRequestHandl
             return false;
         }
         EntityMapper.MapToEntity(entity, GetEntityDefinition<CurrencyCashBalance>(), request.EntityDto);
-        //entity.Updated();
+
+        var updatedBy = _userProvider.GetUser();
+        var updatedVia = _systemProvider.GetSystem();
+        entity.Updated(updatedBy, updatedVia);
 
         // Todo map dto
         DbContext.Entry(entity).State = EntityState.Modified;

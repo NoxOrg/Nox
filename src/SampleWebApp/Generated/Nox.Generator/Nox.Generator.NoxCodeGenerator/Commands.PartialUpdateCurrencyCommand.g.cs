@@ -4,10 +4,11 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application.Commands;
+using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
-using Nox.Factories;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
@@ -18,6 +19,9 @@ public record PartialUpdateCurrencyCommand(System.UInt32 keyId, Dictionary<strin
 
 public class PartialUpdateCurrencyCommandHandler: CommandBase, IRequestHandler<PartialUpdateCurrencyCommand, bool>
 {
+    private readonly IUserProvider _userProvider;
+    private readonly ISystemProvider _systemProvider;
+
     public SampleWebAppDbContext DbContext { get; }    
     public IEntityMapper<Currency> EntityMapper { get; }
 
@@ -25,10 +29,14 @@ public class PartialUpdateCurrencyCommandHandler: CommandBase, IRequestHandler<P
         SampleWebAppDbContext dbContext,        
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
-        IEntityMapper<Currency> entityMapper): base(noxSolution, serviceProvider)
+        IEntityMapper<Currency> entityMapper,
+        IUserProvider userProvider,
+        ISystemProvider systemProvider) : base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;        
         EntityMapper = entityMapper;
+        _userProvider = userProvider;
+        _systemProvider = systemProvider;
     }
     
     public async Task<bool> Handle(PartialUpdateCurrencyCommand request, CancellationToken cancellationToken)
@@ -41,7 +49,10 @@ public class PartialUpdateCurrencyCommandHandler: CommandBase, IRequestHandler<P
             return false;
         }
         //EntityMapper.MapToEntity(entity, GetEntityDefinition<Currency>(), request.EntityDto);
-        //entity.Updated();
+        
+        var updatedBy = _userProvider.GetUser();
+        var updatedVia = _systemProvider.GetSystem();
+        entity.Updated(updatedBy, updatedVia);
 
         //// Todo map dto
         //DbContext.Entry(entity).State = EntityState.Modified;

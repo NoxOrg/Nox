@@ -4,10 +4,11 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application.Commands;
+using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
-using Nox.Factories;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
@@ -18,6 +19,9 @@ public record PartialUpdateAllNoxTypeCommand(System.Int64 keyId, System.String k
 
 public class PartialUpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler<PartialUpdateAllNoxTypeCommand, bool>
 {
+    private readonly IUserProvider _userProvider;
+    private readonly ISystemProvider _systemProvider;
+
     public SampleWebAppDbContext DbContext { get; }    
     public IEntityMapper<AllNoxType> EntityMapper { get; }
 
@@ -25,10 +29,14 @@ public class PartialUpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler
         SampleWebAppDbContext dbContext,        
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
-        IEntityMapper<AllNoxType> entityMapper): base(noxSolution, serviceProvider)
+        IEntityMapper<AllNoxType> entityMapper,
+        IUserProvider userProvider,
+        ISystemProvider systemProvider) : base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;        
         EntityMapper = entityMapper;
+        _userProvider = userProvider;
+        _systemProvider = systemProvider;
     }
     
     public async Task<bool> Handle(PartialUpdateAllNoxTypeCommand request, CancellationToken cancellationToken)
@@ -42,7 +50,10 @@ public class PartialUpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler
             return false;
         }
         //EntityMapper.MapToEntity(entity, GetEntityDefinition<AllNoxType>(), request.EntityDto);
-        //entity.Updated();
+        
+        var updatedBy = _userProvider.GetUser();
+        var updatedVia = _systemProvider.GetSystem();
+        entity.Updated(updatedBy, updatedVia);
 
         //// Todo map dto
         //DbContext.Entry(entity).State = EntityState.Modified;

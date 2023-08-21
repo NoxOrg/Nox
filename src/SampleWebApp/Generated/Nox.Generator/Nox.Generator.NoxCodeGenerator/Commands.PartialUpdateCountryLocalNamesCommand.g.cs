@@ -4,10 +4,11 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application.Commands;
+using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
-using Nox.Factories;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
@@ -18,6 +19,9 @@ public record PartialUpdateCountryLocalNamesCommand(System.String keyId, Diction
 
 public class PartialUpdateCountryLocalNamesCommandHandler: CommandBase, IRequestHandler<PartialUpdateCountryLocalNamesCommand, bool>
 {
+    private readonly IUserProvider _userProvider;
+    private readonly ISystemProvider _systemProvider;
+
     public SampleWebAppDbContext DbContext { get; }    
     public IEntityMapper<CountryLocalNames> EntityMapper { get; }
 
@@ -25,10 +29,14 @@ public class PartialUpdateCountryLocalNamesCommandHandler: CommandBase, IRequest
         SampleWebAppDbContext dbContext,        
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
-        IEntityMapper<CountryLocalNames> entityMapper): base(noxSolution, serviceProvider)
+        IEntityMapper<CountryLocalNames> entityMapper,
+        IUserProvider userProvider,
+        ISystemProvider systemProvider) : base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;        
         EntityMapper = entityMapper;
+        _userProvider = userProvider;
+        _systemProvider = systemProvider;
     }
     
     public async Task<bool> Handle(PartialUpdateCountryLocalNamesCommand request, CancellationToken cancellationToken)
@@ -41,7 +49,10 @@ public class PartialUpdateCountryLocalNamesCommandHandler: CommandBase, IRequest
             return false;
         }
         //EntityMapper.MapToEntity(entity, GetEntityDefinition<CountryLocalNames>(), request.EntityDto);
-        //entity.Updated();
+        
+        var updatedBy = _userProvider.GetUser();
+        var updatedVia = _systemProvider.GetSystem();
+        entity.Updated(updatedBy, updatedVia);
 
         //// Todo map dto
         //DbContext.Entry(entity).State = EntityState.Modified;

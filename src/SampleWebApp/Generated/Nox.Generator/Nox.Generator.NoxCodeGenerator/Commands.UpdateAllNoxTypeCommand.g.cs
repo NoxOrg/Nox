@@ -4,6 +4,7 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -18,6 +19,9 @@ public record UpdateAllNoxTypeCommand(System.Int64 keyId, System.String keyTextI
 
 public class UpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler<UpdateAllNoxTypeCommand, bool>
 {
+    private readonly IUserProvider _userProvider;
+    private readonly ISystemProvider _systemProvider;
+
     public SampleWebAppDbContext DbContext { get; }    
     public IEntityMapper<AllNoxType> EntityMapper { get; }
 
@@ -25,10 +29,14 @@ public class UpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler<Update
         SampleWebAppDbContext dbContext,        
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
-        IEntityMapper<AllNoxType> entityMapper): base(noxSolution, serviceProvider)
+        IEntityMapper<AllNoxType> entityMapper,
+        IUserProvider userProvider,
+        ISystemProvider systemProvider): base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;        
         EntityMapper = entityMapper;
+        _userProvider = userProvider;
+        _systemProvider = systemProvider;
     }
     
     public async Task<bool> Handle(UpdateAllNoxTypeCommand request, CancellationToken cancellationToken)
@@ -42,7 +50,10 @@ public class UpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler<Update
             return false;
         }
         EntityMapper.MapToEntity(entity, GetEntityDefinition<AllNoxType>(), request.EntityDto);
-        //entity.Updated();
+
+        var updatedBy = _userProvider.GetUser();
+        var updatedVia = _systemProvider.GetSystem();
+        entity.Updated(updatedBy, updatedVia);
 
         // Todo map dto
         DbContext.Entry(entity).State = EntityState.Modified;

@@ -4,6 +4,7 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -16,14 +17,21 @@ public record DeleteStoreSecurityPasswordsByIdCommand(System.String keyId) : IRe
 
 public class DeleteStoreSecurityPasswordsByIdCommandHandler: CommandBase, IRequestHandler<DeleteStoreSecurityPasswordsByIdCommand, bool>
 {
+    private readonly IUserProvider _userProvider;
+    private readonly ISystemProvider _systemProvider;
+
     public SampleWebAppDbContext DbContext { get; }
 
     public  DeleteStoreSecurityPasswordsByIdCommandHandler(
         SampleWebAppDbContext dbContext,
-        NoxSolution noxSolution, 
-        IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+        NoxSolution noxSolution,
+        IServiceProvider serviceProvider,
+        IUserProvider userProvider,
+        ISystemProvider systemProvider) : base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;
+        _userProvider = userProvider;
+        _systemProvider = systemProvider;
     }    
 
     public async Task<bool> Handle(DeleteStoreSecurityPasswordsByIdCommand request, CancellationToken cancellationToken)
@@ -35,7 +43,10 @@ public class DeleteStoreSecurityPasswordsByIdCommandHandler: CommandBase, IReque
         {
             return false;
         }
-        //entity.Deleted();
+        
+        var deletedBy = _userProvider.GetUser();
+        var deletedVia = _systemProvider.GetSystem();
+        entity.Deleted(deletedBy, deletedVia);
         await DbContext.SaveChangesAsync(cancellationToken);
         return true;
     }

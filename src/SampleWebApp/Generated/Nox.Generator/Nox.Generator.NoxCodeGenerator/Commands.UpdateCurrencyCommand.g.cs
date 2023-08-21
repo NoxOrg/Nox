@@ -4,6 +4,7 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -18,6 +19,9 @@ public record UpdateCurrencyCommand(System.UInt32 keyId, CurrencyUpdateDto Entit
 
 public class UpdateCurrencyCommandHandler: CommandBase, IRequestHandler<UpdateCurrencyCommand, bool>
 {
+    private readonly IUserProvider _userProvider;
+    private readonly ISystemProvider _systemProvider;
+
     public SampleWebAppDbContext DbContext { get; }    
     public IEntityMapper<Currency> EntityMapper { get; }
 
@@ -25,10 +29,14 @@ public class UpdateCurrencyCommandHandler: CommandBase, IRequestHandler<UpdateCu
         SampleWebAppDbContext dbContext,        
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
-        IEntityMapper<Currency> entityMapper): base(noxSolution, serviceProvider)
+        IEntityMapper<Currency> entityMapper,
+        IUserProvider userProvider,
+        ISystemProvider systemProvider): base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;        
         EntityMapper = entityMapper;
+        _userProvider = userProvider;
+        _systemProvider = systemProvider;
     }
     
     public async Task<bool> Handle(UpdateCurrencyCommand request, CancellationToken cancellationToken)
@@ -41,7 +49,10 @@ public class UpdateCurrencyCommandHandler: CommandBase, IRequestHandler<UpdateCu
             return false;
         }
         EntityMapper.MapToEntity(entity, GetEntityDefinition<Currency>(), request.EntityDto);
-        //entity.Updated();
+
+        var updatedBy = _userProvider.GetUser();
+        var updatedVia = _systemProvider.GetSystem();
+        entity.Updated(updatedBy, updatedVia);
 
         // Todo map dto
         DbContext.Entry(entity).State = EntityState.Modified;
