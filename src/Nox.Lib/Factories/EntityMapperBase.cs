@@ -7,7 +7,7 @@ using System.Collections.Generic;
 
 namespace Nox.Factories;
 
-public abstract class EntityMapperBase<E>: IEntityMapper<E> where E : IEntity
+public abstract class EntityMapperBase<E>: IEntityMapper<E> where E : Domain.IEntity
 {
     public NoxSolution NoxSolution { get; }
     public IServiceProvider ServiceProvider { get; }

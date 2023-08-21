@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
@@ -20,8 +21,8 @@ public class VatNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
                 x.Property(nameof(VatNumber.Number))
                     .IsUnicode(false)
                     .HasMaxLength(64);
-                x.Property(nameof(VatNumber.CountryCode2))
-                    .HasConversion<CountryCode2Converter>()
+                x.Property(nameof(VatNumber.CountryCode))
+                    .HasConversion( new EnumToStringConverter<CountryCode>() )
                     .IsUnicode(false)
                     .IsFixedLength()
                     .HasMaxLength(2);

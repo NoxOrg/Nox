@@ -8,7 +8,7 @@ public class VatNumberTests
     public void VatNumber_ParameterizedConstructor_Success()
     {
         var vatNumberValue = "44403198682";
-        var countryCode = CountryCode2.From("FR");
+        var countryCode = CountryCode.FR;
 
         var vatNumber = VatNumber.From(vatNumberValue, countryCode);
 
@@ -19,7 +19,7 @@ public class VatNumberTests
     public void VatNumber_ParameterizedConstructor_WithUnsupportedCountryCode()
     {
         var vatNumberValue = "44403198682";
-        var countryCode = CountryCode2.From("UA");
+        var countryCode = CountryCode.UA;
 
         var action = () => VatNumber.From(vatNumberValue, countryCode);
 
@@ -31,7 +31,7 @@ public class VatNumberTests
     public void VatNumber_ParameterizedConstructor_WithUnsupportedFormat()
     {
         var vatNumberValue = "44403198682123";
-        var countryCode = CountryCode2.From("FR");
+        var countryCode = "FR";
 
         var action = () => VatNumber.From(vatNumberValue, countryCode);
 
@@ -42,8 +42,8 @@ public class VatNumberTests
     [Fact]
     public void VatNumber_Should_Equal()
     {
-        var vatNumber1 = VatNumber.From("44403198682", CountryCode2.From("FR"));
-        var vatNumber2 = VatNumber.From("44403198682", CountryCode2.From("FR"));
+        var vatNumber1 = VatNumber.From("44403198682", "FR");
+        var vatNumber2 = VatNumber.From("44403198682", CountryCode.FR);
 
         vatNumber1.Should().Be(vatNumber2);
     }
@@ -51,8 +51,8 @@ public class VatNumberTests
     [Fact]
     public void VatNumber_Should_Not_Equal()
     {
-        var vatNumber1 = VatNumber.From("44403198682", CountryCode2.From("FR")); 
-        var vatNumber2 = VatNumber.From("157050817", CountryCode2.From("DE"));
+        var vatNumber1 = VatNumber.From("44403198682", CountryCode.FR); 
+        var vatNumber2 = VatNumber.From("157050817", CountryCode.DE);
 
         vatNumber1.Should().NotBe(vatNumber2);
     }
@@ -64,7 +64,7 @@ public class VatNumberTests
 
         var vatNumber = VatNumber.From(vatNumberValue, new VatNumberTypeOptions());
 
-        vatNumber.Value.Should().Be((vatNumberValue, CountryCode2.From("GB")));
+        vatNumber.Value.Should().Be((vatNumberValue, CountryCode.GB));
     }
 
     [Fact]
@@ -74,10 +74,10 @@ public class VatNumberTests
 
         var vatNumber = VatNumber.From(
             vatNumberValue,
-            new VatNumberTypeOptions { CountryCode = "DE" }
+            new VatNumberTypeOptions { CountryCode = CountryCode.DE }
             );
 
-        vatNumber.Value.Should().Be((vatNumberValue, CountryCode2.From("DE")));
+        vatNumber.Value.Should().Be((vatNumberValue, CountryCode.DE));
     }
 
     [Fact]
@@ -91,13 +91,13 @@ public class VatNumberTests
             countryCode
             );
 
-        vatNumber.Value.Should().Be((vatNumberValue, CountryCode2.From(countryCode)));
+        vatNumber.Value.Should().Be((vatNumberValue, System.Enum.Parse<CountryCode>(countryCode)));
     }
 
     [Fact]
     public void VatNumber_ToString_Success()
     {
-        var vatNumber = VatNumber.From("44403198682", CountryCode2.From("FR"));
+        var vatNumber = VatNumber.From("44403198682", System.Enum.Parse<CountryCode>("FR"));
 
         vatNumber.ToString().Should().Be("FR44403198682");
     }
@@ -116,7 +116,7 @@ public class VatNumberTests
     [InlineData("IT", "12345678901")]
     public void VatNumber_Supported_Formats(string countryCode, string vatNumberValue)
     {
-        var countryCode2 = CountryCode2.From(countryCode);
+        var countryCode2 = System.Enum.Parse<CountryCode>(countryCode);
 
         var vatNumber = VatNumber.From(vatNumberValue, countryCode2);
 

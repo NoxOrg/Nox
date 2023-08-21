@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 
@@ -17,7 +18,7 @@ public class StreetAddressDatabaseConfigurator : INoxTypeDatabaseConfigurator
             {
                 x.Ignore(nameof(StreetAddress.Value));
                 x.Property(nameof(StreetAddress.CountryId))
-                    .HasConversion<CountryCode2Converter>();
+                    .HasConversion( new EnumToStringConverter<CountryCode>() );
             });
     }
 

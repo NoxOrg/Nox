@@ -1,3 +1,4 @@
+using System;
 using System.Linq;
 
 namespace Nox.Types;
@@ -6,11 +7,11 @@ namespace Nox.Types;
 /// Represents a Nox <see cref="StreetAddress"/> type and value object.
 /// </summary>
 /// <remarks>Compound type that represents street address.</remarks>
-public sealed class StreetAddress : ValueObject<StreetAddressItem, StreetAddress>
+public sealed class StreetAddress : ValueObject<StreetAddressItem, StreetAddress>, IStreetAddress
 {
     public override StreetAddressItem Value { get; protected set; } = new StreetAddressItem();
 
-    public int StreetNumber
+    public string StreetNumber
     {
         get => Value.StreetNumber;
         private set => Value.StreetNumber = value;
@@ -64,7 +65,7 @@ public sealed class StreetAddress : ValueObject<StreetAddressItem, StreetAddress
         private set => Value.PostalCode = value;
     }
 
-    public CountryCode2 CountryId
+    public CountryCode CountryId
     {
         get => Value.CountryId;
         private set => Value.CountryId = value;
@@ -74,14 +75,16 @@ public sealed class StreetAddress : ValueObject<StreetAddressItem, StreetAddress
     {
         var result = base.Validate();
 
-        var isPostalCodeMatch = CountryPostalCodeValidator.IsValid(Value.CountryId.Value, Value.PostalCode);
-        if (!isPostalCodeMatch)
-        {
-            result.Errors.Add(new ValidationFailure(nameof(Value.PostalCode), "PostalCode value doesn't match valid postal code pattern."));
+        if (!Enum.IsDefined(Value.CountryId)) 
+        { 
+            result.Errors.Add(new ValidationFailure(nameof(Value.CountryId), $"Country '{Value.CountryId}' is invalid."));
         }
 
-        var countryValidation = Value.CountryId.Validate();
-        result.Errors.AddRange(countryValidation.Errors);
+        var isPostalCodeMatch = CountryPostalCodeValidator.IsValid(Value.CountryId.ToString(), Value.PostalCode);
+        if (!isPostalCodeMatch)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value.PostalCode), $"PostalCode '{Value.PostalCode}' for country '{Value.CountryId}' is invalid."));
+        }
 
         return result;
     }
@@ -95,7 +98,7 @@ public sealed class StreetAddress : ValueObject<StreetAddressItem, StreetAddress
             addressLine,
             Value.Locality,
             areaLine,
-            Value.CountryId.Value ?? string.Empty);
+            Value.CountryId.ToString() ?? string.Empty);
     }
 
     private string JoinStringParts(string separator, params string[] parts)

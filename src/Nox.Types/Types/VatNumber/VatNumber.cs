@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Text.RegularExpressions;
 
 namespace Nox.Types;
@@ -9,7 +10,7 @@ namespace Nox.Types;
 /// Represents a Nox <see cref="VatNumber"/> type and value object.
 /// </summary>
 /// <remarks>Placeholder, needs to be implemented</remarks>
-public sealed class VatNumber : ValueObject<(string Number, CountryCode2 CountryCode2), VatNumber>
+public sealed class VatNumber : ValueObject<(string Number, CountryCode CountryCode), VatNumber>, IVatNumber
 {
 
     #region VatNumber Regex
@@ -53,12 +54,12 @@ public sealed class VatNumber : ValueObject<(string Number, CountryCode2 Country
     public string Number
     {
         get => Value.Number;
-        private set => Value = (value, Value.CountryCode2);
+        private set => Value = (value, Value.CountryCode);
     }
 
-    public CountryCode2 CountryCode2
+    public CountryCode CountryCode
     {
-        get => Value.CountryCode2;
+        get => Value.CountryCode;
         private set => Value = (Value.Number, value);
     }
 
@@ -73,14 +74,24 @@ public sealed class VatNumber : ValueObject<(string Number, CountryCode2 Country
     /// <param name="value">The VAT number value.</param>
     /// <param name="countryCode">The two-letter country codes (ISO alpha-2).</param>
     /// <returns>A new instance of the <see cref="VatNumber"/> class.</returns>
-    public static VatNumber From(string value, CountryCode2 countryCode) => 
+    public static VatNumber From(string value, CountryCode countryCode) => 
         From((value, countryCode));
 
     public static VatNumber From(string value, VatNumberTypeOptions typeOptions) =>
-        From(value, CountryCode2.From(typeOptions.CountryCode));
+        From(value, typeOptions.CountryCode);
 
-    public static VatNumber From(string value, string countryCode) =>
-        From(value, CountryCode2.From(countryCode));
+    public static VatNumber From(string value, string countryCode)
+    {
+        if (!Enum.TryParse(countryCode, out CountryCode code))
+        {
+            var result = new ValidationResult();
+
+            result.Errors.Add(new ValidationFailure(nameof(countryCode), $"Invalid alpha-2 country code specified ('{countryCode}')."));
+
+            throw new TypeValidationException(result.Errors);
+        }
+        return From(value, code);
+    }
 
     /// <summary>
     /// Validates a <see cref="VatNumber"/> object.
@@ -90,21 +101,21 @@ public sealed class VatNumber : ValueObject<(string Number, CountryCode2 Country
     {
         var result = base.Validate();
 
-        if (!_vatNumberRegex.ContainsKey(Value.CountryCode2.ToString()))
+        if (!_vatNumberRegex.ContainsKey(Value.CountryCode.ToString()))
         {
             result.Errors.Add(new ValidationFailure(
                 nameof(Value), 
-                $"Could not create a Nox VatNumber type with unsupported CountryCode '{Value.CountryCode2}'."
+                $"Could not create a Nox VatNumber type with unsupported CountryCode '{Value.CountryCode}'."
                 ));
             return result;
         }
 
-        var regex = _vatNumberRegex[Value.CountryCode2.ToString()];
+        var regex = _vatNumberRegex[Value.CountryCode.ToString()];
         if (!Regex.IsMatch(Value.Number, regex, RegexOptions.IgnoreCase))
         {
             result.Errors.Add(new ValidationFailure(
                 nameof(Value), 
-                $"Could not create a Nox VatNumber type with unsupported value '{Value.CountryCode2}{Value.Number}'."
+                $"Could not create a Nox VatNumber type with unsupported value '{Value.CountryCode}{Value.Number}'."
                 ));
         }
 
@@ -116,6 +127,6 @@ public sealed class VatNumber : ValueObject<(string Number, CountryCode2 Country
     /// </summary>
     /// <returns>A string representation of the <see cref="VatNumber"/> object.</returns>
     public override string ToString()
-        => $"{Value.CountryCode2}{Value.Number}";
+        => $"{Value.CountryCode}{Value.Number}";
 
 }

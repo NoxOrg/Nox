@@ -3,6 +3,6 @@
 public class VatNumberTypeOptions : INoxTypeOptions
 {
 
-    private static readonly string DefaultCountryCode = "GB";
-    public string CountryCode { get; set; } = DefaultCountryCode;
+    private static readonly CountryCode DefaultCountryCode = CountryCode.GB;
+    public CountryCode CountryCode { get; set; } = DefaultCountryCode;
 }

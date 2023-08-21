@@ -10,13 +10,13 @@ namespace Nox.Types;
 /// <summary>
 /// Represents an image value object that encapsulates image-related information.
 /// </summary>
-public sealed class Image : ValueObject<(string Url, string PrettyName, int SizeInBytes), Image>
+public sealed class Image : ValueObject<(string Url, string PrettyName, int SizeInBytes), Image>, IImage
 {
     public const int MaxUrlLength = 2083;
     public const int MaxPrettyNameLength = 511;
 
     private ImageTypeOptions _imageTypeOptions = new();
-    
+
     /// <summary>
     /// Gets or sets the URL of the image.
     /// </summary>
@@ -70,7 +70,7 @@ public sealed class Image : ValueObject<(string Url, string PrettyName, int Size
             Value = (url, prettyName, sizeInBytes),
             _imageTypeOptions = options
         };
-        
+
         var validationResult = newObject.Validate();
 
         if (!validationResult.IsValid)
@@ -85,7 +85,7 @@ public sealed class Image : ValueObject<(string Url, string PrettyName, int Size
     /// Retrieves the image format type extension from the URL.
     /// </summary>
     /// <returns>String representing the image format type extension.</returns>
-    public string GetImageExtension() => Path.GetExtension(Url); 
+    public string GetImageExtension() => Path.GetExtension(Url);
 
     /// <summary>
     /// Retrieves the equality components for the image value object.
@@ -136,7 +136,7 @@ public sealed class Image : ValueObject<(string Url, string PrettyName, int Size
         {
             result.Errors.Add(new ValidationFailure(nameof(Value.PrettyName), $"Could not create a Nox Image type with an empty PrettyName."));
         }
-        else if(Value.PrettyName.Length > MaxPrettyNameLength)
+        else if (Value.PrettyName.Length > MaxPrettyNameLength)
         {
             result.Errors.Add(new ValidationFailure(nameof(Value.PrettyName), $"Could not create a Nox Image type with a PrettyName length greater than max allowed length of {MaxPrettyNameLength}."));
         }
