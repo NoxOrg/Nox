@@ -1,4 +1,4 @@
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 using MediatR;
@@ -84,5 +84,5 @@ public partial class {{className}}
 
 {{- if entity.Persistence?.IsAudited == true #TODO do not expose Deleted on end points??}}
     public System.DateTime? DeletedAtUtc { get; set; }
-{ {- end}}
+{{- end}}
 }
