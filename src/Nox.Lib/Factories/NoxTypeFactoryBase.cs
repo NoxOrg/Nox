@@ -14,10 +14,11 @@ namespace Nox.Factories
 
         public virtual T? CreateNoxType(Entity entityDefinition, string propertyName, dynamic? value)
         {
-            var attributeDefinition = entityDefinition.GetAttributeByName(propertyName);
-            var keyDefinition = entityDefinition.GetKeyByName(propertyName);
+            var definition = entityDefinition.IsKey(propertyName) ?
+                entityDefinition.GetKeyByName(propertyName) :
+                entityDefinition.GetAttributeByName(propertyName);
 
-            return CreateNoxType(attributeDefinition ?? keyDefinition, value);
+            return CreateNoxType(definition, value);
         }
 
         public abstract T? CreateNoxType(NoxSimpleTypeDefinition simpleTypeDefinition, dynamic? value);

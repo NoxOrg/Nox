@@ -15,7 +15,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
 public partial class {{className}} : {{entity.Name}}UpdateDto
 {
 {{- for key in entity.Keys }}
-    {{- if key.Type == "Nuid" || key.Type == "DatabaseNumber" || keyType == "Guid" -}}
+    {{- if key.Type == "Nuid" || key.Type == "DatabaseNumber" || keyType == "DatabaseGuid" -}}
     {{ continue; -}}
     {{- end }}
     /// <summary>

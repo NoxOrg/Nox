@@ -98,19 +98,28 @@ public class Entity : DefinitionBase
                 }
             }
         }
-        return _attributesByName.TryGetValue(entityName, out var attribute) ? attribute : null;
+        return _attributesByName[entityName];
     }
 
     public NoxSimpleTypeDefinition? GetKeyByName(string entityName)
     {
         lock (this)
         {
-            if (_keysByName is null && Keys is not null)
+            if (_keysByName is null)
             {
-                _keysByName = Keys.ToDictionary(key => key.Name, key => key);
+                _keysByName = new();
+                for (int i = 0; i < Keys!.Count; i++)
+                {
+                    _keysByName.Add(Keys[i].Name, Keys[i]);
+                }
             }
         }
-        return _keysByName?.TryGetValue(entityName, out var key) == true ? key : null;
+        return _keysByName[entityName];
+    }
+
+    public bool IsKey(string entityName)
+    {
+        return Keys?.Any(key => key.Name == entityName) == true;
     }
 
     [YamlIgnore]
