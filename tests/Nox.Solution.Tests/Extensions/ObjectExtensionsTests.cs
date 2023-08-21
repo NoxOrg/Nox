@@ -23,7 +23,7 @@ public class ObjectExtensionsTests
         };
 
         var expectedSource = """
-                var textOptions2 = new TextTypeOptions()
+                Nox.Types.TextTypeOptions textOptions2 = new ()
                 {
                     MinLength = 4,
                     MaxLength = 16,
