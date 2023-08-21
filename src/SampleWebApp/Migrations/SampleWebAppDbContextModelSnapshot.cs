@@ -619,8 +619,9 @@ namespace SampleWebApp.Migrations
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<int>("StreetNumber")
-                                .HasColumnType("int");
+                            b1.Property<string>("StreetNumber")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
 
                             b1.HasKey("AllNoxTypeId", "AllNoxTypeTextId");
 
@@ -662,7 +663,7 @@ namespace SampleWebApp.Migrations
                             b1.Property<string>("AllNoxTypeTextId")
                                 .HasColumnType("nvarchar(255)");
 
-                            b1.Property<string>("CountryCode2")
+                            b1.Property<string>("CountryCode")
                                 .IsRequired()
                                 .HasMaxLength(2)
                                 .IsUnicode(false)
