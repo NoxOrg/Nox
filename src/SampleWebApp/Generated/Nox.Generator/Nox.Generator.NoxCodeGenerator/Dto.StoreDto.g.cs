@@ -17,7 +17,7 @@ public record StoreKeyDto(System.String keyId);
 /// <summary>
 /// Stores.
 /// </summary>
-public partial class StoreDto 
+public partial class StoreDto
 {
 
     /// <summary>

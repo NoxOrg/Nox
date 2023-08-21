@@ -17,7 +17,7 @@ public record CurrencyKeyDto(System.UInt32 keyId);
 /// <summary>
 /// The list of currencies.
 /// </summary>
-public partial class CurrencyDto 
+public partial class CurrencyDto
 {
 
     /// <summary>

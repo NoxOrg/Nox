@@ -17,7 +17,7 @@ public record ClientNuidKeyDto(System.UInt32 keyId);
 /// <summary>
 /// Client Nuid Key.
 /// </summary>
-public partial class ClientNuidDto 
+public partial class ClientNuidDto
 {
 
     /// <summary>

@@ -17,7 +17,7 @@ public record CurrencyCashBalanceKeyDto(System.String keyStoreId, System.UInt32 
 /// <summary>
 /// The cash balance in Store.
 /// </summary>
-public partial class CurrencyCashBalanceDto 
+public partial class CurrencyCashBalanceDto
 {
 
     /// <summary>
@@ -38,7 +38,7 @@ public partial class CurrencyCashBalanceDto
     /// <summary>
     /// The Operation Limit (Optional).
     /// </summary>
-    public System.Decimal? OperationLimit { get; set; } 
+    public System.Decimal? OperationLimit { get; set; }
 
     public bool? Deleted { get; set; }
 }

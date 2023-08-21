@@ -17,7 +17,7 @@ public record CountryLocalNamesKeyDto(System.String keyId);
 /// <summary>
 /// The name of a country in other languages.
 /// </summary>
-public partial class CountryLocalNamesDto 
+public partial class CountryLocalNamesDto
 {
 
     /// <summary>

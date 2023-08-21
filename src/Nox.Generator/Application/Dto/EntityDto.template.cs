@@ -17,7 +17,7 @@ public record {{entity.Name}}KeyDto({{primaryKeys}});
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public partial class {{className}} 
+public partial class {{className}}
 {
 {{- for key in entity.Keys }}
 
@@ -42,9 +42,9 @@ public partial class {{className}}
         {{- if attribute.Type == "Formula" -}}
     [NotMapped]
         {{- end -}}
-    public {{SinglePrimitiveTypeForKey attribute}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
+    public {{SinglePrimitiveTypeForKey attribute}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
     {{- else -}}
-    public {{attribute.Type}}Dto{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
+    public {{attribute.Type}}Dto{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
     {{- end}}
 {{- end }}
 {{- ######################################### Relationships###################################################### -}}

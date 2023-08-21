@@ -17,7 +17,7 @@ public record ClientDatabaseNumberKeyDto(System.Int64 keyId);
 /// <summary>
 /// Client DatabaseNumber Key.
 /// </summary>
-public partial class ClientDatabaseNumberDto 
+public partial class ClientDatabaseNumberDto
 {
 
     /// <summary>
@@ -33,7 +33,7 @@ public partial class ClientDatabaseNumberDto
     /// <summary>
     /// The Number (Optional).
     /// </summary>
-    public System.Int32? Number { get; set; } 
+    public System.Int32? Number { get; set; }
 
     public bool? Deleted { get; set; }
 }

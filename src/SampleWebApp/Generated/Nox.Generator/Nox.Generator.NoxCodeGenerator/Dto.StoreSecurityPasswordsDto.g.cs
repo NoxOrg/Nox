@@ -17,7 +17,7 @@ public record StoreSecurityPasswordsKeyDto(System.String keyId);
 /// <summary>
 /// A set of security passwords to store cameras and databases.
 /// </summary>
-public partial class StoreSecurityPasswordsDto 
+public partial class StoreSecurityPasswordsDto
 {
 
     /// <summary>
