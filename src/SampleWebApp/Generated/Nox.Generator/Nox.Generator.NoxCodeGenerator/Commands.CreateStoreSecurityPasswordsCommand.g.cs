@@ -20,30 +20,30 @@ public class CreateStoreSecurityPasswordsCommandHandler: IRequestHandler<CreateS
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
 
-    public SampleWebAppDbContext DbContext { get; }
-    public IEntityFactory<StoreSecurityPasswordsCreateDto,StoreSecurityPasswords> EntityFactory { get; }
+	public SampleWebAppDbContext DbContext { get; }
+	public IEntityFactory<StoreSecurityPasswordsCreateDto,StoreSecurityPasswords> EntityFactory { get; }
 
-    public  CreateStoreSecurityPasswordsCommandHandler(
-        SampleWebAppDbContext dbContext,
-        IEntityFactory<StoreSecurityPasswordsCreateDto,StoreSecurityPasswords> entityFactory,
+	public CreateStoreSecurityPasswordsCommandHandler(
+		SampleWebAppDbContext dbContext,
+		IEntityFactory<StoreSecurityPasswordsCreateDto,StoreSecurityPasswords> entityFactory,
 		IUserProvider userProvider,
 		ISystemProvider systemProvider)
-    {
-        DbContext = dbContext;
-        EntityFactory = entityFactory;
+	{
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
 		_userProvider = userProvider;
 		_systemProvider = systemProvider;
-    }
-    
-    public async Task<StoreSecurityPasswordsKeyDto> Handle(CreateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
-    {    
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
+	}
+
+	public async Task<StoreSecurityPasswordsKeyDto> Handle(CreateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
+	{
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		var createdBy = _userProvider.GetUser();
 		var createdVia = _systemProvider.GetSystem();
 		entityToCreate.Created(createdBy, createdVia);
 	
-        DbContext.StoreSecurityPasswords.Add(entityToCreate);
-        await DbContext.SaveChangesAsync();
-        return new StoreSecurityPasswordsKeyDto(entityToCreate.Id.Value);
-}
+		DbContext.StoreSecurityPasswords.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
+		return new StoreSecurityPasswordsKeyDto(entityToCreate.Id.Value);
+	}
 }

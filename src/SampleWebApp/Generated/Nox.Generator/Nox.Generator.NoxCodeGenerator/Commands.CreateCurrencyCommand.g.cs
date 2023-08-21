@@ -20,31 +20,31 @@ public class CreateCurrencyCommandHandler: IRequestHandler<CreateCurrencyCommand
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
 
-    public SampleWebAppDbContext DbContext { get; }
-    public IEntityFactory<CurrencyCreateDto,Currency> EntityFactory { get; }
+	public SampleWebAppDbContext DbContext { get; }
+	public IEntityFactory<CurrencyCreateDto,Currency> EntityFactory { get; }
 
-    public  CreateCurrencyCommandHandler(
-        SampleWebAppDbContext dbContext,
-        IEntityFactory<CurrencyCreateDto,Currency> entityFactory,
+	public CreateCurrencyCommandHandler(
+		SampleWebAppDbContext dbContext,
+		IEntityFactory<CurrencyCreateDto,Currency> entityFactory,
 		IUserProvider userProvider,
 		ISystemProvider systemProvider)
-    {
-        DbContext = dbContext;
-        EntityFactory = entityFactory;
+	{
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
 		_userProvider = userProvider;
 		_systemProvider = systemProvider;
-    }
-    
-    public async Task<CurrencyKeyDto> Handle(CreateCurrencyCommand request, CancellationToken cancellationToken)
-    {    
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto); 
-		entityToCreate.EnsureId();        
+	}
+
+	public async Task<CurrencyKeyDto> Handle(CreateCurrencyCommand request, CancellationToken cancellationToken)
+	{
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		entityToCreate.EnsureId();
 		var createdBy = _userProvider.GetUser();
 		var createdVia = _systemProvider.GetSystem();
 		entityToCreate.Created(createdBy, createdVia);
 	
-        DbContext.Currencies.Add(entityToCreate);
-        await DbContext.SaveChangesAsync();
-        return new CurrencyKeyDto(entityToCreate.Id.Value);
-}
+		DbContext.Currencies.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
+		return new CurrencyKeyDto(entityToCreate.Id.Value);
+	}
 }

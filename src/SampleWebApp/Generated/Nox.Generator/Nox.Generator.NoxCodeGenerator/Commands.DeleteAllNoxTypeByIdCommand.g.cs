@@ -22,7 +22,7 @@ public class DeleteAllNoxTypeByIdCommandHandler: CommandBase, IRequestHandler<De
 
 	public SampleWebAppDbContext DbContext { get; }
 
-	public  DeleteAllNoxTypeByIdCommandHandler(
+	public DeleteAllNoxTypeByIdCommandHandler(
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution, 
 		IServiceProvider serviceProvider,
@@ -32,7 +32,7 @@ public class DeleteAllNoxTypeByIdCommandHandler: CommandBase, IRequestHandler<De
 		DbContext = dbContext;
 		_userProvider = userProvider;
 		_systemProvider = systemProvider;
-	}    
+	}
 
 	public async Task<bool> Handle(DeleteAllNoxTypeByIdCommand request, CancellationToken cancellationToken)
 	{
@@ -43,7 +43,7 @@ public class DeleteAllNoxTypeByIdCommandHandler: CommandBase, IRequestHandler<De
 		if (entity == null || entity.IsDeleted.Value == true)
 		{
 			return false;
-		}        
+		}
 		var deletedBy = _userProvider.GetUser();
 		var deletedVia = _systemProvider.GetSystem();
 		entity.Deleted(deletedBy, deletedVia);

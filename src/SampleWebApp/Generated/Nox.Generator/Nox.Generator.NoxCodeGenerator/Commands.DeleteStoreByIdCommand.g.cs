@@ -22,7 +22,7 @@ public class DeleteStoreByIdCommandHandler: CommandBase, IRequestHandler<DeleteS
 
 	public SampleWebAppDbContext DbContext { get; }
 
-	public  DeleteStoreByIdCommandHandler(
+	public DeleteStoreByIdCommandHandler(
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution, 
 		IServiceProvider serviceProvider,
@@ -32,7 +32,7 @@ public class DeleteStoreByIdCommandHandler: CommandBase, IRequestHandler<DeleteS
 		DbContext = dbContext;
 		_userProvider = userProvider;
 		_systemProvider = systemProvider;
-	}    
+	}
 
 	public async Task<bool> Handle(DeleteStoreByIdCommand request, CancellationToken cancellationToken)
 	{
@@ -42,7 +42,7 @@ public class DeleteStoreByIdCommandHandler: CommandBase, IRequestHandler<DeleteS
 		if (entity == null || entity.IsDeleted.Value == true)
 		{
 			return false;
-		}        
+		}
 		var deletedBy = _userProvider.GetUser();
 		var deletedVia = _systemProvider.GetSystem();
 		entity.Deleted(deletedBy, deletedVia);

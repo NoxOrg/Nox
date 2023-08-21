@@ -12,11 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-<<<<<<<< HEAD:src/SampleWebApp/Migrations/20230821100228_InitialCreate.Designer.cs
-    [Migration("20230821100228_InitialCreate")]
-========
-    [Migration("20230821104602_InitialCreate")]
->>>>>>>> main:src/SampleWebApp/Migrations/20230821104602_InitialCreate.Designer.cs
+    [Migration("20230821134014_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -343,60 +339,6 @@ namespace SampleWebApp.Migrations
                     b.ToTable("Countries");
                 });
 
-<<<<<<<< HEAD:src/SampleWebApp/Migrations/20230821100228_InitialCreate.Designer.cs
-            modelBuilder.Entity("SampleWebApp.Domain.CountryLocalNames", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(2)
-                        .IsUnicode(false)
-                        .HasColumnType("char(2)")
-                        .IsFixedLength();
-
-                    b.Property<DateTimeOffset>("CreatedAtUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("CreatedVia")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<DateTimeOffset?>("DeletedAtUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("DeletedBy")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("DeletedVia")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("LastUpdatedBy")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("LastUpdatedVia")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CountryLocalNames");
-                });
-
-========
->>>>>>>> main:src/SampleWebApp/Migrations/20230821104602_InitialCreate.Designer.cs
             modelBuilder.Entity("SampleWebApp.Domain.Currency", b =>
                 {
                     b.Property<uint>("Id")
@@ -941,9 +883,8 @@ namespace SampleWebApp.Migrations
                                 .HasColumnType("char(2)")
                                 .IsFixedLength();
 
-                            b1.Property<string>("CountryId")
-                                .IsRequired()
-                                .HasColumnType("char(2)");
+                            b1.Property<long>("CountryId")
+                                .HasColumnType("bigint");
 
                             b1.HasKey("Id");
 

@@ -20,30 +20,30 @@ public class CreateStoreCommandHandler: IRequestHandler<CreateStoreCommand, Stor
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
 
-    public SampleWebAppDbContext DbContext { get; }
-    public IEntityFactory<StoreCreateDto,Store> EntityFactory { get; }
+	public SampleWebAppDbContext DbContext { get; }
+	public IEntityFactory<StoreCreateDto,Store> EntityFactory { get; }
 
-    public  CreateStoreCommandHandler(
-        SampleWebAppDbContext dbContext,
-        IEntityFactory<StoreCreateDto,Store> entityFactory,
+	public CreateStoreCommandHandler(
+		SampleWebAppDbContext dbContext,
+		IEntityFactory<StoreCreateDto,Store> entityFactory,
 		IUserProvider userProvider,
 		ISystemProvider systemProvider)
-    {
-        DbContext = dbContext;
-        EntityFactory = entityFactory;
+	{
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
 		_userProvider = userProvider;
 		_systemProvider = systemProvider;
-    }
-    
-    public async Task<StoreKeyDto> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
-    {    
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
+	}
+
+	public async Task<StoreKeyDto> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
+	{
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		var createdBy = _userProvider.GetUser();
 		var createdVia = _systemProvider.GetSystem();
 		entityToCreate.Created(createdBy, createdVia);
 	
-        DbContext.Stores.Add(entityToCreate);
-        await DbContext.SaveChangesAsync();
-        return new StoreKeyDto(entityToCreate.Id.Value);
-}
+		DbContext.Stores.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
+		return new StoreKeyDto(entityToCreate.Id.Value);
+	}
 }

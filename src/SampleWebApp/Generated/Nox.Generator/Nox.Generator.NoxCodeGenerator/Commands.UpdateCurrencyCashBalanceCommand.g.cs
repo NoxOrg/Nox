@@ -22,18 +22,18 @@ public class UpdateCurrencyCashBalanceCommandHandler: CommandBase, IRequestHandl
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
 
-	public SampleWebAppDbContext DbContext { get; }    
+	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<CurrencyCashBalance> EntityMapper { get; }
 
-	public  UpdateCurrencyCashBalanceCommandHandler(
-		SampleWebAppDbContext dbContext,        
+	public UpdateCurrencyCashBalanceCommandHandler(
+		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<CurrencyCashBalance> entityMapper,
 		IUserProvider userProvider,
 		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;        
+		DbContext = dbContext;
 		EntityMapper = entityMapper;
 		_userProvider = userProvider;
 		_systemProvider = systemProvider;
@@ -49,7 +49,7 @@ public class UpdateCurrencyCashBalanceCommandHandler: CommandBase, IRequestHandl
 		{
 			return null;
 		}
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<CurrencyCashBalance>(), request.EntityDto);        
+		EntityMapper.MapToEntity(entity, GetEntityDefinition<CurrencyCashBalance>(), request.EntityDto);
 		var updatedBy = _userProvider.GetUser();
 		var updatedVia = _systemProvider.GetSystem();
 		entity.Updated(updatedBy, updatedVia);

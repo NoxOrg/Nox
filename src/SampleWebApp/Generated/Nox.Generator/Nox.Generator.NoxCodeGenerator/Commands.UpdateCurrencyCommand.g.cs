@@ -22,18 +22,18 @@ public class UpdateCurrencyCommandHandler: CommandBase, IRequestHandler<UpdateCu
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
 
-	public SampleWebAppDbContext DbContext { get; }    
+	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<Currency> EntityMapper { get; }
 
-	public  UpdateCurrencyCommandHandler(
-		SampleWebAppDbContext dbContext,        
+	public UpdateCurrencyCommandHandler(
+		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<Currency> entityMapper,
 		IUserProvider userProvider,
 		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;        
+		DbContext = dbContext;
 		EntityMapper = entityMapper;
 		_userProvider = userProvider;
 		_systemProvider = systemProvider;
@@ -48,7 +48,7 @@ public class UpdateCurrencyCommandHandler: CommandBase, IRequestHandler<UpdateCu
 		{
 			return null;
 		}
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<Currency>(), request.EntityDto);        
+		EntityMapper.MapToEntity(entity, GetEntityDefinition<Currency>(), request.EntityDto);
 		var updatedBy = _userProvider.GetUser();
 		var updatedVia = _systemProvider.GetSystem();
 		entity.Updated(updatedBy, updatedVia);

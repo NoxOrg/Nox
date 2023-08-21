@@ -20,30 +20,30 @@ public class CreateCountryCommandHandler: IRequestHandler<CreateCountryCommand, 
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
 
-    public SampleWebAppDbContext DbContext { get; }
-    public IEntityFactory<CountryCreateDto,Country> EntityFactory { get; }
+	public SampleWebAppDbContext DbContext { get; }
+	public IEntityFactory<CountryCreateDto,Country> EntityFactory { get; }
 
-    public  CreateCountryCommandHandler(
-        SampleWebAppDbContext dbContext,
-        IEntityFactory<CountryCreateDto,Country> entityFactory,
+	public CreateCountryCommandHandler(
+		SampleWebAppDbContext dbContext,
+		IEntityFactory<CountryCreateDto,Country> entityFactory,
 		IUserProvider userProvider,
 		ISystemProvider systemProvider)
-    {
-        DbContext = dbContext;
-        EntityFactory = entityFactory;
+	{
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
 		_userProvider = userProvider;
 		_systemProvider = systemProvider;
-    }
-    
-    public async Task<CountryKeyDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
-    {    
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
+	}
+
+	public async Task<CountryKeyDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
+	{
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		var createdBy = _userProvider.GetUser();
 		var createdVia = _systemProvider.GetSystem();
 		entityToCreate.Created(createdBy, createdVia);
 	
-        DbContext.Countries.Add(entityToCreate);
-        await DbContext.SaveChangesAsync();
-        return new CountryKeyDto(entityToCreate.Id.Value);
-}
+		DbContext.Countries.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
+		return new CountryKeyDto(entityToCreate.Id.Value);
+	}
 }

@@ -22,34 +22,34 @@ public class PartialUpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
 
-	public SampleWebAppDbContext DbContext { get; }    
+	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<AllNoxType> EntityMapper { get; }
 
 	public PartialUpdateAllNoxTypeCommandHandler(
-		SampleWebAppDbContext dbContext,        
+		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<AllNoxType> entityMapper,
 		IUserProvider userProvider,
 		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;        
+		DbContext = dbContext;
 		EntityMapper = entityMapper;
 		_userProvider = userProvider;
 		_systemProvider = systemProvider;
 	}
-	
+
 	public async Task<AllNoxTypeKeyDto?> Handle(PartialUpdateAllNoxTypeCommand request, CancellationToken cancellationToken)
 	{
 		var keyId = CreateNoxTypeForKey<AllNoxType,DatabaseNumber>("Id", request.keyId);
 		var keyTextId = CreateNoxTypeForKey<AllNoxType,Text>("TextId", request.keyTextId);
-	
+
 		var entity = await DbContext.AllNoxTypes.FindAsync(keyId, keyTextId);
 		if (entity == null)
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<AllNoxType>(), request.UpdatedProperties, request.DeletedPropertyNames);        
+		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<AllNoxType>(), request.UpdatedProperties, request.DeletedPropertyNames);
 		var updatedBy = _userProvider.GetUser();
 		var updatedVia = _systemProvider.GetSystem();
 		entity.Updated(updatedBy, updatedVia);

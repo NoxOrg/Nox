@@ -22,33 +22,33 @@ public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRe
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
 
-	public SampleWebAppDbContext DbContext { get; }    
+	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<StoreSecurityPasswords> EntityMapper { get; }
 
 	public PartialUpdateStoreSecurityPasswordsCommandHandler(
-		SampleWebAppDbContext dbContext,        
+		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<StoreSecurityPasswords> entityMapper,
 		IUserProvider userProvider,
 		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;        
+		DbContext = dbContext;
 		EntityMapper = entityMapper;
 		_userProvider = userProvider;
 		_systemProvider = systemProvider;
 	}
-	
+
 	public async Task<StoreSecurityPasswordsKeyDto?> Handle(PartialUpdateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
 	{
 		var keyId = CreateNoxTypeForKey<StoreSecurityPasswords,Text>("Id", request.keyId);
-	
+
 		var entity = await DbContext.StoreSecurityPasswords.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<StoreSecurityPasswords>(), request.UpdatedProperties, request.DeletedPropertyNames);        
+		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<StoreSecurityPasswords>(), request.UpdatedProperties, request.DeletedPropertyNames);
 		var updatedBy = _userProvider.GetUser();
 		var updatedVia = _systemProvider.GetSystem();
 		entity.Updated(updatedBy, updatedVia);

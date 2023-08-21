@@ -20,30 +20,30 @@ public class CreateCurrencyCashBalanceCommandHandler: IRequestHandler<CreateCurr
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
 
-    public SampleWebAppDbContext DbContext { get; }
-    public IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> EntityFactory { get; }
+	public SampleWebAppDbContext DbContext { get; }
+	public IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> EntityFactory { get; }
 
-    public  CreateCurrencyCashBalanceCommandHandler(
-        SampleWebAppDbContext dbContext,
-        IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> entityFactory,
+	public CreateCurrencyCashBalanceCommandHandler(
+		SampleWebAppDbContext dbContext,
+		IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> entityFactory,
 		IUserProvider userProvider,
 		ISystemProvider systemProvider)
-    {
-        DbContext = dbContext;
-        EntityFactory = entityFactory;
+	{
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
 		_userProvider = userProvider;
 		_systemProvider = systemProvider;
-    }
-    
-    public async Task<CurrencyCashBalanceKeyDto> Handle(CreateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
-    {    
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
+	}
+
+	public async Task<CurrencyCashBalanceKeyDto> Handle(CreateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
+	{
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		var createdBy = _userProvider.GetUser();
 		var createdVia = _systemProvider.GetSystem();
 		entityToCreate.Created(createdBy, createdVia);
 	
-        DbContext.CurrencyCashBalances.Add(entityToCreate);
-        await DbContext.SaveChangesAsync();
-        return new CurrencyCashBalanceKeyDto(entityToCreate.StoreId.Value, entityToCreate.CurrencyId.Value);
-}
+		DbContext.CurrencyCashBalances.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
+		return new CurrencyCashBalanceKeyDto(entityToCreate.StoreId.Value, entityToCreate.CurrencyId.Value);
+	}
 }

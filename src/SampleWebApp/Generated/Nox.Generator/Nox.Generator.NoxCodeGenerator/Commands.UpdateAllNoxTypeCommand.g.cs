@@ -22,18 +22,18 @@ public class UpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler<Update
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
 
-	public SampleWebAppDbContext DbContext { get; }    
+	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<AllNoxType> EntityMapper { get; }
 
-	public  UpdateAllNoxTypeCommandHandler(
-		SampleWebAppDbContext dbContext,        
+	public UpdateAllNoxTypeCommandHandler(
+		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<AllNoxType> entityMapper,
 		IUserProvider userProvider,
 		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;        
+		DbContext = dbContext;
 		EntityMapper = entityMapper;
 		_userProvider = userProvider;
 		_systemProvider = systemProvider;
@@ -49,7 +49,7 @@ public class UpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler<Update
 		{
 			return null;
 		}
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<AllNoxType>(), request.EntityDto);        
+		EntityMapper.MapToEntity(entity, GetEntityDefinition<AllNoxType>(), request.EntityDto);
 		var updatedBy = _userProvider.GetUser();
 		var updatedVia = _systemProvider.GetSystem();
 		entity.Updated(updatedBy, updatedVia);

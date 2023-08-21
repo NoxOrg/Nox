@@ -22,7 +22,7 @@ public class DeleteCurrencyByIdCommandHandler: CommandBase, IRequestHandler<Dele
 
 	public SampleWebAppDbContext DbContext { get; }
 
-	public  DeleteCurrencyByIdCommandHandler(
+	public DeleteCurrencyByIdCommandHandler(
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution, 
 		IServiceProvider serviceProvider,
@@ -32,7 +32,7 @@ public class DeleteCurrencyByIdCommandHandler: CommandBase, IRequestHandler<Dele
 		DbContext = dbContext;
 		_userProvider = userProvider;
 		_systemProvider = systemProvider;
-	}    
+	}
 
 	public async Task<bool> Handle(DeleteCurrencyByIdCommand request, CancellationToken cancellationToken)
 	{
@@ -42,7 +42,7 @@ public class DeleteCurrencyByIdCommandHandler: CommandBase, IRequestHandler<Dele
 		if (entity == null || entity.IsDeleted.Value == true)
 		{
 			return false;
-		}        
+		}
 		var deletedBy = _userProvider.GetUser();
 		var deletedVia = _systemProvider.GetSystem();
 		entity.Deleted(deletedBy, deletedVia);

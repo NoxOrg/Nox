@@ -22,18 +22,18 @@ public class UpdateCountryCommandHandler: CommandBase, IRequestHandler<UpdateCou
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
 
-	public SampleWebAppDbContext DbContext { get; }    
+	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<Country> EntityMapper { get; }
 
-	public  UpdateCountryCommandHandler(
-		SampleWebAppDbContext dbContext,        
+	public UpdateCountryCommandHandler(
+		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<Country> entityMapper,
 		IUserProvider userProvider,
 		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;        
+		DbContext = dbContext;
 		EntityMapper = entityMapper;
 		_userProvider = userProvider;
 		_systemProvider = systemProvider;
@@ -48,7 +48,7 @@ public class UpdateCountryCommandHandler: CommandBase, IRequestHandler<UpdateCou
 		{
 			return null;
 		}
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<Country>(), request.EntityDto);        
+		EntityMapper.MapToEntity(entity, GetEntityDefinition<Country>(), request.EntityDto);
 		var updatedBy = _userProvider.GetUser();
 		var updatedVia = _systemProvider.GetSystem();
 		entity.Updated(updatedBy, updatedVia);

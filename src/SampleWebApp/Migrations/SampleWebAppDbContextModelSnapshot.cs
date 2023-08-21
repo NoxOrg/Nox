@@ -336,57 +336,6 @@ namespace SampleWebApp.Migrations
                     b.ToTable("Countries");
                 });
 
-            modelBuilder.Entity("SampleWebApp.Domain.CountryLocalNames", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(2)
-                        .IsUnicode(false)
-                        .HasColumnType("char(2)")
-                        .IsFixedLength();
-
-                    b.Property<DateTimeOffset>("CreatedAtUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("CreatedBy")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("CreatedVia")
-                        .IsRequired()
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<DateTimeOffset?>("DeletedAtUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("DeletedBy")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("DeletedVia")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
-
-                    b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
-                        .HasColumnType("datetimeoffset");
-
-                    b.Property<string>("LastUpdatedBy")
-                        .HasMaxLength(255)
-                        .HasColumnType("nvarchar(255)");
-
-                    b.Property<string>("LastUpdatedVia")
-                        .HasMaxLength(255)
-                        .IsUnicode(false)
-                        .HasColumnType("varchar(255)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CountryLocalNames");
-                });
-
             modelBuilder.Entity("SampleWebApp.Domain.Currency", b =>
                 {
                     b.Property<uint>("Id")
@@ -922,6 +871,29 @@ namespace SampleWebApp.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("CountryId");
                         });
+
+                    b.OwnsMany("SampleWebApp.Domain.CountryLocalNames", "CountryLocalNames", b1 =>
+                        {
+                            b1.Property<string>("Id")
+                                .HasMaxLength(2)
+                                .IsUnicode(false)
+                                .HasColumnType("char(2)")
+                                .IsFixedLength();
+
+                            b1.Property<long>("CountryId")
+                                .HasColumnType("bigint");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("CountryId");
+
+                            b1.ToTable("CountryLocalNames");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CountryId");
+                        });
+
+                    b.Navigation("CountryLocalNames");
 
                     b.Navigation("GeoCoord");
                 });

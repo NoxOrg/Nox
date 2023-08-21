@@ -22,18 +22,18 @@ public class UpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRequestHa
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
 
-	public SampleWebAppDbContext DbContext { get; }    
+	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<StoreSecurityPasswords> EntityMapper { get; }
 
-	public  UpdateStoreSecurityPasswordsCommandHandler(
-		SampleWebAppDbContext dbContext,        
+	public UpdateStoreSecurityPasswordsCommandHandler(
+		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<StoreSecurityPasswords> entityMapper,
 		IUserProvider userProvider,
 		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;        
+		DbContext = dbContext;
 		EntityMapper = entityMapper;
 		_userProvider = userProvider;
 		_systemProvider = systemProvider;
@@ -48,7 +48,7 @@ public class UpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRequestHa
 		{
 			return null;
 		}
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<StoreSecurityPasswords>(), request.EntityDto);        
+		EntityMapper.MapToEntity(entity, GetEntityDefinition<StoreSecurityPasswords>(), request.EntityDto);
 		var updatedBy = _userProvider.GetUser();
 		var updatedVia = _systemProvider.GetSystem();
 		entity.Updated(updatedBy, updatedVia);

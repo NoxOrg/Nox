@@ -22,7 +22,7 @@ public class DeleteCountryByIdCommandHandler: CommandBase, IRequestHandler<Delet
 
 	public SampleWebAppDbContext DbContext { get; }
 
-	public  DeleteCountryByIdCommandHandler(
+	public DeleteCountryByIdCommandHandler(
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution, 
 		IServiceProvider serviceProvider,
@@ -32,7 +32,7 @@ public class DeleteCountryByIdCommandHandler: CommandBase, IRequestHandler<Delet
 		DbContext = dbContext;
 		_userProvider = userProvider;
 		_systemProvider = systemProvider;
-	}    
+	}
 
 	public async Task<bool> Handle(DeleteCountryByIdCommand request, CancellationToken cancellationToken)
 	{
@@ -42,7 +42,7 @@ public class DeleteCountryByIdCommandHandler: CommandBase, IRequestHandler<Delet
 		if (entity == null || entity.IsDeleted.Value == true)
 		{
 			return false;
-		}        
+		}
 		var deletedBy = _userProvider.GetUser();
 		var deletedVia = _systemProvider.GetSystem();
 		entity.Deleted(deletedBy, deletedVia);

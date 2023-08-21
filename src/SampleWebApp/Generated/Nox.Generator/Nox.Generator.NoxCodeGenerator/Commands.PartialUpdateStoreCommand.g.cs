@@ -22,33 +22,33 @@ public class PartialUpdateStoreCommandHandler: CommandBase, IRequestHandler<Part
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
 
-	public SampleWebAppDbContext DbContext { get; }    
+	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<Store> EntityMapper { get; }
 
 	public PartialUpdateStoreCommandHandler(
-		SampleWebAppDbContext dbContext,        
+		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<Store> entityMapper,
 		IUserProvider userProvider,
 		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;        
+		DbContext = dbContext;
 		EntityMapper = entityMapper;
 		_userProvider = userProvider;
 		_systemProvider = systemProvider;
 	}
-	
+
 	public async Task<StoreKeyDto?> Handle(PartialUpdateStoreCommand request, CancellationToken cancellationToken)
 	{
 		var keyId = CreateNoxTypeForKey<Store,Text>("Id", request.keyId);
-	
+
 		var entity = await DbContext.Stores.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
 		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Store>(), request.UpdatedProperties, request.DeletedPropertyNames);        
+		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Store>(), request.UpdatedProperties, request.DeletedPropertyNames);
 		var updatedBy = _userProvider.GetUser();
 		var updatedVia = _systemProvider.GetSystem();
 		entity.Updated(updatedBy, updatedVia);

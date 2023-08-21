@@ -1,12 +1,9 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 using MediatR;
-
 using Microsoft.AspNetCore.Http;
-
 using System.ComponentModel.DataAnnotations.Schema;
-
 using Nox.Types;
 using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
@@ -19,12 +16,12 @@ public record CountryKeyDto(System.Int64 keyId);
 /// <summary>
 /// The list of countries.
 /// </summary>
-public partial class CountryDto 
+public partial class CountryDto
 {
 
     /// <summary>
     ///  (Required).
-    /// </summary>    
+    /// </summary>
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
@@ -55,17 +52,17 @@ public partial class CountryDto
     /// <summary>
     /// The country's phone dialing codes (comma-delimited) (Optional).
     /// </summary>
-    public System.String? DialingCodes { get; set; } 
+    public System.String? DialingCodes { get; set; }
 
     /// <summary>
     /// The capital city of the country (Optional).
     /// </summary>
-    public System.String? Capital { get; set; } 
+    public System.String? Capital { get; set; }
 
     /// <summary>
     /// Noun denoting the natives of the country (Optional).
     /// </summary>
-    public System.String? Demonym { get; set; } 
+    public System.String? Demonym { get; set; }
 
     /// <summary>
     /// Country area in square kilometers (Required).
@@ -75,7 +72,7 @@ public partial class CountryDto
     /// <summary>
     /// The the position of the workplace's point on the surface of the Earth (Optional).
     /// </summary>
-    public LatLongDto? GeoCoord { get; set; } 
+    public LatLongDto? GeoCoord { get; set; }
 
     /// <summary>
     /// The region the country is in (Required).
@@ -95,16 +92,22 @@ public partial class CountryDto
     /// <summary>
     /// The estimated population of the country (Optional).
     /// </summary>
-    public System.Int32? Population { get; set; } 
+    public System.Int32? Population { get; set; }
 
     /// <summary>
     /// The top level internet domains regitered to the country (comma-delimited) (Optional).
     /// </summary>
-    public System.String? TopLevelDomains { get; set; } 
+    public System.String? TopLevelDomains { get; set; }
 
     /// <summary>
     /// Country accepts as legal tender OneOrMany Currencies
     /// </summary>
     public virtual List<CurrencyDto> Currencies { get; set; } = new();
+
+    /// <summary>
+    /// Country is also know as OneOrMany CountryLocalNames
+    /// </summary>
+    public virtual List<CountryLocalNamesDto> CountryLocalNames { get; set; } = new();
+
     public System.DateTime? DeletedAtUtc { get; set; }
 }

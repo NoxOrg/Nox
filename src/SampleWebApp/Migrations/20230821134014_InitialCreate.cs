@@ -123,29 +123,6 @@ namespace SampleWebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-<<<<<<<< HEAD:src/SampleWebApp/Migrations/20230821100228_InitialCreate.cs
-                name: "CountryLocalNames",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
-                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
-                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CountryLocalNames", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-========
->>>>>>>> main:src/SampleWebApp/Migrations/20230821104602_InitialCreate.cs
                 name: "Currencies",
                 columns: table => new
                 {
@@ -194,7 +171,7 @@ namespace SampleWebApp.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
-                    CountryId = table.Column<string>(type: "char(2)", nullable: false)
+                    CountryId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
