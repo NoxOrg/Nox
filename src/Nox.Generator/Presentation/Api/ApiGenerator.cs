@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
+using Nox.Solution.Extensions;
 using Nox.Types.Extensions;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -116,6 +117,11 @@ internal class ApiGenerator : INoxCodeGenerator
                 {
                     foreach (var relationship in entity.OwnedRelationships)
                     {
+                        // Onwed single entitities are returned with parent
+                        if(relationship.WithSingleEntity())
+                        {
+                            continue;
+                        }
                         GenerateChildrenGet(relationship.Entity, relationship.Name, entity.PluralName, code);
                     }
                 }
@@ -322,7 +328,7 @@ internal class ApiGenerator : INoxCodeGenerator
     {
         // Method Get
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public ActionResult<IQueryable<{childEntity}>> Get{childEntityPlural}([FromRoute] string key)");
+        code.AppendLine($"public ActionResult<IQueryable<{childEntity}Dto>> Get{childEntityPlural}([FromRoute] string key)");
 
         // Method content
         code.StartBlock();

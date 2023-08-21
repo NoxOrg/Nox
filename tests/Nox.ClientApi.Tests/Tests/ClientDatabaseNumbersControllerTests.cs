@@ -5,6 +5,7 @@ using ClientApi.Presentation.Api.OData;
 using Microsoft.AspNetCore.OData.Results;
 using AutoFixture;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Nox.Types;
 
 namespace Nox.ClientApi.Tests.Tests
 {
@@ -30,7 +31,57 @@ namespace Nox.ClientApi.Tests.Tests
         }
 
         [Theory, AutoMoqData]
-        public async void Put_ShouldUpdate(ApiFixture apiFixture)
+        public async void Post_WithCompoundMoney_ReturnsDatabaseNumberId(ApiFixture apiFixture)
+        {
+            // Arrange            
+            var expectedAmount = 100;
+            // Act 
+            var result = (CreatedODataResult<ClientDatabaseNumberKeyDto>) await apiFixture.ClientDatabaseNumbersController!.Post(
+                new ClientDatabaseNumberCreateDto
+                {
+                    Name = apiFixture.Fixture.Create<string>(),
+                    AmmountMoney = new MoneyDto(expectedAmount, CurrencyCode.AED) 
+                });
+
+            var queryResult = await apiFixture.ClientDatabaseNumbersController!.Get(result.Entity.keyId);
+
+            //Assert
+            result.Should().NotBeNull();
+            result.Should()
+                .BeOfType<CreatedODataResult<ClientDatabaseNumberKeyDto>>()
+                .Which.Entity.keyId.Should().BeGreaterThan(0);
+
+            queryResult.Should().NotBeNull();
+            queryResult!.ToDto().AmmountMoney!.Amount.Should().Be(expectedAmount);
+        }
+
+        //[Theory, AutoMoqData]
+        //public async void Post_WithSingleOwnedEntity_ReturnsDatabaseNumberId(ApiFixture apiFixture)
+        //{           
+        //    // Arrange                    
+
+        //    // Act 
+        //    var result = (CreatedODataResult<ClientDatabaseNumberKeyDto>)await apiFixture.ClientDatabaseNumbersController!.Post(
+        //        new ClientDatabaseNumberCreateDto
+        //        {
+        //            Name = apiFixture.Fixture.Create<string>(),
+        //            OwnedEntity = new OwnedEntityUpdateDto() { Name = apiFixture.Fixture.Create<string>() }
+        //        });
+
+        //    var queryResult = await apiFixture.ClientDatabaseNumbersController!.Get(result.Entity.keyId);
+
+        //    //Assert
+        //    result.Should().NotBeNull();
+        //    result.Should()
+        //        .BeOfType<CreatedODataResult<ClientDatabaseNumberKeyDto>>()
+        //        .Which.Entity.keyId.Should().BeGreaterThan(0);
+
+        //    queryResult.Should().NotBeNull();
+        //    //queryResult!.ToDto().OwnedEntity!.Amount.Should().Be(expectedAmount);
+        //}
+
+        [Theory, AutoMoqData]
+        public async void Put_Number_ShouldUpdate(ApiFixture apiFixture)
         {
             // Arrange            
             var expectedNumber = 50;

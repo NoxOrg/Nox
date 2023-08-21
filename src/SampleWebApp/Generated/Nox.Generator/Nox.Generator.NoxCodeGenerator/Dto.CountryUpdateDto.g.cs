@@ -93,4 +93,9 @@ public partial class CountryUpdateDto
     /// The top level internet domains regitered to the country (comma-delimited) (Optional).
     /// </summary>
     public System.String? TopLevelDomains { get; set; } 
+
+    /// <summary>
+    /// Country is also know as OneOrMany CountryLocalNames
+    /// </summary>
+    public virtual List<CountryLocalNamesUpdateDto> CountryLocalNames { get; set; } = new();
 }

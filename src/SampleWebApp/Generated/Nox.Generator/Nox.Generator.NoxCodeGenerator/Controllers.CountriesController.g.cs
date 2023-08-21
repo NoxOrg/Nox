@@ -76,7 +76,7 @@ public partial class CountriesController : ODataController
     }
     
     [EnableQuery]
-    public ActionResult<IQueryable<CountryLocalNames>> GetCountryLocalNames([FromRoute] string key)
+    public ActionResult<IQueryable<CountryLocalNamesDto>> GetCountryLocalNames([FromRoute] string key)
     {
         return Ok(_databaseContext.Countries.Where(d => d.Id.Equals(key)).SelectMany(m => m.CountryLocalNames));
     }

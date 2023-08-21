@@ -11,12 +11,12 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public record ClientDatabaseNumberKeyDto(System.Int64 keyId);
+public record OwnedEntityKeyDto(System.Int64 keyId);
 
 /// <summary>
-/// Client DatabaseNumber Key.
+/// OwnedEntity.
 /// </summary>
-public partial class ClientDatabaseNumberDto
+public partial class OwnedEntityDto
 {
 
     /// <summary>
@@ -29,10 +29,5 @@ public partial class ClientDatabaseNumberDto
     /// </summary>
     public System.String Name { get; set; } = default!;
 
-    /// <summary>
-    /// The Number (Optional).
-    /// </summary>
-    public System.Int32? Number { get; set; }
-
-    public System.DateTime? DeletedAtUtc { get; set; }
+    public bool? Deleted { get; set; }
 }
