@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebApp.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230821074915_InitialCreate")]
+    [Migration("20230821082409_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -783,27 +783,6 @@ namespace SampleWebApp.Migrations
                             b1.Property<string>("CountryId")
                                 .IsRequired()
                                 .HasColumnType("char(2)");
-
-                            b1.Property<DateTime>("CreatedAtUtc")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<string>("CreatedBy")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<bool?>("Deleted")
-                                .HasColumnType("bit");
-
-                            b1.Property<DateTime?>("DeletedAtUtc")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<string>("DeletedBy")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<DateTime?>("UpdatedAtUtc")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<string>("UpdatedBy")
-                                .HasColumnType("nvarchar(max)");
 
                             b1.HasKey("Id");
 

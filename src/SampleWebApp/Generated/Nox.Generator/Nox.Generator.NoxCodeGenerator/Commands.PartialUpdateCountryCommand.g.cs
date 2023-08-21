@@ -18,23 +18,23 @@ public record PartialUpdateCountryCommand(System.String keyId, Dictionary<string
 
 public class PartialUpdateCountryCommandHandler: CommandBase, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
 {
-    public SampleWebAppDbContext DbContext { get; }    
+    public SampleWebAppDbContext DbContext { get; }
     public IEntityMapper<Country> EntityMapper { get; }
 
     public PartialUpdateCountryCommandHandler(
-        SampleWebAppDbContext dbContext,        
+        SampleWebAppDbContext dbContext,
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
         IEntityMapper<Country> entityMapper): base(noxSolution, serviceProvider)
     {
-        DbContext = dbContext;        
+        DbContext = dbContext;
         EntityMapper = entityMapper;
     }
-    
+
     public async Task<CountryKeyDto?> Handle(PartialUpdateCountryCommand request, CancellationToken cancellationToken)
     {
         var keyId = CreateNoxTypeForKey<Country,Text>("Id", request.keyId);
-    
+
         var entity = await DbContext.Countries.FindAsync(keyId);
         if (entity == null)
         {

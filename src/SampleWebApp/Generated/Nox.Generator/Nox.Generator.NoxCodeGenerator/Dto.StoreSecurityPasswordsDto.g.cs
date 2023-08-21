@@ -37,7 +37,7 @@ public partial class StoreSecurityPasswordsDto
 
     /// <summary>
     /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores
-    /// </summary>  
+    /// </summary>
     //EF maps ForeignKey Automatically
     public virtual string StoreId { get; set; } = null!;
     public virtual StoreDto Store { get; set; } = null!;

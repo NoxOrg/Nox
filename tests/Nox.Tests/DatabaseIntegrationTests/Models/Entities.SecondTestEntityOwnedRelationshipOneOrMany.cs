@@ -12,7 +12,7 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// .
 /// </summary>
-public partial class SecondTestEntityOwnedRelationshipOneOrMany : AuditableEntityBase
+public partial class SecondTestEntityOwnedRelationshipOneOrMany
 {
     /// <summary>
     ///  (Required).

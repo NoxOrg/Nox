@@ -20,11 +20,11 @@ public class DeleteCountryByIdCommandHandler: CommandBase, IRequestHandler<Delet
 
     public  DeleteCountryByIdCommandHandler(
         SampleWebAppDbContext dbContext,
-        NoxSolution noxSolution, 
+        NoxSolution noxSolution,
         IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;
-    }    
+    }
 
     public async Task<bool> Handle(DeleteCountryByIdCommand request, CancellationToken cancellationToken)
     {

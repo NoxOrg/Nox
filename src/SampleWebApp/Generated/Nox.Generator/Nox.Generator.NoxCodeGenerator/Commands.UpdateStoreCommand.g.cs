@@ -18,30 +18,30 @@ public record UpdateStoreCommand(System.String keyId, StoreUpdateDto EntityDto) 
 
 public class UpdateStoreCommandHandler: CommandBase, IRequestHandler<UpdateStoreCommand, StoreKeyDto?>
 {
-    public SampleWebAppDbContext DbContext { get; }    
+    public SampleWebAppDbContext DbContext { get; }
     public IEntityMapper<Store> EntityMapper { get; }
 
     public  UpdateStoreCommandHandler(
-        SampleWebAppDbContext dbContext,        
+        SampleWebAppDbContext dbContext,
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
         IEntityMapper<Store> entityMapper): base(noxSolution, serviceProvider)
     {
-        DbContext = dbContext;        
+        DbContext = dbContext;
         EntityMapper = entityMapper;
     }
-    
+
     public async Task<StoreKeyDto?> Handle(UpdateStoreCommand request, CancellationToken cancellationToken)
     {
         var keyId = CreateNoxTypeForKey<Store,Text>("Id", request.keyId);
-    
+
         var entity = await DbContext.Stores.FindAsync(keyId);
         if (entity == null)
         {
             return null;
         }
         EntityMapper.MapToEntity(entity, GetEntityDefinition<Store>(), request.EntityDto);
-        
+
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();
         if(result < 1)

@@ -781,27 +781,6 @@ namespace SampleWebApp.Migrations
                                 .IsRequired()
                                 .HasColumnType("char(2)");
 
-                            b1.Property<DateTime>("CreatedAtUtc")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<string>("CreatedBy")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<bool?>("Deleted")
-                                .HasColumnType("bit");
-
-                            b1.Property<DateTime?>("DeletedAtUtc")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<string>("DeletedBy")
-                                .HasColumnType("nvarchar(max)");
-
-                            b1.Property<DateTime?>("UpdatedAtUtc")
-                                .HasColumnType("datetime2");
-
-                            b1.Property<string>("UpdatedBy")
-                                .HasColumnType("nvarchar(max)");
-
                             b1.HasKey("Id");
 
                             b1.HasIndex("CountryId");

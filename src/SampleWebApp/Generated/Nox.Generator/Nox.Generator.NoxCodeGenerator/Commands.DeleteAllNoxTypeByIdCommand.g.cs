@@ -20,11 +20,11 @@ public class DeleteAllNoxTypeByIdCommandHandler: CommandBase, IRequestHandler<De
 
     public  DeleteAllNoxTypeByIdCommandHandler(
         SampleWebAppDbContext dbContext,
-        NoxSolution noxSolution, 
+        NoxSolution noxSolution,
         IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;
-    }    
+    }
 
     public async Task<bool> Handle(DeleteAllNoxTypeByIdCommand request, CancellationToken cancellationToken)
     {

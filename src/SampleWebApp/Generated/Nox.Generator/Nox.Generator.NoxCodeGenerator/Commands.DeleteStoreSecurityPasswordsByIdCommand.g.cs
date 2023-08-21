@@ -20,11 +20,11 @@ public class DeleteStoreSecurityPasswordsByIdCommandHandler: CommandBase, IReque
 
     public  DeleteStoreSecurityPasswordsByIdCommandHandler(
         SampleWebAppDbContext dbContext,
-        NoxSolution noxSolution, 
+        NoxSolution noxSolution,
         IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;
-    }    
+    }
 
     public async Task<bool> Handle(DeleteStoreSecurityPasswordsByIdCommand request, CancellationToken cancellationToken)
     {

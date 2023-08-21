@@ -28,6 +28,6 @@ public partial class TestEntityOwnedRelationshipZeroOrMany : AuditableEntityBase
     /// TestEntityOwnedRelationshipZeroOrMany Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrMany ZeroOrMany SecondTestEntityOwnedRelationshipZeroOrManies
     /// </summary>
     public virtual List<SecondTestEntityOwnedRelationshipZeroOrMany> SecondTestEntityOwnedRelationshipZeroOrManies { get; set; } = new();
-    
+
     public List<SecondTestEntityOwnedRelationshipZeroOrMany> SecondTestEntityOwnedRelationshipZeroOrMany => SecondTestEntityOwnedRelationshipZeroOrManies;
 }

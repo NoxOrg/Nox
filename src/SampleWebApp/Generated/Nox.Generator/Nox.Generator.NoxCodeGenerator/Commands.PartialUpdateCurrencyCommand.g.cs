@@ -18,23 +18,23 @@ public record PartialUpdateCurrencyCommand(System.UInt32 keyId, Dictionary<strin
 
 public class PartialUpdateCurrencyCommandHandler: CommandBase, IRequestHandler<PartialUpdateCurrencyCommand, CurrencyKeyDto?>
 {
-    public SampleWebAppDbContext DbContext { get; }    
+    public SampleWebAppDbContext DbContext { get; }
     public IEntityMapper<Currency> EntityMapper { get; }
 
     public PartialUpdateCurrencyCommandHandler(
-        SampleWebAppDbContext dbContext,        
+        SampleWebAppDbContext dbContext,
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
         IEntityMapper<Currency> entityMapper): base(noxSolution, serviceProvider)
     {
-        DbContext = dbContext;        
+        DbContext = dbContext;
         EntityMapper = entityMapper;
     }
-    
+
     public async Task<CurrencyKeyDto?> Handle(PartialUpdateCurrencyCommand request, CancellationToken cancellationToken)
     {
         var keyId = CreateNoxTypeForKey<Currency,Nuid>("Id", request.keyId);
-    
+
         var entity = await DbContext.Currencies.FindAsync(keyId);
         if (entity == null)
         {

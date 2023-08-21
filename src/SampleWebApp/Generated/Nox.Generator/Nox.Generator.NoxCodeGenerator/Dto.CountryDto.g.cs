@@ -109,7 +109,7 @@ public partial class CountryDto
     /// Country is also know as OneOrMany CountryLocalNames
     /// </summary>
 	[AutoExpand]
-    public virtual List<CountryLocalNames> CountryLocalNames { get; set; } = new();
+    public virtual List<CountryLocalNamesDto> CountryLocalNames { get; set; } = new();
 
     public bool? Deleted { get; set; }
 }
