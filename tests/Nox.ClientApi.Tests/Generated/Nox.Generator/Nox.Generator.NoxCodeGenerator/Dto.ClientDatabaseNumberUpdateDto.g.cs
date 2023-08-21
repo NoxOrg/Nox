@@ -21,4 +21,8 @@ public partial class ClientDatabaseNumberUpdateDto
     [Required(ErrorMessage = "Name is required")]
     
     public System.String Name { get; set; } = default!;
+    /// <summary>
+    /// The Number (Optional).
+    /// </summary>
+    public System.Int32? Number { get; set; } 
 }

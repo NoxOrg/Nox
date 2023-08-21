@@ -85,7 +85,7 @@ public partial class StoresController : ODataController
         {
             return NotFound();
         }
-        return Updated(store);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<StoreUpdateDto> store)

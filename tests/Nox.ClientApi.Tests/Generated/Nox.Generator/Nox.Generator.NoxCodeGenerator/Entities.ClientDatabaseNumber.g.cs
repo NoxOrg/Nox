@@ -23,4 +23,9 @@ public partial class ClientDatabaseNumber : AuditableEntityBase
     /// The Name (Required).
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
+
+    /// <summary>
+    /// The Number (Optional).
+    /// </summary>
+    public Nox.Types.Number? Number { get; set; } = null!;
 }

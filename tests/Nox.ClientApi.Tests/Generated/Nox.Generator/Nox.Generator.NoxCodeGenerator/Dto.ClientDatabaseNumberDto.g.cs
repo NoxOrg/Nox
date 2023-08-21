@@ -31,5 +31,10 @@ public partial class ClientDatabaseNumberDto
     /// The Name (Required).
     /// </summary>
     public System.String Name { get; set; } = default!;
+
+    /// <summary>
+    /// The Number (Optional).
+    /// </summary>
+    public System.Int32? Number { get; set; } 
     public bool? Deleted { get; set; }
 }
