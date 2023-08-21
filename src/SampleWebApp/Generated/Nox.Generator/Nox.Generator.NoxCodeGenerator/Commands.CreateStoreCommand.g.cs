@@ -1,11 +1,11 @@
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Application;
 using Nox.Factories;
 using SampleWebApp.Infrastructure.Persistence;
@@ -17,23 +17,33 @@ public record CreateStoreCommand(StoreCreateDto EntityDto) : IRequest<StoreKeyDt
 
 public class CreateStoreCommandHandler: IRequestHandler<CreateStoreCommand, StoreKeyDto>
 {
-    public SampleWebAppDbContext DbContext { get; }
-    public IEntityFactory<StoreCreateDto,Store> EntityFactory { get; }
+	private readonly IUserProvider _userProvider;
+	private readonly ISystemProvider _systemProvider;
 
-    public  CreateStoreCommandHandler(
-        SampleWebAppDbContext dbContext,
-        IEntityFactory<StoreCreateDto,Store> entityFactory)
-    {
-        DbContext = dbContext;
-        EntityFactory = entityFactory;
-    }
+	public SampleWebAppDbContext DbContext { get; }
+	public IEntityFactory<StoreCreateDto,Store> EntityFactory { get; }
 
-    public async Task<StoreKeyDto> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
-    {
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+	public CreateStoreCommandHandler(
+		SampleWebAppDbContext dbContext,
+		IEntityFactory<StoreCreateDto,Store> entityFactory,
+		IUserProvider userProvider,
+		ISystemProvider systemProvider)
+	{
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
+		_userProvider = userProvider;
+		_systemProvider = systemProvider;
+	}
 
-        DbContext.Stores.Add(entityToCreate);
-        await DbContext.SaveChangesAsync();
-        return new StoreKeyDto(entityToCreate.Id.Value);
-    }
+	public async Task<StoreKeyDto> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
+	{
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var createdBy = _userProvider.GetUser();
+		var createdVia = _systemProvider.GetSystem();
+		entityToCreate.Created(createdBy, createdVia);
+	
+		DbContext.Stores.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
+		return new StoreKeyDto(entityToCreate.Id.Value);
+	}
 }

@@ -1,11 +1,11 @@
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Application;
 using Nox.Factories;
 using SampleWebApp.Infrastructure.Persistence;
@@ -17,23 +17,33 @@ public record CreateCurrencyCashBalanceCommand(CurrencyCashBalanceCreateDto Enti
 
 public class CreateCurrencyCashBalanceCommandHandler: IRequestHandler<CreateCurrencyCashBalanceCommand, CurrencyCashBalanceKeyDto>
 {
-    public SampleWebAppDbContext DbContext { get; }
-    public IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> EntityFactory { get; }
+	private readonly IUserProvider _userProvider;
+	private readonly ISystemProvider _systemProvider;
 
-    public  CreateCurrencyCashBalanceCommandHandler(
-        SampleWebAppDbContext dbContext,
-        IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> entityFactory)
-    {
-        DbContext = dbContext;
-        EntityFactory = entityFactory;
-    }
+	public SampleWebAppDbContext DbContext { get; }
+	public IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> EntityFactory { get; }
 
-    public async Task<CurrencyCashBalanceKeyDto> Handle(CreateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
-    {
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+	public CreateCurrencyCashBalanceCommandHandler(
+		SampleWebAppDbContext dbContext,
+		IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> entityFactory,
+		IUserProvider userProvider,
+		ISystemProvider systemProvider)
+	{
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
+		_userProvider = userProvider;
+		_systemProvider = systemProvider;
+	}
 
-        DbContext.CurrencyCashBalances.Add(entityToCreate);
-        await DbContext.SaveChangesAsync();
-        return new CurrencyCashBalanceKeyDto(entityToCreate.StoreId.Value, entityToCreate.CurrencyId.Value);
-    }
+	public async Task<CurrencyCashBalanceKeyDto> Handle(CreateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
+	{
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var createdBy = _userProvider.GetUser();
+		var createdVia = _systemProvider.GetSystem();
+		entityToCreate.Created(createdBy, createdVia);
+	
+		DbContext.CurrencyCashBalances.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
+		return new CurrencyCashBalanceKeyDto(entityToCreate.StoreId.Value, entityToCreate.CurrencyId.Value);
+	}
 }

@@ -27,7 +27,7 @@ public class GetCurrencyCashBalanceByIdQueryHandler: IRequestHandler<GetCurrency
             .SingleOrDefault(r =>
                 r.StoreId.Equals(request.keyStoreId) &&
                 r.CurrencyId.Equals(request.keyCurrencyId) &&
-                !(r.Deleted == true));
+                r.DeletedAtUtc == null);
         return Task.FromResult(item);
     }
 }

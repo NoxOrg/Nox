@@ -27,9 +27,9 @@ public static class ODataServiceCollectionExtensions
         {{- end }}
 
         builder.EntityType<{{entity.Name}}Dto>();
-        {{- if entity.Persistence?.IsVersioned ~}}
+        {{- if entity.Persistence?.IsAudited ~}}
 
-        builder.EntityType<{{entity.Name}}Dto>().Ignore(e => e.Deleted);
+        builder.EntityType<{{entity.Name}}Dto>().Ignore(e => e.DeletedAtUtc);
 
         {{- end }}
         {{- end }}

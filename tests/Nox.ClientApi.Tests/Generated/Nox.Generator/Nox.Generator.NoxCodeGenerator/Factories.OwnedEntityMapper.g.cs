@@ -6,6 +6,7 @@ using MediatR;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Solution;
 using Nox.Domain;
 using Nox.Factories;

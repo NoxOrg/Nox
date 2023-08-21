@@ -74,7 +74,7 @@ domain:
         icon: world
 
       persistence:
-        isVersioned: true
+        isAudited: true
         tableName: Country
         schema: dbo
         create:
@@ -162,12 +162,8 @@ domain:
       keys:
 
         - name: Id
-          type: text
+          type: databaseNumber
           isRequired: true
-          textTypeOptions:
-            isUnicode: false
-            minLength: 2
-            maxLength: 2
 
       attributes:
 
@@ -286,6 +282,9 @@ domain:
 
     - name: CountryLocalNames
       description: The name of a country in other languages
+
+      persistence:
+        isAudited: false
 
       keys:
 

@@ -1,11 +1,11 @@
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Application;
 using Nox.Factories;
 using SampleWebApp.Infrastructure.Persistence;
@@ -17,24 +17,34 @@ public record CreateCurrencyCommand(CurrencyCreateDto EntityDto) : IRequest<Curr
 
 public class CreateCurrencyCommandHandler: IRequestHandler<CreateCurrencyCommand, CurrencyKeyDto>
 {
-    public SampleWebAppDbContext DbContext { get; }
-    public IEntityFactory<CurrencyCreateDto,Currency> EntityFactory { get; }
+	private readonly IUserProvider _userProvider;
+	private readonly ISystemProvider _systemProvider;
 
-    public  CreateCurrencyCommandHandler(
-        SampleWebAppDbContext dbContext,
-        IEntityFactory<CurrencyCreateDto,Currency> entityFactory)
-    {
-        DbContext = dbContext;
-        EntityFactory = entityFactory;
-    }
+	public SampleWebAppDbContext DbContext { get; }
+	public IEntityFactory<CurrencyCreateDto,Currency> EntityFactory { get; }
 
-    public async Task<CurrencyKeyDto> Handle(CreateCurrencyCommand request, CancellationToken cancellationToken)
-    {
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+	public CreateCurrencyCommandHandler(
+		SampleWebAppDbContext dbContext,
+		IEntityFactory<CurrencyCreateDto,Currency> entityFactory,
+		IUserProvider userProvider,
+		ISystemProvider systemProvider)
+	{
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
+		_userProvider = userProvider;
+		_systemProvider = systemProvider;
+	}
+
+	public async Task<CurrencyKeyDto> Handle(CreateCurrencyCommand request, CancellationToken cancellationToken)
+	{
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		entityToCreate.EnsureId();
-
-        DbContext.Currencies.Add(entityToCreate);
-        await DbContext.SaveChangesAsync();
-        return new CurrencyKeyDto(entityToCreate.Id.Value);
-    }
+		var createdBy = _userProvider.GetUser();
+		var createdVia = _systemProvider.GetSystem();
+		entityToCreate.Created(createdBy, createdVia);
+	
+		DbContext.Currencies.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
+		return new CurrencyKeyDto(entityToCreate.Id.Value);
+	}
 }

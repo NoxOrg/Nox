@@ -2,7 +2,9 @@ using System.Reflection;
 using FluentValidation;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using Nox.Abstractions;
 using Nox.Application.Behaviors;
+using Nox.Application.Providers;
 using Nox.Factories;
 using Nox.Secrets;
 using Nox.Secrets.Abstractions;
@@ -30,7 +32,8 @@ public static class ServiceCollectionExtension
             .AddNoxMediatR(entryAssembly, noxAssemblies)
             .AddNoxTypesDatabaseConfigurator(noxAssemblies)
             .AddNoxFactories(noxAssemblies)
-            .AddAutoMapper(entryAssembly);
+            .AddAutoMapper(entryAssembly)
+            .AddNoxProviders();
     }
     private static IServiceCollection AddNoxMediatR(
         this IServiceCollection services,
@@ -117,6 +120,15 @@ public static class ServiceCollectionExtension
             .AddClasses(classes => classes.AssignableTo<INoxTypeDatabaseConfigurator>())
             .As<INoxTypeDatabaseConfigurator>()
             .WithSingletonLifetime());
+
+        return services;
+    }
+
+    private static IServiceCollection AddNoxProviders(
+        this IServiceCollection services)
+    {
+        services.AddScoped<IUserProvider, DefaultUserProvider>();
+        services.AddScoped<ISystemProvider, DefaultSystemProvider>();
 
         return services;
     }

@@ -6,6 +6,7 @@ using MediatR;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Solution;
 using Nox.Domain;
 using Nox.Factories;
@@ -36,10 +37,16 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         {        
             entity.BooleanField = noxTypeValue;
         }
-
-        // TODO map CountryCode2Field CountryCode2 remaining types and remove if else
-
-        // TODO map CountryCode3Field CountryCode3 remaining types and remove if else
+        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition,"CountryCode2Field",dto.CountryCode2Field);
+        if(noxTypeValue != null)
+        {        
+            entity.CountryCode2Field = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.CountryCode3>(entityDefinition,"CountryCode3Field",dto.CountryCode3Field);
+        if(noxTypeValue != null)
+        {        
+            entity.CountryCode3Field = noxTypeValue;
+        }
         noxTypeValue = CreateNoxType<Nox.Types.CountryNumber>(entityDefinition,"CountryNumberField",dto.CountryNumberField);
         if(noxTypeValue != null)
         {        

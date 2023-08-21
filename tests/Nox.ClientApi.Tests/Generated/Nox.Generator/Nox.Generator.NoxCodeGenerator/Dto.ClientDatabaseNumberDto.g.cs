@@ -39,5 +39,5 @@ public partial class ClientDatabaseNumberDto
     /// </summary>
     public MoneyDto? AmmountMoney { get; set; }
 
-    public bool? Deleted { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }
 }

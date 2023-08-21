@@ -26,7 +26,7 @@ public class GetClientDatabaseNumberByIdQueryHandler: IRequestHandler<GetClientD
             .AsNoTracking()
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
-                !(r.Deleted == true));
+                r.DeletedAtUtc == null);
         return Task.FromResult(item);
     }
 }

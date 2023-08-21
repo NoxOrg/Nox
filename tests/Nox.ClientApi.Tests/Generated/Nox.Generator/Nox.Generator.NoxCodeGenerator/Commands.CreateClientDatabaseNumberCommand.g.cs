@@ -1,11 +1,11 @@
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Application;
 using Nox.Factories;
 using ClientApi.Infrastructure.Persistence;
@@ -17,23 +17,33 @@ public record CreateClientDatabaseNumberCommand(ClientDatabaseNumberCreateDto En
 
 public class CreateClientDatabaseNumberCommandHandler: IRequestHandler<CreateClientDatabaseNumberCommand, ClientDatabaseNumberKeyDto>
 {
-    public ClientApiDbContext DbContext { get; }
-    public IEntityFactory<ClientDatabaseNumberCreateDto,ClientDatabaseNumber> EntityFactory { get; }
+	private readonly IUserProvider _userProvider;
+	private readonly ISystemProvider _systemProvider;
 
-    public  CreateClientDatabaseNumberCommandHandler(
-        ClientApiDbContext dbContext,
-        IEntityFactory<ClientDatabaseNumberCreateDto,ClientDatabaseNumber> entityFactory)
-    {
-        DbContext = dbContext;
-        EntityFactory = entityFactory;
-    }
+	public ClientApiDbContext DbContext { get; }
+	public IEntityFactory<ClientDatabaseNumberCreateDto,ClientDatabaseNumber> EntityFactory { get; }
 
-    public async Task<ClientDatabaseNumberKeyDto> Handle(CreateClientDatabaseNumberCommand request, CancellationToken cancellationToken)
-    {
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+	public CreateClientDatabaseNumberCommandHandler(
+		ClientApiDbContext dbContext,
+		IEntityFactory<ClientDatabaseNumberCreateDto,ClientDatabaseNumber> entityFactory,
+		IUserProvider userProvider,
+		ISystemProvider systemProvider)
+	{
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
+		_userProvider = userProvider;
+		_systemProvider = systemProvider;
+	}
 
-        DbContext.ClientDatabaseNumbers.Add(entityToCreate);
-        await DbContext.SaveChangesAsync();
-        return new ClientDatabaseNumberKeyDto(entityToCreate.Id.Value);
-    }
+	public async Task<ClientDatabaseNumberKeyDto> Handle(CreateClientDatabaseNumberCommand request, CancellationToken cancellationToken)
+	{
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var createdBy = _userProvider.GetUser();
+		var createdVia = _systemProvider.GetSystem();
+		entityToCreate.Created(createdBy, createdVia);
+	
+		DbContext.ClientDatabaseNumbers.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
+		return new ClientDatabaseNumberKeyDto(entityToCreate.Id.Value);
+	}
 }
