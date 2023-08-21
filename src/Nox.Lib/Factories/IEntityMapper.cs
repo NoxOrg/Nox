@@ -10,7 +10,7 @@ public interface IEntityMapper<E> where E : IEntity
 {
     /// <summary>
     /// Set the entity properties with the dto data
-    /// </summary>    
+    /// </summary>
     void MapToEntity(E entity, Entity entityDefinition, dynamic dto);
     /// <summary>
     /// Update some entity properties

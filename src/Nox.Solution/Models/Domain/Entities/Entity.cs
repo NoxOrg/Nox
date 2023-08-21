@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Nox.Types;
-using Nox.Types.Schema;
-using Humanizer;
+﻿using Humanizer;
 using Nox.Solution.Events;
+using Nox.Types;
 using Nox.Types.Extensions;
+using Nox.Types.Schema;
+using System.Collections.Generic;
+using System.Linq;
 using YamlDotNet.Serialization;
-using YamlDotNet.Core.Tokens;
 
 namespace Nox.Solution;
 
@@ -69,6 +68,9 @@ public class Entity : DefinitionBase
     [Description("Define one or more attribute(s) that describes the composition of this domain entity.")]
     [AdditionalProperties(false)]
     public virtual IReadOnlyList<NoxSimpleTypeDefinition>? Attributes { get; internal set; }
+
+    [YamlIgnore]
+    public bool IsOwnedEntity { get; set; }
 
     internal bool ApplyDefaults()
     {

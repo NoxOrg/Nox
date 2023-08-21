@@ -27,13 +27,13 @@ public class CreateCountryCommandHandler: IRequestHandler<CreateCountryCommand, 
         DbContext = dbContext;
         EntityFactory = entityFactory;
     }
-    
+
     public async Task<CountryKeyDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
-    {    
+    {
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-	
+
         DbContext.Countries.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         return new CountryKeyDto(entityToCreate.Id.Value);
-}
+    }
 }

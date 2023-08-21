@@ -12,6 +12,7 @@ using Nox.Factories;
 using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
+using Nox.Exceptions;
 using CryptocashApi.Application.Dto;
 using CryptocashApi.Domain;
 
@@ -38,8 +39,11 @@ public class EmployeeMapper: EntityMapperBase<Employee>
         {        
             entity.LastName = noxTypeValue;
         }
-
-        // TODO map Email Email remaining types and remove if else
+        noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"Email",dto.Email);
+        if(noxTypeValue != null)
+        {        
+            entity.Email = noxTypeValue;
+        }
         noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition,"Address",dto.Address);
         if(noxTypeValue != null)
         {        
@@ -49,5 +53,105 @@ public class EmployeeMapper: EntityMapperBase<Employee>
         // TODO map FirstWorkingDay Date remaining types and remove if else
 
         // TODO map LastWorkingDay Date remaining types and remove if else
+    }
+
+    public override void PartialMapToEntity(Employee entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
+    {    
+        if(deletedPropertyNames.Contains("FirstName"))
+        {
+            throw new EntityAttributeIsNotNullableException("Employee", "FirstName");
+        }
+        else if (updatedProperties.TryGetValue("FirstName", out dynamic? value))
+        {
+            var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"FirstName",value);
+            if(noxTypeValue == null)
+            {
+                throw new EntityAttributeIsNotNullableException("Employee", "FirstName");
+            }
+            else
+            {
+                entity.FirstName = noxTypeValue;
+            }
+        }    
+        if(deletedPropertyNames.Contains("LastName"))
+        {
+            throw new EntityAttributeIsNotNullableException("Employee", "LastName");
+        }
+        else if (updatedProperties.TryGetValue("LastName", out dynamic? value))
+        {
+            var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"LastName",value);
+            if(noxTypeValue == null)
+            {
+                throw new EntityAttributeIsNotNullableException("Employee", "LastName");
+            }
+            else
+            {
+                entity.LastName = noxTypeValue;
+            }
+        }    
+        if(deletedPropertyNames.Contains("Email"))
+        {
+            throw new EntityAttributeIsNotNullableException("Employee", "Email");
+        }
+        else if (updatedProperties.TryGetValue("Email", out dynamic? value))
+        {
+            var noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"Email",value);
+            if(noxTypeValue == null)
+            {
+                throw new EntityAttributeIsNotNullableException("Employee", "Email");
+            }
+            else
+            {
+                entity.Email = noxTypeValue;
+            }
+        }    
+        if(deletedPropertyNames.Contains("Address"))
+        {
+            throw new EntityAttributeIsNotNullableException("Employee", "Address");
+        }
+        else if (updatedProperties.TryGetValue("Address", out dynamic? value))
+        {
+            var noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition,"Address",value);
+            if(noxTypeValue == null)
+            {
+                throw new EntityAttributeIsNotNullableException("Employee", "Address");
+            }
+            else
+            {
+                entity.Address = noxTypeValue;
+            }
+        }    
+        if(deletedPropertyNames.Contains("FirstWorkingDay"))
+        {
+            throw new EntityAttributeIsNotNullableException("Employee", "FirstWorkingDay");
+        }
+        else if (updatedProperties.TryGetValue("FirstWorkingDay", out dynamic? value))
+        {
+            var noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition,"FirstWorkingDay",value);
+            if(noxTypeValue == null)
+            {
+                throw new EntityAttributeIsNotNullableException("Employee", "FirstWorkingDay");
+            }
+            else
+            {
+                entity.FirstWorkingDay = noxTypeValue;
+            }
+        }    
+        if(deletedPropertyNames.Contains("LastWorkingDay"))
+        {
+            entity.LastWorkingDay = null;
+        }
+        else if (updatedProperties.TryGetValue("LastWorkingDay", out dynamic? value))
+        {
+            var noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition,"LastWorkingDay",value);
+            if(noxTypeValue == null)
+            {
+                entity.LastWorkingDay = null;
+            }
+            else
+            {
+                entity.LastWorkingDay = noxTypeValue;
+            }
+        }
     }
 }

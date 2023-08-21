@@ -27,13 +27,13 @@ public class CreateAllNoxTypeCommandHandler: IRequestHandler<CreateAllNoxTypeCom
         DbContext = dbContext;
         EntityFactory = entityFactory;
     }
-    
+
     public async Task<AllNoxTypeKeyDto> Handle(CreateAllNoxTypeCommand request, CancellationToken cancellationToken)
-    {    
+    {
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-	
+
         DbContext.AllNoxTypes.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         return new AllNoxTypeKeyDto(entityToCreate.Id.Value, entityToCreate.TextId.Value);
-}
+    }
 }

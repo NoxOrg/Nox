@@ -85,7 +85,7 @@ public partial class CompoundKeysEntitiesController : ODataController
         {
             return NotFound();
         }
-        return Updated(compoundKeysEntity);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] Delta<CompoundKeysEntityUpdateDto> compoundKeysEntity)
@@ -115,7 +115,7 @@ public partial class CompoundKeysEntitiesController : ODataController
         {
             return NotFound();
         }
-        return Updated(compoundKeysEntity);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)

@@ -14,13 +14,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Basic.Reference.Assemblies.Net70" Version="1.4.2" />
+    <PackageReference Include="Basic.Reference.Assemblies.Net70" Version="1.4.4" />
     <PackageReference Include="FluentAssertions" Version="6.11.0" />
     <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.6.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.7.0" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,8 +48,8 @@
     <Compile Remove="ExpectedGeneratedFiles\Country.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\CountryNameChangedAppEvent.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\CountryNameUpdatedEvent.expected.g.cs" />
-    <Compile Remove="ExpectedGeneratedFiles\Dto.CountryCreateDto.g.cs" />
-    <Compile Remove="ExpectedGeneratedFiles\Dto.CountryDto.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Dto.CountryCreateDto.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Dto.CountryDto.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\DtoDynamic.CountryDto.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\GetCountriesByContinentQueryBase.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\NoxServiceCollectionExtension.expected.g.cs" />
@@ -108,10 +108,10 @@
 
   <ItemGroup>
     <Compile Remove="files\Program.cs" />
-    <AdditionalFiles Include="ExpectedGeneratedFiles\Dto.CountryCreateDto.g.cs">
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Dto.CountryCreateDto.expected.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
-    <AdditionalFiles Include="ExpectedGeneratedFiles\Dto.CountryDto.g.cs">
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Dto.CountryDto.expected.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
     <AdditionalFiles Include="ExpectedGeneratedFiles\Country.expected.g.cs">

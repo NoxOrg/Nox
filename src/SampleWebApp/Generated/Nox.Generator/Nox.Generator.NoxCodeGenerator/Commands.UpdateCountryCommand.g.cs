@@ -18,30 +18,30 @@ public record UpdateCountryCommand(System.String keyId, CountryUpdateDto EntityD
 
 public class UpdateCountryCommandHandler: CommandBase, IRequestHandler<UpdateCountryCommand, CountryKeyDto?>
 {
-    public SampleWebAppDbContext DbContext { get; }    
+    public SampleWebAppDbContext DbContext { get; }
     public IEntityMapper<Country> EntityMapper { get; }
 
     public  UpdateCountryCommandHandler(
-        SampleWebAppDbContext dbContext,        
+        SampleWebAppDbContext dbContext,
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
         IEntityMapper<Country> entityMapper): base(noxSolution, serviceProvider)
     {
-        DbContext = dbContext;        
+        DbContext = dbContext;
         EntityMapper = entityMapper;
     }
-    
+
     public async Task<CountryKeyDto?> Handle(UpdateCountryCommand request, CancellationToken cancellationToken)
     {
         var keyId = CreateNoxTypeForKey<Country,Text>("Id", request.keyId);
-    
+
         var entity = await DbContext.Countries.FindAsync(keyId);
         if (entity == null)
         {
             return null;
         }
         EntityMapper.MapToEntity(entity, GetEntityDefinition<Country>(), request.EntityDto);
-        
+
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();
         if(result < 1)

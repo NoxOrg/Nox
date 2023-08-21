@@ -107,7 +107,25 @@ namespace SampleWebApp.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("LanguageCodeField")
+                        .IsRequired()
+                        .HasMaxLength(2)
+                        .IsUnicode(false)
+                        .HasColumnType("char(2)")
+                        .IsFixedLength();
+
+                    b.Property<decimal>("LengthField")
+                        .HasColumnType("DECIMAL(21, 6)");
+
+                    b.Property<string>("MacAddressField")
+                        .IsRequired()
+                        .HasMaxLength(12)
+                        .IsUnicode(false)
+                        .HasColumnType("char(12)")
+                        .IsFixedLength();
+
                     b.Property<string>("MarkdownField")
+                        .IsRequired()
                         .HasMaxLength(255)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(255)");
@@ -122,7 +140,12 @@ namespace SampleWebApp.Migrations
                         .HasMaxLength(2)
                         .HasColumnType("real");
 
-                    b.Property<decimal?>("TemperatureField")
+                    b.Property<string>("PhoneNumberField")
+                        .IsRequired()
+                        .HasMaxLength(30)
+                        .HasColumnType("nvarchar(30)");
+
+                    b.Property<decimal>("TemperatureField")
                         .HasColumnType("decimal(18,2)");
 
                     b.Property<string>("TextField")
@@ -277,40 +300,6 @@ namespace SampleWebApp.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Countries");
-                });
-
-            modelBuilder.Entity("SampleWebApp.Domain.CountryLocalNames", b =>
-                {
-                    b.Property<string>("Id")
-                        .HasMaxLength(2)
-                        .IsUnicode(false)
-                        .HasColumnType("char(2)")
-                        .IsFixedLength();
-
-                    b.Property<DateTime>("CreatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("CreatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<bool?>("Deleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("DeletedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("DeletedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime?>("UpdatedAtUtc")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("UpdatedBy")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("CountryLocalNames");
                 });
 
             modelBuilder.Entity("SampleWebApp.Domain.Currency", b =>
@@ -630,8 +619,9 @@ namespace SampleWebApp.Migrations
                                 .IsRequired()
                                 .HasColumnType("nvarchar(max)");
 
-                            b1.Property<int>("StreetNumber")
-                                .HasColumnType("int");
+                            b1.Property<string>("StreetNumber")
+                                .IsRequired()
+                                .HasColumnType("nvarchar(max)");
 
                             b1.HasKey("AllNoxTypeId", "AllNoxTypeTextId");
 
@@ -673,7 +663,7 @@ namespace SampleWebApp.Migrations
                             b1.Property<string>("AllNoxTypeTextId")
                                 .HasColumnType("nvarchar(255)");
 
-                            b1.Property<string>("CountryCode2")
+                            b1.Property<string>("CountryCode")
                                 .IsRequired()
                                 .HasMaxLength(2)
                                 .IsUnicode(false)
@@ -779,6 +769,30 @@ namespace SampleWebApp.Migrations
                             b1.WithOwner()
                                 .HasForeignKey("CountryId");
                         });
+
+                    b.OwnsMany("SampleWebApp.Domain.CountryLocalNames", "CountryLocalNames", b1 =>
+                        {
+                            b1.Property<string>("Id")
+                                .HasMaxLength(2)
+                                .IsUnicode(false)
+                                .HasColumnType("char(2)")
+                                .IsFixedLength();
+
+                            b1.Property<string>("CountryId")
+                                .IsRequired()
+                                .HasColumnType("char(2)");
+
+                            b1.HasKey("Id");
+
+                            b1.HasIndex("CountryId");
+
+                            b1.ToTable("CountryLocalNames");
+
+                            b1.WithOwner()
+                                .HasForeignKey("CountryId");
+                        });
+
+                    b.Navigation("CountryLocalNames");
 
                     b.Navigation("GeoCoord");
                 });

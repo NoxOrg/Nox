@@ -85,7 +85,7 @@ public partial class StoreSecurityPasswordsController : ODataController
         {
             return NotFound();
         }
-        return Updated(storeSecurityPasswords);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<StoreSecurityPasswordsUpdateDto> storeSecurityPasswords)
@@ -115,7 +115,7 @@ public partial class StoreSecurityPasswordsController : ODataController
         {
             return NotFound();
         }
-        return Updated(storeSecurityPasswords);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)

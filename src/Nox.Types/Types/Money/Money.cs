@@ -8,7 +8,7 @@ namespace Nox.Types;
 /// Represents a value object for representing monetary values.
 /// </summary>
 [Serializable]
-public class Money : ValueObject<(decimal Amount, CurrencyCode CurrencyCode), Money>
+public class Money : ValueObject<(decimal Amount, CurrencyCode CurrencyCode), Money>, IMoney
 {
     private MoneyTypeOptions _typeOptions = new();
 
@@ -37,7 +37,7 @@ public class Money : ValueObject<(decimal Amount, CurrencyCode CurrencyCode), Mo
     /// <param name="currencyCode">The currency code enum.</param>
     /// <returns>A new instance of the <see cref="Money"/> class.</returns>
     public static Money From(decimal value, CurrencyCode currencyCode) =>
-            From( (value, currencyCode) );
+            From((value, currencyCode));
 
     public static Money From(decimal value, MoneyTypeOptions typeOptions)
     {
@@ -45,42 +45,42 @@ public class Money : ValueObject<(decimal Amount, CurrencyCode CurrencyCode), Mo
     }
 
     public static Money From(decimal value, CurrencyCode currencyCode, MoneyTypeOptions typeOptions)
-     {
-         var newObject = new Money
-         {
-             Value = (value, currencyCode),
-             _typeOptions = typeOptions
-         };
+    {
+        var newObject = new Money
+        {
+            Value = (value, currencyCode),
+            _typeOptions = typeOptions
+        };
 
-         var validationResult = newObject.Validate();
+        var validationResult = newObject.Validate();
 
-         if (!validationResult.IsValid)
-         {
-             throw new TypeValidationException(validationResult.Errors);
-         }
+        if (!validationResult.IsValid)
+        {
+            throw new TypeValidationException(validationResult.Errors);
+        }
 
-         return newObject;
-     }
+        return newObject;
+    }
 
     /// <summary>
     /// Validates a <see cref="Money"/> object.
     /// </summary>
     /// <returns>true if the <see cref="Money"/> value is valid according to the default or specified <see cref="MoneyTypeOptions"/>.</returns>
     internal override ValidationResult Validate()
-     {
-         var result = base.Validate();
+    {
+        var result = base.Validate();
 
-         if (Value.Amount < _typeOptions.MinValue)
-         {
-             result.Errors.Add(new ValidationFailure(nameof(Value), $"Money is invalid, Min Amount is {_typeOptions.MinValue} "));
-         }
+        if (Value.Amount < _typeOptions.MinValue)
+        {
+            result.Errors.Add(new ValidationFailure(nameof(Value), $"Money is invalid, Min Amount is {_typeOptions.MinValue} "));
+        }
 
-         if (Value.Amount > _typeOptions.MaxValue)
-         {
+        if (Value.Amount > _typeOptions.MaxValue)
+        {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Money is invalid, Max Amount is {_typeOptions.MaxValue} "));
-         }
-         return result;
-     }
+        }
+        return result;
+    }
 
     public override string ToString()
     {
@@ -94,7 +94,7 @@ public class Money : ValueObject<(decimal Amount, CurrencyCode CurrencyCode), Mo
     /// <returns>A string representation of the <see cref="Money"/> object with the amount formatted using the specified format and Invariant culture .</returns>
     public string ToString(string format)
     {
-        return ToString(format, Thread.CurrentThread.CurrentCulture); 
+        return ToString(format, Thread.CurrentThread.CurrentCulture);
     }
 
     /// <summary>
@@ -106,7 +106,7 @@ public class Money : ValueObject<(decimal Amount, CurrencyCode CurrencyCode), Mo
     public string ToString(string format, CultureInfo cultureInfo)
     {
         if (cultureInfo == null) throw new ArgumentNullException(nameof(cultureInfo));
-        
+
         if (format == null) throw new ArgumentNullException(nameof(format));
 
         if (format == "C")

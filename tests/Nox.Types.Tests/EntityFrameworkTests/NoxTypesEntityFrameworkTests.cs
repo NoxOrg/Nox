@@ -273,7 +273,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
     {
         return StreetAddress.From(new StreetAddressItem
         {
-            StreetNumber = 15,
+            StreetNumber = "15",
             AddressLine1 = "AddressLine1",
             AddressLine2 = "AddressLine2",
             Route = "Route",
@@ -282,7 +282,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
             AdministrativeArea1 = "AdministrativeArea1",
             AdministrativeArea2 = "AdministrativeArea2",
             PostalCode = "1234",
-            CountryId = CountryCode2.From("CH")
+            CountryId = CountryCode.CH
         });
     }
 
@@ -300,6 +300,6 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         actualAddressValue.AdministrativeArea2.Should().Be(expectedAddressValue.AdministrativeArea2);
         actualAddressValue.Route.Should().Be(expectedAddressValue.Route);
         actualAddressValue.StreetNumber.Should().Be(expectedAddressValue.StreetNumber);
-        actualAddressValue.CountryId.Value.Should().Be(expectedAddressValue.CountryId.Value);
+        actualAddressValue.CountryId.Should().Be(expectedAddressValue.CountryId);
     }
 }

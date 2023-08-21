@@ -44,7 +44,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var addressItem = new StreetAddressItem
         {
             AddressLine1 = "AddressLine1",
-            CountryId = CountryCode2.From(countryCode2),
+            CountryId = Enum.Parse<CountryCode>(countryCode2),
             PostalCode = "61135"
         };
         var languageCode = "en";
@@ -62,7 +62,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var dateTimeDurationInHours = 30.5;
         var year = (ushort)2023;
         var vatNumberValue = "44403198682";
-        var vatNumberCountryCode2 = CountryCode2.From("FR");
+        var vatNumberCountryCode2 = CountryCode.FR;
         var color = new byte[] { 1, 2, 3, 4 };
         var date = new DateOnly(2023, 7, 14);
         var time = new System.TimeOnly(11152500000);
@@ -242,7 +242,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.EmailTestField!.Value.Should().Be(email);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
         testEntity.VatNumberTestField!.Value.Number.Should().Be(vatNumberValue);
-        testEntity.VatNumberTestField!.Value.CountryCode2.Should().Be(vatNumberCountryCode2);
+        testEntity.VatNumberTestField!.Value.CountryCode.Should().Be(vatNumberCountryCode2);
         testEntity.ColorTestField!.Value.Should().Equal(color);
         testEntity.PercentageTestField!.Value.Should().Be(percentage);
         testEntity.TemperatureTestField!.Value.Should().Be(temperatureCelsius);
@@ -380,8 +380,6 @@ public class SqliteIntegrationTests : SqliteTestBase
         };
 
         newItem.SecondTestEntityExactlyOne = newItem2;
-        newItem.SecondTestEntityExactlyOne = newItem2; 
-        newItem.SecondTestEntityExactlyOneId = newItem2.Id;
         newItem2.TestEntityExactlyOne = newItem;
         DbContext.TestEntityExactlyOnes.Add(newItem);
         DbContext.SecondTestEntityExactlyOnes.Add(newItem2);
@@ -666,5 +664,135 @@ public class SqliteIntegrationTests : SqliteTestBase
         Assert.NotEmpty(secondTestEntity.TestEntityZeroOrManyToOneOrManies);
         Assert.Equal(testEntity.TestEntityOneOrManyToZeroOrManies[0].Id.Value, textId2);
         Assert.Equal(secondTestEntity.TestEntityZeroOrManyToOneOrManies[0].Id.Value, textId1);
+    }
+
+    [Fact]
+    public void GeneratedRelationship_Sqlite_Owned_ZeroOrMany_ZeroOrMany()
+    {
+        var text = "TestTextValue";
+        var textId1 = "TestTextValue1";
+        var textId2 = "TestTextValue2";
+
+        var newItem = new TestEntityOwnedRelationshipZeroOrMany()
+        {
+            Id = Text.From(textId1),
+            TextTestField = Text.From(text),
+        };
+        var newItem2 = new SecondTestEntityOwnedRelationshipZeroOrMany()
+        {
+            Id = Text.From(textId2),
+            TextTestField2 = Text.From(text),
+        };
+
+        newItem.SecondTestEntityOwnedRelationshipZeroOrManies.Add(newItem2);
+        DbContext.TestEntityOwnedRelationshipZeroOrManies.Add(newItem);
+        DbContext.SaveChanges();
+
+        // Force the recreation of DBContext and ensure we have fresh data from database
+        RecreateDbContext();
+
+        var testEntity = DbContext.TestEntityOwnedRelationshipZeroOrManies.Include(x => x.SecondTestEntityOwnedRelationshipZeroOrManies).First();
+        var secondTestEntity = testEntity.SecondTestEntityOwnedRelationshipZeroOrManies[0];
+
+        Assert.Equal(testEntity.Id.Value, textId1);
+        Assert.Equal(secondTestEntity.Id.Value, textId2);
+        Assert.NotEmpty(testEntity.SecondTestEntityOwnedRelationshipZeroOrManies);
+        Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipZeroOrManies[0].Id.Value, textId2);
+    }
+
+    [Fact]
+    public void GeneratedRelationship_Sqlite_Owned_OneOrMany_OneOrMany()
+    {
+        var text = "TestTextValue";
+        var textId1 = "TestTextValue1";
+        var textId2 = "TestTextValue2";
+
+        var newItem = new TestEntityOwnedRelationshipOneOrMany()
+        {
+            Id = Text.From(textId1),
+            TextTestField = Text.From(text),
+        };
+        var newItem2 = new SecondTestEntityOwnedRelationshipOneOrMany()
+        {
+            Id = Text.From(textId2),
+            TextTestField2 = Text.From(text),
+        };
+
+        newItem.SecondTestEntityOwnedRelationshipOneOrMany.Add(newItem2);
+        DbContext.TestEntityOwnedRelationshipOneOrManies.Add(newItem);
+        DbContext.SaveChanges();
+
+        // Force the recreation of DBContext and ensure we have fresh data from database
+        RecreateDbContext();
+
+        var testEntity = DbContext.TestEntityOwnedRelationshipOneOrManies.Include(x => x.SecondTestEntityOwnedRelationshipOneOrManies).First();
+        var secondTestEntity = testEntity.SecondTestEntityOwnedRelationshipOneOrManies[0];
+
+        Assert.Equal(testEntity.Id.Value, textId1);
+        Assert.Equal(secondTestEntity.Id.Value, textId2);
+        Assert.NotEmpty(testEntity.SecondTestEntityOwnedRelationshipOneOrManies);
+        Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipOneOrManies[0].Id.Value, textId2);
+    }
+
+    [Fact]
+    public void GeneratedRelationship_Sqlite_Owned_ExactlyOne_ExactlyOne()
+    {
+        var text = "TestTextValue";
+        var text2 = "TestTextValue2";
+        var textId1 = "TestTextValue1";
+
+        var newItem = new TestEntityOwnedRelationshipExactlyOne()
+        {
+            Id = Text.From(textId1),
+            TextTestField = Text.From(text),
+        };
+        var newItem2 = new SecondTestEntityOwnedRelationshipExactlyOne()
+        {
+            TextTestField2 = Text.From(text2),
+        };
+
+        newItem.SecondTestEntityOwnedRelationshipExactlyOne = newItem2;
+        DbContext.TestEntityOwnedRelationshipExactlyOnes.Add(newItem);
+        DbContext.SaveChanges();
+
+        // Force the recreation of DBContext and ensure we have fresh data from database
+        RecreateDbContext();
+
+        var testEntity = DbContext.TestEntityOwnedRelationshipExactlyOnes.Include(x => x.SecondTestEntityOwnedRelationshipExactlyOne).First();
+
+        Assert.Equal(testEntity.Id.Value, textId1);
+        Assert.NotNull(testEntity.SecondTestEntityOwnedRelationshipExactlyOne);
+        Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipExactlyOne.TextTestField2.Value, text2);
+    }
+
+    [Fact]
+    public void GeneratedRelationship_Sqlite_Owned_ZeroOrOne_ZeroOrOne()
+    {
+        var text = "TestTextValue";
+        var textId1 = "TestTextValue1";
+        var text2 = "TestTextValue2";
+
+        var newItem = new TestEntityOwnedRelationshipZeroOrOne()
+        {
+            Id = Text.From(textId1),
+            TextTestField = Text.From(text),
+        };
+        var newItem2 = new SecondTestEntityOwnedRelationshipZeroOrOne()
+        {
+            TextTestField2 = Text.From(text2),
+        };
+
+        newItem.SecondTestEntityOwnedRelationshipZeroOrOne = newItem2;
+        DbContext.TestEntityOwnedRelationshipZeroOrOnes.Add(newItem);
+        DbContext.SaveChanges();
+
+        // Force the recreation of DBContext and ensure we have fresh data from database
+        RecreateDbContext();
+
+        var testEntity = DbContext.TestEntityOwnedRelationshipZeroOrOnes.Include(x => x.SecondTestEntityOwnedRelationshipZeroOrOne).First();
+
+        Assert.Equal(testEntity.Id.Value, textId1);
+        Assert.NotNull(testEntity.SecondTestEntityOwnedRelationshipZeroOrOne);
+        Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipZeroOrOne.TextTestField2.Value, text2);
     }
 }

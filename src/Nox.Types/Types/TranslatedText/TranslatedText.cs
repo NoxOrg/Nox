@@ -5,7 +5,7 @@ namespace Nox.Types;
 /// <summary>
 /// The translated text class.
 /// </summary>
-public sealed class TranslatedText : ValueObject<(CultureCode CultureCode, string Phrase), TranslatedText>
+public sealed class TranslatedText : ValueObject<(CultureCode CultureCode, string Phrase), TranslatedText>, ITranslatedText
 {
     public TranslatedTextTypeOptions _translatedTextTypeOptions = new();
 
@@ -21,17 +21,16 @@ public sealed class TranslatedText : ValueObject<(CultureCode CultureCode, strin
     /// <summary>
     /// Gets the locale.
     /// </summary>
-    public CultureCode CultureCode
+    public string CultureCode
     {
-        get => Value.CultureCode;
-        private set => Value = (value, Value.Phrase);
+        get => Value.CultureCode.Value;
+        private set => Value = (Types.CultureCode.From(value), Value.Phrase);
     }
 
     /// <summary>
     /// Initializes a new instance of the <see cref="TranslatedText"/> class.
     /// </summary>
-    public TranslatedText() { Value = (CultureCode.From("en-US"), string.Empty); }
-
+    public TranslatedText() { Value = (Types.CultureCode.From("en-US"), string.Empty); }
 
     /// <summary>
     /// Creates an instance of  <see cref="TranslatedText"/> class From the provided parameters.
@@ -41,10 +40,11 @@ public sealed class TranslatedText : ValueObject<(CultureCode CultureCode, strin
     /// <returns>A TranslatedText.</returns>
     public static TranslatedText From((CultureCode cultureCode, string phrase) translatedText, TranslatedTextTypeOptions translatedTextTypeOptions)
     {
+
         var newObject = new TranslatedText
         {
             _translatedTextTypeOptions = translatedTextTypeOptions,
-            CultureCode = translatedText.cultureCode,
+            CultureCode = translatedText.cultureCode.Value,
             Phrase = translatedText.phrase
         };
 
@@ -57,6 +57,7 @@ public sealed class TranslatedText : ValueObject<(CultureCode CultureCode, strin
 
         return newObject;
     }
+
     /// <inheritdoc />
     internal override ValidationResult Validate()
     {

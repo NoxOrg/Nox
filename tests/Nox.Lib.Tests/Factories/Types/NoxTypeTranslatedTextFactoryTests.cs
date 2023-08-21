@@ -25,7 +25,7 @@ namespace Nox.Lib.Tests.Factories.Types
             // Assert
             entity.Should().NotBeNull();
             entity!.Phrase.Should().Be(phrase);
-            entity!.CultureCode.Value.Should().Be(cultureCode);
+            entity!.CultureCode.Should().Be(cultureCode);
         }
     }
 }

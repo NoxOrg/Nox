@@ -18,23 +18,23 @@ public record PartialUpdateStoreCommand(System.String keyId, Dictionary<string, 
 
 public class PartialUpdateStoreCommandHandler: CommandBase, IRequestHandler<PartialUpdateStoreCommand, StoreKeyDto?>
 {
-    public SampleWebAppDbContext DbContext { get; }    
+    public SampleWebAppDbContext DbContext { get; }
     public IEntityMapper<Store> EntityMapper { get; }
 
     public PartialUpdateStoreCommandHandler(
-        SampleWebAppDbContext dbContext,        
+        SampleWebAppDbContext dbContext,
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
         IEntityMapper<Store> entityMapper): base(noxSolution, serviceProvider)
     {
-        DbContext = dbContext;        
+        DbContext = dbContext;
         EntityMapper = entityMapper;
     }
-    
+
     public async Task<StoreKeyDto?> Handle(PartialUpdateStoreCommand request, CancellationToken cancellationToken)
     {
         var keyId = CreateNoxTypeForKey<Store,Text>("Id", request.keyId);
-    
+
         var entity = await DbContext.Stores.FindAsync(keyId);
         if (entity == null)
         {

@@ -85,7 +85,7 @@ public partial class AllNoxTypesController : ODataController
         {
             return NotFound();
         }
-        return Updated(allNoxType);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId, [FromBody] Delta<AllNoxTypeUpdateDto> allNoxType)
@@ -115,7 +115,7 @@ public partial class AllNoxTypesController : ODataController
         {
             return NotFound();
         }
-        return Updated(allNoxType);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId)

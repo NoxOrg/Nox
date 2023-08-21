@@ -7,7 +7,7 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a Nox <see cref="File"/> type and value object.
 /// </summary>
-public sealed class File : ValueObject<(string Url, string PrettyName, ulong SizeInBytes), File>
+public sealed class File : ValueObject<(string Url, string PrettyName, ulong SizeInBytes), File>, IFile
 {
     public const int MaxUrlLength = 2083;
     public const int MaxPrettyNameLength = 511;

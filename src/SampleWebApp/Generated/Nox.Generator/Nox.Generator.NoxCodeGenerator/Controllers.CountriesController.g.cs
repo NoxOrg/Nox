@@ -75,6 +75,12 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
+    [EnableQuery]
+    public ActionResult<IQueryable<CountryLocalNames>> GetCountryLocalNames([FromRoute] string key)
+    {
+        return Ok(_databaseContext.Countries.Where(d => d.Id.Equals(key)).SelectMany(m => m.CountryLocalNames));
+    }
+    
     public async Task<ActionResult> Post([FromBody]CountryCreateDto country)
     {
         if (!ModelState.IsValid)
@@ -99,7 +105,7 @@ public partial class CountriesController : ODataController
         {
             return NotFound();
         }
-        return Updated(country);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<CountryUpdateDto> country)
@@ -129,7 +135,7 @@ public partial class CountriesController : ODataController
         {
             return NotFound();
         }
-        return Updated(country);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)

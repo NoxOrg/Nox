@@ -20,11 +20,11 @@ public class DeleteCurrencyByIdCommandHandler: CommandBase, IRequestHandler<Dele
 
     public  DeleteCurrencyByIdCommandHandler(
         SampleWebAppDbContext dbContext,
-        NoxSolution noxSolution, 
+        NoxSolution noxSolution,
         IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;
-    }    
+    }
 
     public async Task<bool> Handle(DeleteCurrencyByIdCommand request, CancellationToken cancellationToken)
     {

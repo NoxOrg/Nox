@@ -9,18 +9,18 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Nox.Application;
-using SampleWebApp.Application;
-using SampleWebApp.Application.Dto;
-using SampleWebApp.Application.Queries;
-using SampleWebApp.Application.Commands;
-using SampleWebApp.Application.DataTransferObjects;
-using SampleWebApp.Domain;
-using SampleWebApp.Infrastructure.Persistence;
+using ClientApi.Application;
+using ClientApi.Application.Dto;
+using ClientApi.Application.Queries;
+using ClientApi.Application.Commands;
+using ClientApi.Application.DataTransferObjects;
+using ClientApi.Domain;
+using ClientApi.Infrastructure.Persistence;
 using Nox.Types;
 
-namespace SampleWebApp.Presentation.Api.OData;
+namespace ClientApi.Presentation.Api.OData;
 
-public partial class CountryLocalNamesController : ODataController
+public partial class ClientDatabaseNumbersController : ODataController
 {
     
     /// <summary>
@@ -33,7 +33,7 @@ public partial class CountryLocalNamesController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public CountryLocalNamesController(
+    public ClientDatabaseNumbersController(
         ODataDbContext databaseContext,
         IMediator mediator
     )
@@ -43,15 +43,15 @@ public partial class CountryLocalNamesController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<CountryLocalNamesDto>>> Get()
+    public async  Task<ActionResult<IQueryable<ClientDatabaseNumberDto>>> Get()
     {
-        var result = await _mediator.Send(new GetCountryLocalNamesQuery());
+        var result = await _mediator.Send(new GetClientDatabaseNumbersQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<CountryLocalNamesDto>> Get([FromRoute] System.String key)
+    public async Task<ActionResult<ClientDatabaseNumberDto>> Get([FromRoute] System.Int64 key)
     {
-        var item = await _mediator.Send(new GetCountryLocalNamesByIdQuery(key));
+        var item = await _mediator.Send(new GetClientDatabaseNumberByIdQuery(key));
         
         if (item == null)
         {
@@ -61,34 +61,34 @@ public partial class CountryLocalNamesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]CountryLocalNamesCreateDto countrylocalnames)
+    public async Task<ActionResult> Post([FromBody]ClientDatabaseNumberCreateDto clientdatabasenumber)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateCountryLocalNamesCommand(countrylocalnames));
+        var createdKey = await _mediator.Send(new CreateClientDatabaseNumberCommand(clientdatabasenumber));
         
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] CountryLocalNamesUpdateDto countryLocalNames)
+    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] ClientDatabaseNumberUpdateDto clientDatabaseNumber)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateCountryLocalNamesCommand(key, countryLocalNames));
+        var updated = await _mediator.Send(new UpdateClientDatabaseNumberCommand(key, clientDatabaseNumber));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(countryLocalNames);
+        return Updated(updated);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<CountryLocalNamesUpdateDto> countryLocalNames)
+    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<ClientDatabaseNumberUpdateDto> clientDatabaseNumber)
     {
         if (!ModelState.IsValid)
         {
@@ -97,9 +97,9 @@ public partial class CountryLocalNamesController : ODataController
         var updateProperties = new Dictionary<string, dynamic>();
         var deletedProperties = new HashSet<string>();
 
-        foreach (var propertyName in countryLocalNames.GetChangedPropertyNames())
+        foreach (var propertyName in clientDatabaseNumber.GetChangedPropertyNames())
         {
-            if(countryLocalNames.TryGetPropertyValue(propertyName, out dynamic value))
+            if(clientDatabaseNumber.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
             }
@@ -109,18 +109,18 @@ public partial class CountryLocalNamesController : ODataController
             }
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCountryLocalNamesCommand(key, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateClientDatabaseNumberCommand(key, updateProperties, deletedProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(countryLocalNames);
+        return Updated(updated);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.String key)
+    public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var result = await _mediator.Send(new DeleteCountryLocalNamesByIdCommand(key));
+        var result = await _mediator.Send(new DeleteClientDatabaseNumberByIdCommand(key));
         if (!result)
         {
             return NotFound();

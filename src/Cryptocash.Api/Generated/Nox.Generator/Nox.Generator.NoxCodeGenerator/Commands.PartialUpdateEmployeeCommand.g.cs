@@ -14,9 +14,9 @@ using CryptocashApi.Application.Dto;
 
 namespace CryptocashApi.Application.Commands;
 
-public record PartialUpdateEmployeeCommand(System.Int64 key, Dictionary<string, dynamic> UpdatedProperties, List<string> DeletedPropertyNames) : IRequest<bool>;
+public record PartialUpdateEmployeeCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, HashSet<string> DeletedPropertyNames) : IRequest <EmployeeKeyDto?>;
 
-public class PartialUpdateEmployeeCommandHandler: CommandBase, IRequestHandler<PartialUpdateEmployeeCommand, bool>
+public class PartialUpdateEmployeeCommandHandler: CommandBase, IRequestHandler<PartialUpdateEmployeeCommand, EmployeeKeyDto?>
 {
     public CryptocashApiDbContext DbContext { get; }    
     public IEntityMapper<Employee> EntityMapper { get; }
@@ -31,18 +31,19 @@ public class PartialUpdateEmployeeCommandHandler: CommandBase, IRequestHandler<P
         EntityMapper = entityMapper;
     }
     
-    public async Task<bool> Handle(PartialUpdateEmployeeCommand request, CancellationToken cancellationToken)
+    public async Task<EmployeeKeyDto?> Handle(PartialUpdateEmployeeCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.Employees.FindAsync(CreateNoxTypeForKey<Employee,DatabaseNumber>("Id", request.key));
+        var keyId = CreateNoxTypeForKey<Employee,DatabaseNumber>("Id", request.keyId);
+    
+        var entity = await DbContext.Employees.FindAsync(keyId);
         if (entity == null)
         {
-            return false;
+            return null;
         }
-        //EntityMapper.MapToEntity(entity, GetEntityDefinition<Employee>(), request.EntityDto);
-        //// Todo map dto
-        //DbContext.Entry(entity).State = EntityState.Modified;
-        //var result = await DbContext.SaveChangesAsync();             
-        //return result > 0;        
-        return true;
+        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Employee>(), request.UpdatedProperties, request.DeletedPropertyNames);
+
+        DbContext.Entry(entity).State = EntityState.Modified;
+        var result = await DbContext.SaveChangesAsync();
+        return new EmployeeKeyDto(entity.Id.Value);
     }
 }

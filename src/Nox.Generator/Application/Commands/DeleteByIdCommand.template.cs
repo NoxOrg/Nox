@@ -20,17 +20,17 @@ public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase, IRequestHandl
 
     public  Delete{{entity.Name}}ByIdCommandHandler(
         {{codeGeneratorState.Solution.Name}}DbContext dbContext,
-        NoxSolution noxSolution, 
+        NoxSolution noxSolution,
         IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;
-    }    
+    }
 
     public async Task<bool> Handle(Delete{{entity.Name}}ByIdCommand request, CancellationToken cancellationToken)
     {
     {{- for key in entity.Keys }}
         {{- keyType = SingleTypeForKey key }}
-        var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{keyType}}>("{{key.Name}}", request.key{{key.Name}});        
+        var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{keyType}}>("{{key.Name}}", request.key{{key.Name}});
     {{- end }}
 
         var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysQuery}});
