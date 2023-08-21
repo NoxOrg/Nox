@@ -127,8 +127,8 @@ public static class ServiceCollectionExtension
     private static IServiceCollection AddNoxProviders(
         this IServiceCollection services)
     {
-        services.AddSingleton<IUserProvider, DefaultUserProvider>();
-        services.AddSingleton<ISystemProvider, DefaultSystemProvider>();
+        services.AddScoped<IUserProvider, DefaultUserProvider>();
+        services.AddScoped<ISystemProvider, DefaultSystemProvider>();
 
         return services;
     }

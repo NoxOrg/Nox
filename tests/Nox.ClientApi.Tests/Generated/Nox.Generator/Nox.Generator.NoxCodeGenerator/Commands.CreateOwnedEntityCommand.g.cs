@@ -1,11 +1,11 @@
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Application;
 using Nox.Factories;
 using ClientApi.Infrastructure.Persistence;
@@ -17,23 +17,33 @@ public record CreateOwnedEntityCommand(OwnedEntityCreateDto EntityDto) : IReques
 
 public class CreateOwnedEntityCommandHandler: IRequestHandler<CreateOwnedEntityCommand, OwnedEntityKeyDto>
 {
-    public ClientApiDbContext DbContext { get; }
-    public IEntityFactory<OwnedEntityCreateDto,OwnedEntity> EntityFactory { get; }
+	private readonly IUserProvider _userProvider;
+	private readonly ISystemProvider _systemProvider;
 
-    public  CreateOwnedEntityCommandHandler(
-        ClientApiDbContext dbContext,
-        IEntityFactory<OwnedEntityCreateDto,OwnedEntity> entityFactory)
-    {
-        DbContext = dbContext;
-        EntityFactory = entityFactory;
-    }
+	public ClientApiDbContext DbContext { get; }
+	public IEntityFactory<OwnedEntityCreateDto,OwnedEntity> EntityFactory { get; }
 
-    public async Task<OwnedEntityKeyDto> Handle(CreateOwnedEntityCommand request, CancellationToken cancellationToken)
-    {
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+	public CreateOwnedEntityCommandHandler(
+		ClientApiDbContext dbContext,
+		IEntityFactory<OwnedEntityCreateDto,OwnedEntity> entityFactory,
+		IUserProvider userProvider,
+		ISystemProvider systemProvider)
+	{
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
+		_userProvider = userProvider;
+		_systemProvider = systemProvider;
+	}
 
-        DbContext.OwnedEntities.Add(entityToCreate);
-        await DbContext.SaveChangesAsync();
-        return new OwnedEntityKeyDto(entityToCreate.Id.Value);
-    }
+	public async Task<OwnedEntityKeyDto> Handle(CreateOwnedEntityCommand request, CancellationToken cancellationToken)
+	{
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var createdBy = _userProvider.GetUser();
+		var createdVia = _systemProvider.GetSystem();
+		entityToCreate.Created(createdBy, createdVia);
+	
+		DbContext.OwnedEntities.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
+		return new OwnedEntityKeyDto(entityToCreate.Id.Value);
+	}
 }

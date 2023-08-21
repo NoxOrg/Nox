@@ -24,7 +24,7 @@ attributes:
     isRequired: true 
 
 persistence:
-    isVersioned: true    
+    isAudited: true    
     create:
         isEnabled: true
         raiseEvents: true

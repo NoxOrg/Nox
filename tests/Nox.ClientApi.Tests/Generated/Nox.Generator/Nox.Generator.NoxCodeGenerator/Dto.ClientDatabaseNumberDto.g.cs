@@ -34,5 +34,10 @@ public partial class ClientDatabaseNumberDto
     /// </summary>
     public System.Int32? Number { get; set; }
 
+    /// <summary>
+    /// The Money (Optional).
+    /// </summary>
+    public MoneyDto? AmmountMoney { get; set; }
+
     public System.DateTime? DeletedAtUtc { get; set; }
 }

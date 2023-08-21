@@ -23,7 +23,7 @@ public class GetOwnedEntitiesQueryHandler : IRequestHandler<GetOwnedEntitiesQuer
     public Task<IQueryable<OwnedEntityDto>> Handle(GetOwnedEntitiesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<OwnedEntityDto>)DataDbContext.OwnedEntities
-            .Where(r => !(r.Deleted == true))
+            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
         return Task.FromResult(item);
     }
