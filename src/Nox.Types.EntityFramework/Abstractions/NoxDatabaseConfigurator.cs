@@ -124,7 +124,7 @@ namespace Nox.Types.EntityFramework.Abstractions
                     builder
                         .OwnsOne(relationshipToCreate.RelationshipEntityType, relationshipToCreate.Relationship.Entity, x =>
                         {
-                            ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter.EntityBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity);
+                            ConfigureEntity(codeGeneratorState, new OwnedNavigationBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity);
                         });
                 }
                 else
@@ -132,7 +132,7 @@ namespace Nox.Types.EntityFramework.Abstractions
                     builder
                         .OwnsMany(relationshipToCreate.RelationshipEntityType, relationshipToCreate.Relationship.EntityPlural, x =>
                         {
-                            ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter.EntityBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity);
+                            ConfigureEntity(codeGeneratorState, new OwnedNavigationBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity);
                         });
                 }
 

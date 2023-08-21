@@ -60,7 +60,7 @@ public class NoxSolution : Solution
         return fullRelationshipModels;
     }
 
-    public bool IsOwnedEntity(Entity entity)
+    internal bool IsOwnedEntity(Entity entity)
     {
         // Cannot rely on constructor in this scenario as
         // constructor execution during deserialization doesn't contain a Domain set

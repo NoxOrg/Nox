@@ -2,38 +2,38 @@
 
 namespace Nox.Types.EntityFramework.EntityBuilderAdapter
 {
-    public class EntityBuilderAdapter : IEntityBuilder
+    public class OwnedNavigationBuilderAdapter : IEntityBuilder
     {
-        public EntityBuilderAdapter(EntityTypeBuilder entityTypeBuilder)
+        public OwnedNavigationBuilderAdapter(OwnedNavigationBuilder ownedNavigationBuilder)
         {
-            EntityTypeBuilder = entityTypeBuilder;
+            OwnedNavigationBuilder = ownedNavigationBuilder;
         }
 
-        public EntityTypeBuilder EntityTypeBuilder { get; set; }
+        public OwnedNavigationBuilder? OwnedNavigationBuilder { get; set; }
 
         public PropertyBuilder Property(string propertyName)
         {
-            return EntityTypeBuilder.Property(propertyName);
+            return OwnedNavigationBuilder!.Property(propertyName!);
         }
 
         public ReferenceNavigationBuilder HasOne(string? navigationName)
         {
-            return EntityTypeBuilder.HasOne(navigationName);
+            return OwnedNavigationBuilder!.HasOne(navigationName!);
         }
 
         public ReferenceNavigationBuilder HasOne(string relatedTypeName, string? navigationName)
         {
-            return EntityTypeBuilder.HasOne(relatedTypeName, navigationName);
+            return OwnedNavigationBuilder!.HasOne(relatedTypeName, navigationName!);
         }
 
         public IEntityBuilder Ignore(string propertyName)
         {
-            return new EntityBuilderAdapter(EntityTypeBuilder.Ignore(propertyName));
+            return new OwnedNavigationBuilderAdapter(OwnedNavigationBuilder!.Ignore(propertyName!));
         }
 
         public KeyBuilder HasKey(params string[] propertyNames)
         {
-            return EntityTypeBuilder.HasKey(propertyNames);
+            return OwnedNavigationBuilder!.HasKey(propertyNames);
         }
 
         public void OwnsOne(
@@ -41,14 +41,14 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
             string navigationName,
             Action<OwnedNavigationBuilder> buildAction)
         {
-            EntityTypeBuilder.OwnsOne(ownedType, navigationName, buildAction);
+            OwnedNavigationBuilder!.OwnsOne(ownedType, navigationName, buildAction);
         }
 
         public IEntityBuilder OwnsOne(
             Type ownedType,
             string navigationName)
         {
-            return new OwnedNavigationBuilderAdapter(EntityTypeBuilder.OwnsOne(ownedType, navigationName));
+            return new OwnedNavigationBuilderAdapter(OwnedNavigationBuilder!.OwnsOne(ownedType, navigationName));
         }
 
         public void OwnsMany(
@@ -56,7 +56,7 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
             string navigationName,
             Action<OwnedNavigationBuilder> buildAction)
         {
-            EntityTypeBuilder.OwnsMany(ownedType, navigationName, buildAction);
+            OwnedNavigationBuilder!.OwnsMany(ownedType, navigationName, buildAction);
         }
     }
 }

@@ -55,7 +55,7 @@ public partial class ClientApiDbContext : DbContext
                 Console.WriteLine($"ClientApiDbContext Configure database for Entity {entity.Name}");
 
                 // Ignore owned entities configuration as they are configured inside entity constructor
-                if (codeGeneratorState.Solution.IsOwnedEntity(entity))
+                if (entity.IsOwnedEntity)
                 {
                     continue;
                 }

@@ -8,7 +8,6 @@ using Nox.Types;
 using Nox.Domain;
 using ClientApi.Application.DataTransferObjects;
 using ClientApi.Domain;
-using Microsoft.OData.ModelBuilder;
 
 namespace ClientApi.Application.Dto;
 

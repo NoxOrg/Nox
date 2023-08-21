@@ -8,7 +8,6 @@ using Nox.Types;
 using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
-using Microsoft.OData.ModelBuilder;
 
 namespace SampleWebApp.Application.Dto;
 
@@ -108,7 +107,6 @@ public partial class CountryDto
     /// <summary>
     /// Country is also know as OneOrMany CountryLocalNames
     /// </summary>
-	[AutoExpand]
     public virtual List<CountryLocalNamesDto> CountryLocalNames { get; set; } = new();
 
     public bool? Deleted { get; set; }

@@ -56,7 +56,7 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
             foreach (var entity in _noxSolution.Domain.Entities)
             {
                 // Ignore owned entities configuration as they are configured inside entity constructor
-                if (_noxSolution.IsOwnedEntity(entity))
+                if (entity.IsOwnedEntity)
                 {
                     continue;
                 }

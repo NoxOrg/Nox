@@ -56,7 +56,7 @@ public partial class {{className}} : DbContext
                 Console.WriteLine($"{{className}} Configure database for Entity {entity.Name}");
 
                 // Ignore owned entities configuration as they are configured inside entity constructor
-                if (codeGeneratorState.Solution.IsOwnedEntity(entity))
+                if (entity.IsOwnedEntity)
                 {
                     continue;
                 }

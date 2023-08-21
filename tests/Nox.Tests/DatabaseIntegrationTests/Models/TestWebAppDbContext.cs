@@ -115,7 +115,7 @@ public partial class TestWebAppDbContext : DbContext
                 Console.WriteLine($"TestWebAppDbContext Configure database for Entity {entity.Name}");
 
                 // Ignore owned entities configuration as they are configured inside entity constructor
-                if (codeGeneratorState.Solution.IsOwnedEntity(entity))
+                if (entity.IsOwnedEntity)
                 {
                     continue;
                 }

@@ -8,7 +8,6 @@ using Nox.Types;
 using Nox.Domain;
 using {{codeGeneratorState.DataTransferObjectsNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
-using Microsoft.OData.ModelBuilder;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
@@ -68,7 +67,6 @@ public partial class {{className}}
     /// <summary>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
-	[AutoExpand]
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
     public virtual List<{{relationship.Entity}}Dto> {{relationship.EntityPlural}} { get; set; } = new();
     {{- if (relationship.EntityPlural) != relationship.Name}}
