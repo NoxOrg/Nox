@@ -61,6 +61,12 @@ public partial class ClientDatabaseNumbersController : ODataController
         return Ok(item);
     }
     
+    [EnableQuery]
+    public ActionResult<IQueryable<OwnedEntityDto>> GetOwnedEntities([FromRoute] string key)
+    {
+        return Ok(_databaseContext.ClientDatabaseNumbers.Where(d => d.Id.Equals(key)).SelectMany(m => m.OwnedEntities));
+    }
+    
     public async Task<ActionResult> Post([FromBody]ClientDatabaseNumberCreateDto clientdatabasenumber)
     {
         if (!ModelState.IsValid)

@@ -39,5 +39,10 @@ public partial class ClientDatabaseNumberDto
     /// </summary>
     public MoneyDto? AmmountMoney { get; set; }
 
+    /// <summary>
+    /// ClientDatabaseNumber is also know as ZeroOrMany OwnedEntities
+    /// </summary>
+    public virtual List<OwnedEntityDto> OwnedEntities { get; set; } = new();
+
     public System.DateTime? DeletedAtUtc { get; set; }
 }

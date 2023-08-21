@@ -29,4 +29,9 @@ public partial class ClientDatabaseNumberUpdateDto
     /// The Money (Optional).
     /// </summary>
     public MoneyDto? AmmountMoney { get; set; } 
+
+    /// <summary>
+    /// ClientDatabaseNumber is also know as ZeroOrMany OwnedEntities
+    /// </summary>
+    public virtual List<OwnedEntityUpdateDto> OwnedEntities { get; set; } = new();
 }

@@ -34,11 +34,7 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<ClientNuidDto>();
         builder.EntityType<ClientNuidDto>().Ignore(e => e.DeletedAtUtc);
 
-        builder.EntitySet<OwnedEntityDto>("OwnedEntities");
-        builder.EntityType<OwnedEntityKeyDto>();
-
         builder.EntityType<OwnedEntityDto>();
-        builder.EntityType<OwnedEntityDto>().Ignore(e => e.DeletedAtUtc);
 
         services.AddControllers()
             .AddOData(options =>

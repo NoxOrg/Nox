@@ -67,8 +67,11 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
 
         foreach (var entity in solution.Domain.Entities)
         {
-            code.AppendLine($"public DbSet<{entity.Name}Dto> {entity.PluralName} {{ get; set; }} = null!;");
-            code.AppendLine();
+            if(!entity.IsOwnedEntity)
+            {
+                code.AppendLine($"public DbSet<{entity.Name}Dto> {entity.PluralName} {{ get; set; }} = null!;");
+                code.AppendLine();
+            }            
         }
 
         AddDbContextOnConfiguring(code, codeGeneratorState);
@@ -90,10 +93,16 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
 
         foreach (var entity in solution.Domain!.Entities)
         {
+            if (entity.IsOwnedEntity)
+            {
+                continue;
+            }
+
             code.StartBlock();
             code.AppendLine($"var type = typeof({entity.Name}Dto);");
             code.AppendLine($"var builder = modelBuilder.Entity(type!);");
             code.AppendLine();
+
             foreach (var key in entity.Keys!)
             {
                 {
@@ -101,6 +110,19 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
 
                 }
             }
+            // TODO Dmytro
+            if (entity.Name == "ClientDatabaseNumber")
+                code.AppendLine(@"  builder.OwnsMany(typeof(OwnedEntityDto), ""OwnedEntities"",
+                owned =>
+                    {
+                         
+                        owned.WithOwner().HasForeignKey(""ClientDatabaseNumberId"");
+                        owned.HasKey(""Id"");
+                        owned.ToTable(""OwnedEntity"");
+                        // TODO Dmytro => Database*
+                        //owned.Property(""Id"").ValueGeneratedOnAdd();
+                    }
+                );");
             code.EndBlock();
         }
     }

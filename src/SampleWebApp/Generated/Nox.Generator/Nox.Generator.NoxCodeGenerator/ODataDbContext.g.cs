@@ -48,8 +48,6 @@ public class ODataDbContext : DbContext
         
         public DbSet<CurrencyCashBalanceDto> CurrencyCashBalances { get; set; } = null!;
         
-        public DbSet<CountryLocalNamesDto> CountryLocalNames { get; set; } = null!;
-        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -99,12 +97,6 @@ public class ODataDbContext : DbContext
                 
                 builder.HasKey("StoreId");
                 builder.HasKey("CurrencyId");
-            }
-            {
-                var type = typeof(CountryLocalNamesDto);
-                var builder = modelBuilder.Entity(type!);
-                
-                builder.HasKey("Id");
             }
         }
     }

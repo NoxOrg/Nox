@@ -40,8 +40,6 @@ public class ODataDbContext : DbContext
         
         public DbSet<ClientNuidDto> ClientNuids { get; set; } = null!;
         
-        public DbSet<OwnedEntityDto> OwnedEntities { get; set; } = null!;
-        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -59,15 +57,20 @@ public class ODataDbContext : DbContext
                 var builder = modelBuilder.Entity(type!);
                 
                 builder.HasKey("Id");
+                  builder.OwnsMany(typeof(OwnedEntityDto), "OwnedEntities",
+                owned =>
+                    {
+                         
+                        owned.WithOwner().HasForeignKey("ClientDatabaseNumberId");
+                        owned.HasKey("Id");
+                        owned.ToTable("OwnedEntity");
+                        // TODO Dmytro => Database*
+                        //owned.Property("Id").ValueGeneratedOnAdd();
+                    }
+                );
             }
             {
                 var type = typeof(ClientNuidDto);
-                var builder = modelBuilder.Entity(type!);
-                
-                builder.HasKey("Id");
-            }
-            {
-                var type = typeof(OwnedEntityDto);
                 var builder = modelBuilder.Entity(type!);
                 
                 builder.HasKey("Id");
