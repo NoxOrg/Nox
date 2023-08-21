@@ -13,7 +13,7 @@ domain:
         icon: world
 
       persistence:
-        isVersioned: true
+        isAudited: true
         tableName: Country
         schema: dbo
         create:

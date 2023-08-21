@@ -39,5 +39,5 @@ public partial class CurrencyCashBalanceDto
     /// </summary>
     public System.Decimal? OperationLimit { get; set; }
 
-    public bool? Deleted { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }
 }

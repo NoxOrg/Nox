@@ -25,7 +25,7 @@ public partial class ClientDatabaseNumberDto
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// The Name (Required).
+    /// The Text (Required).
     /// </summary>
     public System.String Name { get; set; } = default!;
 
@@ -34,5 +34,10 @@ public partial class ClientDatabaseNumberDto
     /// </summary>
     public System.Int32? Number { get; set; }
 
-    public bool? Deleted { get; set; }
+    /// <summary>
+    /// The Money (Optional).
+    /// </summary>
+    public MoneyDto? AmmountMoney { get; set; }
+
+    public System.DateTime? DeletedAtUtc { get; set; }
 }

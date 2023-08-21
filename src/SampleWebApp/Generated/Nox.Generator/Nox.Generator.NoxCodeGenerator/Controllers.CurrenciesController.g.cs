@@ -95,21 +95,16 @@ public partial class CurrenciesController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new HashSet<string>();
-
+        
         foreach (var propertyName in currency.GetChangedPropertyNames())
         {
             if(currency.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCurrencyCommand(key, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateCurrencyCommand(key, updateProperties));
         
         if (updated is null)
         {

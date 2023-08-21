@@ -28,8 +28,8 @@ public class Get{{entity.Name}}ByIdQueryHandler: IRequestHandler<Get{{entity.Nam
             {{- for key in entity.Keys }}
                 r.{{key.Name}}.Equals(request.key{{key.Name}}) && 
             {{- end -}}
-            {{- if (entity.Persistence?.IsVersioned ?? true)}}
-                !(r.Deleted == true)
+            {{- if (entity.Persistence?.IsAudited ?? true)}}
+                r.DeletedAtUtc == null
             {{- else}}
                 true
             {{end -}}

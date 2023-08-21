@@ -762,6 +762,10 @@ domain:
             entity: SecondTestEntityOwnedRelationshipExactlyOne
 
     - name: SecondTestEntityOwnedRelationshipExactlyOne
+   
+      persistence: 
+        isAudited: false
+
       keys:
 
         - name: Id1
@@ -808,6 +812,10 @@ domain:
             entity: SecondTestEntityOwnedRelationshipZeroOrOne
 
     - name: SecondTestEntityOwnedRelationshipZeroOrOne
+   
+      persistence: 
+        isAudited: false
+
       keys:
 
         - name: Id1
@@ -854,6 +862,10 @@ domain:
             entity: SecondTestEntityOwnedRelationshipOneOrMany
 
     - name: SecondTestEntityOwnedRelationshipOneOrMany
+   
+      persistence: 
+        isAudited: false
+
       keys:
 
         - name: Id
@@ -900,6 +912,10 @@ domain:
             entity: SecondTestEntityOwnedRelationshipZeroOrMany
 
     - name: SecondTestEntityOwnedRelationshipZeroOrMany
+   
+      persistence: 
+        isAudited: false
+
       keys:
 
         - name: Id
@@ -926,7 +942,7 @@ domain:
         icon: world
 
       persistence:
-        isVersioned: true
+        isAudited: true
         tableName: TestEntityForTypes
         schema: dbo
         create:

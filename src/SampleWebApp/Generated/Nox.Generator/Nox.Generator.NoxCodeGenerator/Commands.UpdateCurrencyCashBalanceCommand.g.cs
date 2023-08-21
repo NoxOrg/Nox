@@ -1,9 +1,10 @@
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -18,36 +19,46 @@ public record UpdateCurrencyCashBalanceCommand(System.String keyStoreId, System.
 
 public class UpdateCurrencyCashBalanceCommandHandler: CommandBase, IRequestHandler<UpdateCurrencyCashBalanceCommand, CurrencyCashBalanceKeyDto?>
 {
-    public SampleWebAppDbContext DbContext { get; }
-    public IEntityMapper<CurrencyCashBalance> EntityMapper { get; }
+	private readonly IUserProvider _userProvider;
+	private readonly ISystemProvider _systemProvider;
 
-    public  UpdateCurrencyCashBalanceCommandHandler(
-        SampleWebAppDbContext dbContext,
-        NoxSolution noxSolution,
-        IServiceProvider serviceProvider,
-        IEntityMapper<CurrencyCashBalance> entityMapper): base(noxSolution, serviceProvider)
-    {
-        DbContext = dbContext;
-        EntityMapper = entityMapper;
-    }
+	public SampleWebAppDbContext DbContext { get; }
+	public IEntityMapper<CurrencyCashBalance> EntityMapper { get; }
 
-    public async Task<CurrencyCashBalanceKeyDto?> Handle(UpdateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
-    {
-        var keyStoreId = CreateNoxTypeForKey<CurrencyCashBalance,Text>("StoreId", request.keyStoreId);
-        var keyCurrencyId = CreateNoxTypeForKey<CurrencyCashBalance,Nuid>("CurrencyId", request.keyCurrencyId);
+	public UpdateCurrencyCashBalanceCommandHandler(
+		SampleWebAppDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<CurrencyCashBalance> entityMapper,
+		IUserProvider userProvider,
+		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+	{
+		DbContext = dbContext;
+		EntityMapper = entityMapper;
+		_userProvider = userProvider;
+		_systemProvider = systemProvider;
+	}
+	
+	public async Task<CurrencyCashBalanceKeyDto?> Handle(UpdateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
+	{
+		var keyStoreId = CreateNoxTypeForKey<CurrencyCashBalance,Text>("StoreId", request.keyStoreId);
+		var keyCurrencyId = CreateNoxTypeForKey<CurrencyCashBalance,Nuid>("CurrencyId", request.keyCurrencyId);
+	
+		var entity = await DbContext.CurrencyCashBalances.FindAsync(keyStoreId, keyCurrencyId);
+		if (entity == null)
+		{
+			return null;
+		}
+		EntityMapper.MapToEntity(entity, GetEntityDefinition<CurrencyCashBalance>(), request.EntityDto);
+		var updatedBy = _userProvider.GetUser();
+		var updatedVia = _systemProvider.GetSystem();
+		entity.Updated(updatedBy, updatedVia);
+		
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if(result < 1)
+			return null;
 
-        var entity = await DbContext.CurrencyCashBalances.FindAsync(keyStoreId, keyCurrencyId);
-        if (entity == null)
-        {
-            return null;
-        }
-        EntityMapper.MapToEntity(entity, GetEntityDefinition<CurrencyCashBalance>(), request.EntityDto);
-
-        DbContext.Entry(entity).State = EntityState.Modified;
-        var result = await DbContext.SaveChangesAsync();
-        if(result < 1)
-            return null;
-
-        return new CurrencyCashBalanceKeyDto(entity.StoreId.Value, entity.CurrencyId.Value);
-    }
+		return new CurrencyCashBalanceKeyDto(entity.StoreId.Value, entity.CurrencyId.Value);
+	}
 }

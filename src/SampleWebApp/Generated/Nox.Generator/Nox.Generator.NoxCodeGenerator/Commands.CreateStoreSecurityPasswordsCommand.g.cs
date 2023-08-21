@@ -1,11 +1,11 @@
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Application;
 using Nox.Factories;
 using SampleWebApp.Infrastructure.Persistence;
@@ -17,23 +17,33 @@ public record CreateStoreSecurityPasswordsCommand(StoreSecurityPasswordsCreateDt
 
 public class CreateStoreSecurityPasswordsCommandHandler: IRequestHandler<CreateStoreSecurityPasswordsCommand, StoreSecurityPasswordsKeyDto>
 {
-    public SampleWebAppDbContext DbContext { get; }
-    public IEntityFactory<StoreSecurityPasswordsCreateDto,StoreSecurityPasswords> EntityFactory { get; }
+	private readonly IUserProvider _userProvider;
+	private readonly ISystemProvider _systemProvider;
 
-    public  CreateStoreSecurityPasswordsCommandHandler(
-        SampleWebAppDbContext dbContext,
-        IEntityFactory<StoreSecurityPasswordsCreateDto,StoreSecurityPasswords> entityFactory)
-    {
-        DbContext = dbContext;
-        EntityFactory = entityFactory;
-    }
+	public SampleWebAppDbContext DbContext { get; }
+	public IEntityFactory<StoreSecurityPasswordsCreateDto,StoreSecurityPasswords> EntityFactory { get; }
 
-    public async Task<StoreSecurityPasswordsKeyDto> Handle(CreateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
-    {
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+	public CreateStoreSecurityPasswordsCommandHandler(
+		SampleWebAppDbContext dbContext,
+		IEntityFactory<StoreSecurityPasswordsCreateDto,StoreSecurityPasswords> entityFactory,
+		IUserProvider userProvider,
+		ISystemProvider systemProvider)
+	{
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
+		_userProvider = userProvider;
+		_systemProvider = systemProvider;
+	}
 
-        DbContext.StoreSecurityPasswords.Add(entityToCreate);
-        await DbContext.SaveChangesAsync();
-        return new StoreSecurityPasswordsKeyDto(entityToCreate.Id.Value);
-    }
+	public async Task<StoreSecurityPasswordsKeyDto> Handle(CreateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
+	{
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var createdBy = _userProvider.GetUser();
+		var createdVia = _systemProvider.GetSystem();
+		entityToCreate.Created(createdBy, createdVia);
+	
+		DbContext.StoreSecurityPasswords.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
+		return new StoreSecurityPasswordsKeyDto(entityToCreate.Id.Value);
+	}
 }
