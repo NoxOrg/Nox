@@ -10,6 +10,6 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 [Owned]
 public record {{noxType.NoxType}}Dto(
     {{- noxType.Components | array.join "," -}}
-    );
+    ) : I{{noxType.NoxType}};
 
 {{~ end ~}}
