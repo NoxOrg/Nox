@@ -1,6 +1,7 @@
 ﻿using System;
 using Nox.Solution;
 using Nox.Types;
+using Nox.Types.Extensions;
 using Scriban;
 using Scriban.Runtime;
 
@@ -25,10 +26,25 @@ internal static class NoxSolutionBridge
         var scriptObject4 = new ScriptObject();
         scriptObject2.Import("SinglePrimitiveTypeForKey", new Func<NoxSimpleTypeDefinition,
             string>(noxSolution.GetSinglePrimitiveTypeForKey));
-                
+
+        var scriptObject5 = new ScriptObject();
+        scriptObject5.Import("IsNoxTypeReadable", new Func<NoxType,
+            bool>(type => type.IsReadableType()));
+
+        var scriptObject6 = new ScriptObject();
+        scriptObject6.Import("IsNoxTypeUpdatable", new Func<NoxType,
+            bool>(type => type.IsUpdatableType()));
+
+        var scriptObject7 = new ScriptObject();
+        scriptObject7.Import("IsNoxTypeSimpleType", new Func<NoxType,
+            bool>(type => type.IsSimpleType()));
+
         context.PushGlobal(scriptObject1);
         context.PushGlobal(scriptObject2);
         context.PushGlobal(scriptObject3);
         context.PushGlobal(scriptObject4);
+        context.PushGlobal(scriptObject5);
+        context.PushGlobal(scriptObject6);
+        context.PushGlobal(scriptObject7);
     }
 }

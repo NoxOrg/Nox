@@ -227,15 +227,6 @@
         ]
       },
       "additionalProperties": false
-    },
-    "keysFlattenComponentsType": {    
-      "type": [
-        "object",
-        "null"
-      ],
-      "additionalProperties":   {
-        "Type": "string"
-      }
     }
   },
   "additionalProperties": false

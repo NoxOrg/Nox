@@ -16,51 +16,36 @@ using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
+public record Create{{entity.Name}}Command({{entity.Name}}CreateDto EntityDto) : IRequest<{{entity.Name}}KeyDto>;
 
-{{- keyType = SinglePrimitiveTypeForKey entity.Keys[0] }}
-//TODO support multiple keys and generated keys like nuid database number
-public record Create{{entity.Name}}Response({{primaryKeys}});
-
-public record Create{{entity.Name}}Command({{entity.Name}}CreateDto EntityDto) : IRequest<Create{{entity.Name}}Response>;
-
-public class Create{{entity.Name}}CommandHandler: IRequestHandler<Create{{entity.Name}}Command, Create{{entity.Name}}Response>
+public class Create{{entity.Name}}CommandHandler: IRequestHandler<Create{{entity.Name}}Command, {{entity.Name}}KeyDto>
 {
-    {{- if (entity.Persistence?.IsAudited ?? true)}}
-    private readonly IUserProvider _userProvider;
-    private readonly ISystemProvider _systemProvider;
-    {{- end}}
+	{{- if (entity.Persistence?.IsAudited ?? true)}}
+	private readonly IUserProvider _userProvider;
+	private readonly ISystemProvider _systemProvider;
+	{{- end}}
 
-    public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
-    public IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> EntityFactory { get; }
+	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
+	public IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> EntityFactory { get; }
 
-    public  Create{{entity.Name}}CommandHandler(
-        {{codeGeneratorState.Solution.Name}}DbContext dbContext,
-        IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> entityFactory
-        {{- if (entity.Persistence?.IsAudited ?? true) -}},
-        IUserProvider userProvider,
-        ISystemProvider systemProvider
-        {{- end -}})
-    {
-        DbContext = dbContext;
-        EntityFactory = entityFactory;
-        {{- if (entity.Persistence?.IsAudited ?? true)}}
-        _userProvider = userProvider;
-        _systemProvider = systemProvider;
-        {{- end }}
-    }
-    
-    public async Task<Create{{entity.Name}}Response> Handle(Create{{entity.Name}}Command request, CancellationToken cancellationToken)
-    {    
-        var entityToCreate = CreateEntity(request);
+	public  Create{{entity.Name}}CommandHandler(
+		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+		IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> entityFactory
+		{{- if (entity.Persistence?.IsAudited ?? true) -}},
+		IUserProvider userProvider,
+		ISystemProvider systemProvider
+		{{- end -}})
+	{
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
+		{{- if (entity.Persistence?.IsAudited ?? true)}}
+		_userProvider = userProvider;
+		_systemProvider = systemProvider;
+		{{- end }}
+	}
 	
-        DbContext.{{entity.PluralName}}.Add(entityToCreate);
-        await DbContext.SaveChangesAsync();
-        //return entityToCreate.{{entity.Keys[0].Name}}.Value;
-        return new Create{{entity.Name}}Response({{primaryKeysQuery}});
-    }
-
-    private {{entity.Name}} CreateEntity(Create{{entity.Name}}Command request)
-    {
+	public async Task<{{entity.Name}}KeyDto> Handle(Create{{entity.Name}}Command request, CancellationToken cancellationToken)
+	{    
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
         
 		{{- for key in entity.Keys ~}}
@@ -69,13 +54,14 @@ public class Create{{entity.Name}}CommandHandler: IRequestHandler<Create{{entity
 		{{- end }}
 		{{- end }}
 
-        {{- if (entity.Persistence?.IsAudited ?? true) }}
-        
-        var createdBy = _userProvider.GetUser();
-        var createdVia = _systemProvider.GetSystem();
-        entityToCreate.Created(createdBy, createdVia);
-        {{- end}}
-
-        return entityToCreate;
-    }
+		{{- if (entity.Persistence?.IsAudited ?? true) }}        
+		var createdBy = _userProvider.GetUser();
+		var createdVia = _systemProvider.GetSystem();
+		entityToCreate.Created(createdBy, createdVia);
+		{{- end}}
+	
+        DbContext.{{entity.PluralName}}.Add(entityToCreate);
+        await DbContext.SaveChangesAsync();
+        return new {{entity.Name}}KeyDto({{primaryKeysQuery}});
+	}
 }

@@ -1,26 +1,53 @@
 [
   {
     "Id": "1",
+    "Boolean": true,
     "TextField": "Test text field 1",
     "VatNumber": "44403198681",
     "CountryCode2": "FR",
     "CountryCode3": "FRA",
-    "Boolean":  true
+    "CultureCode": "fr-FR",
+    "LanguageCode": "fr",
+    "LengthValue": 100,
+    "LengthUnit": "Meter",
+    "MacAddress": "D32077E12D32",
+    "Markdown": "normal __bold__ norma",
+    "PhoneNumber": "+33 4 72 74 56 89",
+    "Temperature": 32.5,
+    "TemperatureUnit": "Celsius"
   },
   {
     "Id": "2",
+    "Boolean": false,
     "TextField": "Test text field 2",
     "VatNumber": "44403198682",
     "CountryCode2": "FR",
     "CountryCode3": "FRA",
-    "Boolean": false
+    "CultureCode": "fr-FR",
+    "LanguageCode": "fr",
+    "LengthValue": 500,
+    "LengthUnit": "Foot",
+    "MacAddress": "D32077E12D32",
+    "Markdown": "**bold with *italic* inside**",
+    "PhoneNumber": "+33 1 09 75 83 51",
+    "Temperature": 32.5,
+    "TemperatureUnit": "Fahrenheit"
   },
   {
     "Id": "3",
+    "Boolean": true,
     "TextField": "Test text field 3",
     "VatNumber": "44403198683",
     "CountryCode2": "FR",
     "CountryCode3": "FRA",
-    "Boolean": true
+    "CultureCode": "fr-FR",
+    "LanguageCode": "fr",
+    "LengthValue": 120.5,
+    "LengthUnit": "Foot",
+    "MacAddress": "D32077E12D32",
+    "Markdown": "*italic with **bold** inside*",
+    "PhoneNumber": "+33 1 44 51 31 00",
+    "Temperature": -22,
+    "TemperatureUnit": "Celsius"
   }
 ]

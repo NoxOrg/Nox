@@ -2941,6 +2941,7 @@
             "cultureCode",
             "currencyCode3",
             "currencyNumber",
+            "databaseGuid",
             "databaseNumber",
             "dateTimeSchedule",
             "dayOfWeek",

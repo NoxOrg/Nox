@@ -122,6 +122,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
+    public Nox.Types.Guid? GuidTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
     public Nox.Types.HashedText? HashedTextTestField { get; set; } = null!;
 
     /// <summary>
@@ -262,17 +267,12 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public Nox.Types.User? UserTestField { get; set; } = null!;
-
-    /// <summary>
-    ///  (Optional).
-    /// </summary>
-    public Nox.Types.Guid? GuidTestField { get; set; } = null!;
-
-    /// <summary>
-    ///  (Optional).
-    /// </summary>
     public Nox.Types.DateTimeSchedule? DateTimeScheduleTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public Nox.Types.User? UserTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).
@@ -283,6 +283,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Required).
     /// </summary>
     public Nox.Types.DatabaseNumber DatabaseNumberTestField { get; set; } = null!;
+
+    /// <summary>
+    ///  (Required).
+    /// </summary>
+    public Nox.Types.DatabaseGuid DatabaseGuidTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Optional).

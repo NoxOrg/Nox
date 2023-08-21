@@ -29,8 +29,10 @@ public partial class TestEntityZeroOrOne : AuditableEntityBase
     /// </summary>
     public virtual SecondTestEntityZeroOrOne? SecondTestEntityZeroOrOne { get; set; } = null!;
 
+    public SecondTestEntityZeroOrOne? SecondTestEntityZeroOrOneRelationship => SecondTestEntityZeroOrOne;
+
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity SecondTestEntityZeroOrOne
     /// </summary>
-    public Nox.Types.Text SecondTestEntityZeroOrOneId { get; set; } = null!;
+    public Nox.Types.Text? SecondTestEntityZeroOrOneId { get; set; } = null!;
 }

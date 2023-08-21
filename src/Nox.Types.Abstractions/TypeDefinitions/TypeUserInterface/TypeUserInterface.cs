@@ -12,10 +12,6 @@ public class TypeUserInterface
     [Description("The text label rendered on the user interface alongside the NoxTextInput component.")]
     public string? Label { get; internal set; }
 
-    [Title("The multi-language translation identifier.")]
-    [Description("A unique string/key to reference the translations for this attribute for multi-language translations.")]
-    public string? TranslationId { get; internal set; }
-
     [Title("Widget used to render this attribute on the user interface.")]
     [Description("The user interface control type that is best suited to render the attribute on the screen.")]
     public Widget? Widget { get; internal set; }
@@ -54,9 +50,34 @@ public class TypeUserInterface
 
     [Title("Helper text for this component.")]
     [Description("The component default helper text used to aid the understanding of the component function to the user.")]
-    public string HelpHint { get; internal set; } = ""; //Default to attribute description
+    public string? HelpHint { get; internal set; } // Will default to attribute description
 
     [Title("Validation error message.")]
     [Description("The default error message displayed when text input validation fails.")]
-    public string ErrorMessage { get; internal set; } = "";
+    public string? ErrorMessage { get; internal set; }
+
+    [Title("Whether attribute is shown in search grid.")]
+    [Description("Specifies the option for including attribute in search results on grid. 'Always' and 'Never' does not allow user to switch the column display on/off, whilst the other two allows the field to be displayed or hidden by the user.")]
+    public ShowInSearchResultsOption ShowInSearchResults { get; internal set; } = ShowInSearchResultsOption.OptionalAndOnByDefault;
+
+    [Title("Specifies whether the user can order the grid by the attribure.")]
+    [Description("Allows or disallows sorting on this attribute in the search grid. An index will automatically be added to the entity sotore for this column.")]
+    public bool CanSort { get; internal set; } = false;
+
+    [Title("Whether the attribute is searchable by the value entered into the 'Search' control on the grid.")]
+    [Description("If 'yes' or 'true' the field will be included in the search logic and added to the search server if one is defined.")]
+    public bool CanSearch { get; internal set; } = false;
+
+    [Title("Whether the user can filter on this attribute or not.")]
+    [Description("If 'yes' or 'true' the field will be included in the filter dialog and added to the search server if one is defined.")]
+    public bool CanFilter { get; internal set; } = false;
+
+    [Title("Whether the field will show on the 'Create' form for the entity/object that it belongs to.")]
+    [Description("Displays or surpresses the field on the 'Create' form. The default is 'yes' or 'true'.")]
+    public bool ShowOnCreateForm { get; internal set; } = true;
+
+    [Title("Whether the field will show on the 'Update' form for the entity/object that it belongs to.")]
+    [Description("Displays or surpresses the field on the 'Update' form. The default is 'yes' or 'true'.")]
+    public bool ShowOnUpdateForm { get; internal set; } = true;
+
 }

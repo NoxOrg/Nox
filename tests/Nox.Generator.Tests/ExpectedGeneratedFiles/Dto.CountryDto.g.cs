@@ -1,8 +1,6 @@
 ﻿// Generated
 
 #nullable enable
-
-using AutoMapper;
 using MediatR;
 
 using Microsoft.AspNetCore.Http;
@@ -16,10 +14,11 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
+public record CountryKeyDto(System.String keyId);
+
 /// <summary>
 /// The list of countries.
 /// </summary>
-[AutoMap(typeof(CountryCreateDto))]
 public partial class CountryDto 
 {
 

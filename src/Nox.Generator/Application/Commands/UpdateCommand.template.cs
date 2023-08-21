@@ -17,9 +17,9 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public record Update{{entity.Name}}Command({{primaryKeys}}, {{entity.Name}}UpdateDto EntityDto) : IRequest<bool>;
+public record Update{{entity.Name}}Command({{primaryKeys}}, {{entity.Name}}UpdateDto EntityDto) : IRequest<{{entity.Name}}KeyDto?>;
 
-public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<Update{{entity.Name}}Command, bool>
+public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<Update{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
     {{- if (entity.Persistence?.IsAudited ?? true)}}
     private readonly IUserProvider _userProvider;
@@ -47,29 +47,31 @@ public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<U
         {{- end}}
     }
     
-    public async Task<bool> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
+    public async Task<{{entity.Name}}KeyDto?> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
     {
         {{- for key in entity.Keys }}
         var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.key{{key.Name}});
         {{- end }}
     
-        var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysQuery}});
+        var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysFindQuery}});
         if (entity == null)
         {
-            return false;
+            return null;
         }
         EntityMapper.MapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.EntityDto);
-        
+
         {{- if (entity.Persistence?.IsAudited ?? true)}}
 
         var updatedBy = _userProvider.GetUser();
         var updatedVia = _systemProvider.GetSystem();
         entity.Updated(updatedBy, updatedVia);
         {{- end}}
-
-        // Todo map dto
+        
         DbContext.Entry(entity).State = EntityState.Modified;
-        var result = await DbContext.SaveChangesAsync();             
-        return result > 0;        
+        var result = await DbContext.SaveChangesAsync();
+        if(result < 1)
+            return null;
+
+        return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
     }
 }

@@ -74,9 +74,34 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.Html? HtmlField { get; set; } = null!;
 
     /// <summary>
-    /// MarkdownField Nox Type (Optional).
+    /// Language Code Nox Type (Required).
     /// </summary>
-    public Nox.Types.Markdown? MarkdownField { get; set; } = null!;
+    public Nox.Types.LanguageCode LanguageCodeField { get; set; } = null!;
+
+    /// <summary>
+    /// Length Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Length LengthField { get; set; } = null!;
+
+    /// <summary>
+    /// MacAddress Nox Type (Required).
+    /// </summary>
+    public Nox.Types.MacAddress MacAddressField { get; set; } = null!;
+
+    /// <summary>
+    /// Mark down Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Markdown MarkdownField { get; set; } = null!;
+
+    /// <summary>
+    /// Phone Number Nox Type (Required).
+    /// </summary>
+    public Nox.Types.PhoneNumber PhoneNumberField { get; set; } = null!;
+
+    /// <summary>
+    /// Temperature Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Temperature TemperatureField { get; set; } = null!;
 
     /// <summary>
     /// Yaml Nox Type (Optional).
@@ -112,11 +137,6 @@ public partial class AllNoxType : AuditableEntityBase
     /// TimeZoneCode Nox Type (Optional).
     /// </summary>
     public Nox.Types.TimeZoneCode? TimeZoneCodeField { get; set; } = null!;
-
-    /// <summary>
-    /// Temperature Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.Temperature? TemperatureField { get; set; } = null!;
 
     /// <summary>
     /// Percentage Nox Type (Optional).
