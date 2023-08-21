@@ -36,7 +36,7 @@ internal class AllNoxTypesDataSeeder : SampleDataSeederBase<AllNoxTypeModel, All
                 PhoneNumberField = PhoneNumber.From(x.PhoneNumber),
                 TemperatureField = Temperature.From(x.Temperature, (TemperatureTypeUnit)Enum.Parse(typeof(TemperatureTypeUnit), x.TemperatureUnit)),
                 TextField = Text.From(x.TextField),
-                VatNumberField = VatNumber.From(x.VatNumber, CountryCode2.From(x.CountryCode2)),
+                VatNumberField = VatNumber.From(x.VatNumber, x.CountryCode2),
                 CreatedAtUtc = System.DateTime.Now
             };
         }
