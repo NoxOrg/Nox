@@ -41,39 +41,35 @@ public class ClientDatabaseNumberMapper: EntityMapperBase<ClientDatabaseNumber>
         }
     }
 
-    public override void PartialMapToEntity(ClientDatabaseNumber entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
-    {    
-        if(deletedPropertyNames.Contains("Name"))
-        {
-            throw new EntityAttributeIsNotNullableException("ClientDatabaseNumber", "Name");
-        }
-        else if (updatedProperties.TryGetValue("Name", out dynamic? value))
-        {
-            var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
-            if(noxTypeValue == null)
+    public override void PartialMapToEntity(ClientDatabaseNumber entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
+    {
+        { 
+            if (updatedProperties.TryGetValue("Name", out dynamic? value))
             {
-                throw new EntityAttributeIsNotNullableException("ClientDatabaseNumber", "Name");
-            }
-            else
-            {
-                entity.Name = noxTypeValue;
-            }
-        }    
-        if(deletedPropertyNames.Contains("Number"))
-        {
-            entity.Number = null;
-        }
-        else if (updatedProperties.TryGetValue("Number", out dynamic? value))
-        {
-            var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"Number",value);
-            if(noxTypeValue == null)
-            {
-                entity.Number = null;
-            }
-            else
-            {
-                entity.Number = noxTypeValue;
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("ClientDatabaseNumber", "Name");
+                }
+                else
+                {
+                    entity.Name = noxTypeValue;
+                }
             }
         }
-    }
+        { 
+            if (updatedProperties.TryGetValue("Number", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"Number",value);
+                if(noxTypeValue == null)
+                {
+                    entity.Number = null;
+                }
+                else
+                {
+                    entity.Number = noxTypeValue;
+                }
+            }
+        }
+    }  
 }

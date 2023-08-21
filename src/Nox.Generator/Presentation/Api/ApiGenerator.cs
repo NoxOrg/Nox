@@ -233,21 +233,16 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine(@$"var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new HashSet<string>();
-
+        
         foreach (var propertyName in {entity.Name.ToLowerFirstChar()}.GetChangedPropertyNames())
         {{
             if({entity.Name.ToLowerFirstChar()}.TryGetPropertyValue(propertyName, out dynamic value))
             {{
                 updateProperties[propertyName] = value;                
-            }}
-            else
-            {{
-                deletedProperties.Add(propertyName);
-            }}
+            }}           
         }}");
         code.AppendLine();
-        code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties, deletedProperties));");
+        code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties));");
         code.AppendLine();
 
         code.AppendLine($"if (updated is null)");

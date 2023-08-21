@@ -14,7 +14,7 @@ using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
 
-public record PartialUpdateClientNuidCommand(System.UInt32 keyId, Dictionary<string, dynamic> UpdatedProperties, HashSet<string> DeletedPropertyNames) : IRequest <ClientNuidKeyDto?>;
+public record PartialUpdateClientNuidCommand(System.UInt32 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <ClientNuidKeyDto?>;
 
 public class PartialUpdateClientNuidCommandHandler: CommandBase, IRequestHandler<PartialUpdateClientNuidCommand, ClientNuidKeyDto?>
 {
@@ -40,7 +40,7 @@ public class PartialUpdateClientNuidCommandHandler: CommandBase, IRequestHandler
         {
             return null;
         }
-        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<ClientNuid>(), request.UpdatedProperties, request.DeletedPropertyNames);
+        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<ClientNuid>(), request.UpdatedProperties);
 
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();

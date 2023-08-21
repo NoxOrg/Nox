@@ -95,21 +95,16 @@ public partial class StoresController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new HashSet<string>();
-
+        
         foreach (var propertyName in store.GetChangedPropertyNames())
         {
             if(store.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateStoreCommand(key, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateStoreCommand(key, updateProperties));
         
         if (updated is null)
         {

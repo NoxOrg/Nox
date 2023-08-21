@@ -14,7 +14,7 @@ using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
 
-public record PartialUpdateClientDatabaseNumberCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, HashSet<string> DeletedPropertyNames) : IRequest <ClientDatabaseNumberKeyDto?>;
+public record PartialUpdateClientDatabaseNumberCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <ClientDatabaseNumberKeyDto?>;
 
 public class PartialUpdateClientDatabaseNumberCommandHandler: CommandBase, IRequestHandler<PartialUpdateClientDatabaseNumberCommand, ClientDatabaseNumberKeyDto?>
 {
@@ -40,7 +40,7 @@ public class PartialUpdateClientDatabaseNumberCommandHandler: CommandBase, IRequ
         {
             return null;
         }
-        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<ClientDatabaseNumber>(), request.UpdatedProperties, request.DeletedPropertyNames);
+        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<ClientDatabaseNumber>(), request.UpdatedProperties);
 
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();

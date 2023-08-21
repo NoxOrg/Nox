@@ -14,7 +14,7 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateCountryCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, HashSet<string> DeletedPropertyNames) : IRequest <CountryKeyDto?>;
+public record PartialUpdateCountryCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CountryKeyDto?>;
 
 public class PartialUpdateCountryCommandHandler: CommandBase, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
 {
@@ -40,7 +40,7 @@ public class PartialUpdateCountryCommandHandler: CommandBase, IRequestHandler<Pa
         {
             return null;
         }
-        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Country>(), request.UpdatedProperties, request.DeletedPropertyNames);
+        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Country>(), request.UpdatedProperties);
 
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();

@@ -14,7 +14,7 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateStoreSecurityPasswordsCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, HashSet<string> DeletedPropertyNames) : IRequest <StoreSecurityPasswordsKeyDto?>;
+public record PartialUpdateStoreSecurityPasswordsCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <StoreSecurityPasswordsKeyDto?>;
 
 public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRequestHandler<PartialUpdateStoreSecurityPasswordsCommand, StoreSecurityPasswordsKeyDto?>
 {
@@ -40,7 +40,7 @@ public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRe
         {
             return null;
         }
-        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<StoreSecurityPasswords>(), request.UpdatedProperties, request.DeletedPropertyNames);
+        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<StoreSecurityPasswords>(), request.UpdatedProperties);
 
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();

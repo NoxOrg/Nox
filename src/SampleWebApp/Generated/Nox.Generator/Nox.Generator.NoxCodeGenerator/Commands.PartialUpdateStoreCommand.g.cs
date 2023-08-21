@@ -14,7 +14,7 @@ using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateStoreCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, HashSet<string> DeletedPropertyNames) : IRequest <StoreKeyDto?>;
+public record PartialUpdateStoreCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <StoreKeyDto?>;
 
 public class PartialUpdateStoreCommandHandler: CommandBase, IRequestHandler<PartialUpdateStoreCommand, StoreKeyDto?>
 {
@@ -40,7 +40,7 @@ public class PartialUpdateStoreCommandHandler: CommandBase, IRequestHandler<Part
         {
             return null;
         }
-        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Store>(), request.UpdatedProperties, request.DeletedPropertyNames);
+        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Store>(), request.UpdatedProperties);
 
         DbContext.Entry(entity).State = EntityState.Modified;
         var result = await DbContext.SaveChangesAsync();
