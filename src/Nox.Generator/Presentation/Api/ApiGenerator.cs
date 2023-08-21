@@ -254,7 +254,7 @@ internal class ApiGenerator : INoxCodeGenerator
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
-        code.AppendLine($"return Updated({entity.Name.ToLowerFirstChar()});");
+        code.AppendLine($"return Updated(updated);");
 
         // End method
         code.EndBlock();

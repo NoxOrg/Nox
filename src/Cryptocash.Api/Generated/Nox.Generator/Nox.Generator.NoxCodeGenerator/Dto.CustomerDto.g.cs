@@ -1,8 +1,6 @@
 ﻿// Generated
 
 #nullable enable
-
-using AutoMapper;
 using MediatR;
 
 using Microsoft.AspNetCore.Http;
@@ -16,10 +14,11 @@ using CryptocashApi.Domain;
 
 namespace CryptocashApi.Application.Dto;
 
+public record CustomerKeyDto(System.Int64 keyId);
+
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-[AutoMap(typeof(CustomerCreateDto))]
 public partial class CustomerDto 
 {
 

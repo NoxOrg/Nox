@@ -115,7 +115,7 @@ public partial class ClientDatabaseNumbersController : ODataController
         {
             return NotFound();
         }
-        return Updated(clientDatabaseNumber);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)

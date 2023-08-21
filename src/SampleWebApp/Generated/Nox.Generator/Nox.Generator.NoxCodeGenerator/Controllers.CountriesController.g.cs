@@ -129,7 +129,7 @@ public partial class CountriesController : ODataController
         {
             return NotFound();
         }
-        return Updated(country);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
