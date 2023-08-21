@@ -30,7 +30,7 @@ attributes:
 
 
 persistence:
-    isVersioned: true    
+    isAudited: true    
     create:
         isEnabled: true
         raiseEvents: true

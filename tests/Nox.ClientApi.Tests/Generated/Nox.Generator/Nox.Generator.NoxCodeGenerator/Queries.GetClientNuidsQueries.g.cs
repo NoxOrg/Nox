@@ -23,7 +23,7 @@ public class GetClientNuidsQueryHandler : IRequestHandler<GetClientNuidsQuery, I
     public Task<IQueryable<ClientNuidDto>> Handle(GetClientNuidsQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<ClientNuidDto>)DataDbContext.ClientNuids
-            .Where(r => !(r.Deleted == true))
+            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
         return Task.FromResult(item);
     }

@@ -29,5 +29,5 @@ public partial class ClientNuidDto
     /// </summary>
     public System.String Name { get; set; } = default!;
 
-    public bool? Deleted { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }
 }

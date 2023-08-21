@@ -1,9 +1,10 @@
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -18,32 +19,42 @@ public record PartialUpdateClientNuidCommand(System.UInt32 keyId, Dictionary<str
 
 public class PartialUpdateClientNuidCommandHandler: CommandBase, IRequestHandler<PartialUpdateClientNuidCommand, ClientNuidKeyDto?>
 {
-    public ClientApiDbContext DbContext { get; }
-    public IEntityMapper<ClientNuid> EntityMapper { get; }
+	private readonly IUserProvider _userProvider;
+	private readonly ISystemProvider _systemProvider;
 
-    public PartialUpdateClientNuidCommandHandler(
-        ClientApiDbContext dbContext,
-        NoxSolution noxSolution,
-        IServiceProvider serviceProvider,
-        IEntityMapper<ClientNuid> entityMapper): base(noxSolution, serviceProvider)
-    {
-        DbContext = dbContext;
-        EntityMapper = entityMapper;
-    }
+	public ClientApiDbContext DbContext { get; }
+	public IEntityMapper<ClientNuid> EntityMapper { get; }
 
-    public async Task<ClientNuidKeyDto?> Handle(PartialUpdateClientNuidCommand request, CancellationToken cancellationToken)
-    {
-        var keyId = CreateNoxTypeForKey<ClientNuid,Nuid>("Id", request.keyId);
+	public PartialUpdateClientNuidCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<ClientNuid> entityMapper,
+		IUserProvider userProvider,
+		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+	{
+		DbContext = dbContext;
+		EntityMapper = entityMapper;
+		_userProvider = userProvider;
+		_systemProvider = systemProvider;
+	}
 
-        var entity = await DbContext.ClientNuids.FindAsync(keyId);
-        if (entity == null)
-        {
-            return null;
-        }
-        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<ClientNuid>(), request.UpdatedProperties, request.DeletedPropertyNames);
+	public async Task<ClientNuidKeyDto?> Handle(PartialUpdateClientNuidCommand request, CancellationToken cancellationToken)
+	{
+		var keyId = CreateNoxTypeForKey<ClientNuid,Nuid>("Id", request.keyId);
 
-        DbContext.Entry(entity).State = EntityState.Modified;
-        var result = await DbContext.SaveChangesAsync();
-        return new ClientNuidKeyDto(entity.Id.Value);
-    }
+		var entity = await DbContext.ClientNuids.FindAsync(keyId);
+		if (entity == null)
+		{
+			return null;
+		}
+		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<ClientNuid>(), request.UpdatedProperties, request.DeletedPropertyNames);
+		var updatedBy = _userProvider.GetUser();
+		var updatedVia = _systemProvider.GetSystem();
+		entity.Updated(updatedBy, updatedVia);
+
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		return new ClientNuidKeyDto(entity.Id.Value);
+	}
 }

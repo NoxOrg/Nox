@@ -34,5 +34,5 @@ public partial class ClientDatabaseNumberDto
     /// </summary>
     public System.Int32? Number { get; set; }
 
-    public bool? Deleted { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }
 }
