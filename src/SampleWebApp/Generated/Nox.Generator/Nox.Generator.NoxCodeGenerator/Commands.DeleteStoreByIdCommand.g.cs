@@ -20,11 +20,11 @@ public class DeleteStoreByIdCommandHandler: CommandBase, IRequestHandler<DeleteS
 
     public  DeleteStoreByIdCommandHandler(
         SampleWebAppDbContext dbContext,
-        NoxSolution noxSolution, 
+        NoxSolution noxSolution,
         IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
     {
         DbContext = dbContext;
-    }    
+    }
 
     public async Task<bool> Handle(DeleteStoreByIdCommand request, CancellationToken cancellationToken)
     {

@@ -27,13 +27,13 @@ public class CreateClientDatabaseNumberCommandHandler: IRequestHandler<CreateCli
         DbContext = dbContext;
         EntityFactory = entityFactory;
     }
-    
+
     public async Task<ClientDatabaseNumberKeyDto> Handle(CreateClientDatabaseNumberCommand request, CancellationToken cancellationToken)
-    {    
+    {
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-	
+
         DbContext.ClientDatabaseNumbers.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         return new ClientDatabaseNumberKeyDto(entityToCreate.Id.Value);
-}
+    }
 }

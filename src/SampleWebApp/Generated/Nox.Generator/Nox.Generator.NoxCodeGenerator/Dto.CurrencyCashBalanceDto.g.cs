@@ -2,11 +2,8 @@
 
 #nullable enable
 using MediatR;
-
 using Microsoft.AspNetCore.Http;
-
 using System.ComponentModel.DataAnnotations.Schema;
-
 using Nox.Types;
 using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
@@ -19,17 +16,17 @@ public record CurrencyCashBalanceKeyDto(System.String keyStoreId, System.UInt32 
 /// <summary>
 /// The cash balance in Store.
 /// </summary>
-public partial class CurrencyCashBalanceDto 
+public partial class CurrencyCashBalanceDto
 {
 
     /// <summary>
     ///  (Required).
-    /// </summary>    
+    /// </summary>
     public System.String StoreId { get; set; } = default!;
 
     /// <summary>
     ///  (Required).
-    /// </summary>    
+    /// </summary>
     public System.UInt32 CurrencyId { get; set; } = default!;
 
     /// <summary>
@@ -40,6 +37,7 @@ public partial class CurrencyCashBalanceDto
     /// <summary>
     /// The Operation Limit (Optional).
     /// </summary>
-    public System.Decimal? OperationLimit { get; set; } 
+    public System.Decimal? OperationLimit { get; set; }
+
     public bool? Deleted { get; set; }
 }

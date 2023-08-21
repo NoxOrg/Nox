@@ -19,7 +19,7 @@ internal class DeleteByIdCommandGenerator : INoxCodeGenerator
         }
 
         var templateName = @"Application.Commands.DeleteByIdCommand";
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
+        foreach (var entity in codeGeneratorState.Solution.Domain.Entities.Where(x => !x.IsOwnedEntity))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 

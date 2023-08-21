@@ -12,7 +12,7 @@ namespace {{codeGeneratorState.DomainNameSpace}};
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public partial class {{className}} : {{if entity.Persistence?.IsVersioned}}AuditableEntityBase{{else}}EntityBase{{end}}
+public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsVersioned}}AuditableEntityBase{{else}}EntityBase{{end}}{{end}}
 {
 {{- for key in entity.Keys }}
     /// <summary>
@@ -44,10 +44,10 @@ public partial class {{className}} : {{if entity.Persistence?.IsVersioned}}Audit
 			}
 		}
 	}
-	
+
     {{- else -}}
 
-    public {{key.Type}} {{key.Name}} { get; set; } = null!; 
+    public {{key.Type}} {{key.Name}} { get; set; } = null!;
     {{- end}}
 {{- end }}
 {{- for attribute in entity.Attributes }}
@@ -74,7 +74,7 @@ public partial class {{className}} : {{if entity.Persistence?.IsVersioned}}Audit
     public List<{{relationship.Entity}}> {{relationship.Name}} => {{relationship.EntityPlural}};
     {{- end}}
     {{- else}}
-    public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;    
+    public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
     {{- if relationship.Entity != relationship.Name}}
 
     public {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} => {{relationship.Entity}};
@@ -96,7 +96,7 @@ public partial class {{className}} : {{if entity.Persistence?.IsVersioned}}Audit
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
     public virtual List<{{relationship.Entity}}> {{relationship.EntityPlural}} { get; set; } = new();
     {{- if (relationship.EntityPlural) != relationship.Name}}
-    
+
     public List<{{relationship.Entity}}> {{relationship.Name}} => {{relationship.EntityPlural}};
     {{- end}}
     {{- else}}

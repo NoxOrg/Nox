@@ -8,6 +8,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Diagnostics;
+using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using TestWebApp.Domain;
 
 namespace TestWebApp.Infrastructure.Persistence;
@@ -29,7 +30,6 @@ public partial class TestWebAppDbContext : DbContext
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
         }
-
 
     public DbSet<TestEntityZeroOrOne> TestEntityZeroOrOnes { get; set; } = null!;
 
@@ -81,8 +81,19 @@ public partial class TestWebAppDbContext : DbContext
 
     public DbSet<TestEntityExactlyOneToZeroOrOne> TestEntityExactlyOneToZeroOrOnes { get; set; } = null!;
 
-    public DbSet<TestEntityForTypes> TestEntityForTypes { get; set; } = null!;
+    public DbSet<TestEntityOwnedRelationshipExactlyOne> TestEntityOwnedRelationshipExactlyOnes { get; set; } = null!;
 
+
+    public DbSet<TestEntityOwnedRelationshipZeroOrOne> TestEntityOwnedRelationshipZeroOrOnes { get; set; } = null!;
+
+
+    public DbSet<TestEntityOwnedRelationshipOneOrMany> TestEntityOwnedRelationshipOneOrManies { get; set; } = null!;
+
+
+    public DbSet<TestEntityOwnedRelationshipZeroOrMany> TestEntityOwnedRelationshipZeroOrManies { get; set; } = null!;
+
+
+    public DbSet<TestEntityForTypes> TestEntityForTypes { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
@@ -99,13 +110,20 @@ public partial class TestWebAppDbContext : DbContext
         if (_noxSolution.Domain != null)
         {
             var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
-            foreach (var entity in _noxSolution.Domain.Entities)
+            foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
             {
                 Console.WriteLine($"TestWebAppDbContext Configure database for Entity {entity.Name}");
+
+                // Ignore owned entities configuration as they are configured inside entity constructor
+                if (entity.IsOwnedEntity)
+                {
+                    continue;
+                }
+
                 var type = codeGeneratorState.GetEntityType(entity.Name);
                 if (type != null)
                 {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, _noxSolution.GetRelationshipsToCreate(codeGeneratorState.GetEntityType, entity));
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
                 }
             }
         }

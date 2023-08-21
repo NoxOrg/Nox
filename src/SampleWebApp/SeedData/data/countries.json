@@ -49,7 +49,15 @@
     "FormalName": "FormalName4",
     "NumericCode": 12349,
     "Population": 12349,
-    "TopLevelDomains": "af"
+    "TopLevelDomains": "af",
+    "CountryLocalNames": [
+      {
+        "Id": "5"
+      },
+      {
+        "Id": "10"
+      }
+    ]
   },
   {
     "AlphaCode2": "AL",

@@ -18,24 +18,24 @@ public record PartialUpdateCurrencyCashBalanceCommand(System.String keyStoreId, 
 
 public class PartialUpdateCurrencyCashBalanceCommandHandler: CommandBase, IRequestHandler<PartialUpdateCurrencyCashBalanceCommand, CurrencyCashBalanceKeyDto?>
 {
-    public SampleWebAppDbContext DbContext { get; }    
+    public SampleWebAppDbContext DbContext { get; }
     public IEntityMapper<CurrencyCashBalance> EntityMapper { get; }
 
     public PartialUpdateCurrencyCashBalanceCommandHandler(
-        SampleWebAppDbContext dbContext,        
+        SampleWebAppDbContext dbContext,
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
         IEntityMapper<CurrencyCashBalance> entityMapper): base(noxSolution, serviceProvider)
     {
-        DbContext = dbContext;        
+        DbContext = dbContext;
         EntityMapper = entityMapper;
     }
-    
+
     public async Task<CurrencyCashBalanceKeyDto?> Handle(PartialUpdateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
     {
         var keyStoreId = CreateNoxTypeForKey<CurrencyCashBalance,Text>("StoreId", request.keyStoreId);
         var keyCurrencyId = CreateNoxTypeForKey<CurrencyCashBalance,Nuid>("CurrencyId", request.keyCurrencyId);
-    
+
         var entity = await DbContext.CurrencyCashBalances.FindAsync(keyStoreId, keyCurrencyId);
         if (entity == null)
         {

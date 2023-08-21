@@ -22,7 +22,7 @@ namespace SampleWebApp.Migrations
                     BooleanField = table.Column<bool>(type: "bit", nullable: true),
                     CountryCode2Field = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
                     CountryCode3Field = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
-                    CountryNumberField = table.Column<short>(type: "smallint", nullable: true),
+                    CountryNumberField = table.Column<int>(type: "int", nullable: true),
                     CultureCodeField = table.Column<string>(type: "varchar(10)", unicode: false, maxLength: 10, nullable: true),
                     CurrencyCode3Field = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
                     DateTimeField = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
@@ -44,7 +44,7 @@ namespace SampleWebApp.Migrations
                     TimeField = table.Column<TimeSpan>(type: "time", nullable: true),
                     NumberField = table.Column<int>(type: "int", nullable: true),
                     TextField = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    StreetAddressField_StreetNumber = table.Column<int>(type: "int", nullable: true),
+                    StreetAddressField_StreetNumber = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StreetAddressField_AddressLine1 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StreetAddressField_AddressLine2 = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     StreetAddressField_Route = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -60,7 +60,7 @@ namespace SampleWebApp.Migrations
                     TranslatedTextField_Phrase = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     TranslatedTextField_CultureCode = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     VatNumberField_Number = table.Column<string>(type: "varchar(64)", unicode: false, maxLength: 64, nullable: true),
-                    VatNumberField_CountryCode2 = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
+                    VatNumberField_CountryCode = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
                     PasswordField_HashedPassword = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     PasswordField_Salt = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     MoneyField_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: true),
@@ -118,24 +118,6 @@ namespace SampleWebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CountryLocalNames",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
-                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DeletedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CountryLocalNames", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Currencies",
                 columns: table => new
                 {
@@ -173,6 +155,24 @@ namespace SampleWebApp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Stores", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CountryLocalNames",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
+                    CountryId = table.Column<string>(type: "char(2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CountryLocalNames", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CountryLocalNames_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -263,6 +263,11 @@ namespace SampleWebApp.Migrations
                 name: "IX_CountryCurrency_CurrenciesId",
                 table: "CountryCurrency",
                 column: "CurrenciesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CountryLocalNames_CountryId",
+                table: "CountryLocalNames",
+                column: "CountryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CurrencyCashBalances_CurrencyId",

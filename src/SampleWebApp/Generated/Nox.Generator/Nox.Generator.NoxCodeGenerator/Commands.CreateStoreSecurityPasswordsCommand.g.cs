@@ -27,13 +27,13 @@ public class CreateStoreSecurityPasswordsCommandHandler: IRequestHandler<CreateS
         DbContext = dbContext;
         EntityFactory = entityFactory;
     }
-    
+
     public async Task<StoreSecurityPasswordsKeyDto> Handle(CreateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
-    {    
+    {
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-	
+
         DbContext.StoreSecurityPasswords.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         return new StoreSecurityPasswordsKeyDto(entityToCreate.Id.Value);
-}
+    }
 }

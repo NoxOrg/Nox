@@ -59,8 +59,14 @@ namespace Nox.Tests.DatabaseIntegrationTests
                 "Entities.TestEntityOneOrManyToZeroOrOne",
                 "Entities.TestEntityZeroOrOneToExactlyOne",
                 "Entities.TestEntityExactlyOneToZeroOrOne",
-                //"TestEntityOwnedRelationship",
-                //"SecondTestEntityOwnedRelationship",
+                "Entities.TestEntityOwnedRelationshipExactlyOne",
+                "Entities.SecondTestEntityOwnedRelationshipExactlyOne",
+                "Entities.TestEntityOwnedRelationshipZeroOrOne",
+                "Entities.SecondTestEntityOwnedRelationshipZeroOrOne",
+                "Entities.TestEntityOwnedRelationshipOneOrMany",
+                "Entities.SecondTestEntityOwnedRelationshipOneOrMany",
+                "Entities.TestEntityOwnedRelationshipZeroOrMany",
+                "Entities.SecondTestEntityOwnedRelationshipZeroOrMany",
             };
 
             foreach (var className in classNames)

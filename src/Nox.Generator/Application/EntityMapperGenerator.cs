@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
+using System.Linq;
 
 namespace Nox.Generator.Application.Commands;
 
@@ -16,9 +17,9 @@ internal class EntityMapperGenerator : INoxCodeGenerator
         {
             return;
         }
-        
+
         var templateName = @"Application.EntityMapper";
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
+        foreach (var entity in codeGeneratorState.Solution.Domain.Entities.Where(x => !x.IsOwnedEntity))
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 

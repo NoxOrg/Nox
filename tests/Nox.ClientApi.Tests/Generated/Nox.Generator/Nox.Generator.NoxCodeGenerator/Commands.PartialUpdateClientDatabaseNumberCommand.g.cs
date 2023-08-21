@@ -18,23 +18,23 @@ public record PartialUpdateClientDatabaseNumberCommand(System.Int64 keyId, Dicti
 
 public class PartialUpdateClientDatabaseNumberCommandHandler: CommandBase, IRequestHandler<PartialUpdateClientDatabaseNumberCommand, ClientDatabaseNumberKeyDto?>
 {
-    public ClientApiDbContext DbContext { get; }    
+    public ClientApiDbContext DbContext { get; }
     public IEntityMapper<ClientDatabaseNumber> EntityMapper { get; }
 
     public PartialUpdateClientDatabaseNumberCommandHandler(
-        ClientApiDbContext dbContext,        
+        ClientApiDbContext dbContext,
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
         IEntityMapper<ClientDatabaseNumber> entityMapper): base(noxSolution, serviceProvider)
     {
-        DbContext = dbContext;        
+        DbContext = dbContext;
         EntityMapper = entityMapper;
     }
-    
+
     public async Task<ClientDatabaseNumberKeyDto?> Handle(PartialUpdateClientDatabaseNumberCommand request, CancellationToken cancellationToken)
     {
         var keyId = CreateNoxTypeForKey<ClientDatabaseNumber,DatabaseNumber>("Id", request.keyId);
-    
+
         var entity = await DbContext.ClientDatabaseNumbers.FindAsync(keyId);
         if (entity == null)
         {

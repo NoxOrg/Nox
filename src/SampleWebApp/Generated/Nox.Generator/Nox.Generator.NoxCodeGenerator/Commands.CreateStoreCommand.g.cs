@@ -27,13 +27,13 @@ public class CreateStoreCommandHandler: IRequestHandler<CreateStoreCommand, Stor
         DbContext = dbContext;
         EntityFactory = entityFactory;
     }
-    
+
     public async Task<StoreKeyDto> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
-    {    
+    {
         var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-	
+
         DbContext.Stores.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         return new StoreKeyDto(entityToCreate.Id.Value);
-}
+    }
 }
