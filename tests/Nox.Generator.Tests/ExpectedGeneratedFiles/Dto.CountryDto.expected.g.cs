@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 using MediatR;
@@ -97,6 +97,7 @@ public partial class CountryDto
     /// <summary>
     /// The top level internet domains regitered to the country (comma-delimited) (Optional).
     /// </summary>
-    public System.String? TopLevelDomains { get; set; } 
+    public System.String? TopLevelDomains { get; set; }
+
     public System.DateTime? DeletedAtUtc { get; set; }
 }
