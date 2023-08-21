@@ -1,5 +1,6 @@
 ﻿using Nox.Solution;
 using Nox.Solution.Extensions;
+using Nox.Types.EntityFramework.Configurations;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using System.Diagnostics;
 

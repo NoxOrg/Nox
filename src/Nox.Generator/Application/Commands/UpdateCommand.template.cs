@@ -26,11 +26,11 @@ public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<U
 	private readonly ISystemProvider _systemProvider;
 	{{- end}}
 
-	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }    
+	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 	public IEntityMapper<{{entity.Name}}> EntityMapper { get; }
 
-	public  Update{{entity.Name}}CommandHandler(
-		{{codeGeneratorState.Solution.Name}}DbContext dbContext,        
+	public Update{{entity.Name}}CommandHandler(
+		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<{{entity.Name}}> entityMapper
@@ -39,7 +39,7 @@ public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<U
 		ISystemProvider systemProvider
 		{{- end -}}): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;        
+		DbContext = dbContext;
 		EntityMapper = entityMapper;
 		{{- if (entity.Persistence?.IsAudited ?? true)}}
 		_userProvider = userProvider;
@@ -49,9 +49,9 @@ public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<U
 	
 	public async Task<{{entity.Name}}KeyDto?> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
 	{
-	{{- for key in entity.Keys }}
+		{{- for key in entity.Keys }}
 		var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.key{{key.Name}});
-	{{- end }}
+		{{- end }}
 	
 		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysFindQuery}});
 		if (entity == null)
@@ -60,7 +60,7 @@ public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<U
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.EntityDto);
 
-    	{{- if (entity.Persistence?.IsAudited ?? true) }}        
+		{{- if (entity.Persistence?.IsAudited ?? true) }}
 		var updatedBy = _userProvider.GetUser();
 		var updatedVia = _systemProvider.GetSystem();
 		entity.Updated(updatedBy, updatedVia);

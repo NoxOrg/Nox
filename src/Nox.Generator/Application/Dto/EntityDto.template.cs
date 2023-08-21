@@ -1,4 +1,4 @@
-﻿﻿// Generated
+﻿// Generated
 
 #nullable enable
 using MediatR;
@@ -77,8 +77,8 @@ public partial class {{className}}
     public virtual {{relationship.Entity}}Dto {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.EntityPlural}} { get; set; } = null!;
     {{-end}}
 {{- end }}
-{{- if entity.Persistence?.IsVersioned == true #TODO do not expose Deleted on end points??}}
+{{- if entity.Persistence?.IsAudited == true #TODO do not expose DeletedAtUtc on end points??}}
 
     public System.DateTime? DeletedAtUtc { get; set; }
-{ {- end}}
+{{- end}}
 }
