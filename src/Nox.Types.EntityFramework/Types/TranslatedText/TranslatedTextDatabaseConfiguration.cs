@@ -35,8 +35,6 @@ public class TranslatedTextDatabaseConfiguration : INoxTypeDatabaseConfigurator
             x =>
             {
                 x.Ignore(nameof(TranslatedText.Value));
-                x.Property(nameof(TranslatedText.CultureCode))
-                .HasConversion<CultureCodeConverter>();
             });
     }
 

@@ -85,7 +85,7 @@ public partial class ClientNuidsController : ODataController
         {
             return NotFound();
         }
-        return Updated(clientNuid);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<ClientNuidUpdateDto> clientNuid)

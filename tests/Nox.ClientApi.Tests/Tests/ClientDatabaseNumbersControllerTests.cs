@@ -12,7 +12,7 @@ namespace Nox.ClientApi.Tests.Tests
     public class ClientDatabaseNumbersControllerTests
     {
         [Theory, AutoMoqData]
-        public async void Post_ReturnsAutoNumberId(ApiFixture apiFixture)
+        public async void Post_ReturnsDatabaseNumberId(ApiFixture apiFixture)
         {
             // Arrange            
 
@@ -27,6 +27,37 @@ namespace Nox.ClientApi.Tests.Tests
             result.Should()
                 .BeOfType<CreatedODataResult<ClientDatabaseNumberKeyDto>>()
                 .Which.Entity.keyId.Should().BeGreaterThan(0);
+        }
+
+        [Theory, AutoMoqData]
+        public async void Patch_Number_ShouldUpdate(ApiFixture apiFixture)
+        {
+            // Arrange            
+            var expectedNumber = 50;
+            var result = (CreatedODataResult<ClientDatabaseNumberKeyDto>)await apiFixture.ClientDatabaseNumbersController!.Post(
+                new ClientDatabaseNumberCreateDto
+                {
+                    Name = apiFixture.Fixture.Create<string>(),
+                    Number = 1
+                });
+
+            // Act 
+            var putResult = await apiFixture.ClientDatabaseNumbersController!.Put(result.Entity.keyId,
+                new ClientDatabaseNumberUpdateDto
+                {
+                    Name = apiFixture.Fixture.Create<string>(),
+                    Number = expectedNumber
+                });
+            var queryResult  = await apiFixture.ClientDatabaseNumbersController!.Get(result.Entity.keyId);
+
+            //Assert
+            putResult.Should().NotBeNull();
+            putResult.Should()
+                .BeOfType<UpdatedODataResult<ClientDatabaseNumberKeyDto>>()
+                .Which.Entity.keyId.Should().Be(result.Entity.keyId);
+
+            queryResult.Should().NotBeNull();
+            queryResult!.ToDto().Number.Should().Be(expectedNumber);
         }
 
         [Theory, AutoMoqData]
@@ -49,5 +80,7 @@ namespace Nox.ClientApi.Tests.Tests
             //This is incorrect is getting to the insert command should fail model validation
             await action.Should().ThrowAsync<Microsoft.EntityFrameworkCore.DbUpdateException>();            
         }
+
+
     }
 }

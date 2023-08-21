@@ -2,11 +2,10 @@
 using Nox.Types;
 using Entity = Nox.Solution.Entity;
 using Nox.Solution;
-using Nox.Abstractions;
 
 namespace Nox.Factories;
 
-public abstract class EntityMapperBase<E>: IEntityMapper<E> where E : IEntity
+public abstract class EntityMapperBase<E>: IEntityMapper<E> where E : Abstractions.IEntity
 {
     public NoxSolution NoxSolution { get; }
     public IServiceProvider ServiceProvider { get; }
@@ -16,6 +15,7 @@ public abstract class EntityMapperBase<E>: IEntityMapper<E> where E : IEntity
         NoxSolution = noxSolution;
         ServiceProvider = serviceProvider;              
     }
+
     public N? CreateNoxType<N>(Entity entityDefinition, string attributeName, dynamic? value) where N : INoxType
     {
         var typeFactory = ServiceProvider.GetService<INoxTypeFactory<N>>();
