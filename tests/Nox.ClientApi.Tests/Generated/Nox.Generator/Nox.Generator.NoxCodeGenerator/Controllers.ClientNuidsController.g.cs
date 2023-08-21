@@ -115,7 +115,7 @@ public partial class ClientNuidsController : ODataController
         {
             return NotFound();
         }
-        return Updated(clientNuid);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.UInt32 key)

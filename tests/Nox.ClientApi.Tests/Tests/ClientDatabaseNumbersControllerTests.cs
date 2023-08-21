@@ -30,7 +30,7 @@ namespace Nox.ClientApi.Tests.Tests
         }
 
         [Theory, AutoMoqData]
-        public async void Patch_Number_ShouldUpdate(ApiFixture apiFixture)
+        public async void Put_ShouldUpdate(ApiFixture apiFixture)
         {
             // Arrange            
             var expectedNumber = 50;
@@ -58,6 +58,36 @@ namespace Nox.ClientApi.Tests.Tests
 
             queryResult.Should().NotBeNull();
             queryResult!.ToDto().Number.Should().Be(expectedNumber);
+        }
+        [Theory, AutoMoqData]
+        public async void Patch_Number_ShouldUpdateNumberOnly(ApiFixture apiFixture)
+        {
+            // Arrange            
+            var expectedNumber = 50;
+            var expectedName = apiFixture.Fixture.Create<string>();
+            var result = (CreatedODataResult<ClientDatabaseNumberKeyDto>)await apiFixture.ClientDatabaseNumbersController!.Post(
+                new ClientDatabaseNumberCreateDto
+                {
+                    Name = expectedName,
+                    Number = 1
+                });
+
+            // Act 
+            var updatedProperties = new Microsoft.AspNetCore.OData.Deltas.Delta<ClientDatabaseNumberUpdateDto>();
+            updatedProperties.TrySetPropertyValue("Number", expectedNumber);
+
+            var patchResult = await apiFixture.ClientDatabaseNumbersController!.Patch(result.Entity.keyId, updatedProperties);
+            var queryResult = await apiFixture.ClientDatabaseNumbersController!.Get(result.Entity.keyId);
+
+            //Assert
+            patchResult.Should().NotBeNull();
+            patchResult.Should()
+                .BeOfType<UpdatedODataResult<ClientDatabaseNumberKeyDto>>()
+                .Which.Entity.keyId.Should().Be(result.Entity.keyId);
+
+            queryResult.Should().NotBeNull();
+            queryResult!.ToDto().Number.Should().Be(expectedNumber);
+            queryResult!.ToDto().Name.Should().Be(expectedName);
         }
 
         [Theory, AutoMoqData]

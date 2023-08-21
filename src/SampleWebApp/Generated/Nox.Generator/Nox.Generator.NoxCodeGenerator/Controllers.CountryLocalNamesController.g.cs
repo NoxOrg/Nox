@@ -115,7 +115,7 @@ public partial class CountryLocalNamesController : ODataController
         {
             return NotFound();
         }
-        return Updated(countryLocalNames);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)
