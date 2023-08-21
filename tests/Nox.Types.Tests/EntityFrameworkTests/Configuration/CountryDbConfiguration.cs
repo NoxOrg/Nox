@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Types.EntityFramework;
 using Nox.Types.EntityFramework.Types;
 using Nox.Types.EntityFramework.Types.DayOfWeek;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Nox.Types.Tests.EntityFrameworkTests;
 
@@ -64,10 +65,9 @@ internal class CountryConfiguration : IEntityTypeConfiguration<Country>
         builder.OwnsOne(e => e.StreetAddress)
             .Ignore(p => p.Value)
             .Property(x => x.CountryId)
-            .HasConversion<CountryCode2Converter>();
+            .HasConversion( new EnumToStringConverter<CountryCode>() );
         builder.OwnsOne(e => e.HashedText).Ignore(p => p.Value);
-        builder.OwnsOne(e => e.ArabicName).Ignore(p => p.Value)
-            .Property(x => x.CultureCode).HasConversion<CultureCodeConverter>();
+        builder.OwnsOne(e => e.ArabicName).Ignore(p => p.Value);
         builder.OwnsOne(e=>e.Flag).Ignore(p=>p.Value);
         builder.OwnsOne(e => e.Password).Ignore(p => p.Value);
         
