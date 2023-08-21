@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nox.Solution;
+﻿using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 
@@ -18,19 +17,9 @@ public class HashedTextDatabaseConfigurator : INoxTypeDatabaseConfigurator
         Entity entity,
         bool isKey)
     {
-        var ownedNavigation = builder
-            .OwnsOne(typeof(HashedText), property.Name);
-
-        if (ownedNavigation is EntityTypeBuilder etb)
-        {
-            etb
-                .Ignore(nameof(HashedText.Value));
-        }
-        else
-        {
-            ((OwnedNavigationBuilder)ownedNavigation)
-                .Ignore(nameof(HashedText.Value));
-        }
+        builder
+            .OwnsOne(typeof(HashedText), property.Name)
+            .Ignore(nameof(HashedText.Value));
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;

@@ -2,6 +2,7 @@
 
 namespace Nox.Types.EntityFramework.EntityBuilderAdapter
 {
+    // Should be extended when needed
     public interface IEntityBuilder
     {
         public PropertyBuilder Property(string propertyName);
@@ -10,7 +11,7 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
 
         public ReferenceNavigationBuilder HasOne(string relatedTypeName, string? navigationName);
 
-        public void Ignore(string propertyName);
+        public IEntityBuilder Ignore(string propertyName);
 
         public KeyBuilder HasKey(params string[] propertyNames);
 
@@ -19,7 +20,7 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
             string navigationName,
             Action<OwnedNavigationBuilder> buildAction);
 
-        public object OwnsOne(
+        public IEntityBuilder OwnsOne(
             Type ownedType,
             string navigationName);
 

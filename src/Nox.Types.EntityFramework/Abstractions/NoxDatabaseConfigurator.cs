@@ -241,8 +241,7 @@ namespace Nox.Types.EntityFramework.Abstractions
                     if (TypesDatabaseConfigurations.TryGetValue(property.Type,
                         out var databaseConfiguration))
                     {
-                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity,
-                            false);
+                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity, false);
                     }
                     else
                     {

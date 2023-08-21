@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
@@ -21,22 +20,11 @@ public class MoneyDatabaseConfigurator : INoxTypeDatabaseConfigurator
         // TODO: Default values from static property in the Nox.Type
          var typeOptions = property.MoneyTypeOptions ?? new MoneyTypeOptions();
 
-        var ownedNavigation = builder
-            .OwnsOne(typeof(Money), property.Name);
-        if (ownedNavigation is EntityTypeBuilder etb)
-        {
-            etb
-                .Ignore(nameof(Money.Value))
-                .Property(nameof(Money.Amount))
-                .IfNotNull(GetColumnType(typeOptions), b => b.HasColumnType(GetColumnType(typeOptions)));
-        }
-        else
-        {
-            ((OwnedNavigationBuilder)ownedNavigation)
-                .Ignore(nameof(Money.Value))
-                .Property(nameof(Money.Amount))
-                .IfNotNull(GetColumnType(typeOptions), b => b.HasColumnType(GetColumnType(typeOptions)));
-        }
+        builder
+            .OwnsOne(typeof(Money), property.Name)
+            .Ignore(nameof(Money.Value))
+            .Property(nameof(Money.Amount))
+            .IfNotNull(GetColumnType(typeOptions), b => b.HasColumnType(GetColumnType(typeOptions)));
     }
 
     public virtual string? GetColumnType(MoneyTypeOptions typeOptions)

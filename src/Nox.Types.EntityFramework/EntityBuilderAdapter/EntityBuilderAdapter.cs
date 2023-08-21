@@ -53,15 +53,15 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
             }
         }
 
-        public void Ignore(string propertyName)
+        public IEntityBuilder Ignore(string propertyName)
         {
             if (EntityTypeBuilder != null)
             {
-                EntityTypeBuilder.Ignore(propertyName);
+                return new EntityBuilderAdapter(EntityTypeBuilder.Ignore(propertyName));
             }
             else
             {
-                OwnedNavigationBuilder!.Ignore(propertyName!);
+                return new EntityBuilderAdapter(OwnedNavigationBuilder!.Ignore(propertyName!));
             }
         }
 
@@ -92,17 +92,17 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
             }
         }
 
-        public object OwnsOne(
+        public IEntityBuilder OwnsOne(
             Type ownedType,
             string navigationName)
         {
             if (EntityTypeBuilder != null)
             {
-                return EntityTypeBuilder.OwnsOne(ownedType, navigationName);
+                return new EntityBuilderAdapter(EntityTypeBuilder.OwnsOne(ownedType, navigationName));
             }
             else
             {
-                return OwnedNavigationBuilder!.OwnsOne(ownedType, navigationName);
+                return new EntityBuilderAdapter(OwnedNavigationBuilder!.OwnsOne(ownedType, navigationName));
             }
         }
 

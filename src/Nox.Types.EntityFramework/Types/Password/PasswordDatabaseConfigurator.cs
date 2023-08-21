@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nox.Solution;
+﻿using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 
@@ -19,18 +18,9 @@ public class PasswordDatabaseConfigurator : INoxTypeDatabaseConfigurator
         bool isKey)
     {
 
-        var ownedNavigation = builder
-            .OwnsOne(typeof(Password), property.Name);
-        if (ownedNavigation is EntityTypeBuilder etb)
-        {
-            etb
-                .Ignore(nameof(Password.Value));
-        }
-        else
-        {
-            ((OwnedNavigationBuilder)ownedNavigation)
-                .Ignore(nameof(Password.Value));
-        }
+        builder
+            .OwnsOne(typeof(Password), property.Name)
+            .Ignore(nameof(Password.Value));
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
