@@ -22,8 +22,12 @@ public static class ODataServiceCollectionExtensions
 
 
         builder.EntitySet<CustomerDto>("Customers");
+        builder.EntityType<CustomerKeyDto>();
+        builder.EntityType<CustomerDto>().Ignore(e => e.Deleted);
 
         builder.EntitySet<EmployeeDto>("Employees");
+        builder.EntityType<EmployeeKeyDto>();
+        builder.EntityType<EmployeeDto>().Ignore(e => e.Deleted);
 
         services.AddControllers()
             .AddOData(options =>

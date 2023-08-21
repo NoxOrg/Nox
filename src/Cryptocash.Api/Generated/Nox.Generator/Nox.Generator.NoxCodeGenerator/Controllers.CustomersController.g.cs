@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using MediatR;
 using Nox.Application;
 using CryptocashApi.Application;
@@ -30,23 +29,16 @@ public partial class CustomersController : ODataController
     protected readonly ODataDbContext _databaseContext;
     
     /// <summary>
-    /// The Automapper.
-    /// </summary>
-    protected readonly IMapper _mapper;
-    
-    /// <summary>
     /// The Mediator.
     /// </summary>
     protected readonly IMediator _mediator;
     
     public CustomersController(
         ODataDbContext databaseContext,
-        IMapper mapper,
         IMediator mediator
     )
     {
         _databaseContext = databaseContext;
-        _mapper = mapper;
         _mediator = mediator;
     }
     
@@ -87,9 +79,9 @@ public partial class CustomersController : ODataController
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateCustomerCommand(key,customer));
+        var updated = await _mediator.Send(new UpdateCustomerCommand(key, customer));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
@@ -103,7 +95,7 @@ public partial class CustomersController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new List<string>();
+        var deletedProperties = new HashSet<string>();
 
         foreach (var propertyName in customer.GetChangedPropertyNames())
         {
@@ -117,18 +109,13 @@ public partial class CustomersController : ODataController
             }
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCustomerCommand(key,updateProperties,deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateCustomerCommand(key, updateProperties, deletedProperties));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
         return Updated(customer);
-    }
-    
-    private bool CustomerExists(System.Int64 key)
-    {
-        return _databaseContext.Customers.Any(p => p.Id == key);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)

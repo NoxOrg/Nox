@@ -14,9 +14,9 @@ using CryptocashApi.Application.Dto;
 
 namespace CryptocashApi.Application.Commands;
 
-public record UpdateEmployeeCommand(System.Int64 key, EmployeeUpdateDto EntityDto) : IRequest<bool>;
+public record UpdateEmployeeCommand(System.Int64 keyId, EmployeeUpdateDto EntityDto) : IRequest<EmployeeKeyDto?>;
 
-public class UpdateEmployeeCommandHandler: CommandBase, IRequestHandler<UpdateEmployeeCommand, bool>
+public class UpdateEmployeeCommandHandler: CommandBase, IRequestHandler<UpdateEmployeeCommand, EmployeeKeyDto?>
 {
     public CryptocashApiDbContext DbContext { get; }    
     public IEntityMapper<Employee> EntityMapper { get; }
@@ -31,17 +31,22 @@ public class UpdateEmployeeCommandHandler: CommandBase, IRequestHandler<UpdateEm
         EntityMapper = entityMapper;
     }
     
-    public async Task<bool> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
+    public async Task<EmployeeKeyDto?> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
     {
-        var entity = await DbContext.Employees.FindAsync(CreateNoxTypeForKey<Employee,DatabaseNumber>("Id", request.key));
+        var keyId = CreateNoxTypeForKey<Employee,DatabaseNumber>("Id", request.keyId);
+    
+        var entity = await DbContext.Employees.FindAsync(keyId);
         if (entity == null)
         {
-            return false;
+            return null;
         }
         EntityMapper.MapToEntity(entity, GetEntityDefinition<Employee>(), request.EntityDto);
-        // Todo map dto
+        
         DbContext.Entry(entity).State = EntityState.Modified;
-        var result = await DbContext.SaveChangesAsync();             
-        return result > 0;        
+        var result = await DbContext.SaveChangesAsync();
+        if(result < 1)
+            return null;
+
+        return new EmployeeKeyDto(entity.Id.Value);
     }
 }

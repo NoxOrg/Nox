@@ -13,10 +13,9 @@ using CryptocashApi.Domain;
 using CryptocashApi.Application.Dto;
 
 namespace CryptocashApi.Application.Commands;
-//TODO support multiple keys and generated keys like nuid database number
-public record CreateCustomerCommand(CustomerCreateDto EntityDto) : IRequest<System.Int64>;
+public record CreateCustomerCommand(CustomerCreateDto EntityDto) : IRequest<CustomerKeyDto>;
 
-public class CreateCustomerCommandHandler: IRequestHandler<CreateCustomerCommand, System.Int64>
+public class CreateCustomerCommandHandler: IRequestHandler<CreateCustomerCommand, CustomerKeyDto>
 {
     public CryptocashApiDbContext DbContext { get; }
     public IEntityFactory<CustomerCreateDto,Customer> EntityFactory { get; }
@@ -29,13 +28,12 @@ public class CreateCustomerCommandHandler: IRequestHandler<CreateCustomerCommand
         EntityFactory = entityFactory;
     }
     
-    public async Task<System.Int64> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
+    public async Task<CustomerKeyDto> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
     {    
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);        
-        //TODO for nuid property or key needs to call ensure id        
+        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+	
         DbContext.Customers.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
-        //return entityToCreate.Id.Value;
-        return default(System.Int64)!;
+        return new CustomerKeyDto(entityToCreate.Id.Value);
 }
 }
