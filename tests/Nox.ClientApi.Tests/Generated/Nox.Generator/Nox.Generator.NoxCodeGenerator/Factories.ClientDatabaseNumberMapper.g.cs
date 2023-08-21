@@ -34,6 +34,11 @@ public class ClientDatabaseNumberMapper: EntityMapperBase<ClientDatabaseNumber>
         {        
             entity.Name = noxTypeValue;
         }
+        noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"Number",dto.Number);
+        if(noxTypeValue != null)
+        {        
+            entity.Number = noxTypeValue;
+        }
     }
 
     public override void PartialMapToEntity(ClientDatabaseNumber entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
@@ -52,6 +57,22 @@ public class ClientDatabaseNumberMapper: EntityMapperBase<ClientDatabaseNumber>
             else
             {
                 entity.Name = noxTypeValue;
+            }
+        }    
+        if(deletedPropertyNames.Contains("Number"))
+        {
+            entity.Number = null;
+        }
+        else if (updatedProperties.TryGetValue("Number", out dynamic? value))
+        {
+            var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"Number",value);
+            if(noxTypeValue == null)
+            {
+                entity.Number = null;
+            }
+            else
+            {
+                entity.Number = noxTypeValue;
             }
         }
     }

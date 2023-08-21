@@ -44,7 +44,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var addressItem = new StreetAddressItem
         {
             AddressLine1 = "AddressLine1",
-            CountryId = CountryCode2.From(countryCode2),
+            CountryId = Enum.Parse<CountryCode>(countryCode2),
             PostalCode = "61135"
         };
         var languageCode = "en";
@@ -62,7 +62,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var dateTimeDurationInHours = 30.5;
         var currencyNumber = (short)970;
         var vatNumberValue = "44403198682";
-        var vatNumberCountryCode2 = CountryCode2.From("FR");
+        var vatNumberCountryCode2 = CountryCode.FR;
         var color = new byte[] { 1, 2, 3, 4 };
         var date = new DateOnly(2023, 7, 14);
         var time = new System.TimeOnly(11152500000);
@@ -238,7 +238,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.EmailTestField!.Value.Should().Be(email);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(switzerlandCitiesCountiesYaml);
         testEntity.VatNumberTestField!.Value.Number.Should().Be(vatNumberValue);
-        testEntity.VatNumberTestField!.Value.CountryCode2.Should().Be(vatNumberCountryCode2);
+        testEntity.VatNumberTestField!.Value.CountryCode.Should().Be(vatNumberCountryCode2);
         testEntity.ColorTestField!.Value.Should().Equal(color);
         testEntity.PercentageTestField!.Value.Should().Be(percentage);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);

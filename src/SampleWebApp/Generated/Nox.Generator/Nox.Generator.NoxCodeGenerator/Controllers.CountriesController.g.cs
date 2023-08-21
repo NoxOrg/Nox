@@ -105,7 +105,7 @@ public partial class CountriesController : ODataController
         {
             return NotFound();
         }
-        return Updated(country);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<CountryUpdateDto> country)

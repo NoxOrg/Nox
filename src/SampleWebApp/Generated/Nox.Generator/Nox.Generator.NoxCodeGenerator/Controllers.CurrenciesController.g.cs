@@ -85,7 +85,7 @@ public partial class CurrenciesController : ODataController
         {
             return NotFound();
         }
-        return Updated(currency);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<CurrencyUpdateDto> currency)

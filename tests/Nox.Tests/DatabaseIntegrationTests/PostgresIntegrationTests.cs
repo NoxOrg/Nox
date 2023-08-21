@@ -45,7 +45,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         var addressItem = new StreetAddressItem
         {
             AddressLine1 = "AddressLine1",
-            CountryId = CountryCode2.From(countryCode2),
+            CountryId = Enum.Parse<CountryCode>(countryCode2),
             PostalCode = "61135"
         };
         var languageCode = "en";

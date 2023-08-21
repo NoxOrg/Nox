@@ -23,6 +23,11 @@ attributes:
       maxLength: 63
     isRequired: true 
 
+  - name: Number
+    description: The Number
+    type: number    
+    isRequired: false 
+
 
 persistence:
     isVersioned: true    
