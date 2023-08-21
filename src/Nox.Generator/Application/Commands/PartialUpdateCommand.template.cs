@@ -29,11 +29,11 @@ public class PartialUpdate{{entity.Name}}CommandHandler: CommandBase, IRequestHa
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }    
 	public IEntityMapper<{{entity.Name}}> EntityMapper { get; }
 
-	public PartialUpdate{{entity.Name}}CommandHandler(
-		{{codeGeneratorState.Solution.Name}}DbContext dbContext,        
-		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityMapper<{{entity.Name}}> entityMapper
+    public PartialUpdate{{entity.Name}}CommandHandler(
+        {{codeGeneratorState.Solution.Name}}DbContext dbContext,
+        NoxSolution noxSolution,
+        IServiceProvider serviceProvider,
+        IEntityMapper<{{entity.Name}}> entityMapper
 		{{- if (entity.Persistence?.IsAudited ?? true) -}},
 		IUserProvider userProvider,
 		ISystemProvider systemProvider
@@ -46,19 +46,19 @@ public class PartialUpdate{{entity.Name}}CommandHandler: CommandBase, IRequestHa
 		_systemProvider = systemProvider;
 		{{- end }}
 	}
-	
-	public async Task<{{entity.Name}}KeyDto?> Handle(PartialUpdate{{entity.Name}}Command request, CancellationToken cancellationToken)
-	{
-	{{- for key in entity.Keys }}
-		var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.key{{key.Name}});
-	{{- end }}
-	
-		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysFindQuery}});
-		if (entity == null)
-		{
-			return null;
-		}
-		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.UpdatedProperties, request.DeletedPropertyNames);
+
+    public async Task<{{entity.Name}}KeyDto?> Handle(PartialUpdate{{entity.Name}}Command request, CancellationToken cancellationToken)
+    {
+    {{- for key in entity.Keys }}
+        var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.key{{key.Name}});
+    {{- end }}
+
+        var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysFindQuery}});
+        if (entity == null)
+        {
+            return null;
+        }
+        EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.UpdatedProperties, request.DeletedPropertyNames);
 
     	{{- if (entity.Persistence?.IsAudited ?? true) }}        
 		var updatedBy = _userProvider.GetUser();

@@ -8,6 +8,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Diagnostics;
+using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.PersistenceNameSpace}};
@@ -29,11 +30,12 @@ public partial class {{className}} : DbContext
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
         }
-
-{{ for entity in solution.Domain.Entities }}
+{{ for entity in solution.Domain.Entities -}}
+{{- if (!entity.IsOwnedEntity) }}
     public DbSet<{{entity.Name}}> {{entity.PluralName}} { get; set; } = null!;
-{{ end }}
 
+{{- end }}
+{{ end }}
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
@@ -49,13 +51,20 @@ public partial class {{className}} : DbContext
         if (_noxSolution.Domain != null)
         {
             var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
-            foreach (var entity in _noxSolution.Domain.Entities)
+            foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
             {
                 Console.WriteLine($"{{className}} Configure database for Entity {entity.Name}");
+
+                // Ignore owned entities configuration as they are configured inside entity constructor
+                if (entity.IsOwnedEntity)
+                {
+                    continue;
+                }
+
                 var type = codeGeneratorState.GetEntityType(entity.Name);
                 if (type != null)
                 {
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, _noxSolution.GetRelationshipsToCreate(codeGeneratorState.GetEntityType, entity));
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
                 }
             }
         }

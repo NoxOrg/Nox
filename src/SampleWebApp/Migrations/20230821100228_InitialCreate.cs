@@ -123,6 +123,7 @@ namespace SampleWebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+<<<<<<<< HEAD:src/SampleWebApp/Migrations/20230821100228_InitialCreate.cs
                 name: "CountryLocalNames",
                 columns: table => new
                 {
@@ -143,6 +144,8 @@ namespace SampleWebApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
+========
+>>>>>>>> main:src/SampleWebApp/Migrations/20230821104602_InitialCreate.cs
                 name: "Currencies",
                 columns: table => new
                 {
@@ -184,6 +187,24 @@ namespace SampleWebApp.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Stores", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "CountryLocalNames",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
+                    CountryId = table.Column<string>(type: "char(2)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_CountryLocalNames", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_CountryLocalNames_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateTable(
@@ -278,6 +299,11 @@ namespace SampleWebApp.Migrations
                 name: "IX_CountryCurrency_CurrenciesId",
                 table: "CountryCurrency",
                 column: "CurrenciesId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_CountryLocalNames_CountryId",
+                table: "CountryLocalNames",
+                column: "CountryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CurrencyCashBalances_CurrencyId",

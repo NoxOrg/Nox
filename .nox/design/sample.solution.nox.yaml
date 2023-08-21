@@ -9,12 +9,12 @@ name: SampleWebApp
 description: Sample Nox solution yaml configuration
 
 variables:
-   DATABASE_PROVIDER: slqServer   
+   DATABASE_PROVIDER: slqServer
    DATABASE_SERVER: 127.0.0.1
    DATABASE_USER: sa
    DATABASE_PASSWORD: Developer*123
    DATABASE_PORT: 1433
-   
+
 environments:
 
   - name: dev
@@ -69,7 +69,7 @@ domain:
 
     - name: Country
       description: The list of countries
-      
+
       userInterface:
         icon: world
 
@@ -97,13 +97,13 @@ domain:
           relationship: oneOrMany
           entity: Currency
           canNavigate: true
-          
-      #ownedRelationships:
 
-      #  - name: CountryLocalNames
-      #    description: is also know as
-      #    relationship: oneOrMany
-      #    entity: CountryLocalNames
+      ownedRelationships:
+
+        - name: CountryLocalNames
+          description: is also know as
+          relationship: oneOrMany
+          entity: CountryLocalNames
 
       queries:
 
@@ -116,7 +116,7 @@ domain:
               type: text
               textTypeOptions:
                 isUnicode: false
-          
+
           responseOutput:
             name: countriesByContinentDto
             type: collection
@@ -133,7 +133,7 @@ domain:
                   - name: CountryName
                     description: The country name
                     type: text
-      
+
       commands:
 
         - name: UpdatePopulationStatistics
@@ -144,7 +144,7 @@ domain:
               - name: CountryCode
                 type: countryCode2
           emitEvents: [CountryNameUpdatedEvent]
-          
+
       events:
         - name: CountryNameUpdatedEvent
           description: Raised when the name of a country is changes
@@ -190,7 +190,7 @@ domain:
 
         - name: AlphaCode2
           description: The country's official ISO 4217 alpha-2 code
-          type: countryCode2          
+          type: countryCode2
           isRequired: true
 
         - name: NumericCode
@@ -271,15 +271,15 @@ domain:
             maxLength: 31
 
     - $ref: currency.entity.nox.yaml
-  
+
     - $ref: store.entity.nox.yaml
 
     - $ref: store-security-passwords.entity.nox.yaml
-  
+
     - $ref: allnoxtypes.entity.nox.yaml
-  
+
     - $ref: currencyCashBalance.entity.nox.yaml
-        
+
     - name: CountryLocalNames
       description: The name of a country in other languages
 
@@ -292,7 +292,7 @@ domain:
             isUnicode: false
             minLength: 2
             maxLength: 2
-    
+
 application:
   dataTransferObjects:
     - name: CustomCountryDto
@@ -305,7 +305,7 @@ application:
             casing: lower
             maxLength: 2
             minLength: 2
-            
+
   events:
     - name: CountryNameChangedAppEvent
       description: An application event raised when the name of a country changes
@@ -318,7 +318,7 @@ application:
 
           - name: CountryName
             description: The new name of the country
-            type: text            
+            type: text
 
   integrations:
     - name: SampleEtl
@@ -327,7 +327,7 @@ application:
         name: CountryJsonSource
         description: Sources Country data from a json file
         dataConnectionName: CountryJsonData
-        fileOptions: 
+        fileOptions:
           filename: country-seed-data.json
         schedule:
           start: every day at 2am
@@ -360,7 +360,7 @@ application:
       target:
         name: Country
         targetType: entity
-        
+
 #  localization:
 #
 #    supportedCultures:
@@ -375,7 +375,7 @@ application:
 
 
 infrastructure:
-  
+
   persistence:
 
     databaseServer:
@@ -394,9 +394,9 @@ infrastructure:
       #provider: postgres
       #port: 54320
       #user: sa
-      #password: Developer*123      
-      
-      ### MySql  
+      #password: Developer*123
+
+      ### MySql
       #provider: mySql
 
     cacheServer:
@@ -405,14 +405,14 @@ infrastructure:
       serverUri: redis.iwgplc.com
       user: RedisUser
       password: RedisPassword*123
-    
+
     searchServer:
       name: SampleSearch
       provider: elasticSearch
       serverUri: elastic.igwplc.com
       user: ElasticUser
       password: ElasticPassword
-    
+
     eventSourceServer:
       name: SampleEvtSrc
       serverUri: SampleEvt.iwgplc.com
@@ -431,13 +431,13 @@ infrastructure:
       password: guest
 
   endpoints:
-    
+
     apiServer:
       name: SampleApiServer
       provider: oData
       serverUri: workplace.iwgplc.com
       port: 8080
-    
+
     bffServer:
       name: SampleBffServer
       provider: blazor
@@ -466,17 +466,17 @@ infrastructure:
         port: 8080
         user: whatsappUser
         password: whatsappPassword
-    
+
 ### This section is optional.
 ### In order to use elastic monitoring in the sample you have to start the elastic stack docker instance by running 'docker-compose -f docker-compose.elastic.yaml up -d'
 #    monitoring:
 #      $ref: elastic.monitoring.nox.yaml
-    
+
     uiLocalizations:
       name: SampleTranslationService
       provider: sqlServer
       serverUri: translator.iwgplc.com
-      port: 1433    
+      port: 1433
 
     dataConnections:
       - name: CountryJsonData

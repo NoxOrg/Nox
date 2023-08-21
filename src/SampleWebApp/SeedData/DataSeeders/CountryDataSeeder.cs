@@ -1,6 +1,7 @@
-﻿using SampleWebApp.Infrastructure.Persistence;
+﻿using Nox.Types;
 using SampleWebApp.Domain;
-using Nox.Types;
+using SampleWebApp.Infrastructure.Persistence;
+using SampleWebApp.SeedData.Models;
 
 namespace SampleWebApp.SeedData;
 
@@ -30,6 +31,10 @@ internal class CountryDataSeeder : SampleDataSeederBase<CountryModel, Country>
             GeoRegion = Text.From(model.GeoRegion),
             GeoSubRegion = Text.From(model.GeoSubRegion),
             GeoWorldRegion = Text.From(model.GeoWorldRegion),
+            CountryLocalNames = x.CountryLocalNames.Select(model => new CountryLocalNames
+            {
+                Id = Text.From(model.Id)
+            }).ToList()
         };
     }
 }

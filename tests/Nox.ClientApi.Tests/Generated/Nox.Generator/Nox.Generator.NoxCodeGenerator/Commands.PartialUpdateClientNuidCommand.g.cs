@@ -18,23 +18,23 @@ public record PartialUpdateClientNuidCommand(System.UInt32 keyId, Dictionary<str
 
 public class PartialUpdateClientNuidCommandHandler: CommandBase, IRequestHandler<PartialUpdateClientNuidCommand, ClientNuidKeyDto?>
 {
-    public ClientApiDbContext DbContext { get; }    
+    public ClientApiDbContext DbContext { get; }
     public IEntityMapper<ClientNuid> EntityMapper { get; }
 
     public PartialUpdateClientNuidCommandHandler(
-        ClientApiDbContext dbContext,        
+        ClientApiDbContext dbContext,
         NoxSolution noxSolution,
         IServiceProvider serviceProvider,
         IEntityMapper<ClientNuid> entityMapper): base(noxSolution, serviceProvider)
     {
-        DbContext = dbContext;        
+        DbContext = dbContext;
         EntityMapper = entityMapper;
     }
-    
+
     public async Task<ClientNuidKeyDto?> Handle(PartialUpdateClientNuidCommand request, CancellationToken cancellationToken)
     {
         var keyId = CreateNoxTypeForKey<ClientNuid,Nuid>("Id", request.keyId);
-    
+
         var entity = await DbContext.ClientNuids.FindAsync(keyId);
         if (entity == null)
         {

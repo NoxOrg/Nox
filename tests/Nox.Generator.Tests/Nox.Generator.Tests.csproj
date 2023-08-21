@@ -48,8 +48,8 @@
     <Compile Remove="ExpectedGeneratedFiles\Country.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\CountryNameChangedAppEvent.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\CountryNameUpdatedEvent.expected.g.cs" />
-    <Compile Remove="ExpectedGeneratedFiles\Dto.CountryCreateDto.g.cs" />
-    <Compile Remove="ExpectedGeneratedFiles\Dto.CountryDto.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Dto.CountryCreateDto.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Dto.CountryDto.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\DtoDynamic.CountryDto.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\GetCountriesByContinentQueryBase.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\NoxServiceCollectionExtension.expected.g.cs" />
@@ -108,10 +108,10 @@
 
   <ItemGroup>
     <Compile Remove="files\Program.cs" />
-    <AdditionalFiles Include="ExpectedGeneratedFiles\Dto.CountryCreateDto.g.cs">
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Dto.CountryCreateDto.expected.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
-    <AdditionalFiles Include="ExpectedGeneratedFiles\Dto.CountryDto.g.cs">
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Dto.CountryDto.expected.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
     <AdditionalFiles Include="ExpectedGeneratedFiles\Country.expected.g.cs">

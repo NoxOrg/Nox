@@ -27,14 +27,14 @@ public class CreateClientNuidCommandHandler: IRequestHandler<CreateClientNuidCom
         DbContext = dbContext;
         EntityFactory = entityFactory;
     }
-    
+
     public async Task<ClientNuidKeyDto> Handle(CreateClientNuidCommand request, CancellationToken cancellationToken)
-    {    
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto); 
+    {
+        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		entityToCreate.EnsureId();
-	
+
         DbContext.ClientNuids.Add(entityToCreate);
         await DbContext.SaveChangesAsync();
         return new ClientNuidKeyDto(entityToCreate.Id.Value);
-}
+    }
 }

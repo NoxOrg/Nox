@@ -735,6 +735,190 @@ domain:
             relationship: exactlyOne
             entity: TestEntityZeroOrOneToExactlyOne
 
+    - name: TestEntityOwnedRelationshipExactlyOne
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      ownedRelationships:
+          - name: SecondTestEntityOwnedRelationshipExactlyOne
+            description: Test entity relationship to SecondTestEntityOwnedRelationshipExactlyOne
+            relationship: exactlyOne
+            entity: SecondTestEntityOwnedRelationshipExactlyOne
+
+    - name: SecondTestEntityOwnedRelationshipExactlyOne
+      keys:
+
+        - name: Id1
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+    - name: TestEntityOwnedRelationshipZeroOrOne
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      ownedRelationships:
+          - name: SecondTestEntityOwnedRelationshipZeroOrOne
+            description: Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrOne
+            relationship: zeroOrOne
+            entity: SecondTestEntityOwnedRelationshipZeroOrOne
+
+    - name: SecondTestEntityOwnedRelationshipZeroOrOne
+      keys:
+
+        - name: Id1
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+    - name: TestEntityOwnedRelationshipOneOrMany
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      ownedRelationships:
+          - name: SecondTestEntityOwnedRelationshipOneOrMany
+            description: Test entity relationship to SecondTestEntityOwnedRelationshipOneOrMany
+            relationship: oneOrMany
+            entity: SecondTestEntityOwnedRelationshipOneOrMany
+
+    - name: SecondTestEntityOwnedRelationshipOneOrMany
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+    - name: TestEntityOwnedRelationshipZeroOrMany
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      ownedRelationships:
+          - name: SecondTestEntityOwnedRelationshipZeroOrMany
+            description: Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrMany
+            relationship: zeroOrMany
+            entity: SecondTestEntityOwnedRelationshipZeroOrMany
+
+    - name: SecondTestEntityOwnedRelationshipZeroOrMany
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
     - name: TestEntityForTypes
       description: Entity created for testing database
       

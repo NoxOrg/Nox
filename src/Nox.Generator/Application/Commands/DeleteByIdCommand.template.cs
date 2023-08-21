@@ -42,12 +42,12 @@ public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase, IRequestHandl
 		{{- end }}
 	}    
 
-	public async Task<bool> Handle(Delete{{entity.Name}}ByIdCommand request, CancellationToken cancellationToken)
-	{
-	{{- for key in entity.Keys }}
-		{{- keyType = SingleTypeForKey key }}
-		var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{keyType}}>("{{key.Name}}", request.key{{key.Name}});        
-	{{- end }}
+    public async Task<bool> Handle(Delete{{entity.Name}}ByIdCommand request, CancellationToken cancellationToken)
+    {
+    {{- for key in entity.Keys }}
+        {{- keyType = SingleTypeForKey key }}
+        var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{keyType}}>("{{key.Name}}", request.key{{key.Name}});
+    {{- end }}
 
 		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysQuery}});
 		if (entity == null{{if (entity.Persistence?.IsAudited ?? true)}} || entity.IsDeleted.Value == true{{end}})
