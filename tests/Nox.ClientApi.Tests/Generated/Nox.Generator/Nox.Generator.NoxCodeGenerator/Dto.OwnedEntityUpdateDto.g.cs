@@ -10,9 +10,9 @@ using System.ComponentModel.DataAnnotations;
 namespace ClientApi.Application.Dto; 
 
 /// <summary>
-/// Client DatabaseNumber Key.
+/// OwnedEntity.
 /// </summary>
-public partial class ClientDatabaseNumberUpdateDto
+public partial class OwnedEntityUpdateDto
 {
     //TODO Add owned Entities and update odata endpoints
     /// <summary>
@@ -21,12 +21,4 @@ public partial class ClientDatabaseNumberUpdateDto
     [Required(ErrorMessage = "Name is required")]
     
     public System.String Name { get; set; } = default!;
-    /// <summary>
-    /// The Number (Optional).
-    /// </summary>
-    public System.Int32? Number { get; set; } 
-    /// <summary>
-    /// The Money (Optional).
-    /// </summary>
-    public MoneyDto? AmmountMoney { get; set; } 
 }

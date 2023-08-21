@@ -10,9 +10,9 @@ using System.Collections.Generic;
 namespace ClientApi.Domain;
 
 /// <summary>
-/// Client DatabaseNumber Key.
+/// OwnedEntity.
 /// </summary>
-public partial class ClientDatabaseNumber : AuditableEntityBase
+public partial class OwnedEntity : AuditableEntityBase
 {
     /// <summary>
     /// The unique identifier (Required).
@@ -23,14 +23,4 @@ public partial class ClientDatabaseNumber : AuditableEntityBase
     /// The Text (Required).
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
-
-    /// <summary>
-    /// The Number (Optional).
-    /// </summary>
-    public Nox.Types.Number? Number { get; set; } = null!;
-
-    /// <summary>
-    /// The Money (Optional).
-    /// </summary>
-    public Nox.Types.Money? AmmountMoney { get; set; } = null!;
 }

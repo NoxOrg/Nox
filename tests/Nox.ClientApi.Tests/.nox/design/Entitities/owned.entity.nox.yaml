@@ -1,10 +1,10 @@
 #
-# customer.entity.nox.yaml
+# owned.entity.nox.yaml
 #
 
-name: ClientDatabaseNumber
+name: OwnedEntity
 
-description: Client DatabaseNumber Key
+description: OwnedEntity
 
 keys:
 
@@ -22,24 +22,6 @@ attributes:
       minLength: 4
       maxLength: 63
     isRequired: true 
-
-  - name: Number
-    description: The Number
-    type: number    
-    isRequired: false 
-
-  - name: AmmountMoney
-    description: The Money
-    type: money    
-    isRequired: false
-
-    # uncomment when query works with single owned entity
-# ownedRelationships:
-
-#   - name: OwnedEntity
-#     description: is also know as
-#     relationship: zeroOrOne
-#     entity: OwnedEntity
 
 persistence:
     isVersioned: true    

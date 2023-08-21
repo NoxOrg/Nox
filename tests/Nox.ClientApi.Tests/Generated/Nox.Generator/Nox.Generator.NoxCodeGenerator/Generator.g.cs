@@ -6,5 +6,6 @@
 //  - clientapi.solution.nox.yaml
 //  - databasenumber.entity.nox.yaml
 //  - nuid.entity.nox.yaml
+//  - owned.entity.nox.yaml
 //  - generator.nox.yaml
 // SUCCESS.
