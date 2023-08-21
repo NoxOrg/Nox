@@ -91,6 +91,37 @@ namespace Nox.ClientApi.Tests.Tests
         }
 
         [Theory, AutoMoqData]
+        public async void Patch_UnsetNumber_ShouldUpdateNumberOnly(ApiFixture apiFixture)
+        {
+            // Arrange            
+            var expectedName = apiFixture.Fixture.Create<string>();
+            var result = (CreatedODataResult<ClientDatabaseNumberKeyDto>)await apiFixture.ClientDatabaseNumbersController!.Post(
+                new ClientDatabaseNumberCreateDto
+                {
+                    Name = expectedName,
+                    Number = 1
+                });
+
+            // Act 
+            var updatedProperties = new Microsoft.AspNetCore.OData.Deltas.Delta<ClientDatabaseNumberUpdateDto>();
+            updatedProperties.TrySetPropertyValue(nameof(ClientDatabaseNumberCreateDto.Number), null);
+
+
+            var patchResult = await apiFixture.ClientDatabaseNumbersController!.Patch(result.Entity.keyId, updatedProperties);
+            var queryResult = await apiFixture.ClientDatabaseNumbersController!.Get(result.Entity.keyId);
+
+            //Assert
+            patchResult.Should().NotBeNull();
+            patchResult.Should()
+                .BeOfType<UpdatedODataResult<ClientDatabaseNumberKeyDto>>()
+                .Which.Entity.keyId.Should().Be(result.Entity.keyId);
+
+            queryResult.Should().NotBeNull();
+            queryResult!.ToDto().Number.Should().BeNull();
+            queryResult!.ToDto().Name.Should().Be(expectedName);
+        }
+
+        [Theory, AutoMoqData]
         public async void Post_IfNoRequireField_ThrowsException(ApiFixture apiFixture)
         {
             

@@ -44,37 +44,31 @@ public class {{className}}: EntityMapperBase<{{entity.Name}}>
     {{- end }}
     }
 
-    public override void PartialMapToEntity({{entity.Name}} entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
+    public override void PartialMapToEntity({{entity.Name}} entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
     {{- for attribute in entity.Attributes
         if !IsNoxTypeUpdatable attribute.Type
             continue
         end
-    }}    
-        if(deletedPropertyNames.Contains("{{attribute.Name}}"))
-        {
-            {{- if attribute.IsRequired }}
-            throw new EntityAttributeIsNotNullableException("{{entity.Name}}", "{{attribute.Name}}");
-            {{- else }}
-            entity.{{attribute.Name}} = null;
-            {{- end}}
-        }
-        else if (updatedProperties.TryGetValue("{{attribute.Name}}", out dynamic? value))
-        {
-            var noxTypeValue = CreateNoxType<Nox.Types.{{attribute.Type}}>(entityDefinition,"{{attribute.Name}}",value);
-            if(noxTypeValue == null)
-            {       
-                {{- if attribute.IsRequired }}
-                throw new EntityAttributeIsNotNullableException("{{entity.Name}}", "{{attribute.Name}}");
-                {{- else }}
-                entity.{{attribute.Name}} = null;
-                {{- end}}
-            }
-            else
+    }}
+        { 
+            if (updatedProperties.TryGetValue("{{attribute.Name}}", out dynamic? value))
             {
-                entity.{{attribute.Name}} = noxTypeValue;
+                var noxTypeValue = CreateNoxType<Nox.Types.{{attribute.Type}}>(entityDefinition,"{{attribute.Name}}",value);
+                if(noxTypeValue == null)
+                {       
+                    {{- if attribute.IsRequired }}
+                    throw new EntityAttributeIsNotNullableException("{{entity.Name}}", "{{attribute.Name}}");
+                    {{- else }}
+                    entity.{{attribute.Name}} = null;
+                    {{- end}}
+                }
+                else
+                {
+                    entity.{{attribute.Name}} = noxTypeValue;
+                }
             }
-        }   
-    {{- end}}
-    }
+        }
+    {{- end }}
+    }  
 }
