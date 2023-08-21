@@ -7,7 +7,7 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a Nox <see cref="HashedText"/> type and value object.
 /// </summary>
-public sealed class HashedText : ValueObject<(string HashText, string Salt), HashedText>
+public sealed class HashedText : ValueObject<(string HashText, string Salt), HashedText>, IHashedText
 {
     /// <summary>
     /// Result of the hash operation
