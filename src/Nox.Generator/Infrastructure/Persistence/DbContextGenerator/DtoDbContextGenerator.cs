@@ -4,11 +4,11 @@ using Nox.Generator.Common;
 using Nox.Solution;
 using static Nox.Generator.Common.BaseGenerator;
 
-namespace Nox.Generator.Presentation.Api.OData;
+namespace Nox.Generator.Infrastructure.Persistence.DbContextGenerator;
 
-internal class ODataDbContextGenerator : INoxCodeGenerator
+internal class DtoDbContextGenerator : INoxCodeGenerator
 {
-    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Presentation;
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Infrastructure;
 
     public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
@@ -22,7 +22,7 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
             return;
         }
 
-        var code = new CodeBuilder($"ODataDbContext.g.cs", context);
+        var code = new CodeBuilder($"DtoDbContext.g.cs", context);
 
         // Namespace
         code.AppendLine(@"using Microsoft.EntityFrameworkCore;");
@@ -32,10 +32,10 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
         code.AppendLine(@$"using {codeGeneratorState.ApplicationNameSpace}.Dto;");
 
         code.AppendLine();
-        code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
+        code.AppendLine($"namespace {codeGeneratorState.PersistenceNameSpace};");
         code.AppendLine();
 
-        string dbContextName = "ODataDbContext";
+        string dbContextName = "DtoDbContext";
 
         // Db Context
         code.AppendLine($"public class {dbContextName} : DbContext");
@@ -71,7 +71,7 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
             {
                 code.AppendLine($"public DbSet<{entity.Name}Dto> {entity.PluralName} {{ get; set; }} = null!;");
                 code.AppendLine();
-            }            
+            }
         }
 
         AddDbContextOnConfiguring(code, codeGeneratorState);

@@ -8,9 +8,9 @@ using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using ClientApi.Application.Dto;
 
-namespace ClientApi.Presentation.Api.OData;
+namespace ClientApi.Infrastructure.Persistence;
 
-public class ODataDbContext : DbContext
+public class DtoDbContext : DbContext
 {
     
     
@@ -24,8 +24,8 @@ public class ODataDbContext : DbContext
     /// </summary>
     protected readonly INoxDatabaseProvider _dbProvider;
     protected readonly INoxClientAssemblyProvider _clientAssemblyProvider;
-        public ODataDbContext(
-            DbContextOptions<ODataDbContext> options,
+        public DtoDbContext(
+            DbContextOptions<DtoDbContext> options,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
             INoxClientAssemblyProvider clientAssemblyProvider

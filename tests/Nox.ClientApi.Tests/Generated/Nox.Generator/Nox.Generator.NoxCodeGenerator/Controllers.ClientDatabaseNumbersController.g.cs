@@ -26,7 +26,7 @@ public partial class ClientDatabaseNumbersController : ODataController
     /// <summary>
     /// The OData DbContext for CRUD operations.
     /// </summary>
-    protected readonly ODataDbContext _databaseContext;
+    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -34,7 +34,7 @@ public partial class ClientDatabaseNumbersController : ODataController
     protected readonly IMediator _mediator;
     
     public ClientDatabaseNumbersController(
-        ODataDbContext databaseContext,
+        DtoDbContext databaseContext,
         IMediator mediator
     )
     {

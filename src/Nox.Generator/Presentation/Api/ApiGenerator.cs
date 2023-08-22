@@ -36,7 +36,7 @@ internal class ApiGenerator : INoxCodeGenerator
             var entityName = entity.Name;
             var pluralName = entity.PluralName;
             var variableName = entity.Name.ToLower();
-            var dbContextName = $"ODataDbContext";
+            var dbContextName = $"DtoDbContext";
             var controllerName = $"{pluralName}Controller";
             var keyName = entity.Keys.FirstOrDefault().Name;
             // TODO: fix composite key
