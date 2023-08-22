@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.OData.Results;
 using AutoFixture;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Nox.Types;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Nox.ClientApi.Tests.Tests
 {
@@ -177,20 +178,20 @@ namespace Nox.ClientApi.Tests.Tests
         {
             
             // Arrange  
-            Func<Task> action = () =>
+            Func<Task<ActionResult>> action = () =>
             {
                 return apiFixture.ClientDatabaseNumbersController!.Post(
                 new ClientDatabaseNumberCreateDto
                 {
-                    //Name = null
                 });
             };
 
             // Act 
-            // Assert
-            //await action.Should().ThrowAsync<ModelValidationException?>();
-            //This is incorrect is getting to the insert command should fail model validation
-            await action.Should().ThrowAsync<Microsoft.EntityFrameworkCore.DbUpdateException>();            
+            var result = await action();
+            var subject = result.Should().BeOfType<BadRequestObjectResult>().Subject;
+            var error = subject.Value as SerializableError;
+            error.Should().HaveCount(1);
+            error.Should().ContainKey(nameof(ClientDatabaseNumberCreateDto.Name));
         }
 
 

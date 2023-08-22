@@ -63,6 +63,7 @@ public partial class AllNoxTypesController : ODataController
     
     public async Task<ActionResult> Post([FromBody]AllNoxTypeCreateDto allnoxtype)
     {
+        TryValidateModel(allnoxtype);
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -74,6 +75,7 @@ public partial class AllNoxTypesController : ODataController
     
     public async Task<ActionResult> Put([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId, [FromBody] AllNoxTypeUpdateDto allNoxType)
     {
+        TryValidateModel(allNoxType);
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);

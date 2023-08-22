@@ -63,6 +63,7 @@ public partial class ClientDatabaseNumbersController : ODataController
     
     public async Task<ActionResult> Post([FromBody]ClientDatabaseNumberCreateDto clientdatabasenumber)
     {
+        TryValidateModel(clientdatabasenumber);
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -74,6 +75,7 @@ public partial class ClientDatabaseNumbersController : ODataController
     
     public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] ClientDatabaseNumberUpdateDto clientDatabaseNumber)
     {
+        TryValidateModel(clientDatabaseNumber);
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);

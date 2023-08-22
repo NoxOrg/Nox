@@ -63,6 +63,7 @@ public partial class CurrenciesController : ODataController
     
     public async Task<ActionResult> Post([FromBody]CurrencyCreateDto currency)
     {
+        TryValidateModel(currency);
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -74,6 +75,7 @@ public partial class CurrenciesController : ODataController
     
     public async Task<ActionResult> Put([FromRoute] System.UInt32 key, [FromBody] CurrencyUpdateDto currency)
     {
+        TryValidateModel(currency);
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);

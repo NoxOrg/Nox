@@ -63,6 +63,7 @@ public partial class ClientNuidsController : ODataController
     
     public async Task<ActionResult> Post([FromBody]ClientNuidCreateDto clientnuid)
     {
+        TryValidateModel(clientnuid);
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -74,6 +75,7 @@ public partial class ClientNuidsController : ODataController
     
     public async Task<ActionResult> Put([FromRoute] System.UInt32 key, [FromBody] ClientNuidUpdateDto clientNuid)
     {
+        TryValidateModel(clientNuid);
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);

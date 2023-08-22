@@ -63,6 +63,7 @@ public partial class OwnedEntitiesController : ODataController
     
     public async Task<ActionResult> Post([FromBody]OwnedEntityCreateDto ownedentity)
     {
+        TryValidateModel(ownedentity);
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -74,6 +75,7 @@ public partial class OwnedEntitiesController : ODataController
     
     public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] OwnedEntityUpdateDto ownedEntity)
     {
+        TryValidateModel(ownedEntity);
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);

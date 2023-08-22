@@ -208,6 +208,7 @@ internal class ApiGenerator : INoxCodeGenerator
 
         // Method content
         code.StartBlock();
+        code.AppendLine($"TryValidateModel({entity.Name.ToLowerFirstChar()});");
         code.AppendLine($"if (!ModelState.IsValid)");
         code.StartBlock();
         code.AppendLine($"return BadRequest(ModelState);");
@@ -269,6 +270,7 @@ internal class ApiGenerator : INoxCodeGenerator
 
         // Method content
         code.StartBlock();
+        code.AppendLine($"TryValidateModel({variableName});");
         code.AppendLine($"if (!ModelState.IsValid)");
         code.StartBlock();
         code.AppendLine($"return BadRequest(ModelState);");

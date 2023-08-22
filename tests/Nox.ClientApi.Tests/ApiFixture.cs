@@ -1,6 +1,9 @@
 ﻿using AutoFixture;
 using ClientApi.Presentation.Api.OData;
 using ClientApi.Infrastructure.Persistence;
+using Moq;
+using Microsoft.AspNetCore.Mvc.Filters;
+using Microsoft.AspNetCore.Mvc.Controllers;
 
 namespace Nox.ClientApi.Tests
 {
@@ -22,7 +25,6 @@ namespace Nox.ClientApi.Tests
             builder.Services.AddSingleton<ClientDatabaseNumbersController>();
             builder.Services.AddSingleton<ClientNuidsController>();
 
-
             app = builder.Build();
 
             app.UseNox();
@@ -32,15 +34,17 @@ namespace Nox.ClientApi.Tests
             clientApiDbContext!.Database.EnsureDeleted();
             clientApiDbContext!.Database.EnsureCreated();
 
+            ClientDatabaseNumbersController!.ObjectValidator = new ObjectValidatorFixture();
+
             //app.Run();
         }
 
         public IServiceProvider ServiceProvider => app!.Services;
-        public ClientDatabaseNumbersController? ClientDatabaseNumbersController => ServiceProvider?.GetService<ClientDatabaseNumbersController>();
-        public ClientNuidsController? ClientNuidsController => ServiceProvider?.GetService<ClientNuidsController>();
+        public ClientDatabaseNumbersController? ClientDatabaseNumbersController => ServiceProvider?.GetRequiredService<ClientDatabaseNumbersController>();
+        public ClientNuidsController? ClientNuidsController => ServiceProvider?.GetRequiredService<ClientNuidsController>();
 
         public IFixture Fixture { get; }
-
+     
         private void Dispose(bool disposing)
         {
             if (!disposedValue)

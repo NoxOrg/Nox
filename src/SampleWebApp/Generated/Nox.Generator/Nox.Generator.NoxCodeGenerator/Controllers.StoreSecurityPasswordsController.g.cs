@@ -63,6 +63,7 @@ public partial class StoreSecurityPasswordsController : ODataController
     
     public async Task<ActionResult> Post([FromBody]StoreSecurityPasswordsCreateDto storesecuritypasswords)
     {
+        TryValidateModel(storesecuritypasswords);
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -74,6 +75,7 @@ public partial class StoreSecurityPasswordsController : ODataController
     
     public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] StoreSecurityPasswordsUpdateDto storeSecurityPasswords)
     {
+        TryValidateModel(storeSecurityPasswords);
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);

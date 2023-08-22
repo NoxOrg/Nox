@@ -63,6 +63,7 @@ public partial class StoresController : ODataController
     
     public async Task<ActionResult> Post([FromBody]StoreCreateDto store)
     {
+        TryValidateModel(store);
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -74,6 +75,7 @@ public partial class StoresController : ODataController
     
     public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] StoreUpdateDto store)
     {
+        TryValidateModel(store);
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
