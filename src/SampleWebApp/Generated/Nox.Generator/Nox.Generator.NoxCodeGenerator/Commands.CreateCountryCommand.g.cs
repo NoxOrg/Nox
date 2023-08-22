@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
+using Nox.Application.Commands;
 using Nox.Factories;
+using Nox.Solution;
+
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
@@ -15,7 +18,7 @@ using SampleWebApp.Application.Dto;
 namespace SampleWebApp.Application.Commands;
 public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<CountryKeyDto>;
 
-public class CreateCountryCommandHandler: IRequestHandler<CreateCountryCommand, CountryKeyDto>
+public class CreateCountryCommandHandler: CommandBase, IRequestHandler <CreateCountryCommand, CountryKeyDto>
 {
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
@@ -25,9 +28,11 @@ public class CreateCountryCommandHandler: IRequestHandler<CreateCountryCommand, 
 
 	public CreateCountryCommandHandler(
 		SampleWebAppDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
 		IEntityFactory<CountryCreateDto,Country> entityFactory,
 		IUserProvider userProvider,
-		ISystemProvider systemProvider)
+		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

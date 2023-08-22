@@ -32,7 +32,7 @@ public class ColorTests
     [Fact]
     public void Color_Constructor_FromAlphaColor_ReturnsSameValue()
     {
-        var color = Nox.Types.Color.FromAlphaColor("#FFF0F8FF");
+        var color = Nox.Types.Color.From("#FFF0F8FF");
 
         color.Value.Should().Equal(255, 240, 248, 255);
         color.ToHexa().Should().Be("#FFF0F8FF");
@@ -55,7 +55,7 @@ public class ColorTests
     [Fact]
     public void Color_Constructor_FromHexRgb_ReturnsSameValue()
     {
-        var color = Nox.Types.Color.FromAlphaColor("#FFC0CB");
+        var color = Nox.Types.Color.From("#FFC0CB");
 
         color.Value.Should().Equal(255, 255, 192, 203);
         color.ToHex().Should().Be("#FFC0CB");
@@ -64,7 +64,7 @@ public class ColorTests
     [Fact]
     public void Color_Constructor_ToString_ReturnsSameValue()
     {
-        var color = Nox.Types.Color.FromAlphaColor("#FFC0CB");
+        var color = Nox.Types.Color.From("#FFC0CB");
 
         color.Value.Should().Equal(255, 255, 192, 203);
         color.ToHex().Should().Be("#FFC0CB");
