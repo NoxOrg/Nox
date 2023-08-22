@@ -4,6 +4,8 @@ using ClientApi.Infrastructure.Persistence;
 using Moq;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.AspNetCore.Mvc.Controllers;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Mvc;
 
 namespace Nox.ClientApi.Tests
 {
@@ -34,17 +36,28 @@ namespace Nox.ClientApi.Tests
             clientApiDbContext!.Database.EnsureDeleted();
             clientApiDbContext!.Database.EnsureCreated();
 
-            ClientDatabaseNumbersController!.ObjectValidator = new ObjectValidatorFixture();
+            var serviceProvider = app.Services;
 
+            ClientDatabaseNumbersController = CreateController<ClientDatabaseNumbersController>(serviceProvider);
+            ClientNuidsController = CreateController<ClientNuidsController>(serviceProvider);
             //app.Run();
         }
 
-        public IServiceProvider ServiceProvider => app!.Services;
-        public ClientDatabaseNumbersController? ClientDatabaseNumbersController => ServiceProvider?.GetRequiredService<ClientDatabaseNumbersController>();
-        public ClientNuidsController? ClientNuidsController => ServiceProvider?.GetRequiredService<ClientNuidsController>();
+        public ClientDatabaseNumbersController ClientDatabaseNumbersController { get; }
+        public ClientNuidsController ClientNuidsController { get; }
 
         public IFixture Fixture { get; }
-     
+
+
+        private static TController CreateController<TController>(IServiceProvider serviceProvider)
+            where TController : ControllerBase
+        {
+            var controller = serviceProvider.GetRequiredService<TController>();
+            controller.ObjectValidator = new ObjectValidatorFixture();
+
+            return controller;
+        }
+
         private void Dispose(bool disposing)
         {
             if (!disposedValue)

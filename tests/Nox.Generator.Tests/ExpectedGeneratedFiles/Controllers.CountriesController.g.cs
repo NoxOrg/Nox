@@ -77,6 +77,7 @@ public partial class CountriesController : ODataController
     
     public async Task<ActionResult> Post([FromBody]CountryCreateDto country)
     {
+        TryValidateModel(country);
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -88,6 +89,7 @@ public partial class CountriesController : ODataController
     
     public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] CountryUpdateDto country)
     {
+        TryValidateModel(country);
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);

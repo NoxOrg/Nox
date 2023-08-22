@@ -63,6 +63,7 @@ public partial class CompoundKeysEntitiesController : ODataController
     
     public async Task<ActionResult> Post([FromBody]CompoundKeysEntityCreateDto compoundkeysentity)
     {
+        TryValidateModel(compoundkeysentity);
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
@@ -74,6 +75,7 @@ public partial class CompoundKeysEntitiesController : ODataController
     
     public async Task<ActionResult> Put([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] CompoundKeysEntityUpdateDto compoundKeysEntity)
     {
+        TryValidateModel(compoundKeysEntity);
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
