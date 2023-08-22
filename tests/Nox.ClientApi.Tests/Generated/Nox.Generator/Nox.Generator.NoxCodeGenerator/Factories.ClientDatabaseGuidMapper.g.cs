@@ -17,7 +17,6 @@ using Nox.Exceptions;
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
 
-
 namespace ClientApi.Application;
 
 public class ClientDatabaseGuidMapper: EntityMapperBase<ClientDatabaseGuid>
@@ -39,7 +38,7 @@ public class ClientDatabaseGuidMapper: EntityMapperBase<ClientDatabaseGuid>
 
     public override void PartialMapToEntity(ClientDatabaseGuid entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
-        { 
+        {
             if (updatedProperties.TryGetValue("Name", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
@@ -53,5 +52,5 @@ public class ClientDatabaseGuidMapper: EntityMapperBase<ClientDatabaseGuid>
                 }
             }
         }
-    }  
+    }
 }

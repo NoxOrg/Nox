@@ -5,8 +5,12 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application;
+using Nox.Application.Commands;
 using Nox.Factories;
+using Nox.Solution;
+
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
@@ -14,14 +18,16 @@ using ClientApi.Application.Dto;
 namespace ClientApi.Application.Commands;
 public record CreateClientNuidCommand(ClientNuidCreateDto EntityDto) : IRequest<ClientNuidKeyDto>;
 
-public class CreateClientNuidCommandHandler: IRequestHandler<CreateClientNuidCommand, ClientNuidKeyDto>
+public class CreateClientNuidCommandHandler: CommandBase, IRequestHandler <CreateClientNuidCommand, ClientNuidKeyDto>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityFactory<ClientNuidCreateDto,ClientNuid> EntityFactory { get; }
 
 	public CreateClientNuidCommandHandler(
 		ClientApiDbContext dbContext,
-		IEntityFactory<ClientNuidCreateDto,ClientNuid> entityFactory)
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityFactory<ClientNuidCreateDto,ClientNuid> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

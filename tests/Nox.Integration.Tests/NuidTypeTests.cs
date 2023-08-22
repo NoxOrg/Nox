@@ -1,10 +1,10 @@
 ﻿using FluentAssertions;
-using Nox.Tests.Fixtures;
+using Nox.Integration.Tests.Fixtures;
 using Nox.Types;
 using TestWebApp.Domain;
 using TestWebApp.Infrastructure.Persistence;
 
-namespace Nox.Tests
+namespace Nox.Integration.Tests
 {
     public class NuidTypeTests : IClassFixture<DataContextTestFixture>
     {

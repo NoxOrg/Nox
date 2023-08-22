@@ -5,8 +5,14 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+{{- if (entity.Persistence?.IsAudited ?? true)}}
+using Nox.Abstractions;
+{{- end}}
 using Nox.Application;
+using Nox.Application.Commands;
 using Nox.Factories;
+using Nox.Solution;
+
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
@@ -14,14 +20,16 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 public record Create{{entity.Name}}Command({{entity.Name}}CreateDto EntityDto) : IRequest<{{entity.Name}}KeyDto>;
 
-public class Create{{entity.Name}}CommandHandler: IRequestHandler<Create{{entity.Name}}Command, {{entity.Name}}KeyDto>
+public class Create{{entity.Name}}CommandHandler: CommandBase, IRequestHandler <Create{{entity.Name}}Command, {{entity.Name}}KeyDto>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 	public IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> EntityFactory { get; }
 
 	public Create{{entity.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
-		IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> entityFactory)
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

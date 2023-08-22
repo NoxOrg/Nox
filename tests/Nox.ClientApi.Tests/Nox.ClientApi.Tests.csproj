@@ -31,22 +31,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<AdditionalFiles Include=".\.nox\design\**\*.yaml" LinkBase="Design" />
+		<AdditionalFiles Include=".\.nox\design\**\*.yaml" LinkBase="Design">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</AdditionalFiles>
 	</ItemGroup>
 
-	<ItemGroup>
-		<AdditionalFiles Include=".nox\design\Entitities\databaseguid.entity.nox.yaml">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</AdditionalFiles>
-		<AdditionalFiles Include=".nox\design\Entitities\owned.entity.nox.yaml">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</AdditionalFiles>
-		<AdditionalFiles Include=".nox\design\Entitities\nuid.entity.nox.yaml">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</AdditionalFiles>
-		<AdditionalFiles Include=".nox\design\Entitities\databasenumber.entity.nox.yaml">
-		  <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-		</AdditionalFiles>
+	<ItemGroup>		
 		<AdditionalFiles Include="generator.nox.yaml" />
 	</ItemGroup>
 
@@ -79,12 +69,6 @@
 		<ProjectReference Include="..\..\src\Nox.Abstractions\Nox.Abstractions.csproj" />
 		<ProjectReference Include="..\..\src\Nox.Generator\Nox.Generator.csproj" ReferenceOutputAssembly="false" OutputItemType="Analyzer" />
 		<ProjectReference Include="..\..\src\Nox.Lib\Nox.Lib.csproj" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <AdditionalFiles Update=".\.nox\design\clientapi.solution.nox.yaml">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </AdditionalFiles>
 	</ItemGroup>
 
 </Project>

@@ -5,8 +5,12 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application;
+using Nox.Application.Commands;
 using Nox.Factories;
+using Nox.Solution;
+
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
@@ -14,14 +18,16 @@ using SampleWebApp.Application.Dto;
 namespace SampleWebApp.Application.Commands;
 public record CreateStoreCommand(StoreCreateDto EntityDto) : IRequest<StoreKeyDto>;
 
-public class CreateStoreCommandHandler: IRequestHandler<CreateStoreCommand, StoreKeyDto>
+public class CreateStoreCommandHandler: CommandBase, IRequestHandler <CreateStoreCommand, StoreKeyDto>
 {
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityFactory<StoreCreateDto,Store> EntityFactory { get; }
 
 	public CreateStoreCommandHandler(
 		SampleWebAppDbContext dbContext,
-		IEntityFactory<StoreCreateDto,Store> entityFactory)
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityFactory<StoreCreateDto,Store> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

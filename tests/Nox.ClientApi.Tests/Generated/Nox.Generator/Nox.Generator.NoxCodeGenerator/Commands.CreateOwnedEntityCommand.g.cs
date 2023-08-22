@@ -5,8 +5,12 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application;
+using Nox.Application.Commands;
 using Nox.Factories;
+using Nox.Solution;
+
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
@@ -14,14 +18,16 @@ using ClientApi.Application.Dto;
 namespace ClientApi.Application.Commands;
 public record CreateOwnedEntityCommand(OwnedEntityCreateDto EntityDto) : IRequest<OwnedEntityKeyDto>;
 
-public class CreateOwnedEntityCommandHandler: IRequestHandler<CreateOwnedEntityCommand, OwnedEntityKeyDto>
+public class CreateOwnedEntityCommandHandler: CommandBase, IRequestHandler <CreateOwnedEntityCommand, OwnedEntityKeyDto>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityFactory<OwnedEntityCreateDto,OwnedEntity> EntityFactory { get; }
 
 	public CreateOwnedEntityCommandHandler(
 		ClientApiDbContext dbContext,
-		IEntityFactory<OwnedEntityCreateDto,OwnedEntity> entityFactory)
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityFactory<OwnedEntityCreateDto,OwnedEntity> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

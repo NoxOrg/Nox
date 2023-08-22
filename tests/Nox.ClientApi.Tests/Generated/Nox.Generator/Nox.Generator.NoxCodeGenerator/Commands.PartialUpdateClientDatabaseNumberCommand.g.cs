@@ -5,9 +5,10 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
+using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
-using Nox.Factories;
+
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;

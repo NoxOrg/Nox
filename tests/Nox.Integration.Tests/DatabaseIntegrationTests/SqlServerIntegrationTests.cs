@@ -7,7 +7,7 @@ using DateTime = Nox.Types.DateTime;
 using DayOfWeek = Nox.Types.DayOfWeek;
 using Guid = Nox.Types.Guid;
 
-namespace Nox.Tests.DatabaseIntegrationTests;
+namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 
 public class SqlServerIntegrationTests : SqlServerTestBase
 {
@@ -57,7 +57,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var url = "http://example.com/";
         var guid = System.Guid.NewGuid();
         var password = "Test123.";
-        var dayOfWeek = 1;
+        ushort dayOfWeek = 1;
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
         var currencyNumber = (short)970;
@@ -185,6 +185,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             ImageTestField = Image.From(imageUrl, imagePrettyName, imageSizeInBytes),
             PhoneNumberTestField = PhoneNumber.From(phoneNumber),
             DateTimeTestField = DateTime.From(dateTime),
+            DateTimeScheduleTestField = DateTimeSchedule.From(cronJobExpression),
+            DatabaseGuidTestField = DatabaseGuid.FromDatabase(guid),
         };
         var temperatureCelsius = newItem.TemperatureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);

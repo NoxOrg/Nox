@@ -17,7 +17,6 @@ using Nox.Exceptions;
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
 
-
 namespace ClientApi.Application;
 
 public class ClientDatabaseNumberMapper: EntityMapperBase<ClientDatabaseNumber>
@@ -49,7 +48,7 @@ public class ClientDatabaseNumberMapper: EntityMapperBase<ClientDatabaseNumber>
 
     public override void PartialMapToEntity(ClientDatabaseNumber entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
-        { 
+        {
             if (updatedProperties.TryGetValue("Name", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
@@ -63,7 +62,7 @@ public class ClientDatabaseNumberMapper: EntityMapperBase<ClientDatabaseNumber>
                 }
             }
         }
-        { 
+        {
             if (updatedProperties.TryGetValue("Number", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"Number",value);
@@ -77,7 +76,7 @@ public class ClientDatabaseNumberMapper: EntityMapperBase<ClientDatabaseNumber>
                 }
             }
         }
-        { 
+        {
             if (updatedProperties.TryGetValue("AmmountMoney", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"AmmountMoney",value);
@@ -91,5 +90,5 @@ public class ClientDatabaseNumberMapper: EntityMapperBase<ClientDatabaseNumber>
                 }
             }
         }
-    }  
+    }
 }

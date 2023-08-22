@@ -8,7 +8,7 @@ using TestWebApp.Domain;
 using DayOfWeek = Nox.Types.DayOfWeek;
 using Guid = Nox.Types.Guid;
 
-namespace Nox.Tests.DatabaseIntegrationTests;
+namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 
 public class SqliteIntegrationTests : SqliteTestBase
 {
@@ -57,7 +57,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         var url = "http://example.com/";
         var guid = System.Guid.NewGuid();
         var password = "Test123.";
-        var dayOfWeek = 1;
+        ushort dayOfWeek = 1;
         byte month = 7;
         var dateTimeDurationInHours = 30.5;
         var year = (ushort)2023;

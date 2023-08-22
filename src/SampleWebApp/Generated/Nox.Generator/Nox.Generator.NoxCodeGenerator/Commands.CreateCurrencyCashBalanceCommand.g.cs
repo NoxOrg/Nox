@@ -5,8 +5,12 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application;
+using Nox.Application.Commands;
 using Nox.Factories;
+using Nox.Solution;
+
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
@@ -14,14 +18,16 @@ using SampleWebApp.Application.Dto;
 namespace SampleWebApp.Application.Commands;
 public record CreateCurrencyCashBalanceCommand(CurrencyCashBalanceCreateDto EntityDto) : IRequest<CurrencyCashBalanceKeyDto>;
 
-public class CreateCurrencyCashBalanceCommandHandler: IRequestHandler<CreateCurrencyCashBalanceCommand, CurrencyCashBalanceKeyDto>
+public class CreateCurrencyCashBalanceCommandHandler: CommandBase, IRequestHandler <CreateCurrencyCashBalanceCommand, CurrencyCashBalanceKeyDto>
 {
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> EntityFactory { get; }
 
 	public CreateCurrencyCashBalanceCommandHandler(
 		SampleWebAppDbContext dbContext,
-		IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> entityFactory)
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

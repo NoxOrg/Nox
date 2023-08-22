@@ -1,6 +1,7 @@
 using FluentAssertions;
 using FluentAssertions.Execution;
 using Microsoft.CodeAnalysis;
+using Nox.Integration.Tests.ProjectDependencies;
 
 namespace Nox.Tests.ProjectDependencies
 {

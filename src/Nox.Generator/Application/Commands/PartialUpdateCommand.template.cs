@@ -5,9 +5,10 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
+using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
-using Nox.Factories;
+
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
