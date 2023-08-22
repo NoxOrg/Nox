@@ -14,4 +14,9 @@ namespace ClientApi.Application.Dto;
 /// </summary>
 public partial class OwnedEntityCreateDto : OwnedEntityUpdateDto
 {
+    /// <summary>
+    /// The unique identifier (Required).
+    /// </summary>
+    [Required(ErrorMessage = "Id is required")]
+    public System.String Id { get; set; } = default!;
 }
