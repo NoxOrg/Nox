@@ -5,6 +5,7 @@
 using Nox.Abstractions;
 using Nox.Types;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SampleWebApp.Application.Dto; 
 
@@ -13,6 +14,4 @@ namespace SampleWebApp.Application.Dto;
 /// </summary>
 public partial class CurrencyCreateDto : CurrencyUpdateDto
 {
-    // TODO Add Manual Keys to be set by the user
-
 }
