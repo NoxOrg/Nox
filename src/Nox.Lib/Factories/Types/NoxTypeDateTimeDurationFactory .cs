@@ -22,6 +22,13 @@ public class NoxTypeDateTimeDurationFactory : NoxTypeFactoryBase<Nox.Types.DateT
     /// <param name="simpleTypeDefinition">The simple type definition.</param>
     /// <param name="value">The value.</param>
     /// <returns>A DateTimeDuration? .</returns>
+  
     public override DateTimeDuration? CreateNoxType(NoxSimpleTypeDefinition simpleTypeDefinition, dynamic? value)
-        => value is null ? null : DateTimeDuration.From(value, simpleTypeDefinition.DateTimeDurationTypeOptions ?? new DateTimeDurationTypeOptions());
+    {
+        if (value == null)
+        {
+            return null;
+        }
+        return DateTimeDuration.From(value, simpleTypeDefinition.DateTimeDurationTypeOptions ?? new DateTimeDurationTypeOptions());
+    }
 }
