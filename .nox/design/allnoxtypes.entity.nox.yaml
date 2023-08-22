@@ -39,11 +39,26 @@ attributes:
   - name: CountryCode3Field
     description: CountryCode3 Nox Type
     type: countryCode3
-    isRequired: true
+    isRequired: false
 
   - name: CountryNumberField
     description: CountryNumber Nox Type
     type: countryNumber
+    isRequired: false
+
+  - name: CultureCodeField
+    description: CultureCode Nox Type
+    type: cultureCode
+    isRequired: false
+
+  - name: CurrencyCode3Field
+    description: CurrencyCode3Field Nox Type
+    type: currencyCode3
+    isRequired: false
+
+  - name: DateTimeField
+    description: DatetimeField Nox Type
+    type: dateTime
     isRequired: false
 
   - name: FormulaField
@@ -53,9 +68,52 @@ attributes:
         expression: "CountryCode2Field.ToString()"
         returns: string
 
+  - name: HtmlField
+    description: HtmlField Nox Type
+    type: html
+    isRequired: false
+
+  - name: LanguageCodeField
+    description: Language Code Nox Type
+    type: languageCode
+    isRequired: true
+
+  - name: LengthField
+    description: Length Nox Type
+    type: length
+    isRequired: true
+
+  - name: MacAddressField
+    description: MacAddress Nox Type
+    type: macAddress
+    isRequired: true
+
+  - name: MarkdownField
+    description: Mark down Nox Type
+    type: markdown
+    isRequired: true
+
+  - name: PhoneNumberField
+    description: Phone Number Nox Type
+    type: phoneNumber
+    isRequired: true
+
+  - name: TemperatureField
+    description: Temperature Nox Type
+    type: temperature
+    temperatureTypeOptions:
+      persistAs: celsius
+      units: fahrenheit
+    isRequired: true
+
   - name: YamlField
     description: Yaml Nox Type
     type: yaml
+
+  - name: YearField
+    description: YearField Nox Type
+    type: year
+    isRequired: false
 
   - name: WeightField
     description: Weight Nox Type
@@ -91,10 +149,6 @@ attributes:
   - name: TimeZoneCodeField
     description: TimeZoneCode Nox Type
     type: timeZoneCode
-
-  - name: TemperatureField
-    description: Temperature Nox Type
-    type: temperature
 
     # No DB config at the moment
   # - name: PhoneNumberField

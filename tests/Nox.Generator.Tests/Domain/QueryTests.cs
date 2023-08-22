@@ -53,8 +53,8 @@ public class QueryTests: IClassFixture<GeneratorFixture>
         Assert.True(generatedSources.Any(s => s.HintName == queryFileName), $"{queryFileName} not generated");
         Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/GetCountriesByContinentQueryBase.expected.g.cs"), generatedSources.First(s => s.HintName == queryFileName).SourceText.ToString());
 
-        Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/Dto.CountryDto.g.cs"), generatedSources.First(s => s.HintName == "Dto.CountryDto.g.cs").SourceText.ToString());
-        Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/Dto.CountryCreateDto.g.cs"), generatedSources.First(s => s.HintName == "Dto.CountryCreateDto.g.cs").SourceText.ToString());        
+        Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/Dto.CountryDto.expected.g.cs"), generatedSources.First(s => s.HintName == "Dto.CountryDto.g.cs").SourceText.ToString());
+        Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/Dto.CountryCreateDto.expected.g.cs"), generatedSources.First(s => s.HintName == "Dto.CountryCreateDto.g.cs").SourceText.ToString());        
         //can further extend this test to verify contents of source files.
     }
 }

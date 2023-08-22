@@ -4,7 +4,7 @@ namespace Nox.Types;
 /// Represents a Nox <see cref="Password"/> type and value object.
 /// </summary>
 /// <remarks>Placeholder, needs to be implemented</remarks>
-public sealed class Password : ValueObject<(string HashedPassword, string Salt), Password>
+public sealed class Password : ValueObject<(string HashedPassword, string Salt), Password>, IPassword
 {
     /// <summary>
     /// Result of the hash operation

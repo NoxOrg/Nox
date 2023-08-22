@@ -21,8 +21,7 @@ internal class EntitiesGenerator : INoxCodeGenerator
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName(entity.Name)
                 .WithFileNamePrefix($"Entities")
-                .WithObject("entity", entity)
-                .WithObject("isVersioned", (entity.Persistence?.IsVersioned ?? true))
+                .WithObject("entity", entity)                
                 .GenerateSourceCodeFromResource("Domain.ModelGenerator.Entity");
         }
     }

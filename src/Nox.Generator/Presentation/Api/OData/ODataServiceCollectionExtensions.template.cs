@@ -18,11 +18,20 @@ public static class ODataServiceCollectionExtensions
         ODataModelBuilder builder = new ODataConventionModelBuilder();
 
         {{ hasKeyForCompoundKeys -}}
-        
+
         {{- for entity in solution.Domain.Entities }}
+        {{- if !entity.IsOwnedEntity }}
 
         builder.EntitySet<{{entity.Name}}Dto>("{{entity.PluralName}}");
+        builder.EntityType<{{entity.Name}}KeyDto>();
+        {{- end }}
 
+        builder.EntityType<{{entity.Name}}Dto>();
+        {{- if entity.Persistence?.IsAudited ~}}
+
+        builder.EntityType<{{entity.Name}}Dto>().Ignore(e => e.DeletedAtUtc);
+
+        {{- end }}
         {{- end }}
 
         services.AddControllers()

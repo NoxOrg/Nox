@@ -17,7 +17,7 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Text Id { get; set; } = null!;
+    public DatabaseNumber Id { get; set; } = null!;
 
     /// <summary>
     /// The country's common name (Required).
@@ -100,4 +100,9 @@ public partial class Country : AuditableEntityBase
     public virtual List<Currency> Currencies { get; set; } = new();
 
     public List<Currency> CountryAcceptsCurrency => Currencies;
+
+    /// <summary>
+    /// Country is also know as OneOrMany CountryLocalNames
+    /// </summary>
+    public virtual List<CountryLocalNames> CountryLocalNames { get; set; } = new();
 }

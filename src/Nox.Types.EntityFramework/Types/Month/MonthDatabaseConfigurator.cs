@@ -1,19 +1,18 @@
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.EntityBuilderAdapter;
 
 namespace Nox.Types.EntityFramework.Types;
 
 public class MonthDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
     public NoxType ForNoxType => NoxType.Month;
-    
+
     public bool IsDefault => true;
-    
+
     public void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
-        EntityTypeBuilder builder,
+        IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
         Entity entity,
         bool isKey)
@@ -23,6 +22,6 @@ public class MonthDatabaseConfigurator : INoxTypeDatabaseConfigurator
             .IsRequired(property.IsRequired)
             .HasConversion<MonthConverter>();
     }
-    
+
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
 }

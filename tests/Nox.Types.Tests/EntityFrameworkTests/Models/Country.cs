@@ -234,6 +234,11 @@ public sealed class Country
     public DatabaseNumber DatabaseId { get; set; } = null!;
 
     /// <summary>
+    /// Gets or sets the Guid property.
+    /// </summary>
+    public DatabaseGuid DatabaseGuid { get; set; } = null!;
+
+    /// <summary>
     /// Gets or sets password
     /// </summary>
     public Password Password { get; set; } = null!;
@@ -252,4 +257,9 @@ public sealed class Country
     /// Gets or sets dayOfWeek
     /// </summary>
     public DayOfWeek DayOfWeek { get; set; } = null!;
+
+    /// <summary>
+    /// Gets or sets dayOfWeek
+    /// </summary>
+    public DateTimeSchedule DateTimeSchedule { get; set; } = null!;
 }

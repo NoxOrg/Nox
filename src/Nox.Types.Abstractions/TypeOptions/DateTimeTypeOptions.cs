@@ -1,11 +1,13 @@
 ﻿
+using System;
+
 namespace Nox.Types;
 public class DateTimeTypeOptions : INoxTypeOptions
 {
-    public static readonly System.DateTime DefaultMinValue = System.DateTime.MinValue;
-    public static readonly System.DateTime DefaultMaxValue = System.DateTime.MaxValue;
-    public System.DateTime MinValue { get; set; } = DefaultMinValue;
-    public System.DateTime MaxValue { get; set; } = DefaultMaxValue;
+    public static readonly DateTimeOffset DefaultMinValue = DateTimeOffset.MinValue;
+    public static readonly DateTimeOffset DefaultMaxValue = DateTimeOffset.MaxValue;
+    public DateTimeOffset MinValue { get; set; } = DefaultMinValue;
+    public DateTimeOffset MaxValue { get; set; } = DefaultMaxValue;
     public bool AllowFutureOnly { get; set; } = false;
 }
 

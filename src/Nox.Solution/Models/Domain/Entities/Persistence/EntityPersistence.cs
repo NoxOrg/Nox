@@ -8,9 +8,9 @@ namespace Nox.Solution;
 [AdditionalProperties(false)]
 public class EntityPersistence : DefinitionBase
 {
-    [Title("Whether all changes to this entity is tracked fo versioning and auditing.")]
+    [Title("Whether all changes to this entity is tracked for  auditing.")]
     [Description("Indicates to the storage engine that all changes to this entity must be tracked over time. Usually used to time-travel, track or audit an entity's state changes.")]
-    public bool IsVersioned { get; internal set; } = true;
+    public bool IsAudited { get; internal set; } = true;
 
     [Title("Table name in the database to which this entity refers to.")]
     [Description("Indicates to the storage engine which table in the database these entity persistence settings apply to.")]

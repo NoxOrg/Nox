@@ -1,14 +1,9 @@
 ﻿// Generated
 
 #nullable enable
-
-using AutoMapper;
 using MediatR;
-
 using Microsoft.AspNetCore.Http;
-
 using System.ComponentModel.DataAnnotations.Schema;
-
 using Nox.Types;
 using Nox.Domain;
 using {{codeGeneratorState.DataTransferObjectsNameSpace}};
@@ -16,38 +11,39 @@ using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
+public record {{entity.Name}}KeyDto({{primaryKeys}});
+
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-[AutoMap(typeof({{entity.Name}}CreateDto))]
-public partial class {{className}} 
+public partial class {{className}}
 {
 {{- for key in entity.Keys }}
 
     /// <summary>
     /// {{key.Description}} (Required).
-    /// </summary>    
+    /// </summary>
     {{ if key.Type == "Entity" -}}
-    public {{SingleKeyPrimitiveTypeForEntity key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = default!; 
+    public {{SingleKeyPrimitiveTypeForEntity key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = default!;
     {{- else -}}
-    public {{entity.KeysFlattenComponentsType[key.Name]}} {{key.Name}} { get; set; } = default!; 
+    public {{SinglePrimitiveTypeForKey key}} {{key.Name}} { get; set; } = default!;
     {{- end}}
 {{- end }}
 {{- for attribute in entity.Attributes }}
-    {{- if componentsInfo[attribute.Name].IsReadable == false -}}
+    {{- if !IsNoxTypeReadable attribute.Type -}}
         {{ continue; }}
     {{- end}}
 
     /// <summary>
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
     /// </summary>
-    {{ if componentsInfo[attribute.Name].IsSimpleType -}}
+    {{ if IsNoxTypeSimpleType attribute.Type -}}
         {{- if attribute.Type == "Formula" -}}
     [NotMapped]
         {{- end -}}
-    public {{componentsInfo[attribute.Name].ComponentType}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
+    public {{SinglePrimitiveTypeForKey attribute}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
     {{- else -}}
-    public {{attribute.Type}}Dto{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
+    public {{attribute.Type}}Dto{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
     {{- end}}
 {{- end }}
 {{- ######################################### Relationships###################################################### -}}
@@ -59,7 +55,7 @@ public partial class {{className}}
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
     public virtual List<{{relationship.Entity}}Dto> {{relationship.EntityPlural}} { get; set; } = new();
     {{- else}}
-        {{- if relationship.ShouldGenerateForeignOnThisSide}}  
+        {{- if relationship.ShouldGenerateForeignOnThisSide}}
     //EF maps ForeignKey Automatically
     public virtual string {{if relationship.Relationship == "ZeroOrOne"}}?{{end}}{{relationship.Entity}}Id { get; set; } = null!;
         {{- end}}
@@ -71,19 +67,18 @@ public partial class {{className}}
     /// <summary>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
-	[AutoExpand]
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<{{relationship.Entity}}> {{relationship.EntityPlural}} { get; set; } = new();
+    public virtual List<{{relationship.Entity}}Dto> {{relationship.EntityPlural}} { get; set; } = new();
     {{- if (relationship.EntityPlural) != relationship.Name}}
-    
+
     public List<{{relationship.Entity}}Dto> {{relationship.Name}} => {{relationship.EntityPlural}};
     {{- end}}
     {{- else}}
-    public virtual {{relationship.Entity}}Dto {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.EntityPlural}} { get; set; } = null!;
+    public virtual {{relationship.Entity}}Dto {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
     {{-end}}
 {{- end }}
+{{- if entity.Persistence?.IsAudited == true #TODO do not expose DeletedAtUtc on end points??}}
 
-{{- if isVersioned #TODO do not expose Deleted on end points??}}
-    public bool? Deleted { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }
 {{- end}}
 }

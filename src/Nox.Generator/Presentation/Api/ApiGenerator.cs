@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
+using Nox.Solution.Extensions;
 using Nox.Types.Extensions;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -57,7 +58,6 @@ internal class ApiGenerator : INoxCodeGenerator
             code.AppendLine($"using Microsoft.AspNetCore.OData.Query;");
             code.AppendLine($"using Microsoft.AspNetCore.OData.Routing.Controllers;");
             code.AppendLine($"using Microsoft.EntityFrameworkCore;");
-            code.AppendLine($"using AutoMapper;");
             code.AppendLine("using MediatR;");
             code.AppendLine("using Nox.Application;");
 
@@ -80,15 +80,12 @@ internal class ApiGenerator : INoxCodeGenerator
             code.StartBlock();
 
             // db context
-            AddField(code, dbContextName, "databaseContext", "The OData DbContext for CRUD operations");
-
-            AddField(code, "IMapper", "mapper", "The Automapper");
+            AddField(code, dbContextName, "databaseContext", "The OData DbContext for CRUD operations");            
             AddField(code, "IMediator", "mediator", "The Mediator");
 
             var constructorParameters = new Dictionary<string, string>
                 {
-                    { dbContextName, "databaseContext" },
-                    { "IMapper", "mapper" },
+                    { dbContextName, "databaseContext" },                    
                     { "IMediator", "mediator" }
                 };
 
@@ -120,6 +117,11 @@ internal class ApiGenerator : INoxCodeGenerator
                 {
                     foreach (var relationship in entity.OwnedRelationships)
                     {
+                        // Onwed single entitities are returned with parent
+                        if(relationship.WithSingleEntity())
+                        {
+                            continue;
+                        }
                         GenerateChildrenGet(relationship.Entity, relationship.Name, entity.PluralName, code);
                     }
                 }
@@ -134,9 +136,9 @@ internal class ApiGenerator : INoxCodeGenerator
             if (entity.Persistence is null ||
                 entity.Persistence.Update.IsEnabled)
             {
-                GeneratePut(entity, code);
+                GeneratePut(entity, code, codeGeneratorState.Solution);
 
-                GeneratePatch(entity, entityName, pluralName, code);
+                GeneratePatch(entity, entityName, pluralName, code, codeGeneratorState.Solution);
             }
 
             if (entity.Persistence is null ||
@@ -186,7 +188,7 @@ internal class ApiGenerator : INoxCodeGenerator
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand({primaryKeysQuery(entity)}));");
+        code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand({PrimaryKeysQuery(entity)}));");
 
         code.AppendLine($"if (!result)");
         code.StartBlock();
@@ -199,18 +201,10 @@ internal class ApiGenerator : INoxCodeGenerator
         code.EndBlock();
     }
 
-    private static void GeneratePut(Entity entity, CodeBuilder code)
+    private static void GeneratePut(Entity entity, CodeBuilder code, NoxSolution solution)
     {
-        // TODO Composite Keys
-        if (entity.Keys is { Count: > 1 })
-        {
-            //TODO Support to multiples keys, best pratctices?
-            Debug.WriteLine("Put for composite keys Not implemented...");
-            return;
-        }
-
         // Method Put
-        code.AppendLine($"public async Task<ActionResult> Put([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] {entity.Name}UpdateDto {entity.Name.ToLowerFirstChar()})");
+        code.AppendLine($"public async Task<ActionResult> Put({PrimaryKeysFromRoute(entity, solution)}, [FromBody] {entity.Name}UpdateDto {entity.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();
@@ -219,30 +213,24 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();        
-        code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command(key,{entity.Name.ToLowerFirstChar()}));");
+        code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({PrimaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}));");
         code.AppendLine();
         
-        code.AppendLine($"if (!updated)");
+        code.AppendLine($"if (updated is null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
-        code.AppendLine($"return Updated({entity.Name.ToLowerFirstChar()});");
+        code.AppendLine($"return Updated(updated);");
 
         // End method
         code.EndBlock();
         code.AppendLine();
     }
 
-    private static void GeneratePatch(Entity entity, string entityName, string pluralName, CodeBuilder code)
+    private static void GeneratePatch(Entity entity, string entityName, string pluralName, CodeBuilder code, NoxSolution solution)
     {
-        // TODO Composite Keys
-        if (entity.Keys is { Count: > 1 })
-        {
-            Debug.WriteLine("Patch for composite keys Not implemented...");
-            return;
-        }
         // Method Patch
-        code.AppendLine($"public async Task<ActionResult> Patch([FromRoute] {entity.KeysFlattenComponentsType.First().Value} key, [FromBody] Delta<{entityName}UpdateDto> {entity.Name.ToLowerFirstChar()})");
+        code.AppendLine($"public async Task<ActionResult> Patch({PrimaryKeysFromRoute(entity, solution)}, [FromBody] Delta<{entityName}UpdateDto> {entity.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();
@@ -251,43 +239,27 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine(@$"var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new List<string>();
-
+        
         foreach (var propertyName in {entity.Name.ToLowerFirstChar()}.GetChangedPropertyNames())
         {{
             if({entity.Name.ToLowerFirstChar()}.TryGetPropertyValue(propertyName, out dynamic value))
             {{
                 updateProperties[propertyName] = value;                
-            }}
-            else
-            {{
-                deletedProperties.Add(propertyName);
-            }}
+            }}           
         }}");
         code.AppendLine();
-        code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command(key,updateProperties,deletedProperties));");
+        code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties));");
         code.AppendLine();
 
-        code.AppendLine($"if (!updated)");
+        code.AppendLine($"if (updated is null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
-        code.AppendLine($"return Updated({entity.Name.ToLowerFirstChar()});");
+        code.AppendLine($"return Updated(updated);");
 
         // End method
         code.EndBlock();
-        code.AppendLine();
-
-        // Method Exists
-        code.AppendLine($"private bool {entityName}Exists({entity.KeysFlattenComponentsType[entity.Keys![0].Name]} key)");
-
-        // Method content
-        code.StartBlock();
-        code.AppendLine($"return _databaseContext.{pluralName}.Any(p => p.{entity.Keys![0].Name} == key);");
-
-        // End method
-        code.EndBlock();
-        code.AppendLine();
+        code.AppendLine();        
     }
 
     private static void GeneratePost(string entityName, string variableName, CodeBuilder code)
@@ -338,7 +310,7 @@ internal class ApiGenerator : INoxCodeGenerator
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({primaryKeysQuery(entity)}));");
+        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity)}));");
         code.AppendLine();
         code.AppendLine($"if (item == null)");
         code.StartBlock();
@@ -356,7 +328,7 @@ internal class ApiGenerator : INoxCodeGenerator
     {
         // Method Get
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public ActionResult<IQueryable<{childEntity}>> Get{childEntityPlural}([FromRoute] string key)");
+        code.AppendLine($"public ActionResult<IQueryable<{childEntity}Dto>> Get{childEntityPlural}([FromRoute] string key)");
 
         // Method content
         code.StartBlock();
@@ -372,12 +344,12 @@ internal class ApiGenerator : INoxCodeGenerator
         if (entity.Keys.Count() > 1)
             return string.Join(", ", entity.Keys.Select(k => $"[FromRoute] {solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
         else if (entity.Keys is not null)
-            return $"[FromRoute] {entity.KeysFlattenComponentsType[entity.Keys[0].Name]} key";
+            return $"[FromRoute] {solution.GetSinglePrimitiveTypeForKey(entity.Keys[0])} key";
 
         return "";
     }
 
-    private static string primaryKeysQuery(Entity entity)
+    private static string PrimaryKeysQuery(Entity entity)
     {
         return entity.Keys.Count() > 1 ?
             string.Join(", ", entity.Keys.Select(k => $"key{k.Name}")) :

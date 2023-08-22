@@ -39,9 +39,9 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.CountryCode2 CountryCode2Field { get; set; } = null!;
 
     /// <summary>
-    /// CountryCode3 Nox Type (Required).
+    /// CountryCode3 Nox Type (Optional).
     /// </summary>
-    public Nox.Types.CountryCode3 CountryCode3Field { get; set; } = null!;
+    public Nox.Types.CountryCode3? CountryCode3Field { get; set; } = null!;
 
     /// <summary>
     /// CountryNumber Nox Type (Optional).
@@ -49,14 +49,69 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.CountryNumber? CountryNumberField { get; set; } = null!;
 
     /// <summary>
+    /// CultureCode Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.CultureCode? CultureCodeField { get; set; } = null!;
+
+    /// <summary>
+    /// CurrencyCode3Field Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.CurrencyCode3? CurrencyCode3Field { get; set; } = null!;
+
+    /// <summary>
+    /// DatetimeField Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.DateTime? DateTimeField { get; set; } = null!;
+
+    /// <summary>
     /// Formula Nox Type (Optional).
     /// </summary>
     public string? FormulaField => CountryCode2Field.ToString();
 
     /// <summary>
+    /// HtmlField Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.Html? HtmlField { get; set; } = null!;
+
+    /// <summary>
+    /// Language Code Nox Type (Required).
+    /// </summary>
+    public Nox.Types.LanguageCode LanguageCodeField { get; set; } = null!;
+
+    /// <summary>
+    /// Length Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Length LengthField { get; set; } = null!;
+
+    /// <summary>
+    /// MacAddress Nox Type (Required).
+    /// </summary>
+    public Nox.Types.MacAddress MacAddressField { get; set; } = null!;
+
+    /// <summary>
+    /// Mark down Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Markdown MarkdownField { get; set; } = null!;
+
+    /// <summary>
+    /// Phone Number Nox Type (Required).
+    /// </summary>
+    public Nox.Types.PhoneNumber PhoneNumberField { get; set; } = null!;
+
+    /// <summary>
+    /// Temperature Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Temperature TemperatureField { get; set; } = null!;
+
+    /// <summary>
     /// Yaml Nox Type (Optional).
     /// </summary>
     public Nox.Types.Yaml? YamlField { get; set; } = null!;
+
+    /// <summary>
+    /// YearField Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.Year? YearField { get; set; } = null!;
 
     /// <summary>
     /// Weight Nox Type (Optional).
@@ -82,11 +137,6 @@ public partial class AllNoxType : AuditableEntityBase
     /// TimeZoneCode Nox Type (Optional).
     /// </summary>
     public Nox.Types.TimeZoneCode? TimeZoneCodeField { get; set; } = null!;
-
-    /// <summary>
-    /// Temperature Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.Temperature? TemperatureField { get; set; } = null!;
 
     /// <summary>
     /// Percentage Nox Type (Optional).
