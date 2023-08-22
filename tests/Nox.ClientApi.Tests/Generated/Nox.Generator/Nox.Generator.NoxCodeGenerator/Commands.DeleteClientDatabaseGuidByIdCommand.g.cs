@@ -16,7 +16,6 @@ public record DeleteClientDatabaseGuidByIdCommand(System.Int64 keyId) : IRequest
 
 public class DeleteClientDatabaseGuidByIdCommandHandler: CommandBase, IRequestHandler<DeleteClientDatabaseGuidByIdCommand, bool>
 {
-
 	public ClientApiDbContext DbContext { get; }
 
 	public DeleteClientDatabaseGuidByIdCommandHandler(

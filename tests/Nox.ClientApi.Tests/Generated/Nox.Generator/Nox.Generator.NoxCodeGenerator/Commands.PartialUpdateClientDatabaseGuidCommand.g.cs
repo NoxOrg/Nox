@@ -18,7 +18,6 @@ public record PartialUpdateClientDatabaseGuidCommand(System.Int64 keyId, Diction
 
 public class PartialUpdateClientDatabaseGuidCommandHandler: CommandBase, IRequestHandler<PartialUpdateClientDatabaseGuidCommand, ClientDatabaseGuidKeyDto?>
 {
-
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<ClientDatabaseGuid> EntityMapper { get; }
 

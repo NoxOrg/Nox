@@ -5,7 +5,6 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Nox.Abstractions;
 using Nox.Application;
 using Nox.Factories;
 using SampleWebApp.Infrastructure.Persistence;
@@ -17,30 +16,20 @@ public record CreateCurrencyCashBalanceCommand(CurrencyCashBalanceCreateDto Enti
 
 public class CreateCurrencyCashBalanceCommandHandler: IRequestHandler<CreateCurrencyCashBalanceCommand, CurrencyCashBalanceKeyDto>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> EntityFactory { get; }
 
 	public CreateCurrencyCashBalanceCommandHandler(
 		SampleWebAppDbContext dbContext,
-		IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> entityFactory,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider)
+		IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> entityFactory)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 
 	public async Task<CurrencyCashBalanceKeyDto> Handle(CreateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
 	{
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		var createdBy = _userProvider.GetUser();
-		var createdVia = _systemProvider.GetSystem();
-		entityToCreate.Created(createdBy, createdVia);
 	
 		DbContext.CurrencyCashBalances.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();

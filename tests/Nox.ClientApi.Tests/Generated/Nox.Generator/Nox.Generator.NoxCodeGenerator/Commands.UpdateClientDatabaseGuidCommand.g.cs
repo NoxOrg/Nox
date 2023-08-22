@@ -18,7 +18,6 @@ public record UpdateClientDatabaseGuidCommand(System.Int64 keyId, ClientDatabase
 
 public class UpdateClientDatabaseGuidCommandHandler: CommandBase, IRequestHandler<UpdateClientDatabaseGuidCommand, ClientDatabaseGuidKeyDto?>
 {
-
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<ClientDatabaseGuid> EntityMapper { get; }
 
@@ -42,7 +41,7 @@ public class UpdateClientDatabaseGuidCommandHandler: CommandBase, IRequestHandle
 			return null;
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<ClientDatabaseGuid>(), request.EntityDto);
-		
+
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if(result < 1)

@@ -16,7 +16,6 @@ public record CreateClientDatabaseGuidCommand(ClientDatabaseGuidCreateDto Entity
 
 public class CreateClientDatabaseGuidCommandHandler: IRequestHandler<CreateClientDatabaseGuidCommand, ClientDatabaseGuidKeyDto>
 {
-
 	public ClientApiDbContext DbContext { get; }
 	public IEntityFactory<ClientDatabaseGuidCreateDto,ClientDatabaseGuid> EntityFactory { get; }
 

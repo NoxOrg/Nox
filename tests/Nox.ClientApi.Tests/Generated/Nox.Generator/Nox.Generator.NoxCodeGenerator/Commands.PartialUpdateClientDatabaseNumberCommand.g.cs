@@ -4,7 +4,6 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -19,9 +18,6 @@ public record PartialUpdateClientDatabaseNumberCommand(System.Int64 keyId, Dicti
 
 public class PartialUpdateClientDatabaseNumberCommandHandler: CommandBase, IRequestHandler<PartialUpdateClientDatabaseNumberCommand, ClientDatabaseNumberKeyDto?>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<ClientDatabaseNumber> EntityMapper { get; }
 
@@ -29,14 +25,10 @@ public class PartialUpdateClientDatabaseNumberCommandHandler: CommandBase, IRequ
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<ClientDatabaseNumber> entityMapper,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IEntityMapper<ClientDatabaseNumber> entityMapper): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityMapper = entityMapper;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 
 	public async Task<ClientDatabaseNumberKeyDto?> Handle(PartialUpdateClientDatabaseNumberCommand request, CancellationToken cancellationToken)
@@ -49,9 +41,6 @@ public class PartialUpdateClientDatabaseNumberCommandHandler: CommandBase, IRequ
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<ClientDatabaseNumber>(), request.UpdatedProperties);
-		var updatedBy = _userProvider.GetUser();
-		var updatedVia = _systemProvider.GetSystem();
-		entity.Updated(updatedBy, updatedVia);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

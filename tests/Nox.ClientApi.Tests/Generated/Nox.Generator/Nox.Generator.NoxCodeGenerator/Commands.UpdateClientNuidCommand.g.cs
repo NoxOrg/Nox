@@ -4,7 +4,6 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -19,9 +18,6 @@ public record UpdateClientNuidCommand(System.UInt32 keyId, ClientNuidUpdateDto E
 
 public class UpdateClientNuidCommandHandler: CommandBase, IRequestHandler<UpdateClientNuidCommand, ClientNuidKeyDto?>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<ClientNuid> EntityMapper { get; }
 
@@ -29,14 +25,10 @@ public class UpdateClientNuidCommandHandler: CommandBase, IRequestHandler<Update
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<ClientNuid> entityMapper,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IEntityMapper<ClientNuid> entityMapper): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityMapper = entityMapper;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 	
 	public async Task<ClientNuidKeyDto?> Handle(UpdateClientNuidCommand request, CancellationToken cancellationToken)
@@ -49,10 +41,7 @@ public class UpdateClientNuidCommandHandler: CommandBase, IRequestHandler<Update
 			return null;
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<ClientNuid>(), request.EntityDto);
-		var updatedBy = _userProvider.GetUser();
-		var updatedVia = _systemProvider.GetSystem();
-		entity.Updated(updatedBy, updatedVia);
-		
+
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if(result < 1)

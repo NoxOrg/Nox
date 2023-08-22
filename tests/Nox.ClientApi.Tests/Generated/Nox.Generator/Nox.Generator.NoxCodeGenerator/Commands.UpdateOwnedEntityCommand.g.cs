@@ -4,7 +4,6 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -19,9 +18,6 @@ public record UpdateOwnedEntityCommand(System.Int64 keyId, OwnedEntityUpdateDto 
 
 public class UpdateOwnedEntityCommandHandler: CommandBase, IRequestHandler<UpdateOwnedEntityCommand, OwnedEntityKeyDto?>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<OwnedEntity> EntityMapper { get; }
 
@@ -29,14 +25,10 @@ public class UpdateOwnedEntityCommandHandler: CommandBase, IRequestHandler<Updat
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<OwnedEntity> entityMapper,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IEntityMapper<OwnedEntity> entityMapper): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityMapper = entityMapper;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 	
 	public async Task<OwnedEntityKeyDto?> Handle(UpdateOwnedEntityCommand request, CancellationToken cancellationToken)
@@ -49,10 +41,7 @@ public class UpdateOwnedEntityCommandHandler: CommandBase, IRequestHandler<Updat
 			return null;
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<OwnedEntity>(), request.EntityDto);
-		var updatedBy = _userProvider.GetUser();
-		var updatedVia = _systemProvider.GetSystem();
-		entity.Updated(updatedBy, updatedVia);
-		
+
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if(result < 1)

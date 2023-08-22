@@ -5,7 +5,6 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Nox.Abstractions;
 using Nox.Application;
 using Nox.Factories;
 using ClientApi.Infrastructure.Persistence;
@@ -17,30 +16,20 @@ public record CreateClientDatabaseNumberCommand(ClientDatabaseNumberCreateDto En
 
 public class CreateClientDatabaseNumberCommandHandler: IRequestHandler<CreateClientDatabaseNumberCommand, ClientDatabaseNumberKeyDto>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public ClientApiDbContext DbContext { get; }
 	public IEntityFactory<ClientDatabaseNumberCreateDto,ClientDatabaseNumber> EntityFactory { get; }
 
 	public CreateClientDatabaseNumberCommandHandler(
 		ClientApiDbContext dbContext,
-		IEntityFactory<ClientDatabaseNumberCreateDto,ClientDatabaseNumber> entityFactory,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider)
+		IEntityFactory<ClientDatabaseNumberCreateDto,ClientDatabaseNumber> entityFactory)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 
 	public async Task<ClientDatabaseNumberKeyDto> Handle(CreateClientDatabaseNumberCommand request, CancellationToken cancellationToken)
 	{
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		var createdBy = _userProvider.GetUser();
-		var createdVia = _systemProvider.GetSystem();
-		entityToCreate.Created(createdBy, createdVia);
 	
 		DbContext.ClientDatabaseNumbers.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();

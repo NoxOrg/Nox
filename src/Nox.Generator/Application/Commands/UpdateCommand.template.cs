@@ -4,9 +4,6 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-{{- if (entity.Persistence?.IsAudited ?? true)}}
-using Nox.Abstractions;
-{{- end}}
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -21,11 +18,6 @@ public record Update{{entity.Name}}Command({{primaryKeys}}, {{entity.Name}}Updat
 
 public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<Update{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
-	{{- if (entity.Persistence?.IsAudited ?? true)}}
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-	{{- end}}
-
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 	public IEntityMapper<{{entity.Name}}> EntityMapper { get; }
 
@@ -33,18 +25,10 @@ public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<U
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<{{entity.Name}}> entityMapper
-		{{- if (entity.Persistence?.IsAudited ?? true) -}},
-		IUserProvider userProvider,
-		ISystemProvider systemProvider
-		{{- end -}}): base(noxSolution, serviceProvider)
+		IEntityMapper<{{entity.Name}}> entityMapper): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityMapper = entityMapper;
-		{{- if (entity.Persistence?.IsAudited ?? true)}}
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
-		{{- end }}
 	}
 	
 	public async Task<{{entity.Name}}KeyDto?> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
@@ -60,12 +44,6 @@ public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<U
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.EntityDto);
 
-		{{- if (entity.Persistence?.IsAudited ?? true) }}
-		var updatedBy = _userProvider.GetUser();
-		var updatedVia = _systemProvider.GetSystem();
-		entity.Updated(updatedBy, updatedVia);
-		{{- end}}
-		
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if(result < 1)
