@@ -6,12 +6,20 @@ namespace SampleWebApp.SeedData.Models
     {
         public string Id { get; set; } = string.Empty;
         public bool Boolean { get; set; } = false;
+        public double AreaValue { get; set; } = double.MinValue;
+        public string AreaUnit { get; set; } = "SquareMeter";
         public string Color { get; set; } = string.Empty;
         public string CountryCode2 { get; set; } = string.Empty;
         public string CountryCode3 { get; set; } = string.Empty;
         public string CultureCode { get; set; } = string.Empty;
         public short CurrencyNumber { get; set; } = short.MinValue;
         public string CurrencyCode3 { get; set; } = string.Empty;
+        public string DayOfTheWeek { get; set; } = string.Empty;
+        public double DistanceValue { get; set; } = double.MinValue;
+        public string DistanceUnit { get; set; } = "Kilometer";
+        public string Email { get; set; } = string.Empty;
+        public EncryptedTextTypeOptions EncryptedTextTypeOptions { get; set; } = null!;
+        public string Guid { get; set; } = string.Empty;
         public string FileName { get; set; } = string.Empty;
         public string FileUrl { get; set; } = string.Empty;
         public uint FileSize { get; set; } = 0;

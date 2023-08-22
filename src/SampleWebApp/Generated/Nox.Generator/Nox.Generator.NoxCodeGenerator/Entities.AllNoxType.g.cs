@@ -24,6 +24,11 @@ public partial class AllNoxType : AuditableEntityBase
     public Text TextId { get; set; } = null!;
 
     /// <summary>
+    /// Area Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Area AreaField { get; set; } = null!;
+
+    /// <summary>
     /// BooleanField Nox Type (Optional).
     /// </summary>
     public Nox.Types.Boolean? BooleanField { get; set; } = null!;
@@ -79,9 +84,29 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.DateTimeSchedule DateTimeScheduleField { get; set; } = null!;
 
     /// <summary>
+    /// DayOfWeek Nox Type (Required).
+    /// </summary>
+    public Nox.Types.DayOfWeek DayOfWeekField { get; set; } = null!;
+
+    /// <summary>
+    /// Distance Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Distance DistanceField { get; set; } = null!;
+
+    /// <summary>
+    /// Email Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Email EmailField { get; set; } = null!;
+
+    /// <summary>
     /// Formula Nox Type (Optional).
     /// </summary>
     public string? FormulaField => CountryCode2Field.ToString();
+
+    /// <summary>
+    /// Guid Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Guid GuidField { get; set; } = null!;
 
     /// <summary>
     /// HtmlField Nox Type (Optional).
@@ -202,6 +227,11 @@ public partial class AllNoxType : AuditableEntityBase
     /// Text Nox Type (Required).
     /// </summary>
     public Nox.Types.Text TextField { get; set; } = null!;
+
+    /// <summary>
+    /// Encrypted Text Nox Type (Required).
+    /// </summary>
+    public Nox.Types.EncryptedText EncryptedTextField { get; set; } = null!;
 
     /// <summary>
     /// File Nox Type (Required).

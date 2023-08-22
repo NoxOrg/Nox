@@ -17,10 +17,20 @@ keys:
     type: text
 
 attributes:
+
+  - name: AreaField
+    description: Area Nox Type
+    type: area
+    areaTypeOptions:
+      minValue: 1
+      maxValue: 27000
+      persistAs: squareFoot
+      units: squareMeter
+    isRequired: true
  
   - name: BooleanField
     description: BooleanField Nox Type
-    type: boolean
+    type: boolean    
 
   #- name: ColorField
   #  description: Color Nox Type
@@ -77,12 +87,37 @@ attributes:
     type: dateTimeSchedule
     isRequired: true
 
+  - name: DayOfWeekField
+    description: DayOfWeek Nox Type
+    type: dayOfWeek
+    isRequired: true
+
+  - name: DistanceField
+    description: Distance Nox Type
+    type: distance
+    distanceTypeOptions:
+      minValue: 1
+      maxValue: 270000000
+      persistAs: mile
+      units: kilometer
+    isRequired: true
+    
+  - name: EmailField
+    description: Email Nox Type
+    type: email
+    isRequired: true
+
   - name: FormulaField
     description: Formula Nox Type
     type: formula
     formulaTypeOptions:
         expression: "CountryCode2Field.ToString()"
         returns: string
+
+  - name: GuidField
+    description: Guid Nox Type
+    type: guid
+    isRequired: true
 
   - name: HtmlField
     description: HtmlField Nox Type
@@ -154,7 +189,8 @@ attributes:
     nuidTypeOptions:
         separator: "."
         propertyNames:
-            - "TextField" 
+            - "TextField"
+
   - name: YamlField
     description: Yaml Nox Type
     type: yaml
@@ -229,6 +265,11 @@ attributes:
   #   description: Date Time Range Nox Type
   #   type: dateTimeRange
   #   isRequired: true
+
+  - name: EncryptedTextField
+    description: Encrypted Text Nox Type
+    type: encryptedText
+    isRequired: true
 
   - name: FileField
     description: File Nox Type

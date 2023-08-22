@@ -16,6 +16,12 @@ public partial class AllNoxTypeUpdateDto
 {
     //TODO Add owned Entities and update odata endpoints
     /// <summary>
+    /// Area Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "AreaField is required")]
+    
+    public System.Decimal AreaField { get; set; } = default!;
+    /// <summary>
     /// BooleanField Nox Type (Optional).
     /// </summary>
     public System.Boolean? BooleanField { get; set; } 
@@ -73,6 +79,30 @@ public partial class AllNoxTypeUpdateDto
     [Required(ErrorMessage = "DateTimeScheduleField is required")]
     
     public System.String DateTimeScheduleField { get; set; } = default!;
+    /// <summary>
+    /// DayOfWeek Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "DayOfWeekField is required")]
+    
+    public System.UInt16 DayOfWeekField { get; set; } = default!;
+    /// <summary>
+    /// Distance Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "DistanceField is required")]
+    
+    public System.Decimal DistanceField { get; set; } = default!;
+    /// <summary>
+    /// Email Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "EmailField is required")]
+    
+    public System.String EmailField { get; set; } = default!;
+    /// <summary>
+    /// Guid Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "GuidField is required")]
+    
+    public System.Guid GuidField { get; set; } = default!;
     /// <summary>
     /// HtmlField Nox Type (Optional).
     /// </summary>
