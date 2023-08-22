@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis.CSharp;
 using Nox.Generator.Tests;
 
-namespace Nox.Tests.DatabaseIntegrationTests
+namespace Nox.Integration.Tests.DatabaseIntegrationTests
 {
     public class GenerateIntegrationModels
     {

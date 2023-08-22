@@ -6,11 +6,11 @@ using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using TestWebApp.Infrastructure.Persistence;
 
-namespace Nox.Tests.Fixtures
+namespace Nox.Integration.Tests.Fixtures
 {
     public class DataContextTestFixture
     {
-        private const string _solutionFileAsEmbeddedResourceName = @"Nox.Tests.DatabaseIntegrationTests.Design.test.solution.nox.yaml";
+        private const string _solutionFileAsEmbeddedResourceName = @"Nox.Integration.Tests.DatabaseIntegrationTests.Design.test.solution.nox.yaml";
 
         public DataContextTestFixture()
         {

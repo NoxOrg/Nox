@@ -7,14 +7,14 @@ using Nox.Types.EntityFramework.Abstractions;
 using System.Reflection;
 using TestWebApp.Infrastructure.Persistence;
 
-namespace Nox.Tests.DatabaseIntegrationTests;
+namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 
 public abstract class SqliteTestBase : IDisposable
 {
     private const string _inMemoryConnectionStringTemplate = "DataSource=:memory:";
     //private const string _inMemoryConnectionStringTemplate = @"DataSource=test_database_{0}.db";
     private static string _inMemoryConnectionString = string.Empty;
-    private const string _solutionFileAsEmbeddedResourceName = @"Nox.Tests.DatabaseIntegrationTests.Design.test.solution.nox.yaml";
+    private const string _solutionFileAsEmbeddedResourceName = @"Nox.Integration.Tests.DatabaseIntegrationTests.Design.test.solution.nox.yaml";
     private readonly SqliteConnection _connection;
 
     protected TestWebAppDbContext DbContext;
