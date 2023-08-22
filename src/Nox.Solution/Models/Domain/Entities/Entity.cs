@@ -16,10 +16,10 @@ namespace Nox.Solution;
 public class Entity : DefinitionBase
 {
     [YamlIgnore]
-    private Dictionary<string, NoxSimpleTypeDefinition> _attributesByName = new();
+    private Dictionary<string, NoxSimpleTypeDefinition>? _attributesByName;
 
     [YamlIgnore]
-    private Dictionary<string, NoxSimpleTypeDefinition> _keysByName = new();
+    private Dictionary<string, NoxSimpleTypeDefinition>? _keysByName;
 
     [Required]
     [Title("The name of the entity. Contains no spaces.")]
@@ -88,27 +88,25 @@ public class Entity : DefinitionBase
 
         Persistence = new EntityPersistence();
 
-        var result = Persistence.ApplyDefaults(Name);
+        return Persistence.ApplyDefaults(Name);
+    }
 
-        EnsureKeyByName();
+    public virtual NoxSimpleTypeDefinition? GetAttributeByName(string entityName)
+    {
         EnsureAttributesByName();
-
-        return result;
+        return _attributesByName![entityName];
     }
 
-    public NoxSimpleTypeDefinition? GetAttributeByName(string entityName)
+    public virtual NoxSimpleTypeDefinition? GetKeyByName(string entityName)
     {
-        return _attributesByName[entityName];
-    }
-
-    public NoxSimpleTypeDefinition? GetKeyByName(string entityName)
-    {
-        return _keysByName[entityName];
+        EnsureKeyByName();
+        return _keysByName![entityName];
     }
 
     public bool IsKey(string keyName)
     {
-        return _keysByName.ContainsKey(keyName);
+        EnsureKeyByName();
+        return _keysByName!.ContainsKey(keyName);
     }
 
     public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()
@@ -197,17 +195,30 @@ public class Entity : DefinitionBase
 
     private void EnsureKeyByName()
     {
-        for (int i = 0; i < Keys!.Count; i++)
+        lock (this)
         {
-            _keysByName.Add(Keys[i].Name, Keys[i]);
+            if (_keysByName is null)
+            {
+                _keysByName = new();
+                for (int i = 0; i < Keys!.Count; i++)
+                {
+                    _keysByName.Add(Keys[i].Name, Keys[i]);
+                }
+            }
         }
-
     }
     private void EnsureAttributesByName()
     {
-        for (int i = 0; i < Attributes!.Count; i++)
+        lock (this)
         {
-            _attributesByName.Add(Attributes[i].Name, Attributes[i]);
+            if (_attributesByName == null)
+            {
+                _attributesByName = new();
+                for (int i = 0; i < Attributes!.Count; i++)
+                {
+                    _attributesByName.Add(Attributes[i].Name, Attributes[i]);
+                }
+            }
         }
     }
 
