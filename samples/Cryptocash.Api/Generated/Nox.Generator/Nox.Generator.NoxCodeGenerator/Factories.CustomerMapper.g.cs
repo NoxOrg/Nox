@@ -6,6 +6,7 @@ using MediatR;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Solution;
 using Nox.Domain;
 using Nox.Factories;
@@ -56,87 +57,77 @@ public class CustomerMapper: EntityMapperBase<Customer>
         }
     }
 
-    public override void PartialMapToEntity(Customer entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
-    {    
-        if(deletedPropertyNames.Contains("FirstName"))
-        {
-            throw new EntityAttributeIsNotNullableException("Customer", "FirstName");
-        }
-        else if (updatedProperties.TryGetValue("FirstName", out dynamic? value))
-        {
-            var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"FirstName",value);
-            if(noxTypeValue == null)
+    public override void PartialMapToEntity(Customer entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
+    {
+        { 
+            if (updatedProperties.TryGetValue("FirstName", out dynamic? value))
             {
-                throw new EntityAttributeIsNotNullableException("Customer", "FirstName");
-            }
-            else
-            {
-                entity.FirstName = noxTypeValue;
-            }
-        }    
-        if(deletedPropertyNames.Contains("LastName"))
-        {
-            throw new EntityAttributeIsNotNullableException("Customer", "LastName");
-        }
-        else if (updatedProperties.TryGetValue("LastName", out dynamic? value))
-        {
-            var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"LastName",value);
-            if(noxTypeValue == null)
-            {
-                throw new EntityAttributeIsNotNullableException("Customer", "LastName");
-            }
-            else
-            {
-                entity.LastName = noxTypeValue;
-            }
-        }    
-        if(deletedPropertyNames.Contains("Email"))
-        {
-            throw new EntityAttributeIsNotNullableException("Customer", "Email");
-        }
-        else if (updatedProperties.TryGetValue("Email", out dynamic? value))
-        {
-            var noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"Email",value);
-            if(noxTypeValue == null)
-            {
-                throw new EntityAttributeIsNotNullableException("Customer", "Email");
-            }
-            else
-            {
-                entity.Email = noxTypeValue;
-            }
-        }    
-        if(deletedPropertyNames.Contains("Address"))
-        {
-            throw new EntityAttributeIsNotNullableException("Customer", "Address");
-        }
-        else if (updatedProperties.TryGetValue("Address", out dynamic? value))
-        {
-            var noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition,"Address",value);
-            if(noxTypeValue == null)
-            {
-                throw new EntityAttributeIsNotNullableException("Customer", "Address");
-            }
-            else
-            {
-                entity.Address = noxTypeValue;
-            }
-        }    
-        if(deletedPropertyNames.Contains("MobileNumber"))
-        {
-            entity.MobileNumber = null;
-        }
-        else if (updatedProperties.TryGetValue("MobileNumber", out dynamic? value))
-        {
-            var noxTypeValue = CreateNoxType<Nox.Types.PhoneNumber>(entityDefinition,"MobileNumber",value);
-            if(noxTypeValue == null)
-            {
-                entity.MobileNumber = null;
-            }
-            else
-            {
-                entity.MobileNumber = noxTypeValue;
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"FirstName",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("Customer", "FirstName");
+                }
+                else
+                {
+                    entity.FirstName = noxTypeValue;
+                }
             }
         }
-    }
+        { 
+            if (updatedProperties.TryGetValue("LastName", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"LastName",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("Customer", "LastName");
+                }
+                else
+                {
+                    entity.LastName = noxTypeValue;
+                }
+            }
+        }
+        { 
+            if (updatedProperties.TryGetValue("Email", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"Email",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("Customer", "Email");
+                }
+                else
+                {
+                    entity.Email = noxTypeValue;
+                }
+            }
+        }
+        { 
+            if (updatedProperties.TryGetValue("Address", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition,"Address",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("Customer", "Address");
+                }
+                else
+                {
+                    entity.Address = noxTypeValue;
+                }
+            }
+        }
+        { 
+            if (updatedProperties.TryGetValue("MobileNumber", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.PhoneNumber>(entityDefinition,"MobileNumber",value);
+                if(noxTypeValue == null)
+                {
+                    entity.MobileNumber = null;
+                }
+                else
+                {
+                    entity.MobileNumber = noxTypeValue;
+                }
+            }
+        }
+    }  
 }

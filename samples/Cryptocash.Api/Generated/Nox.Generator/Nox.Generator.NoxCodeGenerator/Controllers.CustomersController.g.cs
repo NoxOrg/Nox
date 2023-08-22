@@ -85,7 +85,7 @@ public partial class CustomersController : ODataController
         {
             return NotFound();
         }
-        return Updated(customer);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CustomerUpdateDto> customer)
@@ -95,27 +95,22 @@ public partial class CustomersController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new HashSet<string>();
-
+        
         foreach (var propertyName in customer.GetChangedPropertyNames())
         {
             if(customer.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCustomerCommand(key, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateCustomerCommand(key, updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(customer);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)

@@ -23,7 +23,7 @@ public class GetCustomersQueryHandler : IRequestHandler<GetCustomersQuery, IQuer
     public Task<IQueryable<CustomerDto>> Handle(GetCustomersQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<CustomerDto>)DataDbContext.Customers
-            .Where(r => !(r.Deleted == true))
+            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
         return Task.FromResult(item);
     }

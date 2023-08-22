@@ -11,7 +11,13 @@ keys:
   - name: Id
     isRequired: true
     description: The Customer unique identifier 
-    type: databaseNumber
+    type: databaseNumber 
+    userInterface:
+      showInSearchResults: never
+      canSearch: true
+      canFilter: false
+      showOnCreateForm: false
+      showOnUpdateForm: true
 
 attributes:
 
@@ -20,8 +26,15 @@ attributes:
     type: text
     textTypeOptions:
       minLength: 4
-      maxLength: 63
-    isRequired: true 
+      maxLength: 63      
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
 
   - name: LastName
     description: The customer's last name
@@ -30,26 +43,52 @@ attributes:
       minLength: 4
       maxLength: 63
     isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
 
   - name: Email
     description: The customer's email
     type: email
     isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: false
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
 
   - name: Address
     description: The customer's address
     type: streetAddress
     isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: false
+      canFilter: false
+      showOnCreateForm: true
+      showOnUpdateForm: true
 
   - name: MobileNumber
     description: The customer's mobile number
     type: phoneNumber
-    isRequired: false   
+    isRequired: false
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: false
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
 
 persistence:
-    isVersioned: true
-    tableName: Customer
-    schema: dbo
+    isAudited: true    
     create:
         isEnabled: true
         raiseEvents: true

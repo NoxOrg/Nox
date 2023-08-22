@@ -23,7 +23,7 @@ public class GetEmployeesQueryHandler : IRequestHandler<GetEmployeesQuery, IQuer
     public Task<IQueryable<EmployeeDto>> Handle(GetEmployeesQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<EmployeeDto>)DataDbContext.Employees
-            .Where(r => !(r.Deleted == true))
+            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
         return Task.FromResult(item);
     }

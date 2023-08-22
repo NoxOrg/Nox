@@ -2,11 +2,8 @@
 
 #nullable enable
 using MediatR;
-
 using Microsoft.AspNetCore.Http;
-
 using System.ComponentModel.DataAnnotations.Schema;
-
 using Nox.Types;
 using Nox.Domain;
 using CryptocashApi.Application.DataTransferObjects;
@@ -19,12 +16,12 @@ public record EmployeeKeyDto(System.Int64 keyId);
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-public partial class EmployeeDto 
+public partial class EmployeeDto
 {
 
     /// <summary>
     /// The employee unique identifier (Required).
-    /// </summary>    
+    /// </summary>
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
@@ -55,6 +52,7 @@ public partial class EmployeeDto
     /// <summary>
     /// The employee's last working day (Optional).
     /// </summary>
-    public System.DateTime? LastWorkingDay { get; set; } 
-    public bool? Deleted { get; set; }
+    public System.DateTime? LastWorkingDay { get; set; }
+
+    public System.DateTime? DeletedAtUtc { get; set; }
 }
