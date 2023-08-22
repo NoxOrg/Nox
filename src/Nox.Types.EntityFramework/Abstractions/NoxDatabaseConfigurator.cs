@@ -263,7 +263,8 @@ namespace Nox.Types.EntityFramework.Abstractions
                 allEntityAttributes.AddRange(entity.Attributes);
             }
 
-            if (entity.Persistence?.IsAudited == true)
+            // TODO clarify Auditable for owned entities
+            if (entity.Persistence?.IsAudited == true && !entity.IsOwnedEntity)
             {
                 allEntityAttributes.AddRange(AuditableEntityAttributes);
             }

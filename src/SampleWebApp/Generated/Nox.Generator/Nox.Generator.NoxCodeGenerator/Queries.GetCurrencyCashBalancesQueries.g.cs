@@ -5,7 +5,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SampleWebApp.Application.Dto;
-using SampleWebApp.Presentation.Api.OData;
+using SampleWebApp.Infrastructure.Persistence;
 
 namespace SampleWebApp.Application.Queries;
 
@@ -13,12 +13,12 @@ public record GetCurrencyCashBalancesQuery() : IRequest<IQueryable<CurrencyCashB
 
 public class GetCurrencyCashBalancesQueryHandler : IRequestHandler<GetCurrencyCashBalancesQuery, IQueryable<CurrencyCashBalanceDto>>
 {
-    public  GetCurrencyCashBalancesQueryHandler(ODataDbContext dataDbContext)
+    public  GetCurrencyCashBalancesQueryHandler(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
-    public ODataDbContext DataDbContext { get; }
+    public DtoDbContext DataDbContext { get; }
 
     public Task<IQueryable<CurrencyCashBalanceDto>> Handle(GetCurrencyCashBalancesQuery request, CancellationToken cancellationToken)
     {

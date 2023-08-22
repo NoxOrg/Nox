@@ -6,10 +6,9 @@ using Nox.Types;
 namespace Nox.Application.Commands;
 
 /// <summary>
-/// Nox Command base command
+/// Base Implementation for aNox Command
 /// </summary>
-
-public abstract class CommandBase
+public abstract class CommandBase: INoxCommand
 {
     public NoxSolution NoxSolution { get; }
     public IServiceProvider ServiceProvider { get; }

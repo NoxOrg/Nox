@@ -17,7 +17,6 @@ using Nox.Exceptions;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
-
 namespace SampleWebApp.Application;
 
 public class CountryMapper: EntityMapperBase<Country>
@@ -109,7 +108,7 @@ public class CountryMapper: EntityMapperBase<Country>
 
     public override void PartialMapToEntity(Country entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
-        { 
+        {
             if (updatedProperties.TryGetValue("Name", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
@@ -123,7 +122,7 @@ public class CountryMapper: EntityMapperBase<Country>
                 }
             }
         }
-        { 
+        {
             if (updatedProperties.TryGetValue("FormalName", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"FormalName",value);
@@ -137,7 +136,7 @@ public class CountryMapper: EntityMapperBase<Country>
                 }
             }
         }
-        { 
+        {
             if (updatedProperties.TryGetValue("AlphaCode3", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.CountryCode3>(entityDefinition,"AlphaCode3",value);
@@ -151,7 +150,7 @@ public class CountryMapper: EntityMapperBase<Country>
                 }
             }
         }
-        { 
+        {
             if (updatedProperties.TryGetValue("AlphaCode2", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition,"AlphaCode2",value);
@@ -165,7 +164,7 @@ public class CountryMapper: EntityMapperBase<Country>
                 }
             }
         }
-        { 
+        {
             if (updatedProperties.TryGetValue("NumericCode", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"NumericCode",value);
@@ -179,7 +178,7 @@ public class CountryMapper: EntityMapperBase<Country>
                 }
             }
         }
-        { 
+        {
             if (updatedProperties.TryGetValue("DialingCodes", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"DialingCodes",value);
@@ -193,7 +192,7 @@ public class CountryMapper: EntityMapperBase<Country>
                 }
             }
         }
-        { 
+        {
             if (updatedProperties.TryGetValue("Capital", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Capital",value);
@@ -207,7 +206,7 @@ public class CountryMapper: EntityMapperBase<Country>
                 }
             }
         }
-        { 
+        {
             if (updatedProperties.TryGetValue("Demonym", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Demonym",value);
@@ -221,7 +220,7 @@ public class CountryMapper: EntityMapperBase<Country>
                 }
             }
         }
-        { 
+        {
             if (updatedProperties.TryGetValue("AreaInSquareKilometres", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Area>(entityDefinition,"AreaInSquareKilometres",value);
@@ -235,7 +234,7 @@ public class CountryMapper: EntityMapperBase<Country>
                 }
             }
         }
-        { 
+        {
             if (updatedProperties.TryGetValue("GeoCoord", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition,"GeoCoord",value);
@@ -249,7 +248,7 @@ public class CountryMapper: EntityMapperBase<Country>
                 }
             }
         }
-        { 
+        {
             if (updatedProperties.TryGetValue("GeoRegion", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"GeoRegion",value);
@@ -263,7 +262,7 @@ public class CountryMapper: EntityMapperBase<Country>
                 }
             }
         }
-        { 
+        {
             if (updatedProperties.TryGetValue("GeoSubRegion", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"GeoSubRegion",value);
@@ -277,7 +276,7 @@ public class CountryMapper: EntityMapperBase<Country>
                 }
             }
         }
-        { 
+        {
             if (updatedProperties.TryGetValue("GeoWorldRegion", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"GeoWorldRegion",value);
@@ -291,7 +290,7 @@ public class CountryMapper: EntityMapperBase<Country>
                 }
             }
         }
-        { 
+        {
             if (updatedProperties.TryGetValue("Population", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"Population",value);
@@ -305,7 +304,7 @@ public class CountryMapper: EntityMapperBase<Country>
                 }
             }
         }
-        { 
+        {
             if (updatedProperties.TryGetValue("TopLevelDomains", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"TopLevelDomains",value);
@@ -319,5 +318,5 @@ public class CountryMapper: EntityMapperBase<Country>
                 }
             }
         }
-    }  
+    }
 }

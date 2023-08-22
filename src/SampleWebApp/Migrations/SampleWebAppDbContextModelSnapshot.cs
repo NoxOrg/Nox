@@ -8,7 +8,7 @@ using SampleWebApp.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace SampleWebApp.Migrations
+namespace SampleWebAppdeprecated.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
     partial class SampleWebAppDbContextModelSnapshot : ModelSnapshot

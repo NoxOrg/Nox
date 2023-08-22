@@ -12,12 +12,12 @@ namespace ClientApi.Domain;
 /// <summary>
 /// OwnedEntity.
 /// </summary>
-public partial class OwnedEntity : AuditableEntityBase
+public partial class OwnedEntity
 {
     /// <summary>
     /// The unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public Text Id { get; set; } = null!;
 
     /// <summary>
     /// The Text (Required).

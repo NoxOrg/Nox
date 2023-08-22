@@ -5,11 +5,15 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+
 {{- if (entity.Persistence?.IsAudited ?? true)}}
 using Nox.Abstractions;
 {{- end}}
 using Nox.Application;
+using Nox.Application.Commands;
 using Nox.Factories;
+using Nox.Solution;
+
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
@@ -17,7 +21,7 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 public record Create{{entity.Name}}Command({{entity.Name}}CreateDto EntityDto) : IRequest<{{entity.Name}}KeyDto>;
 
-public class Create{{entity.Name}}CommandHandler: IRequestHandler<Create{{entity.Name}}Command, {{entity.Name}}KeyDto>
+public class Create{{entity.Name}}CommandHandler: CommandBase, IRequestHandler <Create{{entity.Name}}Command, {{entity.Name}}KeyDto>
 {
 	{{- if (entity.Persistence?.IsAudited ?? true)}}
 	private readonly IUserProvider _userProvider;
@@ -29,11 +33,13 @@ public class Create{{entity.Name}}CommandHandler: IRequestHandler<Create{{entity
 
 	public Create{{entity.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
 		IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> entityFactory
 		{{- if (entity.Persistence?.IsAudited ?? true) -}},
 		IUserProvider userProvider,
 		ISystemProvider systemProvider
-		{{- end -}})
+		{{- end -}}): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

@@ -25,6 +25,11 @@ public static class ODataServiceCollectionExtensions
         builder.EntitySet<{{entity.Name}}Dto>("{{entity.PluralName}}");
         builder.EntityType<{{entity.Name}}KeyDto>();
         {{- end }}
+        {{- if entity.OwnedRelationships != null }}
+            {{- for ownedRelationship in entity.OwnedRelationships }}
+        builder.EntityType<{{entity.Name}}Dto>().ContainsMany(e => e.{{ownedRelationship.Related.Entity.PluralName}}).AutoExpand = true;
+            {{- end }}
+        {{- end }}
 
         builder.EntityType<{{entity.Name}}Dto>();
         {{- if entity.Persistence?.IsAudited ~}}
