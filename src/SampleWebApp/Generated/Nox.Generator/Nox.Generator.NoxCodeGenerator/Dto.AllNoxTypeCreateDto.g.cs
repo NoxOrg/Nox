@@ -5,6 +5,7 @@
 using Nox.Abstractions;
 using Nox.Types;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SampleWebApp.Application.Dto; 
 
@@ -13,6 +14,9 @@ namespace SampleWebApp.Application.Dto;
 /// </summary>
 public partial class AllNoxTypeCreateDto : AllNoxTypeUpdateDto
 {
-    // TODO Add Manual Keys to be set by the user
-
+    /// <summary>
+    /// Second Text Id (Required).
+    /// </summary>
+    [Required(ErrorMessage = "TextId is required")]
+    public System.String TextId { get; set; } = default!;
 }

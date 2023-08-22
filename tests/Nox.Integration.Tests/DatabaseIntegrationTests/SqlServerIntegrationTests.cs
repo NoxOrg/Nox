@@ -185,6 +185,8 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             ImageTestField = Image.From(imageUrl, imagePrettyName, imageSizeInBytes),
             PhoneNumberTestField = PhoneNumber.From(phoneNumber),
             DateTimeTestField = DateTime.From(dateTime),
+            DateTimeScheduleTestField = DateTimeSchedule.From(cronJobExpression),
+            DatabaseGuidTestField = DatabaseGuid.FromDatabase(guid),
         };
         var temperatureCelsius = newItem.TemperatureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);
