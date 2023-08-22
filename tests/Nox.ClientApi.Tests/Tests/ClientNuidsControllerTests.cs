@@ -13,7 +13,7 @@ namespace Nox.ClientApi.Tests.Tests
     public class ClientNuidsControllerTests
     {
         [Theory, AutoMoqData]
-        public async void Post_ReturnsNuidId(ApiFixture apiFixture)
+        public async Task Post_ReturnsNuidId(ApiFixture apiFixture)
         {
             // Arrange            
             string name = "MySpecialName";

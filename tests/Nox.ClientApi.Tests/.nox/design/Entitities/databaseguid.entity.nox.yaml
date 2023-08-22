@@ -1,0 +1,39 @@
+#
+# databaseguid.entity.nox.yaml
+#
+
+name: ClientDatabaseGuid
+
+description: Client DatabaseGuid Key
+
+keys:
+
+  - name: Id
+    type: databaseNumber
+    description: The unique identifier 
+    isRequired: true
+
+attributes:
+
+  - name: Name
+    description: The Text
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true 
+
+persistence:
+    isAudited: false    
+    create:
+        isEnabled: true
+        raiseEvents: true
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: true
+    delete:
+        isEnabled: true
+        raiseEvents: true
+        useSoftDelete: false

@@ -37,6 +37,8 @@ public partial class ClientApiDbContext : DbContext
 
     public DbSet<OwnedEntity> OwnedEntities { get; set; } = null!;
 
+    public DbSet<ClientDatabaseGuid> ClientDatabaseGuids { get; set; } = null!;
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
