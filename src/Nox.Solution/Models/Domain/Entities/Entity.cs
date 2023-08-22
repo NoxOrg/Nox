@@ -88,10 +88,12 @@ public class Entity : DefinitionBase
 
         Persistence = new EntityPersistence();
 
+        var result = Persistence.ApplyDefaults(Name);
+
         EnsureKeyByName();
         EnsureAttributesByName();
 
-        return Persistence.ApplyDefaults(Name);
+        return result;
     }
 
     public NoxSimpleTypeDefinition? GetAttributeByName(string entityName)
