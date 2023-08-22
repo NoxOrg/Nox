@@ -8,7 +8,7 @@ using TestWebApp.Domain;
 using DayOfWeek = Nox.Types.DayOfWeek;
 using Guid = Nox.Types.Guid;
 
-namespace Nox.Tests.DatabaseIntegrationTests;
+namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 
 public class SqliteIntegrationTests : SqliteTestBase
 {
