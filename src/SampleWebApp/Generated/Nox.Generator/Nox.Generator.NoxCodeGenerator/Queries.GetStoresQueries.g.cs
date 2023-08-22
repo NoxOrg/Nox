@@ -23,7 +23,7 @@ public class GetStoresQueryHandler : IRequestHandler<GetStoresQuery, IQueryable<
     public Task<IQueryable<StoreDto>> Handle(GetStoresQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<StoreDto>)DataDbContext.Stores
-            .Where(r => !(r.Deleted == true))
+            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
         return Task.FromResult(item);
     }

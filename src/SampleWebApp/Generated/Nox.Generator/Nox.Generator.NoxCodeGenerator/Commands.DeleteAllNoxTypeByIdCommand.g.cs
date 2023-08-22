@@ -4,6 +4,7 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -16,29 +17,37 @@ public record DeleteAllNoxTypeByIdCommand(System.Int64 keyId, System.String keyT
 
 public class DeleteAllNoxTypeByIdCommandHandler: CommandBase, IRequestHandler<DeleteAllNoxTypeByIdCommand, bool>
 {
-    public SampleWebAppDbContext DbContext { get; }
+	private readonly IUserProvider _userProvider;
+	private readonly ISystemProvider _systemProvider;
 
-    public  DeleteAllNoxTypeByIdCommandHandler(
-        SampleWebAppDbContext dbContext,
-        NoxSolution noxSolution, 
-        IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
-    {
-        DbContext = dbContext;
-    }    
+	public SampleWebAppDbContext DbContext { get; }
 
-    public async Task<bool> Handle(DeleteAllNoxTypeByIdCommand request, CancellationToken cancellationToken)
-    {
-        var keyId = CreateNoxTypeForKey<AllNoxType,DatabaseNumber>("Id", request.keyId);
-        var keyTextId = CreateNoxTypeForKey<AllNoxType,Text>("TextId", request.keyTextId);
+	public DeleteAllNoxTypeByIdCommandHandler(
+		SampleWebAppDbContext dbContext,
+		NoxSolution noxSolution, 
+		IServiceProvider serviceProvider,
+		IUserProvider userProvider,
+		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+	{
+		DbContext = dbContext;
+		_userProvider = userProvider;
+		_systemProvider = systemProvider;
+	}
 
-        var entity = await DbContext.AllNoxTypes.FindAsync(keyId, keyTextId);
-        if (entity == null || entity.Deleted == true)
-        {
-            return false;
-        }
+	public async Task<bool> Handle(DeleteAllNoxTypeByIdCommand request, CancellationToken cancellationToken)
+	{
+		var keyId = CreateNoxTypeForKey<AllNoxType,DatabaseNumber>("Id", request.keyId);
+		var keyTextId = CreateNoxTypeForKey<AllNoxType,Text>("TextId", request.keyTextId);
 
-        entity.Delete();
-        await DbContext.SaveChangesAsync(cancellationToken);
-        return true;
-    }
+		var entity = await DbContext.AllNoxTypes.FindAsync(keyId, keyTextId);
+		if (entity == null || entity.IsDeleted.Value == true)
+		{
+			return false;
+		}
+		var deletedBy = _userProvider.GetUser();
+		var deletedVia = _systemProvider.GetSystem();
+		entity.Deleted(deletedBy, deletedVia);
+		await DbContext.SaveChangesAsync(cancellationToken);
+		return true;
+	}
 }

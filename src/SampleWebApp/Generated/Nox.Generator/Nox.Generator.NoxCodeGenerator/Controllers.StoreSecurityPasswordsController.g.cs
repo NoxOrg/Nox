@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using MediatR;
 using Nox.Application;
 using SampleWebApp.Application;
@@ -30,23 +29,16 @@ public partial class StoreSecurityPasswordsController : ODataController
     protected readonly ODataDbContext _databaseContext;
     
     /// <summary>
-    /// The Automapper.
-    /// </summary>
-    protected readonly IMapper _mapper;
-    
-    /// <summary>
     /// The Mediator.
     /// </summary>
     protected readonly IMediator _mediator;
     
     public StoreSecurityPasswordsController(
         ODataDbContext databaseContext,
-        IMapper mapper,
         IMediator mediator
     )
     {
         _databaseContext = databaseContext;
-        _mapper = mapper;
         _mediator = mediator;
     }
     
@@ -89,11 +81,11 @@ public partial class StoreSecurityPasswordsController : ODataController
         
         var updated = await _mediator.Send(new UpdateStoreSecurityPasswordsCommand(key, storeSecurityPasswords));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
-        return Updated(storeSecurityPasswords);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<StoreSecurityPasswordsUpdateDto> storeSecurityPasswords)
@@ -103,32 +95,22 @@ public partial class StoreSecurityPasswordsController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new List<string>();
-
+        
         foreach (var propertyName in storeSecurityPasswords.GetChangedPropertyNames())
         {
             if(storeSecurityPasswords.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateStoreSecurityPasswordsCommand(key, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateStoreSecurityPasswordsCommand(key, updateProperties));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
-        return Updated(storeSecurityPasswords);
-    }
-    
-    private bool StoreSecurityPasswordsExists(System.String key)
-    {
-        return _databaseContext.StoreSecurityPasswords.Any(p => p.Id == key);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)

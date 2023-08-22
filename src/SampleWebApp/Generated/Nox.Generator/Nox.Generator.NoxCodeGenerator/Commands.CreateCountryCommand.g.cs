@@ -1,43 +1,54 @@
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Application;
+using Nox.Application.Commands;
 using Nox.Factories;
+using Nox.Solution;
+
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
-//TODO support multiple keys and generated keys like nuid database number
-public record CreateCountryResponse(System.String keyId);
+public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<CountryKeyDto>;
 
-public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<CreateCountryResponse>;
-
-public class CreateCountryCommandHandler: IRequestHandler<CreateCountryCommand, CreateCountryResponse>
+public class CreateCountryCommandHandler: CommandBase, IRequestHandler <CreateCountryCommand, CountryKeyDto>
 {
-    public SampleWebAppDbContext DbContext { get; }
-    public IEntityFactory<CountryCreateDto,Country> EntityFactory { get; }
+	private readonly IUserProvider _userProvider;
+	private readonly ISystemProvider _systemProvider;
 
-    public  CreateCountryCommandHandler(
-        SampleWebAppDbContext dbContext,
-        IEntityFactory<CountryCreateDto,Country> entityFactory)
-    {
-        DbContext = dbContext;
-        EntityFactory = entityFactory;
-    }
-    
-    public async Task<CreateCountryResponse> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
-    {    
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+	public SampleWebAppDbContext DbContext { get; }
+	public IEntityFactory<CountryCreateDto,Country> EntityFactory { get; }
+
+	public CreateCountryCommandHandler(
+		SampleWebAppDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityFactory<CountryCreateDto,Country> entityFactory,
+		IUserProvider userProvider,
+		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+	{
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
+		_userProvider = userProvider;
+		_systemProvider = systemProvider;
+	}
+
+	public async Task<CountryKeyDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
+	{
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var createdBy = _userProvider.GetUser();
+		var createdVia = _systemProvider.GetSystem();
+		entityToCreate.Created(createdBy, createdVia);
 	
-        DbContext.Countries.Add(entityToCreate);
-        await DbContext.SaveChangesAsync();
-        //return entityToCreate.Id.Value;
-        return new CreateCountryResponse(default(System.String)!);
-}
+		DbContext.Countries.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
+		return new CountryKeyDto(entityToCreate.Id.Value);
+	}
 }

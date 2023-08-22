@@ -228,14 +228,11 @@
       },
       "additionalProperties": false
     },
-    "keysFlattenComponentsType": {    
+    "isOwnedEntity": {    
       "type": [
-        "object",
+        "boolean",
         "null"
-      ],
-      "additionalProperties":   {
-        "Type": "string"
-      }
+      ]
     }
   },
   "additionalProperties": false

@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Nox.Solution;
+﻿using Nox.Solution;
 using Nox.Solution.Extensions;
+using Nox.Types.EntityFramework.Configurations;
+using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using System.Diagnostics;
 
 namespace Nox.Types.EntityFramework.Abstractions
@@ -9,6 +10,8 @@ namespace Nox.Types.EntityFramework.Abstractions
     {
         //We could use the container to manage this
         protected readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesDatabaseConfigurations = new();
+
+        private static readonly NoxSimpleTypeDefinition[] AuditableEntityAttributes = new AuditableEntityBaseConfiguration().ToArray();
 
         /// <summary>
         ///
@@ -39,38 +42,101 @@ namespace Nox.Types.EntityFramework.Abstractions
 
         public virtual void ConfigureEntity(
             NoxSolutionCodeGeneratorState codeGeneratorState,
-            EntityTypeBuilder builder,
-            Entity entity,
-            IReadOnlyList<EntityRelationshipWithType> relationshipsToCreate)
+            IEntityBuilder builder,
+            Entity entity)
         {
+            var relationshipsToCreate = codeGeneratorState.Solution.GetRelationshipsToCreate(codeGeneratorState, entity);
+            var ownedRelationshipsToCreate = codeGeneratorState.Solution.GetOwnedRelationshipsToCreate(codeGeneratorState, entity);
+
             ConfigureKeys(codeGeneratorState, builder, entity);
 
             ConfigureAttributes(codeGeneratorState, builder, entity);
 
             ConfigureRelationships(codeGeneratorState, builder, entity, relationshipsToCreate);
+
+            ConfigureOwnedRelationships(codeGeneratorState, builder, entity, ownedRelationshipsToCreate);
         }
 
         public virtual void ConfigureRelationships(
             NoxSolutionCodeGeneratorState codeGeneratorState,
-            EntityTypeBuilder builder,
+            IEntityBuilder builder,
             Entity entity,
             IReadOnlyList<EntityRelationshipWithType> relationshipsToCreate)
         {
+
             foreach (var relationshipToCreate in relationshipsToCreate)
             {
-                // ManyToMany does not need to be handled
-                // Handle ZeroOrOne or ExactlyOne scenario with foreign key.
-                if (relationshipToCreate.Relationship.HasRelationshipWithSingularEntity() &&
-                    relationshipToCreate.Relationship.ShouldGenerateForeignOnThisSide() &&
-                    !relationshipToCreate.Relationship.IsManyRelationshipOnOtherSide())
+                // One to ?? (// Many to Many are setup by EF)
+                if (relationshipToCreate.Relationship.ShouldGenerateForeignKeyOnThisSide() && relationshipToCreate.Relationship.WithSingleEntity())
+                {
+                    //One to Many
+                    if (relationshipToCreate.Relationship.IsManyRelationshipOnOtherSide())
+                    {
+                        //#if DEBUG
+                        Console.WriteLine($"***Relationship oneToMany {entity.Name}," +
+                           $"Name {relationshipToCreate.Relationship.Name} " +
+                           $"HasOne {$"{codeGeneratorState.DomainNameSpace}.{relationshipToCreate.Relationship.Entity}"} , {relationshipToCreate.Relationship.Entity} " +
+                           $"WithMany {entity.PluralName} " +
+                           $"ForeignKey {relationshipToCreate.Relationship.Entity}Id " +
+                           $"");
+                        //#endif
+
+                        builder
+                            .HasOne($"{codeGeneratorState.DomainNameSpace}.{relationshipToCreate.Relationship.Entity}", relationshipToCreate.Relationship.Entity)
+                            .WithMany(entity.PluralName)
+                            .HasForeignKey($"{relationshipToCreate.Relationship.Entity}Id");
+                    }
+                    else //One to One
+                    {
+                        //#if DEBUG2
+                        Console.WriteLine($"***Relationship oneToOne {entity.Name} ," +
+                            $"Name {relationshipToCreate.Relationship.Name} " +
+                            $"HasOne {relationshipToCreate.Relationship.Entity} " +
+                            $"WithOne {entity.Name}" +
+                            $"ForeignKey {relationshipToCreate.Relationship.Entity}Id " +
+                            $"");
+                        //#endif
+                        builder
+                            .HasOne(relationshipToCreate.Relationship.Entity)
+                            .WithOne(entity.Name)
+                            .HasForeignKey(entity.Name, $"{relationshipToCreate.Relationship.Entity}Id");
+                    }
+
+                    // Setup foreign key property
+                    ConfigureRelationForeignKeyProperty(codeGeneratorState, builder, entity, relationshipToCreate);
+                }
+
+                if (!relationshipToCreate.Relationship.ShouldUseRelationshipNameAsNavigation())
+                {
+                    Console.WriteLine($"***Ignoring Navigation {relationshipToCreate.Relationship.Name}");
+                    builder.Ignore(relationshipToCreate.Relationship.Name);
+                }
+            }
+        }
+
+        public virtual void ConfigureOwnedRelationships(
+            NoxSolutionCodeGeneratorState codeGeneratorState,
+            IEntityBuilder builder,
+            Entity entity,
+            IReadOnlyList<EntityRelationshipWithType> ownedRelationshipsToCreate)
+        {
+            foreach (var relationshipToCreate in ownedRelationshipsToCreate)
+            {
+                if (relationshipToCreate.Relationship.WithSingleEntity())
                 {
                     builder
-                        .HasOne(relationshipToCreate.Relationship.Entity)
-                        .WithOne(entity.Name)
-                        .HasForeignKey(entity.Name, $"{relationshipToCreate.Relationship.Entity}Id");
-
-                    // Setup one to one foreign key
-                    ConfigureRelationForeignKeyProperty(codeGeneratorState, builder, entity, relationshipToCreate);
+                        .OwnsOne(relationshipToCreate.RelationshipEntityType, relationshipToCreate.Relationship.Entity, x =>
+                        {
+                            ConfigureEntity(codeGeneratorState, new OwnedNavigationBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity);
+                        });
+                }
+                else
+                {
+                    builder
+                        .OwnsMany(relationshipToCreate.RelationshipEntityType, relationshipToCreate.Relationship.EntityPlural, x =>
+                        {
+                            ConfigureEntity(codeGeneratorState, new OwnedNavigationBuilderAdapter(x), relationshipToCreate.Relationship.Related.Entity);
+                        });
                 }
 
                 if (!relationshipToCreate.Relationship.ShouldUseRelationshipNameAsNavigation())
@@ -80,13 +146,22 @@ namespace Nox.Types.EntityFramework.Abstractions
             }
         }
 
-        private void ConfigureRelationForeignKeyProperty(NoxSolutionCodeGeneratorState codeGeneratorState, EntityTypeBuilder builder, Entity entity, EntityRelationshipWithType relationshipToCreate)
+        private void ConfigureRelationForeignKeyProperty(
+            NoxSolutionCodeGeneratorState codeGeneratorState,
+            IEntityBuilder builder,
+            Entity entity,
+            EntityRelationshipWithType relationshipToCreate)
         {
             // Right now assuming that there is always one key present
             var key = relationshipToCreate.Relationship.Related.Entity.Keys![0];
             if (TypesDatabaseConfigurations.TryGetValue(key.Type,
                 out var databaseConfiguration))
             {
+                Console.WriteLine($"++++ConfigureRelationForeignKeyProperty {entity.Name}, " +
+                    $"rel {relationshipToCreate.Relationship.Name} " +
+                    $"Property {relationshipToCreate.Relationship.Related.Entity.Name}Id, " +
+                    $"Keytype {key.Type}");
+
                 var keyToBeConfigured = key.ShallowCopy();
                 keyToBeConfigured.Name = $"{relationshipToCreate.Relationship.Related.Entity.Name}Id";
                 keyToBeConfigured.Description = $"Foreign key for entity {relationshipToCreate.Relationship.Related.Entity.Name}";
@@ -98,9 +173,9 @@ namespace Nox.Types.EntityFramework.Abstractions
 
         private void ConfigureKeys(
             NoxSolutionCodeGeneratorState codeGeneratorState,
-            EntityTypeBuilder builder,
+            IEntityBuilder builder,
             Entity entity)
-        {            
+        {
             if (entity.Keys is { Count: > 0 })
             {
                 var keysPropertyNames = new List<string>(entity.Keys.Count);
@@ -130,7 +205,11 @@ namespace Nox.Types.EntityFramework.Abstractions
             }
         }
 
-        private void ConfigureEntityKeyForEntityForeignKey(NoxSolutionCodeGeneratorState codeGeneratorState, EntityTypeBuilder builder, Entity entity, NoxSimpleTypeDefinition key)
+        private void ConfigureEntityKeyForEntityForeignKey(
+            NoxSolutionCodeGeneratorState codeGeneratorState,
+            IEntityBuilder builder,
+            Entity entity,
+            NoxSimpleTypeDefinition key)
         {
             // Key type of the Foreign Entity Key
             var foreignEntityKeyType = codeGeneratorState.Solution.GetSingleKeyTypeForEntity(key.EntityTypeOptions!.Entity);
@@ -155,25 +234,41 @@ namespace Nox.Types.EntityFramework.Abstractions
 
         private void ConfigureAttributes(
             NoxSolutionCodeGeneratorState codeGeneratorState,
-            EntityTypeBuilder builder,
+            IEntityBuilder builder,
             Entity entity)
         {
-            if (entity.Attributes is { Count: > 0 })
+            var allEntityAttributes = GetAllEntityAttributes(entity);
+
+            foreach (var property in allEntityAttributes)
             {
-                foreach (var property in entity.Attributes)
+                if (TypesDatabaseConfigurations.TryGetValue(property.Type, out var databaseConfiguration))
                 {
-                    if (TypesDatabaseConfigurations.TryGetValue(property.Type,
-                        out var databaseConfiguration))
-                    {
-                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity,
-                            false);
-                    }
-                    else
-                    {
-                        Debug.WriteLine($"Type {property.Type} not found");
-                    }
+                    databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity, false);
+                }
+                else
+                {
+                    Debug.WriteLine($"Type {property.Type} not found");
                 }
             }
+
+        }
+
+        private static List<NoxSimpleTypeDefinition> GetAllEntityAttributes(Entity entity)
+        {
+            var totalCapacity = entity.Attributes?.Count ?? 0 + AuditableEntityAttributes.Length;
+            var allEntityAttributes = new List<NoxSimpleTypeDefinition>(totalCapacity);
+
+            if (entity.Attributes is { Count: > 0 })
+            {
+                allEntityAttributes.AddRange(entity.Attributes);
+            }
+
+            if (entity.Persistence?.IsAudited == true)
+            {
+                allEntityAttributes.AddRange(AuditableEntityAttributes);
+            }
+
+            return allEntityAttributes;
         }
     }
 }

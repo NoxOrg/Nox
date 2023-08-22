@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Nox.Factories.Types;
 using Nox.Lib.Tests.FixtureConfig;
 using Nox.Solution;
@@ -81,7 +82,7 @@ public class NoxTypeDateTimeFactoryTest
         // Assert
         action.Should().Throw<TypeValidationException>()
             .WithMessage("The Nox type validation failed with 1 error(s).")
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTime type as value {value} is in the past") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTime type as value {new DateTimeOffset(value)} is in the past") });
     }
 
     [Theory, AutoMoqData]
@@ -102,7 +103,7 @@ public class NoxTypeDateTimeFactoryTest
         // Assert
         action.Should().Throw<TypeValidationException>()
             .WithMessage("The Nox type validation failed with 1 error(s).")
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTime type as value {value} is less than the minimum specified value of {options.MinValue}") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTime type as value {new DateTimeOffset(value)} is less than the minimum specified value of {options.MinValue}") });
     }
 
     [Theory, AutoMoqData]
@@ -123,6 +124,6 @@ public class NoxTypeDateTimeFactoryTest
         // Assert
         action.Should().Throw<TypeValidationException>()
             .WithMessage("The Nox type validation failed with 1 error(s).")
-            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTime type a value {value} is greater than the maximum specified value of {options.MaxValue}") });
+            .And.Errors.Should().BeEquivalentTo(new[] { new ValidationFailure("Value", $"Could not create a Nox DateTime type a value {new DateTimeOffset(value)} is greater than the maximum specified value of {options.MaxValue}") });        
     }
 }

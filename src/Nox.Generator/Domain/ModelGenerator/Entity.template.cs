@@ -12,7 +12,7 @@ namespace {{codeGeneratorState.DomainNameSpace}};
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else}}EntityBase{{end}}
+public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase{{else}}EntityBase{{end}}{{end}}
 {
 {{- for key in entity.Keys }}
     /// <summary>
@@ -44,10 +44,10 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
 			}
 		}
 	}
-	
+
     {{- else -}}
 
-    public {{key.Type}} {{key.Name}} { get; set; } = null!; 
+    public {{key.Type}} {{key.Name}} { get; set; } = null!;
     {{- end}}
 {{- end }}
 {{- for attribute in entity.Attributes }}
@@ -75,12 +75,16 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     {{- end}}
     {{- else}}
     public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
-    {{- if relationship.ShouldGenerateForeignOnThisSide && !relationship.IsManyRelationshipOnOtherSide}}
+    {{- if relationship.Entity != relationship.Name}}
+
+    public {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} => {{relationship.Entity}};
+    {{- end}}
+    {{- if relationship.ShouldGenerateForeignOnThisSide}}
 
     /// <summary>
     /// Foreign key for relationship {{relationship.Relationship}} to entity {{relationship.Entity}}
     /// </summary>
-    public Nox.Types.{{relationship.Related.Entity.Keys[0].Type}} {{relationship.Entity}}Id { get; set; } = null!;
+    public Nox.Types.{{relationship.Related.Entity.Keys[0].Type}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}}Id { get; set; } = null!;
     {{- end}}
     {{-end}}
 {{- end }}
@@ -92,7 +96,7 @@ public partial class {{className}} : {{if isVersioned}}AuditableEntityBase{{else
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
     public virtual List<{{relationship.Entity}}> {{relationship.EntityPlural}} { get; set; } = new();
     {{- if (relationship.EntityPlural) != relationship.Name}}
-    
+
     public List<{{relationship.Entity}}> {{relationship.Name}} => {{relationship.EntityPlural}};
     {{- end}}
     {{- else}}

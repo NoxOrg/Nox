@@ -6,7 +6,7 @@ namespace Nox.Types;
 /// <summary>
 /// Represents a Nox <see cref="DateTimeRange"/> type and value object.
 /// </summary>
-public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset End), DateTimeRange>
+public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset End), DateTimeRange>, IDateTimeRange
 {
     private DateTimeRangeTypeOptions _dateTimeRangeTypeOptions = new();
 

@@ -1,0 +1,52 @@
+#
+# SampleCurrency.solution.nox.yaml
+#
+# yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
+#
+
+name: ClientApi
+
+description: Project for Nox System Testing
+
+domain:
+
+  entities:
+
+    - $ref: ./Entities/databasenumber.entity.nox.yaml
+  
+    - $ref: ./Entities/nuid.entity.nox.yaml
+  
+    - $ref: ./Entities/owned.entity.nox.yaml
+
+
+infrastructure:
+  
+  persistence:
+
+    databaseServer:
+      name: ClientApi
+      # provider: sqlServer      
+      # options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True
+      # serverUri: localhost
+      # user: sa  
+      # password: Developer*123
+      provider: sqLite      
+      #options: "DataSource=:memory:"
+      options: "Data Source=Client.db"
+      serverUri: "localhost"
+      user: "sa"  
+      password: "pwd"
+      
+
+application:
+  dataTransferObjects:
+    - name: TempDto
+      description: Temp Dto added to help Generator Compile
+      attributes:
+        - name: Id
+          description: Identity
+          type: text
+          textTypeOptions:
+            casing: lower
+            maxLength: 2
+            minLength: 2

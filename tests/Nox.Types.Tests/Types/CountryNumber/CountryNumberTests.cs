@@ -4,7 +4,7 @@ public class CountryNumberTests
 {
     [Theory]
     [ClassData(typeof(CountryNumberTestsDataClass))]
-    public void CountryNumber_Constructor_ReturnsSameValue(short value)
+    public void CountryNumber_Constructor_ReturnsSameValue(ushort value)
     {
         var countryNumber = CountryNumber.From(value);
 
@@ -12,13 +12,12 @@ public class CountryNumberTests
     }
 
     [Theory]
-    [InlineData(-1)]
-    [InlineData(0)]
-    [InlineData(1)]
-    [InlineData(22)]
-    [InlineData(900)]
-    [InlineData(1000)]
-    public void CountryNumber_Constructor_WithUnallowedValue_ThrowsException(short value)
+    [InlineData(1u)]
+    [InlineData(0u)]
+    [InlineData(22u)]
+    [InlineData(900u)]
+    [InlineData(1000u)]
+    public void CountryNumber_Constructor_WithUnallowedValue_ThrowsException(ushort value)
     {
         var exception = Assert.Throws<TypeValidationException>(() => _ =
             CountryNumber.From(value)
@@ -51,7 +50,7 @@ public class CountryNumberTests
     [InlineData(4, "004")]
     [InlineData(12, "012")]
     [InlineData(124, "124")]
-    public void CountryNumber_ToString_ReturnsThreeDigitStringRepresentation(short value, string threeDigitStringRepresentation)
+    public void CountryNumber_ToString_ReturnsThreeDigitStringRepresentation(ushort value, string threeDigitStringRepresentation)
     {
         void Test()
         {

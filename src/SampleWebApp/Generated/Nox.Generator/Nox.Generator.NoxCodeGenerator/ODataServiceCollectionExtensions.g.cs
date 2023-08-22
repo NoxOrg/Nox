@@ -27,18 +27,42 @@ public static class ODataServiceCollectionExtensions
 
 
         builder.EntitySet<CountryDto>("Countries");
+        builder.EntityType<CountryKeyDto>();
+
+        builder.EntityType<CountryDto>();
+        builder.EntityType<CountryDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<CurrencyDto>("Currencies");
+        builder.EntityType<CurrencyKeyDto>();
+
+        builder.EntityType<CurrencyDto>();
+        builder.EntityType<CurrencyDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<StoreDto>("Stores");
+        builder.EntityType<StoreKeyDto>();
+
+        builder.EntityType<StoreDto>();
+        builder.EntityType<StoreDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<StoreSecurityPasswordsDto>("StoreSecurityPasswords");
+        builder.EntityType<StoreSecurityPasswordsKeyDto>();
+
+        builder.EntityType<StoreSecurityPasswordsDto>();
+        builder.EntityType<StoreSecurityPasswordsDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<AllNoxTypeDto>("AllNoxTypes");
+        builder.EntityType<AllNoxTypeKeyDto>();
+
+        builder.EntityType<AllNoxTypeDto>();
+        builder.EntityType<AllNoxTypeDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<CurrencyCashBalanceDto>("CurrencyCashBalances");
+        builder.EntityType<CurrencyCashBalanceKeyDto>();
 
-        builder.EntitySet<CountryLocalNamesDto>("CountryLocalNames");
+        builder.EntityType<CurrencyCashBalanceDto>();
+        builder.EntityType<CurrencyCashBalanceDto>().Ignore(e => e.DeletedAtUtc);
+
+        builder.EntityType<CountryLocalNamesDto>();
 
         services.AddControllers()
             .AddOData(options =>

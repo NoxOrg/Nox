@@ -4,12 +4,12 @@ namespace Nox.Types.Tests.Types;
 public class StreetAddressTests
 {
     [Theory]
-    [InlineData(5, "Line1", "", "Locality", "11111", "UA", "", "Line1, Locality, 11111, UA")]
-    [InlineData(5, "", "Line2", "Locality", "11111", "UA", "", "Line2, Locality, 11111, UA")]
-    [InlineData(5, "", "", "Locality", "11111", "UA", "", "Locality, 11111, UA")]
-    [InlineData(5, "Line1", "Line2", "Locality", "11111", "UA", "KH", "Line1 Line2, Locality, KH 11111, UA")]
+    [InlineData("5", "Line1", "", "Locality", "11111", "UA", "", "Line1, Locality, 11111, UA")]
+    [InlineData("5", "", "Line2", "Locality", "11111", "UA", "", "Line2, Locality, 11111, UA")]
+    [InlineData("5", "", "", "Locality", "11111", "UA", "", "Locality, 11111, UA")]
+    [InlineData("5", "Line1", "Line2", "Locality", "11111", "UA", "KH", "Line1 Line2, Locality, KH 11111, UA")]
     public void StreetAddress_ToString_ReturnsValidAddress(
-        int streetNumber,
+        string streetNumber,
         string addressLine1,
         string addressLine2,
         string locality,
@@ -18,7 +18,7 @@ public class StreetAddressTests
         string administrativeArea1,
         string expectedAddress)
     {
-        var countryCode2 = Nox.Types.CountryCode2.From(countryCode);
+        var countryCode2 = System.Enum.Parse<CountryCode>(countryCode);
         var address = StreetAddress.From(new StreetAddressItem
         {
             StreetNumber = streetNumber,
@@ -44,7 +44,7 @@ public class StreetAddressTests
         var exception = Assert.Throws<TypeValidationException>(() => StreetAddress.From(new StreetAddressItem
         {
             PostalCode = "123456",
-            CountryId = Nox.Types.CountryCode2.From(countryCode)
+            CountryId = System.Enum.Parse<CountryCode>(countryCode)
         }));
 
         Assert.Contains(exception.Errors, t => t.Variable == "PostalCode");
@@ -60,7 +60,7 @@ public class StreetAddressTests
         var address = StreetAddress.From(new StreetAddressItem
         {
             PostalCode = postalCode,
-            CountryId = Nox.Types.CountryCode2.From(countryCode)
+            CountryId = System.Enum.Parse<CountryCode>(countryCode)
         });
 
         Assert.Equal(postalCode, address.PostalCode);

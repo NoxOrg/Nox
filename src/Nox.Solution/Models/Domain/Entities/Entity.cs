@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using System.Linq;
-using Nox.Types;
-using Nox.Types.Schema;
-using Humanizer;
+﻿using Humanizer;
 using Nox.Solution.Events;
+using Nox.Types;
 using Nox.Types.Extensions;
+using Nox.Types.Schema;
+using System.Collections.Generic;
+using System.Linq;
 using YamlDotNet.Serialization;
-using YamlDotNet.Core.Tokens;
 
 namespace Nox.Solution;
 
@@ -70,28 +69,40 @@ public class Entity : DefinitionBase
     [AdditionalProperties(false)]
     public virtual IReadOnlyList<NoxSimpleTypeDefinition>? Attributes { get; internal set; }
 
+    [YamlIgnore]
+    public bool IsOwnedEntity { get; set; }
+
     internal bool ApplyDefaults()
     {
         if (string.IsNullOrWhiteSpace(PluralName)) 
             PluralName = Name.Pluralize();
+        
+        if (Persistence != null)
+            return true;
 
-        
-        if(Keys != null)
-            //Keys are always simple type we validate this
-            KeysFlattenComponentsType = Keys                    
-                    .ToDictionary(key => key.Name, key => key.Type.GetComponents(key).First().Value);
-        
-        if (Persistence != null) return true;
         Persistence = new EntityPersistence();
+        
         return Persistence.ApplyDefaults(Name);
     }
+    
+    public NoxSimpleTypeDefinition GetAttributeByName(string entityName)
+    {
+        lock (this)
+        {
+            if (_attributesByName == null)
+            {
+                _attributesByName = new();
+                for (int i = 0; i < Attributes!.Count; i++)
+                {
+                    _attributesByName.Add(Attributes[i].Name, Attributes[i]);
+                }
+            }
+        }
+        return _attributesByName[entityName];
+    }
 
-    /// <summary>
-    /// Flatten ordered list of key types
-    /// </summary>
     [YamlIgnore]
-    public IReadOnlyDictionary<string, System.Type> KeysFlattenComponentsType { get; private set; } = new Dictionary<string, System.Type>();
-  
+    private Dictionary<string, NoxSimpleTypeDefinition>? _attributesByName;
 
     public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()
     {

@@ -1,0 +1,59 @@
+﻿// Generated
+
+#nullable enable
+
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.OData;
+using Microsoft.OData.ModelBuilder;
+using Microsoft.AspNetCore.OData.Formatter.Serialization;
+using Nox.Lib;
+using ClientApi.Application.Dto;
+
+namespace ClientApi.Presentation.Api.OData;
+
+public static class ODataServiceCollectionExtensions
+{
+    public static void AddNoxOdata(this IServiceCollection services)
+    {
+        ODataModelBuilder builder = new ODataConventionModelBuilder();
+
+        builder.EntityType<ClientDatabaseNumberDto>().HasKey(e => new { e.Id });
+        builder.EntityType<ClientNuidDto>().HasKey(e => new { e.Id });
+        builder.EntityType<OwnedEntityDto>().HasKey(e => new { e.Id });
+
+
+        builder.EntitySet<ClientDatabaseNumberDto>("ClientDatabaseNumbers");
+        builder.EntityType<ClientDatabaseNumberKeyDto>();
+
+        builder.EntityType<ClientDatabaseNumberDto>();
+        builder.EntityType<ClientDatabaseNumberDto>().Ignore(e => e.DeletedAtUtc);
+
+        builder.EntitySet<ClientNuidDto>("ClientNuids");
+        builder.EntityType<ClientNuidKeyDto>();
+
+        builder.EntityType<ClientNuidDto>();
+        builder.EntityType<ClientNuidDto>().Ignore(e => e.DeletedAtUtc);
+
+        builder.EntitySet<OwnedEntityDto>("OwnedEntities");
+        builder.EntityType<OwnedEntityKeyDto>();
+
+        builder.EntityType<OwnedEntityDto>();
+        builder.EntityType<OwnedEntityDto>().Ignore(e => e.DeletedAtUtc);
+
+        services.AddControllers()
+            .AddOData(options =>
+                {
+                    options.Select()
+                        .EnableQueryFeatures(null)
+                        .Filter()
+                        .OrderBy()
+                        .Count()
+                        .Expand()
+                        .SkipToken()
+                        .SetMaxTop(100);
+                    var routeOptions = options.AddRouteComponents("api", builder.GetEdmModel(), service => service.AddSingleton<IODataSerializerProvider, NoxODataSerializerProvider>()).RouteOptions;
+                    routeOptions.EnableKeyInParenthesis = false;
+                }
+            );
+    }
+}

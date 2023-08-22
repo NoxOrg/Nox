@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using MediatR;
 using Nox.Application;
 using SampleWebApp.Application;
@@ -30,23 +29,16 @@ public partial class CompoundKeysEntitiesController : ODataController
     protected readonly ODataDbContext _databaseContext;
     
     /// <summary>
-    /// The Automapper.
-    /// </summary>
-    protected readonly IMapper _mapper;
-    
-    /// <summary>
     /// The Mediator.
     /// </summary>
     protected readonly IMediator _mediator;
     
     public CompoundKeysEntitiesController(
         ODataDbContext databaseContext,
-        IMapper mapper,
         IMediator mediator
     )
     {
         _databaseContext = databaseContext;
-        _mapper = mapper;
         _mediator = mediator;
     }
     
@@ -89,11 +81,11 @@ public partial class CompoundKeysEntitiesController : ODataController
         
         var updated = await _mediator.Send(new UpdateCompoundKeysEntityCommand(keyId1, keyId2, compoundKeysEntity));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
-        return Updated(compoundKeysEntity);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] Delta<CompoundKeysEntityUpdateDto> compoundKeysEntity)
@@ -103,32 +95,22 @@ public partial class CompoundKeysEntitiesController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new List<string>();
-
+        
         foreach (var propertyName in compoundKeysEntity.GetChangedPropertyNames())
         {
             if(compoundKeysEntity.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCompoundKeysEntityCommand(keyId1, keyId2, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateCompoundKeysEntityCommand(keyId1, keyId2, updateProperties));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
-        return Updated(compoundKeysEntity);
-    }
-    
-    private bool CompoundKeysEntityExists(System.String key)
-    {
-        return _databaseContext.CompoundKeysEntities.Any(p => p.Id1 == key);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)

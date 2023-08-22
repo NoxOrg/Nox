@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
-using AutoMapper;
 using MediatR;
 using Nox.Application;
 using SampleWebApp.Application;
@@ -30,23 +29,16 @@ public partial class StoresController : ODataController
     protected readonly ODataDbContext _databaseContext;
     
     /// <summary>
-    /// The Automapper.
-    /// </summary>
-    protected readonly IMapper _mapper;
-    
-    /// <summary>
     /// The Mediator.
     /// </summary>
     protected readonly IMediator _mediator;
     
     public StoresController(
         ODataDbContext databaseContext,
-        IMapper mapper,
         IMediator mediator
     )
     {
         _databaseContext = databaseContext;
-        _mapper = mapper;
         _mediator = mediator;
     }
     
@@ -89,11 +81,11 @@ public partial class StoresController : ODataController
         
         var updated = await _mediator.Send(new UpdateStoreCommand(key, store));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
-        return Updated(store);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<StoreUpdateDto> store)
@@ -103,32 +95,22 @@ public partial class StoresController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new List<string>();
-
+        
         foreach (var propertyName in store.GetChangedPropertyNames())
         {
             if(store.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateStoreCommand(key, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateStoreCommand(key, updateProperties));
         
-        if (!updated)
+        if (updated is null)
         {
             return NotFound();
         }
-        return Updated(store);
-    }
-    
-    private bool StoreExists(System.String key)
-    {
-        return _databaseContext.Stores.Any(p => p.Id == key);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)

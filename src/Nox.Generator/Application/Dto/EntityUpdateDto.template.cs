@@ -28,7 +28,22 @@ public partial class {{className}}
     {{ if componentsInfo[attribute.Name].IsSimpleType -}}
     public {{componentsInfo[attribute.Name].ComponentType}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
     {{- else -}}
-    public {{attribute.Type}}Dto{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
+    public {{attribute.Type}}Dto{{- if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
     {{- end}}
+{{- end }}
+{{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}
+
+    /// <summary>
+    /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
+    /// </summary>
+    {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
+    public virtual List<{{relationship.Entity}}UpdateDto> {{relationship.EntityPlural}} { get; set; } = new();
+    {{- if (relationship.EntityPlural) != relationship.Name}}
+
+    public List<{{relationship.Entity}}> {{relationship.Name}} => {{relationship.EntityPlural}};
+    {{- end}}
+    {{- else}}
+     public virtual {{relationship.Entity}}UpdateDto{{- if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
+    {{-end}}
 {{- end }}
 }

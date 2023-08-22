@@ -2,6 +2,7 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Localization.Models;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.EntityBuilderAdapter;
 
 namespace Nox.Localization.DbContext;
 
@@ -43,7 +44,6 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
         }
 
         //optionsBuilder.MigrationsAssembly("ImportExportLocalization");
-
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -55,11 +55,16 @@ public class NoxLocalizationDbContext: Microsoft.EntityFrameworkCore.DbContext
             var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
             foreach (var entity in _noxSolution.Domain.Entities)
             {
+                // Ignore owned entities configuration as they are configured inside entity constructor
+                if (entity.IsOwnedEntity)
+                {
+                    continue;
+                }
+
                 var type = codeGeneratorState.GetEntityType(entity.Name);
                 if (type != null)
                 {
-                    Console.WriteLine($"NoxLocalizationDbContext Configure database for Entity {entity.Name}");
-                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, modelBuilder.Entity(type), entity, _noxSolution.GetRelationshipsToCreate(codeGeneratorState.GetEntityType, entity));
+                    ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
                 }
             }
         }
