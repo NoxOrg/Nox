@@ -54,14 +54,34 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.CultureCode? CultureCodeField { get; set; } = null!;
 
     /// <summary>
-    /// CurrencyCode3Field Nox Type (Optional).
+    /// CurrencyCode3Field Nox Type (Required).
     /// </summary>
-    public Nox.Types.CurrencyCode3? CurrencyCode3Field { get; set; } = null!;
+    public Nox.Types.CurrencyCode3 CurrencyCode3Field { get; set; } = null!;
 
     /// <summary>
-    /// DatetimeField Nox Type (Optional).
+    /// Currency Number Nox Type (Required).
     /// </summary>
-    public Nox.Types.DateTime? DateTimeField { get; set; } = null!;
+    public Nox.Types.CurrencyNumber CurrencyNumberField { get; set; } = null!;
+
+    /// <summary>
+    /// Date Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Date DateField { get; set; } = null!;
+
+    /// <summary>
+    /// Date Time Nox Type (Required).
+    /// </summary>
+    public Nox.Types.DateTime DateTimeField { get; set; } = null!;
+
+    /// <summary>
+    /// Date Time Duration Nox Type (Required).
+    /// </summary>
+    public Nox.Types.DateTimeDuration DateTimeDurationField { get; set; } = null!;
+
+    /// <summary>
+    /// Date Time Schedule Nox Type (Required).
+    /// </summary>
+    public Nox.Types.DateTimeSchedule DateTimeScheduleField { get; set; } = null!;
 
     /// <summary>
     /// Formula Nox Type (Optional).

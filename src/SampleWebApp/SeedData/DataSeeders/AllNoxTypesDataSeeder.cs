@@ -22,7 +22,8 @@ internal class AllNoxTypesDataSeeder : SampleDataSeederBase<AllNoxTypeModel, All
             CountryCode2Field = CountryCode2.From(model.CountryCode2),
             CountryCode3Field = CountryCode3.From(model.CountryCode3),
             CultureCodeField = CultureCode.From(model.CultureCode),
-            DateTimeField = Nox.Types.DateTime.From(System.DateTime.UtcNow, TimeSpan.FromHours(0)),
+            CurrencyCode3Field = CurrencyCode3.From(model.CurrencyCode3),
+            CurrencyNumberField = CurrencyNumber.From(model.CurrencyNumber),
             LanguageCodeField = LanguageCode.From(model.LanguageCode),
             LengthField = Length.From(model.LengthValue, (LengthTypeUnit)Enum.Parse(typeof(LengthTypeUnit), model.LengthUnit)),
             MacAddressField = MacAddress.From(model.MacAddress),
@@ -30,7 +31,11 @@ internal class AllNoxTypesDataSeeder : SampleDataSeederBase<AllNoxTypeModel, All
             PhoneNumberField = PhoneNumber.From(model.PhoneNumber),
             TemperatureField = Temperature.From(model.Temperature, (TemperatureTypeUnit)Enum.Parse(typeof(TemperatureTypeUnit), model.TemperatureUnit)),
             TextField = Text.From(model.TextField),
-            VatNumberField = VatNumber.From(model.VatNumber, model.CountryCode2),
+            DateField = Date.From(model.DateYear, model.DateMonth, model.DateDay),
+            DateTimeDurationField = DateTimeDuration.From(model.DurationTicks),
+            DateTimeField = Nox.Types.DateTime.From(new System.DateTime(model.DateYear, model.DateMonth, model.DateDay, model.TimeHour, model.TimeMinute, model.TimeSecond, model.TimeMillisecond, DateTimeKind.Utc)),
+            DateTimeScheduleField = DateTimeSchedule.From(model.DateTimeSchedule),
+            //VatNumberField = VatNumber.From(model.VatNumber, model.CountryCode2),
         };
     }
 }

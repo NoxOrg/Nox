@@ -63,10 +63,24 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         {        
             entity.CurrencyCode3Field = noxTypeValue;
         }
+
+        // TODO map CurrencyNumberField CurrencyNumber remaining types and remove if else
+
+        // TODO map DateField Date remaining types and remove if else
         noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition,"DateTimeField",dto.DateTimeField);
         if(noxTypeValue != null)
         {        
             entity.DateTimeField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.DateTimeDuration>(entityDefinition,"DateTimeDurationField",dto.DateTimeDurationField);
+        if(noxTypeValue != null)
+        {        
+            entity.DateTimeDurationField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.DateTimeSchedule>(entityDefinition,"DateTimeScheduleField",dto.DateTimeScheduleField);
+        if(noxTypeValue != null)
+        {        
+            entity.DateTimeScheduleField = noxTypeValue;
         }
 
         // TODO map FormulaField Formula remaining types and remove if else
@@ -284,11 +298,39 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
                 var noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition,"CurrencyCode3Field",value);
                 if(noxTypeValue == null)
                 {
-                    entity.CurrencyCode3Field = null;
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "CurrencyCode3Field");
                 }
                 else
                 {
                     entity.CurrencyCode3Field = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("CurrencyNumberField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.CurrencyNumber>(entityDefinition,"CurrencyNumberField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "CurrencyNumberField");
+                }
+                else
+                {
+                    entity.CurrencyNumberField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("DateField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition,"DateField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "DateField");
+                }
+                else
+                {
+                    entity.DateField = noxTypeValue;
                 }
             }
         }
@@ -298,11 +340,39 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
                 var noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition,"DateTimeField",value);
                 if(noxTypeValue == null)
                 {
-                    entity.DateTimeField = null;
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "DateTimeField");
                 }
                 else
                 {
                     entity.DateTimeField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("DateTimeDurationField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.DateTimeDuration>(entityDefinition,"DateTimeDurationField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "DateTimeDurationField");
+                }
+                else
+                {
+                    entity.DateTimeDurationField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("DateTimeScheduleField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.DateTimeSchedule>(entityDefinition,"DateTimeScheduleField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "DateTimeScheduleField");
+                }
+                else
+                {
+                    entity.DateTimeScheduleField = noxTypeValue;
                 }
             }
         }
