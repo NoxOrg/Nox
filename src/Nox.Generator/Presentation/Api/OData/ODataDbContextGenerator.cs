@@ -80,8 +80,6 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
 
         code.EndBlock();
 
-        code.EndBlock();
-
         code.GenerateSourceCode();
     }
 
@@ -105,26 +103,45 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
 
             foreach (var key in entity.Keys!)
             {
-                {
-                    code.AppendLine($"builder.HasKey(\"{key.Name}\");");
+                code.AppendLine($"builder.HasKey(\"{key.Name}\");");
+            }
 
+            var keyNames = entity.Keys.Select(x => x.Name);
+            var databaseTypeKeysConfiguration = entity.Keys
+                .Where(x =>
+                    x.Type == Types.NoxType.DatabaseGuid ||
+                    x.Type == Types.NoxType.DatabaseNumber)
+                .Select(x => $"owned.Property(\"{x.Name}\").ValueGeneratedOnAdd();");
+            if (entity.OwnedRelationships != null)
+            {
+#pragma warning disable S3267 // Loops should be simplified with "LINQ" expressions
+                foreach (var ownedRelationship in entity.OwnedRelationships)
+#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
+                {
+                    code.AppendLine(@$"builder.OwnsMany(typeof({ownedRelationship.Related.Entity.Name}Dto), ""{ownedRelationship.Related.Entity.PluralName}"", owned =>
+                    {{
+                         
+                        owned.WithOwner().HasForeignKey(""{entity.Name}Id"");
+                        owned.HasKey(""{string.Join(@""",""", keyNames)}"");
+                        owned.ToTable(""{ownedRelationship.Related.Entity.Name}"");");
+
+                    code.Indent();
+                    code.Indent();
+                    foreach (var databaseTypeConfiguration in databaseTypeKeysConfiguration)
+                    {
+                        code.AppendLine(databaseTypeConfiguration);
+                    }
+                    code.UnIndent();
+                    code.AppendLine(@$"}}");
+                    code.UnIndent();
+                    code.AppendLine(@$");");
                 }
             }
-            // TODO Dmytro
-            if (entity.Name == "ClientDatabaseNumber")
-                code.AppendLine(@"  builder.OwnsMany(typeof(OwnedEntityDto), ""OwnedEntities"",
-                owned =>
-                    {
-                         
-                        owned.WithOwner().HasForeignKey(""ClientDatabaseNumberId"");
-                        owned.HasKey(""Id"");
-                        owned.ToTable(""OwnedEntity"");
-                        // TODO Dmytro => Database*
-                        //owned.Property(""Id"").ValueGeneratedOnAdd();
-                    }
-                );");
+
             code.EndBlock();
         }
+
+        code.EndBlock();
     }
 
     internal static void AddDbContextOnConfiguring(CodeBuilder code, NoxSolutionCodeGeneratorState codeGeneratorState)

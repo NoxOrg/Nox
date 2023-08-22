@@ -65,6 +65,15 @@ public class ODataDbContext : DbContext
                 var builder = modelBuilder.Entity(type!);
                 
                 builder.HasKey("Id");
+                builder.OwnsMany(typeof(CountryLocalNamesDto), "CountryLocalNames", owned =>
+                    {
+                         
+                        owned.WithOwner().HasForeignKey("CountryId");
+                        owned.HasKey("Id");
+                        owned.ToTable("CountryLocalNames");
+                        owned.Property("Id").ValueGeneratedOnAdd();
+                    }
+                );
             }
             {
                 var type = typeof(CurrencyDto);

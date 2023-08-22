@@ -57,15 +57,13 @@ public class ODataDbContext : DbContext
                 var builder = modelBuilder.Entity(type!);
                 
                 builder.HasKey("Id");
-                  builder.OwnsMany(typeof(OwnedEntityDto), "OwnedEntities",
-                owned =>
+                builder.OwnsMany(typeof(OwnedEntityDto), "OwnedEntities", owned =>
                     {
                          
                         owned.WithOwner().HasForeignKey("ClientDatabaseNumberId");
                         owned.HasKey("Id");
                         owned.ToTable("OwnedEntity");
-                        // TODO Dmytro => Database*
-                        //owned.Property("Id").ValueGeneratedOnAdd();
+                        owned.Property("Id").ValueGeneratedOnAdd();
                     }
                 );
             }

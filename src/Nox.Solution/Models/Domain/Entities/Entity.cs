@@ -84,10 +84,11 @@ public class Entity : DefinitionBase
         
         return Persistence.ApplyDefaults(Name);
     }
-    
+
+    private readonly object lockGetAttributeObject = new object();
     public NoxSimpleTypeDefinition GetAttributeByName(string entityName)
     {
-        lock (this)
+        lock (lockGetAttributeObject)
         {
             if (_attributesByName == null)
             {
