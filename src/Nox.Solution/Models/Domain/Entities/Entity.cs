@@ -103,7 +103,7 @@ public class Entity : DefinitionBase
         return _keysByName![entityName];
     }
 
-    public bool IsKey(string keyName)
+    public virtual bool IsKey(string keyName)
     {
         EnsureKeyByName();
         return _keysByName!.ContainsKey(keyName);
@@ -195,6 +195,9 @@ public class Entity : DefinitionBase
 
     private void EnsureKeyByName()
     {
+        if (_keysByName is not null)
+            return;
+
         lock (this)
         {
             if (_keysByName is null)
@@ -209,9 +212,12 @@ public class Entity : DefinitionBase
     }
     private void EnsureAttributesByName()
     {
+        if (_attributesByName is not null)
+            return;
+
         lock (this)
         {
-            if (_attributesByName == null)
+            if (_attributesByName is null)
             {
                 _attributesByName = new();
                 for (int i = 0; i < Attributes!.Count; i++)

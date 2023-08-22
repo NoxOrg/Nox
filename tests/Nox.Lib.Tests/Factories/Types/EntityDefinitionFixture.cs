@@ -16,6 +16,7 @@ namespace Nox.Lib.Tests.Factories.Types
             entityDefinition.Setup(e => e.Attributes).Returns(new[] {propertyDefinition});
 
             entityDefinition.Setup(e => e.GetAttributeByName(It.IsAny<string>())).Returns(propertyDefinition);
+            entityDefinition.Setup(e => e.IsKey(It.IsAny<string>())).Returns(false);
 
             EntityDefinition = entityDefinition.Object;
             NoxSolution = noxSolution;
