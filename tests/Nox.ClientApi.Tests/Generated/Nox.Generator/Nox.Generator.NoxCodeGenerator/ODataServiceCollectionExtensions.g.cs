@@ -24,6 +24,7 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntitySet<ClientDatabaseNumberDto>("ClientDatabaseNumbers");
         builder.EntityType<ClientDatabaseNumberKeyDto>();
+        builder.EntityType<ClientDatabaseNumberDto>().ContainsMany(e => e.OwnedEntities).AutoExpand = true;
 
         builder.EntityType<ClientDatabaseNumberDto>();
         builder.EntityType<ClientDatabaseNumberDto>().Ignore(e => e.DeletedAtUtc);
