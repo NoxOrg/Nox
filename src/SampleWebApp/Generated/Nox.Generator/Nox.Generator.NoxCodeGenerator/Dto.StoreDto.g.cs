@@ -2,11 +2,8 @@
 
 #nullable enable
 using MediatR;
-
 using Microsoft.AspNetCore.Http;
-
 using System.ComponentModel.DataAnnotations.Schema;
-
 using Nox.Types;
 using Nox.Domain;
 using SampleWebApp.Application.DataTransferObjects;
@@ -19,12 +16,12 @@ public record StoreKeyDto(System.String keyId);
 /// <summary>
 /// Stores.
 /// </summary>
-public partial class StoreDto 
+public partial class StoreDto
 {
 
     /// <summary>
     /// Store Primary Key (Required).
-    /// </summary>    
+    /// </summary>
     public System.String Id { get; set; } = default!;
 
     /// <summary>
@@ -41,5 +38,6 @@ public partial class StoreDto
     /// Store Set of passwords for this store ExactlyOne StoreSecurityPasswords
     /// </summary>
     public virtual StoreSecurityPasswordsDto StoreSecurityPasswords { get; set; } = null!;
-    public bool? Deleted { get; set; }
+
+    public System.DateTime? DeletedAtUtc { get; set; }
 }

@@ -16,7 +16,7 @@ keys:
 attributes:
 
   - name: Name
-    description: The Name
+    description: The Text
     type: text
     textTypeOptions:
       minLength: 4
@@ -28,9 +28,21 @@ attributes:
     type: number    
     isRequired: false 
 
+  - name: AmmountMoney
+    description: The Money
+    type: money    
+    isRequired: false
+
+    # uncomment when query works with single owned entity
+# ownedRelationships:
+
+#   - name: OwnedEntity
+#     description: is also know as
+#     relationship: zeroOrOne
+#     entity: OwnedEntity
 
 persistence:
-    isVersioned: true    
+    isAudited: true    
     create:
         isEnabled: true
         raiseEvents: true

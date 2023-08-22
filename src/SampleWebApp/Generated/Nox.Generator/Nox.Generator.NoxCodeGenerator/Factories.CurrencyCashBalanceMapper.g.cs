@@ -6,6 +6,7 @@ using MediatR;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Solution;
 using Nox.Domain;
 using Nox.Factories;
@@ -41,39 +42,35 @@ public class CurrencyCashBalanceMapper: EntityMapperBase<CurrencyCashBalance>
         }
     }
 
-    public override void PartialMapToEntity(CurrencyCashBalance entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
-    {    
-        if(deletedPropertyNames.Contains("Amount"))
-        {
-            throw new EntityAttributeIsNotNullableException("CurrencyCashBalance", "Amount");
-        }
-        else if (updatedProperties.TryGetValue("Amount", out dynamic? value))
-        {
-            var noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"Amount",value);
-            if(noxTypeValue == null)
+    public override void PartialMapToEntity(CurrencyCashBalance entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
+    {
+        { 
+            if (updatedProperties.TryGetValue("Amount", out dynamic? value))
             {
-                throw new EntityAttributeIsNotNullableException("CurrencyCashBalance", "Amount");
-            }
-            else
-            {
-                entity.Amount = noxTypeValue;
-            }
-        }    
-        if(deletedPropertyNames.Contains("OperationLimit"))
-        {
-            entity.OperationLimit = null;
-        }
-        else if (updatedProperties.TryGetValue("OperationLimit", out dynamic? value))
-        {
-            var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"OperationLimit",value);
-            if(noxTypeValue == null)
-            {
-                entity.OperationLimit = null;
-            }
-            else
-            {
-                entity.OperationLimit = noxTypeValue;
+                var noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"Amount",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("CurrencyCashBalance", "Amount");
+                }
+                else
+                {
+                    entity.Amount = noxTypeValue;
+                }
             }
         }
-    }
+        { 
+            if (updatedProperties.TryGetValue("OperationLimit", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"OperationLimit",value);
+                if(noxTypeValue == null)
+                {
+                    entity.OperationLimit = null;
+                }
+                else
+                {
+                    entity.OperationLimit = noxTypeValue;
+                }
+            }
+        }
+    }  
 }

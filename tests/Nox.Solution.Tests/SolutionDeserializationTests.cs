@@ -92,7 +92,7 @@ public class SolutionDeserializationTests
         Assert.Equal("world", country.UserInterface.Icon);
         
         Assert.NotNull(country.Persistence);
-        Assert.True(country.Persistence.IsVersioned);
+        Assert.True(country.Persistence.IsAudited);
         
         Assert.NotNull(country.Relationships);
         Assert.Single(country.Relationships);

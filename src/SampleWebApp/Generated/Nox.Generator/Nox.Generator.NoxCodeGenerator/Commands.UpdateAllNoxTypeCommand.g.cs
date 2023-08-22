@@ -1,9 +1,10 @@
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -18,36 +19,46 @@ public record UpdateAllNoxTypeCommand(System.Int64 keyId, System.String keyTextI
 
 public class UpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler<UpdateAllNoxTypeCommand, AllNoxTypeKeyDto?>
 {
-    public SampleWebAppDbContext DbContext { get; }    
-    public IEntityMapper<AllNoxType> EntityMapper { get; }
+	private readonly IUserProvider _userProvider;
+	private readonly ISystemProvider _systemProvider;
 
-    public  UpdateAllNoxTypeCommandHandler(
-        SampleWebAppDbContext dbContext,        
-        NoxSolution noxSolution,
-        IServiceProvider serviceProvider,
-        IEntityMapper<AllNoxType> entityMapper): base(noxSolution, serviceProvider)
-    {
-        DbContext = dbContext;        
-        EntityMapper = entityMapper;
-    }
-    
-    public async Task<AllNoxTypeKeyDto?> Handle(UpdateAllNoxTypeCommand request, CancellationToken cancellationToken)
-    {
-        var keyId = CreateNoxTypeForKey<AllNoxType,DatabaseNumber>("Id", request.keyId);
-        var keyTextId = CreateNoxTypeForKey<AllNoxType,Text>("TextId", request.keyTextId);
-    
-        var entity = await DbContext.AllNoxTypes.FindAsync(keyId, keyTextId);
-        if (entity == null)
-        {
-            return null;
-        }
-        EntityMapper.MapToEntity(entity, GetEntityDefinition<AllNoxType>(), request.EntityDto);
-        
-        DbContext.Entry(entity).State = EntityState.Modified;
-        var result = await DbContext.SaveChangesAsync();
-        if(result < 1)
-            return null;
+	public SampleWebAppDbContext DbContext { get; }
+	public IEntityMapper<AllNoxType> EntityMapper { get; }
 
-        return new AllNoxTypeKeyDto(entity.Id.Value, entity.TextId.Value);
-    }
+	public UpdateAllNoxTypeCommandHandler(
+		SampleWebAppDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<AllNoxType> entityMapper,
+		IUserProvider userProvider,
+		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+	{
+		DbContext = dbContext;
+		EntityMapper = entityMapper;
+		_userProvider = userProvider;
+		_systemProvider = systemProvider;
+	}
+	
+	public async Task<AllNoxTypeKeyDto?> Handle(UpdateAllNoxTypeCommand request, CancellationToken cancellationToken)
+	{
+		var keyId = CreateNoxTypeForKey<AllNoxType,DatabaseNumber>("Id", request.keyId);
+		var keyTextId = CreateNoxTypeForKey<AllNoxType,Text>("TextId", request.keyTextId);
+	
+		var entity = await DbContext.AllNoxTypes.FindAsync(keyId, keyTextId);
+		if (entity == null)
+		{
+			return null;
+		}
+		EntityMapper.MapToEntity(entity, GetEntityDefinition<AllNoxType>(), request.EntityDto);
+		var updatedBy = _userProvider.GetUser();
+		var updatedVia = _systemProvider.GetSystem();
+		entity.Updated(updatedBy, updatedVia);
+		
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if(result < 1)
+			return null;
+
+		return new AllNoxTypeKeyDto(entity.Id.Value, entity.TextId.Value);
+	}
 }

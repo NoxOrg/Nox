@@ -2,11 +2,8 @@
 
 #nullable enable
 using MediatR;
-
 using Microsoft.AspNetCore.Http;
-
 using System.ComponentModel.DataAnnotations.Schema;
-
 using Nox.Types;
 using Nox.Domain;
 using ClientApi.Application.DataTransferObjects;
@@ -19,22 +16,28 @@ public record ClientDatabaseNumberKeyDto(System.Int64 keyId);
 /// <summary>
 /// Client DatabaseNumber Key.
 /// </summary>
-public partial class ClientDatabaseNumberDto 
+public partial class ClientDatabaseNumberDto
 {
 
     /// <summary>
     /// The unique identifier (Required).
-    /// </summary>    
+    /// </summary>
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// The Name (Required).
+    /// The Text (Required).
     /// </summary>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
     /// The Number (Optional).
     /// </summary>
-    public System.Int32? Number { get; set; } 
-    public bool? Deleted { get; set; }
+    public System.Int32? Number { get; set; }
+
+    /// <summary>
+    /// The Money (Optional).
+    /// </summary>
+    public MoneyDto? AmmountMoney { get; set; }
+
+    public System.DateTime? DeletedAtUtc { get; set; }
 }

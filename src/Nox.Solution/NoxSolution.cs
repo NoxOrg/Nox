@@ -1,17 +1,16 @@
 using FluentValidation;
 using Nox.Solution.Validation;
-using System;
-using System.Collections.Generic;
 using Nox.Types;
-using System.Linq;
 using Nox.Types.Extensions;
-using YamlDotNet.Core.Tokens;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace Nox.Solution;
 
 public class NoxSolution : Solution
 {
     public string? RootYamlFile { get; internal set; }
+    private HashSet<string>? _ownedEntitiesNames { get; set; }
 
     internal void Validate()
     {
@@ -19,7 +18,8 @@ public class NoxSolution : Solution
         validator.ValidateAndThrow(this);
     }
 
-    public List<EntityRelationshipWithType> GetRelationshipsToCreate(Func<string, Type?> getTypeByNameFunc,
+    public List<EntityRelationshipWithType> GetRelationshipsToCreate(
+        NoxSolutionCodeGeneratorState codeGeneratorState,
         Entity entity)
     {
         var fullRelationshipModels = new List<EntityRelationshipWithType>();
@@ -31,12 +31,58 @@ public class NoxSolution : Solution
                 fullRelationshipModels.Add(new EntityRelationshipWithType
                 {
                     Relationship = relationship,
-                    RelationshipEntityType = getTypeByNameFunc(relationship.Entity)!
+                    RelationshipEntityType = codeGeneratorState.GetEntityType(relationship.Entity)!
                 });
             }
         }
 
         return fullRelationshipModels;
+    }
+
+    public List<EntityRelationshipWithType> GetOwnedRelationshipsToCreate(
+        NoxSolutionCodeGeneratorState codeGeneratorState,
+        Entity entity)
+    {
+        var fullRelationshipModels = new List<EntityRelationshipWithType>();
+
+        if (entity?.OwnedRelationships != null)
+        {
+            foreach (var relationship in entity.OwnedRelationships)
+            {
+                fullRelationshipModels.Add(new EntityRelationshipWithType
+                {
+                    Relationship = relationship,
+                    RelationshipEntityType = codeGeneratorState.GetEntityType(relationship.Entity)!
+                });
+            }
+        }
+
+        return fullRelationshipModels;
+    }
+
+    internal bool IsOwnedEntity(Entity entity)
+    {
+        // Cannot rely on constructor in this scenario as
+        // constructor execution during deserialization doesn't contain a Domain set
+        if (_ownedEntitiesNames == null)
+        {
+            InitOwnedEntitiesList();
+        }
+
+        return _ownedEntitiesNames!.Contains(entity.Name);
+    }
+
+    private void InitOwnedEntitiesList()
+    {
+        if (Domain == null)
+        {
+            return;
+        }
+
+        var ownedEntities = Domain.Entities
+            .Where(x => x?.OwnedRelationships != null)
+            .SelectMany(x => x.OwnedRelationships!.Select(x => x.Name));
+        _ownedEntitiesNames = new HashSet<string>(ownedEntities);
     }
 
     /// <summary>

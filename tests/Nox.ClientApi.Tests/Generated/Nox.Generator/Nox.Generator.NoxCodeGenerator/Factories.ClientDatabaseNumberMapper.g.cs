@@ -6,6 +6,7 @@ using MediatR;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Solution;
 using Nox.Domain;
 using Nox.Factories;
@@ -39,41 +40,56 @@ public class ClientDatabaseNumberMapper: EntityMapperBase<ClientDatabaseNumber>
         {        
             entity.Number = noxTypeValue;
         }
+        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"AmmountMoney",dto.AmmountMoney);
+        if(noxTypeValue != null)
+        {        
+            entity.AmmountMoney = noxTypeValue;
+        }
     }
 
-    public override void PartialMapToEntity(ClientDatabaseNumber entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
-    {    
-        if(deletedPropertyNames.Contains("Name"))
-        {
-            throw new EntityAttributeIsNotNullableException("ClientDatabaseNumber", "Name");
-        }
-        else if (updatedProperties.TryGetValue("Name", out dynamic? value))
-        {
-            var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
-            if(noxTypeValue == null)
+    public override void PartialMapToEntity(ClientDatabaseNumber entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
+    {
+        { 
+            if (updatedProperties.TryGetValue("Name", out dynamic? value))
             {
-                throw new EntityAttributeIsNotNullableException("ClientDatabaseNumber", "Name");
-            }
-            else
-            {
-                entity.Name = noxTypeValue;
-            }
-        }    
-        if(deletedPropertyNames.Contains("Number"))
-        {
-            entity.Number = null;
-        }
-        else if (updatedProperties.TryGetValue("Number", out dynamic? value))
-        {
-            var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"Number",value);
-            if(noxTypeValue == null)
-            {
-                entity.Number = null;
-            }
-            else
-            {
-                entity.Number = noxTypeValue;
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("ClientDatabaseNumber", "Name");
+                }
+                else
+                {
+                    entity.Name = noxTypeValue;
+                }
             }
         }
-    }
+        { 
+            if (updatedProperties.TryGetValue("Number", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"Number",value);
+                if(noxTypeValue == null)
+                {
+                    entity.Number = null;
+                }
+                else
+                {
+                    entity.Number = noxTypeValue;
+                }
+            }
+        }
+        { 
+            if (updatedProperties.TryGetValue("AmmountMoney", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"AmmountMoney",value);
+                if(noxTypeValue == null)
+                {
+                    entity.AmmountMoney = null;
+                }
+                else
+                {
+                    entity.AmmountMoney = noxTypeValue;
+                }
+            }
+        }
+    }  
 }

@@ -95,27 +95,22 @@ public partial class CompoundKeysEntitiesController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new HashSet<string>();
-
+        
         foreach (var propertyName in compoundKeysEntity.GetChangedPropertyNames())
         {
             if(compoundKeysEntity.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCompoundKeysEntityCommand(keyId1, keyId2, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateCompoundKeysEntityCommand(keyId1, keyId2, updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(compoundKeysEntity);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)
