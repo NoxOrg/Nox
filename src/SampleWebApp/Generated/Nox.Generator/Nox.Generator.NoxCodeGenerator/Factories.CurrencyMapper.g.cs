@@ -17,7 +17,6 @@ using Nox.Exceptions;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
-
 namespace SampleWebApp.Application;
 
 public class CurrencyMapper: EntityMapperBase<Currency>
@@ -39,7 +38,7 @@ public class CurrencyMapper: EntityMapperBase<Currency>
 
     public override void PartialMapToEntity(Currency entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
-        { 
+        {
             if (updatedProperties.TryGetValue("Name", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
@@ -53,5 +52,5 @@ public class CurrencyMapper: EntityMapperBase<Currency>
                 }
             }
         }
-    }  
+    }
 }

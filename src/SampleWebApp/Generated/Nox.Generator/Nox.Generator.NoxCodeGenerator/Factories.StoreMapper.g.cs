@@ -17,7 +17,6 @@ using Nox.Exceptions;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
-
 namespace SampleWebApp.Application;
 
 public class StoreMapper: EntityMapperBase<Store>
@@ -44,7 +43,7 @@ public class StoreMapper: EntityMapperBase<Store>
 
     public override void PartialMapToEntity(Store entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
-        { 
+        {
             if (updatedProperties.TryGetValue("Name", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
@@ -58,7 +57,7 @@ public class StoreMapper: EntityMapperBase<Store>
                 }
             }
         }
-        { 
+        {
             if (updatedProperties.TryGetValue("PhysicalMoney", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"PhysicalMoney",value);
@@ -72,5 +71,5 @@ public class StoreMapper: EntityMapperBase<Store>
                 }
             }
         }
-    }  
+    }
 }
