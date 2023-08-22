@@ -85,7 +85,7 @@ public partial class AllNoxTypesController : ODataController
         {
             return NotFound();
         }
-        return Updated(allNoxType);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId, [FromBody] Delta<AllNoxTypeUpdateDto> allNoxType)
@@ -95,27 +95,22 @@ public partial class AllNoxTypesController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new HashSet<string>();
-
+        
         foreach (var propertyName in allNoxType.GetChangedPropertyNames())
         {
             if(allNoxType.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateAllNoxTypeCommand(keyId, keyTextId, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateAllNoxTypeCommand(keyId, keyTextId, updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(allNoxType);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId)

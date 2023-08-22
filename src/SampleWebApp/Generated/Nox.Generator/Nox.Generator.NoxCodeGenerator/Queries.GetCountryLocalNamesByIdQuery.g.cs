@@ -26,7 +26,8 @@ public class GetCountryLocalNamesByIdQueryHandler: IRequestHandler<GetCountryLoc
             .AsNoTracking()
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
-                !(r.Deleted == true));
+                true
+            );
         return Task.FromResult(item);
     }
 }

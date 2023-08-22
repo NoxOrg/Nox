@@ -13,24 +13,14 @@ internal class CurrencyDataSeeder : SampleDataSeederBase<CurrencyModel, Currency
 
     protected override string SourceFile => "currencies.json";
 
-    protected override IEnumerable<Currency> TransformToEntities(IEnumerable<CurrencyModel> models)
+    protected override Currency TransformToEntity(CurrencyModel model)
     {
-        var entities = models.Select(x =>
+        var currency = new Currency
         {
-            return CreateCurrency(x);
+            Name = Text.From(model.Name),
+        };
 
-            static Currency CreateCurrency(CurrencyModel x)
-            {
-                var currency = new Currency
-                {
-                    Name = Text.From(x.Name),
-                    CreatedAtUtc = System.DateTime.Now,
-                };
-                currency.EnsureId();
-                return currency;
-            }
-        }).ToList();
-
-        return entities;
+        currency.EnsureId();
+        return currency;
     }
 }

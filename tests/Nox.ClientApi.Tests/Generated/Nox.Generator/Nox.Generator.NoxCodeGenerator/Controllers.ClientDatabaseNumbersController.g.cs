@@ -85,7 +85,7 @@ public partial class ClientDatabaseNumbersController : ODataController
         {
             return NotFound();
         }
-        return Updated(clientDatabaseNumber);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<ClientDatabaseNumberUpdateDto> clientDatabaseNumber)
@@ -95,27 +95,22 @@ public partial class ClientDatabaseNumbersController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new HashSet<string>();
-
+        
         foreach (var propertyName in clientDatabaseNumber.GetChangedPropertyNames())
         {
             if(clientDatabaseNumber.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateClientDatabaseNumberCommand(key, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateClientDatabaseNumberCommand(key, updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(clientDatabaseNumber);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)

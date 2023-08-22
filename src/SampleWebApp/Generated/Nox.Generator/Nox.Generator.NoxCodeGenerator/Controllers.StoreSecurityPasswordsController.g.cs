@@ -85,7 +85,7 @@ public partial class StoreSecurityPasswordsController : ODataController
         {
             return NotFound();
         }
-        return Updated(storeSecurityPasswords);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<StoreSecurityPasswordsUpdateDto> storeSecurityPasswords)
@@ -95,27 +95,22 @@ public partial class StoreSecurityPasswordsController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new HashSet<string>();
-
+        
         foreach (var propertyName in storeSecurityPasswords.GetChangedPropertyNames())
         {
             if(storeSecurityPasswords.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateStoreSecurityPasswordsCommand(key, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateStoreSecurityPasswordsCommand(key, updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(storeSecurityPasswords);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)

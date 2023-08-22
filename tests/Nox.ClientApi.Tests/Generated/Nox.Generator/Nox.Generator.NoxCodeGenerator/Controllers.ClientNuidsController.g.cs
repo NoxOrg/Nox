@@ -85,7 +85,7 @@ public partial class ClientNuidsController : ODataController
         {
             return NotFound();
         }
-        return Updated(clientNuid);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<ClientNuidUpdateDto> clientNuid)
@@ -95,27 +95,22 @@ public partial class ClientNuidsController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new HashSet<string>();
-
+        
         foreach (var propertyName in clientNuid.GetChangedPropertyNames())
         {
             if(clientNuid.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateClientNuidCommand(key, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateClientNuidCommand(key, updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(clientNuid);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.UInt32 key)

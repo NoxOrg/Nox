@@ -16,9 +16,17 @@ public partial class ClientDatabaseNumberUpdateDto
 {
     //TODO Add owned Entities and update odata endpoints
     /// <summary>
-    /// The Name (Required).
+    /// The Text (Required).
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
     public System.String Name { get; set; } = default!;
+    /// <summary>
+    /// The Number (Optional).
+    /// </summary>
+    public System.Int32? Number { get; set; } 
+    /// <summary>
+    /// The Money (Optional).
+    /// </summary>
+    public MoneyDto? AmmountMoney { get; set; } 
 }

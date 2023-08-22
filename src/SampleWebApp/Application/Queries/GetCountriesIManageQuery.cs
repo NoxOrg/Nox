@@ -20,7 +20,7 @@ namespace SampleWebApp.Application.Queries
 
         public Task<IQueryable<CountryDto>> Handle(GetCountriesIManageQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult((IQueryable<CountryDto>)DataDbContext.Countries.Where(country => country.Population > 12348));
+            return Task.FromResult(DataDbContext.Countries.Where(country => country.Population > 12348));
         }
     }
 }

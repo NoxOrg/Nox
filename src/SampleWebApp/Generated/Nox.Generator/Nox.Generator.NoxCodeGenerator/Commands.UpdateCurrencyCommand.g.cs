@@ -1,9 +1,10 @@
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -18,35 +19,45 @@ public record UpdateCurrencyCommand(System.UInt32 keyId, CurrencyUpdateDto Entit
 
 public class UpdateCurrencyCommandHandler: CommandBase, IRequestHandler<UpdateCurrencyCommand, CurrencyKeyDto?>
 {
-    public SampleWebAppDbContext DbContext { get; }    
-    public IEntityMapper<Currency> EntityMapper { get; }
+	private readonly IUserProvider _userProvider;
+	private readonly ISystemProvider _systemProvider;
 
-    public  UpdateCurrencyCommandHandler(
-        SampleWebAppDbContext dbContext,        
-        NoxSolution noxSolution,
-        IServiceProvider serviceProvider,
-        IEntityMapper<Currency> entityMapper): base(noxSolution, serviceProvider)
-    {
-        DbContext = dbContext;        
-        EntityMapper = entityMapper;
-    }
-    
-    public async Task<CurrencyKeyDto?> Handle(UpdateCurrencyCommand request, CancellationToken cancellationToken)
-    {
-        var keyId = CreateNoxTypeForKey<Currency,Nuid>("Id", request.keyId);
-    
-        var entity = await DbContext.Currencies.FindAsync(keyId);
-        if (entity == null)
-        {
-            return null;
-        }
-        EntityMapper.MapToEntity(entity, GetEntityDefinition<Currency>(), request.EntityDto);
-        
-        DbContext.Entry(entity).State = EntityState.Modified;
-        var result = await DbContext.SaveChangesAsync();
-        if(result < 1)
-            return null;
+	public SampleWebAppDbContext DbContext { get; }
+	public IEntityMapper<Currency> EntityMapper { get; }
 
-        return new CurrencyKeyDto(entity.Id.Value);
-    }
+	public UpdateCurrencyCommandHandler(
+		SampleWebAppDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<Currency> entityMapper,
+		IUserProvider userProvider,
+		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+	{
+		DbContext = dbContext;
+		EntityMapper = entityMapper;
+		_userProvider = userProvider;
+		_systemProvider = systemProvider;
+	}
+	
+	public async Task<CurrencyKeyDto?> Handle(UpdateCurrencyCommand request, CancellationToken cancellationToken)
+	{
+		var keyId = CreateNoxTypeForKey<Currency,Nuid>("Id", request.keyId);
+	
+		var entity = await DbContext.Currencies.FindAsync(keyId);
+		if (entity == null)
+		{
+			return null;
+		}
+		EntityMapper.MapToEntity(entity, GetEntityDefinition<Currency>(), request.EntityDto);
+		var updatedBy = _userProvider.GetUser();
+		var updatedVia = _systemProvider.GetSystem();
+		entity.Updated(updatedBy, updatedVia);
+		
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if(result < 1)
+			return null;
+
+		return new CurrencyKeyDto(entity.Id.Value);
+	}
 }

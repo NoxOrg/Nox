@@ -99,7 +99,7 @@ public partial class CountriesController : ODataController
         {
             return NotFound();
         }
-        return Updated(country);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<CountryUpdateDto> country)
@@ -109,27 +109,22 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new HashSet<string>();
-
+        
         foreach (var propertyName in country.GetChangedPropertyNames())
         {
             if(country.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(country);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)

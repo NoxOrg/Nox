@@ -1,5 +1,5 @@
-﻿using Nox.Domain;
-using Entity = Nox.Solution.Entity;
+﻿using Entity = Nox.Solution.Entity;
+using Nox.Abstractions;
 
 namespace Nox.Factories;
 
@@ -10,7 +10,7 @@ public interface IEntityMapper<E> where E : IEntity
 {
     /// <summary>
     /// Set the entity properties with the dto data
-    /// </summary>    
+    /// </summary>
     void MapToEntity(E entity, Entity entityDefinition, dynamic dto);
     /// <summary>
     /// Update some entity properties
@@ -18,6 +18,5 @@ public interface IEntityMapper<E> where E : IEntity
     /// <param name="entity">Entity to update</param>
     /// <param name="entityDefinition">Entity Definition</param>
     /// <param name="updatedProperties">Properties to update</param>
-    /// <param name="deletedPropertyNames">Properties to unset</param>
-    void PartialMapToEntity(E entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames);
+    void PartialMapToEntity(E entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties);
 }

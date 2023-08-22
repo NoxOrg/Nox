@@ -45,9 +45,5 @@
     <PackageReference Include="YamlDotNet" Version="13.2.0" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Types\TranslatedText\" />
-  </ItemGroup>
-
 
 </Project>

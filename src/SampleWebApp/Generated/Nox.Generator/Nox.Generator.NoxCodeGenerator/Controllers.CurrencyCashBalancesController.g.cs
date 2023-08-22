@@ -85,7 +85,7 @@ public partial class CurrencyCashBalancesController : ODataController
         {
             return NotFound();
         }
-        return Updated(currencyCashBalance);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.String keyStoreId, [FromRoute] System.UInt32 keyCurrencyId, [FromBody] Delta<CurrencyCashBalanceUpdateDto> currencyCashBalance)
@@ -95,27 +95,22 @@ public partial class CurrencyCashBalancesController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new HashSet<string>();
-
+        
         foreach (var propertyName in currencyCashBalance.GetChangedPropertyNames())
         {
             if(currencyCashBalance.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCurrencyCashBalanceCommand(keyStoreId, keyCurrencyId, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateCurrencyCashBalanceCommand(keyStoreId, keyCurrencyId, updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(currencyCashBalance);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String keyStoreId, [FromRoute] System.UInt32 keyCurrencyId)

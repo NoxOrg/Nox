@@ -23,7 +23,7 @@ public class GetClientDatabaseNumbersQueryHandler : IRequestHandler<GetClientDat
     public Task<IQueryable<ClientDatabaseNumberDto>> Handle(GetClientDatabaseNumbersQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<ClientDatabaseNumberDto>)DataDbContext.ClientDatabaseNumbers
-            .Where(r => !(r.Deleted == true))
+            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
         return Task.FromResult(item);
     }

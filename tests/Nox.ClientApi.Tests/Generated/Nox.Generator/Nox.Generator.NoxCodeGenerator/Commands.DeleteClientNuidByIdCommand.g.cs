@@ -4,6 +4,7 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -16,28 +17,36 @@ public record DeleteClientNuidByIdCommand(System.UInt32 keyId) : IRequest<bool>;
 
 public class DeleteClientNuidByIdCommandHandler: CommandBase, IRequestHandler<DeleteClientNuidByIdCommand, bool>
 {
-    public ClientApiDbContext DbContext { get; }
+	private readonly IUserProvider _userProvider;
+	private readonly ISystemProvider _systemProvider;
 
-    public  DeleteClientNuidByIdCommandHandler(
-        ClientApiDbContext dbContext,
-        NoxSolution noxSolution, 
-        IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
-    {
-        DbContext = dbContext;
-    }    
+	public ClientApiDbContext DbContext { get; }
 
-    public async Task<bool> Handle(DeleteClientNuidByIdCommand request, CancellationToken cancellationToken)
-    {
-        var keyId = CreateNoxTypeForKey<ClientNuid,Nuid>("Id", request.keyId);
+	public DeleteClientNuidByIdCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution, 
+		IServiceProvider serviceProvider,
+		IUserProvider userProvider,
+		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+	{
+		DbContext = dbContext;
+		_userProvider = userProvider;
+		_systemProvider = systemProvider;
+	}
 
-        var entity = await DbContext.ClientNuids.FindAsync(keyId);
-        if (entity == null || entity.Deleted == true)
-        {
-            return false;
-        }
+	public async Task<bool> Handle(DeleteClientNuidByIdCommand request, CancellationToken cancellationToken)
+	{
+		var keyId = CreateNoxTypeForKey<ClientNuid,Nuid>("Id", request.keyId);
 
-        entity.Delete();
-        await DbContext.SaveChangesAsync(cancellationToken);
-        return true;
-    }
+		var entity = await DbContext.ClientNuids.FindAsync(keyId);
+		if (entity == null || entity.IsDeleted.Value == true)
+		{
+			return false;
+		}
+		var deletedBy = _userProvider.GetUser();
+		var deletedVia = _systemProvider.GetSystem();
+		entity.Deleted(deletedBy, deletedVia);
+		await DbContext.SaveChangesAsync(cancellationToken);
+		return true;
+	}
 }

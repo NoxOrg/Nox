@@ -168,7 +168,7 @@ public class TranslatedTextTests
         translatedText2.Should().BeSameAs(translatedText2);
         translatedText1.Should().BeSameAs(translatedText1);
         translatedText2.Should().NotBeSameAs(translatedText1);
-        translatedText1.CultureCode.Should().Be(translatedText2!.Value.CultureCode);
+        translatedText1.CultureCode.Should().Be(translatedText2!.Value.CultureCode.Value);
         translatedText1.Phrase.Should().Be(translatedText2!.Value.Phrase);
     }
 }

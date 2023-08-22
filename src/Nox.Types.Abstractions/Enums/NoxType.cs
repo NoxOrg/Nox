@@ -12,8 +12,8 @@ public enum NoxType : uint
     // Compound Types - requires multiple fields to persist
 
     [CompoundType]
-    [CompoundComponent("From", typeof(DateTimeOffset))]
-    [CompoundComponent("To", typeof(DateTimeOffset))]
+    [CompoundComponent("Start", typeof(DateTimeOffset))]
+    [CompoundComponent("End", typeof(DateTimeOffset))]
     DateTimeRange = 3837929056,
 
     [CompoundType]
@@ -55,7 +55,7 @@ public enum NoxType : uint
     Password = 1755902638,
 
     [CompoundType]
-    [CompoundComponent("StreetNumber",typeof(int))]
+    [CompoundComponent("StreetNumber",typeof(string))]
     [CompoundComponent("AddressLine1", typeof(string))]
     [CompoundComponent("AddressLine2", typeof(string))]
     [CompoundComponent("Route", typeof(string))]
@@ -64,7 +64,7 @@ public enum NoxType : uint
     [CompoundComponent("AdministrativeArea1", typeof(string))]
     [CompoundComponent("AdministrativeArea2", typeof(string))]
     [CompoundComponent("PostalCode", typeof(string))]
-    [CompoundComponent("CountryId", typeof(string))]
+    [CompoundComponent("CountryId", typeof(CountryCode))]
     StreetAddress = 499179285,
 
     [CompoundType]
@@ -74,7 +74,7 @@ public enum NoxType : uint
 
     [CompoundType]
     [CompoundComponent("Number", typeof(string))]
-    [CompoundComponent("CountryCode2", typeof(string))]
+    [CompoundComponent("CountryCode", typeof(CountryCode))]
     VatNumber = 1055627262,
 
     // Simple Types
