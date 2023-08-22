@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
+using Nox.Application.Commands;
 using Nox.Factories;
+using Nox.Solution;
+
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
@@ -15,7 +18,7 @@ using SampleWebApp.Application.Dto;
 namespace SampleWebApp.Application.Commands;
 public record CreateAllNoxTypeCommand(AllNoxTypeCreateDto EntityDto) : IRequest<AllNoxTypeKeyDto>;
 
-public class CreateAllNoxTypeCommandHandler: IRequestHandler<CreateAllNoxTypeCommand, AllNoxTypeKeyDto>
+public class CreateAllNoxTypeCommandHandler: CommandBase, IRequestHandler <CreateAllNoxTypeCommand, AllNoxTypeKeyDto>
 {
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
@@ -25,9 +28,11 @@ public class CreateAllNoxTypeCommandHandler: IRequestHandler<CreateAllNoxTypeCom
 
 	public CreateAllNoxTypeCommandHandler(
 		SampleWebAppDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
 		IEntityFactory<AllNoxTypeCreateDto,AllNoxType> entityFactory,
 		IUserProvider userProvider,
-		ISystemProvider systemProvider)
+		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;

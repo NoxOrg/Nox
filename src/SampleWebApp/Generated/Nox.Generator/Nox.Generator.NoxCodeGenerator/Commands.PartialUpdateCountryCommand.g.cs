@@ -6,9 +6,10 @@ using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application.Commands;
+using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
-using Nox.Factories;
+
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;

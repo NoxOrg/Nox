@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
+using Nox.Application.Commands;
 using Nox.Factories;
+using Nox.Solution;
+
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
@@ -15,7 +18,7 @@ using ClientApi.Application.Dto;
 namespace ClientApi.Application.Commands;
 public record CreateClientDatabaseNumberCommand(ClientDatabaseNumberCreateDto EntityDto) : IRequest<ClientDatabaseNumberKeyDto>;
 
-public class CreateClientDatabaseNumberCommandHandler: IRequestHandler<CreateClientDatabaseNumberCommand, ClientDatabaseNumberKeyDto>
+public class CreateClientDatabaseNumberCommandHandler: CommandBase, IRequestHandler <CreateClientDatabaseNumberCommand, ClientDatabaseNumberKeyDto>
 {
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
@@ -25,9 +28,11 @@ public class CreateClientDatabaseNumberCommandHandler: IRequestHandler<CreateCli
 
 	public CreateClientDatabaseNumberCommandHandler(
 		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
 		IEntityFactory<ClientDatabaseNumberCreateDto,ClientDatabaseNumber> entityFactory,
 		IUserProvider userProvider,
-		ISystemProvider systemProvider)
+		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
