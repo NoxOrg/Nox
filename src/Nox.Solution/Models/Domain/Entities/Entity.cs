@@ -1,8 +1,8 @@
 ﻿using Humanizer;
 using Nox.Solution.Events;
 using Nox.Types;
-using Nox.Types.Extensions;
 using Nox.Types.Schema;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 using YamlDotNet.Serialization;
@@ -16,10 +16,10 @@ namespace Nox.Solution;
 public class Entity : DefinitionBase
 {
     [YamlIgnore]
-    private Dictionary<string, NoxSimpleTypeDefinition>? _attributesByName;
+    private ConcurrentDictionary<string, NoxSimpleTypeDefinition>? _attributesByName;
 
     [YamlIgnore]
-    private Dictionary<string, NoxSimpleTypeDefinition>? _keysByName;
+    private ConcurrentDictionary<string, NoxSimpleTypeDefinition>? _keysByName;
 
     [Required]
     [Title("The name of the entity. Contains no spaces.")]
@@ -193,19 +193,20 @@ public class Entity : DefinitionBase
         }
     }
 
+    private readonly object _lockEnsureByKeyObject = new object();
     private void EnsureKeyByName()
     {
         if (_keysByName is not null)
             return;
 
-        lock (this)
+        lock (_lockEnsureByKeyObject)
         {
             if (_keysByName is null)
             {
                 _keysByName = new();
                 for (int i = 0; i < Keys!.Count; i++)
                 {
-                    _keysByName.Add(Keys[i].Name, Keys[i]);
+                    _keysByName.TryAdd(Keys[i].Name, Keys[i]);
                 }
             }
         }
@@ -215,14 +216,14 @@ public class Entity : DefinitionBase
         if (_attributesByName is not null)
             return;
 
-        lock (this)
+        lock (_lockEnsureByKeyObject)
         {
             if (_attributesByName is null)
             {
                 _attributesByName = new();
                 for (int i = 0; i < Attributes!.Count; i++)
                 {
-                    _attributesByName.Add(Attributes[i].Name, Attributes[i]);
+                    _attributesByName.TryAdd(Attributes[i].Name, Attributes[i]);
                 }
             }
         }

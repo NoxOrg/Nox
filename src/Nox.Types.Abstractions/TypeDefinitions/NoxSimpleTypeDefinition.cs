@@ -1,4 +1,5 @@
 ﻿using Nox.Types.Schema;
+using System.Diagnostics;
 
 namespace Nox.Types;
 
@@ -6,6 +7,7 @@ namespace Nox.Types;
 [Title("Definition namespace for Nox simple types.")]
 [Description("Nox simple types definition used throughout Nox.Solution project.")]
 [AdditionalProperties(false)]
+[DebuggerDisplay("{Name}, type: {Type} required: {IsRequired}")]
 public class NoxSimpleTypeDefinition
 {
     [Required]

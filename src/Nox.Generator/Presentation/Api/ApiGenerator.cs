@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using Humanizer;
+using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
 using Nox.Solution.Extensions;
@@ -117,12 +118,12 @@ internal class ApiGenerator : INoxCodeGenerator
                 {
                     foreach (var relationship in entity.OwnedRelationships)
                     {
-                        // Onwed single entitities are returned with parent
+                        // Owned single entitities are returned with parent
                         if(relationship.WithSingleEntity())
                         {
                             continue;
                         }
-                        GenerateChildrenGet(relationship.Entity, relationship.Name, entity.PluralName, code);
+                        GenerateChildrenGet(relationship.Related.Entity, entity.PluralName, code);
                     }
                 }
             }
@@ -324,15 +325,15 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine();
     }
 
-    private static void GenerateChildrenGet(string childEntity, string childEntityPlural, string pluralName, CodeBuilder code)
+    private static void GenerateChildrenGet(Entity entity, string parentEntityPluralName, CodeBuilder code)
     {
         // Method Get
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public ActionResult<IQueryable<{childEntity}Dto>> Get{childEntityPlural}([FromRoute] string key)");
+        code.AppendLine($"public ActionResult<IQueryable<{entity.Name}Dto>> Get{entity.PluralName}([FromRoute] string key)");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"return Ok(_databaseContext.{pluralName}.Where(d => d.Id.Equals(key)).SelectMany(m => m.{childEntityPlural}));");
+        code.AppendLine($"return Ok(_databaseContext.{parentEntityPluralName}.AsNoTracking().Where(d => d.{entity.Keys![0].Name}.ToString().Equals(key)).SelectMany(m => m.{entity.PluralName}));");
 
         // End method
         code.EndBlock();

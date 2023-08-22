@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
 
-namespace SampleWebApp.Migrations
+namespace SampleWebAppdeprecated.Migrations
 {
     /// <inheritdoc />
     public partial class InitialCreate : Migration
