@@ -64,7 +64,7 @@ public partial class ClientDatabaseNumbersController : ODataController
     [EnableQuery]
     public ActionResult<IQueryable<OwnedEntityDto>> GetOwnedEntities([FromRoute] string key)
     {
-        return Ok(_databaseContext.ClientDatabaseNumbers.Where(d => d.Id.Equals(key)).SelectMany(m => m.OwnedEntities));
+        return Ok(_databaseContext.ClientDatabaseNumbers.AsNoTracking().Where(d => d.Id.ToString().Equals(key)).SelectMany(m => m.OwnedEntities));
     }
     
     public async Task<ActionResult> Post([FromBody]ClientDatabaseNumberCreateDto clientdatabasenumber)

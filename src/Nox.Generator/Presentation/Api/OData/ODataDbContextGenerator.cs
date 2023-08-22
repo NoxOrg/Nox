@@ -67,7 +67,7 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
 
         foreach (var entity in solution.Domain.Entities)
         {
-            if(!entity.IsOwnedEntity)
+            if (!entity.IsOwnedEntity)
             {
                 code.AppendLine($"public DbSet<{entity.Name}Dto> {entity.PluralName} {{ get; set; }} = null!;");
                 code.AppendLine();

@@ -43,7 +43,7 @@ internal abstract class SampleDataSeederBase<TModel, TEntity> : INoxDataSeeder
     {
         var entity = TransformToEntity(model);
 
-        if(entity is AuditableEntityBase auditableEntity)
+        if (entity is AuditableEntityBase auditableEntity)
         {
             var user = User.From("database.migration@noxorg.com");
             var system = Text.From("DatabaseMigration");

@@ -123,7 +123,7 @@ internal class ApiGenerator : INoxCodeGenerator
                         {
                             continue;
                         }
-                        GenerateChildrenGet(relationship.Entity, relationship.Entity.Pluralize(), entity.PluralName, code);
+                        GenerateChildrenGet(relationship.Related.Entity, entity.PluralName, code);
                     }
                 }
             }
@@ -325,15 +325,15 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine();
     }
 
-    private static void GenerateChildrenGet(string ownedEntityName, string ownedEntityNamePluralName, string parentEntityPluralName, CodeBuilder code)
+    private static void GenerateChildrenGet(Entity entity, string parentEntityPluralName, CodeBuilder code)
     {
         // Method Get
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public ActionResult<IQueryable<{ownedEntityName}Dto>> Get{ownedEntityNamePluralName}([FromRoute] string key)");
+        code.AppendLine($"public ActionResult<IQueryable<{entity.Name}Dto>> Get{entity.PluralName}([FromRoute] string key)");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"return Ok(_databaseContext.{parentEntityPluralName}.Where(d => d.Id.Equals(key)).SelectMany(m => m.{ownedEntityNamePluralName}));");
+        code.AppendLine($"return Ok(_databaseContext.{parentEntityPluralName}.AsNoTracking().Where(d => d.{entity.Keys![0].Name}.ToString().Equals(key)).SelectMany(m => m.{entity.PluralName}));");
 
         // End method
         code.EndBlock();
