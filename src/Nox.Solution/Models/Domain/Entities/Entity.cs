@@ -15,6 +15,12 @@ namespace Nox.Solution;
 [AdditionalProperties(false)]
 public class Entity : DefinitionBase
 {
+    [YamlIgnore]
+    private Dictionary<string, NoxSimpleTypeDefinition> _attributesByName = new();
+
+    [YamlIgnore]
+    private Dictionary<string, NoxSimpleTypeDefinition> _keysByName = new();
+
     [Required]
     [Title("The name of the entity. Contains no spaces.")]
     [Description("The name of the abstract or real-world entity. It should be a commonly used singular noun and be unique within a solution.")]
@@ -74,59 +80,34 @@ public class Entity : DefinitionBase
 
     internal bool ApplyDefaults()
     {
-        if (string.IsNullOrWhiteSpace(PluralName)) 
+        if (string.IsNullOrWhiteSpace(PluralName))
             PluralName = Name.Pluralize();
-        
+
         if (Persistence != null)
             return true;
 
         Persistence = new EntityPersistence();
-        
+
+        EnsureKeyByName();
+        EnsureAttributesByName();
+
         return Persistence.ApplyDefaults(Name);
     }
-    
+
     public NoxSimpleTypeDefinition? GetAttributeByName(string entityName)
     {
-        lock (this)
-        {
-            if (_attributesByName == null)
-            {
-                _attributesByName = new();
-                for (int i = 0; i < Attributes!.Count; i++)
-                {
-                    _attributesByName.Add(Attributes[i].Name, Attributes[i]);
-                }
-            }
-        }
         return _attributesByName[entityName];
     }
 
     public NoxSimpleTypeDefinition? GetKeyByName(string entityName)
     {
-        lock (this)
-        {
-            if (_keysByName is null)
-            {
-                _keysByName = new();
-                for (int i = 0; i < Keys!.Count; i++)
-                {
-                    _keysByName.Add(Keys[i].Name, Keys[i]);
-                }
-            }
-        }
         return _keysByName[entityName];
     }
 
-    public bool IsKey(string entityName)
+    public bool IsKey(string keyName)
     {
-        return Keys?.Any(key => key.Name == entityName) == true;
+        return _keysByName.ContainsKey(keyName);
     }
-
-    [YamlIgnore]
-    private Dictionary<string, NoxSimpleTypeDefinition>? _attributesByName;
-
-    [YamlIgnore]
-    private Dictionary<string, NoxSimpleTypeDefinition>? _keysByName;
 
     public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()
     {
@@ -209,6 +190,22 @@ public class Entity : DefinitionBase
             {
                 yield return new(EntityMemberType.Relationship, relationship);
             }
+        }
+    }
+
+    private void EnsureKeyByName()
+    {
+        for (int i = 0; i < Keys!.Count; i++)
+        {
+            _keysByName.Add(Keys[i].Name, Keys[i]);
+        }
+
+    }
+    private void EnsureAttributesByName()
+    {
+        for (int i = 0; i < Attributes!.Count; i++)
+        {
+            _attributesByName.Add(Attributes[i].Name, Attributes[i]);
         }
     }
 
