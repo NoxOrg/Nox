@@ -10,7 +10,7 @@ namespace Nox.Types;
 [Serializable]
 public sealed class CurrencyNumber : ValueObject<short, CurrencyNumber>
 {
-    private static HashSet<short> _currencyNumbers = new()
+    private static readonly HashSet<short> _currencyNumbers = new()
     {
         784,971,8,51,532,973,32,36,533,944,977,52,50,975,48,108,60,96,68,984,
         986,44,64,72,933,84,124,976,947,756,948,990,152,170,970,188,931,192,
