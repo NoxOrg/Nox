@@ -24,4 +24,3 @@ public class DateTimeDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
 }
-

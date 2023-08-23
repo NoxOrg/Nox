@@ -1,6 +1,8 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using Humanizer;
+using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
+using Nox.Solution.Extensions;
 using Nox.Types.Extensions;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -34,7 +36,7 @@ internal class ApiGenerator : INoxCodeGenerator
             var entityName = entity.Name;
             var pluralName = entity.PluralName;
             var variableName = entity.Name.ToLower();
-            var dbContextName = $"ODataDbContext";
+            var dbContextName = $"DtoDbContext";
             var controllerName = $"{pluralName}Controller";
             var keyName = entity.Keys.FirstOrDefault().Name;
             // TODO: fix composite key
@@ -116,7 +118,12 @@ internal class ApiGenerator : INoxCodeGenerator
                 {
                     foreach (var relationship in entity.OwnedRelationships)
                     {
-                        GenerateChildrenGet(relationship.Entity, relationship.Name, entity.PluralName, code);
+                        // Owned single entitities are returned with parent
+                        if(relationship.WithSingleEntity())
+                        {
+                            continue;
+                        }
+                        GenerateChildrenGet(relationship.Related.Entity, entity.PluralName, code);
                     }
                 }
             }
@@ -233,21 +240,16 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine(@$"var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new HashSet<string>();
-
+        
         foreach (var propertyName in {entity.Name.ToLowerFirstChar()}.GetChangedPropertyNames())
         {{
             if({entity.Name.ToLowerFirstChar()}.TryGetPropertyValue(propertyName, out dynamic value))
             {{
                 updateProperties[propertyName] = value;                
-            }}
-            else
-            {{
-                deletedProperties.Add(propertyName);
-            }}
+            }}           
         }}");
         code.AppendLine();
-        code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties, deletedProperties));");
+        code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties));");
         code.AppendLine();
 
         code.AppendLine($"if (updated is null)");
@@ -323,15 +325,15 @@ internal class ApiGenerator : INoxCodeGenerator
         code.AppendLine();
     }
 
-    private static void GenerateChildrenGet(string childEntity, string childEntityPlural, string pluralName, CodeBuilder code)
+    private static void GenerateChildrenGet(Entity entity, string parentEntityPluralName, CodeBuilder code)
     {
         // Method Get
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public ActionResult<IQueryable<{childEntity}>> Get{childEntityPlural}([FromRoute] string key)");
+        code.AppendLine($"public ActionResult<IQueryable<{entity.Name}Dto>> Get{entity.PluralName}([FromRoute] string key)");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"return Ok(_databaseContext.{pluralName}.Where(d => d.Id.Equals(key)).SelectMany(m => m.{childEntityPlural}));");
+        code.AppendLine($"return Ok(_databaseContext.{parentEntityPluralName}.AsNoTracking().Where(d => d.{entity.Keys![0].Name}.ToString().Equals(key)).SelectMany(m => m.{entity.PluralName}));");
 
         // End method
         code.EndBlock();

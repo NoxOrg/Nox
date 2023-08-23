@@ -39,5 +39,5 @@ public partial class StoreDto
     /// </summary>
     public virtual StoreSecurityPasswordsDto StoreSecurityPasswords { get; set; } = null!;
 
-    public bool? Deleted { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }
 }

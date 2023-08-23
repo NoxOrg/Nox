@@ -26,7 +26,7 @@ public partial class CountriesController : ODataController
     /// <summary>
     /// The OData DbContext for CRUD operations.
     /// </summary>
-    protected readonly ODataDbContext _databaseContext;
+    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -44,7 +44,7 @@ public partial class CountriesController : ODataController
     protected readonly UpdatePopulationStatisticsCommandHandlerBase _updatePopulationStatistics;
     
     public CountriesController(
-        ODataDbContext databaseContext,
+        DtoDbContext databaseContext,
         IMediator mediator,
         GetCountriesByContinentQueryBase getCountriesByContinent,
         UpdatePopulationStatisticsCommandHandlerBase updatePopulationStatistics
@@ -109,21 +109,16 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new HashSet<string>();
-
+        
         foreach (var propertyName in country.GetChangedPropertyNames())
         {
             if(country.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties));
         
         if (updated is null)
         {

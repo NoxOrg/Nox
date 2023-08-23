@@ -99,5 +99,5 @@ public partial class CountryDto
     /// </summary>
     public System.String? TopLevelDomains { get; set; }
 
-    public bool? Deleted { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }
 }

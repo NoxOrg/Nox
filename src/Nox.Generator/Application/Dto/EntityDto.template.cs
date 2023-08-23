@@ -68,17 +68,13 @@ public partial class {{className}}
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<{{relationship.Entity}}Dto> {{relationship.EntityPlural}} { get; set; } = new();
-    {{- if (relationship.EntityPlural) != relationship.Name}}
-
-    public List<{{relationship.Entity}}Dto> {{relationship.Name}} => {{relationship.EntityPlural}};
-    {{- end}}
+    public virtual List<{{relationship.Entity}}Dto> {{relationship.EntityPlural}} { get; set; } = new();    
     {{- else}}
-    public virtual {{relationship.Entity}}Dto {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.EntityPlural}} { get; set; } = null!;
+    public virtual {{relationship.Entity}}Dto {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
     {{-end}}
 {{- end }}
-{{- if entity.Persistence?.IsVersioned == true #TODO do not expose Deleted on end points??}}
+{{- if !entity.IsOwnedEntity && entity.Persistence?.IsAudited == true #TODO do not expose DeletedAtUtc on end points??}}
 
-    public bool? Deleted { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }
 {{- end}}
 }

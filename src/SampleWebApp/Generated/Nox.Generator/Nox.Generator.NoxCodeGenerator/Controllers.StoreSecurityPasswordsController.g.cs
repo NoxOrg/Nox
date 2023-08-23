@@ -26,7 +26,7 @@ public partial class StoreSecurityPasswordsController : ODataController
     /// <summary>
     /// The OData DbContext for CRUD operations.
     /// </summary>
-    protected readonly ODataDbContext _databaseContext;
+    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -34,7 +34,7 @@ public partial class StoreSecurityPasswordsController : ODataController
     protected readonly IMediator _mediator;
     
     public StoreSecurityPasswordsController(
-        ODataDbContext databaseContext,
+        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
@@ -95,21 +95,16 @@ public partial class StoreSecurityPasswordsController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new HashSet<string>();
-
+        
         foreach (var propertyName in storeSecurityPasswords.GetChangedPropertyNames())
         {
             if(storeSecurityPasswords.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateStoreSecurityPasswordsCommand(key, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateStoreSecurityPasswordsCommand(key, updateProperties));
         
         if (updated is null)
         {

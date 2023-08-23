@@ -19,19 +19,23 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntityType<ClientDatabaseNumberDto>().HasKey(e => new { e.Id });
         builder.EntityType<ClientNuidDto>().HasKey(e => new { e.Id });
+        builder.EntityType<OwnedEntityDto>().HasKey(e => new { e.Id });
 
 
         builder.EntitySet<ClientDatabaseNumberDto>("ClientDatabaseNumbers");
         builder.EntityType<ClientDatabaseNumberKeyDto>();
+        builder.EntityType<ClientDatabaseNumberDto>().ContainsMany(e => e.OwnedEntities).AutoExpand = true;
 
         builder.EntityType<ClientDatabaseNumberDto>();
-        builder.EntityType<ClientDatabaseNumberDto>().Ignore(e => e.Deleted);
+        builder.EntityType<ClientDatabaseNumberDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<ClientNuidDto>("ClientNuids");
         builder.EntityType<ClientNuidKeyDto>();
 
         builder.EntityType<ClientNuidDto>();
-        builder.EntityType<ClientNuidDto>().Ignore(e => e.Deleted);
+        builder.EntityType<ClientNuidDto>().Ignore(e => e.DeletedAtUtc);
+
+        builder.EntityType<OwnedEntityDto>();
 
         services.AddControllers()
             .AddOData(options =>

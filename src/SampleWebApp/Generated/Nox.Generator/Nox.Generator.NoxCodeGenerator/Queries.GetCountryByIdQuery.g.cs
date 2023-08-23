@@ -5,20 +5,20 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SampleWebApp.Application.Dto;
-using SampleWebApp.Presentation.Api.OData;
+using SampleWebApp.Infrastructure.Persistence;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetCountryByIdQuery(System.String keyId) : IRequest<CountryDto?>;
+public record GetCountryByIdQuery(System.Int64 keyId) : IRequest<CountryDto?>;
 
 public class GetCountryByIdQueryHandler: IRequestHandler<GetCountryByIdQuery, CountryDto?>
 {
-    public  GetCountryByIdQueryHandler(ODataDbContext dataDbContext)
+    public  GetCountryByIdQueryHandler(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
-    public ODataDbContext DataDbContext { get; }
+    public DtoDbContext DataDbContext { get; }
 
     public Task<CountryDto?> Handle(GetCountryByIdQuery request, CancellationToken cancellationToken)
     {    
@@ -26,7 +26,7 @@ public class GetCountryByIdQueryHandler: IRequestHandler<GetCountryByIdQuery, Co
             .AsNoTracking()
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
-                !(r.Deleted == true));
+                r.DeletedAtUtc == null);
         return Task.FromResult(item);
     }
 }

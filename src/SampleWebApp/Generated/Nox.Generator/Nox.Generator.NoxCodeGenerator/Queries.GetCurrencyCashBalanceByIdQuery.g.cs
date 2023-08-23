@@ -5,7 +5,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SampleWebApp.Application.Dto;
-using SampleWebApp.Presentation.Api.OData;
+using SampleWebApp.Infrastructure.Persistence;
 
 namespace SampleWebApp.Application.Queries;
 
@@ -13,12 +13,12 @@ public record GetCurrencyCashBalanceByIdQuery(System.String keyStoreId, System.U
 
 public class GetCurrencyCashBalanceByIdQueryHandler: IRequestHandler<GetCurrencyCashBalanceByIdQuery, CurrencyCashBalanceDto?>
 {
-    public  GetCurrencyCashBalanceByIdQueryHandler(ODataDbContext dataDbContext)
+    public  GetCurrencyCashBalanceByIdQueryHandler(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
-    public ODataDbContext DataDbContext { get; }
+    public DtoDbContext DataDbContext { get; }
 
     public Task<CurrencyCashBalanceDto?> Handle(GetCurrencyCashBalanceByIdQuery request, CancellationToken cancellationToken)
     {    
@@ -27,7 +27,7 @@ public class GetCurrencyCashBalanceByIdQueryHandler: IRequestHandler<GetCurrency
             .SingleOrDefault(r =>
                 r.StoreId.Equals(request.keyStoreId) &&
                 r.CurrencyId.Equals(request.keyCurrencyId) &&
-                !(r.Deleted == true));
+                r.DeletedAtUtc == null);
         return Task.FromResult(item);
     }
 }

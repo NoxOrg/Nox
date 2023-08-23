@@ -11,7 +11,7 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
-public record CountryKeyDto(System.String keyId);
+public record CountryKeyDto(System.Int64 keyId);
 
 /// <summary>
 /// The list of countries.
@@ -22,7 +22,7 @@ public partial class CountryDto
     /// <summary>
     ///  (Required).
     /// </summary>
-    public System.String Id { get; set; } = default!;
+    public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
     /// The country's common name (Required).
@@ -109,5 +109,5 @@ public partial class CountryDto
     /// </summary>
     public virtual List<CountryLocalNamesDto> CountryLocalNames { get; set; } = new();
 
-    public bool? Deleted { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }
 }

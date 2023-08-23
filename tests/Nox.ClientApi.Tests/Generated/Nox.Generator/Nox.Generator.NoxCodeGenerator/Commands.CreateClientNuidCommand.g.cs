@@ -1,13 +1,16 @@
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Application;
+using Nox.Application.Commands;
 using Nox.Factories;
+using Nox.Solution;
+
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
@@ -15,26 +18,38 @@ using ClientApi.Application.Dto;
 namespace ClientApi.Application.Commands;
 public record CreateClientNuidCommand(ClientNuidCreateDto EntityDto) : IRequest<ClientNuidKeyDto>;
 
-public class CreateClientNuidCommandHandler: IRequestHandler<CreateClientNuidCommand, ClientNuidKeyDto>
+public class CreateClientNuidCommandHandler: CommandBase, IRequestHandler <CreateClientNuidCommand, ClientNuidKeyDto>
 {
-    public ClientApiDbContext DbContext { get; }
-    public IEntityFactory<ClientNuidCreateDto,ClientNuid> EntityFactory { get; }
+	private readonly IUserProvider _userProvider;
+	private readonly ISystemProvider _systemProvider;
 
-    public  CreateClientNuidCommandHandler(
-        ClientApiDbContext dbContext,
-        IEntityFactory<ClientNuidCreateDto,ClientNuid> entityFactory)
-    {
-        DbContext = dbContext;
-        EntityFactory = entityFactory;
-    }
+	public ClientApiDbContext DbContext { get; }
+	public IEntityFactory<ClientNuidCreateDto,ClientNuid> EntityFactory { get; }
 
-    public async Task<ClientNuidKeyDto> Handle(CreateClientNuidCommand request, CancellationToken cancellationToken)
-    {
-        var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+	public CreateClientNuidCommandHandler(
+		ClientApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityFactory<ClientNuidCreateDto,ClientNuid> entityFactory,
+		IUserProvider userProvider,
+		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+	{
+		DbContext = dbContext;
+		EntityFactory = entityFactory;
+		_userProvider = userProvider;
+		_systemProvider = systemProvider;
+	}
+
+	public async Task<ClientNuidKeyDto> Handle(CreateClientNuidCommand request, CancellationToken cancellationToken)
+	{
+		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		entityToCreate.EnsureId();
-
-        DbContext.ClientNuids.Add(entityToCreate);
-        await DbContext.SaveChangesAsync();
-        return new ClientNuidKeyDto(entityToCreate.Id.Value);
-    }
+		var createdBy = _userProvider.GetUser();
+		var createdVia = _systemProvider.GetSystem();
+		entityToCreate.Created(createdBy, createdVia);
+	
+		DbContext.ClientNuids.Add(entityToCreate);
+		await DbContext.SaveChangesAsync();
+		return new ClientNuidKeyDto(entityToCreate.Id.Value);
+	}
 }

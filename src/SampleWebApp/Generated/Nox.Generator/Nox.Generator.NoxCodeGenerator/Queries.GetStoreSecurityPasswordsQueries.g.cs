@@ -5,7 +5,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SampleWebApp.Application.Dto;
-using SampleWebApp.Presentation.Api.OData;
+using SampleWebApp.Infrastructure.Persistence;
 
 namespace SampleWebApp.Application.Queries;
 
@@ -13,17 +13,17 @@ public record GetStoreSecurityPasswordsQuery() : IRequest<IQueryable<StoreSecuri
 
 public class GetStoreSecurityPasswordsQueryHandler : IRequestHandler<GetStoreSecurityPasswordsQuery, IQueryable<StoreSecurityPasswordsDto>>
 {
-    public  GetStoreSecurityPasswordsQueryHandler(ODataDbContext dataDbContext)
+    public  GetStoreSecurityPasswordsQueryHandler(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
-    public ODataDbContext DataDbContext { get; }
+    public DtoDbContext DataDbContext { get; }
 
     public Task<IQueryable<StoreSecurityPasswordsDto>> Handle(GetStoreSecurityPasswordsQuery request, CancellationToken cancellationToken)
     {
         var item = (IQueryable<StoreSecurityPasswordsDto>)DataDbContext.StoreSecurityPasswords
-            .Where(r => !(r.Deleted == true))
+            .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
         return Task.FromResult(item);
     }

@@ -26,7 +26,7 @@ public partial class ClientNuidsController : ODataController
     /// <summary>
     /// The OData DbContext for CRUD operations.
     /// </summary>
-    protected readonly ODataDbContext _databaseContext;
+    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -34,7 +34,7 @@ public partial class ClientNuidsController : ODataController
     protected readonly IMediator _mediator;
     
     public ClientNuidsController(
-        ODataDbContext databaseContext,
+        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
@@ -95,21 +95,16 @@ public partial class ClientNuidsController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new HashSet<string>();
-
+        
         foreach (var propertyName in clientNuid.GetChangedPropertyNames())
         {
             if(clientNuid.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateClientNuidCommand(key, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateClientNuidCommand(key, updateProperties));
         
         if (updated is null)
         {

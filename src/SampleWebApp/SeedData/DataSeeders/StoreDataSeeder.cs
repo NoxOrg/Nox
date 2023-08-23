@@ -13,17 +13,13 @@ internal class StoreDataSeeder : SampleDataSeederBase<StoreModel, Store>
 
     protected override string SourceFile => "stores.json";
 
-    protected override IEnumerable<Store> TransformToEntities(IEnumerable<StoreModel> models)
+    protected override Store TransformToEntity(StoreModel model)
     {
-        var entities = models.Select(x =>
-            new Store
-            {
-                Id = Text.From(x.Id),
-                Name = Text.From(x.Name),
-                PhysicalMoney = Money.From(x.PhysicalMoney, CurrencyCode.USD),
-                CreatedAtUtc = System.DateTime.Now
-            }).ToList();
-
-        return entities;
+        return new Store
+        {
+            Id = Text.From(model.Id),
+            Name = Text.From(model.Name),
+            PhysicalMoney = Money.From(model.PhysicalMoney, CurrencyCode.USD),
+        };
     }
 }

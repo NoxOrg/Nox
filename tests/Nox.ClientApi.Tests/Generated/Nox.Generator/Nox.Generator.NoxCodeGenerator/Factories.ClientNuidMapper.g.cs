@@ -6,6 +6,7 @@ using MediatR;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Solution;
 using Nox.Domain;
 using Nox.Factories;
@@ -15,7 +16,6 @@ using Nox.Extensions;
 using Nox.Exceptions;
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
-
 
 namespace ClientApi.Application;
 
@@ -36,22 +36,20 @@ public class ClientNuidMapper: EntityMapperBase<ClientNuid>
         }
     }
 
-    public override void PartialMapToEntity(ClientNuid entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties, HashSet<string> deletedPropertyNames)
-    {    
-        if(deletedPropertyNames.Contains("Name"))
+    public override void PartialMapToEntity(ClientNuid entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
+    {
         {
-            throw new EntityAttributeIsNotNullableException("ClientNuid", "Name");
-        }
-        else if (updatedProperties.TryGetValue("Name", out dynamic? value))
-        {
-            var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
-            if(noxTypeValue == null)
+            if (updatedProperties.TryGetValue("Name", out dynamic? value))
             {
-                throw new EntityAttributeIsNotNullableException("ClientNuid", "Name");
-            }
-            else
-            {
-                entity.Name = noxTypeValue;
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("ClientNuid", "Name");
+                }
+                else
+                {
+                    entity.Name = noxTypeValue;
+                }
             }
         }
     }

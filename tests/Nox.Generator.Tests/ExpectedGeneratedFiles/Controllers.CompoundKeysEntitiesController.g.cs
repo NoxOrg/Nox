@@ -26,7 +26,7 @@ public partial class CompoundKeysEntitiesController : ODataController
     /// <summary>
     /// The OData DbContext for CRUD operations.
     /// </summary>
-    protected readonly ODataDbContext _databaseContext;
+    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -34,7 +34,7 @@ public partial class CompoundKeysEntitiesController : ODataController
     protected readonly IMediator _mediator;
     
     public CompoundKeysEntitiesController(
-        ODataDbContext databaseContext,
+        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
@@ -95,21 +95,16 @@ public partial class CompoundKeysEntitiesController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new HashSet<string>();
-
+        
         foreach (var propertyName in compoundKeysEntity.GetChangedPropertyNames())
         {
             if(compoundKeysEntity.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCompoundKeysEntityCommand(keyId1, keyId2, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateCompoundKeysEntityCommand(keyId1, keyId2, updateProperties));
         
         if (updated is null)
         {

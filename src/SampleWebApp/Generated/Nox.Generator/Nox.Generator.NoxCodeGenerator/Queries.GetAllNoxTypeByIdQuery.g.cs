@@ -5,7 +5,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using SampleWebApp.Application.Dto;
-using SampleWebApp.Presentation.Api.OData;
+using SampleWebApp.Infrastructure.Persistence;
 
 namespace SampleWebApp.Application.Queries;
 
@@ -13,12 +13,12 @@ public record GetAllNoxTypeByIdQuery(System.Int64 keyId, System.String keyTextId
 
 public class GetAllNoxTypeByIdQueryHandler: IRequestHandler<GetAllNoxTypeByIdQuery, AllNoxTypeDto?>
 {
-    public  GetAllNoxTypeByIdQueryHandler(ODataDbContext dataDbContext)
+    public  GetAllNoxTypeByIdQueryHandler(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
-    public ODataDbContext DataDbContext { get; }
+    public DtoDbContext DataDbContext { get; }
 
     public Task<AllNoxTypeDto?> Handle(GetAllNoxTypeByIdQuery request, CancellationToken cancellationToken)
     {    
@@ -27,7 +27,7 @@ public class GetAllNoxTypeByIdQueryHandler: IRequestHandler<GetAllNoxTypeByIdQue
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.TextId.Equals(request.keyTextId) &&
-                !(r.Deleted == true));
+                r.DeletedAtUtc == null);
         return Task.FromResult(item);
     }
 }

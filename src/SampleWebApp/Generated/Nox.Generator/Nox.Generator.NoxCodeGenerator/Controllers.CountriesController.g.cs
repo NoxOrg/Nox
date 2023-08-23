@@ -26,7 +26,7 @@ public partial class CountriesController : ODataController
     /// <summary>
     /// The OData DbContext for CRUD operations.
     /// </summary>
-    protected readonly ODataDbContext _databaseContext;
+    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -44,7 +44,7 @@ public partial class CountriesController : ODataController
     protected readonly UpdatePopulationStatisticsCommandHandlerBase _updatePopulationStatistics;
     
     public CountriesController(
-        ODataDbContext databaseContext,
+        DtoDbContext databaseContext,
         IMediator mediator,
         GetCountriesByContinentQueryBase getCountriesByContinent,
         UpdatePopulationStatisticsCommandHandlerBase updatePopulationStatistics
@@ -63,7 +63,7 @@ public partial class CountriesController : ODataController
         return Ok(result);
     }
     
-    public async Task<ActionResult<CountryDto>> Get([FromRoute] System.String key)
+    public async Task<ActionResult<CountryDto>> Get([FromRoute] System.Int64 key)
     {
         var item = await _mediator.Send(new GetCountryByIdQuery(key));
         
@@ -76,9 +76,9 @@ public partial class CountriesController : ODataController
     }
     
     [EnableQuery]
-    public ActionResult<IQueryable<CountryLocalNames>> GetCountryLocalNames([FromRoute] string key)
+    public ActionResult<IQueryable<CountryLocalNamesDto>> GetCountryLocalNames([FromRoute] string key)
     {
-        return Ok(_databaseContext.Countries.Where(d => d.Id.Equals(key)).SelectMany(m => m.CountryLocalNames));
+        return Ok(_databaseContext.Countries.AsNoTracking().Where(d => d.Id.ToString().Equals(key)).SelectMany(m => m.CountryLocalNames));
     }
     
     public async Task<ActionResult> Post([FromBody]CountryCreateDto country)
@@ -92,7 +92,7 @@ public partial class CountriesController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] CountryUpdateDto country)
+    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] CountryUpdateDto country)
     {
         if (!ModelState.IsValid)
         {
@@ -108,28 +108,23 @@ public partial class CountriesController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<CountryUpdateDto> country)
+    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CountryUpdateDto> country)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new HashSet<string>();
-
+        
         foreach (var propertyName in country.GetChangedPropertyNames())
         {
             if(country.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties));
         
         if (updated is null)
         {
@@ -138,7 +133,7 @@ public partial class CountriesController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.String key)
+    public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new DeleteCountryByIdCommand(key));
         if (!result)

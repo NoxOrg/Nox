@@ -1,5 +1,6 @@
 ﻿using Nox.Solution;
 using Nox.Solution.Extensions;
+using Nox.Types.EntityFramework.Configurations;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using System.Diagnostics;
 
@@ -9,6 +10,8 @@ namespace Nox.Types.EntityFramework.Abstractions
     {
         //We could use the container to manage this
         protected readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesDatabaseConfigurations = new();
+
+        private static readonly NoxSimpleTypeDefinition[] AuditableEntityAttributes = new AuditableEntityBaseConfiguration().ToArray();
 
         /// <summary>
         ///
@@ -234,21 +237,39 @@ namespace Nox.Types.EntityFramework.Abstractions
             IEntityBuilder builder,
             Entity entity)
         {
-            if (entity.Attributes is { Count: > 0 })
+            var allEntityAttributes = GetAllEntityAttributes(entity);
+
+            foreach (var property in allEntityAttributes)
             {
-                foreach (var property in entity.Attributes)
+                if (TypesDatabaseConfigurations.TryGetValue(property.Type, out var databaseConfiguration))
                 {
-                    if (TypesDatabaseConfigurations.TryGetValue(property.Type,
-                        out var databaseConfiguration))
-                    {
-                        databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity, false);
-                    }
-                    else
-                    {
-                        Debug.WriteLine($"Type {property.Type} not found");
-                    }
+                    databaseConfiguration.ConfigureEntityProperty(codeGeneratorState, builder, property, entity, false);
+                }
+                else
+                {
+                    Debug.WriteLine($"Type {property.Type} not found");
                 }
             }
+
+        }
+
+        private static List<NoxSimpleTypeDefinition> GetAllEntityAttributes(Entity entity)
+        {
+            var totalCapacity = entity.Attributes?.Count ?? 0 + AuditableEntityAttributes.Length;
+            var allEntityAttributes = new List<NoxSimpleTypeDefinition>(totalCapacity);
+
+            if (entity.Attributes is { Count: > 0 })
+            {
+                allEntityAttributes.AddRange(entity.Attributes);
+            }
+
+            // TODO clarify Auditable for owned entities
+            if (entity.Persistence?.IsAudited == true && !entity.IsOwnedEntity)
+            {
+                allEntityAttributes.AddRange(AuditableEntityAttributes);
+            }
+
+            return allEntityAttributes;
         }
     }
 }
