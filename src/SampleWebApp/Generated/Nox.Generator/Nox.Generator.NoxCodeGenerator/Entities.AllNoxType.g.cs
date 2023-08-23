@@ -219,6 +219,11 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.TranslatedText? TranslatedTextField { get; set; } = null!;
 
     /// <summary>
+    /// VatNumber Nox Type (Optional).
+    /// </summary>
+    public Nox.Types.VatNumber? VatNumberField { get; set; } = null!;
+
+    /// <summary>
     /// Password Nox Type (Optional).
     /// </summary>
     public Nox.Types.Password? PasswordField { get; set; } = null!;

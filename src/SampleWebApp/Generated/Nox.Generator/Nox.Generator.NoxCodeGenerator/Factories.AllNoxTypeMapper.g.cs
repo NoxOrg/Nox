@@ -208,6 +208,11 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         {        
             entity.TranslatedTextField = noxTypeValue;
         }
+        noxTypeValue = CreateNoxType<Nox.Types.VatNumber>(entityDefinition,"VatNumberField",dto.VatNumberField);
+        if(noxTypeValue != null)
+        {        
+            entity.VatNumberField = noxTypeValue;
+        }
 
         // TODO map PasswordField Password remaining types and remove if else
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"MoneyField",dto.MoneyField);
@@ -757,6 +762,20 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
                 else
                 {
                     entity.TranslatedTextField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("VatNumberField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.VatNumber>(entityDefinition,"VatNumberField",value);
+                if(noxTypeValue == null)
+                {
+                    entity.VatNumberField = null;
+                }
+                else
+                {
+                    entity.VatNumberField = noxTypeValue;
                 }
             }
         }

@@ -225,6 +225,11 @@ public partial class AllNoxTypeDto
     public TranslatedTextDto? TranslatedTextField { get; set; }
 
     /// <summary>
+    /// VatNumber Nox Type (Optional).
+    /// </summary>
+    public VatNumberDto? VatNumberField { get; set; }
+
+    /// <summary>
     /// Money Nox Type (Optional).
     /// </summary>
     public MoneyDto? MoneyField { get; set; }

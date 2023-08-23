@@ -234,11 +234,11 @@ attributes:
   - name: TranslatedTextField
     description: TranslatedText Nox Type
     type: translatedText
-  #- name: VatNumberField
-  #  description: VatNumber Nox Type
-  #  type: vatNumber
-  #  vatNumberTypeOptions:
-  #      countryCode: "FR"  
+  - name: VatNumberField
+    description: VatNumber Nox Type
+    type: vatNumber
+    vatNumberTypeOptions:
+       countryCode: "FR"  
   - name: PasswordField
     description: Password Nox Type
     type: password
