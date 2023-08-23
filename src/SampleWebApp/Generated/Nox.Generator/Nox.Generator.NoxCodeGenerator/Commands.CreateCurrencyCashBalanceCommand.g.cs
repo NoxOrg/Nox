@@ -20,9 +20,6 @@ public record CreateCurrencyCashBalanceCommand(CurrencyCashBalanceCreateDto Enti
 
 public partial class CreateCurrencyCashBalanceCommandHandler: CommandBase<CreateCurrencyCashBalanceCommand>, IRequestHandler <CreateCurrencyCashBalanceCommand, CurrencyCashBalanceKeyDto>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> EntityFactory { get; }
 
@@ -30,14 +27,10 @@ public partial class CreateCurrencyCashBalanceCommandHandler: CommandBase<Create
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> entityFactory,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 
 	public async Task<CurrencyCashBalanceKeyDto> Handle(CreateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
@@ -45,9 +38,6 @@ public partial class CreateCurrencyCashBalanceCommandHandler: CommandBase<Create
 		OnExecuting(request, cancellationToken);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		var createdBy = _userProvider.GetUser();
-		var createdVia = _systemProvider.GetSystem();
-		entityToCreate.Created(createdBy, createdVia);
 	
 		DbContext.CurrencyCashBalances.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();

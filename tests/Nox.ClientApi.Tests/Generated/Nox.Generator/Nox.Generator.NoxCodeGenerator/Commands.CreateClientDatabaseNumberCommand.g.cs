@@ -20,9 +20,6 @@ public record CreateClientDatabaseNumberCommand(ClientDatabaseNumberCreateDto En
 
 public partial class CreateClientDatabaseNumberCommandHandler: CommandBase<CreateClientDatabaseNumberCommand>, IRequestHandler <CreateClientDatabaseNumberCommand, ClientDatabaseNumberKeyDto>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public ClientApiDbContext DbContext { get; }
 	public IEntityFactory<ClientDatabaseNumberCreateDto,ClientDatabaseNumber> EntityFactory { get; }
 
@@ -30,14 +27,10 @@ public partial class CreateClientDatabaseNumberCommandHandler: CommandBase<Creat
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityFactory<ClientDatabaseNumberCreateDto,ClientDatabaseNumber> entityFactory,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<ClientDatabaseNumberCreateDto,ClientDatabaseNumber> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 
 	public async Task<ClientDatabaseNumberKeyDto> Handle(CreateClientDatabaseNumberCommand request, CancellationToken cancellationToken)
@@ -45,9 +38,6 @@ public partial class CreateClientDatabaseNumberCommandHandler: CommandBase<Creat
 		OnExecuting(request, cancellationToken);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		var createdBy = _userProvider.GetUser();
-		var createdVia = _systemProvider.GetSystem();
-		entityToCreate.Created(createdBy, createdVia);
 	
 		DbContext.ClientDatabaseNumbers.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();

@@ -4,7 +4,6 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Factories;
 using Nox.Solution;
@@ -20,9 +19,6 @@ public record PartialUpdateCurrencyCashBalanceCommand(System.String keyStoreId, 
 
 public class PartialUpdateCurrencyCashBalanceCommandHandler: CommandBase<PartialUpdateCurrencyCashBalanceCommand>, IRequestHandler<PartialUpdateCurrencyCashBalanceCommand, CurrencyCashBalanceKeyDto?>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<CurrencyCashBalance> EntityMapper { get; }
 
@@ -30,14 +26,10 @@ public class PartialUpdateCurrencyCashBalanceCommandHandler: CommandBase<Partial
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<CurrencyCashBalance> entityMapper,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IEntityMapper<CurrencyCashBalance> entityMapper): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityMapper = entityMapper;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 
 	public async Task<CurrencyCashBalanceKeyDto?> Handle(PartialUpdateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
@@ -52,9 +44,6 @@ public class PartialUpdateCurrencyCashBalanceCommandHandler: CommandBase<Partial
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<CurrencyCashBalance>(), request.UpdatedProperties);
-		var updatedBy = _userProvider.GetUser();
-		var updatedVia = _systemProvider.GetSystem();
-		entity.Updated(updatedBy, updatedVia);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

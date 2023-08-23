@@ -20,9 +20,6 @@ public record CreateStoreSecurityPasswordsCommand(StoreSecurityPasswordsCreateDt
 
 public partial class CreateStoreSecurityPasswordsCommandHandler: CommandBase<CreateStoreSecurityPasswordsCommand>, IRequestHandler <CreateStoreSecurityPasswordsCommand, StoreSecurityPasswordsKeyDto>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityFactory<StoreSecurityPasswordsCreateDto,StoreSecurityPasswords> EntityFactory { get; }
 
@@ -30,14 +27,10 @@ public partial class CreateStoreSecurityPasswordsCommandHandler: CommandBase<Cre
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityFactory<StoreSecurityPasswordsCreateDto,StoreSecurityPasswords> entityFactory,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<StoreSecurityPasswordsCreateDto,StoreSecurityPasswords> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 
 	public async Task<StoreSecurityPasswordsKeyDto> Handle(CreateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
@@ -45,9 +38,6 @@ public partial class CreateStoreSecurityPasswordsCommandHandler: CommandBase<Cre
 		OnExecuting(request, cancellationToken);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		var createdBy = _userProvider.GetUser();
-		var createdVia = _systemProvider.GetSystem();
-		entityToCreate.Created(createdBy, createdVia);
 	
 		DbContext.StoreSecurityPasswords.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();

@@ -20,9 +20,6 @@ public record CreateStoreCommand(StoreCreateDto EntityDto) : IRequest<StoreKeyDt
 
 public partial class CreateStoreCommandHandler: CommandBase<CreateStoreCommand>, IRequestHandler <CreateStoreCommand, StoreKeyDto>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityFactory<StoreCreateDto,Store> EntityFactory { get; }
 
@@ -30,14 +27,10 @@ public partial class CreateStoreCommandHandler: CommandBase<CreateStoreCommand>,
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityFactory<StoreCreateDto,Store> entityFactory,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<StoreCreateDto,Store> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 
 	public async Task<StoreKeyDto> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
@@ -45,9 +38,6 @@ public partial class CreateStoreCommandHandler: CommandBase<CreateStoreCommand>,
 		OnExecuting(request, cancellationToken);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		var createdBy = _userProvider.GetUser();
-		var createdVia = _systemProvider.GetSystem();
-		entityToCreate.Created(createdBy, createdVia);
 	
 		DbContext.Stores.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();

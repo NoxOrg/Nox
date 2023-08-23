@@ -4,7 +4,6 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Factories;
 using Nox.Solution;
@@ -20,9 +19,6 @@ public record PartialUpdateCountryCommand(System.Int64 keyId, Dictionary<string,
 
 public class PartialUpdateCountryCommandHandler: CommandBase<PartialUpdateCountryCommand>, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<Country> EntityMapper { get; }
 
@@ -30,14 +26,10 @@ public class PartialUpdateCountryCommandHandler: CommandBase<PartialUpdateCountr
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Country> entityMapper,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IEntityMapper<Country> entityMapper): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityMapper = entityMapper;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 
 	public async Task<CountryKeyDto?> Handle(PartialUpdateCountryCommand request, CancellationToken cancellationToken)
@@ -51,9 +43,6 @@ public class PartialUpdateCountryCommandHandler: CommandBase<PartialUpdateCountr
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Country>(), request.UpdatedProperties);
-		var updatedBy = _userProvider.GetUser();
-		var updatedVia = _systemProvider.GetSystem();
-		entity.Updated(updatedBy, updatedVia);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

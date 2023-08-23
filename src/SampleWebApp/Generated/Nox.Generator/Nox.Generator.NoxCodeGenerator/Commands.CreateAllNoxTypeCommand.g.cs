@@ -20,9 +20,6 @@ public record CreateAllNoxTypeCommand(AllNoxTypeCreateDto EntityDto) : IRequest<
 
 public partial class CreateAllNoxTypeCommandHandler: CommandBase<CreateAllNoxTypeCommand>, IRequestHandler <CreateAllNoxTypeCommand, AllNoxTypeKeyDto>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityFactory<AllNoxTypeCreateDto,AllNoxType> EntityFactory { get; }
 
@@ -30,14 +27,10 @@ public partial class CreateAllNoxTypeCommandHandler: CommandBase<CreateAllNoxTyp
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityFactory<AllNoxTypeCreateDto,AllNoxType> entityFactory,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<AllNoxTypeCreateDto,AllNoxType> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 
 	public async Task<AllNoxTypeKeyDto> Handle(CreateAllNoxTypeCommand request, CancellationToken cancellationToken)
@@ -45,9 +38,6 @@ public partial class CreateAllNoxTypeCommandHandler: CommandBase<CreateAllNoxTyp
 		OnExecuting(request, cancellationToken);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		var createdBy = _userProvider.GetUser();
-		var createdVia = _systemProvider.GetSystem();
-		entityToCreate.Created(createdBy, createdVia);
 	
 		DbContext.AllNoxTypes.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();

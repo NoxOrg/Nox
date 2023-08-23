@@ -4,7 +4,6 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -17,21 +16,14 @@ public record DeleteCurrencyCashBalanceByIdCommand(System.String keyStoreId, Sys
 
 public class DeleteCurrencyCashBalanceByIdCommandHandler: CommandBase<DeleteCurrencyCashBalanceByIdCommand>, IRequestHandler<DeleteCurrencyCashBalanceByIdCommand, bool>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public SampleWebAppDbContext DbContext { get; }
 
 	public DeleteCurrencyCashBalanceByIdCommandHandler(
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution, 
-		IServiceProvider serviceProvider,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 
 	public async Task<bool> Handle(DeleteCurrencyCashBalanceByIdCommand request, CancellationToken cancellationToken)
@@ -44,9 +36,7 @@ public class DeleteCurrencyCashBalanceByIdCommandHandler: CommandBase<DeleteCurr
 		{
 			return false;
 		}
-		var deletedBy = _userProvider.GetUser();
-		var deletedVia = _systemProvider.GetSystem();
-		entity.Deleted(deletedBy, deletedVia);
+		DbContext.Entry(entity).State = EntityState.Deleted;
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

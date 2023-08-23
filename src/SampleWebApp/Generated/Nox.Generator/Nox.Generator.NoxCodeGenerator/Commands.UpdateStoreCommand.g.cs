@@ -4,7 +4,6 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -19,9 +18,6 @@ public record UpdateStoreCommand(System.String keyId, StoreUpdateDto EntityDto) 
 
 public class UpdateStoreCommandHandler: CommandBase<UpdateStoreCommand>, IRequestHandler<UpdateStoreCommand, StoreKeyDto?>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<Store> EntityMapper { get; }
 
@@ -29,14 +25,10 @@ public class UpdateStoreCommandHandler: CommandBase<UpdateStoreCommand>, IReques
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Store> entityMapper,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IEntityMapper<Store> entityMapper): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityMapper = entityMapper;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 	
 	public async Task<StoreKeyDto?> Handle(UpdateStoreCommand request, CancellationToken cancellationToken)
@@ -50,10 +42,7 @@ public class UpdateStoreCommandHandler: CommandBase<UpdateStoreCommand>, IReques
 			return null;
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Store>(), request.EntityDto);
-		var updatedBy = _userProvider.GetUser();
-		var updatedVia = _systemProvider.GetSystem();
-		entity.Updated(updatedBy, updatedVia);
-		
+
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if(result < 1)

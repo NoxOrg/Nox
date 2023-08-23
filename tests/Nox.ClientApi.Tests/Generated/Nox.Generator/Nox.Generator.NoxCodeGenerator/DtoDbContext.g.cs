@@ -43,6 +43,8 @@ public class DtoDbContext : DbContext
         
         public DbSet<ClientNuidDto> ClientNuids { get; set; } = null!;
         
+        public DbSet<ClientDatabaseGuidDto> ClientDatabaseGuids { get; set; } = null!;
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);

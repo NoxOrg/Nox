@@ -4,7 +4,6 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Factories;
 using Nox.Solution;
@@ -20,9 +19,6 @@ public record PartialUpdateAllNoxTypeCommand(System.Int64 keyId, System.String k
 
 public class PartialUpdateAllNoxTypeCommandHandler: CommandBase<PartialUpdateAllNoxTypeCommand>, IRequestHandler<PartialUpdateAllNoxTypeCommand, AllNoxTypeKeyDto?>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<AllNoxType> EntityMapper { get; }
 
@@ -30,14 +26,10 @@ public class PartialUpdateAllNoxTypeCommandHandler: CommandBase<PartialUpdateAll
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<AllNoxType> entityMapper,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IEntityMapper<AllNoxType> entityMapper): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityMapper = entityMapper;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 
 	public async Task<AllNoxTypeKeyDto?> Handle(PartialUpdateAllNoxTypeCommand request, CancellationToken cancellationToken)
@@ -52,9 +44,6 @@ public class PartialUpdateAllNoxTypeCommandHandler: CommandBase<PartialUpdateAll
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<AllNoxType>(), request.UpdatedProperties);
-		var updatedBy = _userProvider.GetUser();
-		var updatedVia = _systemProvider.GetSystem();
-		entity.Updated(updatedBy, updatedVia);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

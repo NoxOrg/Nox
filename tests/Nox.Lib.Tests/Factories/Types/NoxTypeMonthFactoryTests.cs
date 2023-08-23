@@ -35,7 +35,7 @@ public class NoxTypeMonthFactoryTests
 
         // Assert
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.First().ErrorMessage.Should().Be( $"Could not create a Nox Month type with unsupported value '{value}'. The value must be between 1 and 12.");
+            .And.Errors[0].ErrorMessage.Should().Be( $"Could not create a Nox Month type with unsupported value '{value}'. The value must be between 1 and 12.");
     }
     
     [Theory, AutoMoqData]
@@ -50,7 +50,8 @@ public class NoxTypeMonthFactoryTests
 
         // Assert
         action.Should().Throw<TypeValidationException>()
-            .And.Errors.First().ErrorMessage.Should().Be( $"Could not create a Nox Month type with unsupported value '{value}'. The value must be between 1 and 12.");
+            .And.Errors[0].ErrorMessage.Should().Be($"Could not create a Nox Month type with unsupported value '{value}'. The value must be between 1 and 12.");
+
     }
     
 }
