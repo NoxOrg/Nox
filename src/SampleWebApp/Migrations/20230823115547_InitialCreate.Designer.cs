@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebAppdeprecated.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230822145739_InitialCreate")]
+    [Migration("20230823115547_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -93,13 +93,28 @@ namespace SampleWebAppdeprecated.Migrations
                         .IsFixedLength(false);
 
                     b.Property<string>("CurrencyCode3Field")
+                        .IsRequired()
                         .HasMaxLength(3)
                         .IsUnicode(false)
                         .HasColumnType("char(3)")
                         .IsFixedLength();
 
-                    b.Property<DateTimeOffset?>("DateTimeField")
+                    b.Property<short>("CurrencyNumberField")
+                        .HasColumnType("smallint");
+
+                    b.Property<DateTime>("DateField")
+                        .HasColumnType("date");
+
+                    b.Property<long>("DateTimeDurationField")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTimeOffset>("DateTimeField")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("DateTimeScheduleField")
+                        .IsRequired()
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("DeletedAtUtc")
                         .HasColumnType("datetimeoffset");

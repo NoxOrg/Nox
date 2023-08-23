@@ -60,14 +60,34 @@ public partial class AllNoxTypeDto
     public System.String? CultureCodeField { get; set; }
 
     /// <summary>
-    /// CurrencyCode3Field Nox Type (Optional).
+    /// CurrencyCode3Field Nox Type (Required).
     /// </summary>
-    public System.String? CurrencyCode3Field { get; set; }
+    public System.String CurrencyCode3Field { get; set; } = default!;
 
     /// <summary>
-    /// DatetimeField Nox Type (Optional).
+    /// Currency Number Nox Type (Required).
     /// </summary>
-    public System.DateTimeOffset? DateTimeField { get; set; }
+    public System.Int16 CurrencyNumberField { get; set; } = default!;
+
+    /// <summary>
+    /// Date Nox Type (Required).
+    /// </summary>
+    public System.DateTime DateField { get; set; } = default!;
+
+    /// <summary>
+    /// Date Time Nox Type (Required).
+    /// </summary>
+    public System.DateTimeOffset DateTimeField { get; set; } = default!;
+
+    /// <summary>
+    /// Date Time Duration Nox Type (Required).
+    /// </summary>
+    public System.Int64 DateTimeDurationField { get; set; } = default!;
+
+    /// <summary>
+    /// Date Time Schedule Nox Type (Required).
+    /// </summary>
+    public System.String DateTimeScheduleField { get; set; } = default!;
 
     /// <summary>
     /// Formula Nox Type (Optional).

@@ -14,7 +14,18 @@
     "Markdown": "normal __bold__ norma",
     "PhoneNumber": "+33 4 72 74 56 89",
     "Temperature": 32.5,
-    "TemperatureUnit": "Celsius"
+    "TemperatureUnit": "Celsius",
+    "CurrencyCode3": "EUR",
+    "CurrencyNumber": 978,
+    "DurationTicks": 111525000000,
+    "DateYear": 2023,
+    "DateMonth": 2,
+    "DateDay": 15,
+    "TimeHour": 14,
+    "TimeMinute": 55,
+    "TimeSecond": 10,
+    "TimeMillisecond": 333,
+    "DateTimeSchedule": "1-5/2 1-5/2 1-5/2,23 2-12/2,11 1-5,6 2000-2020/2,2001"
   },
   {
     "Id": "2",
@@ -31,7 +42,17 @@
     "Markdown": "**bold with *italic* inside**",
     "PhoneNumber": "+33 1 09 75 83 51",
     "Temperature": 32.5,
-    "TemperatureUnit": "Fahrenheit"
+    "TemperatureUnit": "Fahrenheit",
+    "CurrencyCode3": "USD",
+    "CurrencyNumber": 978,
+    "DateYear": 1993,
+    "DateMonth": 7,
+    "DateDay": 14,
+    "TimeHour": 18,
+    "TimeMinute": 35,
+    "TimeSecond": 30,
+    "TimeMillisecond": 250,
+    "DateTimeSchedule": "0 8 2,4 */3 *"
   },
   {
     "Id": "3",
@@ -48,6 +69,17 @@
     "Markdown": "*italic with **bold** inside*",
     "PhoneNumber": "+33 1 44 51 31 00",
     "Temperature": -22,
-    "TemperatureUnit": "Celsius"
+    "TemperatureUnit": "Celsius",
+    "CurrencyCode3": "EUR",
+    "CurrencyNumber": 978,
+    "DurationTicks": 133525000000,
+    "DateYear": 2006,
+    "DateMonth": 7,
+    "DateDay": 14,
+    "TimeHour": 22,
+    "TimeMinute": 35,
+    "TimeSecond": 10,
+    "TimeMillisecond": 863,
+    "DateTimeSchedule": "0 0 12 * * 2000"
   }
 ]
