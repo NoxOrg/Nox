@@ -54,7 +54,7 @@ attributes:
     isRequired: false
 
 persistence:
-    isVersioned: true
+    isAudited: true
     tableName: Employee
     schema: dbo
     create:

@@ -49,7 +49,7 @@ attributes:
     isRequired: false   
 
 persistence:
-    isVersioned: true
+    isAudited: true
     tableName: Customer
     schema: dbo
     create:
