@@ -30,11 +30,6 @@ public partial class AllNoxTypeDto
     public System.String TextId { get; set; } = default!;
 
     /// <summary>
-    /// NuidField Type (Optional).
-    /// </summary>
-    public System.UInt32? NuidField { get; set; }
-
-    /// <summary>
     /// BooleanField Nox Type (Optional).
     /// </summary>
     public System.Boolean? BooleanField { get; set; }
@@ -100,6 +95,26 @@ public partial class AllNoxTypeDto
     public System.String? HtmlField { get; set; }
 
     /// <summary>
+    /// Internet Domain Nox Type (Required).
+    /// </summary>
+    public System.String InternetDomainField { get; set; } = default!;
+
+    /// <summary>
+    /// IpAddress Nox Type (Required).
+    /// </summary>
+    public System.String IpAddressField { get; set; } = default!;
+
+    /// <summary>
+    /// Json Nox Type (Required).
+    /// </summary>
+    public System.String JsonField { get; set; } = default!;
+
+    /// <summary>
+    /// JwtToken Nox Type (Required).
+    /// </summary>
+    public System.String JwtTokenField { get; set; } = default!;
+
+    /// <summary>
     /// Language Code Nox Type (Required).
     /// </summary>
     public System.String LanguageCodeField { get; set; } = default!;
@@ -128,6 +143,16 @@ public partial class AllNoxTypeDto
     /// Temperature Nox Type (Required).
     /// </summary>
     public System.Decimal TemperatureField { get; set; } = default!;
+
+    /// <summary>
+    /// Month Nox Type (Required).
+    /// </summary>
+    public System.Byte MonthField { get; set; } = default!;
+
+    /// <summary>
+    /// NuidField Type (Optional).
+    /// </summary>
+    public System.UInt32? NuidField { get; set; }
 
     /// <summary>
     /// Yaml Nox Type (Optional).

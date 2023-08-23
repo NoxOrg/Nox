@@ -34,8 +34,6 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         {        
             entity.TextId = noxTypeValue;
         }
-
-        // TODO map NuidField Nuid remaining types and remove if else
         noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition,"BooleanField",dto.BooleanField);
         if(noxTypeValue != null)
         {        
@@ -89,6 +87,26 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         {        
             entity.HtmlField = noxTypeValue;
         }
+        noxTypeValue = CreateNoxType<Nox.Types.InternetDomain>(entityDefinition,"InternetDomainField",dto.InternetDomainField);
+        if(noxTypeValue != null)
+        {        
+            entity.InternetDomainField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.IpAddress>(entityDefinition,"IpAddressField",dto.IpAddressField);
+        if(noxTypeValue != null)
+        {        
+            entity.IpAddressField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Json>(entityDefinition,"JsonField",dto.JsonField);
+        if(noxTypeValue != null)
+        {        
+            entity.JsonField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.JwtToken>(entityDefinition,"JwtTokenField",dto.JwtTokenField);
+        if(noxTypeValue != null)
+        {        
+            entity.JwtTokenField = noxTypeValue;
+        }
 
         // TODO map LanguageCodeField LanguageCode remaining types and remove if else
         noxTypeValue = CreateNoxType<Nox.Types.Length>(entityDefinition,"LengthField",dto.LengthField);
@@ -116,6 +134,13 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         {        
             entity.TemperatureField = noxTypeValue;
         }
+        noxTypeValue = CreateNoxType<Nox.Types.Month>(entityDefinition,"MonthField",dto.MonthField);
+        if(noxTypeValue != null)
+        {        
+            entity.MonthField = noxTypeValue;
+        }
+
+        // TODO map NuidField Nuid remaining types and remove if else
         noxTypeValue = CreateNoxType<Nox.Types.Yaml>(entityDefinition,"YamlField",dto.YamlField);
         if(noxTypeValue != null)
         {        
@@ -208,20 +233,6 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
 
     public override void PartialMapToEntity(AllNoxType entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
-        {
-            if (updatedProperties.TryGetValue("NuidField", out dynamic? value))
-            {
-                var noxTypeValue = CreateNoxType<Nox.Types.Nuid>(entityDefinition,"NuidField",value);
-                if(noxTypeValue == null)
-                {
-                    entity.NuidField = null;
-                }
-                else
-                {
-                    entity.NuidField = noxTypeValue;
-                }
-            }
-        }
         {
             if (updatedProperties.TryGetValue("BooleanField", out dynamic? value))
             {
@@ -391,6 +402,62 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
             }
         }
         {
+            if (updatedProperties.TryGetValue("InternetDomainField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.InternetDomain>(entityDefinition,"InternetDomainField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "InternetDomainField");
+                }
+                else
+                {
+                    entity.InternetDomainField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("IpAddressField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.IpAddress>(entityDefinition,"IpAddressField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "IpAddressField");
+                }
+                else
+                {
+                    entity.IpAddressField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("JsonField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Json>(entityDefinition,"JsonField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "JsonField");
+                }
+                else
+                {
+                    entity.JsonField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("JwtTokenField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.JwtToken>(entityDefinition,"JwtTokenField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "JwtTokenField");
+                }
+                else
+                {
+                    entity.JwtTokenField = noxTypeValue;
+                }
+            }
+        }
+        {
             if (updatedProperties.TryGetValue("LanguageCodeField", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.LanguageCode>(entityDefinition,"LanguageCodeField",value);
@@ -471,6 +538,34 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
                 else
                 {
                     entity.TemperatureField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("MonthField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Month>(entityDefinition,"MonthField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "MonthField");
+                }
+                else
+                {
+                    entity.MonthField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("NuidField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Nuid>(entityDefinition,"NuidField",value);
+                if(noxTypeValue == null)
+                {
+                    entity.NuidField = null;
+                }
+                else
+                {
+                    entity.NuidField = noxTypeValue;
                 }
             }
         }
