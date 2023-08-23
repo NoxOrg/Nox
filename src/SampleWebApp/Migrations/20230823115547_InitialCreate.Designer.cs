@@ -9,10 +9,10 @@ using SampleWebApp.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace SampleWebApp.Migrations
+namespace SampleWebAppdeprecated.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230821134014_InitialCreate")]
+    [Migration("20230823115547_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -93,13 +93,28 @@ namespace SampleWebApp.Migrations
                         .IsFixedLength(false);
 
                     b.Property<string>("CurrencyCode3Field")
+                        .IsRequired()
                         .HasMaxLength(3)
                         .IsUnicode(false)
                         .HasColumnType("char(3)")
                         .IsFixedLength();
 
-                    b.Property<DateTimeOffset?>("DateTimeField")
+                    b.Property<short>("CurrencyNumberField")
+                        .HasColumnType("smallint");
+
+                    b.Property<DateTime>("DateField")
+                        .HasColumnType("date");
+
+                    b.Property<long>("DateTimeDurationField")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTimeOffset>("DateTimeField")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("DateTimeScheduleField")
+                        .IsRequired()
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTimeOffset?>("DeletedAtUtc")
                         .HasColumnType("datetimeoffset");

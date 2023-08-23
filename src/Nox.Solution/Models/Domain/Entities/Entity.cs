@@ -1,9 +1,10 @@
 ﻿using Humanizer;
 using Nox.Solution.Events;
 using Nox.Types;
-using Nox.Types.Extensions;
 using Nox.Types.Schema;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using YamlDotNet.Serialization;
 
@@ -13,8 +14,15 @@ namespace Nox.Solution;
 [Title("Defines an entity or aggregate root")]
 [Description("The declaration of an entity, its attributes, commands and queries. See https://noxorg.dev for more.")]
 [AdditionalProperties(false)]
+[DebuggerDisplay("{Name}, plural: {PluralName}")]
 public class Entity : DefinitionBase
 {
+    [YamlIgnore]
+    private ConcurrentDictionary<string, NoxSimpleTypeDefinition>? _attributesByName;
+
+    [YamlIgnore]
+    private ConcurrentDictionary<string, NoxSimpleTypeDefinition>? _keysByName;
+
     [Required]
     [Title("The name of the entity. Contains no spaces.")]
     [Description("The name of the abstract or real-world entity. It should be a commonly used singular noun and be unique within a solution.")]
@@ -74,35 +82,34 @@ public class Entity : DefinitionBase
 
     internal bool ApplyDefaults()
     {
-        if (string.IsNullOrWhiteSpace(PluralName)) 
+        if (string.IsNullOrWhiteSpace(PluralName))
             PluralName = Name.Pluralize();
-        
+
         if (Persistence != null)
             return true;
 
         Persistence = new EntityPersistence();
-        
+
         return Persistence.ApplyDefaults(Name);
     }
-    
-    public NoxSimpleTypeDefinition GetAttributeByName(string entityName)
+
+    public virtual NoxSimpleTypeDefinition? GetAttributeByName(string entityName)
     {
-        lock (this)
-        {
-            if (_attributesByName == null)
-            {
-                _attributesByName = new();
-                for (int i = 0; i < Attributes!.Count; i++)
-                {
-                    _attributesByName.Add(Attributes[i].Name, Attributes[i]);
-                }
-            }
-        }
-        return _attributesByName[entityName];
+        EnsureAttributesByName();
+        return _attributesByName![entityName];
     }
 
-    [YamlIgnore]
-    private Dictionary<string, NoxSimpleTypeDefinition>? _attributesByName;
+    public virtual NoxSimpleTypeDefinition? GetKeyByName(string entityName)
+    {
+        EnsureKeyByName();
+        return _keysByName![entityName];
+    }
+
+    public virtual bool IsKey(string keyName)
+    {
+        EnsureKeyByName();
+        return _keysByName!.ContainsKey(keyName);
+    }
 
     public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()
     {
@@ -184,6 +191,42 @@ public class Entity : DefinitionBase
             foreach (var relationship in Relationships)
             {
                 yield return new(EntityMemberType.Relationship, relationship);
+            }
+        }
+    }
+
+    private readonly object _lockEnsureByKeyObject = new object();
+    private void EnsureKeyByName()
+    {
+        if (_keysByName is not null)
+            return;
+
+        lock (_lockEnsureByKeyObject)
+        {
+            if (_keysByName is null)
+            {
+                _keysByName = new();
+                for (int i = 0; i < Keys!.Count; i++)
+                {
+                    _keysByName.TryAdd(Keys[i].Name, Keys[i]);
+                }
+            }
+        }
+    }
+    private void EnsureAttributesByName()
+    {
+        if (_attributesByName is not null)
+            return;
+
+        lock (_lockEnsureByKeyObject)
+        {
+            if (_attributesByName is null)
+            {
+                _attributesByName = new();
+                for (int i = 0; i < Attributes!.Count; i++)
+                {
+                    _attributesByName.TryAdd(Attributes[i].Name, Attributes[i]);
+                }
             }
         }
     }

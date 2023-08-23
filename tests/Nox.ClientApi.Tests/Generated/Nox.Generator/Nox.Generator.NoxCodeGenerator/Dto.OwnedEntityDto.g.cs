@@ -11,7 +11,7 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public record OwnedEntityKeyDto(System.Int64 keyId);
+public record OwnedEntityKeyDto(System.String keyId);
 
 /// <summary>
 /// OwnedEntity.
@@ -22,12 +22,10 @@ public partial class OwnedEntityDto
     /// <summary>
     /// The unique identifier (Required).
     /// </summary>
-    public System.Int64 Id { get; set; } = default!;
+    public System.String Id { get; set; } = default!;
 
     /// <summary>
     /// The Text (Required).
     /// </summary>
     public System.String Name { get; set; } = default!;
-
-    public System.DateTime? DeletedAtUtc { get; set; }
 }

@@ -17,7 +17,6 @@ using Nox.Exceptions;
 using CryptocashApi.Application.Dto;
 using CryptocashApi.Domain;
 
-
 namespace CryptocashApi.Application;
 
 public class CustomerMapper: EntityMapperBase<Customer>

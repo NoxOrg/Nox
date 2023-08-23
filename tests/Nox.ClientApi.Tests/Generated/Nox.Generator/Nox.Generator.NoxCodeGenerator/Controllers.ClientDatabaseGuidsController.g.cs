@@ -20,21 +20,21 @@ using Nox.Types;
 
 namespace ClientApi.Presentation.Api.OData;
 
-public partial class OwnedEntitiesController : ODataController
+public partial class ClientDatabaseGuidsController : ODataController
 {
     
     /// <summary>
     /// The OData DbContext for CRUD operations.
     /// </summary>
-    protected readonly ODataDbContext _databaseContext;
+    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public OwnedEntitiesController(
-        ODataDbContext databaseContext,
+    public ClientDatabaseGuidsController(
+        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
@@ -43,15 +43,15 @@ public partial class OwnedEntitiesController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<OwnedEntityDto>>> Get()
+    public async  Task<ActionResult<IQueryable<ClientDatabaseGuidDto>>> Get()
     {
-        var result = await _mediator.Send(new GetOwnedEntitiesQuery());
+        var result = await _mediator.Send(new GetClientDatabaseGuidsQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<OwnedEntityDto>> Get([FromRoute] System.Int64 key)
+    public async Task<ActionResult<ClientDatabaseGuidDto>> Get([FromRoute] System.Guid key)
     {
-        var item = await _mediator.Send(new GetOwnedEntityByIdQuery(key));
+        var item = await _mediator.Send(new GetClientDatabaseGuidByIdQuery(key));
         
         if (item == null)
         {
@@ -61,25 +61,25 @@ public partial class OwnedEntitiesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]OwnedEntityCreateDto ownedentity)
+    public async Task<ActionResult> Post([FromBody]ClientDatabaseGuidCreateDto clientdatabaseguid)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateOwnedEntityCommand(ownedentity));
+        var createdKey = await _mediator.Send(new CreateClientDatabaseGuidCommand(clientdatabaseguid));
         
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] OwnedEntityUpdateDto ownedEntity)
+    public async Task<ActionResult> Put([FromRoute] System.Guid key, [FromBody] ClientDatabaseGuidUpdateDto clientDatabaseGuid)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateOwnedEntityCommand(key, ownedEntity));
+        var updated = await _mediator.Send(new UpdateClientDatabaseGuidCommand(key, clientDatabaseGuid));
         
         if (updated is null)
         {
@@ -88,7 +88,7 @@ public partial class OwnedEntitiesController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<OwnedEntityUpdateDto> ownedEntity)
+    public async Task<ActionResult> Patch([FromRoute] System.Guid key, [FromBody] Delta<ClientDatabaseGuidUpdateDto> clientDatabaseGuid)
     {
         if (!ModelState.IsValid)
         {
@@ -96,15 +96,15 @@ public partial class OwnedEntitiesController : ODataController
         }
         var updateProperties = new Dictionary<string, dynamic>();
         
-        foreach (var propertyName in ownedEntity.GetChangedPropertyNames())
+        foreach (var propertyName in clientDatabaseGuid.GetChangedPropertyNames())
         {
-            if(ownedEntity.TryGetPropertyValue(propertyName, out dynamic value))
+            if(clientDatabaseGuid.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateOwnedEntityCommand(key, updateProperties));
+        var updated = await _mediator.Send(new PartialUpdateClientDatabaseGuidCommand(key, updateProperties));
         
         if (updated is null)
         {
@@ -113,9 +113,9 @@ public partial class OwnedEntitiesController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
-        var result = await _mediator.Send(new DeleteOwnedEntityByIdCommand(key));
+        var result = await _mediator.Send(new DeleteClientDatabaseGuidByIdCommand(key));
         if (!result)
         {
             return NotFound();

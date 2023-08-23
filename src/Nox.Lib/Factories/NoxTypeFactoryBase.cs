@@ -5,7 +5,7 @@ namespace Nox.Factories
 {
     public abstract class NoxTypeFactoryBase<T> : INoxTypeFactory<T> where T : INoxType
     {
-        public NoxTypeFactoryBase(NoxSolution solution)
+        protected NoxTypeFactoryBase(NoxSolution solution)
         {
             Solution = solution;
         }
@@ -14,9 +14,11 @@ namespace Nox.Factories
 
         public virtual T? CreateNoxType(Entity entityDefinition, string propertyName, dynamic? value)
         {
-            var attributeDefinition = entityDefinition.GetAttributeByName(propertyName);
+            var definition = entityDefinition.IsKey(propertyName) ?
+                entityDefinition.GetKeyByName(propertyName) :
+                entityDefinition.GetAttributeByName(propertyName);
 
-            return CreateNoxType(attributeDefinition, value);
+            return CreateNoxType(definition, value);
         }
 
         public abstract T? CreateNoxType(NoxSimpleTypeDefinition simpleTypeDefinition, dynamic? value);

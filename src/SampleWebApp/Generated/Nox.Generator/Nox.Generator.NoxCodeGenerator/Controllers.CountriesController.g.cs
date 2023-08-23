@@ -26,7 +26,7 @@ public partial class CountriesController : ODataController
     /// <summary>
     /// The OData DbContext for CRUD operations.
     /// </summary>
-    protected readonly ODataDbContext _databaseContext;
+    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -44,7 +44,7 @@ public partial class CountriesController : ODataController
     protected readonly UpdatePopulationStatisticsCommandHandlerBase _updatePopulationStatistics;
     
     public CountriesController(
-        ODataDbContext databaseContext,
+        DtoDbContext databaseContext,
         IMediator mediator,
         GetCountriesByContinentQueryBase getCountriesByContinent,
         UpdatePopulationStatisticsCommandHandlerBase updatePopulationStatistics
@@ -78,7 +78,7 @@ public partial class CountriesController : ODataController
     [EnableQuery]
     public ActionResult<IQueryable<CountryLocalNamesDto>> GetCountryLocalNames([FromRoute] string key)
     {
-        return Ok(_databaseContext.Countries.Where(d => d.Id.Equals(key)).SelectMany(m => m.CountryLocalNames));
+        return Ok(_databaseContext.Countries.AsNoTracking().Where(d => d.Id.ToString().Equals(key)).SelectMany(m => m.CountryLocalNames));
     }
     
     public async Task<ActionResult> Post([FromBody]CountryCreateDto country)

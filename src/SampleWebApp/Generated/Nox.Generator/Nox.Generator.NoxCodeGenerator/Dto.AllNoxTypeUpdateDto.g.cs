@@ -42,13 +42,41 @@ public partial class AllNoxTypeUpdateDto
     /// </summary>
     public System.String? CultureCodeField { get; set; } 
     /// <summary>
-    /// CurrencyCode3Field Nox Type (Optional).
+    /// CurrencyCode3Field Nox Type (Required).
     /// </summary>
-    public System.String? CurrencyCode3Field { get; set; } 
+    [Required(ErrorMessage = "CurrencyCode3Field is required")]
+    
+    public System.String CurrencyCode3Field { get; set; } = default!;
     /// <summary>
-    /// DatetimeField Nox Type (Optional).
+    /// Currency Number Nox Type (Required).
     /// </summary>
-    public System.DateTimeOffset? DateTimeField { get; set; } 
+    [Required(ErrorMessage = "CurrencyNumberField is required")]
+    
+    public System.Int16 CurrencyNumberField { get; set; } = default!;
+    /// <summary>
+    /// Date Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "DateField is required")]
+    
+    public System.DateTime DateField { get; set; } = default!;
+    /// <summary>
+    /// Date Time Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "DateTimeField is required")]
+    
+    public System.DateTimeOffset DateTimeField { get; set; } = default!;
+    /// <summary>
+    /// Date Time Duration Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "DateTimeDurationField is required")]
+    
+    public System.Int64 DateTimeDurationField { get; set; } = default!;
+    /// <summary>
+    /// Date Time Schedule Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "DateTimeScheduleField is required")]
+    
+    public System.String DateTimeScheduleField { get; set; } = default!;
     /// <summary>
     /// HtmlField Nox Type (Optional).
     /// </summary>

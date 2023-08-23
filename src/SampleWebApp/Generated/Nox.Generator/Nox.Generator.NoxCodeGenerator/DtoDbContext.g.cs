@@ -8,9 +8,9 @@ using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using SampleWebApp.Application.Dto;
 
-namespace SampleWebApp.Presentation.Api.OData;
+namespace SampleWebApp.Infrastructure.Persistence;
 
-public class ODataDbContext : DbContext
+public class DtoDbContext : DbContext
 {
     
     
@@ -24,16 +24,19 @@ public class ODataDbContext : DbContext
     /// </summary>
     protected readonly INoxDatabaseProvider _dbProvider;
     protected readonly INoxClientAssemblyProvider _clientAssemblyProvider;
-        public ODataDbContext(
-            DbContextOptions<ODataDbContext> options,
+    protected readonly INoxDtoDatabaseConfigurator _noxDtoDatabaseConfigurator;
+        public DtoDbContext(
+            DbContextOptions<DtoDbContext> options,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
-            INoxClientAssemblyProvider clientAssemblyProvider
+            INoxClientAssemblyProvider clientAssemblyProvider,
+            INoxDtoDatabaseConfigurator noxDtoDatabaseConfigurator
         ) : base(options)
         {
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
+            _noxDtoDatabaseConfigurator = noxDtoDatabaseConfigurator;
         }
         
         public DbSet<CountryDto> Countries { get; set; } = null!;
@@ -48,8 +51,6 @@ public class ODataDbContext : DbContext
         
         public DbSet<CurrencyCashBalanceDto> CurrencyCashBalances { get; set; } = null!;
         
-        public DbSet<CountryLocalNamesDto> CountryLocalNames { get; set; } = null!;
-        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -62,49 +63,29 @@ public class ODataDbContext : DbContext
          protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            
+            if (_noxSolution.Domain != null)
             {
-                var type = typeof(CountryDto);
-                var builder = modelBuilder.Entity(type!);
-                
-                builder.HasKey("Id");
-            }
-            {
-                var type = typeof(CurrencyDto);
-                var builder = modelBuilder.Entity(type!);
-                
-                builder.HasKey("Id");
-            }
-            {
-                var type = typeof(StoreDto);
-                var builder = modelBuilder.Entity(type!);
-                
-                builder.HasKey("Id");
-            }
-            {
-                var type = typeof(StoreSecurityPasswordsDto);
-                var builder = modelBuilder.Entity(type!);
-                
-                builder.HasKey("Id");
-            }
-            {
-                var type = typeof(AllNoxTypeDto);
-                var builder = modelBuilder.Entity(type!);
-                
-                builder.HasKey("Id");
-                builder.HasKey("TextId");
-            }
-            {
-                var type = typeof(CurrencyCashBalanceDto);
-                var builder = modelBuilder.Entity(type!);
-                
-                builder.HasKey("StoreId");
-                builder.HasKey("CurrencyId");
-            }
-            {
-                var type = typeof(CountryLocalNamesDto);
-                var builder = modelBuilder.Entity(type!);
-                
-                builder.HasKey("Id");
-            }
+                var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
+                foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
+                {
+                    // Ignore owned entities configuration as they are configured inside entity constructor
+                    if (entity.IsOwnedEntity)
+                    {
+                        continue;
+                    }
+
+                    var type = codeGeneratorState.GetEntityDtoType(entity.Name + "Dto");
+                    if (type != null)
+                    {
+                       _noxDtoDatabaseConfigurator.ConfigureDto(codeGeneratorState, new Nox.Types.EntityFramework.EntityBuilderAdapter.EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                    }
+                    else
+                    {
+                        throw new Exception($"Could not resolve type for {entity.Name}Dto");
+                    }
+                }
+            }            
+        
         }
     }

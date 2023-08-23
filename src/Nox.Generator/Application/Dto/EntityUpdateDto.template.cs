@@ -38,10 +38,6 @@ public partial class {{className}}
     /// </summary>
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
     public virtual List<{{relationship.Entity}}UpdateDto> {{relationship.EntityPlural}} { get; set; } = new();
-    {{- if (relationship.EntityPlural) != relationship.Name}}
-
-    public List<{{relationship.Entity}}> {{relationship.Name}} => {{relationship.EntityPlural}};
-    {{- end}}
     {{- else}}
      public virtual {{relationship.Entity}}UpdateDto{{- if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
     {{-end}}

@@ -17,14 +17,13 @@ using Nox.Exceptions;
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
 
-
 namespace ClientApi.Application;
 
-public class OwnedEntityMapper: EntityMapperBase<OwnedEntity>
+public class ClientDatabaseGuidMapper: EntityMapperBase<ClientDatabaseGuid>
 {
-    public  OwnedEntityMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public  ClientDatabaseGuidMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
 
-    public override void MapToEntity(OwnedEntity entity, Entity entityDefinition, dynamic dto)
+    public override void MapToEntity(ClientDatabaseGuid entity, Entity entityDefinition, dynamic dto)
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
@@ -37,15 +36,15 @@ public class OwnedEntityMapper: EntityMapperBase<OwnedEntity>
         }
     }
 
-    public override void PartialMapToEntity(OwnedEntity entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
+    public override void PartialMapToEntity(ClientDatabaseGuid entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
-        { 
+        {
             if (updatedProperties.TryGetValue("Name", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("OwnedEntity", "Name");
+                    throw new EntityAttributeIsNotNullableException("ClientDatabaseGuid", "Name");
                 }
                 else
                 {
@@ -53,5 +52,5 @@ public class OwnedEntityMapper: EntityMapperBase<OwnedEntity>
                 }
             }
         }
-    }  
+    }
 }

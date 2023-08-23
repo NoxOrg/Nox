@@ -4,11 +4,11 @@ using Nox.Generator.Common;
 using Nox.Solution;
 using static Nox.Generator.Common.BaseGenerator;
 
-namespace Nox.Generator.Presentation.Api.OData;
+namespace Nox.Generator.Infrastructure.Persistence.DbContextGenerator;
 
-internal class ODataDbContextGenerator : INoxCodeGenerator
+internal class DtoDbContextGenerator : INoxCodeGenerator
 {
-    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Presentation;
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Infrastructure;
 
     public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
@@ -22,7 +22,7 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
             return;
         }
 
-        var code = new CodeBuilder($"ODataDbContext.g.cs", context);
+        var code = new CodeBuilder($"DtoDbContext.g.cs", context);
 
         // Namespace
         code.AppendLine(@"using Microsoft.EntityFrameworkCore;");
@@ -32,10 +32,10 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
         code.AppendLine(@$"using {codeGeneratorState.ApplicationNameSpace}.Dto;");
 
         code.AppendLine();
-        code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
+        code.AppendLine($"namespace {codeGeneratorState.PersistenceNameSpace};");
         code.AppendLine();
 
-        string dbContextName = "ODataDbContext";
+        string dbContextName = "DtoDbContext";
 
         // Db Context
         code.AppendLine($"public class {dbContextName} : DbContext");
@@ -47,6 +47,8 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
         AddField(code, "NoxSolution", "noxSolution", "The Nox solution configuration");
         AddField(code, "INoxDatabaseProvider", "dbProvider", "The database provider");
         AddField(code, "INoxClientAssemblyProvider", "clientAssemblyProvider", "");
+        AddField(code, "INoxDtoDatabaseConfigurator", "noxDtoDatabaseConfigurator", "");
+        
 
         // Constructor content
 
@@ -56,26 +58,29 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
         code.AppendLine($"    DbContextOptions<{dbContextName}> options,");
         code.AppendLine("    NoxSolution noxSolution,");
         code.AppendLine("    INoxDatabaseProvider databaseProvider,");
-        code.AppendLine("    INoxClientAssemblyProvider clientAssemblyProvider");
+        code.AppendLine("    INoxClientAssemblyProvider clientAssemblyProvider,");
+        code.AppendLine("    INoxDtoDatabaseConfigurator noxDtoDatabaseConfigurator");
         code.AppendLine(") : base(options)");
         code.StartBlock();
         code.AppendLine("_noxSolution = noxSolution;");
         code.AppendLine("_dbProvider = databaseProvider;");
         code.AppendLine("_clientAssemblyProvider = clientAssemblyProvider;");
+        code.AppendLine("_noxDtoDatabaseConfigurator = noxDtoDatabaseConfigurator;");
         code.EndBlock();
         code.AppendLine();
 
         foreach (var entity in solution.Domain.Entities)
         {
-            code.AppendLine($"public DbSet<{entity.Name}Dto> {entity.PluralName} {{ get; set; }} = null!;");
-            code.AppendLine();
+            if (!entity.IsOwnedEntity)
+            {
+                code.AppendLine($"public DbSet<{entity.Name}Dto> {entity.PluralName} {{ get; set; }} = null!;");
+                code.AppendLine();
+            }
         }
 
         AddDbContextOnConfiguring(code, codeGeneratorState);
 
         AddOnModelCreating(solution, code);
-
-        code.EndBlock();
 
         code.EndBlock();
 
@@ -87,22 +92,31 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
         code.AppendLine(@$" protected override void OnModelCreating(ModelBuilder modelBuilder)");
         code.StartBlock();
         code.AppendLine(@$"base.OnModelCreating(modelBuilder);");
+        code.AppendLine(@$"
+            if (_noxSolution.Domain != null)
+            {{
+                var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
+                foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
+                {{
+                    // Ignore owned entities configuration as they are configured inside entity constructor
+                    if (entity.IsOwnedEntity)
+                    {{
+                        continue;
+                    }}
 
-        foreach (var entity in solution.Domain!.Entities)
-        {
-            code.StartBlock();
-            code.AppendLine($"var type = typeof({entity.Name}Dto);");
-            code.AppendLine($"var builder = modelBuilder.Entity(type!);");
-            code.AppendLine();
-            foreach (var key in entity.Keys!)
-            {
-                {
-                    code.AppendLine($"builder.HasKey(\"{key.Name}\");");
-
-                }
-            }
-            code.EndBlock();
-        }
+                    var type = codeGeneratorState.GetEntityDtoType(entity.Name + ""Dto"");
+                    if (type != null)
+                    {{
+                       _noxDtoDatabaseConfigurator.ConfigureDto(codeGeneratorState, new Nox.Types.EntityFramework.EntityBuilderAdapter.EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                    }}
+                    else
+                    {{
+                        throw new Exception($""Could not resolve type for {{entity.Name}}Dto"");
+                    }}
+                }}
+            }}            
+        ");
+        code.EndBlock();
     }
 
     internal static void AddDbContextOnConfiguring(CodeBuilder code, NoxSolutionCodeGeneratorState codeGeneratorState)

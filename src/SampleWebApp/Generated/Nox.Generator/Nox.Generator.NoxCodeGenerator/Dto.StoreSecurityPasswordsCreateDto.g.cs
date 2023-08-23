@@ -5,6 +5,7 @@
 using Nox.Abstractions;
 using Nox.Types;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace SampleWebApp.Application.Dto; 
 
@@ -13,6 +14,9 @@ namespace SampleWebApp.Application.Dto;
 /// </summary>
 public partial class StoreSecurityPasswordsCreateDto : StoreSecurityPasswordsUpdateDto
 {
-    // TODO Add Manual Keys to be set by the user
-
+    /// <summary>
+    /// Passwords Primary Key (Required).
+    /// </summary>
+    [Required(ErrorMessage = "Id is required")]
+    public System.String Id { get; set; } = default!;
 }

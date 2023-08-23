@@ -1,10 +1,10 @@
 ﻿using Nox.Solution;
 using Nox.Solution.Extensions;
-using Nox.Types.EntityFramework.Configurations;
+using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using System.Diagnostics;
 
-namespace Nox.Types.EntityFramework.Abstractions
+namespace Nox.Types.EntityFramework.Configurations
 {
     public abstract class NoxDatabaseConfigurator : INoxDatabaseConfigurator
     {
@@ -263,7 +263,8 @@ namespace Nox.Types.EntityFramework.Abstractions
                 allEntityAttributes.AddRange(entity.Attributes);
             }
 
-            if (entity.Persistence?.IsAudited == true)
+            // TODO clarify Auditable for owned entities
+            if (entity.Persistence?.IsAudited == true && !entity.IsOwnedEntity)
             {
                 allEntityAttributes.AddRange(AuditableEntityAttributes);
             }

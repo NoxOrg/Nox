@@ -17,7 +17,6 @@ using Nox.Exceptions;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
-
 namespace SampleWebApp.Application;
 
 public class StoreSecurityPasswordsMapper: EntityMapperBase<StoreSecurityPasswords>
@@ -29,7 +28,12 @@ public class StoreSecurityPasswordsMapper: EntityMapperBase<StoreSecurityPasswor
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Id", dto.Id);        
+        if(noxTypeValue != null)
+        {        
+            entity.Id = noxTypeValue;
+        }
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",dto.Name);
         if(noxTypeValue != null)
         {        
@@ -44,7 +48,7 @@ public class StoreSecurityPasswordsMapper: EntityMapperBase<StoreSecurityPasswor
 
     public override void PartialMapToEntity(StoreSecurityPasswords entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
-        { 
+        {
             if (updatedProperties.TryGetValue("Name", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
@@ -58,7 +62,7 @@ public class StoreSecurityPasswordsMapper: EntityMapperBase<StoreSecurityPasswor
                 }
             }
         }
-        { 
+        {
             if (updatedProperties.TryGetValue("SecurityCamerasPassword", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"SecurityCamerasPassword",value);
@@ -72,5 +76,5 @@ public class StoreSecurityPasswordsMapper: EntityMapperBase<StoreSecurityPasswor
                 }
             }
         }
-    }  
+    }
 }

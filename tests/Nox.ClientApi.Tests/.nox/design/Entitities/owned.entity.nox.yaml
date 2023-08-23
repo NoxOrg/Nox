@@ -1,6 +1,8 @@
 #
 # owned.entity.nox.yaml
 #
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
 
 name: OwnedEntity
 
@@ -11,7 +13,7 @@ keys:
   - name: Id
     isRequired: true
     description: The unique identifier 
-    type: databaseNumber
+    type: text
 
 attributes:
 
@@ -24,7 +26,7 @@ attributes:
     isRequired: true 
 
 persistence:
-    isAudited: true    
+    isAudited: false    
     create:
         isEnabled: true
         raiseEvents: true
