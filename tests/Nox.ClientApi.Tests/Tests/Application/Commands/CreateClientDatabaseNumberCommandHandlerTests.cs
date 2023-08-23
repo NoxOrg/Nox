@@ -36,7 +36,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             //Assert
             
             queryResult.Should().NotBeNull();
-            queryResult!.ToDto().Number.Should().Be(expectedNumber);
+            queryResult!.ExtractResult().Number.Should().Be(expectedNumber);
         }
 
     }

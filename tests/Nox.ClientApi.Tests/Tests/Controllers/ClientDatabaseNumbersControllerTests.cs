@@ -52,7 +52,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 .Which.Entity.keyId.Should().BeGreaterThan(0);
 
             queryResult.Should().NotBeNull();
-            queryResult!.ToDto().AmmountMoney!.Amount.Should().Be(expectedAmount);
+            queryResult!.ExtractResult().AmmountMoney!.Amount.Should().Be(expectedAmount);
         }
 
         [Theory, AutoMoqData]
@@ -110,7 +110,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 .Which.Entity.keyId.Should().Be(result.Entity.keyId);
 
             queryResult.Should().NotBeNull();
-            queryResult!.ToDto().Number.Should().Be(expectedNumber);
+            queryResult!.ExtractResult().Number.Should().Be(expectedNumber);
         }        
 
         [Theory, AutoMoqData]
@@ -140,8 +140,8 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 .Which.Entity.keyId.Should().Be(result.Entity.keyId);
 
             queryResult.Should().NotBeNull();
-            queryResult!.ToDto().Number.Should().Be(expectedNumber);
-            queryResult!.ToDto().Name.Should().Be(expectedName);
+            queryResult!.ExtractResult().Number.Should().Be(expectedNumber);
+            queryResult!.ExtractResult().Name.Should().Be(expectedName);
         }
 
         [Theory, AutoMoqData]
@@ -171,8 +171,8 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 .Which.Entity.keyId.Should().Be(result.Entity.keyId);
 
             queryResult.Should().NotBeNull();
-            queryResult!.ToDto().Number.Should().BeNull();
-            queryResult!.ToDto().Name.Should().Be(expectedName);
+            queryResult!.ExtractResult().Number.Should().BeNull();
+            queryResult!.ExtractResult().Name.Should().Be(expectedName);
         }
 
         [Theory, AutoMoqData]

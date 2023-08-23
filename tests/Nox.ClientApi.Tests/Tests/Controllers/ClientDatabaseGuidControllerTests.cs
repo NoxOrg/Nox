@@ -84,7 +84,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 .Which.Entity.keyId.Should().Be(result.Entity.keyId);
 
             queryResult.Should().NotBeNull();
-            queryResult!.ToDto().Name.Should().Be(expectedName);
+            queryResult!.ExtractResult().Name.Should().Be(expectedName);
         }
 
 
