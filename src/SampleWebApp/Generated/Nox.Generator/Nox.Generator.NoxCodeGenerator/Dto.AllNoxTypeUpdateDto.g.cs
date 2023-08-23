@@ -194,27 +194,37 @@ public partial class AllNoxTypeUpdateDto
     
     public System.String TextField { get; set; } = default!;
     /// <summary>
+    /// File Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "FileField is required")]
+    
+    public FileDto FileField { get; set; } = default!;
+    /// <summary>
+    /// Image Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "ImageField is required")]
+    
+    public ImageDto ImageField { get; set; } = default!;
+    /// <summary>
+    /// Money Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "MoneyField is required")]
+    
+    public MoneyDto MoneyField { get; set; } = default!;
+    /// <summary>
     /// StreetAddress Nox Type (Optional).
     /// </summary>
     public StreetAddressDto? StreetAddressField { get; set; } 
     /// <summary>
-    /// File Nox Type (Optional).
+    /// TranslatedText Nox Type (Required).
     /// </summary>
-    public FileDto? FileField { get; set; } 
+    [Required(ErrorMessage = "TranslatedTextField is required")]
+    
+    public TranslatedTextDto TranslatedTextField { get; set; } = default!;
     /// <summary>
-    /// TranslatedText Nox Type (Optional).
+    /// VatNumber Nox Type (Required).
     /// </summary>
-    public TranslatedTextDto? TranslatedTextField { get; set; } 
-    /// <summary>
-    /// VatNumber Nox Type (Optional).
-    /// </summary>
-    public VatNumberDto? VatNumberField { get; set; } 
-    /// <summary>
-    /// Money Nox Type (Optional).
-    /// </summary>
-    public MoneyDto? MoneyField { get; set; } 
-    /// <summary>
-    /// LatLongField Nox Type (Optional).
-    /// </summary>
-    public LatLongDto? LatLongField { get; set; } 
+    [Required(ErrorMessage = "VatNumberField is required")]
+    
+    public VatNumberDto VatNumberField { get; set; } = default!;
 }
