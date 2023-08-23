@@ -58,7 +58,7 @@ public class CustomerMapper: EntityMapperBase<Customer>
 
     public override void PartialMapToEntity(Customer entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
-        {
+        { 
             if (updatedProperties.TryGetValue("FirstName", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"FirstName",value);
@@ -72,7 +72,7 @@ public class CustomerMapper: EntityMapperBase<Customer>
                 }
             }
         }
-        {
+        { 
             if (updatedProperties.TryGetValue("LastName", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"LastName",value);
@@ -86,7 +86,7 @@ public class CustomerMapper: EntityMapperBase<Customer>
                 }
             }
         }
-        {
+        { 
             if (updatedProperties.TryGetValue("Email", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"Email",value);
@@ -100,7 +100,7 @@ public class CustomerMapper: EntityMapperBase<Customer>
                 }
             }
         }
-        {
+        { 
             if (updatedProperties.TryGetValue("Address", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition,"Address",value);
@@ -114,7 +114,7 @@ public class CustomerMapper: EntityMapperBase<Customer>
                 }
             }
         }
-        {
+        { 
             if (updatedProperties.TryGetValue("MobileNumber", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.PhoneNumber>(entityDefinition,"MobileNumber",value);
@@ -128,5 +128,5 @@ public class CustomerMapper: EntityMapperBase<Customer>
                 }
             }
         }
-    }
+    }  
 }

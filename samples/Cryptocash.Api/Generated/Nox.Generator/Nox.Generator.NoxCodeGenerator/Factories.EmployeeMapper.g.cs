@@ -57,7 +57,7 @@ public class EmployeeMapper: EntityMapperBase<Employee>
 
     public override void PartialMapToEntity(Employee entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
-        {
+        { 
             if (updatedProperties.TryGetValue("FirstName", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"FirstName",value);
@@ -71,7 +71,7 @@ public class EmployeeMapper: EntityMapperBase<Employee>
                 }
             }
         }
-        {
+        { 
             if (updatedProperties.TryGetValue("LastName", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"LastName",value);
@@ -85,7 +85,7 @@ public class EmployeeMapper: EntityMapperBase<Employee>
                 }
             }
         }
-        {
+        { 
             if (updatedProperties.TryGetValue("Email", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"Email",value);
@@ -99,7 +99,7 @@ public class EmployeeMapper: EntityMapperBase<Employee>
                 }
             }
         }
-        {
+        { 
             if (updatedProperties.TryGetValue("Address", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition,"Address",value);
@@ -113,7 +113,7 @@ public class EmployeeMapper: EntityMapperBase<Employee>
                 }
             }
         }
-        {
+        { 
             if (updatedProperties.TryGetValue("FirstWorkingDay", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition,"FirstWorkingDay",value);
@@ -127,7 +127,7 @@ public class EmployeeMapper: EntityMapperBase<Employee>
                 }
             }
         }
-        {
+        { 
             if (updatedProperties.TryGetValue("LastWorkingDay", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition,"LastWorkingDay",value);
@@ -141,5 +141,5 @@ public class EmployeeMapper: EntityMapperBase<Employee>
                 }
             }
         }
-    }
+    }  
 }
