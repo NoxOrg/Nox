@@ -39,6 +39,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Update="files\duplicated-items-definition.nox.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="files\entity-key-compound-type.nox.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

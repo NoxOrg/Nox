@@ -5,7 +5,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using CryptocashApi.Application.Dto;
-using CryptocashApi.Presentation.Api.OData;
+using CryptocashApi.Infrastructure.Persistence;
 
 namespace CryptocashApi.Application.Queries;
 
@@ -13,12 +13,12 @@ public record GetEmployeeByIdQuery(System.Int64 keyId) : IRequest<EmployeeDto?>;
 
 public class GetEmployeeByIdQueryHandler: IRequestHandler<GetEmployeeByIdQuery, EmployeeDto?>
 {
-    public  GetEmployeeByIdQueryHandler(ODataDbContext dataDbContext)
+    public  GetEmployeeByIdQueryHandler(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
-    public ODataDbContext DataDbContext { get; }
+    public DtoDbContext DataDbContext { get; }
 
     public Task<EmployeeDto?> Handle(GetEmployeeByIdQuery request, CancellationToken cancellationToken)
     {    
@@ -26,7 +26,7 @@ public class GetEmployeeByIdQueryHandler: IRequestHandler<GetEmployeeByIdQuery, 
             .AsNoTracking()
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
-                !(r.Deleted == true));
+                r.DeletedAtUtc == null);
         return Task.FromResult(item);
     }
 }

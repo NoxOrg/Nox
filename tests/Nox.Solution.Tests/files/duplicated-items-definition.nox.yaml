@@ -1,0 +1,55 @@
+#
+# domain.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+name: TestService
+description: Yaml file for testing Entity keys.
+
+domain:
+
+  entities:
+    - name: Currency
+      keys:
+        - name: Id
+          isRequired: true
+          type: text
+        - name: Id
+          isRequired: true
+          type: number
+      description: The list of currencies
+      attributes:
+        - name: Id
+          description: The identity of the country, the Iso Alpha 2 code
+          type: text
+          textTypeOptions:
+            casing: lower
+            maxLength: 2
+            minLength: 2
+        - name: Id
+          description: The identity of the country, the Iso Alpha 2 code
+          type: text
+          textTypeOptions:
+            casing: lower
+            maxLength: 2
+            minLength: 2
+      ownedRelationships:
+        - name: CountryLegalCurrencies
+          description: accepted currencies
+          relationship: oneOrMany
+          entity: Currency
+        - name: CountryLegalCurrencies
+          description: Duplicated
+          relationship: zeroOrMany
+          entity: Currency
+      relationships:
+        - name: CurrenciesCountryLegal
+          description: accepted currencies
+          relationship: oneOrMany
+          entity: Currency
+        - name: CurrenciesCountryLegal
+          description: Duplicated
+          relationship: zeroOrMany
+          entity: Currency
+
