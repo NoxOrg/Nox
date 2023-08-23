@@ -22,7 +22,7 @@ public class ColorDatabaseConfigurator : INoxTypeDatabaseConfigurator
             .IsRequired(property.IsRequired)
             .HasConversion<ColorConverter>()
             .IsFixedLength()
-            .HasMaxLength(4);
+            .HasMaxLength(9);
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
