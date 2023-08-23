@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Nox.Types.EntityFramework.EntityBuilderAdapter
 {
@@ -34,6 +35,12 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
         public KeyBuilder HasKey(params string[] propertyNames)
         {
             return OwnedNavigationBuilder!.HasKey(propertyNames);
+        }
+
+        public IEntityBuilder ToTable(string tableName)
+        {
+            OwnedNavigationBuilder!.ToTable(tableName);
+            return this;
         }
 
         public void OwnsOne(
