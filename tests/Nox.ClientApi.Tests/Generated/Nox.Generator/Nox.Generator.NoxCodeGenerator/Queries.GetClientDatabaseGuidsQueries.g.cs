@@ -5,7 +5,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ClientApi.Application.Dto;
-using ClientApi.Presentation.Api.OData;
+using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
@@ -13,12 +13,12 @@ public record GetClientDatabaseGuidsQuery() : IRequest<IQueryable<ClientDatabase
 
 public class GetClientDatabaseGuidsQueryHandler : IRequestHandler<GetClientDatabaseGuidsQuery, IQueryable<ClientDatabaseGuidDto>>
 {
-    public  GetClientDatabaseGuidsQueryHandler(ODataDbContext dataDbContext)
+    public  GetClientDatabaseGuidsQueryHandler(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
-    public ODataDbContext DataDbContext { get; }
+    public DtoDbContext DataDbContext { get; }
 
     public Task<IQueryable<ClientDatabaseGuidDto>> Handle(GetClientDatabaseGuidsQuery request, CancellationToken cancellationToken)
     {

@@ -5,6 +5,7 @@
 using Nox.Abstractions;
 using Nox.Types;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ClientApi.Application.Dto; 
 
@@ -13,6 +14,4 @@ namespace ClientApi.Application.Dto;
 /// </summary>
 public partial class ClientDatabaseGuidCreateDto : ClientDatabaseGuidUpdateDto
 {
-    // TODO Add Manual Keys to be set by the user
-
 }

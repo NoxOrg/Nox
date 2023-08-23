@@ -5,7 +5,7 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using ClientApi.Application.Dto;
-using ClientApi.Presentation.Api.OData;
+using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
@@ -13,12 +13,12 @@ public record GetClientNuidsQuery() : IRequest<IQueryable<ClientNuidDto>>;
 
 public class GetClientNuidsQueryHandler : IRequestHandler<GetClientNuidsQuery, IQueryable<ClientNuidDto>>
 {
-    public  GetClientNuidsQueryHandler(ODataDbContext dataDbContext)
+    public  GetClientNuidsQueryHandler(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
-    public ODataDbContext DataDbContext { get; }
+    public DtoDbContext DataDbContext { get; }
 
     public Task<IQueryable<ClientNuidDto>> Handle(GetClientNuidsQuery request, CancellationToken cancellationToken)
     {

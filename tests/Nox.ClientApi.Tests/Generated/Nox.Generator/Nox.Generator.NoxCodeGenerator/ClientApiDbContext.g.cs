@@ -46,7 +46,6 @@ public partial class ClientApiDbContext : DbContext
 
     public DbSet<ClientNuid> ClientNuids { get; set; } = null!;
 
-    public DbSet<OwnedEntity> OwnedEntities { get; set; } = null!;
 
     public DbSet<ClientDatabaseGuid> ClientDatabaseGuids { get; set; } = null!;
 

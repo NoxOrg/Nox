@@ -4,11 +4,11 @@ using Nox.Generator.Common;
 using Nox.Solution;
 using static Nox.Generator.Common.BaseGenerator;
 
-namespace Nox.Generator.Presentation.Api.OData;
+namespace Nox.Generator.Infrastructure.Persistence.DbContextGenerator;
 
-internal class ODataDbContextGenerator : INoxCodeGenerator
+internal class DtoDbContextGenerator : INoxCodeGenerator
 {
-    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Presentation;
+    public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Infrastructure;
 
     public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
@@ -22,7 +22,7 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
             return;
         }
 
-        var code = new CodeBuilder($"ODataDbContext.g.cs", context);
+        var code = new CodeBuilder($"DtoDbContext.g.cs", context);
 
         // Namespace
         code.AppendLine(@"using Microsoft.EntityFrameworkCore;");
@@ -32,10 +32,10 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
         code.AppendLine(@$"using {codeGeneratorState.ApplicationNameSpace}.Dto;");
 
         code.AppendLine();
-        code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
+        code.AppendLine($"namespace {codeGeneratorState.PersistenceNameSpace};");
         code.AppendLine();
 
-        string dbContextName = "ODataDbContext";
+        string dbContextName = "DtoDbContext";
 
         // Db Context
         code.AppendLine($"public class {dbContextName} : DbContext");
@@ -67,15 +67,16 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
 
         foreach (var entity in solution.Domain.Entities)
         {
-            code.AppendLine($"public DbSet<{entity.Name}Dto> {entity.PluralName} {{ get; set; }} = null!;");
-            code.AppendLine();
+            if (!entity.IsOwnedEntity)
+            {
+                code.AppendLine($"public DbSet<{entity.Name}Dto> {entity.PluralName} {{ get; set; }} = null!;");
+                code.AppendLine();
+            }
         }
 
         AddDbContextOnConfiguring(code, codeGeneratorState);
 
         AddOnModelCreating(solution, code);
-
-        code.EndBlock();
 
         code.EndBlock();
 
@@ -90,19 +91,57 @@ internal class ODataDbContextGenerator : INoxCodeGenerator
 
         foreach (var entity in solution.Domain!.Entities)
         {
+            if (entity.IsOwnedEntity)
+            {
+                continue;
+            }
+
             code.StartBlock();
             code.AppendLine($"var type = typeof({entity.Name}Dto);");
             code.AppendLine($"var builder = modelBuilder.Entity(type!);");
             code.AppendLine();
+
             foreach (var key in entity.Keys!)
             {
-                {
-                    code.AppendLine($"builder.HasKey(\"{key.Name}\");");
+                code.AppendLine($"builder.HasKey(\"{key.Name}\");");
+            }
 
+            var keyNames = entity.Keys.Select(x => x.Name);
+            var databaseTypeKeysConfiguration = entity.Keys
+                .Where(x =>
+                    x.Type == Types.NoxType.DatabaseGuid ||
+                    x.Type == Types.NoxType.DatabaseNumber)
+                .Select(x => $"owned.Property(\"{x.Name}\").ValueGeneratedOnAdd();");
+            if (entity.OwnedRelationships != null)
+            {
+#pragma warning disable S3267 // Loops should be simplified with "LINQ" expressions
+                foreach (var ownedRelationship in entity.OwnedRelationships)
+#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
+                {
+                    code.AppendLine(@$"builder.OwnsMany(typeof({ownedRelationship.Related.Entity.Name}Dto), ""{ownedRelationship.Related.Entity.PluralName}"", owned =>
+                    {{
+                         
+                        owned.WithOwner().HasForeignKey(""{entity.Name}Id"");
+                        owned.HasKey(""{string.Join(@""",""", keyNames)}"");
+                        owned.ToTable(""{ownedRelationship.Related.Entity.Name}"");");
+
+                    code.Indent();
+                    code.Indent();
+                    foreach (var databaseTypeConfiguration in databaseTypeKeysConfiguration)
+                    {
+                        code.AppendLine(databaseTypeConfiguration);
+                    }
+                    code.UnIndent();
+                    code.AppendLine(@$"}}");
+                    code.UnIndent();
+                    code.AppendLine(@$");");
                 }
             }
+
             code.EndBlock();
         }
+
+        code.EndBlock();
     }
 
     internal static void AddDbContextOnConfiguring(CodeBuilder code, NoxSolutionCodeGeneratorState codeGeneratorState)

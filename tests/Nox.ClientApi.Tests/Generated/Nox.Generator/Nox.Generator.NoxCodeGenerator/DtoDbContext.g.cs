@@ -8,9 +8,9 @@ using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using ClientApi.Application.Dto;
 
-namespace ClientApi.Presentation.Api.OData;
+namespace ClientApi.Infrastructure.Persistence;
 
-public class ODataDbContext : DbContext
+public class DtoDbContext : DbContext
 {
     
     
@@ -24,8 +24,8 @@ public class ODataDbContext : DbContext
     /// </summary>
     protected readonly INoxDatabaseProvider _dbProvider;
     protected readonly INoxClientAssemblyProvider _clientAssemblyProvider;
-        public ODataDbContext(
-            DbContextOptions<ODataDbContext> options,
+        public DtoDbContext(
+            DbContextOptions<DtoDbContext> options,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
             INoxClientAssemblyProvider clientAssemblyProvider
@@ -39,8 +39,6 @@ public class ODataDbContext : DbContext
         public DbSet<ClientDatabaseNumberDto> ClientDatabaseNumbers { get; set; } = null!;
         
         public DbSet<ClientNuidDto> ClientNuids { get; set; } = null!;
-        
-        public DbSet<OwnedEntityDto> OwnedEntities { get; set; } = null!;
         
         public DbSet<ClientDatabaseGuidDto> ClientDatabaseGuids { get; set; } = null!;
         
@@ -61,15 +59,18 @@ public class ODataDbContext : DbContext
                 var builder = modelBuilder.Entity(type!);
                 
                 builder.HasKey("Id");
+                builder.OwnsMany(typeof(OwnedEntityDto), "OwnedEntities", owned =>
+                    {
+                         
+                        owned.WithOwner().HasForeignKey("ClientDatabaseNumberId");
+                        owned.HasKey("Id");
+                        owned.ToTable("OwnedEntity");
+                        owned.Property("Id").ValueGeneratedOnAdd();
+                    }
+                );
             }
             {
                 var type = typeof(ClientNuidDto);
-                var builder = modelBuilder.Entity(type!);
-                
-                builder.HasKey("Id");
-            }
-            {
-                var type = typeof(OwnedEntityDto);
                 var builder = modelBuilder.Entity(type!);
                 
                 builder.HasKey("Id");

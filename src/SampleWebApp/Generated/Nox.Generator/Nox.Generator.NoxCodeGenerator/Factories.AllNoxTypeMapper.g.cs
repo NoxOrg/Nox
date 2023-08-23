@@ -28,7 +28,12 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "TextId", dto.TextId);        
+        if(noxTypeValue != null)
+        {        
+            entity.TextId = noxTypeValue;
+        }
 
         // TODO map NuidField Nuid remaining types and remove if else
         noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition,"BooleanField",dto.BooleanField);

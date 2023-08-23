@@ -25,6 +25,7 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntitySet<ClientDatabaseNumberDto>("ClientDatabaseNumbers");
         builder.EntityType<ClientDatabaseNumberKeyDto>();
+        builder.EntityType<ClientDatabaseNumberDto>().ContainsMany(e => e.OwnedEntities).AutoExpand = true;
 
         builder.EntityType<ClientDatabaseNumberDto>();
         builder.EntityType<ClientDatabaseNumberDto>().Ignore(e => e.DeletedAtUtc);
@@ -35,11 +36,7 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<ClientNuidDto>();
         builder.EntityType<ClientNuidDto>().Ignore(e => e.DeletedAtUtc);
 
-        builder.EntitySet<OwnedEntityDto>("OwnedEntities");
-        builder.EntityType<OwnedEntityKeyDto>();
-
         builder.EntityType<OwnedEntityDto>();
-        builder.EntityType<OwnedEntityDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<ClientDatabaseGuidDto>("ClientDatabaseGuids");
         builder.EntityType<ClientDatabaseGuidKeyDto>();

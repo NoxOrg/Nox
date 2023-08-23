@@ -9,10 +9,10 @@ using SampleWebApp.Infrastructure.Persistence;
 
 #nullable disable
 
-namespace SampleWebApp.Migrations
+namespace SampleWebAppdeprecated.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230821134014_InitialCreate")]
+    [Migration("20230822145739_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />

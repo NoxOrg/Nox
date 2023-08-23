@@ -8,9 +8,9 @@ using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using SampleWebApp.Application.Dto;
 
-namespace SampleWebApp.Presentation.Api.OData;
+namespace SampleWebApp.Infrastructure.Persistence;
 
-public class ODataDbContext : DbContext
+public class DtoDbContext : DbContext
 {
     
     
@@ -24,8 +24,8 @@ public class ODataDbContext : DbContext
     /// </summary>
     protected readonly INoxDatabaseProvider _dbProvider;
     protected readonly INoxClientAssemblyProvider _clientAssemblyProvider;
-        public ODataDbContext(
-            DbContextOptions<ODataDbContext> options,
+        public DtoDbContext(
+            DbContextOptions<DtoDbContext> options,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
             INoxClientAssemblyProvider clientAssemblyProvider
@@ -48,8 +48,6 @@ public class ODataDbContext : DbContext
         
         public DbSet<CurrencyCashBalanceDto> CurrencyCashBalances { get; set; } = null!;
         
-        public DbSet<CountryLocalNamesDto> CountryLocalNames { get; set; } = null!;
-        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);
@@ -67,6 +65,15 @@ public class ODataDbContext : DbContext
                 var builder = modelBuilder.Entity(type!);
                 
                 builder.HasKey("Id");
+                builder.OwnsMany(typeof(CountryLocalNamesDto), "CountryLocalNames", owned =>
+                    {
+                         
+                        owned.WithOwner().HasForeignKey("CountryId");
+                        owned.HasKey("Id");
+                        owned.ToTable("CountryLocalNames");
+                        owned.Property("Id").ValueGeneratedOnAdd();
+                    }
+                );
             }
             {
                 var type = typeof(CurrencyDto);
@@ -99,12 +106,6 @@ public class ODataDbContext : DbContext
                 
                 builder.HasKey("StoreId");
                 builder.HasKey("CurrencyId");
-            }
-            {
-                var type = typeof(CountryLocalNamesDto);
-                var builder = modelBuilder.Entity(type!);
-                
-                builder.HasKey("Id");
             }
         }
     }
