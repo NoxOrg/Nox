@@ -3,8 +3,9 @@ using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution.Extensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using Nox.Types.EntityFramework.Abstractions;
 
-namespace Nox.Types.EntityFramework.Abstractions;
+namespace Nox.Types.EntityFramework.Configurations;
 
 public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 {
