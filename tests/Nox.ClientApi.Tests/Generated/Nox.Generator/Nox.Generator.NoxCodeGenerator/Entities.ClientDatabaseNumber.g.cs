@@ -33,4 +33,11 @@ public partial class ClientDatabaseNumber : AuditableEntityBase
     /// The Money (Optional).
     /// </summary>
     public Nox.Types.Money? AmmountMoney { get; set; } = null!;
+
+    /// <summary>
+    /// ClientDatabaseNumber is also know as ZeroOrMany OwnedEntities
+    /// </summary>
+    public virtual List<OwnedEntity> OwnedEntities { get; set; } = new();
+
+    public List<OwnedEntity> OwnedEntity => OwnedEntities;
 }

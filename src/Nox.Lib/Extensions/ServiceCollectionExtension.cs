@@ -10,6 +10,7 @@ using Nox.Secrets;
 using Nox.Secrets.Abstractions;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Configurations;
 
 namespace Nox;
 
@@ -33,7 +34,8 @@ public static class ServiceCollectionExtension
             .AddNoxTypesDatabaseConfigurator(noxAssemblies)
             .AddNoxFactories(noxAssemblies)
             .AddAutoMapper(entryAssembly)
-            .AddNoxProviders();
+            .AddNoxProviders()
+            .AddNoxDtos();
     }
     private static IServiceCollection AddNoxMediatR(
         this IServiceCollection services,
@@ -129,6 +131,15 @@ public static class ServiceCollectionExtension
     {
         services.AddScoped<IUserProvider, DefaultUserProvider>();
         services.AddScoped<ISystemProvider, DefaultSystemProvider>();
+
+        return services;
+    }
+
+    private static IServiceCollection AddNoxDtos(
+       this IServiceCollection services)
+    {
+        // For now we do not need a specific database provider
+        services.AddSingleton<INoxDtoDatabaseConfigurator, NoxDtoDatabaseConfigurator>();
 
         return services;
     }

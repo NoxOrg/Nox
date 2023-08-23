@@ -5,7 +5,7 @@ namespace Nox.Types;
 /// Represents a Nox <see cref="DayOfWeek"/> type and value object.
 /// </summary>
 /// <remarks>Placeholder, needs to be implemented</remarks>
-public sealed class DayOfWeek : ValueObject<int, DayOfWeek>
+public sealed class DayOfWeek : ValueObject<ushort, DayOfWeek>
 {
     public DayOfWeek() { Value = 0; }
 
@@ -14,8 +14,7 @@ public sealed class DayOfWeek : ValueObject<int, DayOfWeek>
     /// </summary>
     /// <param name="dayOfTheWeek">Value to be parsed.</param>
     /// <returns>New <see cref="DayOfWeek"/> object.</returns>
-    public static DayOfWeek From(DayOfWeek dayOfTheWeek)
-        => From((dayOfTheWeek));
+    public static DayOfWeek From(System.DayOfWeek dayOfTheWeek) => From((ushort)dayOfTheWeek);
 
     /// <summary>
     /// Validates the <see cref="DayOfWeek"/> object.
@@ -24,11 +23,6 @@ public sealed class DayOfWeek : ValueObject<int, DayOfWeek>
     internal override ValidationResult Validate()
     {
         var result = base.Validate();
-
-        if (Value < 0)
-        {
-            result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox DayOfWeek type as value {Value} is less than the minimum specified value of 0"));
-        }
 
         if (Value > 6)
         {

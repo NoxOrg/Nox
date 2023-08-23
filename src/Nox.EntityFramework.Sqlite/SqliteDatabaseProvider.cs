@@ -2,6 +2,7 @@
 using Nox.Solution;
 
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Configurations;
 
 namespace Nox.EntityFramework.Sqlite;
 

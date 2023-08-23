@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Configurations;
 using Npgsql;
 
 namespace Nox.EntityFramework.Postgres;

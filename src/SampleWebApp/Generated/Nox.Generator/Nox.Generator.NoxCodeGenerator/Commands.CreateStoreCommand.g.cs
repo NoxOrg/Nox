@@ -7,7 +7,10 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using Nox.Abstractions;
 using Nox.Application;
+using Nox.Application.Commands;
 using Nox.Factories;
+using Nox.Solution;
+
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
@@ -15,32 +18,26 @@ using SampleWebApp.Application.Dto;
 namespace SampleWebApp.Application.Commands;
 public record CreateStoreCommand(StoreCreateDto EntityDto) : IRequest<StoreKeyDto>;
 
-public class CreateStoreCommandHandler: IRequestHandler<CreateStoreCommand, StoreKeyDto>
+public partial class CreateStoreCommandHandler: CommandBase<CreateStoreCommand>, IRequestHandler <CreateStoreCommand, StoreKeyDto>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityFactory<StoreCreateDto,Store> EntityFactory { get; }
 
 	public CreateStoreCommandHandler(
 		SampleWebAppDbContext dbContext,
-		IEntityFactory<StoreCreateDto,Store> entityFactory,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider)
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityFactory<StoreCreateDto,Store> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 
 	public async Task<StoreKeyDto> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
+
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		var createdBy = _userProvider.GetUser();
-		var createdVia = _systemProvider.GetSystem();
-		entityToCreate.Created(createdBy, createdVia);
 	
 		DbContext.Stores.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();

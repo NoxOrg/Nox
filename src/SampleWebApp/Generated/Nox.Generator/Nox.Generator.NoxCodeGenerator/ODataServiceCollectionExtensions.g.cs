@@ -28,6 +28,7 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntitySet<CountryDto>("Countries");
         builder.EntityType<CountryKeyDto>();
+        builder.EntityType<CountryDto>().ContainsMany(e => e.CountryLocalNames).AutoExpand = true;
 
         builder.EntityType<CountryDto>();
         builder.EntityType<CountryDto>().Ignore(e => e.DeletedAtUtc);

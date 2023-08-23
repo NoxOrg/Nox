@@ -17,7 +17,6 @@ using Nox.Exceptions;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
 
-
 namespace SampleWebApp.Application;
 
 public class CurrencyCashBalanceMapper: EntityMapperBase<CurrencyCashBalance>
@@ -29,7 +28,17 @@ public class CurrencyCashBalanceMapper: EntityMapperBase<CurrencyCashBalance>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "StoreId", dto.StoreId);        
+        if(noxTypeValue != null)
+        {        
+            entity.StoreId = noxTypeValue;
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.Nuid>(entityDefinition, "CurrencyId", dto.CurrencyId);        
+        if(noxTypeValue != null)
+        {        
+            entity.CurrencyId = noxTypeValue;
+        }
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"Amount",dto.Amount);
         if(noxTypeValue != null)
         {        
@@ -44,7 +53,7 @@ public class CurrencyCashBalanceMapper: EntityMapperBase<CurrencyCashBalance>
 
     public override void PartialMapToEntity(CurrencyCashBalance entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
-        { 
+        {
             if (updatedProperties.TryGetValue("Amount", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"Amount",value);
@@ -58,7 +67,7 @@ public class CurrencyCashBalanceMapper: EntityMapperBase<CurrencyCashBalance>
                 }
             }
         }
-        { 
+        {
             if (updatedProperties.TryGetValue("OperationLimit", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"OperationLimit",value);
@@ -72,5 +81,5 @@ public class CurrencyCashBalanceMapper: EntityMapperBase<CurrencyCashBalance>
                 }
             }
         }
-    }  
+    }
 }
