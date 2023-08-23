@@ -112,20 +112,7 @@ internal class ApiGenerator : INoxCodeGenerator
             if (entity.Persistence is null ||
                 entity.Persistence.Read.IsEnabled)
             {
-                GenerateGet(entity, code, codeGeneratorState.Solution);
-
-                if (entity.OwnedRelationships != null)
-                {
-                    foreach (var relationship in entity.OwnedRelationships)
-                    {
-                        // Owned single entitities are returned with parent
-                        if(relationship.WithSingleEntity())
-                        {
-                            continue;
-                        }
-                        GenerateChildrenGet(relationship.Related.Entity, entity.PluralName, code);
-                    }
-                }
+                GenerateGet(entity, code, codeGeneratorState.Solution);               
             }
 
             if (entity.Persistence is null ||
@@ -319,21 +306,6 @@ internal class ApiGenerator : INoxCodeGenerator
         code.EndBlock();
         code.AppendLine();
         code.AppendLine($"return Ok(item);");
-
-        // End method
-        code.EndBlock();
-        code.AppendLine();
-    }
-
-    private static void GenerateChildrenGet(Entity entity, string parentEntityPluralName, CodeBuilder code)
-    {
-        // Method Get
-        code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public ActionResult<IQueryable<{entity.Name}Dto>> Get{entity.PluralName}([FromRoute] string key)");
-
-        // Method content
-        code.StartBlock();
-        code.AppendLine($"return Ok(_databaseContext.{parentEntityPluralName}.AsNoTracking().Where(d => d.{entity.Keys![0].Name}.ToString().Equals(key)).SelectMany(m => m.{entity.PluralName}));");
 
         // End method
         code.EndBlock();
