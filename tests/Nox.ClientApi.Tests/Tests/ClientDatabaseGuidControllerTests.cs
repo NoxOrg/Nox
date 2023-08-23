@@ -9,6 +9,7 @@ using ClientApi.Infrastructure.Persistence;
 
 namespace Nox.ClientApi.Tests.Tests
 {
+    [Collection("Sequential")]
     public class ClientDatabaseGuidControllerTests
     {
         [Theory, AutoMoqData]
