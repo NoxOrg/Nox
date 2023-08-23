@@ -24,10 +24,16 @@ internal class AllNoxTypesDataSeeder : SampleDataSeederBase<AllNoxTypeModel, All
             CultureCodeField = CultureCode.From(model.CultureCode),
             CurrencyCode3Field = CurrencyCode3.From(model.CurrencyCode3),
             CurrencyNumberField = CurrencyNumber.From(model.CurrencyNumber),
+            FileField = Nox.Types.File.From((model.FileUrl, model.FileName, model.FileSize)),
+            HashedTexField = HashedText.From(model.TextField),
+            ImageField = Image.From((model.ImageUrl, model.ImageName, model.ImageSize)),
             LanguageCodeField = LanguageCode.From(model.LanguageCode),
+            //LatLongField = LatLong.From(x.Latitude, x.Longitude),
             LengthField = Length.From(model.LengthValue, (LengthTypeUnit)Enum.Parse(typeof(LengthTypeUnit), model.LengthUnit)),
             MacAddressField = MacAddress.From(model.MacAddress),
             MarkdownField = Markdown.From(model.Markdown),
+            MoneyField = Money.From((model.MoneyAmount, (CurrencyCode)Enum.Parse(typeof(CurrencyCode), model.CurrencyCode))),
+            PasswordField = Password.From(model.Password),
             PhoneNumberField = PhoneNumber.From(model.PhoneNumber),
             TemperatureField = Temperature.From(model.Temperature, (TemperatureTypeUnit)Enum.Parse(typeof(TemperatureTypeUnit), model.TemperatureUnit)),
             HtmlField = Html.From(model.HtmlText),
@@ -42,7 +48,9 @@ internal class AllNoxTypesDataSeeder : SampleDataSeederBase<AllNoxTypeModel, All
             DateTimeDurationField = DateTimeDuration.From(model.DurationTicks),
             DateTimeField = Nox.Types.DateTime.From(new System.DateTime(model.DateYear, model.DateMonth, model.DateDay, model.TimeHour, model.TimeMinute, model.TimeSecond, model.TimeMillisecond, DateTimeKind.Utc)),
             DateTimeScheduleField = DateTimeSchedule.From(model.DateTimeSchedule),
-            //VatNumberField = VatNumber.From(model.VatNumber, model.CountryCode2),
+            TimeZoneCodeField = TimeZoneCode.From(model.TimeZoneCode),
+            TranslatedTextField = TranslatedText.From((CultureCode.From(model.CultureCode), model.TranslatedText)),
+            VatNumberField = VatNumber.From(model.VatNumber, model.CountryCode2),
         };
     }
 }

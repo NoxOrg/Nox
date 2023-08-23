@@ -225,39 +225,54 @@ attributes:
     isRequired: true
 
 # Compound Types ========================  
-  - name: StreetAddressField
-    description: StreetAddress Nox Type
-    type: streetAddress
+  # - name: DateTimeRangeField
+  #   description: Date Time Range Nox Type
+  #   type: dateTimeRange
+  #   isRequired: true
+
   - name: FileField
     description: File Nox Type
     type: file
+    isRequired: true
+
+  - name: HashedTexField
+    description: HashedTex Nox Type
+    type: hashedText
+    isRequired: true
+
+  - name: ImageField
+    description: Image Nox Type
+    type: image
+    isRequired: true
+
+  # - name: LatLongField
+  #   description: LatLongField Nox Type
+  #   type: latLong
+  #   isRequired: true
+
+  - name: MoneyField
+    description: Money Nox Type
+    type: money
+    isRequired: true
+
+  - name: PasswordField
+    description: Password Nox Type
+    type: password
+    isRequired: true
+
+  - name: StreetAddressField
+    description: StreetAddress Nox Type
+    type: streetAddress
+
   - name: TranslatedTextField
     description: TranslatedText Nox Type
     type: translatedText
+    isRequired: true
+
   - name: VatNumberField
     description: VatNumber Nox Type
     type: vatNumber
     vatNumberTypeOptions:
-       countryCode: "FR"  
-  - name: PasswordField
-    description: Password Nox Type
-    type: password
-  - name: MoneyField
-    description: Money Nox Type
-    type: money
-  #- name: ImageField
-  #  description: Image Nox Type
-  #  type: image
-  - name: HashedTexField
-    description: HashedTex Nox Type
-    type: hashedText
-  #- name: DateTimeRangeField
-  #  description: DateTimeRange Nox Type
-  #  type: dateTimeRange
-  - name: LatLongField
-    description: LatLongField Nox Type
-    type: latLong
-  - name: EncryptedTextField
-    description: EncryptedText Nox Type
-    type: encryptedText
+        countryCode: "FR"
+    isRequired: true
     

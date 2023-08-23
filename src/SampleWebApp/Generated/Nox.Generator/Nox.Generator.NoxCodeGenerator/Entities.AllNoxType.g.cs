@@ -204,47 +204,42 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.Text TextField { get; set; } = null!;
 
     /// <summary>
+    /// File Nox Type (Required).
+    /// </summary>
+    public Nox.Types.File FileField { get; set; } = null!;
+
+    /// <summary>
+    /// HashedTex Nox Type (Required).
+    /// </summary>
+    public Nox.Types.HashedText HashedTexField { get; set; } = null!;
+
+    /// <summary>
+    /// Image Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Image ImageField { get; set; } = null!;
+
+    /// <summary>
+    /// Money Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Money MoneyField { get; set; } = null!;
+
+    /// <summary>
+    /// Password Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Password PasswordField { get; set; } = null!;
+
+    /// <summary>
     /// StreetAddress Nox Type (Optional).
     /// </summary>
     public Nox.Types.StreetAddress? StreetAddressField { get; set; } = null!;
 
     /// <summary>
-    /// File Nox Type (Optional).
+    /// TranslatedText Nox Type (Required).
     /// </summary>
-    public Nox.Types.File? FileField { get; set; } = null!;
+    public Nox.Types.TranslatedText TranslatedTextField { get; set; } = null!;
 
     /// <summary>
-    /// TranslatedText Nox Type (Optional).
+    /// VatNumber Nox Type (Required).
     /// </summary>
-    public Nox.Types.TranslatedText? TranslatedTextField { get; set; } = null!;
-
-    /// <summary>
-    /// VatNumber Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.VatNumber? VatNumberField { get; set; } = null!;
-
-    /// <summary>
-    /// Password Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.Password? PasswordField { get; set; } = null!;
-
-    /// <summary>
-    /// Money Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.Money? MoneyField { get; set; } = null!;
-
-    /// <summary>
-    /// HashedTex Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.HashedText? HashedTexField { get; set; } = null!;
-
-    /// <summary>
-    /// LatLongField Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.LatLong? LatLongField { get; set; } = null!;
-
-    /// <summary>
-    /// EncryptedText Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.EncryptedText? EncryptedTextField { get; set; } = null!;
+    public Nox.Types.VatNumber VatNumberField { get; set; } = null!;
 }
