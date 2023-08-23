@@ -2,10 +2,21 @@
   {
     "Id": "1",
     "Boolean": true,
+    "AreaValue": 50,
+    "AreaUnit": "SquareMeter",
+    "DistanceValue": 1000,
+    "DistanceUnit": "Mile",
+    "Email": "info@france.fr",
+    "EncryptedTextTypeOptions": {
+      "PublicKey": "ykARRom92D6Ok8EtBe5Kw9YbPQhkKs52Ebq6mUd7T1I=",
+      "Iv": "7xay8jIyF+SC62lfTrC8qA=="
+    },
     "Color": "Red",
     "CountryCode2": "FR",
     "CountryCode3": "FRA",
     "CultureCode": "fr-FR",
+    "DayOfTheWeek": "Tuesday",
+    "Guid": "06f67cbe-a317-446a-852b-0cca60352a1a",
     "FileUrl": "https://example.com/myfile.pdf",
     "FileName": "Google",
     "FileSize": 1000000000,
@@ -51,10 +62,21 @@
   {
     "Id": "2",
     "Boolean": false,
+    "AreaValue": 500,
+    "AreaUnit": "SquareFoot",
+    "DistanceValue": 500,
+    "DistanceUnit": "Kilometer",
+    "Email": "contact-us@france.fr",
+    "EncryptedTextTypeOptions": {
+      "PublicKey": "ykARRom92D6Ok8EtBe5Kw9YbPQhkKs52Ebq6mUd7T1I=",
+      "Iv": "7xay8jIyF+SC62lfTrC8qA=="
+    },
     "Color": "Yellow",
     "CountryCode2": "FR",
     "CountryCode3": "FRA",
     "CultureCode": "fr-FR",
+    "DayOfTheWeek": "Saturday",
+    "Guid": "b23db1b9-2e1a-4c69-990f-0dd8da289f61",
     "FileUrl": "https://example.com/myfile.pdf",
     "FileName": "Yahoo",
     "FileSize": 55000,
@@ -99,6 +121,17 @@
   {
     "Id": "3",
     "Boolean": true,
+    "AreaValue": 250,
+    "AreaUnit": "SquareFoot",
+    "DistanceValue": 200,
+    "DistanceUnit": "Kilometer",
+    "Email": "helpdesk@france.fr",
+    "EncryptedTextTypeOptions": {
+      "PublicKey": "ykARRom92D6Ok8EtBe5Kw9YbPQhkKs52Ebq6mUd7T1I=",
+      "Iv": "7xay8jIyF+SC62lfTrC8qA=="
+    },
+    "DayOfTheWeek": "Thursday",
+    "Guid": "4c9a44de-a381-40ae-981c-d18389e0e39e",
     "Color": "Blue",
     "CountryCode2": "FR",
     "CountryCode3": "FRA",

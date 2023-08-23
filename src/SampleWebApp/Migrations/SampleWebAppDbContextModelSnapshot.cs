@@ -50,6 +50,9 @@ namespace SampleWebAppdeprecated.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<decimal>("AreaField")
+                        .HasColumnType("DECIMAL(11, 6)");
+
                     b.Property<bool?>("BooleanField")
                         .HasColumnType("bit");
 
@@ -113,6 +116,9 @@ namespace SampleWebAppdeprecated.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<ushort>("DayOfWeekField")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset?>("DeletedAtUtc")
                         .HasColumnType("datetimeoffset");
 
@@ -124,6 +130,24 @@ namespace SampleWebAppdeprecated.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
+
+                    b.Property<decimal>("DistanceField")
+                        .HasColumnType("DECIMAL(15, 6)");
+
+                    b.Property<string>("EmailField")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<byte[]>("EncryptedTextField")
+                        .IsRequired()
+                        .IsUnicode(false)
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<Guid>("GuidField")
+                        .IsUnicode(false)
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("HtmlField")
                         .IsUnicode(true)

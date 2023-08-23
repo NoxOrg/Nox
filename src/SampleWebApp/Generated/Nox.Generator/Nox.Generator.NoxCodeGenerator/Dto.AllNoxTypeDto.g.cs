@@ -30,6 +30,11 @@ public partial class AllNoxTypeDto
     public System.String TextId { get; set; } = default!;
 
     /// <summary>
+    /// Area Nox Type (Required).
+    /// </summary>
+    public System.Decimal AreaField { get; set; } = default!;
+
+    /// <summary>
     /// BooleanField Nox Type (Optional).
     /// </summary>
     public System.Boolean? BooleanField { get; set; }
@@ -85,9 +90,29 @@ public partial class AllNoxTypeDto
     public System.String DateTimeScheduleField { get; set; } = default!;
 
     /// <summary>
+    /// DayOfWeek Nox Type (Required).
+    /// </summary>
+    public System.UInt16 DayOfWeekField { get; set; } = default!;
+
+    /// <summary>
+    /// Distance Nox Type (Required).
+    /// </summary>
+    public System.Decimal DistanceField { get; set; } = default!;
+
+    /// <summary>
+    /// Email Nox Type (Required).
+    /// </summary>
+    public System.String EmailField { get; set; } = default!;
+
+    /// <summary>
     /// Formula Nox Type (Optional).
     /// </summary>
     [NotMapped]public System.String? FormulaField { get; set; }
+
+    /// <summary>
+    /// Guid Nox Type (Required).
+    /// </summary>
+    public System.Guid GuidField { get; set; } = default!;
 
     /// <summary>
     /// HtmlField Nox Type (Optional).

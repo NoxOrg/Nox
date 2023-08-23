@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebAppdeprecated.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230823135712_InitialCreate")]
+    [Migration("20230823142822_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -52,6 +52,9 @@ namespace SampleWebAppdeprecated.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<decimal>("AreaField")
+                        .HasColumnType("DECIMAL(11, 6)");
 
                     b.Property<bool?>("BooleanField")
                         .HasColumnType("bit");
@@ -116,6 +119,9 @@ namespace SampleWebAppdeprecated.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<ushort>("DayOfWeekField")
+                        .HasColumnType("int");
+
                     b.Property<DateTimeOffset?>("DeletedAtUtc")
                         .HasColumnType("datetimeoffset");
 
@@ -127,6 +133,24 @@ namespace SampleWebAppdeprecated.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
+
+                    b.Property<decimal>("DistanceField")
+                        .HasColumnType("DECIMAL(15, 6)");
+
+                    b.Property<string>("EmailField")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
+
+                    b.Property<byte[]>("EncryptedTextField")
+                        .IsRequired()
+                        .IsUnicode(false)
+                        .HasColumnType("varbinary(max)");
+
+                    b.Property<Guid>("GuidField")
+                        .IsUnicode(false)
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("HtmlField")
                         .IsUnicode(true)

@@ -34,6 +34,11 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         {        
             entity.TextId = noxTypeValue;
         }
+        noxTypeValue = CreateNoxType<Nox.Types.Area>(entityDefinition,"AreaField",dto.AreaField);
+        if(noxTypeValue != null)
+        {        
+            entity.AreaField = noxTypeValue;
+        }
         noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition,"BooleanField",dto.BooleanField);
         if(noxTypeValue != null)
         {        
@@ -83,8 +88,28 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         {        
             entity.DateTimeScheduleField = noxTypeValue;
         }
+        noxTypeValue = CreateNoxType<Nox.Types.DayOfWeek>(entityDefinition,"DayOfWeekField",dto.DayOfWeekField);
+        if(noxTypeValue != null)
+        {        
+            entity.DayOfWeekField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Distance>(entityDefinition,"DistanceField",dto.DistanceField);
+        if(noxTypeValue != null)
+        {        
+            entity.DistanceField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"EmailField",dto.EmailField);
+        if(noxTypeValue != null)
+        {        
+            entity.EmailField = noxTypeValue;
+        }
 
         // TODO map FormulaField Formula remaining types and remove if else
+        noxTypeValue = CreateNoxType<Nox.Types.Guid>(entityDefinition,"GuidField",dto.GuidField);
+        if(noxTypeValue != null)
+        {        
+            entity.GuidField = noxTypeValue;
+        }
         noxTypeValue = CreateNoxType<Nox.Types.Html>(entityDefinition,"HtmlField",dto.HtmlField);
         if(noxTypeValue != null)
         {        
@@ -196,6 +221,8 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         {        
             entity.TextField = noxTypeValue;
         }
+
+        // TODO map EncryptedTextField EncryptedText remaining types and remove if else
         noxTypeValue = CreateNoxType<Nox.Types.File>(entityDefinition,"FileField",dto.FileField);
         if(noxTypeValue != null)
         {        
@@ -231,6 +258,20 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
 
     public override void PartialMapToEntity(AllNoxType entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+        {
+            if (updatedProperties.TryGetValue("AreaField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Area>(entityDefinition,"AreaField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "AreaField");
+                }
+                else
+                {
+                    entity.AreaField = noxTypeValue;
+                }
+            }
+        }
         {
             if (updatedProperties.TryGetValue("BooleanField", out dynamic? value))
             {
@@ -382,6 +423,62 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
                 else
                 {
                     entity.DateTimeScheduleField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("DayOfWeekField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.DayOfWeek>(entityDefinition,"DayOfWeekField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "DayOfWeekField");
+                }
+                else
+                {
+                    entity.DayOfWeekField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("DistanceField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Distance>(entityDefinition,"DistanceField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "DistanceField");
+                }
+                else
+                {
+                    entity.DistanceField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("EmailField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"EmailField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "EmailField");
+                }
+                else
+                {
+                    entity.EmailField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("GuidField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Guid>(entityDefinition,"GuidField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "GuidField");
+                }
+                else
+                {
+                    entity.GuidField = noxTypeValue;
                 }
             }
         }
