@@ -1,0 +1,66 @@
+#
+# customer.entity.nox.yaml
+# 
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+name: Customer
+
+description: Customer definition and related data
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: The Customer unique identifier 
+    type: databaseNumber
+
+attributes:
+
+  - name: FirstName
+    description: The customer's first name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true 
+
+  - name: LastName
+    description: The customer's last name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+
+  - name: Email
+    description: The customer's email
+    type: email
+    isRequired: true
+
+  - name: Address
+    description: The customer's address
+    type: streetAddress
+    isRequired: true
+
+  - name: MobileNumber
+    description: The customer's mobile number
+    type: phoneNumber
+    isRequired: false   
+
+persistence:
+    isVersioned: true
+    tableName: Customer
+    schema: dbo
+    create:
+        isEnabled: true
+        raiseEvents: true
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: true
+    delete:
+        isEnabled: true
+        raiseEvents: true
+        useSoftDelete: true

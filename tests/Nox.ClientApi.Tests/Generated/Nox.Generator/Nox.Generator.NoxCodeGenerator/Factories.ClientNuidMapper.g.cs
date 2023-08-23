@@ -17,7 +17,6 @@ using Nox.Exceptions;
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
 
-
 namespace ClientApi.Application;
 
 public class ClientNuidMapper: EntityMapperBase<ClientNuid>
@@ -39,7 +38,7 @@ public class ClientNuidMapper: EntityMapperBase<ClientNuid>
 
     public override void PartialMapToEntity(ClientNuid entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
-        { 
+        {
             if (updatedProperties.TryGetValue("Name", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
@@ -53,5 +52,5 @@ public class ClientNuidMapper: EntityMapperBase<ClientNuid>
                 }
             }
         }
-    }  
+    }
 }

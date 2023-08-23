@@ -5,6 +5,7 @@
 using Nox.Abstractions;
 using Nox.Types;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace ClientApi.Application.Dto; 
 
@@ -13,6 +14,9 @@ namespace ClientApi.Application.Dto;
 /// </summary>
 public partial class OwnedEntityCreateDto : OwnedEntityUpdateDto
 {
-    // TODO Add Manual Keys to be set by the user
-
+    /// <summary>
+    /// The unique identifier (Required).
+    /// </summary>
+    [Required(ErrorMessage = "Id is required")]
+    public System.String Id { get; set; } = default!;
 }

@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Builders;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Nox.Types.EntityFramework.EntityBuilderAdapter
 {
@@ -29,6 +30,12 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
         public IEntityBuilder Ignore(string propertyName)
         {
             return new EntityBuilderAdapter(EntityTypeBuilder.Ignore(propertyName));
+        }
+
+        public IEntityBuilder ToTable(string tableName)
+        {
+            EntityTypeBuilder.ToTable(tableName);
+            return this;
         }
 
         public KeyBuilder HasKey(params string[] propertyNames)

@@ -15,6 +15,8 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
 
         public KeyBuilder HasKey(params string[] propertyNames);
 
+        public IEntityBuilder ToTable(string tableName);        
+
         public void OwnsOne(
             Type ownedType,
             string navigationName,

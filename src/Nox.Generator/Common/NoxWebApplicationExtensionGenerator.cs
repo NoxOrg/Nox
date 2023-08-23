@@ -61,9 +61,8 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
         code.AppendLine($"appBuilder.Services.AddSingleton<DbContextOptions<{dbContextName}>>();");
         code.AppendLine($"appBuilder.Services.AddSingleton<INoxDatabaseConfigurator, {dbProvider}>();");
         code.AppendLine($"appBuilder.Services.AddSingleton<INoxDatabaseProvider, {dbProvider}>();");
-        code.AppendLine($"appBuilder.Services.AddDbContext<{dbContextName}>();");
-        if (config.Presentation)
-            code.AppendLine($"appBuilder.Services.AddDbContext<ODataDbContext>();");
+        code.AppendLine($"appBuilder.Services.AddDbContext<{dbContextName}>();");        
+        code.AppendLine($"appBuilder.Services.AddDbContext<DtoDbContext>();");
         code.AppendLine("return appBuilder;");
         code.EndBlock();
         code.AppendLine();

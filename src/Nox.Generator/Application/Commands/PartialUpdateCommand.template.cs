@@ -4,13 +4,15 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
 {{- if (entity.Persistence?.IsAudited ?? true)}}
 using Nox.Abstractions;
 {{- end}}
 using Nox.Application.Commands;
+using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
-using Nox.Factories;
+
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;

@@ -22,7 +22,7 @@ public static class NoxWebApplicationBuilderExtension
         appBuilder.Services.AddSingleton<INoxDatabaseConfigurator, SqliteDatabaseProvider>();
         appBuilder.Services.AddSingleton<INoxDatabaseProvider, SqliteDatabaseProvider>();
         appBuilder.Services.AddDbContext<ClientApiDbContext>();
-        appBuilder.Services.AddDbContext<ODataDbContext>();
+        appBuilder.Services.AddDbContext<DtoDbContext>();
         return appBuilder;
     }
     
