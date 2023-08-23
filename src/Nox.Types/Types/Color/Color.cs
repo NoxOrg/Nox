@@ -37,7 +37,7 @@ public class Color : ValueObject<string, Color>
     /// <exception cref="TypeValidationException"></exception>
     public static Color From(byte red, byte green, byte blue)
     {
-        return From(1, red, green, blue);
+        return From(255, red, green, blue);
     }
 
     /// <summary>

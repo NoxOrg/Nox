@@ -181,5 +181,14 @@ public class ColorTests
 
         comparison.Should().Throw<TypeValidationException>();
     }
+
+    [Fact]
+    public void Color_FromRGB_ReturnsValidName()
+    {
+        var color = Nox.Types.Color.From(255, 0, 0);
+
+        //Assert
+        color.ToString("name").Should().Be("Red");
+    }
 }
 
