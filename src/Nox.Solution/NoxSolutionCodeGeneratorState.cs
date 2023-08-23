@@ -19,15 +19,22 @@ public class NoxSolutionCodeGeneratorState
     public NoxSolution Solution => _noxSolution;
     public string RootNameSpace => _noxSolution.Name;
     public string DomainNameSpace => $"{RootNameSpace}.Domain";
+    public string DtoNameSpace => $"{ApplicationNameSpace}.Dto";
     public string ApplicationNameSpace => $"{RootNameSpace}.Application";
     public string DataTransferObjectsNameSpace => $"{RootNameSpace}.Application.DataTransferObjects";
     public string PersistenceNameSpace => $"{RootNameSpace}.Infrastructure.Persistence";
+    
     public string ODataNameSpace => $"{RootNameSpace}.Presentation.Api.OData";
     public string Events => $"{RootNameSpace}.Application.Events";
 
     public string GetEntityTypeFullName(string entityName) => $"{DomainNameSpace}.{entityName}";
 
+    public string GetEntityDtoTypeFullName(string dtoName) => $"{DtoNameSpace}.{dtoName}";
+
     public Type? GetEntityType(string entityName) => _entryAssembly.GetType(GetEntityTypeFullName(entityName));
+
+    public Type? GetEntityDtoType(string dtoName) => _entryAssembly.GetType(GetEntityDtoTypeFullName(dtoName));
+
 
     public string GetForeignKeyPropertyName(string foreignEntityName)
     {
