@@ -24,11 +24,6 @@ public partial class AllNoxType : AuditableEntityBase
     public Text TextId { get; set; } = null!;
 
     /// <summary>
-    /// NuidField Type (Optional).
-    /// </summary>
-    public Nox.Types.Nuid? NuidField { get; set; } = null!;
-
-    /// <summary>
     /// BooleanField Nox Type (Optional).
     /// </summary>
     public Nox.Types.Boolean? BooleanField { get; set; } = null!;
@@ -54,14 +49,34 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.CultureCode? CultureCodeField { get; set; } = null!;
 
     /// <summary>
-    /// CurrencyCode3Field Nox Type (Optional).
+    /// CurrencyCode3Field Nox Type (Required).
     /// </summary>
-    public Nox.Types.CurrencyCode3? CurrencyCode3Field { get; set; } = null!;
+    public Nox.Types.CurrencyCode3 CurrencyCode3Field { get; set; } = null!;
 
     /// <summary>
-    /// DatetimeField Nox Type (Optional).
+    /// Currency Number Nox Type (Required).
     /// </summary>
-    public Nox.Types.DateTime? DateTimeField { get; set; } = null!;
+    public Nox.Types.CurrencyNumber CurrencyNumberField { get; set; } = null!;
+
+    /// <summary>
+    /// Date Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Date DateField { get; set; } = null!;
+
+    /// <summary>
+    /// Date Time Nox Type (Required).
+    /// </summary>
+    public Nox.Types.DateTime DateTimeField { get; set; } = null!;
+
+    /// <summary>
+    /// Date Time Duration Nox Type (Required).
+    /// </summary>
+    public Nox.Types.DateTimeDuration DateTimeDurationField { get; set; } = null!;
+
+    /// <summary>
+    /// Date Time Schedule Nox Type (Required).
+    /// </summary>
+    public Nox.Types.DateTimeSchedule DateTimeScheduleField { get; set; } = null!;
 
     /// <summary>
     /// Formula Nox Type (Optional).
@@ -72,6 +87,26 @@ public partial class AllNoxType : AuditableEntityBase
     /// HtmlField Nox Type (Optional).
     /// </summary>
     public Nox.Types.Html? HtmlField { get; set; } = null!;
+
+    /// <summary>
+    /// Internet Domain Nox Type (Required).
+    /// </summary>
+    public Nox.Types.InternetDomain InternetDomainField { get; set; } = null!;
+
+    /// <summary>
+    /// IpAddress Nox Type (Required).
+    /// </summary>
+    public Nox.Types.IpAddress IpAddressField { get; set; } = null!;
+
+    /// <summary>
+    /// Json Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Json JsonField { get; set; } = null!;
+
+    /// <summary>
+    /// JwtToken Nox Type (Required).
+    /// </summary>
+    public Nox.Types.JwtToken JwtTokenField { get; set; } = null!;
 
     /// <summary>
     /// Language Code Nox Type (Required).
@@ -102,6 +137,16 @@ public partial class AllNoxType : AuditableEntityBase
     /// Temperature Nox Type (Required).
     /// </summary>
     public Nox.Types.Temperature TemperatureField { get; set; } = null!;
+
+    /// <summary>
+    /// Month Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Month MonthField { get; set; } = null!;
+
+    /// <summary>
+    /// NuidField Type (Optional).
+    /// </summary>
+    public Nox.Types.Nuid? NuidField { get; set; } = null!;
 
     /// <summary>
     /// Yaml Nox Type (Optional).

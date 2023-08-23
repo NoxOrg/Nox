@@ -1,5 +1,7 @@
 #
 # customer.entity.nox.yaml
+# 
+# yaml-language-server: $schema=../../../../../schemas/entity.json
 #
 
 name: Customer
@@ -47,7 +49,7 @@ attributes:
     isRequired: false   
 
 persistence:
-    isVersioned: true
+    isAudited: true
     tableName: Customer
     schema: dbo
     create:

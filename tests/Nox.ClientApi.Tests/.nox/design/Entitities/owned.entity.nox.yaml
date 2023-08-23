@@ -1,6 +1,8 @@
 #
 # owned.entity.nox.yaml
 #
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
 
 name: OwnedEntity
 

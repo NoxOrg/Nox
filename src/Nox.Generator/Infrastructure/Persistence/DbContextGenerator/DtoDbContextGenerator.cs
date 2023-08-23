@@ -47,6 +47,8 @@ internal class DtoDbContextGenerator : INoxCodeGenerator
         AddField(code, "NoxSolution", "noxSolution", "The Nox solution configuration");
         AddField(code, "INoxDatabaseProvider", "dbProvider", "The database provider");
         AddField(code, "INoxClientAssemblyProvider", "clientAssemblyProvider", "");
+        AddField(code, "INoxDtoDatabaseConfigurator", "noxDtoDatabaseConfigurator", "");
+        
 
         // Constructor content
 
@@ -56,12 +58,14 @@ internal class DtoDbContextGenerator : INoxCodeGenerator
         code.AppendLine($"    DbContextOptions<{dbContextName}> options,");
         code.AppendLine("    NoxSolution noxSolution,");
         code.AppendLine("    INoxDatabaseProvider databaseProvider,");
-        code.AppendLine("    INoxClientAssemblyProvider clientAssemblyProvider");
+        code.AppendLine("    INoxClientAssemblyProvider clientAssemblyProvider,");
+        code.AppendLine("    INoxDtoDatabaseConfigurator noxDtoDatabaseConfigurator");
         code.AppendLine(") : base(options)");
         code.StartBlock();
         code.AppendLine("_noxSolution = noxSolution;");
         code.AppendLine("_dbProvider = databaseProvider;");
         code.AppendLine("_clientAssemblyProvider = clientAssemblyProvider;");
+        code.AppendLine("_noxDtoDatabaseConfigurator = noxDtoDatabaseConfigurator;");
         code.EndBlock();
         code.AppendLine();
 
@@ -88,59 +92,30 @@ internal class DtoDbContextGenerator : INoxCodeGenerator
         code.AppendLine(@$" protected override void OnModelCreating(ModelBuilder modelBuilder)");
         code.StartBlock();
         code.AppendLine(@$"base.OnModelCreating(modelBuilder);");
-
-        foreach (var entity in solution.Domain!.Entities)
-        {
-            if (entity.IsOwnedEntity)
-            {
-                continue;
-            }
-
-            code.StartBlock();
-            code.AppendLine($"var type = typeof({entity.Name}Dto);");
-            code.AppendLine($"var builder = modelBuilder.Entity(type!);");
-            code.AppendLine();
-
-            foreach (var key in entity.Keys!)
-            {
-                code.AppendLine($"builder.HasKey(\"{key.Name}\");");
-            }
-
-            var keyNames = entity.Keys.Select(x => x.Name);
-            var databaseTypeKeysConfiguration = entity.Keys
-                .Where(x =>
-                    x.Type == Types.NoxType.DatabaseGuid ||
-                    x.Type == Types.NoxType.DatabaseNumber)
-                .Select(x => $"owned.Property(\"{x.Name}\").ValueGeneratedOnAdd();");
-            if (entity.OwnedRelationships != null)
-            {
-#pragma warning disable S3267 // Loops should be simplified with "LINQ" expressions
-                foreach (var ownedRelationship in entity.OwnedRelationships)
-#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
-                {
-                    code.AppendLine(@$"builder.OwnsMany(typeof({ownedRelationship.Related.Entity.Name}Dto), ""{ownedRelationship.Related.Entity.PluralName}"", owned =>
+        code.AppendLine(@$"
+            if (_noxSolution.Domain != null)
+            {{
+                var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
+                foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
+                {{
+                    // Ignore owned entities configuration as they are configured inside entity constructor
+                    if (entity.IsOwnedEntity)
                     {{
-                         
-                        owned.WithOwner().HasForeignKey(""{entity.Name}Id"");
-                        owned.HasKey(""{string.Join(@""",""", keyNames)}"");
-                        owned.ToTable(""{ownedRelationship.Related.Entity.Name}"");");
+                        continue;
+                    }}
 
-                    code.Indent();
-                    code.Indent();
-                    foreach (var databaseTypeConfiguration in databaseTypeKeysConfiguration)
-                    {
-                        code.AppendLine(databaseTypeConfiguration);
-                    }
-                    code.UnIndent();
-                    code.AppendLine(@$"}}");
-                    code.UnIndent();
-                    code.AppendLine(@$");");
-                }
-            }
-
-            code.EndBlock();
-        }
-
+                    var type = codeGeneratorState.GetEntityDtoType(entity.Name + ""Dto"");
+                    if (type != null)
+                    {{
+                       _noxDtoDatabaseConfigurator.ConfigureDto(codeGeneratorState, new Nox.Types.EntityFramework.EntityBuilderAdapter.EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                    }}
+                    else
+                    {{
+                        throw new Exception($""Could not resolve type for {{entity.Name}}Dto"");
+                    }}
+                }}
+            }}            
+        ");
         code.EndBlock();
     }
 

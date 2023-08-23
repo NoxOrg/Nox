@@ -1,19 +1,19 @@
 ﻿using FluentAssertions;
 using Nox.ClientApp.Tests.FixtureConfig;
 using ClientApi.Application.Dto;
-using ClientApi.Presentation.Api.OData;
 using Microsoft.AspNetCore.OData.Results;
 using AutoFixture;
-using Microsoft.AspNetCore.Http.HttpResults;
 using Nox.Types;
+using ClientApi.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Nox.ClientApi.Tests.Tests
+namespace Nox.ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
     public class ClientDatabaseNumbersControllerTests
     {
         [Theory, AutoMoqData]
-        public async void Post_ReturnsDatabaseNumberId(ApiFixture apiFixture)
+        public async Task Post_ReturnsDatabaseNumberId(ApiFixture apiFixture)
         {
             // Arrange            
 
@@ -31,7 +31,7 @@ namespace Nox.ClientApi.Tests.Tests
         }
 
         [Theory, AutoMoqData]
-        public async void Post_WithCompoundMoney_ReturnsDatabaseNumberId(ApiFixture apiFixture)
+        public async Task Post_WithCompoundMoney_ReturnsDatabaseNumberId(ApiFixture apiFixture)
         {
             // Arrange            
             var expectedAmount = 100;
@@ -56,7 +56,7 @@ namespace Nox.ClientApi.Tests.Tests
         }
 
         [Theory, AutoMoqData]
-        public async void Post_WithManyOwnedEntity_ReturnsDatabaseNumberId(ApiFixture apiFixture)
+        public async Task Post_WithManyOwnedEntity_ReturnsDatabaseNumberId(ApiFixture apiFixture)
         {
             // Arrange                    
             var expectedOwnedName = apiFixture.Fixture.Create<string>();
@@ -83,7 +83,7 @@ namespace Nox.ClientApi.Tests.Tests
         }
 
         [Theory, AutoMoqData]
-        public async void Put_Number_ShouldUpdate(ApiFixture apiFixture)
+        public async Task Put_Number_ShouldUpdate(ApiFixture apiFixture)
         {
             // Arrange            
             var expectedNumber = 50;
@@ -111,9 +111,10 @@ namespace Nox.ClientApi.Tests.Tests
 
             queryResult.Should().NotBeNull();
             queryResult!.ToDto().Number.Should().Be(expectedNumber);
-        }
+        }        
+
         [Theory, AutoMoqData]
-        public async void Patch_Number_ShouldUpdateNumberOnly(ApiFixture apiFixture)
+        public async Task Patch_Number_ShouldUpdateNumberOnly(ApiFixture apiFixture)
         {
             // Arrange            
             var expectedNumber = 50;
@@ -144,7 +145,7 @@ namespace Nox.ClientApi.Tests.Tests
         }
 
         [Theory, AutoMoqData]
-        public async void Patch_UnsetNumber_ShouldUpdateNumberOnly(ApiFixture apiFixture)
+        public async Task Patch_UnsetNumber_ShouldUpdateNumberOnly(ApiFixture apiFixture)
         {
             // Arrange            
             var expectedName = apiFixture.Fixture.Create<string>();
@@ -175,7 +176,7 @@ namespace Nox.ClientApi.Tests.Tests
         }
 
         [Theory, AutoMoqData]
-        public async void Post_IfNoRequireField_ThrowsException(ApiFixture apiFixture)
+        public async Task Post_IfNoRequireField_ThrowsException(ApiFixture apiFixture)
         {
 
             // Arrange  
@@ -195,6 +196,28 @@ namespace Nox.ClientApi.Tests.Tests
             await action.Should().ThrowAsync<Microsoft.EntityFrameworkCore.DbUpdateException>();
         }
 
+        [Theory, AutoMoqData]
+        public async Task Deleted_ShouldPerformSoftDelete(ApiFixture apiFixture)
+        {
 
+            // Arrange  
+            var result = (CreatedODataResult<ClientDatabaseNumberKeyDto>)await apiFixture.ClientDatabaseNumbersController!.Post(
+                new ClientDatabaseNumberCreateDto
+                {
+                    Name = apiFixture.Fixture.Create<string>(),
+                });
+
+            // Act
+            await apiFixture.ClientDatabaseNumbersController.Delete(result.Entity.keyId);
+
+            // Assert
+            var queryResult = await apiFixture.ClientDatabaseNumbersController!.Get(result.Entity.keyId);
+
+            (queryResult.Result as NotFoundResult)!.StatusCode.Should().Be(404);
+            queryResult.Value.Should().BeNull();
+
+            var context = apiFixture.ServiceProvider.GetService<ClientApiDbContext>()!;
+            context.ClientDatabaseNumbers.Find(DatabaseNumber.FromDatabase(result.Entity.keyId)).Should().NotBeNull();
+        }
     }
 }

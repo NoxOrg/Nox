@@ -30,11 +30,6 @@ public partial class AllNoxTypeDto
     public System.String TextId { get; set; } = default!;
 
     /// <summary>
-    /// NuidField Type (Optional).
-    /// </summary>
-    public System.UInt32? NuidField { get; set; }
-
-    /// <summary>
     /// BooleanField Nox Type (Optional).
     /// </summary>
     public System.Boolean? BooleanField { get; set; }
@@ -60,14 +55,34 @@ public partial class AllNoxTypeDto
     public System.String? CultureCodeField { get; set; }
 
     /// <summary>
-    /// CurrencyCode3Field Nox Type (Optional).
+    /// CurrencyCode3Field Nox Type (Required).
     /// </summary>
-    public System.String? CurrencyCode3Field { get; set; }
+    public System.String CurrencyCode3Field { get; set; } = default!;
 
     /// <summary>
-    /// DatetimeField Nox Type (Optional).
+    /// Currency Number Nox Type (Required).
     /// </summary>
-    public System.DateTimeOffset? DateTimeField { get; set; }
+    public System.Int16 CurrencyNumberField { get; set; } = default!;
+
+    /// <summary>
+    /// Date Nox Type (Required).
+    /// </summary>
+    public System.DateTime DateField { get; set; } = default!;
+
+    /// <summary>
+    /// Date Time Nox Type (Required).
+    /// </summary>
+    public System.DateTimeOffset DateTimeField { get; set; } = default!;
+
+    /// <summary>
+    /// Date Time Duration Nox Type (Required).
+    /// </summary>
+    public System.Int64 DateTimeDurationField { get; set; } = default!;
+
+    /// <summary>
+    /// Date Time Schedule Nox Type (Required).
+    /// </summary>
+    public System.String DateTimeScheduleField { get; set; } = default!;
 
     /// <summary>
     /// Formula Nox Type (Optional).
@@ -78,6 +93,26 @@ public partial class AllNoxTypeDto
     /// HtmlField Nox Type (Optional).
     /// </summary>
     public System.String? HtmlField { get; set; }
+
+    /// <summary>
+    /// Internet Domain Nox Type (Required).
+    /// </summary>
+    public System.String InternetDomainField { get; set; } = default!;
+
+    /// <summary>
+    /// IpAddress Nox Type (Required).
+    /// </summary>
+    public System.String IpAddressField { get; set; } = default!;
+
+    /// <summary>
+    /// Json Nox Type (Required).
+    /// </summary>
+    public System.String JsonField { get; set; } = default!;
+
+    /// <summary>
+    /// JwtToken Nox Type (Required).
+    /// </summary>
+    public System.String JwtTokenField { get; set; } = default!;
 
     /// <summary>
     /// Language Code Nox Type (Required).
@@ -108,6 +143,16 @@ public partial class AllNoxTypeDto
     /// Temperature Nox Type (Required).
     /// </summary>
     public System.Decimal TemperatureField { get; set; } = default!;
+
+    /// <summary>
+    /// Month Nox Type (Required).
+    /// </summary>
+    public System.Byte MonthField { get; set; } = default!;
+
+    /// <summary>
+    /// NuidField Type (Optional).
+    /// </summary>
+    public System.UInt32? NuidField { get; set; }
 
     /// <summary>
     /// Yaml Nox Type (Optional).

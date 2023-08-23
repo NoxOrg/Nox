@@ -5,7 +5,6 @@
 using MediatR;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-
 {{- if (entity.Persistence?.IsAudited ?? true)}}
 using Nox.Abstractions;
 {{- end}}
@@ -21,13 +20,8 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 public record Create{{entity.Name}}Command({{entity.Name}}CreateDto EntityDto) : IRequest<{{entity.Name}}KeyDto>;
 
-public class Create{{entity.Name}}CommandHandler: CommandBase, IRequestHandler <Create{{entity.Name}}Command, {{entity.Name}}KeyDto>
+public partial class Create{{entity.Name}}CommandHandler: CommandBase<Create{{entity.Name}}Command>, IRequestHandler <Create{{entity.Name}}Command, {{entity.Name}}KeyDto>
 {
-	{{- if (entity.Persistence?.IsAudited ?? true)}}
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-	{{- end}}
-
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 	public IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> EntityFactory { get; }
 
@@ -35,22 +29,16 @@ public class Create{{entity.Name}}CommandHandler: CommandBase, IRequestHandler <
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> entityFactory
-		{{- if (entity.Persistence?.IsAudited ?? true) -}},
-		IUserProvider userProvider,
-		ISystemProvider systemProvider
-		{{- end -}}): base(noxSolution, serviceProvider)
+		IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
-		{{- if (entity.Persistence?.IsAudited ?? true)}}
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
-		{{- end }}
 	}
 
 	public async Task<{{entity.Name}}KeyDto> Handle(Create{{entity.Name}}Command request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
+
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 
 		{{- for key in entity.Keys ~}}
@@ -58,12 +46,6 @@ public class Create{{entity.Name}}CommandHandler: CommandBase, IRequestHandler <
 		entityToCreate.Ensure{{key.Name}}();
 		{{- end }}
 		{{- end }}
-
-		{{- if (entity.Persistence?.IsAudited ?? true) }}
-		var createdBy = _userProvider.GetUser();
-		var createdVia = _systemProvider.GetSystem();
-		entityToCreate.Created(createdBy, createdVia);
-		{{- end}}
 	
 		DbContext.{{entity.PluralName}}.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();
