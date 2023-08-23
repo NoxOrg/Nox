@@ -18,7 +18,7 @@ using ClientApi.Application.Dto;
 namespace ClientApi.Application.Commands;
 public record CreateClientNuidCommand(ClientNuidCreateDto EntityDto) : IRequest<ClientNuidKeyDto>;
 
-public class CreateClientNuidCommandHandler: CommandBase, IRequestHandler <CreateClientNuidCommand, ClientNuidKeyDto>
+public partial class CreateClientNuidCommandHandler: CommandBase<CreateClientNuidCommand>, IRequestHandler <CreateClientNuidCommand, ClientNuidKeyDto>
 {
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
@@ -42,6 +42,8 @@ public class CreateClientNuidCommandHandler: CommandBase, IRequestHandler <Creat
 
 	public async Task<ClientNuidKeyDto> Handle(CreateClientNuidCommand request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
+
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		entityToCreate.EnsureId();
 		var createdBy = _userProvider.GetUser();

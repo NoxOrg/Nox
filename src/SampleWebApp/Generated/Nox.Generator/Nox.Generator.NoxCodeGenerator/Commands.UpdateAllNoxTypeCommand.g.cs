@@ -17,7 +17,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record UpdateAllNoxTypeCommand(System.Int64 keyId, System.String keyTextId, AllNoxTypeUpdateDto EntityDto) : IRequest<AllNoxTypeKeyDto?>;
 
-public class UpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler<UpdateAllNoxTypeCommand, AllNoxTypeKeyDto?>
+public class UpdateAllNoxTypeCommandHandler: CommandBase<UpdateAllNoxTypeCommand>, IRequestHandler<UpdateAllNoxTypeCommand, AllNoxTypeKeyDto?>
 {
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
@@ -41,6 +41,7 @@ public class UpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler<Update
 	
 	public async Task<AllNoxTypeKeyDto?> Handle(UpdateAllNoxTypeCommand request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
 		var keyId = CreateNoxTypeForKey<AllNoxType,DatabaseNumber>("Id", request.keyId);
 		var keyTextId = CreateNoxTypeForKey<AllNoxType,Text>("TextId", request.keyTextId);
 	

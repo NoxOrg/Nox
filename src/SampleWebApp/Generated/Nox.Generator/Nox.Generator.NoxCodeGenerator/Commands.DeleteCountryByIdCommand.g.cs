@@ -15,7 +15,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record DeleteCountryByIdCommand(System.Int64 keyId) : IRequest<bool>;
 
-public class DeleteCountryByIdCommandHandler: CommandBase, IRequestHandler<DeleteCountryByIdCommand, bool>
+public class DeleteCountryByIdCommandHandler: CommandBase<DeleteCountryByIdCommand>, IRequestHandler<DeleteCountryByIdCommand, bool>
 {
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;

@@ -17,7 +17,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record UpdateStoreCommand(System.String keyId, StoreUpdateDto EntityDto) : IRequest<StoreKeyDto?>;
 
-public class UpdateStoreCommandHandler: CommandBase, IRequestHandler<UpdateStoreCommand, StoreKeyDto?>
+public class UpdateStoreCommandHandler: CommandBase<UpdateStoreCommand>, IRequestHandler<UpdateStoreCommand, StoreKeyDto?>
 {
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
@@ -41,6 +41,7 @@ public class UpdateStoreCommandHandler: CommandBase, IRequestHandler<UpdateStore
 	
 	public async Task<StoreKeyDto?> Handle(UpdateStoreCommand request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
 		var keyId = CreateNoxTypeForKey<Store,Text>("Id", request.keyId);
 	
 		var entity = await DbContext.Stores.FindAsync(keyId);

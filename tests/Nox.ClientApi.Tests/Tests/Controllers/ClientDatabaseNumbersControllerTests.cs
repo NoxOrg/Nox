@@ -6,8 +6,9 @@ using Microsoft.AspNetCore.OData.Results;
 using AutoFixture;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Nox.Types;
+using Nox.ClientApi.Tests.Tests;
 
-namespace Nox.ClientApi.Tests.Tests
+namespace Nox.ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
     public class ClientDatabaseNumbersControllerTests
@@ -111,7 +112,8 @@ namespace Nox.ClientApi.Tests.Tests
 
             queryResult.Should().NotBeNull();
             queryResult!.ToDto().Number.Should().Be(expectedNumber);
-        }
+        }        
+
         [Theory, AutoMoqData]
         public async void Patch_Number_ShouldUpdateNumberOnly(ApiFixture apiFixture)
         {

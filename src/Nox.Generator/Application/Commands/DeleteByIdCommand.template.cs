@@ -17,7 +17,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 public record Delete{{entity.Name }}ByIdCommand({{primaryKeys}}) : IRequest<bool>;
 
-public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase, IRequestHandler<Delete{{entity.Name }}ByIdCommand, bool>
+public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase<Delete{{entity.Name }}ByIdCommand>, IRequestHandler<Delete{{entity.Name}}ByIdCommand, bool>
 {
 	{{- if (entity.Persistence?.IsAudited ?? true)}}
 	private readonly IUserProvider _userProvider;

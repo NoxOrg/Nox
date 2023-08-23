@@ -18,7 +18,7 @@ namespace ClientApi.Application.Commands;
 
 public record PartialUpdateClientDatabaseNumberCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <ClientDatabaseNumberKeyDto?>;
 
-public class PartialUpdateClientDatabaseNumberCommandHandler: CommandBase, IRequestHandler<PartialUpdateClientDatabaseNumberCommand, ClientDatabaseNumberKeyDto?>
+public class PartialUpdateClientDatabaseNumberCommandHandler: CommandBase<PartialUpdateClientDatabaseNumberCommand>, IRequestHandler<PartialUpdateClientDatabaseNumberCommand, ClientDatabaseNumberKeyDto?>
 {
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
@@ -42,6 +42,7 @@ public class PartialUpdateClientDatabaseNumberCommandHandler: CommandBase, IRequ
 
 	public async Task<ClientDatabaseNumberKeyDto?> Handle(PartialUpdateClientDatabaseNumberCommand request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
 		var keyId = CreateNoxTypeForKey<ClientDatabaseNumber,DatabaseNumber>("Id", request.keyId);
 
 		var entity = await DbContext.ClientDatabaseNumbers.FindAsync(keyId);

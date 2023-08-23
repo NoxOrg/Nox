@@ -19,7 +19,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 public record Update{{entity.Name}}Command({{primaryKeys}}, {{entity.Name}}UpdateDto EntityDto) : IRequest<{{entity.Name}}KeyDto?>;
 
-public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<Update{{entity.Name}}Command, {{entity.Name}}KeyDto?>
+public class Update{{entity.Name}}CommandHandler: CommandBase<Update{{entity.Name}}Command>, IRequestHandler<Update{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
 	{{- if (entity.Persistence?.IsAudited ?? true)}}
 	private readonly IUserProvider _userProvider;
@@ -49,6 +49,8 @@ public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<U
 	
 	public async Task<{{entity.Name}}KeyDto?> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
+
 		{{- for key in entity.Keys }}
 		var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.key{{key.Name}});
 		{{- end }}

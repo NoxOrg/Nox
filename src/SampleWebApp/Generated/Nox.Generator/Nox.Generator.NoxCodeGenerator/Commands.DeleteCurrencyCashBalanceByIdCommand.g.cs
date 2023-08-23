@@ -15,7 +15,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record DeleteCurrencyCashBalanceByIdCommand(System.String keyStoreId, System.UInt32 keyCurrencyId) : IRequest<bool>;
 
-public class DeleteCurrencyCashBalanceByIdCommandHandler: CommandBase, IRequestHandler<DeleteCurrencyCashBalanceByIdCommand, bool>
+public class DeleteCurrencyCashBalanceByIdCommandHandler: CommandBase<DeleteCurrencyCashBalanceByIdCommand>, IRequestHandler<DeleteCurrencyCashBalanceByIdCommand, bool>
 {
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;

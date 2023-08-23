@@ -15,7 +15,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record DeleteStoreByIdCommand(System.String keyId) : IRequest<bool>;
 
-public class DeleteStoreByIdCommandHandler: CommandBase, IRequestHandler<DeleteStoreByIdCommand, bool>
+public class DeleteStoreByIdCommandHandler: CommandBase<DeleteStoreByIdCommand>, IRequestHandler<DeleteStoreByIdCommand, bool>
 {
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;

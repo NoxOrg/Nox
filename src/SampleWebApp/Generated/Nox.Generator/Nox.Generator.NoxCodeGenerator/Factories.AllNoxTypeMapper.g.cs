@@ -46,11 +46,8 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         {        
             entity.CountryCode2Field = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.CountryCode3>(entityDefinition,"CountryCode3Field",dto.CountryCode3Field);
-        if(noxTypeValue != null)
-        {        
-            entity.CountryCode3Field = noxTypeValue;
-        }
+
+        // TODO map CountryCode3Field CountryCode3 remaining types and remove if else
         noxTypeValue = CreateNoxType<Nox.Types.CountryNumber>(entityDefinition,"CountryNumberField",dto.CountryNumberField);
         if(noxTypeValue != null)
         {        

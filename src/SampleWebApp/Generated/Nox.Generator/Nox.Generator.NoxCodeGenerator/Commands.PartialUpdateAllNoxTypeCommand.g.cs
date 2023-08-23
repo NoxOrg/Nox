@@ -18,7 +18,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record PartialUpdateAllNoxTypeCommand(System.Int64 keyId, System.String keyTextId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <AllNoxTypeKeyDto?>;
 
-public class PartialUpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler<PartialUpdateAllNoxTypeCommand, AllNoxTypeKeyDto?>
+public class PartialUpdateAllNoxTypeCommandHandler: CommandBase<PartialUpdateAllNoxTypeCommand>, IRequestHandler<PartialUpdateAllNoxTypeCommand, AllNoxTypeKeyDto?>
 {
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
@@ -42,6 +42,7 @@ public class PartialUpdateAllNoxTypeCommandHandler: CommandBase, IRequestHandler
 
 	public async Task<AllNoxTypeKeyDto?> Handle(PartialUpdateAllNoxTypeCommand request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
 		var keyId = CreateNoxTypeForKey<AllNoxType,DatabaseNumber>("Id", request.keyId);
 		var keyTextId = CreateNoxTypeForKey<AllNoxType,Text>("TextId", request.keyTextId);
 

@@ -18,7 +18,7 @@ using ClientApi.Application.Dto;
 namespace ClientApi.Application.Commands;
 public record CreateClientDatabaseNumberCommand(ClientDatabaseNumberCreateDto EntityDto) : IRequest<ClientDatabaseNumberKeyDto>;
 
-public class CreateClientDatabaseNumberCommandHandler: CommandBase, IRequestHandler <CreateClientDatabaseNumberCommand, ClientDatabaseNumberKeyDto>
+public partial class CreateClientDatabaseNumberCommandHandler: CommandBase<CreateClientDatabaseNumberCommand>, IRequestHandler <CreateClientDatabaseNumberCommand, ClientDatabaseNumberKeyDto>
 {
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
@@ -42,6 +42,8 @@ public class CreateClientDatabaseNumberCommandHandler: CommandBase, IRequestHand
 
 	public async Task<ClientDatabaseNumberKeyDto> Handle(CreateClientDatabaseNumberCommand request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
+
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		var createdBy = _userProvider.GetUser();
 		var createdVia = _systemProvider.GetSystem();

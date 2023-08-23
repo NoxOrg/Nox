@@ -21,7 +21,7 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 public record Create{{entity.Name}}Command({{entity.Name}}CreateDto EntityDto) : IRequest<{{entity.Name}}KeyDto>;
 
-public class Create{{entity.Name}}CommandHandler: CommandBase, IRequestHandler <Create{{entity.Name}}Command, {{entity.Name}}KeyDto>
+public partial class Create{{entity.Name}}CommandHandler: CommandBase<Create{{entity.Name}}Command>, IRequestHandler <Create{{entity.Name}}Command, {{entity.Name}}KeyDto>
 {
 	{{- if (entity.Persistence?.IsAudited ?? true)}}
 	private readonly IUserProvider _userProvider;
@@ -51,6 +51,8 @@ public class Create{{entity.Name}}CommandHandler: CommandBase, IRequestHandler <
 
 	public async Task<{{entity.Name}}KeyDto> Handle(Create{{entity.Name}}Command request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
+
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 
 		{{- for key in entity.Keys ~}}

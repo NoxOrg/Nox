@@ -17,7 +17,7 @@ namespace ClientApi.Application.Commands;
 
 public record UpdateClientDatabaseNumberCommand(System.Int64 keyId, ClientDatabaseNumberUpdateDto EntityDto) : IRequest<ClientDatabaseNumberKeyDto?>;
 
-public class UpdateClientDatabaseNumberCommandHandler: CommandBase, IRequestHandler<UpdateClientDatabaseNumberCommand, ClientDatabaseNumberKeyDto?>
+public class UpdateClientDatabaseNumberCommandHandler: CommandBase<UpdateClientDatabaseNumberCommand>, IRequestHandler<UpdateClientDatabaseNumberCommand, ClientDatabaseNumberKeyDto?>
 {
 	private readonly IUserProvider _userProvider;
 	private readonly ISystemProvider _systemProvider;
@@ -41,6 +41,7 @@ public class UpdateClientDatabaseNumberCommandHandler: CommandBase, IRequestHand
 	
 	public async Task<ClientDatabaseNumberKeyDto?> Handle(UpdateClientDatabaseNumberCommand request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
 		var keyId = CreateNoxTypeForKey<ClientDatabaseNumber,DatabaseNumber>("Id", request.keyId);
 	
 		var entity = await DbContext.ClientDatabaseNumbers.FindAsync(keyId);
