@@ -5,6 +5,7 @@
 using Nox.Abstractions;
 using Nox.Types;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 
 namespace CryptocashApi.Application.Dto; 
 
@@ -13,6 +14,4 @@ namespace CryptocashApi.Application.Dto;
 /// </summary>
 public partial class CustomerCreateDto : CustomerUpdateDto
 {
-    // TODO Add Manual Keys to be set by the user
-
 }

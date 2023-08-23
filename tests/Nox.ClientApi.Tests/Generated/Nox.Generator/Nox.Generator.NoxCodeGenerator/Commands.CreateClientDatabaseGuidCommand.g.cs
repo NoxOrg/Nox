@@ -17,7 +17,7 @@ using ClientApi.Application.Dto;
 namespace ClientApi.Application.Commands;
 public record CreateClientDatabaseGuidCommand(ClientDatabaseGuidCreateDto EntityDto) : IRequest<ClientDatabaseGuidKeyDto>;
 
-public class CreateClientDatabaseGuidCommandHandler: CommandBase, IRequestHandler <CreateClientDatabaseGuidCommand, ClientDatabaseGuidKeyDto>
+public partial class CreateClientDatabaseGuidCommandHandler: CommandBase<CreateClientDatabaseGuidCommand>, IRequestHandler <CreateClientDatabaseGuidCommand, ClientDatabaseGuidKeyDto>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityFactory<ClientDatabaseGuidCreateDto,ClientDatabaseGuid> EntityFactory { get; }
@@ -34,6 +34,8 @@ public class CreateClientDatabaseGuidCommandHandler: CommandBase, IRequestHandle
 
 	public async Task<ClientDatabaseGuidKeyDto> Handle(CreateClientDatabaseGuidCommand request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
+
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 	
 		DbContext.ClientDatabaseGuids.Add(entityToCreate);

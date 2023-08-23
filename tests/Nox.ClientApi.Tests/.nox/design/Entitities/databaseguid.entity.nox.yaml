@@ -9,7 +9,7 @@ description: Client DatabaseGuid Key
 keys:
 
   - name: Id
-    type: databaseNumber
+    type: databaseGuid
     description: The unique identifier 
     isRequired: true
 

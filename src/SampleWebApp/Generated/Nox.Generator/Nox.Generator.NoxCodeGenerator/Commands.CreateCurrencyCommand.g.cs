@@ -18,7 +18,7 @@ using SampleWebApp.Application.Dto;
 namespace SampleWebApp.Application.Commands;
 public record CreateCurrencyCommand(CurrencyCreateDto EntityDto) : IRequest<CurrencyKeyDto>;
 
-public class CreateCurrencyCommandHandler: CommandBase, IRequestHandler <CreateCurrencyCommand, CurrencyKeyDto>
+public partial class CreateCurrencyCommandHandler: CommandBase<CreateCurrencyCommand>, IRequestHandler <CreateCurrencyCommand, CurrencyKeyDto>
 {
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityFactory<CurrencyCreateDto,Currency> EntityFactory { get; }
@@ -35,6 +35,8 @@ public class CreateCurrencyCommandHandler: CommandBase, IRequestHandler <CreateC
 
 	public async Task<CurrencyKeyDto> Handle(CreateCurrencyCommand request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
+
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		entityToCreate.EnsureId();
 	

@@ -22,7 +22,7 @@ public static class NoxWebApplicationBuilderExtension
         appBuilder.Services.AddSingleton<INoxDatabaseConfigurator, SqlServerDatabaseProvider>();
         appBuilder.Services.AddSingleton<INoxDatabaseProvider, SqlServerDatabaseProvider>();
         appBuilder.Services.AddDbContext<CryptocashApiDbContext>();
-        appBuilder.Services.AddDbContext<ODataDbContext>();
+        appBuilder.Services.AddDbContext<DtoDbContext>();
         return appBuilder;
     }
     

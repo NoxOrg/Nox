@@ -4,6 +4,7 @@ using Nox.Types;
 using Nox.Types.Schema;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using YamlDotNet.Serialization;
 
@@ -13,6 +14,7 @@ namespace Nox.Solution;
 [Title("Defines an entity or aggregate root")]
 [Description("The declaration of an entity, its attributes, commands and queries. See https://noxorg.dev for more.")]
 [AdditionalProperties(false)]
+[DebuggerDisplay("{Name}, plural: {PluralName}")]
 public class Entity : DefinitionBase
 {
     [YamlIgnore]

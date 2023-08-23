@@ -14,7 +14,7 @@ namespace ClientApi.Application.Commands;
 
 public record DeleteClientDatabaseNumberByIdCommand(System.Int64 keyId) : IRequest<bool>;
 
-public class DeleteClientDatabaseNumberByIdCommandHandler: CommandBase, IRequestHandler<DeleteClientDatabaseNumberByIdCommand, bool>
+public class DeleteClientDatabaseNumberByIdCommandHandler: CommandBase<DeleteClientDatabaseNumberByIdCommand>, IRequestHandler<DeleteClientDatabaseNumberByIdCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 

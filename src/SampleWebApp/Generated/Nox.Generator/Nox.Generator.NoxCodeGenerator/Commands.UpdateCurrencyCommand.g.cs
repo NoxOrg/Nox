@@ -16,7 +16,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record UpdateCurrencyCommand(System.UInt32 keyId, CurrencyUpdateDto EntityDto) : IRequest<CurrencyKeyDto?>;
 
-public class UpdateCurrencyCommandHandler: CommandBase, IRequestHandler<UpdateCurrencyCommand, CurrencyKeyDto?>
+public class UpdateCurrencyCommandHandler: CommandBase<UpdateCurrencyCommand>, IRequestHandler<UpdateCurrencyCommand, CurrencyKeyDto?>
 {
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<Currency> EntityMapper { get; }
@@ -33,6 +33,7 @@ public class UpdateCurrencyCommandHandler: CommandBase, IRequestHandler<UpdateCu
 	
 	public async Task<CurrencyKeyDto?> Handle(UpdateCurrencyCommand request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
 		var keyId = CreateNoxTypeForKey<Currency,Nuid>("Id", request.keyId);
 	
 		var entity = await DbContext.Currencies.FindAsync(keyId);

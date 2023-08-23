@@ -9,7 +9,7 @@ using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetClientDatabaseGuidByIdQuery(System.Int64 keyId) : IRequest<ClientDatabaseGuidDto?>;
+public record GetClientDatabaseGuidByIdQuery(System.Guid keyId) : IRequest<ClientDatabaseGuidDto?>;
 
 public class GetClientDatabaseGuidByIdQueryHandler: IRequestHandler<GetClientDatabaseGuidByIdQuery, ClientDatabaseGuidDto?>
 {

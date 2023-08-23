@@ -10,6 +10,7 @@ using Nox.Secrets;
 using Nox.Secrets.Abstractions;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
+using Nox.Types.EntityFramework.Configurations;
 
 namespace Nox;
 

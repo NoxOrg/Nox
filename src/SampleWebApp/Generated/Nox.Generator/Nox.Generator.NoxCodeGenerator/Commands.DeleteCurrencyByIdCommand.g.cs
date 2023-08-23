@@ -14,7 +14,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record DeleteCurrencyByIdCommand(System.UInt32 keyId) : IRequest<bool>;
 
-public class DeleteCurrencyByIdCommandHandler: CommandBase, IRequestHandler<DeleteCurrencyByIdCommand, bool>
+public class DeleteCurrencyByIdCommandHandler: CommandBase<DeleteCurrencyByIdCommand>, IRequestHandler<DeleteCurrencyByIdCommand, bool>
 {
 	public SampleWebAppDbContext DbContext { get; }
 

@@ -18,7 +18,7 @@ using SampleWebApp.Application.Dto;
 namespace SampleWebApp.Application.Commands;
 public record CreateAllNoxTypeCommand(AllNoxTypeCreateDto EntityDto) : IRequest<AllNoxTypeKeyDto>;
 
-public class CreateAllNoxTypeCommandHandler: CommandBase, IRequestHandler <CreateAllNoxTypeCommand, AllNoxTypeKeyDto>
+public partial class CreateAllNoxTypeCommandHandler: CommandBase<CreateAllNoxTypeCommand>, IRequestHandler <CreateAllNoxTypeCommand, AllNoxTypeKeyDto>
 {
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityFactory<AllNoxTypeCreateDto,AllNoxType> EntityFactory { get; }
@@ -35,6 +35,8 @@ public class CreateAllNoxTypeCommandHandler: CommandBase, IRequestHandler <Creat
 
 	public async Task<AllNoxTypeKeyDto> Handle(CreateAllNoxTypeCommand request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
+
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 	
 		DbContext.AllNoxTypes.Add(entityToCreate);

@@ -16,7 +16,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record UpdateStoreSecurityPasswordsCommand(System.String keyId, StoreSecurityPasswordsUpdateDto EntityDto) : IRequest<StoreSecurityPasswordsKeyDto?>;
 
-public class UpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRequestHandler<UpdateStoreSecurityPasswordsCommand, StoreSecurityPasswordsKeyDto?>
+public class UpdateStoreSecurityPasswordsCommandHandler: CommandBase<UpdateStoreSecurityPasswordsCommand>, IRequestHandler<UpdateStoreSecurityPasswordsCommand, StoreSecurityPasswordsKeyDto?>
 {
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<StoreSecurityPasswords> EntityMapper { get; }
@@ -33,6 +33,7 @@ public class UpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRequestHa
 	
 	public async Task<StoreSecurityPasswordsKeyDto?> Handle(UpdateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
 		var keyId = CreateNoxTypeForKey<StoreSecurityPasswords,Text>("Id", request.keyId);
 	
 		var entity = await DbContext.StoreSecurityPasswords.FindAsync(keyId);

@@ -18,7 +18,7 @@ using SampleWebApp.Application.Dto;
 namespace SampleWebApp.Application.Commands;
 public record CreateStoreSecurityPasswordsCommand(StoreSecurityPasswordsCreateDto EntityDto) : IRequest<StoreSecurityPasswordsKeyDto>;
 
-public class CreateStoreSecurityPasswordsCommandHandler: CommandBase, IRequestHandler <CreateStoreSecurityPasswordsCommand, StoreSecurityPasswordsKeyDto>
+public partial class CreateStoreSecurityPasswordsCommandHandler: CommandBase<CreateStoreSecurityPasswordsCommand>, IRequestHandler <CreateStoreSecurityPasswordsCommand, StoreSecurityPasswordsKeyDto>
 {
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityFactory<StoreSecurityPasswordsCreateDto,StoreSecurityPasswords> EntityFactory { get; }
@@ -35,6 +35,8 @@ public class CreateStoreSecurityPasswordsCommandHandler: CommandBase, IRequestHa
 
 	public async Task<StoreSecurityPasswordsKeyDto> Handle(CreateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
+
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 	
 		DbContext.StoreSecurityPasswords.Add(entityToCreate);

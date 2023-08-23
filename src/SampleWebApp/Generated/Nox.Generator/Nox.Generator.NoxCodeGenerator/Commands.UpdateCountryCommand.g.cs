@@ -16,7 +16,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record UpdateCountryCommand(System.Int64 keyId, CountryUpdateDto EntityDto) : IRequest<CountryKeyDto?>;
 
-public class UpdateCountryCommandHandler: CommandBase, IRequestHandler<UpdateCountryCommand, CountryKeyDto?>
+public class UpdateCountryCommandHandler: CommandBase<UpdateCountryCommand>, IRequestHandler<UpdateCountryCommand, CountryKeyDto?>
 {
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<Country> EntityMapper { get; }
@@ -33,6 +33,7 @@ public class UpdateCountryCommandHandler: CommandBase, IRequestHandler<UpdateCou
 	
 	public async Task<CountryKeyDto?> Handle(UpdateCountryCommand request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
 		var keyId = CreateNoxTypeForKey<Country,DatabaseNumber>("Id", request.keyId);
 	
 		var entity = await DbContext.Countries.FindAsync(keyId);

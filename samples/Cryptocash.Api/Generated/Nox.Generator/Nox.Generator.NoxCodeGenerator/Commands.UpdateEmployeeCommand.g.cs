@@ -1,9 +1,10 @@
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -18,35 +19,45 @@ public record UpdateEmployeeCommand(System.Int64 keyId, EmployeeUpdateDto Entity
 
 public class UpdateEmployeeCommandHandler: CommandBase, IRequestHandler<UpdateEmployeeCommand, EmployeeKeyDto?>
 {
-    public CryptocashApiDbContext DbContext { get; }    
-    public IEntityMapper<Employee> EntityMapper { get; }
+	private readonly IUserProvider _userProvider;
+	private readonly ISystemProvider _systemProvider;
 
-    public  UpdateEmployeeCommandHandler(
-        CryptocashApiDbContext dbContext,        
-        NoxSolution noxSolution,
-        IServiceProvider serviceProvider,
-        IEntityMapper<Employee> entityMapper): base(noxSolution, serviceProvider)
-    {
-        DbContext = dbContext;        
-        EntityMapper = entityMapper;
-    }
-    
-    public async Task<EmployeeKeyDto?> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
-    {
-        var keyId = CreateNoxTypeForKey<Employee,DatabaseNumber>("Id", request.keyId);
-    
-        var entity = await DbContext.Employees.FindAsync(keyId);
-        if (entity == null)
-        {
-            return null;
-        }
-        EntityMapper.MapToEntity(entity, GetEntityDefinition<Employee>(), request.EntityDto);
-        
-        DbContext.Entry(entity).State = EntityState.Modified;
-        var result = await DbContext.SaveChangesAsync();
-        if(result < 1)
-            return null;
+	public CryptocashApiDbContext DbContext { get; }
+	public IEntityMapper<Employee> EntityMapper { get; }
 
-        return new EmployeeKeyDto(entity.Id.Value);
-    }
+	public UpdateEmployeeCommandHandler(
+		CryptocashApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<Employee> entityMapper,
+		IUserProvider userProvider,
+		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+	{
+		DbContext = dbContext;
+		EntityMapper = entityMapper;
+		_userProvider = userProvider;
+		_systemProvider = systemProvider;
+	}
+	
+	public async Task<EmployeeKeyDto?> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
+	{
+		var keyId = CreateNoxTypeForKey<Employee,DatabaseNumber>("Id", request.keyId);
+	
+		var entity = await DbContext.Employees.FindAsync(keyId);
+		if (entity == null)
+		{
+			return null;
+		}
+		EntityMapper.MapToEntity(entity, GetEntityDefinition<Employee>(), request.EntityDto);
+		var updatedBy = _userProvider.GetUser();
+		var updatedVia = _systemProvider.GetSystem();
+		entity.Updated(updatedBy, updatedVia);
+		
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if(result < 1)
+			return null;
+
+		return new EmployeeKeyDto(entity.Id.Value);
+	}
 }

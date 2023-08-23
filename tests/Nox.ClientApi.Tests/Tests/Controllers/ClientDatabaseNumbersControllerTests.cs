@@ -4,10 +4,10 @@ using ClientApi.Application.Dto;
 using Microsoft.AspNetCore.OData.Results;
 using AutoFixture;
 using Nox.Types;
-using Microsoft.AspNetCore.Mvc;
 using ClientApi.Infrastructure.Persistence;
+using Microsoft.AspNetCore.Mvc;
 
-namespace Nox.ClientApi.Tests.Tests
+namespace Nox.ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
     public class ClientDatabaseNumbersControllerTests
@@ -56,7 +56,7 @@ namespace Nox.ClientApi.Tests.Tests
         }
 
         [Theory, AutoMoqData]
-        public async void Post_WithManyOwnedEntity_ReturnsDatabaseNumberId(ApiFixture apiFixture)
+        public async Task Post_WithManyOwnedEntity_ReturnsDatabaseNumberId(ApiFixture apiFixture)
         {
             // Arrange                    
             var expectedOwnedName = apiFixture.Fixture.Create<string>();
@@ -111,7 +111,8 @@ namespace Nox.ClientApi.Tests.Tests
 
             queryResult.Should().NotBeNull();
             queryResult!.ToDto().Number.Should().Be(expectedNumber);
-        }
+        }        
+
         [Theory, AutoMoqData]
         public async Task Patch_Number_ShouldUpdateNumberOnly(ApiFixture apiFixture)
         {

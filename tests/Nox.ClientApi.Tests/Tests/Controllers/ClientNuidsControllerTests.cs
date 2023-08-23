@@ -7,7 +7,7 @@ using AutoFixture;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Nox.Types;
 
-namespace Nox.ClientApi.Tests.Tests
+namespace Nox.ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
     public class ClientNuidsControllerTests
@@ -32,6 +32,6 @@ namespace Nox.ClientApi.Tests.Tests
                 .BeOfType<CreatedODataResult<ClientNuidKeyDto>>()
                 .Which.Entity.keyId.Should().Be(expectedId);
         }
-       
+
     }
 }

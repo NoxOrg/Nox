@@ -17,7 +17,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record PartialUpdateStoreSecurityPasswordsCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <StoreSecurityPasswordsKeyDto?>;
 
-public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRequestHandler<PartialUpdateStoreSecurityPasswordsCommand, StoreSecurityPasswordsKeyDto?>
+public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase<PartialUpdateStoreSecurityPasswordsCommand>, IRequestHandler<PartialUpdateStoreSecurityPasswordsCommand, StoreSecurityPasswordsKeyDto?>
 {
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<StoreSecurityPasswords> EntityMapper { get; }
@@ -34,6 +34,7 @@ public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase, IRe
 
 	public async Task<StoreSecurityPasswordsKeyDto?> Handle(PartialUpdateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
 		var keyId = CreateNoxTypeForKey<StoreSecurityPasswords,Text>("Id", request.keyId);
 
 		var entity = await DbContext.StoreSecurityPasswords.FindAsync(keyId);

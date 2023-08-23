@@ -12,9 +12,9 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Commands;
 
-public record DeleteClientDatabaseGuidByIdCommand(System.Int64 keyId) : IRequest<bool>;
+public record DeleteClientDatabaseGuidByIdCommand(System.Guid keyId) : IRequest<bool>;
 
-public class DeleteClientDatabaseGuidByIdCommandHandler: CommandBase, IRequestHandler<DeleteClientDatabaseGuidByIdCommand, bool>
+public class DeleteClientDatabaseGuidByIdCommandHandler: CommandBase<DeleteClientDatabaseGuidByIdCommand>, IRequestHandler<DeleteClientDatabaseGuidByIdCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
@@ -28,7 +28,7 @@ public class DeleteClientDatabaseGuidByIdCommandHandler: CommandBase, IRequestHa
 
 	public async Task<bool> Handle(DeleteClientDatabaseGuidByIdCommand request, CancellationToken cancellationToken)
 	{
-		var keyId = CreateNoxTypeForKey<ClientDatabaseGuid,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<ClientDatabaseGuid,DatabaseGuid>("Id", request.keyId);
 
 		var entity = await DbContext.ClientDatabaseGuids.FindAsync(keyId);
 		if (entity == null)

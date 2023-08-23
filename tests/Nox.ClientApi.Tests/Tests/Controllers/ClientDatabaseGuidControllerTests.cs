@@ -7,7 +7,7 @@ using Nox.Types;
 using Microsoft.AspNetCore.Mvc;
 using ClientApi.Infrastructure.Persistence;
 
-namespace Nox.ClientApi.Tests.Tests
+namespace Nox.ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
     public class ClientDatabaseGuidControllerTests
@@ -28,7 +28,7 @@ namespace Nox.ClientApi.Tests.Tests
             result.Should().NotBeNull();
             result.Should()
                 .BeOfType<CreatedODataResult<ClientDatabaseGuidKeyDto>>()
-                .Which.Entity.keyId.Should().BeGreaterThan(0);
+                .Which.Entity.keyId.Should().NotBeEmpty();
         }
 
         [Theory, AutoMoqData]
@@ -108,7 +108,7 @@ namespace Nox.ClientApi.Tests.Tests
             queryResult.Value.Should().BeNull();
 
             var context = apiFixture.ServiceProvider.GetService<ClientApiDbContext>()!;
-            context.ClientDatabaseNumbers.Find(DatabaseNumber.FromDatabase(result.Entity.keyId)).Should().BeNull();
+            context.ClientDatabaseGuids.Find(DatabaseGuid.FromDatabase(result.Entity.keyId)).Should().BeNull();
         }
     }
 }

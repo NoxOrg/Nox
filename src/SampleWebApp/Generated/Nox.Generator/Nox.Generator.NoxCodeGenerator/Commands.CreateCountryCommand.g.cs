@@ -18,7 +18,7 @@ using SampleWebApp.Application.Dto;
 namespace SampleWebApp.Application.Commands;
 public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<CountryKeyDto>;
 
-public class CreateCountryCommandHandler: CommandBase, IRequestHandler <CreateCountryCommand, CountryKeyDto>
+public partial class CreateCountryCommandHandler: CommandBase<CreateCountryCommand>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
 {
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityFactory<CountryCreateDto,Country> EntityFactory { get; }
@@ -35,6 +35,8 @@ public class CreateCountryCommandHandler: CommandBase, IRequestHandler <CreateCo
 
 	public async Task<CountryKeyDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
+
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 	
 		DbContext.Countries.Add(entityToCreate);

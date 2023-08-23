@@ -17,7 +17,7 @@ public partial class ClientDatabaseGuid : EntityBase
     /// <summary>
     /// The unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public DatabaseGuid Id { get; set; } = null!;
 
     /// <summary>
     /// The Text (Required).

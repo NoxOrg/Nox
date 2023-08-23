@@ -14,7 +14,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record DeleteAllNoxTypeByIdCommand(System.Int64 keyId, System.String keyTextId) : IRequest<bool>;
 
-public class DeleteAllNoxTypeByIdCommandHandler: CommandBase, IRequestHandler<DeleteAllNoxTypeByIdCommand, bool>
+public class DeleteAllNoxTypeByIdCommandHandler: CommandBase<DeleteAllNoxTypeByIdCommand>, IRequestHandler<DeleteAllNoxTypeByIdCommand, bool>
 {
 	public SampleWebAppDbContext DbContext { get; }
 

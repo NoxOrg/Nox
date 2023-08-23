@@ -11,7 +11,7 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public record ClientDatabaseGuidKeyDto(System.Int64 keyId);
+public record ClientDatabaseGuidKeyDto(System.Guid keyId);
 
 /// <summary>
 /// Client DatabaseGuid Key.
@@ -22,7 +22,7 @@ public partial class ClientDatabaseGuidDto
     /// <summary>
     /// The unique identifier (Required).
     /// </summary>
-    public System.Int64 Id { get; set; } = default!;
+    public System.Guid Id { get; set; } = default!;
 
     /// <summary>
     /// The Text (Required).

@@ -49,7 +49,7 @@ public partial class ClientDatabaseGuidsController : ODataController
         return Ok(result);
     }
     
-    public async Task<ActionResult<ClientDatabaseGuidDto>> Get([FromRoute] System.Int64 key)
+    public async Task<ActionResult<ClientDatabaseGuidDto>> Get([FromRoute] System.Guid key)
     {
         var item = await _mediator.Send(new GetClientDatabaseGuidByIdQuery(key));
         
@@ -72,7 +72,7 @@ public partial class ClientDatabaseGuidsController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] ClientDatabaseGuidUpdateDto clientDatabaseGuid)
+    public async Task<ActionResult> Put([FromRoute] System.Guid key, [FromBody] ClientDatabaseGuidUpdateDto clientDatabaseGuid)
     {
         if (!ModelState.IsValid)
         {
@@ -88,7 +88,7 @@ public partial class ClientDatabaseGuidsController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<ClientDatabaseGuidUpdateDto> clientDatabaseGuid)
+    public async Task<ActionResult> Patch([FromRoute] System.Guid key, [FromBody] Delta<ClientDatabaseGuidUpdateDto> clientDatabaseGuid)
     {
         if (!ModelState.IsValid)
         {
@@ -113,7 +113,7 @@ public partial class ClientDatabaseGuidsController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
         var result = await _mediator.Send(new DeleteClientDatabaseGuidByIdCommand(key));
         if (!result)

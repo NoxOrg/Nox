@@ -14,9 +14,9 @@ using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
 
-public record UpdateClientDatabaseGuidCommand(System.Int64 keyId, ClientDatabaseGuidUpdateDto EntityDto) : IRequest<ClientDatabaseGuidKeyDto?>;
+public record UpdateClientDatabaseGuidCommand(System.Guid keyId, ClientDatabaseGuidUpdateDto EntityDto) : IRequest<ClientDatabaseGuidKeyDto?>;
 
-public class UpdateClientDatabaseGuidCommandHandler: CommandBase, IRequestHandler<UpdateClientDatabaseGuidCommand, ClientDatabaseGuidKeyDto?>
+public class UpdateClientDatabaseGuidCommandHandler: CommandBase<UpdateClientDatabaseGuidCommand>, IRequestHandler<UpdateClientDatabaseGuidCommand, ClientDatabaseGuidKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<ClientDatabaseGuid> EntityMapper { get; }
@@ -33,7 +33,8 @@ public class UpdateClientDatabaseGuidCommandHandler: CommandBase, IRequestHandle
 	
 	public async Task<ClientDatabaseGuidKeyDto?> Handle(UpdateClientDatabaseGuidCommand request, CancellationToken cancellationToken)
 	{
-		var keyId = CreateNoxTypeForKey<ClientDatabaseGuid,DatabaseNumber>("Id", request.keyId);
+		OnExecuting(request, cancellationToken);
+		var keyId = CreateNoxTypeForKey<ClientDatabaseGuid,DatabaseGuid>("Id", request.keyId);
 	
 		var entity = await DbContext.ClientDatabaseGuids.FindAsync(keyId);
 		if (entity == null)
