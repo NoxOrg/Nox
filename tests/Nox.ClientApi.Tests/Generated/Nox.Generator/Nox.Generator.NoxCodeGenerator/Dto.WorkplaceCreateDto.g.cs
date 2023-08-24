@@ -10,15 +10,13 @@ using System.ComponentModel.DataAnnotations;
 namespace ClientApi.Application.Dto; 
 
 /// <summary>
-/// Client Nuid Key.
+/// Workplace.
 /// </summary>
-public partial class ClientNuidUpdateDto
+public partial class WorkplaceCreateDto : WorkplaceUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
-    /// The Name (Required).
+    /// Workplace unique identifier (Required).
     /// </summary>
-    [Required(ErrorMessage = "Name is required")]
-    
-    public System.String Name { get; set; } = default!;
+    [Required(ErrorMessage = "Id is required")]
+    public System.Guid Id { get; set; } = default!;
 }

@@ -11,9 +11,9 @@ using Nox.Domain;
 namespace ClientApi.Domain;
 
 /// <summary>
-/// Client Nuid Key.
+/// Stores.
 /// </summary>
-public partial class ClientNuid : AuditableEntityBase
+public partial class Store : AuditableEntityBase
 {
     /// <summary>
     /// NuidField Type (Required).
@@ -24,11 +24,11 @@ public partial class ClientNuid : AuditableEntityBase
     	{
     		if(Id is null)
     		{
-    			Id = Nuid.From("ClientNuid." + string.Join(".", Name.Value.ToString()));
+    			Id = Nuid.From("Store." + string.Join(".", Name.Value.ToString()));
     		}
     		else
     		{
-    			var currentNuid = Nuid.From("ClientNuid." + string.Join(".", Name.Value.ToString()));
+    			var currentNuid = Nuid.From("Store." + string.Join(".", Name.Value.ToString()));
     			if(Id != currentNuid)
     			{
     				throw new NoxNuidTypeException("Immutable nuid property Id value is different since it has been initialized");
@@ -37,7 +37,7 @@ public partial class ClientNuid : AuditableEntityBase
     	}
 
     /// <summary>
-    /// The Name (Required).
+    /// Store Name (Required).
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
 }

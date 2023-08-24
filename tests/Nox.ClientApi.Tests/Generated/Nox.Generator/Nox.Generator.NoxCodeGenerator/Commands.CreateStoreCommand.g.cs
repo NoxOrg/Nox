@@ -16,24 +16,24 @@ using ClientApi.Domain;
 using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
-public record CreateClientNuidCommand(ClientNuidCreateDto EntityDto) : IRequest<ClientNuidKeyDto>;
+public record CreateStoreCommand(StoreCreateDto EntityDto) : IRequest<StoreKeyDto>;
 
-public partial class CreateClientNuidCommandHandler: CommandBase<CreateClientNuidCommand,ClientNuid>, IRequestHandler <CreateClientNuidCommand, ClientNuidKeyDto>
+public partial class CreateStoreCommandHandler: CommandBase<CreateStoreCommand,Store>, IRequestHandler <CreateStoreCommand, StoreKeyDto>
 {
 	public ClientApiDbContext DbContext { get; }
-	public IEntityFactory<ClientNuidCreateDto,ClientNuid> EntityFactory { get; }
+	public IEntityFactory<StoreCreateDto,Store> EntityFactory { get; }
 
-	public CreateClientNuidCommandHandler(
+	public CreateStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityFactory<ClientNuidCreateDto,ClientNuid> entityFactory): base(noxSolution, serviceProvider)
+		IEntityFactory<StoreCreateDto,Store> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
 	}
 
-	public async Task<ClientNuidKeyDto> Handle(CreateClientNuidCommand request, CancellationToken cancellationToken)
+	public async Task<StoreKeyDto> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
@@ -41,8 +41,8 @@ public partial class CreateClientNuidCommandHandler: CommandBase<CreateClientNui
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		entityToCreate.EnsureId();
 	
-		DbContext.ClientNuids.Add(entityToCreate);
+		DbContext.Stores.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();
-		return new ClientNuidKeyDto(entityToCreate.Id.Value);
+		return new StoreKeyDto(entityToCreate.Id.Value);
 	}
 }

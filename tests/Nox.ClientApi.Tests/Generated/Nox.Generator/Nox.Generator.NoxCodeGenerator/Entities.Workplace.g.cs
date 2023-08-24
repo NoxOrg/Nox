@@ -11,17 +11,17 @@ using Nox.Domain;
 namespace ClientApi.Domain;
 
 /// <summary>
-/// Client DatabaseGuid Key.
+/// Workplace.
 /// </summary>
-public partial class ClientDatabaseGuid : EntityBase
+public partial class Workplace : EntityBase
 {
     /// <summary>
-    /// The unique identifier (Required).
+    /// Workplace unique identifier (Required).
     /// </summary>
     public DatabaseGuid Id { get; set; } = null!;
 
     /// <summary>
-    /// The Text (Required).
+    /// Workplace Name (Required).
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
 }

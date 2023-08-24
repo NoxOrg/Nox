@@ -18,7 +18,7 @@ domain:
   
     - $ref: ./Entities/countrylocalname.entity.nox.yaml
   
-    - $ref: ./Entities/nuid.entity.nox.yaml
+    - $ref: ./Entities/store.entity.nox.yaml
   
     - $ref: ./Entities/databaseguid.entity.nox.yaml
 

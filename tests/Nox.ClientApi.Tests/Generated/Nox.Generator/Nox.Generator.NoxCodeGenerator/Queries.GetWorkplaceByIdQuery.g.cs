@@ -12,20 +12,20 @@ using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetClientDatabaseGuidByIdQuery(System.Guid keyId) : IRequest <ClientDatabaseGuidDto?>;
+public record GetWorkplaceByIdQuery(System.Guid keyId) : IRequest <WorkplaceDto?>;
 
-public partial class GetClientDatabaseGuidByIdQueryHandler:  QueryBase<ClientDatabaseGuidDto?>, IRequestHandler<GetClientDatabaseGuidByIdQuery, ClientDatabaseGuidDto?>
+public partial class GetWorkplaceByIdQueryHandler:  QueryBase<WorkplaceDto?>, IRequestHandler<GetWorkplaceByIdQuery, WorkplaceDto?>
 {
-    public  GetClientDatabaseGuidByIdQueryHandler(DtoDbContext dataDbContext)
+    public  GetWorkplaceByIdQueryHandler(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<ClientDatabaseGuidDto?> Handle(GetClientDatabaseGuidByIdQuery request, CancellationToken cancellationToken)
+    public Task<WorkplaceDto?> Handle(GetWorkplaceByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.ClientDatabaseGuids
+        var item = DataDbContext.Workplaces
             .AsNoTracking()
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&

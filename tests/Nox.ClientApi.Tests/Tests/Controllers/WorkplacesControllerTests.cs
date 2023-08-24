@@ -10,7 +10,7 @@ using ClientApi.Infrastructure.Persistence;
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class ClientDatabaseGuidControllerTests
+    public class WorkplacesControllerTests
     {
         [Theory, AutoMoqData]
         public async Task Post_ReturnsDatabaseGuidId(ApiFixture apiFixture)
@@ -18,8 +18,8 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             // Arrange            
 
             // Act 
-            var result = await apiFixture.ClientDatabaseGuidsController!.Post(
-                new ClientDatabaseGuidCreateDto
+            var result = await apiFixture.WorkplacesController!.Post(
+                new WorkplaceCreateDto
                 {
                     Name = apiFixture.Fixture.Create<string>()
                 });
@@ -27,7 +27,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             //Assert
             result.Should().NotBeNull();
             result.Should()
-                .BeOfType<CreatedODataResult<ClientDatabaseGuidKeyDto>>()
+                .BeOfType<CreatedODataResult<WorkplaceKeyDto>>()
                 .Which.Entity.keyId.Should().NotBeEmpty();
         }
 
@@ -35,25 +35,25 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         public async Task Put_Number_ShouldUpdate(ApiFixture apiFixture)
         {
             // Arrange            
-            var result = (CreatedODataResult<ClientDatabaseGuidKeyDto>)await apiFixture.ClientDatabaseGuidsController!.Post(
-                new ClientDatabaseGuidCreateDto
+            var result = (CreatedODataResult<WorkplaceKeyDto>)await apiFixture.WorkplacesController!.Post(
+                new WorkplaceCreateDto
                 {
                     Name = apiFixture.Fixture.Create<string>(),
                 });
 
             // Act 
-            var putResult = await apiFixture.ClientDatabaseGuidsController!.Put(result.Entity.keyId,
-                new ClientDatabaseGuidUpdateDto
+            var putResult = await apiFixture.WorkplacesController!.Put(result.Entity.keyId,
+                new WorkplaceUpdateDto
                 {
                     Name = apiFixture.Fixture.Create<string>(),
                 });
 
-            var queryResult = await apiFixture.ClientDatabaseGuidsController!.Get(result.Entity.keyId);
+            var queryResult = await apiFixture.WorkplacesController!.Get(result.Entity.keyId);
 
             //Assert
             putResult.Should().NotBeNull();
             putResult.Should()
-                .BeOfType<UpdatedODataResult<ClientDatabaseGuidKeyDto>>()
+                .BeOfType<UpdatedODataResult<WorkplaceKeyDto>>()
                 .Which.Entity.keyId.Should().Be(result.Entity.keyId);
 
             queryResult.Should().NotBeNull();
@@ -63,24 +63,24 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         public async Task Patch_Name_ShouldUpdateNameOnly(ApiFixture apiFixture)
         {
             // Arrange            
-            var result = (CreatedODataResult<ClientDatabaseGuidKeyDto>)await apiFixture.ClientDatabaseGuidsController!.Post(
-                new ClientDatabaseGuidCreateDto
+            var result = (CreatedODataResult<WorkplaceKeyDto>)await apiFixture.WorkplacesController!.Post(
+                new WorkplaceCreateDto
                 {
                     Name = apiFixture.Fixture.Create<string>(),
                 });
 
             // Act 
             var expectedName = apiFixture.Fixture.Create<string>();
-            var updatedProperties = new Microsoft.AspNetCore.OData.Deltas.Delta<ClientDatabaseGuidUpdateDto>();
+            var updatedProperties = new Microsoft.AspNetCore.OData.Deltas.Delta<WorkplaceUpdateDto>();
             updatedProperties.TrySetPropertyValue("Name", expectedName);
 
-            var patchResult = await apiFixture.ClientDatabaseGuidsController!.Patch(result.Entity.keyId, updatedProperties);
-            var queryResult = await apiFixture.ClientDatabaseGuidsController!.Get(result.Entity.keyId);
+            var patchResult = await apiFixture.WorkplacesController!.Patch(result.Entity.keyId, updatedProperties);
+            var queryResult = await apiFixture.WorkplacesController!.Get(result.Entity.keyId);
 
             //Assert
             patchResult.Should().NotBeNull();
             patchResult.Should()
-                .BeOfType<UpdatedODataResult<ClientDatabaseGuidKeyDto>>()
+                .BeOfType<UpdatedODataResult<WorkplaceKeyDto>>()
                 .Which.Entity.keyId.Should().Be(result.Entity.keyId);
 
             queryResult.Should().NotBeNull();
@@ -92,23 +92,23 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         public async Task Deleted_ShouldPerformHardDelete(ApiFixture apiFixture)
         {
             // Arrange  
-            var result = (CreatedODataResult<ClientDatabaseGuidKeyDto>)await apiFixture.ClientDatabaseGuidsController!.Post(
-                new ClientDatabaseGuidCreateDto
+            var result = (CreatedODataResult<WorkplaceKeyDto>)await apiFixture.WorkplacesController!.Post(
+                new WorkplaceCreateDto
                 {
                     Name = apiFixture.Fixture.Create<string>(),
                 });
 
             // Act
-            await apiFixture.ClientDatabaseGuidsController.Delete(result.Entity.keyId);
+            await apiFixture.WorkplacesController.Delete(result.Entity.keyId);
 
             // Assert
-            var queryResult = await apiFixture.ClientDatabaseGuidsController!.Get(result.Entity.keyId);
+            var queryResult = await apiFixture.WorkplacesController!.Get(result.Entity.keyId);
 
             (queryResult.Result as NotFoundResult)!.StatusCode.Should().Be(404);
             queryResult.Value.Should().BeNull();
 
             var context = apiFixture.ServiceProvider.GetService<ClientApiDbContext>()!;
-            context.ClientDatabaseGuids.Find(DatabaseGuid.FromDatabase(result.Entity.keyId)).Should().BeNull();
+            context.Workplaces.Find(DatabaseGuid.FromDatabase(result.Entity.keyId)).Should().BeNull();
         }
     }
 }

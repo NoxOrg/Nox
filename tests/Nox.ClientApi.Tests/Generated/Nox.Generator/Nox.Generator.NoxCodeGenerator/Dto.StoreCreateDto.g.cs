@@ -10,8 +10,8 @@ using System.ComponentModel.DataAnnotations;
 namespace ClientApi.Application.Dto; 
 
 /// <summary>
-/// Client Nuid Key.
+/// Stores.
 /// </summary>
-public partial class ClientNuidCreateDto : ClientNuidUpdateDto
+public partial class StoreCreateDto : StoreUpdateDto
 {
 }

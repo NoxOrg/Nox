@@ -20,7 +20,7 @@ using Nox.Types;
 
 namespace ClientApi.Presentation.Api.OData;
 
-public partial class ClientNuidsController : ODataController
+public partial class WorkplacesController : ODataController
 {
     
     /// <summary>
@@ -33,7 +33,7 @@ public partial class ClientNuidsController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public ClientNuidsController(
+    public WorkplacesController(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -43,15 +43,15 @@ public partial class ClientNuidsController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<ClientNuidDto>>> Get()
+    public async  Task<ActionResult<IQueryable<WorkplaceDto>>> Get()
     {
-        var result = await _mediator.Send(new GetClientNuidsQuery());
+        var result = await _mediator.Send(new GetWorkplacesQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<ClientNuidDto>> Get([FromRoute] System.UInt32 key)
+    public async Task<ActionResult<WorkplaceDto>> Get([FromRoute] System.Guid key)
     {
-        var item = await _mediator.Send(new GetClientNuidByIdQuery(key));
+        var item = await _mediator.Send(new GetWorkplaceByIdQuery(key));
         
         if (item == null)
         {
@@ -61,25 +61,25 @@ public partial class ClientNuidsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]ClientNuidCreateDto clientnuid)
+    public async Task<ActionResult> Post([FromBody]WorkplaceCreateDto workplace)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateClientNuidCommand(clientnuid));
+        var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace));
         
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.UInt32 key, [FromBody] ClientNuidUpdateDto clientNuid)
+    public async Task<ActionResult> Put([FromRoute] System.Guid key, [FromBody] WorkplaceUpdateDto workplace)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateClientNuidCommand(key, clientNuid));
+        var updated = await _mediator.Send(new UpdateWorkplaceCommand(key, workplace));
         
         if (updated is null)
         {
@@ -88,7 +88,7 @@ public partial class ClientNuidsController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<ClientNuidUpdateDto> clientNuid)
+    public async Task<ActionResult> Patch([FromRoute] System.Guid key, [FromBody] Delta<WorkplaceUpdateDto> workplace)
     {
         if (!ModelState.IsValid)
         {
@@ -96,15 +96,15 @@ public partial class ClientNuidsController : ODataController
         }
         var updateProperties = new Dictionary<string, dynamic>();
         
-        foreach (var propertyName in clientNuid.GetChangedPropertyNames())
+        foreach (var propertyName in workplace.GetChangedPropertyNames())
         {
-            if(clientNuid.TryGetPropertyValue(propertyName, out dynamic value))
+            if(workplace.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateClientNuidCommand(key, updateProperties));
+        var updated = await _mediator.Send(new PartialUpdateWorkplaceCommand(key, updateProperties));
         
         if (updated is null)
         {
@@ -113,9 +113,9 @@ public partial class ClientNuidsController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.UInt32 key)
+    public async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
-        var result = await _mediator.Send(new DeleteClientNuidByIdCommand(key));
+        var result = await _mediator.Send(new DeleteWorkplaceByIdCommand(key));
         if (!result)
         {
             return NotFound();

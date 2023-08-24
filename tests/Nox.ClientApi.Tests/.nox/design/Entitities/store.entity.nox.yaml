@@ -4,9 +4,9 @@
 # yaml-language-server: $schema=../../../../../schemas/entity.json
 #
 
-name: ClientNuid
+name: Store
 
-description: Client Nuid Key
+description: Stores
 
 keys:
 
@@ -22,7 +22,7 @@ keys:
 attributes:
 
   - name: Name
-    description: The Name
+    description: Store Name
     type: text
     textTypeOptions:
       minLength: 4

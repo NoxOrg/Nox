@@ -11,21 +11,21 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public record ClientDatabaseGuidKeyDto(System.Guid keyId);
+public record WorkplaceKeyDto(System.Guid keyId);
 
 /// <summary>
-/// Client DatabaseGuid Key.
+/// Workplace.
 /// </summary>
-public partial class ClientDatabaseGuidDto
+public partial class WorkplaceDto
 {
 
     /// <summary>
-    /// The unique identifier (Required).
+    /// Workplace unique identifier (Required).
     /// </summary>
     public System.Guid Id { get; set; } = default!;
 
     /// <summary>
-    /// The Text (Required).
+    /// Workplace Name (Required).
     /// </summary>
     public System.String Name { get; set; } = default!;
 }

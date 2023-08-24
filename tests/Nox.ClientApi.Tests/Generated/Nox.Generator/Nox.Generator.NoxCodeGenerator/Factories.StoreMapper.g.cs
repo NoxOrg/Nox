@@ -19,11 +19,11 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application;
 
-public class ClientDatabaseGuidMapper: EntityMapperBase<ClientDatabaseGuid>
+public class StoreMapper: EntityMapperBase<Store>
 {
-    public  ClientDatabaseGuidMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public  StoreMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
 
-    public override void MapToEntity(ClientDatabaseGuid entity, Entity entityDefinition, dynamic dto)
+    public override void MapToEntity(Store entity, Entity entityDefinition, dynamic dto)
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
@@ -36,7 +36,7 @@ public class ClientDatabaseGuidMapper: EntityMapperBase<ClientDatabaseGuid>
         }
     }
 
-    public override void PartialMapToEntity(ClientDatabaseGuid entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
+    public override void PartialMapToEntity(Store entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
         {
             if (updatedProperties.TryGetValue("Name", out dynamic? value))
@@ -44,7 +44,7 @@ public class ClientDatabaseGuidMapper: EntityMapperBase<ClientDatabaseGuid>
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("ClientDatabaseGuid", "Name");
+                    throw new EntityAttributeIsNotNullableException("Store", "Name");
                 }
                 else
                 {

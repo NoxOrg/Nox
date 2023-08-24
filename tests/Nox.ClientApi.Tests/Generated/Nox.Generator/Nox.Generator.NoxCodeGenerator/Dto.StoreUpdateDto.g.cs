@@ -10,13 +10,15 @@ using System.ComponentModel.DataAnnotations;
 namespace ClientApi.Application.Dto; 
 
 /// <summary>
-/// Client DatabaseGuid Key.
+/// Stores.
 /// </summary>
-public partial class ClientDatabaseGuidCreateDto : ClientDatabaseGuidUpdateDto
+public partial class StoreUpdateDto
 {
+    //TODO Add owned Entities and update odata endpoints
     /// <summary>
-    /// The unique identifier (Required).
+    /// Store Name (Required).
     /// </summary>
-    [Required(ErrorMessage = "Id is required")]
-    public System.Guid Id { get; set; } = default!;
+    [Required(ErrorMessage = "Name is required")]
+    
+    public System.String Name { get; set; } = default!;
 }

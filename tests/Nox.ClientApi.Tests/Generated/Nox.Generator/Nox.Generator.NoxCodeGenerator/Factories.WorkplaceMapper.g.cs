@@ -19,11 +19,11 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application;
 
-public class ClientNuidMapper: EntityMapperBase<ClientNuid>
+public class WorkplaceMapper: EntityMapperBase<Workplace>
 {
-    public  ClientNuidMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public  WorkplaceMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
 
-    public override void MapToEntity(ClientNuid entity, Entity entityDefinition, dynamic dto)
+    public override void MapToEntity(Workplace entity, Entity entityDefinition, dynamic dto)
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
@@ -36,7 +36,7 @@ public class ClientNuidMapper: EntityMapperBase<ClientNuid>
         }
     }
 
-    public override void PartialMapToEntity(ClientNuid entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
+    public override void PartialMapToEntity(Workplace entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
         {
             if (updatedProperties.TryGetValue("Name", out dynamic? value))
@@ -44,7 +44,7 @@ public class ClientNuidMapper: EntityMapperBase<ClientNuid>
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("ClientNuid", "Name");
+                    throw new EntityAttributeIsNotNullableException("Workplace", "Name");
                 }
                 else
                 {

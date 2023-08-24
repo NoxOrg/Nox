@@ -12,13 +12,13 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Commands;
 
-public record DeleteClientDatabaseGuidByIdCommand(System.Guid keyId) : IRequest<bool>;
+public record DeleteWorkplaceByIdCommand(System.Guid keyId) : IRequest<bool>;
 
-public class DeleteClientDatabaseGuidByIdCommandHandler: CommandBase<DeleteClientDatabaseGuidByIdCommand,ClientDatabaseGuid>, IRequestHandler<DeleteClientDatabaseGuidByIdCommand, bool>
+public class DeleteWorkplaceByIdCommandHandler: CommandBase<DeleteWorkplaceByIdCommand,Workplace>, IRequestHandler<DeleteWorkplaceByIdCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
-	public DeleteClientDatabaseGuidByIdCommandHandler(
+	public DeleteWorkplaceByIdCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution, 
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -26,17 +26,17 @@ public class DeleteClientDatabaseGuidByIdCommandHandler: CommandBase<DeleteClien
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteClientDatabaseGuidByIdCommand request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(DeleteWorkplaceByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<ClientDatabaseGuid,DatabaseGuid>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Workplace,DatabaseGuid>("Id", request.keyId);
 
-		var entity = await DbContext.ClientDatabaseGuids.FindAsync(keyId);
+		var entity = await DbContext.Workplaces.FindAsync(keyId);
 		if (entity == null)
 		{
 			return false;
-		}DbContext.ClientDatabaseGuids.Remove(entity);
+		}DbContext.Workplaces.Remove(entity);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

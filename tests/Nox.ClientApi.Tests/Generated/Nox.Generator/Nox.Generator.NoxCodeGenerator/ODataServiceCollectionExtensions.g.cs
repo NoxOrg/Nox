@@ -19,8 +19,8 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntityType<CountryDto>().HasKey(e => new { e.Id });
         builder.EntityType<CountryLocalNameDto>().HasKey(e => new { e.Id });
-        builder.EntityType<ClientNuidDto>().HasKey(e => new { e.Id });
-        builder.EntityType<ClientDatabaseGuidDto>().HasKey(e => new { e.Id });
+        builder.EntityType<StoreDto>().HasKey(e => new { e.Id });
+        builder.EntityType<WorkplaceDto>().HasKey(e => new { e.Id });
 
 
         builder.EntitySet<CountryDto>("Countries");
@@ -32,16 +32,16 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntityType<CountryLocalNameDto>();
 
-        builder.EntitySet<ClientNuidDto>("ClientNuids");
-        builder.EntityType<ClientNuidKeyDto>();
+        builder.EntitySet<StoreDto>("Stores");
+        builder.EntityType<StoreKeyDto>();
 
-        builder.EntityType<ClientNuidDto>();
-        builder.EntityType<ClientNuidDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<StoreDto>();
+        builder.EntityType<StoreDto>().Ignore(e => e.DeletedAtUtc);
 
-        builder.EntitySet<ClientDatabaseGuidDto>("ClientDatabaseGuids");
-        builder.EntityType<ClientDatabaseGuidKeyDto>();
+        builder.EntitySet<WorkplaceDto>("Workplaces");
+        builder.EntityType<WorkplaceKeyDto>();
 
-        builder.EntityType<ClientDatabaseGuidDto>();
+        builder.EntityType<WorkplaceDto>();
 
         services.AddControllers()
             .AddOData(options =>

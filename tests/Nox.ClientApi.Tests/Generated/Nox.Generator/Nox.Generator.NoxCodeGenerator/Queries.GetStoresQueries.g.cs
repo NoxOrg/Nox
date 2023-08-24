@@ -12,20 +12,20 @@ using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetClientNuidsQuery() : IRequest<IQueryable<ClientNuidDto>>;
+public record GetStoresQuery() : IRequest<IQueryable<StoreDto>>;
 
-public partial class GetClientNuidsQueryHandler : QueryBase<IQueryable<ClientNuidDto>>, IRequestHandler<GetClientNuidsQuery, IQueryable<ClientNuidDto>>
+public partial class GetStoresQueryHandler : QueryBase<IQueryable<StoreDto>>, IRequestHandler<GetStoresQuery, IQueryable<StoreDto>>
 {
-    public  GetClientNuidsQueryHandler(DtoDbContext dataDbContext)
+    public  GetStoresQueryHandler(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<IQueryable<ClientNuidDto>> Handle(GetClientNuidsQuery request, CancellationToken cancellationToken)
+    public Task<IQueryable<StoreDto>> Handle(GetStoresQuery request, CancellationToken cancellationToken)
     {
-        var item = (IQueryable<ClientNuidDto>)DataDbContext.ClientNuids
+        var item = (IQueryable<StoreDto>)DataDbContext.Stores
             .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
        return Task.FromResult(OnResponse(item));

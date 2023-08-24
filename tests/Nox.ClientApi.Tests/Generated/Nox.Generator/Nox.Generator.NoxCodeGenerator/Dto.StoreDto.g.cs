@@ -11,12 +11,12 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public record ClientNuidKeyDto(System.UInt32 keyId);
+public record StoreKeyDto(System.UInt32 keyId);
 
 /// <summary>
-/// Client Nuid Key.
+/// Stores.
 /// </summary>
-public partial class ClientNuidDto
+public partial class StoreDto
 {
 
     /// <summary>
@@ -25,7 +25,7 @@ public partial class ClientNuidDto
     public System.UInt32 Id { get; set; } = default!;
 
     /// <summary>
-    /// The Name (Required).
+    /// Store Name (Required).
     /// </summary>
     public System.String Name { get; set; } = default!;
 

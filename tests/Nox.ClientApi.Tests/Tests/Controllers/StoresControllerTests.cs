@@ -10,18 +10,18 @@ using Nox.Types;
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class ClientNuidsControllerTests
+    public class StoresControllerTests
     {
         [Theory, AutoMoqData]
         public async Task Post_ReturnsNuidId(ApiFixture apiFixture)
         {
             // Arrange            
             string name = "MySpecialName";
-            uint expectedId = 2374505856;
+            uint expectedId = 2519540169u;
 
             // Act 
-            var result = await apiFixture.ClientNuidsController!.Post(
-                new ClientNuidCreateDto
+            var result = await apiFixture.StoresController!.Post(
+                new StoreCreateDto
                 {
                     Name = name
                 });
@@ -29,7 +29,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             //Assert
             result.Should().NotBeNull();
             result.Should()
-                .BeOfType<CreatedODataResult<ClientNuidKeyDto>>()
+                .BeOfType<CreatedODataResult<StoreKeyDto>>()
                 .Which.Entity.keyId.Should().Be(expectedId);
         }
 

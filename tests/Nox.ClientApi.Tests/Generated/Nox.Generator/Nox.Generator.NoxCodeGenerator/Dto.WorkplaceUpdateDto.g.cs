@@ -10,13 +10,13 @@ using System.ComponentModel.DataAnnotations;
 namespace ClientApi.Application.Dto; 
 
 /// <summary>
-/// Client DatabaseGuid Key.
+/// Workplace.
 /// </summary>
-public partial class ClientDatabaseGuidUpdateDto
+public partial class WorkplaceUpdateDto
 {
     //TODO Add owned Entities and update odata endpoints
     /// <summary>
-    /// The Text (Required).
+    /// Workplace Name (Required).
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     

@@ -12,13 +12,13 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Commands;
 
-public record DeleteClientNuidByIdCommand(System.UInt32 keyId) : IRequest<bool>;
+public record DeleteStoreByIdCommand(System.UInt32 keyId) : IRequest<bool>;
 
-public class DeleteClientNuidByIdCommandHandler: CommandBase<DeleteClientNuidByIdCommand,ClientNuid>, IRequestHandler<DeleteClientNuidByIdCommand, bool>
+public class DeleteStoreByIdCommandHandler: CommandBase<DeleteStoreByIdCommand,Store>, IRequestHandler<DeleteStoreByIdCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
-	public DeleteClientNuidByIdCommandHandler(
+	public DeleteStoreByIdCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution, 
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -26,13 +26,13 @@ public class DeleteClientNuidByIdCommandHandler: CommandBase<DeleteClientNuidByI
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteClientNuidByIdCommand request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(DeleteStoreByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<ClientNuid,Nuid>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Store,Nuid>("Id", request.keyId);
 
-		var entity = await DbContext.ClientNuids.FindAsync(keyId);
+		var entity = await DbContext.Stores.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted.Value == true)
 		{
 			return false;
