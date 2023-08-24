@@ -28,6 +28,6 @@ public partial class GetCurrencyCashBalancesQueryHandler : QueryBase<IQueryable<
         var item = (IQueryable<CurrencyCashBalanceDto>)DataDbContext.CurrencyCashBalances
             .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
-        return Task.FromResult(item);
+       return Task.FromResult(OnResponse(item));
     }
 }

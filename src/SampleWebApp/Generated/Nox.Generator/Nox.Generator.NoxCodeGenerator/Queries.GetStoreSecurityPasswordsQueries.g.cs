@@ -28,6 +28,6 @@ public partial class GetStoreSecurityPasswordsQueryHandler : QueryBase<IQueryabl
         var item = (IQueryable<StoreSecurityPasswordsDto>)DataDbContext.StoreSecurityPasswords
             .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
-        return Task.FromResult(item);
+       return Task.FromResult(OnResponse(item));
     }
 }

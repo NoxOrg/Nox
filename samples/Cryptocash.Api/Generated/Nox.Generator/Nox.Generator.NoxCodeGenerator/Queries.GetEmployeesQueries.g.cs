@@ -28,6 +28,6 @@ public partial class GetEmployeesQueryHandler : QueryBase<IQueryable<EmployeeDto
         var item = (IQueryable<EmployeeDto>)DataDbContext.Employees
             .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
-        return Task.FromResult(item);
+       return Task.FromResult(OnResponse(item));
     }
 }

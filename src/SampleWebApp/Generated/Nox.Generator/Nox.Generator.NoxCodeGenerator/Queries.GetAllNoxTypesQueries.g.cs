@@ -28,6 +28,6 @@ public partial class GetAllNoxTypesQueryHandler : QueryBase<IQueryable<AllNoxTyp
         var item = (IQueryable<AllNoxTypeDto>)DataDbContext.AllNoxTypes
             .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
-        return Task.FromResult(item);
+       return Task.FromResult(OnResponse(item));
     }
 }

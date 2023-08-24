@@ -31,6 +31,6 @@ public partial class GetAllNoxTypeByIdQueryHandler:  QueryBase<AllNoxTypeDto?>, 
                 r.Id.Equals(request.keyId) &&
                 r.TextId.Equals(request.keyTextId) &&
                 r.DeletedAtUtc == null);
-        return Task.FromResult(item);
+        return Task.FromResult(OnResponse(item));
     }
 }

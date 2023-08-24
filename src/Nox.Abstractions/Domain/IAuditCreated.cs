@@ -1,4 +1,4 @@
-﻿namespace Nox.Abstractions;
+﻿namespace Nox.Domain;
 
 public interface IAuditCreated
 {

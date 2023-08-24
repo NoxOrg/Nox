@@ -30,6 +30,6 @@ public partial class GetCurrencyByIdQueryHandler:  QueryBase<CurrencyDto?>, IReq
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);
-        return Task.FromResult(item);
+        return Task.FromResult(OnResponse(item));
     }
 }

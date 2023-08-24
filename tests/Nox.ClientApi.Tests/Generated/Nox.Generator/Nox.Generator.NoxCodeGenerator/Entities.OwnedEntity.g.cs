@@ -2,17 +2,18 @@
 
 #nullable enable
 
-using Nox.Types;
-using Nox.Domain;
 using System;
 using System.Collections.Generic;
+
+using Nox.Types;
+using Nox.Domain;
 
 namespace ClientApi.Domain;
 
 /// <summary>
 /// OwnedEntity.
 /// </summary>
-public partial class OwnedEntity
+public partial class OwnedEntity:IOwnedEntity
 {
     /// <summary>
     /// The unique identifier (Required).

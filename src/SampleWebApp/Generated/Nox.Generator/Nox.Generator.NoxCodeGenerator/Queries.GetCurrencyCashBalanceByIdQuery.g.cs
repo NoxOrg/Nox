@@ -31,6 +31,6 @@ public partial class GetCurrencyCashBalanceByIdQueryHandler:  QueryBase<Currency
                 r.StoreId.Equals(request.keyStoreId) &&
                 r.CurrencyId.Equals(request.keyCurrencyId) &&
                 r.DeletedAtUtc == null);
-        return Task.FromResult(item);
+        return Task.FromResult(OnResponse(item));
     }
 }

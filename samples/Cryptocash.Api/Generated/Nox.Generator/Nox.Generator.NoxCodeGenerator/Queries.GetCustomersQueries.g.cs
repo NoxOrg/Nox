@@ -28,6 +28,6 @@ public partial class GetCustomersQueryHandler : QueryBase<IQueryable<CustomerDto
         var item = (IQueryable<CustomerDto>)DataDbContext.Customers
             .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
-        return Task.FromResult(item);
+       return Task.FromResult(OnResponse(item));
     }
 }

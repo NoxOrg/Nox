@@ -28,6 +28,6 @@ public partial class GetCountriesQueryHandler : QueryBase<IQueryable<CountryDto>
         var item = (IQueryable<CountryDto>)DataDbContext.Countries
             .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
-        return Task.FromResult(item);
+       return Task.FromResult(OnResponse(item));
     }
 }

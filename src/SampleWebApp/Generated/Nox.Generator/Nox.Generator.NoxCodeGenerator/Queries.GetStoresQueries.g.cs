@@ -28,6 +28,6 @@ public partial class GetStoresQueryHandler : QueryBase<IQueryable<StoreDto>>, IR
         var item = (IQueryable<StoreDto>)DataDbContext.Stores
             .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
-        return Task.FromResult(item);
+       return Task.FromResult(OnResponse(item));
     }
 }
