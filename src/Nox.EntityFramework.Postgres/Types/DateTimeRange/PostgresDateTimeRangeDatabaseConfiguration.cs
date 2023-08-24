@@ -1,8 +1,8 @@
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Nox.EntityFramework.Postgres.Types.DateTime;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Types.EntityFramework.Types;
-using Microsoft.EntityFrameworkCore;
 
 namespace Nox.EntityFramework.Postgres.Types.DateTimeRange;
 
@@ -10,7 +10,7 @@ public class PostgresDateTimeRangeDatabaseConfiguration : DateTimeRangeDatabaseC
 {
     public override bool IsDefault => false;
 
-    public new virtual void ConfigureEntityProperty(
+    public virtual void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
         EntityTypeBuilder builder,
         NoxSimpleTypeDefinition property,
@@ -20,10 +20,10 @@ public class PostgresDateTimeRangeDatabaseConfiguration : DateTimeRangeDatabaseC
             .OwnsOne(typeof(Nox.Types.DateTimeRange), property.Name, dtr =>
             {
                 dtr.Property(nameof(Nox.Types.DateTimeRange.Start))
-                    .HasConversion<PostgresDateTimeRangeConverter>();
+                    .HasConversion<PostgresDateTimeConverter>();
 
                 dtr.Property(nameof(Nox.Types.DateTimeRange.End))
-                    .HasConversion<PostgresDateTimeRangeConverter>();
+                    .HasConversion<PostgresDateTimeConverter>();
 
                 dtr.Ignore(nameof(Nox.Types.DateTimeRange.Value));
             });
