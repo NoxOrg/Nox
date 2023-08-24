@@ -4,6 +4,9 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
+using Nox.Application.Commands;
+
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Infrastructure.Persistence;
 
@@ -11,7 +14,7 @@ namespace SampleWebApp.Application.Queries;
 
 public record GetCurrenciesQuery() : IRequest<IQueryable<CurrencyDto>>;
 
-public class GetCurrenciesQueryHandler : IRequestHandler<GetCurrenciesQuery, IQueryable<CurrencyDto>>
+public partial class GetCurrenciesQueryHandler : QueryBase<IQueryable<CurrencyDto>>, IRequestHandler<GetCurrenciesQuery, IQueryable<CurrencyDto>>
 {
     public  GetCurrenciesQueryHandler(DtoDbContext dataDbContext)
     {

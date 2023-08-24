@@ -11,7 +11,7 @@ namespace ClientApi.Application.Commands;
     /// Example to extend a Nox command and change a request
     /// For Request Validation, before command handler is executed use <see cref="IValidator"/> instead IValidator<CreateClientDatabaseNumberCommand>.
     /// </summary>
-    public partial class CreateClientDatabaseNumberCommandHandler //: CommandBase<CreateClientDatabaseNumberCommand>, IRequestHandler<CreateClientDatabaseNumberCommand, ClientDatabaseNumberKeyDto>
+    public partial class CreateClientDatabaseNumberCommandHandler 
     {
         protected override void OnExecuting(CreateClientDatabaseNumberCommand request, CancellationToken cancellationToken)
         {

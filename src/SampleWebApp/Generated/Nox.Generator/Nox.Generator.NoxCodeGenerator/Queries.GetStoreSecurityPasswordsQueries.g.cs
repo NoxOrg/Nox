@@ -4,6 +4,9 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
+using Nox.Application.Commands;
+
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Infrastructure.Persistence;
 
@@ -11,7 +14,7 @@ namespace SampleWebApp.Application.Queries;
 
 public record GetStoreSecurityPasswordsQuery() : IRequest<IQueryable<StoreSecurityPasswordsDto>>;
 
-public class GetStoreSecurityPasswordsQueryHandler : IRequestHandler<GetStoreSecurityPasswordsQuery, IQueryable<StoreSecurityPasswordsDto>>
+public partial class GetStoreSecurityPasswordsQueryHandler : QueryBase<IQueryable<StoreSecurityPasswordsDto>>, IRequestHandler<GetStoreSecurityPasswordsQuery, IQueryable<StoreSecurityPasswordsDto>>
 {
     public  GetStoreSecurityPasswordsQueryHandler(DtoDbContext dataDbContext)
     {

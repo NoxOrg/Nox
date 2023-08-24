@@ -4,14 +4,17 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
+using Nox.Application.Commands;
+
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 using {{codeGeneratorState.PersistenceNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Queries;
 
-public record Get{{entity.Name }}ByIdQuery({{primaryKeys}}) : IRequest<{{entity.Name}}Dto?>;
+public record Get{{entity.Name }}ByIdQuery({{primaryKeys}}) : IRequest <{{entity.Name}}Dto?>;
 
-public class Get{{entity.Name}}ByIdQueryHandler: IRequestHandler<Get{{entity.Name}}ByIdQuery, {{entity.Name}}Dto?>
+public partial class Get{{entity.Name}}ByIdQueryHandler:  QueryBase<{{entity.Name}}Dto?>, IRequestHandler<Get{{entity.Name}}ByIdQuery, {{entity.Name}}Dto?>
 {
     public  Get{{entity.Name}}ByIdQueryHandler(DtoDbContext dataDbContext)
     {
@@ -34,6 +37,6 @@ public class Get{{entity.Name}}ByIdQueryHandler: IRequestHandler<Get{{entity.Nam
                 true
             {{end -}}
             );
-        return Task.FromResult(item);
+        return Task.FromResult(OnResponse(item));
     }
 }

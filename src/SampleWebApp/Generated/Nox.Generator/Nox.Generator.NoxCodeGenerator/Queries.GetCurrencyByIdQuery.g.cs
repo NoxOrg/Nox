@@ -4,14 +4,17 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
+using Nox.Application.Commands;
+
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Infrastructure.Persistence;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetCurrencyByIdQuery(System.UInt32 keyId) : IRequest<CurrencyDto?>;
+public record GetCurrencyByIdQuery(System.UInt32 keyId) : IRequest <CurrencyDto?>;
 
-public class GetCurrencyByIdQueryHandler: IRequestHandler<GetCurrencyByIdQuery, CurrencyDto?>
+public partial class GetCurrencyByIdQueryHandler:  QueryBase<CurrencyDto?>, IRequestHandler<GetCurrencyByIdQuery, CurrencyDto?>
 {
     public  GetCurrencyByIdQueryHandler(DtoDbContext dataDbContext)
     {

@@ -4,6 +4,9 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
+using Nox.Application.Commands;
+
 using CryptocashApi.Application.Dto;
 using CryptocashApi.Infrastructure.Persistence;
 
@@ -11,7 +14,7 @@ namespace CryptocashApi.Application.Queries;
 
 public record GetCustomersQuery() : IRequest<IQueryable<CustomerDto>>;
 
-public class GetCustomersQueryHandler : IRequestHandler<GetCustomersQuery, IQueryable<CustomerDto>>
+public partial class GetCustomersQueryHandler : QueryBase<IQueryable<CustomerDto>>, IRequestHandler<GetCustomersQuery, IQueryable<CustomerDto>>
 {
     public  GetCustomersQueryHandler(DtoDbContext dataDbContext)
     {

@@ -4,14 +4,17 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
+using Nox.Application.Commands;
+
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Infrastructure.Persistence;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetCurrencyCashBalanceByIdQuery(System.String keyStoreId, System.UInt32 keyCurrencyId) : IRequest<CurrencyCashBalanceDto?>;
+public record GetCurrencyCashBalanceByIdQuery(System.String keyStoreId, System.UInt32 keyCurrencyId) : IRequest <CurrencyCashBalanceDto?>;
 
-public class GetCurrencyCashBalanceByIdQueryHandler: IRequestHandler<GetCurrencyCashBalanceByIdQuery, CurrencyCashBalanceDto?>
+public partial class GetCurrencyCashBalanceByIdQueryHandler:  QueryBase<CurrencyCashBalanceDto?>, IRequestHandler<GetCurrencyCashBalanceByIdQuery, CurrencyCashBalanceDto?>
 {
     public  GetCurrencyCashBalanceByIdQueryHandler(DtoDbContext dataDbContext)
     {

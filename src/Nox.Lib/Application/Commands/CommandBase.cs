@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
@@ -33,6 +32,11 @@ public abstract class CommandBase<TRequest> : INoxCommand
         return NoxSolution.Domain!.GetEntityByName(typeof(E).Name);
     }
 
+    /// <summary>
+    /// Executing the command handler, use this method to override or update the request
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellationToken"></param>
     protected virtual void OnExecuting(TRequest request, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();

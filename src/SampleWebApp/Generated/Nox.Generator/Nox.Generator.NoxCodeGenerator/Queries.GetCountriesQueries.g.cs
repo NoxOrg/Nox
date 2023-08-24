@@ -4,6 +4,9 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
+using Nox.Application.Commands;
+
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Infrastructure.Persistence;
 
@@ -11,7 +14,7 @@ namespace SampleWebApp.Application.Queries;
 
 public record GetCountriesQuery() : IRequest<IQueryable<CountryDto>>;
 
-public class GetCountriesQueryHandler : IRequestHandler<GetCountriesQuery, IQueryable<CountryDto>>
+public partial class GetCountriesQueryHandler : QueryBase<IQueryable<CountryDto>>, IRequestHandler<GetCountriesQuery, IQueryable<CountryDto>>
 {
     public  GetCountriesQueryHandler(DtoDbContext dataDbContext)
     {

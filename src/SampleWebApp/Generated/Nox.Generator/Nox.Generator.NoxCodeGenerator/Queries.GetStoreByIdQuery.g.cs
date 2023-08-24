@@ -4,14 +4,17 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
+using Nox.Application.Commands;
+
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Infrastructure.Persistence;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetStoreByIdQuery(System.String keyId) : IRequest<StoreDto?>;
+public record GetStoreByIdQuery(System.String keyId) : IRequest <StoreDto?>;
 
-public class GetStoreByIdQueryHandler: IRequestHandler<GetStoreByIdQuery, StoreDto?>
+public partial class GetStoreByIdQueryHandler:  QueryBase<StoreDto?>, IRequestHandler<GetStoreByIdQuery, StoreDto?>
 {
     public  GetStoreByIdQueryHandler(DtoDbContext dataDbContext)
     {

@@ -4,14 +4,17 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
+using Nox.Application.Commands;
+
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetClientDatabaseGuidByIdQuery(System.Guid keyId) : IRequest<ClientDatabaseGuidDto?>;
+public record GetClientDatabaseGuidByIdQuery(System.Guid keyId) : IRequest <ClientDatabaseGuidDto?>;
 
-public class GetClientDatabaseGuidByIdQueryHandler: IRequestHandler<GetClientDatabaseGuidByIdQuery, ClientDatabaseGuidDto?>
+public partial class GetClientDatabaseGuidByIdQueryHandler:  QueryBase<ClientDatabaseGuidDto?>, IRequestHandler<GetClientDatabaseGuidByIdQuery, ClientDatabaseGuidDto?>
 {
     public  GetClientDatabaseGuidByIdQueryHandler(DtoDbContext dataDbContext)
     {
@@ -28,6 +31,6 @@ public class GetClientDatabaseGuidByIdQueryHandler: IRequestHandler<GetClientDat
                 r.Id.Equals(request.keyId) &&
                 true
             );
-        return Task.FromResult(item);
+        return Task.FromResult(OnResponse(item));
     }
 }
