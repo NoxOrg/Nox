@@ -16,9 +16,11 @@ public partial class AllNoxTypeUpdateDto
 {
     //TODO Add owned Entities and update odata endpoints
     /// <summary>
-    /// NuidField Type (Optional).
+    /// Area Nox Type (Required).
     /// </summary>
-    public System.UInt32? NuidField { get; set; } 
+    [Required(ErrorMessage = "AreaField is required")]
+    
+    public System.Decimal AreaField { get; set; } = default!;
     /// <summary>
     /// BooleanField Nox Type (Optional).
     /// </summary>
@@ -42,17 +44,93 @@ public partial class AllNoxTypeUpdateDto
     /// </summary>
     public System.String? CultureCodeField { get; set; } 
     /// <summary>
-    /// CurrencyCode3Field Nox Type (Optional).
+    /// CurrencyCode3Field Nox Type (Required).
     /// </summary>
-    public System.String? CurrencyCode3Field { get; set; } 
+    [Required(ErrorMessage = "CurrencyCode3Field is required")]
+    
+    public System.String CurrencyCode3Field { get; set; } = default!;
     /// <summary>
-    /// DatetimeField Nox Type (Optional).
+    /// Currency Number Nox Type (Required).
     /// </summary>
-    public System.DateTimeOffset? DateTimeField { get; set; } 
+    [Required(ErrorMessage = "CurrencyNumberField is required")]
+    
+    public System.Int16 CurrencyNumberField { get; set; } = default!;
+    /// <summary>
+    /// Date Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "DateField is required")]
+    
+    public System.DateTime DateField { get; set; } = default!;
+    /// <summary>
+    /// Date Time Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "DateTimeField is required")]
+    
+    public System.DateTimeOffset DateTimeField { get; set; } = default!;
+    /// <summary>
+    /// Date Time Duration Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "DateTimeDurationField is required")]
+    
+    public System.Int64 DateTimeDurationField { get; set; } = default!;
+    /// <summary>
+    /// Date Time Schedule Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "DateTimeScheduleField is required")]
+    
+    public System.String DateTimeScheduleField { get; set; } = default!;
+    /// <summary>
+    /// DayOfWeek Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "DayOfWeekField is required")]
+    
+    public System.UInt16 DayOfWeekField { get; set; } = default!;
+    /// <summary>
+    /// Distance Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "DistanceField is required")]
+    
+    public System.Decimal DistanceField { get; set; } = default!;
+    /// <summary>
+    /// Email Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "EmailField is required")]
+    
+    public System.String EmailField { get; set; } = default!;
+    /// <summary>
+    /// Guid Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "GuidField is required")]
+    
+    public System.Guid GuidField { get; set; } = default!;
     /// <summary>
     /// HtmlField Nox Type (Optional).
     /// </summary>
     public System.String? HtmlField { get; set; } 
+    /// <summary>
+    /// Internet Domain Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "InternetDomainField is required")]
+    
+    public System.String InternetDomainField { get; set; } = default!;
+    /// <summary>
+    /// IpAddress Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "IpAddressField is required")]
+    
+    public System.String IpAddressField { get; set; } = default!;
+    /// <summary>
+    /// Json Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "JsonField is required")]
+    
+    public System.String JsonField { get; set; } = default!;
+    /// <summary>
+    /// JwtToken Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "JwtTokenField is required")]
+    
+    public System.String JwtTokenField { get; set; } = default!;
     /// <summary>
     /// Language Code Nox Type (Required).
     /// </summary>
@@ -89,6 +167,16 @@ public partial class AllNoxTypeUpdateDto
     [Required(ErrorMessage = "TemperatureField is required")]
     
     public System.Decimal TemperatureField { get; set; } = default!;
+    /// <summary>
+    /// Month Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "MonthField is required")]
+    
+    public System.Byte MonthField { get; set; } = default!;
+    /// <summary>
+    /// NuidField Type (Optional).
+    /// </summary>
+    public System.UInt32? NuidField { get; set; } 
     /// <summary>
     /// Yaml Nox Type (Optional).
     /// </summary>
@@ -136,27 +224,37 @@ public partial class AllNoxTypeUpdateDto
     
     public System.String TextField { get; set; } = default!;
     /// <summary>
+    /// File Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "FileField is required")]
+    
+    public FileDto FileField { get; set; } = default!;
+    /// <summary>
+    /// Image Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "ImageField is required")]
+    
+    public ImageDto ImageField { get; set; } = default!;
+    /// <summary>
+    /// Money Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "MoneyField is required")]
+    
+    public MoneyDto MoneyField { get; set; } = default!;
+    /// <summary>
     /// StreetAddress Nox Type (Optional).
     /// </summary>
     public StreetAddressDto? StreetAddressField { get; set; } 
     /// <summary>
-    /// File Nox Type (Optional).
+    /// TranslatedText Nox Type (Required).
     /// </summary>
-    public FileDto? FileField { get; set; } 
+    [Required(ErrorMessage = "TranslatedTextField is required")]
+    
+    public TranslatedTextDto TranslatedTextField { get; set; } = default!;
     /// <summary>
-    /// TranslatedText Nox Type (Optional).
+    /// VatNumber Nox Type (Required).
     /// </summary>
-    public TranslatedTextDto? TranslatedTextField { get; set; } 
-    /// <summary>
-    /// VatNumber Nox Type (Optional).
-    /// </summary>
-    public VatNumberDto? VatNumberField { get; set; } 
-    /// <summary>
-    /// Money Nox Type (Optional).
-    /// </summary>
-    public MoneyDto? MoneyField { get; set; } 
-    /// <summary>
-    /// LatLongField Nox Type (Optional).
-    /// </summary>
-    public LatLongDto? LatLongField { get; set; } 
+    [Required(ErrorMessage = "VatNumberField is required")]
+    
+    public VatNumberDto VatNumberField { get; set; } = default!;
 }

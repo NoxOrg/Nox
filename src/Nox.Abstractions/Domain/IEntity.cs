@@ -1,4 +1,4 @@
-﻿namespace Nox.Abstractions;
+﻿namespace Nox.Domain;
 
 /// <summary>
 /// Marker interface for entities

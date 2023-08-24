@@ -18,11 +18,8 @@ using SampleWebApp.Application.Dto;
 namespace SampleWebApp.Application.Commands;
 public record CreateAllNoxTypeCommand(AllNoxTypeCreateDto EntityDto) : IRequest<AllNoxTypeKeyDto>;
 
-public partial class CreateAllNoxTypeCommandHandler: CommandBase<CreateAllNoxTypeCommand>, IRequestHandler <CreateAllNoxTypeCommand, AllNoxTypeKeyDto>
+public partial class CreateAllNoxTypeCommandHandler: CommandBase<CreateAllNoxTypeCommand,AllNoxType>, IRequestHandler <CreateAllNoxTypeCommand, AllNoxTypeKeyDto>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityFactory<AllNoxTypeCreateDto,AllNoxType> EntityFactory { get; }
 
@@ -30,25 +27,20 @@ public partial class CreateAllNoxTypeCommandHandler: CommandBase<CreateAllNoxTyp
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityFactory<AllNoxTypeCreateDto,AllNoxType> entityFactory,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<AllNoxTypeCreateDto,AllNoxType> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 
 	public async Task<AllNoxTypeKeyDto> Handle(CreateAllNoxTypeCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request, cancellationToken);
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		var createdBy = _userProvider.GetUser();
-		var createdVia = _systemProvider.GetSystem();
-		entityToCreate.Created(createdBy, createdVia);
 	
+		OnCompleted(entityToCreate);
 		DbContext.AllNoxTypes.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();
 		return new AllNoxTypeKeyDto(entityToCreate.Id.Value, entityToCreate.TextId.Value);

@@ -14,11 +14,13 @@ domain:
 
   entities:
 
-    - $ref: ./Entities/databasenumber.entity.nox.yaml
+    - $ref: ./Entities/country.entity.nox.yaml
   
-    - $ref: ./Entities/nuid.entity.nox.yaml
+    - $ref: ./Entities/countrylocalname.entity.nox.yaml
   
-    - $ref: ./Entities/owned.entity.nox.yaml
+    - $ref: ./Entities/store.entity.nox.yaml
+  
+    - $ref: ./Entities/databaseguid.entity.nox.yaml
 
 
 infrastructure:

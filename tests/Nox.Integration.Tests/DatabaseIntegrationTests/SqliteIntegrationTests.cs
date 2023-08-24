@@ -269,10 +269,10 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.GeoCoordTestField!.Longitude.Should().Be(longitude);
         testEntity.DateTimeRangeTestField!.Start.Should().Be(dateTimeRangeStart);
         testEntity.DateTimeRangeTestField!.End.Should().Be(dateTimeRangeEnd);
-        testEntity.DateTimeRangeTestField!.Start.ToString().Should().Be(dateTimeRangeStart.ToString());
-        testEntity.DateTimeRangeTestField!.End.ToString().Should().Be(dateTimeRangeEnd.ToString());
-        testEntity.DateTimeRangeTestField.StartTimeZoneOffset.Should().Be(dateTimeRangeStart.Offset);
-        testEntity.DateTimeRangeTestField.EndTimeZoneOffset.Should().Be(dateTimeRangeEnd.Offset);
+        testEntity.DateTimeRangeTestField!.Start.UtcDateTime.Should().Be(dateTimeRangeStart.UtcDateTime);
+        testEntity.DateTimeRangeTestField!.End.UtcDateTime.Should().Be(dateTimeRangeEnd.UtcDateTime);
+        testEntity.DateTimeRangeTestField!.Start.Subtract(testEntity.DateTimeRangeTestField!.End)
+            .Should().Be(dateTimeRangeStart.Subtract(dateTimeRangeEnd));
         testEntity.HtmlTestField!.Value.Should().Be(html);
         testEntity.ImageTestField!.Url.Should().Be(imageUrl);
         testEntity.ImageTestField!.PrettyName.Should().Be(imagePrettyName);

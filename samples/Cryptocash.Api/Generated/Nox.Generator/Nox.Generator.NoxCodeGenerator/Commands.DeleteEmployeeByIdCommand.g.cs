@@ -14,30 +14,33 @@ namespace CryptocashApi.Application.Commands;
 
 public record DeleteEmployeeByIdCommand(System.Int64 keyId) : IRequest<bool>;
 
-public class DeleteEmployeeByIdCommandHandler: CommandBase, IRequestHandler<DeleteEmployeeByIdCommand, bool>
+public class DeleteEmployeeByIdCommandHandler: CommandBase<DeleteEmployeeByIdCommand,Employee>, IRequestHandler<DeleteEmployeeByIdCommand, bool>
 {
-    public CryptocashApiDbContext DbContext { get; }
+	public CryptocashApiDbContext DbContext { get; }
 
-    public  DeleteEmployeeByIdCommandHandler(
-        CryptocashApiDbContext dbContext,
-        NoxSolution noxSolution, 
-        IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
-    {
-        DbContext = dbContext;
-    }    
+	public DeleteEmployeeByIdCommandHandler(
+		CryptocashApiDbContext dbContext,
+		NoxSolution noxSolution, 
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+	{
+		DbContext = dbContext;
+	}
 
-    public async Task<bool> Handle(DeleteEmployeeByIdCommand request, CancellationToken cancellationToken)
-    {
-        var keyId = CreateNoxTypeForKey<Employee,DatabaseNumber>("Id", request.keyId);
+	public async Task<bool> Handle(DeleteEmployeeByIdCommand request, CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
+		var keyId = CreateNoxTypeForKey<Employee,DatabaseNumber>("Id", request.keyId);
 
-        var entity = await DbContext.Employees.FindAsync(keyId);
-        if (entity == null || entity.Deleted == true)
-        {
-            return false;
-        }
+		var entity = await DbContext.Employees.FindAsync(keyId);
+		if (entity == null || entity.IsDeleted.Value == true)
+		{
+			return false;
+		}
 
-        entity.Delete();
-        await DbContext.SaveChangesAsync(cancellationToken);
-        return true;
-    }
+		OnCompleted(entity);
+		DbContext.Entry(entity).State = EntityState.Deleted;
+		await DbContext.SaveChangesAsync(cancellationToken);
+		return true;
+	}
 }

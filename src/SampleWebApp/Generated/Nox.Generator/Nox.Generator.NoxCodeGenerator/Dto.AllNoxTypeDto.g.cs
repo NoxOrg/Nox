@@ -30,9 +30,9 @@ public partial class AllNoxTypeDto
     public System.String TextId { get; set; } = default!;
 
     /// <summary>
-    /// NuidField Type (Optional).
+    /// Area Nox Type (Required).
     /// </summary>
-    public System.UInt32? NuidField { get; set; }
+    public System.Decimal AreaField { get; set; } = default!;
 
     /// <summary>
     /// BooleanField Nox Type (Optional).
@@ -60,14 +60,49 @@ public partial class AllNoxTypeDto
     public System.String? CultureCodeField { get; set; }
 
     /// <summary>
-    /// CurrencyCode3Field Nox Type (Optional).
+    /// CurrencyCode3Field Nox Type (Required).
     /// </summary>
-    public System.String? CurrencyCode3Field { get; set; }
+    public System.String CurrencyCode3Field { get; set; } = default!;
 
     /// <summary>
-    /// DatetimeField Nox Type (Optional).
+    /// Currency Number Nox Type (Required).
     /// </summary>
-    public System.DateTimeOffset? DateTimeField { get; set; }
+    public System.Int16 CurrencyNumberField { get; set; } = default!;
+
+    /// <summary>
+    /// Date Nox Type (Required).
+    /// </summary>
+    public System.DateTime DateField { get; set; } = default!;
+
+    /// <summary>
+    /// Date Time Nox Type (Required).
+    /// </summary>
+    public System.DateTimeOffset DateTimeField { get; set; } = default!;
+
+    /// <summary>
+    /// Date Time Duration Nox Type (Required).
+    /// </summary>
+    public System.Int64 DateTimeDurationField { get; set; } = default!;
+
+    /// <summary>
+    /// Date Time Schedule Nox Type (Required).
+    /// </summary>
+    public System.String DateTimeScheduleField { get; set; } = default!;
+
+    /// <summary>
+    /// DayOfWeek Nox Type (Required).
+    /// </summary>
+    public System.UInt16 DayOfWeekField { get; set; } = default!;
+
+    /// <summary>
+    /// Distance Nox Type (Required).
+    /// </summary>
+    public System.Decimal DistanceField { get; set; } = default!;
+
+    /// <summary>
+    /// Email Nox Type (Required).
+    /// </summary>
+    public System.String EmailField { get; set; } = default!;
 
     /// <summary>
     /// Formula Nox Type (Optional).
@@ -75,9 +110,34 @@ public partial class AllNoxTypeDto
     [NotMapped]public System.String? FormulaField { get; set; }
 
     /// <summary>
+    /// Guid Nox Type (Required).
+    /// </summary>
+    public System.Guid GuidField { get; set; } = default!;
+
+    /// <summary>
     /// HtmlField Nox Type (Optional).
     /// </summary>
     public System.String? HtmlField { get; set; }
+
+    /// <summary>
+    /// Internet Domain Nox Type (Required).
+    /// </summary>
+    public System.String InternetDomainField { get; set; } = default!;
+
+    /// <summary>
+    /// IpAddress Nox Type (Required).
+    /// </summary>
+    public System.String IpAddressField { get; set; } = default!;
+
+    /// <summary>
+    /// Json Nox Type (Required).
+    /// </summary>
+    public System.String JsonField { get; set; } = default!;
+
+    /// <summary>
+    /// JwtToken Nox Type (Required).
+    /// </summary>
+    public System.String JwtTokenField { get; set; } = default!;
 
     /// <summary>
     /// Language Code Nox Type (Required).
@@ -108,6 +168,16 @@ public partial class AllNoxTypeDto
     /// Temperature Nox Type (Required).
     /// </summary>
     public System.Decimal TemperatureField { get; set; } = default!;
+
+    /// <summary>
+    /// Month Nox Type (Required).
+    /// </summary>
+    public System.Byte MonthField { get; set; } = default!;
+
+    /// <summary>
+    /// NuidField Type (Optional).
+    /// </summary>
+    public System.UInt32? NuidField { get; set; }
 
     /// <summary>
     /// Yaml Nox Type (Optional).
@@ -165,34 +235,34 @@ public partial class AllNoxTypeDto
     public System.String TextField { get; set; } = default!;
 
     /// <summary>
+    /// File Nox Type (Required).
+    /// </summary>
+    public FileDto FileField { get; set; } = default!;
+
+    /// <summary>
+    /// Image Nox Type (Required).
+    /// </summary>
+    public ImageDto ImageField { get; set; } = default!;
+
+    /// <summary>
+    /// Money Nox Type (Required).
+    /// </summary>
+    public MoneyDto MoneyField { get; set; } = default!;
+
+    /// <summary>
     /// StreetAddress Nox Type (Optional).
     /// </summary>
     public StreetAddressDto? StreetAddressField { get; set; }
 
     /// <summary>
-    /// File Nox Type (Optional).
+    /// TranslatedText Nox Type (Required).
     /// </summary>
-    public FileDto? FileField { get; set; }
+    public TranslatedTextDto TranslatedTextField { get; set; } = default!;
 
     /// <summary>
-    /// TranslatedText Nox Type (Optional).
+    /// VatNumber Nox Type (Required).
     /// </summary>
-    public TranslatedTextDto? TranslatedTextField { get; set; }
-
-    /// <summary>
-    /// VatNumber Nox Type (Optional).
-    /// </summary>
-    public VatNumberDto? VatNumberField { get; set; }
-
-    /// <summary>
-    /// Money Nox Type (Optional).
-    /// </summary>
-    public MoneyDto? MoneyField { get; set; }
-
-    /// <summary>
-    /// LatLongField Nox Type (Optional).
-    /// </summary>
-    public LatLongDto? LatLongField { get; set; }
+    public VatNumberDto VatNumberField { get; set; } = default!;
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }

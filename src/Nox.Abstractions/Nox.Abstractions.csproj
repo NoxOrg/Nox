@@ -18,6 +18,7 @@
         <RepositoryUrl>https://github.com/NoxOrg/Nox.git</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageIcon>nox.png</PackageIcon>
+        <RootNamespace>Nox</RootNamespace>
     </PropertyGroup>
 
     <ItemGroup>

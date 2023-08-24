@@ -1,4 +1,4 @@
-﻿using Nox.Abstractions;
+﻿using Nox.Domain;
 
 namespace Nox.Factories
 {

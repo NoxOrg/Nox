@@ -27,7 +27,7 @@ public class VatNumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
                     .IsUnicode(false)
                     .HasMaxLength(64);
                 x.Property(nameof(VatNumber.CountryCode))
-                    .HasConversion( new EnumToStringConverter<CountryCode>() )
+                    .HasConversion(new EnumToStringConverter<CountryCode>())
                     .IsUnicode(false)
                     .IsFixedLength()
                     .HasMaxLength(2);

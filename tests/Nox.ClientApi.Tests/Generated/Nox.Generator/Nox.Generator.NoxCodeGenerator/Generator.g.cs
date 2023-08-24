@@ -4,8 +4,9 @@
 
 // Found files ->
 //  - clientapi.solution.nox.yaml
-//  - databasenumber.entity.nox.yaml
-//  - nuid.entity.nox.yaml
-//  - owned.entity.nox.yaml
+//  - country.entity.nox.yaml
+//  - countrylocalname.entity.nox.yaml
+//  - databaseguid.entity.nox.yaml
+//  - store.entity.nox.yaml
 //  - generator.nox.yaml
 // SUCCESS.

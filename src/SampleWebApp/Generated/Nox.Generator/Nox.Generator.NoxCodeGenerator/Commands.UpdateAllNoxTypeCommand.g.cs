@@ -4,7 +4,6 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -17,11 +16,8 @@ namespace SampleWebApp.Application.Commands;
 
 public record UpdateAllNoxTypeCommand(System.Int64 keyId, System.String keyTextId, AllNoxTypeUpdateDto EntityDto) : IRequest<AllNoxTypeKeyDto?>;
 
-public class UpdateAllNoxTypeCommandHandler: CommandBase<UpdateAllNoxTypeCommand>, IRequestHandler<UpdateAllNoxTypeCommand, AllNoxTypeKeyDto?>
+public class UpdateAllNoxTypeCommandHandler: CommandBase<UpdateAllNoxTypeCommand, AllNoxType>, IRequestHandler<UpdateAllNoxTypeCommand, AllNoxTypeKeyDto?>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<AllNoxType> EntityMapper { get; }
 
@@ -29,19 +25,16 @@ public class UpdateAllNoxTypeCommandHandler: CommandBase<UpdateAllNoxTypeCommand
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<AllNoxType> entityMapper,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IEntityMapper<AllNoxType> entityMapper): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityMapper = entityMapper;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 	
 	public async Task<AllNoxTypeKeyDto?> Handle(UpdateAllNoxTypeCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request, cancellationToken);
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<AllNoxType,DatabaseNumber>("Id", request.keyId);
 		var keyTextId = CreateNoxTypeForKey<AllNoxType,Text>("TextId", request.keyTextId);
 	
@@ -51,10 +44,9 @@ public class UpdateAllNoxTypeCommandHandler: CommandBase<UpdateAllNoxTypeCommand
 			return null;
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<AllNoxType>(), request.EntityDto);
-		var updatedBy = _userProvider.GetUser();
-		var updatedVia = _systemProvider.GetSystem();
-		entity.Updated(updatedBy, updatedVia);
-		
+
+		OnCompleted(entity);
+
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if(result < 1)

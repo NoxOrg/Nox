@@ -2,10 +2,11 @@
 
 #nullable enable
 
-using Nox.Types;
-using Nox.Domain;
 using System;
 using System.Collections.Generic;
+
+using Nox.Types;
+using Nox.Domain;
 
 namespace SampleWebApp.Domain;
 
@@ -24,9 +25,9 @@ public partial class AllNoxType : AuditableEntityBase
     public Text TextId { get; set; } = null!;
 
     /// <summary>
-    /// NuidField Type (Optional).
+    /// Area Nox Type (Required).
     /// </summary>
-    public Nox.Types.Nuid? NuidField { get; set; } = null!;
+    public Nox.Types.Area AreaField { get; set; } = null!;
 
     /// <summary>
     /// BooleanField Nox Type (Optional).
@@ -54,14 +55,49 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.CultureCode? CultureCodeField { get; set; } = null!;
 
     /// <summary>
-    /// CurrencyCode3Field Nox Type (Optional).
+    /// CurrencyCode3Field Nox Type (Required).
     /// </summary>
-    public Nox.Types.CurrencyCode3? CurrencyCode3Field { get; set; } = null!;
+    public Nox.Types.CurrencyCode3 CurrencyCode3Field { get; set; } = null!;
 
     /// <summary>
-    /// DatetimeField Nox Type (Optional).
+    /// Currency Number Nox Type (Required).
     /// </summary>
-    public Nox.Types.DateTime? DateTimeField { get; set; } = null!;
+    public Nox.Types.CurrencyNumber CurrencyNumberField { get; set; } = null!;
+
+    /// <summary>
+    /// Date Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Date DateField { get; set; } = null!;
+
+    /// <summary>
+    /// Date Time Nox Type (Required).
+    /// </summary>
+    public Nox.Types.DateTime DateTimeField { get; set; } = null!;
+
+    /// <summary>
+    /// Date Time Duration Nox Type (Required).
+    /// </summary>
+    public Nox.Types.DateTimeDuration DateTimeDurationField { get; set; } = null!;
+
+    /// <summary>
+    /// Date Time Schedule Nox Type (Required).
+    /// </summary>
+    public Nox.Types.DateTimeSchedule DateTimeScheduleField { get; set; } = null!;
+
+    /// <summary>
+    /// DayOfWeek Nox Type (Required).
+    /// </summary>
+    public Nox.Types.DayOfWeek DayOfWeekField { get; set; } = null!;
+
+    /// <summary>
+    /// Distance Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Distance DistanceField { get; set; } = null!;
+
+    /// <summary>
+    /// Email Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Email EmailField { get; set; } = null!;
 
     /// <summary>
     /// Formula Nox Type (Optional).
@@ -69,9 +105,34 @@ public partial class AllNoxType : AuditableEntityBase
     public string? FormulaField => CountryCode2Field.ToString();
 
     /// <summary>
+    /// Guid Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Guid GuidField { get; set; } = null!;
+
+    /// <summary>
     /// HtmlField Nox Type (Optional).
     /// </summary>
     public Nox.Types.Html? HtmlField { get; set; } = null!;
+
+    /// <summary>
+    /// Internet Domain Nox Type (Required).
+    /// </summary>
+    public Nox.Types.InternetDomain InternetDomainField { get; set; } = null!;
+
+    /// <summary>
+    /// IpAddress Nox Type (Required).
+    /// </summary>
+    public Nox.Types.IpAddress IpAddressField { get; set; } = null!;
+
+    /// <summary>
+    /// Json Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Json JsonField { get; set; } = null!;
+
+    /// <summary>
+    /// JwtToken Nox Type (Required).
+    /// </summary>
+    public Nox.Types.JwtToken JwtTokenField { get; set; } = null!;
 
     /// <summary>
     /// Language Code Nox Type (Required).
@@ -102,6 +163,16 @@ public partial class AllNoxType : AuditableEntityBase
     /// Temperature Nox Type (Required).
     /// </summary>
     public Nox.Types.Temperature TemperatureField { get; set; } = null!;
+
+    /// <summary>
+    /// Month Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Month MonthField { get; set; } = null!;
+
+    /// <summary>
+    /// NuidField Type (Optional).
+    /// </summary>
+    public Nox.Types.Nuid? NuidField { get; set; } = null!;
 
     /// <summary>
     /// Yaml Nox Type (Optional).
@@ -159,47 +230,47 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.Text TextField { get; set; } = null!;
 
     /// <summary>
+    /// Encrypted Text Nox Type (Required).
+    /// </summary>
+    public Nox.Types.EncryptedText EncryptedTextField { get; set; } = null!;
+
+    /// <summary>
+    /// File Nox Type (Required).
+    /// </summary>
+    public Nox.Types.File FileField { get; set; } = null!;
+
+    /// <summary>
+    /// HashedTex Nox Type (Required).
+    /// </summary>
+    public Nox.Types.HashedText HashedTexField { get; set; } = null!;
+
+    /// <summary>
+    /// Image Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Image ImageField { get; set; } = null!;
+
+    /// <summary>
+    /// Money Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Money MoneyField { get; set; } = null!;
+
+    /// <summary>
+    /// Password Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Password PasswordField { get; set; } = null!;
+
+    /// <summary>
     /// StreetAddress Nox Type (Optional).
     /// </summary>
     public Nox.Types.StreetAddress? StreetAddressField { get; set; } = null!;
 
     /// <summary>
-    /// File Nox Type (Optional).
+    /// TranslatedText Nox Type (Required).
     /// </summary>
-    public Nox.Types.File? FileField { get; set; } = null!;
+    public Nox.Types.TranslatedText TranslatedTextField { get; set; } = null!;
 
     /// <summary>
-    /// TranslatedText Nox Type (Optional).
+    /// VatNumber Nox Type (Required).
     /// </summary>
-    public Nox.Types.TranslatedText? TranslatedTextField { get; set; } = null!;
-
-    /// <summary>
-    /// VatNumber Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.VatNumber? VatNumberField { get; set; } = null!;
-
-    /// <summary>
-    /// Password Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.Password? PasswordField { get; set; } = null!;
-
-    /// <summary>
-    /// Money Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.Money? MoneyField { get; set; } = null!;
-
-    /// <summary>
-    /// HashedTex Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.HashedText? HashedTexField { get; set; } = null!;
-
-    /// <summary>
-    /// LatLongField Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.LatLong? LatLongField { get; set; } = null!;
-
-    /// <summary>
-    /// EncryptedText Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.EncryptedText? EncryptedTextField { get; set; } = null!;
+    public Nox.Types.VatNumber VatNumberField { get; set; } = null!;
 }
