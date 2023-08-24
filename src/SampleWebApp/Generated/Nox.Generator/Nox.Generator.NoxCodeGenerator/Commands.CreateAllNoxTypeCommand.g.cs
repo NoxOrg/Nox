@@ -43,6 +43,6 @@ public partial class CreateAllNoxTypeCommandHandler: CommandBase<CreateAllNoxTyp
 		OnCompleted(entityToCreate);
 		DbContext.AllNoxTypes.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();
-		return new AllNoxTypeKeyDto(entityToCreate.Id.Value, entityToCreate.TextId.Value);
+		return new AllNoxTypeKeyDto{ Id = entityToCreate.Id.Value, TextId = entityToCreate.TextId.Value };
 	}
 }

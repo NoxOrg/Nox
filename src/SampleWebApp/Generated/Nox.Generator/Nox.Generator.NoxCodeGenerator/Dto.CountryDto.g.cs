@@ -3,6 +3,7 @@
 #nullable enable
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
@@ -11,18 +12,21 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
-public record CountryKeyDto(System.Int64 keyId);
-
-/// <summary>
-/// The list of countries.
-/// </summary>
-public partial class CountryDto
+public class CountryKeyDto
 {
 
     /// <summary>
     ///  (Required).
     /// </summary>
+    [Key]
     public System.Int64 Id { get; set; } = default!;
+}
+
+/// <summary>
+/// The list of countries.
+/// </summary>
+public partial class CountryDto : CountryKeyDto
+{
 
     /// <summary>
     /// The country's common name (Required).
@@ -107,7 +111,7 @@ public partial class CountryDto
     /// <summary>
     /// Country is also know as OneOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalNamesDto> CountryLocalNames { get; set; } = new();
+    public virtual List<CountryLocalNameDto> CountryLocalNames { get; set; } = new();
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }

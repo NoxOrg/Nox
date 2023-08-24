@@ -61,6 +61,22 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
+    public async Task<ActionResult> PostToCountryLocalNames([FromRoute] System.Int64 key, [FromBody] CountryLocalNameCreateDto countryLocalName)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdKey = await _mediator.Send(new AddCountryLocalNameCommand(new CountryKeyDto{Id = key}, countryLocalName));
+        if (createdKey == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(createdKey);
+    }
+    
     public async Task<ActionResult> Post([FromBody]CountryCreateDto country)
     {
         if (!ModelState.IsValid)

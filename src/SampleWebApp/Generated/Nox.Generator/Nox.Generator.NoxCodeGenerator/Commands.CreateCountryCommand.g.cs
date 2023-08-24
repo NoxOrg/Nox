@@ -43,6 +43,6 @@ public partial class CreateCountryCommandHandler: CommandBase<CreateCountryComma
 		OnCompleted(entityToCreate);
 		DbContext.Countries.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();
-		return new CountryKeyDto(entityToCreate.Id.Value);
+		return new CountryKeyDto{ Id = entityToCreate.Id.Value };
 	}
 }

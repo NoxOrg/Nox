@@ -112,7 +112,20 @@ internal class ApiGenerator : INoxCodeGenerator
             if (entity.Persistence is null ||
                 entity.Persistence.Read.IsEnabled)
             {
-                GenerateGet(entity, code, codeGeneratorState.Solution);               
+                GenerateGet(entity, code, codeGeneratorState.Solution);
+
+                if (entity.OwnedRelationships != null)
+                {
+                    foreach (var relationship in entity.OwnedRelationships)
+                    {
+                        // Owned single entitities are returned with parent
+                        if (relationship.WithSingleEntity())
+                        {
+                            continue;
+                        }
+                        GenerateChildrenPost(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
+                    }
+                }
             }
 
             if (entity.Persistence is null ||
@@ -270,6 +283,28 @@ internal class ApiGenerator : INoxCodeGenerator
         code.EndBlock();
         code.AppendLine();
     }
+    private static void GenerateChildrenPost(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
+    {
+        code.AppendLine($"public async Task<ActionResult> PostTo{child.PluralName}({PrimaryKeysFromRoute(parent, solution)}, [FromBody] {child.Name}CreateDto {child.Name.ToLowerFirstChar()})");
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine($"var createdKey = await _mediator.Send(new Add{child.Name}Command(" +
+            $"new {parent.Name}KeyDto{{{PrimaryKeysToKeyDto(parent)}}}, {child.Name.ToLowerFirstChar()}));");
+        code.AppendLine($"if (createdKey == null)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine($"return Created(createdKey);");
+
+        code.EndBlock();
+        code.AppendLine();
+    }
 
     private static void GenerateGet(Entity entity, CodeBuilder code, NoxSolution solution)
     {
@@ -327,5 +362,12 @@ internal class ApiGenerator : INoxCodeGenerator
         return entity.Keys.Count() > 1 ?
             string.Join(", ", entity.Keys.Select(k => $"key{k.Name}")) :
             $"key";
+    }
+
+    private static string PrimaryKeysToKeyDto(Entity entity)
+    {
+        return entity.Keys.Count() > 1 ?
+            string.Join(", ", entity.Keys.Select(k => $"{k.Name} = key{k.Name}")) :
+            $"{entity.Keys?[0].Name} = key";
     }
 }

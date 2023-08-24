@@ -51,6 +51,6 @@ public class UpdateWorkplaceCommandHandler: CommandBase<UpdateWorkplaceCommand, 
 		if(result < 1)
 			return null;
 
-		return new WorkplaceKeyDto(entity.Id.Value);
+		return new WorkplaceKeyDto{ Id = entity.Id.Value };
 	}
 }

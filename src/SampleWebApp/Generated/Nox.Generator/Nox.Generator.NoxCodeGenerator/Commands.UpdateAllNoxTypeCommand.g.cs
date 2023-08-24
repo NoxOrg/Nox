@@ -52,6 +52,6 @@ public class UpdateAllNoxTypeCommandHandler: CommandBase<UpdateAllNoxTypeCommand
 		if(result < 1)
 			return null;
 
-		return new AllNoxTypeKeyDto(entity.Id.Value, entity.TextId.Value);
+		return new AllNoxTypeKeyDto{ Id = entity.Id.Value, TextId = entity.TextId.Value };
 	}
 }

@@ -941,13 +941,16 @@ namespace SampleWebAppdeprecated.Migrations
                                 .HasForeignKey("CountryId");
                         });
 
-                    b.OwnsMany("SampleWebApp.Domain.CountryLocalNames", "CountryLocalNames", b1 =>
+                    b.OwnsMany("SampleWebApp.Domain.CountryLocalName", "CountryLocalNames", b1 =>
                         {
                             b1.Property<string>("Id")
                                 .HasMaxLength(2)
                                 .IsUnicode(false)
                                 .HasColumnType("char(2)")
                                 .IsFixedLength();
+
+                            b1.Property<DateTime>("AsAt")
+                                .HasColumnType("datetime2");
 
                             b1.Property<long>("CountryId")
                                 .HasColumnType("bigint");
@@ -956,7 +959,7 @@ namespace SampleWebAppdeprecated.Migrations
 
                             b1.HasIndex("CountryId");
 
-                            b1.ToTable("CountryLocalNames");
+                            b1.ToTable("CountryLocalName");
 
                             b1.WithOwner()
                                 .HasForeignKey("CountryId");

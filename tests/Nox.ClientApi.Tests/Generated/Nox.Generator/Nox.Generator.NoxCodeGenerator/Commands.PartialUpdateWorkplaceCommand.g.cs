@@ -49,6 +49,6 @@ public class PartialUpdateWorkplaceCommandHandler: CommandBase<PartialUpdateWork
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		return new WorkplaceKeyDto(entity.Id.Value);
+		return new WorkplaceKeyDto{ Id = entity.Id.Value };
 	}
 }

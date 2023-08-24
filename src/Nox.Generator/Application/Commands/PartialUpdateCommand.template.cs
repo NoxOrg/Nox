@@ -52,6 +52,6 @@ public class PartialUpdate{{entity.Name}}CommandHandler: CommandBase<PartialUpda
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
+		return new {{entity.Name}}KeyDto{ {{primaryKeysReturnQuery}} };
 	}
 }

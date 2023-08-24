@@ -50,6 +50,6 @@ public class PartialUpdateAllNoxTypeCommandHandler: CommandBase<PartialUpdateAll
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		return new AllNoxTypeKeyDto(entity.Id.Value, entity.TextId.Value);
+		return new AllNoxTypeKeyDto{ Id = entity.Id.Value, TextId = entity.TextId.Value };
 	}
 }

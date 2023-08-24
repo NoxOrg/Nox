@@ -13,7 +13,7 @@ namespace SampleWebApp.Domain;
 /// <summary>
 /// The name of a country in other languages.
 /// </summary>
-public partial class CountryLocalNames:IOwnedEntity
+public partial class CountryLocalName:EntityBase, IOwnedEntity
 {
     /// <summary>
     ///  (Required).

@@ -24,24 +24,25 @@ public static class ODataServiceCollectionExtensions
 
 
         builder.EntitySet<CountryDto>("Countries");
-        builder.EntityType<CountryKeyDto>();
         builder.EntityType<CountryDto>().ContainsMany(e => e.CountryLocalNames).AutoExpand = true;
 
         builder.EntityType<CountryDto>();
+        builder.EntityType<CountryKeyDto>();
         builder.EntityType<CountryDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntityType<CountryLocalNameDto>();
+        builder.EntityType<CountryLocalNameKeyDto>();
 
         builder.EntitySet<StoreDto>("Stores");
-        builder.EntityType<StoreKeyDto>();
 
         builder.EntityType<StoreDto>();
+        builder.EntityType<StoreKeyDto>();
         builder.EntityType<StoreDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<WorkplaceDto>("Workplaces");
-        builder.EntityType<WorkplaceKeyDto>();
 
         builder.EntityType<WorkplaceDto>();
+        builder.EntityType<WorkplaceKeyDto>();
 
         services.AddControllers()
             .AddOData(options =>

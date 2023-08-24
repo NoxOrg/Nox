@@ -51,6 +51,6 @@ public partial class Create{{entity.Name}}CommandHandler: CommandBase<Create{{en
 		OnCompleted(entityToCreate);
 		DbContext.{{entity.PluralName}}.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();
-		return new {{entity.Name}}KeyDto({{primaryKeysQuery}});
+		return new {{entity.Name}}KeyDto{ {{primaryKeysQuery}} };
 	}
 }

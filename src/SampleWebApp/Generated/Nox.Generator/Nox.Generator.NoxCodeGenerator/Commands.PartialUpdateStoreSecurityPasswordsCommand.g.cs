@@ -49,6 +49,6 @@ public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase<Part
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		return new StoreSecurityPasswordsKeyDto(entity.Id.Value);
+		return new StoreSecurityPasswordsKeyDto{ Id = entity.Id.Value };
 	}
 }

@@ -3,6 +3,7 @@
 #nullable enable
 using MediatR;
 using Microsoft.AspNetCore.Http;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
@@ -11,23 +12,27 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
-public record AllNoxTypeKeyDto(System.Int64 keyId, System.String keyTextId);
-
-/// <summary>
-/// Entity to test all nox types.
-/// </summary>
-public partial class AllNoxTypeDto
+public class AllNoxTypeKeyDto
 {
 
     /// <summary>
     /// DatabaseNumber Nox Type (Required).
     /// </summary>
+    [Key]
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
     /// Second Text Id (Required).
     /// </summary>
+    [Key]
     public System.String TextId { get; set; } = default!;
+}
+
+/// <summary>
+/// Entity to test all nox types.
+/// </summary>
+public partial class AllNoxTypeDto : AllNoxTypeKeyDto
+{
 
     /// <summary>
     /// Area Nox Type (Required).

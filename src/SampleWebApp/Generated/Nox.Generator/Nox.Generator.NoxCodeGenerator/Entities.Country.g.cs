@@ -105,5 +105,7 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     /// Country is also know as OneOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalNames> CountryLocalNames { get; set; } = new();
+    public virtual List<CountryLocalName> CountryLocalNames { get; set; } = new();
+
+    public List<CountryLocalName> CountryLocalName => CountryLocalNames;
 }

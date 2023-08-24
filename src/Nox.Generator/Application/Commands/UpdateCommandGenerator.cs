@@ -26,7 +26,7 @@ internal class UpdateCommandGenerator : INoxCodeGenerator
 
             var primaryKeys = string.Join(", ", entity.Keys.Select(k => $"{codeGeneratorState.Solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
             var primaryKeysFindQuery = string.Join(", ", entity.Keys.Select(k => $"key{k.Name}"));
-            var primaryKeysReturnQuery = string.Join(", ", entity.Keys.Select(k => $"entity.{k.Name}.Value"));
+            var primaryKeysReturnQuery = string.Join(", ", entity.Keys.Select(k => $"{k.Name} = entity.{k.Name}.Value"));
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Update{entity.Name}Command")

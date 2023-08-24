@@ -23,7 +23,6 @@ public static class ODataServiceCollectionExtensions
         {{- if !entity.IsOwnedEntity }}
 
         builder.EntitySet<{{entity.Name}}Dto>("{{entity.PluralName}}");
-        builder.EntityType<{{entity.Name}}KeyDto>();
         {{- end }}
         {{- if entity.OwnedRelationships != null }}
             {{- for ownedRelationship in entity.OwnedRelationships }}
@@ -32,6 +31,7 @@ public static class ODataServiceCollectionExtensions
         {{- end }}
 
         builder.EntityType<{{entity.Name}}Dto>();
+        builder.EntityType<{{entity.Name}}KeyDto>();
         {{- if entity.Persistence?.IsAudited ~}}
 
         builder.EntityType<{{entity.Name}}Dto>().Ignore(e => e.DeletedAtUtc);

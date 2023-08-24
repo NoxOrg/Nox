@@ -49,6 +49,6 @@ public class PartialUpdateCurrencyCommandHandler: CommandBase<PartialUpdateCurre
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		return new CurrencyKeyDto(entity.Id.Value);
+		return new CurrencyKeyDto{ Id = entity.Id.Value };
 	}
 }

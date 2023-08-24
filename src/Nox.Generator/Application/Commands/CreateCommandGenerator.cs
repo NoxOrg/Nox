@@ -23,7 +23,7 @@ internal class CreateCommandGenerator : INoxCodeGenerator
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            var primaryKeysQuery = string.Join(", ", entity.Keys.Select(k => $"entityToCreate.{k.Name}.Value"));
+            var primaryKeysQuery = string.Join(", ", entity.Keys.Select(k => $"{k.Name} = entityToCreate.{k.Name}.Value"));
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Create{entity.Name}Command")

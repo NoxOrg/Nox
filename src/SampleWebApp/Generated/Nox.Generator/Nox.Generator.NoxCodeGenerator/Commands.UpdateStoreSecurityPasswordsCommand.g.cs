@@ -51,6 +51,6 @@ public class UpdateStoreSecurityPasswordsCommandHandler: CommandBase<UpdateStore
 		if(result < 1)
 			return null;
 
-		return new StoreSecurityPasswordsKeyDto(entity.Id.Value);
+		return new StoreSecurityPasswordsKeyDto{ Id = entity.Id.Value };
 	}
 }

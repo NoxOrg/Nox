@@ -43,6 +43,6 @@ public partial class CreateStoreCommandHandler: CommandBase<CreateStoreCommand,S
 		OnCompleted(entityToCreate);
 		DbContext.Stores.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();
-		return new StoreKeyDto(entityToCreate.Id.Value);
+		return new StoreKeyDto{ Id = entityToCreate.Id.Value };
 	}
 }

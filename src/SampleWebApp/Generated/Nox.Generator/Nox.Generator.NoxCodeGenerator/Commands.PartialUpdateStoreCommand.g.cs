@@ -49,6 +49,6 @@ public class PartialUpdateStoreCommandHandler: CommandBase<PartialUpdateStoreCom
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		return new StoreKeyDto(entity.Id.Value);
+		return new StoreKeyDto{ Id = entity.Id.Value };
 	}
 }

@@ -28,7 +28,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             result.Should().NotBeNull();
             result.Should()
                 .BeOfType<CreatedODataResult<WorkplaceKeyDto>>()
-                .Which.Entity.keyId.Should().NotBeEmpty();
+                .Which.Entity.Id.Should().NotBeEmpty();
         }
 
         [Theory, AutoMoqData]
@@ -42,19 +42,19 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 });
 
             // Act 
-            var putResult = await apiFixture.WorkplacesController!.Put(result.Entity.keyId,
+            var putResult = await apiFixture.WorkplacesController!.Put(result.Entity.Id,
                 new WorkplaceUpdateDto
                 {
                     Name = apiFixture.Fixture.Create<string>(),
                 });
 
-            var queryResult = await apiFixture.WorkplacesController!.Get(result.Entity.keyId);
+            var queryResult = await apiFixture.WorkplacesController!.Get(result.Entity.Id);
 
             //Assert
             putResult.Should().NotBeNull();
             putResult.Should()
                 .BeOfType<UpdatedODataResult<WorkplaceKeyDto>>()
-                .Which.Entity.keyId.Should().Be(result.Entity.keyId);
+                .Which.Entity.Id.Should().Be(result.Entity.Id);
 
             queryResult.Should().NotBeNull();
         }
@@ -74,14 +74,14 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             var updatedProperties = new Microsoft.AspNetCore.OData.Deltas.Delta<WorkplaceUpdateDto>();
             updatedProperties.TrySetPropertyValue("Name", expectedName);
 
-            var patchResult = await apiFixture.WorkplacesController!.Patch(result.Entity.keyId, updatedProperties);
-            var queryResult = await apiFixture.WorkplacesController!.Get(result.Entity.keyId);
+            var patchResult = await apiFixture.WorkplacesController!.Patch(result.Entity.Id, updatedProperties);
+            var queryResult = await apiFixture.WorkplacesController!.Get(result.Entity.Id);
 
             //Assert
             patchResult.Should().NotBeNull();
             patchResult.Should()
                 .BeOfType<UpdatedODataResult<WorkplaceKeyDto>>()
-                .Which.Entity.keyId.Should().Be(result.Entity.keyId);
+                .Which.Entity.Id.Should().Be(result.Entity.Id);
 
             queryResult.Should().NotBeNull();
             queryResult!.ExtractResult().Name.Should().Be(expectedName);
@@ -99,16 +99,16 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 });
 
             // Act
-            await apiFixture.WorkplacesController.Delete(result.Entity.keyId);
+            await apiFixture.WorkplacesController.Delete(result.Entity.Id);
 
             // Assert
-            var queryResult = await apiFixture.WorkplacesController!.Get(result.Entity.keyId);
+            var queryResult = await apiFixture.WorkplacesController!.Get(result.Entity.Id);
 
             (queryResult.Result as NotFoundResult)!.StatusCode.Should().Be(404);
             queryResult.Value.Should().BeNull();
 
             var context = apiFixture.ServiceProvider.GetService<ClientApiDbContext>()!;
-            context.Workplaces.Find(DatabaseGuid.FromDatabase(result.Entity.keyId)).Should().BeNull();
+            context.Workplaces.Find(DatabaseGuid.FromDatabase(result.Entity.Id)).Should().BeNull();
         }
     }
 }

@@ -54,6 +54,6 @@ public class Update{{entity.Name}}CommandHandler: CommandBase<Update{{entity.Nam
 		if(result < 1)
 			return null;
 
-		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
+		return new {{entity.Name}}KeyDto{ {{primaryKeysReturnQuery}} };
 	}
 }
