@@ -27,7 +27,7 @@ domain:
             casing: lower
             maxLength: 2
             minLength: 2
-        - name: Id
+        - name: CurrenciesCountryLegal
           description: The identity of the country, the Iso Alpha 2 code
           type: text
           textTypeOptions:
@@ -35,11 +35,11 @@ domain:
             maxLength: 2
             minLength: 2
       ownedRelationships:
-        - name: CountryLegalCurrencies
+        - name: Id
           description: accepted currencies
           relationship: oneOrMany
           entity: Currency
-        - name: CountryLegalCurrencies
+        - name: Id
           description: Duplicated
           relationship: zeroOrMany
           entity: Currency
