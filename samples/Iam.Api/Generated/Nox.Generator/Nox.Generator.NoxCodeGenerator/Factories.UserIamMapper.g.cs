@@ -29,6 +29,11 @@ public class UserIamMapper: EntityMapperBase<UserIam>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
     
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"UserName",dto.UserName);
+        if(noxTypeValue != null)
+        {        
+            entity.UserName = noxTypeValue;
+        }
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"FirstName",dto.FirstName);
         if(noxTypeValue != null)
         {        
@@ -39,15 +44,61 @@ public class UserIamMapper: EntityMapperBase<UserIam>
         {        
             entity.LastName = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"Email",dto.Email);
+        noxTypeValue = CreateNoxType<Nox.Types.Guid>(entityDefinition,"TenantId",dto.TenantId);
         if(noxTypeValue != null)
         {        
-            entity.Email = noxTypeValue;
+            entity.TenantId = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Guid>(entityDefinition,"TenantBrandId",dto.TenantBrandId);
+        if(noxTypeValue != null)
+        {        
+            entity.TenantBrandId = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"PrimaryEmailAddress",dto.PrimaryEmailAddress);
+        if(noxTypeValue != null)
+        {        
+            entity.PrimaryEmailAddress = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"SecondaryEmailAddress",dto.SecondaryEmailAddress);
+        if(noxTypeValue != null)
+        {        
+            entity.SecondaryEmailAddress = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition,"CountryCode",dto.CountryCode);
+        if(noxTypeValue != null)
+        {        
+            entity.CountryCode = noxTypeValue;
+        }
+
+        // TODO map PrefferedLanguage LanguageCode remaining types and remove if else
+        noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition,"AccepetdTerms",dto.AccepetdTerms);
+        if(noxTypeValue != null)
+        {        
+            entity.AccepetdTerms = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition,"EnablePasswordLess",dto.EnablePasswordLess);
+        if(noxTypeValue != null)
+        {        
+            entity.EnablePasswordLess = noxTypeValue;
         }
     }
 
     public override void PartialMapToEntity(UserIam entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+        {
+            if (updatedProperties.TryGetValue("UserName", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"UserName",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("UserIam", "UserName");
+                }
+                else
+                {
+                    entity.UserName = noxTypeValue;
+                }
+            }
+        }
         {
             if (updatedProperties.TryGetValue("FirstName", out dynamic? value))
             {
@@ -77,16 +128,114 @@ public class UserIamMapper: EntityMapperBase<UserIam>
             }
         }
         {
-            if (updatedProperties.TryGetValue("Email", out dynamic? value))
+            if (updatedProperties.TryGetValue("TenantId", out dynamic? value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"Email",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Guid>(entityDefinition,"TenantId",value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("UserIam", "Email");
+                    throw new EntityAttributeIsNotNullableException("UserIam", "TenantId");
                 }
                 else
                 {
-                    entity.Email = noxTypeValue;
+                    entity.TenantId = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("TenantBrandId", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Guid>(entityDefinition,"TenantBrandId",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("UserIam", "TenantBrandId");
+                }
+                else
+                {
+                    entity.TenantBrandId = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("PrimaryEmailAddress", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"PrimaryEmailAddress",value);
+                if(noxTypeValue == null)
+                {
+                    entity.PrimaryEmailAddress = null;
+                }
+                else
+                {
+                    entity.PrimaryEmailAddress = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("SecondaryEmailAddress", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"SecondaryEmailAddress",value);
+                if(noxTypeValue == null)
+                {
+                    entity.SecondaryEmailAddress = null;
+                }
+                else
+                {
+                    entity.SecondaryEmailAddress = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("CountryCode", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition,"CountryCode",value);
+                if(noxTypeValue == null)
+                {
+                    entity.CountryCode = null;
+                }
+                else
+                {
+                    entity.CountryCode = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("PrefferedLanguage", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.LanguageCode>(entityDefinition,"PrefferedLanguage",value);
+                if(noxTypeValue == null)
+                {
+                    entity.PrefferedLanguage = null;
+                }
+                else
+                {
+                    entity.PrefferedLanguage = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("AccepetdTerms", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition,"AccepetdTerms",value);
+                if(noxTypeValue == null)
+                {
+                    entity.AccepetdTerms = null;
+                }
+                else
+                {
+                    entity.AccepetdTerms = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("EnablePasswordLess", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition,"EnablePasswordLess",value);
+                if(noxTypeValue == null)
+                {
+                    entity.EnablePasswordLess = null;
+                }
+                else
+                {
+                    entity.EnablePasswordLess = noxTypeValue;
                 }
             }
         }

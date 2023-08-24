@@ -33,11 +33,7 @@
 	<ItemGroup>
 		<AdditionalFiles Include=".\.nox\design\**\*.yaml" LinkBase="Design" />	
 	</ItemGroup>
-	
 
-	<ItemGroup>
-		<AdditionalFiles Include="generator.nox.yaml" />
-	</ItemGroup>
 
 	<ItemGroup>
 		<Folder Include="Generated\Nox.Generator\Nox.Generator.NoxCodeGenerator\" />

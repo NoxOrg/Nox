@@ -13,9 +13,17 @@ keys:
   - name: Id
     isRequired: true
     description: The Customer unique identifier 
-    type: databaseNumber
-
+    type: databaseGuid
+        
 attributes:
+
+  - name: UserName
+    description: The customer's last name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
 
   - name: FirstName
     description: The customer's first name
@@ -33,10 +41,74 @@ attributes:
       maxLength: 63
     isRequired: true
 
-  - name: Email
-    description: The customer's email
-    type: email
+  - name: TenantId
+    description: Tenant
+    type: guid
     isRequired: true
+
+  - name: TenantBrandId
+    description: TenantBrand
+    type: guid
+    isRequired: true
+
+  - name: PrimaryEmailAddress
+    description: PrimaryEmailAddress
+    type: email
+    isRequired: false
+
+  - name: SecondaryEmailAddress
+    description: ScondaryEmailAddress
+    type: email
+    isRequired: false
+
+  - name: CountryCode
+    description: Country Code
+    type: countryCode2
+    isRequired: false
+
+  - name: PrefferedLanguage
+    description: Preffered Language
+    type: languageCode
+    isRequired: false
+
+  - name: AccepetdTerms
+    description: AccepetdTerms
+    type: boolean
+    isRequired: false
+
+  - name: EnablePasswordLess
+    description: PasswordLess
+    type: boolean
+    isRequired: false
+
+relationships:
+
+  - name: Roles
+    description: user has roles
+    relationship: zeroOrMany
+    entity: Role
+
+  - name: VerifiedEmails
+    description: User has a verified email
+    relationship: exactlyOne
+    entity: EmailAddress
+
+  - name: VerifiedPhone
+    description: User has a verified phone
+    relationship: exactlyOne
+    entity: Phone
+
+ownedRelationships:
+
+  - name: ContactSelection
+    description: user selected contacts
+    relationship: zeroOrMany
+    entity: UserContactSelection
+
+#   - name: VerifiedEmails
+#     description: Verified emails 
+#     relationship: exactlyOne
+#     entity: EmailAddress
   
 persistence:
     isAudited: true  

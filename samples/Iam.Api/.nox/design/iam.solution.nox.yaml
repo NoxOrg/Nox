@@ -15,8 +15,66 @@ domain:
   entities:
 
     - $ref: ./User/user.entity.nox.yaml
+    
+    - $ref: ./User/role.entity.nox.yaml
   
+    - $ref: ./User/usercontactselection.entity.nox.yaml
+        
     - $ref: ./Application/application.entity.nox.yaml  
+  
+    - name: EmailAddress
+      description: Verified Email Address
+
+      keys:
+        - name: Email
+          isRequired: true
+          description: Email
+          type: email
+
+      attributes:
+        - name: IsVerified
+          description: Verified
+          type: boolean
+          isRequired: false
+  
+      persistence: 
+        isAudited: false #owned entity => need to suport one to one relations
+
+      relationships:
+    
+      - name: EmailForUser
+        description: belongs to a User
+        relationship: exactlyOne
+        entity: UserIam
+
+    - name: Phone
+      description: Verified Phone
+
+      keys:
+        - name: PhoneNumber
+          isRequired: true
+          description: Phone
+          type: phoneNumber
+
+      attributes:
+        - name: IsVerified
+          description: Verified
+          type: boolean
+          isRequired: false
+        - name: CountryCode
+          description: Country code
+          type: countryCode2
+          isRequired: false
+  
+      persistence: 
+        isAudited: false #owned entity
+
+      relationships:
+    
+      - name: PhoneForUser
+        description: belongs to a User
+        relationship: exactlyOne
+        entity: UserIam
 
 infrastructure:
   

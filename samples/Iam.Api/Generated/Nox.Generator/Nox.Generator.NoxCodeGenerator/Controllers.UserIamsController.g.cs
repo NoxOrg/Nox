@@ -49,7 +49,7 @@ public partial class UserIamsController : ODataController
         return Ok(result);
     }
     
-    public async Task<ActionResult<UserIamDto>> Get([FromRoute] System.Int64 key)
+    public async Task<ActionResult<UserIamDto>> Get([FromRoute] System.Guid key)
     {
         var item = await _mediator.Send(new GetUserIamByIdQuery(key));
         
@@ -72,7 +72,7 @@ public partial class UserIamsController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] UserIamUpdateDto userIam)
+    public async Task<ActionResult> Put([FromRoute] System.Guid key, [FromBody] UserIamUpdateDto userIam)
     {
         if (!ModelState.IsValid)
         {
@@ -88,7 +88,7 @@ public partial class UserIamsController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<UserIamUpdateDto> userIam)
+    public async Task<ActionResult> Patch([FromRoute] System.Guid key, [FromBody] Delta<UserIamUpdateDto> userIam)
     {
         if (!ModelState.IsValid)
         {
@@ -113,7 +113,7 @@ public partial class UserIamsController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
         var result = await _mediator.Send(new DeleteUserIamByIdCommand(key));
         if (!result)

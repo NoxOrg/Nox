@@ -4,7 +4,6 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -15,13 +14,10 @@ using IamApi.Application.Dto;
 
 namespace IamApi.Application.Commands;
 
-public record UpdateUserIamCommand(System.Int64 keyId, UserIamUpdateDto EntityDto) : IRequest<UserIamKeyDto?>;
+public record UpdateUserIamCommand(System.Guid keyId, UserIamUpdateDto EntityDto) : IRequest<UserIamKeyDto?>;
 
-public class UpdateUserIamCommandHandler: CommandBase<UpdateUserIamCommand>, IRequestHandler<UpdateUserIamCommand, UserIamKeyDto?>
+public class UpdateUserIamCommandHandler: CommandBase<UpdateUserIamCommand, UserIam>, IRequestHandler<UpdateUserIamCommand, UserIamKeyDto?>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public IamApiDbContext DbContext { get; }
 	public IEntityMapper<UserIam> EntityMapper { get; }
 
@@ -29,20 +25,17 @@ public class UpdateUserIamCommandHandler: CommandBase<UpdateUserIamCommand>, IRe
 		IamApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<UserIam> entityMapper,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IEntityMapper<UserIam> entityMapper): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityMapper = entityMapper;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 	
 	public async Task<UserIamKeyDto?> Handle(UpdateUserIamCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request, cancellationToken);
-		var keyId = CreateNoxTypeForKey<UserIam,DatabaseNumber>("Id", request.keyId);
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
+		var keyId = CreateNoxTypeForKey<UserIam,DatabaseGuid>("Id", request.keyId);
 	
 		var entity = await DbContext.UserIams.FindAsync(keyId);
 		if (entity == null)
@@ -50,10 +43,9 @@ public class UpdateUserIamCommandHandler: CommandBase<UpdateUserIamCommand>, IRe
 			return null;
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<UserIam>(), request.EntityDto);
-		var updatedBy = _userProvider.GetUser();
-		var updatedVia = _systemProvider.GetSystem();
-		entity.Updated(updatedBy, updatedVia);
-		
+
+		OnCompleted(entity);
+
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if(result < 1)

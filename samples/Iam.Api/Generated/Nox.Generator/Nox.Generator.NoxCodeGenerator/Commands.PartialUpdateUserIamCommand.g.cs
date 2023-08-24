@@ -4,7 +4,6 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Factories;
 using Nox.Solution;
@@ -16,13 +15,10 @@ using IamApi.Application.Dto;
 
 namespace IamApi.Application.Commands;
 
-public record PartialUpdateUserIamCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <UserIamKeyDto?>;
+public record PartialUpdateUserIamCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <UserIamKeyDto?>;
 
-public class PartialUpdateUserIamCommandHandler: CommandBase<PartialUpdateUserIamCommand>, IRequestHandler<PartialUpdateUserIamCommand, UserIamKeyDto?>
+public class PartialUpdateUserIamCommandHandler: CommandBase<PartialUpdateUserIamCommand, UserIam>, IRequestHandler<PartialUpdateUserIamCommand, UserIamKeyDto?>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public IamApiDbContext DbContext { get; }
 	public IEntityMapper<UserIam> EntityMapper { get; }
 
@@ -30,20 +26,17 @@ public class PartialUpdateUserIamCommandHandler: CommandBase<PartialUpdateUserIa
 		IamApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<UserIam> entityMapper,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IEntityMapper<UserIam> entityMapper): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityMapper = entityMapper;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 
 	public async Task<UserIamKeyDto?> Handle(PartialUpdateUserIamCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request, cancellationToken);
-		var keyId = CreateNoxTypeForKey<UserIam,DatabaseNumber>("Id", request.keyId);
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
+		var keyId = CreateNoxTypeForKey<UserIam,DatabaseGuid>("Id", request.keyId);
 
 		var entity = await DbContext.UserIams.FindAsync(keyId);
 		if (entity == null)
@@ -51,9 +44,8 @@ public class PartialUpdateUserIamCommandHandler: CommandBase<PartialUpdateUserIa
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<UserIam>(), request.UpdatedProperties);
-		var updatedBy = _userProvider.GetUser();
-		var updatedVia = _systemProvider.GetSystem();
-		entity.Updated(updatedBy, updatedVia);
+
+		OnCompleted(entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

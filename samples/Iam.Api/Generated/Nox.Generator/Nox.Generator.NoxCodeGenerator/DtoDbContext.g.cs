@@ -41,7 +41,13 @@ public class DtoDbContext : DbContext
         
         public DbSet<UserIamDto> UserIams { get; set; } = null!;
         
+        public DbSet<RoleDto> Roles { get; set; } = null!;
+        
         public DbSet<ApplicationIAMDto> ApplicationIAMs { get; set; } = null!;
+        
+        public DbSet<EmailAddressDto> EmailAddresses { get; set; } = null!;
+        
+        public DbSet<PhoneDto> Phones { get; set; } = null!;
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

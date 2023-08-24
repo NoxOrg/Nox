@@ -4,14 +4,17 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
+using Nox.Application.Commands;
+
 using IamApi.Application.Dto;
 using IamApi.Infrastructure.Persistence;
 
 namespace IamApi.Application.Queries;
 
-public record GetApplicationIAMByIdQuery(System.Int64 keyId) : IRequest<ApplicationIAMDto?>;
+public record GetApplicationIAMByIdQuery(System.Int64 keyId) : IRequest <ApplicationIAMDto?>;
 
-public class GetApplicationIAMByIdQueryHandler: IRequestHandler<GetApplicationIAMByIdQuery, ApplicationIAMDto?>
+public partial class GetApplicationIAMByIdQueryHandler:  QueryBase<ApplicationIAMDto?>, IRequestHandler<GetApplicationIAMByIdQuery, ApplicationIAMDto?>
 {
     public  GetApplicationIAMByIdQueryHandler(DtoDbContext dataDbContext)
     {
@@ -27,6 +30,6 @@ public class GetApplicationIAMByIdQueryHandler: IRequestHandler<GetApplicationIA
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);
-        return Task.FromResult(item);
+        return Task.FromResult(OnResponse(item));
     }
 }

@@ -1,0 +1,50 @@
+#
+# usercontactselection.entity.nox.yaml
+# 
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+name: UserContactSelection
+
+description: User Contacts
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: Role identifier 
+    type: databaseGuid
+
+attributes:
+
+  - name: ContactId
+    description: what is the contact id?
+    type: guid    
+    isRequired: true
+
+  - name: AccountId
+    description: account id
+    type: guid    
+    isRequired: true
+
+  - name: SelectedDate
+    description: selected date
+    type: dateTime    
+    isRequired: true
+
+  
+persistence:
+    isAudited: false #Owned Entity  
+    schema: dbo
+    create:
+        isEnabled: true
+        raiseEvents: true
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: true
+    delete:
+        isEnabled: true
+        raiseEvents: true
+        useSoftDelete: true

@@ -4,7 +4,6 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -15,27 +14,22 @@ namespace IamApi.Application.Commands;
 
 public record DeleteApplicationIAMByIdCommand(System.Int64 keyId) : IRequest<bool>;
 
-public class DeleteApplicationIAMByIdCommandHandler: CommandBase<DeleteApplicationIAMByIdCommand>, IRequestHandler<DeleteApplicationIAMByIdCommand, bool>
+public class DeleteApplicationIAMByIdCommandHandler: CommandBase<DeleteApplicationIAMByIdCommand,ApplicationIAM>, IRequestHandler<DeleteApplicationIAMByIdCommand, bool>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public IamApiDbContext DbContext { get; }
 
 	public DeleteApplicationIAMByIdCommandHandler(
 		IamApiDbContext dbContext,
 		NoxSolution noxSolution, 
-		IServiceProvider serviceProvider,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 
 	public async Task<bool> Handle(DeleteApplicationIAMByIdCommand request, CancellationToken cancellationToken)
 	{
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<ApplicationIAM,DatabaseNumber>("Id", request.keyId);
 
 		var entity = await DbContext.ApplicationIAMs.FindAsync(keyId);
@@ -43,9 +37,9 @@ public class DeleteApplicationIAMByIdCommandHandler: CommandBase<DeleteApplicati
 		{
 			return false;
 		}
-		var deletedBy = _userProvider.GetUser();
-		var deletedVia = _systemProvider.GetSystem();
-		entity.Deleted(deletedBy, deletedVia);
+
+		OnCompleted(entity);
+		DbContext.Entry(entity).State = EntityState.Deleted;
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

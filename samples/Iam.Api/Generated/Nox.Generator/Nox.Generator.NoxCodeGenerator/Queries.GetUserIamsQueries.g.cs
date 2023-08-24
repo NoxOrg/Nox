@@ -4,6 +4,9 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
+using Nox.Application.Commands;
+
 using IamApi.Application.Dto;
 using IamApi.Infrastructure.Persistence;
 
@@ -11,7 +14,7 @@ namespace IamApi.Application.Queries;
 
 public record GetUserIamsQuery() : IRequest<IQueryable<UserIamDto>>;
 
-public class GetUserIamsQueryHandler : IRequestHandler<GetUserIamsQuery, IQueryable<UserIamDto>>
+public partial class GetUserIamsQueryHandler : QueryBase<IQueryable<UserIamDto>>, IRequestHandler<GetUserIamsQuery, IQueryable<UserIamDto>>
 {
     public  GetUserIamsQueryHandler(DtoDbContext dataDbContext)
     {
@@ -25,6 +28,6 @@ public class GetUserIamsQueryHandler : IRequestHandler<GetUserIamsQuery, IQuerya
         var item = (IQueryable<UserIamDto>)DataDbContext.UserIams
             .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
-        return Task.FromResult(item);
+       return Task.FromResult(OnResponse(item));
     }
 }

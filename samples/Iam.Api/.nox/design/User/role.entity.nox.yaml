@@ -1,0 +1,46 @@
+#
+# role.entity.nox.yaml
+# 
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+name: Role
+
+description: User Role
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: Role identifier 
+    type: text
+
+attributes:
+
+  - name: Name
+    description: Role Name
+    type: text    
+    isRequired: true
+
+relationships:
+
+  - name: UsersWith
+    description: Role belongs to many users
+    relationship: zeroOrMany
+    entity: UserIam
+  
+persistence:
+    isAudited: true  
+    schema: dbo
+    create:
+        isEnabled: true
+        raiseEvents: true
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: true
+    delete:
+        isEnabled: true
+        raiseEvents: true
+        useSoftDelete: true

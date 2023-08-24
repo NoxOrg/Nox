@@ -18,11 +18,8 @@ using IamApi.Application.Dto;
 namespace IamApi.Application.Commands;
 public record CreateApplicationIAMCommand(ApplicationIAMCreateDto EntityDto) : IRequest<ApplicationIAMKeyDto>;
 
-public partial class CreateApplicationIAMCommandHandler: CommandBase<CreateApplicationIAMCommand>, IRequestHandler <CreateApplicationIAMCommand, ApplicationIAMKeyDto>
+public partial class CreateApplicationIAMCommandHandler: CommandBase<CreateApplicationIAMCommand,ApplicationIAM>, IRequestHandler <CreateApplicationIAMCommand, ApplicationIAMKeyDto>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public IamApiDbContext DbContext { get; }
 	public IEntityFactory<ApplicationIAMCreateDto,ApplicationIAM> EntityFactory { get; }
 
@@ -30,25 +27,20 @@ public partial class CreateApplicationIAMCommandHandler: CommandBase<CreateAppli
 		IamApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityFactory<ApplicationIAMCreateDto,ApplicationIAM> entityFactory,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IEntityFactory<ApplicationIAMCreateDto,ApplicationIAM> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 
 	public async Task<ApplicationIAMKeyDto> Handle(CreateApplicationIAMCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request, cancellationToken);
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		var createdBy = _userProvider.GetUser();
-		var createdVia = _systemProvider.GetSystem();
-		entityToCreate.Created(createdBy, createdVia);
 	
+		OnCompleted(entityToCreate);
 		DbContext.ApplicationIAMs.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();
 		return new ApplicationIAMKeyDto(entityToCreate.Id.Value);
