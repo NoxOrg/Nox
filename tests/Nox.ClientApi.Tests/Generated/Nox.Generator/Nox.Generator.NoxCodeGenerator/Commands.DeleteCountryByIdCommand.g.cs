@@ -12,13 +12,13 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Commands;
 
-public record DeleteClientDatabaseNumberByIdCommand(System.Int64 keyId) : IRequest<bool>;
+public record DeleteCountryByIdCommand(System.Int64 keyId) : IRequest<bool>;
 
-public class DeleteClientDatabaseNumberByIdCommandHandler: CommandBase<DeleteClientDatabaseNumberByIdCommand>, IRequestHandler<DeleteClientDatabaseNumberByIdCommand, bool>
+public class DeleteCountryByIdCommandHandler: CommandBase<DeleteCountryByIdCommand,Country>, IRequestHandler<DeleteCountryByIdCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
-	public DeleteClientDatabaseNumberByIdCommandHandler(
+	public DeleteCountryByIdCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution, 
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -26,11 +26,13 @@ public class DeleteClientDatabaseNumberByIdCommandHandler: CommandBase<DeleteCli
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteClientDatabaseNumberByIdCommand request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(DeleteCountryByIdCommand request, CancellationToken cancellationToken)
 	{
-		var keyId = CreateNoxTypeForKey<ClientDatabaseNumber,DatabaseNumber>("Id", request.keyId);
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
+		var keyId = CreateNoxTypeForKey<Country,DatabaseNumber>("Id", request.keyId);
 
-		var entity = await DbContext.ClientDatabaseNumbers.FindAsync(keyId);
+		var entity = await DbContext.Countries.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted.Value == true)
 		{
 			return false;

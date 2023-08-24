@@ -17,7 +17,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record PartialUpdateCountryCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CountryKeyDto?>;
 
-public class PartialUpdateCountryCommandHandler: CommandBase<PartialUpdateCountryCommand>, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
+public class PartialUpdateCountryCommandHandler: CommandBase<PartialUpdateCountryCommand, Country>, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
 {
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<Country> EntityMapper { get; }
@@ -34,7 +34,8 @@ public class PartialUpdateCountryCommandHandler: CommandBase<PartialUpdateCountr
 
 	public async Task<CountryKeyDto?> Handle(PartialUpdateCountryCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request, cancellationToken);
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Country,DatabaseNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Countries.FindAsync(keyId);

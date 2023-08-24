@@ -39,7 +39,7 @@ public class DtoDbContext : DbContext
             _noxDtoDatabaseConfigurator = noxDtoDatabaseConfigurator;
         }
         
-        public DbSet<ClientDatabaseNumberDto> ClientDatabaseNumbers { get; set; } = null!;
+        public DbSet<CountryDto> Countries { get; set; } = null!;
         
         public DbSet<ClientNuidDto> ClientNuids { get; set; } = null!;
         

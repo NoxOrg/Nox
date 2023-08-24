@@ -19,11 +19,11 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application;
 
-public class ClientDatabaseNumberMapper: EntityMapperBase<ClientDatabaseNumber>
+public class CountryMapper: EntityMapperBase<Country>
 {
-    public  ClientDatabaseNumberMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public  CountryMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
 
-    public override void MapToEntity(ClientDatabaseNumber entity, Entity entityDefinition, dynamic dto)
+    public override void MapToEntity(Country entity, Entity entityDefinition, dynamic dto)
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
@@ -34,10 +34,10 @@ public class ClientDatabaseNumberMapper: EntityMapperBase<ClientDatabaseNumber>
         {        
             entity.Name = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"Number",dto.Number);
+        noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"Population",dto.Population);
         if(noxTypeValue != null)
         {        
-            entity.Number = noxTypeValue;
+            entity.Population = noxTypeValue;
         }
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"AmmountMoney",dto.AmmountMoney);
         if(noxTypeValue != null)
@@ -46,7 +46,7 @@ public class ClientDatabaseNumberMapper: EntityMapperBase<ClientDatabaseNumber>
         }
     }
 
-    public override void PartialMapToEntity(ClientDatabaseNumber entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
+    public override void PartialMapToEntity(Country entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
         {
             if (updatedProperties.TryGetValue("Name", out dynamic? value))
@@ -54,7 +54,7 @@ public class ClientDatabaseNumberMapper: EntityMapperBase<ClientDatabaseNumber>
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("ClientDatabaseNumber", "Name");
+                    throw new EntityAttributeIsNotNullableException("Country", "Name");
                 }
                 else
                 {
@@ -63,16 +63,16 @@ public class ClientDatabaseNumberMapper: EntityMapperBase<ClientDatabaseNumber>
             }
         }
         {
-            if (updatedProperties.TryGetValue("Number", out dynamic? value))
+            if (updatedProperties.TryGetValue("Population", out dynamic? value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"Number",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"Population",value);
                 if(noxTypeValue == null)
                 {
-                    entity.Number = null;
+                    entity.Population = null;
                 }
                 else
                 {
-                    entity.Number = noxTypeValue;
+                    entity.Population = noxTypeValue;
                 }
             }
         }

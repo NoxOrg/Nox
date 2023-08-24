@@ -17,7 +17,7 @@ namespace ClientApi.Application.Commands;
 
 public record PartialUpdateClientNuidCommand(System.UInt32 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <ClientNuidKeyDto?>;
 
-public class PartialUpdateClientNuidCommandHandler: CommandBase<PartialUpdateClientNuidCommand>, IRequestHandler<PartialUpdateClientNuidCommand, ClientNuidKeyDto?>
+public class PartialUpdateClientNuidCommandHandler: CommandBase<PartialUpdateClientNuidCommand, ClientNuid>, IRequestHandler<PartialUpdateClientNuidCommand, ClientNuidKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<ClientNuid> EntityMapper { get; }
@@ -34,7 +34,8 @@ public class PartialUpdateClientNuidCommandHandler: CommandBase<PartialUpdateCli
 
 	public async Task<ClientNuidKeyDto?> Handle(PartialUpdateClientNuidCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request, cancellationToken);
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<ClientNuid,Nuid>("Id", request.keyId);
 
 		var entity = await DbContext.ClientNuids.FindAsync(keyId);

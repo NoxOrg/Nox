@@ -10,8 +10,8 @@ using System.ComponentModel.DataAnnotations;
 namespace ClientApi.Application.Dto; 
 
 /// <summary>
-/// Client DatabaseNumber Key.
+/// Country Entity.
 /// </summary>
-public partial class ClientDatabaseNumberCreateDto : ClientDatabaseNumberUpdateDto
+public partial class CountryCreateDto : CountryUpdateDto
 {
 }

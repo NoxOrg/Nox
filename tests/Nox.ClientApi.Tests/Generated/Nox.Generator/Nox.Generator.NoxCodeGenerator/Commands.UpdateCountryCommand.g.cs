@@ -8,21 +8,21 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Factories;
-using SampleWebApp.Infrastructure.Persistence;
-using SampleWebApp.Domain;
-using SampleWebApp.Application.Dto;
+using ClientApi.Infrastructure.Persistence;
+using ClientApi.Domain;
+using ClientApi.Application.Dto;
 
-namespace SampleWebApp.Application.Commands;
+namespace ClientApi.Application.Commands;
 
 public record UpdateCountryCommand(System.Int64 keyId, CountryUpdateDto EntityDto) : IRequest<CountryKeyDto?>;
 
 public class UpdateCountryCommandHandler: CommandBase<UpdateCountryCommand, Country>, IRequestHandler<UpdateCountryCommand, CountryKeyDto?>
 {
-	public SampleWebAppDbContext DbContext { get; }
+	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<Country> EntityMapper { get; }
 
 	public UpdateCountryCommandHandler(
-		SampleWebAppDbContext dbContext,
+		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<Country> entityMapper): base(noxSolution, serviceProvider)

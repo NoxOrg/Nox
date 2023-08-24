@@ -12,20 +12,20 @@ using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetClientDatabaseNumberByIdQuery(System.Int64 keyId) : IRequest <ClientDatabaseNumberDto?>;
+public record GetCountryByIdQuery(System.Int64 keyId) : IRequest <CountryDto?>;
 
-public partial class GetClientDatabaseNumberByIdQueryHandler:  QueryBase<ClientDatabaseNumberDto?>, IRequestHandler<GetClientDatabaseNumberByIdQuery, ClientDatabaseNumberDto?>
+public partial class GetCountryByIdQueryHandler:  QueryBase<CountryDto?>, IRequestHandler<GetCountryByIdQuery, CountryDto?>
 {
-    public  GetClientDatabaseNumberByIdQueryHandler(DtoDbContext dataDbContext)
+    public  GetCountryByIdQueryHandler(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<ClientDatabaseNumberDto?> Handle(GetClientDatabaseNumberByIdQuery request, CancellationToken cancellationToken)
+    public Task<CountryDto?> Handle(GetCountryByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.ClientDatabaseNumbers
+        var item = DataDbContext.Countries
             .AsNoTracking()
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&

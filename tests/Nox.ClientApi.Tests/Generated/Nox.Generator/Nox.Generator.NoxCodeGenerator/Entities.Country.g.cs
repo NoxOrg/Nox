@@ -11,9 +11,9 @@ using Nox.Domain;
 namespace ClientApi.Domain;
 
 /// <summary>
-/// Client DatabaseNumber Key.
+/// Country Entity.
 /// </summary>
-public partial class ClientDatabaseNumber : AuditableEntityBase
+public partial class Country : AuditableEntityBase
 {
     /// <summary>
     /// The unique identifier (Required).
@@ -21,14 +21,14 @@ public partial class ClientDatabaseNumber : AuditableEntityBase
     public DatabaseNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// The Text (Required).
+    /// The Country Name (Required).
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
-    /// The Number (Optional).
+    /// Population (Optional).
     /// </summary>
-    public Nox.Types.Number? Number { get; set; } = null!;
+    public Nox.Types.Number? Population { get; set; } = null!;
 
     /// <summary>
     /// The Money (Optional).
@@ -36,7 +36,7 @@ public partial class ClientDatabaseNumber : AuditableEntityBase
     public Nox.Types.Money? AmmountMoney { get; set; } = null!;
 
     /// <summary>
-    /// ClientDatabaseNumber is also know as ZeroOrMany OwnedEntities
+    /// Country is also know as ZeroOrMany OwnedEntities
     /// </summary>
     public virtual List<OwnedEntity> OwnedEntities { get; set; } = new();
 

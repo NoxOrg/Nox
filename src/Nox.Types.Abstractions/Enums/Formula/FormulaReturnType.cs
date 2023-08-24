@@ -11,11 +11,13 @@ public enum FormulaReturnType
     @int,
     @long,
     @double,
+    @decimal,
     @bool,
     @DateTime,
+    @Enum,
 }
 
-public static class FormuaReturnTypeExtensions
+public static class FormulaReturnTypeExtensions
 {
     public static Type AsNativeType(this FormulaReturnType type)
         => type switch
@@ -24,6 +26,7 @@ public static class FormuaReturnTypeExtensions
             FormulaReturnType.@int => typeof(int),
             FormulaReturnType.@long => typeof(long),
             FormulaReturnType.@double => typeof(double),
+            FormulaReturnType.@decimal => typeof(decimal),
             FormulaReturnType.@bool => typeof(bool),
             FormulaReturnType.DateTime => typeof(DateTime),
             _ => throw new NotImplementedException(),

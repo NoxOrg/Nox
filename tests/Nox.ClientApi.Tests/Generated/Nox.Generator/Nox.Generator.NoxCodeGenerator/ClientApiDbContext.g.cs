@@ -42,7 +42,7 @@ public partial class ClientApiDbContext : DbContext
             _systemProvider = systemProvider;
         }
 
-    public DbSet<ClientDatabaseNumber> ClientDatabaseNumbers { get; set; } = null!;
+    public DbSet<Country> Countries { get; set; } = null!;
 
     public DbSet<ClientNuid> ClientNuids { get; set; } = null!;
 

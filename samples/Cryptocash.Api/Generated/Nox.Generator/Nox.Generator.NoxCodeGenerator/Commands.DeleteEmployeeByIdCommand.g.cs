@@ -28,6 +28,8 @@ public class DeleteEmployeeByIdCommandHandler: CommandBase<DeleteEmployeeByIdCom
 
 	public async Task<bool> Handle(DeleteEmployeeByIdCommand request, CancellationToken cancellationToken)
 	{
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Employee,DatabaseNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Employees.FindAsync(keyId);

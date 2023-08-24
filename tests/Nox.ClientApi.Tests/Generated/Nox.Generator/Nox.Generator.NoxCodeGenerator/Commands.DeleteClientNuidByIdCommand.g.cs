@@ -14,7 +14,7 @@ namespace ClientApi.Application.Commands;
 
 public record DeleteClientNuidByIdCommand(System.UInt32 keyId) : IRequest<bool>;
 
-public class DeleteClientNuidByIdCommandHandler: CommandBase<DeleteClientNuidByIdCommand>, IRequestHandler<DeleteClientNuidByIdCommand, bool>
+public class DeleteClientNuidByIdCommandHandler: CommandBase<DeleteClientNuidByIdCommand,ClientNuid>, IRequestHandler<DeleteClientNuidByIdCommand, bool>
 {
 	public ClientApiDbContext DbContext { get; }
 
@@ -28,6 +28,8 @@ public class DeleteClientNuidByIdCommandHandler: CommandBase<DeleteClientNuidByI
 
 	public async Task<bool> Handle(DeleteClientNuidByIdCommand request, CancellationToken cancellationToken)
 	{
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<ClientNuid,Nuid>("Id", request.keyId);
 
 		var entity = await DbContext.ClientNuids.FindAsync(keyId);

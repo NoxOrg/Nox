@@ -19,7 +19,7 @@ namespace Nox.ClientApi.Tests
             builder.AddNox();
 
             // Manually Register the Controllers
-            builder.Services.AddSingleton<ClientDatabaseNumbersController>();
+            builder.Services.AddSingleton<CountriesController>();
             builder.Services.AddSingleton<ClientNuidsController>();
             builder.Services.AddSingleton<ClientDatabaseGuidsController>();
 
@@ -37,7 +37,7 @@ namespace Nox.ClientApi.Tests
         }
 
         public IServiceProvider ServiceProvider => app!.Services;
-        public ClientDatabaseNumbersController? ClientDatabaseNumbersController => ServiceProvider?.GetService<ClientDatabaseNumbersController>();
+        public CountriesController? CountriesController => ServiceProvider?.GetService<CountriesController>();
         public ClientNuidsController? ClientNuidsController => ServiceProvider?.GetService<ClientNuidsController>();
         public ClientDatabaseGuidsController? ClientDatabaseGuidsController => ServiceProvider?.GetService<ClientDatabaseGuidsController>();
 

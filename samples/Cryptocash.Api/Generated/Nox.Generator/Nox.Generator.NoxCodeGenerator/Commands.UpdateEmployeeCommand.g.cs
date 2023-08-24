@@ -33,7 +33,8 @@ public class UpdateEmployeeCommandHandler: CommandBase<UpdateEmployeeCommand>, I
 	
 	public async Task<EmployeeKeyDto?> Handle(UpdateEmployeeCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request, cancellationToken);
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Employee,DatabaseNumber>("Id", request.keyId);
 	
 		var entity = await DbContext.Employees.FindAsync(keyId);

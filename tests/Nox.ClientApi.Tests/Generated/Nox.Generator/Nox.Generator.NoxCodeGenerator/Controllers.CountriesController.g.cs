@@ -20,7 +20,7 @@ using Nox.Types;
 
 namespace ClientApi.Presentation.Api.OData;
 
-public partial class ClientDatabaseNumbersController : ODataController
+public partial class CountriesController : ODataController
 {
     
     /// <summary>
@@ -33,7 +33,7 @@ public partial class ClientDatabaseNumbersController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public ClientDatabaseNumbersController(
+    public CountriesController(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -43,15 +43,15 @@ public partial class ClientDatabaseNumbersController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<ClientDatabaseNumberDto>>> Get()
+    public async  Task<ActionResult<IQueryable<CountryDto>>> Get()
     {
-        var result = await _mediator.Send(new GetClientDatabaseNumbersQuery());
+        var result = await _mediator.Send(new GetCountriesQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<ClientDatabaseNumberDto>> Get([FromRoute] System.Int64 key)
+    public async Task<ActionResult<CountryDto>> Get([FromRoute] System.Int64 key)
     {
-        var item = await _mediator.Send(new GetClientDatabaseNumberByIdQuery(key));
+        var item = await _mediator.Send(new GetCountryByIdQuery(key));
         
         if (item == null)
         {
@@ -61,25 +61,25 @@ public partial class ClientDatabaseNumbersController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]ClientDatabaseNumberCreateDto clientdatabasenumber)
+    public async Task<ActionResult> Post([FromBody]CountryCreateDto country)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateClientDatabaseNumberCommand(clientdatabasenumber));
+        var createdKey = await _mediator.Send(new CreateCountryCommand(country));
         
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] ClientDatabaseNumberUpdateDto clientDatabaseNumber)
+    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] CountryUpdateDto country)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateClientDatabaseNumberCommand(key, clientDatabaseNumber));
+        var updated = await _mediator.Send(new UpdateCountryCommand(key, country));
         
         if (updated is null)
         {
@@ -88,7 +88,7 @@ public partial class ClientDatabaseNumbersController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<ClientDatabaseNumberUpdateDto> clientDatabaseNumber)
+    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CountryUpdateDto> country)
     {
         if (!ModelState.IsValid)
         {
@@ -96,15 +96,15 @@ public partial class ClientDatabaseNumbersController : ODataController
         }
         var updateProperties = new Dictionary<string, dynamic>();
         
-        foreach (var propertyName in clientDatabaseNumber.GetChangedPropertyNames())
+        foreach (var propertyName in country.GetChangedPropertyNames())
         {
-            if(clientDatabaseNumber.TryGetPropertyValue(propertyName, out dynamic value))
+            if(country.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateClientDatabaseNumberCommand(key, updateProperties));
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties));
         
         if (updated is null)
         {
@@ -115,7 +115,7 @@ public partial class ClientDatabaseNumbersController : ODataController
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var result = await _mediator.Send(new DeleteClientDatabaseNumberByIdCommand(key));
+        var result = await _mediator.Send(new DeleteCountryByIdCommand(key));
         if (!result)
         {
             return NotFound();

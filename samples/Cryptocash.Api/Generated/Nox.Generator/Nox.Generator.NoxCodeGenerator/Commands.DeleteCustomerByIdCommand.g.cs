@@ -28,6 +28,8 @@ public class DeleteCustomerByIdCommandHandler: CommandBase<DeleteCustomerByIdCom
 
 	public async Task<bool> Handle(DeleteCustomerByIdCommand request, CancellationToken cancellationToken)
 	{
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Customer,DatabaseNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Customers.FindAsync(keyId);

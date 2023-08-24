@@ -34,7 +34,8 @@ public class PartialUpdateCustomerCommandHandler: CommandBase<PartialUpdateCusto
 
 	public async Task<CustomerKeyDto?> Handle(PartialUpdateCustomerCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request, cancellationToken);
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Customer,DatabaseNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Customers.FindAsync(keyId);

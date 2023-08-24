@@ -17,7 +17,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record PartialUpdateCurrencyCommand(System.UInt32 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CurrencyKeyDto?>;
 
-public class PartialUpdateCurrencyCommandHandler: CommandBase<PartialUpdateCurrencyCommand>, IRequestHandler<PartialUpdateCurrencyCommand, CurrencyKeyDto?>
+public class PartialUpdateCurrencyCommandHandler: CommandBase<PartialUpdateCurrencyCommand, Currency>, IRequestHandler<PartialUpdateCurrencyCommand, CurrencyKeyDto?>
 {
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<Currency> EntityMapper { get; }
@@ -34,7 +34,8 @@ public class PartialUpdateCurrencyCommandHandler: CommandBase<PartialUpdateCurre
 
 	public async Task<CurrencyKeyDto?> Handle(PartialUpdateCurrencyCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request, cancellationToken);
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Currency,Nuid>("Id", request.keyId);
 
 		var entity = await DbContext.Currencies.FindAsync(keyId);

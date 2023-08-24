@@ -12,7 +12,7 @@ using FluentValidation.TestHelper;
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class GetClientDatabaseNumberByIdQueryValidatorTests
+    public class GetCountryByIdQueryValidatorTests
     {
         /// <summary>
         /// Test a Query or Command Validation, that can be used for security checks
@@ -24,7 +24,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             
 
             // Act 
-            Func<Task> taskResult = async () => { await apiFixture.ClientDatabaseNumbersController!.Get(51); };
+            Func<Task> taskResult = async () => { await apiFixture.CountriesController!.Get(51); };
 
             //Assert
             await taskResult.Should().ThrowAsync<TypeValidationException>();
@@ -39,16 +39,16 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             // Arrange            
             for (int i = 0; i < 55; i++)
             {
-                var postResult = (CreatedODataResult<ClientDatabaseNumberKeyDto>)await apiFixture.ClientDatabaseNumbersController!.Post(
-                             new ClientDatabaseNumberCreateDto
+                var postResult = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
+                             new CountryCreateDto
                              {
                                  Name = apiFixture.Fixture.Create<string>(),
-                                 Number = 101
+                                 Population = apiFixture.Fixture.Create<int>()
                              });
             }
 
             // Act 
-            var result = await apiFixture.ClientDatabaseNumbersController!.Get();
+            var result = await apiFixture.CountriesController!.Get();
 
             //Assert
             var executedQuery = result.ExtractResult().ToList();

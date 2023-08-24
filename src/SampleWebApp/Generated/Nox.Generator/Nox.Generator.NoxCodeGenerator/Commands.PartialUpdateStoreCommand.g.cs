@@ -17,7 +17,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record PartialUpdateStoreCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <StoreKeyDto?>;
 
-public class PartialUpdateStoreCommandHandler: CommandBase<PartialUpdateStoreCommand>, IRequestHandler<PartialUpdateStoreCommand, StoreKeyDto?>
+public class PartialUpdateStoreCommandHandler: CommandBase<PartialUpdateStoreCommand, Store>, IRequestHandler<PartialUpdateStoreCommand, StoreKeyDto?>
 {
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<Store> EntityMapper { get; }
@@ -34,7 +34,8 @@ public class PartialUpdateStoreCommandHandler: CommandBase<PartialUpdateStoreCom
 
 	public async Task<StoreKeyDto?> Handle(PartialUpdateStoreCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request, cancellationToken);
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Store,Text>("Id", request.keyId);
 
 		var entity = await DbContext.Stores.FindAsync(keyId);

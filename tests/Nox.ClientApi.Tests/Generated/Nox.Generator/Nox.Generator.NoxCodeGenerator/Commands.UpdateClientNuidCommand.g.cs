@@ -16,7 +16,7 @@ namespace ClientApi.Application.Commands;
 
 public record UpdateClientNuidCommand(System.UInt32 keyId, ClientNuidUpdateDto EntityDto) : IRequest<ClientNuidKeyDto?>;
 
-public class UpdateClientNuidCommandHandler: CommandBase<UpdateClientNuidCommand>, IRequestHandler<UpdateClientNuidCommand, ClientNuidKeyDto?>
+public class UpdateClientNuidCommandHandler: CommandBase<UpdateClientNuidCommand, ClientNuid>, IRequestHandler<UpdateClientNuidCommand, ClientNuidKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<ClientNuid> EntityMapper { get; }
@@ -33,7 +33,8 @@ public class UpdateClientNuidCommandHandler: CommandBase<UpdateClientNuidCommand
 	
 	public async Task<ClientNuidKeyDto?> Handle(UpdateClientNuidCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request, cancellationToken);
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<ClientNuid,Nuid>("Id", request.keyId);
 	
 		var entity = await DbContext.ClientNuids.FindAsync(keyId);

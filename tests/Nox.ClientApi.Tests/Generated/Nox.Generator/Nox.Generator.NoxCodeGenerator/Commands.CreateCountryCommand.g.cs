@@ -16,33 +16,32 @@ using ClientApi.Domain;
 using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
-public record CreateClientNuidCommand(ClientNuidCreateDto EntityDto) : IRequest<ClientNuidKeyDto>;
+public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<CountryKeyDto>;
 
-public partial class CreateClientNuidCommandHandler: CommandBase<CreateClientNuidCommand,ClientNuid>, IRequestHandler <CreateClientNuidCommand, ClientNuidKeyDto>
+public partial class CreateCountryCommandHandler: CommandBase<CreateCountryCommand,Country>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
 {
 	public ClientApiDbContext DbContext { get; }
-	public IEntityFactory<ClientNuidCreateDto,ClientNuid> EntityFactory { get; }
+	public IEntityFactory<CountryCreateDto,Country> EntityFactory { get; }
 
-	public CreateClientNuidCommandHandler(
+	public CreateCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityFactory<ClientNuidCreateDto,ClientNuid> entityFactory): base(noxSolution, serviceProvider)
+		IEntityFactory<CountryCreateDto,Country> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
 	}
 
-	public async Task<ClientNuidKeyDto> Handle(CreateClientNuidCommand request, CancellationToken cancellationToken)
+	public async Task<CountryKeyDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		entityToCreate.EnsureId();
 	
-		DbContext.ClientNuids.Add(entityToCreate);
+		DbContext.Countries.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();
-		return new ClientNuidKeyDto(entityToCreate.Id.Value);
+		return new CountryKeyDto(entityToCreate.Id.Value);
 	}
 }

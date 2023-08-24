@@ -16,7 +16,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record UpdateCurrencyCashBalanceCommand(System.String keyStoreId, System.UInt32 keyCurrencyId, CurrencyCashBalanceUpdateDto EntityDto) : IRequest<CurrencyCashBalanceKeyDto?>;
 
-public class UpdateCurrencyCashBalanceCommandHandler: CommandBase<UpdateCurrencyCashBalanceCommand>, IRequestHandler<UpdateCurrencyCashBalanceCommand, CurrencyCashBalanceKeyDto?>
+public class UpdateCurrencyCashBalanceCommandHandler: CommandBase<UpdateCurrencyCashBalanceCommand, CurrencyCashBalance>, IRequestHandler<UpdateCurrencyCashBalanceCommand, CurrencyCashBalanceKeyDto?>
 {
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<CurrencyCashBalance> EntityMapper { get; }
@@ -33,7 +33,8 @@ public class UpdateCurrencyCashBalanceCommandHandler: CommandBase<UpdateCurrency
 	
 	public async Task<CurrencyCashBalanceKeyDto?> Handle(UpdateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request, cancellationToken);
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 		var keyStoreId = CreateNoxTypeForKey<CurrencyCashBalance,Text>("StoreId", request.keyStoreId);
 		var keyCurrencyId = CreateNoxTypeForKey<CurrencyCashBalance,Nuid>("CurrencyId", request.keyCurrencyId);
 	

@@ -11,7 +11,7 @@ using Nox.ClientApi.Tests.Tests;
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class CreateClientDatabaseNumberCommandHandlerTests
+    public class CreateCountryCommandHandlerTests
     {
         /// <summary>
         /// Test a command extension for <see cref="CreateClientDatabaseNumberCommandHandler"/>
@@ -24,20 +24,19 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             var expectedNumber = 00;
 
             // Act 
-            var result = (CreatedODataResult<ClientDatabaseNumberKeyDto>)await apiFixture.ClientDatabaseNumbersController!.Post(
-               new ClientDatabaseNumberCreateDto
+            var result = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
+               new CountryCreateDto
                {
                    Name = apiFixture.Fixture.Create<string>(),
-                   Number = -1
+                   Population = -1
                });
 
-            var queryResult = await apiFixture.ClientDatabaseNumbersController!.Get(result.Entity.keyId);
+            var queryResult = await apiFixture.CountriesController!.Get(result.Entity.keyId);
 
             //Assert
             
             queryResult.Should().NotBeNull();
-            queryResult!.ExtractResult().Number.Should().Be(expectedNumber);
+            queryResult!.ExtractResult().Population.Should().Be(expectedNumber);
         }
-
     }
 }

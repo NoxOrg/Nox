@@ -10,11 +10,11 @@ namespace ClientApi.Application.Queries;
 /// Executed after the default handler updating the result with a filter
 /// For Request Validation, before command handler is executed use <see cref="IValidator"/> instead IValidator<CreateClientDatabaseNumberCommand>.
 /// </summary>
-public partial class GetClientDatabaseNumbersQueryHandler
+public partial class GetCountriesQueryHandler
 {
-    protected override IQueryable<ClientDatabaseNumberDto> OnResponse(IQueryable<ClientDatabaseNumberDto> response)
+    protected override IQueryable<CountryDto> OnResponse(IQueryable<CountryDto> response)
     {
-          return response.Where(client => client.Id < 50);
+          return response.Where(country => country.Id < 50);
     }
 }
 

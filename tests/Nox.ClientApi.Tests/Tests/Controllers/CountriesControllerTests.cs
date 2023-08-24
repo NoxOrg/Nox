@@ -5,12 +5,13 @@ using Microsoft.AspNetCore.OData.Results;
 using AutoFixture;
 using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
+using ClientApi.Domain;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class ClientDatabaseNumbersControllerTests
+    public class CountriesControllerTests
     {
         [Theory, AutoMoqData]
         public async Task Post_ReturnsDatabaseNumberId(ApiFixture apiFixture)
@@ -18,15 +19,15 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             // Arrange            
 
             // Act 
-            var result = await apiFixture.ClientDatabaseNumbersController!.Post(
-                new ClientDatabaseNumberCreateDto
+            var result = await apiFixture.CountriesController!.Post(
+                new CountryCreateDto
                 {
                     Name = apiFixture.Fixture.Create<string>()
                 });
             //Assert
             result.Should().NotBeNull();
             result.Should()
-                .BeOfType<CreatedODataResult<ClientDatabaseNumberKeyDto>>()
+                .BeOfType<CreatedODataResult<CountryKeyDto>>()
                 .Which.Entity.keyId.Should().BeGreaterThan(0);
         }
 
@@ -36,19 +37,19 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             // Arrange            
             var expectedAmount = 100;
             // Act 
-            var result = (CreatedODataResult<ClientDatabaseNumberKeyDto>)await apiFixture.ClientDatabaseNumbersController!.Post(
-                new ClientDatabaseNumberCreateDto
+            var result = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
+                new CountryCreateDto
                 {
                     Name = apiFixture.Fixture.Create<string>(),
                     AmmountMoney = new MoneyDto(expectedAmount, CurrencyCode.AED)
                 });
 
-            var queryResult = await apiFixture.ClientDatabaseNumbersController!.Get(result.Entity.keyId);
+            var queryResult = await apiFixture.CountriesController!.Get(result.Entity.keyId);
 
             //Assert
             result.Should().NotBeNull();
             result.Should()
-                .BeOfType<CreatedODataResult<ClientDatabaseNumberKeyDto>>()
+                .BeOfType<CreatedODataResult<CountryKeyDto>>()
                 .Which.Entity.keyId.Should().BeGreaterThan(0);
 
             queryResult.Should().NotBeNull();
@@ -61,19 +62,19 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             // Arrange                    
             var expectedOwnedName = apiFixture.Fixture.Create<string>();
             // Act 
-            var result = (CreatedODataResult<ClientDatabaseNumberKeyDto>)await apiFixture.ClientDatabaseNumbersController!.Post(
-                new ClientDatabaseNumberCreateDto
+            var result = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
+                new CountryCreateDto
                 {
                     Name = apiFixture.Fixture.Create<string>(),
                     OwnedEntities = new List<OwnedEntityUpdateDto>() { new OwnedEntityUpdateDto() { Name = expectedOwnedName } }
                 });
 
-            var queryResult = await apiFixture.ClientDatabaseNumbersController!.Get(result.Entity.keyId);
+            var queryResult = await apiFixture.CountriesController!.Get(result.Entity.keyId);
 
             //Assert
             result.Should().NotBeNull();
             result.Should()
-                .BeOfType<CreatedODataResult<ClientDatabaseNumberKeyDto>>()
+                .BeOfType<CreatedODataResult<CountryKeyDto>>()
                 .Which.Entity.keyId.Should().BeGreaterThan(0);
 
             queryResult.Should().NotBeNull();
@@ -87,30 +88,30 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         {
             // Arrange            
             var expectedNumber = 50;
-            var result = (CreatedODataResult<ClientDatabaseNumberKeyDto>)await apiFixture.ClientDatabaseNumbersController!.Post(
-                new ClientDatabaseNumberCreateDto
+            var result = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
+                new CountryCreateDto
                 {
                     Name = apiFixture.Fixture.Create<string>(),
-                    Number = 1
+                    Population = 1
                 });
 
             // Act 
-            var putResult = await apiFixture.ClientDatabaseNumbersController!.Put(result.Entity.keyId,
-                new ClientDatabaseNumberUpdateDto
+            var putResult = await apiFixture.CountriesController!.Put(result.Entity.keyId,
+                new CountryUpdateDto
                 {
                     Name = apiFixture.Fixture.Create<string>(),
-                    Number = expectedNumber
+                    Population = expectedNumber
                 });
-            var queryResult = await apiFixture.ClientDatabaseNumbersController!.Get(result.Entity.keyId);
+            var queryResult = await apiFixture.CountriesController!.Get(result.Entity.keyId);
 
             //Assert
             putResult.Should().NotBeNull();
             putResult.Should()
-                .BeOfType<UpdatedODataResult<ClientDatabaseNumberKeyDto>>()
+                .BeOfType<UpdatedODataResult<CountryKeyDto>>()
                 .Which.Entity.keyId.Should().Be(result.Entity.keyId);
 
             queryResult.Should().NotBeNull();
-            queryResult!.ExtractResult().Number.Should().Be(expectedNumber);
+            queryResult!.ExtractResult().Population.Should().Be(expectedNumber);
         }        
 
         [Theory, AutoMoqData]
@@ -119,28 +120,28 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             // Arrange            
             var expectedNumber = 50;
             var expectedName = apiFixture.Fixture.Create<string>();
-            var result = (CreatedODataResult<ClientDatabaseNumberKeyDto>)await apiFixture.ClientDatabaseNumbersController!.Post(
-                new ClientDatabaseNumberCreateDto
+            var result = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
+                new CountryCreateDto
                 {
                     Name = expectedName,
-                    Number = 1
+                    Population = 1
                 });
 
             // Act 
-            var updatedProperties = new Microsoft.AspNetCore.OData.Deltas.Delta<ClientDatabaseNumberUpdateDto>();
-            updatedProperties.TrySetPropertyValue("Number", expectedNumber);
+            var updatedProperties = new Microsoft.AspNetCore.OData.Deltas.Delta<CountryUpdateDto>();
+            updatedProperties.TrySetPropertyValue(nameof(Country.Population), expectedNumber);
 
-            var patchResult = await apiFixture.ClientDatabaseNumbersController!.Patch(result.Entity.keyId, updatedProperties);
-            var queryResult = await apiFixture.ClientDatabaseNumbersController!.Get(result.Entity.keyId);
+            var patchResult = await apiFixture.CountriesController!.Patch(result.Entity.keyId, updatedProperties);
+            var queryResult = await apiFixture.CountriesController!.Get(result.Entity.keyId);
 
             //Assert
             patchResult.Should().NotBeNull();
             patchResult.Should()
-                .BeOfType<UpdatedODataResult<ClientDatabaseNumberKeyDto>>()
+                .BeOfType<UpdatedODataResult<CountryKeyDto>>()
                 .Which.Entity.keyId.Should().Be(result.Entity.keyId);
 
             queryResult.Should().NotBeNull();
-            queryResult!.ExtractResult().Number.Should().Be(expectedNumber);
+            queryResult!.ExtractResult().Population.Should().Be(expectedNumber);
             queryResult!.ExtractResult().Name.Should().Be(expectedName);
         }
 
@@ -149,29 +150,29 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         {
             // Arrange            
             var expectedName = apiFixture.Fixture.Create<string>();
-            var result = (CreatedODataResult<ClientDatabaseNumberKeyDto>)await apiFixture.ClientDatabaseNumbersController!.Post(
-                new ClientDatabaseNumberCreateDto
+            var result = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
+                new CountryCreateDto
                 {
                     Name = expectedName,
-                    Number = 1
+                    Population = 1
                 });
 
             // Act 
-            var updatedProperties = new Microsoft.AspNetCore.OData.Deltas.Delta<ClientDatabaseNumberUpdateDto>();
-            updatedProperties.TrySetPropertyValue(nameof(ClientDatabaseNumberCreateDto.Number), null);
+            var updatedProperties = new Microsoft.AspNetCore.OData.Deltas.Delta<CountryUpdateDto>();
+            updatedProperties.TrySetPropertyValue(nameof(CountryCreateDto.Population), null);
 
 
-            var patchResult = await apiFixture.ClientDatabaseNumbersController!.Patch(result.Entity.keyId, updatedProperties);
-            var queryResult = await apiFixture.ClientDatabaseNumbersController!.Get(result.Entity.keyId);
+            var patchResult = await apiFixture.CountriesController!.Patch(result.Entity.keyId, updatedProperties);
+            var queryResult = await apiFixture.CountriesController!.Get(result.Entity.keyId);
 
             //Assert
             patchResult.Should().NotBeNull();
             patchResult.Should()
-                .BeOfType<UpdatedODataResult<ClientDatabaseNumberKeyDto>>()
+                .BeOfType<UpdatedODataResult<CountryKeyDto>>()
                 .Which.Entity.keyId.Should().Be(result.Entity.keyId);
 
             queryResult.Should().NotBeNull();
-            queryResult!.ExtractResult().Number.Should().BeNull();
+            queryResult!.ExtractResult().Population.Should().BeNull();
             queryResult!.ExtractResult().Name.Should().Be(expectedName);
         }
 
@@ -182,8 +183,8 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             // Arrange  
             Func<Task> action = () =>
             {
-                return apiFixture.ClientDatabaseNumbersController!.Post(
-                new ClientDatabaseNumberCreateDto
+                return apiFixture.CountriesController!.Post(
+                new CountryCreateDto
                 {
                     //Name = null
                 });
@@ -201,23 +202,23 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         {
 
             // Arrange  
-            var result = (CreatedODataResult<ClientDatabaseNumberKeyDto>)await apiFixture.ClientDatabaseNumbersController!.Post(
-                new ClientDatabaseNumberCreateDto
+            var result = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
+                new CountryCreateDto
                 {
                     Name = apiFixture.Fixture.Create<string>(),
                 });
 
             // Act
-            await apiFixture.ClientDatabaseNumbersController.Delete(result.Entity.keyId);
+            await apiFixture.CountriesController.Delete(result.Entity.keyId);
 
             // Assert
-            var queryResult = await apiFixture.ClientDatabaseNumbersController!.Get(result.Entity.keyId);
+            var queryResult = await apiFixture.CountriesController!.Get(result.Entity.keyId);
 
             (queryResult.Result as NotFoundResult)!.StatusCode.Should().Be(404);
             queryResult.Value.Should().BeNull();
 
             var context = apiFixture.ServiceProvider.GetService<ClientApiDbContext>()!;
-            context.ClientDatabaseNumbers.Find(DatabaseNumber.FromDatabase(result.Entity.keyId)).Should().NotBeNull();
+            context.Countries.Find(DatabaseNumber.FromDatabase(result.Entity.keyId)).Should().NotBeNull();
         }
     }
 }

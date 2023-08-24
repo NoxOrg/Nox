@@ -17,7 +17,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record PartialUpdateCurrencyCashBalanceCommand(System.String keyStoreId, System.UInt32 keyCurrencyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CurrencyCashBalanceKeyDto?>;
 
-public class PartialUpdateCurrencyCashBalanceCommandHandler: CommandBase<PartialUpdateCurrencyCashBalanceCommand>, IRequestHandler<PartialUpdateCurrencyCashBalanceCommand, CurrencyCashBalanceKeyDto?>
+public class PartialUpdateCurrencyCashBalanceCommandHandler: CommandBase<PartialUpdateCurrencyCashBalanceCommand, CurrencyCashBalance>, IRequestHandler<PartialUpdateCurrencyCashBalanceCommand, CurrencyCashBalanceKeyDto?>
 {
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<CurrencyCashBalance> EntityMapper { get; }
@@ -34,7 +34,8 @@ public class PartialUpdateCurrencyCashBalanceCommandHandler: CommandBase<Partial
 
 	public async Task<CurrencyCashBalanceKeyDto?> Handle(PartialUpdateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request, cancellationToken);
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 		var keyStoreId = CreateNoxTypeForKey<CurrencyCashBalance,Text>("StoreId", request.keyStoreId);
 		var keyCurrencyId = CreateNoxTypeForKey<CurrencyCashBalance,Nuid>("CurrencyId", request.keyCurrencyId);
 

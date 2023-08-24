@@ -11,12 +11,12 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public record ClientDatabaseNumberKeyDto(System.Int64 keyId);
+public record CountryKeyDto(System.Int64 keyId);
 
 /// <summary>
-/// Client DatabaseNumber Key.
+/// Country Entity.
 /// </summary>
-public partial class ClientDatabaseNumberDto
+public partial class CountryDto
 {
 
     /// <summary>
@@ -25,14 +25,14 @@ public partial class ClientDatabaseNumberDto
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// The Text (Required).
+    /// The Country Name (Required).
     /// </summary>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// The Number (Optional).
+    /// Population (Optional).
     /// </summary>
-    public System.Int32? Number { get; set; }
+    public System.Int32? Population { get; set; }
 
     /// <summary>
     /// The Money (Optional).
@@ -40,7 +40,7 @@ public partial class ClientDatabaseNumberDto
     public MoneyDto? AmmountMoney { get; set; }
 
     /// <summary>
-    /// ClientDatabaseNumber is also know as ZeroOrMany OwnedEntities
+    /// Country is also know as ZeroOrMany OwnedEntities
     /// </summary>
     public virtual List<OwnedEntityDto> OwnedEntities { get; set; } = new();
 

@@ -18,7 +18,7 @@ using SampleWebApp.Application.Dto;
 namespace SampleWebApp.Application.Commands;
 public record CreateStoreCommand(StoreCreateDto EntityDto) : IRequest<StoreKeyDto>;
 
-public partial class CreateStoreCommandHandler: CommandBase<CreateStoreCommand>, IRequestHandler <CreateStoreCommand, StoreKeyDto>
+public partial class CreateStoreCommandHandler: CommandBase<CreateStoreCommand,Store>, IRequestHandler <CreateStoreCommand, StoreKeyDto>
 {
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityFactory<StoreCreateDto,Store> EntityFactory { get; }
@@ -35,7 +35,8 @@ public partial class CreateStoreCommandHandler: CommandBase<CreateStoreCommand>,
 
 	public async Task<StoreKeyDto> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request, cancellationToken);
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 	
