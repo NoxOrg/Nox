@@ -10,9 +10,9 @@ public class DateTimeRangeDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
     public NoxType ForNoxType => NoxType.DateTimeRange;
 
-    public bool IsDefault => true;
+    public virtual bool IsDefault => true;
 
-    public void ConfigureEntityProperty(
+    public virtual void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
         IEntityBuilder builder,
         NoxSimpleTypeDefinition property,
@@ -26,12 +26,6 @@ public class DateTimeRangeDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
                 dtr.Property(nameof(DateTimeRange.End))
                     .HasConversion<DateTimeOffsetConverter>();
-
-                dtr.Property(nameof(DateTimeRange.StartTimeZoneOffset))
-                    .UsePropertyAccessMode(PropertyAccessMode.Property);
-
-                dtr.Property(nameof(DateTimeRange.EndTimeZoneOffset))
-                    .UsePropertyAccessMode(PropertyAccessMode.Property);
 
                 dtr.Ignore(nameof(DateTimeRange.Value));
             });

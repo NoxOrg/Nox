@@ -258,8 +258,8 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.DateTimeRangeTestField!.End.Should().Be(dateTimeRangeEnd);
         testEntity.DateTimeRangeTestField!.Start.ToString().Should().Be(dateTimeRangeStart.ToString());
         testEntity.DateTimeRangeTestField!.End.ToString().Should().Be(dateTimeRangeEnd.ToString());
-        testEntity.DateTimeRangeTestField.StartTimeZoneOffset.Should().Be(dateTimeRangeStart.Offset);
-        testEntity.DateTimeRangeTestField.EndTimeZoneOffset.Should().Be(dateTimeRangeEnd.Offset);
+        testEntity.DateTimeRangeTestField!.Start.Offset.Should().Be(dateTimeRangeStart.Offset);
+        testEntity.DateTimeRangeTestField!.End.Offset.Should().Be(dateTimeRangeEnd.Offset);
         testEntity.HtmlTestField!.Value.Should().Be(html);
         testEntity.ImageTestField!.Url.Should().Be(imageUrl);
         testEntity.ImageTestField!.PrettyName.Should().Be(imagePrettyName);
