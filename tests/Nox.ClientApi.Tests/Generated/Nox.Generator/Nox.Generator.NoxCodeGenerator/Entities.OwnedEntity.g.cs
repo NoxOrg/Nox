@@ -14,13 +14,13 @@ namespace ClientApi.Domain;
 /// </summary>
 public partial class OwnedEntity
 {
-    /// <summary>
-    /// The unique identifier (Required).
-    /// </summary>
-    public Text Id { get; set; } = null!;
+	/// <summary>
+	/// The unique identifier (Required).
+	/// </summary>
+	public Text Id { get; set; } = null!;
 
-    /// <summary>
-    /// The Text (Required).
-    /// </summary>
-    public Nox.Types.Text Name { get; set; } = null!;
+	/// <summary>
+	/// The Text (Required).
+	/// </summary>
+	public Nox.Types.Text Name { get; set; } = null!;
 }

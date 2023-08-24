@@ -14,13 +14,13 @@ namespace TestWebApp.Domain;
 /// </summary>
 public partial class SecondTestEntityOwnedRelationshipZeroOrOne
 {
-    /// <summary>
-    ///  (Required).
-    /// </summary>
-    public Text Id1 { get; set; } = null!;
+	/// <summary>
+	///  (Required).
+	/// </summary>
+	public Text Id1 { get; set; } = null!;
 
-    /// <summary>
-    ///  (Required).
-    /// </summary>
-    public Nox.Types.Text TextTestField2 { get; set; } = null!;
+	/// <summary>
+	///  (Required).
+	/// </summary>
+	public Nox.Types.Text TextTestField2 { get; set; } = null!;
 }

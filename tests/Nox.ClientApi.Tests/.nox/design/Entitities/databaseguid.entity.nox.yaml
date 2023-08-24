@@ -1,6 +1,8 @@
 #
 # databaseguid.entity.nox.yaml
 #
+# yaml-language-server: $schema=https://noxorg.dev/schemas/entity.json
+#
 
 name: ClientDatabaseGuid
 
@@ -22,6 +24,13 @@ attributes:
       minLength: 4
       maxLength: 63
     isRequired: true 
+
+  - name: Greeting
+    description: The Formula
+    type: formula
+    formulaTypeOptions:
+      expression: "$\"Hello, {Name.Value}!\""
+      returns: string
 
 persistence:
     isAudited: false    

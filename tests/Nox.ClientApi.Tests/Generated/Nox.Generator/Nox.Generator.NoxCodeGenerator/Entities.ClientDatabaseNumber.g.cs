@@ -14,30 +14,30 @@ namespace ClientApi.Domain;
 /// </summary>
 public partial class ClientDatabaseNumber : AuditableEntityBase
 {
-    /// <summary>
-    /// The unique identifier (Required).
-    /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+	/// <summary>
+	/// The unique identifier (Required).
+	/// </summary>
+	public DatabaseNumber Id { get; set; } = null!;
 
-    /// <summary>
-    /// The Text (Required).
-    /// </summary>
-    public Nox.Types.Text Name { get; set; } = null!;
+	/// <summary>
+	/// The Text (Required).
+	/// </summary>
+	public Nox.Types.Text Name { get; set; } = null!;
 
-    /// <summary>
-    /// The Number (Optional).
-    /// </summary>
-    public Nox.Types.Number? Number { get; set; } = null!;
+	/// <summary>
+	/// The Number (Optional).
+	/// </summary>
+	public Nox.Types.Number? Number { get; set; } = null!;
 
-    /// <summary>
-    /// The Money (Optional).
-    /// </summary>
-    public Nox.Types.Money? AmmountMoney { get; set; } = null!;
+	/// <summary>
+	/// The Money (Optional).
+	/// </summary>
+	public Nox.Types.Money? AmmountMoney { get; set; } = null!;
 
-    /// <summary>
-    /// ClientDatabaseNumber is also know as ZeroOrMany OwnedEntities
-    /// </summary>
-    public virtual List<OwnedEntity> OwnedEntities { get; set; } = new();
+	/// <summary>
+	/// ClientDatabaseNumber is also know as ZeroOrMany OwnedEntities
+	/// </summary>
+	public virtual List<OwnedEntity> OwnedEntities { get; set; } = new();
 
-    public List<OwnedEntity> OwnedEntity => OwnedEntities;
+	public List<OwnedEntity> OwnedEntity => OwnedEntities;
 }

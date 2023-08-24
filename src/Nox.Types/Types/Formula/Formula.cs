@@ -72,21 +72,27 @@ public class Formula : ValueObject<string, Formula>
         Stack<char> openingBrackets = new();
         foreach (char character in Value!)
         {
-            if (character is '(' or '[' or '{')
+            if (IsOpeningBracket(character))
             {
                 openingBrackets.Push(character);
             }
-            else if (character is ')' or ']' or '}')
+            else if (IsClosingBracket(character) && IsClosingBracketMismatch(character, openingBrackets))
             {
-                if (openingBrackets.Count == 0 || !AreMatchingBrackets(openingBrackets.Pop(), character))
-                {
-                    return false;
-                }
+                return false;
             }
         }
 
         return openingBrackets.Count == 0;
     }
+
+    private static bool IsOpeningBracket(char character)
+        => character is '(' or '[' or '{';
+
+    private static bool IsClosingBracket(char character)
+        => character is ')' or ']' or '}';
+
+    private static bool IsClosingBracketMismatch(char character, Stack<char> openingBrackets)
+        => openingBrackets.Count == 0 || !AreMatchingBrackets(openingBrackets.Pop(), character);
 
     private static bool AreMatchingBrackets(char openingBracket, char closingBracket)
     {

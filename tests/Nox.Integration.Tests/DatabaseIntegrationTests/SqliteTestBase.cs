@@ -1,6 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Nox.Application.Providers;
 using Nox.EntityFramework.Sqlite;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
@@ -59,8 +60,17 @@ public abstract class SqliteTestBase : IDisposable
         var options = new DbContextOptionsBuilder<TestWebAppDbContext>()
             .UseSqlite(connection)
             .Options;
-        var dbContext = new TestWebAppDbContext(options, solution, databaseConfigurator, new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
+
+        var dbContext = new TestWebAppDbContext(
+            options,
+            solution,
+            databaseConfigurator,
+            new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()),
+            new DefaultUserProvider(),
+            new DefaultSystemProvider());
+
         dbContext.Database.EnsureCreated();
+
         return dbContext;
     }
 

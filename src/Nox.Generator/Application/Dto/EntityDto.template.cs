@@ -38,9 +38,6 @@ public partial class {{className}}
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
     /// </summary>
     {{ if IsNoxTypeSimpleType attribute.Type -}}
-        {{- if attribute.Type == "Formula" -}}
-    [NotMapped]
-        {{- end -}}
     public {{SinglePrimitiveTypeForKey attribute}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
     {{- else -}}
     public {{attribute.Type}}Dto{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}

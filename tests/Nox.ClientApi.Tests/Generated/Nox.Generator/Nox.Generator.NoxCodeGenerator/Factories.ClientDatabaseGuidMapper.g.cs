@@ -34,6 +34,8 @@ public class ClientDatabaseGuidMapper: EntityMapperBase<ClientDatabaseGuid>
         {        
             entity.Name = noxTypeValue;
         }
+
+        // TODO map Greeting Formula remaining types and remove if else
     }
 
     public override void PartialMapToEntity(ClientDatabaseGuid entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
