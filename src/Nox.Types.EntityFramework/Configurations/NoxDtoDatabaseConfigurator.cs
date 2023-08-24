@@ -32,6 +32,15 @@ public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
                     .Property(nameof(VatNumber.CountryCode))
                     .HasConversion(new EnumToStringConverter<CountryCode>());
             }
+
+            if (attribute.Type == NoxType.StreetAddress)
+            {
+                var compoundDtoType = codeGeneratorState.GetEntityDtoType("StreetAddressDto")!;
+
+                builder.OwnsOne(compoundDtoType, attribute.Name)
+                    .Property(nameof(StreetAddress.CountryId))
+                    .HasConversion(new EnumToStringConverter<CountryCode>());
+            }
         }
     }
     private static void ConfigureOwnedRelations(NoxSolutionCodeGeneratorState codeGeneratorState, IEntityBuilder builder, Entity entity)

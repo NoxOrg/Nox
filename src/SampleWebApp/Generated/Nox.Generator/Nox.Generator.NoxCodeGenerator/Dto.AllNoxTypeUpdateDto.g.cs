@@ -22,9 +22,11 @@ public partial class AllNoxTypeUpdateDto
     
     public System.Decimal AreaField { get; set; } = default!;
     /// <summary>
-    /// BooleanField Nox Type (Optional).
+    /// BooleanField Nox Type (Required).
     /// </summary>
-    public System.Boolean? BooleanField { get; set; } 
+    [Required(ErrorMessage = "BooleanField is required")]
+    
+    public System.Boolean BooleanField { get; set; } = default!;
     /// <summary>
     /// CountryCode2 Nox Type (Required).
     /// </summary>
@@ -32,17 +34,23 @@ public partial class AllNoxTypeUpdateDto
     
     public System.String CountryCode2Field { get; set; } = default!;
     /// <summary>
-    /// CountryCode3 Nox Type (Optional).
+    /// CountryCode3 Nox Type (Required).
     /// </summary>
-    public System.String? CountryCode3Field { get; set; } 
+    [Required(ErrorMessage = "CountryCode3Field is required")]
+    
+    public System.String CountryCode3Field { get; set; } = default!;
     /// <summary>
-    /// CountryNumber Nox Type (Optional).
+    /// CountryNumber Nox Type (Required).
     /// </summary>
-    public System.UInt16? CountryNumberField { get; set; } 
+    [Required(ErrorMessage = "CountryNumberField is required")]
+    
+    public System.UInt16 CountryNumberField { get; set; } = default!;
     /// <summary>
-    /// CultureCode Nox Type (Optional).
+    /// CultureCode Nox Type (Required).
     /// </summary>
-    public System.String? CultureCodeField { get; set; } 
+    [Required(ErrorMessage = "CultureCodeField is required")]
+    
+    public System.String CultureCodeField { get; set; } = default!;
     /// <summary>
     /// CurrencyCode3Field Nox Type (Required).
     /// </summary>
@@ -104,9 +112,11 @@ public partial class AllNoxTypeUpdateDto
     
     public System.Guid GuidField { get; set; } = default!;
     /// <summary>
-    /// HtmlField Nox Type (Optional).
+    /// HtmlField Nox Type (Required).
     /// </summary>
-    public System.String? HtmlField { get; set; } 
+    [Required(ErrorMessage = "HtmlField is required")]
+    
+    public System.String HtmlField { get; set; } = default!;
     /// <summary>
     /// Internet Domain Nox Type (Required).
     /// </summary>
@@ -156,6 +166,30 @@ public partial class AllNoxTypeUpdateDto
     
     public System.String MarkdownField { get; set; } = default!;
     /// <summary>
+    /// Month Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "MonthField is required")]
+    
+    public System.Byte MonthField { get; set; } = default!;
+    /// <summary>
+    /// NuidField Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "NuidField is required")]
+    
+    public System.UInt32 NuidField { get; set; } = default!;
+    /// <summary>
+    /// NumberField Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "NumberField is required")]
+    
+    public System.Int32 NumberField { get; set; } = default!;
+    /// <summary>
+    /// Percentage Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "PercentageField is required")]
+    
+    public System.Single PercentageField { get; set; } = default!;
+    /// <summary>
     /// Phone Number Nox Type (Required).
     /// </summary>
     [Required(ErrorMessage = "PhoneNumberField is required")]
@@ -168,61 +202,65 @@ public partial class AllNoxTypeUpdateDto
     
     public System.Decimal TemperatureField { get; set; } = default!;
     /// <summary>
-    /// Month Nox Type (Required).
-    /// </summary>
-    [Required(ErrorMessage = "MonthField is required")]
-    
-    public System.Byte MonthField { get; set; } = default!;
-    /// <summary>
-    /// NuidField Type (Optional).
-    /// </summary>
-    public System.UInt32? NuidField { get; set; } 
-    /// <summary>
-    /// Yaml Nox Type (Optional).
-    /// </summary>
-    public System.String? YamlField { get; set; } 
-    /// <summary>
-    /// YearField Nox Type (Optional).
-    /// </summary>
-    public System.UInt16? YearField { get; set; } 
-    /// <summary>
-    /// Weight Nox Type (Optional).
-    /// </summary>
-    public System.Double? WeightField { get; set; } 
-    /// <summary>
-    /// Volume Nox Type (Optional).
-    /// </summary>
-    public System.Double? VolumeField { get; set; } 
-    /// <summary>
-    /// Url Nox Type (Optional).
-    /// </summary>
-    public System.String? UrlField { get; set; } 
-    /// <summary>
-    /// Uri Nox Type (Optional).
-    /// </summary>
-    public System.String? UriField { get; set; } 
-    /// <summary>
-    /// TimeZoneCode Nox Type (Optional).
-    /// </summary>
-    public System.String? TimeZoneCodeField { get; set; } 
-    /// <summary>
-    /// Percentage Nox Type (Optional).
-    /// </summary>
-    public System.Single? PercentageField { get; set; } 
-    /// <summary>
-    /// Time Nox Type (Optional).
-    /// </summary>
-    public System.DateTimeOffset? TimeField { get; set; } 
-    /// <summary>
-    /// NumberField Nox Type (Optional).
-    /// </summary>
-    public System.Int32? NumberField { get; set; } 
-    /// <summary>
     /// Text Nox Type (Required).
     /// </summary>
     [Required(ErrorMessage = "TextField is required")]
     
     public System.String TextField { get; set; } = default!;
+    /// <summary>
+    /// Time Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "TimeField is required")]
+    
+    public System.TimeSpan TimeField { get; set; } = default!;
+    /// <summary>
+    /// TimeZoneCode Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "TimeZoneCodeField is required")]
+    
+    public System.String TimeZoneCodeField { get; set; } = default!;
+    /// <summary>
+    /// Uri Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "UriField is required")]
+    
+    public System.String UriField { get; set; } = default!;
+    /// <summary>
+    /// Url Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "UrlField is required")]
+    
+    public System.String UrlField { get; set; } = default!;
+    /// <summary>
+    /// User Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "UserField is required")]
+    
+    public System.String UserField { get; set; } = default!;
+    /// <summary>
+    /// Volume Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "VolumeField is required")]
+    
+    public System.Decimal VolumeField { get; set; } = default!;
+    /// <summary>
+    /// Weight Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "WeightField is required")]
+    
+    public System.Decimal WeightField { get; set; } = default!;
+    /// <summary>
+    /// Yaml Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "YamlField is required")]
+    
+    public System.String YamlField { get; set; } = default!;
+    /// <summary>
+    /// YearField Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "YearField is required")]
+    
+    public System.UInt16 YearField { get; set; } = default!;
     /// <summary>
     /// File Nox Type (Required).
     /// </summary>
@@ -242,9 +280,11 @@ public partial class AllNoxTypeUpdateDto
     
     public MoneyDto MoneyField { get; set; } = default!;
     /// <summary>
-    /// StreetAddress Nox Type (Optional).
+    /// StreetAddress Nox Type (Required).
     /// </summary>
-    public StreetAddressDto? StreetAddressField { get; set; } 
+    [Required(ErrorMessage = "StreetAddressField is required")]
+    
+    public StreetAddressDto StreetAddressField { get; set; } = default!;
     /// <summary>
     /// TranslatedText Nox Type (Required).
     /// </summary>

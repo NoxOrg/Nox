@@ -30,9 +30,9 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.Area AreaField { get; set; } = null!;
 
     /// <summary>
-    /// BooleanField Nox Type (Optional).
+    /// BooleanField Nox Type (Required).
     /// </summary>
-    public Nox.Types.Boolean? BooleanField { get; set; } = null!;
+    public Nox.Types.Boolean BooleanField { get; set; } = null!;
 
     /// <summary>
     /// CountryCode2 Nox Type (Required).
@@ -40,19 +40,19 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.CountryCode2 CountryCode2Field { get; set; } = null!;
 
     /// <summary>
-    /// CountryCode3 Nox Type (Optional).
+    /// CountryCode3 Nox Type (Required).
     /// </summary>
-    public Nox.Types.CountryCode3? CountryCode3Field { get; set; } = null!;
+    public Nox.Types.CountryCode3 CountryCode3Field { get; set; } = null!;
 
     /// <summary>
-    /// CountryNumber Nox Type (Optional).
+    /// CountryNumber Nox Type (Required).
     /// </summary>
-    public Nox.Types.CountryNumber? CountryNumberField { get; set; } = null!;
+    public Nox.Types.CountryNumber CountryNumberField { get; set; } = null!;
 
     /// <summary>
-    /// CultureCode Nox Type (Optional).
+    /// CultureCode Nox Type (Required).
     /// </summary>
-    public Nox.Types.CultureCode? CultureCodeField { get; set; } = null!;
+    public Nox.Types.CultureCode CultureCodeField { get; set; } = null!;
 
     /// <summary>
     /// CurrencyCode3Field Nox Type (Required).
@@ -100,9 +100,9 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.Email EmailField { get; set; } = null!;
 
     /// <summary>
-    /// Formula Nox Type (Optional).
+    /// Formula Nox Type (Required).
     /// </summary>
-    public string? FormulaField => CountryCode2Field.ToString();
+    public string FormulaField => CountryCode2Field.ToString();
 
     /// <summary>
     /// Guid Nox Type (Required).
@@ -110,9 +110,9 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.Guid GuidField { get; set; } = null!;
 
     /// <summary>
-    /// HtmlField Nox Type (Optional).
+    /// HtmlField Nox Type (Required).
     /// </summary>
-    public Nox.Types.Html? HtmlField { get; set; } = null!;
+    public Nox.Types.Html HtmlField { get; set; } = null!;
 
     /// <summary>
     /// Internet Domain Nox Type (Required).
@@ -155,6 +155,26 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.Markdown MarkdownField { get; set; } = null!;
 
     /// <summary>
+    /// Month Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Month MonthField { get; set; } = null!;
+
+    /// <summary>
+    /// NuidField Type (Required).
+    /// </summary>
+    public Nox.Types.Nuid NuidField { get; set; } = null!;
+
+    /// <summary>
+    /// NumberField Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Number NumberField { get; set; } = null!;
+
+    /// <summary>
+    /// Percentage Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Percentage PercentageField { get; set; } = null!;
+
+    /// <summary>
     /// Phone Number Nox Type (Required).
     /// </summary>
     public Nox.Types.PhoneNumber PhoneNumberField { get; set; } = null!;
@@ -165,69 +185,54 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.Temperature TemperatureField { get; set; } = null!;
 
     /// <summary>
-    /// Month Nox Type (Required).
-    /// </summary>
-    public Nox.Types.Month MonthField { get; set; } = null!;
-
-    /// <summary>
-    /// NuidField Type (Optional).
-    /// </summary>
-    public Nox.Types.Nuid? NuidField { get; set; } = null!;
-
-    /// <summary>
-    /// Yaml Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.Yaml? YamlField { get; set; } = null!;
-
-    /// <summary>
-    /// YearField Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.Year? YearField { get; set; } = null!;
-
-    /// <summary>
-    /// Weight Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.Weight? WeightField { get; set; } = null!;
-
-    /// <summary>
-    /// Volume Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.Volume? VolumeField { get; set; } = null!;
-
-    /// <summary>
-    /// Url Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.Url? UrlField { get; set; } = null!;
-
-    /// <summary>
-    /// Uri Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.Uri? UriField { get; set; } = null!;
-
-    /// <summary>
-    /// TimeZoneCode Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.TimeZoneCode? TimeZoneCodeField { get; set; } = null!;
-
-    /// <summary>
-    /// Percentage Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.Percentage? PercentageField { get; set; } = null!;
-
-    /// <summary>
-    /// Time Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.Time? TimeField { get; set; } = null!;
-
-    /// <summary>
-    /// NumberField Nox Type (Optional).
-    /// </summary>
-    public Nox.Types.Number? NumberField { get; set; } = null!;
-
-    /// <summary>
     /// Text Nox Type (Required).
     /// </summary>
     public Nox.Types.Text TextField { get; set; } = null!;
+
+    /// <summary>
+    /// Time Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Time TimeField { get; set; } = null!;
+
+    /// <summary>
+    /// TimeZoneCode Nox Type (Required).
+    /// </summary>
+    public Nox.Types.TimeZoneCode TimeZoneCodeField { get; set; } = null!;
+
+    /// <summary>
+    /// Uri Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Uri UriField { get; set; } = null!;
+
+    /// <summary>
+    /// Url Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Url UrlField { get; set; } = null!;
+
+    /// <summary>
+    /// User Nox Type (Required).
+    /// </summary>
+    public Nox.Types.User UserField { get; set; } = null!;
+
+    /// <summary>
+    /// Volume Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Volume VolumeField { get; set; } = null!;
+
+    /// <summary>
+    /// Weight Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Weight WeightField { get; set; } = null!;
+
+    /// <summary>
+    /// Yaml Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Yaml YamlField { get; set; } = null!;
+
+    /// <summary>
+    /// YearField Nox Type (Required).
+    /// </summary>
+    public Nox.Types.Year YearField { get; set; } = null!;
 
     /// <summary>
     /// Encrypted Text Nox Type (Required).
@@ -260,9 +265,9 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.Password PasswordField { get; set; } = null!;
 
     /// <summary>
-    /// StreetAddress Nox Type (Optional).
+    /// StreetAddress Nox Type (Required).
     /// </summary>
-    public Nox.Types.StreetAddress? StreetAddressField { get; set; } = null!;
+    public Nox.Types.StreetAddress StreetAddressField { get; set; } = null!;
 
     /// <summary>
     /// TranslatedText Nox Type (Required).

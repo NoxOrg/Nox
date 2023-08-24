@@ -194,7 +194,7 @@ public enum NoxType : uint
     [SimpleType(typeof(string))]
     Text = 1432028016,
 
-    [SimpleType(typeof(DateTimeOffset))]
+    [SimpleType(typeof(TimeSpan))]
     Time = 2288042805,
 
     [SimpleType(typeof(string))]
@@ -209,10 +209,10 @@ public enum NoxType : uint
     [SimpleType(typeof(string))]
     User = 2972321043,
 
-    [SimpleType(typeof(double))]
+    [SimpleType(typeof(decimal))]
     Volume = 1729151620,
 
-    [SimpleType(typeof(double))]
+    [SimpleType(typeof(decimal))]
     Weight = 760317285,
 
     [SimpleType(typeof(string))]

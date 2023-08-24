@@ -31,6 +31,7 @@ attributes:
   - name: BooleanField
     description: BooleanField Nox Type
     type: boolean    
+    isRequired: true
 
   #- name: ColorField
   #  description: Color Nox Type
@@ -45,17 +46,17 @@ attributes:
   - name: CountryCode3Field
     description: CountryCode3 Nox Type
     type: countryCode3
-    isRequired: false
+    isRequired: true
 
   - name: CountryNumberField
     description: CountryNumber Nox Type
     type: countryNumber
-    isRequired: false
+    isRequired: true
 
   - name: CultureCodeField
     description: CultureCode Nox Type
     type: cultureCode
-    isRequired: false
+    isRequired: true
 
   - name: CurrencyCode3Field
     description: CurrencyCode3Field Nox Type
@@ -113,6 +114,7 @@ attributes:
     formulaTypeOptions:
         expression: "CountryCode2Field.ToString()"
         returns: string
+    isRequired: true
 
   - name: GuidField
     description: Guid Nox Type
@@ -122,7 +124,7 @@ attributes:
   - name: HtmlField
     description: HtmlField Nox Type
     type: html
-    isRequired: false
+    isRequired: true
 
   - name: InternetDomainField
     description: Internet Domain Nox Type
@@ -164,6 +166,30 @@ attributes:
     type: markdown
     isRequired: true
 
+  - name: MonthField
+    description: Month Nox Type
+    type: month
+    isRequired: true
+
+  - name: NuidField
+    isRequired: true
+    description: NuidField Type
+    type: nuid
+    nuidTypeOptions:
+        separator: "."
+        propertyNames:
+            - "TextField"
+
+  - name: NumberField
+    description: NumberField Nox Type
+    type: number
+    isRequired: true
+
+  - name: PercentageField
+    description: Percentage Nox Type
+    type: percentage
+    isRequired: true
+
   - name: PhoneNumberField
     description: Phone Number Nox Type
     type: phoneNumber
@@ -177,35 +203,41 @@ attributes:
       units: fahrenheit
     isRequired: true
 
-  - name: MonthField
-    description: Month Nox Type
-    type: month
+  - name: TextField
+    description: Text Nox Type
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
     isRequired: true
 
-  - name: NuidField
-    isRequired: false
-    description: NuidField Type
-    type: nuid
-    nuidTypeOptions:
-        separator: "."
-        propertyNames:
-            - "TextField"
+  - name: TimeField
+    description: Time Nox Type
+    type: time
+    isRequired: true
 
-  - name: YamlField
-    description: Yaml Nox Type
-    type: yaml
+  - name: TimeZoneCodeField
+    description: TimeZoneCode Nox Type
+    type: timeZoneCode
+    isRequired: true
 
-  - name: YearField
-    description: YearField Nox Type
-    type: year
-    isRequired: false
+  - name: UriField
+    description: Uri Nox Type
+    type: uri
+    isRequired: true
 
-  - name: WeightField
-    description: Weight Nox Type
-    type: weight
-    weightTypeOptions:
-        minValue: 10
-        maxValue: 300
+  - name: UrlField
+    description: Url Nox Type
+    type: url
+    isRequired: true
+
+  - name: UserField
+    description: User Nox Type
+    type: user
+    userTypeOptions:
+       minLength: 10
+       maxLength: 200
+    isRequired: true
 
   - name: VolumeField
     description: Volume Nox Type
@@ -213,51 +245,24 @@ attributes:
     volumeTypeOptions:
         minValue: 100
         maxValue: 500
+    isRequired: true
 
-     # No DB config at the moment
-  #- name: UserField
-  #  description: User Nox Type
-  #  type: user
-  #  userTypeOptions:
-  #      minLength: 10
-  #      maxLength: 200
-  #  isRequired: true
+  - name: WeightField
+    description: Weight Nox Type
+    type: weight
+    weightTypeOptions:
+        minValue: 10
+        maxValue: 300
+    isRequired: true
 
-  - name: UrlField
-    description: Url Nox Type
-    type: url
+  - name: YamlField
+    description: Yaml Nox Type
+    type: yaml
+    isRequired: true
 
-  - name: UriField
-    description: Uri Nox Type
-    type: uri
-
-  - name: TimeZoneCodeField
-    description: TimeZoneCode Nox Type
-    type: timeZoneCode
-
-    # No DB config at the moment
-  # - name: PhoneNumberField
-  #   description: PhoneNumber Nox Type
-  #   type: phoneNumber
-
-  - name: PercentageField
-    description: Percentage Nox Type
-    type: percentage
-
-  - name: TimeField
-    description: Time Nox Type
-    type: time
-
-  - name: NumberField
-    description: NumberField Nox Type
-    type: number   
-
-  - name: TextField
-    description: Text Nox Type
-    type: text
-    textTypeOptions:
-      minLength: 4
-      maxLength: 63
+  - name: YearField
+    description: YearField Nox Type
+    type: year
     isRequired: true
 
 # Compound Types ========================  
@@ -304,6 +309,7 @@ attributes:
   - name: StreetAddressField
     description: StreetAddress Nox Type
     type: streetAddress
+    isRequired: true
 
   - name: TranslatedTextField
     description: TranslatedText Nox Type

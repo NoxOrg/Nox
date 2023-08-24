@@ -35,9 +35,9 @@ public partial class AllNoxTypeDto
     public System.Decimal AreaField { get; set; } = default!;
 
     /// <summary>
-    /// BooleanField Nox Type (Optional).
+    /// BooleanField Nox Type (Required).
     /// </summary>
-    public System.Boolean? BooleanField { get; set; }
+    public System.Boolean BooleanField { get; set; } = default!;
 
     /// <summary>
     /// CountryCode2 Nox Type (Required).
@@ -45,19 +45,19 @@ public partial class AllNoxTypeDto
     public System.String CountryCode2Field { get; set; } = default!;
 
     /// <summary>
-    /// CountryCode3 Nox Type (Optional).
+    /// CountryCode3 Nox Type (Required).
     /// </summary>
-    public System.String? CountryCode3Field { get; set; }
+    public System.String CountryCode3Field { get; set; } = default!;
 
     /// <summary>
-    /// CountryNumber Nox Type (Optional).
+    /// CountryNumber Nox Type (Required).
     /// </summary>
-    public System.UInt16? CountryNumberField { get; set; }
+    public System.UInt16 CountryNumberField { get; set; } = default!;
 
     /// <summary>
-    /// CultureCode Nox Type (Optional).
+    /// CultureCode Nox Type (Required).
     /// </summary>
-    public System.String? CultureCodeField { get; set; }
+    public System.String CultureCodeField { get; set; } = default!;
 
     /// <summary>
     /// CurrencyCode3Field Nox Type (Required).
@@ -105,9 +105,9 @@ public partial class AllNoxTypeDto
     public System.String EmailField { get; set; } = default!;
 
     /// <summary>
-    /// Formula Nox Type (Optional).
+    /// Formula Nox Type (Required).
     /// </summary>
-    [NotMapped]public System.String? FormulaField { get; set; }
+    [NotMapped]public System.String FormulaField { get; set; } = default!;
 
     /// <summary>
     /// Guid Nox Type (Required).
@@ -115,9 +115,9 @@ public partial class AllNoxTypeDto
     public System.Guid GuidField { get; set; } = default!;
 
     /// <summary>
-    /// HtmlField Nox Type (Optional).
+    /// HtmlField Nox Type (Required).
     /// </summary>
-    public System.String? HtmlField { get; set; }
+    public System.String HtmlField { get; set; } = default!;
 
     /// <summary>
     /// Internet Domain Nox Type (Required).
@@ -160,6 +160,26 @@ public partial class AllNoxTypeDto
     public System.String MarkdownField { get; set; } = default!;
 
     /// <summary>
+    /// Month Nox Type (Required).
+    /// </summary>
+    public System.Byte MonthField { get; set; } = default!;
+
+    /// <summary>
+    /// NuidField Type (Required).
+    /// </summary>
+    public System.UInt32 NuidField { get; set; } = default!;
+
+    /// <summary>
+    /// NumberField Nox Type (Required).
+    /// </summary>
+    public System.Int32 NumberField { get; set; } = default!;
+
+    /// <summary>
+    /// Percentage Nox Type (Required).
+    /// </summary>
+    public System.Single PercentageField { get; set; } = default!;
+
+    /// <summary>
     /// Phone Number Nox Type (Required).
     /// </summary>
     public System.String PhoneNumberField { get; set; } = default!;
@@ -170,69 +190,54 @@ public partial class AllNoxTypeDto
     public System.Decimal TemperatureField { get; set; } = default!;
 
     /// <summary>
-    /// Month Nox Type (Required).
-    /// </summary>
-    public System.Byte MonthField { get; set; } = default!;
-
-    /// <summary>
-    /// NuidField Type (Optional).
-    /// </summary>
-    public System.UInt32? NuidField { get; set; }
-
-    /// <summary>
-    /// Yaml Nox Type (Optional).
-    /// </summary>
-    public System.String? YamlField { get; set; }
-
-    /// <summary>
-    /// YearField Nox Type (Optional).
-    /// </summary>
-    public System.UInt16? YearField { get; set; }
-
-    /// <summary>
-    /// Weight Nox Type (Optional).
-    /// </summary>
-    public System.Double? WeightField { get; set; }
-
-    /// <summary>
-    /// Volume Nox Type (Optional).
-    /// </summary>
-    public System.Double? VolumeField { get; set; }
-
-    /// <summary>
-    /// Url Nox Type (Optional).
-    /// </summary>
-    public System.String? UrlField { get; set; }
-
-    /// <summary>
-    /// Uri Nox Type (Optional).
-    /// </summary>
-    public System.String? UriField { get; set; }
-
-    /// <summary>
-    /// TimeZoneCode Nox Type (Optional).
-    /// </summary>
-    public System.String? TimeZoneCodeField { get; set; }
-
-    /// <summary>
-    /// Percentage Nox Type (Optional).
-    /// </summary>
-    public System.Single? PercentageField { get; set; }
-
-    /// <summary>
-    /// Time Nox Type (Optional).
-    /// </summary>
-    public System.DateTimeOffset? TimeField { get; set; }
-
-    /// <summary>
-    /// NumberField Nox Type (Optional).
-    /// </summary>
-    public System.Int32? NumberField { get; set; }
-
-    /// <summary>
     /// Text Nox Type (Required).
     /// </summary>
     public System.String TextField { get; set; } = default!;
+
+    /// <summary>
+    /// Time Nox Type (Required).
+    /// </summary>
+    public System.TimeSpan TimeField { get; set; } = default!;
+
+    /// <summary>
+    /// TimeZoneCode Nox Type (Required).
+    /// </summary>
+    public System.String TimeZoneCodeField { get; set; } = default!;
+
+    /// <summary>
+    /// Uri Nox Type (Required).
+    /// </summary>
+    public System.String UriField { get; set; } = default!;
+
+    /// <summary>
+    /// Url Nox Type (Required).
+    /// </summary>
+    public System.String UrlField { get; set; } = default!;
+
+    /// <summary>
+    /// User Nox Type (Required).
+    /// </summary>
+    public System.String UserField { get; set; } = default!;
+
+    /// <summary>
+    /// Volume Nox Type (Required).
+    /// </summary>
+    public System.Decimal VolumeField { get; set; } = default!;
+
+    /// <summary>
+    /// Weight Nox Type (Required).
+    /// </summary>
+    public System.Decimal WeightField { get; set; } = default!;
+
+    /// <summary>
+    /// Yaml Nox Type (Required).
+    /// </summary>
+    public System.String YamlField { get; set; } = default!;
+
+    /// <summary>
+    /// YearField Nox Type (Required).
+    /// </summary>
+    public System.UInt16 YearField { get; set; } = default!;
 
     /// <summary>
     /// File Nox Type (Required).
@@ -250,9 +255,9 @@ public partial class AllNoxTypeDto
     public MoneyDto MoneyField { get; set; } = default!;
 
     /// <summary>
-    /// StreetAddress Nox Type (Optional).
+    /// StreetAddress Nox Type (Required).
     /// </summary>
-    public StreetAddressDto? StreetAddressField { get; set; }
+    public StreetAddressDto StreetAddressField { get; set; } = default!;
 
     /// <summary>
     /// TranslatedText Nox Type (Required).
