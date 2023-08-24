@@ -29,6 +29,12 @@ attributes:
       maxLength: 63
     isRequired: true 
 
+ownedRelationships:
+
+  - name: VerifiedEmails
+    description: Verified emails 
+    relationship: zeroOrOne #todo make exactly one when dto are ready
+    entity: EmailAddress
 
 persistence:
     isAudited: true    

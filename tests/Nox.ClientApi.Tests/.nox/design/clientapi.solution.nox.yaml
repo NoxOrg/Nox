@@ -21,7 +21,26 @@ domain:
     - $ref: ./Entities/store.entity.nox.yaml
   
     - $ref: ./Entities/databaseguid.entity.nox.yaml
+  
+    - name: EmailAddress #owned by store
+      description: Verified Email Address
 
+      # keys: Owned ZeroOrOne or ExactlyOne can not have defined keys
+      
+
+      attributes:
+        - name: Email
+          isRequired: false
+          description: Email
+          type: email
+
+        - name: IsVerified
+          description: Verified
+          type: boolean
+          isRequired: false
+  
+      persistence: 
+        isAudited: false #owned entity => need to suport one to one relations
 
 infrastructure:
   

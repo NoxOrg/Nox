@@ -7,8 +7,7 @@
     "null"
   ],
   "required": [
-    "name",
-    "keys"
+    "name"
   ],
   "properties": {
     "name": {    
@@ -187,7 +186,10 @@
     "keys": {    
       "title": "Keys for this entity.",
       "description": "Define one or more keys for this entity.",
-      "type": "array",
+      "type": [
+        "array",
+        "null"
+      ],
       "items":   {
         "anyOf": [
           { "$ref": "type.json" },

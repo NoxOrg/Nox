@@ -2,6 +2,7 @@
 using Nox.Solution.Events;
 using Nox.Types;
 using Nox.Types.Schema;
+using System;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -66,11 +67,10 @@ public class Entity : DefinitionBase
     [Description("Define one or more event(s) that may be raised when state change occurs on this entity.")]
     [AdditionalProperties(false)]
     public IReadOnlyList<DomainEvent>? Events { get; internal set; }
-
-    [Required]
+    
     [Title("Keys for this entity.")]
     [Description("Define one or more keys for this entity.")]
-    public IReadOnlyList<NoxSimpleTypeDefinition>? Keys { get; internal set; }
+    public IReadOnlyList<NoxSimpleTypeDefinition> Keys { get; internal set; } = Array.Empty<NoxSimpleTypeDefinition>(); 
 
     [Title("Attributes that describe this entity.")]
     [Description("Define one or more attribute(s) that describes the composition of this domain entity.")]
