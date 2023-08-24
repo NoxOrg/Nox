@@ -4,14 +4,17 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
+using Nox.Application.Commands;
+
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Infrastructure.Persistence;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetCountryByIdQuery(System.Int64 keyId) : IRequest<CountryDto?>;
+public record GetCountryByIdQuery(System.Int64 keyId) : IRequest <CountryDto?>;
 
-public class GetCountryByIdQueryHandler: IRequestHandler<GetCountryByIdQuery, CountryDto?>
+public partial class GetCountryByIdQueryHandler:  QueryBase<CountryDto?>, IRequestHandler<GetCountryByIdQuery, CountryDto?>
 {
     public  GetCountryByIdQueryHandler(DtoDbContext dataDbContext)
     {
@@ -27,6 +30,6 @@ public class GetCountryByIdQueryHandler: IRequestHandler<GetCountryByIdQuery, Co
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);
-        return Task.FromResult(item);
+        return Task.FromResult(OnResponse(item));
     }
 }

@@ -16,7 +16,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record UpdateStoreSecurityPasswordsCommand(System.String keyId, StoreSecurityPasswordsUpdateDto EntityDto) : IRequest<StoreSecurityPasswordsKeyDto?>;
 
-public class UpdateStoreSecurityPasswordsCommandHandler: CommandBase<UpdateStoreSecurityPasswordsCommand>, IRequestHandler<UpdateStoreSecurityPasswordsCommand, StoreSecurityPasswordsKeyDto?>
+public class UpdateStoreSecurityPasswordsCommandHandler: CommandBase<UpdateStoreSecurityPasswordsCommand, StoreSecurityPasswords>, IRequestHandler<UpdateStoreSecurityPasswordsCommand, StoreSecurityPasswordsKeyDto?>
 {
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<StoreSecurityPasswords> EntityMapper { get; }
@@ -33,7 +33,8 @@ public class UpdateStoreSecurityPasswordsCommandHandler: CommandBase<UpdateStore
 	
 	public async Task<StoreSecurityPasswordsKeyDto?> Handle(UpdateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request, cancellationToken);
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<StoreSecurityPasswords,Text>("Id", request.keyId);
 	
 		var entity = await DbContext.StoreSecurityPasswords.FindAsync(keyId);
@@ -42,6 +43,8 @@ public class UpdateStoreSecurityPasswordsCommandHandler: CommandBase<UpdateStore
 			return null;
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<StoreSecurityPasswords>(), request.EntityDto);
+
+		OnCompleted(entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

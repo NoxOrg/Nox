@@ -4,14 +4,17 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
+using Nox.Application.Commands;
+
 using CryptocashApi.Application.Dto;
 using CryptocashApi.Infrastructure.Persistence;
 
 namespace CryptocashApi.Application.Queries;
 
-public record GetEmployeeByIdQuery(System.Int64 keyId) : IRequest<EmployeeDto?>;
+public record GetEmployeeByIdQuery(System.Int64 keyId) : IRequest <EmployeeDto?>;
 
-public class GetEmployeeByIdQueryHandler: IRequestHandler<GetEmployeeByIdQuery, EmployeeDto?>
+public partial class GetEmployeeByIdQueryHandler:  QueryBase<EmployeeDto?>, IRequestHandler<GetEmployeeByIdQuery, EmployeeDto?>
 {
     public  GetEmployeeByIdQueryHandler(DtoDbContext dataDbContext)
     {
@@ -27,6 +30,6 @@ public class GetEmployeeByIdQueryHandler: IRequestHandler<GetEmployeeByIdQuery, 
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);
-        return Task.FromResult(item);
+        return Task.FromResult(OnResponse(item));
     }
 }

@@ -4,21 +4,21 @@
 # yaml-language-server: $schema=https://noxorg.dev/schemas/entity.json
 #
 
-name: ClientDatabaseGuid
+name: Workplace
 
-description: Client DatabaseGuid Key
+description: Workplace
 
 keys:
 
   - name: Id
     type: databaseGuid
-    description: The unique identifier 
+    description: Workplace unique identifier 
     isRequired: true
 
 attributes:
 
   - name: Name
-    description: The Text
+    description: Workplace Name
     type: text
     textTypeOptions:
       minLength: 4

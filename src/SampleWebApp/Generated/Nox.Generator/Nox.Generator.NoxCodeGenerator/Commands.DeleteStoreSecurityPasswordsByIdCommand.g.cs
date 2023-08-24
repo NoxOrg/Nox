@@ -14,7 +14,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record DeleteStoreSecurityPasswordsByIdCommand(System.String keyId) : IRequest<bool>;
 
-public class DeleteStoreSecurityPasswordsByIdCommandHandler: CommandBase<DeleteStoreSecurityPasswordsByIdCommand>, IRequestHandler<DeleteStoreSecurityPasswordsByIdCommand, bool>
+public class DeleteStoreSecurityPasswordsByIdCommandHandler: CommandBase<DeleteStoreSecurityPasswordsByIdCommand,StoreSecurityPasswords>, IRequestHandler<DeleteStoreSecurityPasswordsByIdCommand, bool>
 {
 	public SampleWebAppDbContext DbContext { get; }
 
@@ -28,6 +28,8 @@ public class DeleteStoreSecurityPasswordsByIdCommandHandler: CommandBase<DeleteS
 
 	public async Task<bool> Handle(DeleteStoreSecurityPasswordsByIdCommand request, CancellationToken cancellationToken)
 	{
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<StoreSecurityPasswords,Text>("Id", request.keyId);
 
 		var entity = await DbContext.StoreSecurityPasswords.FindAsync(keyId);
@@ -35,6 +37,8 @@ public class DeleteStoreSecurityPasswordsByIdCommandHandler: CommandBase<DeleteS
 		{
 			return false;
 		}
+
+		OnCompleted(entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;

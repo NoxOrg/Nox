@@ -14,7 +14,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record DeleteAllNoxTypeByIdCommand(System.Int64 keyId, System.String keyTextId) : IRequest<bool>;
 
-public class DeleteAllNoxTypeByIdCommandHandler: CommandBase<DeleteAllNoxTypeByIdCommand>, IRequestHandler<DeleteAllNoxTypeByIdCommand, bool>
+public class DeleteAllNoxTypeByIdCommandHandler: CommandBase<DeleteAllNoxTypeByIdCommand,AllNoxType>, IRequestHandler<DeleteAllNoxTypeByIdCommand, bool>
 {
 	public SampleWebAppDbContext DbContext { get; }
 
@@ -28,6 +28,8 @@ public class DeleteAllNoxTypeByIdCommandHandler: CommandBase<DeleteAllNoxTypeByI
 
 	public async Task<bool> Handle(DeleteAllNoxTypeByIdCommand request, CancellationToken cancellationToken)
 	{
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<AllNoxType,DatabaseNumber>("Id", request.keyId);
 		var keyTextId = CreateNoxTypeForKey<AllNoxType,Text>("TextId", request.keyTextId);
 
@@ -36,6 +38,8 @@ public class DeleteAllNoxTypeByIdCommandHandler: CommandBase<DeleteAllNoxTypeByI
 		{
 			return false;
 		}
+
+		OnCompleted(entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
