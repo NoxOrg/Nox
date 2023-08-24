@@ -9,9 +9,9 @@ using System.Diagnostics;
 using System.Linq;
 using static Nox.Generator.Common.BaseGenerator;
 
-namespace Nox.Generator.Presentation.Api;
+namespace Nox.Generator.Presentation.Api.OData;
 
-internal class ApiGenerator : INoxCodeGenerator
+internal class EntityControllerGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Presentation;
 
@@ -81,12 +81,12 @@ internal class ApiGenerator : INoxCodeGenerator
             code.StartBlock();
 
             // db context
-            AddField(code, dbContextName, "databaseContext", "The OData DbContext for CRUD operations");            
+            AddField(code, dbContextName, "databaseContext", "The OData DbContext for CRUD operations");
             AddField(code, "IMediator", "mediator", "The Mediator");
 
             var constructorParameters = new Dictionary<string, string>
                 {
-                    { dbContextName, "databaseContext" },                    
+                    { dbContextName, "databaseContext" },
                     { "IMediator", "mediator" }
                 };
 
@@ -213,10 +213,10 @@ internal class ApiGenerator : INoxCodeGenerator
         code.StartBlock();
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
-        code.AppendLine();        
+        code.AppendLine();
         code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({PrimaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}));");
         code.AppendLine();
-        
+
         code.AppendLine($"if (updated is null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
@@ -260,7 +260,7 @@ internal class ApiGenerator : INoxCodeGenerator
 
         // End method
         code.EndBlock();
-        code.AppendLine();        
+        code.AppendLine();
     }
 
     private static void GeneratePost(string entityName, string variableName, CodeBuilder code)

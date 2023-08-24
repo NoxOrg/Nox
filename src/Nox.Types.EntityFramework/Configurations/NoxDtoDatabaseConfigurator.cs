@@ -44,11 +44,20 @@ public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
             foreach (var ownedRelationship in entity.OwnedRelationships)
             //#pragma warning restore S3267 // Loops should be simplified with "LINQ" expressions
             {
+                var relatedEntityDtoType = codeGeneratorState.GetEntityDtoType(ownedRelationship.Related.Entity.Name + "Dto")!;
+
                 if (ownedRelationship.WithSingleEntity())
                 {
-                    throw new NotImplementedException("Owned Entity ExactlyOne or ZeroOrOne not implemented");
+                    builder.OwnsOne(relatedEntityDtoType,
+                        ownedRelationship.Related.Entity.Name,
+                        owned =>
+                        {
+                            owned.WithOwner().HasForeignKey($"{entity.Name}Id");                           
+                            owned.ToTable(ownedRelationship.Related.Entity.Name);
+                        });
+                    return;
                 }
-                var relatedEntityDtoType = codeGeneratorState.GetEntityDtoType(ownedRelationship.Related.Entity.Name + "Dto")!;
+                
                 builder.OwnsMany(relatedEntityDtoType,
                     ownedRelationship.Related.Entity.PluralName,
                     owned =>

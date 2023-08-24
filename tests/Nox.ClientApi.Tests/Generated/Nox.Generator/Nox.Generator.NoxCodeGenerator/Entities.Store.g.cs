@@ -40,4 +40,9 @@ public partial class Store : AuditableEntityBase
     /// Store Name (Required).
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
+
+    /// <summary>
+    /// Store Verified emails ZeroOrOne EmailAddresses
+    /// </summary>
+     public virtual EmailAddress? EmailAddress { get; set; } = null!;
 }
