@@ -49,6 +49,7 @@ public partial class ClientApiDbContext : DbContext
 
     public DbSet<Workplace> Workplaces { get; set; } = null!;
 
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);

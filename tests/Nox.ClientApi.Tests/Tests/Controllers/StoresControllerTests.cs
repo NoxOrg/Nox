@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.OData.Results;
 using AutoFixture;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Nox.Types;
+using System.Net.Mail;
 
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
@@ -23,7 +24,9 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             var result = await apiFixture.StoresController!.Post(
                 new StoreCreateDto
                 {
-                    Name = name
+                    Name = name,
+                    // TODO make email mandatory
+                    //EmailAddress = new EmailAddressUpdateDto()
                 });
 
             //Assert

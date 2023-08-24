@@ -10,20 +10,17 @@ using System.ComponentModel.DataAnnotations;
 namespace ClientApi.Application.Dto; 
 
 /// <summary>
-/// Stores.
+/// Verified Email Address.
 /// </summary>
-public partial class StoreUpdateDto
+public partial class EmailAddressUpdateDto
 {
     //TODO Add owned Entities and update odata endpoints
     /// <summary>
-    /// Store Name (Required).
+    /// Email (Optional).
     /// </summary>
-    [Required(ErrorMessage = "Name is required")]
-    
-    public System.String Name { get; set; } = default!;
-
+    public System.String? Email { get; set; } 
     /// <summary>
-    /// Store Verified emails ZeroOrOne EmailAddresses
+    /// Verified (Optional).
     /// </summary>
-     public virtual EmailAddressUpdateDto? EmailAddress { get; set; } = null!;
+    public System.Boolean? IsVerified { get; set; } 
 }

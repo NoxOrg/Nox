@@ -29,5 +29,10 @@ public partial class StoreDto
     /// </summary>
     public System.String Name { get; set; } = default!;
 
+    /// <summary>
+    /// Store Verified emails ZeroOrOne EmailAddresses
+    /// </summary>
+    public virtual EmailAddressDto ? EmailAddress { get; set; } = null!;
+
     public System.DateTime? DeletedAtUtc { get; set; }
 }
