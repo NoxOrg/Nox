@@ -18,13 +18,11 @@ public class CurrencyCashBalanceKeyDto
     /// <summary>
     ///  (Required).
     /// </summary>
-    [Key]
     public System.String StoreId { get; set; } = default!;
 
     /// <summary>
     ///  (Required).
     /// </summary>
-    [Key]
     public System.UInt32 CurrencyId { get; set; } = default!;
 }
 

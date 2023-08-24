@@ -18,7 +18,6 @@ public class StoreKeyDto
     /// <summary>
     /// Store Primary Key (Required).
     /// </summary>
-    [Key]
     public System.String Id { get; set; } = default!;
 }
 

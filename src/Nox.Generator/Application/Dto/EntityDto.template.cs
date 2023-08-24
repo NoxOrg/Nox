@@ -19,7 +19,6 @@ public class {{entity.Name}}KeyDto
     /// <summary>
     /// {{key.Description}} (Required).
     /// </summary>
-    [Key]
     {{ if key.Type == "Entity" -}}
     public {{SingleKeyPrimitiveTypeForEntity key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = default!;
     {{- else -}}

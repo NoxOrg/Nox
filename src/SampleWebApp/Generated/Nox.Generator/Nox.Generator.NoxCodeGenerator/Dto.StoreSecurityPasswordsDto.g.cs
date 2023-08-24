@@ -18,7 +18,6 @@ public class StoreSecurityPasswordsKeyDto
     /// <summary>
     /// Passwords Primary Key (Required).
     /// </summary>
-    [Key]
     public System.String Id { get; set; } = default!;
 }
 

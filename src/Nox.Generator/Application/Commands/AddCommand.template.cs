@@ -55,6 +55,7 @@ public partial class Add{{entity.Name}}CommandHandler: CommandBase<Add{{entity.N
 		{{- end }}
 		{{- end }}
 
+		OnCompleted(entity);
 		parentEntity.{{entity.PluralName}}.Add(entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

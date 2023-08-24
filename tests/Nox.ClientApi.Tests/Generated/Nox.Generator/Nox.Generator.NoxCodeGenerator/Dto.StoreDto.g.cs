@@ -18,7 +18,6 @@ public class StoreKeyDto
     /// <summary>
     /// NuidField Type (Required).
     /// </summary>
-    [Key]
     public System.UInt32 Id { get; set; } = default!;
 }
 

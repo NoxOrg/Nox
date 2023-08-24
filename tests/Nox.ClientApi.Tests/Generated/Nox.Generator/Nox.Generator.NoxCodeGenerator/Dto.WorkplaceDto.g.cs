@@ -18,7 +18,6 @@ public class WorkplaceKeyDto
     /// <summary>
     /// Workplace unique identifier (Required).
     /// </summary>
-    [Key]
     public System.Guid Id { get; set; } = default!;
 }
 

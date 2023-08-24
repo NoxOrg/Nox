@@ -18,7 +18,6 @@ public class CurrencyKeyDto
     /// <summary>
     /// The currency's primary key / identifier (Required).
     /// </summary>
-    [Key]
     public System.UInt32 Id { get; set; } = default!;
 }
 

@@ -46,6 +46,7 @@ public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLo
 
 		var entity = EntityFactory.CreateEntity(request.EntityDto);
 
+		OnCompleted(entity);
 		parentEntity.CountryLocalNames.Add(entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

@@ -18,13 +18,11 @@ public class AllNoxTypeKeyDto
     /// <summary>
     /// DatabaseNumber Nox Type (Required).
     /// </summary>
-    [Key]
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
     /// Second Text Id (Required).
     /// </summary>
-    [Key]
     public System.String TextId { get; set; } = default!;
 }
 

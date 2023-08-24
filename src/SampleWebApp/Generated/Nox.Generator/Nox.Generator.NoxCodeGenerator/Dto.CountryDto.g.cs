@@ -18,7 +18,6 @@ public class CountryKeyDto
     /// <summary>
     ///  (Required).
     /// </summary>
-    [Key]
     public System.Int64 Id { get; set; } = default!;
 }
 

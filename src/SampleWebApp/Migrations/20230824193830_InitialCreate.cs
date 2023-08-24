@@ -225,42 +225,6 @@ namespace SampleWebAppdeprecated.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CurrencyCashBalances",
-                columns: table => new
-                {
-                    StoreId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
-                    CurrencyId = table.Column<long>(type: "bigint", nullable: false),
-                    Amount_Amount = table.Column<decimal>(type: "decimal(15,5)", nullable: false),
-                    Amount_CurrencyCode = table.Column<int>(type: "int", nullable: false),
-                    OperationLimit = table.Column<decimal>(type: "decimal(18,2)", nullable: true),
-                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
-                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CurrencyCashBalances", x => new { x.StoreId, x.CurrencyId });
-                    table.ForeignKey(
-                        name: "FK_CurrencyCashBalances_Currencies_CurrencyId",
-                        column: x => x.CurrencyId,
-                        principalTable: "Currencies",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_CurrencyCashBalances_Stores_StoreId",
-                        column: x => x.StoreId,
-                        principalTable: "Stores",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "StoreSecurityPasswords",
                 columns: table => new
                 {
@@ -299,18 +263,6 @@ namespace SampleWebAppdeprecated.Migrations
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CurrencyCashBalances_CurrencyId",
-                table: "CurrencyCashBalances",
-                column: "CurrencyId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CurrencyCashBalances_StoreId",
-                table: "CurrencyCashBalances",
-                column: "StoreId",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "IX_StoreSecurityPasswords_StoreId",
                 table: "StoreSecurityPasswords",
                 column: "StoreId",
@@ -331,16 +283,13 @@ namespace SampleWebAppdeprecated.Migrations
                 name: "CountryLocalName");
 
             migrationBuilder.DropTable(
-                name: "CurrencyCashBalances");
-
-            migrationBuilder.DropTable(
                 name: "StoreSecurityPasswords");
 
             migrationBuilder.DropTable(
-                name: "Countries");
+                name: "Currencies");
 
             migrationBuilder.DropTable(
-                name: "Currencies");
+                name: "Countries");
 
             migrationBuilder.DropTable(
                 name: "Stores");

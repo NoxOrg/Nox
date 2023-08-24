@@ -18,7 +18,6 @@ public class CountryLocalNameKeyDto
     /// <summary>
     /// The unique identifier (Required).
     /// </summary>
-    [Key]
     public System.String Id { get; set; } = default!;
 }
 
