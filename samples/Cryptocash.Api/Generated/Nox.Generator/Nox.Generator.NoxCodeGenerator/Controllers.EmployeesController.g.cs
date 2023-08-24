@@ -26,7 +26,7 @@ public partial class EmployeesController : ODataController
     /// <summary>
     /// The OData DbContext for CRUD operations.
     /// </summary>
-    protected readonly ODataDbContext _databaseContext;
+    protected readonly DtoDbContext _databaseContext;
     
     /// <summary>
     /// The Mediator.
@@ -34,7 +34,7 @@ public partial class EmployeesController : ODataController
     protected readonly IMediator _mediator;
     
     public EmployeesController(
-        ODataDbContext databaseContext,
+        DtoDbContext databaseContext,
         IMediator mediator
     )
     {
@@ -85,7 +85,7 @@ public partial class EmployeesController : ODataController
         {
             return NotFound();
         }
-        return Updated(employee);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<EmployeeUpdateDto> employee)
@@ -95,27 +95,22 @@ public partial class EmployeesController : ODataController
             return BadRequest(ModelState);
         }
         var updateProperties = new Dictionary<string, dynamic>();
-        var deletedProperties = new HashSet<string>();
-
+        
         foreach (var propertyName in employee.GetChangedPropertyNames())
         {
             if(employee.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
-            }
-            else
-            {
-                deletedProperties.Add(propertyName);
-            }
+            }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateEmployeeCommand(key, updateProperties, deletedProperties));
+        var updated = await _mediator.Send(new PartialUpdateEmployeeCommand(key, updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(employee);
+        return Updated(updated);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)

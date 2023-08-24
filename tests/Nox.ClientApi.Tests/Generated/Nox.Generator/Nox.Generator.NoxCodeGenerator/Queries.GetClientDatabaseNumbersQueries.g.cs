@@ -4,6 +4,9 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
+using Nox.Application.Commands;
+
 using ClientApi.Application.Dto;
 using ClientApi.Infrastructure.Persistence;
 
@@ -11,7 +14,7 @@ namespace ClientApi.Application.Queries;
 
 public record GetClientDatabaseNumbersQuery() : IRequest<IQueryable<ClientDatabaseNumberDto>>;
 
-public class GetClientDatabaseNumbersQueryHandler : IRequestHandler<GetClientDatabaseNumbersQuery, IQueryable<ClientDatabaseNumberDto>>
+public partial class GetClientDatabaseNumbersQueryHandler : QueryBase<IQueryable<ClientDatabaseNumberDto>>, IRequestHandler<GetClientDatabaseNumbersQuery, IQueryable<ClientDatabaseNumberDto>>
 {
     public  GetClientDatabaseNumbersQueryHandler(DtoDbContext dataDbContext)
     {
@@ -25,6 +28,6 @@ public class GetClientDatabaseNumbersQueryHandler : IRequestHandler<GetClientDat
         var item = (IQueryable<ClientDatabaseNumberDto>)DataDbContext.ClientDatabaseNumbers
             .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
-        return Task.FromResult(item);
+       return Task.FromResult(OnResponse(item));
     }
 }

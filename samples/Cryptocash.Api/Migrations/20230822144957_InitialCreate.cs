@@ -20,7 +20,7 @@ namespace Cryptocash.Api.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Address_StreetNumber = table.Column<int>(type: "int", nullable: false),
+                    Address_StreetNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address_AddressLine1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address_AddressLine2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address_Route = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -31,13 +31,15 @@ namespace Cryptocash.Api.Migrations
                     Address_PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address_CountryId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     MobileNumber = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
-                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DeletedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: true)
+                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {
@@ -53,7 +55,7 @@ namespace Cryptocash.Api.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     Email = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Address_StreetNumber = table.Column<int>(type: "int", nullable: false),
+                    Address_StreetNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address_AddressLine1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address_AddressLine2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Address_Route = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -65,13 +67,15 @@ namespace Cryptocash.Api.Migrations
                     Address_CountryId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     FirstWorkingDay = table.Column<DateTime>(type: "date", nullable: false),
                     LastWorkingDay = table.Column<DateTime>(type: "date", nullable: true),
-                    CreatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UpdatedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    UpdatedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    DeletedAtUtc = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    Deleted = table.Column<bool>(type: "bit", nullable: true)
+                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
                 },
                 constraints: table =>
                 {

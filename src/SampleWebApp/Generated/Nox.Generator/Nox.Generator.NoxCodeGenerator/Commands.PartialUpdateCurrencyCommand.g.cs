@@ -4,7 +4,6 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Factories;
 using Nox.Solution;
@@ -18,11 +17,8 @@ namespace SampleWebApp.Application.Commands;
 
 public record PartialUpdateCurrencyCommand(System.UInt32 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CurrencyKeyDto?>;
 
-public class PartialUpdateCurrencyCommandHandler: CommandBase, IRequestHandler<PartialUpdateCurrencyCommand, CurrencyKeyDto?>
+public class PartialUpdateCurrencyCommandHandler: CommandBase<PartialUpdateCurrencyCommand>, IRequestHandler<PartialUpdateCurrencyCommand, CurrencyKeyDto?>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<Currency> EntityMapper { get; }
 
@@ -30,18 +26,15 @@ public class PartialUpdateCurrencyCommandHandler: CommandBase, IRequestHandler<P
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityMapper<Currency> entityMapper,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IEntityMapper<Currency> entityMapper): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityMapper = entityMapper;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 
 	public async Task<CurrencyKeyDto?> Handle(PartialUpdateCurrencyCommand request, CancellationToken cancellationToken)
 	{
+		OnExecuting(request, cancellationToken);
 		var keyId = CreateNoxTypeForKey<Currency,Nuid>("Id", request.keyId);
 
 		var entity = await DbContext.Currencies.FindAsync(keyId);
@@ -50,9 +43,6 @@ public class PartialUpdateCurrencyCommandHandler: CommandBase, IRequestHandler<P
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Currency>(), request.UpdatedProperties);
-		var updatedBy = _userProvider.GetUser();
-		var updatedVia = _systemProvider.GetSystem();
-		entity.Updated(updatedBy, updatedVia);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

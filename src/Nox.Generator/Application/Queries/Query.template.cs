@@ -4,6 +4,9 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
+using Nox.Application.Commands;
+
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 using {{codeGeneratorState.PersistenceNameSpace}};
 
@@ -11,7 +14,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Queries;
 
 public record Get{{entity.PluralName}}Query() : IRequest<IQueryable<{{entity.Name}}Dto>>;
 
-public class Get{{entity.PluralName}}QueryHandler : IRequestHandler<Get{{entity.PluralName}}Query, IQueryable<{{entity.Name}}Dto>>
+public partial class Get{{entity.PluralName}}QueryHandler : QueryBase<IQueryable<{{entity.Name}}Dto>>, IRequestHandler<Get{{entity.PluralName}}Query, IQueryable<{{entity.Name}}Dto>>
 {
     public  Get{{entity.PluralName}}QueryHandler(DtoDbContext dataDbContext)
     {
@@ -25,6 +28,6 @@ public class Get{{entity.PluralName}}QueryHandler : IRequestHandler<Get{{entity.
         var item = (IQueryable<{{entity.Name}}Dto>)DataDbContext.{{entity.PluralName}}{{if (entity.Persistence?.IsAudited ?? true)}}
             .Where(r => r.DeletedAtUtc == null){{end}}
             .AsNoTracking();
-        return Task.FromResult(item);
+       return Task.FromResult(OnResponse(item));
     }
 }

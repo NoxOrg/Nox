@@ -10,7 +10,7 @@ namespace Nox.Types;
 [Serializable]
 public sealed class CurrencyNumber : ValueObject<short, CurrencyNumber>
 {
-    private static HashSet<short> _currecyNumbers = new HashSet<short>()
+    private static readonly HashSet<short> _currencyNumbers = new()
     {
         784,971,8,51,532,973,32,36,533,944,977,52,50,975,48,108,60,96,68,984,
         986,44,64,72,933,84,124,976,947,756,948,990,152,170,970,188,931,192,
@@ -26,29 +26,6 @@ public sealed class CurrencyNumber : ValueObject<short, CurrencyNumber>
     };
 
     /// <summary>
-    /// Creates a new instance of <see cref="CurrencyNumber"/>
-    /// </summary>
-    /// <param name="value">The string to create the <see cref="CurrencyNumber"/> with</param>
-    /// <returns></returns>
-    /// <exception cref="ValidationException">If the currencyCode3 is invalid.</exception>
-    public static new CurrencyNumber From(short value)
-    {
-        var newObject = new CurrencyNumber
-        {
-            Value = value
-        };
-
-        var validationResult = newObject.Validate();
-
-        if (!validationResult.IsValid)
-        {
-            throw new TypeValidationException(validationResult.Errors);
-        }
-
-        return newObject;
-    }
-
-    /// <summary>
     /// Validates the <see cref="CurrencyNumber"/> object.
     /// </summary>
     /// <returns>A validation result indicating whether the <see cref="CurrencyNumber"/> object is valid or not.</returns>
@@ -56,7 +33,7 @@ public sealed class CurrencyNumber : ValueObject<short, CurrencyNumber>
     {
         var result = base.Validate();
 
-        if (!_currecyNumbers.Contains(Value))
+        if (!_currencyNumbers.Contains(Value))
         {
             result.Errors.Add(new ValidationFailure(nameof(Value), $"Could not create a Nox CurrencyNumber type with unsupported value '{Value}'."));
         }
@@ -66,7 +43,7 @@ public sealed class CurrencyNumber : ValueObject<short, CurrencyNumber>
 
     public override string ToString()
     {
-        int intValue = (int)Value;
+        var intValue = (int)Value;
 
         if (Enum.IsDefined(typeof(CurrencyCode), intValue))
         {

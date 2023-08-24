@@ -8,17 +8,17 @@ namespace Nox.Application.Commands;
 /// <summary>
 /// Base Implementation for aNox Command
 /// </summary>
-public abstract class CommandBase: INoxCommand
+public abstract class CommandBase<TRequest> : INoxCommand
 {
-    public NoxSolution NoxSolution { get; }
-    public IServiceProvider ServiceProvider { get; }
+    protected NoxSolution NoxSolution { get; }
+    protected IServiceProvider ServiceProvider { get; }
     public CommandBase(NoxSolution noxSolution, IServiceProvider serviceProvider)
     {
         NoxSolution = noxSolution;
         ServiceProvider = serviceProvider;
     }
-    
-    public N? CreateNoxTypeForKey<E, N>(string keyName, dynamic? value) where N : INoxType
+
+    protected N? CreateNoxTypeForKey<E, N>(string keyName, dynamic? value) where N : INoxType
     {
         var entityDefinition = GetEntityDefinition<E>();
         var key = entityDefinition.Keys!.Single(entity => entity.Name == keyName);
@@ -27,9 +27,19 @@ public abstract class CommandBase: INoxCommand
         return typeFactory!.CreateNoxType(key, value);
     }
 
-    public Entity GetEntityDefinition<E>()
+    protected Entity GetEntityDefinition<E>()
     {
         return NoxSolution.Domain!.GetEntityByName(typeof(E).Name);
+    }
+
+    /// <summary>
+    /// Executing the command handler, use this method to override or update the request
+    /// </summary>
+    /// <param name="request"></param>
+    /// <param name="cancellationToken"></param>
+    protected virtual void OnExecuting(TRequest request, CancellationToken cancellationToken)
+    {
+        cancellationToken.ThrowIfCancellationRequested();
     }
 }
 

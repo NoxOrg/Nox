@@ -118,7 +118,7 @@ public enum NoxType : uint
     [SimpleType(typeof(DateTimeOffset))]
     DateTime = 2998644573,
 
-    [SimpleType(typeof(TimeSpan))]
+    [SimpleType(typeof(long))]
     DateTimeDuration = 2070327063,
 
     // Propose to store DateTimeSchedule as iCal
@@ -128,10 +128,10 @@ public enum NoxType : uint
     [SimpleType(typeof(string))]
     DateTimeSchedule = 3271762546,
 
-    [SimpleType(typeof(byte))]
+    [SimpleType(typeof(ushort))]
     DayOfWeek = 491349974,
 
-    [SimpleType(typeof(double))]
+    [SimpleType(typeof(decimal))]
     Distance = 1460893529,
 
     [SimpleType(typeof(string))]

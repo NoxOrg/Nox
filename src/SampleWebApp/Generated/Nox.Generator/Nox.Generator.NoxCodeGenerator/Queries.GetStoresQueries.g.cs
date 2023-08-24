@@ -4,6 +4,9 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
+using Nox.Application.Commands;
+
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Infrastructure.Persistence;
 
@@ -11,7 +14,7 @@ namespace SampleWebApp.Application.Queries;
 
 public record GetStoresQuery() : IRequest<IQueryable<StoreDto>>;
 
-public class GetStoresQueryHandler : IRequestHandler<GetStoresQuery, IQueryable<StoreDto>>
+public partial class GetStoresQueryHandler : QueryBase<IQueryable<StoreDto>>, IRequestHandler<GetStoresQuery, IQueryable<StoreDto>>
 {
     public  GetStoresQueryHandler(DtoDbContext dataDbContext)
     {
@@ -25,6 +28,6 @@ public class GetStoresQueryHandler : IRequestHandler<GetStoresQuery, IQueryable<
         var item = (IQueryable<StoreDto>)DataDbContext.Stores
             .Where(r => r.DeletedAtUtc == null)
             .AsNoTracking();
-        return Task.FromResult(item);
+       return Task.FromResult(OnResponse(item));
     }
 }

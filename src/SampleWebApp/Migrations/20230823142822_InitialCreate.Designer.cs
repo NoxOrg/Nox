@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebAppdeprecated.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230822145739_InitialCreate")]
+    [Migration("20230823142822_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -52,6 +52,9 @@ namespace SampleWebAppdeprecated.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<decimal>("AreaField")
+                        .HasColumnType("DECIMAL(11, 6)");
 
                     b.Property<bool?>("BooleanField")
                         .HasColumnType("bit");
@@ -93,13 +96,31 @@ namespace SampleWebAppdeprecated.Migrations
                         .IsFixedLength(false);
 
                     b.Property<string>("CurrencyCode3Field")
+                        .IsRequired()
                         .HasMaxLength(3)
                         .IsUnicode(false)
                         .HasColumnType("char(3)")
                         .IsFixedLength();
 
-                    b.Property<DateTimeOffset?>("DateTimeField")
+                    b.Property<short>("CurrencyNumberField")
+                        .HasColumnType("smallint");
+
+                    b.Property<DateTime>("DateField")
+                        .HasColumnType("date");
+
+                    b.Property<long>("DateTimeDurationField")
+                        .HasColumnType("bigint");
+
+                    b.Property<DateTimeOffset>("DateTimeField")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<string>("DateTimeScheduleField")
+                        .IsRequired()
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<ushort>("DayOfWeekField")
+                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset?>("DeletedAtUtc")
                         .HasColumnType("datetimeoffset");
@@ -113,12 +134,45 @@ namespace SampleWebAppdeprecated.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
+                    b.Property<decimal>("DistanceField")
+                        .HasColumnType("DECIMAL(15, 6)");
+
+                    b.Property<string>("EmailField")
+                        .IsRequired()
+                        .HasMaxLength(255)
+                        .IsUnicode(true)
+                        .HasColumnType("nvarchar(255)");
+
                     b.Property<byte[]>("EncryptedTextField")
+                        .IsRequired()
                         .IsUnicode(false)
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<Guid>("GuidField")
+                        .IsUnicode(false)
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("HtmlField")
                         .IsUnicode(true)
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("InternetDomainField")
+                        .IsRequired()
+                        .HasMaxLength(63)
+                        .IsUnicode(false)
+                        .HasColumnType("varchar(63)");
+
+                    b.Property<string>("IpAddressField")
+                        .IsRequired()
+                        .HasMaxLength(63)
+                        .HasColumnType("nvarchar(63)");
+
+                    b.Property<string>("JsonField")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("JwtTokenField")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LanguageCodeField")
@@ -155,6 +209,9 @@ namespace SampleWebAppdeprecated.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(255)");
+
+                    b.Property<byte>("MonthField")
+                        .HasColumnType("tinyint");
 
                     b.Property<uint?>("NuidField")
                         .HasColumnType("bigint");
@@ -656,6 +713,35 @@ namespace SampleWebAppdeprecated.Migrations
                                 .HasForeignKey("AllNoxTypeId", "AllNoxTypeTextId");
                         });
 
+                    b.OwnsOne("Nox.Types.Image", "ImageField", b1 =>
+                        {
+                            b1.Property<long>("AllNoxTypeId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("AllNoxTypeTextId")
+                                .HasColumnType("nvarchar(255)");
+
+                            b1.Property<string>("PrettyName")
+                                .IsRequired()
+                                .HasMaxLength(511)
+                                .HasColumnType("nvarchar(511)");
+
+                            b1.Property<int>("SizeInBytes")
+                                .HasColumnType("int");
+
+                            b1.Property<string>("Url")
+                                .IsRequired()
+                                .HasMaxLength(2083)
+                                .HasColumnType("nvarchar(2083)");
+
+                            b1.HasKey("AllNoxTypeId", "AllNoxTypeTextId");
+
+                            b1.ToTable("AllNoxTypes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AllNoxTypeId", "AllNoxTypeTextId");
+                        });
+
                     b.OwnsOne("Nox.Types.Password", "PasswordField", b1 =>
                         {
                             b1.Property<long>("AllNoxTypeId")
@@ -789,30 +875,6 @@ namespace SampleWebAppdeprecated.Migrations
                                 .HasForeignKey("AllNoxTypeId", "AllNoxTypeTextId");
                         });
 
-                    b.OwnsOne("Nox.Types.LatLong", "LatLongField", b1 =>
-                        {
-                            b1.Property<long>("AllNoxTypeId")
-                                .HasColumnType("bigint");
-
-                            b1.Property<string>("AllNoxTypeTextId")
-                                .HasColumnType("nvarchar(255)");
-
-                            b1.Property<decimal>("Latitude")
-                                .HasPrecision(8, 6)
-                                .HasColumnType("decimal(8,6)");
-
-                            b1.Property<decimal>("Longitude")
-                                .HasPrecision(9, 6)
-                                .HasColumnType("decimal(9,6)");
-
-                            b1.HasKey("AllNoxTypeId", "AllNoxTypeTextId");
-
-                            b1.ToTable("AllNoxTypes");
-
-                            b1.WithOwner()
-                                .HasForeignKey("AllNoxTypeId", "AllNoxTypeTextId");
-                        });
-
                     b.OwnsOne("Nox.Types.Money", "MoneyField", b1 =>
                         {
                             b1.Property<long>("AllNoxTypeId")
@@ -835,21 +897,28 @@ namespace SampleWebAppdeprecated.Migrations
                                 .HasForeignKey("AllNoxTypeId", "AllNoxTypeTextId");
                         });
 
-                    b.Navigation("FileField");
+                    b.Navigation("FileField")
+                        .IsRequired();
 
-                    b.Navigation("HashedTexField");
+                    b.Navigation("HashedTexField")
+                        .IsRequired();
 
-                    b.Navigation("LatLongField");
+                    b.Navigation("ImageField")
+                        .IsRequired();
 
-                    b.Navigation("MoneyField");
+                    b.Navigation("MoneyField")
+                        .IsRequired();
 
-                    b.Navigation("PasswordField");
+                    b.Navigation("PasswordField")
+                        .IsRequired();
 
                     b.Navigation("StreetAddressField");
 
-                    b.Navigation("TranslatedTextField");
+                    b.Navigation("TranslatedTextField")
+                        .IsRequired();
 
-                    b.Navigation("VatNumberField");
+                    b.Navigation("VatNumberField")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("SampleWebApp.Domain.Country", b =>

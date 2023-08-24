@@ -4,21 +4,24 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
+using Nox.Application.Commands;
+
 using CryptocashApi.Application.Dto;
-using CryptocashApi.Presentation.Api.OData;
+using CryptocashApi.Infrastructure.Persistence;
 
 namespace CryptocashApi.Application.Queries;
 
-public record GetCustomerByIdQuery(System.Int64 keyId) : IRequest<CustomerDto?>;
+public record GetCustomerByIdQuery(System.Int64 keyId) : IRequest <CustomerDto?>;
 
-public class GetCustomerByIdQueryHandler: IRequestHandler<GetCustomerByIdQuery, CustomerDto?>
+public partial class GetCustomerByIdQueryHandler:  QueryBase<CustomerDto?>, IRequestHandler<GetCustomerByIdQuery, CustomerDto?>
 {
-    public  GetCustomerByIdQueryHandler(ODataDbContext dataDbContext)
+    public  GetCustomerByIdQueryHandler(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
-    public ODataDbContext DataDbContext { get; }
+    public DtoDbContext DataDbContext { get; }
 
     public Task<CustomerDto?> Handle(GetCustomerByIdQuery request, CancellationToken cancellationToken)
     {    
@@ -26,7 +29,7 @@ public class GetCustomerByIdQueryHandler: IRequestHandler<GetCustomerByIdQuery, 
             .AsNoTracking()
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
-                !(r.Deleted == true));
-        return Task.FromResult(item);
+                r.DeletedAtUtc == null);
+        return Task.FromResult(OnResponse(item));
     }
 }

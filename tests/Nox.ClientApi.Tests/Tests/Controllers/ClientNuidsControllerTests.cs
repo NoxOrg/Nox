@@ -7,13 +7,13 @@ using AutoFixture;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Nox.Types;
 
-namespace Nox.ClientApi.Tests.Tests
+namespace Nox.ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
     public class ClientNuidsControllerTests
     {
         [Theory, AutoMoqData]
-        public async void Post_ReturnsNuidId(ApiFixture apiFixture)
+        public async Task Post_ReturnsNuidId(ApiFixture apiFixture)
         {
             // Arrange            
             string name = "MySpecialName";
@@ -32,6 +32,6 @@ namespace Nox.ClientApi.Tests.Tests
                 .BeOfType<CreatedODataResult<ClientNuidKeyDto>>()
                 .Which.Entity.keyId.Should().Be(expectedId);
         }
-       
+
     }
 }

@@ -8,9 +8,9 @@ using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using CryptocashApi.Application.Dto;
 
-namespace CryptocashApi.Presentation.Api.OData;
+namespace CryptocashApi.Infrastructure.Persistence;
 
-public class ODataDbContext : DbContext
+public class DtoDbContext : DbContext
 {
     
     
@@ -24,16 +24,19 @@ public class ODataDbContext : DbContext
     /// </summary>
     protected readonly INoxDatabaseProvider _dbProvider;
     protected readonly INoxClientAssemblyProvider _clientAssemblyProvider;
-        public ODataDbContext(
-            DbContextOptions<ODataDbContext> options,
+    protected readonly INoxDtoDatabaseConfigurator _noxDtoDatabaseConfigurator;
+        public DtoDbContext(
+            DbContextOptions<DtoDbContext> options,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
-            INoxClientAssemblyProvider clientAssemblyProvider
+            INoxClientAssemblyProvider clientAssemblyProvider,
+            INoxDtoDatabaseConfigurator noxDtoDatabaseConfigurator
         ) : base(options)
         {
             _noxSolution = noxSolution;
             _dbProvider = databaseProvider;
             _clientAssemblyProvider = clientAssemblyProvider;
+            _noxDtoDatabaseConfigurator = noxDtoDatabaseConfigurator;
         }
         
         public DbSet<CustomerDto> Customers { get; set; } = null!;
@@ -52,17 +55,29 @@ public class ODataDbContext : DbContext
          protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            
+            if (_noxSolution.Domain != null)
             {
-                var type = typeof(CustomerDto);
-                var builder = modelBuilder.Entity(type!);
-                
-                builder.HasKey("Id");
-            }
-            {
-                var type = typeof(EmployeeDto);
-                var builder = modelBuilder.Entity(type!);
-                
-                builder.HasKey("Id");
-            }
+                var codeGeneratorState = new NoxSolutionCodeGeneratorState(_noxSolution, _clientAssemblyProvider.ClientAssembly);
+                foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
+                {
+                    // Ignore owned entities configuration as they are configured inside entity constructor
+                    if (entity.IsOwnedEntity)
+                    {
+                        continue;
+                    }
+
+                    var type = codeGeneratorState.GetEntityDtoType(entity.Name + "Dto");
+                    if (type != null)
+                    {
+                       _noxDtoDatabaseConfigurator.ConfigureDto(codeGeneratorState, new Nox.Types.EntityFramework.EntityBuilderAdapter.EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
+                    }
+                    else
+                    {
+                        throw new Exception($"Could not resolve type for {entity.Name}Dto");
+                    }
+                }
+            }            
+        
         }
     }

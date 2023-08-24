@@ -1,4 +1,4 @@
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
@@ -16,37 +16,38 @@ namespace CryptocashApi.Application.Commands;
 
 public record UpdateCustomerCommand(System.Int64 keyId, CustomerUpdateDto EntityDto) : IRequest<CustomerKeyDto?>;
 
-public class UpdateCustomerCommandHandler: CommandBase, IRequestHandler<UpdateCustomerCommand, CustomerKeyDto?>
+public class UpdateCustomerCommandHandler: CommandBase<UpdateCustomerCommand>, IRequestHandler<UpdateCustomerCommand, CustomerKeyDto?>
 {
-    public CryptocashApiDbContext DbContext { get; }    
-    public IEntityMapper<Customer> EntityMapper { get; }
+	public CryptocashApiDbContext DbContext { get; }
+	public IEntityMapper<Customer> EntityMapper { get; }
 
-    public  UpdateCustomerCommandHandler(
-        CryptocashApiDbContext dbContext,        
-        NoxSolution noxSolution,
-        IServiceProvider serviceProvider,
-        IEntityMapper<Customer> entityMapper): base(noxSolution, serviceProvider)
-    {
-        DbContext = dbContext;        
-        EntityMapper = entityMapper;
-    }
-    
-    public async Task<CustomerKeyDto?> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
-    {
-        var keyId = CreateNoxTypeForKey<Customer,DatabaseNumber>("Id", request.keyId);
-    
-        var entity = await DbContext.Customers.FindAsync(keyId);
-        if (entity == null)
-        {
-            return null;
-        }
-        EntityMapper.MapToEntity(entity, GetEntityDefinition<Customer>(), request.EntityDto);
-        
-        DbContext.Entry(entity).State = EntityState.Modified;
-        var result = await DbContext.SaveChangesAsync();
-        if(result < 1)
-            return null;
+	public UpdateCustomerCommandHandler(
+		CryptocashApiDbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<Customer> entityMapper): base(noxSolution, serviceProvider)
+	{
+		DbContext = dbContext;
+		EntityMapper = entityMapper;
+	}
+	
+	public async Task<CustomerKeyDto?> Handle(UpdateCustomerCommand request, CancellationToken cancellationToken)
+	{
+		OnExecuting(request, cancellationToken);
+		var keyId = CreateNoxTypeForKey<Customer,DatabaseNumber>("Id", request.keyId);
+	
+		var entity = await DbContext.Customers.FindAsync(keyId);
+		if (entity == null)
+		{
+			return null;
+		}
+		EntityMapper.MapToEntity(entity, GetEntityDefinition<Customer>(), request.EntityDto);
 
-        return new CustomerKeyDto(entity.Id.Value);
-    }
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if(result < 1)
+			return null;
+
+		return new CustomerKeyDto(entity.Id.Value);
+	}
 }
