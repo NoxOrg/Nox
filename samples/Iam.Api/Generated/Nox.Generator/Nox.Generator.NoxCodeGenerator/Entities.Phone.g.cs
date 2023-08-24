@@ -13,7 +13,7 @@ namespace IamApi.Domain;
 /// <summary>
 /// Verified Phone.
 /// </summary>
-public partial class Phone : EntityBase
+public partial class Phone:IOwnedEntity
 {
     /// <summary>
     /// Phone (Required).
@@ -29,11 +29,4 @@ public partial class Phone : EntityBase
     /// Country code (Optional).
     /// </summary>
     public Nox.Types.CountryCode2? CountryCode { get; set; } = null!;
-
-    /// <summary>
-    /// Phone belongs to a User ExactlyOne UserIams
-    /// </summary>
-    public virtual UserIam UserIam { get; set; } = null!;
-
-    public UserIam PhoneForUser => UserIam;
 }

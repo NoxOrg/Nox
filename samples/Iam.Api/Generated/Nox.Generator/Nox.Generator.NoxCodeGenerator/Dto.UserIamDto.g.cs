@@ -85,23 +85,19 @@ public partial class UserIamDto
     public virtual List<RoleDto> Roles { get; set; } = new();
 
     /// <summary>
-    /// UserIam User has a verified email ExactlyOne EmailAddresses
-    /// </summary>
-    //EF maps ForeignKey Automatically
-    public virtual string EmailAddressId { get; set; } = null!;
-    public virtual EmailAddressDto EmailAddress { get; set; } = null!;
-
-    /// <summary>
-    /// UserIam User has a verified phone ExactlyOne Phones
-    /// </summary>
-    //EF maps ForeignKey Automatically
-    public virtual string PhoneId { get; set; } = null!;
-    public virtual PhoneDto Phone { get; set; } = null!;
-
-    /// <summary>
     /// UserIam user selected contacts ZeroOrMany UserContactSelections
     /// </summary>
     public virtual List<UserContactSelectionDto> UserContactSelections { get; set; } = new();
+
+    /// <summary>
+    /// UserIam Verified emails ZeroOrOne EmailAddresses
+    /// </summary>
+    public virtual EmailAddressDto ? EmailAddress { get; set; } = null!;
+
+    /// <summary>
+    /// UserIam User has a verified phone ZeroOrOne Phones
+    /// </summary>
+    public virtual PhoneDto ? Phone { get; set; } = null!;
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }

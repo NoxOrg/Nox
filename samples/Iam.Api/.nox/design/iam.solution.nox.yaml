@@ -40,12 +40,12 @@ domain:
       persistence: 
         isAudited: false #owned entity => need to suport one to one relations
 
-      relationships:
+      # relationships:
     
-      - name: EmailForUser
-        description: belongs to a User
-        relationship: exactlyOne
-        entity: UserIam
+      # - name: EmailForUser
+      #   description: belongs to a User
+      #   relationship: exactlyOne
+      #   entity: UserIam
 
     - name: Phone
       description: Verified Phone
@@ -69,12 +69,12 @@ domain:
       persistence: 
         isAudited: false #owned entity
 
-      relationships:
+      # relationships:
     
-      - name: PhoneForUser
-        description: belongs to a User
-        relationship: exactlyOne
-        entity: UserIam
+      # - name: PhoneForUser
+      #   description: belongs to a User
+      #   relationship: exactlyOne
+      #   entity: UserIam
 
 infrastructure:
   

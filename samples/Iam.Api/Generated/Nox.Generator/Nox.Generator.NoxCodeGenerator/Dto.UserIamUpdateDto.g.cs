@@ -74,4 +74,14 @@ public partial class UserIamUpdateDto
     /// UserIam user selected contacts ZeroOrMany UserContactSelections
     /// </summary>
     public virtual List<UserContactSelectionUpdateDto> UserContactSelections { get; set; } = new();
+
+    /// <summary>
+    /// UserIam Verified emails ZeroOrOne EmailAddresses
+    /// </summary>
+     public virtual EmailAddressUpdateDto? EmailAddress { get; set; } = null!;
+
+    /// <summary>
+    /// UserIam User has a verified phone ZeroOrOne Phones
+    /// </summary>
+     public virtual PhoneUpdateDto? Phone { get; set; } = null!;
 }

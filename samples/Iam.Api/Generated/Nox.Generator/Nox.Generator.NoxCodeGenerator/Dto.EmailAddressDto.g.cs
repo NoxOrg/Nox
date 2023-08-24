@@ -28,9 +28,4 @@ public partial class EmailAddressDto
     /// Verified (Optional).
     /// </summary>
     public System.Boolean? IsVerified { get; set; }
-
-    /// <summary>
-    /// EmailAddress belongs to a User ExactlyOne UserIams
-    /// </summary>
-    public virtual UserIamDto UserIam { get; set; } = null!;
 }

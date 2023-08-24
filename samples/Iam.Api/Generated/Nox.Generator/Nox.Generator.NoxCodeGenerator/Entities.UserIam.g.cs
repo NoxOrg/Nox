@@ -81,33 +81,19 @@ public partial class UserIam : AuditableEntityBase
     public virtual List<Role> Roles { get; set; } = new();
 
     /// <summary>
-    /// UserIam User has a verified email ExactlyOne EmailAddresses
-    /// </summary>
-    public virtual EmailAddress EmailAddress { get; set; } = null!;
-
-    public EmailAddress VerifiedEmails => EmailAddress;
-
-    /// <summary>
-    /// Foreign key for relationship ExactlyOne to entity EmailAddress
-    /// </summary>
-    public Nox.Types.Email EmailAddressId { get; set; } = null!;
-
-    /// <summary>
-    /// UserIam User has a verified phone ExactlyOne Phones
-    /// </summary>
-    public virtual Phone Phone { get; set; } = null!;
-
-    public Phone VerifiedPhone => Phone;
-
-    /// <summary>
-    /// Foreign key for relationship ExactlyOne to entity Phone
-    /// </summary>
-    public Nox.Types.PhoneNumber PhoneId { get; set; } = null!;
-
-    /// <summary>
     /// UserIam user selected contacts ZeroOrMany UserContactSelections
     /// </summary>
     public virtual List<UserContactSelection> UserContactSelections { get; set; } = new();
 
     public List<UserContactSelection> ContactSelection => UserContactSelections;
+
+    /// <summary>
+    /// UserIam Verified emails ZeroOrOne EmailAddresses
+    /// </summary>
+     public virtual EmailAddress? EmailAddress { get; set; } = null!;
+
+    /// <summary>
+    /// UserIam User has a verified phone ZeroOrOne Phones
+    /// </summary>
+     public virtual Phone? Phone { get; set; } = null!;
 }

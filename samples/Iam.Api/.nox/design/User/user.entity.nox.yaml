@@ -88,15 +88,15 @@ relationships:
     relationship: zeroOrMany
     entity: Role
 
-  - name: VerifiedEmails
-    description: User has a verified email
-    relationship: exactlyOne
-    entity: EmailAddress
+  # - name: VerifiedEmails
+  #   description: User has a verified email
+  #   relationship: exactlyOne
+  #   entity: EmailAddress
 
-  - name: VerifiedPhone
-    description: User has a verified phone
-    relationship: exactlyOne
-    entity: Phone
+  # - name: VerifiedPhone
+  #   description: User has a verified phone
+  #   relationship: exactlyOne
+  #   entity: Phone
 
 ownedRelationships:
 
@@ -105,10 +105,15 @@ ownedRelationships:
     relationship: zeroOrMany
     entity: UserContactSelection
 
-#   - name: VerifiedEmails
-#     description: Verified emails 
-#     relationship: exactlyOne
-#     entity: EmailAddress
+  - name: VerifiedEmails
+    description: Verified emails 
+    relationship: zeroOrOne
+    entity: EmailAddress
+
+  - name: VerifiedPhone
+    description: User has a verified phone
+    relationship: zeroOrOne
+    entity: Phone
   
 persistence:
     isAudited: true  

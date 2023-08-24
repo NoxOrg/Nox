@@ -28,6 +28,8 @@ public static class ODataServiceCollectionExtensions
         builder.EntitySet<UserIamDto>("UserIams");
         builder.EntityType<UserIamKeyDto>();
         builder.EntityType<UserIamDto>().ContainsMany(e => e.UserContactSelections).AutoExpand = true;
+        builder.EntityType<UserIamDto>().ContainsOptional(e => e.EmailAddress).AutoExpand = true;
+        builder.EntityType<UserIamDto>().ContainsOptional(e => e.Phone).AutoExpand = true;
 
         builder.EntityType<UserIamDto>();
         builder.EntityType<UserIamDto>().Ignore(e => e.DeletedAtUtc);
@@ -46,13 +48,7 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<ApplicationIAMDto>();
         builder.EntityType<ApplicationIAMDto>().Ignore(e => e.DeletedAtUtc);
 
-        builder.EntitySet<EmailAddressDto>("EmailAddresses");
-        builder.EntityType<EmailAddressKeyDto>();
-
         builder.EntityType<EmailAddressDto>();
-
-        builder.EntitySet<PhoneDto>("Phones");
-        builder.EntityType<PhoneKeyDto>();
 
         builder.EntityType<PhoneDto>();
 

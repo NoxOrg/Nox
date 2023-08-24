@@ -33,9 +33,4 @@ public partial class PhoneDto
     /// Country code (Optional).
     /// </summary>
     public System.String? CountryCode { get; set; }
-
-    /// <summary>
-    /// Phone belongs to a User ExactlyOne UserIams
-    /// </summary>
-    public virtual UserIamDto UserIam { get; set; } = null!;
 }

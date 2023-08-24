@@ -49,9 +49,7 @@ public partial class IamApiDbContext : DbContext
 
     public DbSet<ApplicationIAM> ApplicationIAMs { get; set; } = null!;
 
-    public DbSet<EmailAddress> EmailAddresses { get; set; } = null!;
 
-    public DbSet<Phone> Phones { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

@@ -13,7 +13,7 @@ namespace IamApi.Domain;
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-public partial class EmailAddress : EntityBase
+public partial class EmailAddress:IOwnedEntity
 {
     /// <summary>
     /// Email (Required).
@@ -24,11 +24,4 @@ public partial class EmailAddress : EntityBase
     /// Verified (Optional).
     /// </summary>
     public Nox.Types.Boolean? IsVerified { get; set; } = null!;
-
-    /// <summary>
-    /// EmailAddress belongs to a User ExactlyOne UserIams
-    /// </summary>
-    public virtual UserIam UserIam { get; set; } = null!;
-
-    public UserIam EmailForUser => UserIam;
 }
