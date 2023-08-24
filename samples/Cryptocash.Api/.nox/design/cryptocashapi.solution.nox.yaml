@@ -1,44 +1,23 @@
 #
-# SampleCurrency.solution.nox.yaml
-# 
-# yaml-language-server: $schema=../../../../schemas/solution.json
+# cryptocashapi.solution.nox.yaml
 #
-# PROD-yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
+# yaml-language-server: $schema=../../../../schemas/solution.json
 #
 
 name: CryptocashApi
 
-description: Sample Nox solution yaml configuration
+description: Sample Nox solution yaml configuration for Cryptocash.Api
 
 domain:
 
-  entities:
-
-    - $ref: ./Customer/customer.entity.nox.yaml
-  
-    - $ref: ./Employee/employee.entity.nox.yaml  
+  $ref: ./domain/cryptocashapi.domain.nox.yaml
 
 infrastructure:
-  
+
   persistence:
 
-    databaseServer:
-      name: Cryptocash
-      provider: sqlServer
-      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True
-      serverUri: localhost
-      user: sa  
-      password: Developer*123
+    $ref: ./infrastructure/persistence/cryptocashapi.persistence.nox.yaml
 
 application:
-  dataTransferObjects:
-    - name: TempDto
-      description: Temp Dto added to help Generator Compile
-      attributes:
-        - name: Id
-          description: Identity
-          type: text
-          textTypeOptions:
-            casing: lower
-            maxLength: 2
-            minLength: 2
+
+  $ref: ./application/cryptocashapi.application.nox.yaml    
