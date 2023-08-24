@@ -11,12 +11,12 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public record OwnedEntityKeyDto(System.String keyId);
+public record CountryLocalNameKeyDto(System.String keyId);
 
 /// <summary>
-/// OwnedEntity.
+/// Local names for countries.
 /// </summary>
-public partial class OwnedEntityDto
+public partial class CountryLocalNameDto
 {
 
     /// <summary>
@@ -25,7 +25,7 @@ public partial class OwnedEntityDto
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    /// The Text (Required).
+    /// Local name (Required).
     /// </summary>
     public System.String Name { get; set; } = default!;
 }

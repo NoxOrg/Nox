@@ -37,12 +37,12 @@ public partial class CountryDto
     /// <summary>
     /// The Money (Optional).
     /// </summary>
-    public MoneyDto? AmmountMoney { get; set; }
+    public MoneyDto? CountryDebt { get; set; }
 
     /// <summary>
-    /// Country is also know as ZeroOrMany OwnedEntities
+    /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
-    public virtual List<OwnedEntityDto> OwnedEntities { get; set; } = new();
+    public virtual List<CountryLocalNameDto> CountryLocalNames { get; set; } = new();
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }

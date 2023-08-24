@@ -71,8 +71,11 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         {        
             entity.CurrencyNumberField = noxTypeValue;
         }
-
-        // TODO map DateField Date remaining types and remove if else
+        noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition,"DateField",dto.DateField);
+        if(noxTypeValue != null)
+        {        
+            entity.DateField = noxTypeValue;
+        }
         noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition,"DateTimeField",dto.DateTimeField);
         if(noxTypeValue != null)
         {        

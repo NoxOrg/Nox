@@ -10,13 +10,13 @@ using System.ComponentModel.DataAnnotations;
 namespace ClientApi.Application.Dto; 
 
 /// <summary>
-/// OwnedEntity.
+/// Local names for countries.
 /// </summary>
-public partial class OwnedEntityUpdateDto
+public partial class CountryLocalNameUpdateDto
 {
     //TODO Add owned Entities and update odata endpoints
     /// <summary>
-    /// The Text (Required).
+    /// Local name (Required).
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     

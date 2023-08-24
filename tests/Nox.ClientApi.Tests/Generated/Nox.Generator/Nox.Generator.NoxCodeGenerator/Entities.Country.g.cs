@@ -33,12 +33,12 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     /// The Money (Optional).
     /// </summary>
-    public Nox.Types.Money? AmmountMoney { get; set; } = null!;
+    public Nox.Types.Money? CountryDebt { get; set; } = null!;
 
     /// <summary>
-    /// Country is also know as ZeroOrMany OwnedEntities
+    /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
-    public virtual List<OwnedEntity> OwnedEntities { get; set; } = new();
+    public virtual List<CountryLocalName> CountryLocalNames { get; set; } = new();
 
-    public List<OwnedEntity> OwnedEntity => OwnedEntities;
+    public List<CountryLocalName> CountryLocalNamess => CountryLocalNames;
 }

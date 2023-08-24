@@ -39,10 +39,10 @@ public class CountryMapper: EntityMapperBase<Country>
         {        
             entity.Population = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"AmmountMoney",dto.AmmountMoney);
+        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"CountryDebt",dto.CountryDebt);
         if(noxTypeValue != null)
         {        
-            entity.AmmountMoney = noxTypeValue;
+            entity.CountryDebt = noxTypeValue;
         }
     }
 
@@ -77,16 +77,16 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("AmmountMoney", out dynamic? value))
+            if (updatedProperties.TryGetValue("CountryDebt", out dynamic? value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"AmmountMoney",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"CountryDebt",value);
                 if(noxTypeValue == null)
                 {
-                    entity.AmmountMoney = null;
+                    entity.CountryDebt = null;
                 }
                 else
                 {
-                    entity.AmmountMoney = noxTypeValue;
+                    entity.CountryDebt = noxTypeValue;
                 }
             }
         }

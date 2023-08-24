@@ -18,25 +18,25 @@ public static class ODataServiceCollectionExtensions
         ODataModelBuilder builder = new ODataConventionModelBuilder();
 
         builder.EntityType<CountryDto>().HasKey(e => new { e.Id });
+        builder.EntityType<CountryLocalNameDto>().HasKey(e => new { e.Id });
         builder.EntityType<ClientNuidDto>().HasKey(e => new { e.Id });
-        builder.EntityType<OwnedEntityDto>().HasKey(e => new { e.Id });
         builder.EntityType<ClientDatabaseGuidDto>().HasKey(e => new { e.Id });
 
 
         builder.EntitySet<CountryDto>("Countries");
         builder.EntityType<CountryKeyDto>();
-        builder.EntityType<CountryDto>().ContainsMany(e => e.OwnedEntities).AutoExpand = true;
+        builder.EntityType<CountryDto>().ContainsMany(e => e.CountryLocalNames).AutoExpand = true;
 
         builder.EntityType<CountryDto>();
         builder.EntityType<CountryDto>().Ignore(e => e.DeletedAtUtc);
+
+        builder.EntityType<CountryLocalNameDto>();
 
         builder.EntitySet<ClientNuidDto>("ClientNuids");
         builder.EntityType<ClientNuidKeyDto>();
 
         builder.EntityType<ClientNuidDto>();
         builder.EntityType<ClientNuidDto>().Ignore(e => e.DeletedAtUtc);
-
-        builder.EntityType<OwnedEntityDto>();
 
         builder.EntitySet<ClientDatabaseGuidDto>("ClientDatabaseGuids");
         builder.EntityType<ClientDatabaseGuidKeyDto>();

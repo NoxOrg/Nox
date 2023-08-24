@@ -16,7 +16,7 @@ namespace CryptocashApi.Application.Commands;
 
 public record UpdateEmployeeCommand(System.Int64 keyId, EmployeeUpdateDto EntityDto) : IRequest<EmployeeKeyDto?>;
 
-public class UpdateEmployeeCommandHandler: CommandBase<UpdateEmployeeCommand>, IRequestHandler<UpdateEmployeeCommand, EmployeeKeyDto?>
+public class UpdateEmployeeCommandHandler: CommandBase<UpdateEmployeeCommand, Employee>, IRequestHandler<UpdateEmployeeCommand, EmployeeKeyDto?>
 {
 	public CryptocashApiDbContext DbContext { get; }
 	public IEntityMapper<Employee> EntityMapper { get; }

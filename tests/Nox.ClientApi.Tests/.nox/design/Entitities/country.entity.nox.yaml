@@ -30,17 +30,17 @@ attributes:
     type: number    
     isRequired: false 
 
-  - name: AmmountMoney
+  - name: CountryDebt
     description: The Money
     type: money    
     isRequired: false
 
 ownedRelationships:
 
-  - name: OwnedEntity
+  - name: CountryLocalNamess
     description: is also know as
     relationship: zeroOrMany
-    entity: OwnedEntity
+    entity: CountryLocalName
 
 persistence:
     isAudited: true    

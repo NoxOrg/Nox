@@ -14,7 +14,7 @@ namespace CryptocashApi.Application.Commands;
 
 public record DeleteCustomerByIdCommand(System.Int64 keyId) : IRequest<bool>;
 
-public class DeleteCustomerByIdCommandHandler: CommandBase<DeleteCustomerByIdCommand>, IRequestHandler<DeleteCustomerByIdCommand, bool>
+public class DeleteCustomerByIdCommandHandler: CommandBase<DeleteCustomerByIdCommand,Customer>, IRequestHandler<DeleteCustomerByIdCommand, bool>
 {
 	public CryptocashApiDbContext DbContext { get; }
 

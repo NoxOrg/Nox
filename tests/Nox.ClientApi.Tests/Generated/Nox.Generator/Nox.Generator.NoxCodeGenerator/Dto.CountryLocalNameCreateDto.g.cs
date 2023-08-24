@@ -10,9 +10,9 @@ using System.ComponentModel.DataAnnotations;
 namespace ClientApi.Application.Dto; 
 
 /// <summary>
-/// OwnedEntity.
+/// Local names for countries.
 /// </summary>
-public partial class OwnedEntityCreateDto : OwnedEntityUpdateDto
+public partial class CountryLocalNameCreateDto : CountryLocalNameUpdateDto
 {
     /// <summary>
     /// The unique identifier (Required).

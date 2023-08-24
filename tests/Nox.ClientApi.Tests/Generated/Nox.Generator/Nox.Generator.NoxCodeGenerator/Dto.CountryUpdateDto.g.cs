@@ -28,10 +28,10 @@ public partial class CountryUpdateDto
     /// <summary>
     /// The Money (Optional).
     /// </summary>
-    public MoneyDto? AmmountMoney { get; set; } 
+    public MoneyDto? CountryDebt { get; set; } 
 
     /// <summary>
-    /// Country is also know as ZeroOrMany OwnedEntities
+    /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
-    public virtual List<OwnedEntityUpdateDto> OwnedEntities { get; set; } = new();
+    public virtual List<CountryLocalNameUpdateDto> CountryLocalNames { get; set; } = new();
 }

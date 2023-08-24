@@ -17,7 +17,7 @@ namespace CryptocashApi.Application.Commands;
 
 public record PartialUpdateCustomerCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CustomerKeyDto?>;
 
-public class PartialUpdateCustomerCommandHandler: CommandBase<PartialUpdateCustomerCommand>, IRequestHandler<PartialUpdateCustomerCommand, CustomerKeyDto?>
+public class PartialUpdateCustomerCommandHandler: CommandBase<PartialUpdateCustomerCommand, Customer>, IRequestHandler<PartialUpdateCustomerCommand, CustomerKeyDto?>
 {
 	public CryptocashApiDbContext DbContext { get; }
 	public IEntityMapper<Customer> EntityMapper { get; }

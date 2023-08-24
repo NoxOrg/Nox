@@ -18,7 +18,7 @@ using CryptocashApi.Application.Dto;
 namespace CryptocashApi.Application.Commands;
 public record CreateEmployeeCommand(EmployeeCreateDto EntityDto) : IRequest<EmployeeKeyDto>;
 
-public partial class CreateEmployeeCommandHandler: CommandBase<CreateEmployeeCommand>, IRequestHandler <CreateEmployeeCommand, EmployeeKeyDto>
+public partial class CreateEmployeeCommandHandler: CommandBase<CreateEmployeeCommand,Employee>, IRequestHandler <CreateEmployeeCommand, EmployeeKeyDto>
 {
 	public CryptocashApiDbContext DbContext { get; }
 	public IEntityFactory<EmployeeCreateDto,Employee> EntityFactory { get; }

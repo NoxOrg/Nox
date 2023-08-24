@@ -11,9 +11,9 @@ using Nox.Domain;
 namespace ClientApi.Domain;
 
 /// <summary>
-/// OwnedEntity.
+/// Local names for countries.
 /// </summary>
-public partial class OwnedEntity:IOwnedEntity
+public partial class CountryLocalName:IOwnedEntity
 {
     /// <summary>
     /// The unique identifier (Required).
@@ -21,7 +21,7 @@ public partial class OwnedEntity:IOwnedEntity
     public Text Id { get; set; } = null!;
 
     /// <summary>
-    /// The Text (Required).
+    /// Local name (Required).
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
 }

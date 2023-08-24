@@ -36,8 +36,7 @@
 		</AdditionalFiles>
 	</ItemGroup>
 
-	<ItemGroup>		
-		<AdditionalFiles Include=".nox\design\Entitities\country.entity.nox.yaml" />		
+	<ItemGroup>				
 		<AdditionalFiles Include="generator.nox.yaml" />
 	</ItemGroup>
 

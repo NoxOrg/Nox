@@ -18,7 +18,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         /// Test a Query or Command Validation, that can be used for security checks
         /// </summary>        
         [Theory, AutoMoqData]        
-        public async void Get_NumberWithKeyGreaterThen50_ShouldFailSecurityValidation(ApiFixture apiFixture)
+        public async void Get_CountriesWithKeyGreaterThen50_ShouldFailSecurityValidation(ApiFixture apiFixture)
         {
             // Arrange            
             
@@ -34,7 +34,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         /// Test a Query or Command Validation, that can be used for security checks
         /// </summary>        
         [Theory, AutoMoqData]
-        public async void Get_AllNumber_ShouldReturnAllWithKeysLowerThen50(ApiFixture apiFixture)
+        public async void Get_AllCountries_ShouldReturnAllWithKeysLowerThen50(ApiFixture apiFixture)
         {
             // Arrange            
             for (int i = 0; i < 55; i++)

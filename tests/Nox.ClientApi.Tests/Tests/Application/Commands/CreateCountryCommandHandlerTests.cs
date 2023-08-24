@@ -18,10 +18,10 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         /// For Request Validation, before command handler is executed use <see cref="IValidator"/> instead IValidator<CreateClientDatabaseNumberCommand>.
         /// </summary>        
         [Theory, AutoMoqData]        
-        public async void Put_NumberNegative_ShouldUpdateTo0(ApiFixture apiFixture)
+        public async void Put_PoulationNegative_ShouldUpdateTo0(ApiFixture apiFixture)
         {
             // Arrange            
-            var expectedNumber = 00;
+            var expectedNumber = 0;
 
             // Act 
             var result = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(

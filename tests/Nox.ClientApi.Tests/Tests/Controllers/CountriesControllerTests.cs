@@ -41,7 +41,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 new CountryCreateDto
                 {
                     Name = apiFixture.Fixture.Create<string>(),
-                    AmmountMoney = new MoneyDto(expectedAmount, CurrencyCode.AED)
+                    CountryDebt = new MoneyDto(expectedAmount, CurrencyCode.AED)
                 });
 
             var queryResult = await apiFixture.CountriesController!.Get(result.Entity.keyId);
@@ -53,7 +53,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 .Which.Entity.keyId.Should().BeGreaterThan(0);
 
             queryResult.Should().NotBeNull();
-            queryResult!.ExtractResult().AmmountMoney!.Amount.Should().Be(expectedAmount);
+            queryResult!.ExtractResult().CountryDebt!.Amount.Should().Be(expectedAmount);
         }
 
         [Theory, AutoMoqData]
@@ -66,7 +66,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 new CountryCreateDto
                 {
                     Name = apiFixture.Fixture.Create<string>(),
-                    OwnedEntities = new List<OwnedEntityUpdateDto>() { new OwnedEntityUpdateDto() { Name = expectedOwnedName } }
+                    CountryLocalNames = new List<CountryLocalNameUpdateDto>() { new CountryLocalNameUpdateDto() { Name = expectedOwnedName } }
                 });
 
             var queryResult = await apiFixture.CountriesController!.Get(result.Entity.keyId);
