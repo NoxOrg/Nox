@@ -42,6 +42,6 @@ public partial class CreateWorkplaceCommandHandler: CommandBase<CreateWorkplaceC
 		OnCompleted(entityToCreate);
 		DbContext.Workplaces.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();
-		return new WorkplaceKeyDto{ Id = entityToCreate.Id.Value };
+		return new WorkplaceKeyDto(entityToCreate.Id.Value);
 	}
 }

@@ -3,7 +3,6 @@
 #nullable enable
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
@@ -12,20 +11,18 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
-public class StoreSecurityPasswordsKeyDto
+public record StoreSecurityPasswordsKeyDto(System.String keyId);
+
+/// <summary>
+/// A set of security passwords to store cameras and databases.
+/// </summary>
+public partial class StoreSecurityPasswordsDto
 {
 
     /// <summary>
     /// Passwords Primary Key (Required).
     /// </summary>
     public System.String Id { get; set; } = default!;
-}
-
-/// <summary>
-/// A set of security passwords to store cameras and databases.
-/// </summary>
-public partial class StoreSecurityPasswordsDto : StoreSecurityPasswordsKeyDto
-{
 
     /// <summary>
     ///  (Required).

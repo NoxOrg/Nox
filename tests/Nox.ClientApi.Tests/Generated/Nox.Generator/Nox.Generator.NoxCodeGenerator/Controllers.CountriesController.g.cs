@@ -68,13 +68,13 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var createdKey = await _mediator.Send(new AddCountryLocalNameCommand(new CountryKeyDto{Id = key}, countryLocalName));
+        var createdKey = await _mediator.Send(new AddCountryLocalNameCommand(new CountryKeyDto(key), countryLocalName));
         if (createdKey == null)
         {
             return NotFound();
         }
         
-        return Created(createdKey);
+        return Created(new CountryLocalNameDto { Id = createdKey.keyId });
     }
     
     public async Task<ActionResult> Post([FromBody]CountryCreateDto country)

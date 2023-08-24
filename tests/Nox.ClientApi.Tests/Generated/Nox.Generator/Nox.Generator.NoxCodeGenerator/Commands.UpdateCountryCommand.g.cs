@@ -51,6 +51,6 @@ public class UpdateCountryCommandHandler: CommandBase<UpdateCountryCommand, Coun
 		if(result < 1)
 			return null;
 
-		return new CountryKeyDto{ Id = entity.Id.Value };
+		return new CountryKeyDto(entity.Id.Value);
 	}
 }

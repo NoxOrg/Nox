@@ -3,7 +3,6 @@
 #nullable enable
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
@@ -12,20 +11,18 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public class CountryKeyDto
+public record CountryKeyDto(System.Int64 keyId);
+
+/// <summary>
+/// Country Entity.
+/// </summary>
+public partial class CountryDto
 {
 
     /// <summary>
     /// The unique identifier (Required).
     /// </summary>
     public System.Int64 Id { get; set; } = default!;
-}
-
-/// <summary>
-/// Country Entity.
-/// </summary>
-public partial class CountryDto : CountryKeyDto
-{
 
     /// <summary>
     /// The Country Name (Required).

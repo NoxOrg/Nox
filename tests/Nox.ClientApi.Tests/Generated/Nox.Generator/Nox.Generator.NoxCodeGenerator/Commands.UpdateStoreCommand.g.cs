@@ -51,6 +51,6 @@ public class UpdateStoreCommandHandler: CommandBase<UpdateStoreCommand, Store>, 
 		if(result < 1)
 			return null;
 
-		return new StoreKeyDto{ Id = entity.Id.Value };
+		return new StoreKeyDto(entity.Id.Value);
 	}
 }

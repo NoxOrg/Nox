@@ -31,7 +31,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                    Population = -1
                });
 
-            var queryResult = await apiFixture.CountriesController!.Get(result.Entity.Id);
+            var queryResult = await apiFixture.CountriesController!.Get(result.Entity.keyId);
 
             //Assert
             
@@ -56,7 +56,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                    Name = "portugal",
                });
 
-            var queryResult = await apiFixture.CountriesController!.Get(result.Entity.Id);
+            var queryResult = await apiFixture.CountriesController!.Get(result.Entity.keyId);
 
             //Assert
 

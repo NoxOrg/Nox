@@ -3,7 +3,6 @@
 #nullable enable
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
@@ -12,20 +11,18 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
-public class StoreKeyDto
+public record StoreKeyDto(System.String keyId);
+
+/// <summary>
+/// Stores.
+/// </summary>
+public partial class StoreDto
 {
 
     /// <summary>
     /// Store Primary Key (Required).
     /// </summary>
     public System.String Id { get; set; } = default!;
-}
-
-/// <summary>
-/// Stores.
-/// </summary>
-public partial class StoreDto : StoreKeyDto
-{
 
     /// <summary>
     /// Store Name (Required).

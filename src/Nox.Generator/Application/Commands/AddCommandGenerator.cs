@@ -20,11 +20,15 @@ internal class AddCommandGenerator : INoxCodeGenerator
         var templateName = @"Application.Commands.AddCommand";
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities.Where(x => x.IsOwnedEntity))
         {
-            context.CancellationToken.ThrowIfCancellationRequested();            
+            context.CancellationToken.ThrowIfCancellationRequested();
 
-            var parent = codeGeneratorState.Solution.Domain.Entities.FirstOrDefault(e => e.OwnedRelationships.Any(o => o.Entity == entity.Name));
+            var parent = codeGeneratorState.Solution.Domain.Entities.FirstOrDefault(e => 
+                e.OwnedRelationships?.Any(o => o.Entity == entity.Name && !o.WithSingleEntity) == true);
+            if (parent is null)
+                continue;
+
             var parentKeysFindQuery = string.Join(", ", parent.Keys.Select(k => $"key{k.Name}"));
-            var primaryKeysReturnQuery = string.Join(", ", entity.Keys.Select(k => $"{k.Name} = entity.{k.Name}.Value"));
+            var primaryKeysReturnQuery = string.Join(", ", entity.Keys.Select(k => $"entity.{k.Name}.Value"));
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Add{entity.Name}Command")

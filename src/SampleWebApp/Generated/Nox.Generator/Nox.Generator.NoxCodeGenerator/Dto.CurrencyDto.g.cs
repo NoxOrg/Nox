@@ -3,7 +3,6 @@
 #nullable enable
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
@@ -12,20 +11,18 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
-public class CurrencyKeyDto
+public record CurrencyKeyDto(System.UInt32 keyId);
+
+/// <summary>
+/// The list of currencies.
+/// </summary>
+public partial class CurrencyDto
 {
 
     /// <summary>
     /// The currency's primary key / identifier (Required).
     /// </summary>
     public System.UInt32 Id { get; set; } = default!;
-}
-
-/// <summary>
-/// The list of currencies.
-/// </summary>
-public partial class CurrencyDto : CurrencyKeyDto
-{
 
     /// <summary>
     /// The currency's name (Required).

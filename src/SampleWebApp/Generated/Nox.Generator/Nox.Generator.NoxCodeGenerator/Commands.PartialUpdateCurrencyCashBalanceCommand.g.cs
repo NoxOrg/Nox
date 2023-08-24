@@ -50,6 +50,6 @@ public class PartialUpdateCurrencyCashBalanceCommandHandler: CommandBase<Partial
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		return new CurrencyCashBalanceKeyDto{ StoreId = entity.StoreId.Value, CurrencyId = entity.CurrencyId.Value };
+		return new CurrencyCashBalanceKeyDto(entity.StoreId.Value, entity.CurrencyId.Value);
 	}
 }

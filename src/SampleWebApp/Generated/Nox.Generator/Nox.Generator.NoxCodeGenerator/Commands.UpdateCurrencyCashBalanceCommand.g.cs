@@ -52,6 +52,6 @@ public class UpdateCurrencyCashBalanceCommandHandler: CommandBase<UpdateCurrency
 		if(result < 1)
 			return null;
 
-		return new CurrencyCashBalanceKeyDto{ StoreId = entity.StoreId.Value, CurrencyId = entity.CurrencyId.Value };
+		return new CurrencyCashBalanceKeyDto(entity.StoreId.Value, entity.CurrencyId.Value);
 	}
 }

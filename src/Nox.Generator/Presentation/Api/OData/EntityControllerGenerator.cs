@@ -294,13 +294,15 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.EndBlock();
         code.AppendLine();
         code.AppendLine($"var createdKey = await _mediator.Send(new Add{child.Name}Command(" +
-            $"new {parent.Name}KeyDto{{{PrimaryKeysToKeyDto(parent)}}}, {child.Name.ToLowerFirstChar()}));");
+            $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), {child.Name.ToLowerFirstChar()}));");
         code.AppendLine($"if (createdKey == null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"return Created(createdKey);");
+
+        var childDtoParams = string.Join(", ", child.Keys.Select(k => $"{k.Name} = createdKey.key{k.Name}"));
+        code.AppendLine($"return Created(new {child.Name}Dto {{ {childDtoParams} }});");
 
         code.EndBlock();
         code.AppendLine();
@@ -362,12 +364,5 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         return entity.Keys.Count() > 1 ?
             string.Join(", ", entity.Keys.Select(k => $"key{k.Name}")) :
             $"key";
-    }
-
-    private static string PrimaryKeysToKeyDto(Entity entity)
-    {
-        return entity.Keys.Count() > 1 ?
-            string.Join(", ", entity.Keys.Select(k => $"{k.Name} = key{k.Name}")) :
-            $"{entity.Keys?[0].Name} = key";
     }
 }

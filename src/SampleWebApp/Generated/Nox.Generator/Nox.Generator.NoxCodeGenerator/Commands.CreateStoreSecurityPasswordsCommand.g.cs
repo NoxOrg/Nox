@@ -43,6 +43,6 @@ public partial class CreateStoreSecurityPasswordsCommandHandler: CommandBase<Cre
 		OnCompleted(entityToCreate);
 		DbContext.StoreSecurityPasswords.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();
-		return new StoreSecurityPasswordsKeyDto{ Id = entityToCreate.Id.Value };
+		return new StoreSecurityPasswordsKeyDto(entityToCreate.Id.Value);
 	}
 }

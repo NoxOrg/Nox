@@ -38,7 +38,7 @@ public partial class Add{{entity.Name}}CommandHandler: CommandBase<Add{{entity.N
 		OnExecuting(request);
 
 		{{- for key in parent.Keys }}
-		var key{{key.Name}} = CreateNoxTypeForKey<{{parent.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.ParentKeyDto.{{key.Name}});
+		var key{{key.Name}} = CreateNoxTypeForKey<{{parent.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.ParentKeyDto.key{{key.Name}});
 		{{- end }}
 
 		var parentEntity = await DbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
@@ -60,6 +60,6 @@ public partial class Add{{entity.Name}}CommandHandler: CommandBase<Add{{entity.N
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		return new {{entity.Name}}KeyDto{ {{primaryKeysReturnQuery}} };
+		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}
 }

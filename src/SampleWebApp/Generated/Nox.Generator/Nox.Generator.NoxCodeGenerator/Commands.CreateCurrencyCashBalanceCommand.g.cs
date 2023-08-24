@@ -43,6 +43,6 @@ public partial class CreateCurrencyCashBalanceCommandHandler: CommandBase<Create
 		OnCompleted(entityToCreate);
 		DbContext.CurrencyCashBalances.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();
-		return new CurrencyCashBalanceKeyDto{ StoreId = entityToCreate.StoreId.Value, CurrencyId = entityToCreate.CurrencyId.Value };
+		return new CurrencyCashBalanceKeyDto(entityToCreate.StoreId.Value, entityToCreate.CurrencyId.Value);
 	}
 }

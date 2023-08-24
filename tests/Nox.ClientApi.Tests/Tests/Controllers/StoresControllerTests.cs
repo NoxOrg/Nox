@@ -33,7 +33,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             result.Should().NotBeNull();
             result.Should()
                 .BeOfType<CreatedODataResult<StoreKeyDto>>()
-                .Which.Entity.Id.Should().Be(expectedId);
+                .Which.Entity.keyId.Should().Be(expectedId);
         }
 
     }

@@ -49,6 +49,6 @@ public class PartialUpdateCountryCommandHandler: CommandBase<PartialUpdateCountr
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		return new CountryKeyDto{ Id = entity.Id.Value };
+		return new CountryKeyDto(entity.Id.Value);
 	}
 }

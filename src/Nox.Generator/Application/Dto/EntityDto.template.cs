@@ -3,7 +3,6 @@
 #nullable enable
 using MediatR;
 using Microsoft.AspNetCore.Http;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
@@ -12,8 +11,13 @@ using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
-public class {{entity.Name}}KeyDto
-{    
+public record {{entity.Name}}KeyDto({{primaryKeys}});
+
+/// <summary>
+/// {{entity.Description}}.
+/// </summary>
+public partial class {{className}}
+{
 {{- for key in entity.Keys }}
 
     /// <summary>
@@ -25,13 +29,6 @@ public class {{entity.Name}}KeyDto
     public {{SinglePrimitiveTypeForKey key}} {{key.Name}} { get; set; } = default!;
     {{- end}}
 {{- end }}
-}
-
-/// <summary>
-/// {{entity.Description}}.
-/// </summary>
-public partial class {{className}} : {{entity.Name}}KeyDto
-{
 {{- for attribute in entity.Attributes }}
     {{- if !IsNoxTypeReadable attribute.Type -}}
         {{ continue; }}

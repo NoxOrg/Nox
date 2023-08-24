@@ -51,6 +51,6 @@ public class UpdateCurrencyCommandHandler: CommandBase<UpdateCurrencyCommand, Cu
 		if(result < 1)
 			return null;
 
-		return new CurrencyKeyDto{ Id = entity.Id.Value };
+		return new CurrencyKeyDto(entity.Id.Value);
 	}
 }

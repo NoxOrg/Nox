@@ -22,15 +22,15 @@ public static class ODataServiceCollectionExtensions
 
 
         builder.EntitySet<CustomerDto>("Customers");
-        builder.EntityType<CustomerKeyDto>();
 
         builder.EntityType<CustomerDto>();
+        builder.EntityType<CustomerKeyDto>();
         builder.EntityType<CustomerDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<EmployeeDto>("Employees");
-        builder.EntityType<EmployeeKeyDto>();
 
         builder.EntityType<EmployeeDto>();
+        builder.EntityType<EmployeeKeyDto>();
         builder.EntityType<EmployeeDto>().Ignore(e => e.DeletedAtUtc);
 
         services.AddControllers()

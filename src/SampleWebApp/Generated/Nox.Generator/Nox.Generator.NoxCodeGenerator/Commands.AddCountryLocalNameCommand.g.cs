@@ -36,7 +36,7 @@ public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLo
 	public async Task<CountryLocalNameKeyDto?> Handle(AddCountryLocalNameCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,DatabaseNumber>("Id", request.ParentKeyDto.Id);
+		var keyId = CreateNoxTypeForKey<Country,DatabaseNumber>("Id", request.ParentKeyDto.keyId);
 
 		var parentEntity = await DbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
@@ -51,6 +51,6 @@ public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLo
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		return new CountryLocalNameKeyDto{ Id = entity.Id.Value };
+		return new CountryLocalNameKeyDto(entity.Id.Value);
 	}
 }
