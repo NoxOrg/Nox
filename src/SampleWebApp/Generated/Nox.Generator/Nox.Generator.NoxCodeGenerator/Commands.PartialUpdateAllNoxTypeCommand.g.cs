@@ -46,6 +46,8 @@ public class PartialUpdateAllNoxTypeCommandHandler: CommandBase<PartialUpdateAll
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<AllNoxType>(), request.UpdatedProperties);
 
+		OnCompleted(entity);
+
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		return new AllNoxTypeKeyDto(entity.Id.Value, entity.TextId.Value);

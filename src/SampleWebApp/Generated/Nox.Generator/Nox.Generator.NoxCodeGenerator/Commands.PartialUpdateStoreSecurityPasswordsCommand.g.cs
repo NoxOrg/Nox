@@ -45,6 +45,8 @@ public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase<Part
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<StoreSecurityPasswords>(), request.UpdatedProperties);
 
+		OnCompleted(entity);
+
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		return new StoreSecurityPasswordsKeyDto(entity.Id.Value);

@@ -41,6 +41,7 @@ public partial class CreateStoreCommandHandler: CommandBase<CreateStoreCommand,S
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 		entityToCreate.EnsureId();
 	
+		OnCompleted(entityToCreate);
 		DbContext.Stores.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();
 		return new StoreKeyDto(entityToCreate.Id.Value);

@@ -48,6 +48,7 @@ public partial class Create{{entity.Name}}CommandHandler: CommandBase<Create{{en
 		{{- end }}
 		{{- end }}
 	
+		OnCompleted(entityToCreate);
 		DbContext.{{entity.PluralName}}.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();
 		return new {{entity.Name}}KeyDto({{primaryKeysQuery}});

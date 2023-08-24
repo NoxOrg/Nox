@@ -45,6 +45,8 @@ public class UpdateAllNoxTypeCommandHandler: CommandBase<UpdateAllNoxTypeCommand
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<AllNoxType>(), request.EntityDto);
 
+		OnCompleted(entity);
+
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if(result < 1)

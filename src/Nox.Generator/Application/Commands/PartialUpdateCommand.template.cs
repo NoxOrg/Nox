@@ -48,6 +48,8 @@ public class PartialUpdate{{entity.Name}}CommandHandler: CommandBase<PartialUpda
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.UpdatedProperties);
 
+		OnCompleted(entity);
+
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});

@@ -44,6 +44,8 @@ public class UpdateEmployeeCommandHandler: CommandBase<UpdateEmployeeCommand, Em
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Employee>(), request.EntityDto);
 
+		OnCompleted(entity);
+
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if(result < 1)

@@ -40,6 +40,7 @@ public partial class CreateAllNoxTypeCommandHandler: CommandBase<CreateAllNoxTyp
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 	
+		OnCompleted(entityToCreate);
 		DbContext.AllNoxTypes.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();
 		return new AllNoxTypeKeyDto(entityToCreate.Id.Value, entityToCreate.TextId.Value);

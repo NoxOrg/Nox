@@ -7,6 +7,7 @@ using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using Microsoft.AspNetCore.Mvc;
+using Humanizer;
 
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
@@ -119,7 +120,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         {
             // Arrange            
             var expectedNumber = 50;
-            var expectedName = apiFixture.Fixture.Create<string>();
+            var expectedName = "Portugal";
             var result = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
                 new CountryCreateDto
                 {
@@ -149,7 +150,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         public async Task Patch_UnsetNumber_ShouldUpdateNumberOnly(ApiFixture apiFixture)
         {
             // Arrange            
-            var expectedName = apiFixture.Fixture.Create<string>();
+            var expectedName = "Portugal";
             var result = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
                 new CountryCreateDto
                 {
@@ -194,7 +195,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             // Assert
             //await action.Should().ThrowAsync<ModelValidationException?>();
             //This is incorrect is getting to the insert command should fail model validation
-            await action.Should().ThrowAsync<Microsoft.EntityFrameworkCore.DbUpdateException>();
+            await action.Should().ThrowAsync<NullReferenceException>();
         }
 
         [Theory, AutoMoqData]

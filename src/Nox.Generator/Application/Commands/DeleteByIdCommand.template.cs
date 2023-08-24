@@ -42,6 +42,8 @@ public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase<Delete{{entity
 			return false;
 		}
 
+		OnCompleted(entity);
+		
 		{{- if (entity.Persistence?.IsAudited ?? true) }}
 		DbContext.Entry(entity).State = EntityState.Deleted;
 		{{-else-}}

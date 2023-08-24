@@ -45,6 +45,8 @@ public class PartialUpdateCountryCommandHandler: CommandBase<PartialUpdateCountr
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Country>(), request.UpdatedProperties);
 
+		OnCompleted(entity);
+
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		return new CountryKeyDto(entity.Id.Value);

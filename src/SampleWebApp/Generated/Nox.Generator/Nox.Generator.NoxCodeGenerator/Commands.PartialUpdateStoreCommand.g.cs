@@ -45,6 +45,8 @@ public class PartialUpdateStoreCommandHandler: CommandBase<PartialUpdateStoreCom
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Store>(), request.UpdatedProperties);
 
+		OnCompleted(entity);
+
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		return new StoreKeyDto(entity.Id.Value);

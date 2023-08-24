@@ -38,6 +38,8 @@ public class DeleteAllNoxTypeByIdCommandHandler: CommandBase<DeleteAllNoxTypeByI
 		{
 			return false;
 		}
+
+		OnCompleted(entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;

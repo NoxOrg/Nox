@@ -36,7 +36,9 @@ public class DeleteWorkplaceByIdCommandHandler: CommandBase<DeleteWorkplaceByIdC
 		if (entity == null)
 		{
 			return false;
-		}DbContext.Workplaces.Remove(entity);
+		}
+
+		OnCompleted(entity);DbContext.Workplaces.Remove(entity);
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}
