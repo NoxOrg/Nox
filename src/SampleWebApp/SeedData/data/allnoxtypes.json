@@ -33,7 +33,11 @@
     "LengthUnit": "Meter",
     "MacAddress": "D32077E12D32",
     "Markdown": "normal __bold__ norma",
+    "Month": 3,
+    "Number": 3.142,
+    "NumberTypeOptions": {},
     "Password": "S0m3R@nd0mP@ssw0rd!",
+    "Percentage": 0.25,
     "PhoneNumber": "+33 4 72 74 56 89",
     "Temperature": 32.5,
     "TemperatureUnit": "Celsius",
@@ -54,10 +58,25 @@
     "IpAddress": "10.35.67.1",
     "Json": "{\"id\":\"some id\"}",
     "JwtToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTIzNDU2Nzg5LCJuYW1lIjoiSm9zZXBoIn0.OpOSSw7e485LOP5PrzScxHb7SR6sAOMRckfFwi4rp7o",
-    "Month": 3,
     "NuidText": "!#123TestValue456!#",
     "TextField": "Test text field 1",
-    "VatNumber": "44403198681"
+    "Uri": "telnet://192.0.2.16:80/",
+    "Url": "https://www.example.com/news/business/",
+    "Volume": 32.5,
+    "VolumeUnit": "CubicMeter",
+    "Weight": 32.5,
+    "WeightUnit": "Kilogram",
+    "Yaml": "constants.yaml",
+    "Year": 1945,
+    "StreetAddress": {
+      "StreetNumber": "49-Commercial",
+      "AddressLine1": "avenue de Bouvines",
+      "Locality": "Île-de-France",
+      "PostalCode": "93270"
+    },
+    "User": "KayEss@Spaces.co",
+    "VatNumber": "44403198681",
+    "CountryNumber": 250
   },
   {
     "Id": "2",
@@ -116,7 +135,27 @@
     "Month": 5,
     "NuidText": "!#123TestValue456!#",
     "TextField": "Test text field 2",
-    "VatNumber": "44403198682"
+    "VatNumber": "44403198682",
+    "Number": 1.618,
+    "NumberTypeOptions": {
+      "MinValue": 1,
+      "MaxValue": 2,
+      "DecimalDigits": 7
+    },
+    "Percentage": 0.85,
+    "Uri": "https://example.org/test/test1?search=test-question#part2",
+    "Url": "https://www.abcnews.com",
+    "Volume": 32.5,
+    "VolumeUnit": "CubicFoot",
+    "Weight": 32.5,
+    "WeightUnit": "Kilogram",
+    "Yaml": "constants.yaml",
+    "Year": 1932,
+    "StreetAddress": {
+      "PostalCode": "93270"
+    },
+    "User": "DeeBee@ReGus.com",
+    "CountryNumber": 250
   },
   {
     "Id": "3",
@@ -176,6 +215,22 @@
     "Month": 6,
     "NuidText": "!#123TestValue456!#",
     "TextField": "Test text field 3",
-    "VatNumber": "44403198683"
+    "VatNumber": "44403198683",
+    "Number": 0.083333,
+    "Percentage": 0.45,
+    "Uri": "foo://info.example.com?fred",
+    "Url": "https://www.regus.com",
+    "Volume": 1000,
+    "VolumeUnit": "CubicFoot",
+    "Weight": 1000,
+    "WeightUnit": "Pound",
+    "Yaml": "animals.yaml",
+    "Year": 1945,
+    "StreetAddress": {
+      "Locality": "Île-de-France",
+      "PostalCode": "93270"
+    },
+    "User": "GeeJay@AyePee.com",
+    "CountryNumber": 250
   }
 ]

@@ -155,6 +155,23 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         {        
             entity.MarkdownField = noxTypeValue;
         }
+        noxTypeValue = CreateNoxType<Nox.Types.Month>(entityDefinition,"MonthField",dto.MonthField);
+        if(noxTypeValue != null)
+        {        
+            entity.MonthField = noxTypeValue;
+        }
+
+        // TODO map NuidField Nuid remaining types and remove if else
+        noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"NumberField",dto.NumberField);
+        if(noxTypeValue != null)
+        {        
+            entity.NumberField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Percentage>(entityDefinition,"PercentageField",dto.PercentageField);
+        if(noxTypeValue != null)
+        {        
+            entity.PercentageField = noxTypeValue;
+        }
         noxTypeValue = CreateNoxType<Nox.Types.PhoneNumber>(entityDefinition,"PhoneNumberField",dto.PhoneNumberField);
         if(noxTypeValue != null)
         {        
@@ -165,13 +182,43 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         {        
             entity.TemperatureField = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Month>(entityDefinition,"MonthField",dto.MonthField);
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"TextField",dto.TextField);
         if(noxTypeValue != null)
         {        
-            entity.MonthField = noxTypeValue;
+            entity.TextField = noxTypeValue;
         }
 
-        // TODO map NuidField Nuid remaining types and remove if else
+        // TODO map TimeField Time remaining types and remove if else
+        noxTypeValue = CreateNoxType<Nox.Types.TimeZoneCode>(entityDefinition,"TimeZoneCodeField",dto.TimeZoneCodeField);
+        if(noxTypeValue != null)
+        {        
+            entity.TimeZoneCodeField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Uri>(entityDefinition,"UriField",dto.UriField);
+        if(noxTypeValue != null)
+        {        
+            entity.UriField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition,"UrlField",dto.UrlField);
+        if(noxTypeValue != null)
+        {        
+            entity.UrlField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.User>(entityDefinition,"UserField",dto.UserField);
+        if(noxTypeValue != null)
+        {        
+            entity.UserField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Volume>(entityDefinition,"VolumeField",dto.VolumeField);
+        if(noxTypeValue != null)
+        {        
+            entity.VolumeField = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Weight>(entityDefinition,"WeightField",dto.WeightField);
+        if(noxTypeValue != null)
+        {        
+            entity.WeightField = noxTypeValue;
+        }
         noxTypeValue = CreateNoxType<Nox.Types.Yaml>(entityDefinition,"YamlField",dto.YamlField);
         if(noxTypeValue != null)
         {        
@@ -181,48 +228,6 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
         if(noxTypeValue != null)
         {        
             entity.YearField = noxTypeValue;
-        }
-        noxTypeValue = CreateNoxType<Nox.Types.Weight>(entityDefinition,"WeightField",dto.WeightField);
-        if(noxTypeValue != null)
-        {        
-            entity.WeightField = noxTypeValue;
-        }
-        noxTypeValue = CreateNoxType<Nox.Types.Volume>(entityDefinition,"VolumeField",dto.VolumeField);
-        if(noxTypeValue != null)
-        {        
-            entity.VolumeField = noxTypeValue;
-        }
-        noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition,"UrlField",dto.UrlField);
-        if(noxTypeValue != null)
-        {        
-            entity.UrlField = noxTypeValue;
-        }
-        noxTypeValue = CreateNoxType<Nox.Types.Uri>(entityDefinition,"UriField",dto.UriField);
-        if(noxTypeValue != null)
-        {        
-            entity.UriField = noxTypeValue;
-        }
-        noxTypeValue = CreateNoxType<Nox.Types.TimeZoneCode>(entityDefinition,"TimeZoneCodeField",dto.TimeZoneCodeField);
-        if(noxTypeValue != null)
-        {        
-            entity.TimeZoneCodeField = noxTypeValue;
-        }
-        noxTypeValue = CreateNoxType<Nox.Types.Percentage>(entityDefinition,"PercentageField",dto.PercentageField);
-        if(noxTypeValue != null)
-        {        
-            entity.PercentageField = noxTypeValue;
-        }
-
-        // TODO map TimeField Time remaining types and remove if else
-        noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"NumberField",dto.NumberField);
-        if(noxTypeValue != null)
-        {        
-            entity.NumberField = noxTypeValue;
-        }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"TextField",dto.TextField);
-        if(noxTypeValue != null)
-        {        
-            entity.TextField = noxTypeValue;
         }
 
         // TODO map EncryptedTextField EncryptedText remaining types and remove if else
@@ -281,7 +286,7 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
                 var noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition,"BooleanField",value);
                 if(noxTypeValue == null)
                 {
-                    entity.BooleanField = null;
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "BooleanField");
                 }
                 else
                 {
@@ -309,7 +314,7 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
                 var noxTypeValue = CreateNoxType<Nox.Types.CountryCode3>(entityDefinition,"CountryCode3Field",value);
                 if(noxTypeValue == null)
                 {
-                    entity.CountryCode3Field = null;
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "CountryCode3Field");
                 }
                 else
                 {
@@ -323,7 +328,7 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
                 var noxTypeValue = CreateNoxType<Nox.Types.CountryNumber>(entityDefinition,"CountryNumberField",value);
                 if(noxTypeValue == null)
                 {
-                    entity.CountryNumberField = null;
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "CountryNumberField");
                 }
                 else
                 {
@@ -337,7 +342,7 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
                 var noxTypeValue = CreateNoxType<Nox.Types.CultureCode>(entityDefinition,"CultureCodeField",value);
                 if(noxTypeValue == null)
                 {
-                    entity.CultureCodeField = null;
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "CultureCodeField");
                 }
                 else
                 {
@@ -491,7 +496,7 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
                 var noxTypeValue = CreateNoxType<Nox.Types.Html>(entityDefinition,"HtmlField",value);
                 if(noxTypeValue == null)
                 {
-                    entity.HtmlField = null;
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "HtmlField");
                 }
                 else
                 {
@@ -612,6 +617,62 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
             }
         }
         {
+            if (updatedProperties.TryGetValue("MonthField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Month>(entityDefinition,"MonthField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "MonthField");
+                }
+                else
+                {
+                    entity.MonthField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("NuidField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Nuid>(entityDefinition,"NuidField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "NuidField");
+                }
+                else
+                {
+                    entity.NuidField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("NumberField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"NumberField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "NumberField");
+                }
+                else
+                {
+                    entity.NumberField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("PercentageField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Percentage>(entityDefinition,"PercentageField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "PercentageField");
+                }
+                else
+                {
+                    entity.PercentageField = noxTypeValue;
+                }
+            }
+        }
+        {
             if (updatedProperties.TryGetValue("PhoneNumberField", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.PhoneNumber>(entityDefinition,"PhoneNumberField",value);
@@ -640,30 +701,114 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
             }
         }
         {
-            if (updatedProperties.TryGetValue("MonthField", out dynamic? value))
+            if (updatedProperties.TryGetValue("TextField", out dynamic? value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Month>(entityDefinition,"MonthField",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"TextField",value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("AllNoxType", "MonthField");
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "TextField");
                 }
                 else
                 {
-                    entity.MonthField = noxTypeValue;
+                    entity.TextField = noxTypeValue;
                 }
             }
         }
         {
-            if (updatedProperties.TryGetValue("NuidField", out dynamic? value))
+            if (updatedProperties.TryGetValue("TimeField", out dynamic? value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Nuid>(entityDefinition,"NuidField",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Time>(entityDefinition,"TimeField",value);
                 if(noxTypeValue == null)
                 {
-                    entity.NuidField = null;
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "TimeField");
                 }
                 else
                 {
-                    entity.NuidField = noxTypeValue;
+                    entity.TimeField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("TimeZoneCodeField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.TimeZoneCode>(entityDefinition,"TimeZoneCodeField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "TimeZoneCodeField");
+                }
+                else
+                {
+                    entity.TimeZoneCodeField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("UriField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Uri>(entityDefinition,"UriField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "UriField");
+                }
+                else
+                {
+                    entity.UriField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("UrlField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition,"UrlField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "UrlField");
+                }
+                else
+                {
+                    entity.UrlField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("UserField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.User>(entityDefinition,"UserField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "UserField");
+                }
+                else
+                {
+                    entity.UserField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("VolumeField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Volume>(entityDefinition,"VolumeField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "VolumeField");
+                }
+                else
+                {
+                    entity.VolumeField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("WeightField", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Weight>(entityDefinition,"WeightField",value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "WeightField");
+                }
+                else
+                {
+                    entity.WeightField = noxTypeValue;
                 }
             }
         }
@@ -673,7 +818,7 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
                 var noxTypeValue = CreateNoxType<Nox.Types.Yaml>(entityDefinition,"YamlField",value);
                 if(noxTypeValue == null)
                 {
-                    entity.YamlField = null;
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "YamlField");
                 }
                 else
                 {
@@ -687,137 +832,11 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
                 var noxTypeValue = CreateNoxType<Nox.Types.Year>(entityDefinition,"YearField",value);
                 if(noxTypeValue == null)
                 {
-                    entity.YearField = null;
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "YearField");
                 }
                 else
                 {
                     entity.YearField = noxTypeValue;
-                }
-            }
-        }
-        {
-            if (updatedProperties.TryGetValue("WeightField", out dynamic? value))
-            {
-                var noxTypeValue = CreateNoxType<Nox.Types.Weight>(entityDefinition,"WeightField",value);
-                if(noxTypeValue == null)
-                {
-                    entity.WeightField = null;
-                }
-                else
-                {
-                    entity.WeightField = noxTypeValue;
-                }
-            }
-        }
-        {
-            if (updatedProperties.TryGetValue("VolumeField", out dynamic? value))
-            {
-                var noxTypeValue = CreateNoxType<Nox.Types.Volume>(entityDefinition,"VolumeField",value);
-                if(noxTypeValue == null)
-                {
-                    entity.VolumeField = null;
-                }
-                else
-                {
-                    entity.VolumeField = noxTypeValue;
-                }
-            }
-        }
-        {
-            if (updatedProperties.TryGetValue("UrlField", out dynamic? value))
-            {
-                var noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition,"UrlField",value);
-                if(noxTypeValue == null)
-                {
-                    entity.UrlField = null;
-                }
-                else
-                {
-                    entity.UrlField = noxTypeValue;
-                }
-            }
-        }
-        {
-            if (updatedProperties.TryGetValue("UriField", out dynamic? value))
-            {
-                var noxTypeValue = CreateNoxType<Nox.Types.Uri>(entityDefinition,"UriField",value);
-                if(noxTypeValue == null)
-                {
-                    entity.UriField = null;
-                }
-                else
-                {
-                    entity.UriField = noxTypeValue;
-                }
-            }
-        }
-        {
-            if (updatedProperties.TryGetValue("TimeZoneCodeField", out dynamic? value))
-            {
-                var noxTypeValue = CreateNoxType<Nox.Types.TimeZoneCode>(entityDefinition,"TimeZoneCodeField",value);
-                if(noxTypeValue == null)
-                {
-                    entity.TimeZoneCodeField = null;
-                }
-                else
-                {
-                    entity.TimeZoneCodeField = noxTypeValue;
-                }
-            }
-        }
-        {
-            if (updatedProperties.TryGetValue("PercentageField", out dynamic? value))
-            {
-                var noxTypeValue = CreateNoxType<Nox.Types.Percentage>(entityDefinition,"PercentageField",value);
-                if(noxTypeValue == null)
-                {
-                    entity.PercentageField = null;
-                }
-                else
-                {
-                    entity.PercentageField = noxTypeValue;
-                }
-            }
-        }
-        {
-            if (updatedProperties.TryGetValue("TimeField", out dynamic? value))
-            {
-                var noxTypeValue = CreateNoxType<Nox.Types.Time>(entityDefinition,"TimeField",value);
-                if(noxTypeValue == null)
-                {
-                    entity.TimeField = null;
-                }
-                else
-                {
-                    entity.TimeField = noxTypeValue;
-                }
-            }
-        }
-        {
-            if (updatedProperties.TryGetValue("NumberField", out dynamic? value))
-            {
-                var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"NumberField",value);
-                if(noxTypeValue == null)
-                {
-                    entity.NumberField = null;
-                }
-                else
-                {
-                    entity.NumberField = noxTypeValue;
-                }
-            }
-        }
-        {
-            if (updatedProperties.TryGetValue("TextField", out dynamic? value))
-            {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"TextField",value);
-                if(noxTypeValue == null)
-                {
-                    throw new EntityAttributeIsNotNullableException("AllNoxType", "TextField");
-                }
-                else
-                {
-                    entity.TextField = noxTypeValue;
                 }
             }
         }
@@ -869,7 +888,7 @@ public class AllNoxTypeMapper: EntityMapperBase<AllNoxType>
                 var noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition,"StreetAddressField",value);
                 if(noxTypeValue == null)
                 {
-                    entity.StreetAddressField = null;
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "StreetAddressField");
                 }
                 else
                 {

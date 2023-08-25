@@ -53,7 +53,7 @@ namespace SampleWebAppdeprecated.Migrations
                     b.Property<decimal>("AreaField")
                         .HasColumnType("DECIMAL(11, 6)");
 
-                    b.Property<bool?>("BooleanField")
+                    b.Property<bool>("BooleanField")
                         .HasColumnType("bit");
 
                     b.Property<string>("CountryCode2Field")
@@ -64,12 +64,13 @@ namespace SampleWebAppdeprecated.Migrations
                         .IsFixedLength();
 
                     b.Property<string>("CountryCode3Field")
+                        .IsRequired()
                         .HasMaxLength(3)
                         .IsUnicode(false)
                         .HasColumnType("char(3)")
                         .IsFixedLength();
 
-                    b.Property<ushort?>("CountryNumberField")
+                    b.Property<ushort>("CountryNumberField")
                         .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("CreatedAtUtc")
@@ -87,6 +88,7 @@ namespace SampleWebAppdeprecated.Migrations
                         .HasColumnType("varchar(255)");
 
                     b.Property<string>("CultureCodeField")
+                        .IsRequired()
                         .HasMaxLength(10)
                         .IsUnicode(false)
                         .HasColumnType("varchar(10)")
@@ -145,11 +147,16 @@ namespace SampleWebAppdeprecated.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varbinary(max)");
 
+                    b.Property<string>("FormulaField")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<Guid>("GuidField")
                         .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("HtmlField")
+                        .IsRequired()
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(max)");
 
@@ -210,13 +217,13 @@ namespace SampleWebAppdeprecated.Migrations
                     b.Property<byte>("MonthField")
                         .HasColumnType("tinyint");
 
-                    b.Property<uint?>("NuidField")
+                    b.Property<uint>("NuidField")
                         .HasColumnType("bigint");
 
-                    b.Property<int?>("NumberField")
+                    b.Property<int>("NumberField")
                         .HasColumnType("int");
 
-                    b.Property<float?>("PercentageField")
+                    b.Property<float>("PercentageField")
                         .HasMaxLength(2)
                         .HasColumnType("real");
 
@@ -234,34 +241,43 @@ namespace SampleWebAppdeprecated.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
 
-                    b.Property<TimeSpan?>("TimeField")
+                    b.Property<TimeSpan>("TimeField")
                         .HasColumnType("time");
 
                     b.Property<string>("TimeZoneCodeField")
+                        .IsRequired()
                         .HasMaxLength(5)
                         .IsUnicode(false)
                         .HasColumnType("varchar(5)");
 
                     b.Property<string>("UriField")
+                        .IsRequired()
                         .HasMaxLength(2083)
                         .IsUnicode(false)
                         .HasColumnType("varchar(2083)");
 
                     b.Property<string>("UrlField")
+                        .IsRequired()
                         .HasMaxLength(2083)
                         .HasColumnType("nvarchar(2083)");
 
-                    b.Property<decimal?>("VolumeField")
+                    b.Property<string>("UserField")
+                        .IsRequired()
+                        .HasMaxLength(200)
+                        .HasColumnType("nvarchar(200)");
+
+                    b.Property<decimal>("VolumeField")
                         .HasColumnType("DECIMAL(9, 6)");
 
-                    b.Property<decimal?>("WeightField")
+                    b.Property<decimal>("WeightField")
                         .HasColumnType("DECIMAL(9, 6)");
 
                     b.Property<string>("YamlField")
+                        .IsRequired()
                         .IsUnicode(false)
                         .HasColumnType("varchar(max)");
 
-                    b.Property<ushort?>("YearField")
+                    b.Property<ushort>("YearField")
                         .HasColumnType("int");
 
                     b.HasKey("Id", "TextId");
@@ -909,7 +925,8 @@ namespace SampleWebAppdeprecated.Migrations
                     b.Navigation("PasswordField")
                         .IsRequired();
 
-                    b.Navigation("StreetAddressField");
+                    b.Navigation("StreetAddressField")
+                        .IsRequired();
 
                     b.Navigation("TranslatedTextField")
                         .IsRequired();

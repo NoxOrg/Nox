@@ -45,9 +45,10 @@ public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLo
 		}
 
 		var entity = EntityFactory.CreateEntity(request.EntityDto);
+		
+		parentEntity.CountryLocalNames.Add(entity);
 
 		OnCompleted(entity);
-		parentEntity.CountryLocalNames.Add(entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
