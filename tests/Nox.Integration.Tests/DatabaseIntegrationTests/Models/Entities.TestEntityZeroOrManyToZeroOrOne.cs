@@ -15,20 +15,20 @@ namespace TestWebApp.Domain;
 /// </summary>
 public partial class TestEntityZeroOrManyToZeroOrOne : AuditableEntityBase
 {
-	/// <summary>
-	///  (Required).
-	/// </summary>
-	public Text Id { get; set; } = null!;
+    /// <summary>
+    ///  (Required).
+    /// </summary>
+    public Text Id { get; set; } = null!;
 
-	/// <summary>
-	///  (Required).
-	/// </summary>
-	public Nox.Types.Text TextTestField2 { get; set; } = null!;
+    /// <summary>
+    ///  (Required).
+    /// </summary>
+    public Nox.Types.Text TextTestField2 { get; set; } = null!;
 
-	/// <summary>
-	/// TestEntityZeroOrManyToZeroOrOne Test entity relationship to TestEntityZeroOrOneToZeroOrMany ZeroOrMany TestEntityZeroOrOneToZeroOrManies
-	/// </summary>
-	public virtual List<TestEntityZeroOrOneToZeroOrMany> TestEntityZeroOrOneToZeroOrManies { get; set; } = new();
+    /// <summary>
+    /// TestEntityZeroOrManyToZeroOrOne Test entity relationship to TestEntityZeroOrOneToZeroOrMany ZeroOrMany TestEntityZeroOrOneToZeroOrManies
+    /// </summary>
+    public virtual List<TestEntityZeroOrOneToZeroOrMany> TestEntityZeroOrOneToZeroOrManies { get; set; } = new();
 
-	public List<TestEntityZeroOrOneToZeroOrMany> TestEntityZeroOrOneToZeroOrMany => TestEntityZeroOrOneToZeroOrManies;
+    public List<TestEntityZeroOrOneToZeroOrMany> TestEntityZeroOrOneToZeroOrMany => TestEntityZeroOrOneToZeroOrManies;
 }

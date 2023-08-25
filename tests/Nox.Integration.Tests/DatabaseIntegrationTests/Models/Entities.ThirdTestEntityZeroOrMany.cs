@@ -15,20 +15,20 @@ namespace TestWebApp.Domain;
 /// </summary>
 public partial class ThirdTestEntityZeroOrMany : AuditableEntityBase
 {
-	/// <summary>
-	///  (Required).
-	/// </summary>
-	public Text Id { get; set; } = null!;
+    /// <summary>
+    ///  (Required).
+    /// </summary>
+    public Text Id { get; set; } = null!;
 
-	/// <summary>
-	///  (Required).
-	/// </summary>
-	public Nox.Types.Text TextTestField2 { get; set; } = null!;
+    /// <summary>
+    ///  (Required).
+    /// </summary>
+    public Nox.Types.Text TextTestField2 { get; set; } = null!;
 
-	/// <summary>
-	/// ThirdTestEntityZeroOrMany Test entity relationship to ThirdTestEntityOneOrMany ZeroOrMany ThirdTestEntityOneOrManies
-	/// </summary>
-	public virtual List<ThirdTestEntityOneOrMany> ThirdTestEntityOneOrManies { get; set; } = new();
+    /// <summary>
+    /// ThirdTestEntityZeroOrMany Test entity relationship to ThirdTestEntityOneOrMany ZeroOrMany ThirdTestEntityOneOrManies
+    /// </summary>
+    public virtual List<ThirdTestEntityOneOrMany> ThirdTestEntityOneOrManies { get; set; } = new();
 
-	public List<ThirdTestEntityOneOrMany> ThirdTestEntityOneOrManyRelationship => ThirdTestEntityOneOrManies;
+    public List<ThirdTestEntityOneOrMany> ThirdTestEntityOneOrManyRelationship => ThirdTestEntityOneOrManies;
 }

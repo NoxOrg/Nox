@@ -15,25 +15,25 @@ namespace TestWebApp.Domain;
 /// </summary>
 public partial class TestEntityZeroOrOne : AuditableEntityBase
 {
-	/// <summary>
-	///  (Required).
-	/// </summary>
-	public Text Id { get; set; } = null!;
+    /// <summary>
+    ///  (Required).
+    /// </summary>
+    public Text Id { get; set; } = null!;
 
-	/// <summary>
-	///  (Required).
-	/// </summary>
-	public Nox.Types.Text TextTestField { get; set; } = null!;
+    /// <summary>
+    ///  (Required).
+    /// </summary>
+    public Nox.Types.Text TextTestField { get; set; } = null!;
 
-	/// <summary>
-	/// TestEntityZeroOrOne Test entity relationship to SecondTestEntity ZeroOrOne SecondTestEntityZeroOrOnes
-	/// </summary>
-	public virtual SecondTestEntityZeroOrOne? SecondTestEntityZeroOrOne { get; set; } = null!;
+    /// <summary>
+    /// TestEntityZeroOrOne Test entity relationship to SecondTestEntity ZeroOrOne SecondTestEntityZeroOrOnes
+    /// </summary>
+    public virtual SecondTestEntityZeroOrOne? SecondTestEntityZeroOrOne { get; set; } = null!;
 
-	public SecondTestEntityZeroOrOne? SecondTestEntityZeroOrOneRelationship => SecondTestEntityZeroOrOne;
+    public SecondTestEntityZeroOrOne? SecondTestEntityZeroOrOneRelationship => SecondTestEntityZeroOrOne;
 
-	/// <summary>
-	/// Foreign key for relationship ZeroOrOne to entity SecondTestEntityZeroOrOne
-	/// </summary>
-	public Nox.Types.Text? SecondTestEntityZeroOrOneId { get; set; } = null!;
+    /// <summary>
+    /// Foreign key for relationship ZeroOrOne to entity SecondTestEntityZeroOrOne
+    /// </summary>
+    public Nox.Types.Text? SecondTestEntityZeroOrOneId { get; set; } = null!;
 }
