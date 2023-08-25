@@ -141,10 +141,15 @@ relationships:
     relationship: zeroOrMany
     entity: MinimumCashStock
 
-  - name: ExchangeRate
+  - name: ExchangeRateFrom
     description: The currency exchanged from
     relationship: zeroOrMany
     entity: ExchangeRate
+
+  # - name: ExchangeRateTo
+  #   description: The currency exchanged from
+  #   relationship: zeroOrMany
+  #   entity: ExchangeRate
 
 persistence:
     isAudited: true    
