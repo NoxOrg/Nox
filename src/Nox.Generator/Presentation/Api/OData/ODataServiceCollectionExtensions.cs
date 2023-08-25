@@ -22,6 +22,7 @@ internal class ODataServiceCollectionExtensions : INoxCodeGenerator
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {           
             hasKeyForCompoundKeys += $"builder.EntityType<{entity.Name}Dto>().HasKey(e => new {{{string.Join(",", entity.Keys.Select(k => $" e.{k.Name}"))} }});\n";
+            
         }
 
         var templateName = @"Presentation.Api.OData.ODataServiceCollectionExtensions";
