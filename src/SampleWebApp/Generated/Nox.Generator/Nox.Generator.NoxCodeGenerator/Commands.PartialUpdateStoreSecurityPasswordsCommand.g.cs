@@ -17,7 +17,7 @@ namespace SampleWebApp.Application.Commands;
 
 public record PartialUpdateStoreSecurityPasswordsCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <StoreSecurityPasswordsKeyDto?>;
 
-public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase<PartialUpdateStoreSecurityPasswordsCommand>, IRequestHandler<PartialUpdateStoreSecurityPasswordsCommand, StoreSecurityPasswordsKeyDto?>
+public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase<PartialUpdateStoreSecurityPasswordsCommand, StoreSecurityPasswords>, IRequestHandler<PartialUpdateStoreSecurityPasswordsCommand, StoreSecurityPasswordsKeyDto?>
 {
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityMapper<StoreSecurityPasswords> EntityMapper { get; }
@@ -34,7 +34,8 @@ public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase<Part
 
 	public async Task<StoreSecurityPasswordsKeyDto?> Handle(PartialUpdateStoreSecurityPasswordsCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request, cancellationToken);
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<StoreSecurityPasswords,Text>("Id", request.keyId);
 
 		var entity = await DbContext.StoreSecurityPasswords.FindAsync(keyId);
@@ -43,6 +44,8 @@ public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase<Part
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<StoreSecurityPasswords>(), request.UpdatedProperties);
+
+		OnCompleted(entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

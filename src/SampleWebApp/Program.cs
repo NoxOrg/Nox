@@ -8,7 +8,6 @@ using SampleWebApp;
 //===================================================================================
 using SampleWebApp.Application;
 using SampleWebApp.SeedData;
-using SampleWebApp.Application.Behavior;
 
 //if (!Debugger.IsAttached)
 //{

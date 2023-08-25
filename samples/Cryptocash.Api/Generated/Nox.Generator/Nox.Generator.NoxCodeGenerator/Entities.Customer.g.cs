@@ -2,10 +2,11 @@
 
 #nullable enable
 
-using Nox.Types;
-using Nox.Domain;
 using System;
 using System.Collections.Generic;
+
+using Nox.Types;
+using Nox.Domain;
 
 namespace CryptocashApi.Domain;
 

@@ -39,11 +39,11 @@ public class DtoDbContext : DbContext
             _noxDtoDatabaseConfigurator = noxDtoDatabaseConfigurator;
         }
         
-        public DbSet<ClientDatabaseNumberDto> ClientDatabaseNumbers { get; set; } = null!;
+        public DbSet<CountryDto> Countries { get; set; } = null!;
         
-        public DbSet<ClientNuidDto> ClientNuids { get; set; } = null!;
+        public DbSet<StoreDto> Stores { get; set; } = null!;
         
-        public DbSet<ClientDatabaseGuidDto> ClientDatabaseGuids { get; set; } = null!;
+        public DbSet<WorkplaceDto> Workplaces { get; set; } = null!;
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

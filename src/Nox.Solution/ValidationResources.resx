@@ -447,4 +447,7 @@
   <data name="EntityKeyShouldNotBeCompoundType" xml:space="preserve">
     <value>Entity {0}: Key {1} cannot be Compound type.</value>
   </data>
+  <data name="DuplicateItemInCollection" xml:space="preserve">
+    <value>The {0} '{1}' is duplicated. {0} must be unique in a domain definition.</value>
+  </data>
 </root>

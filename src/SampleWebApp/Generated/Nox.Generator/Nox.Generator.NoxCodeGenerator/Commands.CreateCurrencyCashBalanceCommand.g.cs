@@ -18,7 +18,7 @@ using SampleWebApp.Application.Dto;
 namespace SampleWebApp.Application.Commands;
 public record CreateCurrencyCashBalanceCommand(CurrencyCashBalanceCreateDto EntityDto) : IRequest<CurrencyCashBalanceKeyDto>;
 
-public partial class CreateCurrencyCashBalanceCommandHandler: CommandBase<CreateCurrencyCashBalanceCommand>, IRequestHandler <CreateCurrencyCashBalanceCommand, CurrencyCashBalanceKeyDto>
+public partial class CreateCurrencyCashBalanceCommandHandler: CommandBase<CreateCurrencyCashBalanceCommand,CurrencyCashBalance>, IRequestHandler <CreateCurrencyCashBalanceCommand, CurrencyCashBalanceKeyDto>
 {
 	public SampleWebAppDbContext DbContext { get; }
 	public IEntityFactory<CurrencyCashBalanceCreateDto,CurrencyCashBalance> EntityFactory { get; }
@@ -35,10 +35,12 @@ public partial class CreateCurrencyCashBalanceCommandHandler: CommandBase<Create
 
 	public async Task<CurrencyCashBalanceKeyDto> Handle(CreateCurrencyCashBalanceCommand request, CancellationToken cancellationToken)
 	{
-		OnExecuting(request, cancellationToken);
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 	
+		OnCompleted(entityToCreate);
 		DbContext.CurrencyCashBalances.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();
 		return new CurrencyCashBalanceKeyDto(entityToCreate.StoreId.Value, entityToCreate.CurrencyId.Value);

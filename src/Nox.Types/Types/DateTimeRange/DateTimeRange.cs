@@ -16,10 +16,7 @@ public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset E
     public DateTimeOffset Start
     {
         get => Value.Start;
-        private set
-        {
-            Value = (Start: value.ToOffset(StartTimeZoneOffset), End: Value.End);
-        }
+        private set => Value = (value, Value.End);
     }
 
     /// <summary>
@@ -28,38 +25,7 @@ public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset E
     public DateTimeOffset End
     {
         get => Value.End;
-        private set
-        {
-            Value = (Start: Value.Start, End: value.ToOffset(EndTimeZoneOffset));
-        }
-    }
-
-    private TimeSpan _startTimeZoneOffset;
-    public TimeSpan StartTimeZoneOffset
-    {
-        get => _startTimeZoneOffset;
-        private set
-        {
-            _startTimeZoneOffset = value;
-            if (Value.Start.Offset != _startTimeZoneOffset)
-            {
-                Value = (Value.Start.ToOffset(value), End: Value.End);
-            }
-        }
-    }
-
-    private TimeSpan _endTimeZoneOffset;
-    public TimeSpan EndTimeZoneOffset
-    {
-        get => _endTimeZoneOffset;
-        private set
-        {
-            _endTimeZoneOffset = value;
-            if (Value.End.Offset != _endTimeZoneOffset)
-            {
-                Value = (Start: Value.Start, End: Value.End.ToOffset(value));
-            }
-        }
+        private set => Value = (Value.Start, End: value);
     }
 
     /// <summary>
@@ -78,9 +44,7 @@ public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset E
         var newObject = new DateTimeRange
         {
             Value = value,
-            _dateTimeRangeTypeOptions = dateTimeRangeTypeOptions,
-            StartTimeZoneOffset = value.Start.Offset,
-            EndTimeZoneOffset = value.End.Offset,
+            _dateTimeRangeTypeOptions = dateTimeRangeTypeOptions
         };
 
         var validationResult = newObject.Validate();
@@ -107,7 +71,7 @@ public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset E
     /// <param name="start">The start.</param>
     /// <param name="end">The end.</param>
     /// <param name="dateTimeRangeTypeOptions">The date time range type options.</param>
-    /// <exception cref="ValidationException"></exception>
+    /// <exception cref="TypeValidationException"></exception>
     public static DateTimeRange From(DateTimeOffset start, DateTimeOffset end, DateTimeRangeTypeOptions? dateTimeRangeTypeOptions = null)
         => From((start, end), dateTimeRangeTypeOptions ?? new DateTimeRangeTypeOptions());
 
@@ -117,7 +81,7 @@ public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset E
     /// <param name="start">The start.</param>
     /// <param name="duration">The duration of the range.</param>
     /// <param name="dateTimeRangeTypeOptions">The date time range type options.</param>
-    /// <exception cref="ValidationException"></exception>
+    /// <exception cref="TypeValidationException"></exception>
     public static DateTimeRange From(DateTimeOffset start, TimeSpan duration, DateTimeRangeTypeOptions? dateTimeRangeTypeOptions = null)
             => From((start, start.Add(duration)), dateTimeRangeTypeOptions ?? new DateTimeRangeTypeOptions());
 

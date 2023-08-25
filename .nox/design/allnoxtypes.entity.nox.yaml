@@ -18,18 +18,24 @@ keys:
 
 attributes:
 
-  - name: NuidField
-    isRequired: false
-    description: NuidField Type
-    type: nuid
-    nuidTypeOptions:
-        separator: "."
-        propertyNames:
-            - "TextField" 
+  - name: AreaField
+    description: Area Nox Type
+    type: area
+    areaTypeOptions:
+      minValue: 1
+      maxValue: 27000
+      persistAs: squareFoot
+      units: squareMeter
+    isRequired: true
  
   - name: BooleanField
     description: BooleanField Nox Type
     type: boolean    
+
+  #- name: ColorField
+  #  description: Color Nox Type
+  #  type: color
+  #  isRequired: true
 
   - name: CountryCode2Field
     description: CountryCode2 Nox Type
@@ -81,6 +87,26 @@ attributes:
     type: dateTimeSchedule
     isRequired: true
 
+  - name: DayOfWeekField
+    description: DayOfWeek Nox Type
+    type: dayOfWeek
+    isRequired: true
+
+  - name: DistanceField
+    description: Distance Nox Type
+    type: distance
+    distanceTypeOptions:
+      minValue: 1
+      maxValue: 270000000
+      persistAs: mile
+      units: kilometer
+    isRequired: true
+    
+  - name: EmailField
+    description: Email Nox Type
+    type: email
+    isRequired: true
+
   - name: FormulaField
     description: Formula Nox Type
     type: formula
@@ -88,10 +114,35 @@ attributes:
         expression: "CountryCode2Field.ToString()"
         returns: string
 
+  - name: GuidField
+    description: Guid Nox Type
+    type: guid
+    isRequired: true
+
   - name: HtmlField
     description: HtmlField Nox Type
     type: html
     isRequired: false
+
+  - name: InternetDomainField
+    description: Internet Domain Nox Type
+    type: internetDomain
+    isRequired: true
+
+  - name: IpAddressField
+    description: IpAddress Nox Type
+    type: ipAddress
+    isRequired: true
+
+  - name: JsonField
+    description: Json Nox Type
+    type: json
+    isRequired: true
+
+  - name: JwtTokenField
+    description: JwtToken Nox Type
+    type: jwtToken
+    isRequired: true
 
   - name: LanguageCodeField
     description: Language Code Nox Type
@@ -125,6 +176,20 @@ attributes:
       persistAs: celsius
       units: fahrenheit
     isRequired: true
+
+  - name: MonthField
+    description: Month Nox Type
+    type: month
+    isRequired: true
+
+  - name: NuidField
+    isRequired: false
+    description: NuidField Type
+    type: nuid
+    nuidTypeOptions:
+        separator: "."
+        propertyNames:
+            - "TextField"
 
   - name: YamlField
     description: Yaml Nox Type
@@ -196,39 +261,59 @@ attributes:
     isRequired: true
 
 # Compound Types ========================  
-  - name: StreetAddressField
-    description: StreetAddress Nox Type
-    type: streetAddress
+  # - name: DateTimeRangeField
+  #   description: Date Time Range Nox Type
+  #   type: dateTimeRange
+  #   isRequired: true
+
+  - name: EncryptedTextField
+    description: Encrypted Text Nox Type
+    type: encryptedText
+    isRequired: true
+
   - name: FileField
     description: File Nox Type
     type: file
+    isRequired: true
+
+  - name: HashedTexField
+    description: HashedTex Nox Type
+    type: hashedText
+    isRequired: true
+
+  - name: ImageField
+    description: Image Nox Type
+    type: image
+    isRequired: true
+
+  # - name: LatLongField
+  #   description: LatLongField Nox Type
+  #   type: latLong
+  #   isRequired: true
+
+  - name: MoneyField
+    description: Money Nox Type
+    type: money
+    isRequired: true
+
+  - name: PasswordField
+    description: Password Nox Type
+    type: password
+    isRequired: true
+
+  - name: StreetAddressField
+    description: StreetAddress Nox Type
+    type: streetAddress
+
   - name: TranslatedTextField
     description: TranslatedText Nox Type
     type: translatedText
+    isRequired: true
+
   - name: VatNumberField
     description: VatNumber Nox Type
     type: vatNumber
     vatNumberTypeOptions:
-        countryCode: "FR"  
-  - name: PasswordField
-    description: Password Nox Type
-    type: password
-  - name: MoneyField
-    description: Money Nox Type
-    type: money
-  #- name: ImageField
-  #  description: Image Nox Type
-  #  type: image
-  - name: HashedTexField
-    description: HashedTex Nox Type
-    type: hashedText
-  #- name: DateTimeRangeField
-  #  description: DateTimeRange Nox Type
-  #  type: dateTimeRange
-  - name: LatLongField
-    description: LatLongField Nox Type
-    type: latLong
-  - name: EncryptedTextField
-    description: EncryptedText Nox Type
-    type: encryptedText
+        countryCode: "FR"
+    isRequired: true
     

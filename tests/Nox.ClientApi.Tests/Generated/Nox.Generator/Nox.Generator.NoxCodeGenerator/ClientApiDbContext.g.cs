@@ -42,12 +42,13 @@ public partial class ClientApiDbContext : DbContext
             _systemProvider = systemProvider;
         }
 
-    public DbSet<ClientDatabaseNumber> ClientDatabaseNumbers { get; set; } = null!;
-
-    public DbSet<ClientNuid> ClientNuids { get; set; } = null!;
+    public DbSet<Country> Countries { get; set; } = null!;
 
 
-    public DbSet<ClientDatabaseGuid> ClientDatabaseGuids { get; set; } = null!;
+    public DbSet<Store> Stores { get; set; } = null!;
+
+    public DbSet<Workplace> Workplaces { get; set; } = null!;
+
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

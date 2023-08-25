@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
 	<PropertyGroup>
 		<TargetFramework>net7.0</TargetFramework>
@@ -31,10 +31,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<AdditionalFiles Include="..\..\.nox\design\**\*.yaml" LinkBase="Design" />
-		<AdditionalFiles Update="..\..\.nox\design\elastic.monitoring.nox.yaml">
-			<Link>Design\elastic.monitoring.nox.yaml</Link>
-		</AdditionalFiles>
+		<AdditionalFiles Include="..\..\.nox\design\**\*.yaml" LinkBase="Design" />		
 	</ItemGroup>
 
 	<ItemGroup>

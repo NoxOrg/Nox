@@ -81,7 +81,7 @@ public class NoxSolution : Solution
 
         var ownedEntities = Domain.Entities
             .Where(x => x?.OwnedRelationships != null)
-            .SelectMany(x => x.OwnedRelationships!.Select(x => x.Name));
+            .SelectMany(x => x.OwnedRelationships!.Select(x => x.Entity));
         _ownedEntitiesNames = new HashSet<string>(ownedEntities);
     }
 

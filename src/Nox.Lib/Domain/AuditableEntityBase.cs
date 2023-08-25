@@ -1,6 +1,4 @@
-﻿using Nox.Abstractions;
-
-namespace Nox.Domain;
+﻿namespace Nox.Domain;
 
 public abstract partial class AuditableEntityBase : IEntity, IAuditCreated, IAuditUpdated, IAuditDeleted
 {

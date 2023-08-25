@@ -4,14 +4,17 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
+
+using Nox.Application.Commands;
+
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Infrastructure.Persistence;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetStoreSecurityPasswordsByIdQuery(System.String keyId) : IRequest<StoreSecurityPasswordsDto?>;
+public record GetStoreSecurityPasswordsByIdQuery(System.String keyId) : IRequest <StoreSecurityPasswordsDto?>;
 
-public class GetStoreSecurityPasswordsByIdQueryHandler: IRequestHandler<GetStoreSecurityPasswordsByIdQuery, StoreSecurityPasswordsDto?>
+public partial class GetStoreSecurityPasswordsByIdQueryHandler:  QueryBase<StoreSecurityPasswordsDto?>, IRequestHandler<GetStoreSecurityPasswordsByIdQuery, StoreSecurityPasswordsDto?>
 {
     public  GetStoreSecurityPasswordsByIdQueryHandler(DtoDbContext dataDbContext)
     {
@@ -27,6 +30,6 @@ public class GetStoreSecurityPasswordsByIdQueryHandler: IRequestHandler<GetStore
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&
                 r.DeletedAtUtc == null);
-        return Task.FromResult(item);
+        return Task.FromResult(OnResponse(item));
     }
 }
