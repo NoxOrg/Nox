@@ -58,4 +58,6 @@ public partial class EmployeeDto
     /// Employee The employee's phone numbers ZeroOrMany EmployeePhoneNumbers
     /// </summary>
     public virtual List<EmployeePhoneNumberDto> EmployeePhoneNumbers { get; set; } = new();
+
+    public System.DateTime? DeletedAtUtc { get; set; }
 }

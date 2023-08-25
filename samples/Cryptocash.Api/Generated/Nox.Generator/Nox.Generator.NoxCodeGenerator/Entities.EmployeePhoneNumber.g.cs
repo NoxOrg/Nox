@@ -13,7 +13,7 @@ namespace CryptocashApi.Domain;
 /// <summary>
 /// Employee phone numbers and related data.
 /// </summary>
-public partial class EmployeePhoneNumber:IOwnedEntity
+public partial class EmployeePhoneNumber:EntityBase, IOwnedEntity
 {
     /// <summary>
     /// The employee's phone number identifier (Required).
@@ -29,11 +29,4 @@ public partial class EmployeePhoneNumber:IOwnedEntity
     /// The employee's phone number (Required).
     /// </summary>
     public Nox.Types.PhoneNumber PhoneNumber { get; set; } = null!;
-
-    /// <summary>
-    /// EmployeePhoneNumber The related employee ZeroOrMany Employees
-    /// </summary>
-    public virtual List<Employee> Employees { get; set; } = new();
-
-    public List<Employee> Employee => Employees;
 }

@@ -113,6 +113,19 @@ internal class EntityControllerGenerator : INoxCodeGenerator
                 entity.Persistence.Read.IsEnabled)
             {
                 GenerateGet(entity, code, codeGeneratorState.Solution);
+
+                if (entity.OwnedRelationships != null)
+                {
+                    foreach (var relationship in entity.OwnedRelationships)
+                    {
+                        // Owned single entitities are returned with parent
+                        if (relationship.WithSingleEntity())
+                        {
+                            continue;
+                        }
+                        GenerateChildrenPost(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
+                    }
+                }
             }
 
             if (entity.Persistence is null ||
@@ -267,6 +280,30 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"return Created(createdKey);");
 
         // End method
+        code.EndBlock();
+        code.AppendLine();
+    }
+    private static void GenerateChildrenPost(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
+    {
+        code.AppendLine($"public async Task<ActionResult> PostTo{child.PluralName}({PrimaryKeysFromRoute(parent, solution)}, [FromBody] {child.Name}CreateDto {child.Name.ToLowerFirstChar()})");
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine($"var createdKey = await _mediator.Send(new Add{child.Name}Command(" +
+            $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), {child.Name.ToLowerFirstChar()}));");
+        code.AppendLine($"if (createdKey == null)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+
+        var childDtoParams = string.Join(", ", child.Keys.Select(k => $"{k.Name} = createdKey.key{k.Name}"));
+        code.AppendLine($"return Created(new {child.Name}Dto {{ {childDtoParams} }});");
+
         code.EndBlock();
         code.AppendLine();
     }

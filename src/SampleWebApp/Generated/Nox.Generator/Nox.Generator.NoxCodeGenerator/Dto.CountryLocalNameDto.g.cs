@@ -11,12 +11,12 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
-public record CountryLocalNamesKeyDto(System.String keyId);
+public record CountryLocalNameKeyDto(System.String keyId);
 
 /// <summary>
 /// The name of a country in other languages.
 /// </summary>
-public partial class CountryLocalNamesDto
+public partial class CountryLocalNameDto
 {
 
     /// <summary>

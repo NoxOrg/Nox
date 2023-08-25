@@ -97,5 +97,5 @@ public partial class CountryUpdateDto
     /// <summary>
     /// Country is also know as OneOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalNamesUpdateDto> CountryLocalNames { get; set; } = new();
+    public virtual List<CountryLocalNameUpdateDto> CountryLocalNames { get; set; } = new();
 }

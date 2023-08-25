@@ -107,7 +107,7 @@ public partial class CountryDto
     /// <summary>
     /// Country is also know as OneOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalNamesDto> CountryLocalNames { get; set; } = new();
+    public virtual List<CountryLocalNameDto> CountryLocalNames { get; set; } = new();
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }

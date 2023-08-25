@@ -64,6 +64,7 @@ public partial class CryptocashApiDbContext : DbContext
 
     public DbSet<CustomerTransaction> CustomerTransactions { get; set; } = null!;
 
+    public DbSet<Employee> Employees { get; set; } = null!;
 
 
     public DbSet<ExchangeRate> ExchangeRates { get; set; } = null!;

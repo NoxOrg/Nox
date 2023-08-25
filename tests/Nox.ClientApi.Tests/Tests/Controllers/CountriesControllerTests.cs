@@ -343,5 +343,32 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             var context = apiFixture.ServiceProvider.GetService<ClientApiDbContext>()!;
             context.Countries.Find(DatabaseNumber.FromDatabase(result.Entity.keyId)).Should().NotBeNull();
         }
+
+        [Theory, AutoMoqData]
+        public async Task PostToCountryLocalNames_ShouldAddToCountryLocalNames(ApiFixture apiFixture)
+        {
+            // Arrange
+            var expectedLocalNameId = "10";
+            var expectedLocalName = "local UA";
+            var result = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
+                new CountryCreateDto
+                {
+                    Name = "Ukraine",
+                    Population = 44000000
+                });
+
+            //Act
+            var ownedResult = (CreatedODataResult<CountryLocalNameDto>)await apiFixture.CountriesController!.PostToCountryLocalNames(
+                result.Entity.keyId,
+                new CountryLocalNameCreateDto
+                {
+                    Id = expectedLocalNameId,
+                    Name = expectedLocalName
+                });
+
+            //Assert
+            ownedResult.Should().NotBeNull();
+            ownedResult!.Entity.Id.Should().Be(expectedLocalNameId);
+        }
     }
 }

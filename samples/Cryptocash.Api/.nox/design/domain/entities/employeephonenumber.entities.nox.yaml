@@ -50,23 +50,5 @@ attributes:
       showOnCreateForm: true
       showOnUpdateForm: true
 
-ownedRelationships:
-    
-  - name: Employee
-    description: The related employee
-    relationship: zeroOrMany
-    entity: Employee
-
 persistence:
     isAudited: false    
-    create:
-        isEnabled: true
-        raiseEvents: true
-    read:
-        isEnabled: true
-    update:
-        isEnabled: true
-        raiseEvents: true
-    delete:
-        isEnabled: true
-        raiseEvents: true

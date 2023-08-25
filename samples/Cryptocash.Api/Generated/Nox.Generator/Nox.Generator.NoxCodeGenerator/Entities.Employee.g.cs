@@ -13,7 +13,7 @@ namespace CryptocashApi.Domain;
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-public partial class Employee:IOwnedEntity
+public partial class Employee : AuditableEntityBase
 {
     /// <summary>
     /// The employee's unique identifier (Required).

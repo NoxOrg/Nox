@@ -33,9 +33,4 @@ public partial class EmployeePhoneNumberDto
     /// The employee's phone number (Required).
     /// </summary>
     public System.String PhoneNumber { get; set; } = default!;
-
-    /// <summary>
-    /// EmployeePhoneNumber The related employee ZeroOrMany Employees
-    /// </summary>
-    public virtual List<EmployeeDto> Employees { get; set; } = new();
 }

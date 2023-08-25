@@ -40,117 +40,121 @@ public static class ODataServiceCollectionExtensions
 
 
         builder.EntitySet<BookingDto>("Bookings");
-        builder.EntityType<BookingKeyDto>();
 
         builder.EntityType<BookingDto>();
+        builder.EntityType<BookingKeyDto>();
         builder.EntityType<BookingDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<CommissionDto>("Commissions");
-        builder.EntityType<CommissionKeyDto>();
 
         builder.EntityType<CommissionDto>();
+        builder.EntityType<CommissionKeyDto>();
         builder.EntityType<CommissionDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<CountryDto>("Countries");
-        builder.EntityType<CountryKeyDto>();
 
         builder.EntityType<CountryDto>();
+        builder.EntityType<CountryKeyDto>();
         builder.EntityType<CountryDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<CountryHolidayDto>("CountryHolidays");
-        builder.EntityType<CountryHolidayKeyDto>();
 
         builder.EntityType<CountryHolidayDto>();
+        builder.EntityType<CountryHolidayKeyDto>();
         builder.EntityType<CountryHolidayDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<CountryTimeZonesDto>("CountryTimeZones");
-        builder.EntityType<CountryTimeZonesKeyDto>();
 
         builder.EntityType<CountryTimeZonesDto>();
+        builder.EntityType<CountryTimeZonesKeyDto>();
         builder.EntityType<CountryTimeZonesDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<CurrencyDto>("Currencies");
-        builder.EntityType<CurrencyKeyDto>();
 
         builder.EntityType<CurrencyDto>();
+        builder.EntityType<CurrencyKeyDto>();
         builder.EntityType<CurrencyDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<CurrencyBankNotesDto>("CurrencyBankNotes");
-        builder.EntityType<CurrencyBankNotesKeyDto>();
 
         builder.EntityType<CurrencyBankNotesDto>();
+        builder.EntityType<CurrencyBankNotesKeyDto>();
         builder.EntityType<CurrencyBankNotesDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<CurrencyUnitsDto>("CurrencyUnits");
-        builder.EntityType<CurrencyUnitsKeyDto>();
 
         builder.EntityType<CurrencyUnitsDto>();
+        builder.EntityType<CurrencyUnitsKeyDto>();
         builder.EntityType<CurrencyUnitsDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<CustomerDto>("Customers");
-        builder.EntityType<CustomerKeyDto>();
 
         builder.EntityType<CustomerDto>();
+        builder.EntityType<CustomerKeyDto>();
         builder.EntityType<CustomerDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<CustomerPaymentDetailsDto>("CustomerPaymentDetails");
-        builder.EntityType<CustomerPaymentDetailsKeyDto>();
 
         builder.EntityType<CustomerPaymentDetailsDto>();
+        builder.EntityType<CustomerPaymentDetailsKeyDto>();
         builder.EntityType<CustomerPaymentDetailsDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<CustomerTransactionDto>("CustomerTransactions");
-        builder.EntityType<CustomerTransactionKeyDto>();
 
         builder.EntityType<CustomerTransactionDto>();
+        builder.EntityType<CustomerTransactionKeyDto>();
         builder.EntityType<CustomerTransactionDto>().Ignore(e => e.DeletedAtUtc);
+
+        builder.EntitySet<EmployeeDto>("Employees");
         builder.EntityType<EmployeeDto>().ContainsMany(e => e.EmployeePhoneNumbers).AutoExpand = true;
 
         builder.EntityType<EmployeeDto>();
-        builder.EntityType<EmployeePhoneNumberDto>().ContainsMany(e => e.Employees).AutoExpand = true;
+        builder.EntityType<EmployeeKeyDto>();
+        builder.EntityType<EmployeeDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntityType<EmployeePhoneNumberDto>();
+        builder.EntityType<EmployeePhoneNumberKeyDto>();
 
         builder.EntitySet<ExchangeRateDto>("ExchangeRates");
-        builder.EntityType<ExchangeRateKeyDto>();
 
         builder.EntityType<ExchangeRateDto>();
+        builder.EntityType<ExchangeRateKeyDto>();
         builder.EntityType<ExchangeRateDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<HolidaysDto>("Holidays");
-        builder.EntityType<HolidaysKeyDto>();
 
         builder.EntityType<HolidaysDto>();
+        builder.EntityType<HolidaysKeyDto>();
         builder.EntityType<HolidaysDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<LandLordDto>("LandLords");
-        builder.EntityType<LandLordKeyDto>();
 
         builder.EntityType<LandLordDto>();
+        builder.EntityType<LandLordKeyDto>();
         builder.EntityType<LandLordDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<MinimumCashStockDto>("MinimumCashStocks");
-        builder.EntityType<MinimumCashStockKeyDto>();
 
         builder.EntityType<MinimumCashStockDto>();
+        builder.EntityType<MinimumCashStockKeyDto>();
         builder.EntityType<MinimumCashStockDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<PaymentProviderDto>("PaymentProviders");
-        builder.EntityType<PaymentProviderKeyDto>();
 
         builder.EntityType<PaymentProviderDto>();
+        builder.EntityType<PaymentProviderKeyDto>();
         builder.EntityType<PaymentProviderDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<VendingMachineDto>("VendingMachines");
-        builder.EntityType<VendingMachineKeyDto>();
 
         builder.EntityType<VendingMachineDto>();
+        builder.EntityType<VendingMachineKeyDto>();
         builder.EntityType<VendingMachineDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<VendingMachineOrderDto>("VendingMachineOrders");
-        builder.EntityType<VendingMachineOrderKeyDto>();
 
         builder.EntityType<VendingMachineOrderDto>();
+        builder.EntityType<VendingMachineOrderKeyDto>();
         builder.EntityType<VendingMachineOrderDto>().Ignore(e => e.DeletedAtUtc);
 
         services.AddControllers()

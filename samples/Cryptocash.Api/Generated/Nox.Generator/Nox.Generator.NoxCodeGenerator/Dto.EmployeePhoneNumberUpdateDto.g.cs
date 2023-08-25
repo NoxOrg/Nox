@@ -27,9 +27,4 @@ public partial class EmployeePhoneNumberUpdateDto
     [Required(ErrorMessage = "PhoneNumber is required")]
     
     public System.String PhoneNumber { get; set; } = default!;
-
-    /// <summary>
-    /// EmployeePhoneNumber The related employee ZeroOrMany Employees
-    /// </summary>
-    public virtual List<EmployeeUpdateDto> Employees { get; set; } = new();
 }

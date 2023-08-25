@@ -12,7 +12,11 @@ namespace SampleWebApp.Application.Dto;
 /// <summary>
 /// The name of a country in other languages.
 /// </summary>
-public partial class CountryLocalNamesUpdateDto
+public partial class CountryLocalNameCreateDto : CountryLocalNameUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
+    /// <summary>
+    ///  (Required).
+    /// </summary>
+    [Required(ErrorMessage = "Id is required")]
+    public System.String Id { get; set; } = default!;
 }

@@ -57,7 +57,7 @@ public partial class BookingDto
     /// <summary>
     /// The booking's status (Required).
     /// </summary>
-    [NotMapped]public System.String Status { get; set; } = default!;
+    public System.String Status { get; set; } = default!;
 
     /// <summary>
     /// The booking's related vat number (Optional).

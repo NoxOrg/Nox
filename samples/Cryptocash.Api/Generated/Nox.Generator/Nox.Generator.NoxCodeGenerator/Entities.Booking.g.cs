@@ -53,7 +53,11 @@ public partial class Booking : AuditableEntityBase
     /// <summary>
     /// The booking's status (Required).
     /// </summary>
-    public string Status => CancelledDateTime == null ? "cancelled" : (PickedUpDateTime == null ? "picked-up" : "booked");
+    public string Status
+    { 
+        get { return CancelledDateTime == null ? "cancelled" : (PickedUpDateTime == null ? "picked-up" : "booked"); }
+        private set { }
+    }
 
     /// <summary>
     /// The booking's related vat number (Optional).

@@ -99,10 +99,10 @@ domain:
 
       ownedRelationships:
 
-        - name: CountryLocalNames
+        - name: CountryLocalName
           description: is also know as
           relationship: oneOrMany
-          entity: CountryLocalNames
+          entity: CountryLocalName
 
       queries:
 
@@ -279,7 +279,7 @@ domain:
 
     - $ref: currencyCashBalance.entity.nox.yaml
 
-    - name: CountryLocalNames
+    - name: CountryLocalName
       description: The name of a country in other languages
 
       persistence:

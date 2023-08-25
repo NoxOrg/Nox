@@ -31,7 +31,7 @@ internal class CountryDataSeeder : SampleDataSeederBase<CountryModel, Country>
             GeoRegion = Text.From(model.GeoRegion),
             GeoSubRegion = Text.From(model.GeoSubRegion),
             GeoWorldRegion = Text.From(model.GeoWorldRegion),
-            CountryLocalNames = model.CountryLocalNames.Select(x => new CountryLocalNames
+            CountryLocalNames = model.CountryLocalNames.Select(x => new Domain.CountryLocalName
             {
                 Id = Text.From(x.Id)
             }).ToList()

@@ -14,9 +14,4 @@ namespace CryptocashApi.Application.Dto;
 /// </summary>
 public partial class BookingCreateDto : BookingUpdateDto
 {
-    /// <summary>
-    /// The booking unique identifier (Required).
-    /// </summary>
-    [Required(ErrorMessage = "Id is required")]
-    public System.Guid Id { get; set; } = default!;
 }

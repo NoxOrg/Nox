@@ -182,17 +182,18 @@ namespace SampleWebAppdeprecated.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "CountryLocalNames",
+                name: "CountryLocalName",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
-                    CountryId = table.Column<long>(type: "bigint", nullable: false)
+                    CountryId = table.Column<long>(type: "bigint", nullable: false),
+                    AsAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CountryLocalNames", x => x.Id);
+                    table.PrimaryKey("PK_CountryLocalName", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_CountryLocalNames_Countries_CountryId",
+                        name: "FK_CountryLocalName_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "Id",
@@ -293,8 +294,8 @@ namespace SampleWebAppdeprecated.Migrations
                 column: "CurrenciesId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_CountryLocalNames_CountryId",
-                table: "CountryLocalNames",
+                name: "IX_CountryLocalName_CountryId",
+                table: "CountryLocalName",
                 column: "CountryId");
 
             migrationBuilder.CreateIndex(
@@ -327,7 +328,7 @@ namespace SampleWebAppdeprecated.Migrations
                 name: "CountryCurrency");
 
             migrationBuilder.DropTable(
-                name: "CountryLocalNames");
+                name: "CountryLocalName");
 
             migrationBuilder.DropTable(
                 name: "CurrencyCashBalances");
