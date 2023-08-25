@@ -39,9 +39,43 @@ public class DtoDbContext : DbContext
             _noxDtoDatabaseConfigurator = noxDtoDatabaseConfigurator;
         }
         
+        public DbSet<BookingDto> Bookings { get; set; } = null!;
+        
+        public DbSet<CommissionDto> Commissions { get; set; } = null!;
+        
+        public DbSet<CountryDto> Countries { get; set; } = null!;
+        
+        public DbSet<CountryHolidayDto> CountryHolidays { get; set; } = null!;
+        
+        public DbSet<CountryTimeZonesDto> CountryTimeZones { get; set; } = null!;
+        
+        public DbSet<CurrencyDto> Currencies { get; set; } = null!;
+        
+        public DbSet<CurrencyBankNotesDto> CurrencyBankNotes { get; set; } = null!;
+        
+        public DbSet<CurrencyUnitsDto> CurrencyUnits { get; set; } = null!;
+        
         public DbSet<CustomerDto> Customers { get; set; } = null!;
         
+        public DbSet<CustomerPaymentDetailsDto> CustomerPaymentDetails { get; set; } = null!;
+        
+        public DbSet<CustomerTransactionDto> CustomerTransactions { get; set; } = null!;
+        
         public DbSet<EmployeeDto> Employees { get; set; } = null!;
+        
+        public DbSet<ExchangeRateDto> ExchangeRates { get; set; } = null!;
+        
+        public DbSet<HolidaysDto> Holidays { get; set; } = null!;
+        
+        public DbSet<LandLordDto> LandLords { get; set; } = null!;
+        
+        public DbSet<MinimumCashStockDto> MinimumCashStocks { get; set; } = null!;
+        
+        public DbSet<PaymentProviderDto> PaymentProviders { get; set; } = null!;
+        
+        public DbSet<VendingMachineDto> VendingMachines { get; set; } = null!;
+        
+        public DbSet<VendingMachineOrderDto> VendingMachineOrders { get; set; } = null!;
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

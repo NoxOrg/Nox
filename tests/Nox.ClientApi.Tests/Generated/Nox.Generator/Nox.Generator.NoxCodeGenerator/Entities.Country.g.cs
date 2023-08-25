@@ -36,6 +36,15 @@ public partial class Country : AuditableEntityBase
     public Nox.Types.Money? CountryDebt { get; set; } = null!;
 
     /// <summary>
+    /// The Formula (Optional).
+    /// </summary>
+    public string? ShortDescription
+    { 
+        get { return $"{Name} has a population of {Population} people."; }
+        private set { }
+    }
+
+    /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
     public virtual List<CountryLocalName> CountryLocalNames { get; set; } = new();

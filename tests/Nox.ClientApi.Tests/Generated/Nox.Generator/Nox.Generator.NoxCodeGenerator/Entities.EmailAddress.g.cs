@@ -13,7 +13,7 @@ namespace ClientApi.Domain;
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-public partial class EmailAddress:IOwnedEntity
+public partial class EmailAddress:EntityBase, IOwnedEntity
 {
 
     /// <summary>

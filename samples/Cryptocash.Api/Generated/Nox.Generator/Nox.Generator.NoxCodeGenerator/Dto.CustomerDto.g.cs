@@ -20,7 +20,7 @@ public partial class CustomerDto
 {
 
     /// <summary>
-    /// The Customer unique identifier (Required).
+    /// The customer's unique identifier (Required).
     /// </summary>
     public System.Int64 Id { get; set; } = default!;
 
@@ -37,7 +37,7 @@ public partial class CustomerDto
     /// <summary>
     /// The customer's email (Required).
     /// </summary>
-    public System.String Email { get; set; } = default!;
+    public System.String EmailAddress { get; set; } = default!;
 
     /// <summary>
     /// The customer's address (Required).
@@ -48,6 +48,21 @@ public partial class CustomerDto
     /// The customer's mobile number (Optional).
     /// </summary>
     public System.String? MobileNumber { get; set; }
+
+    /// <summary>
+    /// Customer The customer's payment details ZeroOrOne CustomerPaymentDetails
+    /// </summary>
+    public virtual CustomerPaymentDetailsDto ?CustomerPaymentDetails { get; set; } = null!;
+
+    /// <summary>
+    /// Customer The booking's related customer ZeroOrMany Bookings
+    /// </summary>
+    public virtual List<BookingDto> Bookings { get; set; } = new();
+
+    /// <summary>
+    /// Customer The transaction's related customer ZeroOrMany CustomerTransactions
+    /// </summary>
+    public virtual List<CustomerTransactionDto> CustomerTransactions { get; set; } = new();
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }

@@ -102,7 +102,11 @@ public partial class AllNoxType : AuditableEntityBase
     /// <summary>
     /// Formula Nox Type (Required).
     /// </summary>
-    public string FormulaField => CountryCode2Field.ToString();
+    public string FormulaField
+    { 
+        get { return CountryCode2Field.ToString(); }
+        private set { }
+    }
 
     /// <summary>
     /// Guid Nox Type (Required).

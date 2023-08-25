@@ -66,5 +66,4 @@ public class EntityDeleteSettings
 {
     public bool IsEnabled { get; internal set; } = true;
     public bool RaiseEvents { get; internal set; } = true;
-    public bool UseSoftDelete { get; internal set; } = true;
 }

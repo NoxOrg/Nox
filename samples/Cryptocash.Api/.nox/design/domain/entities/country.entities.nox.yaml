@@ -1,0 +1,230 @@
+#
+# country.entities.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../../schemas/entity.json
+#
+
+name: Country
+
+description: Country and related data
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: The country unique identifier 
+    type: countryCode2 
+    userInterface:
+      showInSearchResults: never
+      canSearch: true
+      canFilter: false
+      showOnCreateForm: false
+      showOnUpdateForm: true
+
+attributes:
+
+  - name: Name
+    description: The country's name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: OfficialName
+    description: The country's official name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: CountryIsoNumeric
+    description: The country's iso number id
+    type: countryNumber     
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: CountryIsoAlpha3
+    description: The country's iso alpha3 id
+    type: countryCode3     
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: GeoCoords
+    description: The country's geo coordinates
+    type: latLong     
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: FlagEmoji
+    description: The country's flag emoji
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: false
+    userInterface:
+      showInSearchResults: optionalAndOffByDefault
+      canSort: false
+      canSearch: false
+      canFilter: false
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: FlagSvg
+    description: The country's flag in svg format
+    type: image     
+    isRequired: false  
+    userInterface:
+      showInSearchResults: optionalAndOffByDefault
+      canSort: false
+      canSearch: false
+      canFilter: false
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: FlagPng
+    description: The country's flag in png format
+    type: image     
+    isRequired: false  
+    userInterface:
+      showInSearchResults: optionalAndOffByDefault
+      canSort: false
+      canSearch: false
+      canFilter: false
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: CoatOfArmsSvg
+    description: The country's coat of arms in svg format
+    type: image     
+    isRequired: false  
+    userInterface:
+      showInSearchResults: optionalAndOffByDefault
+      canSort: false
+      canSearch: false
+      canFilter: false
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: CoatOfArmsPng
+    description: The country's coat of arms in png format
+    type: image     
+    isRequired: false  
+    userInterface:
+      showInSearchResults: optionalAndOffByDefault
+      canSort: false
+      canSearch: false
+      canFilter: false
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: GoogleMapsUrl
+    description: The country's map via google maps
+    type: url     
+    isRequired: false  
+    userInterface:
+      showInSearchResults: optionalAndOffByDefault
+      canSort: false
+      canSearch: false
+      canFilter: false
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: OpenStreeMapsUrl
+    description: The country's map via open street maps
+    type: url     
+    isRequired: false  
+    userInterface:
+      showInSearchResults: optionalAndOffByDefault
+      canSort: false
+      canSearch: false
+      canFilter: false
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: StartOfWeek
+    description: The country's map via open street maps
+    type: dayOfWeek     
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true 
+
+relationships:
+
+  - name: Currencies
+    description: The country's related currencies
+    relationship: zeroOrMany
+    entity: Currency
+
+  - name: TimeZones
+    description: The country's related timezones
+    relationship: zeroOrMany
+    entity: CountryTimeZones
+
+  - name: Commission
+    description: The commission related country
+    relationship: zeroOrOne
+    entity: Commission
+
+  - name: VendingMachine
+    description: The country of the vending machine
+    relationship: zeroOrMany
+    entity: VendingMachine
+
+  - name: Holidays
+    description: The related country
+    relationship: zeroOrOne
+    entity: Holidays
+
+persistence:
+    isAudited: true    
+    create:
+        isEnabled: true
+        raiseEvents: true
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: true
+    delete:
+        isEnabled: true
+        raiseEvents: true

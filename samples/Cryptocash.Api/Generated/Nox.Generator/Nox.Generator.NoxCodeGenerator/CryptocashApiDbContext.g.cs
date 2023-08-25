@@ -42,9 +42,44 @@ public partial class CryptocashApiDbContext : DbContext
             _systemProvider = systemProvider;
         }
 
+    public DbSet<Booking> Bookings { get; set; } = null!;
+
+    public DbSet<Commission> Commissions { get; set; } = null!;
+
+    public DbSet<Country> Countries { get; set; } = null!;
+
+    public DbSet<CountryHoliday> CountryHolidays { get; set; } = null!;
+
+    public DbSet<CountryTimeZones> CountryTimeZones { get; set; } = null!;
+
+    public DbSet<Currency> Currencies { get; set; } = null!;
+
+    public DbSet<CurrencyBankNotes> CurrencyBankNotes { get; set; } = null!;
+
+    public DbSet<CurrencyUnits> CurrencyUnits { get; set; } = null!;
+
     public DbSet<Customer> Customers { get; set; } = null!;
 
+    public DbSet<CustomerPaymentDetails> CustomerPaymentDetails { get; set; } = null!;
+
+    public DbSet<CustomerTransaction> CustomerTransactions { get; set; } = null!;
+
     public DbSet<Employee> Employees { get; set; } = null!;
+
+
+    public DbSet<ExchangeRate> ExchangeRates { get; set; } = null!;
+
+    public DbSet<Holidays> Holidays { get; set; } = null!;
+
+    public DbSet<LandLord> LandLords { get; set; } = null!;
+
+    public DbSet<MinimumCashStock> MinimumCashStocks { get; set; } = null!;
+
+    public DbSet<PaymentProvider> PaymentProviders { get; set; } = null!;
+
+    public DbSet<VendingMachine> VendingMachines { get; set; } = null!;
+
+    public DbSet<VendingMachineOrder> VendingMachineOrders { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

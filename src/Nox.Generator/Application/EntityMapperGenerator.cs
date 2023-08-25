@@ -19,7 +19,7 @@ internal class EntityMapperGenerator : INoxCodeGenerator
         }
 
         var templateName = @"Application.EntityMapper";
-        foreach (var entity in codeGeneratorState.Solution.Domain.Entities.Where(x => !x.IsOwnedEntity))
+        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 

@@ -115,4 +115,38 @@ public class YamlFileValidationTests
         Assert.Equal("The owned relationship 'CountryLegalCurrencies' for entity 'Country' refers to an entity 'Currency' that is used in other owned relationships. Owned entities must be owned by one parent only.", errors[0].ErrorMessage);
         Assert.Equal("The owned relationship 'StoreAcceptedCurrencies' for entity 'Store' refers to an entity 'Currency' that is used in other owned relationships. Owned entities must be owned by one parent only.", errors[1].ErrorMessage);
     }
+
+    [Fact]
+    public void Deserialize_EntityItemsNameAreDuplicated_ThrowsException()
+    {
+        Action action = () => new NoxSolutionBuilder()
+            .UseYamlFile($"./files/duplicated-items-definition.nox.yaml")
+            .Build();
+
+        var errors = action.Should()
+             .ThrowExactly<ValidationException>()
+             .Subject
+             .First()
+             .Errors;
+
+        var expectedErrors = new string[]
+        {
+            "The entity relation  'CurrenciesCountryLegal' is duplicated",
+            "The entity owned relation  'CountryLegalCurrencies' is duplicated",
+            "The entity key 'Id' is duplicated",
+            "The entity attribute 'Id' is duplicated",
+            "The Keys 'Id' is duplicated",
+            "The Attributes 'Id' is duplicated",
+            "The Attributes 'CurrenciesCountryLegal' is duplicated",
+            "The Relationships 'CurrenciesCountryLegal' is duplicated",
+            "The OwnedRelationships 'Id' is duplicated"
+        };
+
+        errors.Should()
+            .NotBeEmpty()
+            .And.HaveCount(14)
+            .And.Subject.Select(x => x.ErrorMessage)
+           .Should()
+           .Contain(x => expectedErrors.Any(t => x.StartsWith(t)));
+    }
 }

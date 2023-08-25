@@ -1,0 +1,47 @@
+#
+# databaseguid.entity.nox.yaml
+#
+# yaml-language-server: $schema=https://noxorg.dev/schemas/entity.json
+#
+
+name: Workplace
+
+description: Workplace
+
+keys:
+
+  - name: Id
+    type: databaseGuid
+    description: Workplace unique identifier 
+    isRequired: true
+
+attributes:
+
+  - name: Name
+    description: Workplace Name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true 
+
+  - name: Greeting
+    description: The Formula
+    type: formula
+    formulaTypeOptions:
+      expression: "$\"Hello, {Name.Value}!\""
+      returns: string
+
+persistence:
+    isAudited: false    
+    create:
+        isEnabled: true
+        raiseEvents: true
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: true
+    delete:
+        isEnabled: true
+        raiseEvents: true

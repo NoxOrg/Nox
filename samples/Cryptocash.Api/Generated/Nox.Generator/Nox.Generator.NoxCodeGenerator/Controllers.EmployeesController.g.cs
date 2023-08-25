@@ -61,6 +61,22 @@ public partial class EmployeesController : ODataController
         return Ok(item);
     }
     
+    public async Task<ActionResult> PostToEmployeePhoneNumbers([FromRoute] System.Int64 key, [FromBody] EmployeePhoneNumberCreateDto employeePhoneNumber)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdKey = await _mediator.Send(new AddEmployeePhoneNumberCommand(new EmployeeKeyDto(key), employeePhoneNumber));
+        if (createdKey == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(new EmployeePhoneNumberDto { Id = createdKey.keyId });
+    }
+    
     public async Task<ActionResult> Post([FromBody]EmployeeCreateDto employee)
     {
         if (!ModelState.IsValid)

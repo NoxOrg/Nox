@@ -215,10 +215,6 @@ public class DateTimeDurationTests
     [Fact]
     public void From_WithCustomFormatLimitsAndValueGreaterThanMaximum_ThrowsValidationException()
     {
-        var x = new DateTimeDurationTypeOptions
-        {
-            TimeUnit = TimeUnit.CustomFormat,
-        };
         var action = () => DateTimeDuration.From(10, 12, 2, 1, new DateTimeDurationTypeOptions
         {
             MaxDurationCustomFormat = "10:12:00:00",

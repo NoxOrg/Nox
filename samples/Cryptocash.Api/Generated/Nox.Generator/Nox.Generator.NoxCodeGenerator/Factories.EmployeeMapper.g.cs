@@ -39,10 +39,10 @@ public class EmployeeMapper: EntityMapperBase<Employee>
         {        
             entity.LastName = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"Email",dto.Email);
+        noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"EmailAddress",dto.EmailAddress);
         if(noxTypeValue != null)
         {        
-            entity.Email = noxTypeValue;
+            entity.EmailAddress = noxTypeValue;
         }
         noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition,"Address",dto.Address);
         if(noxTypeValue != null)
@@ -92,16 +92,16 @@ public class EmployeeMapper: EntityMapperBase<Employee>
             }
         }
         {
-            if (updatedProperties.TryGetValue("Email", out dynamic? value))
+            if (updatedProperties.TryGetValue("EmailAddress", out dynamic? value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"Email",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"EmailAddress",value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("Employee", "Email");
+                    throw new EntityAttributeIsNotNullableException("Employee", "EmailAddress");
                 }
                 else
                 {
-                    entity.Email = noxTypeValue;
+                    entity.EmailAddress = noxTypeValue;
                 }
             }
         }

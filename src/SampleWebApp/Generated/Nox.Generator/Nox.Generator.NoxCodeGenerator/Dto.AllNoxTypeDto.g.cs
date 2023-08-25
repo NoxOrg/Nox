@@ -107,7 +107,7 @@ public partial class AllNoxTypeDto
     /// <summary>
     /// Formula Nox Type (Required).
     /// </summary>
-    [NotMapped]public System.String FormulaField { get; set; } = default!;
+    public System.String FormulaField { get; set; } = default!;
 
     /// <summary>
     /// Guid Nox Type (Required).

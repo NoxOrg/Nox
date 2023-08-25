@@ -13,7 +13,7 @@ namespace ClientApi.Domain;
 /// <summary>
 /// Local names for countries.
 /// </summary>
-public partial class CountryLocalName:IOwnedEntity
+public partial class CountryLocalName:EntityBase, IOwnedEntity
 {
     /// <summary>
     /// The unique identifier (Required).

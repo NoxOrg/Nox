@@ -24,4 +24,13 @@ public partial class Workplace : EntityBase
     /// Workplace Name (Required).
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
+
+    /// <summary>
+    /// The Formula (Optional).
+    /// </summary>
+    public string? Greeting
+    { 
+        get { return $"Hello, {Name.Value}!"; }
+        private set { }
+    }
 }

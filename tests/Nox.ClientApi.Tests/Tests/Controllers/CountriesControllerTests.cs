@@ -85,6 +85,26 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         }
 
         [Theory, AutoMoqData]
+        public async Task Post_NameAndPopulation_ShouldPopulateShortDescription(ApiFixture apiFixture)
+        {
+            // Arrange            
+
+            // Act 
+            var result = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
+                new CountryCreateDto
+                {
+                    Name = "Portugal",
+                    Population = 10350000,
+                });
+
+            //Assert
+            var queryResult = await apiFixture.CountriesController!.Get(result.Entity.keyId);
+
+            queryResult.Should().NotBeNull();
+            queryResult!.ExtractResult().ShortDescription.Should().Be("Portugal has a population of 10350000 people.");
+        }
+
+        [Theory, AutoMoqData]
         public async Task Put_Number_ShouldUpdate(ApiFixture apiFixture)
         {
             // Arrange            
@@ -113,7 +133,59 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
 
             queryResult.Should().NotBeNull();
             queryResult!.ExtractResult().Population.Should().Be(expectedNumber);
-        }        
+        }
+
+        [Theory, AutoMoqData]
+        public async Task Put_Name_ShouldPopulateShortDescription(ApiFixture apiFixture)
+        {
+            // Arrange            
+            var result = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
+                new CountryCreateDto
+                {
+                    Name = "Portugal123",
+                    Population = 10350000,
+                });
+
+            // Act 
+            var putResult = await apiFixture.CountriesController!.Put(result.Entity.keyId,
+                new CountryUpdateDto
+                {
+                    Name = "Portugal",
+                    Population = 10350000
+                });
+
+            //Assert
+            var queryResult = await apiFixture.CountriesController!.Get(result.Entity.keyId);
+
+            queryResult.Should().NotBeNull();
+            queryResult!.ExtractResult().ShortDescription.Should().Be("Portugal has a population of 10350000 people.");
+        }
+
+        [Theory, AutoMoqData]
+        public async Task Put_Population_ShouldPopulateShortDescription(ApiFixture apiFixture)
+        {
+            // Arrange            
+            var result = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
+                new CountryCreateDto
+                {
+                    Name = "Portugal",
+                    Population = 1,
+                });
+
+            // Act 
+            var putResult = await apiFixture.CountriesController!.Put(result.Entity.keyId,
+                new CountryUpdateDto
+                {
+                    Name = "Portugal",
+                    Population = 10350000
+                });
+
+            //Assert
+            var queryResult = await apiFixture.CountriesController!.Get(result.Entity.keyId);
+
+            queryResult.Should().NotBeNull();
+            queryResult!.ExtractResult().ShortDescription.Should().Be("Portugal has a population of 10350000 people.");
+        }
 
         [Theory, AutoMoqData]
         public async Task Patch_Number_ShouldUpdateNumberOnly(ApiFixture apiFixture)
@@ -178,6 +250,56 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         }
 
         [Theory, AutoMoqData]
+        public async Task Patch_Name_ShouldUpdateShortDescription(ApiFixture apiFixture)
+        {
+            // Arrange            
+            var result = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
+                new CountryCreateDto
+                {
+                    Name = "Portugal123",
+                    Population = 10350000
+                });
+
+            // Act 
+            var updatedProperties = new Microsoft.AspNetCore.OData.Deltas.Delta<CountryUpdateDto>();
+            updatedProperties.TrySetPropertyValue(nameof(CountryCreateDto.Name), "Portugal");
+
+
+            _ = await apiFixture.CountriesController!.Patch(result.Entity.keyId, updatedProperties);
+
+            //Assert
+            var queryResult = await apiFixture.CountriesController!.Get(result.Entity.keyId);
+            
+            queryResult.Should().NotBeNull();
+            queryResult!.ExtractResult().ShortDescription.Should().Be("Portugal has a population of 10350000 people.");
+        }
+
+        [Theory, AutoMoqData]
+        public async Task Patch_Population_ShouldUpdateShortDescription(ApiFixture apiFixture)
+        {
+            // Arrange            
+            var result = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
+                new CountryCreateDto
+                {
+                    Name = "Portugal",
+                    Population = 1
+                });
+
+            // Act 
+            var updatedProperties = new Microsoft.AspNetCore.OData.Deltas.Delta<CountryUpdateDto>();
+            updatedProperties.TrySetPropertyValue(nameof(CountryCreateDto.Population), 10350000);
+
+
+            _ = await apiFixture.CountriesController!.Patch(result.Entity.keyId, updatedProperties);
+
+            //Assert
+            var queryResult = await apiFixture.CountriesController!.Get(result.Entity.keyId);
+
+            queryResult.Should().NotBeNull();
+            queryResult!.ExtractResult().ShortDescription.Should().Be("Portugal has a population of 10350000 people.");
+        }
+
+        [Theory, AutoMoqData]
         public async Task Post_IfNoRequireField_ThrowsException(ApiFixture apiFixture)
         {
 
@@ -220,6 +342,33 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
 
             var context = apiFixture.ServiceProvider.GetService<ClientApiDbContext>()!;
             context.Countries.Find(DatabaseNumber.FromDatabase(result.Entity.keyId)).Should().NotBeNull();
+        }
+
+        [Theory, AutoMoqData]
+        public async Task PostToCountryLocalNames_ShouldAddToCountryLocalNames(ApiFixture apiFixture)
+        {
+            // Arrange
+            var expectedLocalNameId = "10";
+            var expectedLocalName = "local UA";
+            var result = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
+                new CountryCreateDto
+                {
+                    Name = "Ukraine",
+                    Population = 44000000
+                });
+
+            //Act
+            var ownedResult = (CreatedODataResult<CountryLocalNameDto>)await apiFixture.CountriesController!.PostToCountryLocalNames(
+                result.Entity.keyId,
+                new CountryLocalNameCreateDto
+                {
+                    Id = expectedLocalNameId,
+                    Name = expectedLocalName
+                });
+
+            //Assert
+            ownedResult.Should().NotBeNull();
+            ownedResult!.Entity.Id.Should().Be(expectedLocalNameId);
         }
     }
 }
