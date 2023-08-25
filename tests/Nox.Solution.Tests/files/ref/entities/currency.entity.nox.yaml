@@ -21,11 +21,4 @@ relationships:
     entity: Country
 
 attributes:
-
-  - name: Info
-    description: More info about the entity
-    type: text
-    textTypeOptions:
-      maxLength: 255
-
   - $ref: info.type.nox.yaml

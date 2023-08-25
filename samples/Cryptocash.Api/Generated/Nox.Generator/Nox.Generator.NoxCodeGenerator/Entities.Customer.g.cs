@@ -16,7 +16,7 @@ namespace CryptocashApi.Domain;
 public partial class Customer : AuditableEntityBase
 {
     /// <summary>
-    /// The Customer unique identifier (Required).
+    /// The customer's unique identifier (Required).
     /// </summary>
     public DatabaseNumber Id { get; set; } = null!;
 
@@ -33,7 +33,7 @@ public partial class Customer : AuditableEntityBase
     /// <summary>
     /// The customer's email (Required).
     /// </summary>
-    public Nox.Types.Email Email { get; set; } = null!;
+    public Nox.Types.Email EmailAddress { get; set; } = null!;
 
     /// <summary>
     /// The customer's address (Required).
@@ -44,4 +44,23 @@ public partial class Customer : AuditableEntityBase
     /// The customer's mobile number (Optional).
     /// </summary>
     public Nox.Types.PhoneNumber? MobileNumber { get; set; } = null!;
+
+    /// <summary>
+    /// Customer The customer's payment details ZeroOrOne CustomerPaymentDetails
+    /// </summary>
+    public virtual CustomerPaymentDetails? CustomerPaymentDetails { get; set; } = null!;
+
+    /// <summary>
+    /// Customer The booking's related customer ZeroOrMany Bookings
+    /// </summary>
+    public virtual List<Booking> Bookings { get; set; } = new();
+
+    public List<Booking> Booking => Bookings;
+
+    /// <summary>
+    /// Customer The transaction's related customer ZeroOrMany CustomerTransactions
+    /// </summary>
+    public virtual List<CustomerTransaction> CustomerTransactions { get; set; } = new();
+
+    public List<CustomerTransaction> CustomerTransaction => CustomerTransactions;
 }

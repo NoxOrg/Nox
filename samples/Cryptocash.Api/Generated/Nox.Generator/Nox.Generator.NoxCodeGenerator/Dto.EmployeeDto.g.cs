@@ -20,7 +20,7 @@ public partial class EmployeeDto
 {
 
     /// <summary>
-    /// The employee unique identifier (Required).
+    /// The employee's unique identifier (Required).
     /// </summary>
     public System.Int64 Id { get; set; } = default!;
 
@@ -37,7 +37,7 @@ public partial class EmployeeDto
     /// <summary>
     /// The employee's email (Required).
     /// </summary>
-    public System.String Email { get; set; } = default!;
+    public System.String EmailAddress { get; set; } = default!;
 
     /// <summary>
     /// The employee's address (Required).
@@ -54,5 +54,8 @@ public partial class EmployeeDto
     /// </summary>
     public System.DateTime? LastWorkingDay { get; set; }
 
-    public System.DateTime? DeletedAtUtc { get; set; }
+    /// <summary>
+    /// Employee The employee's phone numbers ZeroOrMany EmployeePhoneNumbers
+    /// </summary>
+    public virtual List<EmployeePhoneNumberDto> EmployeePhoneNumbers { get; set; } = new();
 }

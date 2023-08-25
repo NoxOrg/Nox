@@ -20,7 +20,7 @@ domain:
   
     - $ref: ./Entities/store.entity.nox.yaml
   
-    - $ref: ./Entities/databaseguid.entity.nox.yaml
+    - $ref: ./Entities/workplace.entity.nox.yaml
   
     - name: EmailAddress #owned by store
       description: Verified Email Address

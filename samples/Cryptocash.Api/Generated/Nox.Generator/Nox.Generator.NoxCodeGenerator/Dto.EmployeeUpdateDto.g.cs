@@ -30,9 +30,9 @@ public partial class EmployeeUpdateDto
     /// <summary>
     /// The employee's email (Required).
     /// </summary>
-    [Required(ErrorMessage = "Email is required")]
+    [Required(ErrorMessage = "EmailAddress is required")]
     
-    public System.String Email { get; set; } = default!;
+    public System.String EmailAddress { get; set; } = default!;
     /// <summary>
     /// The employee's address (Required).
     /// </summary>
@@ -49,4 +49,9 @@ public partial class EmployeeUpdateDto
     /// The employee's last working day (Optional).
     /// </summary>
     public System.DateTime? LastWorkingDay { get; set; } 
+
+    /// <summary>
+    /// Employee The employee's phone numbers ZeroOrMany EmployeePhoneNumbers
+    /// </summary>
+    public virtual List<EmployeePhoneNumberUpdateDto> EmployeePhoneNumbers { get; set; } = new();
 }
