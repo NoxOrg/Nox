@@ -67,7 +67,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 new CountryCreateDto
                 {
                     Name = apiFixture.Fixture.Create<string>(),
-                    CountryLocalNames = new List<CountryLocalNameUpdateDto>() { new CountryLocalNameUpdateDto() { Name = expectedOwnedName } }
+                    CountryLocalNames = new List<CountryLocalNameDto>() { new CountryLocalNameDto() { Name = expectedOwnedName } }
                 });
 
             var queryResult = await apiFixture.CountriesController!.Get(result.Entity.keyId);
@@ -79,9 +79,8 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 .Which.Entity.keyId.Should().BeGreaterThan(0);
 
             queryResult.Should().NotBeNull();
-
-            // TODO: add odata controller to test include properly
-            //queryResult!.ToDto().OwnedEntities!.Single().Name.Should().Be(expectedOwnedName);
+            queryResult.ExtractResult().CountryLocalNames.Should().NotBeNull();
+            queryResult.ExtractResult().CountryLocalNames.Single().Name.Should().Be(expectedOwnedName);
         }
 
         [Theory, AutoMoqData]
@@ -348,7 +347,6 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         public async Task PostToCountryLocalNames_ShouldAddToCountryLocalNames(ApiFixture apiFixture)
         {
             // Arrange
-            var expectedLocalNameId = "10";
             var expectedLocalName = "local UA";
             var result = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
                 new CountryCreateDto
@@ -362,13 +360,13 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 result.Entity.keyId,
                 new CountryLocalNameCreateDto
                 {
-                    Id = expectedLocalNameId,
+                    //Id = expectedLocalNameId,
                     Name = expectedLocalName
                 });
 
             //Assert
             ownedResult.Should().NotBeNull();
-            ownedResult!.Entity.Id.Should().Be(expectedLocalNameId);
+            ownedResult!.Entity.Id.Should().BeGreaterThan(0);
         }
     }
 }

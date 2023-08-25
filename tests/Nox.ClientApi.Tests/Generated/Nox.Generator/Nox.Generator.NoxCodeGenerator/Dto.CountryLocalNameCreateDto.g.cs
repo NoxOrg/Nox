@@ -14,9 +14,4 @@ namespace ClientApi.Application.Dto;
 /// </summary>
 public partial class CountryLocalNameCreateDto : CountryLocalNameUpdateDto
 {
-    /// <summary>
-    /// The unique identifier (Required).
-    /// </summary>
-    [Required(ErrorMessage = "Id is required")]
-    public System.String Id { get; set; } = default!;
 }

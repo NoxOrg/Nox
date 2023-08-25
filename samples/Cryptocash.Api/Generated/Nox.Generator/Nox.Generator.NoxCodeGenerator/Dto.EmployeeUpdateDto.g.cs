@@ -53,5 +53,5 @@ public partial class EmployeeUpdateDto
     /// <summary>
     /// Employee The employee's phone numbers ZeroOrMany EmployeePhoneNumbers
     /// </summary>
-    public virtual List<EmployeePhoneNumberUpdateDto> EmployeePhoneNumbers { get; set; } = new();
+    public virtual List<EmployeePhoneNumberDto> EmployeePhoneNumbers { get; set; } = new();
 }

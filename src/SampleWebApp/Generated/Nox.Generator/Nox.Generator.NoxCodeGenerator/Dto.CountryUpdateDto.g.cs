@@ -28,11 +28,9 @@ public partial class CountryUpdateDto
     
     public System.String FormalName { get; set; } = default!;
     /// <summary>
-    /// The country's official ISO 4217 alpha-3 code (Required).
+    /// The country's official ISO 4217 alpha-3 code (Optional).
     /// </summary>
-    [Required(ErrorMessage = "AlphaCode3 is required")]
-    
-    public System.String AlphaCode3 { get; set; } = default!;
+    public System.String? AlphaCode3 { get; set; } 
     /// <summary>
     /// The country's official ISO 4217 alpha-2 code (Required).
     /// </summary>
@@ -97,5 +95,5 @@ public partial class CountryUpdateDto
     /// <summary>
     /// Country is also know as OneOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalNameUpdateDto> CountryLocalNames { get; set; } = new();
+    public virtual List<CountryLocalNameDto> CountryLocalNames { get; set; } = new();
 }
