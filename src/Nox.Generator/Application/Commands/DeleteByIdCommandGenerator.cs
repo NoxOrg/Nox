@@ -28,7 +28,7 @@ internal class DeleteByIdCommandGenerator : INoxCodeGenerator
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Delete{entity.Name}ByIdCommand")
-                .WithFileNamePrefix($"Commands")
+                .WithFileNamePrefix($"Application.Commands")
                 .WithObject("entity", entity)
                 .WithObject("primaryKeys", primaryKeys)
                 .WithObject("primaryKeysQuery", primaryKeysQuery)

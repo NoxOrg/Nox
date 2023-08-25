@@ -31,7 +31,7 @@ internal class ByIdQueryGenerator : INoxCodeGenerator
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Get{entity.Name}ByIdQuery")
-                .WithFileNamePrefix($"Queries")
+                .WithFileNamePrefix($"Application.Queries")
                 .WithObject("entity", entity)
                 .WithObject("primaryKeys", primaryKeys)
                 .GenerateSourceCodeFromResource(templateName);

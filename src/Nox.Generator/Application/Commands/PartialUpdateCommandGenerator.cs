@@ -29,7 +29,7 @@ internal class PartialUpdateCommandGenerator : INoxCodeGenerator
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"PartialUpdate{entity.Name}Command")
-                .WithFileNamePrefix($"Commands")
+                .WithFileNamePrefix($"Application.Commands")
                 .WithObject("entity", entity)
                 .WithObject("primaryKeys", primaryKeys)
                 .WithObject("primaryKeysFindQuery", primaryKeysFindQuery)

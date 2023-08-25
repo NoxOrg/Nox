@@ -37,7 +37,7 @@ internal class NoxTypeDtoGenerator : INoxCodeGenerator
 
         new TemplateCodeBuilder(context, codeGeneratorState)
             .WithClassName($"CompoundNoxTypes")
-            .WithFileNamePrefix($"Dto")
+            .WithFileNamePrefix("Application.Dto")
             .WithObject("compoundTypes", compoundTypes)
             .GenerateSourceCodeFromResource(templateName);
     }

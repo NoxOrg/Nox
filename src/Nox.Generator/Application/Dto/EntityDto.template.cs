@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
-using {{codeGeneratorState.DataTransferObjectsNameSpace}};
+//using {{codeGeneratorState.DataTransferObjectsNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;

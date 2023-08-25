@@ -43,14 +43,14 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
 
         var generatedSources = result.GeneratedSources;
         Assert.Equal(16, generatedSources.Length);
-        Assert.True(generatedSources.Any(s => s.HintName == "NoxWebApplicationExtensions.g.cs"), "NoxWebApplicationExtensions.g.cs not generated");
-        Assert.True(generatedSources.Any(s => s.HintName == "Generator.g.cs"), "Generator.g.cs not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == "Application.NoxWebApplicationExtensions.g.cs"), "NoxWebApplicationExtensions.g.cs not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == "0.Generator.g.cs"), "Generator.g.cs not generated");
 
-        var countryFileName = "Entities.Country.g.cs";
+        var countryFileName = "Domain.Country.g.cs";
         Assert.True(generatedSources.Any(s => s.HintName == countryFileName), $"{countryFileName} not generated");
         Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/Country.expected.g.cs"), generatedSources.First(s => s.HintName == countryFileName).SourceText.ToString());
 
-        var dbContextFileName = "SampleWebAppDbContext.g.cs";
+        var dbContextFileName = "Infrastructure.Persistence.SampleWebAppDbContext.g.cs";
         Assert.True(generatedSources.Any(s => s.HintName == dbContextFileName), $"{dbContextFileName} not generated");
         Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/SampleWebAppDbContext.expected.g.cs"), generatedSources.First(s => s.HintName == dbContextFileName).SourceText.ToString());
         //can further extend this test to verify contents of source files.

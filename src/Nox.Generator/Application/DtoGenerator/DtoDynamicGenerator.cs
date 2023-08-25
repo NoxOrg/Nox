@@ -9,7 +9,8 @@ using static Nox.Generator.Common.BaseGenerator;
 
 namespace Nox.Generator.Application.DtoGenerator;
 
-internal class DtoDynamicGenerator : INoxCodeGenerator
+// TODO Rethink custom commands and queries
+internal class DtoDynamicGenerator// : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Application;
 
