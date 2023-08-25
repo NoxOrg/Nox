@@ -39,10 +39,10 @@ public class CustomerMapper: EntityMapperBase<Customer>
         {        
             entity.LastName = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"Email",dto.Email);
+        noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"EmailAddress",dto.EmailAddress);
         if(noxTypeValue != null)
         {        
-            entity.Email = noxTypeValue;
+            entity.EmailAddress = noxTypeValue;
         }
         noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition,"Address",dto.Address);
         if(noxTypeValue != null)
@@ -87,16 +87,16 @@ public class CustomerMapper: EntityMapperBase<Customer>
             }
         }
         {
-            if (updatedProperties.TryGetValue("Email", out dynamic? value))
+            if (updatedProperties.TryGetValue("EmailAddress", out dynamic? value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"Email",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"EmailAddress",value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("Customer", "Email");
+                    throw new EntityAttributeIsNotNullableException("Customer", "EmailAddress");
                 }
                 else
                 {
-                    entity.Email = noxTypeValue;
+                    entity.EmailAddress = noxTypeValue;
                 }
             }
         }

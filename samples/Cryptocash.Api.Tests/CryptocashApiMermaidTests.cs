@@ -1,5 +1,6 @@
 using Nox.Solution;
 using Nox.Docs.Extensions;
+using FluentAssertions;
 
 namespace Cryptocash.Api.Tests;
 
@@ -14,6 +15,6 @@ public class CryptocashApiMermaidTests
 
         var mermaidText = noxSolution.ToMermaidErd();
 
-        Assert.False(String.IsNullOrWhiteSpace(mermaidText));
+        mermaidText.Should().NotBeNullOrWhiteSpace();
     }
 }
