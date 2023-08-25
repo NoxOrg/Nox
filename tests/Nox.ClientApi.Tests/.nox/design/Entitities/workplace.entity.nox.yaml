@@ -36,4 +36,3 @@ persistence:
     delete:
         isEnabled: true
         raiseEvents: true
-        useSoftDelete: false
