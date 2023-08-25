@@ -37,6 +37,9 @@ public static class EntityRelationshipExtensions
         return generate;
     }
 
+    /// <summary>
+    /// This relationship is a zero or one relation to the other entity
+    /// </summary>
     public static bool WithSingleEntity(this EntityRelationship relationship)
     {
         return
@@ -56,7 +59,9 @@ public static class EntityRelationshipExtensions
             (hasReferenceToManyEntities && relationshipNameIsEqualToPluralName);
 
     }
-
+    /// <summary>
+    ///The related entity is a *OrMany relationship to this  
+    /// </summary>
     public static bool IsManyRelationshipOnOtherSide(this EntityRelationship relationship)
     {
         return

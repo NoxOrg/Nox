@@ -49,10 +49,16 @@ public class EmployeeMapper: EntityMapperBase<Employee>
         {        
             entity.Address = noxTypeValue;
         }
-
-        // TODO map FirstWorkingDay Date remaining types and remove if else
-
-        // TODO map LastWorkingDay Date remaining types and remove if else
+        noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition,"FirstWorkingDay",dto.FirstWorkingDay);
+        if(noxTypeValue != null)
+        {        
+            entity.FirstWorkingDay = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition,"LastWorkingDay",dto.LastWorkingDay);
+        if(noxTypeValue != null)
+        {        
+            entity.LastWorkingDay = noxTypeValue;
+        }
     }
 
     public override void PartialMapToEntity(Employee entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)

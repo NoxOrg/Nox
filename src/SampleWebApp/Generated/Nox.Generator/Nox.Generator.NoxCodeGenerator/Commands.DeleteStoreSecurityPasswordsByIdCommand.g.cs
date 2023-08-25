@@ -4,7 +4,6 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -15,27 +14,22 @@ namespace SampleWebApp.Application.Commands;
 
 public record DeleteStoreSecurityPasswordsByIdCommand(System.String keyId) : IRequest<bool>;
 
-public class DeleteStoreSecurityPasswordsByIdCommandHandler: CommandBase<DeleteStoreSecurityPasswordsByIdCommand>, IRequestHandler<DeleteStoreSecurityPasswordsByIdCommand, bool>
+public class DeleteStoreSecurityPasswordsByIdCommandHandler: CommandBase<DeleteStoreSecurityPasswordsByIdCommand,StoreSecurityPasswords>, IRequestHandler<DeleteStoreSecurityPasswordsByIdCommand, bool>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public SampleWebAppDbContext DbContext { get; }
 
 	public DeleteStoreSecurityPasswordsByIdCommandHandler(
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution, 
-		IServiceProvider serviceProvider,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 
 	public async Task<bool> Handle(DeleteStoreSecurityPasswordsByIdCommand request, CancellationToken cancellationToken)
 	{
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<StoreSecurityPasswords,Text>("Id", request.keyId);
 
 		var entity = await DbContext.StoreSecurityPasswords.FindAsync(keyId);
@@ -43,9 +37,9 @@ public class DeleteStoreSecurityPasswordsByIdCommandHandler: CommandBase<DeleteS
 		{
 			return false;
 		}
-		var deletedBy = _userProvider.GetUser();
-		var deletedVia = _systemProvider.GetSystem();
-		entity.Deleted(deletedBy, deletedVia);
+
+		OnCompleted(entity);
+		DbContext.Entry(entity).State = EntityState.Deleted;
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}

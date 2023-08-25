@@ -4,7 +4,6 @@
 
 using MediatR;
 using Microsoft.EntityFrameworkCore;
-using Nox.Abstractions;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
@@ -15,27 +14,22 @@ namespace SampleWebApp.Application.Commands;
 
 public record DeleteCountryByIdCommand(System.Int64 keyId) : IRequest<bool>;
 
-public class DeleteCountryByIdCommandHandler: CommandBase<DeleteCountryByIdCommand>, IRequestHandler<DeleteCountryByIdCommand, bool>
+public class DeleteCountryByIdCommandHandler: CommandBase<DeleteCountryByIdCommand,Country>, IRequestHandler<DeleteCountryByIdCommand, bool>
 {
-	private readonly IUserProvider _userProvider;
-	private readonly ISystemProvider _systemProvider;
-
 	public SampleWebAppDbContext DbContext { get; }
 
 	public DeleteCountryByIdCommandHandler(
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution, 
-		IServiceProvider serviceProvider,
-		IUserProvider userProvider,
-		ISystemProvider systemProvider): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		_userProvider = userProvider;
-		_systemProvider = systemProvider;
 	}
 
 	public async Task<bool> Handle(DeleteCountryByIdCommand request, CancellationToken cancellationToken)
 	{
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Country,DatabaseNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Countries.FindAsync(keyId);
@@ -43,9 +37,9 @@ public class DeleteCountryByIdCommandHandler: CommandBase<DeleteCountryByIdComma
 		{
 			return false;
 		}
-		var deletedBy = _userProvider.GetUser();
-		var deletedVia = _systemProvider.GetSystem();
-		entity.Deleted(deletedBy, deletedVia);
+
+		OnCompleted(entity);
+		DbContext.Entry(entity).State = EntityState.Deleted;
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;
 	}
