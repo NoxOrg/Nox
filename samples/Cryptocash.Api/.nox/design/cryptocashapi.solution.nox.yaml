@@ -14,9 +14,7 @@ domain:
 
 infrastructure:
 
-  persistence:
-
-    $ref: ./infrastructure/persistence/cryptocashapi.persistence.nox.yaml
+  $ref: ./infratructure/cryptocashapi.infrastructure.nox.yaml
 
 application:
 

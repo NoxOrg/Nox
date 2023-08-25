@@ -13,7 +13,7 @@ keys:
   - name: Id
     isRequired: true
     description: The booking unique identifier 
-    type: databaseNumber 
+    type: databaseGuid 
     userInterface:
       showInSearchResults: never
       canSearch: true
@@ -59,6 +59,18 @@ attributes:
       showOnCreateForm: true
       showOnUpdateForm: true
 
+  - name: PickedUpDateTime
+    description: The booking's actual pick up date
+    type: dateTimeRange   
+    isRequired: false  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: false
+      canSearch: false
+      canFilter: false
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
   - name: ExpiryDateTime
     description: The booking's expiry date
     type: dateTime  
@@ -74,7 +86,7 @@ attributes:
   - name: CancelledDateTime
     description: The booking's cancelled date
     type: dateTime  
-    isRequired: true  
+    isRequired: false  
     userInterface:
       showInSearchResults: optionalAndOnByDefault
       canSort: false
@@ -83,17 +95,20 @@ attributes:
       showOnCreateForm: true
       showOnUpdateForm: true
 
-  # - name: Status
-  #   description: The booking's status
-  #   type: formula  
-  #   isRequired: true  
-  #   userInterface:
-  #     showInSearchResults: optionalAndOnByDefault
-  #     canSort: false
-  #     canSearch: false
-  #     canFilter: false
-  #     showOnCreateForm: true
-  #     showOnUpdateForm: true
+  - name: Status
+    description: The booking's status
+    type: formula  
+    formulaTypeOptions:
+      expression: 'CancelledDateTime == null ? "cancelled" : (PickedUpDateTime == null ? "picked-up" : "booked")' 
+      returns: string
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: false
+      canSearch: false
+      canFilter: false
+      showOnCreateForm: true
+      showOnUpdateForm: true
 
   - name: VatNumber
     description: The booking's related vat number
