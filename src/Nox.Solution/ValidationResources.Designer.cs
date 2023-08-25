@@ -322,6 +322,15 @@ namespace Nox.Solution {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The {0} &apos;{1}&apos; is duplicated. {0} must be unique in a domain definition..
+        /// </summary>
+        internal static string DuplicateItemInCollection {
+            get {
+                return ResourceManager.GetString("DuplicateItemInCollection", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The infrastructure, dependencies, notifications, email server &apos;{0}&apos; must have a valid provider specified. Valid providers are one of {1}.
         /// </summary>
         internal static string EmailServerProviderEmpty {
