@@ -44,6 +44,8 @@ public class CountryMapper: EntityMapperBase<Country>
         {        
             entity.CountryDebt = noxTypeValue;
         }
+
+        // TODO map ShortDescription Formula remaining types and remove if else
     }
 
     public override void PartialMapToEntity(Country entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)

@@ -40,6 +40,11 @@ public partial class CountryDto
     public MoneyDto? CountryDebt { get; set; }
 
     /// <summary>
+    /// The Formula (Optional).
+    /// </summary>
+    public System.String? ShortDescription { get; set; }
+
+    /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
     public virtual List<CountryLocalNameDto> CountryLocalNames { get; set; } = new();
