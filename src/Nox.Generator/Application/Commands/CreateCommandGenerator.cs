@@ -27,7 +27,7 @@ internal class CreateCommandGenerator : INoxCodeGenerator
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Create{entity.Name}Command")
-                .WithFileNamePrefix($"Commands")
+                .WithFileNamePrefix($"Application.Commands")
                 .WithObject("entity", entity)
                 .WithObject("primaryKeysQuery", primaryKeysQuery)
                 .GenerateSourceCodeFromResource(templateName);

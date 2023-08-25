@@ -32,7 +32,7 @@ internal class AddCommandGenerator : INoxCodeGenerator
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Add{entity.Name}Command")
-                .WithFileNamePrefix($"Commands")
+                .WithFileNamePrefix($"Application.Commands")
                 .WithObject("entity", entity)
                 .WithObject("parent", parent)
                 .WithObject("parentKeysFindQuery", parentKeysFindQuery)

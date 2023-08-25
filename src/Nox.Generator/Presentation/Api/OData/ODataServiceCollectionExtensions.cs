@@ -29,6 +29,7 @@ internal class ODataServiceCollectionExtensions : INoxCodeGenerator
 
         new TemplateCodeBuilder(context, codeGeneratorState)
             .WithObject("hasKeyForCompoundKeys", hasKeyForCompoundKeys)
+            .WithFileNamePrefix($"Presentation.Api.OData")
             .GenerateSourceCodeFromResource(templateName);
 
     }
