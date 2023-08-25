@@ -35,6 +35,13 @@ attributes:
     type: money    
     isRequired: false
 
+  - name: ShortDescription
+    description: The Formula
+    type: formula
+    formulaTypeOptions:
+      returns: string
+      expression: $"{Name} has a population of {Population} people."
+
 ownedRelationships:
 
   - name: CountryLocalNamess
@@ -55,4 +62,3 @@ persistence:
     delete:
         isEnabled: true
         raiseEvents: true
-        useSoftDelete: true

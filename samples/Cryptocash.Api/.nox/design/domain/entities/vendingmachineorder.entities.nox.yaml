@@ -1,0 +1,93 @@
+#
+# vendingmachineorder.entities.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../../schemas/entity.json
+#
+
+name: VendingMachineOrder
+
+description: Vending machine currency order and related data
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: The vending machine's order unique identifier 
+    type: databaseNumber 
+    userInterface:
+      showInSearchResults: never
+      canSearch: true
+      canFilter: false
+      showOnCreateForm: false
+      showOnUpdateForm: true
+
+attributes:
+
+  - name: Amount
+    description: The order's amount
+    type: money     
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: RequestedDeliveryDate
+    description: The order's requested delivery date
+    type: date  
+    isRequired: false  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: false
+      canSearch: false
+      canFilter: false
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: DeliveryDateTime
+    description: The order's delivery date
+    type: dateTime  
+    isRequired: false  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: false
+      canSearch: false
+      canFilter: false
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  # - name: Status
+  #   description: The order's status
+  #   type: formula  
+  #   isRequired: true  
+  #   userInterface:
+  #     showInSearchResults: optionalAndOnByDefault
+  #     canSort: false
+  #     canSearch: false
+  #     canFilter: false
+  #     showOnCreateForm: true
+  #     showOnUpdateForm: true
+
+relationships:
+    
+  - name: VendingMachine
+    description: The order's related vending machine
+    relationship: exactlyOne
+    entity: VendingMachine
+
+persistence:
+    isAudited: true    
+    create:
+        isEnabled: true
+        raiseEvents: true
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: true
+    delete:
+        isEnabled: true
+        raiseEvents: true

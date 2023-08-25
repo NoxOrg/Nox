@@ -1,6 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Nox.Application.Providers;
 using Nox.EntityFramework.SqlServer;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
@@ -42,7 +43,13 @@ namespace Nox.Integration.Tests.Fixtures
                 .UseInMemoryDatabase("Nox")
                 .Options;
 
-            DbContext = new TestWebAppDbContext(options, solution, databaseConfigurator, new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
+            DbContext = new TestWebAppDbContext(
+                options,
+                solution,
+                databaseConfigurator,
+                new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()),
+                new DefaultUserProvider(),
+                new DefaultSystemProvider());
         }
 
         public TestWebAppDbContext DbContext { get; }

@@ -57,7 +57,11 @@ public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.P
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
     /// </summary>
     {{ if attribute.Type == "Formula" -}}
-    public {{attribute.FormulaTypeOptions.Returns}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}} => {{attribute.FormulaTypeOptions.Expression}};
+    public {{attribute.FormulaTypeOptions.Returns}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}}
+{ 
+    get { return {{attribute.FormulaTypeOptions.Expression}}; }
+    private set { }
+}
     {{- else -}}
     public Nox.Types.{{attribute.Type}}{{if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } = null!;
     {{- end}}

@@ -30,9 +30,9 @@ public partial class CustomerUpdateDto
     /// <summary>
     /// The customer's email (Required).
     /// </summary>
-    [Required(ErrorMessage = "Email is required")]
+    [Required(ErrorMessage = "EmailAddress is required")]
     
-    public System.String Email { get; set; } = default!;
+    public System.String EmailAddress { get; set; } = default!;
     /// <summary>
     /// The customer's address (Required).
     /// </summary>

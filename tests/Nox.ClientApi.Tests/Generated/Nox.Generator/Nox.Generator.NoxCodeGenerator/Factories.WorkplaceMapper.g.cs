@@ -34,6 +34,8 @@ public class WorkplaceMapper: EntityMapperBase<Workplace>
         {        
             entity.Name = noxTypeValue;
         }
+
+        // TODO map Greeting Formula remaining types and remove if else
     }
 
     public override void PartialMapToEntity(Workplace entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)

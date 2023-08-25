@@ -2,17 +2,18 @@
 
 #nullable enable
 
-using Nox.Types;
-using Nox.Domain;
 using System;
 using System.Collections.Generic;
+
+using Nox.Types;
+using Nox.Domain;
 
 namespace TestWebApp.Domain;
 
 /// <summary>
 /// .
 /// </summary>
-public partial class SecondTestEntityOwnedRelationshipZeroOrMany
+public partial class SecondTestEntityOwnedRelationshipZeroOrMany:IOwnedEntity
 {
     /// <summary>
     ///  (Required).
