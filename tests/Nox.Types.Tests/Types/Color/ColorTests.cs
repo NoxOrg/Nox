@@ -32,10 +32,11 @@ public class ColorTests
     [Fact]
     public void Color_Constructor_FromAlphaColor_ReturnsSameValue()
     {
-        var color = Nox.Types.Color.From("#FFF0F8FF");
+        var colorValue = "#FFF0F8FF";
+        var color = Nox.Types.Color.From(colorValue);
 
         color.ToRgbaString().Should().Be("RGBA(240, 248, 255, 1.00)");
-        color.ToHexa().Should().Be("#FFF0F8FF");
+        color.Value.Should().Be(colorValue);
     }
 
     [Fact]

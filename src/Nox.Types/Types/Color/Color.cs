@@ -57,29 +57,6 @@ public class Color : ValueObject<string, Color>
     /// <summary>
     /// Creates a new instance of <see cref="Color"/> object
     /// </summary>
-    /// <param name="color">The origin value to create the <see cref="Color"/> with</param>
-    /// <returns></returns>
-    /// <exception cref="TypeValidationException"></exception>
-    public static new Color From(string colorHex)
-    {
-        var newColor = new Color
-        {
-            Value = colorHex
-        };
-
-        var validationResult = newColor.Validate();
-
-        if (!validationResult.IsValid)
-        {
-            throw new TypeValidationException(validationResult.Errors);
-        }
-
-        return newColor;
-    }
-
-    /// <summary>
-    /// Creates a new instance of <see cref="Color"/> object
-    /// </summary>
     /// <param name="name">The origin value to create the <see cref="Color"/> with</param>
     /// <returns></returns>
     /// <exception cref="TypeValidationException"></exception>
@@ -116,16 +93,6 @@ public class Color : ValueObject<string, Color>
     }
 
     /// <summary>
-    /// Returns the string representation of the color value, formatted in Hexadecimal format string
-    /// </summary>
-    /// <returns>The string representation</returns>
-    public string ToHexa()
-    {
-        var color = ToSystemColor();
-        return $"#{color.A:X2}{color.R:X2}{color.G:X2}{color.B:X2}";
-    }
-
-    /// <summary>
     /// Returns the string representation of the color value, formatted in Hex format string
     /// </summary>
     /// <returns>The string representation</returns>
@@ -153,7 +120,7 @@ public class Color : ValueObject<string, Color>
     {
         return format.ToLower() switch
         {
-            "hexa" => ToHexa(),
+            "hexa" => Value,
             "hex" => ToHex(),
             "name" => ToSystemColor().Name,
             "rgb" => ToRgbString(),
