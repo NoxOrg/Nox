@@ -64,10 +64,10 @@ public class UserIamMapper: EntityMapperBase<UserIam>
         {        
             entity.SecondaryEmailAddress = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition,"CountryCode",dto.CountryCode);
+        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition,"CountryIsoCode",dto.CountryIsoCode);
         if(noxTypeValue != null)
         {        
-            entity.CountryCode = noxTypeValue;
+            entity.CountryIsoCode = noxTypeValue;
         }
 
         // TODO map PrefferedLanguage LanguageCode remaining types and remove if else
@@ -81,6 +81,8 @@ public class UserIamMapper: EntityMapperBase<UserIam>
         {        
             entity.EnablePasswordLess = noxTypeValue;
         }
+
+        // TODO map UserStatus Formula remaining types and remove if else
     }
 
     public override void PartialMapToEntity(UserIam entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
@@ -184,16 +186,16 @@ public class UserIamMapper: EntityMapperBase<UserIam>
             }
         }
         {
-            if (updatedProperties.TryGetValue("CountryCode", out dynamic? value))
+            if (updatedProperties.TryGetValue("CountryIsoCode", out dynamic? value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition,"CountryCode",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition,"CountryIsoCode",value);
                 if(noxTypeValue == null)
                 {
-                    entity.CountryCode = null;
+                    entity.CountryIsoCode = null;
                 }
                 else
                 {
-                    entity.CountryCode = noxTypeValue;
+                    entity.CountryIsoCode = noxTypeValue;
                 }
             }
         }

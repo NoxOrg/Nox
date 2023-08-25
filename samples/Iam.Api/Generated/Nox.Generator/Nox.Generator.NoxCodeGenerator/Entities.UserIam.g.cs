@@ -58,7 +58,7 @@ public partial class UserIam : AuditableEntityBase
     /// <summary>
     /// Country Code (Optional).
     /// </summary>
-    public Nox.Types.CountryCode2? CountryCode { get; set; } = null!;
+    public Nox.Types.CountryCode2? CountryIsoCode { get; set; } = null!;
 
     /// <summary>
     /// Preffered Language (Optional).
@@ -74,6 +74,11 @@ public partial class UserIam : AuditableEntityBase
     /// PasswordLess (Optional).
     /// </summary>
     public Nox.Types.Boolean? EnablePasswordLess { get; set; } = null!;
+
+    /// <summary>
+    /// The user status (Required).
+    /// </summary>
+    public string UserStatus => ComputeStatus();
 
     /// <summary>
     /// UserIam user has roles ZeroOrMany Roles

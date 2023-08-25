@@ -56,7 +56,7 @@ public partial class UserIamUpdateDto
     /// <summary>
     /// Country Code (Optional).
     /// </summary>
-    public System.String? CountryCode { get; set; } 
+    public System.String? CountryIsoCode { get; set; } 
     /// <summary>
     /// Preffered Language (Optional).
     /// </summary>

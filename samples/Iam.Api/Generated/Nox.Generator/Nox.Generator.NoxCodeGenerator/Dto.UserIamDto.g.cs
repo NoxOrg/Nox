@@ -62,7 +62,7 @@ public partial class UserIamDto
     /// <summary>
     /// Country Code (Optional).
     /// </summary>
-    public System.String? CountryCode { get; set; }
+    public System.String? CountryIsoCode { get; set; }
 
     /// <summary>
     /// Preffered Language (Optional).
@@ -78,6 +78,11 @@ public partial class UserIamDto
     /// PasswordLess (Optional).
     /// </summary>
     public System.Boolean? EnablePasswordLess { get; set; }
+
+    /// <summary>
+    /// The user status (Required).
+    /// </summary>
+    [NotMapped]public System.String UserStatus { get; set; } = default!;
 
     /// <summary>
     /// UserIam user has roles ZeroOrMany Roles

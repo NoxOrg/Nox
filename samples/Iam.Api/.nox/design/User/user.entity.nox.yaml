@@ -61,7 +61,7 @@ attributes:
     type: email
     isRequired: false
 
-  - name: CountryCode
+  - name: CountryIsoCode
     description: Country Code
     type: countryCode2
     isRequired: false
@@ -80,6 +80,14 @@ attributes:
     description: PasswordLess
     type: boolean
     isRequired: false
+
+  - name: UserStatus
+    description: The user status
+    type: formula  
+    formulaTypeOptions:
+      expression: 'ComputeStatus()' 
+      returns: string
+    isRequired: true     
 
 relationships:
 
