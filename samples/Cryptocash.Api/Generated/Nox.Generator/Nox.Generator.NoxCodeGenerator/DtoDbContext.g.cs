@@ -61,6 +61,8 @@ public class DtoDbContext : DbContext
         
         public DbSet<CustomerTransactionDto> CustomerTransactions { get; set; } = null!;
         
+        public DbSet<EmployeeDto> Employees { get; set; } = null!;
+        
         public DbSet<ExchangeRateDto> ExchangeRates { get; set; } = null!;
         
         public DbSet<HolidaysDto> Holidays { get; set; } = null!;

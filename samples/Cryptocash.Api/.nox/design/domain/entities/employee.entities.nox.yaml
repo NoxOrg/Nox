@@ -109,7 +109,7 @@ ownedRelationships:
     entity: EmployeePhoneNumber
 
 persistence:
-    isAudited: false    
+    isAudited: true    
     create:
         isEnabled: true
         raiseEvents: true
