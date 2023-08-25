@@ -15,13 +15,13 @@ namespace ClientApi.Domain;
 /// </summary>
 public partial class CountryLocalName:IOwnedEntity
 {
-	/// <summary>
-	/// The unique identifier (Required).
-	/// </summary>
-	public Text Id { get; set; } = null!;
+    /// <summary>
+    /// The unique identifier (Required).
+    /// </summary>
+    public Text Id { get; set; } = null!;
 
-	/// <summary>
-	/// Local name (Required).
-	/// </summary>
-	public Nox.Types.Text Name { get; set; } = null!;
+    /// <summary>
+    /// Local name (Required).
+    /// </summary>
+    public Nox.Types.Text Name { get; set; } = null!;
 }

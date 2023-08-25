@@ -15,30 +15,30 @@ namespace SampleWebApp.Domain;
 /// </summary>
 public partial class StoreSecurityPasswords : AuditableEntityBase
 {
-	/// <summary>
-	/// Passwords Primary Key (Required).
-	/// </summary>
-	public Text Id { get; set; } = null!;
+    /// <summary>
+    /// Passwords Primary Key (Required).
+    /// </summary>
+    public Text Id { get; set; } = null!;
 
-	/// <summary>
-	///  (Required).
-	/// </summary>
-	public Nox.Types.Text Name { get; set; } = null!;
+    /// <summary>
+    ///  (Required).
+    /// </summary>
+    public Nox.Types.Text Name { get; set; } = null!;
 
-	/// <summary>
-	///  (Required).
-	/// </summary>
-	public Nox.Types.Text SecurityCamerasPassword { get; set; } = null!;
+    /// <summary>
+    ///  (Required).
+    /// </summary>
+    public Nox.Types.Text SecurityCamerasPassword { get; set; } = null!;
 
-	/// <summary>
-	/// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores
-	/// </summary>
-	public virtual Store Store { get; set; } = null!;
+    /// <summary>
+    /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores
+    /// </summary>
+    public virtual Store Store { get; set; } = null!;
 
-	public Store StoreRel => Store;
+    public Store StoreRel => Store;
 
-	/// <summary>
-	/// Foreign key for relationship ExactlyOne to entity Store
-	/// </summary>
-	public Nox.Types.Text StoreId { get; set; } = null!;
+    /// <summary>
+    /// Foreign key for relationship ExactlyOne to entity Store
+    /// </summary>
+    public Nox.Types.Text StoreId { get; set; } = null!;
 }

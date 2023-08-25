@@ -15,8 +15,8 @@ namespace SampleWebApp.Domain;
 /// </summary>
 public partial class CountryLocalNames:IOwnedEntity
 {
-	/// <summary>
-	///  (Required).
-	/// </summary>
-	public Text Id { get; set; } = null!;
+    /// <summary>
+    ///  (Required).
+    /// </summary>
+    public Text Id { get; set; } = null!;
 }

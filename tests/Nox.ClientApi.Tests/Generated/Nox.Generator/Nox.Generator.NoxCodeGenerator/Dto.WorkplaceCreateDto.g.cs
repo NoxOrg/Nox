@@ -14,9 +14,4 @@ namespace ClientApi.Application.Dto;
 /// </summary>
 public partial class WorkplaceCreateDto : WorkplaceUpdateDto
 {
-    /// <summary>
-    /// Workplace unique identifier (Required).
-    /// </summary>
-    [Required(ErrorMessage = "Id is required")]
-    public System.Guid Id { get; set; } = default!;
 }
