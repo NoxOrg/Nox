@@ -93,5 +93,5 @@ public partial class Currency : AuditableEntityBase
     /// </summary>
     public virtual List<ExchangeRate> ExchangeRates { get; set; } = new();
 
-    public List<ExchangeRate> ExchangeRate => ExchangeRates;
+    public List<ExchangeRate> ExchangeRateFrom => ExchangeRates;
 }

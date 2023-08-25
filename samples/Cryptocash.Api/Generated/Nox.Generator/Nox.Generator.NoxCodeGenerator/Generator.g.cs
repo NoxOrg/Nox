@@ -26,6 +26,7 @@
 //  - paymentprovider.entities.nox.yaml
 //  - vendingmachine.entities.nox.yaml
 //  - vendingmachineorder.entities.nox.yaml
+//  - cryptocashapi.infrastructure.nox.yaml
 //  - cryptocashapi.persistence.nox.yaml
 //  - generator.nox.yaml
 // SUCCESS.

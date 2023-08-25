@@ -15,7 +15,7 @@ using CryptocashApi.Application.Dto;
 
 namespace CryptocashApi.Application.Commands;
 
-public record PartialUpdateBookingCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <BookingKeyDto?>;
+public record PartialUpdateBookingCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <BookingKeyDto?>;
 
 public class PartialUpdateBookingCommandHandler: CommandBase<PartialUpdateBookingCommand, Booking>, IRequestHandler<PartialUpdateBookingCommand, BookingKeyDto?>
 {
@@ -36,7 +36,7 @@ public class PartialUpdateBookingCommandHandler: CommandBase<PartialUpdateBookin
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Booking,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Booking,DatabaseGuid>("Id", request.keyId);
 
 		var entity = await DbContext.Bookings.FindAsync(keyId);
 		if (entity == null)

@@ -12,7 +12,7 @@ using CryptocashApi.Domain;
 
 namespace CryptocashApi.Application.Commands;
 
-public record DeleteBookingByIdCommand(System.Int64 keyId) : IRequest<bool>;
+public record DeleteBookingByIdCommand(System.Guid keyId) : IRequest<bool>;
 
 public class DeleteBookingByIdCommandHandler: CommandBase<DeleteBookingByIdCommand,Booking>, IRequestHandler<DeleteBookingByIdCommand, bool>
 {
@@ -30,7 +30,7 @@ public class DeleteBookingByIdCommandHandler: CommandBase<DeleteBookingByIdComma
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Booking,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Booking,DatabaseGuid>("Id", request.keyId);
 
 		var entity = await DbContext.Bookings.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted.Value == true)

@@ -34,17 +34,19 @@ public partial class BookingUpdateDto
     
     public DateTimeRangeDto RequestedPickUpDate { get; set; } = default!;
     /// <summary>
+    /// The booking's actual pick up date (Optional).
+    /// </summary>
+    public DateTimeRangeDto? PickedUpDateTime { get; set; } 
+    /// <summary>
     /// The booking's expiry date (Required).
     /// </summary>
     [Required(ErrorMessage = "ExpiryDateTime is required")]
     
     public System.DateTimeOffset ExpiryDateTime { get; set; } = default!;
     /// <summary>
-    /// The booking's cancelled date (Required).
+    /// The booking's cancelled date (Optional).
     /// </summary>
-    [Required(ErrorMessage = "CancelledDateTime is required")]
-    
-    public System.DateTimeOffset CancelledDateTime { get; set; } = default!;
+    public System.DateTimeOffset? CancelledDateTime { get; set; } 
     /// <summary>
     /// The booking's related vat number (Optional).
     /// </summary>

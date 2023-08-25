@@ -49,7 +49,7 @@ public partial class BookingsController : ODataController
         return Ok(result);
     }
     
-    public async Task<ActionResult<BookingDto>> Get([FromRoute] System.Int64 key)
+    public async Task<ActionResult<BookingDto>> Get([FromRoute] System.Guid key)
     {
         var item = await _mediator.Send(new GetBookingByIdQuery(key));
         
@@ -72,7 +72,7 @@ public partial class BookingsController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] BookingUpdateDto booking)
+    public async Task<ActionResult> Put([FromRoute] System.Guid key, [FromBody] BookingUpdateDto booking)
     {
         if (!ModelState.IsValid)
         {
@@ -88,7 +88,7 @@ public partial class BookingsController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<BookingUpdateDto> booking)
+    public async Task<ActionResult> Patch([FromRoute] System.Guid key, [FromBody] Delta<BookingUpdateDto> booking)
     {
         if (!ModelState.IsValid)
         {
@@ -113,7 +113,7 @@ public partial class BookingsController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
         var result = await _mediator.Send(new DeleteBookingByIdCommand(key));
         if (!result)

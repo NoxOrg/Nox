@@ -18,7 +18,7 @@ public partial class Booking : AuditableEntityBase
     /// <summary>
     /// The booking unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public DatabaseGuid Id { get; set; } = null!;
 
     /// <summary>
     /// The booking's amount exchanged from (Required).
@@ -36,14 +36,24 @@ public partial class Booking : AuditableEntityBase
     public Nox.Types.DateTimeRange RequestedPickUpDate { get; set; } = null!;
 
     /// <summary>
+    /// The booking's actual pick up date (Optional).
+    /// </summary>
+    public Nox.Types.DateTimeRange? PickedUpDateTime { get; set; } = null!;
+
+    /// <summary>
     /// The booking's expiry date (Required).
     /// </summary>
     public Nox.Types.DateTime ExpiryDateTime { get; set; } = null!;
 
     /// <summary>
-    /// The booking's cancelled date (Required).
+    /// The booking's cancelled date (Optional).
     /// </summary>
-    public Nox.Types.DateTime CancelledDateTime { get; set; } = null!;
+    public Nox.Types.DateTime? CancelledDateTime { get; set; } = null!;
+
+    /// <summary>
+    /// The booking's status (Required).
+    /// </summary>
+    public string Status => CancelledDateTime == null ? "cancelled" : (PickedUpDateTime == null ? "picked-up" : "booked");
 
     /// <summary>
     /// The booking's related vat number (Optional).

@@ -28,7 +28,7 @@ public partial class EmployeePhoneNumber:IOwnedEntity
     /// <summary>
     /// The employee's phone number (Required).
     /// </summary>
-    public Nox.Types.Text PhoneNumber { get; set; } = null!;
+    public Nox.Types.PhoneNumber PhoneNumber { get; set; } = null!;
 
     /// <summary>
     /// EmployeePhoneNumber The related employee ZeroOrMany Employees

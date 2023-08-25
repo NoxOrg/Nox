@@ -11,7 +11,7 @@ using CryptocashApi.Domain;
 
 namespace CryptocashApi.Application.Dto;
 
-public record BookingKeyDto(System.Int64 keyId);
+public record BookingKeyDto(System.Guid keyId);
 
 /// <summary>
 /// Exchange booking and related data.
@@ -22,7 +22,7 @@ public partial class BookingDto
     /// <summary>
     /// The booking unique identifier (Required).
     /// </summary>
-    public System.Int64 Id { get; set; } = default!;
+    public System.Guid Id { get; set; } = default!;
 
     /// <summary>
     /// The booking's amount exchanged from (Required).
@@ -40,14 +40,24 @@ public partial class BookingDto
     public DateTimeRangeDto RequestedPickUpDate { get; set; } = default!;
 
     /// <summary>
+    /// The booking's actual pick up date (Optional).
+    /// </summary>
+    public DateTimeRangeDto? PickedUpDateTime { get; set; }
+
+    /// <summary>
     /// The booking's expiry date (Required).
     /// </summary>
     public System.DateTimeOffset ExpiryDateTime { get; set; } = default!;
 
     /// <summary>
-    /// The booking's cancelled date (Required).
+    /// The booking's cancelled date (Optional).
     /// </summary>
-    public System.DateTimeOffset CancelledDateTime { get; set; } = default!;
+    public System.DateTimeOffset? CancelledDateTime { get; set; }
+
+    /// <summary>
+    /// The booking's status (Required).
+    /// </summary>
+    [NotMapped]public System.String Status { get; set; } = default!;
 
     /// <summary>
     /// The booking's related vat number (Optional).

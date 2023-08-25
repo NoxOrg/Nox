@@ -41,6 +41,8 @@ public class BookingMapper: EntityMapperBase<Booking>
         }
 
         // TODO map RequestedPickUpDate DateTimeRange remaining types and remove if else
+
+        // TODO map PickedUpDateTime DateTimeRange remaining types and remove if else
         noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition,"ExpiryDateTime",dto.ExpiryDateTime);
         if(noxTypeValue != null)
         {        
@@ -51,6 +53,8 @@ public class BookingMapper: EntityMapperBase<Booking>
         {        
             entity.CancelledDateTime = noxTypeValue;
         }
+
+        // TODO map Status Formula remaining types and remove if else
         noxTypeValue = CreateNoxType<Nox.Types.VatNumber>(entityDefinition,"VatNumber",dto.VatNumber);
         if(noxTypeValue != null)
         {        
@@ -103,6 +107,20 @@ public class BookingMapper: EntityMapperBase<Booking>
             }
         }
         {
+            if (updatedProperties.TryGetValue("PickedUpDateTime", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.DateTimeRange>(entityDefinition,"PickedUpDateTime",value);
+                if(noxTypeValue == null)
+                {
+                    entity.PickedUpDateTime = null;
+                }
+                else
+                {
+                    entity.PickedUpDateTime = noxTypeValue;
+                }
+            }
+        }
+        {
             if (updatedProperties.TryGetValue("ExpiryDateTime", out dynamic? value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition,"ExpiryDateTime",value);
@@ -122,7 +140,7 @@ public class BookingMapper: EntityMapperBase<Booking>
                 var noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition,"CancelledDateTime",value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("Booking", "CancelledDateTime");
+                    entity.CancelledDateTime = null;
                 }
                 else
                 {
