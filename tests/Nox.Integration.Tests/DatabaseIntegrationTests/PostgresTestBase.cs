@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
-
+using Nox.Application.Providers;
 using Nox.EntityFramework.Postgres;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
@@ -74,7 +74,14 @@ public abstract class PostgresTestBase : IDisposable
             .UseNpgsql(connection)
             .Options;
 
-        var dbContext = new TestWebAppDbContext(options, solution, databaseConfigurator, new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
+        var dbContext = new TestWebAppDbContext(
+            options,
+            solution,
+            databaseConfigurator,
+            new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()),
+            new DefaultUserProvider(),
+            new DefaultSystemProvider());
+
         dbContext.Database.EnsureCreated();
 
         return dbContext;

@@ -1,4 +1,5 @@
-﻿using Nox.Solution;
+﻿using Microsoft.EntityFrameworkCore;
+using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 
@@ -16,12 +17,15 @@ public class FormulaDatabaseConfigurator : INoxTypeDatabaseConfigurator
         Entity entity,
         bool isKey)
     {
-        builder.Ignore(property.Name);
+        var options = property.FormulaTypeOptions ?? new FormulaTypeOptions();
+
+        builder
+            .Property(property.Name)
+            .UsePropertyAccessMode(PropertyAccessMode.Property)
+            .IsRequired(property.IsRequired)
+            .HasConversion(options.Returns.AsNativeType());
     }
 
-    public string GetKeyPropertyName(NoxSimpleTypeDefinition key)
-    {
-        return key.Name;
-    }
+    public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
 }
 

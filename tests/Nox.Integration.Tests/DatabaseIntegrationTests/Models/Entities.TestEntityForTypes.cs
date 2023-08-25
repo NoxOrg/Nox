@@ -2,10 +2,11 @@
 
 #nullable enable
 
-using Nox.Types;
-using Nox.Domain;
 using System;
 using System.Collections.Generic;
+
+using Nox.Types;
+using Nox.Domain;
 
 namespace TestWebApp.Domain;
 
@@ -277,7 +278,11 @@ public partial class TestEntityForTypes : AuditableEntityBase
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public int? FormulaTestField => 2 + 2;
+    public int? FormulaTestField
+    { 
+        get { return 2 + 2; }
+        private set { }
+    }
 
     /// <summary>
     ///  (Required).
