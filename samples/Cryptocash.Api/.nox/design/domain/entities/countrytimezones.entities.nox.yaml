@@ -1,0 +1,58 @@
+#
+# countrytimezones.entities.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../../schemas/entity.json
+#
+
+name: CountryTimeZones
+
+description: Time zones related to country
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: The country's timezone unique identifier 
+    type: databaseNumber 
+    userInterface:
+      showInSearchResults: never
+      canSearch: true
+      canFilter: false
+      showOnCreateForm: false
+      showOnUpdateForm: true
+
+attributes:
+
+  - name: TimeZoneCode
+    description: The country's related timezone code
+    type: timeZoneCode     
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+relationships:
+    
+  - name: Country
+    description: The country's related timezones
+    relationship: zeroOrMany
+    entity: Country
+
+persistence:
+    isAudited: true    
+    create:
+        isEnabled: true
+        raiseEvents: true
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: true
+    delete:
+        isEnabled: true
+        raiseEvents: true
+        useSoftDelete: true

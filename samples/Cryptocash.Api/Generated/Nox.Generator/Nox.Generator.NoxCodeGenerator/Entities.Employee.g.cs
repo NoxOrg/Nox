@@ -13,10 +13,10 @@ namespace CryptocashApi.Domain;
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-public partial class Employee : AuditableEntityBase
+public partial class Employee:IOwnedEntity
 {
     /// <summary>
-    /// The employee unique identifier (Required).
+    /// The employee's unique identifier (Required).
     /// </summary>
     public DatabaseNumber Id { get; set; } = null!;
 
@@ -33,7 +33,7 @@ public partial class Employee : AuditableEntityBase
     /// <summary>
     /// The employee's email (Required).
     /// </summary>
-    public Nox.Types.Email Email { get; set; } = null!;
+    public Nox.Types.Email EmailAddress { get; set; } = null!;
 
     /// <summary>
     /// The employee's address (Required).
@@ -49,4 +49,11 @@ public partial class Employee : AuditableEntityBase
     /// The employee's last working day (Optional).
     /// </summary>
     public Nox.Types.Date? LastWorkingDay { get; set; } = null!;
+
+    /// <summary>
+    /// Employee The employee's phone numbers ZeroOrMany EmployeePhoneNumbers
+    /// </summary>
+    public virtual List<EmployeePhoneNumber> EmployeePhoneNumbers { get; set; } = new();
+
+    public List<EmployeePhoneNumber> PhoneNumbers => EmployeePhoneNumbers;
 }

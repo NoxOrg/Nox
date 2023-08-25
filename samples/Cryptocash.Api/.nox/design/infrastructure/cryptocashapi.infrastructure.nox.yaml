@@ -1,0 +1,9 @@
+﻿#
+# cryptocashapi.infrastructure.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/infrastructure.json
+#
+
+persistence: 
+
+  $ref: ./persistence/cryptocashapi.persistence.nox.yaml
