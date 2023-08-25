@@ -27,7 +27,6 @@ domain:
         delete:
           isEnabled: true
           raiseEvents: true
-          useSoftDelete: true
 
       commands:
 
