@@ -76,6 +76,11 @@ public class Entity : DefinitionBase
     [Description("Define one or more attribute(s) that describes the composition of this domain entity.")]
     [AdditionalProperties(false)]
     public virtual IReadOnlyList<NoxSimpleTypeDefinition>? Attributes { get; internal set; }
+    
+    [Title("Unique constraints for this entity.")]
+    [Description("Define one or more unique constraints for this entity.")]
+    [AdditionalProperties(false)]
+    public IReadOnlyList<UniqueAttributeConstraint>? UniqueConstraints { get; internal set; }
 
     [YamlIgnore]
     public bool IsOwnedEntity { get; set; }
