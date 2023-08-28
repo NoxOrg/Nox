@@ -72,10 +72,10 @@ namespace Nox.Solution.Validation
             RuleForEach(p => p.OwnedRelationships)
                .SetValidator(x => new EntityItemUniquenessValidator<EntityRelationship>(x, t => t.Name, nameof(x.OwnedRelationships)));
 
-            RuleForEach(e => e.UniqueConstraints)
+            RuleForEach(e => e.UniqueAttributeConstraints)
                 .SetValidator(v => new UniqueAttributeConstraintValidator(v))
-                .SetValidator(e => new UniquePropertyValidator<UniqueAttributeConstraint>(e.UniqueConstraints, x => x.Name, "unique attribute constraint"))
-                .SetValidator(e => new UniquePropertyValidator<UniqueAttributeConstraint>(e.UniqueConstraints, x => string.Join(",", x.AttributeNames.OrderBy(a => a)), "unique attribute constraint attribute names"));
+                .SetValidator(e => new UniquePropertyValidator<UniqueAttributeConstraint>(e.UniqueAttributeConstraints, x => x.Name, "unique attribute constraint"))
+                .SetValidator(e => new UniquePropertyValidator<UniqueAttributeConstraint>(e.UniqueAttributeConstraints, x => string.Join(",", x.AttributeNames.OrderBy(a => a)), "unique attribute constraint attribute names"));
 
         }  
     }

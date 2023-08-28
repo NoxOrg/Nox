@@ -80,7 +80,7 @@ public class Entity : DefinitionBase
     [Title("Unique constraints for this entity.")]
     [Description("Define one or more unique constraints for this entity.")]
     [AdditionalProperties(false)]
-    public IReadOnlyList<UniqueAttributeConstraint>? UniqueConstraints { get; internal set; }
+    public IReadOnlyList<UniqueAttributeConstraint>? UniqueAttributeConstraints { get; internal set; }
 
     [YamlIgnore]
     public bool IsOwnedEntity { get; set; }

@@ -450,4 +450,7 @@
   <data name="DuplicateItemInCollection" xml:space="preserve">
     <value>The {0} '{1}' is duplicated. {0} must be unique in a domain definition.</value>
   </data>
+  <data name="AttributeNameMustExistInEntity" xml:space="preserve">
+    <value>Attribute name '{0}' in unique attribute constraint not found in neither entity attribute(s) ({1}) nor entity key(s) ({2})</value>
+  </data>
 </root>
