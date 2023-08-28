@@ -187,6 +187,47 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         }
 
         [Theory, AutoMoqData]
+        public async Task Put_CountryLocalNames_ShouldUpdate(ApiFixture apiFixture)
+        {
+            // Arrange            
+            var expectedName = apiFixture.Fixture.Create<string>();
+            var result = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
+                new CountryCreateDto
+                {
+                    Name = apiFixture.Fixture.Create<string>(),
+                    CountryLocalNames = new List<CountryLocalNameDto>() { new CountryLocalNameDto() { Name = apiFixture.Fixture.Create<string>() } }
+                });
+
+            var queryResult = await apiFixture.CountriesController!.Get(result.Entity.keyId);
+            var countryLocalNameToUpdate = queryResult.ExtractResult().CountryLocalNames.Single();
+
+            // Act 
+            var putResult = await apiFixture.CountriesController!.Put(result.Entity.keyId,
+                new CountryUpdateDto
+                {
+                    Name = apiFixture.Fixture.Create<string>(),
+                    CountryLocalNames = new List<CountryLocalNameDto>() { new CountryLocalNameDto() 
+                        { 
+                            Id = countryLocalNameToUpdate.Id,
+                            Name = expectedName
+                        } }
+                });
+            
+            queryResult = await apiFixture.CountriesController!.Get(result.Entity.keyId);
+
+            //Assert
+            putResult.Should().NotBeNull();
+            putResult.Should()
+                .BeOfType<UpdatedODataResult<CountryKeyDto>>()
+                .Which.Entity.keyId.Should().Be(result.Entity.keyId);
+
+            queryResult.Should().NotBeNull();
+            queryResult.ExtractResult().CountryLocalNames.Should().NotBeNull();
+            queryResult.ExtractResult().CountryLocalNames.Single().Id.Should().Be(countryLocalNameToUpdate.Id);
+            queryResult.ExtractResult().CountryLocalNames.Single().Name.Should().Be(expectedName);
+        }
+
+        [Theory, AutoMoqData]
         public async Task Patch_Number_ShouldUpdateNumberOnly(ApiFixture apiFixture)
         {
             // Arrange            

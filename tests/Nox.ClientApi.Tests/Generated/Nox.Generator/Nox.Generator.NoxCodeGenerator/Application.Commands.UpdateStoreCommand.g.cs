@@ -20,14 +20,17 @@ public class UpdateStoreCommandHandler: CommandBase<UpdateStoreCommand, Store>, 
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<Store> EntityMapper { get; }
+	public IEntityMapper<EmailAddress> EmailAddressEntityMapper { get; }
 
 	public UpdateStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
+		IServiceProvider serviceProvider,	
+			IEntityMapper<EmailAddress> entityMapperEmailAddress,
 		IEntityMapper<Store> entityMapper): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
+		DbContext = dbContext;	
+		EmailAddressEntityMapper = entityMapperEmailAddress;
 		EntityMapper = entityMapper;
 	}
 	
@@ -42,7 +45,7 @@ public class UpdateStoreCommandHandler: CommandBase<UpdateStoreCommand, Store>, 
 		{
 			return null;
 		}
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<Store>(), request.EntityDto);
+		EntityMapper.MapToEntity(entity, GetEntityDefinition<Store>(), request.EntityDto); 
 
 		OnCompleted(entity);
 
@@ -52,5 +55,5 @@ public class UpdateStoreCommandHandler: CommandBase<UpdateStoreCommand, Store>, 
 			return null;
 
 		return new StoreKeyDto(entity.Id.Value);
-	}
+	} 
 }

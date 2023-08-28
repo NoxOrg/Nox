@@ -35,7 +35,7 @@ public partial class Update{{entity.Name}}CommandHandler: CommandBase<Update{{en
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		{{ for key in parent.Keys }}
+		{{- for key in parent.Keys }}
 		var key{{key.Name}} = CreateNoxTypeForKey<{{parent.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.ParentKeyDto.key{{key.Name}});
 		{{- end }}
 		var parentEntity = await DbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
@@ -44,7 +44,7 @@ public partial class Update{{entity.Name}}CommandHandler: CommandBase<Update{{en
 			return null;
 		}
 
-		{{ for key in entity.Keys }}
+		{{- for key in entity.Keys }}
 		var owned{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.EntityDto.{{key.Name}});
 		{{- end }}
 		var entity = parentEntity.{{entity.PluralName}}.SingleOrDefault(x => {{ownedKeysFindQuery}});

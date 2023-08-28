@@ -34,17 +34,13 @@ public partial class UpdateCountryLocalNameCommandHandler: CommandBase<UpdateCou
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-
-		
-				var keyId = CreateNoxTypeForKey<Country,DatabaseNumber>("Id", request.ParentKeyDto.keyId);
+		var keyId = CreateNoxTypeForKey<Country,DatabaseNumber>("Id", request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
-
-		
-				var ownedId = CreateNoxTypeForKey<CountryLocalName,DatabaseNumber>("Id", request.EntityDto.Id);
+		var ownedId = CreateNoxTypeForKey<CountryLocalName,DatabaseNumber>("Id", request.EntityDto.Id);
 		var entity = parentEntity.CountryLocalNames.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
