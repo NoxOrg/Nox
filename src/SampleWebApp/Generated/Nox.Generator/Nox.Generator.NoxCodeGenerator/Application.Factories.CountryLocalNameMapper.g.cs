@@ -34,9 +34,28 @@ public class CountryLocalNameMapper: EntityMapperBase<CountryLocalName>
         {        
             entity.Id = noxTypeValue;
         }
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",dto.Name);
+        if(noxTypeValue != null)
+        {        
+            entity.Name = noxTypeValue;
+        }
     }
 
     public override void PartialMapToEntity(CountryLocalName entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+        {
+            if (updatedProperties.TryGetValue("Name", out dynamic? value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
+                if(noxTypeValue == null)
+                {
+                    entity.Name = null;
+                }
+                else
+                {
+                    entity.Name = noxTypeValue;
+                }
+            }
+        }
     }
 }

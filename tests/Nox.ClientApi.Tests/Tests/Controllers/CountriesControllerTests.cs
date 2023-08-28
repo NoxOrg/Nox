@@ -368,5 +368,38 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             ownedResult.Should().NotBeNull();
             ownedResult!.Entity.Id.Should().BeGreaterThan(0);
         }
+
+        [Theory, AutoMoqData]
+        public async Task PutToCountryLocalNames_ShouldUpdateCountryLocalName(ApiFixture apiFixture)
+        {
+            // Arrange                    
+            var expectedOwnedName = apiFixture.Fixture.Create<string>();
+            // Act 
+            var createResult = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
+                new CountryCreateDto
+                {
+                    Name = apiFixture.Fixture.Create<string>(),
+                    CountryLocalNames = new List<CountryLocalNameDto>() { new CountryLocalNameDto() { Name = apiFixture.Fixture.Create<string>() } }
+                });
+
+            var queryResult = await apiFixture.CountriesController!.Get(createResult.Entity.keyId);
+            var countryLocalNameToUpdate = queryResult.ExtractResult().CountryLocalNames.Single();
+
+            var updatedResult = (UpdatedODataResult<CountryLocalNameDto>)await apiFixture.CountriesController!.PutToCountryLocalNames(
+                createResult.Entity.keyId,
+                new CountryLocalNameDto
+                {
+                    Id = countryLocalNameToUpdate.Id,
+                    Name = expectedOwnedName
+                });
+
+            queryResult = await apiFixture.CountriesController!.Get(createResult.Entity.keyId);
+
+            //Assert
+            updatedResult.Should().NotBeNull();
+            queryResult.ExtractResult().CountryLocalNames.Should().NotBeNull();
+            queryResult.ExtractResult().CountryLocalNames.Single().Id.Should().Be(countryLocalNameToUpdate.Id);
+            queryResult.ExtractResult().CountryLocalNames.Single().Name.Should().Be(expectedOwnedName);
+        }
     }
 }

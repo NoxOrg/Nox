@@ -124,7 +124,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
                             continue;
                         }
                         GenerateChildrenPost(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
-                    }
+                        GenerateChildrenPut(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);                    }
                 }
             }
 
@@ -284,6 +284,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.EndBlock();
         code.AppendLine();
     }
+
     private static void GenerateChildrenPost(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
     {
         code.AppendLine($"public async Task<ActionResult> PostTo{child.PluralName}({PrimaryKeysFromRoute(parent, solution)}, [FromBody] {child.Name}CreateDto {child.Name.ToLowerFirstChar()})");
@@ -304,6 +305,31 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
         var childDtoParams = string.Join(", ", child.Keys.Select(k => $"{k.Name} = createdKey.key{k.Name}"));
         code.AppendLine($"return Created(new {child.Name}Dto {{ {childDtoParams} }});");
+
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+    private static void GenerateChildrenPut(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
+    {
+        code.AppendLine($"public async Task<ActionResult> PutTo{child.PluralName}({PrimaryKeysFromRoute(parent, solution)}, [FromBody] {child.Name}Dto {child.Name.ToLowerFirstChar()})");
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine($"var updatedKey = await _mediator.Send(new Update{child.Name}Command(" +
+            $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), {child.Name.ToLowerFirstChar()}));");
+        code.AppendLine($"if (updatedKey == null)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+
+        var childDtoParams = string.Join(", ", child.Keys.Select(k => $"{k.Name} = updatedKey.key{k.Name}"));
+        code.AppendLine($"return Updated({child.Name.ToLowerFirstChar()});");
 
         code.EndBlock();
         code.AppendLine();

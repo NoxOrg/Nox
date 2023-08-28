@@ -295,6 +295,11 @@ domain:
             minLength: 2
             maxLength: 2
 
+      attributes:
+        - name: Name
+          isRequired: false
+          type: text
+
 application:
   dataTransferObjects:
     - name: CustomCountryDto

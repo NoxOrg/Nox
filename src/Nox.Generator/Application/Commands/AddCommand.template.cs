@@ -61,6 +61,9 @@ public partial class Add{{entity.Name}}CommandHandler: CommandBase<Add{{entity.N
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
+		if(result < 1)
+			return null;
+
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}
 }

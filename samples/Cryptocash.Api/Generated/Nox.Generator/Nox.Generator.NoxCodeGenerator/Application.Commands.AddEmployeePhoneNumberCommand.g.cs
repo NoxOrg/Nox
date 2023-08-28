@@ -52,6 +52,9 @@ public partial class AddEmployeePhoneNumberCommandHandler: CommandBase<AddEmploy
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
+		if(result < 1)
+			return null;
+
 		return new EmployeePhoneNumberKeyDto(entity.Id.Value);
 	}
 }
