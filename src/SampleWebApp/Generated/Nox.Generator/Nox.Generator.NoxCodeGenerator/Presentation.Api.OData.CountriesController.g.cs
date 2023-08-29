@@ -9,15 +9,15 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Nox.Application;
-using ClientApi.Application;
-using ClientApi.Application.Dto;
-using ClientApi.Application.Queries;
-using ClientApi.Application.Commands;
-using ClientApi.Domain;
-using ClientApi.Infrastructure.Persistence;
+using SampleWebApp.Application;
+using SampleWebApp.Application.Dto;
+using SampleWebApp.Application.Queries;
+using SampleWebApp.Application.Commands;
+using SampleWebApp.Domain;
+using SampleWebApp.Infrastructure.Persistence;
 using Nox.Types;
 
-namespace ClientApi.Presentation.Api.OData;
+namespace SampleWebApp.Presentation.Api.OData;
 
 public partial class CountriesController : ODataController
 {
@@ -32,13 +32,20 @@ public partial class CountriesController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
+    /// <summary>
+    /// Returns a list of countries for a given continent.
+    /// </summary>
+    protected readonly GetCountriesByContinentQueryBase _getCountriesByContinent;
+    
     public CountriesController(
         DtoDbContext databaseContext,
-        IMediator mediator
+        IMediator mediator,
+        GetCountriesByContinentQueryBase getCountriesByContinent
     )
     {
         _databaseContext = databaseContext;
         _mediator = mediator;
+        _getCountriesByContinent = getCountriesByContinent;
     }
     
     [EnableQuery]
@@ -153,5 +160,15 @@ public partial class CountriesController : ODataController
         }
         
         return NoContent();
+    }
+    
+    /// <summary>
+    /// Returns a list of countries for a given continent.
+    /// </summary>
+    [HttpGet("GetCountriesByContinent")]
+    public async Task<IResult> GetCountriesByContinentAsync(Text continentName)
+    {
+        var result = await _getCountriesByContinent.ExecuteAsync(continentName);
+        return Results.Ok(result);
     }
 }

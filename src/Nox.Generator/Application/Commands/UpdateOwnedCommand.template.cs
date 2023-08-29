@@ -3,60 +3,58 @@
 #nullable enable
 
 using MediatR;
-using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
-using Nox.Application;
 using Nox.Application.Commands;
-using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
-
+using Nox.Factories;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
-public record Add{{entity.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}CreateDto EntityDto) : IRequest <{{entity.Name}}KeyDto?>;
+public record Update{{entity.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}Dto EntityDto) : IRequest <{{entity.Name}}KeyDto?>;
 
-public partial class Add{{entity.Name}}CommandHandler: CommandBase<Add{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler <Add{{entity.Name}}Command, {{entity.Name}}KeyDto?>
+public partial class Update{{entity.Name}}CommandHandler: CommandBase<Update{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler <Update{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
-	public IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> EntityFactory { get; }
+	public IEntityMapper<{{entity.Name}}> EntityMapper { get; }
 
-	public Add{{entity.Name}}CommandHandler(
+	public Update{{entity.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> entityFactory): base(noxSolution, serviceProvider)
+		IEntityMapper<{{entity.Name}}> entityMapper): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory;
+		EntityMapper = entityMapper;
 	}
 
-	public async Task<{{entity.Name}}KeyDto?> Handle(Add{{entity.Name}}Command request, CancellationToken cancellationToken)
+	public async Task<{{entity.Name}}KeyDto?> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
 	{
+		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
 		{{- for key in parent.Keys }}
 		var key{{key.Name}} = CreateNoxTypeForKey<{{parent.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.ParentKeyDto.key{{key.Name}});
 		{{- end }}
-
 		var parentEntity = await DbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
 		if (parentEntity == null)
 		{
 			return null;
 		}
 
-		var entity = EntityFactory.CreateEntity(request.EntityDto);
+		{{- for key in entity.Keys }}
+		var owned{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.EntityDto.{{key.Name}});
+		{{- end }}
+		var entity = parentEntity.{{entity.PluralName}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
+		if (entity == null)
+		{
+			return null;
+		}
 
-		{{- for key in entity.Keys ~}}
-		{{- if key.Type == "Nuid" }}
-		entityToCreate.Ensure{{key.Name}}();
-		{{- end }}
-		{{- end }}
+		EntityMapper.MapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.EntityDto);
 		
-		parentEntity.{{entity.PluralName}}.Add(entity);
-
 		OnCompleted(entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

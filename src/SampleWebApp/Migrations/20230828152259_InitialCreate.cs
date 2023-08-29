@@ -188,6 +188,7 @@ namespace SampleWebAppdeprecated.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
                     CountryId = table.Column<long>(type: "bigint", nullable: false),
                     AsAt = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },

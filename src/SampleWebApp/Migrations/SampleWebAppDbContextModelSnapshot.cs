@@ -971,6 +971,11 @@ namespace SampleWebAppdeprecated.Migrations
                             b1.Property<long>("CountryId")
                                 .HasColumnType("bigint");
 
+                            b1.Property<string>("Name")
+                                .HasMaxLength(255)
+                                .IsUnicode(true)
+                                .HasColumnType("nvarchar(255)");
+
                             b1.HasKey("Id");
 
                             b1.HasIndex("CountryId");
