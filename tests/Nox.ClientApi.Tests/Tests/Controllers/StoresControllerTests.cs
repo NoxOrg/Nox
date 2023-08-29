@@ -33,7 +33,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         }
 
         [Theory, AutoMoqData]
-        public async Task Post_StoreOwnerIdPointsToRealEntity(ApiFixture apiFixture)
+        public async Task Post_OneToOnePointsToRealEntity(ApiFixture apiFixture)
         {
             // Arrange
             var name = "MySpecialName";
