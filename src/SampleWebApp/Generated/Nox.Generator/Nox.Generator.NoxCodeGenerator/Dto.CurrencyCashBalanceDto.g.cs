@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
+using Nox.Extensions;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 
@@ -40,4 +41,14 @@ public partial class CurrencyCashBalanceDto
     public System.Decimal? OperationLimit { get; set; }
 
     public bool? Deleted { get; set; }
+
+    public CurrencyCashBalance ToEntity()
+    {
+        var entity = new CurrencyCashBalance();
+        entity.StoreId = CurrencyCashBalance.CreateStoreId(StoreId);
+        entity.CurrencyId = CurrencyCashBalance.CreateCurrencyId(CurrencyId);
+        entity.Amount = CurrencyCashBalance.CreateAmount(Amount);
+        if (OperationLimit is not null)entity.OperationLimit = CurrencyCashBalance.CreateOperationLimit(OperationLimit.NonNullValue<System.Decimal>());
+        return entity;
+    }
 }

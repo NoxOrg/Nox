@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
+using Nox.Extensions;
 using ClientApi.Application.DataTransferObjects;
 using ClientApi.Domain;
 
@@ -30,4 +31,12 @@ public partial class ClientNuidDto
     public System.String Name { get; set; } = default!;
 
     public bool? Deleted { get; set; }
+
+    public ClientNuid ToEntity()
+    {
+        var entity = new ClientNuid();
+        entity.Id = ClientNuid.CreateId(Id);
+        entity.Name = ClientNuid.CreateName(Name);
+        return entity;
+    }
 }

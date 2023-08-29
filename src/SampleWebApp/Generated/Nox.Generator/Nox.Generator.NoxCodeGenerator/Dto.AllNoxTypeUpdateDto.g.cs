@@ -124,7 +124,7 @@ public partial class AllNoxTypeUpdateDto
     /// <summary>
     /// Time Nox Type (Optional).
     /// </summary>
-    public System.DateTimeOffset? TimeField { get; set; } 
+    public System.DateTime? TimeField { get; set; } 
     /// <summary>
     /// NumberField Nox Type (Optional).
     /// </summary>

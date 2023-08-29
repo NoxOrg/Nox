@@ -142,13 +142,25 @@ public static class ObjectExtensions
         {
             sourceCode.AppendLine($"{indentation}{propertyName}{assignOp}null");
         }
-        else if (valueType == typeof(Uri))
+        else if (value is Uri uriValue)
         {
-            sourceCode.AppendLine($"{indentation}{propertyName}{assignOp}new {systemLib}Uri({GetValueAsString(value.ToString()!)}),");
+            sourceCode.AppendLine($"{indentation}{propertyName}{assignOp}new {systemLib}Uri({GetValueAsString(uriValue.ToString())}),");
         }
-        else if (valueType == typeof(Guid))
+        else if (value is Guid guidValue)
         {
-            sourceCode.AppendLine($"{indentation}{propertyName}{assignOp}new {systemLib}Guid({GetValueAsString(value.ToString()!)}),");
+            sourceCode.AppendLine($"{indentation}{propertyName}{assignOp}new {systemLib}Guid({GetValueAsString(guidValue.ToString())}),");
+        }
+        else if (value is DateTime dateTimeValue)
+        {
+            sourceCode.AppendLine($"{indentation}{propertyName}{assignOp}new {systemLib}DateTime({dateTimeValue.Year},{dateTimeValue.Month},{dateTimeValue.Day},{dateTimeValue.Hour},{dateTimeValue.Minute},{dateTimeValue.Second},{dateTimeValue.Millisecond}),");
+        }
+        else if (value is DateTimeOffset dtOffsetValue)
+        {
+            sourceCode.AppendLine($"{indentation}{propertyName}{assignOp}new {systemLib}DateTimeOffset({dtOffsetValue.Year},{dtOffsetValue.Month},{dtOffsetValue.Day},{dtOffsetValue.Hour},{dtOffsetValue.Minute},{dtOffsetValue.Second},{dtOffsetValue.Millisecond}, new {systemLib}TimeSpan({dtOffsetValue.Offset.Ticks})),");
+        }
+        else if (value is TimeSpan tsValue)
+        {
+            sourceCode.AppendLine($"{indentation}{propertyName}{assignOp}new {systemLib}TimeSpan({tsValue.Ticks}),");
         }
         else if (valueType.IsSimpleType())
         {
@@ -230,6 +242,10 @@ public static class ObjectExtensions
         else if (value is bool boolValue)
         {
             return boolValue ? "true" : "false";
+        }
+        else if (value is decimal decValue)
+        {
+            return $"{decValue}m";
         }
         else
         {

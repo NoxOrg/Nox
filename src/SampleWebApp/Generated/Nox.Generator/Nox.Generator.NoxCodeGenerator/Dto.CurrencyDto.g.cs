@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
+using Nox.Extensions;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 
@@ -35,4 +36,12 @@ public partial class CurrencyDto
     public virtual List<CountryDto> Countries { get; set; } = new();
 
     public bool? Deleted { get; set; }
+
+    public Currency ToEntity()
+    {
+        var entity = new Currency();
+        entity.Id = Currency.CreateId(Id);
+        entity.Name = Currency.CreateName(Name);
+        return entity;
+    }
 }

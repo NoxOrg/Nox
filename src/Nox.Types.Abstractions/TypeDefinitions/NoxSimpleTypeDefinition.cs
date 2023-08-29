@@ -34,8 +34,8 @@ public class NoxSimpleTypeDefinition
     [IfEquals("Type", NoxType.Money)]
     public MoneyTypeOptions? MoneyTypeOptions { get; set; }
 
-    [IfEquals("Type", NoxType.Entity)]
-    public EntityTypeOptions? EntityTypeOptions { get; set; }
+    [IfEquals("Type", NoxType.EntityId)]
+    public EntityIdTypeOptions? EntityIdTypeOptions { get; set; }
 
     [IfEquals("Type", NoxType.Date)]
     public DateTypeOptions? DateTypeOptions { get; set; }

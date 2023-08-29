@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
+using Nox.Extensions;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 
@@ -152,7 +153,7 @@ public partial class AllNoxTypeDto
     /// <summary>
     /// Time Nox Type (Optional).
     /// </summary>
-    public System.DateTimeOffset? TimeField { get; set; }
+    public System.DateTime? TimeField { get; set; }
 
     /// <summary>
     /// NumberField Nox Type (Optional).
@@ -195,4 +196,44 @@ public partial class AllNoxTypeDto
     public LatLongDto? LatLongField { get; set; }
 
     public bool? Deleted { get; set; }
+
+    public AllNoxType ToEntity()
+    {
+        var entity = new AllNoxType();
+        entity.Id = AllNoxType.CreateId(Id);
+        entity.TextId = AllNoxType.CreateTextId(TextId);
+        if (NuidField is not null)entity.NuidField = AllNoxType.CreateNuidField(NuidField.NonNullValue<System.UInt32>());
+        if (BooleanField is not null)entity.BooleanField = AllNoxType.CreateBooleanField(BooleanField.NonNullValue<System.Boolean>());
+        entity.CountryCode2Field = AllNoxType.CreateCountryCode2Field(CountryCode2Field);
+        if (CountryCode3Field is not null)entity.CountryCode3Field = AllNoxType.CreateCountryCode3Field(CountryCode3Field.NonNullValue<System.String>());
+        if (CountryNumberField is not null)entity.CountryNumberField = AllNoxType.CreateCountryNumberField(CountryNumberField.NonNullValue<System.UInt16>());
+        if (CultureCodeField is not null)entity.CultureCodeField = AllNoxType.CreateCultureCodeField(CultureCodeField.NonNullValue<System.String>());
+        if (CurrencyCode3Field is not null)entity.CurrencyCode3Field = AllNoxType.CreateCurrencyCode3Field(CurrencyCode3Field.NonNullValue<System.String>());
+        if (DateTimeField is not null)entity.DateTimeField = AllNoxType.CreateDateTimeField(DateTimeField.NonNullValue<System.DateTimeOffset>());
+        if (HtmlField is not null)entity.HtmlField = AllNoxType.CreateHtmlField(HtmlField.NonNullValue<System.String>());
+        entity.LanguageCodeField = AllNoxType.CreateLanguageCodeField(LanguageCodeField);
+        entity.LengthField = AllNoxType.CreateLengthField(LengthField);
+        entity.MacAddressField = AllNoxType.CreateMacAddressField(MacAddressField);
+        entity.MarkdownField = AllNoxType.CreateMarkdownField(MarkdownField);
+        entity.PhoneNumberField = AllNoxType.CreatePhoneNumberField(PhoneNumberField);
+        entity.TemperatureField = AllNoxType.CreateTemperatureField(TemperatureField);
+        if (YamlField is not null)entity.YamlField = AllNoxType.CreateYamlField(YamlField.NonNullValue<System.String>());
+        if (YearField is not null)entity.YearField = AllNoxType.CreateYearField(YearField.NonNullValue<System.UInt16>());
+        if (WeightField is not null)entity.WeightField = AllNoxType.CreateWeightField(WeightField.NonNullValue<System.Double>());
+        if (VolumeField is not null)entity.VolumeField = AllNoxType.CreateVolumeField(VolumeField.NonNullValue<System.Double>());
+        if (UrlField is not null)entity.UrlField = AllNoxType.CreateUrlField(UrlField.NonNullValue<System.String>());
+        if (UriField is not null)entity.UriField = AllNoxType.CreateUriField(UriField.NonNullValue<System.String>());
+        if (TimeZoneCodeField is not null)entity.TimeZoneCodeField = AllNoxType.CreateTimeZoneCodeField(TimeZoneCodeField.NonNullValue<System.String>());
+        if (PercentageField is not null)entity.PercentageField = AllNoxType.CreatePercentageField(PercentageField.NonNullValue<System.Single>());
+        if (TimeField is not null)entity.TimeField = AllNoxType.CreateTimeField(TimeField.NonNullValue<System.DateTime>());
+        if (NumberField is not null)entity.NumberField = AllNoxType.CreateNumberField(NumberField.NonNullValue<System.Int32>());
+        entity.TextField = AllNoxType.CreateTextField(TextField);
+        if (StreetAddressField is not null)entity.StreetAddressField = AllNoxType.CreateStreetAddressField(StreetAddressField.NonNullValue<StreetAddressDto>());
+        if (FileField is not null)entity.FileField = AllNoxType.CreateFileField(FileField.NonNullValue<FileDto>());
+        if (TranslatedTextField is not null)entity.TranslatedTextField = AllNoxType.CreateTranslatedTextField(TranslatedTextField.NonNullValue<TranslatedTextDto>());
+        if (VatNumberField is not null)entity.VatNumberField = AllNoxType.CreateVatNumberField(VatNumberField.NonNullValue<VatNumberDto>());
+        if (MoneyField is not null)entity.MoneyField = AllNoxType.CreateMoneyField(MoneyField.NonNullValue<MoneyDto>());
+        if (LatLongField is not null)entity.LatLongField = AllNoxType.CreateLatLongField(LatLongField.NonNullValue<LatLongDto>());
+        return entity;
+    }
 }

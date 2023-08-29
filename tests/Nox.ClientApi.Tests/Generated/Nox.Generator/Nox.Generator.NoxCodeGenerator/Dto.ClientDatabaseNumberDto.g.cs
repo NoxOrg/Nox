@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
+using Nox.Extensions;
 using ClientApi.Application.DataTransferObjects;
 using ClientApi.Domain;
 
@@ -35,4 +36,13 @@ public partial class ClientDatabaseNumberDto
     public System.Int32? Number { get; set; }
 
     public bool? Deleted { get; set; }
+
+    public ClientDatabaseNumber ToEntity()
+    {
+        var entity = new ClientDatabaseNumber();
+        entity.Id = ClientDatabaseNumber.CreateId(Id);
+        entity.Name = ClientDatabaseNumber.CreateName(Name);
+        if (Number is not null)entity.Number = ClientDatabaseNumber.CreateNumber(Number.NonNullValue<System.Int32>());
+        return entity;
+    }
 }

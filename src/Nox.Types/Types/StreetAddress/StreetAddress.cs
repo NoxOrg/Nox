@@ -1,5 +1,8 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography;
+using YamlDotNet.Core.Tokens;
 
 namespace Nox.Types;
 
@@ -10,6 +13,30 @@ namespace Nox.Types;
 public sealed class StreetAddress : ValueObject<StreetAddressItem, StreetAddress>, IStreetAddress
 {
     public override StreetAddressItem Value { get; protected set; } = new StreetAddressItem();
+
+    public static StreetAddress From(IStreetAddress value)
+    {
+        if (value is StreetAddressItem concreteValue)
+        {
+            return From(concreteValue);
+        }
+
+        var mappedValue = new StreetAddressItem()
+        {
+            StreetNumber = value.StreetNumber,
+            AddressLine1 = value.AddressLine1,
+            AddressLine2 = value.AddressLine2,
+            Route = value.Route,
+            Locality = value.Locality,
+            Neighborhood = value.Neighborhood,
+            AdministrativeArea1 = value.AdministrativeArea1,
+            AdministrativeArea2 = value.AdministrativeArea2,
+            PostalCode = value.PostalCode,
+            CountryId = value.CountryId,
+        };
+
+        return From(mappedValue);
+    }
 
     public string StreetNumber
     {
@@ -87,6 +114,20 @@ public sealed class StreetAddress : ValueObject<StreetAddressItem, StreetAddress
         }
 
         return result;
+    }
+
+    protected override IEnumerable<KeyValuePair<string, object>> GetEqualityComponents()
+    {
+        yield return new KeyValuePair<string, object>(nameof(StreetNumber), StreetNumber);
+        yield return new KeyValuePair<string,object>(nameof(AddressLine1), AddressLine1);
+        yield return new KeyValuePair<string,object>(nameof(AddressLine2), AddressLine2);
+        yield return new KeyValuePair<string,object>(nameof(Route), Route);
+        yield return new KeyValuePair<string,object>(nameof(Locality), Locality);
+        yield return new KeyValuePair<string,object>(nameof(Neighborhood), Neighborhood);
+        yield return new KeyValuePair<string,object>(nameof(AdministrativeArea1), AdministrativeArea1 );
+        yield return new KeyValuePair<string,object>(nameof(AdministrativeArea2), AdministrativeArea2 );
+        yield return new KeyValuePair<string,object>(nameof(PostalCode), PostalCode);
+        yield return new KeyValuePair<string,object>(nameof(CountryId), CountryId);
     }
 
     public override string ToString()

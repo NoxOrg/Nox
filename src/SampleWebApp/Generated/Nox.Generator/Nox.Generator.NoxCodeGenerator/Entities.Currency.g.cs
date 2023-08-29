@@ -17,7 +17,7 @@ public partial class Currency : AuditableEntityBase
     /// <summary>
     /// The currency's primary key / identifier (Required).
     /// </summary>
-    public Nuid Id {get; private set;} = null!;
+    public Nuid Id {get; set;} = null!;
     
     	public void EnsureId()
     	{

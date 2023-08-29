@@ -66,7 +66,7 @@ public partial class AllNoxType : AuditableEntityBase
     /// <summary>
     /// Formula Nox Type (Optional).
     /// </summary>
-    public string? FormulaField => CountryCode2Field.ToString();
+    public String? FormulaField => CountryCode2Field.ToString();
 
     /// <summary>
     /// HtmlField Nox Type (Optional).

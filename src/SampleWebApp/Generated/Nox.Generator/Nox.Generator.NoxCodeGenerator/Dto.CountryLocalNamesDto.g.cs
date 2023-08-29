@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
+using Nox.Extensions;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 
@@ -25,4 +26,11 @@ public partial class CountryLocalNamesDto
     public System.String Id { get; set; } = default!;
 
     public bool? Deleted { get; set; }
+
+    public CountryLocalNames ToEntity()
+    {
+        var entity = new CountryLocalNames();
+        entity.Id = CountryLocalNames.CreateId(Id);
+        return entity;
+    }
 }

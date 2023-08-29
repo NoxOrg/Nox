@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
+using Nox.Extensions;
 using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 
@@ -40,4 +41,13 @@ public partial class StoreDto
     public virtual StoreSecurityPasswordsDto StoreSecurityPasswords { get; set; } = null!;
 
     public bool? Deleted { get; set; }
+
+    public Store ToEntity()
+    {
+        var entity = new Store();
+        entity.Id = Store.CreateId(Id);
+        entity.Name = Store.CreateName(Name);
+        entity.PhysicalMoney = Store.CreatePhysicalMoney(PhysicalMoney);
+        return entity;
+    }
 }

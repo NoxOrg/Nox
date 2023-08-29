@@ -3,5 +3,5 @@
 public class FormulaTypeOptions : INoxTypeOptions
 {
     public string Expression { get; set; } = null!;
-    public FormulaReturnType Returns { get; set; } = FormulaReturnType.@string;
+    public FormulaReturnType Returns { get; set; } = FormulaReturnType.String;
 }

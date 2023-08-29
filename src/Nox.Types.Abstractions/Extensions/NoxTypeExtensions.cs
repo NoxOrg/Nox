@@ -40,7 +40,7 @@ public static class NoxTypeExtensions
         {
             return new Dictionary<string, Type>()
             {
-                { string.Empty, noxType.ToMemberInfo().GetCustomAttribute<SimpleTypeAttribute>().ComponentDiscover.GeUnderlyingType(attribute) }
+                { "Value", noxType.ToMemberInfo().GetCustomAttribute<SimpleTypeAttribute>().ComponentDiscover.GetUnderlyingType(attribute) }
             };
                  
         }

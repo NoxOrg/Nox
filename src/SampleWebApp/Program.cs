@@ -9,6 +9,7 @@ using SampleWebApp;
 using SampleWebApp.Application;
 using SampleWebApp.SeedData;
 using SampleWebApp.Application.Behavior;
+using SampleWebApp.Domain;
 
 //if (!Debugger.IsAttached)
 //{
@@ -32,14 +33,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-// ======================================================
-// SAMPLE WEB APP Extensions
-builder.Services
-    .AddScoped<GetCountriesByContinentQueryBase, GetCountriesByContinentQuery>()
-    .AddScoped<UpdatePopulationStatisticsCommandHandlerBase, UpdatePopulationStatisticsCommandHandler>()
-    .AddScoped<INoxMessenger, NoxMessenger>();    
-// ======================================================
 
 builder.AddSeedData();
 
