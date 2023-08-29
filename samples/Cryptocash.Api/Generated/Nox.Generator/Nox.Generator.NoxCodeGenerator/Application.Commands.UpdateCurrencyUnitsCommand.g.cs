@@ -48,8 +48,10 @@ public class UpdateCurrencyUnitsCommandHandler: CommandBase<UpdateCurrencyUnitsC
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if(result < 1)
+		if (result < 1)
+		{
 			return null;
+		}
 
 		return new CurrencyUnitsKeyDto(entity.Id.Value);
 	}

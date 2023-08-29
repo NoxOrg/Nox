@@ -48,8 +48,10 @@ public class UpdateMinimumCashStockCommandHandler: CommandBase<UpdateMinimumCash
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if(result < 1)
+		if (result < 1)
+		{
 			return null;
+		}
 
 		return new MinimumCashStockKeyDto(entity.Id.Value);
 	}

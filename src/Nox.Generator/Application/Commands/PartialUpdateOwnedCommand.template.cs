@@ -60,8 +60,10 @@ public partial class PartialUpdate{{entity.Name}}CommandHandler: CommandBase<Par
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if(result < 1)
+		if (result < 1)
+		{
 			return null;
+		}
 
 		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
 	}
