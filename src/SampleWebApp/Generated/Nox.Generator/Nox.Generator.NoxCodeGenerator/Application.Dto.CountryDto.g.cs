@@ -35,9 +35,9 @@ public partial class CountryDto
     public System.String FormalName { get; set; } = default!;
 
     /// <summary>
-    /// The country's official ISO 4217 alpha-3 code (Required).
+    /// The country's official ISO 4217 alpha-3 code (Optional).
     /// </summary>
-    public System.String AlphaCode3 { get; set; } = default!;
+    public System.String? AlphaCode3 { get; set; }
 
     /// <summary>
     /// The country's official ISO 4217 alpha-2 code (Required).

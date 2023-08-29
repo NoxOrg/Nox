@@ -33,5 +33,5 @@ public partial class CountryUpdateDto
     /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalNameUpdateDto> CountryLocalNames { get; set; } = new();
+    public virtual List<CountryLocalNameDto> CountryLocalNames { get; set; } = new();
 }

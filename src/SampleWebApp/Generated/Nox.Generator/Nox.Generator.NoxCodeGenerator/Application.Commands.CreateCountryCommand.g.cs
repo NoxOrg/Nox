@@ -21,16 +21,19 @@ public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<Countr
 public partial class CreateCountryCommandHandler: CommandBase<CreateCountryCommand,Country>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
 {
 	public SampleWebAppDbContext DbContext { get; }
-	public IEntityFactory<CountryCreateDto,Country> EntityFactory { get; }
+	public IEntityFactory<CountryCreateDto,Country> EntityFactory { get; }	
+	public IEntityFactory<CountryLocalNameDto,CountryLocalName> CountryLocalNameEntityFactory { get; }
 
 	public CreateCountryCommandHandler(
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
+		IServiceProvider serviceProvider,	
+		IEntityFactory<CountryLocalNameDto,CountryLocalName> entityFactoryCountryLocalName,
 		IEntityFactory<CountryCreateDto,Country> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory;
+		EntityFactory = entityFactory;	
+		CountryLocalNameEntityFactory = entityFactoryCountryLocalName;
 	}
 
 	public async Task<CountryKeyDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
@@ -39,6 +42,12 @@ public partial class CreateCountryCommandHandler: CommandBase<CreateCountryComma
 		OnExecuting(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		foreach(var ownedEntity in request.EntityDto.CountryLocalNames)
+		{
+			entityToCreate.CountryLocalNames.Add(
+				CountryLocalNameEntityFactory.CreateEntity(ownedEntity)
+				);
+		}
 	
 		OnCompleted(entityToCreate);
 		DbContext.Countries.Add(entityToCreate);

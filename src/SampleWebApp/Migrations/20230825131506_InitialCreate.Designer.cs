@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebAppdeprecated.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230825103452_InitialCreate")]
+    [Migration("20230825131506_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -304,7 +304,6 @@ namespace SampleWebAppdeprecated.Migrations
                         .IsFixedLength();
 
                     b.Property<string>("AlphaCode3")
-                        .IsRequired()
                         .HasMaxLength(3)
                         .IsUnicode(false)
                         .HasColumnType("char(3)")

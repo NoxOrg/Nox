@@ -21,16 +21,19 @@ public record CreateStoreCommand(StoreCreateDto EntityDto) : IRequest<StoreKeyDt
 public partial class CreateStoreCommandHandler: CommandBase<CreateStoreCommand,Store>, IRequestHandler <CreateStoreCommand, StoreKeyDto>
 {
 	public ClientApiDbContext DbContext { get; }
-	public IEntityFactory<StoreCreateDto,Store> EntityFactory { get; }
+	public IEntityFactory<StoreCreateDto,Store> EntityFactory { get; }	
+	public IEntityFactory<EmailAddressDto,EmailAddress> EmailAddressEntityFactory { get; }
 
 	public CreateStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
+		IServiceProvider serviceProvider,	
+		IEntityFactory<EmailAddressDto,EmailAddress> entityFactoryEmailAddress,
 		IEntityFactory<StoreCreateDto,Store> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory;
+		EntityFactory = entityFactory;	
+		EmailAddressEntityFactory = entityFactoryEmailAddress;
 	}
 
 	public async Task<StoreKeyDto> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
@@ -39,7 +42,7 @@ public partial class CreateStoreCommandHandler: CommandBase<CreateStoreCommand,S
 		OnExecuting(request);
 
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		entityToCreate.EnsureId();
+		entityToCreate.EnsureId(); 
 	
 		OnCompleted(entityToCreate);
 		DbContext.Stores.Add(entityToCreate);

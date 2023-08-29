@@ -110,7 +110,7 @@ namespace SampleWebAppdeprecated.Migrations
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     FormalName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    AlphaCode3 = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
+                    AlphaCode3 = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
                     AlphaCode2 = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: false),
                     NumericCode = table.Column<short>(type: "smallint", nullable: false),
                     DialingCodes = table.Column<string>(type: "varchar(31)", unicode: false, maxLength: 31, nullable: true),
