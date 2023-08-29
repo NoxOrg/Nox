@@ -65,5 +65,10 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
         {
             EntityTypeBuilder.OwnsMany(ownedType, navigationName, buildAction);
         }
+        
+        public void HasUniqueAttributeConstraint(string[] propertyNames, string constraintName)
+        {
+            EntityTypeBuilder.HasIndex(propertyNames, constraintName).IsUnique();
+        }
     }
 }

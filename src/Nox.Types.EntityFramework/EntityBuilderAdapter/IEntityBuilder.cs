@@ -30,5 +30,7 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
             Type ownedType,
             string navigationName,
             Action<OwnedNavigationBuilder> buildAction);
+
+        void HasUniqueAttributeConstraint(string[] propertyNames, string constraintName);
     }
 }

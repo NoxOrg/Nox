@@ -55,6 +55,8 @@ namespace Nox.Types.EntityFramework.Configurations
             ConfigureRelationships(codeGeneratorState, builder, entity, relationshipsToCreate);
 
             ConfigureOwnedRelationships(codeGeneratorState, builder, entity, ownedRelationshipsToCreate);
+            
+            ConfigureUniqueAttributeConstraints(builder, entity);
         }
 
         public virtual void ConfigureRelationships(
@@ -229,6 +231,30 @@ namespace Nox.Types.EntityFramework.Configurations
                 foreignEntityKeyDefinition.IsRequired = false;
                 foreignEntityKeyDefinition.IsReadonly = false;
                 databaseConfigurationForForeignKey.ConfigureEntityProperty(codeGeneratorState, builder, foreignEntityKeyDefinition, entity, false);
+            }
+        }
+        
+        private void ConfigureUniqueAttributeConstraints(IEntityBuilder builder, Entity entity)
+        {
+            if (entity.UniqueAttributeConstraints is { Count: > 0 })
+            {
+                if (entity.Persistence!.IsAudited)
+                {
+                    foreach (var uniqueConstraint in entity.UniqueAttributeConstraints)
+                    {
+                        var auditProperties = new List<string>(uniqueConstraint.AttributeNames.Count + 1);
+                        auditProperties.AddRange(uniqueConstraint.AttributeNames);
+                        auditProperties.Add("DeletedAtUtc");
+                        builder.HasUniqueAttributeConstraint(auditProperties.ToArray(), uniqueConstraint.Name);
+                    }
+                }
+                else
+                {
+                    foreach (var uniqueConstraint in entity.UniqueAttributeConstraints)
+                    {
+                        builder.HasUniqueAttributeConstraint(uniqueConstraint.AttributeNames.ToArray(), uniqueConstraint.Name);
+                    }
+                }
             }
         }
 
