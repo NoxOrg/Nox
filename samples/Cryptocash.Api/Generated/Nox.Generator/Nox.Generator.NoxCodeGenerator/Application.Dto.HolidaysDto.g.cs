@@ -38,7 +38,7 @@ public partial class HolidaysDto
     /// Holidays The related country ExactlyOne Countries
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string CountryId { get; set; } = null!;
+    public string CountryId { get; set; } = null!;
     public virtual CountryDto Country { get; set; } = null!;
 
     /// <summary>

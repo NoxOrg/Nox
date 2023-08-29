@@ -20,7 +20,7 @@ public class DeletePaymentProviderByIdCommandHandler: CommandBase<DeletePaymentP
 
 	public DeletePaymentProviderByIdCommandHandler(
 		CryptocashApiDbContext dbContext,
-		NoxSolution noxSolution, 
+		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;

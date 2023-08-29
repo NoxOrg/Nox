@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CryptocashApi.Application.Dto; 
+namespace CryptocashApi.Application.Dto;
 
 /// <summary>
 /// Customer payment account related data.

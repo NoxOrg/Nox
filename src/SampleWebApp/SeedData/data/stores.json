@@ -2,12 +2,14 @@
   {
     "Id": "USD",
     "Name": "US Dollar",
-    "PhysicalMoney": 100
+    "PhysicalMoney": 100,
+    "StoreOwnerId": "OW1"
   },
   {
     "Id": "UAH",
     "Name": "Ukrainian Hryvna",
-    "PhysicalMoney": 200
+    "PhysicalMoney": 200,
+    "StoreOwnerId": "OW2"
   },
   {
     "Id": "EUR",

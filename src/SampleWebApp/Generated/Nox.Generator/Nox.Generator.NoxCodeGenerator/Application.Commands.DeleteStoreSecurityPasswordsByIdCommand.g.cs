@@ -20,7 +20,7 @@ public class DeleteStoreSecurityPasswordsByIdCommandHandler: CommandBase<DeleteS
 
 	public DeleteStoreSecurityPasswordsByIdCommandHandler(
 		SampleWebAppDbContext dbContext,
-		NoxSolution noxSolution, 
+		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;

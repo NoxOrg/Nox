@@ -20,7 +20,7 @@ public class DeleteHolidaysByIdCommandHandler: CommandBase<DeleteHolidaysByIdCom
 
 	public DeleteHolidaysByIdCommandHandler(
 		CryptocashApiDbContext dbContext,
-		NoxSolution noxSolution, 
+		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;

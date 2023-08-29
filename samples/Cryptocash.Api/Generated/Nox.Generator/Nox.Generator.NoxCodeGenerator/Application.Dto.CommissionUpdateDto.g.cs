@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CryptocashApi.Application.Dto; 
+namespace CryptocashApi.Application.Dto;
 
 /// <summary>
 /// Exchange commission rate and amount.
@@ -27,4 +27,9 @@ public partial class CommissionUpdateDto
     [Required(ErrorMessage = "EffectiveAt is required")]
     
     public System.DateTimeOffset EffectiveAt { get; set; } = default!;
+
+    /// <summary>
+    /// Commission The commission related country ZeroOrOne Countries
+    /// </summary>
+    public string? CountryId { get; set; } = null!;
 }

@@ -37,7 +37,7 @@ public partial class CommissionDto
     /// <summary>
     /// Commission The commission related country ZeroOrOne Countries
     /// </summary>
-    public virtual CountryDto ?Country { get; set; } = null!;
+    public virtual CountryDto? Country { get; set; } = null!;
 
     /// <summary>
     /// Commission The booking's related fee ZeroOrMany Bookings

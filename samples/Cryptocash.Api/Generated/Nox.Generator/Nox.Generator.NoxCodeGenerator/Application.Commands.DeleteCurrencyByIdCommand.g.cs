@@ -20,7 +20,7 @@ public class DeleteCurrencyByIdCommandHandler: CommandBase<DeleteCurrencyByIdCom
 
 	public DeleteCurrencyByIdCommandHandler(
 		CryptocashApiDbContext dbContext,
-		NoxSolution noxSolution, 
+		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;

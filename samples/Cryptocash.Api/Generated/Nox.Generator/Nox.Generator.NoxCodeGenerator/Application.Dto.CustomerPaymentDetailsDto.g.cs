@@ -48,7 +48,7 @@ public partial class CustomerPaymentDetailsDto
     /// CustomerPaymentDetails The payment account related customer ExactlyOne Customers
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string CustomerId { get; set; } = null!;
+    public string CustomerId { get; set; } = null!;
     public virtual CustomerDto Customer { get; set; } = null!;
 
     public System.DateTime? DeletedAtUtc { get; set; }

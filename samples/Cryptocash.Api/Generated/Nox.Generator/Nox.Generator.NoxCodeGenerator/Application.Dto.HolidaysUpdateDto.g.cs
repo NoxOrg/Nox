@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CryptocashApi.Application.Dto; 
+namespace CryptocashApi.Application.Dto;
 
 /// <summary>
 /// Holiday related info for a country.
@@ -27,4 +27,9 @@ public partial class HolidaysUpdateDto
     [Required(ErrorMessage = "DayOff is required")]
     
     public System.UInt16 DayOff { get; set; } = default!;
+
+    /// <summary>
+    /// Holidays The related country ExactlyOne Countries
+    /// </summary>
+    public string CountryId { get; set; } = null!;
 }

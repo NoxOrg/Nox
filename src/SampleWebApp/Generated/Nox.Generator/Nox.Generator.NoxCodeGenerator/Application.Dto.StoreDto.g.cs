@@ -39,5 +39,12 @@ public partial class StoreDto
     /// </summary>
     public virtual StoreSecurityPasswordsDto StoreSecurityPasswords { get; set; } = null!;
 
+    /// <summary>
+    /// Store Store owner relationship ZeroOrOne StoreOwners
+    /// </summary>
+    //EF maps ForeignKey Automatically
+    public string? StoreOwnerId { get; set; } = null!;
+    public virtual StoreOwnerDto? StoreOwner { get; set; } = null!;
+
     public System.DateTime? DeletedAtUtc { get; set; }
 }

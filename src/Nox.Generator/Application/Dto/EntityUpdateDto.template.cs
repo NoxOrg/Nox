@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto; 
+namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
 
 /// <summary>
 /// {{entity.Description}}.
@@ -26,10 +26,19 @@ public partial class {{className}}
     [Required(ErrorMessage = "{{attribute.Name}} is required")]
     {{ end}}
     {{ if componentsInfo[attribute.Name].IsSimpleType -}}
-    public {{componentsInfo[attribute.Name].ComponentType}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
+    public {{componentsInfo[attribute.Name].ComponentType}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
     {{- else -}}
-    public {{attribute.Type}}Dto{{- if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; } {{if attribute.IsRequired}}= default!;{{end}}
+    public {{attribute.Type}}Dto{{- if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
     {{- end}}
+{{- end }}
+{{- for relationship in entity.Relationships}}
+    {{- if relationship.Relationship == "ZeroOrOne" || relationship.Relationship == "ExactlyOne" && relationship.ShouldGenerateForeignOnThisSide}}
+
+    /// <summary>
+    /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
+    /// </summary>
+    public string{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}}Id { get; set; } = null!;
+    {{-end}}
 {{- end }}
 {{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}
 

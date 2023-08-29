@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SampleWebApp.Application.Dto; 
+namespace SampleWebApp.Application.Dto;
 
 /// <summary>
 /// Stores.
@@ -27,4 +27,9 @@ public partial class StoreUpdateDto
     [Required(ErrorMessage = "PhysicalMoney is required")]
     
     public MoneyDto PhysicalMoney { get; set; } = default!;
+
+    /// <summary>
+    /// Store Store owner relationship ZeroOrOne StoreOwners
+    /// </summary>
+    public string? StoreOwnerId { get; set; } = null!;
 }

@@ -19,9 +19,9 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application;
 
-public class CountryMapper: EntityMapperBase<Country>
+public class CountryMapper : EntityMapperBase<Country>
 {
-    public  CountryMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public CountryMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
     public override void MapToEntity(Country entity, Entity entityDefinition, dynamic dto)
     {
@@ -29,31 +29,35 @@ public class CountryMapper: EntityMapperBase<Country>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
     
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",dto.Name);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
+        if (noxTypeValue != null)
         {        
             entity.Name = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"Population",dto.Population);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "Population", dto.Population);
+        if (noxTypeValue != null)
         {        
             entity.Population = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"CountryDebt",dto.CountryDebt);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "CountryDebt", dto.CountryDebt);
+        if (noxTypeValue != null)
         {        
             entity.CountryDebt = noxTypeValue;
         }
 
         // TODO map ShortDescription Formula remaining types and remove if else
+    
     }
 
     public override void PartialMapToEntity(Country entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+#pragma warning disable CS0168 // Variable is assigned but its value is never used
+        dynamic? value;
+#pragma warning restore CS0168 // Variable is assigned but its value is never used
         {
-            if (updatedProperties.TryGetValue("Name", out dynamic? value))
+            if (updatedProperties.TryGetValue("Name", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Country", "Name");
@@ -65,9 +69,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("Population", out dynamic? value))
+            if (updatedProperties.TryGetValue("Population", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"Population",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "Population", value);
                 if(noxTypeValue == null)
                 {
                     entity.Population = null;
@@ -79,9 +83,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("CountryDebt", out dynamic? value))
+            if (updatedProperties.TryGetValue("CountryDebt", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"CountryDebt",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "CountryDebt", value);
                 if(noxTypeValue == null)
                 {
                     entity.CountryDebt = null;
@@ -92,5 +96,7 @@ public class CountryMapper: EntityMapperBase<Country>
                 }
             }
         }
+    
+    
     }
 }
