@@ -1,0 +1,41 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Unique Attribute Constraint Definition",
+  "description": "Defines a unique constraint based on specific attributes.",
+  "type": [
+    "object",
+    "null"
+  ],
+  "required": [
+    "name",
+    "attributeNames"
+  ],
+  "properties": {
+    "name": {    
+      "title": "Constraint Name",
+      "description": "A unique name for the attribute constraint. Use PascalCase and choose a singular noun.",
+      "type": "string",
+      "pattern": "^[^\\s]*$"
+    },
+    "description": {    
+      "title": "Constraint Description",
+      "description": "A detailed explanation of the purpose and behavior of this unique attribute constraint.",
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "attributeNames": {    
+      "title": "Attribute Names",
+      "description": "List of attribute names that together form the unique constraint.",
+      "type": "array",
+      "items":   {
+        "type": [
+          "string",
+          "null"
+        ]
+      }
+    }
+  },
+  "additionalProperties": false
+}
