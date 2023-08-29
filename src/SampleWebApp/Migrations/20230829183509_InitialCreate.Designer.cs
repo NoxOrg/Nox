@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebAppdeprecated.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230827112905_InitialCreate")]
+    [Migration("20230829183509_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -857,19 +857,23 @@ namespace SampleWebAppdeprecated.Migrations
 
                             b1.Property<string>("AddressLine1")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(128)
+                                .HasColumnType("nvarchar(128)");
 
                             b1.Property<string>("AddressLine2")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(128)
+                                .HasColumnType("nvarchar(128)");
 
                             b1.Property<string>("AdministrativeArea1")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(64)
+                                .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("AdministrativeArea2")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(64)
+                                .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("CountryId")
                                 .IsRequired()
@@ -877,23 +881,28 @@ namespace SampleWebAppdeprecated.Migrations
 
                             b1.Property<string>("Locality")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(64)
+                                .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("Neighborhood")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(64)
+                                .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("PostalCode")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(32)
+                                .HasColumnType("nvarchar(32)");
 
                             b1.Property<string>("Route")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(64)
+                                .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("StreetNumber")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(32)
+                                .HasColumnType("nvarchar(32)");
 
                             b1.HasKey("AllNoxTypeId", "AllNoxTypeTextId");
 
