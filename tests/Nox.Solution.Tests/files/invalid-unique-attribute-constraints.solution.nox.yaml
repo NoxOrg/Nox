@@ -105,57 +105,6 @@ domain:
           relationship: oneOrMany
           entity: CountryLocalNames
 
-      queries:
-
-        - name: GetCountriesByContinent
-          description: Returns a list of countries for a given continent
-
-          requestInput:
-            - name: continentName
-              description: Africa, Europe, Asia, Australia, North America, or South America
-              type: text
-              textTypeOptions:
-                isUnicode: false
-          
-          responseOutput:
-            name: countriesByContinentDto
-            type: collection
-            collectionTypeOptions:
-              name: countryInfo
-              type: object
-              objectTypeOptions:
-                attributes:
-
-                  - name: CountryId
-                    description: The country's Id
-                    type: countryCode2
-
-                  - name: CountryName
-                    description: The country name
-                    type: text
-      
-      commands:
-
-        - name: UpdatePopulationStatistics
-          description: Instructs the service to collect updated population statistics
-          type: object
-          objectTypeOptions:
-            attributes:
-              - name: CountryCode
-                type: countryCode2
-          emitEvents: [ CountryNameUpdatedDomainEvent ]
-            
-      events:
-        - name: CountryNameUpdatedDomainEvent
-          type: object
-          objectTypeOptions:
-            attributes:
-
-              - name: CountryId
-                type: countryCode2
-
-              - name: CountryName
-                type: text
 
       keys:
 
@@ -279,13 +228,40 @@ domain:
           type: text
           textTypeOptions:
             maxLength: 31
-      
-      uniqueAttributeConstraints:
+            
+      uniqueAttributeConstraints: # All these constraints are invalid
         - name: UniqueCountryName
           description: The country name must be unique
           attributeNames:
             - Name
+        
+        - name: UniqueCountryName
+          description: The country formal name must be unique
+          attributeNames:
+            - FormalName
+        
+        - name: UniqueCountry
+          description: The country must be unique
+          attributeNames:
+            - AlphaCode3
+            - AlphaCode2
+            - NumericCode
 
+        - name: Unique
+          description: The country must be unique
+          attributeNames:
+            - NumericCode
+            - AlphaCode3
+            - AlphaCode2
+            
+        - name: UniqueConstraintWithNonExistentAttribute
+          description: The country must be unique
+          attributeNames:
+            - NumericCode
+            - AlphaCode3
+            - AlphaCode2
+            - NonExistentAttribute
+              
     - name: Currency
       description: The list of currencies
 
@@ -364,195 +340,5 @@ application:
             casing: lower
             maxLength: 2
             minLength: 2
-
-  integrations:
-    - name: SampleEtl
-      description: a Sample Etl
-      source:
-        name: CountryJsonSource
-        description: Sources Country data from a json file
-        dataConnectionName: CountryJsonData
-        fileOptions: 
-          filename: country-seed-data.json
-        schedule:
-          start: every day at 2am
-          retry:
-            limit: 5
-            delaySeconds: 5
-            doubleDelayLimit: 10
-          runOnStartup: true
-        watermark:
-          dateColumns:
-            - "CreateDate"
-            - "EditDate"
-          sequentialKeyColumn: CountryId
-      transform:
-        mappings:
-          - sourceColumn: IsoAlpha2Code
-            targetAttribute: Id
-            converter: upperCase
-          - sourceColumn: CountryName
-            targetAttribute: Name
-          - sourceColumn: CountryFullName
-            targetAttribute: FormalName
-        lookups:
-          - sourceColumn: RegionId
-            match:
-              table: GeoRegions
-              lookupColumn: Id
-              returnColumn: Name
-            targetAttribute: GeoRegion
-      target:
-        name: Country
-        targetType: entity
-        
-#  localization:
-#
-#    supportedCultures:
-#      - en-GB
-#      - en-US
-#      - de-CH
-#      - fr-CH
-#      - it-CH
-#      - fr-FR
-#
-#    defaultCulture: en-GB
-       
-
-infrastructure:
-  
-  persistence:
-
-    databaseServer:
-      name: SampleCurrencyDb
-
-      # Sql Server
-      serverUri: sqlserver.iwgplc.com
-      provider: sqlServer
-      port: 1433
-      user: sqluser
-      password: sqlpassword
-
-      ### Postgres
-      #provider: postgres
-
-      ### MySql  
-      #provider: mySql
-
-    cacheServer:
-      name: SampleCache
-      provider: azureRedis
-      serverUri: redis.iwgplc.com
-      user: RedisUser
-      password: RedisPassword
-    
-    searchServer:
-      name: SampleSearch
-      provider: elasticSearch
-      serverUri: elastic.igwplc.com
-      user: ElasticUser
-      password: ElasticPassword
-    
-    eventSourceServer:
-      name: SampleEvtSrc
-      serverUri: SampleEvt.iwgplc.com
-      provider: eventStoreDb
-      user: EvtUser
-      password: EvtPassword
-
-  messaging:
-
-    integrationEventServer:
-      name: IntegrationBus
-      provider: rabbitMq
-      serverUri: rabbitmq://localhost
-      port: 5672
-      user: guest
-      password: guest
-
-  endpoints:
-    
-    apiServer:
-      name: SampleApiServer
-      provider: oData
-      serverUri: workplace.iwgplc.com
-      port: 8080
-    
-    bffServer:
-      name: SampleBffServer
-      provider: blazor
-      serverUri: SampleBff.iwgplc.com
-      port: 8080
-
-  dependencies:
-    notifications:
-      emailServer:
-        name: SampleEmailServer
-        provider: sendGrid
-        serverUri: sendgrid.igwplc.com
-        user: SendGridUser
-        password: SendGridPassword
-      smsServer:
-        name: SampleSmsServer
-        provider: twilio
-        serverUri: https://twilio.com
-        port: 8080
-        user: TwilioUser
-        password: TwilioPassword
-      imServer:
-        name: SampleImServer
-        provider: whatsApp
-        serverUri: https://whatsapp.com
-        port: 8080
-        user: whatsappUser
-        password: whatsappPassword
-
-    monitoring:
-      name: SampleObservabiity
-      provider: elasticApm
-      serverUri: localhost
-      port: 8200
-
-    uiLocalizations:
-      name: SampleCurrencyDb.Localization
-
-      # Sql Server
-      serverUri: sqlserver.iwgplc.com
-      provider: sqlServer
-      port: 1433
-      user: sqluser
-      password: sqlpassword
-
-      ### Postgres
-      #provider: postgres
-
-      ### MySql  
-      #provider: mySql
-
-    dataConnections:
-      - name: CountryJsonData
-        provider: jsonFile
-        serverUri: file:///C:/my-data-files
-        options: Source=File;Filename=country-data.json;
-
-  security:
-    secrets:
-      organizationSecretsServer:
-        name: SampleOrgSecretServer
-        provider: azureKeyVault
-        serverUri: kv.iwgplc.com
-        user: secrets@iwgplc.com
-        password: SecretPassword
-        validFor:
-          minutes: 10
-      
-      solutionSecretsServer:
-        name: SampleSlnSecretServer
-        provider: azureKeyVault
-        serverUri: kv.iwgplc.com
-        user: secrets@iwgplc.com
-        password: SecretPassword
-        validFor:
-          minutes: 10
 
 
