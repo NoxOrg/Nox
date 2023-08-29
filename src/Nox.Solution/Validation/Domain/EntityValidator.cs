@@ -21,6 +21,9 @@ namespace Nox.Solution.Validation
                 .NotEqual(false)
                 .WithMessage(e => string.Format(ValidationResources.EntityDefaultsFalse, e.Name));
 
+            RuleFor(e => e.Persistence!)
+                .SetValidator(e => new EntityPersistenceValidator(e.Name, entities));
+
             RuleForEach(e => e.Relationships)
                 .SetValidator(e => new EntityRelationshipValidator(e.Name, entities))
                 .SetValidator(e => new UniquePropertyValidator<EntityRelationship>(e.Relationships, x => x.Name, "entity relation"));

@@ -450,4 +450,7 @@
   <data name="DuplicateItemInCollection" xml:space="preserve">
     <value>The {0} '{1}' is duplicated. {0} must be unique in a domain definition.</value>
   </data>
+  <data name="EntityOwnedCannotBeAuditable" xml:space="preserve">
+    <value>The owned entity '{0}' cannot be auditable.</value>
+  </data>
 </root>

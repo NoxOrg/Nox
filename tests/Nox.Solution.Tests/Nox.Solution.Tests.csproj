@@ -60,6 +60,9 @@
     <None Update="files\invalid-sample.solution.nox.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="files\owned-entity-set-as-audited.solution.nox.yaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="files\ref\entities\country.entity.nox.yaml">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

@@ -34,7 +34,7 @@ public class DomainEventValidator: AbstractValidator<DomainEvent>
     private bool HaveUniqueName(DomainEvent toEvaluate, string name)
     {
         var domainEventResult = _domainEvents!.All(de => de.Equals(toEvaluate) || de.Name != name);
-        if (domainEventResult == false || _appEvents == null || !_appEvents.Any()) return domainEventResult;
+        if (!domainEventResult || _appEvents == null || !_appEvents.Any()) return domainEventResult;
         return _appEvents.All(ae => ae.Name != name);
     }
 }

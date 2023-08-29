@@ -117,6 +117,21 @@ public class YamlFileValidationTests
     }
 
     [Fact]
+    public void Deserialize_OwnedEntity_SetAsAudited_ThrowsException()
+    {
+        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
+            .UseYamlFile($"./files/owned-entity-set-as-audited.solution.nox.yaml")
+            .Build());
+
+        var errors = exception.Errors.ToArray();
+
+        Assert.Equal(2, errors.Length);
+
+        Assert.Equal("The owned entity 'Currency' cannot be auditable.", errors[0].ErrorMessage);
+        Assert.Equal("The owned entity 'Country' cannot be auditable.", errors[1].ErrorMessage);
+    }
+
+    [Fact]
     public void Deserialize_EntityItemsNameAreDuplicated_ThrowsException()
     {
         Action action = () => new NoxSolutionBuilder()
