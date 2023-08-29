@@ -230,6 +230,30 @@
       },
       "additionalProperties": false
     },
+    "uniqueAttributeConstraints": {    
+      "title": "Unique constraints for this entity.",
+      "description": "Define one or more unique constraints for this entity.",
+      "type": [
+        "array",
+        "null"
+      ],
+      "items":   {
+        "anyOf": [
+          { "$ref": "uniqueAttributeConstraint.json" },
+          {
+            "additionalProperties": false, 
+            "properties": {
+              "$ref": {
+                "type": "string",
+                "format": "uri",
+                "pattern": "^[^\\s]*$"
+              }
+            }
+          }
+        ]
+      },
+      "additionalProperties": false
+    },
     "isOwnedEntity": {    
       "type": [
         "boolean",
