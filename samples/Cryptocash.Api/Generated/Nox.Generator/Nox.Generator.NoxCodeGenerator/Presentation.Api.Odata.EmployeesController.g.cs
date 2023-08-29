@@ -92,6 +92,31 @@ public partial class EmployeesController : ODataController
         return Updated(employeePhoneNumber);
     }
     
+    public async Task<ActionResult> PatchToEmployeePhoneNumbers([FromRoute] System.Int64 key, [FromBody] Delta<EmployeePhoneNumberDto> employeePhoneNumber)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in employeePhoneNumber.GetChangedPropertyNames())
+        {
+            if(employeePhoneNumber.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var updated = await _mediator.Send(new PartialUpdateEmployeePhoneNumberCommand(new EmployeeKeyDto(key), updateProperties));
+        
+        if (updated is null)
+        {
+            return NotFound();
+        }
+        return Updated(new EmployeePhoneNumberDto { Id = updated.keyId });
+    }
+    
     public async Task<ActionResult> Post([FromBody]EmployeeCreateDto employee)
     {
         if (!ModelState.IsValid)

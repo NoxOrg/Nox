@@ -442,5 +442,35 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             queryResult.ExtractResult().CountryLocalNames.Single().Id.Should().Be(countryLocalNameToUpdate.Id);
             queryResult.ExtractResult().CountryLocalNames.Single().Name.Should().Be(expectedOwnedName);
         }
+
+        [Theory, AutoMoqData]
+        public async Task PatchToCountryLocalNames_ShouldUpdateCountryLocalName(ApiFixture apiFixture)
+        {
+            // Arrange                    
+            var expectedOwnedName = apiFixture.Fixture.Create<string>();
+            // Act 
+            var createResult = (CreatedODataResult<CountryKeyDto>)await apiFixture.CountriesController!.Post(
+                new CountryCreateDto
+                {
+                    Name = apiFixture.Fixture.Create<string>(),
+                    CountryLocalNames = new List<CountryLocalNameDto>() { new CountryLocalNameDto() { Name = apiFixture.Fixture.Create<string>() } }
+                });
+
+            var queryResult = await apiFixture.CountriesController!.Get(createResult.Entity.keyId);
+            var countryLocalNameToUpdate = queryResult.ExtractResult().CountryLocalNames.Single();
+
+            var updatedProperties = new Microsoft.AspNetCore.OData.Deltas.Delta<CountryLocalNameDto>();
+            updatedProperties.TrySetPropertyValue(nameof(CountryLocalNameDto.Id), countryLocalNameToUpdate.Id);
+            updatedProperties.TrySetPropertyValue(nameof(CountryLocalNameDto.Name), expectedOwnedName);
+
+            var patchResult = await apiFixture.CountriesController!.PatchToCountryLocalNames(createResult.Entity.keyId, updatedProperties);
+            queryResult = await apiFixture.CountriesController!.Get(createResult.Entity.keyId);
+
+            //Assert
+            patchResult.Should().NotBeNull();
+            queryResult.ExtractResult().CountryLocalNames.Should().NotBeNull();
+            queryResult.ExtractResult().CountryLocalNames.Single().Id.Should().Be(countryLocalNameToUpdate.Id);
+            queryResult.ExtractResult().CountryLocalNames.Single().Name.Should().Be(expectedOwnedName);
+        }
     }
 }

@@ -124,7 +124,9 @@ internal class EntityControllerGenerator : INoxCodeGenerator
                             continue;
                         }
                         GenerateChildrenPost(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
-                        GenerateChildrenPut(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);                    }
+                        GenerateChildrenPut(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
+                        GenerateChildrenPatch(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
+                    }
                 }
             }
 
@@ -328,9 +330,46 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.EndBlock();
         code.AppendLine();
 
-        var childDtoParams = string.Join(", ", child.Keys.Select(k => $"{k.Name} = updatedKey.key{k.Name}"));
         code.AppendLine($"return Updated({child.Name.ToLowerFirstChar()});");
 
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+    private static void GenerateChildrenPatch(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
+    {
+        // Method Patch
+        code.AppendLine($"public async Task<ActionResult> PatchTo{child.PluralName}({PrimaryKeysFromRoute(parent, solution)}, [FromBody] Delta<{child.Name}Dto> {child.Name.ToLowerFirstChar()})");
+
+        // Method content
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
+        code.AppendLine(@$"var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in {child.Name.ToLowerFirstChar()}.GetChangedPropertyNames())
+        {{
+            if({child.Name.ToLowerFirstChar()}.TryGetPropertyValue(propertyName, out dynamic value))
+            {{
+                updateProperties[propertyName] = value;                
+            }}           
+        }}");
+        code.AppendLine();
+        code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{child.Name}Command(" +
+            $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), updateProperties));");
+        code.AppendLine();
+
+        code.AppendLine($"if (updated is null)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+
+        var childDtoParams = string.Join(", ", child.Keys.Select(k => $"{k.Name} = updated.key{k.Name}"));
+        code.AppendLine($"return Updated(new {child.Name}Dto {{ {childDtoParams} }});");
+
+        // End method
         code.EndBlock();
         code.AppendLine();
     }
