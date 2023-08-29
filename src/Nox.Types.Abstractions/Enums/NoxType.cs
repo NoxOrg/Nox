@@ -20,7 +20,7 @@ public enum NoxType : uint
     // Entity depends on the concrete instance and if it supports multiple keys or not!
     [CompoundComponent("Type", typeof(string))]
     [CompoundComponent("Id", typeof(uint))]
-    EntityId = 2276495181,
+    EntityId = 2768006308,
 
     [CompoundType]
     [CompoundComponent("Url", typeof(string))]

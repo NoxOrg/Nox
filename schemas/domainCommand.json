@@ -753,9 +753,9 @@
                   ]
                 },
                 "type": {    
-                  "const": "entity"
+                  "const": "entityId"
                 },
-                "entityTypeOptions": {    
+                "entityIdTypeOptions": {    
                   "type": [
                     "object",
                     "null"
@@ -2808,7 +2808,7 @@
                       ],
                       "enum": [
                         "bool",
-                        "dateTime",
+                        "dateAndTime",
                         "double",
                         "int",
                         "long",
@@ -4944,9 +4944,9 @@
                   ]
                 },
                 "type": {    
-                  "const": "entity"
+                  "const": "entityId"
                 },
-                "entityTypeOptions": {    
+                "entityIdTypeOptions": {    
                   "type": [
                     "object",
                     "null"
@@ -6999,7 +6999,7 @@
                       ],
                       "enum": [
                         "bool",
-                        "dateTime",
+                        "dateAndTime",
                         "double",
                         "int",
                         "long",
@@ -9020,9 +9020,9 @@
           ]
         },
         "type": {    
-          "const": "entity"
+          "const": "entityId"
         },
-        "entityTypeOptions": {    
+        "entityIdTypeOptions": {    
           "type": [
             "object",
             "null"
@@ -10803,7 +10803,7 @@
               ],
               "enum": [
                 "bool",
-                "dateTime",
+                "dateAndTime",
                 "double",
                 "int",
                 "long",

@@ -41,13 +41,14 @@ public class YamlFileValidationTests
 
         var exception = Assert.Throws<NoxSolutionConfigurationException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(yaml));
 
-        var errorCount = exception.Message.Split('\n').Length;
+        var errors = exception.Message.Split('\n');
+        var errorCount = errors.Length;
 
         Assert.Contains("[\"relationship\"]", exception.Message);
         Assert.Contains("[\"name\"]", exception.Message);
         Assert.Contains("[\"serverUri\"]", exception.Message);
         Assert.Contains("dataConnection", exception.Message);
-        Assert.Equal(20, errorCount);
+        Assert.Equal(24, errorCount);
     }
 
     [Theory]
