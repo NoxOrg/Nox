@@ -129,7 +129,9 @@ public class Entity : DefinitionBase
         {
             return false;
         }
+
         var rel = Relationships!.First(x => x.Name.Equals(relationshipName));
+        // TODO: possibly extend for other types
         if (!rel.ShouldGenerateForeignOnThisSide ||
             (rel.Relationship == EntityRelationshipType.ZeroOrMany ||
              rel.Relationship == EntityRelationshipType.OneOrMany))
