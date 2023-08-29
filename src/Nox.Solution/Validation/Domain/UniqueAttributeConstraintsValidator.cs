@@ -24,7 +24,7 @@ public class UniqueAttributeConstraintValidator : AbstractValidator<UniqueAttrib
 
         // Attribute names must exist in the entity
         RuleForEach(ua => ua.AttributeNames).Must(ReferenceExistingEntity)
-            .WithMessage((_, attribute) => string.Format(ValidationResources.AttributeNameMustExistInEntity, attribute, EntityAttributeNames, EntityKeyNames));
+            .WithMessage((_, attribute) => string.Format(ValidationResources.EntityUniqueAttributeConstraintCanReferenceOnlyExistingAttributes, attribute, EntityAttributeNames, EntityKeyNames));
     }
 
     /// <summary>

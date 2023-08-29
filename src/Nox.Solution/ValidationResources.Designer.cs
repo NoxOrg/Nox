@@ -1062,9 +1062,9 @@ namespace Nox.Solution {
         /// <summary>
         ///   Looks up a localized string similar to  attribute name must exist in entity.
         /// </summary>
-        internal static string AttributeNameMustExistInEntity {
+        internal static string EntityUniqueAttributeConstraintCanReferenceOnlyExistingAttributes {
             get {
-                return ResourceManager.GetString("AttributeNameMustExistInEntity", resourceCulture);
+                return ResourceManager.GetString("EntityUniqueAttributeConstraintCanReferenceOnlyExistingAttributes", resourceCulture);
             }
         }
     }
