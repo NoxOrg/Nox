@@ -47,6 +47,16 @@ public static class EntityRelationshipExtensions
             relationship.Relationship == EntityRelationshipType.ZeroOrOne;
     }
 
+    /// <summary>
+    /// Entity has a relationship to a collection of the other entity
+    /// </summary>
+    public static bool WithMultiEntity(this EntityRelationship relationship)
+    {
+        return
+            relationship.Relationship == EntityRelationshipType.ZeroOrMany ||
+            relationship.Relationship == EntityRelationshipType.OneOrMany;
+    }
+
     public static bool ShouldUseRelationshipNameAsNavigation(this EntityRelationship relationship)
     {
         var hasReferenceToSingularEntity = relationship.WithSingleEntity();
