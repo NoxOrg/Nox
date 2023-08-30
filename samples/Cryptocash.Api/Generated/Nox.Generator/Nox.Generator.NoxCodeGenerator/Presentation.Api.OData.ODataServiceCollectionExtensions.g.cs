@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using Microsoft.AspNetCore.OData.Formatter.Serialization;
 using Nox.Lib;
-using CryptocashApi.Application.Dto;
+using Cryptocash.Application.Dto;
 
-namespace CryptocashApi.Presentation.Api.OData;
+namespace Cryptocash.Presentation.Api.OData;
 
 public static class ODataServiceCollectionExtensions
 {

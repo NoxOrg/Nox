@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CryptocashApi.Application.Dto; 
+namespace Cryptocash.Application.Dto; 
 
 /// <summary>
 /// Currencies related frequent and rare bank notes.
@@ -16,7 +16,7 @@ public partial class CurrencyBankNotesUpdateDto
 {
     //TODO Add owned Entities and update odata endpoints
     /// <summary>
-    /// The currency's bank note identifier (Required).
+    /// Currency's bank note identifier (Required).
     /// </summary>
     [Required(ErrorMessage = "BankNote is required")]
     

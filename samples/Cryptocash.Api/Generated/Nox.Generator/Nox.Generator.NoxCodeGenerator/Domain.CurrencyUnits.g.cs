@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using Nox.Types;
 using Nox.Domain;
 
-namespace CryptocashApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
 /// Currencies related units major and minor.
@@ -16,37 +16,37 @@ namespace CryptocashApi.Domain;
 public partial class CurrencyUnits : AuditableEntityBase
 {
     /// <summary>
-    /// The currency unit unique identifier (Required).
+    /// Currency unit unique identifier (Required).
     /// </summary>
     public DatabaseNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// The currency's major name (Required).
+    /// Currency's major name (Required).
     /// </summary>
     public Nox.Types.Text MajorName { get; set; } = null!;
 
     /// <summary>
-    /// The currency's major display symbol (Required).
+    /// Currency's major display symbol (Required).
     /// </summary>
     public Nox.Types.Text MajorSymbol { get; set; } = null!;
 
     /// <summary>
-    /// The currency's minor name (Required).
+    /// Currency's minor name (Required).
     /// </summary>
     public Nox.Types.Text MinorName { get; set; } = null!;
 
     /// <summary>
-    /// The currency's minor display symbol (Required).
+    /// Currency's minor display symbol (Required).
     /// </summary>
     public Nox.Types.Text MinorSymbol { get; set; } = null!;
 
     /// <summary>
-    /// The currency's minor value when converted to major (Required).
+    /// Currency's minor value when converted to major (Required).
     /// </summary>
     public Nox.Types.Money MinorToMajorValue { get; set; } = null!;
 
     /// <summary>
-    /// CurrencyUnits The currency's related units major and minor OneOrMany Currencies
+    /// CurrencyUnits Currency's units ZeroOrMany Currencies
     /// </summary>
     public virtual List<Currency> Currencies { get; set; } = new();
 

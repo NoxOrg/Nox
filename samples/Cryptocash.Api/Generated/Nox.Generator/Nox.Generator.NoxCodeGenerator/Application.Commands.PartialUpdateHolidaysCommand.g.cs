@@ -9,21 +9,21 @@ using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
 
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 
 public record PartialUpdateHolidaysCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <HolidaysKeyDto?>;
 
 public class PartialUpdateHolidaysCommandHandler: CommandBase<PartialUpdateHolidaysCommand, Holidays>, IRequestHandler<PartialUpdateHolidaysCommand, HolidaysKeyDto?>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Holidays> EntityMapper { get; }
 
 	public PartialUpdateHolidaysCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<Holidays> entityMapper): base(noxSolution, serviceProvider)

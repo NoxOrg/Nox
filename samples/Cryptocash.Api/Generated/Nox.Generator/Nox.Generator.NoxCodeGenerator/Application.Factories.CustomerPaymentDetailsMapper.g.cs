@@ -14,10 +14,10 @@ using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
 using Nox.Exceptions;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Domain;
+using Cryptocash.Application.Dto;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application;
+namespace Cryptocash.Application;
 
 public class CustomerPaymentDetailsMapper: EntityMapperBase<CustomerPaymentDetails>
 {
@@ -101,7 +101,7 @@ public class CustomerPaymentDetailsMapper: EntityMapperBase<CustomerPaymentDetai
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"PaymentAccountSortCode",value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("CustomerPaymentDetails", "PaymentAccountSortCode");
+                    entity.PaymentAccountSortCode = null;
                 }
                 else
                 {

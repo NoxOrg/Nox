@@ -14,10 +14,10 @@ using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
 using Nox.Exceptions;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Domain;
+using Cryptocash.Application.Dto;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application;
+namespace Cryptocash.Application;
 
 public class CurrencyMapper: EntityMapperBase<Currency>
 {
@@ -49,10 +49,10 @@ public class CurrencyMapper: EntityMapperBase<Currency>
         {        
             entity.Symbol = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"ThousandsSeperator",dto.ThousandsSeperator);
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"ThousandsSeparator",dto.ThousandsSeparator);
         if(noxTypeValue != null)
         {        
-            entity.ThousandsSeperator = noxTypeValue;
+            entity.ThousandsSeparator = noxTypeValue;
         }
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"DecimalSeparator",dto.DecimalSeparator);
         if(noxTypeValue != null)
@@ -116,16 +116,16 @@ public class CurrencyMapper: EntityMapperBase<Currency>
             }
         }
         {
-            if (updatedProperties.TryGetValue("ThousandsSeperator", out dynamic? value))
+            if (updatedProperties.TryGetValue("ThousandsSeparator", out dynamic? value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"ThousandsSeperator",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"ThousandsSeparator",value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("Currency", "ThousandsSeperator");
+                    entity.ThousandsSeparator = null;
                 }
                 else
                 {
-                    entity.ThousandsSeperator = noxTypeValue;
+                    entity.ThousandsSeparator = noxTypeValue;
                 }
             }
         }
@@ -135,7 +135,7 @@ public class CurrencyMapper: EntityMapperBase<Currency>
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"DecimalSeparator",value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("Currency", "DecimalSeparator");
+                    entity.DecimalSeparator = null;
                 }
                 else
                 {

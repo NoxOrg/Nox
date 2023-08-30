@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using Nox.Types;
 using Nox.Domain;
 
-namespace CryptocashApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
 /// Time zones related to country.
@@ -16,17 +16,17 @@ namespace CryptocashApi.Domain;
 public partial class CountryTimeZones : AuditableEntityBase
 {
     /// <summary>
-    /// The country's timezone unique identifier (Required).
+    /// Country's time zone unique identifier (Required).
     /// </summary>
     public DatabaseNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// The country's related timezone code (Required).
+    /// Country's related time zone code (Required).
     /// </summary>
     public Nox.Types.TimeZoneCode TimeZoneCode { get; set; } = null!;
 
     /// <summary>
-    /// CountryTimeZones The country's related timezones ZeroOrMany Countries
+    /// CountryTimeZones Country's time zones ZeroOrMany Countries
     /// </summary>
     public virtual List<Country> Countries { get; set; } = new();
 

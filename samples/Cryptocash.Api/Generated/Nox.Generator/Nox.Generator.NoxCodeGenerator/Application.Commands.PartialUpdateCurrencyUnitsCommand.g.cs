@@ -9,21 +9,21 @@ using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
 
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 
 public record PartialUpdateCurrencyUnitsCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CurrencyUnitsKeyDto?>;
 
 public class PartialUpdateCurrencyUnitsCommandHandler: CommandBase<PartialUpdateCurrencyUnitsCommand, CurrencyUnits>, IRequestHandler<PartialUpdateCurrencyUnitsCommand, CurrencyUnitsKeyDto?>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<CurrencyUnits> EntityMapper { get; }
 
 	public PartialUpdateCurrencyUnitsCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<CurrencyUnits> entityMapper): base(noxSolution, serviceProvider)

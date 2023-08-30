@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CryptocashApi.Application.Dto; 
+namespace Cryptocash.Application.Dto; 
 
 /// <summary>
 /// Currencies related units major and minor.
@@ -16,31 +16,31 @@ public partial class CurrencyUnitsUpdateDto
 {
     //TODO Add owned Entities and update odata endpoints
     /// <summary>
-    /// The currency's major name (Required).
+    /// Currency's major name (Required).
     /// </summary>
     [Required(ErrorMessage = "MajorName is required")]
     
     public System.String MajorName { get; set; } = default!;
     /// <summary>
-    /// The currency's major display symbol (Required).
+    /// Currency's major display symbol (Required).
     /// </summary>
     [Required(ErrorMessage = "MajorSymbol is required")]
     
     public System.String MajorSymbol { get; set; } = default!;
     /// <summary>
-    /// The currency's minor name (Required).
+    /// Currency's minor name (Required).
     /// </summary>
     [Required(ErrorMessage = "MinorName is required")]
     
     public System.String MinorName { get; set; } = default!;
     /// <summary>
-    /// The currency's minor display symbol (Required).
+    /// Currency's minor display symbol (Required).
     /// </summary>
     [Required(ErrorMessage = "MinorSymbol is required")]
     
     public System.String MinorSymbol { get; set; } = default!;
     /// <summary>
-    /// The currency's minor value when converted to major (Required).
+    /// Currency's minor value when converted to major (Required).
     /// </summary>
     [Required(ErrorMessage = "MinorToMajorValue is required")]
     

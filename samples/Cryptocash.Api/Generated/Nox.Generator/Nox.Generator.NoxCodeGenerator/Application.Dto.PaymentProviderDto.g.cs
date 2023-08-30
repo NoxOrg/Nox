@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
-//using CryptocashApi.Application.DataTransferObjects;
-using CryptocashApi.Domain;
+//using Cryptocash.Application.DataTransferObjects;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application.Dto;
+namespace Cryptocash.Application.Dto;
 
 public record PaymentProviderKeyDto(System.Int64 keyId);
 
@@ -20,19 +20,24 @@ public partial class PaymentProviderDto
 {
 
     /// <summary>
-    /// The payment provider unique identifier (Required).
+    /// Payment provider unique identifier (Required).
     /// </summary>
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// The payment provider name (Required).
+    /// Payment provider name (Required).
     /// </summary>
     public System.String PaymentProviderName { get; set; } = default!;
 
     /// <summary>
-    /// The payment account type (Required).
+    /// Payment provider account type (Required).
     /// </summary>
     public System.String PaymentProviderType { get; set; } = default!;
+
+    /// <summary>
+    /// PaymentProvider Order payment provider ExactlyOne VendingMachineOrders
+    /// </summary>
+    public virtual VendingMachineOrderDto VendingMachineOrder { get; set; } = null!;
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }

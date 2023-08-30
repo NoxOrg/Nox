@@ -14,10 +14,10 @@ using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
 using Nox.Exceptions;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Domain;
+using Cryptocash.Application.Dto;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application;
+namespace Cryptocash.Application;
 
 public class VendingMachineOrderMapper: EntityMapperBase<VendingMachineOrder>
 {
@@ -44,6 +44,8 @@ public class VendingMachineOrderMapper: EntityMapperBase<VendingMachineOrder>
         {        
             entity.DeliveryDateTime = noxTypeValue;
         }
+
+        // TODO map Status Formula remaining types and remove if else
     }
 
     public override void PartialMapToEntity(VendingMachineOrder entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
@@ -68,7 +70,7 @@ public class VendingMachineOrderMapper: EntityMapperBase<VendingMachineOrder>
                 var noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition,"RequestedDeliveryDate",value);
                 if(noxTypeValue == null)
                 {
-                    entity.RequestedDeliveryDate = null;
+                    throw new EntityAttributeIsNotNullableException("VendingMachineOrder", "RequestedDeliveryDate");
                 }
                 else
                 {

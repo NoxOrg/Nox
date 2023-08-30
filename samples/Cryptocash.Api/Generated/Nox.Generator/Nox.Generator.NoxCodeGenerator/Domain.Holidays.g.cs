@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using Nox.Types;
 using Nox.Domain;
 
-namespace CryptocashApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
 /// Holiday related info for a country.
@@ -16,22 +16,22 @@ namespace CryptocashApi.Domain;
 public partial class Holidays : AuditableEntityBase
 {
     /// <summary>
-    /// The holiday's unique identifier (Required).
+    /// Holiday's unique identifier (Required).
     /// </summary>
     public DatabaseNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// The holiday's related year (Required).
+    /// Holiday's associated year (Required).
     /// </summary>
     public Nox.Types.Year Year { get; set; } = null!;
 
     /// <summary>
-    /// The holiday's country related week day off (Required).
+    /// Week day off associated with holiday's country (Required).
     /// </summary>
     public Nox.Types.DayOfWeek DayOff { get; set; } = null!;
 
     /// <summary>
-    /// Holidays The related country ExactlyOne Countries
+    /// Holidays Holiday's country ExactlyOne Countries
     /// </summary>
     public virtual Country Country { get; set; } = null!;
 
@@ -41,7 +41,7 @@ public partial class Holidays : AuditableEntityBase
     public Nox.Types.CountryCode2 CountryId { get; set; } = null!;
 
     /// <summary>
-    /// Holidays The related country holidays ZeroOrMany CountryHolidays
+    /// Holidays Country's holidays ZeroOrMany CountryHolidays
     /// </summary>
     public virtual List<CountryHoliday> CountryHolidays { get; set; } = new();
 }

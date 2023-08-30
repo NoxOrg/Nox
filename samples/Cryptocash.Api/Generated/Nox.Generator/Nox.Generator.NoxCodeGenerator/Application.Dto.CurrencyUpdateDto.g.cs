@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CryptocashApi.Application.Dto; 
+namespace Cryptocash.Application.Dto; 
 
 /// <summary>
 /// Currency and related data.
@@ -16,43 +16,39 @@ public partial class CurrencyUpdateDto
 {
     //TODO Add owned Entities and update odata endpoints
     /// <summary>
-    /// The currency's name (Required).
+    /// Currency's name (Required).
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
     public System.String Name { get; set; } = default!;
     /// <summary>
-    /// The currency's iso number id (Required).
+    /// Currency's iso number id (Required).
     /// </summary>
     [Required(ErrorMessage = "CurrencyIsoNumeric is required")]
     
     public System.Int16 CurrencyIsoNumeric { get; set; } = default!;
     /// <summary>
-    /// The currency's symbol (Required).
+    /// Currency's symbol (Required).
     /// </summary>
     [Required(ErrorMessage = "Symbol is required")]
     
     public System.String Symbol { get; set; } = default!;
     /// <summary>
-    /// The currency's numeric thousands notation separator (Required).
+    /// Currency's numeric thousands notation separator (Optional).
     /// </summary>
-    [Required(ErrorMessage = "ThousandsSeperator is required")]
-    
-    public System.String ThousandsSeperator { get; set; } = default!;
+    public System.String? ThousandsSeparator { get; set; } 
     /// <summary>
-    /// The currency's numeric decimal notation separator (Required).
+    /// Currency's numeric decimal notation separator (Optional).
     /// </summary>
-    [Required(ErrorMessage = "DecimalSeparator is required")]
-    
-    public System.String DecimalSeparator { get; set; } = default!;
+    public System.String? DecimalSeparator { get; set; } 
     /// <summary>
-    /// The currency's numeric space between amount and symbol (Required).
+    /// Currency's numeric space between amount and symbol (Required).
     /// </summary>
     [Required(ErrorMessage = "SpaceBetweenAmountAndSymbol is required")]
     
     public System.Boolean SpaceBetweenAmountAndSymbol { get; set; } = default!;
     /// <summary>
-    /// The currency's numeric decimal digits (Required).
+    /// Currency's numeric decimal digits (Required).
     /// </summary>
     [Required(ErrorMessage = "DecimalDigits is required")]
     

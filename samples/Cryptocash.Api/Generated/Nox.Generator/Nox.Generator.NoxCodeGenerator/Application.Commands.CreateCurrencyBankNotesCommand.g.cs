@@ -11,20 +11,20 @@ using Nox.Application.Commands;
 using Nox.Factories;
 using Nox.Solution;
 
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 public record CreateCurrencyBankNotesCommand(CurrencyBankNotesCreateDto EntityDto) : IRequest<CurrencyBankNotesKeyDto>;
 
 public partial class CreateCurrencyBankNotesCommandHandler: CommandBase<CreateCurrencyBankNotesCommand,CurrencyBankNotes>, IRequestHandler <CreateCurrencyBankNotesCommand, CurrencyBankNotesKeyDto>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 	public IEntityFactory<CurrencyBankNotesCreateDto,CurrencyBankNotes> EntityFactory { get; }
 
 	public CreateCurrencyBankNotesCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityFactory<CurrencyBankNotesCreateDto,CurrencyBankNotes> entityFactory): base(noxSolution, serviceProvider)

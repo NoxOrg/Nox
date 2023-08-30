@@ -8,21 +8,21 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Factories;
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 
 public record UpdateHolidaysCommand(System.Int64 keyId, HolidaysUpdateDto EntityDto) : IRequest<HolidaysKeyDto?>;
 
 public class UpdateHolidaysCommandHandler: CommandBase<UpdateHolidaysCommand, Holidays>, IRequestHandler<UpdateHolidaysCommand, HolidaysKeyDto?>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Holidays> EntityMapper { get; }
 
 	public UpdateHolidaysCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<Holidays> entityMapper): base(noxSolution, serviceProvider)

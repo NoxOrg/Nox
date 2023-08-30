@@ -1,0 +1,48 @@
+﻿#
+# cryptocash.domain.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/domain.json
+#
+
+entities:
+
+  - $ref: ./entities/booking.entities.nox.yaml
+  
+  - $ref: ./entities/commission.entities.nox.yaml
+  
+  - $ref: ./entities/country.entities.nox.yaml
+  
+  - $ref: ./entities/countryholidays.entities.nox.yaml
+  
+  - $ref: ./entities/countrytimezones.entities.nox.yaml
+  
+  - $ref: ./entities/currency.entities.nox.yaml
+  
+  - $ref: ./entities/currencybanknotes.entities.nox.yaml
+  
+  - $ref: ./entities/currencyunits.entities.nox.yaml
+  
+  - $ref: ./entities/customer.entities.nox.yaml
+  
+  - $ref: ./entities/customerpaymentdetails.entities.nox.yaml
+  
+  - $ref: ./entities/customertransaction.entities.nox.yaml
+  
+  - $ref: ./entities/employee.entities.nox.yaml
+  
+  - $ref: ./entities/employeephonenumber.entities.nox.yaml
+  
+  - $ref: ./entities/exchangerate.entities.nox.yaml
+  
+  - $ref: ./entities/holidays.entities.nox.yaml
+
+  - $ref: ./entities/landlord.entities.nox.yaml
+  
+  - $ref: ./entities/minimumcashstock.entities.nox.yaml
+  
+  - $ref: ./entities/paymentprovider.entities.nox.yaml
+  
+  - $ref: ./entities/vendingmachine.entities.nox.yaml
+  
+  - $ref: ./entities/vendingmachineorder.entities.nox.yaml
+

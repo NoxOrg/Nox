@@ -11,20 +11,20 @@ using Nox.Application.Commands;
 using Nox.Factories;
 using Nox.Solution;
 
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 public record CreateCurrencyUnitsCommand(CurrencyUnitsCreateDto EntityDto) : IRequest<CurrencyUnitsKeyDto>;
 
 public partial class CreateCurrencyUnitsCommandHandler: CommandBase<CreateCurrencyUnitsCommand,CurrencyUnits>, IRequestHandler <CreateCurrencyUnitsCommand, CurrencyUnitsKeyDto>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 	public IEntityFactory<CurrencyUnitsCreateDto,CurrencyUnits> EntityFactory { get; }
 
 	public CreateCurrencyUnitsCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityFactory<CurrencyUnitsCreateDto,CurrencyUnits> entityFactory): base(noxSolution, serviceProvider)

@@ -6,9 +6,9 @@ using Microsoft.EntityFrameworkCore;
 using Nox;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-using CryptocashApi.Application.Dto;
+using Cryptocash.Application.Dto;
 
-namespace CryptocashApi.Infrastructure.Persistence;
+namespace Cryptocash.Infrastructure.Persistence;
 
 public class DtoDbContext : DbContext
 {
@@ -82,7 +82,7 @@ public class DtoDbContext : DbContext
             base.OnConfiguring(optionsBuilder);
             if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
             {
-                _dbProvider.ConfigureDbContext(optionsBuilder, "CryptocashApi", _noxSolution.Infrastructure!.Persistence.DatabaseServer); 
+                _dbProvider.ConfigureDbContext(optionsBuilder, "Cryptocash", _noxSolution.Infrastructure!.Persistence.DatabaseServer); 
             }
         }
         

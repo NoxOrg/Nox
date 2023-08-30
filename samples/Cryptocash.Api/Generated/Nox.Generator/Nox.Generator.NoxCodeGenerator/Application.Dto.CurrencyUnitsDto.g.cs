@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
-//using CryptocashApi.Application.DataTransferObjects;
-using CryptocashApi.Domain;
+//using Cryptocash.Application.DataTransferObjects;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application.Dto;
+namespace Cryptocash.Application.Dto;
 
 public record CurrencyUnitsKeyDto(System.Int64 keyId);
 
@@ -20,37 +20,37 @@ public partial class CurrencyUnitsDto
 {
 
     /// <summary>
-    /// The currency unit unique identifier (Required).
+    /// Currency unit unique identifier (Required).
     /// </summary>
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// The currency's major name (Required).
+    /// Currency's major name (Required).
     /// </summary>
     public System.String MajorName { get; set; } = default!;
 
     /// <summary>
-    /// The currency's major display symbol (Required).
+    /// Currency's major display symbol (Required).
     /// </summary>
     public System.String MajorSymbol { get; set; } = default!;
 
     /// <summary>
-    /// The currency's minor name (Required).
+    /// Currency's minor name (Required).
     /// </summary>
     public System.String MinorName { get; set; } = default!;
 
     /// <summary>
-    /// The currency's minor display symbol (Required).
+    /// Currency's minor display symbol (Required).
     /// </summary>
     public System.String MinorSymbol { get; set; } = default!;
 
     /// <summary>
-    /// The currency's minor value when converted to major (Required).
+    /// Currency's minor value when converted to major (Required).
     /// </summary>
     public MoneyDto MinorToMajorValue { get; set; } = default!;
 
     /// <summary>
-    /// CurrencyUnits The currency's related units major and minor OneOrMany Currencies
+    /// CurrencyUnits Currency's units ZeroOrMany Currencies
     /// </summary>
     public virtual List<CurrencyDto> Currencies { get; set; } = new();
 

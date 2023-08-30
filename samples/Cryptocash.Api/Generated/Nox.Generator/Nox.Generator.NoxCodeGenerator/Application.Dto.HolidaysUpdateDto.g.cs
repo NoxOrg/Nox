@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CryptocashApi.Application.Dto; 
+namespace Cryptocash.Application.Dto; 
 
 /// <summary>
 /// Holiday related info for a country.
@@ -16,13 +16,13 @@ public partial class HolidaysUpdateDto
 {
     //TODO Add owned Entities and update odata endpoints
     /// <summary>
-    /// The holiday's related year (Required).
+    /// Holiday's associated year (Required).
     /// </summary>
     [Required(ErrorMessage = "Year is required")]
     
     public System.UInt16 Year { get; set; } = default!;
     /// <summary>
-    /// The holiday's country related week day off (Required).
+    /// Week day off associated with holiday's country (Required).
     /// </summary>
     [Required(ErrorMessage = "DayOff is required")]
     

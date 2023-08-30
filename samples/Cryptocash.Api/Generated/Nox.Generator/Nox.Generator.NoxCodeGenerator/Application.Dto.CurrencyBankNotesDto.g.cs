@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
-//using CryptocashApi.Application.DataTransferObjects;
-using CryptocashApi.Domain;
+//using Cryptocash.Application.DataTransferObjects;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application.Dto;
+namespace Cryptocash.Application.Dto;
 
 public record CurrencyBankNotesKeyDto(System.Int64 keyId);
 
@@ -20,12 +20,12 @@ public partial class CurrencyBankNotesDto
 {
 
     /// <summary>
-    /// The currency bank note unique identifier (Required).
+    /// Currency bank note unique identifier (Required).
     /// </summary>
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// The currency's bank note identifier (Required).
+    /// Currency's bank note identifier (Required).
     /// </summary>
     public System.String BankNote { get; set; } = default!;
 
@@ -35,7 +35,7 @@ public partial class CurrencyBankNotesDto
     public System.Boolean IsRare { get; set; } = default!;
 
     /// <summary>
-    /// CurrencyBankNotes The currency's related bank notes OneOrMany Currencies
+    /// CurrencyBankNotes Currency's bank notes ZeroOrMany Currencies
     /// </summary>
     public virtual List<CurrencyDto> Currencies { get; set; } = new();
 

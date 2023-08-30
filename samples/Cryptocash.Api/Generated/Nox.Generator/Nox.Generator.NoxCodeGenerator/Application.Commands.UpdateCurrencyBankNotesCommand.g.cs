@@ -8,21 +8,21 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Factories;
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 
 public record UpdateCurrencyBankNotesCommand(System.Int64 keyId, CurrencyBankNotesUpdateDto EntityDto) : IRequest<CurrencyBankNotesKeyDto?>;
 
 public class UpdateCurrencyBankNotesCommandHandler: CommandBase<UpdateCurrencyBankNotesCommand, CurrencyBankNotes>, IRequestHandler<UpdateCurrencyBankNotesCommand, CurrencyBankNotesKeyDto?>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<CurrencyBankNotes> EntityMapper { get; }
 
 	public UpdateCurrencyBankNotesCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<CurrencyBankNotes> entityMapper): base(noxSolution, serviceProvider)
