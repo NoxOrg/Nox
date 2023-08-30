@@ -23,8 +23,8 @@ namespace Nox.Solution.Validation
                 .WithMessage(ep => string.Format(ValidationResources.EntityOwnedCannotBeAuditable, entityName));
         }
 
-        private static bool IsOwnedByAnyOtherEntity(string ownedEntityName, IEnumerable<Entity>? parentEntities) 
-            => parentEntities?.Any(parentEntity => IsOwnedByParentEntity(ownedEntityName, parentEntity)) == true;
+        private static bool IsOwnedByAnyOtherEntity(string entityName, IEnumerable<Entity>? entities) 
+            => entities?.Any(parentEntity => IsOwnedByParentEntity(entityName, parentEntity)) == true;
 
         private static bool IsOwnedByParentEntity(string ownedEntityName, Entity parentEntity)
             => parentEntity.OwnedRelationships?.Select(r => r.Entity)?.Contains(ownedEntityName) == true;
