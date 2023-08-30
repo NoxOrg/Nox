@@ -24,7 +24,7 @@ namespace Nox.Solution.Validation
         }
 
         private static bool IsOwnedByAnyOtherEntity(string entityName, IEnumerable<Entity>? entities) 
-            => entities?.Any(parentEntity => IsOwnedByParentEntity(entityName, parentEntity)) == true;
+            => entities?.Any(entity => IsOwnedByParentEntity(entityName, entity)) == true;
 
         private static bool IsOwnedByParentEntity(string ownedEntityName, Entity parentEntity)
             => parentEntity.OwnedRelationships?.Select(r => r.Entity)?.Contains(ownedEntityName) == true;
