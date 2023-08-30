@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
+using Nox.Solution.Extensions;
 using System.Linq;
 
 namespace Nox.Generator.Application.Commands;
@@ -24,8 +25,7 @@ internal class UpdateOwnedCommandGenerator : INoxCodeGenerator
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            var parent = codeGeneratorState.Solution.Domain.Entities.FirstOrDefault(e =>
-                e.OwnedRelationships?.Any(o => o.Entity == entity.Name && !o.WithSingleEntity) == true);
+            var parent = entity.TryGetParent(codeGeneratorState.Solution.Domain.Entities);
             if (parent is null)
                 continue;
 
