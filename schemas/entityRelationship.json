@@ -72,6 +72,12 @@
         "null"
       ]
     },
+    "withMultiEntity": {    
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
     "related": {    
       "type": [
         "object",
