@@ -401,7 +401,6 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 result.Entity.keyId,
                 new CountryLocalNameCreateDto
                 {
-                    //Id = expectedLocalNameId,
                     Name = expectedLocalName
                 });
 
