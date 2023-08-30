@@ -1,13 +1,12 @@
 ﻿using FluentAssertions;
 using ClientApi.Application.Dto;
-using Microsoft.AspNetCore.OData.Results;
 
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
     public class StoresControllerTests : NoxIntgrationTestBase
     {
-        private const string StoresControllerName = "stores";
+        private const string StoresControllerName = "api/stores";
 
         public StoresControllerTests(NoxTestApplicationFactory<StartupFixture> factory) : base(factory)
         {
@@ -16,7 +15,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         [Fact]
         public async Task Post_ReturnsNuidId()
         {
-            // Arrange            
+            // Arrange
             string name = "MySpecialName";
             uint expectedId = 2519540169u;
 
@@ -27,15 +26,14 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 //EmailAddress = new EmailAddressUpdateDto()
             };
 
-            // Act 
-            var result = await PostAsync<StoreCreateDto, CreatedODataResult<StoreKeyDto>>(StoresControllerName, createDto);
+            // Act
+            var result = await PostAsync<StoreCreateDto, StoreKeyDto>(StoresControllerName, createDto);
 
             //Assert
             result.Should().NotBeNull();
             result.Should()
-                .BeOfType<CreatedODataResult<StoreKeyDto>>()
-                .Which.Entity.keyId.Should().Be(expectedId);
+                .BeOfType<StoreKeyDto>()
+                .Which.keyId.Should().Be(expectedId);
         }
-
     }
 }

@@ -1,11 +1,14 @@
-﻿using AutoFixture;
+﻿using System.Net.Http;
+using System.Text.Json;
+using AutoFixture;
 using Microsoft.AspNetCore.OData.Deltas;
-using Microsoft.AspNetCore.OData.Results;
-using Xunit.Sdk;
+using Microsoft.AspNetCore.OData.Formatter.Serialization;
+using Newtonsoft.Json;
+using Nox.Lib;
 
 namespace Nox.ClientApi.Tests.Tests
 {
-    public abstract class NoxIntgrationTestBase: IClassFixture<NoxTestApplicationFactory<StartupFixture>>
+    public abstract class NoxIntgrationTestBase : IClassFixture<NoxTestApplicationFactory<StartupFixture>>
     {
         private readonly NoxTestApplicationFactory<StartupFixture> _factory;
         protected readonly Fixture _objectFixture = new();
@@ -43,7 +46,7 @@ namespace Nox.ClientApi.Tests.Tests
             return result;
         }
 
-        protected async Task<TResult?> PostAsync<TValue,TResult>(string requertUrl, TValue data)
+        protected async Task<TResult?> PostAsync<TValue, TResult>(string requertUrl, TValue data)
         {
             using var httpClient = _factory.CreateClient();
 
@@ -54,27 +57,21 @@ namespace Nox.ClientApi.Tests.Tests
             return result;
         }
 
-        protected async Task<TResult?> PutAsync<TValue, TResult>(string requertUrl, TValue data)
+        protected async Task PutAsync<TValue>(string requertUrl, TValue data)
         {
             using var httpClient = _factory.CreateClient();
 
             var message = await httpClient.PutAsJsonAsync(requertUrl, data);
             message.EnsureSuccessStatusCode();
-
-            var result = await message.Content.ReadFromJsonAsync<TResult>();
-            return result;
         }
 
-        protected async Task<TResult?> PatchAsync<TValue, TResult>(string requertUrl, Delta<TValue> data) 
+        protected async Task PatchAsync<TValue>(string requertUrl, TValue delta)
             where TValue : class
         {
             using var httpClient = _factory.CreateClient();
 
-            var message = await httpClient.PatchAsJsonAsync(requertUrl, data);
-            message.EnsureSuccessStatusCode();
-
-            var result = await message.Content.ReadFromJsonAsync<TResult>();
-            return result;
+            var request = await httpClient.PatchAsJsonAsync(requertUrl, delta);
+            request.EnsureSuccessStatusCode();
         }
 
         protected async Task DeleteAsync(string requertUrl)
@@ -84,5 +81,11 @@ namespace Nox.ClientApi.Tests.Tests
             var message = await httpClient.DeleteAsync(requertUrl);
             message.EnsureSuccessStatusCode();
         }
+    }
+
+    public class MyValue<TValue>
+    {
+        [JsonProperty("@odata.type")]
+        public TValue Entity { set; get; } = default!;
     }
 }
