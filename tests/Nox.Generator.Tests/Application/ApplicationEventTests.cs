@@ -44,8 +44,8 @@ public class ApplicationEventTests: IClassFixture<GeneratorFixture>
 
         var generatedSources = result.GeneratedSources;
         Assert.Equal(3, generatedSources.Length);
-        Assert.True(generatedSources.Any(s => s.HintName == "NoxWebApplicationExtensions.g.cs"), "NoxWebApplicationExtensions.g.cs not generated");
-        Assert.True(generatedSources.Any(s => s.HintName == "Generator.g.cs"), "Generator not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == "Application.NoxWebApplicationExtensions.g.cs"), "NoxWebApplicationExtensions.g.cs not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == "0.Generator.g.cs"), "Generator not generated");
 
         var countryNameChangedAppEvent = "CountryNameChangedAppEvent.g.cs";
         Assert.True(generatedSources.Any(s => s.HintName == countryNameChangedAppEvent), $"{countryNameChangedAppEvent} not generated");

@@ -1,0 +1,117 @@
+#
+# currencyunits.entities.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../../schemas/entity.json
+#
+
+name: CurrencyUnits
+
+description: Currencies related units major and minor
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: The currency unit unique identifier 
+    type: databaseNumber 
+    userInterface:
+      showInSearchResults: never
+      canSearch: true
+      canFilter: false
+      showOnCreateForm: false
+      showOnUpdateForm: true
+
+attributes:
+
+  - name: MajorName
+    description: The currency's major name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: MajorSymbol
+    description: The currency's major display symbol
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: MinorName
+    description: The currency's minor name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: MinorSymbol
+    description: The currency's minor display symbol
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: MinorToMajorValue
+    description: The currency's minor value when converted to major
+    type: money     
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+relationships:
+    
+  - name: Currency
+    description: The currency's related units major and minor
+    relationship: oneOrMany
+    entity: Currency
+
+persistence:
+    isAudited: true    
+    create:
+        isEnabled: true
+        raiseEvents: true
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: true
+    delete:
+        isEnabled: true
+        raiseEvents: true

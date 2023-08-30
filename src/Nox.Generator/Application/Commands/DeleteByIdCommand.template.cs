@@ -14,37 +14,42 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 public record Delete{{entity.Name }}ByIdCommand({{primaryKeys}}) : IRequest<bool>;
 
-public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase, IRequestHandler<Delete{{entity.Name }}ByIdCommand, bool>
+public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase<Delete{{entity.Name}}ByIdCommand,{{entity.Name}}>, IRequestHandler<Delete{{entity.Name}}ByIdCommand, bool>
 {
-    public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
+	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
 
-    public  Delete{{entity.Name}}ByIdCommandHandler(
-        {{codeGeneratorState.Solution.Name}}DbContext dbContext,
-        NoxSolution noxSolution,
-        IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
-    {
-        DbContext = dbContext;
-    }
+	public Delete{{entity.Name}}ByIdCommandHandler(
+		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+		NoxSolution noxSolution, 
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
+	{
+		DbContext = dbContext;
+	}
 
-    public async Task<bool> Handle(Delete{{entity.Name}}ByIdCommand request, CancellationToken cancellationToken)
-    {
-    {{- for key in entity.Keys }}
-        {{- keyType = SingleTypeForKey key }}
-        var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{keyType}}>("{{key.Name}}", request.key{{key.Name}});
-    {{- end }}
+	public async Task<bool> Handle(Delete{{entity.Name}}ByIdCommand request, CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 
-        var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysQuery}});
-        if (entity == null{{if (entity.Persistence?.IsVersioned ?? true)}} || entity.Deleted == true{{end}})
-        {
-            return false;
-        }
+		{{- for key in entity.Keys }}
+		{{- keyType = SingleTypeForKey key }}
+		var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{keyType}}>("{{key.Name}}", request.key{{key.Name}});
+		{{- end }}
 
-        {{ if (entity.Persistence?.IsVersioned ?? true) -}}
-        entity.Delete();
-        {{- else -}}
-        DbContext.{{entity.PluralName}}.Remove(entity);
-        {{- end}}
-        await DbContext.SaveChangesAsync(cancellationToken);
-        return true;
-    }
+		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysQuery}});
+		if (entity == null{{if (entity.Persistence?.IsAudited ?? true)}} || entity.IsDeleted.Value == true{{end}})
+		{
+			return false;
+		}
+
+		OnCompleted(entity);
+		
+		{{- if (entity.Persistence?.IsAudited ?? true) }}
+		DbContext.Entry(entity).State = EntityState.Deleted;
+		{{-else-}}
+		DbContext.{{entity.PluralName}}.Remove(entity);
+		{{- end}}
+		await DbContext.SaveChangesAsync(cancellationToken);
+		return true;
+	}
 }

@@ -1,0 +1,1157 @@
+#
+# workplace.solution.nox.yaml
+#
+# yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
+#
+
+name: TestWebApp
+
+description: Sample Nox solution yaml configuration
+
+variables:
+  DATABASE_PROVIDER: slqServer
+  DATABASE_SERVER: localhost
+  DATABASE_USER: sa
+  DATABASE_PASSWORD: Developer*123
+  DATABASE_PORT: "5432"
+
+environments:
+
+  - name: dev
+    description: Used for development and testing
+
+  - name: test
+    description: Test environment
+
+  - name: uat
+    description: For them end users to check it works
+
+  - name: prod
+    description: Production environment used for, well - the real thing!
+    isProduction: true
+
+versionControl:
+  provider: azureDevops
+  host: https://dev.azure.com/iwgplc
+  folders:
+    sourceCode: /src
+    containers: /docker
+
+team:
+
+  - name: Andre Sharpe
+    userName: andre.sharpe@iwgplc.com
+    roles: [architect, owner, administrator, developer, manager]
+
+  - name: Jan Schutte
+    userName: jan.schutte@iwgplc.com
+    roles: [architect, administrator, developer, devOpsEngineer]
+
+  - name: Anton Du Plessis
+    userName: anton.duplessis@iwgplc.com
+    roles: [projectManager]
+
+  - name: Morne Van Zyl
+    userName: morne.vanzyl@iwgplc.com
+    roles: [technicalWriter]
+
+  - name: Dmytro Dorodnykh
+    userName: dmytro.dorodnykh@iwgplc.com
+    roles: [developer]
+
+  - name: Oleksandr Vlasenko
+    userName: oleksandr.vlasenko@regus.com
+    roles: [architect, developer]
+
+domain:
+
+  entities:
+
+    - name: TestEntityZeroOrOne
+      description: Entity created for testing database
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: SecondTestEntityZeroOrOneRelationship
+            description: Test entity relationship to SecondTestEntity
+            relationship: zeroOrOne
+            entity: SecondTestEntityZeroOrOne
+
+    - name: SecondTestEntityZeroOrOne
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: TestEntityZeroOrOneRelationship
+            description: Test entity relationship to TestEntity
+            relationship: zeroOrOne
+            entity: TestEntityZeroOrOne
+
+    - name: TestEntityWithNuid
+      description: Entity created for testing nuid
+      keys:
+        - name: Id
+          isRequired: true
+          type: nuid
+          nuidTypeOptions:
+            separator: "."
+            propertyNames:
+             - "Name" 
+
+      attributes:
+
+        - name: Name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+    - name: TestEntityOneOrMany
+      description: Entity created for testing database
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: SecondTestEntityOneOrManyRelationship
+            description: Test entity relationship to SecondTestEntityOneOrMany
+            relationship: oneOrMany
+            entity: SecondTestEntityOneOrMany
+
+    - name: SecondTestEntityOneOrMany
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: TestEntityOneOrManyRelationship
+            description: Test entity relationship to TestEntityOneOrMany
+            relationship: oneOrMany
+            entity: TestEntityOneOrMany
+
+    - name: TestEntityZeroOrMany
+      description: Entity created for testing database
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: SecondTestEntityZeroOrManyRelationship
+            description: Test entity relationship to SecondTestEntityZeroOrMany
+            relationship: zeroOrMany
+            entity: SecondTestEntityZeroOrMany
+
+    - name: SecondTestEntityZeroOrMany
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: TestEntityZeroOrManyRelationship
+            description: Test entity relationship to TestEntityZeroOrMany
+            relationship: zeroOrMany
+            entity: TestEntityZeroOrMany
+
+    - name: ThirdTestEntityOneOrMany
+      description: Entity created for testing database
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: ThirdTestEntityZeroOrManyRelationship
+            description: Test entity relationship to ThirdTestEntityZeroOrMany
+            relationship: oneOrMany
+            entity: ThirdTestEntityZeroOrMany
+
+    - name: ThirdTestEntityZeroOrMany
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: ThirdTestEntityOneOrManyRelationship
+            description: Test entity relationship to ThirdTestEntityOneOrMany
+            relationship: zeroOrMany
+            entity: ThirdTestEntityOneOrMany
+
+    - name: ThirdTestEntityExactlyOne
+      description: Entity created for testing database
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: ThirdTestEntityZeroOrOneRelationship
+            description: Test entity relationship to ThirdTestEntityZeroOrOne
+            relationship: exactlyOne
+            entity: ThirdTestEntityZeroOrOne
+
+    - name: ThirdTestEntityZeroOrOne
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: ThirdTestEntityExactlyOneRelationship
+            description: Test entity relationship to ThirdTestEntityExactlyOne
+            relationship: zeroOrOne
+            entity: ThirdTestEntityExactlyOne
+
+    - name: TestEntityExactlyOne
+      description: Entity created for testing database
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: SecondTestEntityExactlyOneRelationship
+            description: Test entity relationship to SecondTestEntityExactlyOneRelationship
+            relationship: exactlyOne
+            entity: SecondTestEntityExactlyOne
+
+    - name: SecondTestEntityExactlyOne
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: TestEntityExactlyOneRelationship
+            description: Test entity relationship to TestEntityExactlyOneRelationship
+            relationship: exactlyOne
+            entity: TestEntityExactlyOne
+
+    - name: TestEntityZeroOrOneToZeroOrMany
+      description: Entity created for testing database
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: TestEntityZeroOrManyToZeroOrOne
+            description: Test entity relationship to TestEntityZeroOrManyToZeroOrOne
+            relationship: zeroOrOne
+            entity: TestEntityZeroOrManyToZeroOrOne
+
+    - name: TestEntityZeroOrManyToZeroOrOne
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: TestEntityZeroOrOneToZeroOrMany
+            description: Test entity relationship to TestEntityZeroOrOneToZeroOrMany
+            relationship: zeroOrMany
+            entity: TestEntityZeroOrOneToZeroOrMany
+    
+    - name: TestEntityExactlyOneToOneOrMany
+      description: Entity created for testing database
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: TestEntityOneOrManyToExactlyOne
+            description: Test entity relationship to TestEntityOneOrManyToExactlyOne
+            relationship: exactlyOne
+            entity: TestEntityOneOrManyToExactlyOne
+
+    - name: TestEntityOneOrManyToExactlyOne
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: TestEntityExactlyOneToOneOrMany
+            description: Test entity relationship to TestEntityExactlyOneToOneOrMany
+            relationship: oneOrMany
+            entity: TestEntityExactlyOneToOneOrMany
+    
+    - name: TestEntityExactlyOneToZeroOrMany
+      description: Entity created for testing database
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: TestEntityZeroOrManyToExactlyOne
+            description: Test entity relationship to TestEntityZeroOrManyToExactlyOne
+            relationship: exactlyOne
+            entity: TestEntityZeroOrManyToExactlyOne
+
+    - name: TestEntityZeroOrManyToExactlyOne
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: TestEntityExactlyOneToZeroOrMany
+            description: Test entity relationship to TestEntityExactlyOneToZeroOrMany
+            relationship: zeroOrMany
+            entity: TestEntityExactlyOneToZeroOrMany
+    
+    - name: TestEntityOneOrManyToZeroOrMany
+      description: Entity created for testing database
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: TestEntityZeroOrManyToOneOrMany
+            description: Test entity relationship to TestEntityZeroOrManyToOneOrMany
+            relationship: oneOrMany
+            entity: TestEntityZeroOrManyToOneOrMany
+
+    - name: TestEntityZeroOrManyToOneOrMany
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: TestEntityOneOrManyToZeroOrMany
+            description: Test entity relationship to TestEntityOneOrManyToZeroOrMany
+            relationship: zeroOrMany
+            entity: TestEntityOneOrManyToZeroOrMany
+
+    - name: TestEntityZeroOrOneToOneOrMany
+      description: Entity created for testing database
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: TestEntityOneOrManyToZeroOrOne
+            description: Test entity relationship to TestEntityOneOrManyToZeroOrOne
+            relationship: zeroOrOne
+            entity: TestEntityOneOrManyToZeroOrOne
+
+    - name: TestEntityOneOrManyToZeroOrOne
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: TestEntityZeroOrOneToOneOrMany
+            description: Test entity relationship to TestEntityZeroOrOneToOneOrMany
+            relationship: oneOrMany
+            entity: TestEntityZeroOrOneToOneOrMany
+
+    - name: TestEntityZeroOrOneToExactlyOne
+      description: Entity created for testing database
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: TestEntityExactlyOneToZeroOrOne
+            description: Test entity relationship to TestEntityExactlyOneToZeroOrOne
+            relationship: zeroOrOne
+            entity: TestEntityExactlyOneToZeroOrOne
+
+    - name: TestEntityExactlyOneToZeroOrOne
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      relationships:
+          - name: TestEntityZeroOrOneToExactlyOne
+            description: Test entity relationship to TestEntityZeroOrOneToExactlyOne
+            relationship: exactlyOne
+            entity: TestEntityZeroOrOneToExactlyOne
+
+    - name: TestEntityOwnedRelationshipExactlyOne
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      ownedRelationships:
+          - name: SecondTestEntityOwnedRelationshipExactlyOne
+            description: Test entity relationship to SecondTestEntityOwnedRelationshipExactlyOne
+            relationship: exactlyOne
+            entity: SecondTestEntityOwnedRelationshipExactlyOne
+
+    - name: SecondTestEntityOwnedRelationshipExactlyOne
+   
+      persistence: 
+        isAudited: false
+
+      keys:
+
+        - name: Id1
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+    - name: TestEntityOwnedRelationshipZeroOrOne
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      ownedRelationships:
+          - name: SecondTestEntityOwnedRelationshipZeroOrOne
+            description: Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrOne
+            relationship: zeroOrOne
+            entity: SecondTestEntityOwnedRelationshipZeroOrOne
+
+    - name: SecondTestEntityOwnedRelationshipZeroOrOne
+   
+      persistence: 
+        isAudited: false
+
+      keys:
+
+        - name: Id1
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+    - name: TestEntityOwnedRelationshipOneOrMany
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      ownedRelationships:
+          - name: SecondTestEntityOwnedRelationshipOneOrMany
+            description: Test entity relationship to SecondTestEntityOwnedRelationshipOneOrMany
+            relationship: oneOrMany
+            entity: SecondTestEntityOwnedRelationshipOneOrMany
+
+    - name: SecondTestEntityOwnedRelationshipOneOrMany
+   
+      persistence: 
+        isAudited: false
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+    - name: TestEntityOwnedRelationshipZeroOrMany
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+      ownedRelationships:
+          - name: SecondTestEntityOwnedRelationshipZeroOrMany
+            description: Test entity relationship to SecondTestEntityOwnedRelationshipZeroOrMany
+            relationship: zeroOrMany
+            entity: SecondTestEntityOwnedRelationshipZeroOrMany
+
+    - name: SecondTestEntityOwnedRelationshipZeroOrMany
+   
+      persistence: 
+        isAudited: false
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField2
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+    - name: TestEntityForTypes
+      description: Entity created for testing database
+      
+      userInterface:
+        icon: world
+
+      persistence:
+        isAudited: true
+        tableName: TestEntityForTypes
+        schema: dbo
+        create:
+          isEnabled: true
+          raiseEvents: true
+        read:
+          isEnabled: true
+        update:
+          isEnabled: true
+          raiseEvents: true
+        delete:
+          isEnabled: true
+          raiseEvents: true
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextTestField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+        - name: NumberTestField
+          type: number
+          numberTypeOptions:
+            minValue: 4
+            maxValue: 894
+          isRequired: true
+
+        - name: MoneyTestField
+          type: money
+
+        - name: CountryCode2TestField
+          type: countryCode2
+
+        - name: StreetAddressTestField
+          type: streetAddress
+        
+        - name: CurrencyCode3TestField
+          type: currencyCode3
+
+        - name: DayOfWeekTestField
+          type: dayOfWeek
+
+        - name: JwtTokenTestField
+          type: jwtToken
+
+        - name: GeoCoordTestField
+          type: latLong
+
+        - name: AreaTestField
+          type: area
+
+        - name: TimeZoneCodeTestField
+          type: timeZoneCode
+
+        - name: BooleanTestField
+          type: boolean
+
+        - name: CountryCode3TestField
+          type: countryCode3
+
+        - name: CountryNumberTestField
+          type: countryNumber
+
+        #- name: CurrencyCodeTestField
+        #  type: currencyCode
+
+        - name: CurrencyNumberTestField
+          type: currencyNumber
+
+        - name: DateTimeTestField
+          type: dateTime
+
+        - name: DateTimeRangeTestField
+          type: dateTimeRange
+
+        - name: DistanceTestField
+          type: distance
+
+        - name: EmailTestField
+          type: email
+
+        - name: EncryptedTextTestField
+          type: encryptedText
+
+        - name: GuidTestField
+          type: guid
+
+        - name: HashedTextTestField
+          type: hashedText
+
+        - name: InternetDomainTestField
+          type: internetDomain
+
+        - name: IpAddressV4TestField
+          type: ipAddress
+
+        - name: IpAddressV6TestField
+          type: ipAddress
+
+        - name: JsonTestField
+          type: json
+
+        - name: LengthTestField
+          type: length
+
+        - name: MacAddressTestField
+          type: macAddress
+
+        - name: MonthTestField
+          type: month
+
+        #- name: NuidTestField
+        #  type: nuid
+
+        - name: PasswordTestField
+          type: password
+
+        - name: PercentageTestField
+          type: percentage
+
+        - name: PhoneNumberTestField
+          type: phoneNumber
+
+        - name: TemperatureTestField
+          type: temperature
+
+        - name: TranslatedTextTestField
+          type: translatedText
+
+        - name: UriTestField
+          type: uri
+
+        - name: VolumeTestField
+          type: volume
+
+        - name: WeightTestField
+          type: weight
+
+        - name: YearTestField
+          type: year
+
+        - name: CultureCodeTestField
+          type: cultureCode
+
+        - name: LanguageCodeTestField
+          type: languageCode
+
+        - name: YamlTestField
+          type: yaml
+
+        - name: DateTimeDurationTestField
+          type: dateTimeDuration
+
+        - name: TimeTestField
+          type: time
+
+        - name: VatNumberTestField
+          type: vatNumber
+
+        - name: DateTestField
+          type: date
+
+        - name: MarkdownTestField
+          type: markdown
+
+        - name: FileTestField
+          type: file
+
+        - name: ColorTestField
+          type: color
+
+        - name: UrlTestField
+          type: url
+        
+        - name: DateTimeScheduleTestField
+          type: dateTimeSchedule
+
+        - name: UserTestField
+          type: user
+
+        - name: FormulaTestField
+          type: formula
+          formulaTypeOptions:
+            expression: "2 + 2"
+            returns: int
+
+        - name: DatabaseNumberTestField
+          type: databaseNumber
+          isRequired: true
+
+        - name: DatabaseGuidTestField
+          type: databaseGuid
+          isRequired: true
+
+        - name: HtmlTestField
+          type: html
+
+        - name: ImageTestField
+          type: image

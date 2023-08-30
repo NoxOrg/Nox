@@ -30,7 +30,7 @@ public class InternetDomainTests
 
         // Assert
         Assert.NotNull(exception);
-        Assert.Equal("Could not create a Nox InternetDomain type with an empty value.", exception.Errors.First().ErrorMessage);
+        Assert.Equal("Could not create a Nox InternetDomain type with an empty value.", exception.Errors[0].ErrorMessage);
         
     }
     
@@ -48,7 +48,7 @@ public class InternetDomainTests
 
         // Assert
         Assert.NotNull(exception);
-        Assert.Equal($"Could not create a Nox InternetDomain type with unsupported value '{invalidDomain}'.", exception.Errors.First().ErrorMessage);
+        Assert.Equal($"Could not create a Nox InternetDomain type with unsupported value '{invalidDomain}'.", exception.Errors[0].ErrorMessage);
     }
     
     [Fact]

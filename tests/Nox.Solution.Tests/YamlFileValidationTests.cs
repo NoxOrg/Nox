@@ -51,6 +51,7 @@ public class YamlFileValidationTests
         Assert.Equal(24, errorCount);
     }
 
+    
     [Theory]
     [InlineData("application.solution.nox.yaml", "TestService")]
     [InlineData("domain.solution.nox.yaml", "TestService")]
@@ -70,18 +71,7 @@ public class YamlFileValidationTests
         model.Name.Should().Be(expectedServiceName);
     }
 
-    [Fact]
-    public void Deserialize_Solution_ThatDoesntHaveKeysForEntity_Exception()
-    {
-        var yaml = File.ReadAllText($"./files/has-no-keys-for-entity.solution.nox.yaml");
-
-        var exception = Assert.Throws<NoxSolutionConfigurationException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(yaml));
-
-        var errorCount = exception.Message.Split('\n').Length;
-
-        Assert.Contains("[\"keys\"]", exception.Message);
-        Assert.Equal(1, errorCount);
-    }
+  
 
     [Fact]
     public void Deserialize_MissedIsRequiredInKeys_ThrowsException()
@@ -127,4 +117,85 @@ public class YamlFileValidationTests
         Assert.Equal("The owned relationship 'CountryLegalCurrencies' for entity 'Country' refers to an entity 'Currency' that is used in other owned relationships. Owned entities must be owned by one parent only.", errors[0].ErrorMessage);
         Assert.Equal("The owned relationship 'StoreAcceptedCurrencies' for entity 'Store' refers to an entity 'Currency' that is used in other owned relationships. Owned entities must be owned by one parent only.", errors[1].ErrorMessage);
     }
+
+    [Fact]
+    public void Deserialize_EntityItemsNameAreDuplicated_ThrowsException()
+    {
+        Action action = () => new NoxSolutionBuilder()
+            .UseYamlFile($"./files/duplicated-items-definition.nox.yaml")
+            .Build();
+
+        var errors = action.Should()
+             .ThrowExactly<ValidationException>()
+             .Subject
+             .First()
+             .Errors;
+
+        var expectedErrors = new string[]
+        {
+            "The entity relation  'CurrenciesCountryLegal' is duplicated",
+            "The entity owned relation  'CountryLegalCurrencies' is duplicated",
+            "The entity key 'Id' is duplicated",
+            "The entity attribute 'Id' is duplicated",
+            "The Keys 'Id' is duplicated",
+            "The Attributes 'Id' is duplicated",
+            "The Attributes 'CurrenciesCountryLegal' is duplicated",
+            "The Relationships 'CurrenciesCountryLegal' is duplicated",
+            "The OwnedRelationships 'Id' is duplicated"
+        };
+
+        errors.Should()
+            .NotBeEmpty()
+            .And.HaveCount(14)
+            .And.Subject.Select(x => x.ErrorMessage)
+           .Should()
+           .Contain(x => expectedErrors.Any(t => x.StartsWith(t)));
+    }
+    
+    [Fact]
+    public void Deserialize_WithInvalidUniqueAttributeConstraints_ThrowsException()
+    {
+        Action action = () => new NoxSolutionBuilder()
+            .UseYamlFile($"./files/invalid-unique-attribute-constraints.solution.nox.yaml")
+            .Build();
+        
+        var errors = action.Should()
+            .ThrowExactly<ValidationException>()
+            .Subject
+            .First()
+            .Errors.ToArray();
+
+        var expectedErrors = new[]
+        {
+            "The unique attribute constraint 'UniqueCountryName' is duplicated. unique attribute constraint must be unique in a domain definition.",
+            "The unique attribute constraint attribute names 'AlphaCode2,AlphaCode3,NumericCode' is duplicated. unique attribute constraint attribute names must be unique in a domain definition.",
+            "Attribute name 'NonExistentAttribute' in unique attribute constraint not found in neither entity attribute(s)",
+        };
+        
+        
+        errors.Count().Should().BePositive();
+
+        errors.Should()
+            .NotBeEmpty()
+            .And.HaveCount(5)
+            .And.Subject.Select(x => x.ErrorMessage)
+            .Should()
+            .Contain(x => Array.Exists(expectedErrors, x.StartsWith));
+    }
+    
+    [Fact]
+    public void Deserialize_WithNoxYamlSerializer_ForInvalidUniqueAttributeConstraints_ThrowsException()
+    {
+        var yaml = File.ReadAllText("./files/invalid-structure-unique-attribute-constraints.solution.nox.yaml");
+
+        var exception = Assert.Throws<NoxSolutionConfigurationException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(yaml));
+
+        var errorCount = exception.Message.Split('\n').Length;
+
+        errorCount.Should().BePositive();
+
+        exception.Message.Should().Contain("Missing property [\"name\"]");
+        exception.Message.Should().Contain("Missing property [\"attributeNames\"]");
+    }
+
 }

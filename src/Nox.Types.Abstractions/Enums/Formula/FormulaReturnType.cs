@@ -11,11 +11,12 @@ public enum FormulaReturnType
     Int,
     Long,
     Double,
+    Decimal,
     Bool,
-    DateAndTime,
+    DateTime,
 }
 
-public static class FormuaReturnTypeExtensions
+public static class FormulaReturnTypeExtensions
 {
     public static Type AsNativeType(this FormulaReturnType type)
         => type switch
@@ -24,8 +25,9 @@ public static class FormuaReturnTypeExtensions
             FormulaReturnType.Int => typeof(int),
             FormulaReturnType.Long => typeof(long),
             FormulaReturnType.Double => typeof(double),
+            FormulaReturnType.Decimal => typeof(decimal),
             FormulaReturnType.Bool => typeof(bool),
-            FormulaReturnType.DateAndTime => typeof(DateTime),
+            FormulaReturnType.DateTime => typeof(DateTime),
             _ => throw new NotImplementedException(),
         };
 }

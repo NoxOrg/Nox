@@ -1,58 +1,100 @@
-﻿
-namespace Nox.Domain
+﻿namespace Nox.Domain;
+
+public abstract partial class AuditableEntityBase : IEntity, IAuditCreated, IAuditUpdated, IAuditDeleted
 {
-    public abstract partial class AuditableEntityBase: IDeleteEntity, IEntity
+    private static readonly Types.User DefaultUser = Types.User.From(Guid.Empty.ToString());
+    private static readonly Types.Text DefaultSystem = Types.Text.From("N/A");
+
+    protected AuditableEntityBase()
     {
-        public AuditableEntityBase()
-        {            
-            CreatedAtUtc = DateTime.UtcNow;
-            // TODO CreatedBy to be done by interceptor on db context...
-        }
+        // TODO: CreatedBy to be done by interceptor on db context...
+    }
 
-        /// <summary>
-        /// The date and time when this entity was first created (in Coordinated Universal Time).
-        /// </summary>
-        public DateTime CreatedAtUtc { get; set; }
+    /// <summary>
+    /// The date and time when this entity was first created (in Coordinated Universal Time).
+    /// </summary>
+    public virtual Types.DateTime CreatedAtUtc { get; private set; } = Types.DateTime.From(DateTime.UtcNow);
 
-        /// <summary>
-        /// The user that created the entity.
-        /// </summary>
-        public string? CreatedBy { get; set; }
+    /// <summary>
+    /// The user that created the entity.
+    /// </summary>
+    public virtual Types.User CreatedBy { get; private set; } = DefaultUser;
 
-        /// <summary>
-        /// The date and time when this entity was last updated (in Coordinated Universal Time).
-        /// </summary>
-        public DateTime? UpdatedAtUtc { get; set; }
+    /// <summary>
+    /// The system that the entity created from.
+    /// </summary>
+    public virtual Types.Text CreatedVia { get; private set; } = DefaultSystem;
 
-        /// <summary>
-        /// The user that last updated the entity.
-        /// </summary>
-        public string? UpdatedBy { get; set; }
+    /// <summary>
+    /// The date and time when this entity was last updated (in Coordinated Universal Time).
+    /// </summary>
+    public virtual Types.DateTime? LastUpdatedAtUtc { get; private set; } = null;
 
-        /// <summary>
-        /// The date and time when this entity was deleted (in Coordinated Universal Time).
-        /// </summary>
-        public DateTime? DeletedAtUtc { get; private set; }
+    /// <summary>
+    /// The user that last updated the entity.
+    /// </summary>
+    public virtual Types.User? LastUpdatedBy { get; private set; } = null;
 
-        /// <summary>
-        /// The user that deleted the entity.
-        /// </summary>
-        public string? DeletedBy { get; private  set; }
+    /// <summary>
+    /// The system that the entity updated via.
+    /// </summary>
+    public virtual Types.Text? LastUpdatedVia { get; private set; } = null;
 
-        /// <summary>
-        /// Set the entity as deleted (Soft Deleted).
-        /// </summary>
-        public bool? Deleted { get; private set; }
+    /// <summary>
+    /// The date and time when this entity was deleted (in Coordinated Universal Time).
+    /// </summary>
+    public virtual Types.DateTime? DeletedAtUtc { get; private set; } = null;
 
-        /// <summary>
-        /// Deletes the Entity
-        /// </summary>
-        public virtual void Delete()
-        {
-            Deleted = true;
-            DeletedAtUtc = DateTime.UtcNow;
-            // TODO DeletedBy to be done by interceptor on db context...
-        }
+    /// <summary>
+    /// The user that deleted the entity.
+    /// </summary>
+    public virtual Types.User? DeletedBy { get; private set; } = null;
 
+    /// <summary>
+    /// The system that the entity deleted via.
+    /// </summary>
+    public virtual Types.Text? DeletedVia { get; private set; } = null;
+
+    /// <summary>
+    /// Soft delete state of the entity.
+    /// </summary>
+    public virtual Types.Boolean IsDeleted => Types.Boolean.From(DeletedAtUtc != null);
+
+    /// <summary>
+    /// Marks the entity as Created
+    /// </summary>
+    /// <param name="user">The user who is responsible for the operation.</param>
+    /// <param name="system">The system which the operation is made from.</param>
+    public virtual void Created(Types.User user, Types.Text system)
+    {
+        //Default values are fine.
+        CreatedBy = user;
+        CreatedVia = system;
+    }
+
+    /// <summary>
+    /// Marks the entity as Updated
+    /// </summary>
+    /// <param name="user">The user who is responsible for the operation.</param>
+    /// <param name="system">The system which the operation is made from.</param>
+    public virtual void Updated(Types.User user, Types.Text system)
+    {
+        LastUpdatedAtUtc = Types.DateTime.From(System.DateTime.UtcNow);
+
+        LastUpdatedBy = user;
+        LastUpdatedVia = system;
+    }
+
+    /// <summary>
+    /// Marks the entity as Deleted
+    /// </summary>
+    /// <param name="user">The user who is responsible for the operation.</param>
+    /// <param name="system">The system which the operation is made from.</param>
+    public virtual void Deleted(Types.User user, Types.Text system)
+    {
+        DeletedAtUtc = Types.DateTime.From(System.DateTime.UtcNow);
+
+        DeletedBy = user;
+        DeletedVia = system;
     }
 }

@@ -8,23 +8,17 @@ namespace Nox.Solution.Validation
 {
     internal class EntityRelationshipValidator: AbstractValidator<EntityRelationship>
     {
-        private readonly IEnumerable<EntityRelationship>? _relationships;
         private readonly IEnumerable<Entity>? _entities;
 
-        public EntityRelationshipValidator(string entityName, IEnumerable<EntityRelationship>? relationships, IEnumerable<Entity>? entities, bool bindToOtherRelationship = true)
+        public EntityRelationshipValidator(string entityName, IEnumerable<Entity>? entities, bool bindToOtherRelationship = true)
         {
-            if (relationships == null) return;
             if (entities == null) return;
             _entities = entities;
-            _relationships = relationships;
             
             RuleFor(er => er.Name)
                 .NotEmpty()
                 .WithMessage(er => string.Format(ValidationResources.EntityRelationshipNameEmpty, entityName));
-            
-            RuleFor(er => er.Name).Must(HaveUniqueName)
-                .WithMessage(er => string.Format(ValidationResources.EntityRelationshipNameDuplicate, er.Name));
-            
+                        
             RuleFor(er => er.Description)
                 .NotEmpty()
                 .WithMessage(er => string.Format(ValidationResources.EntityRelationshipDescriptionEmpty, er.Name, entityName));
@@ -47,12 +41,6 @@ namespace Nox.Solution.Validation
                     .WithMessage(er => string.Format(ValidationResources.EntityOwnedRelationshipEntityUsedMultipleTimes, er.Name, entityName, er.Entity));
             }
 
-        }
-
-        private bool HaveUniqueName(EntityRelationship toEvaluate, string name)
-        {
-            //Check names in this entity relationships
-            return _relationships!.All(rel => rel.Equals(toEvaluate) || rel.Name != name);
         }
 
         private bool ReferenceExistingEntity(EntityRelationship toEvaluate, string otherEntityName)

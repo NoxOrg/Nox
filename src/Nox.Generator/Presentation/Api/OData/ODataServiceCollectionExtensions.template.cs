@@ -23,13 +23,24 @@ public static class ODataServiceCollectionExtensions
         {{- if !entity.IsOwnedEntity }}
 
         builder.EntitySet<{{entity.Name}}Dto>("{{entity.PluralName}}");
-        builder.EntityType<{{entity.Name}}KeyDto>();
+        {{- end }}
+        {{- if entity.OwnedRelationships != null }}
+            {{- for ownedRelationship in entity.OwnedRelationships }}
+                {{- if ownedRelationship.Relationship == "ExactlyOne" }}
+        builder.EntityType<{{entity.Name}}Dto>().ContainsRequired(e => e.{{ownedRelationship.Related.Entity.Name}}).AutoExpand = true;
+                {{- else if ownedRelationship.Relationship == "ZeroOrOne" }}
+        builder.EntityType<{{entity.Name}}Dto>().ContainsOptional(e => e.{{ownedRelationship.Related.Entity.Name}}).AutoExpand = true;        
+                {{- else }}
+        builder.EntityType<{{entity.Name}}Dto>().ContainsMany(e => e.{{ownedRelationship.Related.Entity.PluralName}}).AutoExpand = true;
+                {{- end }}
+            {{- end }}
         {{- end }}
 
         builder.EntityType<{{entity.Name}}Dto>();
-        {{- if entity.Persistence?.IsVersioned ~}}
+        builder.EntityType<{{entity.Name}}KeyDto>();
+        {{- if entity.Persistence?.IsAudited ~}}
 
-        builder.EntityType<{{entity.Name}}Dto>().Ignore(e => e.Deleted);
+        builder.EntityType<{{entity.Name}}Dto>().Ignore(e => e.DeletedAtUtc);
 
         {{- end }}
         {{- end }}

@@ -1,5 +1,6 @@
-﻿using Nox.Domain;
-using Entity = Nox.Solution.Entity;
+﻿using Nox.Abstractions;
+using Nox.Domain;
+using Nox.Solution;
 
 namespace Nox.Factories;
 

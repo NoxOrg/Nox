@@ -74,7 +74,7 @@ domain:
         icon: world
 
       persistence:
-        isVersioned: true
+        isAudited: true
         tableName: Country
         schema: dbo
         create:
@@ -88,7 +88,6 @@ domain:
         delete:
           isEnabled: true
           raiseEvents: true
-          useSoftDelete: true
 
       relationships:
 
@@ -100,10 +99,10 @@ domain:
 
       ownedRelationships:
 
-        - name: CountryLocalNames
+        - name: CountryLocalName
           description: is also know as
           relationship: oneOrMany
-          entity: CountryLocalNames
+          entity: CountryLocalName
 
       queries:
 
@@ -162,12 +161,8 @@ domain:
       keys:
 
         - name: Id
-          type: text
+          type: databaseNumber
           isRequired: true
-          textTypeOptions:
-            isUnicode: false
-            minLength: 2
-            maxLength: 2
 
       attributes:
 
@@ -284,8 +279,11 @@ domain:
 
     - $ref: currencyCashBalance.entity.nox.yaml
 
-    - name: CountryLocalNames
+    - name: CountryLocalName
       description: The name of a country in other languages
+
+      persistence:
+        isAudited: false
 
       keys:
 

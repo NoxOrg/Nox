@@ -66,6 +66,12 @@
         "null"
       ]
     },
+    "withSingleEntity": {    
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
     "related": {    
       "type": [
         "object",

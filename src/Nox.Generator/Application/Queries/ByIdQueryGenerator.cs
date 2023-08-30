@@ -22,13 +22,16 @@ internal class ByIdQueryGenerator : INoxCodeGenerator
         var templateName = @"Application.Queries.ByIdQuery";
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
+            if (entity.IsOwnedEntity)
+                continue;
+
             context.CancellationToken.ThrowIfCancellationRequested();
-            
+
             var primaryKeys = string.Join(", ", entity.Keys.Select(k=> $"{codeGeneratorState.Solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Get{entity.Name}ByIdQuery")
-                .WithFileNamePrefix($"Queries")
+                .WithFileNamePrefix($"Application.Queries")
                 .WithObject("entity", entity)
                 .WithObject("primaryKeys", primaryKeys)
                 .GenerateSourceCodeFromResource(templateName);

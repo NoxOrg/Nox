@@ -39,9 +39,6 @@ public partial class {{className}}
     /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
     /// </summary>
     {{ if IsNoxTypeSimpleType attribute.Type -}}
-        {{- if attribute.Type == "Formula" -}}
-    [NotMapped]
-        {{- end -}}
     public {{SinglePrimitiveTypeForKey attribute}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
     {{- else -}}
     public {{attribute.Type}}Dto{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
@@ -69,16 +66,12 @@ public partial class {{className}}
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<{{relationship.Entity}}Dto> {{relationship.EntityPlural}} { get; set; } = new();
-    {{- if (relationship.EntityPlural) != relationship.Name}}
-
-    public List<{{relationship.Entity}}Dto> {{relationship.Name}} => {{relationship.EntityPlural}};
-    {{- end}}
+    public virtual List<{{relationship.Entity}}Dto> {{relationship.EntityPlural}} { get; set; } = new();    
     {{- else}}
-    public virtual {{relationship.Entity}}Dto {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.EntityPlural}} { get; set; } = null!;
+    public virtual {{relationship.Entity}}Dto {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
     {{-end}}
 {{- end }}
-{{- if entity.Persistence?.IsVersioned == true #TODO do not expose Deleted on end points??}}
+{{- if !entity.IsOwnedEntity && entity.Persistence?.IsAudited == true #TODO do not expose DeletedAtUtc on end points??}}
 
     public bool? Deleted { get; set; }
 

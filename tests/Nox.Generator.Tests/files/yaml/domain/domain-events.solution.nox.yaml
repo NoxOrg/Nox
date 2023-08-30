@@ -13,7 +13,7 @@ domain:
         icon: world
 
       persistence:
-        isVersioned: true
+        isAudited: true
         tableName: Country
         schema: dbo
         create:
@@ -27,7 +27,6 @@ domain:
         delete:
           isEnabled: true
           raiseEvents: true
-          useSoftDelete: true
 
       events:
         - name: CountryNameUpdatedEvent

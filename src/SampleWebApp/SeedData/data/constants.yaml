@@ -1,0 +1,6 @@
+﻿constants:
+  pi:
+    value: 3.14159
+  gravity:
+    value: 9.81
+    unit: "meter per second squared"

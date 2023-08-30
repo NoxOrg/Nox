@@ -24,15 +24,13 @@ internal class EntityDtoGenerator : INoxCodeGenerator
         }
         foreach (var entity in codeGeneratorState.Solution.Domain!.Entities)
         {
-            var attributes = entity.Attributes ?? Enumerable.Empty<NoxSimpleTypeDefinition>();
-            
             var primaryKeys = string.Join(", ", entity.Keys.Select(k => $"{codeGeneratorState.Solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
 
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"{entity.Name}Dto")
-                .WithFileNamePrefix("Dto")
+                .WithFileNamePrefix("Application.Dto")
                 .WithObject("entity", entity)
                 .WithObject("primaryKeys", primaryKeys)                
                 .GenerateSourceCodeFromResource("Application.Dto.EntityDto");         

@@ -1,4 +1,5 @@
 ﻿using FluentAssertions;
+using FluentAssertions.Execution;
 
 namespace Nox.Types.Tests.Types;
 
@@ -16,7 +17,6 @@ public class FormulaTests
         var formula = Formula.From(expression);
 
         formula.Value.Should().Be(expression);
-
     }
 
     [Theory]
@@ -128,6 +128,8 @@ public class FormulaTests
 
     private static void AssertAreEquivalent(Formula expected, Formula actual)
     {
+        using var scope = new AssertionScope();
+
         actual.Should().Be(expected);
 
         expected.Equals(actual).Should().BeTrue();
@@ -141,6 +143,8 @@ public class FormulaTests
 
     private static void AssertAreNotEquivalent(Formula expected, Formula actual)
     {
+        using var scope = new AssertionScope();
+
         actual.Should().NotBe(expected);
 
         expected.Equals(actual).Should().BeFalse();

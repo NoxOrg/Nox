@@ -1,4 +1,4 @@
-﻿// Generated
+﻿﻿// Generated
 
 #nullable enable
 
@@ -16,39 +16,44 @@ namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
 public record Update{{entity.Name}}Command({{primaryKeys}}, {{entity.Name}}UpdateDto EntityDto) : IRequest<{{entity.Name}}KeyDto?>;
 
-public class Update{{entity.Name}}CommandHandler: CommandBase, IRequestHandler<Update{{entity.Name}}Command, {{entity.Name}}KeyDto?>
+public class Update{{entity.Name}}CommandHandler: CommandBase<Update{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler<Update{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
-    public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
-    public IEntityMapper<{{entity.Name}}> EntityMapper { get; }
+	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
+	public IEntityMapper<{{entity.Name}}> EntityMapper { get; }
 
-    public  Update{{entity.Name}}CommandHandler(
-        {{codeGeneratorState.Solution.Name}}DbContext dbContext,
-        NoxSolution noxSolution,
-        IServiceProvider serviceProvider,
-        IEntityMapper<{{entity.Name}}> entityMapper): base(noxSolution, serviceProvider)
-    {
-        DbContext = dbContext;
-        EntityMapper = entityMapper;
-    }
+	public Update{{entity.Name}}CommandHandler(
+		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
+		NoxSolution noxSolution,
+		IServiceProvider serviceProvider,
+		IEntityMapper<{{entity.Name}}> entityMapper): base(noxSolution, serviceProvider)
+	{
+		DbContext = dbContext;
+		EntityMapper = entityMapper;
+	}
+	
+	public async Task<{{entity.Name}}KeyDto?> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
+	{
+		cancellationToken.ThrowIfCancellationRequested();
+		OnExecuting(request);
 
-    public async Task<{{entity.Name}}KeyDto?> Handle(Update{{entity.Name}}Command request, CancellationToken cancellationToken)
-    {
-    {{- for key in entity.Keys }}
-        var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.key{{key.Name}});
-    {{- end }}
+		{{- for key in entity.Keys }}
+		var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.key{{key.Name}});
+		{{- end }}
+	
+		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysFindQuery}});
+		if (entity == null)
+		{
+			return null;
+		}
+		EntityMapper.MapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.EntityDto);
 
-        var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysFindQuery}});
-        if (entity == null)
-        {
-            return null;
-        }
-        EntityMapper.MapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.EntityDto);
+		OnCompleted(entity);
 
-        DbContext.Entry(entity).State = EntityState.Modified;
-        var result = await DbContext.SaveChangesAsync();
-        if(result < 1)
-            return null;
+		DbContext.Entry(entity).State = EntityState.Modified;
+		var result = await DbContext.SaveChangesAsync();
+		if(result < 1)
+			return null;
 
-        return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
-    }
+		return new {{entity.Name}}KeyDto({{primaryKeysReturnQuery}});
+	}
 }

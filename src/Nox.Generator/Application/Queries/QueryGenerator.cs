@@ -21,11 +21,14 @@ internal class QueryGenerator : INoxCodeGenerator
 
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
+            if (entity.IsOwnedEntity)
+                continue;
+
             context.CancellationToken.ThrowIfCancellationRequested();
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Get{entity.PluralName}Queries")
-                .WithFileNamePrefix($"Queries")
+                .WithFileNamePrefix($"Application.Queries")
                 .WithObject("entity", entity)
                 .GenerateSourceCodeFromResource(templateName);
         }

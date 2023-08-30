@@ -11,7 +11,7 @@ userInterface:
   icon: world
 
 persistence:
-  isVersioned: true
+  isAudited: true
   tableName: Country
   schema: dbo
   create:
@@ -25,7 +25,6 @@ persistence:
   delete:
     isEnabled: true
     raiseEvents: true
-    useSoftDelete: true
 
 relationships:
 

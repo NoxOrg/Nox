@@ -1,6 +1,6 @@
 ﻿using MediatR;
 using SampleWebApp.Application.Dto;
-using SampleWebApp.Presentation.Api.OData;
+using SampleWebApp.Infrastructure.Persistence;
 
 namespace SampleWebApp.Application.Queries
 {
@@ -11,16 +11,16 @@ namespace SampleWebApp.Application.Queries
 
     public class GetCountriesIManageQueryHandler : IRequestHandler<GetCountriesIManageQuery, IQueryable<CountryDto>>
     {
-        public GetCountriesIManageQueryHandler(ODataDbContext dataDbContext)
+        public GetCountriesIManageQueryHandler(DtoDbContext dataDbContext)
         {
             DataDbContext = dataDbContext;
         }
 
-        public ODataDbContext DataDbContext { get; }
+        public DtoDbContext DataDbContext { get; }
 
         public Task<IQueryable<CountryDto>> Handle(GetCountriesIManageQuery request, CancellationToken cancellationToken)
         {
-            return Task.FromResult((IQueryable<CountryDto>)DataDbContext.Countries.Where(country => country.Population > 12348));
+            return Task.FromResult(DataDbContext.Countries.Where(country => country.Population > 12348));
         }
     }
 }

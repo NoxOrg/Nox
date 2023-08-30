@@ -1,12 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
-using Nox.Generator.Application.DtoGenerator;
-using Nox.Generator.Application.EventGenerator;
 using Nox.Generator.Common;
-using Nox.Generator.Domain.CqrsGenerators;
-using Nox.Generator.Domain.DomainEventGenerator;
-using Nox.Generator.Infrastructure.Persistence.DbContextGenerator;
-using Nox.Generator.Presentation.Api;
 using Nox.Solution;
 using System;
 using System.Collections.Generic;
@@ -15,14 +9,9 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Reflection;
-using Nox.Generator.Domain.ModelGenerator;
-using Nox.Generator.Presentation.Api.OData;
 using YamlDotNet.Core;
 using YamlDotNet.Serialization;
 using YamlDotNet.Serialization.NamingConventions;
-using Nox.Generator.Application.Queries;
-using Nox.Generator.Application.Commands;
-using Nox.Generator.Application.Dto;
 
 namespace Nox.Generator;
 
@@ -51,7 +40,7 @@ public class NoxCodeGenerator : IIncrementalGenerator
 
     private void GenerateSource(SourceProductionContext context, ImmutableArray<(string Path, SourceText? Source)> noxYamls)
     {
-        var _debug = new CodeBuilder($"Generator.g.cs", context);
+        var _debug = new CodeBuilder($"0.Generator.g.cs", context);
         _errors.Clear();
 
         _debug.AppendLine("// Found files ->");

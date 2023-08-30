@@ -1,0 +1,166 @@
+#
+# currency.entities.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../../schemas/entity.json
+#
+
+name: Currency
+
+description: Currency and related data
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: The currency unique identifier 
+    type: currencyCode3
+    userInterface:
+      showInSearchResults: never
+      canSearch: true
+      canFilter: false
+      showOnCreateForm: false
+      showOnUpdateForm: true
+
+attributes:
+
+  - name: Name
+    description: The currency's name
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: CurrencyIsoNumeric
+    description: The currency's iso number id
+    type: currencyNumber     
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: Symbol
+    description: The currency's symbol
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: ThousandsSeperator
+    description: The currency's numeric thousands notation separator
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: DecimalSeparator
+    description: The currency's numeric decimal notation separator
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: SpaceBetweenAmountAndSymbol
+    description: The currency's numeric space between amount and symbol
+    type: boolean
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: DecimalDigits
+    description: The currency's numeric decimal digits
+    type: number     
+    isRequired: true  
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+relationships:
+
+  - name: Unit
+    description: The currency's related units major and minor
+    relationship: exactlyOne
+    entity: CurrencyUnits
+
+  - name: BankNotes
+    description: The currency's related bank notes
+    relationship: oneOrMany
+    entity: CurrencyBankNotes
+
+  - name: Country
+    description: The country's related currencies
+    relationship: zeroOrMany
+    entity: Country
+
+  - name: MinimumCashStock
+    description: The currency of the cash stock
+    relationship: zeroOrMany
+    entity: MinimumCashStock
+
+  - name: ExchangeRateFrom
+    description: The currency exchanged from
+    relationship: zeroOrMany
+    entity: ExchangeRate
+
+  # - name: ExchangeRateTo
+  #   description: The currency exchanged from
+  #   relationship: zeroOrMany
+  #   entity: ExchangeRate
+
+persistence:
+    isAudited: true    
+    create:
+        isEnabled: true
+        raiseEvents: true
+    read:
+        isEnabled: true
+    update:
+        isEnabled: true
+        raiseEvents: true
+    delete:
+        isEnabled: true
+        raiseEvents: true

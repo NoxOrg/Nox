@@ -1,23 +1,21 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Nox.Domain;
-using Nox.Types;
-using Entity = Nox.Solution.Entity;
 using Nox.Solution;
-using System.Collections.Generic;
 
 namespace Nox.Factories;
 
-public abstract class EntityMapperBase<E>: IEntityMapper<E> where E : Domain.IEntity
+public abstract class EntityMapperBase<E>: IEntityMapper<E> where E : IEntity
 {
     public NoxSolution NoxSolution { get; }
     public IServiceProvider ServiceProvider { get; }
 
-    public EntityMapperBase(NoxSolution noxSolution, IServiceProvider serviceProvider)
+    protected EntityMapperBase(NoxSolution noxSolution, IServiceProvider serviceProvider)
     {
         NoxSolution = noxSolution;
         ServiceProvider = serviceProvider;              
     }
-    public N? CreateNoxType<N>(Entity entityDefinition, string attributeName, dynamic? value) where N : INoxType
+
+    public N? CreateNoxType<N>(Entity entityDefinition, string attributeName, dynamic? value) where N : Nox.Types.INoxType
     {
         var typeFactory = ServiceProvider.GetService<INoxTypeFactory<N>>();
         return typeFactory!.CreateNoxType(entityDefinition, attributeName, value);

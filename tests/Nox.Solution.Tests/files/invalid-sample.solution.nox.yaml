@@ -72,7 +72,7 @@ domain:
         icon: world
 
       persistence:
-        isVersioned: true
+        isAudited: true
         tableName: Country
         create:
           isEnabled: true
@@ -85,7 +85,6 @@ domain:
         delete:
           isEnabled: true
           raiseEvents: true
-          useSoftDelete: true
 
       relationships:
 
