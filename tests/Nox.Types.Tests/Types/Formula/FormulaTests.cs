@@ -61,7 +61,7 @@ public class FormulaTests
     [InlineData(FormulaReturnType.Long, typeof(long))]
     [InlineData(FormulaReturnType.Double, typeof(double))]
     [InlineData(FormulaReturnType.Bool, typeof(bool))]
-    [InlineData(FormulaReturnType.DateAndTime, typeof(System.DateTime))]
+    [InlineData(FormulaReturnType.DateTime, typeof(System.DateTime))]
     public void ExpressionAndReturnsProperties_WithValidObjet_ReturnValue(FormulaReturnType returnType, Type expectedType)
     {
         var formula = Formula.From(new FormulaTypeOptions

@@ -2083,7 +2083,8 @@
               ],
               "enum": [
                 "bool",
-                "dateAndTime",
+                "dateTime",
+                "decimal",
                 "double",
                 "int",
                 "long",

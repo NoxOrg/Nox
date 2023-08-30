@@ -7,7 +7,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
@@ -38,11 +37,10 @@ public partial class StoreSecurityPasswordsDto
     /// <summary>
     /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores
     /// </summary>
-    //EF maps ForeignKey Automatically
+    //EF maps ForeignKey Automatically...
     public virtual string StoreId { get; set; } = null!;
     public virtual StoreDto Store { get; set; } = null!;
-
-    public bool? Deleted { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }
 
     public StoreSecurityPasswords ToEntity()
     {
@@ -50,6 +48,8 @@ public partial class StoreSecurityPasswordsDto
         entity.Id = StoreSecurityPasswords.CreateId(Id);
         entity.Name = StoreSecurityPasswords.CreateName(Name);
         entity.SecurityCamerasPassword = StoreSecurityPasswords.CreateSecurityCamerasPassword(SecurityCamerasPassword);
+        entity.Store = Store.ToEntity();
         return entity;
     }
+
 }

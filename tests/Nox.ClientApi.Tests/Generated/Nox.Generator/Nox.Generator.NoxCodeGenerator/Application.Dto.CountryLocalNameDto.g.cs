@@ -7,36 +7,34 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using ClientApi.Application.DataTransferObjects;
 using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public record ClientNuidKeyDto(System.UInt32 keyId);
+public record CountryLocalNameKeyDto(System.String keyId);
 
 /// <summary>
-/// Client Nuid Key.
+/// Local names for countries.
 /// </summary>
-public partial class ClientNuidDto
+public partial class CountryLocalNameDto
 {
 
     /// <summary>
-    /// NuidField Type (Required).
+    /// The unique identifier (Required).
     /// </summary>
-    public System.UInt32 Id { get; set; } = default!;
+    public System.String Id { get; set; } = default!;
 
     /// <summary>
-    /// The Name (Required).
+    /// Local name (Required).
     /// </summary>
     public System.String Name { get; set; } = default!;
 
-    public bool? Deleted { get; set; }
-
-    public ClientNuid ToEntity()
+    public CountryLocalName ToEntity()
     {
-        var entity = new ClientNuid();
-        entity.Id = ClientNuid.CreateId(Id);
-        entity.Name = ClientNuid.CreateName(Name);
+        var entity = new CountryLocalName();
+        entity.Id = CountryLocalName.CreateId(Id);
+        entity.Name = CountryLocalName.CreateName(Name);
         return entity;
     }
+
 }

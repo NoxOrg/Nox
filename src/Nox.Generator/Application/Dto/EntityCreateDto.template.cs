@@ -22,8 +22,8 @@ public partial class {{className}} : {{entity.Name}}UpdateDto
     /// {{key.Description}} (Required).
     /// </summary>
     [Required(ErrorMessage = "{{key.Name}} is required")]
-    {{ if key.Type == "Entity" -}}
-    public {{SingleKeyPrimitiveTypeForEntity key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = default!;
+    {{ if key.Type == "EntityId" -}}
+    public {{SingleKeyPrimitiveTypeForEntity key.EntityIdTypeOptions.Entity}} {{key.Name}} { get; set; } = default!;
     {{- else -}}
     public {{SinglePrimitiveTypeForKey key}} {{key.Name}} { get; set; } = default!;
     {{- end}}

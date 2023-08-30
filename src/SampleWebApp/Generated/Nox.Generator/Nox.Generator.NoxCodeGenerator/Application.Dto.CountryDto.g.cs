@@ -7,12 +7,11 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
-public record CountryKeyDto(System.String keyId);
+public record CountryKeyDto(System.Int64 keyId);
 
 /// <summary>
 /// The list of countries.
@@ -23,7 +22,7 @@ public partial class CountryDto
     /// <summary>
     ///  (Required).
     /// </summary>
-    public System.String Id { get; set; } = default!;
+    public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
     /// The country's common name (Required).
@@ -108,9 +107,8 @@ public partial class CountryDto
     /// <summary>
     /// Country is also know as OneOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalNamesDto> CountryLocalNames { get; set; } = new();
-
-    public bool? Deleted { get; set; }
+    public virtual List<CountryLocalNameDto> CountryLocalNames { get; set; } = new();
+    public System.DateTime? DeletedAtUtc { get; set; }
 
     public Country ToEntity()
     {
@@ -131,7 +129,9 @@ public partial class CountryDto
         entity.GeoWorldRegion = Country.CreateGeoWorldRegion(GeoWorldRegion);
         if (Population is not null)entity.Population = Country.CreatePopulation(Population.NonNullValue<System.Int32>());
         if (TopLevelDomains is not null)entity.TopLevelDomains = Country.CreateTopLevelDomains(TopLevelDomains.NonNullValue<System.String>());
+        entity.Currencies = Currencies.Select(dto => dto.ToEntity()).ToList();
         entity.CountryLocalNames = CountryLocalNames.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }
+
 }

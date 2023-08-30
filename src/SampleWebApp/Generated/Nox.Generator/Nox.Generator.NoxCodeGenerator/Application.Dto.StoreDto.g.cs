@@ -7,7 +7,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
@@ -39,8 +38,7 @@ public partial class StoreDto
     /// Store Set of passwords for this store ExactlyOne StoreSecurityPasswords
     /// </summary>
     public virtual StoreSecurityPasswordsDto StoreSecurityPasswords { get; set; } = null!;
-
-    public bool? Deleted { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }
 
     public Store ToEntity()
     {
@@ -48,6 +46,8 @@ public partial class StoreDto
         entity.Id = Store.CreateId(Id);
         entity.Name = Store.CreateName(Name);
         entity.PhysicalMoney = Store.CreatePhysicalMoney(PhysicalMoney);
+        entity.StoreSecurityPasswords = StoreSecurityPasswords.ToEntity();
         return entity;
     }
+
 }

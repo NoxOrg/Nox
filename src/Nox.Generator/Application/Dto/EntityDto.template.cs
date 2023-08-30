@@ -7,7 +7,6 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using {{codeGeneratorState.DataTransferObjectsNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
@@ -54,10 +53,10 @@ public partial class {{className}}
     public virtual List<{{relationship.Entity}}Dto> {{relationship.EntityPlural}} { get; set; } = new();
     {{- else}}
         {{- if relationship.ShouldGenerateForeignOnThisSide}}
-    //EF maps ForeignKey Automatically
-    public virtual string {{if relationship.Relationship == "ZeroOrOne"}}?{{end}}{{relationship.Entity}}Id { get; set; } = null!;
+    //EF maps ForeignKey Automatically...
+    public virtual string{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}}Id { get; set; } = null!;
         {{- end}}
-    public virtual {{relationship.Entity}}Dto {{if relationship.Relationship == "ZeroOrOne"}}?{{end}}{{relationship.Entity}} { get; set; } = null!;
+    public virtual {{relationship.Entity}}Dto{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
     {{-end}}
 {{- end }}
 {{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}
@@ -68,12 +67,13 @@ public partial class {{className}}
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
     public virtual List<{{relationship.Entity}}Dto> {{relationship.EntityPlural}} { get; set; } = new();    
     {{- else}}
-    public virtual {{relationship.Entity}}Dto {{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
+    public virtual {{relationship.Entity}}Dto{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
     {{-end}}
 {{- end }}
-{{- if !entity.IsOwnedEntity && entity.Persistence?.IsAudited == true #TODO do not expose DeletedAtUtc on end points??}}
 
-    public bool? Deleted { get; set; }
+{{- if !entity.IsOwnedEntity && entity.Persistence?.IsAudited == true #TODO do not expose DeletedAtUtc on end points??}}
+    public System.DateTime? DeletedAtUtc { get; set; }
+{{- end }}
 
     public {{ entity.Name }} ToEntity()
     {
@@ -100,15 +100,23 @@ public partial class {{className}}
         entity.{{attribute.Name}} = {{ entity.Name }}.Create{{ attribute.Name }}({{ attribute.Name }});
         {{- end }}
         {{- end }}
+
+        {{- for relationship in entity.Relationships }}
+            {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
+        entity.{{relationship.EntityPlural}} = {{relationship.EntityPlural}}.Select(dto => dto.ToEntity()).ToList();
+            {{- else}}
+        entity.{{relationship.Entity}} = {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}}.ToEntity();
+            {{-end}}
+        {{- end }}
+
         {{- for relationship in entity.OwnedRelationships }}
             {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
         entity.{{relationship.EntityPlural}} = {{relationship.EntityPlural}}.Select(dto => dto.ToEntity()).ToList();
             {{- else}}
-            {{relationship.EntityPlural}} = {{relationship.EntityPlural}}.ToEntity(),
+        entity.{{relationship.Entity}} = {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}}.ToEntity();
             {{-end}}
         {{- end }}
         return entity;
     }
 
-{{- end}}
 }

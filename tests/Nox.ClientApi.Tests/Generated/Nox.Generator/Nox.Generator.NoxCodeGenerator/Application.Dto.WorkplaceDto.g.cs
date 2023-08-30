@@ -7,42 +7,39 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using ClientApi.Application.DataTransferObjects;
 using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public record ClientDatabaseNumberKeyDto(System.Int64 keyId);
+public record WorkplaceKeyDto(System.Guid keyId);
 
 /// <summary>
-/// Client DatabaseNumber Key.
+/// Workplace.
 /// </summary>
-public partial class ClientDatabaseNumberDto
+public partial class WorkplaceDto
 {
 
     /// <summary>
-    /// The unique identifier (Required).
+    /// Workplace unique identifier (Required).
     /// </summary>
-    public System.Int64 Id { get; set; } = default!;
+    public System.Guid Id { get; set; } = default!;
 
     /// <summary>
-    /// The Name (Required).
+    /// Workplace Name (Required).
     /// </summary>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// The Number (Optional).
+    /// The Formula (Optional).
     /// </summary>
-    public System.Int32? Number { get; set; }
+    public System.String? Greeting { get; set; }
 
-    public bool? Deleted { get; set; }
-
-    public ClientDatabaseNumber ToEntity()
+    public Workplace ToEntity()
     {
-        var entity = new ClientDatabaseNumber();
-        entity.Id = ClientDatabaseNumber.CreateId(Id);
-        entity.Name = ClientDatabaseNumber.CreateName(Name);
-        if (Number is not null)entity.Number = ClientDatabaseNumber.CreateNumber(Number.NonNullValue<System.Int32>());
+        var entity = new Workplace();
+        entity.Id = Workplace.CreateId(Id);
+        entity.Name = Workplace.CreateName(Name);
         return entity;
     }
+
 }

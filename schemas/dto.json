@@ -2781,7 +2781,8 @@
                       ],
                       "enum": [
                         "bool",
-                        "dateAndTime",
+                        "dateTime",
+                        "decimal",
                         "double",
                         "int",
                         "long",
@@ -6959,7 +6960,8 @@
                       ],
                       "enum": [
                         "bool",
-                        "dateAndTime",
+                        "dateTime",
+                        "decimal",
                         "double",
                         "int",
                         "long",
@@ -10503,7 +10505,8 @@
               ],
               "enum": [
                 "bool",
-                "dateAndTime",
+                "dateTime",
+                "decimal",
                 "double",
                 "int",
                 "long",

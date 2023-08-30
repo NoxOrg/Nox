@@ -48,6 +48,4 @@ public partial class Country : AuditableEntityBase
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
     public virtual List<CountryLocalName> CountryLocalNames { get; set; } = new();
-
-    public List<CountryLocalName> CountryLocalNamess => CountryLocalNames;
 }

@@ -7,17 +7,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using SampleWebApp.Application.DataTransferObjects;
 using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
-public record CountryLocalNamesKeyDto(System.String keyId);
+public record CountryLocalNameKeyDto(System.String keyId);
 
 /// <summary>
 /// The name of a country in other languages.
 /// </summary>
-public partial class CountryLocalNamesDto
+public partial class CountryLocalNameDto
 {
 
     /// <summary>
@@ -25,12 +24,11 @@ public partial class CountryLocalNamesDto
     /// </summary>
     public System.String Id { get; set; } = default!;
 
-    public bool? Deleted { get; set; }
-
-    public CountryLocalNames ToEntity()
+    public CountryLocalName ToEntity()
     {
-        var entity = new CountryLocalNames();
-        entity.Id = CountryLocalNames.CreateId(Id);
+        var entity = new CountryLocalName();
+        entity.Id = CountryLocalName.CreateId(Id);
         return entity;
     }
+
 }
