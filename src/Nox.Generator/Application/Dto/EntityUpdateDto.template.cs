@@ -32,7 +32,7 @@ public partial class {{className}}
     {{- end}}
 {{- end }}
 {{- for relationship in entity.Relationships}}
-    {{- if relationship.Relationship == "ZeroOrOne" || relationship.Relationship == "ExactlyOne" && relationship.ShouldGenerateForeignOnThisSide}}
+    {{- if relationship.WithSingleEntity && relationship.ShouldGenerateForeignOnThisSide}}
 
     /// <summary>
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}

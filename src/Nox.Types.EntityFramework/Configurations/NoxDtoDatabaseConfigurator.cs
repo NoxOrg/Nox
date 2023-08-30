@@ -15,7 +15,7 @@ public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 
         ConfigureAttributes(codeGeneratorState, builder, entity);
 
-        ConfigureRelations(codeGeneratorState, builder, entity);
+        ConfigureRelationships(codeGeneratorState, builder, entity);
 
         ConfigureOwnedRelations(codeGeneratorState, builder, entity);
     }
@@ -46,7 +46,7 @@ public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
         }
     }
 
-    private static void ConfigureRelations(NoxSolutionCodeGeneratorState codeGeneratorState, IEntityBuilder builder, Entity entity)
+    private static void ConfigureRelationships(NoxSolutionCodeGeneratorState codeGeneratorState, IEntityBuilder builder, Entity entity)
     {
         if (entity.Relationships == null)
         {

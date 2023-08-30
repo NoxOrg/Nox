@@ -7,12 +7,12 @@ description: Store owners
 keys:
 
   - name: Id
-    isRequired: true
     type: text
     textTypeOptions:
       isUnicode: false
       minLength: 3
       maxLength: 3
+    isRequired: true
 
 attributes:
 

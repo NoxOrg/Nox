@@ -84,9 +84,4 @@ public partial class CountryUpdateDto
     /// Country The commission related country ZeroOrOne Commissions
     /// </summary>
     public string? CommissionId { get; set; } = null!;
-
-    /// <summary>
-    /// Country The related country ZeroOrOne Holidays
-    /// </summary>
-    public string? HolidaysId { get; set; } = null!;
 }

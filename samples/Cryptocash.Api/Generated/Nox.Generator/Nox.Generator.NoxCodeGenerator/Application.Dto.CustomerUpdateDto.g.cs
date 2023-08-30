@@ -43,9 +43,4 @@ public partial class CustomerUpdateDto
     /// The customer's mobile number (Optional).
     /// </summary>
     public System.String? MobileNumber { get; set; }
-
-    /// <summary>
-    /// Customer The customer's payment details ZeroOrOne CustomerPaymentDetails
-    /// </summary>
-    public string? CustomerPaymentDetailsId { get; set; } = null!;
 }

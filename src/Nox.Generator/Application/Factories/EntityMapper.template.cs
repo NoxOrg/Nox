@@ -57,7 +57,7 @@ public class {{className}} : EntityMapperBase<{{entity.Name}}>
     {{- end }}
     {{- end }}
     {{ for relationship in entity.Relationships }}
-    {{- if (relationship.Relationship == "ZeroOrOne" || relationship.Relationship == "ExactlyOne") && relationship.ShouldGenerateForeignOnThisSide}}
+    {{- if relationship.WithSingleEntity && relationship.ShouldGenerateForeignOnThisSide}}
 
         /// <summary>
         /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
@@ -103,7 +103,7 @@ public class {{className}} : EntityMapperBase<{{entity.Name}}>
     
     {{ for relationship in entity.Relationships }}
 
-    {{- if (relationship.Relationship == "ZeroOrOne" || relationship.Relationship == "ExactlyOne") && relationship.ShouldGenerateForeignOnThisSide}}
+    {{- if relationship.WithSingleEntity && relationship.ShouldGenerateForeignOnThisSide}}
         /// <summary>
         /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
         /// </summary>
