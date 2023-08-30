@@ -30,7 +30,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<AdditionalFiles Include="../../.nox/design/sample/cryptocash/**/*.yaml" LinkBase="Design">
+		<AdditionalFiles Include=".\.nox\design\**\*.yaml" LinkBase="Design">
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 		</AdditionalFiles>
 	</ItemGroup>
