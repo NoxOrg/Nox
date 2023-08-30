@@ -84,7 +84,7 @@ public class FormulaTests
 
         });
 
-        formula.ToString().Should().Be("(string):FirstName.ToString() + LastName.ToString()");
+        formula.ToString().Should().Be("(String):FirstName.ToString() + LastName.ToString()");
     }
 
     [Fact]

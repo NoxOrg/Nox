@@ -3,7 +3,7 @@
 /// <summary>
 /// Introduces POCO object to hold address data.
 /// </summary>
-public class StreetAddressItem : IStreetAddress
+public class StreetAddressItem 
 {
     public string StreetNumber { get; set; } = string.Empty;
     public string AddressLine1 { get; set; } = string.Empty;
