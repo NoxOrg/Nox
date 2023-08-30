@@ -24,6 +24,7 @@ namespace Nox.ClientApi.Tests.Tests
 
             var result = await httpClient.GetAsync(requertUrl);
             result.EnsureSuccessStatusCode();
+
             var data = await result.Content.ReadFromJsonAsync<TResult>();
 
             return data;
@@ -54,6 +55,7 @@ namespace Nox.ClientApi.Tests.Tests
             message.EnsureSuccessStatusCode();
 
             var result = await message.Content.ReadFromJsonAsync<TResult>();
+
             return result;
         }
 
