@@ -6,6 +6,8 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox;
 using System.Reflection;
 
+namespace Nox.ClientApi.Tests;
+
 public static class NoxApplicationExtensions
 {
     public static void AddNox(this IServiceCollection services)

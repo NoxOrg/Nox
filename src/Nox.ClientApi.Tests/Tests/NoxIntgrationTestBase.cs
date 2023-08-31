@@ -1,10 +1,6 @@
-﻿using System.Net.Http;
-using System.Text.Json;
+﻿using System.Text.Json;
 using AutoFixture;
-using Microsoft.AspNetCore.OData.Deltas;
-using Microsoft.AspNetCore.OData.Formatter.Serialization;
 using Newtonsoft.Json;
-using Nox.Lib;
 
 namespace Nox.ClientApi.Tests.Tests
 {
@@ -83,11 +79,5 @@ namespace Nox.ClientApi.Tests.Tests
             var message = await httpClient.DeleteAsync(requertUrl);
             message.EnsureSuccessStatusCode();
         }
-    }
-
-    public class MyValue<TValue>
-    {
-        [JsonProperty("@odata.type")]
-        public TValue Entity { set; get; } = default!;
     }
 }

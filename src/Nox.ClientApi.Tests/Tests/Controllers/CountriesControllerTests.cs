@@ -3,7 +3,6 @@ using ClientApi.Application.Dto;
 using AutoFixture;
 using Nox.Types;
 using System.Net;
-using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
