@@ -19,7 +19,7 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-public partial class CurrencyBankNotesController : ODataController
+public partial class BankNotesController : ODataController
 {
     
     /// <summary>
@@ -32,7 +32,7 @@ public partial class CurrencyBankNotesController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public CurrencyBankNotesController(
+    public BankNotesController(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -42,15 +42,15 @@ public partial class CurrencyBankNotesController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<CurrencyBankNotesDto>>> Get()
+    public async  Task<ActionResult<IQueryable<BankNotesDto>>> Get()
     {
-        var result = await _mediator.Send(new GetCurrencyBankNotesQuery());
+        var result = await _mediator.Send(new GetBankNotesQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<CurrencyBankNotesDto>> Get([FromRoute] System.Int64 key)
+    public async Task<ActionResult<BankNotesDto>> Get([FromRoute] System.Int64 key)
     {
-        var item = await _mediator.Send(new GetCurrencyBankNotesByIdQuery(key));
+        var item = await _mediator.Send(new GetBankNotesByIdQuery(key));
         
         if (item == null)
         {
@@ -60,25 +60,25 @@ public partial class CurrencyBankNotesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]CurrencyBankNotesCreateDto currencybanknotes)
+    public async Task<ActionResult> Post([FromBody]BankNotesCreateDto banknotes)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateCurrencyBankNotesCommand(currencybanknotes));
+        var createdKey = await _mediator.Send(new CreateBankNotesCommand(banknotes));
         
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] CurrencyBankNotesUpdateDto currencyBankNotes)
+    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] BankNotesUpdateDto bankNotes)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateCurrencyBankNotesCommand(key, currencyBankNotes));
+        var updated = await _mediator.Send(new UpdateBankNotesCommand(key, bankNotes));
         
         if (updated is null)
         {
@@ -87,7 +87,7 @@ public partial class CurrencyBankNotesController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CurrencyBankNotesUpdateDto> currencyBankNotes)
+    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<BankNotesUpdateDto> bankNotes)
     {
         if (!ModelState.IsValid)
         {
@@ -95,15 +95,15 @@ public partial class CurrencyBankNotesController : ODataController
         }
         var updateProperties = new Dictionary<string, dynamic>();
         
-        foreach (var propertyName in currencyBankNotes.GetChangedPropertyNames())
+        foreach (var propertyName in bankNotes.GetChangedPropertyNames())
         {
-            if(currencyBankNotes.TryGetPropertyValue(propertyName, out dynamic value))
+            if(bankNotes.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCurrencyBankNotesCommand(key, updateProperties));
+        var updated = await _mediator.Send(new PartialUpdateBankNotesCommand(key, updateProperties));
         
         if (updated is null)
         {
@@ -114,7 +114,7 @@ public partial class CurrencyBankNotesController : ODataController
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var result = await _mediator.Send(new DeleteCurrencyBankNotesByIdCommand(key));
+        var result = await _mediator.Send(new DeleteBankNotesByIdCommand(key));
         if (!result)
         {
             return NotFound();

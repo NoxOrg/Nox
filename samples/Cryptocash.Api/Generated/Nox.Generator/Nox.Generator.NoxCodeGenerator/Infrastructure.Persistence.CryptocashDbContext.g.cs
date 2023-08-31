@@ -54,7 +54,7 @@ public partial class CryptocashDbContext : DbContext
 
     public DbSet<Currency> Currencies { get; set; } = null!;
 
-    public DbSet<CurrencyBankNotes> CurrencyBankNotes { get; set; } = null!;
+    public DbSet<BankNotes> BankNotes { get; set; } = null!;
 
     public DbSet<Customer> Customers { get; set; } = null!;
 

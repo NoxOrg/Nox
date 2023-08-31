@@ -82,7 +82,7 @@ relationships:
     entity: VendingMachine
 
   - name: Employee
-    description: Approval employee
+    description: Reviewed by employee
     relationship: exactlyOne
     entity: Employee
 

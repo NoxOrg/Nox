@@ -6,13 +6,13 @@
 //  - cryptocash.application.nox.yaml
 //  - cryptocash.solution.nox.yaml
 //  - cryptocash.domain.nox.yaml
+//  - banknotes.entities.nox.yaml
 //  - booking.entities.nox.yaml
 //  - commission.entities.nox.yaml
 //  - country.entities.nox.yaml
 //  - countryholidays.entities.nox.yaml
 //  - countrytimezones.entities.nox.yaml
 //  - currency.entities.nox.yaml
-//  - currencybanknotes.entities.nox.yaml
 //  - customer.entities.nox.yaml
 //  - customerpaymentdetails.entities.nox.yaml
 //  - customertransaction.entities.nox.yaml

@@ -16,24 +16,24 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record CreateCurrencyBankNotesCommand(CurrencyBankNotesCreateDto EntityDto) : IRequest<CurrencyBankNotesKeyDto>;
+public record CreateBankNotesCommand(BankNotesCreateDto EntityDto) : IRequest<BankNotesKeyDto>;
 
-public partial class CreateCurrencyBankNotesCommandHandler: CommandBase<CreateCurrencyBankNotesCommand,CurrencyBankNotes>, IRequestHandler <CreateCurrencyBankNotesCommand, CurrencyBankNotesKeyDto>
+public partial class CreateBankNotesCommandHandler: CommandBase<CreateBankNotesCommand,BankNotes>, IRequestHandler <CreateBankNotesCommand, BankNotesKeyDto>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityFactory<CurrencyBankNotesCreateDto,CurrencyBankNotes> EntityFactory { get; }
+	public IEntityFactory<BankNotesCreateDto,BankNotes> EntityFactory { get; }
 
-	public CreateCurrencyBankNotesCommandHandler(
+	public CreateBankNotesCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
-		IEntityFactory<CurrencyBankNotesCreateDto,CurrencyBankNotes> entityFactory): base(noxSolution, serviceProvider)
+		IEntityFactory<BankNotesCreateDto,BankNotes> entityFactory): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
 		EntityFactory = entityFactory;
 	}
 
-	public async Task<CurrencyBankNotesKeyDto> Handle(CreateCurrencyBankNotesCommand request, CancellationToken cancellationToken)
+	public async Task<BankNotesKeyDto> Handle(CreateBankNotesCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
@@ -41,8 +41,8 @@ public partial class CreateCurrencyBankNotesCommandHandler: CommandBase<CreateCu
 		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
 	
 		OnCompleted(entityToCreate);
-		DbContext.CurrencyBankNotes.Add(entityToCreate);
+		DbContext.BankNotes.Add(entityToCreate);
 		await DbContext.SaveChangesAsync();
-		return new CurrencyBankNotesKeyDto(entityToCreate.Id.Value);
+		return new BankNotesKeyDto(entityToCreate.Id.Value);
 	}
 }

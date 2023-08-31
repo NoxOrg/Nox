@@ -51,7 +51,7 @@ public class DtoDbContext : DbContext
         
         public DbSet<CurrencyDto> Currencies { get; set; } = null!;
         
-        public DbSet<CurrencyBankNotesDto> CurrencyBankNotes { get; set; } = null!;
+        public DbSet<BankNotesDto> BankNotes { get; set; } = null!;
         
         public DbSet<CustomerDto> Customers { get; set; } = null!;
         

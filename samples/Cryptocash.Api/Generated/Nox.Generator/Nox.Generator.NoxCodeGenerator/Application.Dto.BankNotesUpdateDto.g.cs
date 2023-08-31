@@ -12,7 +12,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-public partial class CurrencyBankNotesUpdateDto
+public partial class BankNotesUpdateDto
 {
     //TODO Add owned Entities and update odata endpoints
     /// <summary>

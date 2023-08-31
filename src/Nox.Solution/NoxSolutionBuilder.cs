@@ -251,8 +251,8 @@ namespace Nox.Solution
 
         private string FindRootYamlFile()
         {
-            //look in the current folder
-            var rootYaml = FindSolutionYamlFile("./");
+            //look in the current folder without subfolders
+            var rootYaml = FindSolutionYamlFile("./", false);
             if (rootYaml != null) return rootYaml;
 
             //look in .nox/design
@@ -262,6 +262,10 @@ namespace Nox.Solution
                 rootYaml = FindSolutionYamlFile(designFolder);
                 if (rootYaml != null) return rootYaml;
             }
+
+            //look in the current folder with subfolders
+            rootYaml = FindSolutionYamlFile("./", true);
+            if (rootYaml != null) return rootYaml;
 
             //look in solution root/.nox/design
             var solutionRoot = FindSolutionRoot();
@@ -288,9 +292,15 @@ namespace Nox.Solution
             return rootYaml;
         }
 
-        private static string? FindSolutionYamlFile(string folder)
+        private static string? FindSolutionYamlFile(string folder, bool searchSubFolders = false)
         {
             var solutionYamlFiles = Directory.GetFiles(folder, "*.solution.nox.yaml");
+
+            if (solutionYamlFiles.Length == 0 && searchSubFolders)
+            {
+                solutionYamlFiles = Directory.GetFiles(folder, "*.solution.nox.yaml", SearchOption.AllDirectories);
+            }
+            
             if (solutionYamlFiles.Length > 1)
             {
                 throw new NoxSolutionConfigurationException($"Found more than one *.solution.nox.yaml file in folder ({folder}). {DesignFolderBestPractice}");

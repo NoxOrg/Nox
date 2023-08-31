@@ -1,10 +1,10 @@
 #
-# currencybanknotes.entities.nox.yaml
+# banknotes.entities.nox.yaml
 #
 # yaml-language-server: $schema=../../../../../schemas/entity.json
 #
 
-name: CurrencyBankNotes
+name: BankNotes
 
 description: Currencies related frequent and rare bank notes
 

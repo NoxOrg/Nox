@@ -18,7 +18,7 @@ entities:
   
   - $ref: ./entities/currency.entities.nox.yaml
   
-  - $ref: ./entities/currencybanknotes.entities.nox.yaml
+  - $ref: ./entities/banknotes.entities.nox.yaml
   
   - $ref: ./entities/customer.entities.nox.yaml
   

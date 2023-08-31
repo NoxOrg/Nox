@@ -12,20 +12,20 @@ using Cryptocash.Infrastructure.Persistence;
 
 namespace Cryptocash.Application.Queries;
 
-public record GetCurrencyBankNotesByIdQuery(System.Int64 keyId) : IRequest <CurrencyBankNotesDto?>;
+public record GetBankNotesByIdQuery(System.Int64 keyId) : IRequest <BankNotesDto?>;
 
-public partial class GetCurrencyBankNotesByIdQueryHandler:  QueryBase<CurrencyBankNotesDto?>, IRequestHandler<GetCurrencyBankNotesByIdQuery, CurrencyBankNotesDto?>
+public partial class GetBankNotesByIdQueryHandler:  QueryBase<BankNotesDto?>, IRequestHandler<GetBankNotesByIdQuery, BankNotesDto?>
 {
-    public  GetCurrencyBankNotesByIdQueryHandler(DtoDbContext dataDbContext)
+    public  GetBankNotesByIdQueryHandler(DtoDbContext dataDbContext)
     {
         DataDbContext = dataDbContext;
     }
 
     public DtoDbContext DataDbContext { get; }
 
-    public Task<CurrencyBankNotesDto?> Handle(GetCurrencyBankNotesByIdQuery request, CancellationToken cancellationToken)
+    public Task<BankNotesDto?> Handle(GetBankNotesByIdQuery request, CancellationToken cancellationToken)
     {    
-        var item = DataDbContext.CurrencyBankNotes
+        var item = DataDbContext.BankNotes
             .AsNoTracking()
             .SingleOrDefault(r =>
                 r.Id.Equals(request.keyId) &&

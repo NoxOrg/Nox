@@ -23,7 +23,7 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<CountryHolidayDto>().HasKey(e => new { e.Id });
         builder.EntityType<CountryTimeZonesDto>().HasKey(e => new { e.Id });
         builder.EntityType<CurrencyDto>().HasKey(e => new { e.Id });
-        builder.EntityType<CurrencyBankNotesDto>().HasKey(e => new { e.Id });
+        builder.EntityType<BankNotesDto>().HasKey(e => new { e.Id });
         builder.EntityType<CustomerDto>().HasKey(e => new { e.Id });
         builder.EntityType<CustomerPaymentDetailsDto>().HasKey(e => new { e.Id });
         builder.EntityType<CustomerTransactionDto>().HasKey(e => new { e.Id });
@@ -73,11 +73,11 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<CurrencyKeyDto>();
         builder.EntityType<CurrencyDto>().Ignore(e => e.DeletedAtUtc);
 
-        builder.EntitySet<CurrencyBankNotesDto>("CurrencyBankNotes");
+        builder.EntitySet<BankNotesDto>("BankNotes");
 
-        builder.EntityType<CurrencyBankNotesDto>();
-        builder.EntityType<CurrencyBankNotesKeyDto>();
-        builder.EntityType<CurrencyBankNotesDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<BankNotesDto>();
+        builder.EntityType<BankNotesKeyDto>();
+        builder.EntityType<BankNotesDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<CustomerDto>("Customers");
 

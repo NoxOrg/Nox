@@ -92,19 +92,19 @@ public partial class CountryDto
     /// <summary>
     /// Country Country's currency ExactlyOne Currencies
     /// </summary>
+    //EF maps ForeignKey Automatically
+    public virtual string CurrencyId { get; set; } = null!;
     public virtual CurrencyDto Currency { get; set; } = null!;
 
     /// <summary>
-    /// Country Country's time zones ZeroOrMany CountryTimeZones
+    /// Country Country's time zones OneOrMany CountryTimeZones
     /// </summary>
     public virtual List<CountryTimeZonesDto> CountryTimeZones { get; set; } = new();
 
     /// <summary>
-    /// Country Commission's country ExactlyOne Commissions
+    /// Country Commission's country OneOrMany Commissions
     /// </summary>
-    //EF maps ForeignKey Automatically
-    public virtual string CommissionId { get; set; } = null!;
-    public virtual CommissionDto Commission { get; set; } = null!;
+    public virtual List<CommissionDto> Commissions { get; set; } = new();
 
     /// <summary>
     /// Country Vending machine's country ZeroOrMany VendingMachines

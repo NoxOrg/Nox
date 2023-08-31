@@ -55,7 +55,7 @@ public partial class EmployeeDto
     public System.DateTime? LastWorkingDay { get; set; }
 
     /// <summary>
-    /// Employee Approval employee ExactlyOne VendingMachineOrders
+    /// Employee Reviewed by employee ExactlyOne VendingMachineOrders
     /// </summary>
     public virtual VendingMachineOrderDto VendingMachineOrder { get; set; } = null!;
 

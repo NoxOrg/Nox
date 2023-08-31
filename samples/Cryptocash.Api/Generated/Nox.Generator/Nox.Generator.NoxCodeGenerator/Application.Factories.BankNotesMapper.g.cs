@@ -19,11 +19,11 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application;
 
-public class CurrencyBankNotesMapper: EntityMapperBase<CurrencyBankNotes>
+public class BankNotesMapper: EntityMapperBase<BankNotes>
 {
-    public  CurrencyBankNotesMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public  BankNotesMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
 
-    public override void MapToEntity(CurrencyBankNotes entity, Entity entityDefinition, dynamic dto)
+    public override void MapToEntity(BankNotes entity, Entity entityDefinition, dynamic dto)
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
@@ -41,7 +41,7 @@ public class CurrencyBankNotesMapper: EntityMapperBase<CurrencyBankNotes>
         }
     }
 
-    public override void PartialMapToEntity(CurrencyBankNotes entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
+    public override void PartialMapToEntity(BankNotes entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
         {
             if (updatedProperties.TryGetValue("BankNote", out dynamic? value))
@@ -49,7 +49,7 @@ public class CurrencyBankNotesMapper: EntityMapperBase<CurrencyBankNotes>
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"BankNote",value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("CurrencyBankNotes", "BankNote");
+                    throw new EntityAttributeIsNotNullableException("BankNotes", "BankNote");
                 }
                 else
                 {
@@ -63,7 +63,7 @@ public class CurrencyBankNotesMapper: EntityMapperBase<CurrencyBankNotes>
                 var noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition,"IsRare",value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("CurrencyBankNotes", "IsRare");
+                    throw new EntityAttributeIsNotNullableException("BankNotes", "IsRare");
                 }
                 else
                 {

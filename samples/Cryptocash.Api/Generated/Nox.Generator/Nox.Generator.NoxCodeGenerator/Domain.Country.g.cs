@@ -93,21 +93,23 @@ public partial class Country : AuditableEntityBase
     public Currency Currencies => Currency;
 
     /// <summary>
-    /// Country Country's time zones ZeroOrMany CountryTimeZones
+    /// Foreign key for relationship ExactlyOne to entity Currency
+    /// </summary>
+    public Nox.Types.CurrencyCode3 CurrencyId { get; set; } = null!;
+
+    /// <summary>
+    /// Country Country's time zones OneOrMany CountryTimeZones
     /// </summary>
     public virtual List<CountryTimeZones> CountryTimeZones { get; set; } = new();
 
     public List<CountryTimeZones> TimeZones => CountryTimeZones;
 
     /// <summary>
-    /// Country Commission's country ExactlyOne Commissions
+    /// Country Commission's country OneOrMany Commissions
     /// </summary>
-    public virtual Commission Commission { get; set; } = null!;
+    public virtual List<Commission> Commissions { get; set; } = new();
 
-    /// <summary>
-    /// Foreign key for relationship ExactlyOne to entity Commission
-    /// </summary>
-    public Nox.Types.DatabaseNumber CommissionId { get; set; } = null!;
+    public List<Commission> Commission => Commissions;
 
     /// <summary>
     /// Country Vending machine's country ZeroOrMany VendingMachines

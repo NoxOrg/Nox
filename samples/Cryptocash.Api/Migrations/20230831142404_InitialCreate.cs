@@ -12,13 +12,23 @@ namespace Cryptocash.Api.Migrations
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Commissions",
+                name: "Currencies",
                 columns: table => new
                 {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    Rate = table.Column<float>(type: "real", maxLength: 2, nullable: false),
-                    EffectiveAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    Id = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    CurrencyIsoNumeric = table.Column<short>(type: "smallint", nullable: false),
+                    Symbol = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    ThousandsSeparator = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: true),
+                    DecimalSeparator = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: true),
+                    SpaceBetweenAmountAndSymbol = table.Column<bool>(type: "bit", nullable: false),
+                    DecimalDigits = table.Column<int>(type: "int", nullable: false),
+                    MajorName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    MajorSymbol = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    MinorName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    MinorSymbol = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    MinorToMajorValue_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
+                    MinorToMajorValue_CurrencyCode = table.Column<int>(type: "int", nullable: false),
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -31,7 +41,7 @@ namespace Cryptocash.Api.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Commissions", x => x.Id);
+                    table.PrimaryKey("PK_Currencies", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -103,6 +113,35 @@ namespace Cryptocash.Api.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "BankNotes",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    BankNote = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    IsRare = table.Column<bool>(type: "bit", nullable: false),
+                    CurrencyId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
+                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_BankNotes", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_BankNotes_Currencies_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currencies",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Countries",
                 columns: table => new
                 {
@@ -129,7 +168,7 @@ namespace Cryptocash.Api.Migrations
                     GoogleMapsUrl = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: true),
                     OpenStreetMapsUrl = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: true),
                     StartOfWeek = table.Column<int>(type: "int", nullable: false),
-                    CommissionId = table.Column<long>(type: "bigint", nullable: true),
+                    CurrencyId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -144,9 +183,38 @@ namespace Cryptocash.Api.Migrations
                 {
                     table.PrimaryKey("PK_Countries", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Countries_Commissions_CommissionId",
-                        column: x => x.CommissionId,
-                        principalTable: "Commissions",
+                        name: "FK_Countries_Currencies_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currencies",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "ExchangeRates",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    EffectiveRate = table.Column<int>(type: "int", nullable: false),
+                    EffectiveAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CurrencyId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
+                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_ExchangeRates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_ExchangeRates_Currencies_CurrencyId",
+                        column: x => x.CurrencyId,
+                        principalTable: "Currencies",
                         principalColumn: "Id");
                 });
 
@@ -170,6 +238,35 @@ namespace Cryptocash.Api.Migrations
                         principalTable: "Employees",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Commissions",
+                columns: table => new
+                {
+                    Id = table.Column<long>(type: "bigint", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Rate = table.Column<float>(type: "real", maxLength: 2, nullable: false),
+                    EffectiveAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CountryId = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
+                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Commissions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Commissions_Countries_CountryId",
+                        column: x => x.CountryId,
+                        principalTable: "Countries",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -225,45 +322,6 @@ namespace Cryptocash.Api.Migrations
                     table.PrimaryKey("PK_CountryTimeZones", x => x.Id);
                     table.ForeignKey(
                         name: "FK_CountryTimeZones_Countries_CountryId",
-                        column: x => x.CountryId,
-                        principalTable: "Countries",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Currencies",
-                columns: table => new
-                {
-                    Id = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    CurrencyIsoNumeric = table.Column<short>(type: "smallint", nullable: false),
-                    Symbol = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    ThousandsSeparator = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: true),
-                    DecimalSeparator = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: true),
-                    SpaceBetweenAmountAndSymbol = table.Column<bool>(type: "bit", nullable: false),
-                    DecimalDigits = table.Column<int>(type: "int", nullable: false),
-                    MajorName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    MajorSymbol = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    MinorName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    MinorSymbol = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    MinorToMajorValue_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
-                    MinorToMajorValue_CurrencyCode = table.Column<int>(type: "int", nullable: false),
-                    CountryId = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
-                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
-                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Currencies", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Currencies_Countries_CountryId",
                         column: x => x.CountryId,
                         principalTable: "Countries",
                         principalColumn: "Id");
@@ -357,64 +415,6 @@ namespace Cryptocash.Api.Migrations
                         name: "FK_VendingMachines_LandLords_LandLordId",
                         column: x => x.LandLordId,
                         principalTable: "LandLords",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "CurrencyBankNotes",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    BankNote = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    IsRare = table.Column<bool>(type: "bit", nullable: false),
-                    CurrencyId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
-                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
-                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_CurrencyBankNotes", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_CurrencyBankNotes_Currencies_CurrencyId",
-                        column: x => x.CurrencyId,
-                        principalTable: "Currencies",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
-                name: "ExchangeRates",
-                columns: table => new
-                {
-                    Id = table.Column<long>(type: "bigint", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    EffectiveRate = table.Column<int>(type: "int", nullable: false),
-                    EffectiveAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CurrencyId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
-                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
-                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
-                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
-                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
-                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
-                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_ExchangeRates", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_ExchangeRates_Currencies_CurrencyId",
-                        column: x => x.CurrencyId,
-                        principalTable: "Currencies",
                         principalColumn: "Id");
                 });
 
@@ -640,6 +640,11 @@ namespace Cryptocash.Api.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_BankNotes_CurrencyId",
+                table: "BankNotes",
+                column: "CurrencyId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Bookings_CommissionId",
                 table: "Bookings",
                 column: "CommissionId");
@@ -655,11 +660,14 @@ namespace Cryptocash.Api.Migrations
                 column: "VendingMachineId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Countries_CommissionId",
+                name: "IX_Commissions_CountryId",
+                table: "Commissions",
+                column: "CountryId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Countries_CurrencyId",
                 table: "Countries",
-                column: "CommissionId",
-                unique: true,
-                filter: "[CommissionId] IS NOT NULL");
+                column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CountryHolidays_CountryId",
@@ -670,18 +678,6 @@ namespace Cryptocash.Api.Migrations
                 name: "IX_CountryTimeZones_CountryId",
                 table: "CountryTimeZones",
                 column: "CountryId");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Currencies_CountryId",
-                table: "Currencies",
-                column: "CountryId",
-                unique: true,
-                filter: "[CountryId] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
-                name: "IX_CurrencyBankNotes_CurrencyId",
-                table: "CurrencyBankNotes",
-                column: "CurrencyId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CustomerPaymentDetails_CustomerId",
@@ -759,13 +755,13 @@ namespace Cryptocash.Api.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
+                name: "BankNotes");
+
+            migrationBuilder.DropTable(
                 name: "CountryHolidays");
 
             migrationBuilder.DropTable(
                 name: "CountryTimeZones");
-
-            migrationBuilder.DropTable(
-                name: "CurrencyBankNotes");
 
             migrationBuilder.DropTable(
                 name: "CustomerTransactions");
@@ -789,13 +785,13 @@ namespace Cryptocash.Api.Migrations
                 name: "Bookings");
 
             migrationBuilder.DropTable(
-                name: "Currencies");
-
-            migrationBuilder.DropTable(
                 name: "CustomerPaymentDetails");
 
             migrationBuilder.DropTable(
                 name: "Employees");
+
+            migrationBuilder.DropTable(
+                name: "Commissions");
 
             migrationBuilder.DropTable(
                 name: "VendingMachines");
@@ -810,7 +806,7 @@ namespace Cryptocash.Api.Migrations
                 name: "Countries");
 
             migrationBuilder.DropTable(
-                name: "Commissions");
+                name: "Currencies");
         }
     }
 }

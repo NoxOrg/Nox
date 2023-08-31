@@ -12,13 +12,13 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Commands;
 
-public record DeleteCurrencyBankNotesByIdCommand(System.Int64 keyId) : IRequest<bool>;
+public record DeleteBankNotesByIdCommand(System.Int64 keyId) : IRequest<bool>;
 
-public class DeleteCurrencyBankNotesByIdCommandHandler: CommandBase<DeleteCurrencyBankNotesByIdCommand,CurrencyBankNotes>, IRequestHandler<DeleteCurrencyBankNotesByIdCommand, bool>
+public class DeleteBankNotesByIdCommandHandler: CommandBase<DeleteBankNotesByIdCommand,BankNotes>, IRequestHandler<DeleteBankNotesByIdCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
 
-	public DeleteCurrencyBankNotesByIdCommandHandler(
+	public DeleteBankNotesByIdCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution, 
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
@@ -26,13 +26,13 @@ public class DeleteCurrencyBankNotesByIdCommandHandler: CommandBase<DeleteCurren
 		DbContext = dbContext;
 	}
 
-	public async Task<bool> Handle(DeleteCurrencyBankNotesByIdCommand request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(DeleteBankNotesByIdCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<CurrencyBankNotes,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<BankNotes,DatabaseNumber>("Id", request.keyId);
 
-		var entity = await DbContext.CurrencyBankNotes.FindAsync(keyId);
+		var entity = await DbContext.BankNotes.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted.Value == true)
 		{
 			return false;

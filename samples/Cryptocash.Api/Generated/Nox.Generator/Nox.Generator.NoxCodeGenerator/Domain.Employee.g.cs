@@ -51,7 +51,7 @@ public partial class Employee : AuditableEntityBase
     public Nox.Types.Date? LastWorkingDay { get; set; } = null!;
 
     /// <summary>
-    /// Employee Approval employee ExactlyOne VendingMachineOrders
+    /// Employee Reviewed by employee ExactlyOne VendingMachineOrders
     /// </summary>
     public virtual VendingMachineOrder VendingMachineOrder { get; set; } = null!;
 

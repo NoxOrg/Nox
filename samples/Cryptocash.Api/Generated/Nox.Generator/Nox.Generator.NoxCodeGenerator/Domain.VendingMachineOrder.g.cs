@@ -55,7 +55,7 @@ public partial class VendingMachineOrder : AuditableEntityBase
     public Nox.Types.DatabaseGuid VendingMachineId { get; set; } = null!;
 
     /// <summary>
-    /// VendingMachineOrder Approval employee ExactlyOne Employees
+    /// VendingMachineOrder Reviewed by employee ExactlyOne Employees
     /// </summary>
     public virtual Employee Employee { get; set; } = null!;
 

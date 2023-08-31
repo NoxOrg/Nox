@@ -11,12 +11,12 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
-public record CurrencyBankNotesKeyDto(System.Int64 keyId);
+public record BankNotesKeyDto(System.Int64 keyId);
 
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-public partial class CurrencyBankNotesDto
+public partial class BankNotesDto
 {
 
     /// <summary>
@@ -35,7 +35,7 @@ public partial class CurrencyBankNotesDto
     public System.Boolean IsRare { get; set; } = default!;
 
     /// <summary>
-    /// CurrencyBankNotes Currency's bank notes ExactlyOne Currencies
+    /// BankNotes Currency's bank notes ExactlyOne Currencies
     /// </summary>
     //EF maps ForeignKey Automatically
     public virtual string CurrencyId { get; set; } = null!;

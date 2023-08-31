@@ -13,7 +13,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-public partial class CurrencyBankNotes : AuditableEntityBase
+public partial class BankNotes : AuditableEntityBase
 {
     /// <summary>
     /// Currency bank note unique identifier (Required).
@@ -31,7 +31,7 @@ public partial class CurrencyBankNotes : AuditableEntityBase
     public Nox.Types.Boolean IsRare { get; set; } = null!;
 
     /// <summary>
-    /// CurrencyBankNotes Currency's bank notes ExactlyOne Currencies
+    /// BankNotes Currency's bank notes ExactlyOne Currencies
     /// </summary>
     public virtual Currency Currency { get; set; } = null!;
 

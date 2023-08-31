@@ -37,6 +37,8 @@ public partial class CommissionDto
     /// <summary>
     /// Commission Commission's country ZeroOrOne Countries
     /// </summary>
+    //EF maps ForeignKey Automatically
+    public virtual string ?CountryId { get; set; } = null!;
     public virtual CountryDto ?Country { get; set; } = null!;
 
     /// <summary>

@@ -111,7 +111,7 @@ ownedRelationships:
 relationships:
     
   - name: VendingMachineOrder
-    description: Approval employee
+    description: Reviewed by employee
     relationship: exactlyOne
     entity: VendingMachineOrder
 

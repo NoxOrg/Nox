@@ -81,21 +81,16 @@ public partial class Currency : AuditableEntityBase
     public Nox.Types.Money MinorToMajorValue { get; set; } = null!;
 
     /// <summary>
-    /// Currency Currency's bank notes OneOrMany CurrencyBankNotes
+    /// Currency Currency's bank notes OneOrMany BankNotes
     /// </summary>
-    public virtual List<CurrencyBankNotes> CurrencyBankNotes { get; set; } = new();
-
-    public List<CurrencyBankNotes> BankNotes => CurrencyBankNotes;
+    public virtual List<BankNotes> BankNotes { get; set; } = new();
 
     /// <summary>
-    /// Currency Country's currency ExactlyOne Countries
+    /// Currency Country's currency OneOrMany Countries
     /// </summary>
-    public virtual Country Country { get; set; } = null!;
+    public virtual List<Country> Countries { get; set; } = new();
 
-    /// <summary>
-    /// Foreign key for relationship ExactlyOne to entity Country
-    /// </summary>
-    public Nox.Types.CountryCode2 CountryId { get; set; } = null!;
+    public List<Country> Country => Countries;
 
     /// <summary>
     /// Currency Cash stock currency ZeroOrMany MinimumCashStocks

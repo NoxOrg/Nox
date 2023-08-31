@@ -85,16 +85,14 @@ public partial class CurrencyDto
     public MoneyDto MinorToMajorValue { get; set; } = default!;
 
     /// <summary>
-    /// Currency Currency's bank notes OneOrMany CurrencyBankNotes
+    /// Currency Currency's bank notes OneOrMany BankNotes
     /// </summary>
-    public virtual List<CurrencyBankNotesDto> CurrencyBankNotes { get; set; } = new();
+    public virtual List<BankNotesDto> BankNotes { get; set; } = new();
 
     /// <summary>
-    /// Currency Country's currency ExactlyOne Countries
+    /// Currency Country's currency OneOrMany Countries
     /// </summary>
-    //EF maps ForeignKey Automatically
-    public virtual string CountryId { get; set; } = null!;
-    public virtual CountryDto Country { get; set; } = null!;
+    public virtual List<CountryDto> Countries { get; set; } = new();
 
     /// <summary>
     /// Currency Cash stock currency ZeroOrMany MinimumCashStocks

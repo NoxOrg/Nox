@@ -196,11 +196,11 @@ relationships:
   - name: BankNotes
     description: Currency's bank notes
     relationship: oneOrMany
-    entity: CurrencyBankNotes
+    entity: BankNotes
 
   - name: Country
     description: Country's currency
-    relationship: exactlyOne
+    relationship: oneOrMany
     entity: Country
 
   - name: MinimumCashStock

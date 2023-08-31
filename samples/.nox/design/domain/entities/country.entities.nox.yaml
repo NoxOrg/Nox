@@ -197,12 +197,12 @@ relationships:
 
   - name: TimeZones
     description: Country's time zones
-    relationship: zeroOrMany
+    relationship: oneOrMany
     entity: CountryTimeZones
 
   - name: Commission
     description: Commission's country
-    relationship: exactlyOne
+    relationship: oneOrMany
     entity: Commission
 
   - name: VendingMachine
