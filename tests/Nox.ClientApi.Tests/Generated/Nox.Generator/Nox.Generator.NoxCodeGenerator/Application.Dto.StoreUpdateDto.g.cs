@@ -25,7 +25,8 @@ public partial class StoreUpdateDto
     /// <summary>
     /// Store Store owner relationship ZeroOrOne StoreOwners
     /// </summary>
-    public string? StoreOwnerId { get; set; } = null!;
+    
+    public System.String? StoreOwnerId { get; set; } = default!;
 
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses

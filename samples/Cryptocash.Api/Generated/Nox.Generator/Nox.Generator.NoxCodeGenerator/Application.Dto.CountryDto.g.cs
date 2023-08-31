@@ -103,7 +103,7 @@ public partial class CountryDto
     /// Country The commission related country ZeroOrOne Commissions
     /// </summary>
     //EF maps ForeignKey Automatically
-    public string? CommissionId { get; set; } = null!;
+    public System.Int64? CommissionId { get; set; } = default!;
     public virtual CommissionDto? Commission { get; set; } = null!;
 
     /// <summary>

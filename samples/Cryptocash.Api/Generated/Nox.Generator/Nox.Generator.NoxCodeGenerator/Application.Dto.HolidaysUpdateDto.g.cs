@@ -31,5 +31,6 @@ public partial class HolidaysUpdateDto
     /// <summary>
     /// Holidays The related country ExactlyOne Countries
     /// </summary>
-    public string CountryId { get; set; } = null!;
+    [Required(ErrorMessage = "Country is required")]
+    public System.String CountryId { get; set; } = default!;
 }

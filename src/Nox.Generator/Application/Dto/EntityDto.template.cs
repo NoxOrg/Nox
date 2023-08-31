@@ -54,7 +54,7 @@ public partial class {{className}}
     {{- else}}
         {{- if relationship.ShouldGenerateForeignOnThisSide}}
     //EF maps ForeignKey Automatically
-    public string{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}}Id { get; set; } = null!;
+    public System.{{relationship.ForeignKeyPrimitiveType}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}}Id { get; set; } = default!;
         {{- end}}
     public virtual {{relationship.Entity}}Dto{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
     {{-end}}

@@ -57,10 +57,12 @@ public partial class VendingMachineUpdateDto
     /// <summary>
     /// VendingMachine The country of the vending machine ExactlyOne Countries
     /// </summary>
-    public string CountryId { get; set; } = null!;
+    [Required(ErrorMessage = "Country is required")]
+    public System.String CountryId { get; set; } = default!;
 
     /// <summary>
     /// VendingMachine The Land Lord related to the area of the vending machine installation ExactlyOne LandLords
     /// </summary>
-    public string LandLordId { get; set; } = null!;
+    [Required(ErrorMessage = "LandLord is required")]
+    public System.Int64 LandLordId { get; set; } = default!;
 }

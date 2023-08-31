@@ -31,5 +31,6 @@ public partial class ExchangeRateUpdateDto
     /// <summary>
     /// ExchangeRate The currency exchanged from ExactlyOne Currencies
     /// </summary>
-    public string CurrencyId { get; set; } = null!;
+    [Required(ErrorMessage = "CurrencyFrom is required")]
+    public System.String CurrencyId { get; set; } = default!;
 }

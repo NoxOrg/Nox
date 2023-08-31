@@ -33,7 +33,7 @@ public partial class StoreDto
     /// Store Store owner relationship ZeroOrOne StoreOwners
     /// </summary>
     //EF maps ForeignKey Automatically
-    public string? StoreOwnerId { get; set; } = null!;
+    public System.String? StoreOwnerId { get; set; } = default!;
     public virtual StoreOwnerDto? StoreOwner { get; set; } = null!;
 
     /// <summary>

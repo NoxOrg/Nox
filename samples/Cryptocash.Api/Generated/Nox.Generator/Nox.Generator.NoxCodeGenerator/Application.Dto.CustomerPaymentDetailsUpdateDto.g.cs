@@ -43,5 +43,6 @@ public partial class CustomerPaymentDetailsUpdateDto
     /// <summary>
     /// CustomerPaymentDetails The payment account related customer ExactlyOne Customers
     /// </summary>
-    public string CustomerId { get; set; } = null!;
+    [Required(ErrorMessage = "Customer is required")]
+    public System.Int64 CustomerId { get; set; } = default!;
 }

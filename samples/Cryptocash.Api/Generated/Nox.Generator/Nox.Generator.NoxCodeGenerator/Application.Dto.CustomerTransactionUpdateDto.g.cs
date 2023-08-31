@@ -43,10 +43,12 @@ public partial class CustomerTransactionUpdateDto
     /// <summary>
     /// CustomerTransaction The transaction's related customer ExactlyOne Customers
     /// </summary>
-    public string CustomerId { get; set; } = null!;
+    [Required(ErrorMessage = "Customer is required")]
+    public System.Int64 CustomerId { get; set; } = default!;
 
     /// <summary>
     /// CustomerTransaction The transaction's related booking ExactlyOne Bookings
     /// </summary>
-    public string BookingId { get; set; } = null!;
+    [Required(ErrorMessage = "Booking is required")]
+    public System.Guid BookingId { get; set; } = default!;
 }

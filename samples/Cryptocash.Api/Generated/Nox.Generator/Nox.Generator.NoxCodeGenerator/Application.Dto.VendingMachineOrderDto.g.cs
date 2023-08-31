@@ -43,7 +43,7 @@ public partial class VendingMachineOrderDto
     /// VendingMachineOrder The order's related vending machine ExactlyOne VendingMachines
     /// </summary>
     //EF maps ForeignKey Automatically
-    public string VendingMachineId { get; set; } = null!;
+    public System.Guid VendingMachineId { get; set; } = default!;
     public virtual VendingMachineDto VendingMachine { get; set; } = null!;
 
     public System.DateTime? DeletedAtUtc { get; set; }

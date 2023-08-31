@@ -31,5 +31,6 @@ public partial class StoreSecurityPasswordsUpdateDto
     /// <summary>
     /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores
     /// </summary>
-    public string StoreId { get; set; } = null!;
+    [Required(ErrorMessage = "StoreRel is required")]
+    public System.String StoreId { get; set; } = default!;
 }

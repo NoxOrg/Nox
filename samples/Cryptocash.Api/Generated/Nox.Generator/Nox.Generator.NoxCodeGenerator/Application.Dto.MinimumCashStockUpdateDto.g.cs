@@ -25,10 +25,12 @@ public partial class MinimumCashStockUpdateDto
     /// <summary>
     /// MinimumCashStock The related vending machine ExactlyOne VendingMachines
     /// </summary>
-    public string VendingMachineId { get; set; } = null!;
+    [Required(ErrorMessage = "VendingMachine is required")]
+    public System.Guid VendingMachineId { get; set; } = default!;
 
     /// <summary>
     /// MinimumCashStock The currency of the cash stock ExactlyOne Currencies
     /// </summary>
-    public string CurrencyId { get; set; } = null!;
+    [Required(ErrorMessage = "Currency is required")]
+    public System.String CurrencyId { get; set; } = default!;
 }

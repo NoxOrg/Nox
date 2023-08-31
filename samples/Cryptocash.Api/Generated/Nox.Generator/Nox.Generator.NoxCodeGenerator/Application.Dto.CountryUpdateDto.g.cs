@@ -83,5 +83,6 @@ public partial class CountryUpdateDto
     /// <summary>
     /// Country The commission related country ZeroOrOne Commissions
     /// </summary>
-    public string? CommissionId { get; set; } = null!;
+    
+    public System.Int64? CommissionId { get; set; } = default!;
 }

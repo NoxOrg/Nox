@@ -33,5 +33,6 @@ public partial class VendingMachineOrderUpdateDto
     /// <summary>
     /// VendingMachineOrder The order's related vending machine ExactlyOne VendingMachines
     /// </summary>
-    public string VendingMachineId { get; set; } = null!;
+    [Required(ErrorMessage = "VendingMachine is required")]
+    public System.Guid VendingMachineId { get; set; } = default!;
 }

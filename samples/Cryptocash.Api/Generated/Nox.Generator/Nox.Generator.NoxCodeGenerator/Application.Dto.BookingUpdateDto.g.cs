@@ -55,15 +55,18 @@ public partial class BookingUpdateDto
     /// <summary>
     /// Booking The booking's related customer ExactlyOne Customers
     /// </summary>
-    public string CustomerId { get; set; } = null!;
+    [Required(ErrorMessage = "Customer is required")]
+    public System.Int64 CustomerId { get; set; } = default!;
 
     /// <summary>
     /// Booking The booking's related vending machine ExactlyOne VendingMachines
     /// </summary>
-    public string VendingMachineId { get; set; } = null!;
+    [Required(ErrorMessage = "VendingMachine is required")]
+    public System.Guid VendingMachineId { get; set; } = default!;
 
     /// <summary>
     /// Booking The booking's related fee ExactlyOne Commissions
     /// </summary>
-    public string CommissionId { get; set; } = null!;
+    [Required(ErrorMessage = "Fee is required")]
+    public System.Int64 CommissionId { get; set; } = default!;
 }

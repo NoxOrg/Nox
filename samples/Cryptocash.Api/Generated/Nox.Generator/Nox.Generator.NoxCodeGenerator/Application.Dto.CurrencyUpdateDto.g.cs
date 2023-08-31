@@ -61,5 +61,6 @@ public partial class CurrencyUpdateDto
     /// <summary>
     /// Currency The currency's related units major and minor ExactlyOne CurrencyUnits
     /// </summary>
-    public string CurrencyUnitsId { get; set; } = null!;
+    [Required(ErrorMessage = "Unit is required")]
+    public System.Int64 CurrencyUnitsId { get; set; } = default!;
 }
