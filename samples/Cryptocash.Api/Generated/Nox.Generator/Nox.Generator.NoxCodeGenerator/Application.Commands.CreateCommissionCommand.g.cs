@@ -14,6 +14,7 @@ using Nox.Solution;
 using CryptocashApi.Infrastructure.Persistence;
 using CryptocashApi.Domain;
 using CryptocashApi.Application.Dto;
+using Commission = CryptocashApi.Domain.Commission;
 
 namespace CryptocashApi.Application.Commands;
 public record CreateCommissionCommand(CommissionCreateDto EntityDto) : IRequest<CommissionKeyDto>;

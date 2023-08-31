@@ -11,6 +11,7 @@ using Nox.Factories;
 using CryptocashApi.Infrastructure.Persistence;
 using CryptocashApi.Domain;
 using CryptocashApi.Application.Dto;
+using Commission = CryptocashApi.Domain.Commission;
 
 namespace CryptocashApi.Application.Commands;
 

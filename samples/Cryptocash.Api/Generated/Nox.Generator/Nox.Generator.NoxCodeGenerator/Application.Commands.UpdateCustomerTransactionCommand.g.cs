@@ -11,6 +11,7 @@ using Nox.Factories;
 using CryptocashApi.Infrastructure.Persistence;
 using CryptocashApi.Domain;
 using CryptocashApi.Application.Dto;
+using CustomerTransaction = CryptocashApi.Domain.CustomerTransaction;
 
 namespace CryptocashApi.Application.Commands;
 

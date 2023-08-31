@@ -14,6 +14,7 @@ using Nox.Solution;
 using CryptocashApi.Infrastructure.Persistence;
 using CryptocashApi.Domain;
 using CryptocashApi.Application.Dto;
+using CustomerTransaction = CryptocashApi.Domain.CustomerTransaction;
 
 namespace CryptocashApi.Application.Commands;
 public record CreateCustomerTransactionCommand(CustomerTransactionCreateDto EntityDto) : IRequest<CustomerTransactionKeyDto>;

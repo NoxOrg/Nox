@@ -11,6 +11,7 @@ using Nox.Factories;
 using CryptocashApi.Infrastructure.Persistence;
 using CryptocashApi.Domain;
 using CryptocashApi.Application.Dto;
+using CurrencyBankNotes = CryptocashApi.Domain.CurrencyBankNotes;
 
 namespace CryptocashApi.Application.Commands;
 

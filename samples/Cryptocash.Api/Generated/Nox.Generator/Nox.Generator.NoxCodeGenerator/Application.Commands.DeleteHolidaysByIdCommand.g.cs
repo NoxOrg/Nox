@@ -9,6 +9,7 @@ using Nox.Solution;
 using Nox.Types;
 using CryptocashApi.Infrastructure.Persistence;
 using CryptocashApi.Domain;
+using Holidays = CryptocashApi.Domain.Holidays;
 
 namespace CryptocashApi.Application.Commands;
 

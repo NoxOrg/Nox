@@ -14,6 +14,7 @@ using Nox.Solution;
 using CryptocashApi.Infrastructure.Persistence;
 using CryptocashApi.Domain;
 using CryptocashApi.Application.Dto;
+using ExchangeRate = CryptocashApi.Domain.ExchangeRate;
 
 namespace CryptocashApi.Application.Commands;
 public record CreateExchangeRateCommand(ExchangeRateCreateDto EntityDto) : IRequest<ExchangeRateKeyDto>;

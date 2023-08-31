@@ -14,6 +14,7 @@ using Nox.Solution;
 using CryptocashApi.Infrastructure.Persistence;
 using CryptocashApi.Domain;
 using CryptocashApi.Application.Dto;
+using CountryTimeZones = CryptocashApi.Domain.CountryTimeZones;
 
 namespace CryptocashApi.Application.Commands;
 public record CreateCountryTimeZonesCommand(CountryTimeZonesCreateDto EntityDto) : IRequest<CountryTimeZonesKeyDto>;

@@ -16,6 +16,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 using CryptocashApi.Application.Dto;
 using CryptocashApi.Domain;
+using PaymentProvider = CryptocashApi.Domain.PaymentProvider;
 
 namespace CryptocashApi.Application;
 

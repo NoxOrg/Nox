@@ -16,6 +16,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
+using Currency = SampleWebApp.Domain.Currency;
 
 namespace SampleWebApp.Application;
 

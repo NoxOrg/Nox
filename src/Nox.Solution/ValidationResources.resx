@@ -453,4 +453,7 @@
   <data name="EntityUniqueAttributeConstraintCanReferenceOnlyExistingAttributes" xml:space="preserve">
     <value>Attribute name '{0}' in unique attribute constraint not found in neither entity attribute(s) ({1}) nor entity key(s) ({2})</value>
   </data>
+  <data name="NameSameAsEnclosingType" xml:space="preserve">
+    <value>{0}. The member {1} of a class cannot have the same name as the class or struct, unless the member is a constructor.</value>
+  </data>
 </root>

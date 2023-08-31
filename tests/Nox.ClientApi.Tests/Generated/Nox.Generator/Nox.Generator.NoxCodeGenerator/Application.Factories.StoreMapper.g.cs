@@ -16,6 +16,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
+using Store = ClientApi.Domain.Store;
 
 namespace ClientApi.Application;
 

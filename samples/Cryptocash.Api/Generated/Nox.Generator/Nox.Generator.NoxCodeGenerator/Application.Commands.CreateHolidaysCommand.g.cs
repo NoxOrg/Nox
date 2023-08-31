@@ -14,6 +14,7 @@ using Nox.Solution;
 using CryptocashApi.Infrastructure.Persistence;
 using CryptocashApi.Domain;
 using CryptocashApi.Application.Dto;
+using Holidays = CryptocashApi.Domain.Holidays;
 
 namespace CryptocashApi.Application.Commands;
 public record CreateHolidaysCommand(HolidaysCreateDto EntityDto) : IRequest<HolidaysKeyDto>;

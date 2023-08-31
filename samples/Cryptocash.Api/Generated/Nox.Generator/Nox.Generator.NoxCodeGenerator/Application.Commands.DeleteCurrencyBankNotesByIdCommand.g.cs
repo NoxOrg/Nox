@@ -9,6 +9,7 @@ using Nox.Solution;
 using Nox.Types;
 using CryptocashApi.Infrastructure.Persistence;
 using CryptocashApi.Domain;
+using CurrencyBankNotes = CryptocashApi.Domain.CurrencyBankNotes;
 
 namespace CryptocashApi.Application.Commands;
 

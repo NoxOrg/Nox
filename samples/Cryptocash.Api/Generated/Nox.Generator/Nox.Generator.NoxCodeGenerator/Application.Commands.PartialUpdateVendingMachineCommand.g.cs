@@ -12,6 +12,7 @@ using Nox.Types;
 using CryptocashApi.Infrastructure.Persistence;
 using CryptocashApi.Domain;
 using CryptocashApi.Application.Dto;
+using VendingMachine = CryptocashApi.Domain.VendingMachine;
 
 namespace CryptocashApi.Application.Commands;
 

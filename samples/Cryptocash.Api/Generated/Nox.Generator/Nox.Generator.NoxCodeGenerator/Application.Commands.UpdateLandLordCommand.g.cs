@@ -11,6 +11,7 @@ using Nox.Factories;
 using CryptocashApi.Infrastructure.Persistence;
 using CryptocashApi.Domain;
 using CryptocashApi.Application.Dto;
+using LandLord = CryptocashApi.Domain.LandLord;
 
 namespace CryptocashApi.Application.Commands;
 

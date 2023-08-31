@@ -12,6 +12,7 @@ using Nox.Types;
 using CryptocashApi.Infrastructure.Persistence;
 using CryptocashApi.Domain;
 using CryptocashApi.Application.Dto;
+using MinimumCashStock = CryptocashApi.Domain.MinimumCashStock;
 
 namespace CryptocashApi.Application.Commands;
 

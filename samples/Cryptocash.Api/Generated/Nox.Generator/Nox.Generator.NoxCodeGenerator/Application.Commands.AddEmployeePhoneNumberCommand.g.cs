@@ -14,6 +14,7 @@ using Nox.Types;
 using CryptocashApi.Infrastructure.Persistence;
 using CryptocashApi.Domain;
 using CryptocashApi.Application.Dto;
+using EmployeePhoneNumber = CryptocashApi.Domain.EmployeePhoneNumber;
 
 namespace CryptocashApi.Application.Commands;
 public record AddEmployeePhoneNumberCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberCreateDto EntityDto) : IRequest <EmployeePhoneNumberKeyDto?>;

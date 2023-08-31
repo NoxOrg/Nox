@@ -9,6 +9,7 @@ using Nox.Solution;
 using Nox.Types;
 using CryptocashApi.Infrastructure.Persistence;
 using CryptocashApi.Domain;
+using LandLord = CryptocashApi.Domain.LandLord;
 
 namespace CryptocashApi.Application.Commands;
 

@@ -9,6 +9,7 @@ using Nox.Solution;
 using Nox.Types;
 using CryptocashApi.Infrastructure.Persistence;
 using CryptocashApi.Domain;
+using Customer = CryptocashApi.Domain.Customer;
 
 namespace CryptocashApi.Application.Commands;
 
