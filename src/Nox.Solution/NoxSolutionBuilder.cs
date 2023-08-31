@@ -7,6 +7,7 @@ using Nox.Solution.Macros;
 using Nox.Solution.Utils;
 using System.Collections.Generic;
 using System;
+using System.Reflection;
 
 namespace Nox.Solution
 {
@@ -238,6 +239,7 @@ namespace Nox.Solution
         private static string? FindNoxDesignFolder(string rootPath)
         {
             var path = new DirectoryInfo(rootPath);
+
             if (path.GetDirectories(".nox").Any())
             {
                 path = new DirectoryInfo(Path.Combine(path.FullName, ".nox"));
@@ -246,26 +248,44 @@ namespace Nox.Solution
                     return Path.Combine(path.FullName, "design");
                 }
             }
+
+            if (path.GetDirectories("Design").Any())
+            {
+                return Path.Combine(path.FullName, "Design");
+            }
+
             return null;
         }
 
         private string FindRootYamlFile()
         {
             //look in the current folder without subfolders
-            var rootYaml = FindSolutionYamlFile("./", false);
+            var rootYaml = FindSolutionYamlFile("./");
             if (rootYaml != null) return rootYaml;
 
-            //look in .nox/design
+            //look in .nox/design or Design folder from the Dll Directory
+            var thisAssembly = Assembly.GetAssembly(typeof(NoxSolutionBuilder));
+            if (thisAssembly != null)
+            {
+                var assemblyFolder = Path.GetDirectoryName(thisAssembly.Location);
+                if (assemblyFolder != null)
+                {
+                    var dllFolder = FindNoxDesignFolder(assemblyFolder);
+                    if (dllFolder != null)
+                    {
+                        rootYaml = FindSolutionYamlFile(dllFolder);
+                        if (rootYaml != null) return rootYaml;
+                    }                       
+                }                
+            }
+
+            //look in .nox/design or Design folder from current Directory
             var designFolder = FindNoxDesignFolder("./");
             if (designFolder != null)
             {
                 rootYaml = FindSolutionYamlFile(designFolder);
                 if (rootYaml != null) return rootYaml;
             }
-
-            //look in the current folder with subfolders
-            rootYaml = FindSolutionYamlFile("./", true);
-            if (rootYaml != null) return rootYaml;
 
             //look in solution root/.nox/design
             var solutionRoot = FindSolutionRoot();
@@ -301,7 +321,7 @@ namespace Nox.Solution
                 solutionYamlFiles = Directory.GetFiles(folder, "*.solution.nox.yaml", SearchOption.AllDirectories);
             }
             
-            if (solutionYamlFiles.Length > 1 && !searchSubFolders)
+            if (solutionYamlFiles.Length > 1)
             {
                 throw new NoxSolutionConfigurationException($"Found more than one *.solution.nox.yaml file in folder ({folder}). {DesignFolderBestPractice}");
             }
