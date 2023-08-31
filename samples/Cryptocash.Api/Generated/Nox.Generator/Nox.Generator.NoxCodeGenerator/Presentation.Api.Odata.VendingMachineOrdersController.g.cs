@@ -60,6 +60,22 @@ public partial class VendingMachineOrdersController : ODataController
         return Ok(item);
     }
     
+    public async Task<ActionResult> CreateRefToVendingMachine([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefVendingMachineOrderToVendingMachineCommand(new VendingMachineOrderKeyDto(key), new VendingMachineKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> Post([FromBody]VendingMachineOrderCreateDto vendingmachineorder)
     {
         if (!ModelState.IsValid)

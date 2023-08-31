@@ -60,6 +60,22 @@ public partial class CountryHolidaysController : ODataController
         return Ok(item);
     }
     
+    public async Task<ActionResult> CreateRefToHolidays([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefCountryHolidayToHolidaysCommand(new CountryHolidayKeyDto(key), new HolidaysKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> Post([FromBody]CountryHolidayCreateDto countryholiday)
     {
         if (!ModelState.IsValid)

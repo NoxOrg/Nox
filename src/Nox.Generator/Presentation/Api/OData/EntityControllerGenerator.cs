@@ -126,6 +126,14 @@ internal class EntityControllerGenerator : INoxCodeGenerator
                         GenerateChildrenPost(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
                     }
                 }
+
+                if (entity.Relationships is not null)
+                {
+                    foreach (var relationship in entity.Relationships)
+                    {
+                        GenerateCreateRefTo(entity, relationship, code, codeGeneratorState.Solution);
+                    }
+                }
             }
 
             if (entity.Persistence is null ||
@@ -350,20 +358,47 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine();
     }
 
-    private static string PrimaryKeysFromRoute(Entity entity, NoxSolution solution)
+    private static void GenerateCreateRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
+    {
+        var relatedEntity = relationship.Related.Entity;
+        var refTo = relationship.WithSingleEntity ? relatedEntity.Name : relatedEntity.PluralName;
+        code.AppendLine($"public async Task<ActionResult> CreateRefTo{refTo}({PrimaryKeysFromRoute(entity, solution)}, {PrimaryKeysFromRoute(relatedEntity, solution, "relatedKey")})");
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine($"var createdRef = await _mediator.Send(new CreateRef{entity.Name}To{relatedEntity.Name}Command(" +
+            $"new {entity.Name}KeyDto({PrimaryKeysQuery(entity)}), new {relatedEntity.Name}KeyDto({PrimaryKeysQuery(relatedEntity, "relatedKey")})));");
+        code.AppendLine($"if (!createdRef)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+
+        code.AppendLine($"return NoContent();");
+
+        // End method
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+    private static string PrimaryKeysFromRoute(Entity entity, NoxSolution solution, string prefix = "key")
     {
         if (entity.Keys.Count() > 1)
-            return string.Join(", ", entity.Keys.Select(k => $"[FromRoute] {solution.GetSinglePrimitiveTypeForKey(k)} key{k.Name}"));
+            return string.Join(", ", entity.Keys.Select(k => $"[FromRoute] {solution.GetSinglePrimitiveTypeForKey(k)} {prefix}{k.Name}"));
         else if (entity.Keys is not null)
-            return $"[FromRoute] {solution.GetSinglePrimitiveTypeForKey(entity.Keys[0])} key";
+            return $"[FromRoute] {solution.GetSinglePrimitiveTypeForKey(entity.Keys[0])} {prefix}";
 
         return "";
     }
 
-    private static string PrimaryKeysQuery(Entity entity)
+    private static string PrimaryKeysQuery(Entity entity, string prefix = "key")
     {
         return entity.Keys.Count() > 1 ?
-            string.Join(", ", entity.Keys.Select(k => $"key{k.Name}")) :
-            $"key";
+            string.Join(", ", entity.Keys.Select(k => $"{prefix}{k.Name}")) :
+            $"{prefix}";
     }
 }

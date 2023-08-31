@@ -60,6 +60,22 @@ public partial class CustomerPaymentDetailsController : ODataController
         return Ok(item);
     }
     
+    public async Task<ActionResult> CreateRefToCustomer([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefCustomerPaymentDetailsToCustomerCommand(new CustomerPaymentDetailsKeyDto(key), new CustomerKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> Post([FromBody]CustomerPaymentDetailsCreateDto customerpaymentdetails)
     {
         if (!ModelState.IsValid)

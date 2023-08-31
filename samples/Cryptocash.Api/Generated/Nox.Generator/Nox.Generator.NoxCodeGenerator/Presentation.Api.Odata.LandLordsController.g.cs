@@ -60,6 +60,22 @@ public partial class LandLordsController : ODataController
         return Ok(item);
     }
     
+    public async Task<ActionResult> CreateRefToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefLandLordToVendingMachineCommand(new LandLordKeyDto(key), new VendingMachineKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> Post([FromBody]LandLordCreateDto landlord)
     {
         if (!ModelState.IsValid)

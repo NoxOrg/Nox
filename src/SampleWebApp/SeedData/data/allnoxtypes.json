@@ -152,7 +152,8 @@
     "Yaml": "constants.yaml",
     "Year": 1932,
     "StreetAddress": {
-      "PostalCode": "93270"
+      "PostalCode": "93270",
+      "AddressLine1": "avenue de Bouvines"
     },
     "User": "DeeBee@ReGus.com",
     "CountryNumber": 250
@@ -228,7 +229,8 @@
     "Year": 1945,
     "StreetAddress": {
       "Locality": "Île-de-France",
-      "PostalCode": "93270"
+      "PostalCode": "93270",
+      "AddressLine1": "avenue de Bouvines"
     },
     "User": "GeeJay@AyePee.com",
     "CountryNumber": 250

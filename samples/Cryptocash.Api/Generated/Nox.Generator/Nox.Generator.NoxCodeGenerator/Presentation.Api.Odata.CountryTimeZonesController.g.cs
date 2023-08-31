@@ -60,6 +60,22 @@ public partial class CountryTimeZonesController : ODataController
         return Ok(item);
     }
     
+    public async Task<ActionResult> CreateRefToCountries([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefCountryTimeZonesToCountryCommand(new CountryTimeZonesKeyDto(key), new CountryKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> Post([FromBody]CountryTimeZonesCreateDto countrytimezones)
     {
         if (!ModelState.IsValid)
