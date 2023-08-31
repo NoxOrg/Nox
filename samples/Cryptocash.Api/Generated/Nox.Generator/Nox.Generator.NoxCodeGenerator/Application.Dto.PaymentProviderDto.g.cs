@@ -35,9 +35,11 @@ public partial class PaymentProviderDto
     public System.String PaymentProviderType { get; set; } = default!;
 
     /// <summary>
-    /// PaymentProvider Order payment provider ExactlyOne VendingMachineOrders
+    /// PaymentProvider Payment provider ExactlyOne CustomerPaymentDetails
     /// </summary>
-    public virtual VendingMachineOrderDto VendingMachineOrder { get; set; } = null!;
+    //EF maps ForeignKey Automatically
+    public virtual string CustomerPaymentDetailsId { get; set; } = null!;
+    public virtual CustomerPaymentDetailsDto CustomerPaymentDetails { get; set; } = null!;
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }

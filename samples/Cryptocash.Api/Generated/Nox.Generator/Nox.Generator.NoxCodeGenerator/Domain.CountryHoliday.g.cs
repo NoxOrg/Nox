@@ -36,7 +36,12 @@ public partial class CountryHoliday : AuditableEntityBase
     public Nox.Types.Date Date { get; set; } = null!;
 
     /// <summary>
-    /// CountryHoliday Country's holidays ZeroOrMany Holidays
+    /// CountryHoliday Country's holidays ExactlyOne Countries
     /// </summary>
-    public virtual List<Holidays> Holidays { get; set; } = new();
+    public virtual Country Country { get; set; } = null!;
+
+    /// <summary>
+    /// Foreign key for relationship ExactlyOne to entity Country
+    /// </summary>
+    public Nox.Types.CountryCode2 CountryId { get; set; } = null!;
 }

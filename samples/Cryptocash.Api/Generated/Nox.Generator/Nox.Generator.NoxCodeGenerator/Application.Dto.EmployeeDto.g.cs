@@ -55,9 +55,9 @@ public partial class EmployeeDto
     public System.DateTime? LastWorkingDay { get; set; }
 
     /// <summary>
-    /// Employee Order employee ZeroOrMany VendingMachineOrders
+    /// Employee Approval employee ExactlyOne VendingMachineOrders
     /// </summary>
-    public virtual List<VendingMachineOrderDto> VendingMachineOrders { get; set; } = new();
+    public virtual VendingMachineOrderDto VendingMachineOrder { get; set; } = null!;
 
     /// <summary>
     /// Employee Employee's phone numbers ZeroOrMany EmployeePhoneNumbers

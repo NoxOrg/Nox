@@ -13,14 +13,12 @@
 //  - countrytimezones.entities.nox.yaml
 //  - currency.entities.nox.yaml
 //  - currencybanknotes.entities.nox.yaml
-//  - currencyunits.entities.nox.yaml
 //  - customer.entities.nox.yaml
 //  - customerpaymentdetails.entities.nox.yaml
 //  - customertransaction.entities.nox.yaml
 //  - employee.entities.nox.yaml
 //  - employeephonenumber.entities.nox.yaml
 //  - exchangerate.entities.nox.yaml
-//  - holidays.entities.nox.yaml
 //  - landlord.entities.nox.yaml
 //  - minimumcashstock.entities.nox.yaml
 //  - paymentprovider.entities.nox.yaml

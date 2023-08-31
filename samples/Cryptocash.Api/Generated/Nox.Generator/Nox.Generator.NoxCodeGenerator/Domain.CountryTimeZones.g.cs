@@ -26,9 +26,12 @@ public partial class CountryTimeZones : AuditableEntityBase
     public Nox.Types.TimeZoneCode TimeZoneCode { get; set; } = null!;
 
     /// <summary>
-    /// CountryTimeZones Country's time zones ZeroOrMany Countries
+    /// CountryTimeZones Country's time zones ExactlyOne Countries
     /// </summary>
-    public virtual List<Country> Countries { get; set; } = new();
+    public virtual Country Country { get; set; } = null!;
 
-    public List<Country> Country => Countries;
+    /// <summary>
+    /// Foreign key for relationship ExactlyOne to entity Country
+    /// </summary>
+    public Nox.Types.CountryCode2 CountryId { get; set; } = null!;
 }

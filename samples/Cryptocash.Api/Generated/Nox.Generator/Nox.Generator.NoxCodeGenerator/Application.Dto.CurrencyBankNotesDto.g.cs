@@ -35,9 +35,11 @@ public partial class CurrencyBankNotesDto
     public System.Boolean IsRare { get; set; } = default!;
 
     /// <summary>
-    /// CurrencyBankNotes Currency's bank notes ZeroOrMany Currencies
+    /// CurrencyBankNotes Currency's bank notes ExactlyOne Currencies
     /// </summary>
-    public virtual List<CurrencyDto> Currencies { get; set; } = new();
+    //EF maps ForeignKey Automatically
+    public virtual string CurrencyId { get; set; } = null!;
+    public virtual CurrencyDto Currency { get; set; } = null!;
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }

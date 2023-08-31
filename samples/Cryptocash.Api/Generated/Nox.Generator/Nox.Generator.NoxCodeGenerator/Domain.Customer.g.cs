@@ -46,9 +46,9 @@ public partial class Customer : AuditableEntityBase
     public Nox.Types.PhoneNumber? MobileNumber { get; set; } = null!;
 
     /// <summary>
-    /// Customer Customer's payment details ZeroOrOne CustomerPaymentDetails
+    /// Customer Customer's payment details ZeroOrMany CustomerPaymentDetails
     /// </summary>
-    public virtual CustomerPaymentDetails? CustomerPaymentDetails { get; set; } = null!;
+    public virtual List<CustomerPaymentDetails> CustomerPaymentDetails { get; set; } = new();
 
     /// <summary>
     /// Customer Customer's booking ZeroOrMany Bookings
@@ -63,4 +63,14 @@ public partial class Customer : AuditableEntityBase
     public virtual List<CustomerTransaction> CustomerTransactions { get; set; } = new();
 
     public List<CustomerTransaction> CustomerTransaction => CustomerTransactions;
+
+    /// <summary>
+    /// Customer Customer's country ExactlyOne Countries
+    /// </summary>
+    public virtual Country Country { get; set; } = null!;
+
+    /// <summary>
+    /// Foreign key for relationship ExactlyOne to entity Country
+    /// </summary>
+    public Nox.Types.CountryCode2 CountryId { get; set; } = null!;
 }

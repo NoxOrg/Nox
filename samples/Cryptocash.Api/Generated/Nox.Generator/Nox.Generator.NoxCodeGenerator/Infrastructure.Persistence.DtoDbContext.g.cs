@@ -53,8 +53,6 @@ public class DtoDbContext : DbContext
         
         public DbSet<CurrencyBankNotesDto> CurrencyBankNotes { get; set; } = null!;
         
-        public DbSet<CurrencyUnitsDto> CurrencyUnits { get; set; } = null!;
-        
         public DbSet<CustomerDto> Customers { get; set; } = null!;
         
         public DbSet<CustomerPaymentDetailsDto> CustomerPaymentDetails { get; set; } = null!;
@@ -64,8 +62,6 @@ public class DtoDbContext : DbContext
         public DbSet<EmployeeDto> Employees { get; set; } = null!;
         
         public DbSet<ExchangeRateDto> ExchangeRates { get; set; } = null!;
-        
-        public DbSet<HolidaysDto> Holidays { get; set; } = null!;
         
         public DbSet<LandLordDto> LandLords { get; set; } = null!;
         

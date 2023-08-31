@@ -30,9 +30,11 @@ public partial class CountryTimeZonesDto
     public System.String TimeZoneCode { get; set; } = default!;
 
     /// <summary>
-    /// CountryTimeZones Country's time zones ZeroOrMany Countries
+    /// CountryTimeZones Country's time zones ExactlyOne Countries
     /// </summary>
-    public virtual List<CountryDto> Countries { get; set; } = new();
+    //EF maps ForeignKey Automatically
+    public virtual string CountryId { get; set; } = null!;
+    public virtual CountryDto Country { get; set; } = null!;
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }

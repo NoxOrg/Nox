@@ -51,11 +51,9 @@ public partial class Employee : AuditableEntityBase
     public Nox.Types.Date? LastWorkingDay { get; set; } = null!;
 
     /// <summary>
-    /// Employee Order employee ZeroOrMany VendingMachineOrders
+    /// Employee Approval employee ExactlyOne VendingMachineOrders
     /// </summary>
-    public virtual List<VendingMachineOrder> VendingMachineOrders { get; set; } = new();
-
-    public List<VendingMachineOrder> VendingMachineOrder => VendingMachineOrders;
+    public virtual VendingMachineOrder VendingMachineOrder { get; set; } = null!;
 
     /// <summary>
     /// Employee Employee's phone numbers ZeroOrMany EmployeePhoneNumbers

@@ -34,11 +34,6 @@ public class CustomerPaymentDetailsMapper: EntityMapperBase<CustomerPaymentDetai
         {        
             entity.PaymentAccountName = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"PaymentAccountType",dto.PaymentAccountType);
-        if(noxTypeValue != null)
-        {        
-            entity.PaymentAccountType = noxTypeValue;
-        }
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"PaymentAccountNumber",dto.PaymentAccountNumber);
         if(noxTypeValue != null)
         {        
@@ -64,20 +59,6 @@ public class CustomerPaymentDetailsMapper: EntityMapperBase<CustomerPaymentDetai
                 else
                 {
                     entity.PaymentAccountName = noxTypeValue;
-                }
-            }
-        }
-        {
-            if (updatedProperties.TryGetValue("PaymentAccountType", out dynamic? value))
-            {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"PaymentAccountType",value);
-                if(noxTypeValue == null)
-                {
-                    throw new EntityAttributeIsNotNullableException("CustomerPaymentDetails", "PaymentAccountType");
-                }
-                else
-                {
-                    entity.PaymentAccountType = noxTypeValue;
                 }
             }
         }

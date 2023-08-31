@@ -60,11 +60,29 @@ public partial class CurrencyDto
     public System.Int32 DecimalDigits { get; set; } = default!;
 
     /// <summary>
-    /// Currency Currency's related units ExactlyOne CurrencyUnits
+    /// Currency's major name (Required).
     /// </summary>
-    //EF maps ForeignKey Automatically
-    public virtual string CurrencyUnitsId { get; set; } = null!;
-    public virtual CurrencyUnitsDto CurrencyUnits { get; set; } = null!;
+    public System.String MajorName { get; set; } = default!;
+
+    /// <summary>
+    /// Currency's major display symbol (Required).
+    /// </summary>
+    public System.String MajorSymbol { get; set; } = default!;
+
+    /// <summary>
+    /// Currency's minor name (Required).
+    /// </summary>
+    public System.String MinorName { get; set; } = default!;
+
+    /// <summary>
+    /// Currency's minor display symbol (Required).
+    /// </summary>
+    public System.String MinorSymbol { get; set; } = default!;
+
+    /// <summary>
+    /// Currency's minor value when converted to major (Required).
+    /// </summary>
+    public MoneyDto MinorToMajorValue { get; set; } = default!;
 
     /// <summary>
     /// Currency Currency's bank notes OneOrMany CurrencyBankNotes
@@ -72,9 +90,11 @@ public partial class CurrencyDto
     public virtual List<CurrencyBankNotesDto> CurrencyBankNotes { get; set; } = new();
 
     /// <summary>
-    /// Currency Country's related currencies ZeroOrMany Countries
+    /// Currency Country's currency ExactlyOne Countries
     /// </summary>
-    public virtual List<CountryDto> Countries { get; set; } = new();
+    //EF maps ForeignKey Automatically
+    public virtual string CountryId { get; set; } = null!;
+    public virtual CountryDto Country { get; set; } = null!;
 
     /// <summary>
     /// Currency Cash stock currency ZeroOrMany MinimumCashStocks
@@ -82,7 +102,7 @@ public partial class CurrencyDto
     public virtual List<MinimumCashStockDto> MinimumCashStocks { get; set; } = new();
 
     /// <summary>
-    /// Currency Exchanged from currency ZeroOrMany ExchangeRates
+    /// Currency Exchanged from currency OneOrMany ExchangeRates
     /// </summary>
     public virtual List<ExchangeRateDto> ExchangeRates { get; set; } = new();
 

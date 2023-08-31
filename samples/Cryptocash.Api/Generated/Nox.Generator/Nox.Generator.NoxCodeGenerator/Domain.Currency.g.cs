@@ -56,16 +56,29 @@ public partial class Currency : AuditableEntityBase
     public Nox.Types.Number DecimalDigits { get; set; } = null!;
 
     /// <summary>
-    /// Currency Currency's related units ExactlyOne CurrencyUnits
+    /// Currency's major name (Required).
     /// </summary>
-    public virtual CurrencyUnits CurrencyUnits { get; set; } = null!;
-
-    public CurrencyUnits Unit => CurrencyUnits;
+    public Nox.Types.Text MajorName { get; set; } = null!;
 
     /// <summary>
-    /// Foreign key for relationship ExactlyOne to entity CurrencyUnits
+    /// Currency's major display symbol (Required).
     /// </summary>
-    public Nox.Types.DatabaseNumber CurrencyUnitsId { get; set; } = null!;
+    public Nox.Types.Text MajorSymbol { get; set; } = null!;
+
+    /// <summary>
+    /// Currency's minor name (Required).
+    /// </summary>
+    public Nox.Types.Text MinorName { get; set; } = null!;
+
+    /// <summary>
+    /// Currency's minor display symbol (Required).
+    /// </summary>
+    public Nox.Types.Text MinorSymbol { get; set; } = null!;
+
+    /// <summary>
+    /// Currency's minor value when converted to major (Required).
+    /// </summary>
+    public Nox.Types.Money MinorToMajorValue { get; set; } = null!;
 
     /// <summary>
     /// Currency Currency's bank notes OneOrMany CurrencyBankNotes
@@ -75,11 +88,14 @@ public partial class Currency : AuditableEntityBase
     public List<CurrencyBankNotes> BankNotes => CurrencyBankNotes;
 
     /// <summary>
-    /// Currency Country's related currencies ZeroOrMany Countries
+    /// Currency Country's currency ExactlyOne Countries
     /// </summary>
-    public virtual List<Country> Countries { get; set; } = new();
+    public virtual Country Country { get; set; } = null!;
 
-    public List<Country> Country => Countries;
+    /// <summary>
+    /// Foreign key for relationship ExactlyOne to entity Country
+    /// </summary>
+    public Nox.Types.CountryCode2 CountryId { get; set; } = null!;
 
     /// <summary>
     /// Currency Cash stock currency ZeroOrMany MinimumCashStocks
@@ -89,7 +105,7 @@ public partial class Currency : AuditableEntityBase
     public List<MinimumCashStock> MinimumCashStock => MinimumCashStocks;
 
     /// <summary>
-    /// Currency Exchanged from currency ZeroOrMany ExchangeRates
+    /// Currency Exchanged from currency OneOrMany ExchangeRates
     /// </summary>
     public virtual List<ExchangeRate> ExchangeRates { get; set; } = new();
 

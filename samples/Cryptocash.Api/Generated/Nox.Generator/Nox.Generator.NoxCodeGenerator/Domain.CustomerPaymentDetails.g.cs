@@ -26,11 +26,6 @@ public partial class CustomerPaymentDetails : AuditableEntityBase
     public Nox.Types.Text PaymentAccountName { get; set; } = null!;
 
     /// <summary>
-    /// Payment account type (Required).
-    /// </summary>
-    public Nox.Types.Text PaymentAccountType { get; set; } = null!;
-
-    /// <summary>
     /// Payment account reference number (Required).
     /// </summary>
     public Nox.Types.Text PaymentAccountNumber { get; set; } = null!;
@@ -49,4 +44,9 @@ public partial class CustomerPaymentDetails : AuditableEntityBase
     /// Foreign key for relationship ExactlyOne to entity Customer
     /// </summary>
     public Nox.Types.DatabaseNumber CustomerId { get; set; } = null!;
+
+    /// <summary>
+    /// CustomerPaymentDetails Payment provider ExactlyOne PaymentProviders
+    /// </summary>
+    public virtual PaymentProvider PaymentProvider { get; set; } = null!;
 }

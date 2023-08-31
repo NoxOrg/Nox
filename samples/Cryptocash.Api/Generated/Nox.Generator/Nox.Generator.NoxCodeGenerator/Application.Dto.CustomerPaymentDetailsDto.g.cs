@@ -30,11 +30,6 @@ public partial class CustomerPaymentDetailsDto
     public System.String PaymentAccountName { get; set; } = default!;
 
     /// <summary>
-    /// Payment account type (Required).
-    /// </summary>
-    public System.String PaymentAccountType { get; set; } = default!;
-
-    /// <summary>
     /// Payment account reference number (Required).
     /// </summary>
     public System.String PaymentAccountNumber { get; set; } = default!;
@@ -50,6 +45,11 @@ public partial class CustomerPaymentDetailsDto
     //EF maps ForeignKey Automatically
     public virtual string CustomerId { get; set; } = null!;
     public virtual CustomerDto Customer { get; set; } = null!;
+
+    /// <summary>
+    /// CustomerPaymentDetails Payment provider ExactlyOne PaymentProviders
+    /// </summary>
+    public virtual PaymentProviderDto PaymentProvider { get; set; } = null!;
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }

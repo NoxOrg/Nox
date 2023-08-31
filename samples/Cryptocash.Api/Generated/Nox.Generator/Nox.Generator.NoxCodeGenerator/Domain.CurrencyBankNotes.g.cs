@@ -31,9 +31,12 @@ public partial class CurrencyBankNotes : AuditableEntityBase
     public Nox.Types.Boolean IsRare { get; set; } = null!;
 
     /// <summary>
-    /// CurrencyBankNotes Currency's bank notes ZeroOrMany Currencies
+    /// CurrencyBankNotes Currency's bank notes ExactlyOne Currencies
     /// </summary>
-    public virtual List<Currency> Currencies { get; set; } = new();
+    public virtual Currency Currency { get; set; } = null!;
 
-    public List<Currency> Currency => Currencies;
+    /// <summary>
+    /// Foreign key for relationship ExactlyOne to entity Currency
+    /// </summary>
+    public Nox.Types.CurrencyCode3 CurrencyId { get; set; } = null!;
 }

@@ -90,9 +90,9 @@ public partial class CountryDto
     public System.UInt16 StartOfWeek { get; set; } = default!;
 
     /// <summary>
-    /// Country Country's currencies ZeroOrMany Currencies
+    /// Country Country's currency ExactlyOne Currencies
     /// </summary>
-    public virtual List<CurrencyDto> Currencies { get; set; } = new();
+    public virtual CurrencyDto Currency { get; set; } = null!;
 
     /// <summary>
     /// Country Country's time zones ZeroOrMany CountryTimeZones
@@ -100,11 +100,11 @@ public partial class CountryDto
     public virtual List<CountryTimeZonesDto> CountryTimeZones { get; set; } = new();
 
     /// <summary>
-    /// Country Commission's country ZeroOrOne Commissions
+    /// Country Commission's country ExactlyOne Commissions
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string ?CommissionId { get; set; } = null!;
-    public virtual CommissionDto ?Commission { get; set; } = null!;
+    public virtual string CommissionId { get; set; } = null!;
+    public virtual CommissionDto Commission { get; set; } = null!;
 
     /// <summary>
     /// Country Vending machine's country ZeroOrMany VendingMachines
@@ -112,9 +112,14 @@ public partial class CountryDto
     public virtual List<VendingMachineDto> VendingMachines { get; set; } = new();
 
     /// <summary>
-    /// Country Country's holidays ZeroOrOne Holidays
+    /// Country Country's holidays ZeroOrMany CountryHolidays
     /// </summary>
-    public virtual HolidaysDto ?Holidays { get; set; } = null!;
+    public virtual List<CountryHolidayDto> CountryHolidays { get; set; } = new();
+
+    /// <summary>
+    /// Country Customer's country ZeroOrMany Customers
+    /// </summary>
+    public virtual List<CustomerDto> Customers { get; set; } = new();
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }

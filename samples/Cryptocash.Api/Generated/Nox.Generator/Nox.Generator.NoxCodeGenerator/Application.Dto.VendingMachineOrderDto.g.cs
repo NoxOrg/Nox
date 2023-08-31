@@ -52,14 +52,7 @@ public partial class VendingMachineOrderDto
     public virtual VendingMachineDto VendingMachine { get; set; } = null!;
 
     /// <summary>
-    /// VendingMachineOrder Order payment provider ExactlyOne PaymentProviders
-    /// </summary>
-    //EF maps ForeignKey Automatically
-    public virtual string PaymentProviderId { get; set; } = null!;
-    public virtual PaymentProviderDto PaymentProvider { get; set; } = null!;
-
-    /// <summary>
-    /// VendingMachineOrder Order employee ExactlyOne Employees
+    /// VendingMachineOrder Approval employee ExactlyOne Employees
     /// </summary>
     //EF maps ForeignKey Automatically
     public virtual string EmployeeId { get; set; } = null!;

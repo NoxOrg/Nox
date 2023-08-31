@@ -22,12 +22,6 @@ public partial class CustomerPaymentDetailsUpdateDto
     
     public System.String PaymentAccountName { get; set; } = default!;
     /// <summary>
-    /// Payment account type (Required).
-    /// </summary>
-    [Required(ErrorMessage = "PaymentAccountType is required")]
-    
-    public System.String PaymentAccountType { get; set; } = default!;
-    /// <summary>
     /// Payment account reference number (Required).
     /// </summary>
     [Required(ErrorMessage = "PaymentAccountNumber is required")]

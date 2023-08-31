@@ -50,9 +50,9 @@ public partial class CustomerDto
     public System.String? MobileNumber { get; set; }
 
     /// <summary>
-    /// Customer Customer's payment details ZeroOrOne CustomerPaymentDetails
+    /// Customer Customer's payment details ZeroOrMany CustomerPaymentDetails
     /// </summary>
-    public virtual CustomerPaymentDetailsDto ?CustomerPaymentDetails { get; set; } = null!;
+    public virtual List<CustomerPaymentDetailsDto> CustomerPaymentDetails { get; set; } = new();
 
     /// <summary>
     /// Customer Customer's booking ZeroOrMany Bookings
@@ -63,6 +63,13 @@ public partial class CustomerDto
     /// Customer Customer's transaction ZeroOrMany CustomerTransactions
     /// </summary>
     public virtual List<CustomerTransactionDto> CustomerTransactions { get; set; } = new();
+
+    /// <summary>
+    /// Customer Customer's country ExactlyOne Countries
+    /// </summary>
+    //EF maps ForeignKey Automatically
+    public virtual string CountryId { get; set; } = null!;
+    public virtual CountryDto Country { get; set; } = null!;
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }

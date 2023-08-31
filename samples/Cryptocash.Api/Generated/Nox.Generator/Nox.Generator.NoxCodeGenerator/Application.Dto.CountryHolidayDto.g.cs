@@ -40,9 +40,11 @@ public partial class CountryHolidayDto
     public System.DateTime Date { get; set; } = default!;
 
     /// <summary>
-    /// CountryHoliday Country's holidays ZeroOrMany Holidays
+    /// CountryHoliday Country's holidays ExactlyOne Countries
     /// </summary>
-    public virtual List<HolidaysDto> Holidays { get; set; } = new();
+    //EF maps ForeignKey Automatically
+    public virtual string CountryId { get; set; } = null!;
+    public virtual CountryDto Country { get; set; } = null!;
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }

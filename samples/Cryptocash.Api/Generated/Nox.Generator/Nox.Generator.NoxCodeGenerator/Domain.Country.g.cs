@@ -86,9 +86,11 @@ public partial class Country : AuditableEntityBase
     public Nox.Types.DayOfWeek StartOfWeek { get; set; } = null!;
 
     /// <summary>
-    /// Country Country's currencies ZeroOrMany Currencies
+    /// Country Country's currency ExactlyOne Currencies
     /// </summary>
-    public virtual List<Currency> Currencies { get; set; } = new();
+    public virtual Currency Currency { get; set; } = null!;
+
+    public Currency Currencies => Currency;
 
     /// <summary>
     /// Country Country's time zones ZeroOrMany CountryTimeZones
@@ -98,14 +100,14 @@ public partial class Country : AuditableEntityBase
     public List<CountryTimeZones> TimeZones => CountryTimeZones;
 
     /// <summary>
-    /// Country Commission's country ZeroOrOne Commissions
+    /// Country Commission's country ExactlyOne Commissions
     /// </summary>
-    public virtual Commission? Commission { get; set; } = null!;
+    public virtual Commission Commission { get; set; } = null!;
 
     /// <summary>
-    /// Foreign key for relationship ZeroOrOne to entity Commission
+    /// Foreign key for relationship ExactlyOne to entity Commission
     /// </summary>
-    public Nox.Types.DatabaseNumber? CommissionId { get; set; } = null!;
+    public Nox.Types.DatabaseNumber CommissionId { get; set; } = null!;
 
     /// <summary>
     /// Country Vending machine's country ZeroOrMany VendingMachines
@@ -115,7 +117,14 @@ public partial class Country : AuditableEntityBase
     public List<VendingMachine> VendingMachine => VendingMachines;
 
     /// <summary>
-    /// Country Country's holidays ZeroOrOne Holidays
+    /// Country Country's holidays ZeroOrMany CountryHolidays
     /// </summary>
-    public virtual Holidays? Holidays { get; set; } = null!;
+    public virtual List<CountryHoliday> CountryHolidays { get; set; } = new();
+
+    /// <summary>
+    /// Country Customer's country ZeroOrMany Customers
+    /// </summary>
+    public virtual List<Customer> Customers { get; set; } = new();
+
+    public List<Customer> Customer => Customers;
 }

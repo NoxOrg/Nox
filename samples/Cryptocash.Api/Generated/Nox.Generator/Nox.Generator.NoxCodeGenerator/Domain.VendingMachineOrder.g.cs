@@ -55,17 +55,7 @@ public partial class VendingMachineOrder : AuditableEntityBase
     public Nox.Types.DatabaseGuid VendingMachineId { get; set; } = null!;
 
     /// <summary>
-    /// VendingMachineOrder Order payment provider ExactlyOne PaymentProviders
-    /// </summary>
-    public virtual PaymentProvider PaymentProvider { get; set; } = null!;
-
-    /// <summary>
-    /// Foreign key for relationship ExactlyOne to entity PaymentProvider
-    /// </summary>
-    public Nox.Types.DatabaseNumber PaymentProviderId { get; set; } = null!;
-
-    /// <summary>
-    /// VendingMachineOrder Order employee ExactlyOne Employees
+    /// VendingMachineOrder Approval employee ExactlyOne Employees
     /// </summary>
     public virtual Employee Employee { get; set; } = null!;
 

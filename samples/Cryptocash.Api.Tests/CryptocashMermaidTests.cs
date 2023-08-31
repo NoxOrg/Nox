@@ -10,7 +10,7 @@ public class CryptocashMermaidTests
     public void Solution_Creates_Valid_Mermaid_Erd()
     {
         var noxSolution = new NoxSolutionBuilder()
-            .UseYamlFile("../../../../Cryptocash.Api/.nox/design/cryptocash.solution.nox.yaml")
+            .UseYamlFile("../../../../.nox/design/cryptocash.solution.nox.yaml")
             .Build();
 
         var mermaidText = noxSolution.ToMermaidErd();
