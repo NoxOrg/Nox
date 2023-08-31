@@ -301,7 +301,7 @@ namespace Nox.Solution
                 solutionYamlFiles = Directory.GetFiles(folder, "*.solution.nox.yaml", SearchOption.AllDirectories);
             }
             
-            if (solutionYamlFiles.Length > 1)
+            if (solutionYamlFiles.Length > 1 && !searchSubFolders)
             {
                 throw new NoxSolutionConfigurationException($"Found more than one *.solution.nox.yaml file in folder ({folder}). {DesignFolderBestPractice}");
             }
