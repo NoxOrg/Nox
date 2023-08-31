@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CryptocashApi.Application.Dto; 
+namespace CryptocashApi.Application.Dto;
 
 /// <summary>
 /// Employee definition and related data.
@@ -48,7 +48,7 @@ public partial class EmployeeUpdateDto
     /// <summary>
     /// The employee's last working day (Optional).
     /// </summary>
-    public System.DateTime? LastWorkingDay { get; set; } 
+    public System.DateTime? LastWorkingDay { get; set; }
 
     /// <summary>
     /// Employee The employee's phone numbers ZeroOrMany EmployeePhoneNumbers

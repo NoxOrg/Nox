@@ -33,14 +33,14 @@ public partial class MinimumCashStockDto
     /// MinimumCashStock The related vending machine ExactlyOne VendingMachines
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string VendingMachineId { get; set; } = null!;
+    public System.Guid VendingMachineId { get; set; } = default!;
     public virtual VendingMachineDto VendingMachine { get; set; } = null!;
 
     /// <summary>
     /// MinimumCashStock The currency of the cash stock ExactlyOne Currencies
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string CurrencyId { get; set; } = null!;
+    public System.String CurrencyId { get; set; } = default!;
     public virtual CurrencyDto Currency { get; set; } = null!;
 
     public System.DateTime? DeletedAtUtc { get; set; }

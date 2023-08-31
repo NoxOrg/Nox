@@ -63,7 +63,7 @@ public partial class CurrencyDto
     /// Currency The currency's related units major and minor ExactlyOne CurrencyUnits
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string CurrencyUnitsId { get; set; } = null!;
+    public System.Int64 CurrencyUnitsId { get; set; } = default!;
     public virtual CurrencyUnitsDto CurrencyUnits { get; set; } = null!;
 
     /// <summary>

@@ -1,4 +1,7 @@
+using Nox.Types;
+using Nox.Types.Extensions;
 using System;
+using System.Linq;
 
 namespace Nox.Solution.Extensions;
 
@@ -47,6 +50,16 @@ public static class EntityRelationshipExtensions
             relationship.Relationship == EntityRelationshipType.ZeroOrOne;
     }
 
+    /// <summary>
+    /// Entity has a relationship to a collection of the other entity
+    /// </summary>
+    public static bool WithMultiEntity(this EntityRelationship relationship)
+    {
+        return
+            relationship.Relationship == EntityRelationshipType.ZeroOrMany ||
+            relationship.Relationship == EntityRelationshipType.OneOrMany;
+    }
+
     public static bool ShouldUseRelationshipNameAsNavigation(this EntityRelationship relationship)
     {
         var hasReferenceToSingularEntity = relationship.WithSingleEntity();
@@ -59,6 +72,7 @@ public static class EntityRelationshipExtensions
             (hasReferenceToManyEntities && relationshipNameIsEqualToPluralName);
 
     }
+
     /// <summary>
     ///The related entity is a *OrMany relationship to this  
     /// </summary>
@@ -67,5 +81,19 @@ public static class EntityRelationshipExtensions
         return
             relationship.Related.EntityRelationship.Relationship == EntityRelationshipType.ZeroOrMany ||
             relationship.Related.EntityRelationship.Relationship == EntityRelationshipType.OneOrMany;
+    }
+
+    public static string GetPrimitiveForeignKeyType(this EntityRelationship relationship)
+    {
+        // TODO: extend for multi key scenario.
+        var keyType = relationship.Related.Entity.Keys[0].Type;
+        var typeDefinition = new NoxSimpleTypeDefinition()
+        {
+            Name = $"{relationship.Related.Entity.Name}Id",
+            Type = keyType
+        };
+        var componentType = keyType.GetComponents(typeDefinition).FirstOrDefault().Value;
+
+        return componentType.Name;
     }
 }

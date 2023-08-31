@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SampleWebApp.Application.Dto; 
+namespace SampleWebApp.Application.Dto;
 
 /// <summary>
 /// The cash balance in Store.
@@ -24,5 +24,5 @@ public partial class CurrencyCashBalanceUpdateDto
     /// <summary>
     /// The Operation Limit (Optional).
     /// </summary>
-    public System.Decimal? OperationLimit { get; set; } 
+    public System.Decimal? OperationLimit { get; set; }
 }

@@ -19,9 +19,9 @@ using CryptocashApi.Domain;
 
 namespace CryptocashApi.Application;
 
-public class LandLordMapper: EntityMapperBase<LandLord>
+public class LandLordMapper : EntityMapperBase<LandLord>
 {
-    public  LandLordMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public LandLordMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
     public override void MapToEntity(LandLord entity, Entity entityDefinition, dynamic dto)
     {
@@ -29,24 +29,28 @@ public class LandLordMapper: EntityMapperBase<LandLord>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
     
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",dto.Name);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
+        if (noxTypeValue != null)
         {        
             entity.Name = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition,"Address",dto.Address);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "Address", dto.Address);
+        if (noxTypeValue != null)
         {        
             entity.Address = noxTypeValue;
         }
+    
     }
 
     public override void PartialMapToEntity(LandLord entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+#pragma warning disable CS0168 // Variable is assigned but its value is never used
+        dynamic? value;
+#pragma warning restore CS0168 // Variable is assigned but its value is never used
         {
-            if (updatedProperties.TryGetValue("Name", out dynamic? value))
+            if (updatedProperties.TryGetValue("Name", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("LandLord", "Name");
@@ -58,9 +62,9 @@ public class LandLordMapper: EntityMapperBase<LandLord>
             }
         }
         {
-            if (updatedProperties.TryGetValue("Address", out dynamic? value))
+            if (updatedProperties.TryGetValue("Address", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition,"Address",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "Address", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("LandLord", "Address");
@@ -71,5 +75,7 @@ public class LandLordMapper: EntityMapperBase<LandLord>
                 }
             }
         }
+    
+    
     }
 }

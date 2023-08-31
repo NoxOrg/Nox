@@ -52,7 +52,7 @@ public partial class CustomerDto
     /// <summary>
     /// Customer The customer's payment details ZeroOrOne CustomerPaymentDetails
     /// </summary>
-    public virtual CustomerPaymentDetailsDto ?CustomerPaymentDetails { get; set; } = null!;
+    public virtual CustomerPaymentDetailsDto? CustomerPaymentDetails { get; set; } = null!;
 
     /// <summary>
     /// Customer The booking's related customer ZeroOrMany Bookings

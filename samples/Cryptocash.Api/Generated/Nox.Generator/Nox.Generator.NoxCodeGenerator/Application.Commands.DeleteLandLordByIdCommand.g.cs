@@ -20,7 +20,7 @@ public class DeleteLandLordByIdCommandHandler: CommandBase<DeleteLandLordByIdCom
 
 	public DeleteLandLordByIdCommandHandler(
 		CryptocashApiDbContext dbContext,
-		NoxSolution noxSolution, 
+		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;

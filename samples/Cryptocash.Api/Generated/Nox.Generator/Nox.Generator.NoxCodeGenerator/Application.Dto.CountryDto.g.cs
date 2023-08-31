@@ -103,8 +103,8 @@ public partial class CountryDto
     /// Country The commission related country ZeroOrOne Commissions
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string ?CommissionId { get; set; } = null!;
-    public virtual CommissionDto ?Commission { get; set; } = null!;
+    public System.Int64? CommissionId { get; set; } = default!;
+    public virtual CommissionDto? Commission { get; set; } = null!;
 
     /// <summary>
     /// Country The country of the vending machine ZeroOrMany VendingMachines
@@ -114,7 +114,7 @@ public partial class CountryDto
     /// <summary>
     /// Country The related country ZeroOrOne Holidays
     /// </summary>
-    public virtual HolidaysDto ?Holidays { get; set; } = null!;
+    public virtual HolidaysDto? Holidays { get; set; } = null!;
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }

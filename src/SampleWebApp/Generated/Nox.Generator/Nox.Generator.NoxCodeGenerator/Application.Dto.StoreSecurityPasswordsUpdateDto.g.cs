@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SampleWebApp.Application.Dto; 
+namespace SampleWebApp.Application.Dto;
 
 /// <summary>
 /// A set of security passwords to store cameras and databases.
@@ -27,4 +27,10 @@ public partial class StoreSecurityPasswordsUpdateDto
     [Required(ErrorMessage = "SecurityCamerasPassword is required")]
     
     public System.String SecurityCamerasPassword { get; set; } = default!;
+
+    /// <summary>
+    /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores
+    /// </summary>
+    [Required(ErrorMessage = "StoreRel is required")]
+    public System.String StoreId { get; set; } = default!;
 }
