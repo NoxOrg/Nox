@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CryptocashApi.Application.Dto; 
+namespace CryptocashApi.Application.Dto;
 
 /// <summary>
 /// Currency and related data.
@@ -57,4 +57,10 @@ public partial class CurrencyUpdateDto
     [Required(ErrorMessage = "DecimalDigits is required")]
     
     public System.Int32 DecimalDigits { get; set; } = default!;
+
+    /// <summary>
+    /// Currency The currency's related units major and minor ExactlyOne CurrencyUnits
+    /// </summary>
+    [Required(ErrorMessage = "Unit is required")]
+    public System.Int64 CurrencyUnitsId { get; set; } = default!;
 }

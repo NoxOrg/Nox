@@ -20,7 +20,7 @@ public class DeleteCountryTimeZonesByIdCommandHandler: CommandBase<DeleteCountry
 
 	public DeleteCountryTimeZonesByIdCommandHandler(
 		CryptocashApiDbContext dbContext,
-		NoxSolution noxSolution, 
+		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;

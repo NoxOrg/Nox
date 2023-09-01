@@ -19,9 +19,9 @@ using CryptocashApi.Domain;
 
 namespace CryptocashApi.Application;
 
-public class CountryHolidayMapper: EntityMapperBase<CountryHoliday>
+public class CountryHolidayMapper : EntityMapperBase<CountryHoliday>
 {
-    public  CountryHolidayMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public CountryHolidayMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
     public override void MapToEntity(CountryHoliday entity, Entity entityDefinition, dynamic dto)
     {
@@ -29,29 +29,33 @@ public class CountryHolidayMapper: EntityMapperBase<CountryHoliday>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
     
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",dto.Name);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
+        if (noxTypeValue != null)
         {        
             entity.Name = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Type",dto.Type);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Type", dto.Type);
+        if (noxTypeValue != null)
         {        
             entity.Type = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition,"Date",dto.Date);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition, "Date", dto.Date);
+        if (noxTypeValue != null)
         {        
             entity.Date = noxTypeValue;
         }
+    
     }
 
     public override void PartialMapToEntity(CountryHoliday entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+#pragma warning disable CS0168 // Variable is assigned but its value is never used
+        dynamic? value;
+#pragma warning restore CS0168 // Variable is assigned but its value is never used
         {
-            if (updatedProperties.TryGetValue("Name", out dynamic? value))
+            if (updatedProperties.TryGetValue("Name", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("CountryHoliday", "Name");
@@ -63,9 +67,9 @@ public class CountryHolidayMapper: EntityMapperBase<CountryHoliday>
             }
         }
         {
-            if (updatedProperties.TryGetValue("Type", out dynamic? value))
+            if (updatedProperties.TryGetValue("Type", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Type",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Type", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("CountryHoliday", "Type");
@@ -77,9 +81,9 @@ public class CountryHolidayMapper: EntityMapperBase<CountryHoliday>
             }
         }
         {
-            if (updatedProperties.TryGetValue("Date", out dynamic? value))
+            if (updatedProperties.TryGetValue("Date", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition,"Date",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition, "Date", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("CountryHoliday", "Date");
@@ -90,5 +94,7 @@ public class CountryHolidayMapper: EntityMapperBase<CountryHoliday>
                 }
             }
         }
+    
+    
     }
 }

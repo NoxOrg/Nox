@@ -19,9 +19,9 @@ using CryptocashApi.Domain;
 
 namespace CryptocashApi.Application;
 
-public class CountryTimeZonesMapper: EntityMapperBase<CountryTimeZones>
+public class CountryTimeZonesMapper : EntityMapperBase<CountryTimeZones>
 {
-    public  CountryTimeZonesMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public CountryTimeZonesMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
     public override void MapToEntity(CountryTimeZones entity, Entity entityDefinition, dynamic dto)
     {
@@ -29,19 +29,23 @@ public class CountryTimeZonesMapper: EntityMapperBase<CountryTimeZones>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
     
-        noxTypeValue = CreateNoxType<Nox.Types.TimeZoneCode>(entityDefinition,"TimeZoneCode",dto.TimeZoneCode);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.TimeZoneCode>(entityDefinition, "TimeZoneCode", dto.TimeZoneCode);
+        if (noxTypeValue != null)
         {        
             entity.TimeZoneCode = noxTypeValue;
         }
+    
     }
 
     public override void PartialMapToEntity(CountryTimeZones entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+#pragma warning disable CS0168 // Variable is assigned but its value is never used
+        dynamic? value;
+#pragma warning restore CS0168 // Variable is assigned but its value is never used
         {
-            if (updatedProperties.TryGetValue("TimeZoneCode", out dynamic? value))
+            if (updatedProperties.TryGetValue("TimeZoneCode", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.TimeZoneCode>(entityDefinition,"TimeZoneCode",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.TimeZoneCode>(entityDefinition, "TimeZoneCode", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("CountryTimeZones", "TimeZoneCode");
@@ -52,5 +56,7 @@ public class CountryTimeZonesMapper: EntityMapperBase<CountryTimeZones>
                 }
             }
         }
+    
+    
     }
 }

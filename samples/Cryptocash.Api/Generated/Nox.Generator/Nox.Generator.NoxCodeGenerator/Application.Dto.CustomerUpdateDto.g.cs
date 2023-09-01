@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CryptocashApi.Application.Dto; 
+namespace CryptocashApi.Application.Dto;
 
 /// <summary>
 /// Customer definition and related data.
@@ -42,5 +42,5 @@ public partial class CustomerUpdateDto
     /// <summary>
     /// The customer's mobile number (Optional).
     /// </summary>
-    public System.String? MobileNumber { get; set; } 
+    public System.String? MobileNumber { get; set; }
 }

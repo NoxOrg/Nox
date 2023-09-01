@@ -47,6 +47,8 @@ public class DtoDbContext : DbContext
         
         public DbSet<StoreSecurityPasswordsDto> StoreSecurityPasswords { get; set; } = null!;
         
+        public DbSet<StoreOwnerDto> StoreOwners { get; set; } = null!;
+        
         public DbSet<AllNoxTypeDto> AllNoxTypes { get; set; } = null!;
         
         public DbSet<CurrencyCashBalanceDto> CurrencyCashBalances { get; set; } = null!;

@@ -19,9 +19,9 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application;
 
-public class CountryLocalNameMapper: EntityMapperBase<CountryLocalName>
+public class CountryLocalNameMapper : EntityMapperBase<CountryLocalName>
 {
-    public  CountryLocalNameMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public CountryLocalNameMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
     public override void MapToEntity(CountryLocalName entity, Entity entityDefinition, dynamic dto)
     {
@@ -30,13 +30,19 @@ public class CountryLocalNameMapper: EntityMapperBase<CountryLocalName>
     #pragma warning restore CS0168 // Variable is declared but never used
             
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Id", dto.Id);        
-        if(noxTypeValue != null)
+        if (noxTypeValue != null)
         {        
             entity.Id = noxTypeValue;
         }
+    
     }
 
     public override void PartialMapToEntity(CountryLocalName entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+#pragma warning disable CS0168 // Variable is assigned but its value is never used
+        dynamic? value;
+#pragma warning restore CS0168 // Variable is assigned but its value is never used
+    
+    
     }
 }

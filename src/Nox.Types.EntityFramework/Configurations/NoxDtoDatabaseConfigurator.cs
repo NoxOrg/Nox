@@ -15,6 +15,8 @@ public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
 
         ConfigureAttributes(codeGeneratorState, builder, entity);
 
+        ConfigureRelationships(codeGeneratorState, builder, entity);
+
         ConfigureOwnedRelations(codeGeneratorState, builder, entity);
     }
 
@@ -43,6 +45,43 @@ public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
             }
         }
     }
+
+    private static void ConfigureRelationships(NoxSolutionCodeGeneratorState codeGeneratorState, IEntityBuilder builder, Entity entity)
+    {
+        if (entity.Relationships == null)
+        {
+            return;
+        }
+
+        foreach (var relationshipToCreate in entity.Relationships)
+        {
+            // One to ?? (// Many to Many are setup by EF)
+            if (relationshipToCreate.ShouldGenerateForeignKeyOnThisSide() && relationshipToCreate.WithSingleEntity())
+            {
+                //One to Many
+                if (relationshipToCreate.IsManyRelationshipOnOtherSide())
+                {
+                    builder
+                        .HasOne($"{codeGeneratorState.DtoNameSpace}.{relationshipToCreate.Entity}Dto", relationshipToCreate.Entity)
+                        .WithMany(entity.PluralName)
+                        .HasForeignKey($"{relationshipToCreate.Entity}Id");
+                }
+                else //One to One
+                {
+                    builder
+                        .HasOne($"{codeGeneratorState.DtoNameSpace}.{relationshipToCreate.Entity}Dto", relationshipToCreate.Entity)
+                        .WithOne(entity.Name)
+                        .HasForeignKey($"{codeGeneratorState.DtoNameSpace}.{entity.Name}Dto", $"{relationshipToCreate.Entity}Id");
+                }
+            }
+
+            if (!relationshipToCreate.ShouldUseRelationshipNameAsNavigation())
+            {
+                builder.Ignore(relationshipToCreate.Name);
+            }
+        }
+    }
+
     private static void ConfigureOwnedRelations(NoxSolutionCodeGeneratorState codeGeneratorState, IEntityBuilder builder, Entity entity)
     {
         if (entity.OwnedRelationships != null)
@@ -62,7 +101,6 @@ public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
                         owned =>
                         {
                             owned.WithOwner().HasForeignKey($"{entity.Name}Id");                           
-                            owned.ToTable(ownedRelationship.Related.Entity.Name);
                         });
                     return;
                 }

@@ -50,6 +50,8 @@ public partial class SampleWebAppDbContext : DbContext
 
     public DbSet<StoreSecurityPasswords> StoreSecurityPasswords { get; set; } = null!;
 
+    public DbSet<StoreOwner> StoreOwners { get; set; } = null!;
+
     public DbSet<AllNoxType> AllNoxTypes { get; set; } = null!;
 
     public DbSet<CurrencyCashBalance> CurrencyCashBalances { get; set; } = null!;

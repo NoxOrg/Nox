@@ -19,9 +19,9 @@ using CryptocashApi.Domain;
 
 namespace CryptocashApi.Application;
 
-public class CountryMapper: EntityMapperBase<Country>
+public class CountryMapper : EntityMapperBase<Country>
 {
-    public  CountryMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public CountryMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
     public override void MapToEntity(Country entity, Entity entityDefinition, dynamic dto)
     {
@@ -30,34 +30,34 @@ public class CountryMapper: EntityMapperBase<Country>
     #pragma warning restore CS0168 // Variable is declared but never used
             
         noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "Id", dto.Id);        
-        if(noxTypeValue != null)
+        if (noxTypeValue != null)
         {        
             entity.Id = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",dto.Name);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
+        if (noxTypeValue != null)
         {        
             entity.Name = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"OfficialName",dto.OfficialName);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "OfficialName", dto.OfficialName);
+        if (noxTypeValue != null)
         {        
             entity.OfficialName = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.CountryNumber>(entityDefinition,"CountryIsoNumeric",dto.CountryIsoNumeric);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.CountryNumber>(entityDefinition, "CountryIsoNumeric", dto.CountryIsoNumeric);
+        if (noxTypeValue != null)
         {        
             entity.CountryIsoNumeric = noxTypeValue;
         }
 
         // TODO map CountryIsoAlpha3 CountryCode3 remaining types and remove if else
-        noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition,"GeoCoords",dto.GeoCoords);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "GeoCoords", dto.GeoCoords);
+        if (noxTypeValue != null)
         {        
             entity.GeoCoords = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"FlagEmoji",dto.FlagEmoji);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "FlagEmoji", dto.FlagEmoji);
+        if (noxTypeValue != null)
         {        
             entity.FlagEmoji = noxTypeValue;
         }
@@ -69,29 +69,42 @@ public class CountryMapper: EntityMapperBase<Country>
         // TODO map CoatOfArmsSvg Image remaining types and remove if else
 
         // TODO map CoatOfArmsPng Image remaining types and remove if else
-        noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition,"GoogleMapsUrl",dto.GoogleMapsUrl);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition, "GoogleMapsUrl", dto.GoogleMapsUrl);
+        if (noxTypeValue != null)
         {        
             entity.GoogleMapsUrl = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition,"OpenStreeMapsUrl",dto.OpenStreeMapsUrl);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition, "OpenStreeMapsUrl", dto.OpenStreeMapsUrl);
+        if (noxTypeValue != null)
         {        
             entity.OpenStreeMapsUrl = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.DayOfWeek>(entityDefinition,"StartOfWeek",dto.StartOfWeek);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.DayOfWeek>(entityDefinition, "StartOfWeek", dto.StartOfWeek);
+        if (noxTypeValue != null)
         {        
             entity.StartOfWeek = noxTypeValue;
+        }
+    
+
+        /// <summary>
+        /// Country The commission related country ZeroOrOne Commissions
+        /// </summary>
+        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "Commission", dto.CommissionId);
+        if (noxTypeValue != null)
+        {        
+            entity.CommissionId = noxTypeValue;
         }
     }
 
     public override void PartialMapToEntity(Country entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+#pragma warning disable CS0168 // Variable is assigned but its value is never used
+        dynamic? value;
+#pragma warning restore CS0168 // Variable is assigned but its value is never used
         {
-            if (updatedProperties.TryGetValue("Name", out dynamic? value))
+            if (updatedProperties.TryGetValue("Name", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Country", "Name");
@@ -103,9 +116,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("OfficialName", out dynamic? value))
+            if (updatedProperties.TryGetValue("OfficialName", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"OfficialName",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "OfficialName", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Country", "OfficialName");
@@ -117,9 +130,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("CountryIsoNumeric", out dynamic? value))
+            if (updatedProperties.TryGetValue("CountryIsoNumeric", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.CountryNumber>(entityDefinition,"CountryIsoNumeric",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.CountryNumber>(entityDefinition, "CountryIsoNumeric", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Country", "CountryIsoNumeric");
@@ -131,9 +144,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("CountryIsoAlpha3", out dynamic? value))
+            if (updatedProperties.TryGetValue("CountryIsoAlpha3", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.CountryCode3>(entityDefinition,"CountryIsoAlpha3",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.CountryCode3>(entityDefinition, "CountryIsoAlpha3", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Country", "CountryIsoAlpha3");
@@ -145,9 +158,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("GeoCoords", out dynamic? value))
+            if (updatedProperties.TryGetValue("GeoCoords", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition,"GeoCoords",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "GeoCoords", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Country", "GeoCoords");
@@ -159,9 +172,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("FlagEmoji", out dynamic? value))
+            if (updatedProperties.TryGetValue("FlagEmoji", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"FlagEmoji",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "FlagEmoji", value);
                 if(noxTypeValue == null)
                 {
                     entity.FlagEmoji = null;
@@ -173,9 +186,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("FlagSvg", out dynamic? value))
+            if (updatedProperties.TryGetValue("FlagSvg", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Image>(entityDefinition,"FlagSvg",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Image>(entityDefinition, "FlagSvg", value);
                 if(noxTypeValue == null)
                 {
                     entity.FlagSvg = null;
@@ -187,9 +200,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("FlagPng", out dynamic? value))
+            if (updatedProperties.TryGetValue("FlagPng", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Image>(entityDefinition,"FlagPng",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Image>(entityDefinition, "FlagPng", value);
                 if(noxTypeValue == null)
                 {
                     entity.FlagPng = null;
@@ -201,9 +214,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("CoatOfArmsSvg", out dynamic? value))
+            if (updatedProperties.TryGetValue("CoatOfArmsSvg", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Image>(entityDefinition,"CoatOfArmsSvg",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Image>(entityDefinition, "CoatOfArmsSvg", value);
                 if(noxTypeValue == null)
                 {
                     entity.CoatOfArmsSvg = null;
@@ -215,9 +228,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("CoatOfArmsPng", out dynamic? value))
+            if (updatedProperties.TryGetValue("CoatOfArmsPng", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Image>(entityDefinition,"CoatOfArmsPng",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Image>(entityDefinition, "CoatOfArmsPng", value);
                 if(noxTypeValue == null)
                 {
                     entity.CoatOfArmsPng = null;
@@ -229,9 +242,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("GoogleMapsUrl", out dynamic? value))
+            if (updatedProperties.TryGetValue("GoogleMapsUrl", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition,"GoogleMapsUrl",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition, "GoogleMapsUrl", value);
                 if(noxTypeValue == null)
                 {
                     entity.GoogleMapsUrl = null;
@@ -243,9 +256,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("OpenStreeMapsUrl", out dynamic? value))
+            if (updatedProperties.TryGetValue("OpenStreeMapsUrl", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition,"OpenStreeMapsUrl",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition, "OpenStreeMapsUrl", value);
                 if(noxTypeValue == null)
                 {
                     entity.OpenStreeMapsUrl = null;
@@ -257,9 +270,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("StartOfWeek", out dynamic? value))
+            if (updatedProperties.TryGetValue("StartOfWeek", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.DayOfWeek>(entityDefinition,"StartOfWeek",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.DayOfWeek>(entityDefinition, "StartOfWeek", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Country", "StartOfWeek");
@@ -268,6 +281,19 @@ public class CountryMapper: EntityMapperBase<Country>
                 {
                     entity.StartOfWeek = noxTypeValue;
                 }
+            }
+        }
+    
+    
+        /// <summary>
+        /// Country The commission related country ZeroOrOne Commissions
+        /// </summary>
+        if (updatedProperties.TryGetValue("CommissionId", out value))
+        {
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "Commission", value);
+            if (noxRelationshipTypeValue != null)
+            {        
+                entity.CommissionId = noxRelationshipTypeValue;
             }
         }
     }

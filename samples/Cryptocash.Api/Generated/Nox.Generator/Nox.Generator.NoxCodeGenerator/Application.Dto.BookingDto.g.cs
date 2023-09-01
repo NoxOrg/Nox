@@ -68,21 +68,21 @@ public partial class BookingDto
     /// Booking The booking's related customer ExactlyOne Customers
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string CustomerId { get; set; } = null!;
+    public System.Int64 CustomerId { get; set; } = default!;
     public virtual CustomerDto Customer { get; set; } = null!;
 
     /// <summary>
     /// Booking The booking's related vending machine ExactlyOne VendingMachines
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string VendingMachineId { get; set; } = null!;
+    public System.Guid VendingMachineId { get; set; } = default!;
     public virtual VendingMachineDto VendingMachine { get; set; } = null!;
 
     /// <summary>
     /// Booking The booking's related fee ExactlyOne Commissions
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string CommissionId { get; set; } = null!;
+    public System.Int64 CommissionId { get; set; } = default!;
     public virtual CommissionDto Commission { get; set; } = null!;
 
     /// <summary>

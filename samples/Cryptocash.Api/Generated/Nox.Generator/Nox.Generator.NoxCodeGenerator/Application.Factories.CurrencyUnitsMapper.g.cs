@@ -19,9 +19,9 @@ using CryptocashApi.Domain;
 
 namespace CryptocashApi.Application;
 
-public class CurrencyUnitsMapper: EntityMapperBase<CurrencyUnits>
+public class CurrencyUnitsMapper : EntityMapperBase<CurrencyUnits>
 {
-    public  CurrencyUnitsMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public CurrencyUnitsMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
     public override void MapToEntity(CurrencyUnits entity, Entity entityDefinition, dynamic dto)
     {
@@ -29,39 +29,43 @@ public class CurrencyUnitsMapper: EntityMapperBase<CurrencyUnits>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
     
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"MajorName",dto.MajorName);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MajorName", dto.MajorName);
+        if (noxTypeValue != null)
         {        
             entity.MajorName = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"MajorSymbol",dto.MajorSymbol);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MajorSymbol", dto.MajorSymbol);
+        if (noxTypeValue != null)
         {        
             entity.MajorSymbol = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"MinorName",dto.MinorName);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MinorName", dto.MinorName);
+        if (noxTypeValue != null)
         {        
             entity.MinorName = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"MinorSymbol",dto.MinorSymbol);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MinorSymbol", dto.MinorSymbol);
+        if (noxTypeValue != null)
         {        
             entity.MinorSymbol = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"MinorToMajorValue",dto.MinorToMajorValue);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "MinorToMajorValue", dto.MinorToMajorValue);
+        if (noxTypeValue != null)
         {        
             entity.MinorToMajorValue = noxTypeValue;
         }
+    
     }
 
     public override void PartialMapToEntity(CurrencyUnits entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+#pragma warning disable CS0168 // Variable is assigned but its value is never used
+        dynamic? value;
+#pragma warning restore CS0168 // Variable is assigned but its value is never used
         {
-            if (updatedProperties.TryGetValue("MajorName", out dynamic? value))
+            if (updatedProperties.TryGetValue("MajorName", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"MajorName",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MajorName", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("CurrencyUnits", "MajorName");
@@ -73,9 +77,9 @@ public class CurrencyUnitsMapper: EntityMapperBase<CurrencyUnits>
             }
         }
         {
-            if (updatedProperties.TryGetValue("MajorSymbol", out dynamic? value))
+            if (updatedProperties.TryGetValue("MajorSymbol", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"MajorSymbol",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MajorSymbol", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("CurrencyUnits", "MajorSymbol");
@@ -87,9 +91,9 @@ public class CurrencyUnitsMapper: EntityMapperBase<CurrencyUnits>
             }
         }
         {
-            if (updatedProperties.TryGetValue("MinorName", out dynamic? value))
+            if (updatedProperties.TryGetValue("MinorName", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"MinorName",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MinorName", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("CurrencyUnits", "MinorName");
@@ -101,9 +105,9 @@ public class CurrencyUnitsMapper: EntityMapperBase<CurrencyUnits>
             }
         }
         {
-            if (updatedProperties.TryGetValue("MinorSymbol", out dynamic? value))
+            if (updatedProperties.TryGetValue("MinorSymbol", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"MinorSymbol",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MinorSymbol", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("CurrencyUnits", "MinorSymbol");
@@ -115,9 +119,9 @@ public class CurrencyUnitsMapper: EntityMapperBase<CurrencyUnits>
             }
         }
         {
-            if (updatedProperties.TryGetValue("MinorToMajorValue", out dynamic? value))
+            if (updatedProperties.TryGetValue("MinorToMajorValue", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"MinorToMajorValue",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "MinorToMajorValue", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("CurrencyUnits", "MinorToMajorValue");
@@ -128,5 +132,7 @@ public class CurrencyUnitsMapper: EntityMapperBase<CurrencyUnits>
                 }
             }
         }
+    
+    
     }
 }

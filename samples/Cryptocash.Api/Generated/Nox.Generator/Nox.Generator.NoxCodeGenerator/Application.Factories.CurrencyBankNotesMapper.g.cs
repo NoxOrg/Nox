@@ -19,9 +19,9 @@ using CryptocashApi.Domain;
 
 namespace CryptocashApi.Application;
 
-public class CurrencyBankNotesMapper: EntityMapperBase<CurrencyBankNotes>
+public class CurrencyBankNotesMapper : EntityMapperBase<CurrencyBankNotes>
 {
-    public  CurrencyBankNotesMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public CurrencyBankNotesMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
     public override void MapToEntity(CurrencyBankNotes entity, Entity entityDefinition, dynamic dto)
     {
@@ -29,24 +29,28 @@ public class CurrencyBankNotesMapper: EntityMapperBase<CurrencyBankNotes>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
     
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"BankNote",dto.BankNote);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "BankNote", dto.BankNote);
+        if (noxTypeValue != null)
         {        
             entity.BankNote = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition,"IsRare",dto.IsRare);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition, "IsRare", dto.IsRare);
+        if (noxTypeValue != null)
         {        
             entity.IsRare = noxTypeValue;
         }
+    
     }
 
     public override void PartialMapToEntity(CurrencyBankNotes entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+#pragma warning disable CS0168 // Variable is assigned but its value is never used
+        dynamic? value;
+#pragma warning restore CS0168 // Variable is assigned but its value is never used
         {
-            if (updatedProperties.TryGetValue("BankNote", out dynamic? value))
+            if (updatedProperties.TryGetValue("BankNote", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"BankNote",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "BankNote", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("CurrencyBankNotes", "BankNote");
@@ -58,9 +62,9 @@ public class CurrencyBankNotesMapper: EntityMapperBase<CurrencyBankNotes>
             }
         }
         {
-            if (updatedProperties.TryGetValue("IsRare", out dynamic? value))
+            if (updatedProperties.TryGetValue("IsRare", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition,"IsRare",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition, "IsRare", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("CurrencyBankNotes", "IsRare");
@@ -71,5 +75,7 @@ public class CurrencyBankNotesMapper: EntityMapperBase<CurrencyBankNotes>
                 }
             }
         }
+    
+    
     }
 }

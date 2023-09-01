@@ -19,9 +19,9 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application;
 
-public class StoreMapper: EntityMapperBase<Store>
+public class StoreMapper : EntityMapperBase<Store>
 {
-    public  StoreMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public StoreMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
     public override void MapToEntity(Store entity, Entity entityDefinition, dynamic dto)
     {
@@ -30,28 +30,41 @@ public class StoreMapper: EntityMapperBase<Store>
     #pragma warning restore CS0168 // Variable is declared but never used
             
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Id", dto.Id);        
-        if(noxTypeValue != null)
+        if (noxTypeValue != null)
         {        
             entity.Id = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",dto.Name);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
+        if (noxTypeValue != null)
         {        
             entity.Name = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"PhysicalMoney",dto.PhysicalMoney);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "PhysicalMoney", dto.PhysicalMoney);
+        if (noxTypeValue != null)
         {        
             entity.PhysicalMoney = noxTypeValue;
+        }
+    
+
+        /// <summary>
+        /// Store Store owner relationship ZeroOrOne StoreOwners
+        /// </summary>
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "OwnerRel", dto.StoreOwnerId);
+        if (noxTypeValue != null)
+        {        
+            entity.StoreOwnerId = noxTypeValue;
         }
     }
 
     public override void PartialMapToEntity(Store entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+#pragma warning disable CS0168 // Variable is assigned but its value is never used
+        dynamic? value;
+#pragma warning restore CS0168 // Variable is assigned but its value is never used
         {
-            if (updatedProperties.TryGetValue("Name", out dynamic? value))
+            if (updatedProperties.TryGetValue("Name", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Store", "Name");
@@ -63,9 +76,9 @@ public class StoreMapper: EntityMapperBase<Store>
             }
         }
         {
-            if (updatedProperties.TryGetValue("PhysicalMoney", out dynamic? value))
+            if (updatedProperties.TryGetValue("PhysicalMoney", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"PhysicalMoney",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "PhysicalMoney", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Store", "PhysicalMoney");
@@ -74,6 +87,19 @@ public class StoreMapper: EntityMapperBase<Store>
                 {
                     entity.PhysicalMoney = noxTypeValue;
                 }
+            }
+        }
+    
+    
+        /// <summary>
+        /// Store Store owner relationship ZeroOrOne StoreOwners
+        /// </summary>
+        if (updatedProperties.TryGetValue("StoreOwnerId", out value))
+        {
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "OwnerRel", value);
+            if (noxRelationshipTypeValue != null)
+            {        
+                entity.StoreOwnerId = noxRelationshipTypeValue;
             }
         }
     }

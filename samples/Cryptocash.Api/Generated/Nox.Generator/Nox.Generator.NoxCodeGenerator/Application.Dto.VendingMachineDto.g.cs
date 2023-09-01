@@ -63,14 +63,14 @@ public partial class VendingMachineDto
     /// VendingMachine The country of the vending machine ExactlyOne Countries
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string CountryId { get; set; } = null!;
+    public System.String CountryId { get; set; } = default!;
     public virtual CountryDto Country { get; set; } = null!;
 
     /// <summary>
     /// VendingMachine The Land Lord related to the area of the vending machine installation ExactlyOne LandLords
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string LandLordId { get; set; } = null!;
+    public System.Int64 LandLordId { get; set; } = default!;
     public virtual LandLordDto LandLord { get; set; } = null!;
 
     /// <summary>
