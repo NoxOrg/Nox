@@ -9,7 +9,7 @@ namespace Nox.Solution.Validation
         {
             RuleFor(p => p.Name)
                 .NotEqual(entityName)
-                .WithMessage(m => string.Format(ValidationResources.NameSameAsEnclosingType, objectType, m.Name));
+                .WithMessage(m => string.Format(ValidationResources.NameSameAsEnclosingType, m.Name, entityName));
         }
     }
 }

@@ -871,7 +871,7 @@ namespace Nox.Solution {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to {0}. The member {1} of a class cannot have the same name as the class or struct, unless the member is a constructor..
+        ///   Looks up a localized string similar to The member {0} of a class {1} cannot have the same name as the referenced entity..
         /// </summary>
         internal static string NameSameAsEnclosingType {
             get {
