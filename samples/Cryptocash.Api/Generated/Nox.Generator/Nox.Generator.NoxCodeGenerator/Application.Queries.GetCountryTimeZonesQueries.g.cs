@@ -7,10 +7,10 @@ using Microsoft.EntityFrameworkCore;
 
 using Nox.Application.Commands;
 
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Infrastructure.Persistence;
+using Cryptocash.Application.Dto;
+using Cryptocash.Infrastructure.Persistence;
 
-namespace CryptocashApi.Application.Queries;
+namespace Cryptocash.Application.Queries;
 
 public record GetCountryTimeZonesQuery() : IRequest<IQueryable<CountryTimeZonesDto>>;
 

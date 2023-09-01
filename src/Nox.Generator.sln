@@ -98,7 +98,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptocash.Api", "..\sample
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptocash.Ui", "..\samples\Cryptocash.Ui\Cryptocash.Ui.csproj", "{9502ACC9-EFFA-40BB-9528-BF86E979C435}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptocash.Api.Tests", "..\samples\Cryptocash.Api.Tests\Cryptocash.Api.Tests.csproj", "{3F8C7B7D-34A5-4E2D-8CA2-1D50DA91E31A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptocash.Tests", "..\samples\Cryptocash.Api.Tests\Cryptocash.Tests.csproj", "{3F8C7B7D-34A5-4E2D-8CA2-1D50DA91E31A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.ClientApi.Tests", "Nox.ClientApi.Tests\Nox.ClientApi.Tests.csproj", "{32312EDB-D27D-4BD7-98B6-D158766C2CDF}"
 EndProject

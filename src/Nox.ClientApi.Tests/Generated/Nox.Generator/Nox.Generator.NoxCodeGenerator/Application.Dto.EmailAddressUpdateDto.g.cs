@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ClientApi.Application.Dto; 
+namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Verified Email Address.
@@ -18,9 +18,9 @@ public partial class EmailAddressUpdateDto
     /// <summary>
     /// Email (Optional).
     /// </summary>
-    public System.String? Email { get; set; } 
+    public System.String? Email { get; set; }
     /// <summary>
     /// Verified (Optional).
     /// </summary>
-    public System.Boolean? IsVerified { get; set; } 
+    public System.Boolean? IsVerified { get; set; }
 }

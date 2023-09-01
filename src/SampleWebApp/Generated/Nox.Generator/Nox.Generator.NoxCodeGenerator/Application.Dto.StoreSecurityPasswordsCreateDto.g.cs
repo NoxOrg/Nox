@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SampleWebApp.Application.Dto; 
+namespace SampleWebApp.Application.Dto;
 
 /// <summary>
 /// A set of security passwords to store cameras and databases.

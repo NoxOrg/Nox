@@ -50,6 +50,7 @@ public class YamlFileValidationTests
         Assert.Equal(18, errorCount);
     }
 
+    
     [Theory]
     [InlineData("application.solution.nox.yaml", "TestService")]
     [InlineData("domain.solution.nox.yaml", "TestService")]
@@ -149,4 +150,51 @@ public class YamlFileValidationTests
            .Should()
            .Contain(x => expectedErrors.Any(t => x.StartsWith(t)));
     }
+    
+    [Fact]
+    public void Deserialize_WithInvalidUniqueAttributeConstraints_ThrowsException()
+    {
+        Action action = () => new NoxSolutionBuilder()
+            .UseYamlFile($"./files/invalid-unique-attribute-constraints.solution.nox.yaml")
+            .Build();
+        
+        var errors = action.Should()
+            .ThrowExactly<ValidationException>()
+            .Subject
+            .First()
+            .Errors.ToArray();
+
+        var expectedErrors = new[]
+        {
+            "The unique attribute constraint 'UniqueCountryName' is duplicated. unique attribute constraint must be unique in a domain definition.",
+            "The unique attribute constraint attribute names 'AlphaCode2,AlphaCode3,NumericCode' is duplicated. unique attribute constraint attribute names must be unique in a domain definition.",
+            "Attribute name 'NonExistentAttribute' in unique attribute constraint not found in neither entity attribute(s)",
+        };
+        
+        
+        errors.Count().Should().BePositive();
+
+        errors.Should()
+            .NotBeEmpty()
+            .And.HaveCount(5)
+            .And.Subject.Select(x => x.ErrorMessage)
+            .Should()
+            .Contain(x => Array.Exists(expectedErrors, x.StartsWith));
+    }
+    
+    [Fact]
+    public void Deserialize_WithNoxYamlSerializer_ForInvalidUniqueAttributeConstraints_ThrowsException()
+    {
+        var yaml = File.ReadAllText("./files/invalid-structure-unique-attribute-constraints.solution.nox.yaml");
+
+        var exception = Assert.Throws<NoxSolutionConfigurationException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(yaml));
+
+        var errorCount = exception.Message.Split('\n').Length;
+
+        errorCount.Should().BePositive();
+
+        exception.Message.Should().Contain("Missing property [\"name\"]");
+        exception.Message.Should().Contain("Missing property [\"attributeNames\"]");
+    }
+
 }

@@ -21,8 +21,9 @@ public class StartupFixture
     public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
     {
         app.UseRouting();
+        
         app.UseNox();
-
+    
         var clientApiDbContext = app.ApplicationServices.GetRequiredService<ClientApiDbContext>();
         clientApiDbContext!.Database.EnsureDeleted();
         clientApiDbContext!.Database.EnsureCreated();

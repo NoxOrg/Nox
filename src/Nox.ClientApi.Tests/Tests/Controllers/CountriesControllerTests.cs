@@ -230,35 +230,35 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             queryResult.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
 
-        /*
-        //TODO: Add endpont invocation PostToCountryLocalNames
-        [Fact]
-        public async Task PostToCountryLocalNames_ShouldAddToCountryLocalNames(ApiFixture apiFixture)
+
+        [Fact(Skip = "PostToCountryLocalNames is not found.The problem with routing. Route is found when it uses countries (without api prefix))")]
+        public async Task PostToCountryLocalNames_ShouldAddToCountryLocalNames()
         {
-            //// Arrange
-            //var expectedLocalNameId = "10";
-            //var expectedLocalName = "local UA";
+            // Arrange
+            var expectedLocalNameId = "10";
+            var expectedLocalName = "local UA";
 
-            //var createDto = new CountryCreateDto
-            //{
-            //    Name = "Ukraine",
-            //    Population = 44000000
-            //};
+            var createDto = new CountryCreateDto
+            {
+                Name = "Ukraine",
+                Population = 44000000
+            };
 
-            //var result = await PostAsync<CountryCreateDto, CreatedODataResult<CountryKeyDto>>(CountryControllerName, createDto);
+            var localNameDto = new CountryLocalNameCreateDto
+            {
+                Id = expectedLocalNameId,
+                Name = expectedLocalName
+            };
+
+            var result = await PostAsync<CountryCreateDto, CountryKeyDto>(CountryControllerName, createDto);
 
             //Act
-            //var ownedResult = (CreatedODataResult<CountryLocalNameDto>)await apiFixture.CountriesController!.PostToCountryLocalNames(
-            //    result.Entity.keyId,
-            //    new CountryLocalNameCreateDto
-            //    {
-            //        Id = expectedLocalNameId,
-            //        Name = expectedLocalName
-            //    });
+            var ownedResult = await PostAsync<CountryLocalNameCreateDto, CountryLocalNameDto>($"{CountryControllerName}/PostToCountryLocalNames/{result!.keyId}", localNameDto);
+             
 
-            ////Assert
-            //ownedResult.Should().NotBeNull();
-            //ownedResult!.Entity.Id.Should().Be(expectedLocalNameId);
-        }*/
+            //Assert
+            ownedResult.Should().NotBeNull();
+            ownedResult!.Id.Should().Be(expectedLocalNameId);
+        }
     }
 }

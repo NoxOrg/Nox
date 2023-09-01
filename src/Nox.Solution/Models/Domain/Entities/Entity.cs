@@ -76,6 +76,11 @@ public class Entity : DefinitionBase
     [Description("Define one or more attribute(s) that describes the composition of this domain entity.")]
     [AdditionalProperties(false)]
     public virtual IReadOnlyList<NoxSimpleTypeDefinition>? Attributes { get; internal set; }
+    
+    [Title("Unique constraints for this entity.")]
+    [Description("Define one or more unique constraints for this entity.")]
+    [AdditionalProperties(false)]
+    public IReadOnlyList<UniqueAttributeConstraint>? UniqueAttributeConstraints { get; internal set; }
 
     [YamlIgnore]
     public bool IsOwnedEntity { get; set; }
@@ -99,16 +104,48 @@ public class Entity : DefinitionBase
         return _attributesByName![entityName];
     }
 
-    public virtual NoxSimpleTypeDefinition? GetKeyByName(string entityName)
+    public virtual bool TryGetAttributeByName(string entityName, out NoxSimpleTypeDefinition? result)
+    {
+        EnsureAttributesByName();
+        return _attributesByName!.TryGetValue(entityName, out result);
+    }
+
+    public virtual bool TryGetKeyByName(string entityName, out NoxSimpleTypeDefinition? result)
     {
         EnsureKeyByName();
-        return _keysByName![entityName];
+        return _keysByName!.TryGetValue(entityName, out result);
     }
 
     public virtual bool IsKey(string keyName)
     {
         EnsureKeyByName();
         return _keysByName!.ContainsKey(keyName);
+    }
+
+    public virtual bool TryGetRelationshipByName(NoxSolution solution, string relationshipName, out NoxSimpleTypeDefinition? result)
+    {
+        result = null;
+        if (Relationships == null)
+        {
+            return false;
+        }
+
+        var rel = Relationships!.First(x => x.Name.Equals(relationshipName));
+        // TODO: possibly extend for other types
+        if (!rel.ShouldGenerateForeignOnThisSide ||
+            rel.WithMultiEntity)
+        {
+            return false;
+        }
+
+        var foreignEntityKeyDefinition = rel.Related.Entity.Keys![0].ShallowCopy();
+        foreignEntityKeyDefinition.Name = rel.Related.Entity.Name + "Id";
+        foreignEntityKeyDefinition.Description = "-";
+        foreignEntityKeyDefinition.IsRequired = false;
+        foreignEntityKeyDefinition.IsReadonly = false;
+
+        result = foreignEntityKeyDefinition;
+        return true;
     }
 
     public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()

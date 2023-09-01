@@ -36,4 +36,16 @@ public partial class Store : AuditableEntityBase
     public virtual StoreSecurityPasswords StoreSecurityPasswords { get; set; } = null!;
 
     public StoreSecurityPasswords PasswordsRel => StoreSecurityPasswords;
+
+    /// <summary>
+    /// Store Store owner relationship ZeroOrOne StoreOwners
+    /// </summary>
+    public virtual StoreOwner? StoreOwner { get; set; } = null!;
+
+    public StoreOwner? OwnerRel => StoreOwner;
+
+    /// <summary>
+    /// Foreign key for relationship ZeroOrOne to entity StoreOwner
+    /// </summary>
+    public Nox.Types.Text? StoreOwnerId { get; set; } = null!;
 }

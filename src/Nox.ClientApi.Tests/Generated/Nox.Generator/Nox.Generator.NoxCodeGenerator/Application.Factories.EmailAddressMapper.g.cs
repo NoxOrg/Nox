@@ -19,9 +19,9 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application;
 
-public class EmailAddressMapper: EntityMapperBase<EmailAddress>
+public class EmailAddressMapper : EntityMapperBase<EmailAddress>
 {
-    public  EmailAddressMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public EmailAddressMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
     public override void MapToEntity(EmailAddress entity, Entity entityDefinition, dynamic dto)
     {
@@ -29,24 +29,28 @@ public class EmailAddressMapper: EntityMapperBase<EmailAddress>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
     
-        noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"Email",dto.Email);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition, "Email", dto.Email);
+        if (noxTypeValue != null)
         {        
             entity.Email = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition,"IsVerified",dto.IsVerified);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition, "IsVerified", dto.IsVerified);
+        if (noxTypeValue != null)
         {        
             entity.IsVerified = noxTypeValue;
         }
+    
     }
 
     public override void PartialMapToEntity(EmailAddress entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+#pragma warning disable CS0168 // Variable is assigned but its value is never used
+        dynamic? value;
+#pragma warning restore CS0168 // Variable is assigned but its value is never used
         {
-            if (updatedProperties.TryGetValue("Email", out dynamic? value))
+            if (updatedProperties.TryGetValue("Email", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"Email",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition, "Email", value);
                 if(noxTypeValue == null)
                 {
                     entity.Email = null;
@@ -58,9 +62,9 @@ public class EmailAddressMapper: EntityMapperBase<EmailAddress>
             }
         }
         {
-            if (updatedProperties.TryGetValue("IsVerified", out dynamic? value))
+            if (updatedProperties.TryGetValue("IsVerified", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition,"IsVerified",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition, "IsVerified", value);
                 if(noxTypeValue == null)
                 {
                     entity.IsVerified = null;
@@ -71,5 +75,7 @@ public class EmailAddressMapper: EntityMapperBase<EmailAddress>
                 }
             }
         }
+    
+    
     }
 }

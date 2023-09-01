@@ -22,12 +22,12 @@ domain:
   
     - $ref: ./Entities/workplace.entity.nox.yaml
   
+    - $ref: ./Entities/store-owner.entity.nox.yaml
+  
     - name: EmailAddress #owned by store
       description: Verified Email Address
 
       # keys: Owned ZeroOrOne or ExactlyOne can not have defined keys
-      
-
       attributes:
         - name: Email
           isRequired: false
