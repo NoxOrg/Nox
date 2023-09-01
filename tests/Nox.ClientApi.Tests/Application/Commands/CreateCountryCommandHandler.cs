@@ -1,10 +1,5 @@
-﻿using Humanizer;
-
-using Nox.Application.Commands;
-
-using ClientApi.Infrastructure.Persistence;
-using ClientApi.Domain;
-using ClientApi.Application.Dto;
+﻿using ClientApi.Domain;
+using Humanizer;
 
 namespace ClientApi.Application.Commands;
 

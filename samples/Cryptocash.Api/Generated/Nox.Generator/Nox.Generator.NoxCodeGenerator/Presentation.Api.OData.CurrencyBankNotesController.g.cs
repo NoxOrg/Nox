@@ -9,17 +9,17 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Nox.Application;
-using CryptocashApi.Application;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Application.Queries;
-using CryptocashApi.Application.Commands;
-using CryptocashApi.Domain;
-using CryptocashApi.Infrastructure.Persistence;
+using SampleWebApp.Application;
+using SampleWebApp.Application.Dto;
+using SampleWebApp.Application.Queries;
+using SampleWebApp.Application.Commands;
+using SampleWebApp.Domain;
+using SampleWebApp.Infrastructure.Persistence;
 using Nox.Types;
 
-namespace CryptocashApi.Presentation.Api.OData;
+namespace SampleWebApp.Presentation.Api.OData;
 
-public partial class CurrencyBankNotesController : ODataController
+public partial class AllNoxTypesController : ODataController
 {
     
     /// <summary>
@@ -32,7 +32,7 @@ public partial class CurrencyBankNotesController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public CurrencyBankNotesController(
+    public AllNoxTypesController(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -42,15 +42,15 @@ public partial class CurrencyBankNotesController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<CurrencyBankNotesDto>>> Get()
+    public async  Task<ActionResult<IQueryable<AllNoxTypeDto>>> Get()
     {
-        var result = await _mediator.Send(new GetCurrencyBankNotesQuery());
+        var result = await _mediator.Send(new GetAllNoxTypesQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<CurrencyBankNotesDto>> Get([FromRoute] System.Int64 key)
+    public async Task<ActionResult<AllNoxTypeDto>> Get([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId)
     {
-        var item = await _mediator.Send(new GetCurrencyBankNotesByIdQuery(key));
+        var item = await _mediator.Send(new GetAllNoxTypeByIdQuery(keyId, keyTextId));
         
         if (item == null)
         {
@@ -60,25 +60,25 @@ public partial class CurrencyBankNotesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]CurrencyBankNotesCreateDto currencybanknotes)
+    public async Task<ActionResult> Post([FromBody]AllNoxTypeCreateDto allnoxtype)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateCurrencyBankNotesCommand(currencybanknotes));
+        var createdKey = await _mediator.Send(new CreateAllNoxTypeCommand(allnoxtype));
         
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] CurrencyBankNotesUpdateDto currencyBankNotes)
+    public async Task<ActionResult> Put([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId, [FromBody] AllNoxTypeUpdateDto allNoxType)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateCurrencyBankNotesCommand(key, currencyBankNotes));
+        var updated = await _mediator.Send(new UpdateAllNoxTypeCommand(keyId, keyTextId, allNoxType));
         
         if (updated is null)
         {
@@ -87,7 +87,7 @@ public partial class CurrencyBankNotesController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CurrencyBankNotesUpdateDto> currencyBankNotes)
+    public async Task<ActionResult> Patch([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId, [FromBody] Delta<AllNoxTypeUpdateDto> allNoxType)
     {
         if (!ModelState.IsValid)
         {
@@ -95,15 +95,15 @@ public partial class CurrencyBankNotesController : ODataController
         }
         var updateProperties = new Dictionary<string, dynamic>();
         
-        foreach (var propertyName in currencyBankNotes.GetChangedPropertyNames())
+        foreach (var propertyName in allNoxType.GetChangedPropertyNames())
         {
-            if(currencyBankNotes.TryGetPropertyValue(propertyName, out dynamic value))
+            if(allNoxType.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCurrencyBankNotesCommand(key, updateProperties));
+        var updated = await _mediator.Send(new PartialUpdateAllNoxTypeCommand(keyId, keyTextId, updateProperties));
         
         if (updated is null)
         {
@@ -112,9 +112,9 @@ public partial class CurrencyBankNotesController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public async Task<ActionResult> Delete([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId)
     {
-        var result = await _mediator.Send(new DeleteCurrencyBankNotesByIdCommand(key));
+        var result = await _mediator.Send(new DeleteAllNoxTypeByIdCommand(keyId, keyTextId));
         if (!result)
         {
             return NotFound();

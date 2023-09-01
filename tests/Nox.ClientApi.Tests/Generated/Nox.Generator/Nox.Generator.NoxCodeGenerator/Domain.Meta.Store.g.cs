@@ -46,4 +46,20 @@ public partial class Store
         => Nox.Types.Text.From(value, NameTypeOptions);
     
 
+    /// <summary>
+    /// Type options and factory for property 'StoreOwnerId'
+    /// </summary>
+    public static Nox.Types.TextTypeOptions StoreOwnerIdTypeOptions {get; private set;} = new ()
+    {
+        MinLength = 3,
+        MaxLength = 3,
+        IsUnicode = false,
+        IsLocalized = true,
+        Casing = Nox.Types.TextTypeCasing.Normal,
+    };
+    
+    public static Text CreateStoreOwnerId(System.String value)
+        => Nox.Types.Text.From(value, StoreOwnerIdTypeOptions);
+    
+
 }

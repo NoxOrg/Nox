@@ -7,9 +7,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using CryptocashApi.Domain;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application.Dto;
+namespace Cryptocash.Application.Dto;
 
 public record CountryTimeZonesKeyDto(System.Int64 keyId);
 
@@ -20,19 +20,21 @@ public partial class CountryTimeZonesDto
 {
 
     /// <summary>
-    /// The country's timezone unique identifier (Required).
+    /// Country's time zone unique identifier (Required).
     /// </summary>
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// The country's related timezone code (Required).
+    /// Country's related time zone code (Required).
     /// </summary>
     public System.String TimeZoneCode { get; set; } = default!;
 
     /// <summary>
-    /// CountryTimeZones The country's related timezones ZeroOrMany Countries
+    /// CountryTimeZones Country's time zones ExactlyOne Countries
     /// </summary>
-    public virtual List<CountryDto> Countries { get; set; } = new();
+    //EF maps ForeignKey Automatically
+    public System.String CountryId { get; set; } = default!;
+    public virtual CountryDto Country { get; set; } = null!;
     public System.DateTime? DeletedAtUtc { get; set; }
 
     public CountryTimeZones ToEntity()
@@ -40,7 +42,7 @@ public partial class CountryTimeZonesDto
         var entity = new CountryTimeZones();
         entity.Id = CountryTimeZones.CreateId(Id);
         entity.TimeZoneCode = CountryTimeZones.CreateTimeZoneCode(TimeZoneCode);
-        entity.Countries = Countries.Select(dto => dto.ToEntity()).ToList();
+        entity.Country = Country.ToEntity();
         return entity;
     }
 

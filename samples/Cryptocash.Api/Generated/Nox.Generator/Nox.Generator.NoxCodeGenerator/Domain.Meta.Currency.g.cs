@@ -7,7 +7,7 @@ using Nox.Domain;
 using System;
 using System.Collections.Generic;
 
-namespace CryptocashApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
 /// Static methods for the Currency class.
@@ -61,9 +61,9 @@ public partial class Currency
     
 
     /// <summary>
-    /// Type options and factory for property 'ThousandsSeperator'
+    /// Type options and factory for property 'ThousandsSeparator'
     /// </summary>
-    public static Nox.Types.TextTypeOptions ThousandsSeperatorTypeOptions {get; private set;} = new ()
+    public static Nox.Types.TextTypeOptions ThousandsSeparatorTypeOptions {get; private set;} = new ()
     {
         MinLength = 4,
         MaxLength = 63,
@@ -72,8 +72,8 @@ public partial class Currency
         Casing = Nox.Types.TextTypeCasing.Normal,
     };
     
-    public static Text CreateThousandsSeperator(System.String value)
-        => Nox.Types.Text.From(value, ThousandsSeperatorTypeOptions);
+    public static Text CreateThousandsSeparator(System.String value)
+        => Nox.Types.Text.From(value, ThousandsSeparatorTypeOptions);
     
 
     /// <summary>
@@ -107,16 +107,80 @@ public partial class Currency
     
 
     /// <summary>
-    /// Type options and factory for property 'CurrencyUnitsId'
+    /// Type options and factory for property 'MajorName'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreateCurrencyUnitsId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
+    public static Nox.Types.TextTypeOptions MajorNameTypeOptions {get; private set;} = new ()
+    {
+        MinLength = 4,
+        MaxLength = 63,
+        IsUnicode = true,
+        IsLocalized = true,
+        Casing = Nox.Types.TextTypeCasing.Normal,
+    };
+    
+    public static Text CreateMajorName(System.String value)
+        => Nox.Types.Text.From(value, MajorNameTypeOptions);
     
 
     /// <summary>
-    /// Type options and factory for property 'CurrencyBankNotesId'
+    /// Type options and factory for property 'MajorSymbol'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreateCurrencyBankNotesId(System.Int64 value)
+    public static Nox.Types.TextTypeOptions MajorSymbolTypeOptions {get; private set;} = new ()
+    {
+        MinLength = 4,
+        MaxLength = 63,
+        IsUnicode = true,
+        IsLocalized = true,
+        Casing = Nox.Types.TextTypeCasing.Normal,
+    };
+    
+    public static Text CreateMajorSymbol(System.String value)
+        => Nox.Types.Text.From(value, MajorSymbolTypeOptions);
+    
+
+    /// <summary>
+    /// Type options and factory for property 'MinorName'
+    /// </summary>
+    public static Nox.Types.TextTypeOptions MinorNameTypeOptions {get; private set;} = new ()
+    {
+        MinLength = 4,
+        MaxLength = 63,
+        IsUnicode = true,
+        IsLocalized = true,
+        Casing = Nox.Types.TextTypeCasing.Normal,
+    };
+    
+    public static Text CreateMinorName(System.String value)
+        => Nox.Types.Text.From(value, MinorNameTypeOptions);
+    
+
+    /// <summary>
+    /// Type options and factory for property 'MinorSymbol'
+    /// </summary>
+    public static Nox.Types.TextTypeOptions MinorSymbolTypeOptions {get; private set;} = new ()
+    {
+        MinLength = 4,
+        MaxLength = 63,
+        IsUnicode = true,
+        IsLocalized = true,
+        Casing = Nox.Types.TextTypeCasing.Normal,
+    };
+    
+    public static Text CreateMinorSymbol(System.String value)
+        => Nox.Types.Text.From(value, MinorSymbolTypeOptions);
+    
+
+    /// <summary>
+    /// Type options and factory for property 'MinorToMajorValue'
+    /// </summary>
+    public static Nox.Types.Money CreateMinorToMajorValue(IMoney value)
+        => Nox.Types.Money.From(value);
+    
+
+    /// <summary>
+    /// Type options and factory for property 'BankNotesId'
+    /// </summary>
+    public static Nox.Types.DatabaseNumber CreateBankNotesId(System.Int64 value)
         => Nox.Types.DatabaseNumber.From(value);
     
 

@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto; 
+namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
 
 /// <summary>
 /// {{entity.Description}}.

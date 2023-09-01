@@ -9,17 +9,17 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Nox.Application;
-using CryptocashApi.Application;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Application.Queries;
-using CryptocashApi.Application.Commands;
-using CryptocashApi.Domain;
-using CryptocashApi.Infrastructure.Persistence;
+using SampleWebApp.Application;
+using SampleWebApp.Application.Dto;
+using SampleWebApp.Application.Queries;
+using SampleWebApp.Application.Commands;
+using SampleWebApp.Domain;
+using SampleWebApp.Infrastructure.Persistence;
 using Nox.Types;
 
-namespace CryptocashApi.Presentation.Api.OData;
+namespace SampleWebApp.Presentation.Api.OData;
 
-public partial class CurrencyUnitsController : ODataController
+public partial class CurrenciesController : ODataController
 {
     
     /// <summary>
@@ -32,7 +32,7 @@ public partial class CurrencyUnitsController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public CurrencyUnitsController(
+    public CurrenciesController(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -42,15 +42,15 @@ public partial class CurrencyUnitsController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<CurrencyUnitsDto>>> Get()
+    public async  Task<ActionResult<IQueryable<CurrencyDto>>> Get()
     {
-        var result = await _mediator.Send(new GetCurrencyUnitsQuery());
+        var result = await _mediator.Send(new GetCurrenciesQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<CurrencyUnitsDto>> Get([FromRoute] System.Int64 key)
+    public async Task<ActionResult<CurrencyDto>> Get([FromRoute] System.UInt32 key)
     {
-        var item = await _mediator.Send(new GetCurrencyUnitsByIdQuery(key));
+        var item = await _mediator.Send(new GetCurrencyByIdQuery(key));
         
         if (item == null)
         {
@@ -60,25 +60,25 @@ public partial class CurrencyUnitsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]CurrencyUnitsCreateDto currencyunits)
+    public async Task<ActionResult> Post([FromBody]CurrencyCreateDto currency)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateCurrencyUnitsCommand(currencyunits));
+        var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency));
         
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] CurrencyUnitsUpdateDto currencyUnits)
+    public async Task<ActionResult> Put([FromRoute] System.UInt32 key, [FromBody] CurrencyUpdateDto currency)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateCurrencyUnitsCommand(key, currencyUnits));
+        var updated = await _mediator.Send(new UpdateCurrencyCommand(key, currency));
         
         if (updated is null)
         {
@@ -87,7 +87,7 @@ public partial class CurrencyUnitsController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CurrencyUnitsUpdateDto> currencyUnits)
+    public async Task<ActionResult> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<CurrencyUpdateDto> currency)
     {
         if (!ModelState.IsValid)
         {
@@ -95,15 +95,15 @@ public partial class CurrencyUnitsController : ODataController
         }
         var updateProperties = new Dictionary<string, dynamic>();
         
-        foreach (var propertyName in currencyUnits.GetChangedPropertyNames())
+        foreach (var propertyName in currency.GetChangedPropertyNames())
         {
-            if(currencyUnits.TryGetPropertyValue(propertyName, out dynamic value))
+            if(currency.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCurrencyUnitsCommand(key, updateProperties));
+        var updated = await _mediator.Send(new PartialUpdateCurrencyCommand(key, updateProperties));
         
         if (updated is null)
         {
@@ -112,9 +112,9 @@ public partial class CurrencyUnitsController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public async Task<ActionResult> Delete([FromRoute] System.UInt32 key)
     {
-        var result = await _mediator.Send(new DeleteCurrencyUnitsByIdCommand(key));
+        var result = await _mediator.Send(new DeleteCurrencyByIdCommand(key));
         if (!result)
         {
             return NotFound();

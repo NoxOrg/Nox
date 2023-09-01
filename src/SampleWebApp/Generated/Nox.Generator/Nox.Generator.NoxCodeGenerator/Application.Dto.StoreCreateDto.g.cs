@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SampleWebApp.Application.Dto; 
+namespace SampleWebApp.Application.Dto;
 
 /// <summary>
 /// Stores.

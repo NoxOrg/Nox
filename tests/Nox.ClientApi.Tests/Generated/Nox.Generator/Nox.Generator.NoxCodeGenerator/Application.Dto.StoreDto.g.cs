@@ -30,6 +30,13 @@ public partial class StoreDto
     public System.String Name { get; set; } = default!;
 
     /// <summary>
+    /// Store Store owner relationship ZeroOrOne StoreOwners
+    /// </summary>
+    //EF maps ForeignKey Automatically
+    public System.String? StoreOwnerId { get; set; } = default!;
+    public virtual StoreOwnerDto? StoreOwner { get; set; } = null!;
+
+    /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
     public virtual EmailAddressDto? EmailAddress { get; set; } = null!;
@@ -40,6 +47,7 @@ public partial class StoreDto
         var entity = new Store();
         entity.Id = Store.CreateId(Id);
         entity.Name = Store.CreateName(Name);
+        entity.StoreOwner = StoreOwner?.ToEntity();
         entity.EmailAddress = EmailAddress?.ToEntity();
         return entity;
     }

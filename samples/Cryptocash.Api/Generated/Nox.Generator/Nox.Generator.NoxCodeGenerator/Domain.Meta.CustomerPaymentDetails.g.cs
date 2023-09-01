@@ -7,7 +7,7 @@ using Nox.Domain;
 using System;
 using System.Collections.Generic;
 
-namespace CryptocashApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
 /// Static methods for the CustomerPaymentDetails class.
@@ -35,22 +35,6 @@ public partial class CustomerPaymentDetails
     
     public static Text CreatePaymentAccountName(System.String value)
         => Nox.Types.Text.From(value, PaymentAccountNameTypeOptions);
-    
-
-    /// <summary>
-    /// Type options and factory for property 'PaymentAccountType'
-    /// </summary>
-    public static Nox.Types.TextTypeOptions PaymentAccountTypeTypeOptions {get; private set;} = new ()
-    {
-        MinLength = 4,
-        MaxLength = 63,
-        IsUnicode = true,
-        IsLocalized = true,
-        Casing = Nox.Types.TextTypeCasing.Normal,
-    };
-    
-    public static Text CreatePaymentAccountType(System.String value)
-        => Nox.Types.Text.From(value, PaymentAccountTypeTypeOptions);
     
 
     /// <summary>
@@ -89,6 +73,13 @@ public partial class CustomerPaymentDetails
     /// Type options and factory for property 'CustomerId'
     /// </summary>
     public static Nox.Types.DatabaseNumber CreateCustomerId(System.Int64 value)
+        => Nox.Types.DatabaseNumber.From(value);
+    
+
+    /// <summary>
+    /// Type options and factory for property 'PaymentProviderId'
+    /// </summary>
+    public static Nox.Types.DatabaseNumber CreatePaymentProviderId(System.Int64 value)
         => Nox.Types.DatabaseNumber.From(value);
     
 

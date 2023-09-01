@@ -7,7 +7,7 @@ using Nox.Domain;
 using System;
 using System.Collections.Generic;
 
-namespace CryptocashApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
 /// Static methods for the CountryHoliday class.
@@ -61,10 +61,10 @@ public partial class CountryHoliday
     
 
     /// <summary>
-    /// Type options and factory for property 'HolidaysId'
+    /// Type options and factory for property 'CountryId'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreateHolidaysId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
+    public static Nox.Types.CountryCode2 CreateCountryId(System.String value)
+        => Nox.Types.CountryCode2.From(value);
     
 
 }

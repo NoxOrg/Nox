@@ -54,6 +54,18 @@ public class EntityRelationship : DefinitionBase
     [YamlIgnore]
     public bool WithSingleEntity => EntityRelationshipExtensions.WithSingleEntity(this);
 
+    /// <summary>
+    /// This relationship is a zero or one relation to the other entity
+    /// </summary>
+    [YamlIgnore]
+    public bool WithMultiEntity => EntityRelationshipExtensions.WithMultiEntity(this);
+
+    /// <summary>
+    /// Get referenced primitive type of relationship
+    /// </summary>
+    [YamlIgnore]
+    public string ForeignKeyPrimitiveType => EntityRelationshipExtensions.GetPrimitiveForeignKeyType(this);
+
     [YamlIgnore]
     public virtual RelatedEntityInfo Related { get; internal set; } = new();
 }

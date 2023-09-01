@@ -7,7 +7,7 @@ using Nox.Domain;
 using System;
 using System.Collections.Generic;
 
-namespace CryptocashApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
 /// Static methods for the CustomerTransaction class.

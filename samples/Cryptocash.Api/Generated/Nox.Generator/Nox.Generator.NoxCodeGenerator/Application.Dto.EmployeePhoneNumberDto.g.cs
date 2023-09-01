@@ -7,9 +7,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using CryptocashApi.Domain;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application.Dto;
+namespace Cryptocash.Application.Dto;
 
 public record EmployeePhoneNumberKeyDto(System.Int64 keyId);
 
@@ -20,17 +20,17 @@ public partial class EmployeePhoneNumberDto
 {
 
     /// <summary>
-    /// The employee's phone number identifier (Required).
+    /// Employee's phone number identifier (Required).
     /// </summary>
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// The employee's phone number type (Required).
+    /// Employee's phone number type (Required).
     /// </summary>
     public System.String PhoneNumberType { get; set; } = default!;
 
     /// <summary>
-    /// The employee's phone number (Required).
+    /// Employee's phone number (Required).
     /// </summary>
     public System.String PhoneNumber { get; set; } = default!;
 

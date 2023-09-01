@@ -19,9 +19,9 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application;
 
-public class CountryMapper: EntityMapperBase<Country>
+public class CountryMapper : EntityMapperBase<Country>
 {
-    public  CountryMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public CountryMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
     public override void MapToEntity(Country entity, Entity entityDefinition, dynamic dto)
     {
@@ -29,86 +29,90 @@ public class CountryMapper: EntityMapperBase<Country>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
     
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",dto.Name);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
+        if (noxTypeValue != null)
         {        
             entity.Name = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"FormalName",dto.FormalName);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "FormalName", dto.FormalName);
+        if (noxTypeValue != null)
         {        
             entity.FormalName = noxTypeValue;
         }
 
         // TODO map AlphaCode3 CountryCode3 remaining types and remove if else
-        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition,"AlphaCode2",dto.AlphaCode2);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "AlphaCode2", dto.AlphaCode2);
+        if (noxTypeValue != null)
         {        
             entity.AlphaCode2 = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"NumericCode",dto.NumericCode);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "NumericCode", dto.NumericCode);
+        if (noxTypeValue != null)
         {        
             entity.NumericCode = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"DialingCodes",dto.DialingCodes);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "DialingCodes", dto.DialingCodes);
+        if (noxTypeValue != null)
         {        
             entity.DialingCodes = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Capital",dto.Capital);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Capital", dto.Capital);
+        if (noxTypeValue != null)
         {        
             entity.Capital = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Demonym",dto.Demonym);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Demonym", dto.Demonym);
+        if (noxTypeValue != null)
         {        
             entity.Demonym = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Area>(entityDefinition,"AreaInSquareKilometres",dto.AreaInSquareKilometres);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Area>(entityDefinition, "AreaInSquareKilometres", dto.AreaInSquareKilometres);
+        if (noxTypeValue != null)
         {        
             entity.AreaInSquareKilometres = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition,"GeoCoord",dto.GeoCoord);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "GeoCoord", dto.GeoCoord);
+        if (noxTypeValue != null)
         {        
             entity.GeoCoord = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"GeoRegion",dto.GeoRegion);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "GeoRegion", dto.GeoRegion);
+        if (noxTypeValue != null)
         {        
             entity.GeoRegion = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"GeoSubRegion",dto.GeoSubRegion);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "GeoSubRegion", dto.GeoSubRegion);
+        if (noxTypeValue != null)
         {        
             entity.GeoSubRegion = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"GeoWorldRegion",dto.GeoWorldRegion);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "GeoWorldRegion", dto.GeoWorldRegion);
+        if (noxTypeValue != null)
         {        
             entity.GeoWorldRegion = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"Population",dto.Population);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "Population", dto.Population);
+        if (noxTypeValue != null)
         {        
             entity.Population = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"TopLevelDomains",dto.TopLevelDomains);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "TopLevelDomains", dto.TopLevelDomains);
+        if (noxTypeValue != null)
         {        
             entity.TopLevelDomains = noxTypeValue;
         }
+    
     }
 
     public override void PartialMapToEntity(Country entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+#pragma warning disable CS0168 // Variable is assigned but its value is never used
+        dynamic? value;
+#pragma warning restore CS0168 // Variable is assigned but its value is never used
         {
-            if (updatedProperties.TryGetValue("Name", out dynamic? value))
+            if (updatedProperties.TryGetValue("Name", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Country", "Name");
@@ -120,9 +124,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("FormalName", out dynamic? value))
+            if (updatedProperties.TryGetValue("FormalName", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"FormalName",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "FormalName", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Country", "FormalName");
@@ -134,9 +138,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("AlphaCode3", out dynamic? value))
+            if (updatedProperties.TryGetValue("AlphaCode3", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.CountryCode3>(entityDefinition,"AlphaCode3",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.CountryCode3>(entityDefinition, "AlphaCode3", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Country", "AlphaCode3");
@@ -148,9 +152,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("AlphaCode2", out dynamic? value))
+            if (updatedProperties.TryGetValue("AlphaCode2", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition,"AlphaCode2",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "AlphaCode2", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Country", "AlphaCode2");
@@ -162,9 +166,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("NumericCode", out dynamic? value))
+            if (updatedProperties.TryGetValue("NumericCode", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"NumericCode",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "NumericCode", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Country", "NumericCode");
@@ -176,9 +180,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("DialingCodes", out dynamic? value))
+            if (updatedProperties.TryGetValue("DialingCodes", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"DialingCodes",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "DialingCodes", value);
                 if(noxTypeValue == null)
                 {
                     entity.DialingCodes = null;
@@ -190,9 +194,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("Capital", out dynamic? value))
+            if (updatedProperties.TryGetValue("Capital", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Capital",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Capital", value);
                 if(noxTypeValue == null)
                 {
                     entity.Capital = null;
@@ -204,9 +208,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("Demonym", out dynamic? value))
+            if (updatedProperties.TryGetValue("Demonym", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Demonym",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Demonym", value);
                 if(noxTypeValue == null)
                 {
                     entity.Demonym = null;
@@ -218,9 +222,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("AreaInSquareKilometres", out dynamic? value))
+            if (updatedProperties.TryGetValue("AreaInSquareKilometres", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Area>(entityDefinition,"AreaInSquareKilometres",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Area>(entityDefinition, "AreaInSquareKilometres", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Country", "AreaInSquareKilometres");
@@ -232,9 +236,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("GeoCoord", out dynamic? value))
+            if (updatedProperties.TryGetValue("GeoCoord", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition,"GeoCoord",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "GeoCoord", value);
                 if(noxTypeValue == null)
                 {
                     entity.GeoCoord = null;
@@ -246,9 +250,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("GeoRegion", out dynamic? value))
+            if (updatedProperties.TryGetValue("GeoRegion", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"GeoRegion",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "GeoRegion", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Country", "GeoRegion");
@@ -260,9 +264,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("GeoSubRegion", out dynamic? value))
+            if (updatedProperties.TryGetValue("GeoSubRegion", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"GeoSubRegion",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "GeoSubRegion", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Country", "GeoSubRegion");
@@ -274,9 +278,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("GeoWorldRegion", out dynamic? value))
+            if (updatedProperties.TryGetValue("GeoWorldRegion", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"GeoWorldRegion",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "GeoWorldRegion", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Country", "GeoWorldRegion");
@@ -288,9 +292,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("Population", out dynamic? value))
+            if (updatedProperties.TryGetValue("Population", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"Population",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "Population", value);
                 if(noxTypeValue == null)
                 {
                     entity.Population = null;
@@ -302,9 +306,9 @@ public class CountryMapper: EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("TopLevelDomains", out dynamic? value))
+            if (updatedProperties.TryGetValue("TopLevelDomains", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"TopLevelDomains",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "TopLevelDomains", value);
                 if(noxTypeValue == null)
                 {
                     entity.TopLevelDomains = null;
@@ -315,5 +319,7 @@ public class CountryMapper: EntityMapperBase<Country>
                 }
             }
         }
+    
+    
     }
 }

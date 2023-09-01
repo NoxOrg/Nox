@@ -7,7 +7,7 @@ using Nox.Domain;
 using System;
 using System.Collections.Generic;
 
-namespace CryptocashApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
 /// Static methods for the Booking class.
@@ -68,7 +68,7 @@ public partial class Booking
     /// </summary>
     public static Nox.Types.FormulaTypeOptions StatusTypeOptions {get; private set;} = new ()
     {
-        Expression = "CancelledDateTime == null ? \"cancelled\" : (PickedUpDateTime == null ? \"picked-up\" : \"booked\")",
+        Expression = "CancelledDateTime != null ? \"cancelled\" : (PickedUpDateTime != null ? \"picked-up\" : (ExpiryDateTime != null ? \"expired\" : \"booked\"))",
         Returns = Nox.Types.FormulaReturnType.String,
     };
     

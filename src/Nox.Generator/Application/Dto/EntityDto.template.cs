@@ -53,8 +53,8 @@ public partial class {{className}}
     public virtual List<{{relationship.Entity}}Dto> {{relationship.EntityPlural}} { get; set; } = new();
     {{- else}}
         {{- if relationship.ShouldGenerateForeignOnThisSide}}
-    //EF maps ForeignKey Automatically...
-    public virtual string{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}}Id { get; set; } = null!;
+    //EF maps ForeignKey Automatically
+    public System.{{relationship.ForeignKeyPrimitiveType}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}}Id { get; set; } = default!;
         {{- end}}
     public virtual {{relationship.Entity}}Dto{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
     {{-end}}

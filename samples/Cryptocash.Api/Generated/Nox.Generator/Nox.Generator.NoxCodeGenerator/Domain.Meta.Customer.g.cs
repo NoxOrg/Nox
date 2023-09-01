@@ -7,7 +7,7 @@ using Nox.Domain;
 using System;
 using System.Collections.Generic;
 
-namespace CryptocashApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
 /// Static methods for the Customer class.
@@ -93,6 +93,13 @@ public partial class Customer
     /// </summary>
     public static Nox.Types.DatabaseNumber CreateCustomerTransactionId(System.Int64 value)
         => Nox.Types.DatabaseNumber.From(value);
+    
+
+    /// <summary>
+    /// Type options and factory for property 'CountryId'
+    /// </summary>
+    public static Nox.Types.CountryCode2 CreateCountryId(System.String value)
+        => Nox.Types.CountryCode2.From(value);
     
 
 }

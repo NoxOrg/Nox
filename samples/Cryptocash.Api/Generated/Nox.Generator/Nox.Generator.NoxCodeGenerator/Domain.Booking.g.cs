@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using Nox.Types;
 using Nox.Domain;
 
-namespace CryptocashApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
 /// Exchange booking and related data.
@@ -16,56 +16,56 @@ namespace CryptocashApi.Domain;
 public partial class Booking : AuditableEntityBase
 {
     /// <summary>
-    /// The booking unique identifier (Required).
+    /// Booking unique identifier (Required).
     /// </summary>
     public DatabaseGuid Id { get; set; } = null!;
 
     /// <summary>
-    /// The booking's amount exchanged from (Required).
+    /// Booking's amount exchanged from (Required).
     /// </summary>
     public Nox.Types.Money AmountFrom { get; set; } = null!;
 
     /// <summary>
-    /// The booking's amount exchanged to (Required).
+    /// Booking's amount exchanged to (Required).
     /// </summary>
     public Nox.Types.Money AmountTo { get; set; } = null!;
 
     /// <summary>
-    /// The booking's requested pick up date (Required).
+    /// Booking's requested pick up date (Required).
     /// </summary>
     public Nox.Types.DateTimeRange RequestedPickUpDate { get; set; } = null!;
 
     /// <summary>
-    /// The booking's actual pick up date (Optional).
+    /// Booking's actual pick up date (Optional).
     /// </summary>
     public Nox.Types.DateTimeRange? PickedUpDateTime { get; set; } = null!;
 
     /// <summary>
-    /// The booking's expiry date (Required).
+    /// Booking's expiry date (Optional).
     /// </summary>
-    public Nox.Types.DateTime ExpiryDateTime { get; set; } = null!;
+    public Nox.Types.DateTime? ExpiryDateTime { get; set; } = null!;
 
     /// <summary>
-    /// The booking's cancelled date (Optional).
+    /// Booking's cancelled date (Optional).
     /// </summary>
     public Nox.Types.DateTime? CancelledDateTime { get; set; } = null!;
 
     /// <summary>
-    /// The booking's status (Required).
+    /// Booking's status (Optional).
     /// </summary>
-    public String Status
+    public String? Status
     { 
-        get { return CancelledDateTime == null ? "cancelled" : (PickedUpDateTime == null ? "picked-up" : "booked"); }
+        get { return CancelledDateTime != null ? "cancelled" : (PickedUpDateTime != null ? "picked-up" : (ExpiryDateTime != null ? "expired" : "booked")); }
         private set { }
     }
 
     /// <summary>
-    /// The booking's related vat number (Optional).
+    /// Booking's related vat number (Optional).
     /// </summary>
     public Nox.Types.VatNumber? VatNumber { get; set; } = null!;
 
     /// <summary>
-    /// Booking The booking's related customer ExactlyOne Customers
+    /// Booking Booking's customer ExactlyOne Customers
     /// </summary>
     public virtual Customer Customer { get; set; } = null!;
 
@@ -75,7 +75,7 @@ public partial class Booking : AuditableEntityBase
     public Nox.Types.DatabaseNumber CustomerId { get; set; } = null!;
 
     /// <summary>
-    /// Booking The booking's related vending machine ExactlyOne VendingMachines
+    /// Booking Booking's vending machine ExactlyOne VendingMachines
     /// </summary>
     public virtual VendingMachine VendingMachine { get; set; } = null!;
 
@@ -85,7 +85,7 @@ public partial class Booking : AuditableEntityBase
     public Nox.Types.DatabaseGuid VendingMachineId { get; set; } = null!;
 
     /// <summary>
-    /// Booking The booking's related fee ExactlyOne Commissions
+    /// Booking Booking's fee ExactlyOne Commissions
     /// </summary>
     public virtual Commission Commission { get; set; } = null!;
 
@@ -97,9 +97,7 @@ public partial class Booking : AuditableEntityBase
     public Nox.Types.DatabaseNumber CommissionId { get; set; } = null!;
 
     /// <summary>
-    /// Booking The transaction's related booking OneOrMany CustomerTransactions
+    /// Booking Transaction's booking ExactlyOne CustomerTransactions
     /// </summary>
-    public virtual List<CustomerTransaction> CustomerTransactions { get; set; } = new();
-
-    public List<CustomerTransaction> CustomerTransaction => CustomerTransactions;
+    public virtual CustomerTransaction CustomerTransaction { get; set; } = null!;
 }

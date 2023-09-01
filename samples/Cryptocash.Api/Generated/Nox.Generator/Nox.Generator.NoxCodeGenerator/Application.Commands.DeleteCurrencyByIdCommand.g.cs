@@ -7,20 +7,20 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 
 public record DeleteCurrencyByIdCommand(System.String keyId) : IRequest<bool>;
 
 public class DeleteCurrencyByIdCommandHandler: CommandBase<DeleteCurrencyByIdCommand,Currency>, IRequestHandler<DeleteCurrencyByIdCommand, bool>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 
 	public DeleteCurrencyByIdCommandHandler(
-		CryptocashApiDbContext dbContext,
-		NoxSolution noxSolution, 
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;

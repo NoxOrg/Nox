@@ -7,7 +7,7 @@ using Nox.Domain;
 using System;
 using System.Collections.Generic;
 
-namespace CryptocashApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
 /// Static methods for the Employee class.
@@ -85,6 +85,13 @@ public partial class Employee
     /// Type options and factory for property 'EmployeePhoneNumberId'
     /// </summary>
     public static Nox.Types.DatabaseNumber CreateEmployeePhoneNumberId(System.Int64 value)
+        => Nox.Types.DatabaseNumber.From(value);
+    
+
+    /// <summary>
+    /// Type options and factory for property 'VendingMachineOrderId'
+    /// </summary>
+    public static Nox.Types.DatabaseNumber CreateVendingMachineOrderId(System.Int64 value)
         => Nox.Types.DatabaseNumber.From(value);
     
 

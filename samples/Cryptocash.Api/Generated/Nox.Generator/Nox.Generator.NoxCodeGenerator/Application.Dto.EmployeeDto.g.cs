@@ -7,9 +7,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using CryptocashApi.Domain;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application.Dto;
+namespace Cryptocash.Application.Dto;
 
 public record EmployeeKeyDto(System.Int64 keyId);
 
@@ -20,42 +20,47 @@ public partial class EmployeeDto
 {
 
     /// <summary>
-    /// The employee's unique identifier (Required).
+    /// Employee's unique identifier (Required).
     /// </summary>
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// The employee's first name (Required).
+    /// Employee's first name (Required).
     /// </summary>
     public System.String FirstName { get; set; } = default!;
 
     /// <summary>
-    /// The employee's last name (Required).
+    /// Employee's last name (Required).
     /// </summary>
     public System.String LastName { get; set; } = default!;
 
     /// <summary>
-    /// The employee's email (Required).
+    /// Employee's email address (Required).
     /// </summary>
     public System.String EmailAddress { get; set; } = default!;
 
     /// <summary>
-    /// The employee's address (Required).
+    /// Employee's street address (Required).
     /// </summary>
     public StreetAddressDto Address { get; set; } = default!;
 
     /// <summary>
-    /// The employee's first working day (Required).
+    /// Employee's first working day (Required).
     /// </summary>
     public System.DateTime FirstWorkingDay { get; set; } = default!;
 
     /// <summary>
-    /// The employee's last working day (Optional).
+    /// Employee's last working day (Optional).
     /// </summary>
     public System.DateTime? LastWorkingDay { get; set; }
 
     /// <summary>
-    /// Employee The employee's phone numbers ZeroOrMany EmployeePhoneNumbers
+    /// Employee Reviewed by employee ExactlyOne VendingMachineOrders
+    /// </summary>
+    public virtual VendingMachineOrderDto VendingMachineOrder { get; set; } = null!;
+
+    /// <summary>
+    /// Employee Employee's phone numbers ZeroOrMany EmployeePhoneNumbers
     /// </summary>
     public virtual List<EmployeePhoneNumberDto> EmployeePhoneNumbers { get; set; } = new();
     public System.DateTime? DeletedAtUtc { get; set; }
@@ -70,6 +75,7 @@ public partial class EmployeeDto
         entity.Address = Employee.CreateAddress(Address);
         entity.FirstWorkingDay = Employee.CreateFirstWorkingDay(FirstWorkingDay);
         if (LastWorkingDay is not null)entity.LastWorkingDay = Employee.CreateLastWorkingDay(LastWorkingDay.NonNullValue<System.DateTime>());
+        entity.VendingMachineOrder = VendingMachineOrder.ToEntity();
         entity.EmployeePhoneNumbers = EmployeePhoneNumbers.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }

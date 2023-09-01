@@ -7,9 +7,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using CryptocashApi.Domain;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application.Dto;
+namespace Cryptocash.Application.Dto;
 
 public record BookingKeyDto(System.Guid keyId);
 
@@ -20,75 +20,75 @@ public partial class BookingDto
 {
 
     /// <summary>
-    /// The booking unique identifier (Required).
+    /// Booking unique identifier (Required).
     /// </summary>
     public System.Guid Id { get; set; } = default!;
 
     /// <summary>
-    /// The booking's amount exchanged from (Required).
+    /// Booking's amount exchanged from (Required).
     /// </summary>
     public MoneyDto AmountFrom { get; set; } = default!;
 
     /// <summary>
-    /// The booking's amount exchanged to (Required).
+    /// Booking's amount exchanged to (Required).
     /// </summary>
     public MoneyDto AmountTo { get; set; } = default!;
 
     /// <summary>
-    /// The booking's requested pick up date (Required).
+    /// Booking's requested pick up date (Required).
     /// </summary>
     public DateTimeRangeDto RequestedPickUpDate { get; set; } = default!;
 
     /// <summary>
-    /// The booking's actual pick up date (Optional).
+    /// Booking's actual pick up date (Optional).
     /// </summary>
     public DateTimeRangeDto? PickedUpDateTime { get; set; }
 
     /// <summary>
-    /// The booking's expiry date (Required).
+    /// Booking's expiry date (Optional).
     /// </summary>
-    public System.DateTimeOffset ExpiryDateTime { get; set; } = default!;
+    public System.DateTimeOffset? ExpiryDateTime { get; set; }
 
     /// <summary>
-    /// The booking's cancelled date (Optional).
+    /// Booking's cancelled date (Optional).
     /// </summary>
     public System.DateTimeOffset? CancelledDateTime { get; set; }
 
     /// <summary>
-    /// The booking's status (Required).
+    /// Booking's status (Optional).
     /// </summary>
-    public System.String Status { get; set; } = default!;
+    public System.String? Status { get; set; }
 
     /// <summary>
-    /// The booking's related vat number (Optional).
+    /// Booking's related vat number (Optional).
     /// </summary>
     public VatNumberDto? VatNumber { get; set; }
 
     /// <summary>
-    /// Booking The booking's related customer ExactlyOne Customers
+    /// Booking Booking's customer ExactlyOne Customers
     /// </summary>
-    //EF maps ForeignKey Automatically...
-    public virtual string CustomerId { get; set; } = null!;
+    //EF maps ForeignKey Automatically
+    public System.Int64 CustomerId { get; set; } = default!;
     public virtual CustomerDto Customer { get; set; } = null!;
 
     /// <summary>
-    /// Booking The booking's related vending machine ExactlyOne VendingMachines
+    /// Booking Booking's vending machine ExactlyOne VendingMachines
     /// </summary>
-    //EF maps ForeignKey Automatically...
-    public virtual string VendingMachineId { get; set; } = null!;
+    //EF maps ForeignKey Automatically
+    public System.Guid VendingMachineId { get; set; } = default!;
     public virtual VendingMachineDto VendingMachine { get; set; } = null!;
 
     /// <summary>
-    /// Booking The booking's related fee ExactlyOne Commissions
+    /// Booking Booking's fee ExactlyOne Commissions
     /// </summary>
-    //EF maps ForeignKey Automatically...
-    public virtual string CommissionId { get; set; } = null!;
+    //EF maps ForeignKey Automatically
+    public System.Int64 CommissionId { get; set; } = default!;
     public virtual CommissionDto Commission { get; set; } = null!;
 
     /// <summary>
-    /// Booking The transaction's related booking OneOrMany CustomerTransactions
+    /// Booking Transaction's booking ExactlyOne CustomerTransactions
     /// </summary>
-    public virtual List<CustomerTransactionDto> CustomerTransactions { get; set; } = new();
+    public virtual CustomerTransactionDto CustomerTransaction { get; set; } = null!;
     public System.DateTime? DeletedAtUtc { get; set; }
 
     public Booking ToEntity()
@@ -99,13 +99,13 @@ public partial class BookingDto
         entity.AmountTo = Booking.CreateAmountTo(AmountTo);
         entity.RequestedPickUpDate = Booking.CreateRequestedPickUpDate(RequestedPickUpDate);
         if (PickedUpDateTime is not null)entity.PickedUpDateTime = Booking.CreatePickedUpDateTime(PickedUpDateTime.NonNullValue<DateTimeRangeDto>());
-        entity.ExpiryDateTime = Booking.CreateExpiryDateTime(ExpiryDateTime);
+        if (ExpiryDateTime is not null)entity.ExpiryDateTime = Booking.CreateExpiryDateTime(ExpiryDateTime.NonNullValue<System.DateTimeOffset>());
         if (CancelledDateTime is not null)entity.CancelledDateTime = Booking.CreateCancelledDateTime(CancelledDateTime.NonNullValue<System.DateTimeOffset>());
         if (VatNumber is not null)entity.VatNumber = Booking.CreateVatNumber(VatNumber.NonNullValue<VatNumberDto>());
         entity.Customer = Customer.ToEntity();
         entity.VendingMachine = VendingMachine.ToEntity();
         entity.Commission = Commission.ToEntity();
-        entity.CustomerTransactions = CustomerTransactions.Select(dto => dto.ToEntity()).ToList();
+        entity.CustomerTransaction = CustomerTransaction.ToEntity();
         return entity;
     }
 

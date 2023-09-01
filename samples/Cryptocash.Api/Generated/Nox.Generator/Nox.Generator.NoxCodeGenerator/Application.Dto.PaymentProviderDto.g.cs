@@ -7,9 +7,9 @@ using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-using CryptocashApi.Domain;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application.Dto;
+namespace Cryptocash.Application.Dto;
 
 public record PaymentProviderKeyDto(System.Int64 keyId);
 
@@ -20,19 +20,26 @@ public partial class PaymentProviderDto
 {
 
     /// <summary>
-    /// The payment provider unique identifier (Required).
+    /// Payment provider unique identifier (Required).
     /// </summary>
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// The payment provider name (Required).
+    /// Payment provider name (Required).
     /// </summary>
     public System.String PaymentProviderName { get; set; } = default!;
 
     /// <summary>
-    /// The payment account type (Required).
+    /// Payment provider account type (Required).
     /// </summary>
     public System.String PaymentProviderType { get; set; } = default!;
+
+    /// <summary>
+    /// PaymentProvider Payment provider ExactlyOne CustomerPaymentDetails
+    /// </summary>
+    //EF maps ForeignKey Automatically
+    public System.Int64 CustomerPaymentDetailsId { get; set; } = default!;
+    public virtual CustomerPaymentDetailsDto CustomerPaymentDetails { get; set; } = null!;
     public System.DateTime? DeletedAtUtc { get; set; }
 
     public PaymentProvider ToEntity()
@@ -41,6 +48,7 @@ public partial class PaymentProviderDto
         entity.Id = PaymentProvider.CreateId(Id);
         entity.PaymentProviderName = PaymentProvider.CreatePaymentProviderName(PaymentProviderName);
         entity.PaymentProviderType = PaymentProvider.CreatePaymentProviderType(PaymentProviderType);
+        entity.CustomerPaymentDetails = CustomerPaymentDetails.ToEntity();
         return entity;
     }
 

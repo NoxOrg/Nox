@@ -63,7 +63,6 @@ namespace Nox.Types.EntityFramework.Configurations
             Entity entity,
             IReadOnlyList<EntityRelationshipWithType> relationshipsToCreate)
         {
-
             foreach (var relationshipToCreate in relationshipsToCreate)
             {
                 // One to ?? (// Many to Many are setup by EF)

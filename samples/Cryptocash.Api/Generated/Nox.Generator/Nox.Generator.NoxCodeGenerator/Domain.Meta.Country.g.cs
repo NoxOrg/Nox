@@ -7,7 +7,7 @@ using Nox.Domain;
 using System;
 using System.Collections.Generic;
 
-namespace CryptocashApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
 /// Static methods for the Country class.
@@ -126,9 +126,9 @@ public partial class Country
     
 
     /// <summary>
-    /// Type options and factory for property 'OpenStreeMapsUrl'
+    /// Type options and factory for property 'OpenStreetMapsUrl'
     /// </summary>
-    public static Nox.Types.Url CreateOpenStreeMapsUrl(System.String value)
+    public static Nox.Types.Url CreateOpenStreetMapsUrl(System.String value)
         => Nox.Types.Url.From(value);
     
 
@@ -168,9 +168,16 @@ public partial class Country
     
 
     /// <summary>
-    /// Type options and factory for property 'HolidaysId'
+    /// Type options and factory for property 'CountryHolidayId'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreateHolidaysId(System.Int64 value)
+    public static Nox.Types.DatabaseNumber CreateCountryHolidayId(System.Int64 value)
+        => Nox.Types.DatabaseNumber.From(value);
+    
+
+    /// <summary>
+    /// Type options and factory for property 'CustomerId'
+    /// </summary>
+    public static Nox.Types.DatabaseNumber CreateCustomerId(System.Int64 value)
         => Nox.Types.DatabaseNumber.From(value);
     
 

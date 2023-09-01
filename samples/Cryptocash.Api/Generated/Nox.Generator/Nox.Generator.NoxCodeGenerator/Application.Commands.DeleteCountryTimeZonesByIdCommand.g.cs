@@ -7,20 +7,20 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 
 public record DeleteCountryTimeZonesByIdCommand(System.Int64 keyId) : IRequest<bool>;
 
 public class DeleteCountryTimeZonesByIdCommandHandler: CommandBase<DeleteCountryTimeZonesByIdCommand,CountryTimeZones>, IRequestHandler<DeleteCountryTimeZonesByIdCommand, bool>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 
 	public DeleteCountryTimeZonesByIdCommandHandler(
-		CryptocashApiDbContext dbContext,
-		NoxSolution noxSolution, 
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;

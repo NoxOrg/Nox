@@ -37,8 +37,8 @@ public partial class StoreSecurityPasswordsDto
     /// <summary>
     /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores
     /// </summary>
-    //EF maps ForeignKey Automatically...
-    public virtual string StoreId { get; set; } = null!;
+    //EF maps ForeignKey Automatically
+    public System.String StoreId { get; set; } = default!;
     public virtual StoreDto Store { get; set; } = null!;
     public System.DateTime? DeletedAtUtc { get; set; }
 

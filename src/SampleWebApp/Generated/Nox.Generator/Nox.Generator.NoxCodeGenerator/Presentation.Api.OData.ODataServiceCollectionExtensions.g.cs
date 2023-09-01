@@ -21,6 +21,7 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<CurrencyDto>().HasKey(e => new { e.Id });
         builder.EntityType<StoreDto>().HasKey(e => new { e.Id });
         builder.EntityType<StoreSecurityPasswordsDto>().HasKey(e => new { e.Id });
+        builder.EntityType<StoreOwnerDto>().HasKey(e => new { e.Id });
         builder.EntityType<AllNoxTypeDto>().HasKey(e => new { e.Id, e.TextId });
         builder.EntityType<CurrencyCashBalanceDto>().HasKey(e => new { e.StoreId, e.CurrencyId });
         builder.EntityType<CountryLocalNameDto>().HasKey(e => new { e.Id });
@@ -50,6 +51,12 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<StoreSecurityPasswordsDto>();
         builder.EntityType<StoreSecurityPasswordsKeyDto>();
         builder.EntityType<StoreSecurityPasswordsDto>().Ignore(e => e.DeletedAtUtc);
+
+        builder.EntitySet<StoreOwnerDto>("StoreOwners");
+
+        builder.EntityType<StoreOwnerDto>();
+        builder.EntityType<StoreOwnerKeyDto>();
+        builder.EntityType<StoreOwnerDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<AllNoxTypeDto>("AllNoxTypes");
 

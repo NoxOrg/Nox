@@ -20,7 +20,7 @@ public class DeleteCountryByIdCommandHandler: CommandBase<DeleteCountryByIdComma
 
 	public DeleteCountryByIdCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution, 
+		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;

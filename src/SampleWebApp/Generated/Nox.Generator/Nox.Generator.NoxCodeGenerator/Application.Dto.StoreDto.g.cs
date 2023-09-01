@@ -38,6 +38,13 @@ public partial class StoreDto
     /// Store Set of passwords for this store ExactlyOne StoreSecurityPasswords
     /// </summary>
     public virtual StoreSecurityPasswordsDto StoreSecurityPasswords { get; set; } = null!;
+
+    /// <summary>
+    /// Store Store owner relationship ZeroOrOne StoreOwners
+    /// </summary>
+    //EF maps ForeignKey Automatically
+    public System.String? StoreOwnerId { get; set; } = default!;
+    public virtual StoreOwnerDto? StoreOwner { get; set; } = null!;
     public System.DateTime? DeletedAtUtc { get; set; }
 
     public Store ToEntity()
@@ -47,6 +54,7 @@ public partial class StoreDto
         entity.Name = Store.CreateName(Name);
         entity.PhysicalMoney = Store.CreatePhysicalMoney(PhysicalMoney);
         entity.StoreSecurityPasswords = StoreSecurityPasswords.ToEntity();
+        entity.StoreOwner = StoreOwner?.ToEntity();
         return entity;
     }
 
