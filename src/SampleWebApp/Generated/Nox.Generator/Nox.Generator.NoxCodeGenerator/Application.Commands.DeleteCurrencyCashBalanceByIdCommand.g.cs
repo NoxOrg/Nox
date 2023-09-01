@@ -9,6 +9,7 @@ using Nox.Solution;
 using Nox.Types;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
+using CurrencyCashBalance = SampleWebApp.Domain.CurrencyCashBalance;
 
 namespace SampleWebApp.Application.Commands;
 
@@ -20,7 +21,7 @@ public class DeleteCurrencyCashBalanceByIdCommandHandler: CommandBase<DeleteCurr
 
 	public DeleteCurrencyCashBalanceByIdCommandHandler(
 		SampleWebAppDbContext dbContext,
-		NoxSolution noxSolution, 
+		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;

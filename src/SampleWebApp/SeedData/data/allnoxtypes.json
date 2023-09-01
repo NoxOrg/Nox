@@ -152,6 +152,7 @@
     "Yaml": "constants.yaml",
     "Year": 1932,
     "StreetAddress": {
+      "AddressLine1": "Some address",
       "PostalCode": "93270"
     },
     "User": "DeeBee@ReGus.com",
@@ -227,6 +228,7 @@
     "Yaml": "animals.yaml",
     "Year": 1945,
     "StreetAddress": {
+      "AddressLine1": "Another street line",
       "Locality": "Île-de-France",
       "PostalCode": "93270"
     },

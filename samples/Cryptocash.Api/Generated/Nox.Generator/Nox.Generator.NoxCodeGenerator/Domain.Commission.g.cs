@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using Nox.Types;
 using Nox.Domain;
 
-namespace CryptocashApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
 /// Exchange commission rate and amount.
@@ -16,27 +16,32 @@ namespace CryptocashApi.Domain;
 public partial class Commission : AuditableEntityBase
 {
     /// <summary>
-    /// The commission unique identifier (Required).
+    /// Commission unique identifier (Required).
     /// </summary>
     public DatabaseNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// The commission rate (Required).
+    /// Commission rate (Required).
     /// </summary>
     public Nox.Types.Percentage Rate { get; set; } = null!;
 
     /// <summary>
-    /// The exchange rate conversion amount (Required).
+    /// Exchange rate conversion amount (Required).
     /// </summary>
     public Nox.Types.DateTime EffectiveAt { get; set; } = null!;
 
     /// <summary>
-    /// Commission The commission related country ZeroOrOne Countries
+    /// Commission Commission's country ZeroOrOne Countries
     /// </summary>
     public virtual Country? Country { get; set; } = null!;
 
     /// <summary>
-    /// Commission The booking's related fee ZeroOrMany Bookings
+    /// Foreign key for relationship ZeroOrOne to entity Country
+    /// </summary>
+    public Nox.Types.CountryCode2? CountryId { get; set; } = null!;
+
+    /// <summary>
+    /// Commission Booking's fee ZeroOrMany Bookings
     /// </summary>
     public virtual List<Booking> Bookings { get; set; } = new();
 

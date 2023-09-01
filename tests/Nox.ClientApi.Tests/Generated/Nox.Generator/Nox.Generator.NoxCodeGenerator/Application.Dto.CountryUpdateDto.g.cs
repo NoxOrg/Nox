@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ClientApi.Application.Dto; 
+namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Country Entity.
@@ -24,11 +24,11 @@ public partial class CountryUpdateDto
     /// <summary>
     /// Population (Optional).
     /// </summary>
-    public System.Int32? Population { get; set; } 
+    public System.Int32? Population { get; set; }
     /// <summary>
     /// The Money (Optional).
     /// </summary>
-    public MoneyDto? CountryDebt { get; set; } 
+    public MoneyDto? CountryDebt { get; set; }
 
     /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames

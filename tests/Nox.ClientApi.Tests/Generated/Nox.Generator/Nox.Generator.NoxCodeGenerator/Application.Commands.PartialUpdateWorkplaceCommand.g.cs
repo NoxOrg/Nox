@@ -12,6 +12,7 @@ using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Workplace = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
 

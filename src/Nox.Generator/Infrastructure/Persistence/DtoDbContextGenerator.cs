@@ -80,14 +80,14 @@ internal class DtoDbContextGenerator : INoxCodeGenerator
 
         AddDbContextOnConfiguring(code, codeGeneratorState);
 
-        AddOnModelCreating(solution, code);
+        AddOnModelCreating(code);
 
         code.EndBlock();
 
         code.GenerateSourceCode();
     }
 
-    private static void AddOnModelCreating(NoxSolution solution, CodeBuilder code)
+    private static void AddOnModelCreating(CodeBuilder code)
     {
         code.AppendLine(@$" protected override void OnModelCreating(ModelBuilder modelBuilder)");
         code.StartBlock();

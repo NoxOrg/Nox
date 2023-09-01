@@ -15,11 +15,18 @@ internal class StoreDataSeeder : SampleDataSeederBase<StoreModel, Store>
 
     protected override Store TransformToEntity(StoreModel model)
     {
-        return new Store
+        var store = new Store
         {
             Id = Text.From(model.Id),
             Name = Text.From(model.Name),
             PhysicalMoney = Money.From(model.PhysicalMoney, CurrencyCode.USD),
         };
+
+        if (model.StoreOwnerId != null)
+        {
+            store.StoreOwnerId = Text.From(model.StoreOwnerId);
+        }
+
+        return store;
     }
 }

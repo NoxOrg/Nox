@@ -259,6 +259,11 @@ public partial class AllNoxType : AuditableEntityBase
     public Nox.Types.Image ImageField { get; set; } = null!;
 
     /// <summary>
+    /// LatLongField Nox Type (Required).
+    /// </summary>
+    public Nox.Types.LatLong LatLongField { get; set; } = null!;
+
+    /// <summary>
     /// Money Nox Type (Required).
     /// </summary>
     public Nox.Types.Money MoneyField { get; set; } = null!;

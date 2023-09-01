@@ -16,12 +16,13 @@ using Nox.Extensions;
 using Nox.Exceptions;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
+using Currency = SampleWebApp.Domain.Currency;
 
 namespace SampleWebApp.Application;
 
-public class CurrencyMapper: EntityMapperBase<Currency>
+public class CurrencyMapper : EntityMapperBase<Currency>
 {
-    public  CurrencyMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public CurrencyMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
     public override void MapToEntity(Currency entity, Entity entityDefinition, dynamic dto)
     {
@@ -29,19 +30,23 @@ public class CurrencyMapper: EntityMapperBase<Currency>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
     
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",dto.Name);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
+        if (noxTypeValue != null)
         {        
             entity.Name = noxTypeValue;
         }
+    
     }
 
     public override void PartialMapToEntity(Currency entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+#pragma warning disable CS0168 // Variable is assigned but its value is never used
+        dynamic? value;
+#pragma warning restore CS0168 // Variable is assigned but its value is never used
         {
-            if (updatedProperties.TryGetValue("Name", out dynamic? value))
+            if (updatedProperties.TryGetValue("Name", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Currency", "Name");
@@ -52,5 +57,7 @@ public class CurrencyMapper: EntityMapperBase<Currency>
                 }
             }
         }
+    
+    
     }
 }

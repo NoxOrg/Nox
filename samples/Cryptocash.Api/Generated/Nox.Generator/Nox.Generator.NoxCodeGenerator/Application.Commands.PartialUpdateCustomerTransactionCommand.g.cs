@@ -9,21 +9,22 @@ using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
 
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
+using CustomerTransaction = Cryptocash.Domain.CustomerTransaction;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 
 public record PartialUpdateCustomerTransactionCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CustomerTransactionKeyDto?>;
 
 public class PartialUpdateCustomerTransactionCommandHandler: CommandBase<PartialUpdateCustomerTransactionCommand, CustomerTransaction>, IRequestHandler<PartialUpdateCustomerTransactionCommand, CustomerTransactionKeyDto?>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<CustomerTransaction> EntityMapper { get; }
 
 	public PartialUpdateCustomerTransactionCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<CustomerTransaction> entityMapper): base(noxSolution, serviceProvider)

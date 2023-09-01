@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using Nox.Types;
 using Nox.Domain;
 
-namespace CryptocashApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
 /// Vending machine currency order and related data.
@@ -16,27 +16,36 @@ namespace CryptocashApi.Domain;
 public partial class VendingMachineOrder : AuditableEntityBase
 {
     /// <summary>
-    /// The vending machine's order unique identifier (Required).
+    /// Vending machine's order unique identifier (Required).
     /// </summary>
     public DatabaseNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// The order's amount (Required).
+    /// Order amount (Required).
     /// </summary>
     public Nox.Types.Money Amount { get; set; } = null!;
 
     /// <summary>
-    /// The order's requested delivery date (Optional).
+    /// Order requested delivery date (Required).
     /// </summary>
-    public Nox.Types.Date? RequestedDeliveryDate { get; set; } = null!;
+    public Nox.Types.Date RequestedDeliveryDate { get; set; } = null!;
 
     /// <summary>
-    /// The order's delivery date (Optional).
+    /// Order delivery date (Optional).
     /// </summary>
     public Nox.Types.DateTime? DeliveryDateTime { get; set; } = null!;
 
     /// <summary>
-    /// VendingMachineOrder The order's related vending machine ExactlyOne VendingMachines
+    /// Order status (Optional).
+    /// </summary>
+    public string? Status
+    { 
+        get { return DeliveryDateTime != null ? "delivered" : "ordered"; }
+        private set { }
+    }
+
+    /// <summary>
+    /// VendingMachineOrder Vending machine's orders ExactlyOne VendingMachines
     /// </summary>
     public virtual VendingMachine VendingMachine { get; set; } = null!;
 
@@ -44,4 +53,14 @@ public partial class VendingMachineOrder : AuditableEntityBase
     /// Foreign key for relationship ExactlyOne to entity VendingMachine
     /// </summary>
     public Nox.Types.DatabaseGuid VendingMachineId { get; set; } = null!;
+
+    /// <summary>
+    /// VendingMachineOrder Reviewed by employee ExactlyOne Employees
+    /// </summary>
+    public virtual Employee Employee { get; set; } = null!;
+
+    /// <summary>
+    /// Foreign key for relationship ExactlyOne to entity Employee
+    /// </summary>
+    public Nox.Types.DatabaseNumber EmployeeId { get; set; } = null!;
 }

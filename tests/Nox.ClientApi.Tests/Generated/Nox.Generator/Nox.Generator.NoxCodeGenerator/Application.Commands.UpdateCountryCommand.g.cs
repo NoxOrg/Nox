@@ -11,6 +11,7 @@ using Nox.Factories;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using Country = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 

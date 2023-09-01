@@ -1,13 +1,12 @@
-﻿using FluentAssertions;
-using Nox.ClientApp.Tests.FixtureConfig;
+﻿using AutoFixture;
 using ClientApi.Application.Dto;
-using Microsoft.AspNetCore.OData.Results;
-using AutoFixture;
-using Nox.Types;
-using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
+using ClientApi.Infrastructure.Persistence;
+using FluentAssertions;
 using Microsoft.AspNetCore.Mvc;
-using Humanizer;
+using Microsoft.AspNetCore.OData.Results;
+using Nox.ClientApp.Tests.FixtureConfig;
+using Nox.Types;
 
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {

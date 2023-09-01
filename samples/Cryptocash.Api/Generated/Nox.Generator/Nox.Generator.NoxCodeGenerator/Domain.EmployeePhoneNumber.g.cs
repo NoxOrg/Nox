@@ -8,25 +8,25 @@ using System.Collections.Generic;
 using Nox.Types;
 using Nox.Domain;
 
-namespace CryptocashApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
 /// Employee phone numbers and related data.
 /// </summary>
-public partial class EmployeePhoneNumber:EntityBase, IOwnedEntity
+public partial class EmployeePhoneNumber : EntityBase, IOwnedEntity
 {
     /// <summary>
-    /// The employee's phone number identifier (Required).
+    /// Employee's phone number identifier (Required).
     /// </summary>
     public DatabaseNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// The employee's phone number type (Required).
+    /// Employee's phone number type (Required).
     /// </summary>
     public Nox.Types.Text PhoneNumberType { get; set; } = null!;
 
     /// <summary>
-    /// The employee's phone number (Required).
+    /// Employee's phone number (Required).
     /// </summary>
     public Nox.Types.PhoneNumber PhoneNumber { get; set; } = null!;
 }

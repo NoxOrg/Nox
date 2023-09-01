@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SampleWebApp.Application.Dto; 
+namespace SampleWebApp.Application.Dto;
 
 /// <summary>
 /// Entity to test all nox types.
@@ -273,6 +273,12 @@ public partial class AllNoxTypeUpdateDto
     [Required(ErrorMessage = "ImageField is required")]
     
     public ImageDto ImageField { get; set; } = default!;
+    /// <summary>
+    /// LatLongField Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "LatLongField is required")]
+    
+    public LatLongDto LatLongField { get; set; } = default!;
     /// <summary>
     /// Money Nox Type (Required).
     /// </summary>

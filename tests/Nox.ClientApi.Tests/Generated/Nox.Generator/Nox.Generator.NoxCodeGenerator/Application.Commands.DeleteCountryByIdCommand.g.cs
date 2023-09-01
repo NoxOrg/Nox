@@ -9,6 +9,7 @@ using Nox.Solution;
 using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
+using Country = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
@@ -20,7 +21,7 @@ public class DeleteCountryByIdCommandHandler: CommandBase<DeleteCountryByIdComma
 
 	public DeleteCountryByIdCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution, 
+		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;

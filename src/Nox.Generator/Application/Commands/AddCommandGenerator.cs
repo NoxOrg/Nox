@@ -1,7 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
-using Nox.Solution.Extensions;
 using System.Linq;
 
 namespace Nox.Generator.Application.Commands;
@@ -9,6 +8,7 @@ namespace Nox.Generator.Application.Commands;
 internal class AddCommandGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
+
     public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
@@ -23,7 +23,8 @@ internal class AddCommandGenerator : INoxCodeGenerator
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            var parent = entity.TryGetParent(codeGeneratorState.Solution.Domain.Entities);
+            var parent = codeGeneratorState.Solution.Domain.Entities.FirstOrDefault(e =>
+                e.OwnedRelationships?.Any(o => o.Entity == entity.Name && !o.WithSingleEntity) == true);
             if (parent is null)
                 continue;
 
@@ -39,6 +40,5 @@ internal class AddCommandGenerator : INoxCodeGenerator
                 .WithObject("primaryKeysReturnQuery", primaryKeysReturnQuery)
                 .GenerateSourceCodeFromResource(templateName);
         }
-
     }
 }

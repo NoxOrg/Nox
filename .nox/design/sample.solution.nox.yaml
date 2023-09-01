@@ -275,6 +275,8 @@ domain:
 
     - $ref: store-security-passwords.entity.nox.yaml
 
+    - $ref: store-owner.entity.nox.yaml
+
     - $ref: allnoxtypes.entity.nox.yaml
 
     - $ref: currencyCashBalance.entity.nox.yaml

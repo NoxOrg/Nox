@@ -16,12 +16,13 @@ using Nox.Extensions;
 using Nox.Exceptions;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
+using CurrencyCashBalance = SampleWebApp.Domain.CurrencyCashBalance;
 
 namespace SampleWebApp.Application;
 
-public class CurrencyCashBalanceMapper: EntityMapperBase<CurrencyCashBalance>
+public class CurrencyCashBalanceMapper : EntityMapperBase<CurrencyCashBalance>
 {
-    public  CurrencyCashBalanceMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public CurrencyCashBalanceMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
     public override void MapToEntity(CurrencyCashBalance entity, Entity entityDefinition, dynamic dto)
     {
@@ -30,33 +31,37 @@ public class CurrencyCashBalanceMapper: EntityMapperBase<CurrencyCashBalance>
     #pragma warning restore CS0168 // Variable is declared but never used
             
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "StoreId", dto.StoreId);        
-        if(noxTypeValue != null)
+        if (noxTypeValue != null)
         {        
             entity.StoreId = noxTypeValue;
         }        
         noxTypeValue = CreateNoxType<Nox.Types.Nuid>(entityDefinition, "CurrencyId", dto.CurrencyId);        
-        if(noxTypeValue != null)
+        if (noxTypeValue != null)
         {        
             entity.CurrencyId = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"Amount",dto.Amount);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Amount", dto.Amount);
+        if (noxTypeValue != null)
         {        
             entity.Amount = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"OperationLimit",dto.OperationLimit);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "OperationLimit", dto.OperationLimit);
+        if (noxTypeValue != null)
         {        
             entity.OperationLimit = noxTypeValue;
         }
+    
     }
 
     public override void PartialMapToEntity(CurrencyCashBalance entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+#pragma warning disable CS0168 // Variable is assigned but its value is never used
+        dynamic? value;
+#pragma warning restore CS0168 // Variable is assigned but its value is never used
         {
-            if (updatedProperties.TryGetValue("Amount", out dynamic? value))
+            if (updatedProperties.TryGetValue("Amount", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition,"Amount",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Amount", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("CurrencyCashBalance", "Amount");
@@ -68,9 +73,9 @@ public class CurrencyCashBalanceMapper: EntityMapperBase<CurrencyCashBalance>
             }
         }
         {
-            if (updatedProperties.TryGetValue("OperationLimit", out dynamic? value))
+            if (updatedProperties.TryGetValue("OperationLimit", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"OperationLimit",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "OperationLimit", value);
                 if(noxTypeValue == null)
                 {
                     entity.OperationLimit = null;
@@ -81,5 +86,7 @@ public class CurrencyCashBalanceMapper: EntityMapperBase<CurrencyCashBalance>
                 }
             }
         }
+    
+    
     }
 }

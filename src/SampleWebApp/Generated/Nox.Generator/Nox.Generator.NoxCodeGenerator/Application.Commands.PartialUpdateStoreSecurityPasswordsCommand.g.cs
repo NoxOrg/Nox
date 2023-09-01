@@ -12,6 +12,7 @@ using Nox.Types;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
+using StoreSecurityPasswords = SampleWebApp.Domain.StoreSecurityPasswords;
 
 namespace SampleWebApp.Application.Commands;
 

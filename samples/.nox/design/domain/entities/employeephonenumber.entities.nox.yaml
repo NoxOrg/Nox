@@ -1,0 +1,54 @@
+#
+# employeephonenumber.entities.nox.yaml
+#
+# yaml-language-server: $schema=../../../../../schemas/entity.json
+#
+
+name: EmployeePhoneNumber
+
+description: Employee phone numbers and related data
+
+keys:
+
+  - name: Id
+    isRequired: true
+    description: Employee's phone number identifier 
+    type: databaseNumber
+    userInterface:
+      showInSearchResults: never
+      canSearch: true
+      canFilter: false
+      showOnCreateForm: false
+      showOnUpdateForm: true
+
+attributes:
+
+  - name: PhoneNumberType
+    description: Employee's phone number type
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+  - name: PhoneNumber
+    description: Employee's phone number
+    type: phoneNumber
+    isRequired: true
+    userInterface:
+      showInSearchResults: optionalAndOnByDefault
+      canSort: true
+      canSearch: true
+      canFilter: true
+      showOnCreateForm: true
+      showOnUpdateForm: true
+
+persistence:
+    isAudited: false    

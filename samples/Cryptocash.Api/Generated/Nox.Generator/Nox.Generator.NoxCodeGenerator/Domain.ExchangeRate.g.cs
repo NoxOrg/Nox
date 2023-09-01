@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using Nox.Types;
 using Nox.Domain;
 
-namespace CryptocashApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
 /// Exchange rate and related data.
@@ -16,22 +16,22 @@ namespace CryptocashApi.Domain;
 public partial class ExchangeRate : AuditableEntityBase
 {
     /// <summary>
-    /// The exchange rate unique identifier (Required).
+    /// Exchange rate unique identifier (Required).
     /// </summary>
     public DatabaseNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// The exchange rate conversion amount (Required).
+    /// Exchange rate conversion amount (Required).
     /// </summary>
     public Nox.Types.Number EffectiveRate { get; set; } = null!;
 
     /// <summary>
-    /// The exchange rate conversion amount (Required).
+    /// Exchange rate conversion amount (Required).
     /// </summary>
     public Nox.Types.DateTime EffectiveAt { get; set; } = null!;
 
     /// <summary>
-    /// ExchangeRate The currency exchanged from ExactlyOne Currencies
+    /// ExchangeRate Exchanged from currency ExactlyOne Currencies
     /// </summary>
     public virtual Currency Currency { get; set; } = null!;
 

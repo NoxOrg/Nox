@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ClientApi.Application.Dto; 
+namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Stores.

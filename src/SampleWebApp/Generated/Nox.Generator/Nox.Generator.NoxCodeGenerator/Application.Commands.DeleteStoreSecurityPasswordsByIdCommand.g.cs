@@ -9,6 +9,7 @@ using Nox.Solution;
 using Nox.Types;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
+using StoreSecurityPasswords = SampleWebApp.Domain.StoreSecurityPasswords;
 
 namespace SampleWebApp.Application.Commands;
 
@@ -20,7 +21,7 @@ public class DeleteStoreSecurityPasswordsByIdCommandHandler: CommandBase<DeleteS
 
 	public DeleteStoreSecurityPasswordsByIdCommandHandler(
 		SampleWebAppDbContext dbContext,
-		NoxSolution noxSolution, 
+		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
