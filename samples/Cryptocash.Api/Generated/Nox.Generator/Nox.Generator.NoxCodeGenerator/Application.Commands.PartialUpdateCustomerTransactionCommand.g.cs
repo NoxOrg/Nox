@@ -12,6 +12,7 @@ using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using CustomerTransaction = Cryptocash.Domain.CustomerTransaction;
 
 namespace Cryptocash.Application.Commands;
 

@@ -50,7 +50,6 @@ public class YamlFileValidationTests
         Assert.Equal(18, errorCount);
     }
 
-    
     [Theory]
     [InlineData("application.solution.nox.yaml", "TestService")]
     [InlineData("domain.solution.nox.yaml", "TestService")]
@@ -69,8 +68,6 @@ public class YamlFileValidationTests
 
         model.Name.Should().Be(expectedServiceName);
     }
-
-  
 
     [Fact]
     public void Deserialize_MissedIsRequiredInKeys_ThrowsException()
@@ -150,14 +147,14 @@ public class YamlFileValidationTests
            .Should()
            .Contain(x => expectedErrors.Any(t => x.StartsWith(t)));
     }
-    
+
     [Fact]
     public void Deserialize_WithInvalidUniqueAttributeConstraints_ThrowsException()
     {
         Action action = () => new NoxSolutionBuilder()
             .UseYamlFile($"./files/invalid-unique-attribute-constraints.solution.nox.yaml")
             .Build();
-        
+
         var errors = action.Should()
             .ThrowExactly<ValidationException>()
             .Subject
@@ -170,8 +167,7 @@ public class YamlFileValidationTests
             "The unique attribute constraint attribute names 'AlphaCode2,AlphaCode3,NumericCode' is duplicated. unique attribute constraint attribute names must be unique in a domain definition.",
             "Attribute name 'NonExistentAttribute' in unique attribute constraint not found in neither entity attribute(s)",
         };
-        
-        
+
         errors.Count().Should().BePositive();
 
         errors.Should()
@@ -181,7 +177,7 @@ public class YamlFileValidationTests
             .Should()
             .Contain(x => Array.Exists(expectedErrors, x.StartsWith));
     }
-    
+
     [Fact]
     public void Deserialize_WithNoxYamlSerializer_ForInvalidUniqueAttributeConstraints_ThrowsException()
     {
@@ -196,5 +192,4 @@ public class YamlFileValidationTests
         exception.Message.Should().Contain("Missing property [\"name\"]");
         exception.Message.Should().Contain("Missing property [\"attributeNames\"]");
     }
-
 }

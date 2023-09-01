@@ -16,6 +16,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
+using CustomerPaymentDetails = Cryptocash.Domain.CustomerPaymentDetails;
 
 namespace Cryptocash.Application;
 

@@ -9,6 +9,7 @@ using Nox.Solution;
 using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
+using CountryHoliday = Cryptocash.Domain.CountryHoliday;
 
 namespace Cryptocash.Application.Commands;
 

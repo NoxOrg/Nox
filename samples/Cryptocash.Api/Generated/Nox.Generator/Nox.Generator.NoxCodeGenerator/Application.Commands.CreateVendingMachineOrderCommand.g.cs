@@ -14,6 +14,7 @@ using Nox.Solution;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using VendingMachineOrder = Cryptocash.Domain.VendingMachineOrder;
 
 namespace Cryptocash.Application.Commands;
 public record CreateVendingMachineOrderCommand(VendingMachineOrderCreateDto EntityDto) : IRequest<VendingMachineOrderKeyDto>;

@@ -14,6 +14,7 @@ using Nox.Solution;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using StoreOwner = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Commands;
 public record CreateStoreOwnerCommand(StoreOwnerCreateDto EntityDto) : IRequest<StoreOwnerKeyDto>;

@@ -12,6 +12,7 @@ using Nox.Types;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
+using AllNoxType = SampleWebApp.Domain.AllNoxType;
 
 namespace SampleWebApp.Application.Commands;
 

@@ -9,6 +9,7 @@ using Nox.Solution;
 using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
+using Store = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
 

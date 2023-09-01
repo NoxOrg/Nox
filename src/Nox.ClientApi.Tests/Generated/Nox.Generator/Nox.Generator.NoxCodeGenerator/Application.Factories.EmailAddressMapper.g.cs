@@ -16,6 +16,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 using ClientApi.Application.Dto;
 using ClientApi.Domain;
+using EmailAddress = ClientApi.Domain.EmailAddress;
 
 namespace ClientApi.Application;
 

@@ -11,6 +11,7 @@ using Nox.Factories;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Country = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Commands;
 
