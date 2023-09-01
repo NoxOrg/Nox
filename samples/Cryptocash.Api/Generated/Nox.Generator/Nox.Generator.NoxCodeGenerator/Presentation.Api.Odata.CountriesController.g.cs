@@ -9,15 +9,15 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Nox.Application;
-using CryptocashApi.Application;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Application.Queries;
-using CryptocashApi.Application.Commands;
-using CryptocashApi.Domain;
-using CryptocashApi.Infrastructure.Persistence;
+using Cryptocash.Application;
+using Cryptocash.Application.Dto;
+using Cryptocash.Application.Queries;
+using Cryptocash.Application.Commands;
+using Cryptocash.Domain;
+using Cryptocash.Infrastructure.Persistence;
 using Nox.Types;
 
-namespace CryptocashApi.Presentation.Api.OData;
+namespace Cryptocash.Presentation.Api.OData;
 
 public partial class CountriesController : ODataController
 {
@@ -60,7 +60,7 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> CreateRefToCurrencies([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    public async Task<ActionResult> CreateRefToCurrency([FromRoute] System.String key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -92,7 +92,7 @@ public partial class CountriesController : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToCommission([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> CreateRefToCommissions([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -124,14 +124,30 @@ public partial class CountriesController : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToHolidays([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> CreateRefToCountryHolidays([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefCountryToHolidaysCommand(new CountryKeyDto(key), new HolidaysKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefCountryToCountryHolidayCommand(new CountryKeyDto(key), new CountryHolidayKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> CreateRefToCustomers([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefCountryToCustomerCommand(new CountryKeyDto(key), new CustomerKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();

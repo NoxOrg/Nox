@@ -8,21 +8,22 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Factories;
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
+using ExchangeRate = Cryptocash.Domain.ExchangeRate;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 
 public record UpdateExchangeRateCommand(System.Int64 keyId, ExchangeRateUpdateDto EntityDto) : IRequest<ExchangeRateKeyDto?>;
 
 public class UpdateExchangeRateCommandHandler: CommandBase<UpdateExchangeRateCommand, ExchangeRate>, IRequestHandler<UpdateExchangeRateCommand, ExchangeRateKeyDto?>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<ExchangeRate> EntityMapper { get; }
 
 	public UpdateExchangeRateCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<ExchangeRate> entityMapper): base(noxSolution, serviceProvider)

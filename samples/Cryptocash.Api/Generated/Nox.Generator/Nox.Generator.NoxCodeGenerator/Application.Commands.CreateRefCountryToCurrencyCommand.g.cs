@@ -11,20 +11,20 @@ using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
 
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 public record CreateRefCountryToCurrencyCommand(CountryKeyDto EntityKeyDto, CurrencyKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
 public partial class CreateRefCountryToCurrencyCommandHandler: CommandBase<CreateRefCountryToCurrencyCommand, Country>, 
 	IRequestHandler <CreateRefCountryToCurrencyCommand, bool>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 
 	public CreateRefCountryToCurrencyCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
@@ -47,8 +47,9 @@ public partial class CreateRefCountryToCurrencyCommandHandler: CommandBase<Creat
 		if (relatedEntity == null)
 		{
 			return false;
-		}		
-		entity.Currencies.Add(relatedEntity);
+		}
+		entity.Currency = relatedEntity;
+		
 
 		OnCompleted(entity);
 	

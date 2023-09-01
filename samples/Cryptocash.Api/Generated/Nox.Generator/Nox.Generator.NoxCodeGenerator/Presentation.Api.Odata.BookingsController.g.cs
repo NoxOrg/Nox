@@ -9,15 +9,15 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Nox.Application;
-using CryptocashApi.Application;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Application.Queries;
-using CryptocashApi.Application.Commands;
-using CryptocashApi.Domain;
-using CryptocashApi.Infrastructure.Persistence;
+using Cryptocash.Application;
+using Cryptocash.Application.Dto;
+using Cryptocash.Application.Queries;
+using Cryptocash.Application.Commands;
+using Cryptocash.Domain;
+using Cryptocash.Infrastructure.Persistence;
 using Nox.Types;
 
-namespace CryptocashApi.Presentation.Api.OData;
+namespace Cryptocash.Presentation.Api.OData;
 
 public partial class BookingsController : ODataController
 {
@@ -108,7 +108,7 @@ public partial class BookingsController : ODataController
         return NoContent();
     }
     
-    public async Task<ActionResult> CreateRefToCustomerTransactions([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> CreateRefToCustomerTransaction([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {

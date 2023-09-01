@@ -18,24 +18,25 @@ public class ColorTests
     {
         var color = Nox.Types.Color.From(255, 165, 0);
 
-        color.Value.Should().Equal(255, 255, 165, 0);
+        color.ToHex().Should().Be("#FFA500");
     }
 
     [Fact]
     public void Color_Constructor_FromRgba_ReturnsSameValue()
     {
-        var color = Nox.Types.Color.From(100, 193, 154, 107);
+        var color = Nox.Types.Color.From(100, 100, 193, 154);
 
-        color.Value.Should().Equal(100, 193, 154, 107);
+        color.ToHex().Should().Be("#64C19A");
     }
 
     [Fact]
     public void Color_Constructor_FromAlphaColor_ReturnsSameValue()
     {
-        var color = Nox.Types.Color.From("#FFF0F8FF");
+        var colorValue = "#FFF0F8FF";
+        var color = Nox.Types.Color.From(colorValue);
 
-        color.Value.Should().Equal(255, 240, 248, 255);
-        color.ToHexa().Should().Be("#FFF0F8FF");
+        color.ToRgbaString().Should().Be("RGBA(240, 248, 255, 1.00)");
+        color.Value.Should().Be(colorValue);
     }
 
     [Fact]
@@ -46,10 +47,10 @@ public class ColorTests
 
         var colorBytes = noxColor.ToBytes();
 
-        colorBytes.ElementAt(0).Should().Be(systemDrawingColor.A);
-        colorBytes.ElementAt(1).Should().Be(systemDrawingColor.R);
-        colorBytes.ElementAt(2).Should().Be(systemDrawingColor.G);
-        colorBytes.ElementAt(3).Should().Be(systemDrawingColor.B);
+        colorBytes[0].Should().Be(systemDrawingColor.A);
+        colorBytes[1].Should().Be(systemDrawingColor.R);
+        colorBytes[2].Should().Be(systemDrawingColor.G);
+        colorBytes[3].Should().Be(systemDrawingColor.B);
     }
 
     [Fact]
@@ -57,7 +58,13 @@ public class ColorTests
     {
         var color = Nox.Types.Color.From("#FFC0CB");
 
-        color.Value.Should().Equal(255, 255, 192, 203);
+        var colorBytes = color.ToBytes();
+
+        colorBytes[0].Should().Be(255);
+        colorBytes[1].Should().Be(255);
+        colorBytes[2].Should().Be(192);
+        colorBytes[3].Should().Be(203);
+
         color.ToHex().Should().Be("#FFC0CB");
     }
 
@@ -65,10 +72,13 @@ public class ColorTests
     public void Color_Constructor_ToString_ReturnsSameValue()
     {
         var color = Nox.Types.Color.From("#FFC0CB");
+        color.ToString().Should().Be("#FFC0CB");
+        var colorBytes = color.ToBytes();
 
-        color.Value.Should().Equal(255, 255, 192, 203);
-        color.ToHex().Should().Be("#FFC0CB");
-        color.ToString().Should().Be("255,255,192,203");
+        colorBytes[0].Should().Be(255);
+        colorBytes[1].Should().Be(255);
+        colorBytes[2].Should().Be(192);
+        colorBytes[3].Should().Be(203);
     }
 
     [Fact]
@@ -119,7 +129,7 @@ public class ColorTests
         var color2 = Nox.Types.Color.From(100, 193, 154, 107);
 
         Nox.Types.Color.From(1, 2, 3).Should().Be(Nox.Types.Color.From(1, 2, 3));
-        color1.Value.Should().Equal(color2.Value);
+        color1.Value.Should().Be(color2.Value);
     }
 
     [Fact]
@@ -129,7 +139,7 @@ public class ColorTests
 
         var color2 = Nox.Types.Color.From(10, 193, 154, 107);
 
-        color1.Value.Should().NotEqual(color2.Value);
+        color1.Value.Should().NotBe(color2.Value);
     }
 
     [Fact]
@@ -141,10 +151,10 @@ public class ColorTests
 
         colorBytes.Length.Should().Be(4);
 
-        colorBytes.ElementAt(0).Should().Be(100);
-        colorBytes.ElementAt(1).Should().Be(193);
-        colorBytes.ElementAt(2).Should().Be(154);
-        colorBytes.ElementAt(3).Should().Be(107);
+        colorBytes[0].Should().Be(100);
+        colorBytes[1].Should().Be(193);
+        colorBytes[2].Should().Be(154);
+        colorBytes[3].Should().Be(107);
     }
 
     [Fact]
@@ -158,6 +168,28 @@ public class ColorTests
         emptyColor.Should().Be(Nox.Types.Color.From(0, 0, 0, 0));
         emptyColor.Should().NotBe(differentColor);
         emptyColor.Should().Be(colorEmptyString);
+    }
+
+    [Theory]
+    [InlineData("88")]
+    [InlineData("#ff")]
+    [InlineData("#fffff")]
+    [InlineData("#1234567")]
+    [InlineData("invalid")]
+    public void Color_From_InvalidInput_ThrowsException(string color)
+    {
+        Action comparison = () => Nox.Types.Color.From(color);
+
+        comparison.Should().Throw<TypeValidationException>();
+    }
+
+    [Fact]
+    public void Color_FromRGB_ReturnsValidName()
+    {
+        var color = Nox.Types.Color.From(255, 0, 0);
+
+        //Assert
+        color.ToString("name").Should().Be("Red");
     }
 }
 

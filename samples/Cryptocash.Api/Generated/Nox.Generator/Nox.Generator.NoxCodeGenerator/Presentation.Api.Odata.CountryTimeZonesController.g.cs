@@ -9,15 +9,15 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Nox.Application;
-using CryptocashApi.Application;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Application.Queries;
-using CryptocashApi.Application.Commands;
-using CryptocashApi.Domain;
-using CryptocashApi.Infrastructure.Persistence;
+using Cryptocash.Application;
+using Cryptocash.Application.Dto;
+using Cryptocash.Application.Queries;
+using Cryptocash.Application.Commands;
+using Cryptocash.Domain;
+using Cryptocash.Infrastructure.Persistence;
 using Nox.Types;
 
-namespace CryptocashApi.Presentation.Api.OData;
+namespace Cryptocash.Presentation.Api.OData;
 
 public partial class CountryTimeZonesController : ODataController
 {
@@ -60,7 +60,7 @@ public partial class CountryTimeZonesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> CreateRefToCountries([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
+    public async Task<ActionResult> CreateRefToCountry([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey)
     {
         if (!ModelState.IsValid)
         {

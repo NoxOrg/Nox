@@ -11,20 +11,20 @@ using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
 
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 public record CreateRefVendingMachineToVendingMachineOrderCommand(VendingMachineKeyDto EntityKeyDto, VendingMachineOrderKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
 public partial class CreateRefVendingMachineToVendingMachineOrderCommandHandler: CommandBase<CreateRefVendingMachineToVendingMachineOrderCommand, VendingMachine>, 
 	IRequestHandler <CreateRefVendingMachineToVendingMachineOrderCommand, bool>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 
 	public CreateRefVendingMachineToVendingMachineOrderCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{

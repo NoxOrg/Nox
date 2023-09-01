@@ -11,20 +11,21 @@ using Nox.Application.Commands;
 using Nox.Factories;
 using Nox.Solution;
 
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
+using VendingMachineOrder = Cryptocash.Domain.VendingMachineOrder;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 public record CreateVendingMachineOrderCommand(VendingMachineOrderCreateDto EntityDto) : IRequest<VendingMachineOrderKeyDto>;
 
 public partial class CreateVendingMachineOrderCommandHandler: CommandBase<CreateVendingMachineOrderCommand,VendingMachineOrder>, IRequestHandler <CreateVendingMachineOrderCommand, VendingMachineOrderKeyDto>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 	public IEntityFactory<VendingMachineOrderCreateDto,VendingMachineOrder> EntityFactory { get; }
 
 	public CreateVendingMachineOrderCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityFactory<VendingMachineOrderCreateDto,VendingMachineOrder> entityFactory): base(noxSolution, serviceProvider)

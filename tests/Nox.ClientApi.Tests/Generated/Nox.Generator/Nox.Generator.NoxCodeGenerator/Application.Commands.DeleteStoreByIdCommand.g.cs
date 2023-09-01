@@ -9,6 +9,7 @@ using Nox.Solution;
 using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
+using Store = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
 
@@ -20,7 +21,7 @@ public class DeleteStoreByIdCommandHandler: CommandBase<DeleteStoreByIdCommand,S
 
 	public DeleteStoreByIdCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution, 
+		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;

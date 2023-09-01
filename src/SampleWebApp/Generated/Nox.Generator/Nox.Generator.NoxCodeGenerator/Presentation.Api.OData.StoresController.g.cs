@@ -76,6 +76,22 @@ public partial class StoresController : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> CreateRefToStoreOwner([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdRef = await _mediator.Send(new CreateRefStoreToStoreOwnerCommand(new StoreKeyDto(key), new StoreOwnerKeyDto(relatedKey)));
+        if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> Post([FromBody]StoreCreateDto store)
     {
         if (!ModelState.IsValid)

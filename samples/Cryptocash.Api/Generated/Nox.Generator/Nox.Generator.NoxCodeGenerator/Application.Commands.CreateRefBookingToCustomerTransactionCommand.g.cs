@@ -11,20 +11,20 @@ using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
 
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 public record CreateRefBookingToCustomerTransactionCommand(BookingKeyDto EntityKeyDto, CustomerTransactionKeyDto RelatedEntityKeyDto) : IRequest <bool>;
 
 public partial class CreateRefBookingToCustomerTransactionCommandHandler: CommandBase<CreateRefBookingToCustomerTransactionCommand, Booking>, 
 	IRequestHandler <CreateRefBookingToCustomerTransactionCommand, bool>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 
 	public CreateRefBookingToCustomerTransactionCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
@@ -47,8 +47,9 @@ public partial class CreateRefBookingToCustomerTransactionCommandHandler: Comman
 		if (relatedEntity == null)
 		{
 			return false;
-		}		
-		entity.CustomerTransactions.Add(relatedEntity);
+		}
+		entity.CustomerTransaction = relatedEntity;
+		
 
 		OnCompleted(entity);
 	

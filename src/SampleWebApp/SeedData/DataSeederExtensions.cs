@@ -8,8 +8,10 @@ public static class DataSeederExtensions
     {
         appBuilder.Services.AddScoped<INoxDataSeeder, CountryDataSeeder>();
         appBuilder.Services.AddScoped<INoxDataSeeder, CurrencyDataSeeder>();
-        appBuilder.Services.AddScoped<INoxDataSeeder, StoreDataSeeder>();
         appBuilder.Services.AddScoped<INoxDataSeeder, AllNoxTypesDataSeeder>();
+        appBuilder.Services.AddScoped<INoxDataSeeder, StoreOwnerDataSeeder>();
+        appBuilder.Services.AddScoped<INoxDataSeeder, StoreDataSeeder>();
+        appBuilder.Services.AddScoped<INoxDataSeeder, StoreSecurityPasswordsDataSeeder>();
 
         return appBuilder.Services;
     }

@@ -9,6 +9,7 @@ using Nox.Solution;
 using Nox.Types;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
+using {{entity.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
@@ -20,7 +21,7 @@ public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase<Delete{{entity
 
 	public Delete{{entity.Name}}ByIdCommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
-		NoxSolution noxSolution, 
+		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;

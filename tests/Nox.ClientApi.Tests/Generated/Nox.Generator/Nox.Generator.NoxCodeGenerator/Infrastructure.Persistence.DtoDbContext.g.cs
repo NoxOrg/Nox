@@ -45,6 +45,8 @@ public class DtoDbContext : DbContext
         
         public DbSet<WorkplaceDto> Workplaces { get; set; } = null!;
         
+        public DbSet<StoreOwnerDto> StoreOwners { get; set; } = null!;
+        
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             base.OnConfiguring(optionsBuilder);

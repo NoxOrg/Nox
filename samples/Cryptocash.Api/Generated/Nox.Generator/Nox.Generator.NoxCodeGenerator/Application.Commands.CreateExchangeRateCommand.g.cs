@@ -11,20 +11,21 @@ using Nox.Application.Commands;
 using Nox.Factories;
 using Nox.Solution;
 
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
+using ExchangeRate = Cryptocash.Domain.ExchangeRate;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 public record CreateExchangeRateCommand(ExchangeRateCreateDto EntityDto) : IRequest<ExchangeRateKeyDto>;
 
 public partial class CreateExchangeRateCommandHandler: CommandBase<CreateExchangeRateCommand,ExchangeRate>, IRequestHandler <CreateExchangeRateCommand, ExchangeRateKeyDto>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 	public IEntityFactory<ExchangeRateCreateDto,ExchangeRate> EntityFactory { get; }
 
 	public CreateExchangeRateCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityFactory<ExchangeRateCreateDto,ExchangeRate> entityFactory): base(noxSolution, serviceProvider)

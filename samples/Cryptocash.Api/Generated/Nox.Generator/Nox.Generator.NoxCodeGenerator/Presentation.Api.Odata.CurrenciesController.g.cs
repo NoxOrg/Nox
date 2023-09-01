@@ -9,15 +9,15 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Nox.Application;
-using CryptocashApi.Application;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Application.Queries;
-using CryptocashApi.Application.Commands;
-using CryptocashApi.Domain;
-using CryptocashApi.Infrastructure.Persistence;
+using Cryptocash.Application;
+using Cryptocash.Application.Dto;
+using Cryptocash.Application.Queries;
+using Cryptocash.Application.Commands;
+using Cryptocash.Domain;
+using Cryptocash.Infrastructure.Persistence;
 using Nox.Types;
 
-namespace CryptocashApi.Presentation.Api.OData;
+namespace Cryptocash.Presentation.Api.OData;
 
 public partial class CurrenciesController : ODataController
 {
@@ -60,30 +60,14 @@ public partial class CurrenciesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> CreateRefToCurrencyUnits([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> CreateRefToBankNotes([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var createdRef = await _mediator.Send(new CreateRefCurrencyToCurrencyUnitsCommand(new CurrencyKeyDto(key), new CurrencyUnitsKeyDto(relatedKey)));
-        if (!createdRef)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
-    }
-    
-    public async Task<ActionResult> CreateRefToCurrencyBankNotes([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var createdRef = await _mediator.Send(new CreateRefCurrencyToCurrencyBankNotesCommand(new CurrencyKeyDto(key), new CurrencyBankNotesKeyDto(relatedKey)));
+        var createdRef = await _mediator.Send(new CreateRefCurrencyToBankNotesCommand(new CurrencyKeyDto(key), new BankNotesKeyDto(relatedKey)));
         if (!createdRef)
         {
             return NotFound();
