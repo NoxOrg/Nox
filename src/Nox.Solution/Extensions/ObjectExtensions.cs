@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Concurrent;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -245,7 +246,15 @@ public static class ObjectExtensions
         }
         else if (value is decimal decValue)
         {
-            return $"{decValue}m";
+            return $"{decValue.ToString(CultureInfo.InvariantCulture)}m";
+        }
+        else if (value is float floatValue)
+        {
+            return $"{floatValue.ToString(CultureInfo.InvariantCulture)}f";
+        }
+        else if (value is double doubleValue)
+        {
+            return $"{doubleValue.ToString(CultureInfo.InvariantCulture)}";
         }
         else
         {
