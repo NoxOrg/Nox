@@ -31,6 +31,6 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
             string navigationName,
             Action<OwnedNavigationBuilder> buildAction);
 
-        void HasUniqueAttributeConstraint(string[] propertyNames, string constraintName);
+        public IndexBuilder HasUniqueAttributeConstraint(string[] propertyNames, string constraintName);
     }
 }

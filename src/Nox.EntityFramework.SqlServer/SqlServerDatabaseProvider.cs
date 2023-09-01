@@ -1,8 +1,10 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
+using Nox.Types.EntityFramework.EntityBuilderAdapter;
 
 namespace Nox.EntityFramework.SqlServer;
 
@@ -18,6 +20,36 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
     
     public SqlServerDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators): base(configurators, typeof(ISqlServerNoxTypeDatabaseConfigurator))
     {
+    }
+
+    public override void ConfigureEntity(
+        NoxSolutionCodeGeneratorState codeGeneratorState,
+        IEntityBuilder builder,
+        Entity entity)
+    {
+        var relationshipsToCreate = codeGeneratorState.Solution.GetRelationshipsToCreate(codeGeneratorState, entity);
+        var ownedRelationshipsToCreate = codeGeneratorState.Solution.GetOwnedRelationshipsToCreate(codeGeneratorState, entity);
+
+        ConfigureKeys(codeGeneratorState, builder, entity);
+
+        ConfigureAttributes(codeGeneratorState, builder, entity);
+
+        ConfigureRelationships(codeGeneratorState, builder, entity, relationshipsToCreate);
+
+        ConfigureOwnedRelationships(codeGeneratorState, builder, entity, ownedRelationshipsToCreate);
+            
+        ConfigureUniqueAttributeConstraints(builder, entity);
+    }
+
+    protected override IList<IndexBuilder> ConfigureUniqueAttributeConstraints(IEntityBuilder builder, Entity entity)
+    {
+        var result = base.ConfigureUniqueAttributeConstraints(builder, entity);
+        foreach (var indexBuilder in result)
+        {
+            indexBuilder.HasFilter(null);
+        }
+
+        return result;
     }
 
     public DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)

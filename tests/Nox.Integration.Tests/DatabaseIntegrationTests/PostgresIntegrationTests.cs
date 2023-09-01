@@ -180,6 +180,7 @@ public class PostgresIntegrationTests : PostgresTestBase
             PhoneNumberTestField = PhoneNumber.From(phoneNumber),
             DateTimeScheduleTestField = DateTimeSchedule.From(cronJobExpression),
             DateTimeTestField = Types.DateTime.From(dateTime),
+            DatabaseGuidTestField = DatabaseGuid.FromDatabase(System.Guid.NewGuid()),
         };
         var temperatureCelsius = newItem.TemperatureTestField.ToCelsius();
         DbContext.TestEntityForTypes.Add(newItem);

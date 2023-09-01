@@ -67,9 +67,9 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
         }
         
        
-        public void HasUniqueAttributeConstraint(string[] propertyNames, string constraintName)
+        public IndexBuilder HasUniqueAttributeConstraint(string[] propertyNames, string constraintName)
         {
-            OwnedNavigationBuilder!.HasIndex(propertyNames).IsUnique();
+            return OwnedNavigationBuilder!.HasIndex(propertyNames).HasDatabaseName(constraintName).IsUnique();
         }
     }
 }

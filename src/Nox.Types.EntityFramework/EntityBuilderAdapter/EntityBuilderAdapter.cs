@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+
 namespace Nox.Types.EntityFramework.EntityBuilderAdapter
 {
     public class EntityBuilderAdapter : IEntityBuilder
@@ -66,9 +67,9 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
             EntityTypeBuilder.OwnsMany(ownedType, navigationName, buildAction);
         }
         
-        public void HasUniqueAttributeConstraint(string[] propertyNames, string constraintName)
+        public IndexBuilder HasUniqueAttributeConstraint(string[] propertyNames, string constraintName)
         {
-            EntityTypeBuilder.HasIndex(propertyNames, constraintName).IsUnique();
+            return EntityTypeBuilder.HasIndex(propertyNames).HasDatabaseName(constraintName).IsUnique();
         }
     }
 }
