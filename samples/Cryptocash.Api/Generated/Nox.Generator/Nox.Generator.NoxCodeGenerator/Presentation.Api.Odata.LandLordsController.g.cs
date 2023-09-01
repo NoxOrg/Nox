@@ -76,6 +76,22 @@ public partial class LandLordsController : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefLandLordToVendingMachineCommand(new LandLordKeyDto(key), new VendingMachineKeyDto(relatedKey)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> Post([FromBody]LandLordCreateDto landlord)
     {
         if (!ModelState.IsValid)

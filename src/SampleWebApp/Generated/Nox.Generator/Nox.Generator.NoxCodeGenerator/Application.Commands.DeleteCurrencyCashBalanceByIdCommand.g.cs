@@ -13,7 +13,7 @@ using CurrencyCashBalance = SampleWebApp.Domain.CurrencyCashBalance;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteCurrencyCashBalanceByIdCommand(System.String keyStoreId, System.UInt32 keyCurrencyId) : IRequest<bool>;
+public record DeleteCurrencyCashBalanceByIdCommand(System.String keyStoreId, System.Int64 keyCurrencyId) : IRequest<bool>;
 
 public class DeleteCurrencyCashBalanceByIdCommandHandler: CommandBase<DeleteCurrencyCashBalanceByIdCommand,CurrencyCashBalance>, IRequestHandler<DeleteCurrencyCashBalanceByIdCommand, bool>
 {
@@ -32,7 +32,7 @@ public class DeleteCurrencyCashBalanceByIdCommandHandler: CommandBase<DeleteCurr
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 		var keyStoreId = CreateNoxTypeForKey<CurrencyCashBalance,Text>("StoreId", request.keyStoreId);
-		var keyCurrencyId = CreateNoxTypeForKey<CurrencyCashBalance,Nuid>("CurrencyId", request.keyCurrencyId);
+		var keyCurrencyId = CreateNoxTypeForKey<CurrencyCashBalance,DatabaseNumber>("CurrencyId", request.keyCurrencyId);
 
 		var entity = await DbContext.CurrencyCashBalances.FindAsync(keyStoreId, keyCurrencyId);
 		if (entity == null || entity.IsDeleted.Value == true)

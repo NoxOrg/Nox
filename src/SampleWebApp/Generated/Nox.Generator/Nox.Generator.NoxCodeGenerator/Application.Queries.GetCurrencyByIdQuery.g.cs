@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetCurrencyByIdQuery(System.UInt32 keyId) : IRequest <CurrencyDto?>;
+public record GetCurrencyByIdQuery(System.Int64 keyId) : IRequest <CurrencyDto?>;
 
 public partial class GetCurrencyByIdQueryHandler:  QueryBase<CurrencyDto?>, IRequestHandler<GetCurrencyByIdQuery, CurrencyDto?>
 {

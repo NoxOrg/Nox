@@ -35,7 +35,7 @@ public class CurrencyCashBalanceMapper : EntityMapperBase<CurrencyCashBalance>
         {        
             entity.StoreId = noxTypeValue;
         }        
-        noxTypeValue = CreateNoxType<Nox.Types.Nuid>(entityDefinition, "CurrencyId", dto.CurrencyId);        
+        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "CurrencyId", dto.CurrencyId);        
         if (noxTypeValue != null)
         {        
             entity.CurrencyId = noxTypeValue;

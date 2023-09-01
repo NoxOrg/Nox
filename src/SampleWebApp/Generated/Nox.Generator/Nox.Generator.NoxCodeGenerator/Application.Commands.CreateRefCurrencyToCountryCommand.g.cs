@@ -34,7 +34,7 @@ public partial class CreateRefCurrencyToCountryCommandHandler: CommandBase<Creat
 	public async Task<bool> Handle(CreateRefCurrencyToCountryCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Currency,Nuid>("Id", request.EntityKeyDto.keyId);
+		var keyId = CreateNoxTypeForKey<Currency,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
 
 		var entity = await DbContext.Currencies.FindAsync(keyId);
 		if (entity == null)

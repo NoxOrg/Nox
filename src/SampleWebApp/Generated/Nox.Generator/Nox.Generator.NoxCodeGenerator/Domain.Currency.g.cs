@@ -18,23 +18,7 @@ public partial class Currency : AuditableEntityBase
     /// <summary>
     /// The currency's primary key / identifier (Required).
     /// </summary>
-    public Nuid Id {get; private set;} = null!;
-    
-    	public void EnsureId()
-    	{
-    		if(Id is null)
-    		{
-    			Id = Nuid.From("Currency." + string.Join(".", Name.Value.ToString()));
-    		}
-    		else
-    		{
-    			var currentNuid = Nuid.From("Currency." + string.Join(".", Name.Value.ToString()));
-    			if(Id != currentNuid)
-    			{
-    				throw new NoxNuidTypeException("Immutable nuid property Id value is different since it has been initialized");
-    			}
-    		}
-    	}
+    public DatabaseNumber Id { get; set; } = null!;
 
     /// <summary>
     /// The currency's name (Required).

@@ -76,6 +76,22 @@ public partial class CommissionsController : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToCountry([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefCommissionToCountryCommand(new CommissionKeyDto(key)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
     {
         if (!ModelState.IsValid)
@@ -85,6 +101,22 @@ public partial class CommissionsController : ODataController
         
         var createdRef = await _mediator.Send(new CreateRefCommissionToBookingCommand(new CommissionKeyDto(key), new BookingKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Int64 key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefCommissionToBookingCommand(new CommissionKeyDto(key), new BookingKeyDto(relatedKey)));
+        if (!deletedRef)
         {
             return NotFound();
         }

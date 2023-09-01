@@ -92,6 +92,22 @@ public partial class CountriesController : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToCountryTimeZones([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefCountryToCountryTimeZonesCommand(new CountryKeyDto(key), new CountryTimeZonesKeyDto(relatedKey)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToCommissions([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -101,6 +117,22 @@ public partial class CountriesController : ODataController
         
         var createdRef = await _mediator.Send(new CreateRefCountryToCommissionCommand(new CountryKeyDto(key), new CommissionKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToCommissions([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefCountryToCommissionCommand(new CountryKeyDto(key), new CommissionKeyDto(relatedKey)));
+        if (!deletedRef)
         {
             return NotFound();
         }
@@ -124,6 +156,22 @@ public partial class CountriesController : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToVendingMachines([FromRoute] System.String key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefCountryToVendingMachineCommand(new CountryKeyDto(key), new VendingMachineKeyDto(relatedKey)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToCountryHolidays([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -140,6 +188,22 @@ public partial class CountriesController : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToCountryHolidays([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefCountryToCountryHolidayCommand(new CountryKeyDto(key), new CountryHolidayKeyDto(relatedKey)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToCustomers([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -149,6 +213,22 @@ public partial class CountriesController : ODataController
         
         var createdRef = await _mediator.Send(new CreateRefCountryToCustomerCommand(new CountryKeyDto(key), new CustomerKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToCustomers([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefCountryToCustomerCommand(new CountryKeyDto(key), new CustomerKeyDto(relatedKey)));
+        if (!deletedRef)
         {
             return NotFound();
         }

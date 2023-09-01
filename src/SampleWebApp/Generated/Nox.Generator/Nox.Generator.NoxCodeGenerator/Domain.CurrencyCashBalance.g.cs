@@ -24,7 +24,7 @@ public partial class CurrencyCashBalance : AuditableEntityBase
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Nuid CurrencyId { get; set; } = null!;
+    public DatabaseNumber CurrencyId { get; set; } = null!;
     
         public virtual Currency Currency { get; set; } = null!;
 

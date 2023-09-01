@@ -48,7 +48,7 @@ public partial class CurrenciesController : ODataController
         return Ok(result);
     }
     
-    public async Task<ActionResult<CurrencyDto>> Get([FromRoute] System.UInt32 key)
+    public async Task<ActionResult<CurrencyDto>> Get([FromRoute] System.Int64 key)
     {
         var item = await _mediator.Send(new GetCurrencyByIdQuery(key));
         
@@ -60,7 +60,7 @@ public partial class CurrenciesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> CreateRefToCountries([FromRoute] System.UInt32 key, [FromRoute] System.Int64 relatedKey)
+    public async Task<ActionResult> CreateRefToCountries([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -69,6 +69,22 @@ public partial class CurrenciesController : ODataController
         
         var createdRef = await _mediator.Send(new CreateRefCurrencyToCountryCommand(new CurrencyKeyDto(key), new CountryKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToCountries([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefCurrencyToCountryCommand(new CurrencyKeyDto(key), new CountryKeyDto(relatedKey)));
+        if (!deletedRef)
         {
             return NotFound();
         }
@@ -87,7 +103,7 @@ public partial class CurrenciesController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.UInt32 key, [FromBody] CurrencyUpdateDto currency)
+    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] CurrencyUpdateDto currency)
     {
         if (!ModelState.IsValid)
         {
@@ -103,7 +119,7 @@ public partial class CurrenciesController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<CurrencyUpdateDto> currency)
+    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CurrencyUpdateDto> currency)
     {
         if (!ModelState.IsValid)
         {
@@ -128,7 +144,7 @@ public partial class CurrenciesController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.UInt32 key)
+    public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new DeleteCurrencyByIdCommand(key));
         if (!result)

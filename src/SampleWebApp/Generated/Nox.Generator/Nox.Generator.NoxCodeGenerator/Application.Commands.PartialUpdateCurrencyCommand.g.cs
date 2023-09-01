@@ -16,7 +16,7 @@ using Currency = SampleWebApp.Domain.Currency;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateCurrencyCommand(System.UInt32 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CurrencyKeyDto?>;
+public record PartialUpdateCurrencyCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CurrencyKeyDto?>;
 
 public class PartialUpdateCurrencyCommandHandler: CommandBase<PartialUpdateCurrencyCommand, Currency>, IRequestHandler<PartialUpdateCurrencyCommand, CurrencyKeyDto?>
 {
@@ -37,7 +37,7 @@ public class PartialUpdateCurrencyCommandHandler: CommandBase<PartialUpdateCurre
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Currency,Nuid>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Currency,DatabaseNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Currencies.FindAsync(keyId);
 		if (entity == null)

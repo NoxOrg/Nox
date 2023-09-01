@@ -132,6 +132,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
                     foreach (var relationship in entity.Relationships)
                     {
                         GenerateCreateRefTo(entity, relationship, code, codeGeneratorState.Solution);
+                        GenerateDeleteRefTo(entity, relationship, code, codeGeneratorState.Solution);
                     }
                 }
             }
@@ -373,6 +374,39 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"var createdRef = await _mediator.Send(new CreateRef{entity.Name}To{relatedEntity.Name}Command(" +
             $"new {entity.Name}KeyDto({PrimaryKeysQuery(entity)}), new {relatedEntity.Name}KeyDto({PrimaryKeysQuery(relatedEntity, "relatedKey")})));");
         code.AppendLine($"if (!createdRef)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+
+        code.AppendLine($"return NoContent();");
+
+        // End method
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+    private static void GenerateDeleteRefTo(Entity entity, EntityRelationship relationship, CodeBuilder code, NoxSolution solution)
+    {
+        if (relationship.Relationship == EntityRelationshipType.ExactlyOne)
+            return;
+
+        var relatedEntity = relationship.Related.Entity;
+        var refTo = relationship.WithSingleEntity ? relatedEntity.Name : relatedEntity.PluralName;
+        var relatedPrimaryKeys = relationship.WithSingleEntity ? "" : $", {PrimaryKeysFromRoute(relatedEntity, solution, "relatedKey")}";
+        code.AppendLine($"public async Task<ActionResult> DeleteRefTo{refTo}({PrimaryKeysFromRoute(entity, solution)}{relatedPrimaryKeys})");
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
+        code.AppendLine();
+
+        var relatedKeyDto = relationship.WithSingleEntity ? "" : $", new {relatedEntity.Name}KeyDto({PrimaryKeysQuery(relatedEntity, "relatedKey")})";
+        code.AppendLine($"var deletedRef = await _mediator.Send(new DeleteRef{entity.Name}To{relatedEntity.Name}Command(" +
+            $"new {entity.Name}KeyDto({PrimaryKeysQuery(entity)}){relatedKeyDto}));");
+        code.AppendLine($"if (!deletedRef)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();

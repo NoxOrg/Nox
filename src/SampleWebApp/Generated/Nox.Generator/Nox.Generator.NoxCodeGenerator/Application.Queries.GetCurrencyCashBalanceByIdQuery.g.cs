@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 
 namespace SampleWebApp.Application.Queries;
 
-public record GetCurrencyCashBalanceByIdQuery(System.String keyStoreId, System.UInt32 keyCurrencyId) : IRequest <CurrencyCashBalanceDto?>;
+public record GetCurrencyCashBalanceByIdQuery(System.String keyStoreId, System.Int64 keyCurrencyId) : IRequest <CurrencyCashBalanceDto?>;
 
 public partial class GetCurrencyCashBalanceByIdQueryHandler:  QueryBase<CurrencyCashBalanceDto?>, IRequestHandler<GetCurrencyCashBalanceByIdQuery, CurrencyCashBalanceDto?>
 {

@@ -48,7 +48,7 @@ public partial class CurrencyCashBalancesController : ODataController
         return Ok(result);
     }
     
-    public async Task<ActionResult<CurrencyCashBalanceDto>> Get([FromRoute] System.String keyStoreId, [FromRoute] System.UInt32 keyCurrencyId)
+    public async Task<ActionResult<CurrencyCashBalanceDto>> Get([FromRoute] System.String keyStoreId, [FromRoute] System.Int64 keyCurrencyId)
     {
         var item = await _mediator.Send(new GetCurrencyCashBalanceByIdQuery(keyStoreId, keyCurrencyId));
         
@@ -71,7 +71,7 @@ public partial class CurrencyCashBalancesController : ODataController
         return Created(createdKey);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.String keyStoreId, [FromRoute] System.UInt32 keyCurrencyId, [FromBody] CurrencyCashBalanceUpdateDto currencyCashBalance)
+    public async Task<ActionResult> Put([FromRoute] System.String keyStoreId, [FromRoute] System.Int64 keyCurrencyId, [FromBody] CurrencyCashBalanceUpdateDto currencyCashBalance)
     {
         if (!ModelState.IsValid)
         {
@@ -87,7 +87,7 @@ public partial class CurrencyCashBalancesController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.String keyStoreId, [FromRoute] System.UInt32 keyCurrencyId, [FromBody] Delta<CurrencyCashBalanceUpdateDto> currencyCashBalance)
+    public async Task<ActionResult> Patch([FromRoute] System.String keyStoreId, [FromRoute] System.Int64 keyCurrencyId, [FromBody] Delta<CurrencyCashBalanceUpdateDto> currencyCashBalance)
     {
         if (!ModelState.IsValid)
         {
@@ -112,7 +112,7 @@ public partial class CurrencyCashBalancesController : ODataController
         return Updated(updated);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.String keyStoreId, [FromRoute] System.UInt32 keyCurrencyId)
+    public async Task<ActionResult> Delete([FromRoute] System.String keyStoreId, [FromRoute] System.Int64 keyCurrencyId)
     {
         var result = await _mediator.Send(new DeleteCurrencyCashBalanceByIdCommand(keyStoreId, keyCurrencyId));
         if (!result)

@@ -20,7 +20,7 @@ internal class CurrencyDataSeeder : SampleDataSeederBase<CurrencyModel, Currency
             Name = Text.From(model.Name),
         };
 
-        currency.EnsureId();
+        //currency.EnsureId();
         return currency;
     }
 }

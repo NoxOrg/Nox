@@ -41,7 +41,7 @@ public partial class CreateRefCountryToCurrencyCommandHandler: CommandBase<Creat
 		{
 			return false;
 		}
-		var relatedKeyId = CreateNoxTypeForKey<Currency,Nuid>("Id", request.RelatedEntityKeyDto.keyId);
+		var relatedKeyId = CreateNoxTypeForKey<Currency,DatabaseNumber>("Id", request.RelatedEntityKeyDto.keyId);
 
 		var relatedEntity = await DbContext.Currencies.FindAsync(relatedKeyId);
 		if (relatedEntity == null)

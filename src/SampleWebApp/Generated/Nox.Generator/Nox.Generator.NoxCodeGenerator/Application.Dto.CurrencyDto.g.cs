@@ -11,7 +11,7 @@ using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
-public record CurrencyKeyDto(System.UInt32 keyId);
+public record CurrencyKeyDto(System.Int64 keyId);
 
 /// <summary>
 /// The list of currencies.
@@ -22,7 +22,7 @@ public partial class CurrencyDto
     /// <summary>
     /// The currency's primary key / identifier (Required).
     /// </summary>
-    public System.UInt32 Id { get; set; } = default!;
+    public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
     /// The currency's name (Required).

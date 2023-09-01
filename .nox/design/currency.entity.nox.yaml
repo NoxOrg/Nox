@@ -16,11 +16,7 @@ keys:
   - name: Id
     isRequired: true
     description: The currency's primary key / identifier
-    type: nuid
-    nuidTypeOptions:
-        separator: "."
-        propertyNames:
-            - "Name" 
+    type: databaseNumber
 
 attributes:
 

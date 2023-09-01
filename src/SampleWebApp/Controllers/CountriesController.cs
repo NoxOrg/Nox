@@ -40,11 +40,11 @@ public partial class CountriesController
     /// Delete /countries/{key}/currencies/{relatedKey}
     /// </summary>
     /// <returns></returns>
-    public async Task<IResult> DeleteRefToCurrencies([FromRoute] string key, [FromRoute] int relatedKey)
-    {     
-        await Task.Delay(100);
-        return Results.Ok(true);
-    }
+    //public async Task<IResult> DeleteRefToCurrencies([FromRoute] string key, [FromRoute] int relatedKey)
+    //{     
+    //    await Task.Delay(100);
+    //    return Results.Ok(true);
+    //}
 
     /// <summary>
     /// Example using OData Action for custom commands

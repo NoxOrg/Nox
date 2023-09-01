@@ -76,6 +76,22 @@ public partial class StoreOwnersController : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToStores([FromRoute] System.String key, [FromRoute] System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefStoreOwnerToStoreCommand(new StoreOwnerKeyDto(key), new StoreKeyDto(relatedKey)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> Post([FromBody]StoreOwnerCreateDto storeowner)
     {
         if (!ModelState.IsValid)

@@ -108,6 +108,22 @@ public partial class VendingMachinesController : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToBookings([FromRoute] System.Guid key, [FromRoute] System.Guid relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefVendingMachineToBookingCommand(new VendingMachineKeyDto(key), new BookingKeyDto(relatedKey)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToVendingMachineOrders([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -124,6 +140,22 @@ public partial class VendingMachinesController : ODataController
         return NoContent();
     }
     
+    public async Task<ActionResult> DeleteRefToVendingMachineOrders([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefVendingMachineToVendingMachineOrderCommand(new VendingMachineKeyDto(key), new VendingMachineOrderKeyDto(relatedKey)));
+        if (!deletedRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     public async Task<ActionResult> CreateRefToMinimumCashStocks([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -133,6 +165,22 @@ public partial class VendingMachinesController : ODataController
         
         var createdRef = await _mediator.Send(new CreateRefVendingMachineToMinimumCashStockCommand(new VendingMachineKeyDto(key), new MinimumCashStockKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToMinimumCashStocks([FromRoute] System.Guid key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefVendingMachineToMinimumCashStockCommand(new VendingMachineKeyDto(key), new MinimumCashStockKeyDto(relatedKey)));
+        if (!deletedRef)
         {
             return NotFound();
         }

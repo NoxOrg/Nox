@@ -23,5 +23,5 @@ public partial class CurrencyCashBalanceCreateDto : CurrencyCashBalanceUpdateDto
     ///  (Required).
     /// </summary>
     [Required(ErrorMessage = "CurrencyId is required")]
-    public System.UInt32 CurrencyId { get; set; } = default!;
+    public System.Int64 CurrencyId { get; set; } = default!;
 }

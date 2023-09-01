@@ -15,7 +15,7 @@ using CurrencyCashBalance = SampleWebApp.Domain.CurrencyCashBalance;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateCurrencyCashBalanceCommand(System.String keyStoreId, System.UInt32 keyCurrencyId, CurrencyCashBalanceUpdateDto EntityDto) : IRequest<CurrencyCashBalanceKeyDto?>;
+public record UpdateCurrencyCashBalanceCommand(System.String keyStoreId, System.Int64 keyCurrencyId, CurrencyCashBalanceUpdateDto EntityDto) : IRequest<CurrencyCashBalanceKeyDto?>;
 
 public class UpdateCurrencyCashBalanceCommandHandler: CommandBase<UpdateCurrencyCashBalanceCommand, CurrencyCashBalance>, IRequestHandler<UpdateCurrencyCashBalanceCommand, CurrencyCashBalanceKeyDto?>
 {
@@ -37,7 +37,7 @@ public class UpdateCurrencyCashBalanceCommandHandler: CommandBase<UpdateCurrency
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 		var keyStoreId = CreateNoxTypeForKey<CurrencyCashBalance,Text>("StoreId", request.keyStoreId);
-		var keyCurrencyId = CreateNoxTypeForKey<CurrencyCashBalance,Nuid>("CurrencyId", request.keyCurrencyId);
+		var keyCurrencyId = CreateNoxTypeForKey<CurrencyCashBalance,DatabaseNumber>("CurrencyId", request.keyCurrencyId);
 	
 		var entity = await DbContext.CurrencyCashBalances.FindAsync(keyStoreId, keyCurrencyId);
 		if (entity == null)

@@ -83,7 +83,7 @@ public partial class CountriesController : ODataController
         return Created(new CountryLocalNameDto { Id = createdKey.keyId });
     }
     
-    public async Task<ActionResult> CreateRefToCurrencies([FromRoute] System.Int64 key, [FromRoute] System.UInt32 relatedKey)
+    public async Task<ActionResult> CreateRefToCurrencies([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -92,6 +92,22 @@ public partial class CountriesController : ODataController
         
         var createdRef = await _mediator.Send(new CreateRefCountryToCurrencyCommand(new CountryKeyDto(key), new CurrencyKeyDto(relatedKey)));
         if (!createdRef)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    public async Task<ActionResult> DeleteRefToCurrencies([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var deletedRef = await _mediator.Send(new DeleteRefCountryToCurrencyCommand(new CountryKeyDto(key), new CurrencyKeyDto(relatedKey)));
+        if (!deletedRef)
         {
             return NotFound();
         }
