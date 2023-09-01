@@ -21,7 +21,7 @@ public class DeleteStoreByIdCommandHandler: CommandBase<DeleteStoreByIdCommand,S
 
 	public DeleteStoreByIdCommandHandler(
 		SampleWebAppDbContext dbContext,
-		NoxSolution noxSolution, 
+		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;

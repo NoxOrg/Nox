@@ -21,7 +21,7 @@ public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase<Delete{{entity
 
 	public Delete{{entity.Name}}ByIdCommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
-		NoxSolution noxSolution, 
+		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;

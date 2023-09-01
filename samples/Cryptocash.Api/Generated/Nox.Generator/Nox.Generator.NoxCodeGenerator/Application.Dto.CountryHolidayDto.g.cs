@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
-//using CryptocashApi.Application.DataTransferObjects;
-using CryptocashApi.Domain;
+//using Cryptocash.Application.DataTransferObjects;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application.Dto;
+namespace Cryptocash.Application.Dto;
 
 public record CountryHolidayKeyDto(System.Int64 keyId);
 
@@ -20,29 +20,31 @@ public partial class CountryHolidayDto
 {
 
     /// <summary>
-    /// The country's holiday unique identifier (Required).
+    /// Country's holiday unique identifier (Required).
     /// </summary>
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// The country holiday name (Required).
+    /// Country holiday name (Required).
     /// </summary>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// The country holiday type (Required).
+    /// Country holiday type (Required).
     /// </summary>
     public System.String Type { get; set; } = default!;
 
     /// <summary>
-    /// The country holiday date (Required).
+    /// Country holiday date (Required).
     /// </summary>
     public System.DateTime Date { get; set; } = default!;
 
     /// <summary>
-    /// CountryHoliday The related country holidays ZeroOrMany Holidays
+    /// CountryHoliday Country's holidays ExactlyOne Countries
     /// </summary>
-    public virtual List<HolidaysDto> Holidays { get; set; } = new();
+    //EF maps ForeignKey Automatically
+    public System.String CountryId { get; set; } = default!;
+    public virtual CountryDto Country { get; set; } = null!;
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }

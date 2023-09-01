@@ -9,22 +9,22 @@ using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
 
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
-using VendingMachineOrder = CryptocashApi.Domain.VendingMachineOrder;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
+using VendingMachineOrder = Cryptocash.Domain.VendingMachineOrder;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 
 public record PartialUpdateVendingMachineOrderCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <VendingMachineOrderKeyDto?>;
 
 public class PartialUpdateVendingMachineOrderCommandHandler: CommandBase<PartialUpdateVendingMachineOrderCommand, VendingMachineOrder>, IRequestHandler<PartialUpdateVendingMachineOrderCommand, VendingMachineOrderKeyDto?>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<VendingMachineOrder> EntityMapper { get; }
 
 	public PartialUpdateVendingMachineOrderCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<VendingMachineOrder> entityMapper): base(noxSolution, serviceProvider)

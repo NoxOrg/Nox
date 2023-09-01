@@ -8,22 +8,22 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Factories;
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
-using Employee = CryptocashApi.Domain.Employee;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
+using Employee = Cryptocash.Domain.Employee;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 
 public record UpdateEmployeeCommand(System.Int64 keyId, EmployeeUpdateDto EntityDto) : IRequest<EmployeeKeyDto?>;
 
 public class UpdateEmployeeCommandHandler: CommandBase<UpdateEmployeeCommand, Employee>, IRequestHandler<UpdateEmployeeCommand, EmployeeKeyDto?>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Employee> EntityMapper { get; }
 
 	public UpdateEmployeeCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<Employee> entityMapper): base(noxSolution, serviceProvider)

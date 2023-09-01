@@ -8,22 +8,22 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Factories;
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
-using Booking = CryptocashApi.Domain.Booking;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
+using Booking = Cryptocash.Domain.Booking;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 
 public record UpdateBookingCommand(System.Guid keyId, BookingUpdateDto EntityDto) : IRequest<BookingKeyDto?>;
 
 public class UpdateBookingCommandHandler: CommandBase<UpdateBookingCommand, Booking>, IRequestHandler<UpdateBookingCommand, BookingKeyDto?>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Booking> EntityMapper { get; }
 
 	public UpdateBookingCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<Booking> entityMapper): base(noxSolution, serviceProvider)

@@ -14,15 +14,15 @@ using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
 using Nox.Exceptions;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Domain;
-using Customer = CryptocashApi.Domain.Customer;
+using Cryptocash.Application.Dto;
+using Cryptocash.Domain;
+using Customer = Cryptocash.Domain.Customer;
 
-namespace CryptocashApi.Application;
+namespace Cryptocash.Application;
 
-public class CustomerMapper: EntityMapperBase<Customer>
+public class CustomerMapper : EntityMapperBase<Customer>
 {
-    public  CustomerMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public CustomerMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
     public override void MapToEntity(Customer entity, Entity entityDefinition, dynamic dto)
     {
@@ -30,39 +30,52 @@ public class CustomerMapper: EntityMapperBase<Customer>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
     
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"FirstName",dto.FirstName);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "FirstName", dto.FirstName);
+        if (noxTypeValue != null)
         {        
             entity.FirstName = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"LastName",dto.LastName);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "LastName", dto.LastName);
+        if (noxTypeValue != null)
         {        
             entity.LastName = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"EmailAddress",dto.EmailAddress);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition, "EmailAddress", dto.EmailAddress);
+        if (noxTypeValue != null)
         {        
             entity.EmailAddress = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition,"Address",dto.Address);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "Address", dto.Address);
+        if (noxTypeValue != null)
         {        
             entity.Address = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.PhoneNumber>(entityDefinition,"MobileNumber",dto.MobileNumber);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.PhoneNumber>(entityDefinition, "MobileNumber", dto.MobileNumber);
+        if (noxTypeValue != null)
         {        
             entity.MobileNumber = noxTypeValue;
+        }
+    
+
+        /// <summary>
+        /// Customer Customer's country ExactlyOne Countries
+        /// </summary>
+        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "Country", dto.CountryId);
+        if (noxTypeValue != null)
+        {        
+            entity.CountryId = noxTypeValue;
         }
     }
 
     public override void PartialMapToEntity(Customer entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+#pragma warning disable CS0168 // Variable is assigned but its value is never used
+        dynamic? value;
+#pragma warning restore CS0168 // Variable is assigned but its value is never used
         {
-            if (updatedProperties.TryGetValue("FirstName", out dynamic? value))
+            if (updatedProperties.TryGetValue("FirstName", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"FirstName",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "FirstName", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Customer", "FirstName");
@@ -74,9 +87,9 @@ public class CustomerMapper: EntityMapperBase<Customer>
             }
         }
         {
-            if (updatedProperties.TryGetValue("LastName", out dynamic? value))
+            if (updatedProperties.TryGetValue("LastName", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"LastName",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "LastName", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Customer", "LastName");
@@ -88,9 +101,9 @@ public class CustomerMapper: EntityMapperBase<Customer>
             }
         }
         {
-            if (updatedProperties.TryGetValue("EmailAddress", out dynamic? value))
+            if (updatedProperties.TryGetValue("EmailAddress", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"EmailAddress",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition, "EmailAddress", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Customer", "EmailAddress");
@@ -102,9 +115,9 @@ public class CustomerMapper: EntityMapperBase<Customer>
             }
         }
         {
-            if (updatedProperties.TryGetValue("Address", out dynamic? value))
+            if (updatedProperties.TryGetValue("Address", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition,"Address",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "Address", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Customer", "Address");
@@ -116,9 +129,9 @@ public class CustomerMapper: EntityMapperBase<Customer>
             }
         }
         {
-            if (updatedProperties.TryGetValue("MobileNumber", out dynamic? value))
+            if (updatedProperties.TryGetValue("MobileNumber", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.PhoneNumber>(entityDefinition,"MobileNumber",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.PhoneNumber>(entityDefinition, "MobileNumber", value);
                 if(noxTypeValue == null)
                 {
                     entity.MobileNumber = null;
@@ -127,6 +140,19 @@ public class CustomerMapper: EntityMapperBase<Customer>
                 {
                     entity.MobileNumber = noxTypeValue;
                 }
+            }
+        }
+    
+    
+        /// <summary>
+        /// Customer Customer's country ExactlyOne Countries
+        /// </summary>
+        if (updatedProperties.TryGetValue("CountryId", out value))
+        {
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "Country", value);
+            if (noxRelationshipTypeValue != null)
+            {        
+                entity.CountryId = noxRelationshipTypeValue;
             }
         }
     }

@@ -9,22 +9,22 @@ using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
 
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
-using CountryTimeZones = CryptocashApi.Domain.CountryTimeZones;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
+using CountryTimeZones = Cryptocash.Domain.CountryTimeZones;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 
 public record PartialUpdateCountryTimeZonesCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CountryTimeZonesKeyDto?>;
 
 public class PartialUpdateCountryTimeZonesCommandHandler: CommandBase<PartialUpdateCountryTimeZonesCommand, CountryTimeZones>, IRequestHandler<PartialUpdateCountryTimeZonesCommand, CountryTimeZonesKeyDto?>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<CountryTimeZones> EntityMapper { get; }
 
 	public PartialUpdateCountryTimeZonesCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<CountryTimeZones> entityMapper): base(noxSolution, serviceProvider)

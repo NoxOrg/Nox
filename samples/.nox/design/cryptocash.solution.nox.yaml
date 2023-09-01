@@ -1,0 +1,21 @@
+#
+# cryptocash.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+name: Cryptocash
+
+description: Sample Nox solution yaml configuration for Cryptocash business
+
+domain:
+
+  $ref: ./domain/cryptocash.domain.nox.yaml
+
+infrastructure:
+
+  $ref: ./infratructure/cryptocash.infrastructure.nox.yaml
+
+application:
+
+  $ref: ./application/cryptocash.application.nox.yaml    

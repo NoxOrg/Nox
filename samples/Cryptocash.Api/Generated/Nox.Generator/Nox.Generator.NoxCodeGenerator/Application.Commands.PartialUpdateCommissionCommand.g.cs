@@ -9,22 +9,22 @@ using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
 
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
-using Commission = CryptocashApi.Domain.Commission;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
+using Commission = Cryptocash.Domain.Commission;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 
 public record PartialUpdateCommissionCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CommissionKeyDto?>;
 
 public class PartialUpdateCommissionCommandHandler: CommandBase<PartialUpdateCommissionCommand, Commission>, IRequestHandler<PartialUpdateCommissionCommand, CommissionKeyDto?>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Commission> EntityMapper { get; }
 
 	public PartialUpdateCommissionCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<Commission> entityMapper): base(noxSolution, serviceProvider)

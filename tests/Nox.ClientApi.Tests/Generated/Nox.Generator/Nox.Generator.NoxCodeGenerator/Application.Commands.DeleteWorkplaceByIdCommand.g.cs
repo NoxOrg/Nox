@@ -21,7 +21,7 @@ public class DeleteWorkplaceByIdCommandHandler: CommandBase<DeleteWorkplaceByIdC
 
 	public DeleteWorkplaceByIdCommandHandler(
 		ClientApiDbContext dbContext,
-		NoxSolution noxSolution, 
+		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;

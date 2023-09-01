@@ -11,21 +11,21 @@ using Nox.Application.Commands;
 using Nox.Factories;
 using Nox.Solution;
 
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
-using MinimumCashStock = CryptocashApi.Domain.MinimumCashStock;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
+using MinimumCashStock = Cryptocash.Domain.MinimumCashStock;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 public record CreateMinimumCashStockCommand(MinimumCashStockCreateDto EntityDto) : IRequest<MinimumCashStockKeyDto>;
 
 public partial class CreateMinimumCashStockCommandHandler: CommandBase<CreateMinimumCashStockCommand,MinimumCashStock>, IRequestHandler <CreateMinimumCashStockCommand, MinimumCashStockKeyDto>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 	public IEntityFactory<MinimumCashStockCreateDto,MinimumCashStock> EntityFactory { get; }
 
 	public CreateMinimumCashStockCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityFactory<MinimumCashStockCreateDto,MinimumCashStock> entityFactory): base(noxSolution, serviceProvider)

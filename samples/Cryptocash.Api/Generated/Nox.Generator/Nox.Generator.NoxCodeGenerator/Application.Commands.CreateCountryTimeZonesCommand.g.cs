@@ -11,21 +11,21 @@ using Nox.Application.Commands;
 using Nox.Factories;
 using Nox.Solution;
 
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
-using CountryTimeZones = CryptocashApi.Domain.CountryTimeZones;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
+using CountryTimeZones = Cryptocash.Domain.CountryTimeZones;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 public record CreateCountryTimeZonesCommand(CountryTimeZonesCreateDto EntityDto) : IRequest<CountryTimeZonesKeyDto>;
 
 public partial class CreateCountryTimeZonesCommandHandler: CommandBase<CreateCountryTimeZonesCommand,CountryTimeZones>, IRequestHandler <CreateCountryTimeZonesCommand, CountryTimeZonesKeyDto>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 	public IEntityFactory<CountryTimeZonesCreateDto,CountryTimeZones> EntityFactory { get; }
 
 	public CreateCountryTimeZonesCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityFactory<CountryTimeZonesCreateDto,CountryTimeZones> entityFactory): base(noxSolution, serviceProvider)

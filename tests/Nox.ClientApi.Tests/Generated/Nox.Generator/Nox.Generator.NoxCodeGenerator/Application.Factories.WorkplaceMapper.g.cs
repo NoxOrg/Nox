@@ -20,9 +20,9 @@ using Workplace = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application;
 
-public class WorkplaceMapper: EntityMapperBase<Workplace>
+public class WorkplaceMapper : EntityMapperBase<Workplace>
 {
-    public  WorkplaceMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public WorkplaceMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
     public override void MapToEntity(Workplace entity, Entity entityDefinition, dynamic dto)
     {
@@ -30,21 +30,25 @@ public class WorkplaceMapper: EntityMapperBase<Workplace>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
     
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",dto.Name);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
+        if (noxTypeValue != null)
         {        
             entity.Name = noxTypeValue;
         }
 
         // TODO map Greeting Formula remaining types and remove if else
+    
     }
 
     public override void PartialMapToEntity(Workplace entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+#pragma warning disable CS0168 // Variable is assigned but its value is never used
+        dynamic? value;
+#pragma warning restore CS0168 // Variable is assigned but its value is never used
         {
-            if (updatedProperties.TryGetValue("Name", out dynamic? value))
+            if (updatedProperties.TryGetValue("Name", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"Name",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Workplace", "Name");
@@ -55,5 +59,7 @@ public class WorkplaceMapper: EntityMapperBase<Workplace>
                 }
             }
         }
+    
+    
     }
 }

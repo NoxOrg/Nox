@@ -21,6 +21,7 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<CountryLocalNameDto>().HasKey(e => new { e.Id });
         builder.EntityType<StoreDto>().HasKey(e => new { e.Id });
         builder.EntityType<WorkplaceDto>().HasKey(e => new { e.Id });
+        builder.EntityType<StoreOwnerDto>().HasKey(e => new { e.Id });
         builder.EntityType<EmailAddressDto>().HasKey(e => new { });
 
 
@@ -45,6 +46,12 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntityType<WorkplaceDto>();
         builder.EntityType<WorkplaceKeyDto>();
+
+        builder.EntitySet<StoreOwnerDto>("StoreOwners");
+
+        builder.EntityType<StoreOwnerDto>();
+        builder.EntityType<StoreOwnerKeyDto>();
+        builder.EntityType<StoreOwnerDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntityType<EmailAddressDto>();
         builder.EntityType<EmailAddressKeyDto>();

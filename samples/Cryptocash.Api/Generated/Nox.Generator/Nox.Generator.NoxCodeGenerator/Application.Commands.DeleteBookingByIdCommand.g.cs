@@ -7,21 +7,21 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using Booking = CryptocashApi.Domain.Booking;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Booking = Cryptocash.Domain.Booking;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 
 public record DeleteBookingByIdCommand(System.Guid keyId) : IRequest<bool>;
 
 public class DeleteBookingByIdCommandHandler: CommandBase<DeleteBookingByIdCommand,Booking>, IRequestHandler<DeleteBookingByIdCommand, bool>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 
 	public DeleteBookingByIdCommandHandler(
-		CryptocashApiDbContext dbContext,
-		NoxSolution noxSolution, 
+		CryptocashDbContext dbContext,
+		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;

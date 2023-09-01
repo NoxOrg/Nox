@@ -8,22 +8,22 @@ using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
 using Nox.Factories;
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
-using Commission = CryptocashApi.Domain.Commission;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
+using Commission = Cryptocash.Domain.Commission;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 
 public record UpdateCommissionCommand(System.Int64 keyId, CommissionUpdateDto EntityDto) : IRequest<CommissionKeyDto?>;
 
 public class UpdateCommissionCommandHandler: CommandBase<UpdateCommissionCommand, Commission>, IRequestHandler<UpdateCommissionCommand, CommissionKeyDto?>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Commission> EntityMapper { get; }
 
 	public UpdateCommissionCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityMapper<Commission> entityMapper): base(noxSolution, serviceProvider)

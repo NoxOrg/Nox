@@ -11,21 +11,21 @@ using Nox.Application.Commands;
 using Nox.Factories;
 using Nox.Solution;
 
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
-using Country = CryptocashApi.Domain.Country;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
+using Country = Cryptocash.Domain.Country;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<CountryKeyDto>;
 
 public partial class CreateCountryCommandHandler: CommandBase<CreateCountryCommand,Country>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 	public IEntityFactory<CountryCreateDto,Country> EntityFactory { get; }
 
 	public CreateCountryCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider,
 		IEntityFactory<CountryCreateDto,Country> entityFactory): base(noxSolution, serviceProvider)

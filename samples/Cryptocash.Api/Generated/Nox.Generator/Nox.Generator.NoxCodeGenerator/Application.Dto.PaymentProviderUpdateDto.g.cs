@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CryptocashApi.Application.Dto; 
+namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Payment provider related data.
@@ -16,15 +16,21 @@ public partial class PaymentProviderUpdateDto
 {
     //TODO Add owned Entities and update odata endpoints
     /// <summary>
-    /// The payment provider name (Required).
+    /// Payment provider name (Required).
     /// </summary>
     [Required(ErrorMessage = "PaymentProviderName is required")]
     
     public System.String PaymentProviderName { get; set; } = default!;
     /// <summary>
-    /// The payment account type (Required).
+    /// Payment provider account type (Required).
     /// </summary>
     [Required(ErrorMessage = "PaymentProviderType is required")]
     
     public System.String PaymentProviderType { get; set; } = default!;
+
+    /// <summary>
+    /// PaymentProvider Payment provider ExactlyOne CustomerPaymentDetails
+    /// </summary>
+    [Required(ErrorMessage = "CustomerPaymentDetails is required")]
+    public System.Int64 CustomerPaymentDetailsId { get; set; } = default!;
 }

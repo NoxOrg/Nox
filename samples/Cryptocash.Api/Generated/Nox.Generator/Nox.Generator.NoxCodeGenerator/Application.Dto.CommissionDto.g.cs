@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
-//using CryptocashApi.Application.DataTransferObjects;
-using CryptocashApi.Domain;
+//using Cryptocash.Application.DataTransferObjects;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application.Dto;
+namespace Cryptocash.Application.Dto;
 
 public record CommissionKeyDto(System.Int64 keyId);
 
@@ -20,27 +20,29 @@ public partial class CommissionDto
 {
 
     /// <summary>
-    /// The commission unique identifier (Required).
+    /// Commission unique identifier (Required).
     /// </summary>
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// The commission rate (Required).
+    /// Commission rate (Required).
     /// </summary>
     public System.Single Rate { get; set; } = default!;
 
     /// <summary>
-    /// The exchange rate conversion amount (Required).
+    /// Exchange rate conversion amount (Required).
     /// </summary>
     public System.DateTimeOffset EffectiveAt { get; set; } = default!;
 
     /// <summary>
-    /// Commission The commission related country ZeroOrOne Countries
+    /// Commission Commission's country ZeroOrOne Countries
     /// </summary>
-    public virtual CountryDto ?Country { get; set; } = null!;
+    //EF maps ForeignKey Automatically
+    public System.String? CountryId { get; set; } = default!;
+    public virtual CountryDto? Country { get; set; } = null!;
 
     /// <summary>
-    /// Commission The booking's related fee ZeroOrMany Bookings
+    /// Commission Booking's fee ZeroOrMany Bookings
     /// </summary>
     public virtual List<BookingDto> Bookings { get; set; } = new();
 

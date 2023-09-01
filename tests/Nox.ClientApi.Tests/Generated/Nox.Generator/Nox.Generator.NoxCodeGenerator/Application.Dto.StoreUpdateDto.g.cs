@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace ClientApi.Application.Dto; 
+namespace ClientApi.Application.Dto;
 
 /// <summary>
 /// Stores.
@@ -21,6 +21,12 @@ public partial class StoreUpdateDto
     [Required(ErrorMessage = "Name is required")]
     
     public System.String Name { get; set; } = default!;
+
+    /// <summary>
+    /// Store Store owner relationship ZeroOrOne StoreOwners
+    /// </summary>
+    
+    public System.String? StoreOwnerId { get; set; } = default!;
 
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
