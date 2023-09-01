@@ -12,6 +12,7 @@ using Nox.Types;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
+using Country = SampleWebApp.Domain.Country;
 
 namespace SampleWebApp.Application.Commands;
 

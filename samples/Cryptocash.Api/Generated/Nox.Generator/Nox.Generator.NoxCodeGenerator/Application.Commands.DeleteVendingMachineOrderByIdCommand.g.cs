@@ -9,6 +9,7 @@ using Nox.Solution;
 using Nox.Types;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
+using VendingMachineOrder = Cryptocash.Domain.VendingMachineOrder;
 
 namespace Cryptocash.Application.Commands;
 

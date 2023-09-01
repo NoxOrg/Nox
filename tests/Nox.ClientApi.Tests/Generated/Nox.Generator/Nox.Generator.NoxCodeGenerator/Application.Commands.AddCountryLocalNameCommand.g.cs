@@ -14,6 +14,7 @@ using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
+using CountryLocalName = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Commands;
 public record AddCountryLocalNameCommand(CountryKeyDto ParentKeyDto, CountryLocalNameCreateDto EntityDto) : IRequest <CountryLocalNameKeyDto?>;

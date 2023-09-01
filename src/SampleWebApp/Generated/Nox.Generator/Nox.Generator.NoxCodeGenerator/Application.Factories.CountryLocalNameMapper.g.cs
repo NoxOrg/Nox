@@ -16,6 +16,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Domain;
+using CountryLocalName = SampleWebApp.Domain.CountryLocalName;
 
 namespace SampleWebApp.Application;
 

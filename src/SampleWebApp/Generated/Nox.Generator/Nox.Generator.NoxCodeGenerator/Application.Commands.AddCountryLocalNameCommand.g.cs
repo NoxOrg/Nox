@@ -14,6 +14,7 @@ using Nox.Types;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
+using CountryLocalName = SampleWebApp.Domain.CountryLocalName;
 
 namespace SampleWebApp.Application.Commands;
 public record AddCountryLocalNameCommand(CountryKeyDto ParentKeyDto, CountryLocalNameCreateDto EntityDto) : IRequest <CountryLocalNameKeyDto?>;

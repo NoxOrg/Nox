@@ -16,6 +16,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
+using MinimumCashStock = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application;
 

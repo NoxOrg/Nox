@@ -14,6 +14,7 @@ using Nox.Solution;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
+using CurrencyCashBalance = SampleWebApp.Domain.CurrencyCashBalance;
 
 namespace SampleWebApp.Application.Commands;
 public record CreateCurrencyCashBalanceCommand(CurrencyCashBalanceCreateDto EntityDto) : IRequest<CurrencyCashBalanceKeyDto>;

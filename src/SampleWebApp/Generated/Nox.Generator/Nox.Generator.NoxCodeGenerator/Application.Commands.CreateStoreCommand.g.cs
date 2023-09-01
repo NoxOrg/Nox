@@ -14,6 +14,7 @@ using Nox.Solution;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
+using Store = SampleWebApp.Domain.Store;
 
 namespace SampleWebApp.Application.Commands;
 public record CreateStoreCommand(StoreCreateDto EntityDto) : IRequest<StoreKeyDto>;
