@@ -63,7 +63,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         var currencyNumber = (short)970;
         var vatNumberValue = "44403198682";
         var vatNumberCountryCode2 = CountryCode.FR;
-        var color = new byte[] { 1, 2, 3, 4 };
+        var color = new byte[] { 255, 255, 0, 0 };
         var date = new DateOnly(2023, 7, 14);
         var time = new System.TimeOnly(11152500000);
         var fileName = "MyFile";
@@ -166,7 +166,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
             EmailTestField = Email.From(email),
             YamlTestField = Yaml.From(switzerlandCitiesCountiesYaml),
             VatNumberTestField = VatNumber.From(vatNumberValue, vatNumberCountryCode2),
-            ColorTestField = Color.From(color),
+            ColorTestField = Color.From(color[0], color[1], color[2], color[3]),
             PercentageTestField = Percentage.From(percentage),
             TemperatureTestField = Temperature.From(temperatureFahrenheit, new TemperatureTypeOptions() { Units = TemperatureTypeUnit.Fahrenheit, PersistAs = temperaturePersistUnitAs }),
             EncryptedTextTestField = EncryptedText.FromPlainText(text, encryptedTextTypeOptions),
@@ -241,7 +241,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(switzerlandCitiesCountiesYaml);
         testEntity.VatNumberTestField!.Value.Number.Should().Be(vatNumberValue);
         testEntity.VatNumberTestField!.Value.CountryCode.Should().Be(vatNumberCountryCode2);
-        testEntity.ColorTestField!.Value.Should().Equal(color);
+        testEntity.ColorTestField!.Value.Should().Be("#FFFF0000");
         testEntity.PercentageTestField!.Value.Should().Be(percentage);
         testEntity.YamlTestField!.Value.Should().BeEquivalentTo(Yaml.From(switzerlandCitiesCountiesYaml).Value);
         testEntity.TemperatureTestField!.Value.Should().Be(temperatureCelsius);
