@@ -250,6 +250,11 @@ public partial class AllNoxTypeDto
     public ImageDto ImageField { get; set; } = default!;
 
     /// <summary>
+    /// LatLongField Nox Type (Required).
+    /// </summary>
+    public LatLongDto LatLongField { get; set; } = default!;
+
+    /// <summary>
     /// Money Nox Type (Required).
     /// </summary>
     public MoneyDto MoneyField { get; set; } = default!;

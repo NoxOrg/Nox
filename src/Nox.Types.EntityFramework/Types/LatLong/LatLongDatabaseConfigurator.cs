@@ -42,8 +42,8 @@ public class LatLongDatabaseConfigurator : INoxTypeDatabaseConfigurator
             ba =>
             {
                 ba.Ignore(nameof(LatLong.Value));
-                ba.Property(nameof(LatLong.Latitude)).HasConversion<decimal>().HasPrecision(8, 6);
-                ba.Property(nameof(LatLong.Longitude)).HasConversion<decimal>().HasPrecision(9, 6);
+                ba.Property(nameof(LatLong.Latitude)).HasConversion<double>();
+                ba.Property(nameof(LatLong.Longitude)).HasConversion<double>();
             });
     }
 
