@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cryptocash.Application.Dto; 
+namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Customer payment account related data.
@@ -30,5 +30,11 @@ public partial class CustomerPaymentDetailsUpdateDto
     /// <summary>
     /// Payment account sort code (Optional).
     /// </summary>
-    public System.String? PaymentAccountSortCode { get; set; } 
+    public System.String? PaymentAccountSortCode { get; set; }
+
+    /// <summary>
+    /// CustomerPaymentDetails Customer's payment account ExactlyOne Customers
+    /// </summary>
+    [Required(ErrorMessage = "Customer is required")]
+    public System.Int64 CustomerId { get; set; } = default!;
 }

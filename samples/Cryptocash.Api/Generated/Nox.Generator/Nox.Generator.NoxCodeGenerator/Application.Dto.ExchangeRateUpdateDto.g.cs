@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cryptocash.Application.Dto; 
+namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Exchange rate and related data.
@@ -27,4 +27,10 @@ public partial class ExchangeRateUpdateDto
     [Required(ErrorMessage = "EffectiveAt is required")]
     
     public System.DateTimeOffset EffectiveAt { get; set; } = default!;
+
+    /// <summary>
+    /// ExchangeRate Exchanged from currency ExactlyOne Currencies
+    /// </summary>
+    [Required(ErrorMessage = "CurrencyFrom is required")]
+    public System.String CurrencyId { get; set; } = default!;
 }

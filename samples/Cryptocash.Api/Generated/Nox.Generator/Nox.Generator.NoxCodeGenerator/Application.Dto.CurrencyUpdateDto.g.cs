@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cryptocash.Application.Dto; 
+namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Currency and related data.
@@ -36,11 +36,11 @@ public partial class CurrencyUpdateDto
     /// <summary>
     /// Currency's numeric thousands notation separator (Optional).
     /// </summary>
-    public System.String? ThousandsSeparator { get; set; } 
+    public System.String? ThousandsSeparator { get; set; }
     /// <summary>
     /// Currency's numeric decimal notation separator (Optional).
     /// </summary>
-    public System.String? DecimalSeparator { get; set; } 
+    public System.String? DecimalSeparator { get; set; }
     /// <summary>
     /// Currency's numeric space between amount and symbol (Required).
     /// </summary>

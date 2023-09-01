@@ -38,7 +38,7 @@ public partial class ExchangeRateDto
     /// ExchangeRate Exchanged from currency ExactlyOne Currencies
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string CurrencyId { get; set; } = null!;
+    public System.String CurrencyId { get; set; } = default!;
     public virtual CurrencyDto Currency { get; set; } = null!;
 
     public System.DateTime? DeletedAtUtc { get; set; }

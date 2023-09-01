@@ -19,9 +19,9 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application;
 
-public class CommissionMapper: EntityMapperBase<Commission>
+public class CommissionMapper : EntityMapperBase<Commission>
 {
-    public  CommissionMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public CommissionMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
     public override void MapToEntity(Commission entity, Entity entityDefinition, dynamic dto)
     {
@@ -29,24 +29,37 @@ public class CommissionMapper: EntityMapperBase<Commission>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
     
-        noxTypeValue = CreateNoxType<Nox.Types.Percentage>(entityDefinition,"Rate",dto.Rate);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Percentage>(entityDefinition, "Rate", dto.Rate);
+        if (noxTypeValue != null)
         {        
             entity.Rate = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition,"EffectiveAt",dto.EffectiveAt);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "EffectiveAt", dto.EffectiveAt);
+        if (noxTypeValue != null)
         {        
             entity.EffectiveAt = noxTypeValue;
+        }
+    
+
+        /// <summary>
+        /// Commission Commission's country ZeroOrOne Countries
+        /// </summary>
+        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "Country", dto.CountryId);
+        if (noxTypeValue != null)
+        {        
+            entity.CountryId = noxTypeValue;
         }
     }
 
     public override void PartialMapToEntity(Commission entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+#pragma warning disable CS0168 // Variable is assigned but its value is never used
+        dynamic? value;
+#pragma warning restore CS0168 // Variable is assigned but its value is never used
         {
-            if (updatedProperties.TryGetValue("Rate", out dynamic? value))
+            if (updatedProperties.TryGetValue("Rate", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Percentage>(entityDefinition,"Rate",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Percentage>(entityDefinition, "Rate", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Commission", "Rate");
@@ -58,9 +71,9 @@ public class CommissionMapper: EntityMapperBase<Commission>
             }
         }
         {
-            if (updatedProperties.TryGetValue("EffectiveAt", out dynamic? value))
+            if (updatedProperties.TryGetValue("EffectiveAt", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition,"EffectiveAt",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "EffectiveAt", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Commission", "EffectiveAt");
@@ -69,6 +82,19 @@ public class CommissionMapper: EntityMapperBase<Commission>
                 {
                     entity.EffectiveAt = noxTypeValue;
                 }
+            }
+        }
+    
+    
+        /// <summary>
+        /// Commission Commission's country ZeroOrOne Countries
+        /// </summary>
+        if (updatedProperties.TryGetValue("CountryId", out value))
+        {
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "Country", value);
+            if (noxRelationshipTypeValue != null)
+            {        
+                entity.CountryId = noxRelationshipTypeValue;
             }
         }
     }

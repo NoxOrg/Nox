@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cryptocash.Application.Dto; 
+namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Vending machine currency order and related data.
@@ -30,5 +30,17 @@ public partial class VendingMachineOrderUpdateDto
     /// <summary>
     /// Order delivery date (Optional).
     /// </summary>
-    public System.DateTimeOffset? DeliveryDateTime { get; set; } 
+    public System.DateTimeOffset? DeliveryDateTime { get; set; }
+
+    /// <summary>
+    /// VendingMachineOrder Vending machine's orders ExactlyOne VendingMachines
+    /// </summary>
+    [Required(ErrorMessage = "VendingMachine is required")]
+    public System.Guid VendingMachineId { get; set; } = default!;
+
+    /// <summary>
+    /// VendingMachineOrder Reviewed by employee ExactlyOne Employees
+    /// </summary>
+    [Required(ErrorMessage = "Employee is required")]
+    public System.Int64 EmployeeId { get; set; } = default!;
 }

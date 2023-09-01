@@ -40,3 +40,8 @@ relationships:
       description: Set of passwords for this store
       relationship: exactlyOne
       entity: StoreSecurityPasswords
+
+    - name: OwnerRel
+      description: Store owner relationship
+      relationship: zeroOrOne
+      entity: StoreOwner

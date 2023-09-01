@@ -20,7 +20,7 @@ public class DeleteBookingByIdCommandHandler: CommandBase<DeleteBookingByIdComma
 
 	public DeleteBookingByIdCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution, 
+		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;

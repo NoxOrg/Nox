@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cryptocash.Application.Dto; 
+namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Customer definition and related data.
@@ -42,5 +42,11 @@ public partial class CustomerUpdateDto
     /// <summary>
     /// Customer's mobile number (Optional).
     /// </summary>
-    public System.String? MobileNumber { get; set; } 
+    public System.String? MobileNumber { get; set; }
+
+    /// <summary>
+    /// Customer Customer's country ExactlyOne Countries
+    /// </summary>
+    [Required(ErrorMessage = "Country is required")]
+    public System.String CountryId { get; set; } = default!;
 }

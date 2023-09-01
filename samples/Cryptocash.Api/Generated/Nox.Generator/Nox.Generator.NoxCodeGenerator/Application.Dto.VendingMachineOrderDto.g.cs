@@ -48,14 +48,14 @@ public partial class VendingMachineOrderDto
     /// VendingMachineOrder Vending machine's orders ExactlyOne VendingMachines
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string VendingMachineId { get; set; } = null!;
+    public System.Guid VendingMachineId { get; set; } = default!;
     public virtual VendingMachineDto VendingMachine { get; set; } = null!;
 
     /// <summary>
     /// VendingMachineOrder Reviewed by employee ExactlyOne Employees
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string EmployeeId { get; set; } = null!;
+    public System.Int64 EmployeeId { get; set; } = default!;
     public virtual EmployeeDto Employee { get; set; } = null!;
 
     public System.DateTime? DeletedAtUtc { get; set; }

@@ -38,8 +38,8 @@ public partial class CommissionDto
     /// Commission Commission's country ZeroOrOne Countries
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string ?CountryId { get; set; } = null!;
-    public virtual CountryDto ?Country { get; set; } = null!;
+    public System.String? CountryId { get; set; } = default!;
+    public virtual CountryDto? Country { get; set; } = null!;
 
     /// <summary>
     /// Commission Booking's fee ZeroOrMany Bookings

@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cryptocash.Application.Dto; 
+namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Holidays related to country.
@@ -33,4 +33,10 @@ public partial class CountryHolidayUpdateDto
     [Required(ErrorMessage = "Date is required")]
     
     public System.DateTime Date { get; set; } = default!;
+
+    /// <summary>
+    /// CountryHoliday Country's holidays ExactlyOne Countries
+    /// </summary>
+    [Required(ErrorMessage = "Country is required")]
+    public System.String CountryId { get; set; } = default!;
 }

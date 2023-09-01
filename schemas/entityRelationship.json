@@ -72,6 +72,18 @@
         "null"
       ]
     },
+    "withMultiEntity": {    
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "foreignKeyPrimitiveType": {    
+      "type": [
+        "string",
+        "null"
+      ]
+    },
     "related": {    
       "type": [
         "object",

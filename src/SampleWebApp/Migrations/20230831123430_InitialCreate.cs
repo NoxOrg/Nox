@@ -73,15 +73,15 @@ namespace SampleWebAppdeprecated.Migrations
                     MoneyField_CurrencyCode = table.Column<int>(type: "int", nullable: false),
                     PasswordField_HashedPassword = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PasswordField_Salt = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StreetAddressField_StreetNumber = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StreetAddressField_AddressLine1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StreetAddressField_AddressLine2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StreetAddressField_Route = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StreetAddressField_Locality = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StreetAddressField_Neighborhood = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StreetAddressField_AdministrativeArea1 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StreetAddressField_AdministrativeArea2 = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StreetAddressField_PostalCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StreetAddressField_StreetNumber = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    StreetAddressField_AddressLine1 = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    StreetAddressField_AddressLine2 = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
+                    StreetAddressField_Route = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    StreetAddressField_Locality = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    StreetAddressField_Neighborhood = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    StreetAddressField_AdministrativeArea1 = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    StreetAddressField_AdministrativeArea2 = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    StreetAddressField_PostalCode = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
                     StreetAddressField_CountryId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TranslatedTextField_Phrase = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TranslatedTextField_CultureCode = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -161,13 +161,11 @@ namespace SampleWebAppdeprecated.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Stores",
+                name: "StoreOwners",
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    PhysicalMoney_Amount = table.Column<decimal>(type: "decimal(15,5)", nullable: false),
-                    PhysicalMoney_CurrencyCode = table.Column<int>(type: "int", nullable: false),
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -180,7 +178,7 @@ namespace SampleWebAppdeprecated.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Stores", x => x.Id);
+                    table.PrimaryKey("PK_StoreOwners", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -224,6 +222,35 @@ namespace SampleWebAppdeprecated.Migrations
                         principalTable: "Currencies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Stores",
+                columns: table => new
+                {
+                    Id = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
+                    PhysicalMoney_Amount = table.Column<decimal>(type: "decimal(15,5)", nullable: false),
+                    PhysicalMoney_CurrencyCode = table.Column<int>(type: "int", nullable: false),
+                    StoreOwnerId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
+                    CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
+                    CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
+                    CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
+                    LastUpdatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    LastUpdatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    LastUpdatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true),
+                    DeletedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
+                    DeletedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: true),
+                    DeletedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Stores", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Stores_StoreOwners_StoreOwnerId",
+                        column: x => x.StoreOwnerId,
+                        principalTable: "StoreOwners",
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -313,6 +340,11 @@ namespace SampleWebAppdeprecated.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
+                name: "IX_Stores_StoreOwnerId",
+                table: "Stores",
+                column: "StoreOwnerId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_StoreSecurityPasswords_StoreId",
                 table: "StoreSecurityPasswords",
                 column: "StoreId",
@@ -346,6 +378,9 @@ namespace SampleWebAppdeprecated.Migrations
 
             migrationBuilder.DropTable(
                 name: "Stores");
+
+            migrationBuilder.DropTable(
+                name: "StoreOwners");
         }
     }
 }

@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cryptocash.Application.Dto; 
+namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Customer transaction log and related data.
@@ -39,4 +39,16 @@ public partial class CustomerTransactionUpdateDto
     [Required(ErrorMessage = "Reference is required")]
     
     public System.String Reference { get; set; } = default!;
+
+    /// <summary>
+    /// CustomerTransaction Transaction's customer ExactlyOne Customers
+    /// </summary>
+    [Required(ErrorMessage = "Customer is required")]
+    public System.Int64 CustomerId { get; set; } = default!;
+
+    /// <summary>
+    /// CustomerTransaction Transaction's booking ExactlyOne Bookings
+    /// </summary>
+    [Required(ErrorMessage = "Booking is required")]
+    public System.Guid BookingId { get; set; } = default!;
 }

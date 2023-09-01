@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cryptocash.Application.Dto; 
+namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Currencies related frequent and rare bank notes.
@@ -27,4 +27,10 @@ public partial class BankNotesUpdateDto
     [Required(ErrorMessage = "IsRare is required")]
     
     public System.Boolean IsRare { get; set; } = default!;
+
+    /// <summary>
+    /// BankNotes Currency's bank notes ExactlyOne Currencies
+    /// </summary>
+    [Required(ErrorMessage = "Currency is required")]
+    public System.String CurrencyId { get; set; } = default!;
 }

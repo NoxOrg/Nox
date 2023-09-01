@@ -20,7 +20,7 @@ public class DeleteBankNotesByIdCommandHandler: CommandBase<DeleteBankNotesByIdC
 
 	public DeleteBankNotesByIdCommandHandler(
 		CryptocashDbContext dbContext,
-		NoxSolution noxSolution, 
+		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;

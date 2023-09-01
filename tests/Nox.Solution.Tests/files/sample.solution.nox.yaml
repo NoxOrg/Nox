@@ -279,6 +279,12 @@ domain:
           type: text
           textTypeOptions:
             maxLength: 31
+      
+      uniqueAttributeConstraints:
+        - name: UniqueCountryName
+          description: The country name must be unique
+          attributeNames:
+            - Name
 
     - name: Currency
       description: The list of currencies

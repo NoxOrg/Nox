@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cryptocash.Application.Dto; 
+namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Exchange booking and related data.
@@ -36,17 +36,35 @@ public partial class BookingUpdateDto
     /// <summary>
     /// Booking's actual pick up date (Optional).
     /// </summary>
-    public DateTimeRangeDto? PickedUpDateTime { get; set; } 
+    public DateTimeRangeDto? PickedUpDateTime { get; set; }
     /// <summary>
     /// Booking's expiry date (Optional).
     /// </summary>
-    public System.DateTimeOffset? ExpiryDateTime { get; set; } 
+    public System.DateTimeOffset? ExpiryDateTime { get; set; }
     /// <summary>
     /// Booking's cancelled date (Optional).
     /// </summary>
-    public System.DateTimeOffset? CancelledDateTime { get; set; } 
+    public System.DateTimeOffset? CancelledDateTime { get; set; }
     /// <summary>
     /// Booking's related vat number (Optional).
     /// </summary>
-    public VatNumberDto? VatNumber { get; set; } 
+    public VatNumberDto? VatNumber { get; set; }
+
+    /// <summary>
+    /// Booking Booking's customer ExactlyOne Customers
+    /// </summary>
+    [Required(ErrorMessage = "Customer is required")]
+    public System.Int64 CustomerId { get; set; } = default!;
+
+    /// <summary>
+    /// Booking Booking's vending machine ExactlyOne VendingMachines
+    /// </summary>
+    [Required(ErrorMessage = "VendingMachine is required")]
+    public System.Guid VendingMachineId { get; set; } = default!;
+
+    /// <summary>
+    /// Booking Booking's fee ExactlyOne Commissions
+    /// </summary>
+    [Required(ErrorMessage = "Fee is required")]
+    public System.Int64 CommissionId { get; set; } = default!;
 }

@@ -16,5 +16,15 @@ public class CryptocashMermaidTests
         var mermaidText = noxSolution.ToMermaidErd();
 
         mermaidText.Should().NotBeNullOrWhiteSpace();
+
+        var docs = $"""
+        # Cryptocash Solution Design
+
+        ``` mermaid
+        {mermaidText}
+        ```
+        """;
+
+        File.WriteAllText("../../../../README.md", docs);
     }
 }

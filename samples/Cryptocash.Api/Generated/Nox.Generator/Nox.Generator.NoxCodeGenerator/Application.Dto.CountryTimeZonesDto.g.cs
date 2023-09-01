@@ -33,7 +33,7 @@ public partial class CountryTimeZonesDto
     /// CountryTimeZones Country's time zones ExactlyOne Countries
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string CountryId { get; set; } = null!;
+    public System.String CountryId { get; set; } = default!;
     public virtual CountryDto Country { get; set; } = null!;
 
     public System.DateTime? DeletedAtUtc { get; set; }

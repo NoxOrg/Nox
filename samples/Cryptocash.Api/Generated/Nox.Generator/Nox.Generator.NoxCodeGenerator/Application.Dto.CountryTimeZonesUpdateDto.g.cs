@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cryptocash.Application.Dto; 
+namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Time zones related to country.
@@ -21,4 +21,10 @@ public partial class CountryTimeZonesUpdateDto
     [Required(ErrorMessage = "TimeZoneCode is required")]
     
     public System.String TimeZoneCode { get; set; } = default!;
+
+    /// <summary>
+    /// CountryTimeZones Country's time zones ExactlyOne Countries
+    /// </summary>
+    [Required(ErrorMessage = "Country is required")]
+    public System.String CountryId { get; set; } = default!;
 }

@@ -48,14 +48,14 @@ public partial class CustomerTransactionDto
     /// CustomerTransaction Transaction's customer ExactlyOne Customers
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string CustomerId { get; set; } = null!;
+    public System.Int64 CustomerId { get; set; } = default!;
     public virtual CustomerDto Customer { get; set; } = null!;
 
     /// <summary>
     /// CustomerTransaction Transaction's booking ExactlyOne Bookings
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string BookingId { get; set; } = null!;
+    public System.Guid BookingId { get; set; } = default!;
     public virtual BookingDto Booking { get; set; } = null!;
 
     public System.DateTime? DeletedAtUtc { get; set; }

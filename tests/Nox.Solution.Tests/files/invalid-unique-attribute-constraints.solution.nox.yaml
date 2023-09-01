@@ -1,0 +1,344 @@
+#
+# workplace.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../schemas/solution.json
+#
+
+
+name: SampleService
+
+description: Sample Nox solution yaml configuration
+
+variables:
+  DATABASE_PROVIDER: slqServer
+  DATABASE_SERVER: localhost
+  DATABASE_USER: sa
+  DATABASE_PASSWORD: Developer*123
+  DATABASE_PORT: "5432"
+
+environments:
+
+  - name: dev
+    description: Used for development and testing
+
+  - name: test
+    description: Test environment
+
+  - name: uat
+    description: For them end users to check it works
+
+  - name: prod
+    description: Production environment used for, well - the real thing!
+    isProduction: true
+
+versionControl:
+  provider: azureDevops
+  host: https://dev.azure.com/iwgplc
+  folders:
+    sourceCode: /src
+    containers: /docker
+
+team:
+
+  - name: Andre Sharpe
+    userName: andre.sharpe@iwgplc.com
+    roles: [architect, owner, administrator, developer, manager]
+
+  - name: Jan Schutte
+    userName: jan.schutte@iwgplc.com
+    roles: [architect, administrator, developer, devOpsEngineer]
+
+  - name: Anton Du Plessis
+    userName: anton.duplessis@iwgplc.com
+    roles: [projectManager]
+
+  - name: Morne Van Zyl
+    userName: morne.vanzyl@iwgplc.com
+    roles: [technicalWriter]
+
+  - name: Dmytro Dorodnykh
+    userName: dmytro.dorodnykh@iwgplc.com
+    roles: [developer]
+
+  - name: Oleksandr Vlasenko
+    userName: oleksandr.vlasenko@regus.com
+    roles: [architect, developer]
+
+domain:
+
+  entities:
+
+    - name: Country
+      description: The list of countries
+      
+      userInterface:
+        icon: world
+
+      persistence:
+        isAudited: true
+        tableName: Country
+        schema: dbo
+        create:
+          isEnabled: true
+          raiseEvents: true
+        read:
+          isEnabled: true
+        update:
+          isEnabled: true
+          raiseEvents: true
+        delete:
+          isEnabled: true
+          raiseEvents: true
+
+      relationships:
+
+        - name: CountryAcceptsCurrency
+          description: accepts as legal tender
+          relationship: oneOrMany
+          entity: Currency
+          canNavigate: true
+          
+      ownedRelationships:
+
+        - name: CountryLocalNames
+          description: is also know as
+          relationship: oneOrMany
+          entity: CountryLocalNames
+
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+        
+      attributes:
+
+        - name: Name
+          description: The country's common name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+        - name: FormalName
+          description: The country's official name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+        - name: AlphaCode3
+          description: The country's official ISO 4217 alpha-3 code
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 3
+            maxLength: 3
+          isRequired: true
+
+        - name: AlphaCode2
+          description: The country's official ISO 4217 alpha-2 code
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+          isRequired: true
+
+        - name: NumericCode
+          description: The country's official ISO 4217 alpha-3 code
+          type: number
+          numberTypeOptions:
+            minValue: 4
+            maxValue: 894
+          isRequired: true
+
+        - name: DialingCodes
+          description: The country's phone dialing codes (comma-delimited)
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            maxLength: 31
+
+        - name: Capital
+          description: The capital city of the country
+          type: text
+          textTypeOptions:
+            maxLength: 63
+
+        - name: Demonym
+          description: Noun denoting the natives of the country
+          type: text
+          textTypeOptions:
+            maxLength: 63
+
+        - name: AreaInSquareKilometres
+          description: Country area in square kilometers
+          type: area
+          areaTypeOptions:
+            minValue: 0
+            maxValue: 20000000 # 20,000,000 > Russia
+            units: squareFoot
+            persistAs: squareFoot
+          isRequired: true
+
+        - name: GeoCoord
+          description: The the position of the workplace's point on the surface of the Earth
+          type: latLong
+
+        - name: GeoRegion
+          description: The region the country is in
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            maxLength: 8
+          isRequired: true
+
+        - name: GeoSubRegion
+          description: The sub-region the country is in
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            maxLength: 32
+          isRequired: true
+
+        - name: GeoWorldRegion
+          description: The world region the country is in
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            maxLength: 4
+          isRequired: true
+
+        - name: Population
+          description: The estimated population of the country
+          type: number
+          numberTypeOptions:
+            minValue: 0
+
+        - name: TopLevelDomains
+          description: The top level internet domains regitered to the country (comma-delimited)
+          type: text
+          textTypeOptions:
+            maxLength: 31
+            
+      uniqueAttributeConstraints: # All these constraints are invalid
+        - name: UniqueCountryName
+          description: The country name must be unique
+          attributeNames:
+            - Name
+        
+        - name: UniqueCountryName
+          description: The country formal name must be unique
+          attributeNames:
+            - FormalName
+        
+        - name: UniqueCountry
+          description: The country must be unique
+          attributeNames:
+            - AlphaCode3
+            - AlphaCode2
+            - NumericCode
+
+        - name: Unique
+          description: The country must be unique
+          attributeNames:
+            - NumericCode
+            - AlphaCode3
+            - AlphaCode2
+            
+        - name: UniqueConstraintWithNonExistentAttribute
+          description: The country must be unique
+          attributeNames:
+            - NumericCode
+            - AlphaCode3
+            - AlphaCode2
+            - NonExistentAttribute
+              
+    - name: Currency
+      description: The list of currencies
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: currencyCode3
+
+      relationships:
+
+        - name: CurrencyIsLegalTenderForCountry
+          description: is legal tender for
+          relationship: zeroOrMany
+          entity: Country
+
+    - name: CountryLocalNames
+      description: The name of a country in other languages
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: number
+          numberTypeOptions:
+            minValue: 0
+            decimalDigits: 0
+
+    - name: CurrencyCashBalance
+
+      description: The cash balance in Store
+
+      keys:
+
+        - name: Store
+          type: number
+          numberTypeOptions:
+            minValue: 0
+            decimalDigits: 0
+          isRequired: true
+
+        - name: Currency
+          type: number
+          numberTypeOptions:
+            minValue: 0
+            decimalDigits: 0
+          isRequired: true
+
+      attributes:
+
+        - name: Amount
+          description: The amount
+          type: number
+          numberTypeOptions:
+            minValue: 0
+            decimalDigits: 4
+          isRequired: true
+
+        - name: OperationLimit
+          description: The Operation Limit
+          type: number
+          numberTypeOptions:
+            minValue: 0
+            decimalDigits: 4
+          isRequired: false
+
+application:
+  dataTransferObjects:
+    - name: CountryDto
+      description: Dto for country information
+      attributes:
+        - name: Id
+          description: The identity of the country, the Iso Alpha 2 code
+          type: text
+          textTypeOptions:
+            casing: lower
+            maxLength: 2
+            minLength: 2
+
+

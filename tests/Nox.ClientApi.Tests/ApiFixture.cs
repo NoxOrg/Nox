@@ -21,6 +21,7 @@ namespace Nox.ClientApi.Tests
             // Manually Register the Controllers
             builder.Services.AddSingleton<CountriesController>();
             builder.Services.AddSingleton<StoresController>();
+            builder.Services.AddSingleton<StoreOwnersController>();
             builder.Services.AddSingleton<WorkplacesController>();
 
 
@@ -40,6 +41,7 @@ namespace Nox.ClientApi.Tests
         public CountriesController? CountriesController => ServiceProvider?.GetService<CountriesController>();
         public StoresController? StoresController => ServiceProvider?.GetService<StoresController>();
         public WorkplacesController? WorkplacesController => ServiceProvider?.GetService<WorkplacesController>();
+        public StoreOwnersController? StoreOwnersController => ServiceProvider?.GetService<StoreOwnersController>();
 
         public IFixture Fixture { get; }
 

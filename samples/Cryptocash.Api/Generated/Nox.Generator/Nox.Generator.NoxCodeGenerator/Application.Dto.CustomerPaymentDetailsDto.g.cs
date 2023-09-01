@@ -43,7 +43,7 @@ public partial class CustomerPaymentDetailsDto
     /// CustomerPaymentDetails Customer's payment account ExactlyOne Customers
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string CustomerId { get; set; } = null!;
+    public System.Int64 CustomerId { get; set; } = default!;
     public virtual CustomerDto Customer { get; set; } = null!;
 
     /// <summary>

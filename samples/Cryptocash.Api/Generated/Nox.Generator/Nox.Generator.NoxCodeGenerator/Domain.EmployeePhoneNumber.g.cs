@@ -13,7 +13,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Employee phone numbers and related data.
 /// </summary>
-public partial class EmployeePhoneNumber:EntityBase, IOwnedEntity
+public partial class EmployeePhoneNumber : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Employee's phone number identifier (Required).

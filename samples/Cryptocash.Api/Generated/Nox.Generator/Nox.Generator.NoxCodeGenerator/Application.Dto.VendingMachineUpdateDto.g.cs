@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace Cryptocash.Application.Dto; 
+namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Vending machine definition and related data.
@@ -48,9 +48,21 @@ public partial class VendingMachineUpdateDto
     /// <summary>
     /// Vending machine installation area (Optional).
     /// </summary>
-    public System.Decimal? InstallationFootPrint { get; set; } 
+    public System.Decimal? InstallationFootPrint { get; set; }
     /// <summary>
     /// Landlord rent amount based on area of the vending machine installation (Optional).
     /// </summary>
-    public MoneyDto? RentPerSquareMetre { get; set; } 
+    public MoneyDto? RentPerSquareMetre { get; set; }
+
+    /// <summary>
+    /// VendingMachine Vending machine's country ExactlyOne Countries
+    /// </summary>
+    [Required(ErrorMessage = "Country is required")]
+    public System.String CountryId { get; set; } = default!;
+
+    /// <summary>
+    /// VendingMachine Area of the vending machine installation landlord ExactlyOne LandLords
+    /// </summary>
+    [Required(ErrorMessage = "LandLord is required")]
+    public System.Int64 LandLordId { get; set; } = default!;
 }
