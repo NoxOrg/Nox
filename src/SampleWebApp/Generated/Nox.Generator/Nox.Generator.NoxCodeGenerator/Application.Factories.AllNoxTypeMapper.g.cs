@@ -241,6 +241,11 @@ public class AllNoxTypeMapper : EntityMapperBase<AllNoxType>
         // TODO map HashedTexField HashedText remaining types and remove if else
 
         // TODO map ImageField Image remaining types and remove if else
+        noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "LatLongField", dto.LatLongField);
+        if (noxTypeValue != null)
+        {        
+            entity.LatLongField = noxTypeValue;
+        }
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "MoneyField", dto.MoneyField);
         if (noxTypeValue != null)
         {        
@@ -870,6 +875,20 @@ public class AllNoxTypeMapper : EntityMapperBase<AllNoxType>
                 else
                 {
                     entity.ImageField = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("LatLongField", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "LatLongField", value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("AllNoxType", "LatLongField");
+                }
+                else
+                {
+                    entity.LatLongField = noxTypeValue;
                 }
             }
         }
