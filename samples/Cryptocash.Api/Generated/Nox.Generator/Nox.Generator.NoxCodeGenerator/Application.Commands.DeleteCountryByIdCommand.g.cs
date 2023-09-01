@@ -7,19 +7,19 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 
 public record DeleteCountryByIdCommand(System.String keyId) : IRequest<bool>;
 
 public class DeleteCountryByIdCommandHandler: CommandBase<DeleteCountryByIdCommand,Country>, IRequestHandler<DeleteCountryByIdCommand, bool>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 
 	public DeleteCountryByIdCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{

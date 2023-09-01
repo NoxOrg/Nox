@@ -14,10 +14,10 @@ using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
 using Nox.Exceptions;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Domain;
+using Cryptocash.Application.Dto;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application;
+namespace Cryptocash.Application;
 
 public class CountryMapper : EntityMapperBase<Country>
 {
@@ -74,10 +74,10 @@ public class CountryMapper : EntityMapperBase<Country>
         {        
             entity.GoogleMapsUrl = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition, "OpenStreeMapsUrl", dto.OpenStreeMapsUrl);
+        noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition, "OpenStreetMapsUrl", dto.OpenStreetMapsUrl);
         if (noxTypeValue != null)
         {        
-            entity.OpenStreeMapsUrl = noxTypeValue;
+            entity.OpenStreetMapsUrl = noxTypeValue;
         }
         noxTypeValue = CreateNoxType<Nox.Types.DayOfWeek>(entityDefinition, "StartOfWeek", dto.StartOfWeek);
         if (noxTypeValue != null)
@@ -87,12 +87,12 @@ public class CountryMapper : EntityMapperBase<Country>
     
 
         /// <summary>
-        /// Country The commission related country ZeroOrOne Commissions
+        /// Country Country's currency ExactlyOne Currencies
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "Commission", dto.CommissionId);
+        noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "Currencies", dto.CurrencyId);
         if (noxTypeValue != null)
         {        
-            entity.CommissionId = noxTypeValue;
+            entity.CurrencyId = noxTypeValue;
         }
     }
 
@@ -121,7 +121,7 @@ public class CountryMapper : EntityMapperBase<Country>
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "OfficialName", value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("Country", "OfficialName");
+                    entity.OfficialName = null;
                 }
                 else
                 {
@@ -135,7 +135,7 @@ public class CountryMapper : EntityMapperBase<Country>
                 var noxTypeValue = CreateNoxType<Nox.Types.CountryNumber>(entityDefinition, "CountryIsoNumeric", value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("Country", "CountryIsoNumeric");
+                    entity.CountryIsoNumeric = null;
                 }
                 else
                 {
@@ -149,7 +149,7 @@ public class CountryMapper : EntityMapperBase<Country>
                 var noxTypeValue = CreateNoxType<Nox.Types.CountryCode3>(entityDefinition, "CountryIsoAlpha3", value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("Country", "CountryIsoAlpha3");
+                    entity.CountryIsoAlpha3 = null;
                 }
                 else
                 {
@@ -163,7 +163,7 @@ public class CountryMapper : EntityMapperBase<Country>
                 var noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "GeoCoords", value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("Country", "GeoCoords");
+                    entity.GeoCoords = null;
                 }
                 else
                 {
@@ -256,16 +256,16 @@ public class CountryMapper : EntityMapperBase<Country>
             }
         }
         {
-            if (updatedProperties.TryGetValue("OpenStreeMapsUrl", out value))
+            if (updatedProperties.TryGetValue("OpenStreetMapsUrl", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition, "OpenStreeMapsUrl", value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition, "OpenStreetMapsUrl", value);
                 if(noxTypeValue == null)
                 {
-                    entity.OpenStreeMapsUrl = null;
+                    entity.OpenStreetMapsUrl = null;
                 }
                 else
                 {
-                    entity.OpenStreeMapsUrl = noxTypeValue;
+                    entity.OpenStreetMapsUrl = noxTypeValue;
                 }
             }
         }
@@ -286,14 +286,14 @@ public class CountryMapper : EntityMapperBase<Country>
     
     
         /// <summary>
-        /// Country The commission related country ZeroOrOne Commissions
+        /// Country Country's currency ExactlyOne Currencies
         /// </summary>
-        if (updatedProperties.TryGetValue("CommissionId", out value))
+        if (updatedProperties.TryGetValue("CurrencyId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "Commission", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "Currencies", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.CommissionId = noxRelationshipTypeValue;
+                entity.CurrencyId = noxRelationshipTypeValue;
             }
         }
     }

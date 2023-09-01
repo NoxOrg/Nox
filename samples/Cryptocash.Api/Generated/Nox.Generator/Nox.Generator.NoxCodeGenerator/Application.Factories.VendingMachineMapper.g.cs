@@ -14,10 +14,10 @@ using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
 using Nox.Exceptions;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Domain;
+using Cryptocash.Application.Dto;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application;
+namespace Cryptocash.Application;
 
 public class VendingMachineMapper : EntityMapperBase<VendingMachine>
 {
@@ -67,7 +67,7 @@ public class VendingMachineMapper : EntityMapperBase<VendingMachine>
     
 
         /// <summary>
-        /// VendingMachine The country of the vending machine ExactlyOne Countries
+        /// VendingMachine Vending machine's country ExactlyOne Countries
         /// </summary>
         noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "Country", dto.CountryId);
         if (noxTypeValue != null)
@@ -76,7 +76,7 @@ public class VendingMachineMapper : EntityMapperBase<VendingMachine>
         }
 
         /// <summary>
-        /// VendingMachine The Land Lord related to the area of the vending machine installation ExactlyOne LandLords
+        /// VendingMachine Area of the vending machine installation landlord ExactlyOne LandLords
         /// </summary>
         noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "LandLord", dto.LandLordId);
         if (noxTypeValue != null)
@@ -191,7 +191,7 @@ public class VendingMachineMapper : EntityMapperBase<VendingMachine>
     
     
         /// <summary>
-        /// VendingMachine The country of the vending machine ExactlyOne Countries
+        /// VendingMachine Vending machine's country ExactlyOne Countries
         /// </summary>
         if (updatedProperties.TryGetValue("CountryId", out value))
         {
@@ -202,7 +202,7 @@ public class VendingMachineMapper : EntityMapperBase<VendingMachine>
             }
         }
         /// <summary>
-        /// VendingMachine The Land Lord related to the area of the vending machine installation ExactlyOne LandLords
+        /// VendingMachine Area of the vending machine installation landlord ExactlyOne LandLords
         /// </summary>
         if (updatedProperties.TryGetValue("LandLordId", out value))
         {

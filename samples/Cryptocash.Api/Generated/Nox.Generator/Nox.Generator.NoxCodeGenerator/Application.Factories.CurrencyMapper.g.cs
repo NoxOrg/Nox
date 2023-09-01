@@ -14,10 +14,10 @@ using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
 using Nox.Exceptions;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Domain;
+using Cryptocash.Application.Dto;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application;
+namespace Cryptocash.Application;
 
 public class CurrencyMapper : EntityMapperBase<Currency>
 {
@@ -49,10 +49,10 @@ public class CurrencyMapper : EntityMapperBase<Currency>
         {        
             entity.Symbol = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "ThousandsSeperator", dto.ThousandsSeperator);
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "ThousandsSeparator", dto.ThousandsSeparator);
         if (noxTypeValue != null)
         {        
-            entity.ThousandsSeperator = noxTypeValue;
+            entity.ThousandsSeparator = noxTypeValue;
         }
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "DecimalSeparator", dto.DecimalSeparator);
         if (noxTypeValue != null)
@@ -69,16 +69,32 @@ public class CurrencyMapper : EntityMapperBase<Currency>
         {        
             entity.DecimalDigits = noxTypeValue;
         }
-    
-
-        /// <summary>
-        /// Currency The currency's related units major and minor ExactlyOne CurrencyUnits
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "Unit", dto.CurrencyUnitsId);
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MajorName", dto.MajorName);
         if (noxTypeValue != null)
         {        
-            entity.CurrencyUnitsId = noxTypeValue;
+            entity.MajorName = noxTypeValue;
         }
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MajorSymbol", dto.MajorSymbol);
+        if (noxTypeValue != null)
+        {        
+            entity.MajorSymbol = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MinorName", dto.MinorName);
+        if (noxTypeValue != null)
+        {        
+            entity.MinorName = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MinorSymbol", dto.MinorSymbol);
+        if (noxTypeValue != null)
+        {        
+            entity.MinorSymbol = noxTypeValue;
+        }
+        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "MinorToMajorValue", dto.MinorToMajorValue);
+        if (noxTypeValue != null)
+        {        
+            entity.MinorToMajorValue = noxTypeValue;
+        }
+    
     }
 
     public override void PartialMapToEntity(Currency entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
@@ -129,16 +145,16 @@ public class CurrencyMapper : EntityMapperBase<Currency>
             }
         }
         {
-            if (updatedProperties.TryGetValue("ThousandsSeperator", out value))
+            if (updatedProperties.TryGetValue("ThousandsSeparator", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "ThousandsSeperator", value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "ThousandsSeparator", value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("Currency", "ThousandsSeperator");
+                    entity.ThousandsSeparator = null;
                 }
                 else
                 {
-                    entity.ThousandsSeperator = noxTypeValue;
+                    entity.ThousandsSeparator = noxTypeValue;
                 }
             }
         }
@@ -148,7 +164,7 @@ public class CurrencyMapper : EntityMapperBase<Currency>
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "DecimalSeparator", value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("Currency", "DecimalSeparator");
+                    entity.DecimalSeparator = null;
                 }
                 else
                 {
@@ -184,18 +200,77 @@ public class CurrencyMapper : EntityMapperBase<Currency>
                 }
             }
         }
-    
-    
-        /// <summary>
-        /// Currency The currency's related units major and minor ExactlyOne CurrencyUnits
-        /// </summary>
-        if (updatedProperties.TryGetValue("CurrencyUnitsId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "Unit", value);
-            if (noxRelationshipTypeValue != null)
-            {        
-                entity.CurrencyUnitsId = noxRelationshipTypeValue;
+            if (updatedProperties.TryGetValue("MajorName", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MajorName", value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("Currency", "MajorName");
+                }
+                else
+                {
+                    entity.MajorName = noxTypeValue;
+                }
             }
         }
+        {
+            if (updatedProperties.TryGetValue("MajorSymbol", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MajorSymbol", value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("Currency", "MajorSymbol");
+                }
+                else
+                {
+                    entity.MajorSymbol = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("MinorName", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MinorName", value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("Currency", "MinorName");
+                }
+                else
+                {
+                    entity.MinorName = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("MinorSymbol", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MinorSymbol", value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("Currency", "MinorSymbol");
+                }
+                else
+                {
+                    entity.MinorSymbol = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("MinorToMajorValue", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "MinorToMajorValue", value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("Currency", "MinorToMajorValue");
+                }
+                else
+                {
+                    entity.MinorToMajorValue = noxTypeValue;
+                }
+            }
+        }
+    
+    
     }
 }

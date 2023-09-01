@@ -14,10 +14,10 @@ using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
 using Nox.Exceptions;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Domain;
+using Cryptocash.Application.Dto;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application;
+namespace Cryptocash.Application;
 
 public class CustomerPaymentDetailsMapper : EntityMapperBase<CustomerPaymentDetails>
 {
@@ -34,11 +34,6 @@ public class CustomerPaymentDetailsMapper : EntityMapperBase<CustomerPaymentDeta
         {        
             entity.PaymentAccountName = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentAccountType", dto.PaymentAccountType);
-        if (noxTypeValue != null)
-        {        
-            entity.PaymentAccountType = noxTypeValue;
-        }
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentAccountNumber", dto.PaymentAccountNumber);
         if (noxTypeValue != null)
         {        
@@ -52,7 +47,7 @@ public class CustomerPaymentDetailsMapper : EntityMapperBase<CustomerPaymentDeta
     
 
         /// <summary>
-        /// CustomerPaymentDetails The payment account related customer ExactlyOne Customers
+        /// CustomerPaymentDetails Customer's payment account ExactlyOne Customers
         /// </summary>
         noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "Customer", dto.CustomerId);
         if (noxTypeValue != null)
@@ -81,20 +76,6 @@ public class CustomerPaymentDetailsMapper : EntityMapperBase<CustomerPaymentDeta
             }
         }
         {
-            if (updatedProperties.TryGetValue("PaymentAccountType", out value))
-            {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentAccountType", value);
-                if(noxTypeValue == null)
-                {
-                    throw new EntityAttributeIsNotNullableException("CustomerPaymentDetails", "PaymentAccountType");
-                }
-                else
-                {
-                    entity.PaymentAccountType = noxTypeValue;
-                }
-            }
-        }
-        {
             if (updatedProperties.TryGetValue("PaymentAccountNumber", out value))
             {
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentAccountNumber", value);
@@ -114,7 +95,7 @@ public class CustomerPaymentDetailsMapper : EntityMapperBase<CustomerPaymentDeta
                 var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentAccountSortCode", value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("CustomerPaymentDetails", "PaymentAccountSortCode");
+                    entity.PaymentAccountSortCode = null;
                 }
                 else
                 {
@@ -125,7 +106,7 @@ public class CustomerPaymentDetailsMapper : EntityMapperBase<CustomerPaymentDeta
     
     
         /// <summary>
-        /// CustomerPaymentDetails The payment account related customer ExactlyOne Customers
+        /// CustomerPaymentDetails Customer's payment account ExactlyOne Customers
         /// </summary>
         if (updatedProperties.TryGetValue("CustomerId", out value))
         {

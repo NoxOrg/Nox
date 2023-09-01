@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
-//using CryptocashApi.Application.DataTransferObjects;
-using CryptocashApi.Domain;
+//using Cryptocash.Application.DataTransferObjects;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application.Dto;
+namespace Cryptocash.Application.Dto;
 
 public record MinimumCashStockKeyDto(System.Int64 keyId);
 
@@ -20,24 +20,24 @@ public partial class MinimumCashStockDto
 {
 
     /// <summary>
-    /// The vending machine cash stock unique identifier (Required).
+    /// Vending machine cash stock unique identifier (Required).
     /// </summary>
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// The amount of the cash stock (Required).
+    /// Cash stock amount (Required).
     /// </summary>
     public MoneyDto Amount { get; set; } = default!;
 
     /// <summary>
-    /// MinimumCashStock The related vending machine ExactlyOne VendingMachines
+    /// MinimumCashStock Vending machine's minimum cash stock ExactlyOne VendingMachines
     /// </summary>
     //EF maps ForeignKey Automatically
     public System.Guid VendingMachineId { get; set; } = default!;
     public virtual VendingMachineDto VendingMachine { get; set; } = null!;
 
     /// <summary>
-    /// MinimumCashStock The currency of the cash stock ExactlyOne Currencies
+    /// MinimumCashStock Cash stock's currency ExactlyOne Currencies
     /// </summary>
     //EF maps ForeignKey Automatically
     public System.String CurrencyId { get; set; } = default!;

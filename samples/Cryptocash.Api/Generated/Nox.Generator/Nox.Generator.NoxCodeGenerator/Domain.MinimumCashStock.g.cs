@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using Nox.Types;
 using Nox.Domain;
 
-namespace CryptocashApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
 /// Minimum cash stock required for vending machine.
@@ -16,17 +16,17 @@ namespace CryptocashApi.Domain;
 public partial class MinimumCashStock : AuditableEntityBase
 {
     /// <summary>
-    /// The vending machine cash stock unique identifier (Required).
+    /// Vending machine cash stock unique identifier (Required).
     /// </summary>
     public DatabaseNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// The amount of the cash stock (Required).
+    /// Cash stock amount (Required).
     /// </summary>
     public Nox.Types.Money Amount { get; set; } = null!;
 
     /// <summary>
-    /// MinimumCashStock The related vending machine ExactlyOne VendingMachines
+    /// MinimumCashStock Vending machine's minimum cash stock ExactlyOne VendingMachines
     /// </summary>
     public virtual VendingMachine VendingMachine { get; set; } = null!;
 
@@ -36,7 +36,7 @@ public partial class MinimumCashStock : AuditableEntityBase
     public Nox.Types.DatabaseGuid VendingMachineId { get; set; } = null!;
 
     /// <summary>
-    /// MinimumCashStock The currency of the cash stock ExactlyOne Currencies
+    /// MinimumCashStock Cash stock's currency ExactlyOne Currencies
     /// </summary>
     public virtual Currency Currency { get; set; } = null!;
 

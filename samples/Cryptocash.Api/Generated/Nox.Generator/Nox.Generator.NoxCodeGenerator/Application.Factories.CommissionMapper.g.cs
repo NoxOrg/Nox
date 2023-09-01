@@ -14,10 +14,10 @@ using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
 using Nox.Exceptions;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Domain;
+using Cryptocash.Application.Dto;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application;
+namespace Cryptocash.Application;
 
 public class CommissionMapper : EntityMapperBase<Commission>
 {
@@ -40,6 +40,15 @@ public class CommissionMapper : EntityMapperBase<Commission>
             entity.EffectiveAt = noxTypeValue;
         }
     
+
+        /// <summary>
+        /// Commission Commission's country ZeroOrOne Countries
+        /// </summary>
+        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "Country", dto.CountryId);
+        if (noxTypeValue != null)
+        {        
+            entity.CountryId = noxTypeValue;
+        }
     }
 
     public override void PartialMapToEntity(Commission entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
@@ -77,5 +86,16 @@ public class CommissionMapper : EntityMapperBase<Commission>
         }
     
     
+        /// <summary>
+        /// Commission Commission's country ZeroOrOne Countries
+        /// </summary>
+        if (updatedProperties.TryGetValue("CountryId", out value))
+        {
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "Country", value);
+            if (noxRelationshipTypeValue != null)
+            {        
+                entity.CountryId = noxRelationshipTypeValue;
+            }
+        }
     }
 }

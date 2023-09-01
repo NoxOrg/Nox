@@ -14,10 +14,10 @@ using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
 using Nox.Exceptions;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Domain;
+using Cryptocash.Application.Dto;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application;
+namespace Cryptocash.Application;
 
 public class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
 {
@@ -37,7 +37,7 @@ public class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
     
 
         /// <summary>
-        /// MinimumCashStock The related vending machine ExactlyOne VendingMachines
+        /// MinimumCashStock Vending machine's minimum cash stock ExactlyOne VendingMachines
         /// </summary>
         noxTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "VendingMachine", dto.VendingMachineId);
         if (noxTypeValue != null)
@@ -46,7 +46,7 @@ public class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
         }
 
         /// <summary>
-        /// MinimumCashStock The currency of the cash stock ExactlyOne Currencies
+        /// MinimumCashStock Cash stock's currency ExactlyOne Currencies
         /// </summary>
         noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "Currency", dto.CurrencyId);
         if (noxTypeValue != null)
@@ -77,7 +77,7 @@ public class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
     
     
         /// <summary>
-        /// MinimumCashStock The related vending machine ExactlyOne VendingMachines
+        /// MinimumCashStock Vending machine's minimum cash stock ExactlyOne VendingMachines
         /// </summary>
         if (updatedProperties.TryGetValue("VendingMachineId", out value))
         {
@@ -88,7 +88,7 @@ public class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
             }
         }
         /// <summary>
-        /// MinimumCashStock The currency of the cash stock ExactlyOne Currencies
+        /// MinimumCashStock Cash stock's currency ExactlyOne Currencies
         /// </summary>
         if (updatedProperties.TryGetValue("CurrencyId", out value))
         {

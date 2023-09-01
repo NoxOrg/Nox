@@ -14,10 +14,10 @@ using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
 using Nox.Exceptions;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Domain;
+using Cryptocash.Application.Dto;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application;
+namespace Cryptocash.Application;
 
 public class BookingMapper : EntityMapperBase<Booking>
 {
@@ -63,7 +63,7 @@ public class BookingMapper : EntityMapperBase<Booking>
     
 
         /// <summary>
-        /// Booking The booking's related customer ExactlyOne Customers
+        /// Booking Booking's customer ExactlyOne Customers
         /// </summary>
         noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "Customer", dto.CustomerId);
         if (noxTypeValue != null)
@@ -72,7 +72,7 @@ public class BookingMapper : EntityMapperBase<Booking>
         }
 
         /// <summary>
-        /// Booking The booking's related vending machine ExactlyOne VendingMachines
+        /// Booking Booking's vending machine ExactlyOne VendingMachines
         /// </summary>
         noxTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "VendingMachine", dto.VendingMachineId);
         if (noxTypeValue != null)
@@ -81,7 +81,7 @@ public class BookingMapper : EntityMapperBase<Booking>
         }
 
         /// <summary>
-        /// Booking The booking's related fee ExactlyOne Commissions
+        /// Booking Booking's fee ExactlyOne Commissions
         /// </summary>
         noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "Fee", dto.CommissionId);
         if (noxTypeValue != null)
@@ -157,7 +157,7 @@ public class BookingMapper : EntityMapperBase<Booking>
                 var noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "ExpiryDateTime", value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("Booking", "ExpiryDateTime");
+                    entity.ExpiryDateTime = null;
                 }
                 else
                 {
@@ -196,7 +196,7 @@ public class BookingMapper : EntityMapperBase<Booking>
     
     
         /// <summary>
-        /// Booking The booking's related customer ExactlyOne Customers
+        /// Booking Booking's customer ExactlyOne Customers
         /// </summary>
         if (updatedProperties.TryGetValue("CustomerId", out value))
         {
@@ -207,7 +207,7 @@ public class BookingMapper : EntityMapperBase<Booking>
             }
         }
         /// <summary>
-        /// Booking The booking's related vending machine ExactlyOne VendingMachines
+        /// Booking Booking's vending machine ExactlyOne VendingMachines
         /// </summary>
         if (updatedProperties.TryGetValue("VendingMachineId", out value))
         {
@@ -218,7 +218,7 @@ public class BookingMapper : EntityMapperBase<Booking>
             }
         }
         /// <summary>
-        /// Booking The booking's related fee ExactlyOne Commissions
+        /// Booking Booking's fee ExactlyOne Commissions
         /// </summary>
         if (updatedProperties.TryGetValue("CommissionId", out value))
         {

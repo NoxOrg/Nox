@@ -14,10 +14,10 @@ using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
 using Nox.Exceptions;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Domain;
+using Cryptocash.Application.Dto;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application;
+namespace Cryptocash.Application;
 
 public class ExchangeRateMapper : EntityMapperBase<ExchangeRate>
 {
@@ -42,7 +42,7 @@ public class ExchangeRateMapper : EntityMapperBase<ExchangeRate>
     
 
         /// <summary>
-        /// ExchangeRate The currency exchanged from ExactlyOne Currencies
+        /// ExchangeRate Exchanged from currency ExactlyOne Currencies
         /// </summary>
         noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "CurrencyFrom", dto.CurrencyId);
         if (noxTypeValue != null)
@@ -87,7 +87,7 @@ public class ExchangeRateMapper : EntityMapperBase<ExchangeRate>
     
     
         /// <summary>
-        /// ExchangeRate The currency exchanged from ExactlyOne Currencies
+        /// ExchangeRate Exchanged from currency ExactlyOne Currencies
         /// </summary>
         if (updatedProperties.TryGetValue("CurrencyId", out value))
         {

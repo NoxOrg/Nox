@@ -14,10 +14,10 @@ using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
 using Nox.Exceptions;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Domain;
+using Cryptocash.Application.Dto;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application;
+namespace Cryptocash.Application;
 
 public class CustomerTransactionMapper : EntityMapperBase<CustomerTransaction>
 {
@@ -52,7 +52,7 @@ public class CustomerTransactionMapper : EntityMapperBase<CustomerTransaction>
     
 
         /// <summary>
-        /// CustomerTransaction The transaction's related customer ExactlyOne Customers
+        /// CustomerTransaction Transaction's customer ExactlyOne Customers
         /// </summary>
         noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "Customer", dto.CustomerId);
         if (noxTypeValue != null)
@@ -61,7 +61,7 @@ public class CustomerTransactionMapper : EntityMapperBase<CustomerTransaction>
         }
 
         /// <summary>
-        /// CustomerTransaction The transaction's related booking ExactlyOne Bookings
+        /// CustomerTransaction Transaction's booking ExactlyOne Bookings
         /// </summary>
         noxTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "Booking", dto.BookingId);
         if (noxTypeValue != null)
@@ -134,7 +134,7 @@ public class CustomerTransactionMapper : EntityMapperBase<CustomerTransaction>
     
     
         /// <summary>
-        /// CustomerTransaction The transaction's related customer ExactlyOne Customers
+        /// CustomerTransaction Transaction's customer ExactlyOne Customers
         /// </summary>
         if (updatedProperties.TryGetValue("CustomerId", out value))
         {
@@ -145,7 +145,7 @@ public class CustomerTransactionMapper : EntityMapperBase<CustomerTransaction>
             }
         }
         /// <summary>
-        /// CustomerTransaction The transaction's related booking ExactlyOne Bookings
+        /// CustomerTransaction Transaction's booking ExactlyOne Bookings
         /// </summary>
         if (updatedProperties.TryGetValue("BookingId", out value))
         {

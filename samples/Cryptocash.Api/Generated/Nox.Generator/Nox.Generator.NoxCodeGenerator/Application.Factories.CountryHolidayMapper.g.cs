@@ -14,10 +14,10 @@ using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
 using Nox.Exceptions;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Domain;
+using Cryptocash.Application.Dto;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application;
+namespace Cryptocash.Application;
 
 public class CountryHolidayMapper : EntityMapperBase<CountryHoliday>
 {
@@ -45,6 +45,15 @@ public class CountryHolidayMapper : EntityMapperBase<CountryHoliday>
             entity.Date = noxTypeValue;
         }
     
+
+        /// <summary>
+        /// CountryHoliday Country's holidays ExactlyOne Countries
+        /// </summary>
+        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "Country", dto.CountryId);
+        if (noxTypeValue != null)
+        {        
+            entity.CountryId = noxTypeValue;
+        }
     }
 
     public override void PartialMapToEntity(CountryHoliday entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
@@ -96,5 +105,16 @@ public class CountryHolidayMapper : EntityMapperBase<CountryHoliday>
         }
     
     
+        /// <summary>
+        /// CountryHoliday Country's holidays ExactlyOne Countries
+        /// </summary>
+        if (updatedProperties.TryGetValue("CountryId", out value))
+        {
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "Country", value);
+            if (noxRelationshipTypeValue != null)
+            {        
+                entity.CountryId = noxRelationshipTypeValue;
+            }
+        }
     }
 }

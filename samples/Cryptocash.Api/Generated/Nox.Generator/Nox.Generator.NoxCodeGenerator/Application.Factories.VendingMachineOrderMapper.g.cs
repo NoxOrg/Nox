@@ -14,10 +14,10 @@ using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
 using Nox.Exceptions;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Domain;
+using Cryptocash.Application.Dto;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application;
+namespace Cryptocash.Application;
 
 public class VendingMachineOrderMapper : EntityMapperBase<VendingMachineOrder>
 {
@@ -44,15 +44,26 @@ public class VendingMachineOrderMapper : EntityMapperBase<VendingMachineOrder>
         {        
             entity.DeliveryDateTime = noxTypeValue;
         }
+
+        // TODO map Status Formula remaining types and remove if else
     
 
         /// <summary>
-        /// VendingMachineOrder The order's related vending machine ExactlyOne VendingMachines
+        /// VendingMachineOrder Vending machine's orders ExactlyOne VendingMachines
         /// </summary>
         noxTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "VendingMachine", dto.VendingMachineId);
         if (noxTypeValue != null)
         {        
             entity.VendingMachineId = noxTypeValue;
+        }
+
+        /// <summary>
+        /// VendingMachineOrder Reviewed by employee ExactlyOne Employees
+        /// </summary>
+        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "Employee", dto.EmployeeId);
+        if (noxTypeValue != null)
+        {        
+            entity.EmployeeId = noxTypeValue;
         }
     }
 
@@ -81,7 +92,7 @@ public class VendingMachineOrderMapper : EntityMapperBase<VendingMachineOrder>
                 var noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition, "RequestedDeliveryDate", value);
                 if(noxTypeValue == null)
                 {
-                    entity.RequestedDeliveryDate = null;
+                    throw new EntityAttributeIsNotNullableException("VendingMachineOrder", "RequestedDeliveryDate");
                 }
                 else
                 {
@@ -106,7 +117,7 @@ public class VendingMachineOrderMapper : EntityMapperBase<VendingMachineOrder>
     
     
         /// <summary>
-        /// VendingMachineOrder The order's related vending machine ExactlyOne VendingMachines
+        /// VendingMachineOrder Vending machine's orders ExactlyOne VendingMachines
         /// </summary>
         if (updatedProperties.TryGetValue("VendingMachineId", out value))
         {
@@ -114,6 +125,17 @@ public class VendingMachineOrderMapper : EntityMapperBase<VendingMachineOrder>
             if (noxRelationshipTypeValue != null)
             {        
                 entity.VendingMachineId = noxRelationshipTypeValue;
+            }
+        }
+        /// <summary>
+        /// VendingMachineOrder Reviewed by employee ExactlyOne Employees
+        /// </summary>
+        if (updatedProperties.TryGetValue("EmployeeId", out value))
+        {
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "Employee", value);
+            if (noxRelationshipTypeValue != null)
+            {        
+                entity.EmployeeId = noxRelationshipTypeValue;
             }
         }
     }

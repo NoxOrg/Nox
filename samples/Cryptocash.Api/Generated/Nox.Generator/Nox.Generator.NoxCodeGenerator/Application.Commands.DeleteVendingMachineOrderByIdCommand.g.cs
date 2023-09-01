@@ -7,19 +7,19 @@ using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
 using Nox.Solution;
 using Nox.Types;
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 
 public record DeleteVendingMachineOrderByIdCommand(System.Int64 keyId) : IRequest<bool>;
 
 public class DeleteVendingMachineOrderByIdCommandHandler: CommandBase<DeleteVendingMachineOrderByIdCommand,VendingMachineOrder>, IRequestHandler<DeleteVendingMachineOrderByIdCommand, bool>
 {
-	public CryptocashApiDbContext DbContext { get; }
+	public CryptocashDbContext DbContext { get; }
 
 	public DeleteVendingMachineOrderByIdCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{

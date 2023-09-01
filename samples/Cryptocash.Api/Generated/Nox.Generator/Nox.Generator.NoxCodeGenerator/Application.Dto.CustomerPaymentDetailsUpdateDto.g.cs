@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CryptocashApi.Application.Dto;
+namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Customer payment account related data.
@@ -16,32 +16,24 @@ public partial class CustomerPaymentDetailsUpdateDto
 {
     //TODO Add owned Entities and update odata endpoints
     /// <summary>
-    /// The payment account name (Required).
+    /// Payment account name (Required).
     /// </summary>
     [Required(ErrorMessage = "PaymentAccountName is required")]
     
     public System.String PaymentAccountName { get; set; } = default!;
     /// <summary>
-    /// The payment account type (Required).
-    /// </summary>
-    [Required(ErrorMessage = "PaymentAccountType is required")]
-    
-    public System.String PaymentAccountType { get; set; } = default!;
-    /// <summary>
-    /// The payment account reference number (Required).
+    /// Payment account reference number (Required).
     /// </summary>
     [Required(ErrorMessage = "PaymentAccountNumber is required")]
     
     public System.String PaymentAccountNumber { get; set; } = default!;
     /// <summary>
-    /// The payment account sort code (Required).
+    /// Payment account sort code (Optional).
     /// </summary>
-    [Required(ErrorMessage = "PaymentAccountSortCode is required")]
-    
-    public System.String PaymentAccountSortCode { get; set; } = default!;
+    public System.String? PaymentAccountSortCode { get; set; }
 
     /// <summary>
-    /// CustomerPaymentDetails The payment account related customer ExactlyOne Customers
+    /// CustomerPaymentDetails Customer's payment account ExactlyOne Customers
     /// </summary>
     [Required(ErrorMessage = "Customer is required")]
     public System.Int64 CustomerId { get; set; } = default!;

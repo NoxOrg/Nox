@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CryptocashApi.Application.Dto;
+namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Country and related data.
@@ -16,73 +16,65 @@ public partial class CountryUpdateDto
 {
     //TODO Add owned Entities and update odata endpoints
     /// <summary>
-    /// The country's name (Required).
+    /// Country's name (Required).
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
     public System.String Name { get; set; } = default!;
     /// <summary>
-    /// The country's official name (Required).
+    /// Country's official name (Optional).
     /// </summary>
-    [Required(ErrorMessage = "OfficialName is required")]
-    
-    public System.String OfficialName { get; set; } = default!;
+    public System.String? OfficialName { get; set; }
     /// <summary>
-    /// The country's iso number id (Required).
+    /// Country's iso number id (Optional).
     /// </summary>
-    [Required(ErrorMessage = "CountryIsoNumeric is required")]
-    
-    public System.UInt16 CountryIsoNumeric { get; set; } = default!;
+    public System.UInt16? CountryIsoNumeric { get; set; }
     /// <summary>
-    /// The country's iso alpha3 id (Required).
+    /// Country's iso alpha3 id (Optional).
     /// </summary>
-    [Required(ErrorMessage = "CountryIsoAlpha3 is required")]
-    
-    public System.String CountryIsoAlpha3 { get; set; } = default!;
+    public System.String? CountryIsoAlpha3 { get; set; }
     /// <summary>
-    /// The country's geo coordinates (Required).
+    /// Country's geo coordinates (Optional).
     /// </summary>
-    [Required(ErrorMessage = "GeoCoords is required")]
-    
-    public LatLongDto GeoCoords { get; set; } = default!;
+    public LatLongDto? GeoCoords { get; set; }
     /// <summary>
-    /// The country's flag emoji (Optional).
+    /// Country's flag emoji (Optional).
     /// </summary>
     public System.String? FlagEmoji { get; set; }
     /// <summary>
-    /// The country's flag in svg format (Optional).
+    /// Country's flag in svg format (Optional).
     /// </summary>
     public ImageDto? FlagSvg { get; set; }
     /// <summary>
-    /// The country's flag in png format (Optional).
+    /// Country's flag in png format (Optional).
     /// </summary>
     public ImageDto? FlagPng { get; set; }
     /// <summary>
-    /// The country's coat of arms in svg format (Optional).
+    /// Country's coat of arms in svg format (Optional).
     /// </summary>
     public ImageDto? CoatOfArmsSvg { get; set; }
     /// <summary>
-    /// The country's coat of arms in png format (Optional).
+    /// Country's coat of arms in png format (Optional).
     /// </summary>
     public ImageDto? CoatOfArmsPng { get; set; }
     /// <summary>
-    /// The country's map via google maps (Optional).
+    /// Country's map via google maps (Optional).
     /// </summary>
     public System.String? GoogleMapsUrl { get; set; }
     /// <summary>
-    /// The country's map via open street maps (Optional).
+    /// Country's map via open street maps (Optional).
     /// </summary>
-    public System.String? OpenStreeMapsUrl { get; set; }
+    public System.String? OpenStreetMapsUrl { get; set; }
     /// <summary>
-    /// The country's map via open street maps (Required).
+    /// Country's start of week day (Required).
     /// </summary>
     [Required(ErrorMessage = "StartOfWeek is required")]
     
     public System.UInt16 StartOfWeek { get; set; } = default!;
 
     /// <summary>
-    /// Country The commission related country ZeroOrOne Commissions
+    /// Country Country's currency ExactlyOne Currencies
     /// </summary>
-    
-    public System.Int64? CommissionId { get; set; } = default!;
+    [Required(ErrorMessage = "Currencies is required")]
+    public System.String CurrencyId { get; set; } = default!;
 }

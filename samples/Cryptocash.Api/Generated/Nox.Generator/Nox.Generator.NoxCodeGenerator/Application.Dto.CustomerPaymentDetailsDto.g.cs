@@ -6,10 +6,10 @@ using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
 using Nox.Types;
 using Nox.Domain;
-//using CryptocashApi.Application.DataTransferObjects;
-using CryptocashApi.Domain;
+//using Cryptocash.Application.DataTransferObjects;
+using Cryptocash.Domain;
 
-namespace CryptocashApi.Application.Dto;
+namespace Cryptocash.Application.Dto;
 
 public record CustomerPaymentDetailsKeyDto(System.Int64 keyId);
 
@@ -20,36 +20,36 @@ public partial class CustomerPaymentDetailsDto
 {
 
     /// <summary>
-    /// The customer payment account unique identifier (Required).
+    /// Customer payment account unique identifier (Required).
     /// </summary>
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// The payment account name (Required).
+    /// Payment account name (Required).
     /// </summary>
     public System.String PaymentAccountName { get; set; } = default!;
 
     /// <summary>
-    /// The payment account type (Required).
-    /// </summary>
-    public System.String PaymentAccountType { get; set; } = default!;
-
-    /// <summary>
-    /// The payment account reference number (Required).
+    /// Payment account reference number (Required).
     /// </summary>
     public System.String PaymentAccountNumber { get; set; } = default!;
 
     /// <summary>
-    /// The payment account sort code (Required).
+    /// Payment account sort code (Optional).
     /// </summary>
-    public System.String PaymentAccountSortCode { get; set; } = default!;
+    public System.String? PaymentAccountSortCode { get; set; }
 
     /// <summary>
-    /// CustomerPaymentDetails The payment account related customer ExactlyOne Customers
+    /// CustomerPaymentDetails Customer's payment account ExactlyOne Customers
     /// </summary>
     //EF maps ForeignKey Automatically
     public System.Int64 CustomerId { get; set; } = default!;
     public virtual CustomerDto Customer { get; set; } = null!;
+
+    /// <summary>
+    /// CustomerPaymentDetails Payment provider ExactlyOne PaymentProviders
+    /// </summary>
+    public virtual PaymentProviderDto PaymentProvider { get; set; } = null!;
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }
