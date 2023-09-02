@@ -1,6 +1,14 @@
 using Nox.Solution;
 using Nox.Docs.Extensions;
 using FluentAssertions;
+using System.Text;
+using Nox;
+using Nox.Types;
+using System.Net.WebSockets;
+using System.Reflection;
+using YamlDotNet.Serialization;
+using Nox.Solution.Extensions;
+using System.Globalization;
 
 namespace Cryptocash.Api.Tests;
 
@@ -13,18 +21,10 @@ public class CryptocashMermaidTests
             .UseYamlFile("../../../../.nox/design/cryptocash.solution.nox.yaml")
             .Build();
 
-        var mermaidText = noxSolution.ToMermaidErd();
-
-        mermaidText.Should().NotBeNullOrWhiteSpace();
-
-        var docs = $"""
-        # Cryptocash Solution Design
-
-        ``` mermaid
-        {mermaidText}
-        ```
-        """;
+        var docs = noxSolution.ToMarkdownReadme();
 
         File.WriteAllText("../../../../README.md", docs);
     }
+
+
 }

@@ -22,7 +22,6 @@ public class Solution : DefinitionBase
 
     [Title("URL to the documentation or specification of the solution.")]
     [Description("A URL which contains the requirements, documentation or specification for this solution.")]
-    [Pattern(@"^[^\s]*$")]
     public Uri? Overview { get; internal set; }
 
     [Title("The environment variables used in your solution and default values.")]

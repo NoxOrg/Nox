@@ -47,8 +47,6 @@ public class DtoDbContext : DbContext
         
         public DbSet<CountryHolidayDto> CountryHolidays { get; set; } = null!;
         
-        public DbSet<CountryTimeZonesDto> CountryTimeZones { get; set; } = null!;
-        
         public DbSet<CurrencyDto> Currencies { get; set; } = null!;
         
         public DbSet<BankNotesDto> BankNotes { get; set; } = null!;

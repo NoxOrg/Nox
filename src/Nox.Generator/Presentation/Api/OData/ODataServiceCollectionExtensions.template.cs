@@ -38,7 +38,7 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntityType<{{entity.Name}}Dto>();
         builder.EntityType<{{entity.Name}}KeyDto>();
-        {{- if entity.Persistence?.IsAudited ~}}
+        {{- if !entity.IsOwnedEntity && entity.Persistence?.IsAudited ~}}
 
         builder.EntityType<{{entity.Name}}Dto>().Ignore(e => e.DeletedAtUtc);
 
