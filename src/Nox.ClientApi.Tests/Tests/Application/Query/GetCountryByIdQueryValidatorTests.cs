@@ -35,7 +35,10 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         public async Task Get_AllCountries_ShouldReturnAllWithKeysLowerThen50()
         {
             // Arrange
-            for (int i = 0; i < 55; i++)
+            const int expectedCount = 49;
+            const int totalCountryCount = 55;
+
+            for (int i = 0; i < totalCountryCount; i++)
             {
                 var countryDto = new CountryCreateDto
                 {
@@ -49,7 +52,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             var result = await GetAsync<IEnumerable<CountryDto>>(CountryControllerName);
 
             //Assert
-            result!.Count().Should().Be(49);
+            result!.Count().Should().Be(expectedCount);
         }
     }
 }
