@@ -131,7 +131,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 Name = "Portugal123",
                 Population = 10350000
             };
-            var updateDto = new CountryCreateDto
+            var updateDto = new CountryUpdateDto
             {
                 Name = "Portugal",
                 Population = 10350000
