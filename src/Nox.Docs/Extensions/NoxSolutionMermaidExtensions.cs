@@ -31,15 +31,23 @@ public static class NoxSolutionMermaidExtensions
             {
                 foreach ((var type, var member) in entity.GetAllMembers())
                 {
-                    string memberType = member.Type.ToString();
-                    string memberName = member.Name;
-                    string required = member.IsRequired ? " (Required)" : string.Empty;
-                    string description = detail == ErdDetail.Detailed ? $" \"{member.Description}{required}\"" : string.Empty;
-                    string fkKind = type == EntityMemberType.Relationship ? " FK" : string.Empty;
+                    if (type == EntityMemberType.OwnedRelationship)
+                        continue;
 
-                    string keyType = type == EntityMemberType.Key ? " PK" : fkKind;
+                    var memberType = member.Type.ToString();
+                    var memberName = member.Name;
+                    var required = member.IsRequired ? " (Required)" : string.Empty;
+                    var description = detail == ErdDetail.Detailed ? $" \"{member.Description}{required}\"" : string.Empty;
 
-                    sb.AppendLine($"        {memberType} {memberName}{keyType}{description}");
+                    var kind = type switch
+                    {
+                        EntityMemberType.Key => " PK",
+                        EntityMemberType.Relationship => " FK",
+                        EntityMemberType.OwnedRelationship => " Owned",
+                        _ => string.Empty
+                    };
+
+                    sb.AppendLine($"        {memberType} {memberName}{kind}{description}");
                 }
             }
 
@@ -55,13 +63,29 @@ public static class NoxSolutionMermaidExtensions
                         sb.Append("    ");
                         sb.Append(entity.Name);
                         sb.Append(MermaidRelationshipSymbol(relationship.Related.EntityRelationship.Relationship, Side.Left));
-                        sb.Append("--");
+                        sb.Append("..");
                         sb.Append(MermaidRelationshipSymbol(relationship.Relationship, Side.Right));
                         sb.Append(relationship.Related.Entity.Name);
                         sb.Append(" : \"");
                         sb.Append(relationship.Description);
                         sb.AppendLine("\"");
                     }
+                }
+            }
+
+            if (entity.OwnedRelationships is not null)
+            {
+                foreach (var relationship in entity.OwnedRelationships)
+                {
+                    sb.Append("    ");
+                    sb.Append(entity.Name);
+                    sb.Append(MermaidRelationshipSymbol(EntityRelationshipType.ExactlyOne, Side.Left));
+                    sb.Append("--");
+                    sb.Append(MermaidRelationshipSymbol(relationship.Relationship, Side.Right));
+                    sb.Append(relationship.Related.Entity.Name);
+                    sb.Append(" : \"");
+                    sb.Append(relationship.Description);
+                    sb.AppendLine("\"");
                 }
             }
         }

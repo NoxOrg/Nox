@@ -50,7 +50,6 @@ public partial class CryptocashDbContext : DbContext
 
     public DbSet<CountryHoliday> CountryHolidays { get; set; } = null!;
 
-    public DbSet<CountryTimeZones> CountryTimeZones { get; set; } = null!;
 
     public DbSet<Currency> Currencies { get; set; } = null!;
 

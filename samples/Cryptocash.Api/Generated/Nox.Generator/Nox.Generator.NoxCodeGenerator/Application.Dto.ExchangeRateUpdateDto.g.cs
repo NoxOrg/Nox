@@ -29,7 +29,7 @@ public partial class ExchangeRateUpdateDto
     public System.DateTimeOffset EffectiveAt { get; set; } = default!;
 
     /// <summary>
-    /// ExchangeRate Exchanged from currency ExactlyOne Currencies
+    /// ExchangeRate Exchange rate relative to CHF (Swiss Franc) ExactlyOne Currencies
     /// </summary>
     [Required(ErrorMessage = "CurrencyFrom is required")]
     public System.String CurrencyId { get; set; } = default!;

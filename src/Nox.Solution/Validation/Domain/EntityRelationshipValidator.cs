@@ -10,7 +10,7 @@ namespace Nox.Solution.Validation
     {
         private readonly IEnumerable<Entity>? _entities;
 
-        public EntityRelationshipValidator(string entityName, IEnumerable<Entity>? entities, bool bindToOtherRelationship = true)
+        public EntityRelationshipValidator(string entityName, IEnumerable<Entity>? entities, bool requiresCorrespondingRelationship = true)
         {
             if (entities == null) return;
             _entities = entities;
@@ -30,7 +30,7 @@ namespace Nox.Solution.Validation
             RuleFor(er => er.Entity!).Must(ReferenceExistingEntity)
                 .WithMessage(er => string.Format(ValidationResources.EntityRelationshipEntityMissing, er.Name, entityName, er.Entity));
 
-            if (bindToOtherRelationship)
+            if (requiresCorrespondingRelationship)
             {
                 RuleFor(er => entityName).Must(HaveReverseRelationship)
                     .WithMessage(er => string.Format(ValidationResources.CorrespondingRelationshipMissing, er.Name, entityName, er.Entity));

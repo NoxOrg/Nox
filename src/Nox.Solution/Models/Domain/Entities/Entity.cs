@@ -83,7 +83,10 @@ public class Entity : DefinitionBase
     public IReadOnlyList<UniqueAttributeConstraint>? UniqueAttributeConstraints { get; internal set; }
 
     [YamlIgnore]
-    public bool IsOwnedEntity { get; set; }
+    public bool IsOwnedEntity { get; internal set; }
+
+    [YamlIgnore]
+    public Entity? OwnerEntity { get; internal set; }
 
     internal bool ApplyDefaults()
     {
@@ -199,6 +202,7 @@ public class Entity : DefinitionBase
         {
             var relationships = Relationships
                 .Where(x => x.Related.Entity?.Keys is not null)
+                .Where(x => x.IsManyRelationshipOnOtherSide)
                 .Select(x => (x.Entity, Keys: x.Related.Entity.Keys!));
 
             foreach (var relationship in relationships)
