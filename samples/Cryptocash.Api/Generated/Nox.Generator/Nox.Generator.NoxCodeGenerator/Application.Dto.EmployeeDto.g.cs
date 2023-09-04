@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -63,21 +67,5 @@ public partial class EmployeeDto
     /// Employee Employee's phone numbers ZeroOrMany EmployeePhoneNumbers
     /// </summary>
     public virtual List<EmployeePhoneNumberDto> EmployeePhoneNumbers { get; set; } = new();
-    public System.DateTime? DeletedAtUtc { get; set; }
-
-    public Employee ToEntity()
-    {
-        var entity = new Employee();
-        entity.Id = Employee.CreateId(Id);
-        entity.FirstName = Employee.CreateFirstName(FirstName);
-        entity.LastName = Employee.CreateLastName(LastName);
-        entity.EmailAddress = Employee.CreateEmailAddress(EmailAddress);
-        entity.Address = Employee.CreateAddress(Address);
-        entity.FirstWorkingDay = Employee.CreateFirstWorkingDay(FirstWorkingDay);
-        if (LastWorkingDay is not null)entity.LastWorkingDay = Employee.CreateLastWorkingDay(LastWorkingDay.NonNullValue<System.DateTime>());
-        entity.VendingMachineOrder = VendingMachineOrder.ToEntity();
-        entity.EmployeePhoneNumbers = EmployeePhoneNumbers.Select(dto => dto.ToEntity()).ToList();
-        return entity;
-    }
-
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

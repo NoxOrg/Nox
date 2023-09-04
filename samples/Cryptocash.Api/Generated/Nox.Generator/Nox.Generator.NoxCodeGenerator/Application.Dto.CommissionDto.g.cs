@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -45,17 +49,5 @@ public partial class CommissionDto
     /// Commission Booking's fee ZeroOrMany Bookings
     /// </summary>
     public virtual List<BookingDto> Bookings { get; set; } = new();
-    public System.DateTime? DeletedAtUtc { get; set; }
-
-    public Commission ToEntity()
-    {
-        var entity = new Commission();
-        entity.Id = Commission.CreateId(Id);
-        entity.Rate = Commission.CreateRate(Rate);
-        entity.EffectiveAt = Commission.CreateEffectiveAt(EffectiveAt);
-        entity.Country = Country?.ToEntity();
-        entity.Bookings = Bookings.Select(dto => dto.ToEntity()).ToList();
-        return entity;
-    }
-
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

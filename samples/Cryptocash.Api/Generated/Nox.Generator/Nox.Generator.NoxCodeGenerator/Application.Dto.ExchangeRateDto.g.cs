@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -40,16 +44,5 @@ public partial class ExchangeRateDto
     //EF maps ForeignKey Automatically
     public System.String CurrencyId { get; set; } = default!;
     public virtual CurrencyDto Currency { get; set; } = null!;
-    public System.DateTime? DeletedAtUtc { get; set; }
-
-    public ExchangeRate ToEntity()
-    {
-        var entity = new ExchangeRate();
-        entity.Id = ExchangeRate.CreateId(Id);
-        entity.EffectiveRate = ExchangeRate.CreateEffectiveRate(EffectiveRate);
-        entity.EffectiveAt = ExchangeRate.CreateEffectiveAt(EffectiveAt);
-        entity.Currency = Currency.ToEntity();
-        return entity;
-    }
-
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
+
 using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
@@ -108,30 +112,5 @@ public partial class CountryDto
     /// Country is also know as OneOrMany CountryLocalNames
     /// </summary>
     public virtual List<CountryLocalNameDto> CountryLocalNames { get; set; } = new();
-    public System.DateTime? DeletedAtUtc { get; set; }
-
-    public Country ToEntity()
-    {
-        var entity = new Country();
-        entity.Id = Country.CreateId(Id);
-        entity.Name = Country.CreateName(Name);
-        entity.FormalName = Country.CreateFormalName(FormalName);
-        entity.AlphaCode3 = Country.CreateAlphaCode3(AlphaCode3);
-        entity.AlphaCode2 = Country.CreateAlphaCode2(AlphaCode2);
-        entity.NumericCode = Country.CreateNumericCode(NumericCode);
-        if (DialingCodes is not null)entity.DialingCodes = Country.CreateDialingCodes(DialingCodes.NonNullValue<System.String>());
-        if (Capital is not null)entity.Capital = Country.CreateCapital(Capital.NonNullValue<System.String>());
-        if (Demonym is not null)entity.Demonym = Country.CreateDemonym(Demonym.NonNullValue<System.String>());
-        entity.AreaInSquareKilometres = Country.CreateAreaInSquareKilometres(AreaInSquareKilometres);
-        if (GeoCoord is not null)entity.GeoCoord = Country.CreateGeoCoord(GeoCoord.NonNullValue<LatLongDto>());
-        entity.GeoRegion = Country.CreateGeoRegion(GeoRegion);
-        entity.GeoSubRegion = Country.CreateGeoSubRegion(GeoSubRegion);
-        entity.GeoWorldRegion = Country.CreateGeoWorldRegion(GeoWorldRegion);
-        if (Population is not null)entity.Population = Country.CreatePopulation(Population.NonNullValue<System.Int32>());
-        if (TopLevelDomains is not null)entity.TopLevelDomains = Country.CreateTopLevelDomains(TopLevelDomains.NonNullValue<System.String>());
-        entity.Currencies = Currencies.Select(dto => dto.ToEntity()).ToList();
-        entity.CountryLocalNames = CountryLocalNames.Select(dto => dto.ToEntity()).ToList();
-        return entity;
-    }
-
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

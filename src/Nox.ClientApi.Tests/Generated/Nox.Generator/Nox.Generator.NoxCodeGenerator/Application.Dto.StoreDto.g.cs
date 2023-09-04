@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
+
 using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
@@ -40,16 +44,5 @@ public partial class StoreDto
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
     public virtual EmailAddressDto? EmailAddress { get; set; } = null!;
-    public System.DateTime? DeletedAtUtc { get; set; }
-
-    public Store ToEntity()
-    {
-        var entity = new Store();
-        entity.Id = Store.CreateId(Id);
-        entity.Name = Store.CreateName(Name);
-        entity.StoreOwner = StoreOwner?.ToEntity();
-        entity.EmailAddress = EmailAddress?.ToEntity();
-        return entity;
-    }
-
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

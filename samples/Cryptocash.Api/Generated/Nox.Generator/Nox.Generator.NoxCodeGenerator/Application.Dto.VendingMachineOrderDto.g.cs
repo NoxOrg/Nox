@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -57,18 +61,5 @@ public partial class VendingMachineOrderDto
     //EF maps ForeignKey Automatically
     public System.Int64 EmployeeId { get; set; } = default!;
     public virtual EmployeeDto Employee { get; set; } = null!;
-    public System.DateTime? DeletedAtUtc { get; set; }
-
-    public VendingMachineOrder ToEntity()
-    {
-        var entity = new VendingMachineOrder();
-        entity.Id = VendingMachineOrder.CreateId(Id);
-        entity.Amount = VendingMachineOrder.CreateAmount(Amount);
-        entity.RequestedDeliveryDate = VendingMachineOrder.CreateRequestedDeliveryDate(RequestedDeliveryDate);
-        if (DeliveryDateTime is not null)entity.DeliveryDateTime = VendingMachineOrder.CreateDeliveryDateTime(DeliveryDateTime.NonNullValue<System.DateTimeOffset>());
-        entity.VendingMachine = VendingMachine.ToEntity();
-        entity.Employee = Employee.ToEntity();
-        return entity;
-    }
-
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

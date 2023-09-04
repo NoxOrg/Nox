@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
+
 using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
@@ -40,16 +44,5 @@ public partial class StoreSecurityPasswordsDto
     //EF maps ForeignKey Automatically
     public System.String StoreId { get; set; } = default!;
     public virtual StoreDto Store { get; set; } = null!;
-    public System.DateTime? DeletedAtUtc { get; set; }
-
-    public StoreSecurityPasswords ToEntity()
-    {
-        var entity = new StoreSecurityPasswords();
-        entity.Id = StoreSecurityPasswords.CreateId(Id);
-        entity.Name = StoreSecurityPasswords.CreateName(Name);
-        entity.SecurityCamerasPassword = StoreSecurityPasswords.CreateSecurityCamerasPassword(SecurityCamerasPassword);
-        entity.Store = Store.ToEntity();
-        return entity;
-    }
-
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

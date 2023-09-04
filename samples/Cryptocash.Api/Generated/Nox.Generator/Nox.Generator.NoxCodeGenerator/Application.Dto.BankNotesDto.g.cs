@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -40,16 +44,5 @@ public partial class BankNotesDto
     //EF maps ForeignKey Automatically
     public System.String CurrencyId { get; set; } = default!;
     public virtual CurrencyDto Currency { get; set; } = null!;
-    public System.DateTime? DeletedAtUtc { get; set; }
-
-    public BankNotes ToEntity()
-    {
-        var entity = new BankNotes();
-        entity.Id = BankNotes.CreateId(Id);
-        entity.BankNote = BankNotes.CreateBankNote(BankNote);
-        entity.IsRare = BankNotes.CreateIsRare(IsRare);
-        entity.Currency = Currency.ToEntity();
-        return entity;
-    }
-
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -89,24 +93,5 @@ public partial class BookingDto
     /// Booking Transaction's booking ExactlyOne CustomerTransactions
     /// </summary>
     public virtual CustomerTransactionDto CustomerTransaction { get; set; } = null!;
-    public System.DateTime? DeletedAtUtc { get; set; }
-
-    public Booking ToEntity()
-    {
-        var entity = new Booking();
-        entity.Id = Booking.CreateId(Id);
-        entity.AmountFrom = Booking.CreateAmountFrom(AmountFrom);
-        entity.AmountTo = Booking.CreateAmountTo(AmountTo);
-        entity.RequestedPickUpDate = Booking.CreateRequestedPickUpDate(RequestedPickUpDate);
-        if (PickedUpDateTime is not null)entity.PickedUpDateTime = Booking.CreatePickedUpDateTime(PickedUpDateTime.NonNullValue<DateTimeRangeDto>());
-        if (ExpiryDateTime is not null)entity.ExpiryDateTime = Booking.CreateExpiryDateTime(ExpiryDateTime.NonNullValue<System.DateTimeOffset>());
-        if (CancelledDateTime is not null)entity.CancelledDateTime = Booking.CreateCancelledDateTime(CancelledDateTime.NonNullValue<System.DateTimeOffset>());
-        if (VatNumber is not null)entity.VatNumber = Booking.CreateVatNumber(VatNumber.NonNullValue<VatNumberDto>());
-        entity.Customer = Customer.ToEntity();
-        entity.VendingMachine = VendingMachine.ToEntity();
-        entity.Commission = Commission.ToEntity();
-        entity.CustomerTransaction = CustomerTransaction.ToEntity();
-        return entity;
-    }
-
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

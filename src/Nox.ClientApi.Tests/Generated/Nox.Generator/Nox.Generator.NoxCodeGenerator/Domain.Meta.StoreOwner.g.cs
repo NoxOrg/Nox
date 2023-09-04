@@ -46,4 +46,11 @@ public partial class StoreOwner
         => Nox.Types.Text.From(value, NameTypeOptions);
     
 
+    /// <summary>
+    /// Type options and factory for property 'VatNumber'
+    /// </summary>
+    public static Nox.Types.VatNumber CreateVatNumber(IVatNumber value)
+        => Nox.Types.VatNumber.From(value);
+    
+
 }

@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -45,17 +49,5 @@ public partial class CountryHolidayDto
     //EF maps ForeignKey Automatically
     public System.String CountryId { get; set; } = default!;
     public virtual CountryDto Country { get; set; } = null!;
-    public System.DateTime? DeletedAtUtc { get; set; }
-
-    public CountryHoliday ToEntity()
-    {
-        var entity = new CountryHoliday();
-        entity.Id = CountryHoliday.CreateId(Id);
-        entity.Name = CountryHoliday.CreateName(Name);
-        entity.Type = CountryHoliday.CreateType(Type);
-        entity.Date = CountryHoliday.CreateDate(Date);
-        entity.Country = Country.ToEntity();
-        return entity;
-    }
-
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

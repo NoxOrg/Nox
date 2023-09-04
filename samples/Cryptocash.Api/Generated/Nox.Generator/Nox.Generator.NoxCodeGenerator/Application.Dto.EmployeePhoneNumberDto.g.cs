@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -32,15 +36,5 @@ public partial class EmployeePhoneNumberDto
     /// <summary>
     /// Employee's phone number (Required).
     /// </summary>
-    public System.String PhoneNumber { get; set; } = default!;
-
-    public EmployeePhoneNumber ToEntity()
-    {
-        var entity = new EmployeePhoneNumber();
-        entity.Id = EmployeePhoneNumber.CreateId(Id);
-        entity.PhoneNumberType = EmployeePhoneNumber.CreatePhoneNumberType(PhoneNumberType);
-        entity.PhoneNumber = EmployeePhoneNumber.CreatePhoneNumber(PhoneNumber);
-        return entity;
-    }
-
+    public System.String PhoneNumber { get; set; } = default!;    
 }

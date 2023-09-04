@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
+
 using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
@@ -45,17 +49,5 @@ public partial class StoreDto
     //EF maps ForeignKey Automatically
     public System.String? StoreOwnerId { get; set; } = default!;
     public virtual StoreOwnerDto? StoreOwner { get; set; } = null!;
-    public System.DateTime? DeletedAtUtc { get; set; }
-
-    public Store ToEntity()
-    {
-        var entity = new Store();
-        entity.Id = Store.CreateId(Id);
-        entity.Name = Store.CreateName(Name);
-        entity.PhysicalMoney = Store.CreatePhysicalMoney(PhysicalMoney);
-        entity.StoreSecurityPasswords = StoreSecurityPasswords.ToEntity();
-        entity.StoreOwner = StoreOwner?.ToEntity();
-        return entity;
-    }
-
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

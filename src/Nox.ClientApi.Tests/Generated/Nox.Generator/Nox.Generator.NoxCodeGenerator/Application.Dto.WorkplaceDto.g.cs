@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
+
 using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
@@ -32,14 +36,5 @@ public partial class WorkplaceDto
     /// <summary>
     /// The Formula (Optional).
     /// </summary>
-    public System.String? Greeting { get; set; }
-
-    public Workplace ToEntity()
-    {
-        var entity = new Workplace();
-        entity.Id = Workplace.CreateId(Id);
-        entity.Name = Workplace.CreateName(Name);
-        return entity;
-    }
-
+    public System.String? Greeting { get; set; }    
 }

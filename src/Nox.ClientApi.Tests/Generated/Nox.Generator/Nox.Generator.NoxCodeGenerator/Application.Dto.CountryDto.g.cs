@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
+
 using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
@@ -48,17 +52,5 @@ public partial class CountryDto
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
     public virtual List<CountryLocalNameDto> CountryLocalNames { get; set; } = new();
-    public System.DateTime? DeletedAtUtc { get; set; }
-
-    public Country ToEntity()
-    {
-        var entity = new Country();
-        entity.Id = Country.CreateId(Id);
-        entity.Name = Country.CreateName(Name);
-        if (Population is not null)entity.Population = Country.CreatePopulation(Population.NonNullValue<System.Int32>());
-        if (CountryDebt is not null)entity.CountryDebt = Country.CreateCountryDebt(CountryDebt.NonNullValue<MoneyDto>());
-        entity.CountryLocalNames = CountryLocalNames.Select(dto => dto.ToEntity()).ToList();
-        return entity;
-    }
-
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -50,18 +54,5 @@ public partial class CustomerPaymentDetailsDto
     /// CustomerPaymentDetails Payment provider ExactlyOne PaymentProviders
     /// </summary>
     public virtual PaymentProviderDto PaymentProvider { get; set; } = null!;
-    public System.DateTime? DeletedAtUtc { get; set; }
-
-    public CustomerPaymentDetails ToEntity()
-    {
-        var entity = new CustomerPaymentDetails();
-        entity.Id = CustomerPaymentDetails.CreateId(Id);
-        entity.PaymentAccountName = CustomerPaymentDetails.CreatePaymentAccountName(PaymentAccountName);
-        entity.PaymentAccountNumber = CustomerPaymentDetails.CreatePaymentAccountNumber(PaymentAccountNumber);
-        if (PaymentAccountSortCode is not null)entity.PaymentAccountSortCode = CustomerPaymentDetails.CreatePaymentAccountSortCode(PaymentAccountSortCode.NonNullValue<System.String>());
-        entity.Customer = Customer.ToEntity();
-        entity.PaymentProvider = PaymentProvider.ToEntity();
-        return entity;
-    }
-
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

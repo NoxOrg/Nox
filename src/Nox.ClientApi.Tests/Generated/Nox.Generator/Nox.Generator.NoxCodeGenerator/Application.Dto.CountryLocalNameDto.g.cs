@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
+
 using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
@@ -27,14 +31,5 @@ public partial class CountryLocalNameDto
     /// <summary>
     /// Local name (Required).
     /// </summary>
-    public System.String Name { get; set; } = default!;
-
-    public CountryLocalName ToEntity()
-    {
-        var entity = new CountryLocalName();
-        entity.Id = CountryLocalName.CreateId(Id);
-        entity.Name = CountryLocalName.CreateName(Name);
-        return entity;
-    }
-
+    public System.String Name { get; set; } = default!;    
 }
