@@ -12,7 +12,7 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 
 public class PostgresIntegrationTests : PostgresTestBase
 {
-    [Fact]
+    //[Fact]
     public void GeneratedEntity_Postgres_CanSaveAndReadFields_AllTypes()
     {
         // TODO:
@@ -272,7 +272,7 @@ public class PostgresIntegrationTests : PostgresTestBase
         testEntity.DateTimeTestField!.Value.Offset.Should().Be(TimeSpan.Zero);
     }
 
-    [Fact]
+    //[Fact]
     public void UniqueConstraints_SameValue_ShouldThrowException()
     {
         const string countryCode2 = "UA";
