@@ -25,9 +25,14 @@ public partial class StoreOwnerDto
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    /// Store Name (Required).
+    /// Owner Name (Required).
     /// </summary>
     public System.String Name { get; set; } = default!;
+
+    /// <summary>
+    /// Vat Number (Optional).
+    /// </summary>
+    public VatNumberDto? VatNumber { get; set; }
 
     /// <summary>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores

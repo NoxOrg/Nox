@@ -16,9 +16,13 @@ public partial class StoreOwnerUpdateDto
 {
     //TODO Add owned Entities and update odata endpoints
     /// <summary>
-    /// Store Name (Required).
+    /// Owner Name (Required).
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
     public System.String Name { get; set; } = default!;
+    /// <summary>
+    /// Vat Number (Optional).
+    /// </summary>
+    public VatNumberDto? VatNumber { get; set; }
 }
