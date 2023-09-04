@@ -27,16 +27,14 @@ public class NoxSolution : Solution
     {
         var fullRelationshipModels = new List<EntityRelationshipWithType>();
 
-        if (entity?.Relationships != null)
+
+        foreach (var relationship in entity.Relationships)
         {
-            foreach (var relationship in entity.Relationships)
+            fullRelationshipModels.Add(new EntityRelationshipWithType
             {
-                fullRelationshipModels.Add(new EntityRelationshipWithType
-                {
-                    Relationship = relationship,
-                    RelationshipEntityType = codeGeneratorState.GetEntityType(relationship.Entity)!
-                });
-            }
+                Relationship = relationship,
+                RelationshipEntityType = codeGeneratorState.GetEntityType(relationship.Entity)!
+            });
         }
 
         return fullRelationshipModels;
@@ -48,16 +46,13 @@ public class NoxSolution : Solution
     {
         var fullRelationshipModels = new List<EntityRelationshipWithType>();
 
-        if (entity?.OwnedRelationships != null)
+        foreach (var relationship in entity.OwnedRelationships)
         {
-            foreach (var relationship in entity.OwnedRelationships)
+            fullRelationshipModels.Add(new EntityRelationshipWithType
             {
-                fullRelationshipModels.Add(new EntityRelationshipWithType
-                {
-                    Relationship = relationship,
-                    RelationshipEntityType = codeGeneratorState.GetEntityType(relationship.Entity)!
-                });
-            }
+                Relationship = relationship,
+                RelationshipEntityType = codeGeneratorState.GetEntityType(relationship.Entity)!
+            });
         }
 
         return fullRelationshipModels;
@@ -104,7 +99,7 @@ public class NoxSolution : Solution
             {
                 _ownedEntities = new();
 
-                foreach (var entity in Domain.Entities) 
+                foreach (var entity in Domain.Entities)
                 {
                     if (entity.OwnedRelationships is null) continue;
                     foreach (var relationship in entity.OwnedRelationships)
@@ -135,7 +130,7 @@ public class NoxSolution : Solution
     /// <returns></returns>
     public NoxType GetSingleTypeForKey(NoxSimpleTypeDefinition keyDefinition)
     {
-        if(keyDefinition.Type != NoxType.Entity)
+        if (keyDefinition.Type != NoxType.Entity)
         {
             return keyDefinition.Type;
         }

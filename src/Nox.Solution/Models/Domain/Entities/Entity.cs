@@ -46,12 +46,12 @@ public class Entity : DefinitionBase
     [Title("Defines relationships to other entities.")]
     [Description("Defines one way relationships to other entities. Remember to define the reverse relationship on the target entities.")]
     [AdditionalProperties(false)]
-    public IReadOnlyList<EntityRelationship>? Relationships { get; internal set; }
+    public IReadOnlyList<EntityRelationship> Relationships { get; internal set; } = Array.Empty<EntityRelationship>();
 
     [Title("Defines owned relationships to another entity.")]
     [Description("Defines relationship to owned entities. This entity will be treated as an aggregate root.")]
     [AdditionalProperties(false)]
-    public IReadOnlyList<EntityRelationship>? OwnedRelationships { get; internal set; }
+    public IReadOnlyList<EntityRelationship> OwnedRelationships { get; internal set; } = Array.Empty<EntityRelationship>();
 
     [Title("Domain queries for this entity.")]
     [Description("Define one or more domain querie(s) that operate on this entity. Queries should have no side effects and not mutate the domain state.")]
