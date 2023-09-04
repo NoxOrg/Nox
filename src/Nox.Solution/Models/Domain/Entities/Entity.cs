@@ -202,7 +202,7 @@ public class Entity : DefinitionBase
         {
             var relationships = Relationships
                 .Where(x => x.Related.Entity?.Keys is not null)
-                .Where(x => x.IsManyRelationshipOnOtherSide)
+                .Where(x => x.Related.EntityRelationship.WithMultiEntity)
                 .Select(x => (x.Entity, Keys: x.Related.Entity.Keys!));
 
             foreach (var relationship in relationships)

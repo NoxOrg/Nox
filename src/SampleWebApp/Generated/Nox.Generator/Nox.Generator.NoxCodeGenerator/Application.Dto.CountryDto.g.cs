@@ -102,7 +102,7 @@ public partial class CountryDto
     /// <summary>
     /// Country accepts as legal tender OneOrMany Currencies
     /// </summary>
-    public virtual List<CurrencyDto> Currencies { get; set; } = new();
+    public virtual List<CurrencyDto> CountryAcceptsCurrency { get; set; } = new();
 
     /// <summary>
     /// Country is also know as OneOrMany CountryLocalNames

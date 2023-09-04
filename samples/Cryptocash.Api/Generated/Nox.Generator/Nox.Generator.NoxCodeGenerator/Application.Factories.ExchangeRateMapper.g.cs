@@ -45,10 +45,10 @@ public class ExchangeRateMapper : EntityMapperBase<ExchangeRate>
         /// <summary>
         /// ExchangeRate Exchange rate relative to CHF (Swiss Franc) ExactlyOne Currencies
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "CurrencyFrom", dto.CurrencyId);
+        noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "CurrencyFrom", dto.CurrencyFromId);
         if (noxTypeValue != null)
         {        
-            entity.CurrencyId = noxTypeValue;
+            entity.CurrencyFromId = noxTypeValue;
         }
     }
 
@@ -95,7 +95,7 @@ public class ExchangeRateMapper : EntityMapperBase<ExchangeRate>
             var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "CurrencyFrom", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.CurrencyId = noxRelationshipTypeValue;
+                entity.CurrencyFromId = noxRelationshipTypeValue;
             }
         }
     }

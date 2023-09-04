@@ -43,7 +43,5 @@ public partial class Commission : AuditableEntityBase
     /// <summary>
     /// Commission Booking's fee ZeroOrMany Bookings
     /// </summary>
-    public virtual List<Booking> Bookings { get; set; } = new();
-
-    public List<Booking> Booking => Bookings;
+    public virtual List<Booking> Booking { get; set; } = new();
 }

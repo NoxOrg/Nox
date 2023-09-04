@@ -28,7 +28,5 @@ public partial class ThirdTestEntityZeroOrOne : AuditableEntityBase
     /// <summary>
     /// ThirdTestEntityZeroOrOne Test entity relationship to ThirdTestEntityExactlyOne ZeroOrOne ThirdTestEntityExactlyOnes
     /// </summary>
-    public virtual ThirdTestEntityExactlyOne? ThirdTestEntityExactlyOne { get; set; } = null!;
-
-    public ThirdTestEntityExactlyOne? ThirdTestEntityExactlyOneRelationship => ThirdTestEntityExactlyOne;
+    public virtual ThirdTestEntityExactlyOne? ThirdTestEntityExactlyOneRelationship { get; set; } = null!;
 }

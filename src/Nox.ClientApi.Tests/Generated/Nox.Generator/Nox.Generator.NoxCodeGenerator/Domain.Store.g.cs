@@ -44,14 +44,12 @@ public partial class Store : AuditableEntityBase
     /// <summary>
     /// Store Store owner relationship ZeroOrOne StoreOwners
     /// </summary>
-    public virtual StoreOwner? StoreOwner { get; set; } = null!;
-
-    public StoreOwner? OwnerRel => StoreOwner;
+    public virtual StoreOwner? OwnerRel { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity StoreOwner
     /// </summary>
-    public Nox.Types.Text? StoreOwnerId { get; set; } = null!;
+    public Nox.Types.Text? OwnerRelId { get; set; } = null!;
 
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses

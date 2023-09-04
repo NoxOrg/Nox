@@ -44,7 +44,7 @@ public partial class CommissionDto
     /// <summary>
     /// Commission Booking's fee ZeroOrMany Bookings
     /// </summary>
-    public virtual List<BookingDto> Bookings { get; set; } = new();
+    public virtual List<BookingDto> Booking { get; set; } = new();
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }

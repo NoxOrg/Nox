@@ -87,14 +87,12 @@ public partial class Booking : AuditableEntityBase
     /// <summary>
     /// Booking Booking's fee ExactlyOne Commissions
     /// </summary>
-    public virtual Commission Commission { get; set; } = null!;
-
-    public Commission Fee => Commission;
+    public virtual Commission Fee { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Commission
     /// </summary>
-    public Nox.Types.DatabaseNumber CommissionId { get; set; } = null!;
+    public Nox.Types.DatabaseNumber FeeId { get; set; } = null!;
 
     /// <summary>
     /// Booking Transaction's booking ExactlyOne CustomerTransactions

@@ -38,8 +38,8 @@ public partial class ExchangeRateDto
     /// ExchangeRate Exchange rate relative to CHF (Swiss Franc) ExactlyOne Currencies
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String CurrencyId { get; set; } = default!;
-    public virtual CurrencyDto Currency { get; set; } = null!;
+    public System.String CurrencyFromId { get; set; } = default!;
+    public virtual CurrencyDto CurrencyFrom { get; set; } = null!;
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }

@@ -33,12 +33,10 @@ public partial class ExchangeRate : AuditableEntityBase
     /// <summary>
     /// ExchangeRate Exchange rate relative to CHF (Swiss Franc) ExactlyOne Currencies
     /// </summary>
-    public virtual Currency Currency { get; set; } = null!;
-
-    public Currency CurrencyFrom => Currency;
+    public virtual Currency CurrencyFrom { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Currency
     /// </summary>
-    public Nox.Types.CurrencyCode3 CurrencyId { get; set; } = null!;
+    public Nox.Types.CurrencyCode3 CurrencyFromId { get; set; } = null!;
 }

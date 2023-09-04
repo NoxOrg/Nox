@@ -33,7 +33,5 @@ public partial class LandLord : AuditableEntityBase
     /// <summary>
     /// LandLord Landlord's area of the vending machine installation ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachine> VendingMachines { get; set; } = new();
-
-    public List<VendingMachine> VendingMachine => VendingMachines;
+    public virtual List<VendingMachine> VendingMachine { get; set; } = new();
 }

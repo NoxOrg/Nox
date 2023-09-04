@@ -98,16 +98,12 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     /// Country Commission rates country OneOrMany Commissions
     /// </summary>
-    public virtual List<Commission> Commissions { get; set; } = new();
-
-    public List<Commission> Commission => Commissions;
+    public virtual List<Commission> Commission { get; set; } = new();
 
     /// <summary>
     /// Country Vending machine's country ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachine> VendingMachines { get; set; } = new();
-
-    public List<VendingMachine> VendingMachine => VendingMachines;
+    public virtual List<VendingMachine> VendingMachine { get; set; } = new();
 
     /// <summary>
     /// Country Country's bank and public holidays ZeroOrMany CountryHolidays
@@ -117,9 +113,7 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     /// Country Customer's country ZeroOrMany Customers
     /// </summary>
-    public virtual List<Customer> Customers { get; set; } = new();
-
-    public List<Customer> Customer => Customers;
+    public virtual List<Customer> Customer { get; set; } = new();
 
     /// <summary>
     /// Country Country's time zones OneOrMany CountryTimeZones

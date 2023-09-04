@@ -98,9 +98,7 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     /// Country accepts as legal tender OneOrMany Currencies
     /// </summary>
-    public virtual List<Currency> Currencies { get; set; } = new();
-
-    public List<Currency> CountryAcceptsCurrency => Currencies;
+    public virtual List<Currency> CountryAcceptsCurrency { get; set; } = new();
 
     /// <summary>
     /// Country is also know as OneOrMany CountryLocalNames

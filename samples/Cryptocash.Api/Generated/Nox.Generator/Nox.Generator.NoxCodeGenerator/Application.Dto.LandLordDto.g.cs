@@ -37,7 +37,7 @@ public partial class LandLordDto
     /// <summary>
     /// LandLord Landlord's area of the vending machine installation ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachineDto> VendingMachines { get; set; } = new();
+    public virtual List<VendingMachineDto> VendingMachine { get; set; } = new();
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }

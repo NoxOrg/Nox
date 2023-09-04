@@ -88,21 +88,15 @@ public partial class Currency : AuditableEntityBase
     /// <summary>
     /// Currency Country's currency OneOrMany Countries
     /// </summary>
-    public virtual List<Country> Countries { get; set; } = new();
-
-    public List<Country> Country => Countries;
+    public virtual List<Country> Country { get; set; } = new();
 
     /// <summary>
     /// Currency Cash stock currency ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<MinimumCashStock> MinimumCashStocks { get; set; } = new();
-
-    public List<MinimumCashStock> MinimumCashStock => MinimumCashStocks;
+    public virtual List<MinimumCashStock> MinimumCashStock { get; set; } = new();
 
     /// <summary>
     /// Currency Exchanged from currency OneOrMany ExchangeRates
     /// </summary>
-    public virtual List<ExchangeRate> ExchangeRates { get; set; } = new();
-
-    public List<ExchangeRate> ExchangeRateFrom => ExchangeRates;
+    public virtual List<ExchangeRate> ExchangeRateFrom { get; set; } = new();
 }

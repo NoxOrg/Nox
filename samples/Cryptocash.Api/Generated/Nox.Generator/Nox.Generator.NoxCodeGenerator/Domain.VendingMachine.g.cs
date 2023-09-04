@@ -78,21 +78,15 @@ public partial class VendingMachine : AuditableEntityBase
     /// <summary>
     /// VendingMachine Booking's vending machine ZeroOrMany Bookings
     /// </summary>
-    public virtual List<Booking> Bookings { get; set; } = new();
-
-    public List<Booking> Booking => Bookings;
+    public virtual List<Booking> Booking { get; set; } = new();
 
     /// <summary>
     /// VendingMachine Order's vending machine ZeroOrMany VendingMachineOrders
     /// </summary>
-    public virtual List<VendingMachineOrder> VendingMachineOrders { get; set; } = new();
-
-    public List<VendingMachineOrder> VendingMachineOrder => VendingMachineOrders;
+    public virtual List<VendingMachineOrder> VendingMachineOrder { get; set; } = new();
 
     /// <summary>
     /// VendingMachine Vending machine's minimum cash stock ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<MinimumCashStock> MinimumCashStocks { get; set; } = new();
-
-    public List<MinimumCashStock> MinimumCashStock => MinimumCashStocks;
+    public virtual List<MinimumCashStock> MinimumCashStock { get; set; } = new();
 }

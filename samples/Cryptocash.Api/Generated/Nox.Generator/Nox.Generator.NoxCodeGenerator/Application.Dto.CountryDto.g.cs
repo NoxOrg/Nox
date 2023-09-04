@@ -99,12 +99,12 @@ public partial class CountryDto
     /// <summary>
     /// Country Commission rates country OneOrMany Commissions
     /// </summary>
-    public virtual List<CommissionDto> Commissions { get; set; } = new();
+    public virtual List<CommissionDto> Commission { get; set; } = new();
 
     /// <summary>
     /// Country Vending machine's country ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachineDto> VendingMachines { get; set; } = new();
+    public virtual List<VendingMachineDto> VendingMachine { get; set; } = new();
 
     /// <summary>
     /// Country Country's bank and public holidays ZeroOrMany CountryHolidays
@@ -114,7 +114,7 @@ public partial class CountryDto
     /// <summary>
     /// Country Customer's country ZeroOrMany Customers
     /// </summary>
-    public virtual List<CustomerDto> Customers { get; set; } = new();
+    public virtual List<CustomerDto> Customer { get; set; } = new();
 
     /// <summary>
     /// Country Country's time zones OneOrMany CountryTimeZones

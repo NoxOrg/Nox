@@ -57,12 +57,12 @@ public partial class CustomerDto
     /// <summary>
     /// Customer Customer's booking ZeroOrMany Bookings
     /// </summary>
-    public virtual List<BookingDto> Bookings { get; set; } = new();
+    public virtual List<BookingDto> Booking { get; set; } = new();
 
     /// <summary>
     /// Customer Customer's transaction ZeroOrMany CustomerTransactions
     /// </summary>
-    public virtual List<CustomerTransactionDto> CustomerTransactions { get; set; } = new();
+    public virtual List<CustomerTransactionDto> CustomerTransaction { get; set; } = new();
 
     /// <summary>
     /// Customer Customer's country ExactlyOne Countries

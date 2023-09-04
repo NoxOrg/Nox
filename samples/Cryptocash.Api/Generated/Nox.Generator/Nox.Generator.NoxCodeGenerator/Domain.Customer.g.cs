@@ -53,16 +53,12 @@ public partial class Customer : AuditableEntityBase
     /// <summary>
     /// Customer Customer's booking ZeroOrMany Bookings
     /// </summary>
-    public virtual List<Booking> Bookings { get; set; } = new();
-
-    public List<Booking> Booking => Bookings;
+    public virtual List<Booking> Booking { get; set; } = new();
 
     /// <summary>
     /// Customer Customer's transaction ZeroOrMany CustomerTransactions
     /// </summary>
-    public virtual List<CustomerTransaction> CustomerTransactions { get; set; } = new();
-
-    public List<CustomerTransaction> CustomerTransaction => CustomerTransactions;
+    public virtual List<CustomerTransaction> CustomerTransaction { get; set; } = new();
 
     /// <summary>
     /// Customer Customer's country ExactlyOne Countries

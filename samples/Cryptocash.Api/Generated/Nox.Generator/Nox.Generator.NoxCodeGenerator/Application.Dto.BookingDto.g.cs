@@ -82,8 +82,8 @@ public partial class BookingDto
     /// Booking Booking's fee ExactlyOne Commissions
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64 CommissionId { get; set; } = default!;
-    public virtual CommissionDto Commission { get; set; } = null!;
+    public System.Int64 FeeId { get; set; } = default!;
+    public virtual CommissionDto Fee { get; set; } = null!;
 
     /// <summary>
     /// Booking Transaction's booking ExactlyOne CustomerTransactions

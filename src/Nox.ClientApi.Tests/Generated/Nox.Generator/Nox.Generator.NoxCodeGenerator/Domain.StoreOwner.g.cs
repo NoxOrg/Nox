@@ -28,7 +28,5 @@ public partial class StoreOwner : AuditableEntityBase
     /// <summary>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
     /// </summary>
-    public virtual List<Store> Stores { get; set; } = new();
-
-    public List<Store> StoreRel => Stores;
+    public virtual List<Store> StoreRel { get; set; } = new();
 }

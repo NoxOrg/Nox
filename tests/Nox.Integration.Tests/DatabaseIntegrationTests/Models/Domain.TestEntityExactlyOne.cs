@@ -28,12 +28,10 @@ public partial class TestEntityExactlyOne : AuditableEntityBase
     /// <summary>
     /// TestEntityExactlyOne Test entity relationship to SecondTestEntityExactlyOneRelationship ExactlyOne SecondTestEntityExactlyOnes
     /// </summary>
-    public virtual SecondTestEntityExactlyOne SecondTestEntityExactlyOne { get; set; } = null!;
-
-    public SecondTestEntityExactlyOne SecondTestEntityExactlyOneRelationship => SecondTestEntityExactlyOne;
+    public virtual SecondTestEntityExactlyOne SecondTestEntityExactlyOneRelationship { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity SecondTestEntityExactlyOne
     /// </summary>
-    public Nox.Types.Text SecondTestEntityExactlyOneId { get; set; } = null!;
+    public Nox.Types.Text SecondTestEntityExactlyOneRelationshipId { get; set; } = null!;
 }

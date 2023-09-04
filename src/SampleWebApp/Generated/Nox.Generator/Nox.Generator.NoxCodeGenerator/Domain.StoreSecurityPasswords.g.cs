@@ -33,12 +33,10 @@ public partial class StoreSecurityPasswords : AuditableEntityBase
     /// <summary>
     /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores
     /// </summary>
-    public virtual Store Store { get; set; } = null!;
-
-    public Store StoreRel => Store;
+    public virtual Store StoreRel { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Store
     /// </summary>
-    public Nox.Types.Text StoreId { get; set; } = null!;
+    public Nox.Types.Text StoreRelId { get; set; } = null!;
 }

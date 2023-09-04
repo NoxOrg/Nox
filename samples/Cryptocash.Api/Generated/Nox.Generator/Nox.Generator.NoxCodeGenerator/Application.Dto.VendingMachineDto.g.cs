@@ -76,17 +76,17 @@ public partial class VendingMachineDto
     /// <summary>
     /// VendingMachine Booking's vending machine ZeroOrMany Bookings
     /// </summary>
-    public virtual List<BookingDto> Bookings { get; set; } = new();
+    public virtual List<BookingDto> Booking { get; set; } = new();
 
     /// <summary>
     /// VendingMachine Order's vending machine ZeroOrMany VendingMachineOrders
     /// </summary>
-    public virtual List<VendingMachineOrderDto> VendingMachineOrders { get; set; } = new();
+    public virtual List<VendingMachineOrderDto> VendingMachineOrder { get; set; } = new();
 
     /// <summary>
     /// VendingMachine Vending machine's minimum cash stock ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<MinimumCashStockDto> MinimumCashStocks { get; set; } = new();
+    public virtual List<MinimumCashStockDto> MinimumCashStock { get; set; } = new();
 
     public System.DateTime? DeletedAtUtc { get; set; }
 }

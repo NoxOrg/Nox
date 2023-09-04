@@ -84,10 +84,10 @@ public class BookingMapper : EntityMapperBase<Booking>
         /// <summary>
         /// Booking Booking's fee ExactlyOne Commissions
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "Fee", dto.CommissionId);
+        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "Fee", dto.FeeId);
         if (noxTypeValue != null)
         {        
-            entity.CommissionId = noxTypeValue;
+            entity.FeeId = noxTypeValue;
         }
     }
 
@@ -226,7 +226,7 @@ public class BookingMapper : EntityMapperBase<Booking>
             var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "Fee", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.CommissionId = noxRelationshipTypeValue;
+                entity.FeeId = noxRelationshipTypeValue;
             }
         }
     }
