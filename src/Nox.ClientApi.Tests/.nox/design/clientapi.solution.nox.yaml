@@ -1,0 +1,75 @@
+#
+# SampleCurrency.solution.nox.yaml
+#
+# yaml-language-server: $schema=../../../../schemas/solution.json
+#
+# PROD-yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
+#
+
+name: ClientApi
+
+description: Project for Nox System Testing
+
+domain:
+
+  entities:
+
+    - $ref: ./Entities/country.entity.nox.yaml
+  
+    - $ref: ./Entities/countrylocalname.entity.nox.yaml
+  
+    - $ref: ./Entities/store.entity.nox.yaml
+  
+    - $ref: ./Entities/workplace.entity.nox.yaml
+  
+    - $ref: ./Entities/store-owner.entity.nox.yaml
+  
+    - name: EmailAddress #owned by store
+      description: Verified Email Address
+
+      # keys: Owned ZeroOrOne or ExactlyOne can not have defined keys
+      attributes:
+        - name: Email
+          isRequired: false
+          description: Email
+          type: email
+
+        - name: IsVerified
+          description: Verified
+          type: boolean
+          isRequired: false
+  
+      persistence: 
+        isAudited: false #owned entity => need to suport one to one relations
+
+infrastructure:
+  
+  persistence:
+
+    databaseServer:
+      name: ClientApi
+      # provider: sqlServer      
+      # options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True
+      # serverUri: localhost
+      # user: sa  
+      # password: Developer*123
+      provider: sqLite      
+      #options: "DataSource=:memory:"
+      options: "Data Source=Client.db"
+      serverUri: "localhost"
+      user: "sa"  
+      password: "pwd"
+      
+
+application:
+  dataTransferObjects:
+    - name: TempDto
+      description: Temp Dto added to help Generator Compile
+      attributes:
+        - name: Id
+          description: Identity
+          type: text
+          textTypeOptions:
+            casing: lower
+            maxLength: 2
+            minLength: 2

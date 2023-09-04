@@ -49,9 +49,9 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             //}
 
             IReadOnlyCollection<DomainQuery> queries = entity.Queries ?? new List<DomainQuery>();
-            IReadOnlyCollection<DomainCommand> commands = entity.Commands ?? new List<DomainCommand>();
+            //IReadOnlyCollection<DomainCommand> commands = entity.Commands ?? new List<DomainCommand>();
 
-            var code = new CodeBuilder($"Controllers.{pluralName}Controller.g.cs", context);
+            var code = new CodeBuilder($"Presentation.Api.OData.{pluralName}Controller.g.cs", context);
 
             // Namespace
             code.AppendLine($"using Microsoft.AspNetCore.Mvc;");
@@ -66,7 +66,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Dto;");
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Queries;");
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Commands;");
-            code.AppendLine($"using {codeGeneratorState.DataTransferObjectsNameSpace};");
+            //code.AppendLine($"using {codeGeneratorState.DataTransferObjectsNameSpace};");
             code.AppendLine($"using {codeGeneratorState.DomainNameSpace};");
             code.AppendLine($"using {codeGeneratorState.PersistenceNameSpace};");
 
@@ -75,6 +75,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
             code.AppendLine();
 
+            code.AppendLine("[Route(\"{controller}\")]");
             code.AppendLine($"public partial class {controllerName} : ODataController");
 
             // Class
@@ -96,13 +97,13 @@ internal class EntityControllerGenerator : INoxCodeGenerator
                 AddField(code, queryType, query.Name, query.Description);
                 constructorParameters.Add(queryType, query.Name);
             }
-
-            foreach (var command in commands)
-            {
-                var commandType = $"{command.Name}CommandHandlerBase";
-                AddField(code, commandType, command.Name, command.Description);
-                constructorParameters.Add(commandType, command.Name);
-            }
+            // TODO Rethink Custom Commands and Queris
+            //foreach (var command in commands)
+            //{
+            //    var commandType = $"{command.Name}CommandHandlerBase";
+            //    AddField(code, commandType, command.Name, command.Description);
+            //    constructorParameters.Add(commandType, command.Name);
+            //}
 
             // Add constructor
             AddConstructor(code, controllerName, constructorParameters);
@@ -161,19 +162,20 @@ internal class EntityControllerGenerator : INoxCodeGenerator
                 code.EndBlock();
             }
 
+            // TODO Rethink Custom Commands and Queries
             // Generate POST request mapping for Command Handlers
-            foreach (var command in commands)
-            {
-                var typeDefinition = GenerateTypeDefinition(context, codeGeneratorState, command);
+            //foreach (var command in commands)
+            //{
+            //    var typeDefinition = GenerateTypeDefinition(context, codeGeneratorState, command);
 
-                GenerateDocs(code, command.Description);
-                code.AppendLine($"[HttpPost(\"{command.Name}\")]");
-                code.AppendLine($"public async Task<IResult> {command.Name}Async({typeDefinition} command)");
-                code.StartBlock();
-                code.AppendLine($"var result = await {command.Name.ToLowerFirstCharAndAddUnderscore()}.ExecuteAsync(command);");
-                code.AppendLine(@"return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);");
-                code.EndBlock();
-            }
+            //    GenerateDocs(code, command.Description);
+            //    code.AppendLine($"[HttpPost(\"{command.Name}\")]");
+            //    code.AppendLine($"public async Task<IResult> {command.Name}Async({typeDefinition} command)");
+            //    code.StartBlock();
+            //    code.AppendLine($"var result = await {command.Name.ToLowerFirstCharAndAddUnderscore()}.ExecuteAsync(command);");
+            //    code.AppendLine(@"return result.IsSuccess ? Results.Ok(result) : Results.BadRequest(result);");
+            //    code.EndBlock();
+            //}
 
             // End class
             code.EndBlock();
@@ -185,6 +187,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GenerateDelete(Entity entity, string entityName, CodeBuilder code, NoxSolution solution)
     {
         // Method Delete
+        code.AppendLine("[HttpDelete]");
         code.AppendLine($"public async Task<ActionResult> Delete({PrimaryKeysFromRoute(entity, solution)})");
 
         // Method content
@@ -205,6 +208,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GeneratePut(Entity entity, CodeBuilder code, NoxSolution solution)
     {
         // Method Put
+        code.AppendLine("[HttpPut]");
         code.AppendLine($"public async Task<ActionResult> Put({PrimaryKeysFromRoute(entity, solution)}, [FromBody] {entity.Name}UpdateDto {entity.Name.ToLowerFirstChar()})");
 
         // Method content
@@ -231,6 +235,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GeneratePatch(Entity entity, string entityName, string pluralName, CodeBuilder code, NoxSolution solution)
     {
         // Method Patch
+        code.AppendLine("[HttpPatch]");
         code.AppendLine($"public async Task<ActionResult> Patch({PrimaryKeysFromRoute(entity, solution)}, [FromBody] Delta<{entityName}UpdateDto> {entity.Name.ToLowerFirstChar()})");
 
         // Method content
@@ -266,6 +271,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GeneratePost(string entityName, string variableName, CodeBuilder code)
     {
         // Method Post
+        code.AppendLine("[HttpPost]");
         code.AppendLine($"public async Task<ActionResult> Post([FromBody]{entityName}CreateDto {variableName})");
 
         // Method content
@@ -311,6 +317,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GenerateGet(Entity entity, CodeBuilder code, NoxSolution solution)
     {
         // Method Get
+        code.AppendLine("[HttpGet]");
         code.AppendLine($"[EnableQuery]");
         code.AppendLine($"public async  Task<ActionResult<IQueryable<{entity.Name}Dto>>> Get()");
 

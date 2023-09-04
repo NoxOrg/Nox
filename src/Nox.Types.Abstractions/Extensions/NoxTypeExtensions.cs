@@ -19,10 +19,12 @@ public static class NoxTypeExtensions
     {
         return noxType.ToMemberInfo().GetCustomAttribute<SimpleTypeAttribute>(false) != null;
     }
+
     public static bool IsCompoundType(this NoxType noxType)
     {
         return noxType.ToMemberInfo().GetCustomAttribute<CompoundTypeAttribute>(false) != null;
     }
+
     public static IDictionary<string, Type> GetCompoundComponents(this NoxType noxType)
     {
         if (noxType.IsCompoundType())

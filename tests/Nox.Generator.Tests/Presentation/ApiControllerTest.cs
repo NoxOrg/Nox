@@ -44,21 +44,21 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
 
         var generatedSources = result.GeneratedSources;
         Assert.Equal(32, generatedSources.Length);
-        Assert.True(generatedSources.Any(s => s.HintName == "NoxWebApplicationExtensions.g.cs"), "NoxWebApplicationExtensions.g.cs not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == "Application.NoxWebApplicationExtensions.g.cs"), "NoxWebApplicationExtensions.g.cs not generated");
 
         // Check base files
-        Assert.True(generatedSources.Any(s => s.HintName == "Generator.g.cs"), "Generator.g.cs not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == "0.Generator.g.cs"), "Generator.g.cs not generated");
 
         // check entities/queries/commands
-        Assert.True(generatedSources.Any(s => s.HintName == "Entities.Country.g.cs"), "Country.g.cs not generated");
+        Assert.True(generatedSources.Any(s => s.HintName == "Domain.Country.g.cs"), "Country.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "DtoDynamic.UpdatePopulationStatistics.g.cs"), "UpdatePopulationStatistics.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "UpdatePopulationStatisticsCommandHandlerBase.g.cs"), "UpdatePopulationStatisticsCommandHandlerBase.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "DtoDynamic.CountryInfo.g.cs"), "CountryInfo.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "GetCountriesByContinentQueryBase.g.cs"), "GetCountriesByContinentQuery.g.cs not generated");
 
         // check controllers
-        CheckController("Controllers.CountriesController.g.cs", generatedSources);
-        CheckController("Controllers.CompoundKeysEntitiesController.g.cs", generatedSources);
+        CheckController("Presentation.Api.OData.CountriesController.g.cs", generatedSources);
+        CheckController("Presentation.Api.OData.CompoundKeysEntitiesController.g.cs", generatedSources);
 
         //can further extend this test to verify contents of source files.
     }

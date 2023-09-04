@@ -36,7 +36,7 @@ internal class EntityUpdateDtoGenerator : INoxCodeGenerator
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"{entity.Name}UpdateDto")
-                .WithFileNamePrefix("Dto")
+                .WithFileNamePrefix("Application.Dto")
                 .WithObject("entity", entity)
                 .WithObject("componentsInfo", componentsInfo)
                 .GenerateSourceCodeFromResource("Application.Dto.EntityUpdateDto");

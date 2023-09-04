@@ -30,7 +30,7 @@ internal class EntityDtoGenerator : INoxCodeGenerator
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"{entity.Name}Dto")
-                .WithFileNamePrefix("Dto")
+                .WithFileNamePrefix("Application.Dto")
                 .WithObject("entity", entity)
                 .WithObject("primaryKeys", primaryKeys)                
                 .GenerateSourceCodeFromResource("Application.Dto.EntityDto");         

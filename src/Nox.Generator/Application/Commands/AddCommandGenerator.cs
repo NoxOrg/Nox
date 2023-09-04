@@ -8,6 +8,7 @@ namespace Nox.Generator.Application.Commands;
 internal class AddCommandGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
+
     public void Generate(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
     {
         context.CancellationToken.ThrowIfCancellationRequested();
@@ -22,7 +23,7 @@ internal class AddCommandGenerator : INoxCodeGenerator
         {
             context.CancellationToken.ThrowIfCancellationRequested();
 
-            var parent = codeGeneratorState.Solution.Domain.Entities.FirstOrDefault(e => 
+            var parent = codeGeneratorState.Solution.Domain.Entities.FirstOrDefault(e =>
                 e.OwnedRelationships?.Any(o => o.Entity == entity.Name && !o.WithSingleEntity) == true);
             if (parent is null)
                 continue;
@@ -32,13 +33,12 @@ internal class AddCommandGenerator : INoxCodeGenerator
 
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName($"Add{entity.Name}Command")
-                .WithFileNamePrefix($"Commands")
+                .WithFileNamePrefix($"Application.Commands")
                 .WithObject("entity", entity)
                 .WithObject("parent", parent)
                 .WithObject("parentKeysFindQuery", parentKeysFindQuery)
                 .WithObject("primaryKeysReturnQuery", primaryKeysReturnQuery)
                 .GenerateSourceCodeFromResource(templateName);
         }
-
     }
 }

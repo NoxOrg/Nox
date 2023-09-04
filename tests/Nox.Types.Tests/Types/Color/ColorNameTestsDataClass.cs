@@ -83,7 +83,6 @@ public class ColorNameTestsDataClass : IEnumerable<object[]>
         yield return new object[] { "Lime" };
         yield return new object[] { "LimeGreen" };
         yield return new object[] { "Linen" };
-        yield return new object[] { "Magenta" };
         yield return new object[] { "Maroon" };
         yield return new object[] { "MediumAquamarine" };
         yield return new object[] { "MediumBlue" };

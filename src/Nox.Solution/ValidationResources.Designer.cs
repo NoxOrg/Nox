@@ -529,6 +529,15 @@ namespace Nox.Solution {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Attribute name &apos;{0}&apos; in unique attribute constraint not found in neither entity attribute(s) ({1}) nor entity key(s) ({2}).
+        /// </summary>
+        internal static string EntityUniqueAttributeConstraintCanReferenceOnlyExistingAttributes {
+            get {
+                return ResourceManager.GetString("EntityUniqueAttributeConstraintCanReferenceOnlyExistingAttributes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The environment name &apos;{0}&apos; is duplicated. Environment names must be unique in a solution..
         /// </summary>
         internal static string EnvironmentNameDuplicate {
@@ -858,6 +867,15 @@ namespace Nox.Solution {
         internal static string IntegrationTargetTypeEmpty {
             get {
                 return ResourceManager.GetString("IntegrationTargetTypeEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The member {0} of a class {1} cannot have the same name as the referenced entity..
+        /// </summary>
+        internal static string NameSameAsEnclosingType {
+            get {
+                return ResourceManager.GetString("NameSameAsEnclosingType", resourceCulture);
             }
         }
         

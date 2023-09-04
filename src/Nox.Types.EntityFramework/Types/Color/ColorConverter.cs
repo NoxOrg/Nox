@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Nox.Types.EntityFramework;
 
-public class ColorConverter : ValueConverter<Color, byte[]>
+public class ColorConverter : ValueConverter<Color, string>
 {
     /// <summary>
     /// Initializes a new instance of the <see cref="ColorConverter" /> class.

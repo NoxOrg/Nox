@@ -90,17 +90,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Localization", "Nox.Loc
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Localization.Tests", "..\tests\Nox.Localization.Tests\Nox.Localization.Tests.csproj", "{6201A401-BF1D-46CC-8388-972BDF162605}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.ClientApi.Tests", "..\tests\Nox.ClientApi.Tests\Nox.ClientApi.Tests.csproj", "{4890AF11-0C6D-4D2F-80C5-6E7432A40921}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Integration.Tests", "..\tests\Nox.Integration.Tests\Nox.Integration.Tests.csproj", "{C52A585F-D77C-45A6-9105-18CC4D9A7EED}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{BDF97718-FAAD-4A1B-BA61-BFF0A7B78827}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0Samples", "0Samples", "{BDF97718-FAAD-4A1B-BA61-BFF0A7B78827}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptocash.Api", "..\samples\Cryptocash.Api\Cryptocash.Api.csproj", "{8B23A857-9E38-4B44-9A4A-61551E347199}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptocash.Ui", "..\samples\Cryptocash.Ui\Cryptocash.Ui.csproj", "{9502ACC9-EFFA-40BB-9528-BF86E979C435}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptocash.Api.Tests", "..\samples\Cryptocash.Api.Tests\Cryptocash.Api.Tests.csproj", "{3F8C7B7D-34A5-4E2D-8CA2-1D50DA91E31A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptocash.Tests", "..\samples\Cryptocash.Api.Tests\Cryptocash.Tests.csproj", "{3F8C7B7D-34A5-4E2D-8CA2-1D50DA91E31A}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.ClientApi.Tests", "Nox.ClientApi.Tests\Nox.ClientApi.Tests.csproj", "{32312EDB-D27D-4BD7-98B6-D158766C2CDF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -212,10 +212,6 @@ Global
 		{6201A401-BF1D-46CC-8388-972BDF162605}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{6201A401-BF1D-46CC-8388-972BDF162605}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{6201A401-BF1D-46CC-8388-972BDF162605}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4890AF11-0C6D-4D2F-80C5-6E7432A40921}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4890AF11-0C6D-4D2F-80C5-6E7432A40921}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4890AF11-0C6D-4D2F-80C5-6E7432A40921}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4890AF11-0C6D-4D2F-80C5-6E7432A40921}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C52A585F-D77C-45A6-9105-18CC4D9A7EED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C52A585F-D77C-45A6-9105-18CC4D9A7EED}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C52A585F-D77C-45A6-9105-18CC4D9A7EED}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -232,6 +228,10 @@ Global
 		{3F8C7B7D-34A5-4E2D-8CA2-1D50DA91E31A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F8C7B7D-34A5-4E2D-8CA2-1D50DA91E31A}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F8C7B7D-34A5-4E2D-8CA2-1D50DA91E31A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{32312EDB-D27D-4BD7-98B6-D158766C2CDF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{32312EDB-D27D-4BD7-98B6-D158766C2CDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{32312EDB-D27D-4BD7-98B6-D158766C2CDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{32312EDB-D27D-4BD7-98B6-D158766C2CDF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

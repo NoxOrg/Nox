@@ -66,7 +66,6 @@ namespace Nox.Types.EntityFramework.Configurations
             Entity entity,
             IReadOnlyList<EntityRelationshipWithType> relationshipsToCreate)
         {
-
             foreach (var relationshipToCreate in relationshipsToCreate)
             {
                 // One to ?? (// Many to Many are setup by EF)
@@ -218,9 +217,9 @@ namespace Nox.Types.EntityFramework.Configurations
             var foreignEntityKeyType = codeGeneratorState.Solution.GetSingleKeyTypeForEntity(key.EntityTypeOptions!.Entity);
 
             builder
-            .HasOne(key.EntityTypeOptions!.Entity)
-            .WithOne()
-            .HasForeignKey(entity.Name, key.Name);
+                .HasOne(key.EntityTypeOptions!.Entity)
+                .WithOne()
+                .HasForeignKey(entity.Name, key.Name);
 
             //Configure foreign key property
             if (TypesDatabaseConfigurations.TryGetValue(foreignEntityKeyType,

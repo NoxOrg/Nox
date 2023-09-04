@@ -24,7 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.7.2" />
     <PackageReference Include="xunit" Version="2.5.0" />
     <PackageReference Include="xunit.runner.visualstudio" Version="2.5.0">
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -43,16 +43,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Compile Remove="ExpectedGeneratedFiles\Controllers.CompoundKeysEntitiesController.g.cs" />
-    <Compile Remove="ExpectedGeneratedFiles\Controllers.CountriesController.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Application.Dto.CountryDto.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\Country.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\CountryNameChangedAppEvent.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\CountryNameUpdatedEvent.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\Dto.CountryCreateDto.expected.g.cs" />
-    <Compile Remove="ExpectedGeneratedFiles\Dto.CountryDto.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\DtoDynamic.CountryDto.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\GetCountriesByContinentQueryBase.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\NoxServiceCollectionExtension.expected.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.g.cs" />
+    <Compile Remove="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\SampleWebAppDbContext.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\UpdatePopulationStatisticsCommandHandlerBase.expected.g.cs" />
     <Compile Remove="ExpectedGeneratedFiles\NoxWebApplicationExtensions.expected.g.cs" />
@@ -111,7 +111,7 @@
     <AdditionalFiles Include="ExpectedGeneratedFiles\Dto.CountryCreateDto.expected.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
-    <AdditionalFiles Include="ExpectedGeneratedFiles\Dto.CountryDto.expected.g.cs">
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Application.Dto.CountryDto.expected.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
     <AdditionalFiles Include="ExpectedGeneratedFiles\Country.expected.g.cs">
@@ -123,10 +123,10 @@
     <AdditionalFiles Include="ExpectedGeneratedFiles\CountryNameUpdatedEvent.expected.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
-	<AdditionalFiles Include="ExpectedGeneratedFiles\Controllers.CompoundKeysEntitiesController.g.cs">
+	<AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CompoundKeysEntitiesController.g.cs">
 		<CopyToOutputDirectory>Always</CopyToOutputDirectory>
 	</AdditionalFiles>
-    <AdditionalFiles Include="ExpectedGeneratedFiles\Controllers.CountriesController.g.cs">
+    <AdditionalFiles Include="ExpectedGeneratedFiles\Presentation.Api.OData.CountriesController.g.cs">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </AdditionalFiles>
     <AdditionalFiles Include="ExpectedGeneratedFiles\GetCountriesByContinentQueryBase.expected.g.cs">
