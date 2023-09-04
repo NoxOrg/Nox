@@ -1,5 +1,6 @@
 ﻿using System.Text.Json;
 using AutoFixture;
+using Microsoft.VisualStudio.TestPlatform.Utilities;
 using Newtonsoft.Json;
 
 namespace Nox.ClientApi.Tests.Tests
@@ -19,11 +20,10 @@ namespace Nox.ClientApi.Tests.Tests
             using var httpClient = _factory.CreateClient();
 
             var result = await httpClient.GetAsync(requertUrl);
+
             result.EnsureSuccessStatusCode();
 
-            var data = await result.Content.ReadFromJsonAsync<TResult>();
-
-            return data;
+            return JsonConvert.DeserializeObject<TResult>(await result.Content.ReadAsStringAsync());            
         }
 
         protected async Task<HttpResponseMessage> GetAsync(string requertUrl)

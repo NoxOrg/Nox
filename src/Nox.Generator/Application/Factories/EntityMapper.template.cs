@@ -33,8 +33,8 @@ public class {{className}} : EntityMapperBase<{{entity.Name}}>
     {{- if key.Type == "Nuid" || key.Type == "DatabaseNumber" || key.Type == "DatabaseGuid" -}}
     {{ continue; -}}
     {{- end }}        
-    {{ if key.Type == "Entity" -}}
-    noxTypeValue = CreateNoxType<Nox.Types.{{SingleKeyTypeForEntity key.EntityTypeOptions.Entity}}>(entityDefinition, "{{key.Name}}", dto.{{key.Name}});
+    {{ if key.Type == "EntityId" -}}
+    noxTypeValue = CreateNoxType<Nox.Types.{{SingleKeyTypeForEntity key.EntityIdTypeOptions.Entity}}>(entityDefinition, "{{key.Name}}", dto.{{key.Name}});
     {{- else -}}
     noxTypeValue = CreateNoxType<Nox.Types.{{key.Type}}>(entityDefinition, "{{key.Name}}", dto.{{key.Name}});
     {{- end}}        

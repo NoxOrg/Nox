@@ -42,13 +42,14 @@ public class DatabaseServerTests : IClassFixture<GeneratorFixture>
         Assert.Single(allOutputs);
 
         var generatedSources = result.GeneratedSources;
-        Assert.Equal(16, generatedSources.Length);
+        Assert.Equal(17, generatedSources.Length);
         Assert.True(generatedSources.Any(s => s.HintName == "Application.NoxWebApplicationExtensions.g.cs"), "NoxWebApplicationExtensions.g.cs not generated");
         Assert.True(generatedSources.Any(s => s.HintName == "0.Generator.g.cs"), "Generator.g.cs not generated");
 
         var countryFileName = "Domain.Country.g.cs";
         Assert.True(generatedSources.Any(s => s.HintName == countryFileName), $"{countryFileName} not generated");
-        Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/Country.expected.g.cs"), generatedSources.First(s => s.HintName == countryFileName).SourceText.ToString());
+        var generated = generatedSources.First(s => s.HintName == countryFileName).SourceText.ToString();
+        Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/Country.expected.g.cs"), generated);
 
         var dbContextFileName = "Infrastructure.Persistence.SampleWebAppDbContext.g.cs";
         Assert.True(generatedSources.Any(s => s.HintName == dbContextFileName), $"{dbContextFileName} not generated");

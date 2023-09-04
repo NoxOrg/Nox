@@ -1,11 +1,15 @@
 ﻿// Generated
 
 #nullable enable
-
-using Nox.Abstractions;
-using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+
+using Nox.Abstractions;
+using Nox.Domain;
+using Nox.Extensions;
+using Nox.Types;
+
+using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
@@ -14,4 +18,13 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class BankNotesCreateDto : BankNotesUpdateDto
 {
+
+    public BankNotes ToEntity()
+    {
+        var entity = new BankNotes();
+        entity.BankNote = BankNotes.CreateBankNote(BankNote);
+        entity.IsRare = BankNotes.CreateIsRare(IsRare);
+        //entity.Currency = Currency.ToEntity();
+        return entity;
+    }
 }

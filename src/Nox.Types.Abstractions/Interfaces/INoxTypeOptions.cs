@@ -7,9 +7,9 @@ namespace Nox.Types;
 public interface INoxTypeOptions { }
 
 /// <summary>
-/// Defines that the type options defines the underline type (dynamic not fix)
+/// Defines that the type options defines the underlying type where the typeoptions dictate the type
 /// </summary>
-public interface IHaveUnderLineTypeOptions : INoxTypeOptions
+public interface INoxTypeOptionsWithDynamicType : INoxTypeOptions
 {
-    public Type GetUnderlineType();
+    public Type GetUnderlyingType();
 }

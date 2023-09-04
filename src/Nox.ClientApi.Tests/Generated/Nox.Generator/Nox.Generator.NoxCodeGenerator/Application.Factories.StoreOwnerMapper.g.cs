@@ -40,6 +40,11 @@ public class StoreOwnerMapper : EntityMapperBase<StoreOwner>
         {        
             entity.Name = noxTypeValue;
         }
+        noxTypeValue = CreateNoxType<Nox.Types.VatNumber>(entityDefinition, "VatNumber", dto.VatNumber);
+        if (noxTypeValue != null)
+        {        
+            entity.VatNumber = noxTypeValue;
+        }
     
     }
 
@@ -59,6 +64,20 @@ public class StoreOwnerMapper : EntityMapperBase<StoreOwner>
                 else
                 {
                     entity.Name = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("VatNumber", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.VatNumber>(entityDefinition, "VatNumber", value);
+                if(noxTypeValue == null)
+                {
+                    entity.VatNumber = null;
+                }
+                else
+                {
+                    entity.VatNumber = noxTypeValue;
                 }
             }
         }

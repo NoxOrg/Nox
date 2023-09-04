@@ -22,16 +22,13 @@ public record CreateBankNotesCommand(BankNotesCreateDto EntityDto) : IRequest<Ba
 public partial class CreateBankNotesCommandHandler: CommandBase<CreateBankNotesCommand,BankNotes>, IRequestHandler <CreateBankNotesCommand, BankNotesKeyDto>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityFactory<BankNotesCreateDto,BankNotes> EntityFactory { get; }
 
 	public CreateBankNotesCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<BankNotesCreateDto,BankNotes> entityFactory): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory;
 	}
 
 	public async Task<BankNotesKeyDto> Handle(CreateBankNotesCommand request, CancellationToken cancellationToken)
@@ -39,7 +36,7 @@ public partial class CreateBankNotesCommandHandler: CommandBase<CreateBankNotesC
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = request.EntityDto.ToEntity();
 	
 		OnCompleted(entityToCreate);
 		DbContext.BankNotes.Add(entityToCreate);

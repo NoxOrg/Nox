@@ -1,11 +1,15 @@
 ﻿// Generated
 
 #nullable enable
-
-using Nox.Abstractions;
-using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+
+using Nox.Abstractions;
+using Nox.Domain;
+using Nox.Extensions;
+using Nox.Types;
+
+using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
 
@@ -19,4 +23,11 @@ public partial class CountryLocalNameCreateDto : CountryLocalNameUpdateDto
     /// </summary>
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
+
+    public CountryLocalName ToEntity()
+    {
+        var entity = new CountryLocalName();
+        entity.Id = CountryLocalName.CreateId(Id);
+        return entity;
+    }
 }

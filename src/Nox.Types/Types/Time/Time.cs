@@ -77,6 +77,9 @@ public sealed class Time : ValueObject<TimeOnly, Time>
         return newObject;
     }
 
+    public static Time From(System.DateTime dateTime, TimeTypeOptions? timeTypeOptions = null)
+        => From(TimeOnly.FromDateTime(dateTime), timeTypeOptions); 
+
     /// <inheritdoc cref="ValueObject{T,TValueObject}.FromDatabase"/>
     public static Time FromDatabase(System.DateTime value) => From(value.Ticks);
 

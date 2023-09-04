@@ -38,7 +38,7 @@ public partial class VendingMachineOrder : AuditableEntityBase
     /// <summary>
     /// Order status (Optional).
     /// </summary>
-    public string? Status
+    public String? Status
     { 
         get { return DeliveryDateTime != null ? "delivered" : "ordered"; }
         private set { }

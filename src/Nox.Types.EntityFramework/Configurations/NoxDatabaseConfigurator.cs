@@ -184,7 +184,7 @@ namespace Nox.Types.EntityFramework.Configurations
                 var keysPropertyNames = new List<string>(entity.Keys.Count);
                 foreach (var key in entity.Keys)
                 {
-                    if (key.Type == NoxType.Entity) //its key and foreign key
+                    if (key.Type == NoxType.EntityId) //its key and foreign key
                     {
                         Console.WriteLine($"    Setup Key {key.Name} as Foreign Key for Entity {entity.Name}");
 
@@ -215,18 +215,18 @@ namespace Nox.Types.EntityFramework.Configurations
             NoxSimpleTypeDefinition key)
         {
             // Key type of the Foreign Entity Key
-            var foreignEntityKeyType = codeGeneratorState.Solution.GetSingleKeyTypeForEntity(key.EntityTypeOptions!.Entity);
+            var foreignEntityKeyType = codeGeneratorState.Solution.GetSingleKeyTypeForEntity(key.EntityIdTypeOptions!.Entity);
 
             builder
-                .HasOne(key.EntityTypeOptions!.Entity)
-                .WithOne()
-                .HasForeignKey(entity.Name, key.Name);
+            .HasOne(key.EntityIdTypeOptions!.Entity)
+            .WithOne()
+            .HasForeignKey(entity.Name, key.Name);
 
             //Configure foreign key property
             if (TypesDatabaseConfigurations.TryGetValue(foreignEntityKeyType,
                 out var databaseConfigurationForForeignKey))
             {
-                var foreignEntityKeyDefinition = codeGeneratorState.Solution.Domain!.GetEntityByName(key.EntityTypeOptions!.Entity).Keys![0].ShallowCopy();
+                var foreignEntityKeyDefinition = codeGeneratorState.Solution.Domain!.GetEntityByName(key.EntityIdTypeOptions!.Entity).Keys![0].ShallowCopy();
                 foreignEntityKeyDefinition.Name = key.Name;
                 foreignEntityKeyDefinition.Description = "-";
                 foreignEntityKeyDefinition.IsRequired = false;

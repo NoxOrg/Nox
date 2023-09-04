@@ -21,9 +21,14 @@ public partial class StoreOwner : AuditableEntityBase
     public Text Id { get; set; } = null!;
 
     /// <summary>
-    /// Store Name (Required).
+    /// Owner Name (Required).
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
+
+    /// <summary>
+    /// Vat Number (Optional).
+    /// </summary>
+    public Nox.Types.VatNumber? VatNumber { get; set; } = null!;
 
     /// <summary>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores

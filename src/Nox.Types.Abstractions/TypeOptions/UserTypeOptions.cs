@@ -2,14 +2,14 @@
 
 public class UserTypeOptions
 {
-    public int MinLength { get; internal set; } = 0;
+    public int MinLength { get; set; } = 0;
 
-    public int MaxLength { get; internal set; } = 511;
+    public int MaxLength { get; set; } = 511;
 
-    public bool ValidEmailFormat { get; internal set; } = true;
+    public bool ValidEmailFormat { get; set; } = true;
 
-    public bool ValidGuidFormat { get; internal set;} = true;
+    public bool ValidGuidFormat { get; set;} = true;
 
-    public bool IsCaseSensitive { get; internal set; } = true;
+    public bool IsCaseSensitive { get; set; } = true;
 
 }

@@ -44,6 +44,12 @@ public sealed class Image : ValueObject<(string Url, string PrettyName, int Size
         private set => Value = (Value.Url, Value.PrettyName, value);
     }
 
+    public static Image From(IImage image)
+        => From(image.Url, image.PrettyName, image.SizeInBytes);
+
+    public static Image From(IImage image, ImageTypeOptions options)
+        => From(image.Url, image.PrettyName, image.SizeInBytes, options);
+
     /// <summary>
     /// Creates an instance of the <see cref="Image"/> class with default options from the specified URL, pretty name, and size.
     /// </summary>
