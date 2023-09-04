@@ -6,39 +6,39 @@
 
 entities:
 
-  - $ref: ./entities/booking.entities.nox.yaml
+  - $ref: ./entities/Booking.entity.nox.yaml
   
-  - $ref: ./entities/commission.entities.nox.yaml
+  - $ref: ./entities/Commission.entity.nox.yaml
   
-  - $ref: ./entities/country.entities.nox.yaml
+  - $ref: ./entities/Country.entity.nox.yaml
   
-  - $ref: ./entities/countryholidays.entities.nox.yaml
+  - $ref: ./entities/Holiday.entity.nox.yaml
   
-  - $ref: ./entities/countrytimezones.entities.nox.yaml
+  - $ref: ./entities/TimeZone.entity.nox.yaml
   
-  - $ref: ./entities/currency.entities.nox.yaml
+  - $ref: ./entities/Currency.entity.nox.yaml
   
-  - $ref: ./entities/banknotes.entities.nox.yaml
+  - $ref: ./entities/BankNote.entity.nox.yaml
   
-  - $ref: ./entities/customer.entities.nox.yaml
+  - $ref: ./entities/Customer.entity.nox.yaml
   
-  - $ref: ./entities/customerpaymentdetails.entities.nox.yaml
+  - $ref: ./entities/PaymentDetail.entity.nox.yaml
   
-  - $ref: ./entities/customertransaction.entities.nox.yaml
+  - $ref: ./entities/Transaction.entity.nox.yaml
   
-  - $ref: ./entities/employee.entities.nox.yaml
+  - $ref: ./entities/Employee.entity.nox.yaml
   
-  - $ref: ./entities/employeephonenumber.entities.nox.yaml
+  - $ref: ./entities/EmployeePhoneNumber.entity.nox.yaml
   
-  - $ref: ./entities/exchangerate.entities.nox.yaml
+  - $ref: ./entities/ExchangeRate.entity.nox.yaml
 
-  - $ref: ./entities/landlord.entities.nox.yaml
+  - $ref: ./entities/Landlord.entity.nox.yaml
   
-  - $ref: ./entities/minimumcashstock.entities.nox.yaml
+  - $ref: ./entities/MinimumCashStock.entity.nox.yaml
   
-  - $ref: ./entities/paymentprovider.entities.nox.yaml
+  - $ref: ./entities/PaymentProvider.entity.nox.yaml
   
-  - $ref: ./entities/vendingmachine.entities.nox.yaml
+  - $ref: ./entities/VendingMachine.entity.nox.yaml
   
-  - $ref: ./entities/vendingmachineorder.entities.nox.yaml
+  - $ref: ./entities/CashStockOrder.entity.nox.yaml
 

@@ -15,65 +15,65 @@ erDiagram
     }
     Commission {
     }
-    Commission||..o{Booking : "Booking's fee"
+    Commission||..o{Booking : "fees for"
     Country {
     }
-    Country|o..|{Commission : "Commission rates country"
-    Country||--|{CountryTimeZones : "Country's time zones"
-    CountryHoliday {
+    Country|o..|{Commission : "used by"
+    Country||--|{TimeZone : "owned"
+    Country||--o{Holiday : "owned"
+    Holiday {
     }
-    CountryHoliday}o..||Country : "Country's holidays"
-    CountryTimeZones {
+    TimeZone {
     }
     Currency {
     }
-    Currency||..|{BankNotes : "Currency's bank notes"
-    Currency||..|{Country : "Country's currency"
-    BankNotes {
+    Currency||..|{Country : "used by"
+    Currency||--o{BankNote : "commonly used"
+    Currency||--|{ExchangeRate : "exchanged from"
+    BankNote {
     }
     Customer {
     }
-    Customer||..o{Booking : "Customer's booking"
-    Customer}o..||Country : "Customer's country"
-    CustomerPaymentDetails {
+    Customer||..o{Booking : "related to"
+    Customer}o..||Country : "based in"
+    PaymentDetail {
     }
-    CustomerPaymentDetails}o..||Customer : "Customer's payment account"
-    CustomerTransaction {
+    PaymentDetail}o..||Customer : "used by"
+    Transaction {
     }
-    CustomerTransaction}o..||Customer : "Transaction's customer"
-    CustomerTransaction||..||Booking : "Transaction's booking"
+    Transaction}o..||Customer : "for"
+    Transaction||..||Booking : "for"
     Employee {
     }
-    Employee||--o{EmployeePhoneNumber : "Employee's phone numbers"
+    Employee||..||CashStockOrder : "reviewing"
+    Employee||--o{EmployeePhoneNumber : "contacted by"
     EmployeePhoneNumber {
     }
     ExchangeRate {
     }
-    ExchangeRate}|..||Currency : "Exchange rate relative to CHF (Swiss Franc)"
     LandLord {
     }
     MinimumCashStock {
     }
-    MinimumCashStock}o..||Currency : "Cash stock's currency"
+    MinimumCashStock}o..||Currency : "related to"
     PaymentProvider {
     }
-    PaymentProvider||..||CustomerPaymentDetails : "Payment provider"
+    PaymentProvider||..o{PaymentDetail : "related to"
     VendingMachine {
     }
-    VendingMachine}o..||Country : "Vending machine's country"
-    VendingMachine}o..||LandLord : "Area of the vending machine installation landlord"
-    VendingMachine||..o{Booking : "Booking's vending machine"
-    VendingMachine||..o{MinimumCashStock : "Vending machine's minimum cash stock"
-    VendingMachineOrder {
+    VendingMachine}o..||Country : "installed in"
+    VendingMachine}o..||LandLord : "contracted area leased by"
+    VendingMachine||..o{Booking : "related to"
+    VendingMachine||..o{CashStockOrder : "related to"
+    VendingMachine}o..o{MinimumCashStock : "required"
+    CashStockOrder {
     }
-    VendingMachineOrder}o..||VendingMachine : "Vending machine's orders"
-    VendingMachineOrder||..||Employee : "Reviewed by employee"
 
 ```
 
 ## Definitions for Domain Entities
 
-### BankNotes
+### BankNote (Owned by Currency)
 
 Currencies related frequent and rare bank notes
 
@@ -82,16 +82,10 @@ Currencies related frequent and rare bank notes
 Member|Type|Decription|Info
 ---------|----|----------|-------
 Id|DatabaseNumber|Currency bank note unique identifier|Required, Primary Key
-BankNote|Text|Currency's bank note identifier|Required, MinLength: 4, MaxLength: 63
-IsRare|Boolean|Is bank note rare or frequent|Required
-CurrencyId|CurrencyCode3|Currency unique identifier|Required, Foreign Key
+CashNote|Text|Currency's cash bank note identifier|Required, MinLength: 4, MaxLength: 63
+Value|Money|Bank note value|Required
 
 
-#### <u>Relationships</u>
-
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-Currency's bank notes|ExactlyOne|Currency|Currency|Yes
 
 
 ### Booking
@@ -120,10 +114,34 @@ CommissionId|DatabaseNumber|Commission unique identifier|Required, Foreign Key
 
 Description|Cardinality|Related Entity|Name|Can Navigate?
 -----------|-----------|--------------|----|-------------
-Booking's customer|ExactlyOne|Customer|Customer|Yes
-Booking's vending machine|ExactlyOne|VendingMachine|VendingMachine|Yes
-Booking's fee|ExactlyOne|Commission|Fee|Yes
-Transaction's booking|ExactlyOne|CustomerTransaction|CustomerTransaction|Yes
+for|ExactlyOne|Customer|BookingForCustomer|Yes
+related to|ExactlyOne|VendingMachine|BookingRelatedVendingMachine|Yes
+fees for|ExactlyOne|Commission|BookingFeesForCommission|Yes
+related to|ExactlyOne|Transaction|BookingRelatedTransaction|Yes
+
+
+### CashStockOrder
+
+Vending machine cash stock order and related data
+
+#### <u>Members (Keys, Attributes & Relationships)</u>
+
+Member|Type|Decription|Info
+---------|----|----------|-------
+Id|DatabaseNumber|Vending machine's order unique identifier|Required, Primary Key
+Amount|Money|Order amount|Required
+RequestedDeliveryDate|Date|Order requested delivery date|Required
+DeliveryDateTime|DateTime|Order delivery date|
+Status|Formula|Order status|
+VendingMachineId|DatabaseGuid|Vending machine unique identifier|Required, Foreign Key
+
+
+#### <u>Relationships</u>
+
+Description|Cardinality|Related Entity|Name|Can Navigate?
+-----------|-----------|--------------|----|-------------
+for|ExactlyOne|VendingMachine|CashStockOrderForVendingMachine|Yes
+reviewed by|ExactlyOne|Employee|CashStockOrderReviewedByEmployee|Yes
 
 
 ### Commission
@@ -144,8 +162,8 @@ CountryId|CountryCode2|Country unique identifier|Required, Foreign Key
 
 Description|Cardinality|Related Entity|Name|Can Navigate?
 -----------|-----------|--------------|----|-------------
-Commission's country|ZeroOrOne|Country|Country|Yes
-Booking's fee|ZeroOrMany|Booking|Booking|Yes
+fees for|ZeroOrOne|Country|CommissionFeesForCountry|Yes
+fees for|ZeroOrMany|Booking|CommissionFeesForBooking|Yes
 
 
 ### Country
@@ -170,7 +188,8 @@ CoatOfArmsPng|Image|Country's coat of arms in png format|
 GoogleMapsUrl|Url|Country's map via google maps|
 OpenStreetMapsUrl|Url|Country's map via open street maps|
 StartOfWeek|DayOfWeek|Country's start of week day|Required
-CountryTimeZonesId|DatabaseNumber|Country's time zone unique identifier|Required, Owned Entity
+TimeZoneId|DatabaseNumber|Country's time zone unique identifier|Required, Owned Entity
+HolidayId|DatabaseNumber|Country's holiday unique identifier|Required, Owned Entity
 CurrencyId|CurrencyCode3|Currency unique identifier|Required, Foreign Key
 
 
@@ -178,47 +197,10 @@ CurrencyId|CurrencyCode3|Currency unique identifier|Required, Foreign Key
 
 Description|Cardinality|Related Entity|Name|Can Navigate?
 -----------|-----------|--------------|----|-------------
-Country's primary currency for legal tender|ExactlyOne|Currency|Currency|Yes
-Commission rates country|OneOrMany|Commission|Commission|Yes
-Vending machine's country|ZeroOrMany|VendingMachine|VendingMachine|Yes
-Country's bank and public holidays|ZeroOrMany|CountryHoliday|CountryHolidays|Yes
-Customer's country|ZeroOrMany|Customer|Customer|Yes
-
-
-### CountryHoliday
-
-Holidays related to country
-
-#### <u>Members (Keys, Attributes & Relationships)</u>
-
-Member|Type|Decription|Info
----------|----|----------|-------
-Id|DatabaseNumber|Country's holiday unique identifier|Required, Primary Key
-Name|Text|Country holiday name|Required, MinLength: 4, MaxLength: 63
-Type|Text|Country holiday type|Required, MinLength: 4, MaxLength: 63
-Date|Date|Country holiday date|Required
-CountryId|CountryCode2|Country unique identifier|Required, Foreign Key
-
-
-#### <u>Relationships</u>
-
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-Country's holidays|ExactlyOne|Country|Country|Yes
-
-
-### CountryTimeZones (Owned by Country)
-
-Time zones related to country
-
-#### <u>Members (Keys, Attributes & Relationships)</u>
-
-Member|Type|Decription|Info
----------|----|----------|-------
-Id|DatabaseNumber|Country's time zone unique identifier|Required, Primary Key
-TimeZoneCode|TimeZoneCode|Country's related time zone code|Required
-
-
+used by|ExactlyOne|Currency|CountryUsedByCurrency|Yes
+used by|OneOrMany|Commission|CountryUsedByCommissions|Yes
+used by|ZeroOrMany|VendingMachine|CountryUsedByVendingMachines|Yes
+used by|ZeroOrMany|Customer|CountryUsedByCustomers|Yes
 
 
 ### Currency
@@ -242,16 +224,16 @@ MajorSymbol|Text|Currency's major display symbol|Required, MinLength: 4, MaxLeng
 MinorName|Text|Currency's minor name|Required, MinLength: 4, MaxLength: 63
 MinorSymbol|Text|Currency's minor display symbol|Required, MinLength: 4, MaxLength: 63
 MinorToMajorValue|Money|Currency's minor value when converted to major|Required
+BankNoteId|DatabaseNumber|Currency bank note unique identifier|Required, Owned Entity
+ExchangeRateId|DatabaseNumber|Exchange rate unique identifier|Required, Owned Entity
 
 
 #### <u>Relationships</u>
 
 Description|Cardinality|Related Entity|Name|Can Navigate?
 -----------|-----------|--------------|----|-------------
-Currency's bank notes|OneOrMany|BankNotes|BankNotes|Yes
-Country's currency|OneOrMany|Country|Country|Yes
-Cash stock currency|ZeroOrMany|MinimumCashStock|MinimumCashStock|Yes
-Exchanged from currency|OneOrMany|ExchangeRate|ExchangeRateFrom|Yes
+used by|OneOrMany|Country|CurrencyUsedByCountry|Yes
+used by|ZeroOrMany|MinimumCashStock|CurrencyUsedByMinimumCashStocks|Yes
 
 
 ### Customer
@@ -275,57 +257,10 @@ CountryId|CountryCode2|Country unique identifier|Required, Foreign Key
 
 Description|Cardinality|Related Entity|Name|Can Navigate?
 -----------|-----------|--------------|----|-------------
-Customer's payment details|ZeroOrMany|CustomerPaymentDetails|CustomerPaymentDetails|Yes
-Customer's booking|ZeroOrMany|Booking|Booking|Yes
-Customer's transaction|ZeroOrMany|CustomerTransaction|CustomerTransaction|Yes
-Customer's country|ExactlyOne|Country|Country|Yes
-
-
-### CustomerPaymentDetails
-
-Customer payment account related data
-
-#### <u>Members (Keys, Attributes & Relationships)</u>
-
-Member|Type|Decription|Info
----------|----|----------|-------
-Id|DatabaseNumber|Customer payment account unique identifier|Required, Primary Key
-PaymentAccountName|Text|Payment account name|Required, MinLength: 4, MaxLength: 63
-PaymentAccountNumber|Text|Payment account reference number|Required, MinLength: 4, MaxLength: 63
-PaymentAccountSortCode|Text|Payment account sort code|MinLength: 4, MaxLength: 63
-CustomerId|DatabaseNumber|Customer's unique identifier|Required, Foreign Key
-
-
-#### <u>Relationships</u>
-
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-Customer's payment account|ExactlyOne|Customer|Customer|Yes
-Payment provider|ExactlyOne|PaymentProvider|PaymentProvider|Yes
-
-
-### CustomerTransaction
-
-Customer transaction log and related data
-
-#### <u>Members (Keys, Attributes & Relationships)</u>
-
-Member|Type|Decription|Info
----------|----|----------|-------
-Id|DatabaseNumber|Customer transaction unique identifier|Required, Primary Key
-TransactionType|Text|Transaction type|Required, MinLength: 4, MaxLength: 63
-ProcessedOnDateTime|DateTime|Transaction processed datetime|Required
-Amount|Money|Transaction amount|Required
-Reference|Text|Transaction external reference|Required, MinLength: 4, MaxLength: 63
-CustomerId|DatabaseNumber|Customer's unique identifier|Required, Foreign Key
-
-
-#### <u>Relationships</u>
-
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-Transaction's customer|ExactlyOne|Customer|Customer|Yes
-Transaction's booking|ExactlyOne|Booking|Booking|Yes
+related to|ZeroOrMany|PaymentDetail|CustomerRelatedPaymentDetails|Yes
+related to|ZeroOrMany|Booking|CustomerRelatedBookings|Yes
+related to|ZeroOrMany|Transaction|CustomerRelatedTransactions|Yes
+based in|ExactlyOne|Country|CustomerBaseCountry|Yes
 
 
 ### Employee
@@ -350,12 +285,12 @@ EmployeePhoneNumberId|DatabaseNumber|Employee's phone number identifier|Required
 
 Description|Cardinality|Related Entity|Name|Can Navigate?
 -----------|-----------|--------------|----|-------------
-Reviewed by employee|ExactlyOne|VendingMachineOrder|VendingMachineOrder|Yes
+reviewing|ExactlyOne|CashStockOrder|EmployeeReviewingCashStockOrder|Yes
 
 
 ### EmployeePhoneNumber (Owned by Employee)
 
-Employee phone numbers and related data
+Employee phone number and related data
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -368,7 +303,7 @@ PhoneNumber|PhoneNumber|Employee's phone number|Required
 
 
 
-### ExchangeRate
+### ExchangeRate (Owned by Currency)
 
 Exchange rate and related data
 
@@ -379,14 +314,24 @@ Member|Type|Decription|Info
 Id|DatabaseNumber|Exchange rate unique identifier|Required, Primary Key
 EffectiveRate|Number|Exchange rate conversion amount|Required
 EffectiveAt|DateTime|Exchange rate conversion amount|Required
-CurrencyId|CurrencyCode3|Currency unique identifier|Required, Foreign Key
 
 
-#### <u>Relationships</u>
 
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-Exchange rate relative to CHF (Swiss Franc)|ExactlyOne|Currency|CurrencyFrom|Yes
+
+### Holiday (Owned by Country)
+
+Holiday related to country
+
+#### <u>Members (Keys, Attributes & Relationships)</u>
+
+Member|Type|Decription|Info
+---------|----|----------|-------
+Id|DatabaseNumber|Country's holiday unique identifier|Required, Primary Key
+Name|Text|Country holiday name|Required, MinLength: 4, MaxLength: 63
+Type|Text|Country holiday type|Required, MinLength: 4, MaxLength: 63
+Date|Date|Country holiday date|Required
+
+
 
 
 ### LandLord
@@ -406,7 +351,7 @@ Address|StreetAddress|Landlord's street address|Required
 
 Description|Cardinality|Related Entity|Name|Can Navigate?
 -----------|-----------|--------------|----|-------------
-Landlord's area of the vending machine installation|ZeroOrMany|VendingMachine|VendingMachine|Yes
+leases an area to house|ZeroOrMany|VendingMachine|ContractedAreasForVendingMachines|Yes
 
 
 ### MinimumCashStock
@@ -427,8 +372,32 @@ CurrencyId|CurrencyCode3|Currency unique identifier|Required, Foreign Key
 
 Description|Cardinality|Related Entity|Name|Can Navigate?
 -----------|-----------|--------------|----|-------------
-Vending machine's minimum cash stock|ExactlyOne|VendingMachine|VendingMachine|Yes
-Cash stock's currency|ExactlyOne|Currency|Currency|Yes
+required by|ZeroOrMany|VendingMachine|MinimumCashStocksRequiredByVendingMachines|Yes
+related to|ExactlyOne|Currency|MinimumCashStockRelatedCurrency|Yes
+
+
+### PaymentDetail
+
+Customer payment account related data
+
+#### <u>Members (Keys, Attributes & Relationships)</u>
+
+Member|Type|Decription|Info
+---------|----|----------|-------
+Id|DatabaseNumber|Customer payment account unique identifier|Required, Primary Key
+PaymentAccountName|Text|Payment account name|Required, MinLength: 4, MaxLength: 63
+PaymentAccountNumber|Text|Payment account reference number|Required, MinLength: 4, MaxLength: 63
+PaymentAccountSortCode|Text|Payment account sort code|MinLength: 4, MaxLength: 63
+CustomerId|DatabaseNumber|Customer's unique identifier|Required, Foreign Key
+PaymentProviderId|DatabaseNumber|Payment provider unique identifier|Required, Foreign Key
+
+
+#### <u>Relationships</u>
+
+Description|Cardinality|Related Entity|Name|Can Navigate?
+-----------|-----------|--------------|----|-------------
+used by|ExactlyOne|Customer|PaymentDetailsUsedByCustomer|Yes
+related to|ExactlyOne|PaymentProvider|PaymentDetailsRelatedPaymentProvider|Yes
 
 
 ### PaymentProvider
@@ -448,7 +417,45 @@ PaymentProviderType|Text|Payment provider account type|Required, MinLength: 4, M
 
 Description|Cardinality|Related Entity|Name|Can Navigate?
 -----------|-----------|--------------|----|-------------
-Payment provider|ExactlyOne|CustomerPaymentDetails|CustomerPaymentDetails|Yes
+related to|ZeroOrMany|PaymentDetail|PaymentProviderRelatedPaymentDetails|Yes
+
+
+### TimeZone (Owned by Country)
+
+Time zone related to country
+
+#### <u>Members (Keys, Attributes & Relationships)</u>
+
+Member|Type|Decription|Info
+---------|----|----------|-------
+Id|DatabaseNumber|Country's time zone unique identifier|Required, Primary Key
+TimeZoneCode|TimeZoneCode|Country's related time zone code|Required
+
+
+
+
+### Transaction
+
+Customer transaction log and related data
+
+#### <u>Members (Keys, Attributes & Relationships)</u>
+
+Member|Type|Decription|Info
+---------|----|----------|-------
+Id|DatabaseNumber|Customer transaction unique identifier|Required, Primary Key
+TransactionType|Text|Transaction type|Required, MinLength: 4, MaxLength: 63
+ProcessedOnDateTime|DateTime|Transaction processed datetime|Required
+Amount|Money|Transaction amount|Required
+Reference|Text|Transaction external reference|Required, MinLength: 4, MaxLength: 63
+CustomerId|DatabaseNumber|Customer's unique identifier|Required, Foreign Key
+
+
+#### <u>Relationships</u>
+
+Description|Cardinality|Related Entity|Name|Can Navigate?
+-----------|-----------|--------------|----|-------------
+for|ExactlyOne|Customer|TransactionForCustomer|Yes
+for|ExactlyOne|Booking|TransactionForBooking|Yes
 
 
 ### VendingMachine
@@ -469,41 +476,18 @@ InstallationFootPrint|Area|Vending machine installation area|
 RentPerSquareMetre|Money|Landlord rent amount based on area of the vending machine installation|
 CountryId|CountryCode2|Country unique identifier|Required, Foreign Key
 LandLordId|DatabaseNumber|Landlord unique identifier|Required, Foreign Key
+MinimumCashStockId|DatabaseNumber|Vending machine cash stock unique identifier|Required, Foreign Key
 
 
 #### <u>Relationships</u>
 
 Description|Cardinality|Related Entity|Name|Can Navigate?
 -----------|-----------|--------------|----|-------------
-Vending machine's country|ExactlyOne|Country|Country|Yes
-Area of the vending machine installation landlord|ExactlyOne|LandLord|LandLord|Yes
-Booking's vending machine|ZeroOrMany|Booking|Booking|Yes
-Order's vending machine|ZeroOrMany|VendingMachineOrder|VendingMachineOrder|Yes
-Vending machine's minimum cash stock|ZeroOrMany|MinimumCashStock|MinimumCashStock|Yes
-
-
-### VendingMachineOrder
-
-Vending machine currency order and related data
-
-#### <u>Members (Keys, Attributes & Relationships)</u>
-
-Member|Type|Decription|Info
----------|----|----------|-------
-Id|DatabaseNumber|Vending machine's order unique identifier|Required, Primary Key
-Amount|Money|Order amount|Required
-RequestedDeliveryDate|Date|Order requested delivery date|Required
-DeliveryDateTime|DateTime|Order delivery date|
-Status|Formula|Order status|
-VendingMachineId|DatabaseGuid|Vending machine unique identifier|Required, Foreign Key
-
-
-#### <u>Relationships</u>
-
-Description|Cardinality|Related Entity|Name|Can Navigate?
------------|-----------|--------------|----|-------------
-Vending machine's orders|ExactlyOne|VendingMachine|VendingMachine|Yes
-Reviewed by employee|ExactlyOne|Employee|Employee|Yes
+installed in|ExactlyOne|Country|VendingMachineInstallationCountry|Yes
+contracted area leased by|ExactlyOne|LandLord|VendingMachineContractedAreaLandLord|Yes
+related to|ZeroOrMany|Booking|VendingMachineRelatedBookings|Yes
+related to|ZeroOrMany|CashStockOrder|VendingMachineRelatedCashStockOrders|Yes
+required|ZeroOrMany|MinimumCashStock|VendingMachineRequiredMinimumCashStocks|Yes
 
 
 
