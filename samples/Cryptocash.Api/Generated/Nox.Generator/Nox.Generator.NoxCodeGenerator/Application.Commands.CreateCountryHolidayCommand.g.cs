@@ -14,6 +14,7 @@ using Nox.Solution;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using CountryHoliday = Cryptocash.Domain.CountryHoliday;
 
 namespace Cryptocash.Application.Commands;
 public record CreateCountryHolidayCommand(CountryHolidayCreateDto EntityDto) : IRequest<CountryHolidayKeyDto>;

@@ -14,6 +14,7 @@ using Nox.Solution;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Currency = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Commands;
 public record CreateCurrencyCommand(CurrencyCreateDto EntityDto) : IRequest<CurrencyKeyDto>;

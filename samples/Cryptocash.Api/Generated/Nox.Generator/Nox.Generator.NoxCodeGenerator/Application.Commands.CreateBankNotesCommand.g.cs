@@ -14,6 +14,7 @@ using Nox.Solution;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using BankNotes = Cryptocash.Domain.BankNotes;
 
 namespace Cryptocash.Application.Commands;
 public record CreateBankNotesCommand(BankNotesCreateDto EntityDto) : IRequest<BankNotesKeyDto>;

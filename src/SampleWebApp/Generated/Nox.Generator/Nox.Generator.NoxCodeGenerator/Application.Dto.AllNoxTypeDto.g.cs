@@ -250,6 +250,11 @@ public partial class AllNoxTypeDto
     public ImageDto ImageField { get; set; } = default!;
 
     /// <summary>
+    /// LatLongField Nox Type (Required).
+    /// </summary>
+    public LatLongDto LatLongField { get; set; } = default!;
+
+    /// <summary>
     /// Money Nox Type (Required).
     /// </summary>
     public MoneyDto MoneyField { get; set; } = default!;
@@ -318,6 +323,7 @@ public partial class AllNoxTypeDto
         entity.YearField = AllNoxType.CreateYearField(YearField);
         entity.FileField = AllNoxType.CreateFileField(FileField);
         entity.ImageField = AllNoxType.CreateImageField(ImageField);
+        entity.LatLongField = AllNoxType.CreateLatLongField(LatLongField);
         entity.MoneyField = AllNoxType.CreateMoneyField(MoneyField);
         entity.StreetAddressField = AllNoxType.CreateStreetAddressField(StreetAddressField);
         entity.TranslatedTextField = AllNoxType.CreateTranslatedTextField(TranslatedTextField);

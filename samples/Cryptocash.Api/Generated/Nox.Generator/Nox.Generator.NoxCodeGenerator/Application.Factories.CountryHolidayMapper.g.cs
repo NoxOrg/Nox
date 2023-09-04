@@ -16,6 +16,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
+using CountryHoliday = Cryptocash.Domain.CountryHoliday;
 
 namespace Cryptocash.Application;
 

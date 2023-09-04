@@ -90,19 +90,14 @@ public partial class CountryDto
     public System.UInt16 StartOfWeek { get; set; } = default!;
 
     /// <summary>
-    /// Country Country's currency ExactlyOne Currencies
+    /// Country Country's primary currency for legal tender ExactlyOne Currencies
     /// </summary>
     //EF maps ForeignKey Automatically
     public System.String CurrencyId { get; set; } = default!;
     public virtual CurrencyDto Currency { get; set; } = null!;
 
     /// <summary>
-    /// Country Country's time zones OneOrMany CountryTimeZones
-    /// </summary>
-    public virtual List<CountryTimeZonesDto> CountryTimeZones { get; set; } = new();
-
-    /// <summary>
-    /// Country Commission's country OneOrMany Commissions
+    /// Country Commission rates country OneOrMany Commissions
     /// </summary>
     public virtual List<CommissionDto> Commissions { get; set; } = new();
 
@@ -112,7 +107,7 @@ public partial class CountryDto
     public virtual List<VendingMachineDto> VendingMachines { get; set; } = new();
 
     /// <summary>
-    /// Country Country's holidays ZeroOrMany CountryHolidays
+    /// Country Country's bank and public holidays ZeroOrMany CountryHolidays
     /// </summary>
     public virtual List<CountryHolidayDto> CountryHolidays { get; set; } = new();
 
@@ -120,6 +115,11 @@ public partial class CountryDto
     /// Country Customer's country ZeroOrMany Customers
     /// </summary>
     public virtual List<CustomerDto> Customers { get; set; } = new();
+
+    /// <summary>
+    /// Country Country's time zones OneOrMany CountryTimeZones
+    /// </summary>
+    public virtual List<CountryTimeZonesDto> CountryTimeZones { get; set; } = new();
     public System.DateTime? DeletedAtUtc { get; set; }
 
     public Country ToEntity()
@@ -140,11 +140,11 @@ public partial class CountryDto
         if (OpenStreetMapsUrl is not null)entity.OpenStreetMapsUrl = Country.CreateOpenStreetMapsUrl(OpenStreetMapsUrl.NonNullValue<System.String>());
         entity.StartOfWeek = Country.CreateStartOfWeek(StartOfWeek);
         entity.Currency = Currency.ToEntity();
-        entity.CountryTimeZones = CountryTimeZones.Select(dto => dto.ToEntity()).ToList();
         entity.Commissions = Commissions.Select(dto => dto.ToEntity()).ToList();
         entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
         entity.CountryHolidays = CountryHolidays.Select(dto => dto.ToEntity()).ToList();
         entity.Customers = Customers.Select(dto => dto.ToEntity()).ToList();
+        entity.CountryTimeZones = CountryTimeZones.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }
 

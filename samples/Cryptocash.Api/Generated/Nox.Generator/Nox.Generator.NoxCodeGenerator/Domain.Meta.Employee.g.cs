@@ -88,11 +88,4 @@ public partial class Employee
         => Nox.Types.DatabaseNumber.From(value);
     
 
-    /// <summary>
-    /// Type options and factory for property 'VendingMachineOrderId'
-    /// </summary>
-    public static Nox.Types.DatabaseNumber CreateVendingMachineOrderId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
-    
-
 }

@@ -42,11 +42,4 @@ public partial class Commission
         => Nox.Types.CountryCode2.From(value);
     
 
-    /// <summary>
-    /// Type options and factory for property 'BookingId'
-    /// </summary>
-    public static Nox.Types.DatabaseGuid CreateBookingId(System.Guid value)
-        => Nox.Types.DatabaseGuid.From(value);
-    
-
 }

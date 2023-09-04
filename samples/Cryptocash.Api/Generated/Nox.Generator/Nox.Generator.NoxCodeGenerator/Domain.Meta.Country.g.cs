@@ -140,13 +140,6 @@ public partial class Country
     
 
     /// <summary>
-    /// Type options and factory for property 'CurrencyId'
-    /// </summary>
-    public static Nox.Types.CurrencyCode3 CreateCurrencyId(System.String value)
-        => Nox.Types.CurrencyCode3.From(value);
-    
-
-    /// <summary>
     /// Type options and factory for property 'CountryTimeZonesId'
     /// </summary>
     public static Nox.Types.DatabaseNumber CreateCountryTimeZonesId(System.Int64 value)
@@ -154,31 +147,10 @@ public partial class Country
     
 
     /// <summary>
-    /// Type options and factory for property 'CommissionId'
+    /// Type options and factory for property 'CurrencyId'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreateCommissionId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
-    
-
-    /// <summary>
-    /// Type options and factory for property 'VendingMachineId'
-    /// </summary>
-    public static Nox.Types.DatabaseGuid CreateVendingMachineId(System.Guid value)
-        => Nox.Types.DatabaseGuid.From(value);
-    
-
-    /// <summary>
-    /// Type options and factory for property 'CountryHolidayId'
-    /// </summary>
-    public static Nox.Types.DatabaseNumber CreateCountryHolidayId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
-    
-
-    /// <summary>
-    /// Type options and factory for property 'CustomerId'
-    /// </summary>
-    public static Nox.Types.DatabaseNumber CreateCustomerId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
+    public static Nox.Types.CurrencyCode3 CreateCurrencyId(System.String value)
+        => Nox.Types.CurrencyCode3.From(value);
     
 
 }

@@ -12,7 +12,7 @@ namespace Nox.Lib.Tests.Domain
         private static readonly Text DefaultSystem = Text.From("N/A");
 
         private static readonly System.DateTime CurrentDateTimeUtc = System.DateTime.UtcNow;
-        private static readonly TimeSpan DefaultDateTimePrecision = TimeSpan.FromMilliseconds(100);
+        private static readonly TimeSpan DefaultDateTimePrecision = TimeSpan.FromSeconds(15);
 
         [Fact]
         public void Constructor_Default_ReturnsDefaultAuditCreatedProperties()

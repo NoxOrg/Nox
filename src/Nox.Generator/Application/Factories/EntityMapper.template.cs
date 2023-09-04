@@ -16,6 +16,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 using {{codeGeneratorState.DomainNameSpace}};
+using {{entity.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}};
 

@@ -190,18 +190,13 @@ attributes:
 
 relationships:
 
-  - name: Currencies
-    description: Country's currency
+  - name: Currency
+    description: Country's primary currency for legal tender
     relationship: exactlyOne
     entity: Currency
 
-  - name: TimeZones
-    description: Country's time zones
-    relationship: oneOrMany
-    entity: CountryTimeZones
-
   - name: Commission
-    description: Commission's country
+    description: Commission rates country
     relationship: oneOrMany
     entity: Commission
 
@@ -211,7 +206,7 @@ relationships:
     entity: VendingMachine
 
   - name: CountryHolidays
-    description: Country's holidays
+    description: Country's bank and public holidays
     relationship: zeroOrMany
     entity: CountryHoliday
 
@@ -219,6 +214,13 @@ relationships:
     description: Customer's country 
     relationship: zeroOrMany
     entity: Customer 
+
+ownedRelationships:
+
+  - name: TimeZones
+    description: Country's time zones
+    relationship: oneOrMany
+    entity: CountryTimeZones
 
 persistence:
     isAudited: true    

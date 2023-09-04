@@ -44,11 +44,4 @@ public partial class LandLord
         => Nox.Types.StreetAddress.From(value);
     
 
-    /// <summary>
-    /// Type options and factory for property 'VendingMachineId'
-    /// </summary>
-    public static Nox.Types.DatabaseGuid CreateVendingMachineId(System.Guid value)
-        => Nox.Types.DatabaseGuid.From(value);
-    
-
 }

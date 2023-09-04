@@ -274,6 +274,12 @@ public partial class AllNoxTypeUpdateDto
     
     public ImageDto ImageField { get; set; } = default!;
     /// <summary>
+    /// LatLongField Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "LatLongField is required")]
+    
+    public LatLongDto LatLongField { get; set; } = default!;
+    /// <summary>
     /// Money Nox Type (Required).
     /// </summary>
     [Required(ErrorMessage = "MoneyField is required")]

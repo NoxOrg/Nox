@@ -75,27 +75,6 @@ public partial class Customer
     
 
     /// <summary>
-    /// Type options and factory for property 'CustomerPaymentDetailsId'
-    /// </summary>
-    public static Nox.Types.DatabaseNumber CreateCustomerPaymentDetailsId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
-    
-
-    /// <summary>
-    /// Type options and factory for property 'BookingId'
-    /// </summary>
-    public static Nox.Types.DatabaseGuid CreateBookingId(System.Guid value)
-        => Nox.Types.DatabaseGuid.From(value);
-    
-
-    /// <summary>
-    /// Type options and factory for property 'CustomerTransactionId'
-    /// </summary>
-    public static Nox.Types.DatabaseNumber CreateCustomerTransactionId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
-    
-
-    /// <summary>
     /// Type options and factory for property 'CountryId'
     /// </summary>
     public static Nox.Types.CountryCode2 CreateCountryId(System.String value)

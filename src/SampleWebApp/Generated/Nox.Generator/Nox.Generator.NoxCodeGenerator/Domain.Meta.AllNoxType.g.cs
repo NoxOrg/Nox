@@ -422,6 +422,13 @@ public partial class AllNoxType
     
 
     /// <summary>
+    /// Type options and factory for property 'LatLongField'
+    /// </summary>
+    public static Nox.Types.LatLong CreateLatLongField(ILatLong value)
+        => Nox.Types.LatLong.From(value);
+    
+
+    /// <summary>
     /// Type options and factory for property 'MoneyField'
     /// </summary>
     public static Nox.Types.Money CreateMoneyField(IMoney value)

@@ -45,7 +45,7 @@ internal class AllNoxTypesDataSeeder : SampleDataSeederBase<AllNoxTypeModel, All
             JsonField = Json.From(model.Json),
             JwtTokenField = JwtToken.From(model.JwtToken),
             LanguageCodeField = LanguageCode.From(model.LanguageCode),
-            //LatLongField = LatLong.From(x.Latitude, x.Longitude),
+            LatLongField = LatLong.From(model.Latitude, model.Longitude),
             LengthField = Length.From(model.LengthValue, (LengthTypeUnit)Enum.Parse(typeof(LengthTypeUnit), model.LengthUnit)),
             MacAddressField = MacAddress.From(model.MacAddress),
             MarkdownField = Markdown.From(model.Markdown),

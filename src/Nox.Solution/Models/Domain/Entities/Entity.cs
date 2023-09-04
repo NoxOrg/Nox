@@ -46,12 +46,12 @@ public class Entity : DefinitionBase
     [Title("Defines relationships to other entities.")]
     [Description("Defines one way relationships to other entities. Remember to define the reverse relationship on the target entities.")]
     [AdditionalProperties(false)]
-    public IReadOnlyList<EntityRelationship>? Relationships { get; internal set; }
+    public IReadOnlyList<EntityRelationship> Relationships { get; internal set; } = Array.Empty<EntityRelationship>();
 
     [Title("Defines owned relationships to another entity.")]
     [Description("Defines relationship to owned entities. This entity will be treated as an aggregate root.")]
     [AdditionalProperties(false)]
-    public IReadOnlyList<EntityRelationship>? OwnedRelationships { get; internal set; }
+    public IReadOnlyList<EntityRelationship> OwnedRelationships { get; internal set; } = Array.Empty<EntityRelationship>();
 
     [Title("Domain queries for this entity.")]
     [Description("Define one or more domain querie(s) that operate on this entity. Queries should have no side effects and not mutate the domain state.")]
@@ -83,7 +83,10 @@ public class Entity : DefinitionBase
     public IReadOnlyList<UniqueAttributeConstraint>? UniqueAttributeConstraints { get; internal set; }
 
     [YamlIgnore]
-    public bool IsOwnedEntity { get; set; }
+    public bool IsOwnedEntity { get; internal set; }
+
+    [YamlIgnore]
+    public Entity? OwnerEntity { get; internal set; }
 
     internal bool ApplyDefaults()
     {
@@ -199,6 +202,7 @@ public class Entity : DefinitionBase
         {
             var relationships = Relationships
                 .Where(x => x.Related.Entity?.Keys is not null)
+                .Where(x => x.IsManyRelationshipOnOtherSide)
                 .Select(x => (x.Entity, Keys: x.Related.Entity.Keys!));
 
             foreach (var relationship in relationships)

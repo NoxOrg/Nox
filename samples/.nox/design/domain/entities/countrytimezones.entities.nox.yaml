@@ -34,14 +34,7 @@ attributes:
       canFilter: true
       showOnCreateForm: true
       showOnUpdateForm: true
-
-relationships:
-    
-  - name: Country
-    description: Country's time zones 
-    relationship: exactlyOne
-    entity: Country
-
+      
 persistence:
     isAudited: true    
     create:

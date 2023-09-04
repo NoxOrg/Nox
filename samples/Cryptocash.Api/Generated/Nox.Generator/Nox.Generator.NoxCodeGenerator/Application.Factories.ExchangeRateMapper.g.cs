@@ -16,6 +16,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
+using ExchangeRate = Cryptocash.Domain.ExchangeRate;
 
 namespace Cryptocash.Application;
 
@@ -42,7 +43,7 @@ public class ExchangeRateMapper : EntityMapperBase<ExchangeRate>
     
 
         /// <summary>
-        /// ExchangeRate Exchanged from currency ExactlyOne Currencies
+        /// ExchangeRate Exchange rate relative to CHF (Swiss Franc) ExactlyOne Currencies
         /// </summary>
         noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "CurrencyFrom", dto.CurrencyId);
         if (noxTypeValue != null)
@@ -87,7 +88,7 @@ public class ExchangeRateMapper : EntityMapperBase<ExchangeRate>
     
     
         /// <summary>
-        /// ExchangeRate Exchanged from currency ExactlyOne Currencies
+        /// ExchangeRate Exchange rate relative to CHF (Swiss Franc) ExactlyOne Currencies
         /// </summary>
         if (updatedProperties.TryGetValue("CurrencyId", out value))
         {

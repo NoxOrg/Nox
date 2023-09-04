@@ -29,20 +29,11 @@ public partial class CountryTimeZonesDto
     /// </summary>
     public System.String TimeZoneCode { get; set; } = default!;
 
-    /// <summary>
-    /// CountryTimeZones Country's time zones ExactlyOne Countries
-    /// </summary>
-    //EF maps ForeignKey Automatically
-    public System.String CountryId { get; set; } = default!;
-    public virtual CountryDto Country { get; set; } = null!;
-    public System.DateTime? DeletedAtUtc { get; set; }
-
     public CountryTimeZones ToEntity()
     {
         var entity = new CountryTimeZones();
         entity.Id = CountryTimeZones.CreateId(Id);
         entity.TimeZoneCode = CountryTimeZones.CreateTimeZoneCode(TimeZoneCode);
-        entity.Country = Country.ToEntity();
         return entity;
     }
 

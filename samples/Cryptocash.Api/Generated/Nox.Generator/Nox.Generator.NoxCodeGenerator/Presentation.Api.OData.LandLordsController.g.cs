@@ -19,6 +19,7 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
+[Route("{controller}")]
 public partial class LandLordsController : ODataController
 {
     
@@ -41,6 +42,7 @@ public partial class LandLordsController : ODataController
         _mediator = mediator;
     }
     
+    [HttpGet]
     [EnableQuery]
     public async  Task<ActionResult<IQueryable<LandLordDto>>> Get()
     {
@@ -60,6 +62,7 @@ public partial class LandLordsController : ODataController
         return Ok(item);
     }
     
+    [HttpPost]
     public async Task<ActionResult> Post([FromBody]LandLordCreateDto landlord)
     {
         if (!ModelState.IsValid)
@@ -71,6 +74,7 @@ public partial class LandLordsController : ODataController
         return Created(createdKey);
     }
     
+    [HttpPut]
     public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] LandLordUpdateDto landLord)
     {
         if (!ModelState.IsValid)
@@ -87,6 +91,7 @@ public partial class LandLordsController : ODataController
         return Updated(updated);
     }
     
+    [HttpPatch]
     public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<LandLordUpdateDto> landLord)
     {
         if (!ModelState.IsValid)
@@ -112,6 +117,7 @@ public partial class LandLordsController : ODataController
         return Updated(updated);
     }
     
+    [HttpDelete]
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new DeleteLandLordByIdCommand(key));

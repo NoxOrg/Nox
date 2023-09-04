@@ -86,11 +86,9 @@ public partial class Country : AuditableEntityBase
     public Nox.Types.DayOfWeek StartOfWeek { get; set; } = null!;
 
     /// <summary>
-    /// Country Country's currency ExactlyOne Currencies
+    /// Country Country's primary currency for legal tender ExactlyOne Currencies
     /// </summary>
     public virtual Currency Currency { get; set; } = null!;
-
-    public Currency Currencies => Currency;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Currency
@@ -98,14 +96,7 @@ public partial class Country : AuditableEntityBase
     public Nox.Types.CurrencyCode3 CurrencyId { get; set; } = null!;
 
     /// <summary>
-    /// Country Country's time zones OneOrMany CountryTimeZones
-    /// </summary>
-    public virtual List<CountryTimeZones> CountryTimeZones { get; set; } = new();
-
-    public List<CountryTimeZones> TimeZones => CountryTimeZones;
-
-    /// <summary>
-    /// Country Commission's country OneOrMany Commissions
+    /// Country Commission rates country OneOrMany Commissions
     /// </summary>
     public virtual List<Commission> Commissions { get; set; } = new();
 
@@ -119,7 +110,7 @@ public partial class Country : AuditableEntityBase
     public List<VendingMachine> VendingMachine => VendingMachines;
 
     /// <summary>
-    /// Country Country's holidays ZeroOrMany CountryHolidays
+    /// Country Country's bank and public holidays ZeroOrMany CountryHolidays
     /// </summary>
     public virtual List<CountryHoliday> CountryHolidays { get; set; } = new();
 
@@ -129,4 +120,11 @@ public partial class Country : AuditableEntityBase
     public virtual List<Customer> Customers { get; set; } = new();
 
     public List<Customer> Customer => Customers;
+
+    /// <summary>
+    /// Country Country's time zones OneOrMany CountryTimeZones
+    /// </summary>
+    public virtual List<CountryTimeZones> CountryTimeZones { get; set; } = new();
+
+    public List<CountryTimeZones> TimeZones => CountryTimeZones;
 }

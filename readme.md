@@ -258,3 +258,4 @@ namespace SampleWebApp.Application.Queries
 [issues-shield]: https://img.shields.io/github/issues/NoxOrg/Nox.Generator.svg?style=for-the-badge
 
 [issues-url]: https://github.com/NoxOrg/Nox.Generator/issues
+

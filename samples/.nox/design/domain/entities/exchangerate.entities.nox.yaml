@@ -48,16 +48,11 @@ attributes:
       showOnUpdateForm: true
 
 relationships:
-    
+
   - name: CurrencyFrom
-    description: Exchanged from currency 
+    description: Exchange rate relative to CHF (Swiss Franc) 
     relationship: exactlyOne
     entity: Currency
-
-  # - name: CurrencyTo
-  #   description: Exchanged to currency
-  #   relationship: exactlyOne
-  #   entity: Currency
 
 persistence:
     isAudited: true    

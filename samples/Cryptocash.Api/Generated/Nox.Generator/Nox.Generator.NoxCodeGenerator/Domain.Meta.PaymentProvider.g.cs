@@ -53,11 +53,4 @@ public partial class PaymentProvider
         => Nox.Types.Text.From(value, PaymentProviderTypeTypeOptions);
     
 
-    /// <summary>
-    /// Type options and factory for property 'CustomerPaymentDetailsId'
-    /// </summary>
-    public static Nox.Types.DatabaseNumber CreateCustomerPaymentDetailsId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
-    
-
 }

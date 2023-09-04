@@ -19,6 +19,7 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
+[Route("{controller}")]
 public partial class StoreSecurityPasswordsController : ODataController
 {
     
@@ -41,6 +42,7 @@ public partial class StoreSecurityPasswordsController : ODataController
         _mediator = mediator;
     }
     
+    [HttpGet]
     [EnableQuery]
     public async  Task<ActionResult<IQueryable<StoreSecurityPasswordsDto>>> Get()
     {
@@ -60,6 +62,7 @@ public partial class StoreSecurityPasswordsController : ODataController
         return Ok(item);
     }
     
+    [HttpPost]
     public async Task<ActionResult> Post([FromBody]StoreSecurityPasswordsCreateDto storesecuritypasswords)
     {
         if (!ModelState.IsValid)
@@ -71,6 +74,7 @@ public partial class StoreSecurityPasswordsController : ODataController
         return Created(createdKey);
     }
     
+    [HttpPut]
     public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] StoreSecurityPasswordsUpdateDto storeSecurityPasswords)
     {
         if (!ModelState.IsValid)
@@ -87,6 +91,7 @@ public partial class StoreSecurityPasswordsController : ODataController
         return Updated(updated);
     }
     
+    [HttpPatch]
     public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<StoreSecurityPasswordsUpdateDto> storeSecurityPasswords)
     {
         if (!ModelState.IsValid)
@@ -112,6 +117,7 @@ public partial class StoreSecurityPasswordsController : ODataController
         return Updated(updated);
     }
     
+    [HttpDelete]
     public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new DeleteStoreSecurityPasswordsByIdCommand(key));

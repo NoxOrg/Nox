@@ -16,6 +16,7 @@ using Nox.Extensions;
 using Nox.Exceptions;
 using Cryptocash.Application.Dto;
 using Cryptocash.Domain;
+using CountryTimeZones = Cryptocash.Domain.CountryTimeZones;
 
 namespace Cryptocash.Application;
 
@@ -35,15 +36,6 @@ public class CountryTimeZonesMapper : EntityMapperBase<CountryTimeZones>
             entity.TimeZoneCode = noxTypeValue;
         }
     
-
-        /// <summary>
-        /// CountryTimeZones Country's time zones ExactlyOne Countries
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "Country", dto.CountryId);
-        if (noxTypeValue != null)
-        {        
-            entity.CountryId = noxTypeValue;
-        }
     }
 
     public override void PartialMapToEntity(CountryTimeZones entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
@@ -67,16 +59,5 @@ public class CountryTimeZonesMapper : EntityMapperBase<CountryTimeZones>
         }
     
     
-        /// <summary>
-        /// CountryTimeZones Country's time zones ExactlyOne Countries
-        /// </summary>
-        if (updatedProperties.TryGetValue("CountryId", out value))
-        {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "Country", value);
-            if (noxRelationshipTypeValue != null)
-            {        
-                entity.CountryId = noxRelationshipTypeValue;
-            }
-        }
     }
 }

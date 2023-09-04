@@ -104,11 +104,4 @@ public partial class Booking
         => Nox.Types.DatabaseNumber.From(value);
     
 
-    /// <summary>
-    /// Type options and factory for property 'CustomerTransactionId'
-    /// </summary>
-    public static Nox.Types.DatabaseNumber CreateCustomerTransactionId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
-    
-
 }

@@ -13,7 +13,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Time zones related to country.
 /// </summary>
-public partial class CountryTimeZones : AuditableEntityBase
+public partial class CountryTimeZones : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Country's time zone unique identifier (Required).
@@ -24,14 +24,4 @@ public partial class CountryTimeZones : AuditableEntityBase
     /// Country's related time zone code (Required).
     /// </summary>
     public Nox.Types.TimeZoneCode TimeZoneCode { get; set; } = null!;
-
-    /// <summary>
-    /// CountryTimeZones Country's time zones ExactlyOne Countries
-    /// </summary>
-    public virtual Country Country { get; set; } = null!;
-
-    /// <summary>
-    /// Foreign key for relationship ExactlyOne to entity Country
-    /// </summary>
-    public Nox.Types.CountryCode2 CountryId { get; set; } = null!;
 }

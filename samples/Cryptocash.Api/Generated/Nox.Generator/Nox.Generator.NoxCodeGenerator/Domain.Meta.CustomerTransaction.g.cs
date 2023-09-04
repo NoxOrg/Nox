@@ -74,11 +74,4 @@ public partial class CustomerTransaction
         => Nox.Types.DatabaseNumber.From(value);
     
 
-    /// <summary>
-    /// Type options and factory for property 'BookingId'
-    /// </summary>
-    public static Nox.Types.DatabaseGuid CreateBookingId(System.Guid value)
-        => Nox.Types.DatabaseGuid.From(value);
-    
-
 }

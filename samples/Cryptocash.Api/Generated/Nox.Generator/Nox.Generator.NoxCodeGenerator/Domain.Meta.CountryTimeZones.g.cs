@@ -28,11 +28,4 @@ public partial class CountryTimeZones
         => Nox.Types.TimeZoneCode.From(value);
     
 
-    /// <summary>
-    /// Type options and factory for property 'CountryId'
-    /// </summary>
-    public static Nox.Types.CountryCode2 CreateCountryId(System.String value)
-        => Nox.Types.CountryCode2.From(value);
-    
-
 }

@@ -14,6 +14,7 @@ using Nox.Solution;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
+using Booking = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
 public record CreateBookingCommand(BookingCreateDto EntityDto) : IRequest<BookingKeyDto>;

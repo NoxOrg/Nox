@@ -19,6 +19,7 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
+[Route("{controller}")]
 public partial class AllNoxTypesController : ODataController
 {
     
@@ -41,6 +42,7 @@ public partial class AllNoxTypesController : ODataController
         _mediator = mediator;
     }
     
+    [HttpGet]
     [EnableQuery]
     public async  Task<ActionResult<IQueryable<AllNoxTypeDto>>> Get()
     {
@@ -60,6 +62,7 @@ public partial class AllNoxTypesController : ODataController
         return Ok(item);
     }
     
+    [HttpPost]
     public async Task<ActionResult> Post([FromBody]AllNoxTypeCreateDto allnoxtype)
     {
         if (!ModelState.IsValid)
@@ -71,6 +74,7 @@ public partial class AllNoxTypesController : ODataController
         return Created(createdKey);
     }
     
+    [HttpPut]
     public async Task<ActionResult> Put([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId, [FromBody] AllNoxTypeUpdateDto allNoxType)
     {
         if (!ModelState.IsValid)
@@ -87,6 +91,7 @@ public partial class AllNoxTypesController : ODataController
         return Updated(updated);
     }
     
+    [HttpPatch]
     public async Task<ActionResult> Patch([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId, [FromBody] Delta<AllNoxTypeUpdateDto> allNoxType)
     {
         if (!ModelState.IsValid)
@@ -112,6 +117,7 @@ public partial class AllNoxTypesController : ODataController
         return Updated(updated);
     }
     
+    [HttpDelete]
     public async Task<ActionResult> Delete([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId)
     {
         var result = await _mediator.Send(new DeleteAllNoxTypeByIdCommand(keyId, keyTextId));
