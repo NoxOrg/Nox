@@ -32,5 +32,5 @@ public partial class StoreUpdateDto
     /// Store Store owner relationship ZeroOrOne StoreOwners
     /// </summary>
     
-    public System.String? StoreOwnerId { get; set; } = default!;
+    public System.String? OwnerRelId { get; set; } = default!;
 }

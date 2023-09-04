@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebAppdeprecated.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230901055855_InitialCreate")]
+    [Migration("20230904162819_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -27,15 +27,15 @@ namespace SampleWebAppdeprecated.Migrations
 
             modelBuilder.Entity("CountryCurrency", b =>
                 {
-                    b.Property<long>("CountriesId")
+                    b.Property<uint>("CountryAcceptsCurrencyId")
                         .HasColumnType("bigint");
 
-                    b.Property<uint>("CurrenciesId")
+                    b.Property<long>("CurrencyIsLegalTenderForCountryId")
                         .HasColumnType("bigint");
 
-                    b.HasKey("CountriesId", "CurrenciesId");
+                    b.HasKey("CountryAcceptsCurrencyId", "CurrencyIsLegalTenderForCountryId");
 
-                    b.HasIndex("CurrenciesId");
+                    b.HasIndex("CurrencyIsLegalTenderForCountryId");
 
                     b.ToTable("CountryCurrency");
                 });
@@ -581,7 +581,7 @@ namespace SampleWebAppdeprecated.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
 
-                    b.Property<string>("StoreOwnerId")
+                    b.Property<string>("OwnerRelId")
                         .HasMaxLength(3)
                         .IsUnicode(false)
                         .HasColumnType("char(3)")
@@ -589,7 +589,7 @@ namespace SampleWebAppdeprecated.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StoreOwnerId");
+                    b.HasIndex("OwnerRelId");
 
                     b.ToTable("Stores");
                 });
@@ -709,7 +709,7 @@ namespace SampleWebAppdeprecated.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(63)");
 
-                    b.Property<string>("StoreId")
+                    b.Property<string>("StoreRelId")
                         .HasMaxLength(3)
                         .IsUnicode(false)
                         .HasColumnType("char(3)")
@@ -717,24 +717,24 @@ namespace SampleWebAppdeprecated.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("StoreId")
+                    b.HasIndex("StoreRelId")
                         .IsUnique()
-                        .HasFilter("[StoreId] IS NOT NULL");
+                        .HasFilter("[StoreRelId] IS NOT NULL");
 
                     b.ToTable("StoreSecurityPasswords");
                 });
 
             modelBuilder.Entity("CountryCurrency", b =>
                 {
-                    b.HasOne("SampleWebApp.Domain.Country", null)
+                    b.HasOne("SampleWebApp.Domain.Currency", null)
                         .WithMany()
-                        .HasForeignKey("CountriesId")
+                        .HasForeignKey("CountryAcceptsCurrencyId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("SampleWebApp.Domain.Currency", null)
+                    b.HasOne("SampleWebApp.Domain.Country", null)
                         .WithMany()
-                        .HasForeignKey("CurrenciesId")
+                        .HasForeignKey("CurrencyIsLegalTenderForCountryId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1133,9 +1133,9 @@ namespace SampleWebAppdeprecated.Migrations
 
             modelBuilder.Entity("SampleWebApp.Domain.Store", b =>
                 {
-                    b.HasOne("SampleWebApp.Domain.StoreOwner", "StoreOwner")
-                        .WithMany("Stores")
-                        .HasForeignKey("StoreOwnerId");
+                    b.HasOne("SampleWebApp.Domain.StoreOwner", "OwnerRel")
+                        .WithMany("StoreRel")
+                        .HasForeignKey("OwnerRelId");
 
                     b.OwnsOne("Nox.Types.Money", "PhysicalMoney", b1 =>
                         {
@@ -1156,30 +1156,30 @@ namespace SampleWebAppdeprecated.Migrations
                                 .HasForeignKey("StoreId");
                         });
 
+                    b.Navigation("OwnerRel");
+
                     b.Navigation("PhysicalMoney")
                         .IsRequired();
-
-                    b.Navigation("StoreOwner");
                 });
 
             modelBuilder.Entity("SampleWebApp.Domain.StoreSecurityPasswords", b =>
                 {
-                    b.HasOne("SampleWebApp.Domain.Store", "Store")
-                        .WithOne("StoreSecurityPasswords")
-                        .HasForeignKey("SampleWebApp.Domain.StoreSecurityPasswords", "StoreId");
+                    b.HasOne("SampleWebApp.Domain.Store", "StoreRel")
+                        .WithOne("PasswordsRel")
+                        .HasForeignKey("SampleWebApp.Domain.StoreSecurityPasswords", "StoreRelId");
 
-                    b.Navigation("Store");
+                    b.Navigation("StoreRel");
                 });
 
             modelBuilder.Entity("SampleWebApp.Domain.Store", b =>
                 {
-                    b.Navigation("StoreSecurityPasswords")
+                    b.Navigation("PasswordsRel")
                         .IsRequired();
                 });
 
             modelBuilder.Entity("SampleWebApp.Domain.StoreOwner", b =>
                 {
-                    b.Navigation("Stores");
+                    b.Navigation("StoreRel");
                 });
 #pragma warning restore 612, 618
         }

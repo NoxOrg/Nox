@@ -32,5 +32,5 @@ public partial class ExchangeRateUpdateDto
     /// ExchangeRate Exchange rate relative to CHF (Swiss Franc) ExactlyOne Currencies
     /// </summary>
     [Required(ErrorMessage = "CurrencyFrom is required")]
-    public System.String CurrencyId { get; set; } = default!;
+    public System.String CurrencyFromId { get; set; } = default!;
 }

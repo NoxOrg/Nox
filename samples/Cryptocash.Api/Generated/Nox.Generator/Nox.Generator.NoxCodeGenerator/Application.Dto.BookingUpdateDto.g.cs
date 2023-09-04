@@ -66,5 +66,5 @@ public partial class BookingUpdateDto
     /// Booking Booking's fee ExactlyOne Commissions
     /// </summary>
     [Required(ErrorMessage = "Fee is required")]
-    public System.Int64 CommissionId { get; set; } = default!;
+    public System.Int64 FeeId { get; set; } = default!;
 }
