@@ -55,7 +55,6 @@ public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
             if (relationshipToCreate.WithMultiEntity &&
                 relationshipToCreate.Related.EntityRelationship.WithMultiEntity)
             {
-
                 builder
                     .HasMany(relationshipToCreate.Name)
                     .WithMany(relationshipToCreate.Related.EntityRelationship.Name);

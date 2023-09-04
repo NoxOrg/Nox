@@ -70,7 +70,6 @@ namespace Nox.Types.EntityFramework.Configurations
                 if (relationshipToCreate.Relationship.WithMultiEntity &&
                     relationshipToCreate.Relationship.Related.EntityRelationship.WithMultiEntity)
                 {
-
                     builder
                         .HasMany(relationshipToCreate.Relationship.Name)
                         .WithMany(relationshipToCreate.Relationship.Related.EntityRelationship.Name);
