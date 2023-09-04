@@ -106,6 +106,8 @@ public partial class TestWebAppDbContext : DbContext
 
     public DbSet<TestEntityForTypes> TestEntityForTypes { get; set; } = null!;
 
+    public DbSet<TestEntityForUniqueConstraints> TestEntityForUniqueConstraints { get; set; } = null!;
+
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);

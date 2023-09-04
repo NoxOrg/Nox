@@ -11,7 +11,7 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 
 public class SqlServerIntegrationTests : SqlServerTestBase
 {
-    //[Fact]
+    [Fact]
     public void GeneratedEntity_SqlServer_CanSaveAndReadFields_AllTypes()
     {
         // TODO:
@@ -282,7 +282,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         testEntity.DateTimeTestField!.Value.Should().Be(dateTime);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_SqlServer_ZeroOrMany_ZeroOrMany()
     {
         var text = "TX";
@@ -321,7 +321,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(secondTestEntity.TestEntityZeroOrManies[0].Id.Value, textId1);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_SqlServer_OneOrMany_OneOrMany()
     {
         var text = "TX";
@@ -360,7 +360,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(secondTestEntity.TestEntityOneOrManies[0].Id.Value, textId1);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_SqlServer_ExactlyOne_ExactlyOne()
     {
         var text = "TX";
@@ -398,7 +398,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(secondTestEntity.TestEntityExactlyOne.Id.Value, textId1);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_SqlServer_ZeroOrOne_ZeroOrOne()
     {
         var text = "TX";
@@ -436,7 +436,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(secondTestEntity.TestEntityZeroOrOne.Id.Value, textId1);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_SqlServer_ZeroOrOne_ZeroOrMany()
     {
         var text = "TX";
@@ -474,7 +474,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(secondTestEntity.TestEntityZeroOrOneToZeroOrManies[0].Id.Value, textId1);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_SqlServer_ZeroOrOne_OneOrMany()
     {
         var text = "TX";
@@ -512,7 +512,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(secondTestEntity.TestEntityZeroOrOneToOneOrManies[0].Id.Value, textId1);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_SqlServer_ZeroOrOne_ExactlyOne()
     {
         var text = "TX";
@@ -550,7 +550,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(secondTestEntity.TestEntityZeroOrOneToExactlyOne.Id.Value, textId1);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_SqlServer_OneOrMany_ExactlyOne()
     {
         var text = "TX";
@@ -588,7 +588,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(secondTestEntity.TestEntityExactlyOneToOneOrManies[0].Id.Value, textId1);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_SqlServer_ExactlyOne_ZeroOrMany()
     {
         var text = "TX";
@@ -626,7 +626,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(secondTestEntity.TestEntityZeroOrManyToExactlyOne.Id.Value, textId1);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_SqlServer_ZeroOrMany_OneOrMany()
     {
         var text = "TX";
@@ -665,7 +665,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(secondTestEntity.TestEntityZeroOrManyToOneOrManies[0].Id.Value, textId1);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_SqlServer_Owned_ZeroOrMany_ZeroOrMany()
     {
         var text = "TestTextValue";
@@ -699,7 +699,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipZeroOrManies[0].Id.Value, textId2);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_SqlServer_Owned_OneOrMany_OneOrMany()
     {
         var text = "TestTextValue";
@@ -733,7 +733,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipOneOrManies[0].Id.Value, textId2);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_SqlServer_Owned_ExactlyOne_ExactlyOne()
     {
         var text = "TestTextValue";
@@ -764,7 +764,7 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipExactlyOne.TextTestField2.Value, text2);
     }
 
-    //[Fact]
+    [Fact]
     public void GeneratedRelationship_SqlServer_Owned_ZeroOrOne_ZeroOrOne()
     {
         var text = "TestTextValue";
@@ -793,5 +793,60 @@ public class SqlServerIntegrationTests : SqlServerTestBase
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.NotNull(testEntity.SecondTestEntityOwnedRelationshipZeroOrOne);
         Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipZeroOrOne.TextTestField2.Value, text2);
+    }
+    
+    [Fact]
+    public void UniqueConstraints_SameValue_ShouldThrowException()
+    {
+        const string countryCode2 = "UA";
+        const string secondCountryCode2 = "TR";
+        const string thirdCountryCode2 = "DE";
+        const string currencyCode3 = "USD";
+        const string secondCurrencyCode3 = "TRY";
+        const int number = 123;
+        const int secondNumber = 456;
+        TestEntityForUniqueConstraints testEntity1 = new TestEntityForUniqueConstraints()
+        {
+            Id = Text.From(countryCode2),
+            TextField = Text.From("TestTextValue"),
+            NumberField = Number.From(123),
+            UniqueNumberField = Number.From(number),
+            UniqueCountryCode = CountryCode2.From(countryCode2),
+            UniqueCurrencyCode = CurrencyCode3.From(currencyCode3),
+        };
+        
+        TestEntityForUniqueConstraints testEntityWithSameUniqueNumber = new TestEntityForUniqueConstraints()
+        {
+            Id = Text.From(secondCountryCode2),
+            TextField = Text.From("TestTextValue"),
+            NumberField = Number.From(123),
+            UniqueNumberField = Number.From(number),
+            UniqueCountryCode = CountryCode2.From(secondCountryCode2),
+            UniqueCurrencyCode = CurrencyCode3.From(secondCurrencyCode3),
+        };
+        
+        TestEntityForUniqueConstraints testEntityWithSameUniqueCountryCodeAndCurrencyCode = new TestEntityForUniqueConstraints()
+        {
+            Id = Text.From(thirdCountryCode2),
+            TextField = Text.From("TestTextValue"),
+            NumberField = Number.From(123),
+            UniqueNumberField = Number.From(secondNumber),
+            UniqueCountryCode = CountryCode2.From(countryCode2),
+            UniqueCurrencyCode = CurrencyCode3.From(currencyCode3),
+        };
+        
+        DbContext.TestEntityForUniqueConstraints.Add(testEntity1);
+        DbContext.SaveChanges();
+        
+        DbContext.TestEntityForUniqueConstraints.Add(testEntityWithSameUniqueNumber);
+        //save should throw exception
+        Action act = () => DbContext.SaveChanges();
+        act.Should().Throw<DbUpdateException>();
+        
+        
+        DbContext.TestEntityForUniqueConstraints.Add(testEntityWithSameUniqueCountryCodeAndCurrencyCode);
+        //save should throw exception
+        Action act2 = () => DbContext.SaveChanges();
+        act2.Should().Throw<DbUpdateException>();
     }
 }

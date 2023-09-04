@@ -13,7 +13,7 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// .
 /// </summary>
-public partial class SecondTestEntityOwnedRelationshipZeroOrOne:IOwnedEntity
+public partial class SecondTestEntityOwnedRelationshipZeroOrOne:EntityBase, IOwnedEntity
 {
     /// <summary>
     ///  (Required).

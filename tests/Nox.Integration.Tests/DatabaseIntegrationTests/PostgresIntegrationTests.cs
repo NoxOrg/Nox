@@ -2,7 +2,7 @@ using FluentAssertions;
 using Nox.Types;
 using System.Globalization;
 using System.Text.Json;
-
+using Microsoft.EntityFrameworkCore;
 using TestWebApp.Domain;
 
 using DayOfWeek = Nox.Types.DayOfWeek;
@@ -12,7 +12,7 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests;
 
 public class PostgresIntegrationTests : PostgresTestBase
 {
-    //[Fact]
+    [Fact]
     public void GeneratedEntity_Postgres_CanSaveAndReadFields_AllTypes()
     {
         // TODO:
@@ -270,5 +270,60 @@ public class PostgresIntegrationTests : PostgresTestBase
         //PostGres is always UTC
         testEntity.DateTimeTestField!.Value.Should().Be(dateTime.UtcDateTime);
         testEntity.DateTimeTestField!.Value.Offset.Should().Be(TimeSpan.Zero);
+    }
+
+    [Fact]
+    public void UniqueConstraints_SameValue_ShouldThrowException()
+    {
+        const string countryCode2 = "UA";
+        const string secondCountryCode2 = "TR";
+        const string thirdCountryCode2 = "DE";
+        const string currencyCode3 = "USD";
+        const string secondCurrencyCode3 = "TRY";
+        const int number = 123;
+        const int secondNumber = 456;
+        TestEntityForUniqueConstraints testEntity1 = new TestEntityForUniqueConstraints()
+        {
+            Id = Text.From(countryCode2),
+            TextField = Text.From("TestTextValue"),
+            NumberField = Number.From(123),
+            UniqueNumberField = Number.From(number),
+            UniqueCountryCode = CountryCode2.From(countryCode2),
+            UniqueCurrencyCode = CurrencyCode3.From(currencyCode3),
+        };
+        
+        TestEntityForUniqueConstraints testEntityWithSameUniqueNumber = new TestEntityForUniqueConstraints()
+        {
+            Id = Text.From(secondCountryCode2),
+            TextField = Text.From("TestTextValue"),
+            NumberField = Number.From(123),
+            UniqueNumberField = Number.From(number),
+            UniqueCountryCode = CountryCode2.From(secondCountryCode2),
+            UniqueCurrencyCode = CurrencyCode3.From(secondCurrencyCode3),
+        };
+        
+        TestEntityForUniqueConstraints testEntityWithSameUniqueCountryCodeAndCurrencyCode = new TestEntityForUniqueConstraints()
+        {
+            Id = Text.From(thirdCountryCode2),
+            TextField = Text.From("TestTextValue"),
+            NumberField = Number.From(123),
+            UniqueNumberField = Number.From(secondNumber),
+            UniqueCountryCode = CountryCode2.From(countryCode2),
+            UniqueCurrencyCode = CurrencyCode3.From(currencyCode3),
+        };
+        
+        DbContext.TestEntityForUniqueConstraints.Add(testEntity1);
+        DbContext.SaveChanges();
+        
+        DbContext.TestEntityForUniqueConstraints.Add(testEntityWithSameUniqueNumber);
+        //save should throw exception
+        Action act = () => DbContext.SaveChanges();
+        act.Should().Throw<DbUpdateException>();
+        
+        
+        DbContext.TestEntityForUniqueConstraints.Add(testEntityWithSameUniqueCountryCodeAndCurrencyCode);
+        //save should throw exception
+        Action act2 = () => DbContext.SaveChanges();
+        act2.Should().Throw<DbUpdateException>();
     }
 }

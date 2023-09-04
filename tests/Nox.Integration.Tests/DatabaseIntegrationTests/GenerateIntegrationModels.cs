@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Nox.Generator.Tests;
 
@@ -40,6 +40,7 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests
                 "Entities.SecondTestEntityOneOrMany",
                 "Entities.ThirdTestEntityOneOrMany",
                 "Entities.TestEntityForTypes",
+                "Entities.TestEntityForUniqueConstraints",
                 "Entities.TestEntityWithNuid",
                 "Entities.TestEntityExactlyOne",
                 "Entities.SecondTestEntityExactlyOne",
