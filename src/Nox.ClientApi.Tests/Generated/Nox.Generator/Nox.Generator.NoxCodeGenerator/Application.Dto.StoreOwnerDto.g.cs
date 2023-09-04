@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
-//using ClientApi.Application.DataTransferObjects;
+using Nox.Extensions;
+
 using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
@@ -25,14 +29,18 @@ public partial class StoreOwnerDto
     public System.String Id { get; set; } = default!;
 
     /// <summary>
-    /// Store Name (Required).
+    /// Owner Name (Required).
     /// </summary>
     public System.String Name { get; set; } = default!;
+
+    /// <summary>
+    /// Vat Number (Optional).
+    /// </summary>
+    public VatNumberDto? VatNumber { get; set; }
 
     /// <summary>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
     /// </summary>
     public virtual List<StoreDto> StoreRel { get; set; } = new();
-
-    public System.DateTime? DeletedAtUtc { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }
