@@ -19,7 +19,6 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-[Route("{controller}")]
 public partial class CountriesController : ODataController
 {
     
@@ -50,6 +49,7 @@ public partial class CountriesController : ODataController
         return Ok(result);
     }
     
+    [HttpGet]
     public async Task<ActionResult<CountryDto>> Get([FromRoute] System.String key)
     {
         var item = await _mediator.Send(new GetCountryByIdQuery(key));
@@ -62,6 +62,7 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
+    [HttpPost]
     public async Task<ActionResult> PostToCountryTimeZones([FromRoute] System.String key, [FromBody] CountryTimeZonesCreateDto countryTimeZones)
     {
         if (!ModelState.IsValid)

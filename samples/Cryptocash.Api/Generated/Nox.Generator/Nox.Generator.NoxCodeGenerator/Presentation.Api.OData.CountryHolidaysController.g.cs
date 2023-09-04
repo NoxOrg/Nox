@@ -19,7 +19,6 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-[Route("{controller}")]
 public partial class CountryHolidaysController : ODataController
 {
     
@@ -50,6 +49,7 @@ public partial class CountryHolidaysController : ODataController
         return Ok(result);
     }
     
+    [HttpGet]
     public async Task<ActionResult<CountryHolidayDto>> Get([FromRoute] System.Int64 key)
     {
         var item = await _mediator.Send(new GetCountryHolidayByIdQuery(key));

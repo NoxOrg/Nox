@@ -16,7 +16,7 @@ using SampleWebApp.SeedData;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddNox();
+builder.Services.AddNox();
 
 //Include this if you want to use Serilog for logging and elastic Apm for monitoring
 // builder.UseNoxSerilogLogging(opt =>

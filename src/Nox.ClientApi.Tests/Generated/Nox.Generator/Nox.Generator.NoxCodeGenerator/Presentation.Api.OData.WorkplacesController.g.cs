@@ -19,7 +19,6 @@ using Nox.Types;
 
 namespace ClientApi.Presentation.Api.OData;
 
-[Route("{controller}")]
 public partial class WorkplacesController : ODataController
 {
     
@@ -50,6 +49,7 @@ public partial class WorkplacesController : ODataController
         return Ok(result);
     }
     
+    [HttpGet]
     public async Task<ActionResult<WorkplaceDto>> Get([FromRoute] System.Guid key)
     {
         var item = await _mediator.Send(new GetWorkplaceByIdQuery(key));

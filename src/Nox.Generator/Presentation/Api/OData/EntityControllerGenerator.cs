@@ -75,7 +75,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
             code.AppendLine();
 
-            code.AppendLine("[Route(\"{controller}\")]");
+            //code.AppendLine("[Route(\"{controller}\")]");
             code.AppendLine($"public partial class {controllerName} : ODataController");
 
             // Class
@@ -291,6 +291,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     }
     private static void GenerateChildrenPost(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
     {
+        code.AppendLine("[HttpPost]");
         code.AppendLine($"public async Task<ActionResult> PostTo{child.PluralName}({PrimaryKeysFromRoute(parent, solution)}, [FromBody] {child.Name}CreateDto {child.Name.ToLowerFirstChar()})");
 
         code.StartBlock();
@@ -338,6 +339,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
         // We do not support Compound types as primary keys, this is validated on the schema
         // Method Get
+        code.AppendLine("[HttpGet]");
         code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Get({PrimaryKeysFromRoute(entity, solution)})");
 
         // Method content

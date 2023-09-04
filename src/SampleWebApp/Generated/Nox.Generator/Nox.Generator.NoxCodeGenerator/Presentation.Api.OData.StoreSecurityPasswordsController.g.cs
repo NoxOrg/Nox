@@ -19,7 +19,6 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-[Route("{controller}")]
 public partial class StoreSecurityPasswordsController : ODataController
 {
     
@@ -50,6 +49,7 @@ public partial class StoreSecurityPasswordsController : ODataController
         return Ok(result);
     }
     
+    [HttpGet]
     public async Task<ActionResult<StoreSecurityPasswordsDto>> Get([FromRoute] System.String key)
     {
         var item = await _mediator.Send(new GetStoreSecurityPasswordsByIdQuery(key));

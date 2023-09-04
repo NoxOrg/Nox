@@ -19,7 +19,6 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-[Route("{controller}")]
 public partial class CurrencyCashBalancesController : ODataController
 {
     
@@ -50,6 +49,7 @@ public partial class CurrencyCashBalancesController : ODataController
         return Ok(result);
     }
     
+    [HttpGet]
     public async Task<ActionResult<CurrencyCashBalanceDto>> Get([FromRoute] System.String keyStoreId, [FromRoute] System.UInt32 keyCurrencyId)
     {
         var item = await _mediator.Send(new GetCurrencyCashBalanceByIdQuery(keyStoreId, keyCurrencyId));

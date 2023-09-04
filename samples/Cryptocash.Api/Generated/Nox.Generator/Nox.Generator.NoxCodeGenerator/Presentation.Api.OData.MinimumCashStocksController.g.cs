@@ -19,7 +19,6 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-[Route("{controller}")]
 public partial class MinimumCashStocksController : ODataController
 {
     
@@ -50,6 +49,7 @@ public partial class MinimumCashStocksController : ODataController
         return Ok(result);
     }
     
+    [HttpGet]
     public async Task<ActionResult<MinimumCashStockDto>> Get([FromRoute] System.Int64 key)
     {
         var item = await _mediator.Send(new GetMinimumCashStockByIdQuery(key));

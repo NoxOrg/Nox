@@ -4,11 +4,11 @@ using ClientApi.Application.Dto;
 namespace Nox.ClientApi.Tests.Tests.Controllers;
 
 [Collection("Sequential")]
-public class CreateCountryCommandHandlerTests : NoxIntgrationTestBase
+public class CreateCountryCommandHandlerTests : NoxIntegrationTestBase
 {
     private const string CountryControllerName = "api/countries";
 
-    public CreateCountryCommandHandlerTests(NoxTestApplicationFactory<StartupFixture> factory) : base(factory)
+    public CreateCountryCommandHandlerTests(NoxTestApplicationFactory<StartupFixture> appFactory) : base(appFactory)
     {
     }
 

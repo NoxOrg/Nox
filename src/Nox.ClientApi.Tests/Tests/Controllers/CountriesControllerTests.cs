@@ -7,11 +7,12 @@ using System.Net;
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class CountriesControllerTests : NoxIntgrationTestBase
+    public class CountriesControllerTests : NoxIntegrationTestBase
     {
         private const string CountryControllerName = "api/countries";
+        private readonly Fixture _fixture = new();
 
-        public CountriesControllerTests(NoxTestApplicationFactory<StartupFixture> factory) : base(factory)
+        public CountriesControllerTests(NoxTestApplicationFactory<StartupFixture> appFactory) : base(appFactory)
         {
         }
 
@@ -21,7 +22,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             // Arrange
             var dto = new CountryCreateDto
             {
-                Name = _objectFixture.Create<string>()
+                Name = _fixture.Create<string>()
             };
 
             // Act
@@ -39,7 +40,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             var expectedAmount = 100;
             var dto = new CountryCreateDto
             {
-                Name = _objectFixture.Create<string>(),
+                Name = _fixture.Create<string>(),
                 CountryDebt = new MoneyDto(expectedAmount, CurrencyCode.AED)
             };
 
@@ -59,10 +60,10 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         public async Task Post_WithManyOwnedEntity_ReturnsDatabaseNumberId()
         {
             // Arrange
-            var expectedOwnedName = _objectFixture.Create<string>();
+            var expectedOwnedName = _fixture.Create<string>();
             var dto = new CountryCreateDto
             {
-                Name = _objectFixture.Create<string>(),
+                Name = _fixture.Create<string>(),
                 CountryLocalNames = new List<CountryLocalNameUpdateDto>() { new CountryLocalNameUpdateDto() { Name = expectedOwnedName } }
             };
             // Act
@@ -104,12 +105,12 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             // Arrange
             var createDto = new CountryCreateDto
             {
-                Name = _objectFixture.Create<string>(),
+                Name = _fixture.Create<string>(),
                 Population = 1
             };
             var updateDto = new CountryUpdateDto
             {
-                Name = _objectFixture.Create<string>(),
+                Name = _fixture.Create<string>(),
                 Population = expectedNumber
             };
 
@@ -231,7 +232,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         }
 
 
-        [Fact(Skip = "PostToCountryLocalNames is not found.The problem with routing. Route is found when it uses countries (without api prefix))")]
+        [Fact(Skip = "Test fails when post local names.  The property 'Name[Nullable=False]' of type 'Edm.String' has a null value, which is not allowed.'")]
         public async Task PostToCountryLocalNames_ShouldAddToCountryLocalNames()
         {
             // Arrange
@@ -253,9 +254,8 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             var result = await PostAsync<CountryCreateDto, CountryKeyDto>(CountryControllerName, createDto);
 
             //Act
-            var ownedResult = await PostAsync<CountryLocalNameCreateDto, CountryLocalNameDto>($"{CountryControllerName}/PostToCountryLocalNames/{result!.keyId}", localNameDto);
+            var ownedResult = await PostAsync<CountryLocalNameCreateDto, CountryLocalNameDto>($"{CountryControllerName}/{result!.keyId}/CountryLocalNames", localNameDto);
              
-
             //Assert
             ownedResult.Should().NotBeNull();
             ownedResult!.Id.Should().Be(expectedLocalNameId);

@@ -19,7 +19,6 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-[Route("{controller}")]
 public partial class EmployeesController : ODataController
 {
     
@@ -50,6 +49,7 @@ public partial class EmployeesController : ODataController
         return Ok(result);
     }
     
+    [HttpGet]
     public async Task<ActionResult<EmployeeDto>> Get([FromRoute] System.Int64 key)
     {
         var item = await _mediator.Send(new GetEmployeeByIdQuery(key));
@@ -62,6 +62,7 @@ public partial class EmployeesController : ODataController
         return Ok(item);
     }
     
+    [HttpPost]
     public async Task<ActionResult> PostToEmployeePhoneNumbers([FromRoute] System.Int64 key, [FromBody] EmployeePhoneNumberCreateDto employeePhoneNumber)
     {
         if (!ModelState.IsValid)

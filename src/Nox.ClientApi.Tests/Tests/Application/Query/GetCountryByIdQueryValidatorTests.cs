@@ -1,17 +1,17 @@
 ﻿using FluentAssertions;
 using ClientApi.Application.Dto;
-using Microsoft.AspNetCore.Http.HttpResults;
 using AutoFixture;
 using System.Net;
 
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class GetCountryByIdQueryValidatorTests : NoxIntgrationTestBase
+    public class GetCountryByIdQueryValidatorTests : NoxIntegrationTestBase
     {
         private const string CountryControllerName = "countries";
+        private readonly Fixture _fixture = new();
 
-        public GetCountryByIdQueryValidatorTests(NoxTestApplicationFactory<StartupFixture> factory) : base(factory)
+        public GetCountryByIdQueryValidatorTests(NoxTestApplicationFactory<StartupFixture> appFactory) : base(appFactory)
         {
         }
 
@@ -42,7 +42,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             {
                 var countryDto = new CountryCreateDto
                 {
-                    Name = _objectFixture.Create<string>(),
+                    Name = _fixture.Create<string>(),
                     Population = i * 1000000
                 };
                 await PostAsync(CountryControllerName, countryDto);

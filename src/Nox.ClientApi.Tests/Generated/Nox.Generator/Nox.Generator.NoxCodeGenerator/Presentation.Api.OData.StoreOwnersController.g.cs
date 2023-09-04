@@ -19,7 +19,6 @@ using Nox.Types;
 
 namespace ClientApi.Presentation.Api.OData;
 
-[Route("{controller}")]
 public partial class StoreOwnersController : ODataController
 {
     
@@ -50,6 +49,7 @@ public partial class StoreOwnersController : ODataController
         return Ok(result);
     }
     
+    [HttpGet]
     public async Task<ActionResult<StoreOwnerDto>> Get([FromRoute] System.String key)
     {
         var item = await _mediator.Send(new GetStoreOwnerByIdQuery(key));

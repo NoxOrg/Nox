@@ -19,7 +19,6 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-[Route("{controller}")]
 public partial class BankNotesController : ODataController
 {
     
@@ -50,6 +49,7 @@ public partial class BankNotesController : ODataController
         return Ok(result);
     }
     
+    [HttpGet]
     public async Task<ActionResult<BankNotesDto>> Get([FromRoute] System.Int64 key)
     {
         var item = await _mediator.Send(new GetBankNotesByIdQuery(key));

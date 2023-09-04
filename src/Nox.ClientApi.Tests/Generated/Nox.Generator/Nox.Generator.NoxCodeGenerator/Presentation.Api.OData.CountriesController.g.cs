@@ -19,7 +19,6 @@ using Nox.Types;
 
 namespace ClientApi.Presentation.Api.OData;
 
-[Route("{controller}")]
 public partial class CountriesController : ODataController
 {
     
@@ -50,6 +49,7 @@ public partial class CountriesController : ODataController
         return Ok(result);
     }
     
+    [HttpGet]
     public async Task<ActionResult<CountryDto>> Get([FromRoute] System.Int64 key)
     {
         var item = await _mediator.Send(new GetCountryByIdQuery(key));
@@ -62,6 +62,7 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
+    [HttpPost]
     public async Task<ActionResult> PostToCountryLocalNames([FromRoute] System.Int64 key, [FromBody] CountryLocalNameCreateDto countryLocalName)
     {
         if (!ModelState.IsValid)

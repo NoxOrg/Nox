@@ -19,7 +19,6 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-[Route("{controller}")]
 public partial class VendingMachinesController : ODataController
 {
     
@@ -50,6 +49,7 @@ public partial class VendingMachinesController : ODataController
         return Ok(result);
     }
     
+    [HttpGet]
     public async Task<ActionResult<VendingMachineDto>> Get([FromRoute] System.Guid key)
     {
         var item = await _mediator.Send(new GetVendingMachineByIdQuery(key));

@@ -19,7 +19,6 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-[Route("{controller}")]
 public partial class AllNoxTypesController : ODataController
 {
     
@@ -50,6 +49,7 @@ public partial class AllNoxTypesController : ODataController
         return Ok(result);
     }
     
+    [HttpGet]
     public async Task<ActionResult<AllNoxTypeDto>> Get([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId)
     {
         var item = await _mediator.Send(new GetAllNoxTypeByIdQuery(keyId, keyTextId));

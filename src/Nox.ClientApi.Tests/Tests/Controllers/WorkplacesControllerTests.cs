@@ -6,11 +6,13 @@ using System.Net;
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class WorkplacesControllerTests : NoxIntgrationTestBase
+    public class WorkplacesControllerTests : NoxIntegrationTestBase
     {
         private const string WorkplacesControllerName = "api/workplaces";
+        private readonly Fixture _fixture = new();
 
-        public WorkplacesControllerTests(NoxTestApplicationFactory<StartupFixture> factory) : base(factory)
+
+        public WorkplacesControllerTests(NoxTestApplicationFactory<StartupFixture> appFactory) : base(appFactory)
         {
         }
 
@@ -20,7 +22,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             // Arrange
             var createDto = new WorkplaceCreateDto
             {
-                Name = _objectFixture.Create<string>()
+                Name = _fixture.Create<string>()
             };
 
             // Act
@@ -39,12 +41,12 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             // Arrange
             var createDto = new WorkplaceCreateDto
             {
-                Name = _objectFixture.Create<string>(),
+                Name = _fixture.Create<string>(),
             };
 
             var updateDto = new WorkplaceUpdateDto
             {
-                Name = _objectFixture.Create<string>(),
+                Name = _fixture.Create<string>(),
             };
 
             var result = await PostAsync<WorkplaceCreateDto, WorkplaceKeyDto>(WorkplacesControllerName, createDto);
@@ -61,11 +63,11 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         public async Task Patch_Name_ShouldUpdateNameOnly()
         {
             // Arrange
-            var expectedName = _objectFixture.Create<string>();
+            var expectedName = _fixture.Create<string>();
 
             var createDto = new WorkplaceCreateDto
             {
-                Name = _objectFixture.Create<string>(),
+                Name = _fixture.Create<string>(),
             };
 
             var updateDto = new WorkplaceUpdateDto
@@ -91,7 +93,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             // Arrange
             var createDto = new WorkplaceCreateDto
             {
-                Name = _objectFixture.Create<string>(),
+                Name = _fixture.Create<string>(),
             };
 
             var result = await PostAsync<WorkplaceCreateDto, WorkplaceKeyDto>(WorkplacesControllerName, createDto);

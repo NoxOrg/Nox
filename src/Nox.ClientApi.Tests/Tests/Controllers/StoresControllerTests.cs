@@ -4,11 +4,11 @@ using ClientApi.Application.Dto;
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class StoresControllerTests : NoxIntgrationTestBase
+    public class StoresControllerTests : NoxIntegrationTestBase
     {
         private const string StoresControllerName = "api/stores";
 
-        public StoresControllerTests(NoxTestApplicationFactory<StartupFixture> factory) : base(factory)
+        public StoresControllerTests(NoxTestApplicationFactory<StartupFixture> appFactory) : base(appFactory)
         {
         }
 
