@@ -76,7 +76,9 @@ internal class YamlReferenceResolver
 
             if (!match.Success)
             {
-                if (firstPass)
+                // AS: removed the source line number references, not yet used and it breaks multiline strings.
+                // Will probably be better to track these in a list behind the content.
+                if (false && firstPass)
                 {
                     outputLines.Append(sourceLine).AppendLine($"   ##$ -> {sourceName},{lineNumber}");
                 }
@@ -137,7 +139,13 @@ internal class YamlReferenceResolver
                 {
                     output = $"{padding}{childLine}";
                 }
-                outputLines.Append(output).AppendLine($"   ##$ -> {childPath},{childLineNumber}");
+
+                // AS: removed the source line number references, not yet used and it breaks multiline strings.
+                // Will probably be better to track these in a list behind the content
+
+                // outputLines.Append(output).AppendLine($"   ##$ -> {childPath},{childLineNumber}");
+
+                outputLines.AppendLine(output);
 
             }
         }

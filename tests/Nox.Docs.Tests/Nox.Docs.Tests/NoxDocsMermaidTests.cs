@@ -33,14 +33,14 @@ public class NoxDocsMermaidTests
                     Text GeoWorldRegion
                     Number Population
                     Text TopLevelDomains
-                    Text CountryLocalNamesId
                     Text CurrencyId FK
                 }
+                Country||--|{CountryLocalNames : "is also know as"
                 Currency {
                     Text Id PK
                     Text CountryId FK
                 }
-                Currency}|--o{Country : "is legal tender for"
+                Currency}|..o{Country : "is legal tender for"
                 CountryLocalNames {
                     Text Id PK
                 }
@@ -84,14 +84,14 @@ public class NoxDocsMermaidTests
                     Text GeoWorldRegion "The world region the country is in (Required)"
                     Number Population "The estimated population of the country"
                     Text TopLevelDomains "The top level internet domains regitered to the country (comma-delimited)"
-                    Text CountryLocalNamesId " (Required)"
                     Text CurrencyId FK " (Required)"
                 }
+                Country||--|{CountryLocalNames : "is also know as"
                 Currency {
                     Text Id PK " (Required)"
                     Text CountryId FK " (Required)"
                 }
-                Currency}|--o{Country : "is legal tender for"
+                Currency}|..o{Country : "is legal tender for"
                 CountryLocalNames {
                     Text Id PK " (Required)"
                 }
@@ -120,9 +120,10 @@ public class NoxDocsMermaidTests
             erDiagram
                 Country {
                 }
+                Country||--|{CountryLocalNames : "is also know as"
                 Currency {
                 }
-                Currency}|--o{Country : "is legal tender for"
+                Currency}|..o{Country : "is legal tender for"
                 CountryLocalNames {
                 }
                 CurrencyCashBalance {

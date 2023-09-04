@@ -35,7 +35,7 @@ public partial class ExchangeRateDto
     public System.DateTimeOffset EffectiveAt { get; set; } = default!;
 
     /// <summary>
-    /// ExchangeRate Exchanged from currency ExactlyOne Currencies
+    /// ExchangeRate Exchange rate relative to CHF (Swiss Franc) ExactlyOne Currencies
     /// </summary>
     //EF maps ForeignKey Automatically
     public System.String CurrencyId { get; set; } = default!;

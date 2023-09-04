@@ -50,6 +50,7 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<CommissionDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<CountryDto>("Countries");
+        builder.EntityType<CountryDto>().ContainsMany(e => e.CountryTimeZones).AutoExpand = true;
 
         builder.EntityType<CountryDto>();
         builder.EntityType<CountryKeyDto>();
@@ -61,11 +62,8 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<CountryHolidayKeyDto>();
         builder.EntityType<CountryHolidayDto>().Ignore(e => e.DeletedAtUtc);
 
-        builder.EntitySet<CountryTimeZonesDto>("CountryTimeZones");
-
         builder.EntityType<CountryTimeZonesDto>();
         builder.EntityType<CountryTimeZonesKeyDto>();
-        builder.EntityType<CountryTimeZonesDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<CurrencyDto>("Currencies");
 

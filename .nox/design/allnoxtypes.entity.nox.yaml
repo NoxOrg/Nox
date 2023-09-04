@@ -291,10 +291,10 @@ attributes:
     type: image
     isRequired: true
 
-  # - name: LatLongField
-  #   description: LatLongField Nox Type
-  #   type: latLong
-  #   isRequired: true
+  - name: LatLongField
+    description: LatLongField Nox Type
+    type: latLong
+    isRequired: true
 
   - name: MoneyField
     description: Money Nox Type

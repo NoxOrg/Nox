@@ -88,9 +88,9 @@ public class CountryMapper : EntityMapperBase<Country>
     
 
         /// <summary>
-        /// Country Country's currency ExactlyOne Currencies
+        /// Country Country's primary currency for legal tender ExactlyOne Currencies
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "Currencies", dto.CurrencyId);
+        noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "Currency", dto.CurrencyId);
         if (noxTypeValue != null)
         {        
             entity.CurrencyId = noxTypeValue;
@@ -287,11 +287,11 @@ public class CountryMapper : EntityMapperBase<Country>
     
     
         /// <summary>
-        /// Country Country's currency ExactlyOne Currencies
+        /// Country Country's primary currency for legal tender ExactlyOne Currencies
         /// </summary>
         if (updatedProperties.TryGetValue("CurrencyId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "Currencies", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "Currency", value);
             if (noxRelationshipTypeValue != null)
             {        
                 entity.CurrencyId = noxRelationshipTypeValue;

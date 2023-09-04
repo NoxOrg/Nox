@@ -31,7 +31,7 @@ public partial class ExchangeRate : AuditableEntityBase
     public Nox.Types.DateTime EffectiveAt { get; set; } = null!;
 
     /// <summary>
-    /// ExchangeRate Exchanged from currency ExactlyOne Currencies
+    /// ExchangeRate Exchange rate relative to CHF (Swiss Franc) ExactlyOne Currencies
     /// </summary>
     public virtual Currency Currency { get; set; } = null!;
 

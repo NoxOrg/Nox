@@ -72,6 +72,6 @@ public class EntityRelationship : DefinitionBase
 
 public class RelatedEntityInfo
 {
-    public Entity Entity { get; internal set; } = null!;
-    public virtual EntityRelationship EntityRelationship { get; internal set; } = null!;
+    public Entity Entity { get; internal set; } = default!;
+    public virtual EntityRelationship EntityRelationship { get; internal set; } = default!; 
 }

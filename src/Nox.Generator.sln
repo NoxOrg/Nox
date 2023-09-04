@@ -92,7 +92,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Localization.Tests", ".
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Integration.Tests", "..\tests\Nox.Integration.Tests\Nox.Integration.Tests.csproj", "{C52A585F-D77C-45A6-9105-18CC4D9A7EED}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Samples", "Samples", "{BDF97718-FAAD-4A1B-BA61-BFF0A7B78827}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "0Samples", "0Samples", "{BDF97718-FAAD-4A1B-BA61-BFF0A7B78827}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Cryptocash.Api", "..\samples\Cryptocash.Api\Cryptocash.Api.csproj", "{8B23A857-9E38-4B44-9A4A-61551E347199}"
 EndProject

@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebAppdeprecated.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230831123430_InitialCreate")]
+    [Migration("20230901055855_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -965,6 +965,28 @@ namespace SampleWebAppdeprecated.Migrations
                                 .HasForeignKey("AllNoxTypeId", "AllNoxTypeTextId");
                         });
 
+                    b.OwnsOne("Nox.Types.LatLong", "LatLongField", b1 =>
+                        {
+                            b1.Property<long>("AllNoxTypeId")
+                                .HasColumnType("bigint");
+
+                            b1.Property<string>("AllNoxTypeTextId")
+                                .HasColumnType("nvarchar(255)");
+
+                            b1.Property<double>("Latitude")
+                                .HasColumnType("float");
+
+                            b1.Property<double>("Longitude")
+                                .HasColumnType("float");
+
+                            b1.HasKey("AllNoxTypeId", "AllNoxTypeTextId");
+
+                            b1.ToTable("AllNoxTypes");
+
+                            b1.WithOwner()
+                                .HasForeignKey("AllNoxTypeId", "AllNoxTypeTextId");
+                        });
+
                     b.OwnsOne("Nox.Types.Money", "MoneyField", b1 =>
                         {
                             b1.Property<long>("AllNoxTypeId")
@@ -996,6 +1018,9 @@ namespace SampleWebAppdeprecated.Migrations
                     b.Navigation("ImageField")
                         .IsRequired();
 
+                    b.Navigation("LatLongField")
+                        .IsRequired();
+
                     b.Navigation("MoneyField")
                         .IsRequired();
 
@@ -1019,13 +1044,11 @@ namespace SampleWebAppdeprecated.Migrations
                             b1.Property<long>("CountryId")
                                 .HasColumnType("bigint");
 
-                            b1.Property<decimal>("Latitude")
-                                .HasPrecision(8, 6)
-                                .HasColumnType("decimal(8,6)");
+                            b1.Property<double>("Latitude")
+                                .HasColumnType("float");
 
-                            b1.Property<decimal>("Longitude")
-                                .HasPrecision(9, 6)
-                                .HasColumnType("decimal(9,6)");
+                            b1.Property<double>("Longitude")
+                                .HasColumnType("float");
 
                             b1.HasKey("CountryId");
 

@@ -28,13 +28,4 @@ public partial class CountryTimeZonesDto
     /// Country's related time zone code (Required).
     /// </summary>
     public System.String TimeZoneCode { get; set; } = default!;
-
-    /// <summary>
-    /// CountryTimeZones Country's time zones ExactlyOne Countries
-    /// </summary>
-    //EF maps ForeignKey Automatically
-    public System.String CountryId { get; set; } = default!;
-    public virtual CountryDto Country { get; set; } = null!;
-
-    public System.DateTime? DeletedAtUtc { get; set; }
 }

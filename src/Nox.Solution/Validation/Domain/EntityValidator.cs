@@ -27,7 +27,7 @@ namespace Nox.Solution.Validation
                 .SetValidator(e => new UniquePropertyValidator<EntityRelationship>(e.Relationships, x => x.Name, "entity relation"));
 
             RuleForEach(e => e.OwnedRelationships)
-                .SetValidator(e => new EntityRelationshipValidator(e.Name, entities, bindToOtherRelationship: false))
+                .SetValidator(e => new EntityRelationshipValidator(e.Name, entities, requiresCorrespondingRelationship: false))
                 .SetValidator(x => new EntityItemUniquenessValidator<EntityRelationship>(x, t => t.Name, nameof(x.OwnedRelationships)))
                 .SetValidator(e => new UniquePropertyValidator<EntityRelationship>(e.OwnedRelationships, x => x.Name, "entity owned relation"));
 
