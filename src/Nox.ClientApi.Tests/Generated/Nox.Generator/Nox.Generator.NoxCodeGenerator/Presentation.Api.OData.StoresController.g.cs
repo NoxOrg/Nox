@@ -9,18 +9,18 @@ using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Nox.Application;
-using Cryptocash.Application;
-using Cryptocash.Application.Dto;
-using Cryptocash.Application.Queries;
-using Cryptocash.Application.Commands;
-using Cryptocash.Domain;
-using Cryptocash.Infrastructure.Persistence;
+using ClientApi.Application;
+using ClientApi.Application.Dto;
+using ClientApi.Application.Queries;
+using ClientApi.Application.Commands;
+using ClientApi.Domain;
+using ClientApi.Infrastructure.Persistence;
 using Nox.Types;
 
-namespace Cryptocash.Presentation.Api.OData;
+namespace ClientApi.Presentation.Api.OData;
 
 [Route("{controller}")]
-public partial class BankNotesController : ODataController
+public partial class StoresController : ODataController
 {
     
     /// <summary>
@@ -33,7 +33,7 @@ public partial class BankNotesController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public BankNotesController(
+    public StoresController(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -44,15 +44,15 @@ public partial class BankNotesController : ODataController
     
     [HttpGet]
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<BankNotesDto>>> Get()
+    public async  Task<ActionResult<IQueryable<StoreDto>>> Get()
     {
-        var result = await _mediator.Send(new GetBankNotesQuery());
+        var result = await _mediator.Send(new GetStoresQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<BankNotesDto>> Get([FromRoute] System.Int64 key)
+    public async Task<ActionResult<StoreDto>> Get([FromRoute] System.UInt32 key)
     {
-        var item = await _mediator.Send(new GetBankNotesByIdQuery(key));
+        var item = await _mediator.Send(new GetStoreByIdQuery(key));
         
         if (item == null)
         {
@@ -63,26 +63,26 @@ public partial class BankNotesController : ODataController
     }
     
     [HttpPost]
-    public async Task<ActionResult> Post([FromBody]BankNotesCreateDto banknotes)
+    public async Task<ActionResult> Post([FromBody]StoreCreateDto store)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateBankNotesCommand(banknotes));
+        var createdKey = await _mediator.Send(new CreateStoreCommand(store));
         
         return Created(createdKey);
     }
     
     [HttpPut]
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] BankNotesUpdateDto bankNotes)
+    public async Task<ActionResult> Put([FromRoute] System.UInt32 key, [FromBody] StoreUpdateDto store)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateBankNotesCommand(key, bankNotes));
+        var updated = await _mediator.Send(new UpdateStoreCommand(key, store));
         
         if (updated is null)
         {
@@ -92,7 +92,7 @@ public partial class BankNotesController : ODataController
     }
     
     [HttpPatch]
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<BankNotesUpdateDto> bankNotes)
+    public async Task<ActionResult> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<StoreUpdateDto> store)
     {
         if (!ModelState.IsValid)
         {
@@ -100,15 +100,15 @@ public partial class BankNotesController : ODataController
         }
         var updateProperties = new Dictionary<string, dynamic>();
         
-        foreach (var propertyName in bankNotes.GetChangedPropertyNames())
+        foreach (var propertyName in store.GetChangedPropertyNames())
         {
-            if(bankNotes.TryGetPropertyValue(propertyName, out dynamic value))
+            if(store.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateBankNotesCommand(key, updateProperties));
+        var updated = await _mediator.Send(new PartialUpdateStoreCommand(key, updateProperties));
         
         if (updated is null)
         {
@@ -118,9 +118,9 @@ public partial class BankNotesController : ODataController
     }
     
     [HttpDelete]
-    public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public async Task<ActionResult> Delete([FromRoute] System.UInt32 key)
     {
-        var result = await _mediator.Send(new DeleteBankNotesByIdCommand(key));
+        var result = await _mediator.Send(new DeleteStoreByIdCommand(key));
         if (!result)
         {
             return NotFound();

@@ -20,7 +20,7 @@ using Nox.Types;
 namespace Cryptocash.Presentation.Api.OData;
 
 [Route("{controller}")]
-public partial class BankNotesController : ODataController
+public partial class CommissionsController : ODataController
 {
     
     /// <summary>
@@ -33,7 +33,7 @@ public partial class BankNotesController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public BankNotesController(
+    public CommissionsController(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -44,15 +44,15 @@ public partial class BankNotesController : ODataController
     
     [HttpGet]
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<BankNotesDto>>> Get()
+    public async  Task<ActionResult<IQueryable<CommissionDto>>> Get()
     {
-        var result = await _mediator.Send(new GetBankNotesQuery());
+        var result = await _mediator.Send(new GetCommissionsQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<BankNotesDto>> Get([FromRoute] System.Int64 key)
+    public async Task<ActionResult<CommissionDto>> Get([FromRoute] System.Int64 key)
     {
-        var item = await _mediator.Send(new GetBankNotesByIdQuery(key));
+        var item = await _mediator.Send(new GetCommissionByIdQuery(key));
         
         if (item == null)
         {
@@ -63,26 +63,26 @@ public partial class BankNotesController : ODataController
     }
     
     [HttpPost]
-    public async Task<ActionResult> Post([FromBody]BankNotesCreateDto banknotes)
+    public async Task<ActionResult> Post([FromBody]CommissionCreateDto commission)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateBankNotesCommand(banknotes));
+        var createdKey = await _mediator.Send(new CreateCommissionCommand(commission));
         
         return Created(createdKey);
     }
     
     [HttpPut]
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] BankNotesUpdateDto bankNotes)
+    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] CommissionUpdateDto commission)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateBankNotesCommand(key, bankNotes));
+        var updated = await _mediator.Send(new UpdateCommissionCommand(key, commission));
         
         if (updated is null)
         {
@@ -92,7 +92,7 @@ public partial class BankNotesController : ODataController
     }
     
     [HttpPatch]
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<BankNotesUpdateDto> bankNotes)
+    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CommissionUpdateDto> commission)
     {
         if (!ModelState.IsValid)
         {
@@ -100,15 +100,15 @@ public partial class BankNotesController : ODataController
         }
         var updateProperties = new Dictionary<string, dynamic>();
         
-        foreach (var propertyName in bankNotes.GetChangedPropertyNames())
+        foreach (var propertyName in commission.GetChangedPropertyNames())
         {
-            if(bankNotes.TryGetPropertyValue(propertyName, out dynamic value))
+            if(commission.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateBankNotesCommand(key, updateProperties));
+        var updated = await _mediator.Send(new PartialUpdateCommissionCommand(key, updateProperties));
         
         if (updated is null)
         {
@@ -120,7 +120,7 @@ public partial class BankNotesController : ODataController
     [HttpDelete]
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var result = await _mediator.Send(new DeleteBankNotesByIdCommand(key));
+        var result = await _mediator.Send(new DeleteCommissionByIdCommand(key));
         if (!result)
         {
             return NotFound();

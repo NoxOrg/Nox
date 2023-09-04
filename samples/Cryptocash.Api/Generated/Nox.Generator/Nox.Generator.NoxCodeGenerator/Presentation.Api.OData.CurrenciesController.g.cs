@@ -20,7 +20,7 @@ using Nox.Types;
 namespace Cryptocash.Presentation.Api.OData;
 
 [Route("{controller}")]
-public partial class BankNotesController : ODataController
+public partial class CurrenciesController : ODataController
 {
     
     /// <summary>
@@ -33,7 +33,7 @@ public partial class BankNotesController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public BankNotesController(
+    public CurrenciesController(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -44,15 +44,15 @@ public partial class BankNotesController : ODataController
     
     [HttpGet]
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<BankNotesDto>>> Get()
+    public async  Task<ActionResult<IQueryable<CurrencyDto>>> Get()
     {
-        var result = await _mediator.Send(new GetBankNotesQuery());
+        var result = await _mediator.Send(new GetCurrenciesQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<BankNotesDto>> Get([FromRoute] System.Int64 key)
+    public async Task<ActionResult<CurrencyDto>> Get([FromRoute] System.String key)
     {
-        var item = await _mediator.Send(new GetBankNotesByIdQuery(key));
+        var item = await _mediator.Send(new GetCurrencyByIdQuery(key));
         
         if (item == null)
         {
@@ -63,26 +63,26 @@ public partial class BankNotesController : ODataController
     }
     
     [HttpPost]
-    public async Task<ActionResult> Post([FromBody]BankNotesCreateDto banknotes)
+    public async Task<ActionResult> Post([FromBody]CurrencyCreateDto currency)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateBankNotesCommand(banknotes));
+        var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency));
         
         return Created(createdKey);
     }
     
     [HttpPut]
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] BankNotesUpdateDto bankNotes)
+    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] CurrencyUpdateDto currency)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateBankNotesCommand(key, bankNotes));
+        var updated = await _mediator.Send(new UpdateCurrencyCommand(key, currency));
         
         if (updated is null)
         {
@@ -92,7 +92,7 @@ public partial class BankNotesController : ODataController
     }
     
     [HttpPatch]
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<BankNotesUpdateDto> bankNotes)
+    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<CurrencyUpdateDto> currency)
     {
         if (!ModelState.IsValid)
         {
@@ -100,15 +100,15 @@ public partial class BankNotesController : ODataController
         }
         var updateProperties = new Dictionary<string, dynamic>();
         
-        foreach (var propertyName in bankNotes.GetChangedPropertyNames())
+        foreach (var propertyName in currency.GetChangedPropertyNames())
         {
-            if(bankNotes.TryGetPropertyValue(propertyName, out dynamic value))
+            if(currency.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateBankNotesCommand(key, updateProperties));
+        var updated = await _mediator.Send(new PartialUpdateCurrencyCommand(key, updateProperties));
         
         if (updated is null)
         {
@@ -118,9 +118,9 @@ public partial class BankNotesController : ODataController
     }
     
     [HttpDelete]
-    public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
-        var result = await _mediator.Send(new DeleteBankNotesByIdCommand(key));
+        var result = await _mediator.Send(new DeleteCurrencyByIdCommand(key));
         if (!result)
         {
             return NotFound();

@@ -1,10 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
-using Azure;
-using Azure.Core;
-using MediatR;
+﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using Nox.Extensions;
-using Nox.Types;
 
 namespace Nox.Application.Behaviors
 {

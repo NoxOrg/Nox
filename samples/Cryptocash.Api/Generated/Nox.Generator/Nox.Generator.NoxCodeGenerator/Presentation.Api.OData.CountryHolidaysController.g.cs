@@ -20,7 +20,7 @@ using Nox.Types;
 namespace Cryptocash.Presentation.Api.OData;
 
 [Route("{controller}")]
-public partial class BankNotesController : ODataController
+public partial class CountryHolidaysController : ODataController
 {
     
     /// <summary>
@@ -33,7 +33,7 @@ public partial class BankNotesController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public BankNotesController(
+    public CountryHolidaysController(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -44,15 +44,15 @@ public partial class BankNotesController : ODataController
     
     [HttpGet]
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<BankNotesDto>>> Get()
+    public async  Task<ActionResult<IQueryable<CountryHolidayDto>>> Get()
     {
-        var result = await _mediator.Send(new GetBankNotesQuery());
+        var result = await _mediator.Send(new GetCountryHolidaysQuery());
         return Ok(result);
     }
     
-    public async Task<ActionResult<BankNotesDto>> Get([FromRoute] System.Int64 key)
+    public async Task<ActionResult<CountryHolidayDto>> Get([FromRoute] System.Int64 key)
     {
-        var item = await _mediator.Send(new GetBankNotesByIdQuery(key));
+        var item = await _mediator.Send(new GetCountryHolidayByIdQuery(key));
         
         if (item == null)
         {
@@ -63,26 +63,26 @@ public partial class BankNotesController : ODataController
     }
     
     [HttpPost]
-    public async Task<ActionResult> Post([FromBody]BankNotesCreateDto banknotes)
+    public async Task<ActionResult> Post([FromBody]CountryHolidayCreateDto countryholiday)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateBankNotesCommand(banknotes));
+        var createdKey = await _mediator.Send(new CreateCountryHolidayCommand(countryholiday));
         
         return Created(createdKey);
     }
     
     [HttpPut]
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] BankNotesUpdateDto bankNotes)
+    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] CountryHolidayUpdateDto countryHoliday)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateBankNotesCommand(key, bankNotes));
+        var updated = await _mediator.Send(new UpdateCountryHolidayCommand(key, countryHoliday));
         
         if (updated is null)
         {
@@ -92,7 +92,7 @@ public partial class BankNotesController : ODataController
     }
     
     [HttpPatch]
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<BankNotesUpdateDto> bankNotes)
+    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CountryHolidayUpdateDto> countryHoliday)
     {
         if (!ModelState.IsValid)
         {
@@ -100,15 +100,15 @@ public partial class BankNotesController : ODataController
         }
         var updateProperties = new Dictionary<string, dynamic>();
         
-        foreach (var propertyName in bankNotes.GetChangedPropertyNames())
+        foreach (var propertyName in countryHoliday.GetChangedPropertyNames())
         {
-            if(bankNotes.TryGetPropertyValue(propertyName, out dynamic value))
+            if(countryHoliday.TryGetPropertyValue(propertyName, out dynamic value))
             {
                 updateProperties[propertyName] = value;                
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateBankNotesCommand(key, updateProperties));
+        var updated = await _mediator.Send(new PartialUpdateCountryHolidayCommand(key, updateProperties));
         
         if (updated is null)
         {
@@ -120,7 +120,7 @@ public partial class BankNotesController : ODataController
     [HttpDelete]
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var result = await _mediator.Send(new DeleteBankNotesByIdCommand(key));
+        var result = await _mediator.Send(new DeleteCountryHolidayByIdCommand(key));
         if (!result)
         {
             return NotFound();
