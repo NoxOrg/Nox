@@ -212,7 +212,7 @@ public partial class AllNoxTypeUpdateDto
     /// </summary>
     [Required(ErrorMessage = "TimeField is required")]
     
-    public System.TimeSpan TimeField { get; set; } = default!;
+    public System.DateTime TimeField { get; set; } = default!;
     /// <summary>
     /// TimeZoneCode Nox Type (Required).
     /// </summary>

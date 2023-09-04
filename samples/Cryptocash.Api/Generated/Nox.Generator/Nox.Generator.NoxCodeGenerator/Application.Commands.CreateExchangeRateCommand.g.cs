@@ -22,16 +22,13 @@ public record CreateExchangeRateCommand(ExchangeRateCreateDto EntityDto) : IRequ
 public partial class CreateExchangeRateCommandHandler: CommandBase<CreateExchangeRateCommand,ExchangeRate>, IRequestHandler <CreateExchangeRateCommand, ExchangeRateKeyDto>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityFactory<ExchangeRateCreateDto,ExchangeRate> EntityFactory { get; }
 
 	public CreateExchangeRateCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<ExchangeRateCreateDto,ExchangeRate> entityFactory): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory;
 	}
 
 	public async Task<ExchangeRateKeyDto> Handle(CreateExchangeRateCommand request, CancellationToken cancellationToken)
@@ -39,7 +36,7 @@ public partial class CreateExchangeRateCommandHandler: CommandBase<CreateExchang
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = request.EntityDto.ToEntity();
 	
 		OnCompleted(entityToCreate);
 		DbContext.ExchangeRates.Add(entityToCreate);

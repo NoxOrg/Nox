@@ -20,7 +20,7 @@ public enum NoxType : uint
     // Entity depends on the concrete instance and if it supports multiple keys or not!
     [CompoundComponent("Type", typeof(string))]
     [CompoundComponent("Id", typeof(uint))]
-    Entity = 2276495181,
+    EntityId = 2768006308,
 
     [CompoundType]
     [CompoundComponent("Url", typeof(string))]
@@ -137,7 +137,7 @@ public enum NoxType : uint
     [SimpleType(typeof(string))]
     Email = 3393987164,
 
-    [SimpleType(typeof(string), Read = false, Update = false)]
+    [SimpleType(typeof(byte[]), Read = false, Update = false)]
     EncryptedText = 1841598137,
 
     [SimpleType(typeof(string), Update = false)]
@@ -194,7 +194,7 @@ public enum NoxType : uint
     [SimpleType(typeof(string))]
     Text = 1432028016,
 
-    [SimpleType(typeof(TimeSpan))]
+    [SimpleType(typeof(DateTime))]
     Time = 2288042805,
 
     [SimpleType(typeof(string))]

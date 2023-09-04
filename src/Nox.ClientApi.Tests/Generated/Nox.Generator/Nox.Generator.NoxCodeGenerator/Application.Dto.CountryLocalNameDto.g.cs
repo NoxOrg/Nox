@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
-//using ClientApi.Application.DataTransferObjects;
+using Nox.Extensions;
+
 using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
@@ -27,5 +31,5 @@ public partial class CountryLocalNameDto
     /// <summary>
     /// Local name (Required).
     /// </summary>
-    public System.String Name { get; set; } = default!;
+    public System.String Name { get; set; } = default!;    
 }

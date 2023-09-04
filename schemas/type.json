@@ -492,9 +492,9 @@
           ]
         },
         "type": {    
-          "const": "entity"
+          "const": "entityId"
         },
-        "entityTypeOptions": {    
+        "entityIdTypeOptions": {    
           "type": [
             "object",
             "null"
@@ -2086,7 +2086,6 @@
                 "dateTime",
                 "decimal",
                 "double",
-                "enum",
                 "int",
                 "long",
                 "string"

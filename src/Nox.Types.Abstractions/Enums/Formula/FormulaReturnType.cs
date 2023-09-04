@@ -7,14 +7,13 @@ namespace Nox.Types;
 /// </summary>
 public enum FormulaReturnType
 {
-    @string,
-    @int,
-    @long,
-    @double,
-    @decimal,
-    @bool,
-    @DateTime,
-    @Enum,
+    String,
+    Int,
+    Long,
+    Double,
+    Decimal,
+    Bool,
+    DateTime,
 }
 
 public static class FormulaReturnTypeExtensions
@@ -22,12 +21,12 @@ public static class FormulaReturnTypeExtensions
     public static Type AsNativeType(this FormulaReturnType type)
         => type switch
         {
-            FormulaReturnType.@string => typeof(string),
-            FormulaReturnType.@int => typeof(int),
-            FormulaReturnType.@long => typeof(long),
-            FormulaReturnType.@double => typeof(double),
-            FormulaReturnType.@decimal => typeof(decimal),
-            FormulaReturnType.@bool => typeof(bool),
+            FormulaReturnType.String => typeof(string),
+            FormulaReturnType.Int => typeof(int),
+            FormulaReturnType.Long => typeof(long),
+            FormulaReturnType.Double => typeof(double),
+            FormulaReturnType.Decimal => typeof(decimal),
+            FormulaReturnType.Bool => typeof(bool),
             FormulaReturnType.DateTime => typeof(DateTime),
             _ => throw new NotImplementedException(),
         };

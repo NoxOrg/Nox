@@ -116,8 +116,7 @@ public static class NoxSolutionMarkdownExtensions
 
     private static string GetTypeOptions(NoxSimpleTypeDefinition def, NoxSolution noxSolution)
     {
-        // noxSolution.GetSingleKeyTypeForEntity(def.EntityTypeOptions!.Entity) 
-        if (def.Type == NoxType.Entity)
+        if (def.Type == NoxType.EntityId)
             return string.Empty;
 
         var type = def.Type;

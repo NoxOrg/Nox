@@ -11,7 +11,7 @@ internal record NoxTypeComponentsDiscover : INoxTypeComponentsDiscover
         _underlyingType = underlyingType;
     }
 
-    public Type GeUnderlyingType(NoxSimpleTypeDefinition attribute)
+    public Type GetUnderlyingType(NoxSimpleTypeDefinition attribute)
     {
         return _underlyingType;
     }

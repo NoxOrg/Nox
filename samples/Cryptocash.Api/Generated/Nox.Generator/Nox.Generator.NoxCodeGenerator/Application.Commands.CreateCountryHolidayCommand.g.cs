@@ -22,16 +22,13 @@ public record CreateCountryHolidayCommand(CountryHolidayCreateDto EntityDto) : I
 public partial class CreateCountryHolidayCommandHandler: CommandBase<CreateCountryHolidayCommand,CountryHoliday>, IRequestHandler <CreateCountryHolidayCommand, CountryHolidayKeyDto>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityFactory<CountryHolidayCreateDto,CountryHoliday> EntityFactory { get; }
 
 	public CreateCountryHolidayCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<CountryHolidayCreateDto,CountryHoliday> entityFactory): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory;
 	}
 
 	public async Task<CountryHolidayKeyDto> Handle(CreateCountryHolidayCommand request, CancellationToken cancellationToken)
@@ -39,7 +36,7 @@ public partial class CreateCountryHolidayCommandHandler: CommandBase<CreateCount
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = request.EntityDto.ToEntity();
 	
 		OnCompleted(entityToCreate);
 		DbContext.CountryHolidays.Add(entityToCreate);

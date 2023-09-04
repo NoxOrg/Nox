@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
-//using Cryptocash.Application.DataTransferObjects;
+using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -27,5 +31,5 @@ public partial class CountryTimeZonesDto
     /// <summary>
     /// Country's related time zone code (Required).
     /// </summary>
-    public System.String TimeZoneCode { get; set; } = default!;
+    public System.String TimeZoneCode { get; set; } = default!;    
 }

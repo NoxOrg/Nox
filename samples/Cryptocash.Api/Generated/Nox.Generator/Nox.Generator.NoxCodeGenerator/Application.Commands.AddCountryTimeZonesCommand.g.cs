@@ -22,16 +22,13 @@ public record AddCountryTimeZonesCommand(CountryKeyDto ParentKeyDto, CountryTime
 public partial class AddCountryTimeZonesCommandHandler: CommandBase<AddCountryTimeZonesCommand, CountryTimeZones>, IRequestHandler <AddCountryTimeZonesCommand, CountryTimeZonesKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityFactory<CountryTimeZonesCreateDto,CountryTimeZones> EntityFactory { get; }
 
 	public AddCountryTimeZonesCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<CountryTimeZonesCreateDto,CountryTimeZones> entityFactory): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
-		EntityFactory = entityFactory;
+		DbContext = dbContext;		
 	}
 
 	public async Task<CountryTimeZonesKeyDto?> Handle(AddCountryTimeZonesCommand request, CancellationToken cancellationToken)
@@ -45,7 +42,7 @@ public partial class AddCountryTimeZonesCommandHandler: CommandBase<AddCountryTi
 			return null;
 		}
 
-		var entity = EntityFactory.CreateEntity(request.EntityDto);
+		var entity = request.EntityDto.ToEntity();
 		
 		parentEntity.CountryTimeZones.Add(entity);
 

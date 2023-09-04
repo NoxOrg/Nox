@@ -22,16 +22,13 @@ public record CreateVendingMachineOrderCommand(VendingMachineOrderCreateDto Enti
 public partial class CreateVendingMachineOrderCommandHandler: CommandBase<CreateVendingMachineOrderCommand,VendingMachineOrder>, IRequestHandler <CreateVendingMachineOrderCommand, VendingMachineOrderKeyDto>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityFactory<VendingMachineOrderCreateDto,VendingMachineOrder> EntityFactory { get; }
 
 	public CreateVendingMachineOrderCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<VendingMachineOrderCreateDto,VendingMachineOrder> entityFactory): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory;
 	}
 
 	public async Task<VendingMachineOrderKeyDto> Handle(CreateVendingMachineOrderCommand request, CancellationToken cancellationToken)
@@ -39,7 +36,7 @@ public partial class CreateVendingMachineOrderCommandHandler: CommandBase<Create
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = request.EntityDto.ToEntity();
 	
 		OnCompleted(entityToCreate);
 		DbContext.VendingMachineOrders.Add(entityToCreate);

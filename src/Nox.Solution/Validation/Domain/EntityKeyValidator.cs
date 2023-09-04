@@ -13,7 +13,7 @@ namespace Nox.Solution.Validation
 
             // Do not accept compound with exception to Entity
             RuleFor(p => p.Type)
-                .Must(x => !x.IsCompoundType() || x == Types.NoxType.Entity)
+                .Must(x => !x.IsCompoundType() || x == Types.NoxType.EntityId)
                 .WithMessage(m => string.Format(ValidationResources.EntityKeyShouldNotBeCompoundType, description, m.Name));
         }
     }

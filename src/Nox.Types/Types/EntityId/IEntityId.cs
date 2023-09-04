@@ -2,7 +2,7 @@
 
 namespace Nox.Types;
 
-public interface IEntity
+public interface IEntityId
 {
     string Type { get; }
     UInt32 Id { get; }

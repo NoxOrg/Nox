@@ -2,7 +2,7 @@
 
 namespace Nox.Types;
 
-public class NumberTypeOptions : IHaveUnderLineTypeOptions
+public class NumberTypeOptions : INoxTypeOptionsWithDynamicType
 {
     // Default Create Options
     public static readonly decimal DefaultMinValue = -999999999;
@@ -15,7 +15,7 @@ public class NumberTypeOptions : IHaveUnderLineTypeOptions
     public uint DecimalDigits { get; set; } = 0;
 
 
-    public Type GetUnderlineType()
+    public Type GetUnderlyingType()
     {
         if (DecimalDigits == 0) // integer
         {

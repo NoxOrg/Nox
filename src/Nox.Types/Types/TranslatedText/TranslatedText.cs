@@ -32,20 +32,27 @@ public sealed class TranslatedText : ValueObject<(CultureCode CultureCode, strin
     /// </summary>
     public TranslatedText() { Value = (Types.CultureCode.From("en-US"), string.Empty); }
 
+    public static TranslatedText From(ITranslatedText value)
+        => From((CultureCode: Types.CultureCode.From(value.CultureCode), Phrase: value.Phrase));
+
+    public static TranslatedText From(ITranslatedText value, TranslatedTextTypeOptions options)
+        => From((CultureCode: Types.CultureCode.From(value.CultureCode), Phrase: value.Phrase));
+
+
     /// <summary>
     /// Creates an instance of  <see cref="TranslatedText"/> class From the provided parameters.
     /// </summary>
     /// <param name="translatedText">The translated text.</param>
     /// <param name="translatedTextTypeOptions">The translated text type options.</param>
     /// <returns>A TranslatedText.</returns>
-    public static TranslatedText From((CultureCode cultureCode, string phrase) translatedText, TranslatedTextTypeOptions translatedTextTypeOptions)
+    public static TranslatedText From((CultureCode CultureCode, string Phrase) translatedText, TranslatedTextTypeOptions translatedTextTypeOptions)
     {
 
         var newObject = new TranslatedText
         {
             _translatedTextTypeOptions = translatedTextTypeOptions,
-            CultureCode = translatedText.cultureCode.Value,
-            Phrase = translatedText.phrase
+            CultureCode = translatedText.CultureCode.Value,
+            Phrase = translatedText.Phrase
         };
 
         var validationResult = newObject.Validate();
