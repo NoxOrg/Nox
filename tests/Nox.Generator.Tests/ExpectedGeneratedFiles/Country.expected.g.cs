@@ -13,7 +13,7 @@ namespace SampleWebApp.Domain;
 /// <summary>
 /// The list of countries.
 /// </summary>
-public partial class Country : AuditableEntityBase
+public partial class Country : AuditableEntityBase, IConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -45,4 +45,9 @@ public partial class Country : AuditableEntityBase
     /// The country's official name (Required).
     /// </summary>
     public Nox.Types.Text FormalName { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
 }

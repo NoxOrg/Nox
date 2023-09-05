@@ -86,7 +86,9 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateCountryCommand(key, country));
+        var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();
+        System.Guid? etag = System.Guid.TryParse(ifMatchValue, out System.Guid parsedValue) ? parsedValue : null; 
+        var updated = await _mediator.Send(new UpdateCountryCommand(key, country, etag));
         
         if (updated is null)
         {
@@ -101,6 +103,7 @@ public partial class CountriesController : ODataController
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in country.GetChangedPropertyNames())
@@ -111,7 +114,9 @@ public partial class CountriesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties));
+        var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();
+        System.Guid? etag = System.Guid.TryParse(ifMatchValue, out System.Guid parsedValue) ? parsedValue : null; 
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties, etag));
         
         if (updated is null)
         {
@@ -122,7 +127,10 @@ public partial class CountriesController : ODataController
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
-        var result = await _mediator.Send(new DeleteCountryByIdCommand(key));
+        var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();
+        System.Guid? etag = System.Guid.TryParse(ifMatchValue, out System.Guid parsedValue) ? parsedValue : null; 
+        var result = await _mediator.Send(new DeleteCountryByIdCommand(key, etag));
+        
         if (!result)
         {
             return NotFound();
