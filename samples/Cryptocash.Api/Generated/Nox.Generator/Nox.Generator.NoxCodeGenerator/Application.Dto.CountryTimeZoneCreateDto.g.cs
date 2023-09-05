@@ -16,13 +16,13 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Time zone related to country.
 /// </summary>
-public partial class TimeZoneCreateDto : TimeZoneUpdateDto
+public partial class CountryTimeZoneCreateDto : CountryTimeZoneUpdateDto
 {
 
-    public Cryptocash.Domain.TimeZone ToEntity()
+    public Cryptocash.Domain.CountryTimeZone ToEntity()
     {
-        var entity = new Cryptocash.Domain.TimeZone();
-        entity.TimeZoneCode = Cryptocash.Domain.TimeZone.CreateTimeZoneCode(TimeZoneCode);
+        var entity = new Cryptocash.Domain.CountryTimeZone();
+        entity.TimeZoneCode = Cryptocash.Domain.CountryTimeZone.CreateTimeZoneCode(TimeZoneCode);
         return entity;
     }
 }

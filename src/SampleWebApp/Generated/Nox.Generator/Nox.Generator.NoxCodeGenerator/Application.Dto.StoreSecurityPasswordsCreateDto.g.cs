@@ -24,12 +24,12 @@ public partial class StoreSecurityPasswordsCreateDto : StoreSecurityPasswordsUpd
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
 
-    public StoreSecurityPasswords ToEntity()
+    public SampleWebApp.Domain.StoreSecurityPasswords ToEntity()
     {
-        var entity = new StoreSecurityPasswords();
+        var entity = new SampleWebApp.Domain.StoreSecurityPasswords();
         entity.Id = StoreSecurityPasswords.CreateId(Id);
-        entity.Name = StoreSecurityPasswords.CreateName(Name);
-        entity.SecurityCamerasPassword = StoreSecurityPasswords.CreateSecurityCamerasPassword(SecurityCamerasPassword);
+        entity.Name = SampleWebApp.Domain.StoreSecurityPasswords.CreateName(Name);
+        entity.SecurityCamerasPassword = SampleWebApp.Domain.StoreSecurityPasswords.CreateSecurityCamerasPassword(SecurityCamerasPassword);
         //entity.Store = Store.ToEntity();
         return entity;
     }

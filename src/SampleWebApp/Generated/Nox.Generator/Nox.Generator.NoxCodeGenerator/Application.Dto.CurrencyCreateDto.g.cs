@@ -19,10 +19,10 @@ namespace SampleWebApp.Application.Dto;
 public partial class CurrencyCreateDto : CurrencyUpdateDto
 {
 
-    public Currency ToEntity()
+    public SampleWebApp.Domain.Currency ToEntity()
     {
-        var entity = new Currency();
-        entity.Name = Currency.CreateName(Name);
+        var entity = new SampleWebApp.Domain.Currency();
+        entity.Name = SampleWebApp.Domain.Currency.CreateName(Name);
         //entity.Countries = Countries.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }
