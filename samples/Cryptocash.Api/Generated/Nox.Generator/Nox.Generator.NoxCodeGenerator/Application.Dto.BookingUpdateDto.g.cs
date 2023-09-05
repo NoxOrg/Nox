@@ -51,20 +51,20 @@ public partial class BookingUpdateDto
     public VatNumberDto? VatNumber { get; set; }
 
     /// <summary>
-    /// Booking Booking's customer ExactlyOne Customers
+    /// Booking for ExactlyOne Customers
     /// </summary>
-    [Required(ErrorMessage = "Customer is required")]
+    [Required(ErrorMessage = "BookingForCustomer is required")]
     public System.Int64 CustomerId { get; set; } = default!;
 
     /// <summary>
-    /// Booking Booking's vending machine ExactlyOne VendingMachines
+    /// Booking related to ExactlyOne VendingMachines
     /// </summary>
-    [Required(ErrorMessage = "VendingMachine is required")]
+    [Required(ErrorMessage = "BookingRelatedVendingMachine is required")]
     public System.Guid VendingMachineId { get; set; } = default!;
 
     /// <summary>
-    /// Booking Booking's fee ExactlyOne Commissions
+    /// Booking fees for ExactlyOne Commissions
     /// </summary>
-    [Required(ErrorMessage = "Fee is required")]
+    [Required(ErrorMessage = "BookingFeesForCommission is required")]
     public System.Int64 CommissionId { get; set; } = default!;
 }

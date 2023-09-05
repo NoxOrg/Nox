@@ -19,12 +19,11 @@ namespace Cryptocash.Application.Dto;
 public partial class ExchangeRateCreateDto : ExchangeRateUpdateDto
 {
 
-    public ExchangeRate ToEntity()
+    public Cryptocash.Domain.ExchangeRate ToEntity()
     {
-        var entity = new ExchangeRate();
-        entity.EffectiveRate = ExchangeRate.CreateEffectiveRate(EffectiveRate);
-        entity.EffectiveAt = ExchangeRate.CreateEffectiveAt(EffectiveAt);
-        //entity.Currency = Currency.ToEntity();
+        var entity = new Cryptocash.Domain.ExchangeRate();
+        entity.EffectiveRate = Cryptocash.Domain.ExchangeRate.CreateEffectiveRate(EffectiveRate);
+        entity.EffectiveAt = Cryptocash.Domain.ExchangeRate.CreateEffectiveAt(EffectiveAt);
         return entity;
     }
 }

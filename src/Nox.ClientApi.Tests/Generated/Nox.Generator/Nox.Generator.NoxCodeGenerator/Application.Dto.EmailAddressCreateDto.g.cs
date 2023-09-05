@@ -19,11 +19,11 @@ namespace ClientApi.Application.Dto;
 public partial class EmailAddressCreateDto : EmailAddressUpdateDto
 {
 
-    public EmailAddress ToEntity()
+    public ClientApi.Domain.EmailAddress ToEntity()
     {
-        var entity = new EmailAddress();
-        if (Email is not null)entity.Email = EmailAddress.CreateEmail(Email.NonNullValue<System.String>());
-        if (IsVerified is not null)entity.IsVerified = EmailAddress.CreateIsVerified(IsVerified.NonNullValue<System.Boolean>());
+        var entity = new ClientApi.Domain.EmailAddress();
+        if (Email is not null)entity.Email = ClientApi.Domain.EmailAddress.CreateEmail(Email.NonNullValue<System.String>());
+        if (IsVerified is not null)entity.IsVerified = ClientApi.Domain.EmailAddress.CreateIsVerified(IsVerified.NonNullValue<System.Boolean>());
         return entity;
     }
 }

@@ -24,12 +24,12 @@ public partial class StoreOwnerCreateDto : StoreOwnerUpdateDto
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
 
-    public StoreOwner ToEntity()
+    public ClientApi.Domain.StoreOwner ToEntity()
     {
-        var entity = new StoreOwner();
+        var entity = new ClientApi.Domain.StoreOwner();
         entity.Id = StoreOwner.CreateId(Id);
-        entity.Name = StoreOwner.CreateName(Name);
-        if (VatNumber is not null)entity.VatNumber = StoreOwner.CreateVatNumber(VatNumber.NonNullValue<VatNumberDto>());
+        entity.Name = ClientApi.Domain.StoreOwner.CreateName(Name);
+        if (VatNumber is not null)entity.VatNumber = ClientApi.Domain.StoreOwner.CreateVatNumber(VatNumber.NonNullValue<VatNumberDto>());
         //entity.Stores = Stores.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }

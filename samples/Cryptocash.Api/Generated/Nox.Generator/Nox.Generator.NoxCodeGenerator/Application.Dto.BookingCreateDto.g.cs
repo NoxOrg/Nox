@@ -19,20 +19,20 @@ namespace Cryptocash.Application.Dto;
 public partial class BookingCreateDto : BookingUpdateDto
 {
 
-    public Booking ToEntity()
+    public Cryptocash.Domain.Booking ToEntity()
     {
-        var entity = new Booking();
-        entity.AmountFrom = Booking.CreateAmountFrom(AmountFrom);
-        entity.AmountTo = Booking.CreateAmountTo(AmountTo);
-        entity.RequestedPickUpDate = Booking.CreateRequestedPickUpDate(RequestedPickUpDate);
-        if (PickedUpDateTime is not null)entity.PickedUpDateTime = Booking.CreatePickedUpDateTime(PickedUpDateTime.NonNullValue<DateTimeRangeDto>());
-        if (ExpiryDateTime is not null)entity.ExpiryDateTime = Booking.CreateExpiryDateTime(ExpiryDateTime.NonNullValue<System.DateTimeOffset>());
-        if (CancelledDateTime is not null)entity.CancelledDateTime = Booking.CreateCancelledDateTime(CancelledDateTime.NonNullValue<System.DateTimeOffset>());
-        if (VatNumber is not null)entity.VatNumber = Booking.CreateVatNumber(VatNumber.NonNullValue<VatNumberDto>());
+        var entity = new Cryptocash.Domain.Booking();
+        entity.AmountFrom = Cryptocash.Domain.Booking.CreateAmountFrom(AmountFrom);
+        entity.AmountTo = Cryptocash.Domain.Booking.CreateAmountTo(AmountTo);
+        entity.RequestedPickUpDate = Cryptocash.Domain.Booking.CreateRequestedPickUpDate(RequestedPickUpDate);
+        if (PickedUpDateTime is not null)entity.PickedUpDateTime = Cryptocash.Domain.Booking.CreatePickedUpDateTime(PickedUpDateTime.NonNullValue<DateTimeRangeDto>());
+        if (ExpiryDateTime is not null)entity.ExpiryDateTime = Cryptocash.Domain.Booking.CreateExpiryDateTime(ExpiryDateTime.NonNullValue<System.DateTimeOffset>());
+        if (CancelledDateTime is not null)entity.CancelledDateTime = Cryptocash.Domain.Booking.CreateCancelledDateTime(CancelledDateTime.NonNullValue<System.DateTimeOffset>());
+        if (VatNumber is not null)entity.VatNumber = Cryptocash.Domain.Booking.CreateVatNumber(VatNumber.NonNullValue<VatNumberDto>());
         //entity.Customer = Customer.ToEntity();
         //entity.VendingMachine = VendingMachine.ToEntity();
         //entity.Commission = Commission.ToEntity();
-        //entity.CustomerTransaction = CustomerTransaction.ToEntity();
+        //entity.Transaction = Transaction.ToEntity();
         return entity;
     }
 }

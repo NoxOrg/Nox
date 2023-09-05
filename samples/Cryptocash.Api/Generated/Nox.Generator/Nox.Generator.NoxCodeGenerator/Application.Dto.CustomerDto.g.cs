@@ -54,22 +54,22 @@ public partial class CustomerDto
     public System.String? MobileNumber { get; set; }
 
     /// <summary>
-    /// Customer Customer's payment details ZeroOrMany CustomerPaymentDetails
+    /// Customer related to ZeroOrMany PaymentDetails
     /// </summary>
-    public virtual List<CustomerPaymentDetailsDto> CustomerPaymentDetails { get; set; } = new();
+    public virtual List<PaymentDetailDto> PaymentDetails { get; set; } = new();
 
     /// <summary>
-    /// Customer Customer's booking ZeroOrMany Bookings
+    /// Customer related to ZeroOrMany Bookings
     /// </summary>
     public virtual List<BookingDto> Bookings { get; set; } = new();
 
     /// <summary>
-    /// Customer Customer's transaction ZeroOrMany CustomerTransactions
+    /// Customer related to ZeroOrMany Transactions
     /// </summary>
-    public virtual List<CustomerTransactionDto> CustomerTransactions { get; set; } = new();
+    public virtual List<TransactionDto> Transactions { get; set; } = new();
 
     /// <summary>
-    /// Customer Customer's country ExactlyOne Countries
+    /// Customer based in ExactlyOne Countries
     /// </summary>
     //EF maps ForeignKey Automatically
     public System.String CountryId { get; set; } = default!;

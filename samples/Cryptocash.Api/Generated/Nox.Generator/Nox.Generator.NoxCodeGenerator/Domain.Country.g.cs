@@ -86,9 +86,11 @@ public partial class Country : AuditableEntityBase
     public Nox.Types.DayOfWeek StartOfWeek { get; set; } = null!;
 
     /// <summary>
-    /// Country Country's primary currency for legal tender ExactlyOne Currencies
+    /// Country used by ExactlyOne Currencies
     /// </summary>
     public virtual Currency Currency { get; set; } = null!;
+
+    public Currency CountryUsedByCurrency => Currency;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Currency
@@ -96,35 +98,37 @@ public partial class Country : AuditableEntityBase
     public Nox.Types.CurrencyCode3 CurrencyId { get; set; } = null!;
 
     /// <summary>
-    /// Country Commission rates country OneOrMany Commissions
+    /// Country used by OneOrMany Commissions
     /// </summary>
     public virtual List<Commission> Commissions { get; set; } = new();
 
-    public List<Commission> Commission => Commissions;
+    public List<Commission> CountryUsedByCommissions => Commissions;
 
     /// <summary>
-    /// Country Vending machine's country ZeroOrMany VendingMachines
+    /// Country used by ZeroOrMany VendingMachines
     /// </summary>
     public virtual List<VendingMachine> VendingMachines { get; set; } = new();
 
-    public List<VendingMachine> VendingMachine => VendingMachines;
+    public List<VendingMachine> CountryUsedByVendingMachines => VendingMachines;
 
     /// <summary>
-    /// Country Country's bank and public holidays ZeroOrMany CountryHolidays
-    /// </summary>
-    public virtual List<CountryHoliday> CountryHolidays { get; set; } = new();
-
-    /// <summary>
-    /// Country Customer's country ZeroOrMany Customers
+    /// Country used by ZeroOrMany Customers
     /// </summary>
     public virtual List<Customer> Customers { get; set; } = new();
 
-    public List<Customer> Customer => Customers;
+    public List<Customer> CountryUsedByCustomers => Customers;
 
     /// <summary>
-    /// Country Country's time zones OneOrMany CountryTimeZones
+    /// Country owned OneOrMany CountryTimeZones
     /// </summary>
-    public virtual List<CountryTimeZones> CountryTimeZones { get; set; } = new();
+    public virtual List<CountryTimeZone> CountryTimeZones { get; set; } = new();
 
-    public List<CountryTimeZones> TimeZones => CountryTimeZones;
+    public List<CountryTimeZone> CountryOwnedTimeZones => CountryTimeZones;
+
+    /// <summary>
+    /// Country owned ZeroOrMany Holidays
+    /// </summary>
+    public virtual List<Holiday> Holidays { get; set; } = new();
+
+    public List<Holiday> CountryOwnedHolidays => Holidays;
 }

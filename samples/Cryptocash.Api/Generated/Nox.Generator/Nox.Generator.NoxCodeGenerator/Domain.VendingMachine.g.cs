@@ -56,9 +56,11 @@ public partial class VendingMachine : AuditableEntityBase
     public Nox.Types.Money? RentPerSquareMetre { get; set; } = null!;
 
     /// <summary>
-    /// VendingMachine Vending machine's country ExactlyOne Countries
+    /// VendingMachine installed in ExactlyOne Countries
     /// </summary>
     public virtual Country Country { get; set; } = null!;
+
+    public Country VendingMachineInstallationCountry => Country;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Country
@@ -66,9 +68,11 @@ public partial class VendingMachine : AuditableEntityBase
     public Nox.Types.CountryCode2 CountryId { get; set; } = null!;
 
     /// <summary>
-    /// VendingMachine Area of the vending machine installation landlord ExactlyOne LandLords
+    /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
     public virtual LandLord LandLord { get; set; } = null!;
+
+    public LandLord VendingMachineContractedAreaLandLord => LandLord;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity LandLord
@@ -76,23 +80,23 @@ public partial class VendingMachine : AuditableEntityBase
     public Nox.Types.DatabaseNumber LandLordId { get; set; } = null!;
 
     /// <summary>
-    /// VendingMachine Booking's vending machine ZeroOrMany Bookings
+    /// VendingMachine related to ZeroOrMany Bookings
     /// </summary>
     public virtual List<Booking> Bookings { get; set; } = new();
 
-    public List<Booking> Booking => Bookings;
+    public List<Booking> VendingMachineRelatedBookings => Bookings;
 
     /// <summary>
-    /// VendingMachine Order's vending machine ZeroOrMany VendingMachineOrders
+    /// VendingMachine related to ZeroOrMany CashStockOrders
     /// </summary>
-    public virtual List<VendingMachineOrder> VendingMachineOrders { get; set; } = new();
+    public virtual List<CashStockOrder> CashStockOrders { get; set; } = new();
 
-    public List<VendingMachineOrder> VendingMachineOrder => VendingMachineOrders;
+    public List<CashStockOrder> VendingMachineRelatedCashStockOrders => CashStockOrders;
 
     /// <summary>
-    /// VendingMachine Vending machine's minimum cash stock ZeroOrMany MinimumCashStocks
+    /// VendingMachine required ZeroOrMany MinimumCashStocks
     /// </summary>
     public virtual List<MinimumCashStock> MinimumCashStocks { get; set; } = new();
 
-    public List<MinimumCashStock> MinimumCashStock => MinimumCashStocks;
+    public List<MinimumCashStock> VendingMachineRequiredMinimumCashStocks => MinimumCashStocks;
 }

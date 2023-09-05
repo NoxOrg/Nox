@@ -19,12 +19,12 @@ namespace ClientApi.Application.Dto;
 public partial class CountryCreateDto : CountryUpdateDto
 {
 
-    public Country ToEntity()
+    public ClientApi.Domain.Country ToEntity()
     {
-        var entity = new Country();
-        entity.Name = Country.CreateName(Name);
-        if (Population is not null)entity.Population = Country.CreatePopulation(Population.NonNullValue<System.Int32>());
-        if (CountryDebt is not null)entity.CountryDebt = Country.CreateCountryDebt(CountryDebt.NonNullValue<MoneyDto>());
+        var entity = new ClientApi.Domain.Country();
+        entity.Name = ClientApi.Domain.Country.CreateName(Name);
+        if (Population is not null)entity.Population = ClientApi.Domain.Country.CreatePopulation(Population.NonNullValue<System.Int32>());
+        if (CountryDebt is not null)entity.CountryDebt = ClientApi.Domain.Country.CreateCountryDebt(CountryDebt.NonNullValue<MoneyDto>());
         //entity.CountryLocalNames = CountryLocalNames.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }
