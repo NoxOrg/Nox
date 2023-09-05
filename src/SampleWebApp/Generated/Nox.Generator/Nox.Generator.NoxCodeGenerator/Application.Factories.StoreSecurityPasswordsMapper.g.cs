@@ -50,10 +50,10 @@ public class StoreSecurityPasswordsMapper : EntityMapperBase<StoreSecurityPasswo
         /// <summary>
         /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "StoreRel", dto.StoreId);
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "StoreRel", dto.StoreRelId);
         if (noxTypeValue != null)
         {        
-            entity.StoreId = noxTypeValue;
+            entity.StoreRelId = noxTypeValue;
         }
     }
 
@@ -100,7 +100,7 @@ public class StoreSecurityPasswordsMapper : EntityMapperBase<StoreSecurityPasswo
             var noxRelationshipTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "StoreRel", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.StoreId = noxRelationshipTypeValue;
+                entity.StoreRelId = noxRelationshipTypeValue;
             }
         }
     }

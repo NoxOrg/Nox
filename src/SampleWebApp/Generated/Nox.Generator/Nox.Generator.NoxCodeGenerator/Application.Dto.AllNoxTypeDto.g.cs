@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
-//using SampleWebApp.Application.DataTransferObjects;
+using Nox.Extensions;
+
 using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
@@ -197,7 +201,7 @@ public partial class AllNoxTypeDto
     /// <summary>
     /// Time Nox Type (Required).
     /// </summary>
-    public System.TimeSpan TimeField { get; set; } = default!;
+    public System.DateTime TimeField { get; set; } = default!;
 
     /// <summary>
     /// TimeZoneCode Nox Type (Required).
@@ -273,6 +277,5 @@ public partial class AllNoxTypeDto
     /// VatNumber Nox Type (Required).
     /// </summary>
     public VatNumberDto VatNumberField { get; set; } = default!;
-
-    public System.DateTime? DeletedAtUtc { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

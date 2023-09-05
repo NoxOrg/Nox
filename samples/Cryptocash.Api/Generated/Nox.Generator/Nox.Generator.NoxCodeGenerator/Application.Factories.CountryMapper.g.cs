@@ -88,12 +88,12 @@ public class CountryMapper : EntityMapperBase<Country>
     
 
         /// <summary>
-        /// Country Country's currency ExactlyOne Currencies
+        /// Country used by ExactlyOne Currencies
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "Currencies", dto.CurrencyId);
+        noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "CountryUsedByCurrency", dto.CountryUsedByCurrencyId);
         if (noxTypeValue != null)
         {        
-            entity.CurrencyId = noxTypeValue;
+            entity.CountryUsedByCurrencyId = noxTypeValue;
         }
     }
 
@@ -287,14 +287,14 @@ public class CountryMapper : EntityMapperBase<Country>
     
     
         /// <summary>
-        /// Country Country's currency ExactlyOne Currencies
+        /// Country used by ExactlyOne Currencies
         /// </summary>
         if (updatedProperties.TryGetValue("CurrencyId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "Currencies", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "CountryUsedByCurrency", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.CurrencyId = noxRelationshipTypeValue;
+                entity.CountryUsedByCurrencyId = noxRelationshipTypeValue;
             }
         }
     }

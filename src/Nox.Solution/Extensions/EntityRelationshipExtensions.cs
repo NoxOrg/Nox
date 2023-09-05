@@ -21,6 +21,12 @@ public static class EntityRelationshipExtensions
             {
                 generate = false;
             }
+            // OneToMany should be handled on one side
+            else if (relationship.WithMultiEntity &&
+                pairRelationship.WithSingleEntity)
+            {
+                generate = true;
+            }
             // If ZeroOrOne vs ExactlyOne handle on ExactlyOne side
             else if (pairRelationship.Relationship == EntityRelationshipType.ExactlyOne &&
                 relationship.Relationship == EntityRelationshipType.ZeroOrOne)
@@ -71,16 +77,6 @@ public static class EntityRelationshipExtensions
             (hasReferenceToSingularEntity && relationshipNameIsEqualToSingularName) ||
             (hasReferenceToManyEntities && relationshipNameIsEqualToPluralName);
 
-    }
-
-    /// <summary>
-    ///The related entity is a *OrMany relationship to this  
-    /// </summary>
-    public static bool IsManyRelationshipOnOtherSide(this EntityRelationship relationship)
-    {
-        return
-            relationship.Related.EntityRelationship.Relationship == EntityRelationshipType.ZeroOrMany ||
-            relationship.Related.EntityRelationship.Relationship == EntityRelationshipType.OneOrMany;
     }
 
     public static string GetPrimitiveForeignKeyType(this EntityRelationship relationship)

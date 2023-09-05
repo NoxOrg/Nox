@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
-//using SampleWebApp.Application.DataTransferObjects;
+using Nox.Extensions;
+
 using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
@@ -32,7 +36,6 @@ public partial class CurrencyDto
     /// <summary>
     /// Currency is legal tender for ZeroOrMany Countries
     /// </summary>
-    public virtual List<CountryDto> Countries { get; set; } = new();
-
-    public System.DateTime? DeletedAtUtc { get; set; }
+    public virtual List<CountryDto> CurrencyIsLegalTenderForCountry { get; set; } = new();
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

@@ -26,22 +26,17 @@ public partial class MinimumCashStock : AuditableEntityBase
     public Nox.Types.Money Amount { get; set; } = null!;
 
     /// <summary>
-    /// MinimumCashStock Vending machine's minimum cash stock ExactlyOne VendingMachines
+    /// MinimumCashStock required by ZeroOrMany VendingMachines
     /// </summary>
-    public virtual VendingMachine VendingMachine { get; set; } = null!;
+    public virtual List<VendingMachine> MinimumCashStocksRequiredByVendingMachines { get; set; } = new();
 
     /// <summary>
-    /// Foreign key for relationship ExactlyOne to entity VendingMachine
+    /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
-    public Nox.Types.DatabaseGuid VendingMachineId { get; set; } = null!;
-
-    /// <summary>
-    /// MinimumCashStock Cash stock's currency ExactlyOne Currencies
-    /// </summary>
-    public virtual Currency Currency { get; set; } = null!;
+    public virtual Currency MinimumCashStockRelatedCurrency { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Currency
     /// </summary>
-    public Nox.Types.CurrencyCode3 CurrencyId { get; set; } = null!;
+    public Nox.Types.CurrencyCode3 MinimumCashStockRelatedCurrencyId { get; set; } = null!;
 }

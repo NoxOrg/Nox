@@ -22,16 +22,13 @@ public record CreateCustomerCommand(CustomerCreateDto EntityDto) : IRequest<Cust
 public partial class CreateCustomerCommandHandler: CommandBase<CreateCustomerCommand,Customer>, IRequestHandler <CreateCustomerCommand, CustomerKeyDto>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityFactory<CustomerCreateDto,Customer> EntityFactory { get; }
 
 	public CreateCustomerCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<CustomerCreateDto,Customer> entityFactory): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory;
 	}
 
 	public async Task<CustomerKeyDto> Handle(CreateCustomerCommand request, CancellationToken cancellationToken)
@@ -39,7 +36,7 @@ public partial class CreateCustomerCommandHandler: CommandBase<CreateCustomerCom
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = request.EntityDto.ToEntity();		
 	
 		OnCompleted(entityToCreate);
 		DbContext.Customers.Add(entityToCreate);

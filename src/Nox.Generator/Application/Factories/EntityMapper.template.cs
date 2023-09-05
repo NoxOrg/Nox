@@ -33,8 +33,8 @@ public class {{className}} : EntityMapperBase<{{entity.Name}}>
     {{- if key.Type == "Nuid" || key.Type == "DatabaseNumber" || key.Type == "DatabaseGuid" -}}
     {{ continue; -}}
     {{- end }}        
-    {{ if key.Type == "Entity" -}}
-    noxTypeValue = CreateNoxType<Nox.Types.{{SingleKeyTypeForEntity key.EntityTypeOptions.Entity}}>(entityDefinition, "{{key.Name}}", dto.{{key.Name}});
+    {{ if key.Type == "EntityId" -}}
+    noxTypeValue = CreateNoxType<Nox.Types.{{SingleKeyTypeForEntity key.EntityIdTypeOptions.Entity}}>(entityDefinition, "{{key.Name}}", dto.{{key.Name}});
     {{- else -}}
     noxTypeValue = CreateNoxType<Nox.Types.{{key.Type}}>(entityDefinition, "{{key.Name}}", dto.{{key.Name}});
     {{- end}}        
@@ -63,10 +63,10 @@ public class {{className}} : EntityMapperBase<{{entity.Name}}>
         /// <summary>
         /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.{{relationship.Related.Entity.Keys[0].Type}}>(entityDefinition, "{{relationship.Name}}", dto.{{relationship.Entity}}Id);
+        noxTypeValue = CreateNoxType<Nox.Types.{{relationship.Related.Entity.Keys[0].Type}}>(entityDefinition, "{{relationship.Name}}", dto.{{relationship.Name}}Id);
         if (noxTypeValue != null)
         {        
-            entity.{{relationship.Entity}}Id = noxTypeValue;
+            entity.{{relationship.Name}}Id = noxTypeValue;
         }
     {{-end}}
     {{- end }}
@@ -113,7 +113,7 @@ public class {{className}} : EntityMapperBase<{{entity.Name}}>
             var noxRelationshipTypeValue = CreateNoxType<Nox.Types.{{relationship.Related.Entity.Keys[0].Type}}>(entityDefinition, "{{relationship.Name}}", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.{{relationship.Entity}}Id = noxRelationshipTypeValue;
+                entity.{{relationship.Name}}Id = noxRelationshipTypeValue;
             }
         }
     {{-end}}

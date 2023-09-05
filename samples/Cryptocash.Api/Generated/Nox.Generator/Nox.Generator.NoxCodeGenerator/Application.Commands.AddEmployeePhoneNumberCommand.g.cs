@@ -22,16 +22,13 @@ public record AddEmployeePhoneNumberCommand(EmployeeKeyDto ParentKeyDto, Employe
 public partial class AddEmployeePhoneNumberCommandHandler: CommandBase<AddEmployeePhoneNumberCommand, EmployeePhoneNumber>, IRequestHandler <AddEmployeePhoneNumberCommand, EmployeePhoneNumberKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityFactory<EmployeePhoneNumberCreateDto,EmployeePhoneNumber> EntityFactory { get; }
 
 	public AddEmployeePhoneNumberCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<EmployeePhoneNumberCreateDto,EmployeePhoneNumber> entityFactory): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
-		EntityFactory = entityFactory;
+		DbContext = dbContext;		
 	}
 
 	public async Task<EmployeePhoneNumberKeyDto?> Handle(AddEmployeePhoneNumberCommand request, CancellationToken cancellationToken)
@@ -45,7 +42,7 @@ public partial class AddEmployeePhoneNumberCommandHandler: CommandBase<AddEmploy
 			return null;
 		}
 
-		var entity = EntityFactory.CreateEntity(request.EntityDto);
+		var entity = request.EntityDto.ToEntity();
 		
 		parentEntity.EmployeePhoneNumbers.Add(entity);
 

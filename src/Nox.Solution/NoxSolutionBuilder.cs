@@ -204,6 +204,12 @@ namespace Nox.Solution
                 foreach (var entity in config.Domain.Entities)
                 {
                     entity.IsOwnedEntity = config.IsOwnedEntity(entity);
+                    
+                    if (entity.IsOwnedEntity)
+                    {
+                        entity.OwnerEntity = config.GetEntityOwner(entity);
+                    }
+
                 }
             }
         }

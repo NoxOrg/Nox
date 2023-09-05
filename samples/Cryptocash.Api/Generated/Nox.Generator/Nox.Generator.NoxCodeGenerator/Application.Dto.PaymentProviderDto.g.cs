@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
-//using Cryptocash.Application.DataTransferObjects;
+using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -35,11 +39,8 @@ public partial class PaymentProviderDto
     public System.String PaymentProviderType { get; set; } = default!;
 
     /// <summary>
-    /// PaymentProvider Payment provider ExactlyOne CustomerPaymentDetails
+    /// PaymentProvider related to ZeroOrMany PaymentDetails
     /// </summary>
-    //EF maps ForeignKey Automatically
-    public System.Int64 CustomerPaymentDetailsId { get; set; } = default!;
-    public virtual CustomerPaymentDetailsDto CustomerPaymentDetails { get; set; } = null!;
-
-    public System.DateTime? DeletedAtUtc { get; set; }
+    public virtual List<PaymentDetailDto> PaymentProviderRelatedPaymentDetails { get; set; } = new();
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

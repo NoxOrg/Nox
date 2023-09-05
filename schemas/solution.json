@@ -31,8 +31,7 @@
         "string",
         "null"
       ],
-      "format": "uri",
-      "pattern": "^[^\\s]*$"
+      "format": "uri"
     },
     "variables": {    
       "title": "The environment variables used in your solution and default values.",

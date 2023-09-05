@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
-//using Cryptocash.Application.DataTransferObjects;
+using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -60,33 +64,32 @@ public partial class VendingMachineDto
     public MoneyDto? RentPerSquareMetre { get; set; }
 
     /// <summary>
-    /// VendingMachine Vending machine's country ExactlyOne Countries
+    /// VendingMachine installed in ExactlyOne Countries
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String CountryId { get; set; } = default!;
-    public virtual CountryDto Country { get; set; } = null!;
+    public System.String VendingMachineInstallationCountryId { get; set; } = default!;
+    public virtual CountryDto VendingMachineInstallationCountry { get; set; } = null!;
 
     /// <summary>
-    /// VendingMachine Area of the vending machine installation landlord ExactlyOne LandLords
+    /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64 LandLordId { get; set; } = default!;
-    public virtual LandLordDto LandLord { get; set; } = null!;
+    public System.Int64 VendingMachineContractedAreaLandLordId { get; set; } = default!;
+    public virtual LandLordDto VendingMachineContractedAreaLandLord { get; set; } = null!;
 
     /// <summary>
-    /// VendingMachine Booking's vending machine ZeroOrMany Bookings
+    /// VendingMachine related to ZeroOrMany Bookings
     /// </summary>
-    public virtual List<BookingDto> Bookings { get; set; } = new();
+    public virtual List<BookingDto> VendingMachineRelatedBookings { get; set; } = new();
 
     /// <summary>
-    /// VendingMachine Order's vending machine ZeroOrMany VendingMachineOrders
+    /// VendingMachine related to ZeroOrMany CashStockOrders
     /// </summary>
-    public virtual List<VendingMachineOrderDto> VendingMachineOrders { get; set; } = new();
+    public virtual List<CashStockOrderDto> VendingMachineRelatedCashStockOrders { get; set; } = new();
 
     /// <summary>
-    /// VendingMachine Vending machine's minimum cash stock ZeroOrMany MinimumCashStocks
+    /// VendingMachine required ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<MinimumCashStockDto> MinimumCashStocks { get; set; } = new();
-
-    public System.DateTime? DeletedAtUtc { get; set; }
+    public virtual List<MinimumCashStockDto> VendingMachineRequiredMinimumCashStocks { get; set; } = new();
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

@@ -22,19 +22,13 @@ public record CreateEmployeeCommand(EmployeeCreateDto EntityDto) : IRequest<Empl
 public partial class CreateEmployeeCommandHandler: CommandBase<CreateEmployeeCommand,Employee>, IRequestHandler <CreateEmployeeCommand, EmployeeKeyDto>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityFactory<EmployeeCreateDto,Employee> EntityFactory { get; }	
-	public IEntityFactory<EmployeePhoneNumberDto,EmployeePhoneNumber> EmployeePhoneNumberEntityFactory { get; }
 
 	public CreateEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,	
-		IEntityFactory<EmployeePhoneNumberDto,EmployeePhoneNumber> entityFactoryEmployeePhoneNumber,
-		IEntityFactory<EmployeeCreateDto,Employee> entityFactory): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory;	
-		EmployeePhoneNumberEntityFactory = entityFactoryEmployeePhoneNumber;
 	}
 
 	public async Task<EmployeeKeyDto> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
@@ -42,13 +36,7 @@ public partial class CreateEmployeeCommandHandler: CommandBase<CreateEmployeeCom
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
-		foreach(var ownedEntity in request.EntityDto.EmployeePhoneNumbers)
-		{
-			entityToCreate.EmployeePhoneNumbers.Add(
-				EmployeePhoneNumberEntityFactory.CreateEntity(ownedEntity)
-				);
-		}
+		var entityToCreate = request.EntityDto.ToEntity();		
 	
 		OnCompleted(entityToCreate);
 		DbContext.Employees.Add(entityToCreate);

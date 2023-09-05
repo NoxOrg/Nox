@@ -5,20 +5,17 @@
 using MediatR;
 using Microsoft.EntityFrameworkCore;
 using Nox.Application.Commands;
-using Nox.Factories;
 using Nox.Solution;
 using Nox.Types;
-
+using Nox.Factories;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
-using ExchangeRate = Cryptocash.Domain.ExchangeRate;
 
 namespace Cryptocash.Application.Commands;
+public record PartialUpdateExchangeRateCommand(CurrencyKeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties) : IRequest <ExchangeRateKeyDto?>;
 
-public record PartialUpdateExchangeRateCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <ExchangeRateKeyDto?>;
-
-public class PartialUpdateExchangeRateCommandHandler: CommandBase<PartialUpdateExchangeRateCommand, ExchangeRate>, IRequestHandler<PartialUpdateExchangeRateCommand, ExchangeRateKeyDto?>
+public partial class PartialUpdateExchangeRateCommandHandler: CommandBase<PartialUpdateExchangeRateCommand, ExchangeRate>, IRequestHandler <PartialUpdateExchangeRateCommand, ExchangeRateKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<ExchangeRate> EntityMapper { get; }
@@ -37,19 +34,31 @@ public class PartialUpdateExchangeRateCommandHandler: CommandBase<PartialUpdateE
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<ExchangeRate,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Currency,CurrencyCode3>("Id", request.ParentKeyDto.keyId);
 
-		var entity = await DbContext.ExchangeRates.FindAsync(keyId);
+		var parentEntity = await DbContext.Currencies.FindAsync(keyId);
+		if (parentEntity == null)
+		{
+			return null;
+		}
+		var ownedId = CreateNoxTypeForKey<ExchangeRate,DatabaseNumber>("Id", request.UpdatedProperties["Id"]);
+		var entity = parentEntity.ExchangeRates.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
 			return null;
 		}
+
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<ExchangeRate>(), request.UpdatedProperties);
-
+		
 		OnCompleted(entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
+	
+		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
+		if (result < 1)
+		{
+			return null;
+		}
+
 		return new ExchangeRateKeyDto(entity.Id.Value);
 	}
 }

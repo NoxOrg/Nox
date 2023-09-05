@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
-//using Cryptocash.Application.DataTransferObjects;
+using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -30,18 +34,15 @@ public partial class MinimumCashStockDto
     public MoneyDto Amount { get; set; } = default!;
 
     /// <summary>
-    /// MinimumCashStock Vending machine's minimum cash stock ExactlyOne VendingMachines
+    /// MinimumCashStock required by ZeroOrMany VendingMachines
     /// </summary>
-    //EF maps ForeignKey Automatically
-    public System.Guid VendingMachineId { get; set; } = default!;
-    public virtual VendingMachineDto VendingMachine { get; set; } = null!;
+    public virtual List<VendingMachineDto> MinimumCashStocksRequiredByVendingMachines { get; set; } = new();
 
     /// <summary>
-    /// MinimumCashStock Cash stock's currency ExactlyOne Currencies
+    /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String CurrencyId { get; set; } = default!;
-    public virtual CurrencyDto Currency { get; set; } = null!;
-
-    public System.DateTime? DeletedAtUtc { get; set; }
+    public System.String MinimumCashStockRelatedCurrencyId { get; set; } = default!;
+    public virtual CurrencyDto MinimumCashStockRelatedCurrency { get; set; } = null!;
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

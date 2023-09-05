@@ -13,7 +13,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Exchange rate and related data.
 /// </summary>
-public partial class ExchangeRate : AuditableEntityBase
+public partial class ExchangeRate : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Exchange rate unique identifier (Required).
@@ -29,16 +29,4 @@ public partial class ExchangeRate : AuditableEntityBase
     /// Exchange rate conversion amount (Required).
     /// </summary>
     public Nox.Types.DateTime EffectiveAt { get; set; } = null!;
-
-    /// <summary>
-    /// ExchangeRate Exchanged from currency ExactlyOne Currencies
-    /// </summary>
-    public virtual Currency Currency { get; set; } = null!;
-
-    public Currency CurrencyFrom => Currency;
-
-    /// <summary>
-    /// Foreign key for relationship ExactlyOne to entity Currency
-    /// </summary>
-    public Nox.Types.CurrencyCode3 CurrencyId { get; set; } = null!;
 }

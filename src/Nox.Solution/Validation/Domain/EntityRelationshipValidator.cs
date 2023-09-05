@@ -10,7 +10,7 @@ namespace Nox.Solution.Validation
     {
         private readonly IEnumerable<Entity>? _entities;
 
-        public EntityRelationshipValidator(string entityName, IEnumerable<Entity>? entities, bool bindToOtherRelationship = true)
+        public EntityRelationshipValidator(string entityName, IEnumerable<Entity>? entities, bool requiresCorrespondingRelationship = true)
         {
             if (entities == null) return;
             _entities = entities;
@@ -30,9 +30,9 @@ namespace Nox.Solution.Validation
             RuleFor(er => er.Entity!).Must(ReferenceExistingEntity)
                 .WithMessage(er => string.Format(ValidationResources.EntityRelationshipEntityMissing, er.Name, entityName, er.Entity));
 
-            if (bindToOtherRelationship)
+            if (requiresCorrespondingRelationship)
             {
-                RuleFor(er => entityName).Must(HaveReverseRelationship)
+                RuleFor(er => entityName).Must((x, y) => HaveReverseRelationship(x,  _entities.First(x => x.Name.Equals(y))))
                     .WithMessage(er => string.Format(ValidationResources.CorrespondingRelationshipMissing, er.Name, entityName, er.Entity));
             }
             else
@@ -50,9 +50,23 @@ namespace Nox.Solution.Validation
             return otherEntity is not null;
         }
 
-        private bool HaveReverseRelationship(EntityRelationship toEvaluate, string thisEntity)
+        /// <summary>
+        /// Match related relationship by file order
+        /// </summary>
+        private bool HaveReverseRelationship(EntityRelationship toEvaluate, Entity currentEntity)
         {
-            var otherRelationship = toEvaluate.Related.Entity?.Relationships?.FirstOrDefault(e => e.Entity == thisEntity);
+            var toEntityName = toEvaluate.Related.Entity.Name;
+            var currentEntityRelationships = currentEntity
+                .Relationships!
+                .Where(x => x.Entity == toEntityName)
+                .ToList();
+            
+            var currentRelationshipIndex = currentEntityRelationships.IndexOf(toEvaluate);
+
+            var otherRelationship = toEvaluate.Related.Entity?.Relationships?
+                .Where(e => e.Entity == currentEntity.Name)
+                .Skip(currentRelationshipIndex)
+                .FirstOrDefault();
             toEvaluate.Related.EntityRelationship = otherRelationship!;
             return otherRelationship is not null;
         }

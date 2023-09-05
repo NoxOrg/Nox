@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
-//using Cryptocash.Application.DataTransferObjects;
+using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -35,9 +39,8 @@ public partial class LandLordDto
     public StreetAddressDto Address { get; set; } = default!;
 
     /// <summary>
-    /// LandLord Landlord's area of the vending machine installation ZeroOrMany VendingMachines
+    /// LandLord leases an area to house ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachineDto> VendingMachines { get; set; } = new();
-
-    public System.DateTime? DeletedAtUtc { get; set; }
+    public virtual List<VendingMachineDto> ContractedAreasForVendingMachines { get; set; } = new();
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

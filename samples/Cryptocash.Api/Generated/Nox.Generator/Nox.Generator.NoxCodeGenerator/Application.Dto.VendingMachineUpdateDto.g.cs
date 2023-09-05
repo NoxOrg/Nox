@@ -55,14 +55,14 @@ public partial class VendingMachineUpdateDto
     public MoneyDto? RentPerSquareMetre { get; set; }
 
     /// <summary>
-    /// VendingMachine Vending machine's country ExactlyOne Countries
+    /// VendingMachine installed in ExactlyOne Countries
     /// </summary>
-    [Required(ErrorMessage = "Country is required")]
-    public System.String CountryId { get; set; } = default!;
+    [Required(ErrorMessage = "VendingMachineInstallationCountry is required")]
+    public System.String VendingMachineInstallationCountryId { get; set; } = default!;
 
     /// <summary>
-    /// VendingMachine Area of the vending machine installation landlord ExactlyOne LandLords
+    /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
-    [Required(ErrorMessage = "LandLord is required")]
-    public System.Int64 LandLordId { get; set; } = default!;
+    [Required(ErrorMessage = "VendingMachineContractedAreaLandLord is required")]
+    public System.Int64 VendingMachineContractedAreaLandLordId { get; set; } = default!;
 }

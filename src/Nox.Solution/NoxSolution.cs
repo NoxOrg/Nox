@@ -2,6 +2,7 @@ using FluentValidation;
 using Nox.Solution.Validation;
 using Nox.Types;
 using Nox.Types.Extensions;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -10,7 +11,9 @@ namespace Nox.Solution;
 public class NoxSolution : Solution
 {
     public string? RootYamlFile { get; internal set; }
-    private HashSet<string>? _ownedEntitiesNames { get; set; }
+
+    // The dictionary value contains the parent entity
+    private ConcurrentDictionary<string, Entity> _ownedEntities = null!;
 
     internal void Validate()
     {
@@ -24,16 +27,14 @@ public class NoxSolution : Solution
     {
         var fullRelationshipModels = new List<EntityRelationshipWithType>();
 
-        if (entity?.Relationships != null)
+
+        foreach (var relationship in entity.Relationships)
         {
-            foreach (var relationship in entity.Relationships)
+            fullRelationshipModels.Add(new EntityRelationshipWithType
             {
-                fullRelationshipModels.Add(new EntityRelationshipWithType
-                {
-                    Relationship = relationship,
-                    RelationshipEntityType = codeGeneratorState.GetEntityType(relationship.Entity)!
-                });
-            }
+                Relationship = relationship,
+                RelationshipEntityType = codeGeneratorState.GetEntityType(relationship.Entity)!
+            });
         }
 
         return fullRelationshipModels;
@@ -45,16 +46,13 @@ public class NoxSolution : Solution
     {
         var fullRelationshipModels = new List<EntityRelationshipWithType>();
 
-        if (entity?.OwnedRelationships != null)
+        foreach (var relationship in entity.OwnedRelationships)
         {
-            foreach (var relationship in entity.OwnedRelationships)
+            fullRelationshipModels.Add(new EntityRelationshipWithType
             {
-                fullRelationshipModels.Add(new EntityRelationshipWithType
-                {
-                    Relationship = relationship,
-                    RelationshipEntityType = codeGeneratorState.GetEntityType(relationship.Entity)!
-                });
-            }
+                Relationship = relationship,
+                RelationshipEntityType = codeGeneratorState.GetEntityType(relationship.Entity)!
+            });
         }
 
         return fullRelationshipModels;
@@ -64,14 +62,30 @@ public class NoxSolution : Solution
     {
         // Cannot rely on constructor in this scenario as
         // constructor execution during deserialization doesn't contain a Domain set
-        if (_ownedEntitiesNames == null)
+        if (_ownedEntities == null)
         {
             InitOwnedEntitiesList();
         }
 
-        return _ownedEntitiesNames!.Contains(entity.Name);
+        return _ownedEntities!.ContainsKey(entity.Name);
     }
 
+    internal Entity? GetEntityOwner(Entity entity)
+    {
+        // Cannot rely on constructor in this scenario as
+        // constructor execution during deserialization doesn't contain a Domain set
+        if (_ownedEntities == null)
+        {
+            InitOwnedEntitiesList();
+        }
+
+        if (_ownedEntities != null && _ownedEntities.TryGetValue(entity.Name, out var result))
+        {
+            return result;
+        }
+
+        return null;
+    }
     private void InitOwnedEntitiesList()
     {
         if (Domain == null)
@@ -79,10 +93,22 @@ public class NoxSolution : Solution
             return;
         }
 
-        var ownedEntities = Domain.Entities
-            .Where(x => x?.OwnedRelationships != null)
-            .SelectMany(x => x.OwnedRelationships!.Select(x => x.Entity));
-        _ownedEntitiesNames = new HashSet<string>(ownedEntities);
+        lock (this)
+        {
+            if (_ownedEntities is null)
+            {
+                _ownedEntities = new();
+
+                foreach (var entity in Domain.Entities)
+                {
+                    if (entity.OwnedRelationships is null) continue;
+                    foreach (var relationship in entity.OwnedRelationships)
+                    {
+                        _ownedEntities.TryAdd(relationship.Entity, entity);
+                    }
+                }
+            }
+        }
     }
 
     /// <summary>
@@ -104,12 +130,12 @@ public class NoxSolution : Solution
     /// <returns></returns>
     public NoxType GetSingleTypeForKey(NoxSimpleTypeDefinition keyDefinition)
     {
-        if(keyDefinition.Type != NoxType.Entity)
+        if(keyDefinition.Type != NoxType.EntityId)
         {
             return keyDefinition.Type;
         }
         // Obtain the reference entity
-        var entity = Domain!.Entities.Single(entity => entity.Name.Equals(keyDefinition.EntityTypeOptions!.Entity));
+        var entity = Domain!.Entities.Single(entity => entity.Name.Equals(keyDefinition.EntityIdTypeOptions!.Entity));
 
         return GetSingleTypeForKey(entity.Keys![0]);
     }
@@ -121,12 +147,12 @@ public class NoxSolution : Solution
     /// <returns></returns>
     public string GetSinglePrimitiveTypeForKey(NoxSimpleTypeDefinition keyDefinition)
     {
-        if (keyDefinition.Type != NoxType.Entity)
+        if (keyDefinition.Type != NoxType.EntityId)
         {
             return keyDefinition.Type.GetComponents(keyDefinition).Single().Value.ToString();
         }
         // Obtain the reference entity
-        var entity = Domain!.Entities.Single(entity => entity.Name.Equals(keyDefinition.EntityTypeOptions!.Entity));
+        var entity = Domain!.Entities.Single(entity => entity.Name.Equals(keyDefinition.EntityIdTypeOptions!.Entity));
 
         return GetSinglePrimitiveTypeForKey(entity.Keys![0]);
     }

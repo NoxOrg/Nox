@@ -73,8 +73,18 @@ public partial class CountryUpdateDto
     public System.UInt16 StartOfWeek { get; set; } = default!;
 
     /// <summary>
-    /// Country Country's currency ExactlyOne Currencies
+    /// Country used by ExactlyOne Currencies
     /// </summary>
-    [Required(ErrorMessage = "Currencies is required")]
-    public System.String CurrencyId { get; set; } = default!;
+    [Required(ErrorMessage = "CountryUsedByCurrency is required")]
+    public System.String CountryUsedByCurrencyId { get; set; } = default!;
+
+    /// <summary>
+    /// Country owned OneOrMany CountryTimeZones
+    /// </summary>
+    public virtual List<CountryTimeZoneDto> CountryTimeZones { get; set; } = new();
+
+    /// <summary>
+    /// Country owned ZeroOrMany Holidays
+    /// </summary>
+    public virtual List<HolidayDto> Holidays { get; set; } = new();
 }

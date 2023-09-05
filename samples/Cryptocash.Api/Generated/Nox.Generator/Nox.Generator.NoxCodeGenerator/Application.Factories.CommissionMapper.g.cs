@@ -43,12 +43,12 @@ public class CommissionMapper : EntityMapperBase<Commission>
     
 
         /// <summary>
-        /// Commission Commission's country ZeroOrOne Countries
+        /// Commission fees for ZeroOrOne Countries
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "Country", dto.CountryId);
+        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "CommissionFeesForCountry", dto.CommissionFeesForCountryId);
         if (noxTypeValue != null)
         {        
-            entity.CountryId = noxTypeValue;
+            entity.CommissionFeesForCountryId = noxTypeValue;
         }
     }
 
@@ -88,14 +88,14 @@ public class CommissionMapper : EntityMapperBase<Commission>
     
     
         /// <summary>
-        /// Commission Commission's country ZeroOrOne Countries
+        /// Commission fees for ZeroOrOne Countries
         /// </summary>
         if (updatedProperties.TryGetValue("CountryId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "Country", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "CommissionFeesForCountry", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.CountryId = noxRelationshipTypeValue;
+                entity.CommissionFeesForCountryId = noxRelationshipTypeValue;
             }
         }
     }

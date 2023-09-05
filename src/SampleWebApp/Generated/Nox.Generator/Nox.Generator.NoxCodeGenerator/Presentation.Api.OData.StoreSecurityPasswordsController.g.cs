@@ -48,6 +48,7 @@ public partial class StoreSecurityPasswordsController : ODataController
         return Ok(result);
     }
     
+    [EnableQuery]
     public async Task<ActionResult<StoreSecurityPasswordsDto>> Get([FromRoute] System.String key)
     {
         var item = await _mediator.Send(new GetStoreSecurityPasswordsByIdQuery(key));

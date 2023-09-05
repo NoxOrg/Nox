@@ -25,10 +25,11 @@ public class Money : ValueObject<(decimal Amount, CurrencyCode CurrencyCode), Mo
         private set => Value = (Value.Amount, value);
     }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="Money"/> class with default values.
-    /// </summary>
-    public Money() { }
+    public static Money From(IMoney money)
+        => From(money.Amount, money.CurrencyCode);
+
+    public static Money From(IMoney money, MoneyTypeOptions options)
+        => From(money.Amount, money.CurrencyCode, options);
 
     /// <summary>
     /// Creates a new instance of the <see cref="Money"/> class with the specified values.

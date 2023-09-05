@@ -51,14 +51,19 @@ public partial class Employee : AuditableEntityBase
     public Nox.Types.Date? LastWorkingDay { get; set; } = null!;
 
     /// <summary>
-    /// Employee Reviewed by employee ExactlyOne VendingMachineOrders
+    /// Employee reviewing ExactlyOne CashStockOrders
     /// </summary>
-    public virtual VendingMachineOrder VendingMachineOrder { get; set; } = null!;
+    public virtual CashStockOrder EmployeeReviewingCashStockOrder { get; set; } = null!;
 
     /// <summary>
-    /// Employee Employee's phone numbers ZeroOrMany EmployeePhoneNumbers
+    /// Foreign key for relationship ExactlyOne to entity CashStockOrder
+    /// </summary>
+    public Nox.Types.DatabaseNumber EmployeeReviewingCashStockOrderId { get; set; } = null!;
+
+    /// <summary>
+    /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
     /// </summary>
     public virtual List<EmployeePhoneNumber> EmployeePhoneNumbers { get; set; } = new();
 
-    public List<EmployeePhoneNumber> PhoneNumbers => EmployeePhoneNumbers;
+    public List<EmployeePhoneNumber> EmployeeContactPhoneNumbers => EmployeePhoneNumbers;
 }

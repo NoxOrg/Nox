@@ -1,4 +1,4 @@
-﻿// Generated
+// Generated
 
 #nullable enable
 
@@ -48,6 +48,7 @@ public partial class CompoundKeysEntitiesController : ODataController
         return Ok(result);
     }
     
+    [EnableQuery]
     public async Task<ActionResult<CompoundKeysEntityDto>> Get([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)
     {
         var item = await _mediator.Send(new GetCompoundKeysEntityByIdQuery(keyId1, keyId2));

@@ -11,13 +11,11 @@ using Nox.Factories;
 using Cryptocash.Infrastructure.Persistence;
 using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
-using ExchangeRate = Cryptocash.Domain.ExchangeRate;
 
 namespace Cryptocash.Application.Commands;
+public record UpdateExchangeRateCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateDto EntityDto) : IRequest <ExchangeRateKeyDto?>;
 
-public record UpdateExchangeRateCommand(System.Int64 keyId, ExchangeRateUpdateDto EntityDto) : IRequest<ExchangeRateKeyDto?>;
-
-public class UpdateExchangeRateCommandHandler: CommandBase<UpdateExchangeRateCommand, ExchangeRate>, IRequestHandler<UpdateExchangeRateCommand, ExchangeRateKeyDto?>
+public partial class UpdateExchangeRateCommandHandler: CommandBase<UpdateExchangeRateCommand, ExchangeRate>, IRequestHandler <UpdateExchangeRateCommand, ExchangeRateKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<ExchangeRate> EntityMapper { get; }
@@ -31,23 +29,29 @@ public class UpdateExchangeRateCommandHandler: CommandBase<UpdateExchangeRateCom
 		DbContext = dbContext;
 		EntityMapper = entityMapper;
 	}
-	
+
 	public async Task<ExchangeRateKeyDto?> Handle(UpdateExchangeRateCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<ExchangeRate,DatabaseNumber>("Id", request.keyId);
-	
-		var entity = await DbContext.ExchangeRates.FindAsync(keyId);
+		var keyId = CreateNoxTypeForKey<Currency,CurrencyCode3>("Id", request.ParentKeyDto.keyId);
+		var parentEntity = await DbContext.Currencies.FindAsync(keyId);
+		if (parentEntity == null)
+		{
+			return null;
+		}
+		var ownedId = CreateNoxTypeForKey<ExchangeRate,DatabaseNumber>("Id", request.EntityDto.Id);
+		var entity = parentEntity.ExchangeRates.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
 			return null;
 		}
+
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<ExchangeRate>(), request.EntityDto);
-
+		
 		OnCompleted(entity);
-
-		DbContext.Entry(entity).State = EntityState.Modified;
+	
+		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
 		if (result < 1)
 		{

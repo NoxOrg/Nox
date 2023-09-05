@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
-//using Cryptocash.Application.DataTransferObjects;
+using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -90,36 +94,35 @@ public partial class CountryDto
     public System.UInt16 StartOfWeek { get; set; } = default!;
 
     /// <summary>
-    /// Country Country's currency ExactlyOne Currencies
+    /// Country used by ExactlyOne Currencies
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String CurrencyId { get; set; } = default!;
-    public virtual CurrencyDto Currency { get; set; } = null!;
+    public System.String CountryUsedByCurrencyId { get; set; } = default!;
+    public virtual CurrencyDto CountryUsedByCurrency { get; set; } = null!;
 
     /// <summary>
-    /// Country Country's time zones OneOrMany CountryTimeZones
+    /// Country used by OneOrMany Commissions
     /// </summary>
-    public virtual List<CountryTimeZonesDto> CountryTimeZones { get; set; } = new();
+    public virtual List<CommissionDto> CountryUsedByCommissions { get; set; } = new();
 
     /// <summary>
-    /// Country Commission's country OneOrMany Commissions
+    /// Country used by ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<CommissionDto> Commissions { get; set; } = new();
+    public virtual List<VendingMachineDto> CountryUsedByVendingMachines { get; set; } = new();
 
     /// <summary>
-    /// Country Vending machine's country ZeroOrMany VendingMachines
+    /// Country used by ZeroOrMany Customers
     /// </summary>
-    public virtual List<VendingMachineDto> VendingMachines { get; set; } = new();
+    public virtual List<CustomerDto> CountryUsedByCustomers { get; set; } = new();
 
     /// <summary>
-    /// Country Country's holidays ZeroOrMany CountryHolidays
+    /// Country owned OneOrMany CountryTimeZones
     /// </summary>
-    public virtual List<CountryHolidayDto> CountryHolidays { get; set; } = new();
+    public virtual List<CountryTimeZoneDto> CountryTimeZones { get; set; } = new();
 
     /// <summary>
-    /// Country Customer's country ZeroOrMany Customers
+    /// Country owned ZeroOrMany Holidays
     /// </summary>
-    public virtual List<CustomerDto> Customers { get; set; } = new();
-
-    public System.DateTime? DeletedAtUtc { get; set; }
+    public virtual List<HolidayDto> Holidays { get; set; } = new();
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

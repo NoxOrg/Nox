@@ -11,6 +11,8 @@ domain:
 
   entities:
     - name: Currency
+      persistence:
+        isAudited: false
       keys:
         - name: Id
           isRequired: true

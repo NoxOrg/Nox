@@ -18,7 +18,7 @@ public partial class Currency : AuditableEntityBase
     /// <summary>
     /// The currency's primary key / identifier (Required).
     /// </summary>
-    public Nuid Id {get; private set;} = null!;
+    public Nuid Id {get; set;} = null!;
     
     	public void EnsureId()
     	{
@@ -44,7 +44,5 @@ public partial class Currency : AuditableEntityBase
     /// <summary>
     /// Currency is legal tender for ZeroOrMany Countries
     /// </summary>
-    public virtual List<Country> Countries { get; set; } = new();
-
-    public List<Country> CurrencyIsLegalTenderForCountry => Countries;
+    public virtual List<Country> CurrencyIsLegalTenderForCountry { get; set; } = new();
 }

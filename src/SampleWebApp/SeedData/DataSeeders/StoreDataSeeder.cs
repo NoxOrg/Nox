@@ -24,7 +24,7 @@ internal class StoreDataSeeder : SampleDataSeederBase<StoreModel, Store>
 
         if (model.StoreOwnerId != null)
         {
-            store.StoreOwnerId = Text.From(model.StoreOwnerId);
+            store.OwnerRelId = Text.From(model.StoreOwnerId);
         }
 
         return store;
