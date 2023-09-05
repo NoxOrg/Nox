@@ -13,7 +13,7 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// .
 /// </summary>
-public partial class TestEntityTwoRelationshipsOneToOne : AuditableEntityBase
+public partial class TestEntityTwoRelationshipsOneToOne : AuditableEntityBase, IConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -44,4 +44,9 @@ public partial class TestEntityTwoRelationshipsOneToOne : AuditableEntityBase
     /// Foreign key for relationship ExactlyOne to entity SecondTestEntityTwoRelationshipsOneToOne
     /// </summary>
     public Nox.Types.Text TestRelationshipTwoId { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
 }

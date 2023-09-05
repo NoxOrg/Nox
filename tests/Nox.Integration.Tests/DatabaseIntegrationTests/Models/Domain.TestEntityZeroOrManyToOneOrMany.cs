@@ -13,7 +13,7 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// .
 /// </summary>
-public partial class TestEntityZeroOrManyToOneOrMany : AuditableEntityBase
+public partial class TestEntityZeroOrManyToOneOrMany : AuditableEntityBase, IConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -29,4 +29,9 @@ public partial class TestEntityZeroOrManyToOneOrMany : AuditableEntityBase
     /// TestEntityZeroOrManyToOneOrMany Test entity relationship to TestEntityOneOrManyToZeroOrMany ZeroOrMany TestEntityOneOrManyToZeroOrManies
     /// </summary>
     public virtual List<TestEntityOneOrManyToZeroOrMany> TestEntityOneOrManyToZeroOrMany { get; set; } = new();
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
 }

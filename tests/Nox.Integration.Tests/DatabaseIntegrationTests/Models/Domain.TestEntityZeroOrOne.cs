@@ -13,7 +13,7 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public partial class TestEntityZeroOrOne : AuditableEntityBase
+public partial class TestEntityZeroOrOne : AuditableEntityBase, IConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -34,4 +34,9 @@ public partial class TestEntityZeroOrOne : AuditableEntityBase
     /// Foreign key for relationship ZeroOrOne to entity SecondTestEntityZeroOrOne
     /// </summary>
     public Nox.Types.Text? SecondTestEntityZeroOrOneRelationshipId { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
 }
