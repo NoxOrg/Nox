@@ -22,7 +22,7 @@ namespace Nox.Solution.Validation
                 .WithMessage(e => string.Format(ValidationResources.EntityDefaultsFalse, e.Name));
 
             RuleFor(e => e.Persistence!)
-                .SetValidator(e => new EntityPersistenceValidator(e.Name, entities));
+                .SetValidator(e => new EntityPersistenceValidator(e));
 
             RuleForEach(e => e.Relationships)
                 .SetValidator(x => new EntityItemUniquenessValidator<EntityRelationship>(x, t => t.Name, nameof(x.Relationships)))
