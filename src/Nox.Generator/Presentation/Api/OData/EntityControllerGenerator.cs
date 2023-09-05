@@ -60,6 +60,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             code.AppendLine($"using Microsoft.AspNetCore.OData.Routing.Controllers;");
             code.AppendLine($"using Microsoft.EntityFrameworkCore;");
             code.AppendLine("using MediatR;");
+            code.AppendLine("using System.Net.Http.Headers;");
             code.AppendLine("using Nox.Application;");
 
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace};");
@@ -161,6 +162,8 @@ internal class EntityControllerGenerator : INoxCodeGenerator
                 code.EndBlock();
             }
 
+            GeneratePrivateMethods(code);
+
             // TODO Rethink Custom Commands and Queries
             // Generate POST request mapping for Command Handlers
             //foreach (var command in commands)
@@ -192,8 +195,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.StartBlock();
         if (!entity.IsOwnedEntity)
         {
-            code.AppendLine("var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();");
-            code.AppendLine("System.Guid? etag = System.Guid.TryParse(ifMatchValue, out System.Guid parsedValue) ? parsedValue : null; ");
+            code.AppendLine("var etag = GetDecodedEtagHeader();");
             code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand({PrimaryKeysQuery(entity)}, etag));");
         }
         else
@@ -228,8 +230,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
         if (!entity.IsOwnedEntity)
         {
-            code.AppendLine("var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();");
-            code.AppendLine("System.Guid? etag = System.Guid.TryParse(ifMatchValue, out System.Guid parsedValue) ? parsedValue : null; ");
+            code.AppendLine("var etag = GetDecodedEtagHeader();");
             code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({PrimaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}, etag));");
         }
         else
@@ -275,8 +276,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
         if (!entity.IsOwnedEntity)
         {
-            code.AppendLine("var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();");
-            code.AppendLine("System.Guid? etag = System.Guid.TryParse(ifMatchValue, out System.Guid parsedValue) ? parsedValue : null; ");
+            code.AppendLine("var etag = GetDecodedEtagHeader();");
             code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties, etag));");
         }
         else
@@ -399,5 +399,22 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         return entity.Keys.Count() > 1 ?
             string.Join(", ", entity.Keys.Select(k => $"key{k.Name}")) :
             $"key";
+    }
+
+    private static void GeneratePrivateMethods(CodeBuilder code)
+    {
+        // GetDecodedEtagHeader()
+        code.AppendLine();
+        code.AppendLine("private System.Guid? GetDecodedEtagHeader()");
+        code.StartBlock();
+        code.AppendLine("var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();");
+        code.AppendLine("string? rawEtag = ifMatchValue;");
+        code.AppendLine("if (EntityTagHeaderValue.TryParse(ifMatchValue, out var encodedEtag))");
+        code.StartBlock();
+        code.AppendLine("rawEtag = encodedEtag.Tag.Trim('\"');");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine("return System.Guid.TryParse(rawEtag, out var etag) ? etag : null;");
+        code.EndBlock();
     }
 }
