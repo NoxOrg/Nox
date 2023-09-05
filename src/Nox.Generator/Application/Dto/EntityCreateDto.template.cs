@@ -33,9 +33,9 @@ public partial class {{className}} : {{entity.Name}}UpdateDto
     {{- end}}
 {{- end }}
 
-    public {{ entity.Name }} ToEntity()
+    public {{codeGeneratorState.DomainNameSpace}}.{{ entity.Name }} ToEntity()
     {
-        var entity = new {{ entity.Name }}();
+        var entity = new {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}();
         {{- for key in entity.Keys }}
             {{- if key.Type == "Nuid" || key.Type == "DatabaseNumber" || key.Type == "DatabaseGuid" -}}
                 {{ continue; -}}
@@ -52,13 +52,13 @@ public partial class {{className}} : {{entity.Name}}UpdateDto
         {{- if !attribute.IsRequired }}
         if ({{ attribute.Name }} is not null)
     {{- if IsNoxTypeSimpleType attribute.Type -}}
-        entity.{{ attribute.Name}} = {{ entity.Name }}.Create{{ attribute.Name }}({{attribute.Name}}.NonNullValue<{{SinglePrimitiveTypeForKey attribute}}>());
+        entity.{{ attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{ entity.Name }}.Create{{ attribute.Name }}({{attribute.Name}}.NonNullValue<{{SinglePrimitiveTypeForKey attribute}}>());
     {{- else -}}
-        entity.{{attribute.Name}} = {{ entity.Name }}.Create{{ attribute.Name }}({{attribute.Name}}.NonNullValue<{{attribute.Type}}Dto>());
+        entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{ entity.Name }}.Create{{ attribute.Name }}({{attribute.Name}}.NonNullValue<{{attribute.Type}}Dto>());
     {{- end}}
 
         {{- else }}
-        entity.{{attribute.Name}} = {{ entity.Name }}.Create{{ attribute.Name }}({{ attribute.Name }});
+        entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{ entity.Name }}.Create{{ attribute.Name }}({{ attribute.Name }});
         {{- end }}
         {{- end }}
 

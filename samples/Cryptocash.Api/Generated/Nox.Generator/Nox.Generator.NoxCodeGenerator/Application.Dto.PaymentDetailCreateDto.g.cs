@@ -19,12 +19,12 @@ namespace Cryptocash.Application.Dto;
 public partial class PaymentDetailCreateDto : PaymentDetailUpdateDto
 {
 
-    public PaymentDetail ToEntity()
+    public Cryptocash.Domain.PaymentDetail ToEntity()
     {
-        var entity = new PaymentDetail();
-        entity.PaymentAccountName = PaymentDetail.CreatePaymentAccountName(PaymentAccountName);
-        entity.PaymentAccountNumber = PaymentDetail.CreatePaymentAccountNumber(PaymentAccountNumber);
-        if (PaymentAccountSortCode is not null)entity.PaymentAccountSortCode = PaymentDetail.CreatePaymentAccountSortCode(PaymentAccountSortCode.NonNullValue<System.String>());
+        var entity = new Cryptocash.Domain.PaymentDetail();
+        entity.PaymentAccountName = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountName(PaymentAccountName);
+        entity.PaymentAccountNumber = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountNumber(PaymentAccountNumber);
+        if (PaymentAccountSortCode is not null)entity.PaymentAccountSortCode = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountSortCode(PaymentAccountSortCode.NonNullValue<System.String>());
         //entity.Customer = Customer.ToEntity();
         //entity.PaymentProvider = PaymentProvider.ToEntity();
         return entity;

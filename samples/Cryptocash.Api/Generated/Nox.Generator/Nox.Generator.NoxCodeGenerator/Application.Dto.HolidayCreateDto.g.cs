@@ -19,12 +19,12 @@ namespace Cryptocash.Application.Dto;
 public partial class HolidayCreateDto : HolidayUpdateDto
 {
 
-    public Holiday ToEntity()
+    public Cryptocash.Domain.Holiday ToEntity()
     {
-        var entity = new Holiday();
-        entity.Name = Holiday.CreateName(Name);
-        entity.Type = Holiday.CreateType(Type);
-        entity.Date = Holiday.CreateDate(Date);
+        var entity = new Cryptocash.Domain.Holiday();
+        entity.Name = Cryptocash.Domain.Holiday.CreateName(Name);
+        entity.Type = Cryptocash.Domain.Holiday.CreateType(Type);
+        entity.Date = Cryptocash.Domain.Holiday.CreateDate(Date);
         return entity;
     }
 }

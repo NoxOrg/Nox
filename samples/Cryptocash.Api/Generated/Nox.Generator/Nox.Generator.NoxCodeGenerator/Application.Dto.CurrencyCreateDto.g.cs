@@ -24,22 +24,22 @@ public partial class CurrencyCreateDto : CurrencyUpdateDto
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
 
-    public Currency ToEntity()
+    public Cryptocash.Domain.Currency ToEntity()
     {
-        var entity = new Currency();
+        var entity = new Cryptocash.Domain.Currency();
         entity.Id = Currency.CreateId(Id);
-        entity.Name = Currency.CreateName(Name);
-        entity.CurrencyIsoNumeric = Currency.CreateCurrencyIsoNumeric(CurrencyIsoNumeric);
-        entity.Symbol = Currency.CreateSymbol(Symbol);
-        if (ThousandsSeparator is not null)entity.ThousandsSeparator = Currency.CreateThousandsSeparator(ThousandsSeparator.NonNullValue<System.String>());
-        if (DecimalSeparator is not null)entity.DecimalSeparator = Currency.CreateDecimalSeparator(DecimalSeparator.NonNullValue<System.String>());
-        entity.SpaceBetweenAmountAndSymbol = Currency.CreateSpaceBetweenAmountAndSymbol(SpaceBetweenAmountAndSymbol);
-        entity.DecimalDigits = Currency.CreateDecimalDigits(DecimalDigits);
-        entity.MajorName = Currency.CreateMajorName(MajorName);
-        entity.MajorSymbol = Currency.CreateMajorSymbol(MajorSymbol);
-        entity.MinorName = Currency.CreateMinorName(MinorName);
-        entity.MinorSymbol = Currency.CreateMinorSymbol(MinorSymbol);
-        entity.MinorToMajorValue = Currency.CreateMinorToMajorValue(MinorToMajorValue);
+        entity.Name = Cryptocash.Domain.Currency.CreateName(Name);
+        entity.CurrencyIsoNumeric = Cryptocash.Domain.Currency.CreateCurrencyIsoNumeric(CurrencyIsoNumeric);
+        entity.Symbol = Cryptocash.Domain.Currency.CreateSymbol(Symbol);
+        if (ThousandsSeparator is not null)entity.ThousandsSeparator = Cryptocash.Domain.Currency.CreateThousandsSeparator(ThousandsSeparator.NonNullValue<System.String>());
+        if (DecimalSeparator is not null)entity.DecimalSeparator = Cryptocash.Domain.Currency.CreateDecimalSeparator(DecimalSeparator.NonNullValue<System.String>());
+        entity.SpaceBetweenAmountAndSymbol = Cryptocash.Domain.Currency.CreateSpaceBetweenAmountAndSymbol(SpaceBetweenAmountAndSymbol);
+        entity.DecimalDigits = Cryptocash.Domain.Currency.CreateDecimalDigits(DecimalDigits);
+        entity.MajorName = Cryptocash.Domain.Currency.CreateMajorName(MajorName);
+        entity.MajorSymbol = Cryptocash.Domain.Currency.CreateMajorSymbol(MajorSymbol);
+        entity.MinorName = Cryptocash.Domain.Currency.CreateMinorName(MinorName);
+        entity.MinorSymbol = Cryptocash.Domain.Currency.CreateMinorSymbol(MinorSymbol);
+        entity.MinorToMajorValue = Cryptocash.Domain.Currency.CreateMinorToMajorValue(MinorToMajorValue);
         //entity.Countries = Countries.Select(dto => dto.ToEntity()).ToList();
         //entity.MinimumCashStocks = MinimumCashStocks.Select(dto => dto.ToEntity()).ToList();
         //entity.BankNotes = BankNotes.Select(dto => dto.ToEntity()).ToList();

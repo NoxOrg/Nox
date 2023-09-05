@@ -19,11 +19,11 @@ namespace Cryptocash.Application.Dto;
 public partial class PaymentProviderCreateDto : PaymentProviderUpdateDto
 {
 
-    public PaymentProvider ToEntity()
+    public Cryptocash.Domain.PaymentProvider ToEntity()
     {
-        var entity = new PaymentProvider();
-        entity.PaymentProviderName = PaymentProvider.CreatePaymentProviderName(PaymentProviderName);
-        entity.PaymentProviderType = PaymentProvider.CreatePaymentProviderType(PaymentProviderType);
+        var entity = new Cryptocash.Domain.PaymentProvider();
+        entity.PaymentProviderName = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderName(PaymentProviderName);
+        entity.PaymentProviderType = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderType(PaymentProviderType);
         //entity.PaymentDetails = PaymentDetails.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }

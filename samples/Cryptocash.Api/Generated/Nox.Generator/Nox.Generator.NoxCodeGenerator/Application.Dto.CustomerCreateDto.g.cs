@@ -19,14 +19,14 @@ namespace Cryptocash.Application.Dto;
 public partial class CustomerCreateDto : CustomerUpdateDto
 {
 
-    public Customer ToEntity()
+    public Cryptocash.Domain.Customer ToEntity()
     {
-        var entity = new Customer();
-        entity.FirstName = Customer.CreateFirstName(FirstName);
-        entity.LastName = Customer.CreateLastName(LastName);
-        entity.EmailAddress = Customer.CreateEmailAddress(EmailAddress);
-        entity.Address = Customer.CreateAddress(Address);
-        if (MobileNumber is not null)entity.MobileNumber = Customer.CreateMobileNumber(MobileNumber.NonNullValue<System.String>());
+        var entity = new Cryptocash.Domain.Customer();
+        entity.FirstName = Cryptocash.Domain.Customer.CreateFirstName(FirstName);
+        entity.LastName = Cryptocash.Domain.Customer.CreateLastName(LastName);
+        entity.EmailAddress = Cryptocash.Domain.Customer.CreateEmailAddress(EmailAddress);
+        entity.Address = Cryptocash.Domain.Customer.CreateAddress(Address);
+        if (MobileNumber is not null)entity.MobileNumber = Cryptocash.Domain.Customer.CreateMobileNumber(MobileNumber.NonNullValue<System.String>());
         //entity.PaymentDetails = PaymentDetails.Select(dto => dto.ToEntity()).ToList();
         //entity.Bookings = Bookings.Select(dto => dto.ToEntity()).ToList();
         //entity.Transactions = Transactions.Select(dto => dto.ToEntity()).ToList();

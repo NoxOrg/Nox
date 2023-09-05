@@ -19,11 +19,11 @@ namespace Cryptocash.Application.Dto;
 public partial class BankNoteCreateDto : BankNoteUpdateDto
 {
 
-    public BankNote ToEntity()
+    public Cryptocash.Domain.BankNote ToEntity()
     {
-        var entity = new BankNote();
-        entity.CashNote = BankNote.CreateCashNote(CashNote);
-        entity.Value = BankNote.CreateValue(Value);
+        var entity = new Cryptocash.Domain.BankNote();
+        entity.CashNote = Cryptocash.Domain.BankNote.CreateCashNote(CashNote);
+        entity.Value = Cryptocash.Domain.BankNote.CreateValue(Value);
         return entity;
     }
 }

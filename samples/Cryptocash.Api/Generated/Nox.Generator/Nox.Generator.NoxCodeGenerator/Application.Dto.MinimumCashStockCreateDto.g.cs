@@ -19,10 +19,10 @@ namespace Cryptocash.Application.Dto;
 public partial class MinimumCashStockCreateDto : MinimumCashStockUpdateDto
 {
 
-    public MinimumCashStock ToEntity()
+    public Cryptocash.Domain.MinimumCashStock ToEntity()
     {
-        var entity = new MinimumCashStock();
-        entity.Amount = MinimumCashStock.CreateAmount(Amount);
+        var entity = new Cryptocash.Domain.MinimumCashStock();
+        entity.Amount = Cryptocash.Domain.MinimumCashStock.CreateAmount(Amount);
         //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
         //entity.Currency = Currency.ToEntity();
         return entity;

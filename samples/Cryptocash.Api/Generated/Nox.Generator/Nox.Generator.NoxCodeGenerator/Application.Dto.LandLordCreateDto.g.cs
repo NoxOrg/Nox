@@ -19,11 +19,11 @@ namespace Cryptocash.Application.Dto;
 public partial class LandLordCreateDto : LandLordUpdateDto
 {
 
-    public LandLord ToEntity()
+    public Cryptocash.Domain.LandLord ToEntity()
     {
-        var entity = new LandLord();
-        entity.Name = LandLord.CreateName(Name);
-        entity.Address = LandLord.CreateAddress(Address);
+        var entity = new Cryptocash.Domain.LandLord();
+        entity.Name = Cryptocash.Domain.LandLord.CreateName(Name);
+        entity.Address = Cryptocash.Domain.LandLord.CreateAddress(Address);
         //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }

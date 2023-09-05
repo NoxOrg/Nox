@@ -19,12 +19,12 @@ namespace Cryptocash.Application.Dto;
 public partial class CashStockOrderCreateDto : CashStockOrderUpdateDto
 {
 
-    public CashStockOrder ToEntity()
+    public Cryptocash.Domain.CashStockOrder ToEntity()
     {
-        var entity = new CashStockOrder();
-        entity.Amount = CashStockOrder.CreateAmount(Amount);
-        entity.RequestedDeliveryDate = CashStockOrder.CreateRequestedDeliveryDate(RequestedDeliveryDate);
-        if (DeliveryDateTime is not null)entity.DeliveryDateTime = CashStockOrder.CreateDeliveryDateTime(DeliveryDateTime.NonNullValue<System.DateTimeOffset>());
+        var entity = new Cryptocash.Domain.CashStockOrder();
+        entity.Amount = Cryptocash.Domain.CashStockOrder.CreateAmount(Amount);
+        entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrder.CreateRequestedDeliveryDate(RequestedDeliveryDate);
+        if (DeliveryDateTime is not null)entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrder.CreateDeliveryDateTime(DeliveryDateTime.NonNullValue<System.DateTimeOffset>());
         //entity.VendingMachine = VendingMachine.ToEntity();
         //entity.Employee = Employee.ToEntity();
         return entity;

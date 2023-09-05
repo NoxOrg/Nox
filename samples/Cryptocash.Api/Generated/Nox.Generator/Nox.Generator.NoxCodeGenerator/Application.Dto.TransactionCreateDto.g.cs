@@ -19,13 +19,13 @@ namespace Cryptocash.Application.Dto;
 public partial class TransactionCreateDto : TransactionUpdateDto
 {
 
-    public Transaction ToEntity()
+    public Cryptocash.Domain.Transaction ToEntity()
     {
-        var entity = new Transaction();
-        entity.TransactionType = Transaction.CreateTransactionType(TransactionType);
-        entity.ProcessedOnDateTime = Transaction.CreateProcessedOnDateTime(ProcessedOnDateTime);
-        entity.Amount = Transaction.CreateAmount(Amount);
-        entity.Reference = Transaction.CreateReference(Reference);
+        var entity = new Cryptocash.Domain.Transaction();
+        entity.TransactionType = Cryptocash.Domain.Transaction.CreateTransactionType(TransactionType);
+        entity.ProcessedOnDateTime = Cryptocash.Domain.Transaction.CreateProcessedOnDateTime(ProcessedOnDateTime);
+        entity.Amount = Cryptocash.Domain.Transaction.CreateAmount(Amount);
+        entity.Reference = Cryptocash.Domain.Transaction.CreateReference(Reference);
         //entity.Customer = Customer.ToEntity();
         //entity.Booking = Booking.ToEntity();
         return entity;
