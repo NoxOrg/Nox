@@ -13,7 +13,7 @@ using Workplace = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
 
-public record DeleteWorkplaceByIdCommand(System.Guid keyId) : IRequest<bool>;
+public record DeleteWorkplaceByIdCommand(System.Guid keyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteWorkplaceByIdCommandHandler: CommandBase<DeleteWorkplaceByIdCommand,Workplace>, IRequestHandler<DeleteWorkplaceByIdCommand, bool>
 {
@@ -38,6 +38,8 @@ public class DeleteWorkplaceByIdCommandHandler: CommandBase<DeleteWorkplaceByIdC
 		{
 			return false;
 		}
+
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);DbContext.Workplaces.Remove(entity);
 		await DbContext.SaveChangesAsync(cancellationToken);

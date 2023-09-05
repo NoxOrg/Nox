@@ -15,7 +15,7 @@ using StoreOwner = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Commands;
 
-public record UpdateStoreOwnerCommand(System.String keyId, StoreOwnerUpdateDto EntityDto) : IRequest<StoreOwnerKeyDto?>;
+public record UpdateStoreOwnerCommand(System.String keyId, StoreOwnerUpdateDto EntityDto, System.Guid? Etag) : IRequest<StoreOwnerKeyDto?>;
 
 public class UpdateStoreOwnerCommandHandler: CommandBase<UpdateStoreOwnerCommand, StoreOwner>, IRequestHandler<UpdateStoreOwnerCommand, StoreOwnerKeyDto?>
 {
@@ -43,7 +43,9 @@ public class UpdateStoreOwnerCommandHandler: CommandBase<UpdateStoreOwnerCommand
 		{
 			return null;
 		}
+
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<StoreOwner>(), request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 

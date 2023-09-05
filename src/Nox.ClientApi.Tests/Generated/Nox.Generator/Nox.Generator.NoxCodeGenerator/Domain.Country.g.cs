@@ -13,7 +13,7 @@ namespace ClientApi.Domain;
 /// <summary>
 /// Country Entity.
 /// </summary>
-public partial class Country : AuditableEntityBase
+public partial class Country : AuditableEntityBase, IConcurrent
 {
     /// <summary>
     /// The unique identifier (Required).
@@ -48,4 +48,9 @@ public partial class Country : AuditableEntityBase
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
     public virtual List<CountryLocalName> CountryLocalNames { get; set; } = new();
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
 }

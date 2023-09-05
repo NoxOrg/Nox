@@ -10,7 +10,8 @@ using MediatR;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
@@ -31,5 +32,5 @@ public partial class EmailAddressDto
     /// <summary>
     /// Verified (Optional).
     /// </summary>
-    public System.Boolean? IsVerified { get; set; }    
+    public System.Boolean? IsVerified { get; set; }
 }

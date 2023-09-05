@@ -13,7 +13,7 @@ namespace ClientApi.Domain;
 /// <summary>
 /// Stores.
 /// </summary>
-public partial class Store : AuditableEntityBase
+public partial class Store : AuditableEntityBase, IConcurrent
 {
     /// <summary>
     /// NuidField Type (Required).
@@ -55,4 +55,9 @@ public partial class Store : AuditableEntityBase
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
      public virtual EmailAddress? EmailAddress { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
 }

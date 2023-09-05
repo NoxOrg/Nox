@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System.Net.Http.Headers;
 using Nox.Application;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
@@ -95,7 +96,8 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateCountryCommand(key, country));
+        var etag = GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateCountryCommand(key, country, etag));
         
         if (updated is null)
         {
@@ -110,6 +112,7 @@ public partial class CountriesController : ODataController
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in country.GetChangedPropertyNames())
@@ -120,7 +123,8 @@ public partial class CountriesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties));
+        var etag = GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties, etag));
         
         if (updated is null)
         {
@@ -131,12 +135,26 @@ public partial class CountriesController : ODataController
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var result = await _mediator.Send(new DeleteCountryByIdCommand(key));
+        var etag = GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteCountryByIdCommand(key, etag));
+        
         if (!result)
         {
             return NotFound();
         }
         
         return NoContent();
+    }
+    
+    private System.Guid? GetDecodedEtagHeader()
+    {
+        var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();
+        string? rawEtag = ifMatchValue;
+        if (EntityTagHeaderValue.TryParse(ifMatchValue, out var encodedEtag))
+        {
+            rawEtag = encodedEtag.Tag.Trim('"');
+        }
+        
+        return System.Guid.TryParse(rawEtag, out var etag) ? etag : null;
     }
 }

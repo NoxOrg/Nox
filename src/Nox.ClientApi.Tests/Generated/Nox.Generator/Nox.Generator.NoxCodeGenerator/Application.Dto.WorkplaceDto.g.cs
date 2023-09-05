@@ -10,7 +10,8 @@ using MediatR;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
@@ -36,5 +37,8 @@ public partial class WorkplaceDto
     /// <summary>
     /// The Formula (Optional).
     /// </summary>
-    public System.String? Greeting { get; set; }    
+    public System.String? Greeting { get; set; }
+    [JsonPropertyName("@odata.etag")]
+    [JsonProperty("@odata.etag")]
+    public System.Guid Etag { get; set; }
 }

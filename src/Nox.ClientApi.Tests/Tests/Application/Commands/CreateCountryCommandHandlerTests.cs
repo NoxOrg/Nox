@@ -41,7 +41,10 @@ public class CreateCountryCommandHandlerTests
         // Act
 
         var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(CountryControllerName, countryDto);
-        await _oDataFixture.PutAsync($"{CountryControllerName}/{result!.keyId}", countryUpdateDto);
+        var etag = await GetEtagAsync(result);
+        var headers = _oDataFixture.CreateEtagHeader(etag);
+
+        await _oDataFixture.PutAsync($"{CountryControllerName}/{result!.keyId}", countryUpdateDto, headers);
         var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{CountryControllerName}/{result!.keyId}");
 
         //Assert
@@ -73,5 +76,14 @@ public class CreateCountryCommandHandlerTests
         //Assert
         queryResult.Should().NotBeNull();
         queryResult!.Name.Should().Be(expectedName);
+    }
+
+    private async Task<System.Guid?> GetEtagAsync(CountryKeyDto? keyDto)
+    {
+        if (keyDto == null)
+            return null;
+
+        var result = await _oDataFixture.GetAsync<CountryDto>($"{CountryControllerName}/{keyDto!.keyId}");
+        return result?.Etag;
     }
 }

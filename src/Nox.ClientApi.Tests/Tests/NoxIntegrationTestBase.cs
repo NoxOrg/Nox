@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
 
+using System.Net.Http.Headers;
+
 namespace Nox.ClientApi.Tests;
 
 public class ODataFixture
@@ -53,28 +55,59 @@ public class ODataFixture
         return result;
     }
 
-    public async Task PutAsync<TValue>(string requestUrl, TValue data)
+    public async Task<HttpResponseMessage?> PutAsync<TValue>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>>? headers = null, bool throwOnError = true)
     {
         using var httpClient = _appFactory.CreateClient();
 
+        AddHeaders(httpClient, headers);
+
         var message = await httpClient.PutAsJsonAsync(requestUrl, data);
-        message.EnsureSuccessStatusCode();
+
+        if (throwOnError)
+            message.EnsureSuccessStatusCode();
+
+        return message;
     }
 
-    public async Task PatchAsync<TValue>(string requestUrl, TValue delta)
+    public async Task PatchAsync<TValue>(string requestUrl, TValue delta, Dictionary<string, IEnumerable<string>>? headers = null)
         where TValue : class
     {
         using var httpClient = _appFactory.CreateClient();
+
+        AddHeaders(httpClient, headers);
 
         var request = await httpClient.PatchAsJsonAsync(requestUrl, delta);
         request.EnsureSuccessStatusCode();
     }
 
-    public async Task DeleteAsync(string requestUrl)
+    public async Task<HttpResponseMessage?> DeleteAsync(string requestUrl, Dictionary<string, IEnumerable<string>>? headers = null, bool throwOnError = true)
     {
         using var httpClient = _appFactory.CreateClient();
 
+        AddHeaders(httpClient, headers);
+
         var message = await httpClient.DeleteAsync(requestUrl);
-        message.EnsureSuccessStatusCode();
+
+        if (throwOnError)
+            message.EnsureSuccessStatusCode();
+
+        return message;
+    }
+
+    public Dictionary<string, IEnumerable<string>>? CreateEtagHeader(System.Guid? etag)
+        => new()
+        {
+                { "If-Match", new List<string> { $"\"{etag}\"" } }
+        };
+
+    private static void AddHeaders(HttpClient httpClient, Dictionary<string, IEnumerable<string>>? headers)
+    {
+        if (headers != null)
+        {
+            foreach (var header in headers)
+            {
+                httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
+            }
+        }
     }
 }
