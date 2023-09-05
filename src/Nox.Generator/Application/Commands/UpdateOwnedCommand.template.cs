@@ -13,7 +13,7 @@ using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
-public record Update{{entity.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}Dto EntityDto) : IRequest <{{entity.Name}}KeyDto?>;
+public record Update{{entity.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto, {{entity.Name}}UpdateDto EntityDto) : IRequest <{{entity.Name}}KeyDto?>;
 
 public partial class Update{{entity.Name}}CommandHandler: CommandBase<Update{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler <Update{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
@@ -45,7 +45,7 @@ public partial class Update{{entity.Name}}CommandHandler: CommandBase<Update{{en
 		}
 
 		{{- for key in entity.Keys }}
-		var owned{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.EntityDto.{{key.Name}});
+		var owned{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
 		var entity = parentEntity.{{entity.PluralName}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
 		if (entity == null)

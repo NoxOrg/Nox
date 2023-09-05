@@ -77,23 +77,23 @@ public partial class CurrenciesController : ODataController
         return Created(new BankNoteDto { Id = createdKey.keyId });
     }
     
-    public async Task<ActionResult> PutToBankNotes([FromRoute] System.String key, [FromBody] BankNoteDto bankNote)
+    public async Task<ActionResult> PutToBankNotes([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] BankNoteUpdateDto bankNote)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updatedKey = await _mediator.Send(new UpdateBankNoteCommand(new CurrencyKeyDto(key), bankNote));
+        var updatedKey = await _mediator.Send(new UpdateBankNoteCommand(new CurrencyKeyDto(key), new BankNoteKeyDto(relatedKey), bankNote));
         if (updatedKey == null)
         {
             return NotFound();
         }
         
-        return Updated(bankNote);
+        return Updated(new BankNoteDto { Id = updatedKey.keyId });
     }
     
-    public async Task<ActionResult> PatchToBankNotes([FromRoute] System.String key, [FromBody] Delta<BankNoteDto> bankNote)
+    public async Task<ActionResult> PatchToBankNotes([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<BankNoteUpdateDto> bankNote)
     {
         if (!ModelState.IsValid)
         {
@@ -134,23 +134,23 @@ public partial class CurrenciesController : ODataController
         return Created(new ExchangeRateDto { Id = createdKey.keyId });
     }
     
-    public async Task<ActionResult> PutToExchangeRates([FromRoute] System.String key, [FromBody] ExchangeRateDto exchangeRate)
+    public async Task<ActionResult> PutToExchangeRates([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] ExchangeRateUpdateDto exchangeRate)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updatedKey = await _mediator.Send(new UpdateExchangeRateCommand(new CurrencyKeyDto(key), exchangeRate));
+        var updatedKey = await _mediator.Send(new UpdateExchangeRateCommand(new CurrencyKeyDto(key), new ExchangeRateKeyDto(relatedKey), exchangeRate));
         if (updatedKey == null)
         {
             return NotFound();
         }
         
-        return Updated(exchangeRate);
+        return Updated(new ExchangeRateDto { Id = updatedKey.keyId });
     }
     
-    public async Task<ActionResult> PatchToExchangeRates([FromRoute] System.String key, [FromBody] Delta<ExchangeRateDto> exchangeRate)
+    public async Task<ActionResult> PatchToExchangeRates([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<ExchangeRateUpdateDto> exchangeRate)
     {
         if (!ModelState.IsValid)
         {

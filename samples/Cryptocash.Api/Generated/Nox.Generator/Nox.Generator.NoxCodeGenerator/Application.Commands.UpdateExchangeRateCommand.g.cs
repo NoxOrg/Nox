@@ -13,7 +13,7 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record UpdateExchangeRateCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateDto EntityDto) : IRequest <ExchangeRateKeyDto?>;
+public record UpdateExchangeRateCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateKeyDto EntityKeyDto, ExchangeRateUpdateDto EntityDto) : IRequest <ExchangeRateKeyDto?>;
 
 public partial class UpdateExchangeRateCommandHandler: CommandBase<UpdateExchangeRateCommand, ExchangeRate>, IRequestHandler <UpdateExchangeRateCommand, ExchangeRateKeyDto?>
 {
@@ -40,7 +40,7 @@ public partial class UpdateExchangeRateCommandHandler: CommandBase<UpdateExchang
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<ExchangeRate,DatabaseNumber>("Id", request.EntityDto.Id);
+		var ownedId = CreateNoxTypeForKey<ExchangeRate,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.ExchangeRates.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{

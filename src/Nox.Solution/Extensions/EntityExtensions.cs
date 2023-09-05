@@ -8,7 +8,7 @@ public static class EntityExtensions
 {
     public static Entity? TryGetParent(this Entity ownedEntity, IEnumerable<Entity> allEntities)
     {
-        if (ownedEntity is null || !ownedEntity.IsOwnedEntity) 
+        if (!ownedEntity.IsOwnedEntity) 
         {
             return null;
         }

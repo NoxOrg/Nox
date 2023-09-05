@@ -77,23 +77,23 @@ public partial class EmployeesController : ODataController
         return Created(new EmployeePhoneNumberDto { Id = createdKey.keyId });
     }
     
-    public async Task<ActionResult> PutToEmployeePhoneNumbers([FromRoute] System.Int64 key, [FromBody] EmployeePhoneNumberDto employeePhoneNumber)
+    public async Task<ActionResult> PutToEmployeePhoneNumbers([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromBody] EmployeePhoneNumberUpdateDto employeePhoneNumber)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updatedKey = await _mediator.Send(new UpdateEmployeePhoneNumberCommand(new EmployeeKeyDto(key), employeePhoneNumber));
+        var updatedKey = await _mediator.Send(new UpdateEmployeePhoneNumberCommand(new EmployeeKeyDto(key), new EmployeePhoneNumberKeyDto(relatedKey), employeePhoneNumber));
         if (updatedKey == null)
         {
             return NotFound();
         }
         
-        return Updated(employeePhoneNumber);
+        return Updated(new EmployeePhoneNumberDto { Id = updatedKey.keyId });
     }
     
-    public async Task<ActionResult> PatchToEmployeePhoneNumbers([FromRoute] System.Int64 key, [FromBody] Delta<EmployeePhoneNumberDto> employeePhoneNumber)
+    public async Task<ActionResult> PatchToEmployeePhoneNumbers([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<EmployeePhoneNumberUpdateDto> employeePhoneNumber)
     {
         if (!ModelState.IsValid)
         {

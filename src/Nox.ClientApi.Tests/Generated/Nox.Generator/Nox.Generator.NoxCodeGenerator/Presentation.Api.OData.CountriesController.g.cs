@@ -77,23 +77,23 @@ public partial class CountriesController : ODataController
         return Created(new CountryLocalNameDto { Id = createdKey.keyId });
     }
     
-    public async Task<ActionResult> PutToCountryLocalNames([FromRoute] System.Int64 key, [FromBody] CountryLocalNameDto countryLocalName)
+    public async Task<ActionResult> PutToCountryLocalNames([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromBody] CountryLocalNameUpdateDto countryLocalName)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updatedKey = await _mediator.Send(new UpdateCountryLocalNameCommand(new CountryKeyDto(key), countryLocalName));
+        var updatedKey = await _mediator.Send(new UpdateCountryLocalNameCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey), countryLocalName));
         if (updatedKey == null)
         {
             return NotFound();
         }
         
-        return Updated(countryLocalName);
+        return Updated(new CountryLocalNameDto { Id = updatedKey.keyId });
     }
     
-    public async Task<ActionResult> PatchToCountryLocalNames([FromRoute] System.Int64 key, [FromBody] Delta<CountryLocalNameDto> countryLocalName)
+    public async Task<ActionResult> PatchToCountryLocalNames([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<CountryLocalNameUpdateDto> countryLocalName)
     {
         if (!ModelState.IsValid)
         {

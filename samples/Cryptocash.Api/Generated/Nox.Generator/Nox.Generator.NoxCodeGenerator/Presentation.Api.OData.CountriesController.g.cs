@@ -77,23 +77,23 @@ public partial class CountriesController : ODataController
         return Created(new CountryTimeZoneDto { Id = createdKey.keyId });
     }
     
-    public async Task<ActionResult> PutToCountryTimeZones([FromRoute] System.String key, [FromBody] CountryTimeZoneDto countryTimeZone)
+    public async Task<ActionResult> PutToCountryTimeZones([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] CountryTimeZoneUpdateDto countryTimeZone)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updatedKey = await _mediator.Send(new UpdateCountryTimeZoneCommand(new CountryKeyDto(key), countryTimeZone));
+        var updatedKey = await _mediator.Send(new UpdateCountryTimeZoneCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey), countryTimeZone));
         if (updatedKey == null)
         {
             return NotFound();
         }
         
-        return Updated(countryTimeZone);
+        return Updated(new CountryTimeZoneDto { Id = updatedKey.keyId });
     }
     
-    public async Task<ActionResult> PatchToCountryTimeZones([FromRoute] System.String key, [FromBody] Delta<CountryTimeZoneDto> countryTimeZone)
+    public async Task<ActionResult> PatchToCountryTimeZones([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<CountryTimeZoneUpdateDto> countryTimeZone)
     {
         if (!ModelState.IsValid)
         {
@@ -134,23 +134,23 @@ public partial class CountriesController : ODataController
         return Created(new HolidayDto { Id = createdKey.keyId });
     }
     
-    public async Task<ActionResult> PutToHolidays([FromRoute] System.String key, [FromBody] HolidayDto holiday)
+    public async Task<ActionResult> PutToHolidays([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] HolidayUpdateDto holiday)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updatedKey = await _mediator.Send(new UpdateHolidayCommand(new CountryKeyDto(key), holiday));
+        var updatedKey = await _mediator.Send(new UpdateHolidayCommand(new CountryKeyDto(key), new HolidayKeyDto(relatedKey), holiday));
         if (updatedKey == null)
         {
             return NotFound();
         }
         
-        return Updated(holiday);
+        return Updated(new HolidayDto { Id = updatedKey.keyId });
     }
     
-    public async Task<ActionResult> PatchToHolidays([FromRoute] System.String key, [FromBody] Delta<HolidayDto> holiday)
+    public async Task<ActionResult> PatchToHolidays([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<HolidayUpdateDto> holiday)
     {
         if (!ModelState.IsValid)
         {

@@ -13,7 +13,7 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record UpdateCountryTimeZoneCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneDto EntityDto) : IRequest <CountryTimeZoneKeyDto?>;
+public record UpdateCountryTimeZoneCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneKeyDto EntityKeyDto, CountryTimeZoneUpdateDto EntityDto) : IRequest <CountryTimeZoneKeyDto?>;
 
 public partial class UpdateCountryTimeZoneCommandHandler: CommandBase<UpdateCountryTimeZoneCommand, CountryTimeZone>, IRequestHandler <UpdateCountryTimeZoneCommand, CountryTimeZoneKeyDto?>
 {
@@ -40,7 +40,7 @@ public partial class UpdateCountryTimeZoneCommandHandler: CommandBase<UpdateCoun
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<CountryTimeZone,DatabaseNumber>("Id", request.EntityDto.Id);
+		var ownedId = CreateNoxTypeForKey<CountryTimeZone,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{

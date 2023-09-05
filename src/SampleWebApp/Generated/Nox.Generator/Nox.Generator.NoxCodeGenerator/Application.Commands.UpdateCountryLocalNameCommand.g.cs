@@ -13,7 +13,7 @@ using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
 
 namespace SampleWebApp.Application.Commands;
-public record UpdateCountryLocalNameCommand(CountryKeyDto ParentKeyDto, CountryLocalNameDto EntityDto) : IRequest <CountryLocalNameKeyDto?>;
+public record UpdateCountryLocalNameCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto, CountryLocalNameUpdateDto EntityDto) : IRequest <CountryLocalNameKeyDto?>;
 
 public partial class UpdateCountryLocalNameCommandHandler: CommandBase<UpdateCountryLocalNameCommand, CountryLocalName>, IRequestHandler <UpdateCountryLocalNameCommand, CountryLocalNameKeyDto?>
 {
@@ -40,7 +40,7 @@ public partial class UpdateCountryLocalNameCommandHandler: CommandBase<UpdateCou
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<CountryLocalName,Text>("Id", request.EntityDto.Id);
+		var ownedId = CreateNoxTypeForKey<CountryLocalName,Text>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.CountryLocalNames.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
