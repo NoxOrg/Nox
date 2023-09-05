@@ -394,6 +394,15 @@ namespace Nox.Solution {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to The owned entity &apos;{0}&apos; cannot be auditable..
+        /// </summary>
+        internal static string EntityOwnedCannotBeAuditable {
+            get {
+                return ResourceManager.GetString("EntityOwnedCannotBeAuditable", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The owned relationship &apos;{0}&apos; for entity &apos;{1}&apos; does not have a description. All owned relationships must have a description..
         /// </summary>
         internal static string EntityOwnedRelationshipDescriptionEmpty {

@@ -19,7 +19,7 @@ domain:
       description: The list of currencies
 
       persistence: 
-        isAudited: false
+        isAudited: true
 
       keys:
         - name: Id
@@ -42,6 +42,10 @@ domain:
 
     - name: Country
       description: The list of countries
+
+      persistence: 
+        isAudited: true
+
       keys:
         - name: Id
           isRequired: true
@@ -67,8 +71,12 @@ domain:
           relationship: oneOrMany
           entity: Currency
 
-    - name: Store
-      description: The list of stores
+    - name: Continent
+      description: The list of continents
+
+      persistence: 
+        isAudited: true
+
       keys:
         - name: Id
           isRequired: true
@@ -80,7 +88,7 @@ domain:
 
       attributes:
         - name: Name        
-          description: The store's name
+          description: The continent's common name
           type: text          
           textTypeOptions:
             minLength: 4
@@ -89,7 +97,7 @@ domain:
 
       ownedRelationships:
 
-        - name: StoreAcceptedCurrencies
-          description: accepted currencies
+        - name: ContinentIncludesCountries
+          description: includes
           relationship: oneOrMany
-          entity: Currency
+          entity: Country
