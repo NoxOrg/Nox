@@ -29,7 +29,7 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
         public CollectionNavigationBuilder HasMany(string navigationName)
         {
             // TODO: fix owned entity many to many realtionships
-            throw new Exception("HasMany is not supported for Owned navigation. Will be implemented later.");
+            throw new NotImplementedException("HasMany is not supported for Owned navigation. Will be implemented later.");
         }
 
         public IEntityBuilder Ignore(string propertyName)
