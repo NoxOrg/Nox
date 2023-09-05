@@ -80,11 +80,6 @@ public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
                         .HasForeignKey($"{codeGeneratorState.DtoNameSpace}.{entity.Name}Dto", $"{relationshipToCreate.Name}Id");
                 }
             }
-
-            if (!relationshipToCreate.ShouldUseRelationshipNameAsNavigation())
-            {
-                builder.Ignore(relationshipToCreate.Name);
-            }
         }
     }
 
