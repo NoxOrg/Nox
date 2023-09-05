@@ -39,7 +39,7 @@ public partial class LandLordDto
     public StreetAddressDto Address { get; set; } = default!;
 
     /// <summary>
-    /// LandLord Landlord's area of the vending machine installation ZeroOrMany VendingMachines
+    /// LandLord leases an area to house ZeroOrMany VendingMachines
     /// </summary>
     public virtual List<VendingMachineDto> VendingMachines { get; set; } = new();
     public System.DateTime? DeletedAtUtc { get; set; }    

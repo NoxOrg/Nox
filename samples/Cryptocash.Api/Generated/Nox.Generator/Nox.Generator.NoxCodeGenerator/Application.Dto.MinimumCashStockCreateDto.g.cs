@@ -23,7 +23,7 @@ public partial class MinimumCashStockCreateDto : MinimumCashStockUpdateDto
     {
         var entity = new MinimumCashStock();
         entity.Amount = MinimumCashStock.CreateAmount(Amount);
-        //entity.VendingMachine = VendingMachine.ToEntity();
+        //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
         //entity.Currency = Currency.ToEntity();
         return entity;
     }

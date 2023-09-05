@@ -24,7 +24,7 @@ public partial class PaymentProviderCreateDto : PaymentProviderUpdateDto
         var entity = new PaymentProvider();
         entity.PaymentProviderName = PaymentProvider.CreatePaymentProviderName(PaymentProviderName);
         entity.PaymentProviderType = PaymentProvider.CreatePaymentProviderType(PaymentProviderType);
-        //entity.CustomerPaymentDetails = CustomerPaymentDetails.ToEntity();
+        //entity.PaymentDetails = PaymentDetails.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }
 }

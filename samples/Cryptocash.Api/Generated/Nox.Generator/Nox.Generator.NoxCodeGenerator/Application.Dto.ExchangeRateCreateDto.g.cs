@@ -24,7 +24,6 @@ public partial class ExchangeRateCreateDto : ExchangeRateUpdateDto
         var entity = new ExchangeRate();
         entity.EffectiveRate = ExchangeRate.CreateEffectiveRate(EffectiveRate);
         entity.EffectiveAt = ExchangeRate.CreateEffectiveAt(EffectiveAt);
-        //entity.Currency = Currency.ToEntity();
         return entity;
     }
 }

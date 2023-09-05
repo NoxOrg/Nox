@@ -177,4 +177,18 @@ public partial class Currency
         => Nox.Types.Money.From(value);
     
 
+    /// <summary>
+    /// Type options and factory for property 'BankNoteId'
+    /// </summary>
+    public static Nox.Types.DatabaseNumber CreateBankNoteId(System.Int64 value)
+        => Nox.Types.DatabaseNumber.From(value);
+    
+
+    /// <summary>
+    /// Type options and factory for property 'ExchangeRateId'
+    /// </summary>
+    public static Nox.Types.DatabaseNumber CreateExchangeRateId(System.Int64 value)
+        => Nox.Types.DatabaseNumber.From(value);
+    
+
 }

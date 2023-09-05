@@ -44,9 +44,9 @@ public partial class CountryCreateDto : CountryUpdateDto
         //entity.Currency = Currency.ToEntity();
         //entity.Commissions = Commissions.Select(dto => dto.ToEntity()).ToList();
         //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
-        //entity.CountryHolidays = CountryHolidays.Select(dto => dto.ToEntity()).ToList();
         //entity.Customers = Customers.Select(dto => dto.ToEntity()).ToList();
         //entity.CountryTimeZones = CountryTimeZones.Select(dto => dto.ToEntity()).ToList();
+        //entity.Holidays = Holidays.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }
 }

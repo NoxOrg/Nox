@@ -27,9 +27,9 @@ public partial class CustomerCreateDto : CustomerUpdateDto
         entity.EmailAddress = Customer.CreateEmailAddress(EmailAddress);
         entity.Address = Customer.CreateAddress(Address);
         if (MobileNumber is not null)entity.MobileNumber = Customer.CreateMobileNumber(MobileNumber.NonNullValue<System.String>());
-        //entity.CustomerPaymentDetails = CustomerPaymentDetails.Select(dto => dto.ToEntity()).ToList();
+        //entity.PaymentDetails = PaymentDetails.Select(dto => dto.ToEntity()).ToList();
         //entity.Bookings = Bookings.Select(dto => dto.ToEntity()).ToList();
-        //entity.CustomerTransactions = CustomerTransactions.Select(dto => dto.ToEntity()).ToList();
+        //entity.Transactions = Transactions.Select(dto => dto.ToEntity()).ToList();
         //entity.Country = Country.ToEntity();
         return entity;
     }

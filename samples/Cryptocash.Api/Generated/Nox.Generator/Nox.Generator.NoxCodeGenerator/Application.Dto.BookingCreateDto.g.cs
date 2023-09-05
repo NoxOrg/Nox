@@ -32,7 +32,7 @@ public partial class BookingCreateDto : BookingUpdateDto
         //entity.Customer = Customer.ToEntity();
         //entity.VendingMachine = VendingMachine.ToEntity();
         //entity.Commission = Commission.ToEntity();
-        //entity.CustomerTransaction = CustomerTransaction.ToEntity();
+        //entity.Transaction = Transaction.ToEntity();
         return entity;
     }
 }

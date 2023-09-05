@@ -14,7 +14,7 @@ entities:
   
   - $ref: ./entities/Holiday.entity.nox.yaml
   
-  - $ref: ./entities/TimeZone.entity.nox.yaml
+  - $ref: ./entities/CountryTimeZone.entity.nox.yaml
   
   - $ref: ./entities/Currency.entity.nox.yaml
   

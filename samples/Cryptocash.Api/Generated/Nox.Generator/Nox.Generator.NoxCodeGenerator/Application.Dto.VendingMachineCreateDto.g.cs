@@ -32,7 +32,7 @@ public partial class VendingMachineCreateDto : VendingMachineUpdateDto
         //entity.Country = Country.ToEntity();
         //entity.LandLord = LandLord.ToEntity();
         //entity.Bookings = Bookings.Select(dto => dto.ToEntity()).ToList();
-        //entity.VendingMachineOrders = VendingMachineOrders.Select(dto => dto.ToEntity()).ToList();
+        //entity.CashStockOrders = CashStockOrders.Select(dto => dto.ToEntity()).ToList();
         //entity.MinimumCashStocks = MinimumCashStocks.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }

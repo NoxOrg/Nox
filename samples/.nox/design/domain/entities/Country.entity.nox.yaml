@@ -193,7 +193,7 @@ ownedRelationships:
   - name: CountryOwnedTimeZones
     description: owned
     relationship: oneOrMany
-    entity: TimeZone
+    entity: CountryTimeZone
 
   - name: CountryOwnedHolidays
     description: owned

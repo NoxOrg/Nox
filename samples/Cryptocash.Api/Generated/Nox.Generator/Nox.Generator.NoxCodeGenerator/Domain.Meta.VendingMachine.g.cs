@@ -93,4 +93,11 @@ public partial class VendingMachine
         => Nox.Types.DatabaseNumber.From(value);
     
 
+    /// <summary>
+    /// Type options and factory for property 'MinimumCashStockId'
+    /// </summary>
+    public static Nox.Types.DatabaseNumber CreateMinimumCashStockId(System.Int64 value)
+        => Nox.Types.DatabaseNumber.From(value);
+    
+
 }

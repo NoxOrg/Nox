@@ -40,9 +40,9 @@ public partial class CurrencyCreateDto : CurrencyUpdateDto
         entity.MinorName = Currency.CreateMinorName(MinorName);
         entity.MinorSymbol = Currency.CreateMinorSymbol(MinorSymbol);
         entity.MinorToMajorValue = Currency.CreateMinorToMajorValue(MinorToMajorValue);
-        //entity.BankNotes = BankNotes.Select(dto => dto.ToEntity()).ToList();
         //entity.Countries = Countries.Select(dto => dto.ToEntity()).ToList();
         //entity.MinimumCashStocks = MinimumCashStocks.Select(dto => dto.ToEntity()).ToList();
+        //entity.BankNotes = BankNotes.Select(dto => dto.ToEntity()).ToList();
         //entity.ExchangeRates = ExchangeRates.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }

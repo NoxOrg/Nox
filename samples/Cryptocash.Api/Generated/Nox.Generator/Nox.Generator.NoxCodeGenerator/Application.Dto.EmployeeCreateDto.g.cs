@@ -28,7 +28,7 @@ public partial class EmployeeCreateDto : EmployeeUpdateDto
         entity.Address = Employee.CreateAddress(Address);
         entity.FirstWorkingDay = Employee.CreateFirstWorkingDay(FirstWorkingDay);
         if (LastWorkingDay is not null)entity.LastWorkingDay = Employee.CreateLastWorkingDay(LastWorkingDay.NonNullValue<System.DateTime>());
-        //entity.VendingMachineOrder = VendingMachineOrder.ToEntity();
+        //entity.CashStockOrder = CashStockOrder.ToEntity();
         //entity.EmployeePhoneNumbers = EmployeePhoneNumbers.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }
