@@ -355,6 +355,36 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             response.CountryLocalNames.First().Name.Should().Be(expectedLocalName);
 
         }
+
+        [Fact]
+        public async Task GetOwnedEntitiesById_ReturnsOwnedEntitiesList()
+        {
+            var expectedCountryLocalNames = new List<CountryLocalNameCreateDto>() {
+                    new CountryLocalNameCreateDto() { Name = "Iberia" },
+                    new CountryLocalNameCreateDto() { Name = "Lusitania"}
+                };
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = "Portugal",
+                CountryLocalNames = expectedCountryLocalNames
+            };
+            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(CountryControllerName, dto);
+
+            // Act
+            var odataResponse = await _oDataFixture.GetAsync<ODataResponse<IEnumerable<CountryLocalNameDto>>>($"{CountryControllerName}/{result!.keyId}/CountryLocalNames");
+            var results = odataResponse!.Value;
+
+            //Assert
+            results.Should()
+                .HaveCount(expectedCountryLocalNames.Count())
+                    .And
+                .AllSatisfy(x => x.Name.Should().NotBeNullOrEmpty())
+                    .And
+                .AllSatisfy(x => x.Id.Should().BeGreaterThan(0));
+
+        }
+
         #endregion
     }
 }

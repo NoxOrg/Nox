@@ -123,6 +123,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
                         {
                             continue;
                         }
+                        GenerateChildrenGet(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
                         GenerateChildrenPost(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
                         GenerateChildrenPut(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
                         GenerateChildrenPatch(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
@@ -283,6 +284,30 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"return Created(createdKey);");
 
         // End method
+        code.EndBlock();
+        code.AppendLine();
+    }
+
+    private static void GenerateChildrenGet(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
+    {
+        code.AppendLine($"[EnableQuery]");
+        code.AppendLine($"public async Task<ActionResult<IQueryable<{child.Name}Dto>>> Get{child.PluralName}({PrimaryKeysFromRoute(parent, solution)})");
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
+
+        code.AppendLine($"var item = await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)}));");
+        code.AppendLine();
+        code.AppendLine($"if (item is null)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine($"return Ok(item.{child.PluralName});");
+
         code.EndBlock();
         code.AppendLine();
     }
