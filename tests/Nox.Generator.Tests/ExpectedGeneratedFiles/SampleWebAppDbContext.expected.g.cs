@@ -88,7 +88,7 @@ public partial class SampleWebAppDbContext : DbContext
     {
         try
         {
-            AuditEntities();
+            HandleSystemFields();
             return await base.SaveChangesAsync(cancellationToken);
 
         }
@@ -98,7 +98,7 @@ public partial class SampleWebAppDbContext : DbContext
         }
     }
 
-    private void AuditEntities()
+    private void HandleSystemFields()
     {
         ChangeTracker.DetectChanges();
 
@@ -144,6 +144,7 @@ public partial class SampleWebAppDbContext : DbContext
                 break;
 
             case EntityState.Modified:
+            case EntityState.Deleted:
                 entry.Property(e => e.Etag).OriginalValue = entry.Property(p => p.Etag).CurrentValue;
                 entry.Property(e => e.Etag).CurrentValue = Nox.Types.Guid.NewGuid();
                 break;
