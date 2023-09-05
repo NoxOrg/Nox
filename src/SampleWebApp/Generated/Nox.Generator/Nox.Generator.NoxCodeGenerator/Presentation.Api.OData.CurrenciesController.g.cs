@@ -48,6 +48,7 @@ public partial class CurrenciesController : ODataController
         return Ok(result);
     }
     
+    [EnableQuery]
     public async Task<ActionResult<CurrencyDto>> Get([FromRoute] System.UInt32 key)
     {
         var item = await _mediator.Send(new GetCurrencyByIdQuery(key));

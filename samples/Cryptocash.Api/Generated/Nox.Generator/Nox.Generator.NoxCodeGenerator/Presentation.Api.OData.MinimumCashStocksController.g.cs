@@ -48,6 +48,7 @@ public partial class MinimumCashStocksController : ODataController
         return Ok(result);
     }
     
+    [EnableQuery]
     public async Task<ActionResult<MinimumCashStockDto>> Get([FromRoute] System.Int64 key)
     {
         var item = await _mediator.Send(new GetMinimumCashStockByIdQuery(key));

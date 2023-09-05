@@ -55,6 +55,7 @@ public partial class CountriesController : ODataController
         return Ok(result);
     }
     
+    [EnableQuery]
     public async Task<ActionResult<CountryDto>> Get([FromRoute] System.Int64 key)
     {
         var item = await _mediator.Send(new GetCountryByIdQuery(key));

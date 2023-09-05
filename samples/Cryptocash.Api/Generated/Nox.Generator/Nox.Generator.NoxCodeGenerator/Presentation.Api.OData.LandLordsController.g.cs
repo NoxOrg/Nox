@@ -48,6 +48,7 @@ public partial class LandLordsController : ODataController
         return Ok(result);
     }
     
+    [EnableQuery]
     public async Task<ActionResult<LandLordDto>> Get([FromRoute] System.Int64 key)
     {
         var item = await _mediator.Send(new GetLandLordByIdQuery(key));

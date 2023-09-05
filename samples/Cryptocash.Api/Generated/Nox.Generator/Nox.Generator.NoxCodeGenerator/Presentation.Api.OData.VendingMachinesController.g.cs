@@ -48,6 +48,7 @@ public partial class VendingMachinesController : ODataController
         return Ok(result);
     }
     
+    [EnableQuery]
     public async Task<ActionResult<VendingMachineDto>> Get([FromRoute] System.Guid key)
     {
         var item = await _mediator.Send(new GetVendingMachineByIdQuery(key));
