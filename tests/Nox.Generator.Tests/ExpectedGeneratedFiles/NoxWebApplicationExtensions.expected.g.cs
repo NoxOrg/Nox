@@ -13,17 +13,17 @@ using TestWebApp.Presentation.Api.OData;
 
 public static class NoxWebApplicationBuilderExtension
 {
-    public static WebApplicationBuilder AddNox(this WebApplicationBuilder appBuilder)
+    public static IServiceCollection AddNox(this IServiceCollection services)
     {
-        appBuilder.Services.AddNoxLib(Assembly.GetExecutingAssembly());
-        appBuilder.Services.AddNoxOdata();
-        appBuilder.Services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
-        appBuilder.Services.AddSingleton<DbContextOptions<TestWebAppDbContext>>();
-        appBuilder.Services.AddSingleton<INoxDatabaseConfigurator, SqlServerDatabaseProvider>();
-        appBuilder.Services.AddSingleton<INoxDatabaseProvider, SqlServerDatabaseProvider>();
-        appBuilder.Services.AddDbContext<TestWebAppDbContext>();
-        appBuilder.Services.AddDbContext<DtoDbContext>();
-        return appBuilder;
+        services.AddNoxLib(Assembly.GetExecutingAssembly());
+        services.AddNoxOdata();
+        services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
+        services.AddSingleton<DbContextOptions<TestWebAppDbContext>>();
+        services.AddSingleton<INoxDatabaseConfigurator, SqlServerDatabaseProvider>();
+        services.AddSingleton<INoxDatabaseProvider, SqlServerDatabaseProvider>();
+        services.AddDbContext<TestWebAppDbContext>();
+        services.AddDbContext<DtoDbContext>();
+        return services;
     }
     
 }

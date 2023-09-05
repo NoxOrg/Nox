@@ -19,7 +19,6 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-[Route("{controller}")]
 public partial class EmployeesController : ODataController
 {
     
@@ -42,7 +41,6 @@ public partial class EmployeesController : ODataController
         _mediator = mediator;
     }
     
-    [HttpGet]
     [EnableQuery]
     public async  Task<ActionResult<IQueryable<EmployeeDto>>> Get()
     {
@@ -78,7 +76,6 @@ public partial class EmployeesController : ODataController
         return Created(new EmployeePhoneNumberDto { Id = createdKey.keyId });
     }
     
-    [HttpPost]
     public async Task<ActionResult> Post([FromBody]EmployeeCreateDto employee)
     {
         if (!ModelState.IsValid)
@@ -90,7 +87,6 @@ public partial class EmployeesController : ODataController
         return Created(createdKey);
     }
     
-    [HttpPut]
     public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] EmployeeUpdateDto employee)
     {
         if (!ModelState.IsValid)
@@ -107,7 +103,6 @@ public partial class EmployeesController : ODataController
         return Updated(updated);
     }
     
-    [HttpPatch]
     public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<EmployeeUpdateDto> employee)
     {
         if (!ModelState.IsValid)
@@ -133,7 +128,6 @@ public partial class EmployeesController : ODataController
         return Updated(updated);
     }
     
-    [HttpDelete]
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new DeleteEmployeeByIdCommand(key));

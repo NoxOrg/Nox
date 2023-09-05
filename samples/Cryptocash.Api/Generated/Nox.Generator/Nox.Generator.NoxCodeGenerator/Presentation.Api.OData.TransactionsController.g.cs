@@ -19,7 +19,6 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-[Route("{controller}")]
 public partial class TransactionsController : ODataController
 {
     
@@ -42,7 +41,6 @@ public partial class TransactionsController : ODataController
         _mediator = mediator;
     }
     
-    [HttpGet]
     [EnableQuery]
     public async  Task<ActionResult<IQueryable<TransactionDto>>> Get()
     {
@@ -62,7 +60,6 @@ public partial class TransactionsController : ODataController
         return Ok(item);
     }
     
-    [HttpPost]
     public async Task<ActionResult> Post([FromBody]TransactionCreateDto transaction)
     {
         if (!ModelState.IsValid)
@@ -74,7 +71,6 @@ public partial class TransactionsController : ODataController
         return Created(createdKey);
     }
     
-    [HttpPut]
     public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] TransactionUpdateDto transaction)
     {
         if (!ModelState.IsValid)
@@ -91,7 +87,6 @@ public partial class TransactionsController : ODataController
         return Updated(updated);
     }
     
-    [HttpPatch]
     public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<TransactionUpdateDto> transaction)
     {
         if (!ModelState.IsValid)
@@ -117,7 +112,6 @@ public partial class TransactionsController : ODataController
         return Updated(updated);
     }
     
-    [HttpDelete]
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new DeleteTransactionByIdCommand(key));

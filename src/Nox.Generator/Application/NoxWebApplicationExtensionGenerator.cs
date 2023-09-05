@@ -52,19 +52,19 @@ internal class NoxWebApplicationExtensionGenerator : INoxCodeGenerator
 
         code.AppendLine("public static class NoxWebApplicationBuilderExtension");
         code.StartBlock();
-        code.AppendLine("public static WebApplicationBuilder AddNox(this WebApplicationBuilder appBuilder)");
+        code.AppendLine("public static IServiceCollection AddNox(this IServiceCollection services)");
         code.StartBlock();
-        code.AppendLine($"appBuilder.Services.AddNoxLib(Assembly.GetExecutingAssembly());");
-        code.AppendLine("appBuilder.Services.AddNoxOdata();");
+        code.AppendLine($"services.AddNoxLib(Assembly.GetExecutingAssembly());");
+        code.AppendLine("services.AddNoxOdata();");
         var dbContextName = $"{solution.Name}DbContext";
 
-        code.AppendLine($"appBuilder.Services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));");
-        code.AppendLine($"appBuilder.Services.AddSingleton<DbContextOptions<{dbContextName}>>();");
-        code.AppendLine($"appBuilder.Services.AddSingleton<INoxDatabaseConfigurator, {dbProvider}>();");
-        code.AppendLine($"appBuilder.Services.AddSingleton<INoxDatabaseProvider, {dbProvider}>();");
-        code.AppendLine($"appBuilder.Services.AddDbContext<{dbContextName}>();");
-        code.AppendLine($"appBuilder.Services.AddDbContext<DtoDbContext>();");
-        code.AppendLine("return appBuilder;");
+        code.AppendLine($"services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));");
+        code.AppendLine($"services.AddSingleton<DbContextOptions<{dbContextName}>>();");
+        code.AppendLine($"services.AddSingleton<INoxDatabaseConfigurator, {dbProvider}>();");
+        code.AppendLine($"services.AddSingleton<INoxDatabaseProvider, {dbProvider}>();");
+        code.AppendLine($"services.AddDbContext<{dbContextName}>();");
+        code.AppendLine($"services.AddDbContext<DtoDbContext>();");
+        code.AppendLine("return services;");
         code.EndBlock();
         code.AppendLine();
 

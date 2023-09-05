@@ -6,10 +6,10 @@ using System.Net;
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class StoreOwnersControllerTests : NoxIntgrationTestBase
+    public class StoreOwnersControllerTests : NoxIntegrationTestBase
     {
         private const string StoreOwnersControllerName = "api/storeowners";
-
+        private readonly Fixture _objectFixture = new();
         public StoreOwnersControllerTests(NoxTestApplicationFactory<StartupFixture> factory) : base(factory)
         {
         }
