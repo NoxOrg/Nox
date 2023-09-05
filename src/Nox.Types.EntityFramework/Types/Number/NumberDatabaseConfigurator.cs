@@ -30,7 +30,7 @@ public class NumberDatabaseConfigurator : INoxTypeDatabaseConfigurator
 
     public Type GetConverter(NumberTypeOptions typeOptions)
     {
-        var underlineType = typeOptions.GetUnderlineType();
+        var underlineType = typeOptions.GetUnderlyingType();
 
         if (underlineType == typeof(decimal))
         {

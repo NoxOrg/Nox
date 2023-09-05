@@ -17,6 +17,10 @@ domain:
 
     - name: Currency
       description: The list of currencies
+
+      persistence: 
+        isAudited: false
+
       keys:
         - name: Id
           isRequired: true

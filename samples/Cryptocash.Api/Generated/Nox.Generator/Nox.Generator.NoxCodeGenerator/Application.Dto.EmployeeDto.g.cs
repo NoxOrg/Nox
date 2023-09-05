@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
-//using Cryptocash.Application.DataTransferObjects;
+using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -55,14 +59,15 @@ public partial class EmployeeDto
     public System.DateTime? LastWorkingDay { get; set; }
 
     /// <summary>
-    /// Employee Reviewed by employee ExactlyOne VendingMachineOrders
+    /// Employee reviewing ExactlyOne CashStockOrders
     /// </summary>
-    public virtual VendingMachineOrderDto VendingMachineOrder { get; set; } = null!;
+    //EF maps ForeignKey Automatically
+    public System.Int64 CashStockOrderId { get; set; } = default!;
+    public virtual CashStockOrderDto CashStockOrder { get; set; } = null!;
 
     /// <summary>
-    /// Employee Employee's phone numbers ZeroOrMany EmployeePhoneNumbers
+    /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
     /// </summary>
     public virtual List<EmployeePhoneNumberDto> EmployeePhoneNumbers { get; set; } = new();
-
-    public System.DateTime? DeletedAtUtc { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

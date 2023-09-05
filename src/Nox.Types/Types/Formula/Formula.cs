@@ -10,6 +10,9 @@ public class Formula : ValueObject<string, Formula>
 {
     private FormulaTypeOptions _formulaTypeOptions = new();
 
+    public static Formula From(string value, FormulaTypeOptions formulaTypeOptions)
+        => From(formulaTypeOptions);
+
     /// <summary>
     /// Creates a new instance of <see cref="Formula"/> object.
     /// </summary>

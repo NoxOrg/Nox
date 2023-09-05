@@ -34,7 +34,7 @@ public class ApplicationEventValidator: AbstractValidator<ApplicationEvent>
     private bool HaveUniqueName(ApplicationEvent toEvaluate, string name)
     {
         var appEventResult = _appEvents!.All(ae => ae.Equals(toEvaluate) || ae.Name != name);
-        if (appEventResult == false || _domainEvents == null || !_domainEvents.Any()) return appEventResult;
+        if (!appEventResult || _domainEvents == null || !_domainEvents.Any()) return appEventResult;
         return _domainEvents.All(de => de.Name != name);
     }
 }

@@ -53,7 +53,7 @@ public partial class Booking : AuditableEntityBase
     /// <summary>
     /// Booking's status (Optional).
     /// </summary>
-    public string? Status
+    public String? Status
     { 
         get { return CancelledDateTime != null ? "cancelled" : (PickedUpDateTime != null ? "picked-up" : (ExpiryDateTime != null ? "expired" : "booked")); }
         private set { }
@@ -65,9 +65,11 @@ public partial class Booking : AuditableEntityBase
     public Nox.Types.VatNumber? VatNumber { get; set; } = null!;
 
     /// <summary>
-    /// Booking Booking's customer ExactlyOne Customers
+    /// Booking for ExactlyOne Customers
     /// </summary>
     public virtual Customer Customer { get; set; } = null!;
+
+    public Customer BookingForCustomer => Customer;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
@@ -75,9 +77,11 @@ public partial class Booking : AuditableEntityBase
     public Nox.Types.DatabaseNumber CustomerId { get; set; } = null!;
 
     /// <summary>
-    /// Booking Booking's vending machine ExactlyOne VendingMachines
+    /// Booking related to ExactlyOne VendingMachines
     /// </summary>
     public virtual VendingMachine VendingMachine { get; set; } = null!;
+
+    public VendingMachine BookingRelatedVendingMachine => VendingMachine;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity VendingMachine
@@ -85,11 +89,11 @@ public partial class Booking : AuditableEntityBase
     public Nox.Types.DatabaseGuid VendingMachineId { get; set; } = null!;
 
     /// <summary>
-    /// Booking Booking's fee ExactlyOne Commissions
+    /// Booking fees for ExactlyOne Commissions
     /// </summary>
     public virtual Commission Commission { get; set; } = null!;
 
-    public Commission Fee => Commission;
+    public Commission BookingFeesForCommission => Commission;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Commission
@@ -97,7 +101,9 @@ public partial class Booking : AuditableEntityBase
     public Nox.Types.DatabaseNumber CommissionId { get; set; } = null!;
 
     /// <summary>
-    /// Booking Transaction's booking ExactlyOne CustomerTransactions
+    /// Booking related to ExactlyOne Transactions
     /// </summary>
-    public virtual CustomerTransaction CustomerTransaction { get; set; } = null!;
+    public virtual Transaction Transaction { get; set; } = null!;
+
+    public Transaction BookingRelatedTransaction => Transaction;
 }

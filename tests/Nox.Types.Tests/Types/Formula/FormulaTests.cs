@@ -48,7 +48,7 @@ public class FormulaTests
         var action = () => Formula.From(new FormulaTypeOptions
         {
             Expression = expression,
-            Returns = FormulaReturnType.@bool,
+            Returns = FormulaReturnType.Bool,
         });
 
         action.Should().Throw<TypeValidationException>()
@@ -56,11 +56,11 @@ public class FormulaTests
     }
 
     [Theory]
-    [InlineData(FormulaReturnType.@string, typeof(string))]
-    [InlineData(FormulaReturnType.@int, typeof(int))]
-    [InlineData(FormulaReturnType.@long, typeof(long))]
-    [InlineData(FormulaReturnType.@double, typeof(double))]
-    [InlineData(FormulaReturnType.@bool, typeof(bool))]
+    [InlineData(FormulaReturnType.String, typeof(string))]
+    [InlineData(FormulaReturnType.Int, typeof(int))]
+    [InlineData(FormulaReturnType.Long, typeof(long))]
+    [InlineData(FormulaReturnType.Double, typeof(double))]
+    [InlineData(FormulaReturnType.Bool, typeof(bool))]
     [InlineData(FormulaReturnType.DateTime, typeof(System.DateTime))]
     public void ExpressionAndReturnsProperties_WithValidObjet_ReturnValue(FormulaReturnType returnType, Type expectedType)
     {
@@ -80,11 +80,11 @@ public class FormulaTests
         var formula = Formula.From(new FormulaTypeOptions
         {
             Expression = "FirstName.ToString() + LastName.ToString()",
-            Returns = FormulaReturnType.@string
+            Returns = FormulaReturnType.String
 
         });
 
-        formula.ToString().Should().Be("(string):FirstName.ToString() + LastName.ToString()");
+        formula.ToString().Should().Be("(String):FirstName.ToString() + LastName.ToString()");
     }
 
     [Fact]
@@ -93,22 +93,22 @@ public class FormulaTests
         var formula1 = Formula.From(new FormulaTypeOptions
         {
             Expression = "FirstName.ToString() + LastName.ToString()",
-            Returns = FormulaReturnType.@string
+            Returns = FormulaReturnType.String
         });
 
         var formula2 = Formula.From(new FormulaTypeOptions
         {
             Expression = "FirstName.ToString() + LastName.ToString()",
-            Returns = FormulaReturnType.@string
+            Returns = FormulaReturnType.String
         });
 
         AssertAreEquivalent(formula1, formula2);
     }
 
     [Theory]
-    [InlineData("attr1 + attr2", FormulaReturnType.@string, "attr1 + attr2", FormulaReturnType.@int)]    // Same expression, different return type
-    [InlineData("attr1 + attr2", FormulaReturnType.@string, "attr3 + attr4", FormulaReturnType.@string)] // Different expression, same return type
-    [InlineData("attr1 + attr2", FormulaReturnType.@string, "attr3 + attr4", FormulaReturnType.@int)]    // Different expression, different return type
+    [InlineData("attr1 + attr2", FormulaReturnType.String, "attr1 + attr2", FormulaReturnType.Int)]    // Same expression, different return type
+    [InlineData("attr1 + attr2", FormulaReturnType.String, "attr3 + attr4", FormulaReturnType.String)] // Different expression, same return type
+    [InlineData("attr1 + attr2", FormulaReturnType.String, "attr3 + attr4", FormulaReturnType.Int)]    // Different expression, different return type
     public void NonEquality_WithVariousExpressionAndReturnTypeCombinations_ShouldNotBeEquivalent(string expression1, FormulaReturnType returnType1, string expression2, FormulaReturnType returnType2)
     {
         var formula1 = Formula.From(new FormulaTypeOptions

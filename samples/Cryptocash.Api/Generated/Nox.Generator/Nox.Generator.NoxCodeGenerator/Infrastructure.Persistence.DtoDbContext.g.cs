@@ -45,21 +45,15 @@ public class DtoDbContext : DbContext
         
         public DbSet<CountryDto> Countries { get; set; } = null!;
         
-        public DbSet<CountryHolidayDto> CountryHolidays { get; set; } = null!;
-        
         public DbSet<CurrencyDto> Currencies { get; set; } = null!;
-        
-        public DbSet<BankNotesDto> BankNotes { get; set; } = null!;
         
         public DbSet<CustomerDto> Customers { get; set; } = null!;
         
-        public DbSet<CustomerPaymentDetailsDto> CustomerPaymentDetails { get; set; } = null!;
+        public DbSet<PaymentDetailDto> PaymentDetails { get; set; } = null!;
         
-        public DbSet<CustomerTransactionDto> CustomerTransactions { get; set; } = null!;
+        public DbSet<TransactionDto> Transactions { get; set; } = null!;
         
         public DbSet<EmployeeDto> Employees { get; set; } = null!;
-        
-        public DbSet<ExchangeRateDto> ExchangeRates { get; set; } = null!;
         
         public DbSet<LandLordDto> LandLords { get; set; } = null!;
         
@@ -69,7 +63,7 @@ public class DtoDbContext : DbContext
         
         public DbSet<VendingMachineDto> VendingMachines { get; set; } = null!;
         
-        public DbSet<VendingMachineOrderDto> VendingMachineOrders { get; set; } = null!;
+        public DbSet<CashStockOrderDto> CashStockOrders { get; set; } = null!;
         
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

@@ -41,13 +41,14 @@ public class YamlFileValidationTests
 
         var exception = Assert.Throws<NoxSolutionConfigurationException>(() => NoxSchemaValidator.Deserialize<NoxSolution>(yaml));
 
-        var errorCount = exception.Message.Split('\n').Length;
+        var errors = exception.Message.Split('\n');
+        var errorCount = errors.Length;
 
         Assert.Contains("[\"relationship\"]", exception.Message);
         Assert.Contains("[\"name\"]", exception.Message);
         Assert.Contains("[\"serverUri\"]", exception.Message);
         Assert.Contains("dataConnection", exception.Message);
-        Assert.Equal(18, errorCount);
+        Assert.Equal(22, errorCount);
     }
 
     
@@ -113,6 +114,21 @@ public class YamlFileValidationTests
 
         Assert.Equal("The owned relationship 'CountryLegalCurrencies' for entity 'Country' refers to an entity 'Currency' that is used in other owned relationships. Owned entities must be owned by one parent only.", errors[0].ErrorMessage);
         Assert.Equal("The owned relationship 'StoreAcceptedCurrencies' for entity 'Store' refers to an entity 'Currency' that is used in other owned relationships. Owned entities must be owned by one parent only.", errors[1].ErrorMessage);
+    }
+
+    [Fact]
+    public void Deserialize_OwnedEntity_SetAsAudited_ThrowsException()
+    {
+        var exception = Assert.Throws<ValidationException>(() => new NoxSolutionBuilder()
+            .UseYamlFile($"./files/owned-entity-set-as-audited.solution.nox.yaml")
+            .Build());
+
+        var errors = exception.Errors.ToArray();
+
+        Assert.Equal(2, errors.Length);
+
+        Assert.Equal("The owned entity 'Currency' cannot be auditable.", errors[0].ErrorMessage);
+        Assert.Equal("The owned entity 'Country' cannot be auditable.", errors[1].ErrorMessage);
     }
 
     [Fact]

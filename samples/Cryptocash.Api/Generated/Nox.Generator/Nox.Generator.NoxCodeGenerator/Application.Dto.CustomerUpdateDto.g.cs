@@ -45,8 +45,8 @@ public partial class CustomerUpdateDto
     public System.String? MobileNumber { get; set; }
 
     /// <summary>
-    /// Customer Customer's country ExactlyOne Countries
+    /// Customer based in ExactlyOne Countries
     /// </summary>
-    [Required(ErrorMessage = "Country is required")]
+    [Required(ErrorMessage = "CustomerBaseCountry is required")]
     public System.String CountryId { get; set; } = default!;
 }

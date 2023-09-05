@@ -22,16 +22,13 @@ public record CreateMinimumCashStockCommand(MinimumCashStockCreateDto EntityDto)
 public partial class CreateMinimumCashStockCommandHandler: CommandBase<CreateMinimumCashStockCommand,MinimumCashStock>, IRequestHandler <CreateMinimumCashStockCommand, MinimumCashStockKeyDto>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityFactory<MinimumCashStockCreateDto,MinimumCashStock> EntityFactory { get; }
 
 	public CreateMinimumCashStockCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<MinimumCashStockCreateDto,MinimumCashStock> entityFactory): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory;
 	}
 
 	public async Task<MinimumCashStockKeyDto> Handle(CreateMinimumCashStockCommand request, CancellationToken cancellationToken)
@@ -39,7 +36,7 @@ public partial class CreateMinimumCashStockCommandHandler: CommandBase<CreateMin
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = request.EntityDto.ToEntity();
 	
 		OnCompleted(entityToCreate);
 		DbContext.MinimumCashStocks.Add(entityToCreate);

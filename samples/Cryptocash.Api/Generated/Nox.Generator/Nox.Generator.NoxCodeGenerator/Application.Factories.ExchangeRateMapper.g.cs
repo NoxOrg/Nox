@@ -41,15 +41,6 @@ public class ExchangeRateMapper : EntityMapperBase<ExchangeRate>
             entity.EffectiveAt = noxTypeValue;
         }
     
-
-        /// <summary>
-        /// ExchangeRate Exchange rate relative to CHF (Swiss Franc) ExactlyOne Currencies
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "CurrencyFrom", dto.CurrencyId);
-        if (noxTypeValue != null)
-        {        
-            entity.CurrencyId = noxTypeValue;
-        }
     }
 
     public override void PartialMapToEntity(ExchangeRate entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
@@ -87,16 +78,5 @@ public class ExchangeRateMapper : EntityMapperBase<ExchangeRate>
         }
     
     
-        /// <summary>
-        /// ExchangeRate Exchange rate relative to CHF (Swiss Franc) ExactlyOne Currencies
-        /// </summary>
-        if (updatedProperties.TryGetValue("CurrencyId", out value))
-        {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "CurrencyFrom", value);
-            if (noxRelationshipTypeValue != null)
-            {        
-                entity.CurrencyId = noxRelationshipTypeValue;
-            }
-        }
     }
 }

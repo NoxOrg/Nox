@@ -33,6 +33,11 @@ public class DateTimeRange : ValueObject<(DateTimeOffset Start, DateTimeOffset E
     /// </summary>
     public TimeSpan Duration => Value.End - Value.Start;
 
+    public static DateTimeRange From(IDateTimeRange value)
+        => From((Start: value.Start, End: value.End));
+    public static DateTimeRange From(IDateTimeRange value, DateTimeRangeTypeOptions options)
+        => From((Start: value.Start, End: value.End), options);
+
     /// <summary>
     /// Creates a new instance of <see cref="DateTimeRange"/> with specified start and end date and time and with specified type options.
     /// </summary>

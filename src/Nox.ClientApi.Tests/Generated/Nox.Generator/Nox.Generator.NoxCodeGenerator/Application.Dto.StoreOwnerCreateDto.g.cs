@@ -1,11 +1,15 @@
 ﻿// Generated
 
 #nullable enable
-
-using Nox.Abstractions;
-using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+
+using Nox.Abstractions;
+using Nox.Domain;
+using Nox.Extensions;
+using Nox.Types;
+
+using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
@@ -19,4 +23,14 @@ public partial class StoreOwnerCreateDto : StoreOwnerUpdateDto
     /// </summary>
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
+
+    public ClientApi.Domain.StoreOwner ToEntity()
+    {
+        var entity = new ClientApi.Domain.StoreOwner();
+        entity.Id = StoreOwner.CreateId(Id);
+        entity.Name = ClientApi.Domain.StoreOwner.CreateName(Name);
+        if (VatNumber is not null)entity.VatNumber = ClientApi.Domain.StoreOwner.CreateVatNumber(VatNumber.NonNullValue<VatNumberDto>());
+        //entity.Stores = Stores.Select(dto => dto.ToEntity()).ToList();
+        return entity;
+    }
 }

@@ -16,7 +16,7 @@ using SampleWebApp.SeedData;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.AddNox();
+builder.Services.AddNox();
 
 //Include this if you want to use Serilog for logging and elastic Apm for monitoring
 // builder.UseNoxSerilogLogging(opt =>
@@ -31,14 +31,6 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
-// ======================================================
-// SAMPLE WEB APP Extensions
-builder.Services
-    .AddScoped<GetCountriesByContinentQueryBase, GetCountriesByContinentQuery>()
-    .AddScoped<UpdatePopulationStatisticsCommandHandlerBase, UpdatePopulationStatisticsCommandHandler>()
-    .AddScoped<INoxMessenger, NoxMessenger>();    
-// ======================================================
 
 builder.AddSeedData();
 

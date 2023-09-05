@@ -38,7 +38,7 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     /// The Formula (Optional).
     /// </summary>
-    public string? ShortDescription
+    public String? ShortDescription
     { 
         get { return $"{Name} has a population of {Population} people."; }
         private set { }
@@ -48,6 +48,4 @@ public partial class Country : AuditableEntityBase
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
     public virtual List<CountryLocalName> CountryLocalNames { get; set; } = new();
-
-    public List<CountryLocalName> CountryLocalNamess => CountryLocalNames;
 }

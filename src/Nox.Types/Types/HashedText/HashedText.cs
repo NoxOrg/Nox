@@ -27,11 +27,12 @@ public sealed class HashedText : ValueObject<(string HashText, string Salt), Has
         private set => Value = (Value.HashText, Salt: value);
     }
 
-    /// <summary>
-    /// Base constructor for aa new empty <see cref="HashText"/> object
-    /// </summary>
-    public HashedText() { Value = (string.Empty, string.Empty); }
+    public static HashedText From(IHashedText value) 
+        => throw new NotImplementedException();
 
+    public static HashedText From(IHashedText value, HashedTextTypeOptions options)
+        => throw new NotImplementedException();
+    
     /// <summary>
     /// Creates a new instance of <see cref="HashedText"/> object with sent <see cref="HashedTextTypeOptions"/>.
     /// </summary>

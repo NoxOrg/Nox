@@ -41,7 +41,7 @@ internal class BaseGenerator
             // TODO: switch to a general type resolver and error processing
             return string.Join(", ", input
                 .Select(parameter =>
-                    $"{(parameter.Type != NoxType.Entity ? parameter.Type.ToString() : parameter.EntityTypeOptions!.Entity)} {parameter.Name}"));
+                    $"{(parameter.Type != NoxType.EntityId ? parameter.Type.ToString() : parameter.EntityIdTypeOptions!.Entity)} {parameter.Name}"));
         }
 
         return string.Empty;

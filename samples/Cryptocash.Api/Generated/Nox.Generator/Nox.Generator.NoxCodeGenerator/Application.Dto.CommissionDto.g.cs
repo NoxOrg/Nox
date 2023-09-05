@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
-//using Cryptocash.Application.DataTransferObjects;
+using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -35,16 +39,15 @@ public partial class CommissionDto
     public System.DateTimeOffset EffectiveAt { get; set; } = default!;
 
     /// <summary>
-    /// Commission Commission's country ZeroOrOne Countries
+    /// Commission fees for ZeroOrOne Countries
     /// </summary>
     //EF maps ForeignKey Automatically
     public System.String? CountryId { get; set; } = default!;
     public virtual CountryDto? Country { get; set; } = null!;
 
     /// <summary>
-    /// Commission Booking's fee ZeroOrMany Bookings
+    /// Commission fees for ZeroOrMany Bookings
     /// </summary>
     public virtual List<BookingDto> Bookings { get; set; } = new();
-
-    public System.DateTime? DeletedAtUtc { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

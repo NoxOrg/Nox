@@ -10,7 +10,7 @@ using System.ComponentModel.DataAnnotations;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
-/// Employee phone numbers and related data.
+/// Employee phone number and related data.
 /// </summary>
 public partial class EmployeePhoneNumberUpdateDto
 {

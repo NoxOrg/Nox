@@ -22,6 +22,9 @@ public sealed class LatLong : ValueObject<(double Latitude, double Longitude), L
         private set => Value = (Latitude: Value.Latitude, Longitude: value);
     }
 
+    public static LatLong From(ILatLong value)
+        => From(value.Latitude, value.Longitude);
+
     public static LatLong From(double latitude, double longitude)
         => From((latitude,longitude));
 

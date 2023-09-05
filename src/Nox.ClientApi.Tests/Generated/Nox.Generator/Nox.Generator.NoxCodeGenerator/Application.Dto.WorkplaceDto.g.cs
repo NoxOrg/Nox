@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
-//using ClientApi.Application.DataTransferObjects;
+using Nox.Extensions;
+
 using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
@@ -32,5 +36,5 @@ public partial class WorkplaceDto
     /// <summary>
     /// The Formula (Optional).
     /// </summary>
-    public System.String? Greeting { get; set; }
+    public System.String? Greeting { get; set; }    
 }

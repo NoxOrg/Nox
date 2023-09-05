@@ -19,7 +19,6 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-[Route("{controller}")]
 public partial class CurrencyCashBalancesController : ODataController
 {
     
@@ -42,7 +41,6 @@ public partial class CurrencyCashBalancesController : ODataController
         _mediator = mediator;
     }
     
-    [HttpGet]
     [EnableQuery]
     public async  Task<ActionResult<IQueryable<CurrencyCashBalanceDto>>> Get()
     {
@@ -50,6 +48,7 @@ public partial class CurrencyCashBalancesController : ODataController
         return Ok(result);
     }
     
+    [EnableQuery]
     public async Task<ActionResult<CurrencyCashBalanceDto>> Get([FromRoute] System.String keyStoreId, [FromRoute] System.UInt32 keyCurrencyId)
     {
         var item = await _mediator.Send(new GetCurrencyCashBalanceByIdQuery(keyStoreId, keyCurrencyId));
@@ -62,7 +61,6 @@ public partial class CurrencyCashBalancesController : ODataController
         return Ok(item);
     }
     
-    [HttpPost]
     public async Task<ActionResult> Post([FromBody]CurrencyCashBalanceCreateDto currencycashbalance)
     {
         if (!ModelState.IsValid)
@@ -74,7 +72,6 @@ public partial class CurrencyCashBalancesController : ODataController
         return Created(createdKey);
     }
     
-    [HttpPut]
     public async Task<ActionResult> Put([FromRoute] System.String keyStoreId, [FromRoute] System.UInt32 keyCurrencyId, [FromBody] CurrencyCashBalanceUpdateDto currencyCashBalance)
     {
         if (!ModelState.IsValid)
@@ -91,7 +88,6 @@ public partial class CurrencyCashBalancesController : ODataController
         return Updated(updated);
     }
     
-    [HttpPatch]
     public async Task<ActionResult> Patch([FromRoute] System.String keyStoreId, [FromRoute] System.UInt32 keyCurrencyId, [FromBody] Delta<CurrencyCashBalanceUpdateDto> currencyCashBalance)
     {
         if (!ModelState.IsValid)
@@ -117,7 +113,6 @@ public partial class CurrencyCashBalancesController : ODataController
         return Updated(updated);
     }
     
-    [HttpDelete]
     public async Task<ActionResult> Delete([FromRoute] System.String keyStoreId, [FromRoute] System.UInt32 keyCurrencyId)
     {
         var result = await _mediator.Send(new DeleteCurrencyCashBalanceByIdCommand(keyStoreId, keyCurrencyId));

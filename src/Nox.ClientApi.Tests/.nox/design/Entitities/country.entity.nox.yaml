@@ -44,7 +44,7 @@ attributes:
 
 ownedRelationships:
 
-  - name: CountryLocalNamess
+  - name: CountryLocalNames
     description: is also know as
     relationship: zeroOrMany
     entity: CountryLocalName

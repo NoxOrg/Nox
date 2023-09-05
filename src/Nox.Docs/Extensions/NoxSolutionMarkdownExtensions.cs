@@ -57,16 +57,35 @@ public static class NoxSolutionMarkdownExtensions
         if (noxSolution?.Domain?.Entities is null)
             return sb.ToString();
 
-        foreach (var entity in noxSolution.Domain.Entities.OrderBy(e => e.Name))
+        var entities = noxSolution.Domain.Entities
+            .OrderBy(e => e.IsOwnedEntity 
+                ? $"{e.OwnerEntity?.Name}.{e.Name}" 
+                : e.Name
+            );
+
+        foreach (var entity in entities)
         {
-            var isOwned = entity.IsOwnedEntity ? $" (Owned by {entity.OwnerEntity?.Name})" : string.Empty;
+            var owner = entity.IsOwnedEntity
+                ? $"{entity.OwnerEntity?.Name}."
+                : string.Empty;
+
+            var ownedInfo = entity.IsOwnedEntity 
+                ? $" (Owned by {owner.TrimEnd('.')})" 
+                : string.Empty;
+
+            var isAudited = !entity.IsOwnedEntity &&
+                (entity.Persistence?.IsAudited ?? false);
+
+            var auditInfo = isAudited
+                ? " *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*"
+                : string.Empty;
 
             sb.AppendLine($"""
-                ### {entity.Name}{isOwned}
+                ### {owner}{entity.Name}{ownedInfo}
 
-                {entity.Description}
+                {entity.Description?.EnsureEndsWith('.')}{auditInfo}
 
-                {AttributeTable(entity, noxSolution)}
+                {AttributeTable(entity, noxSolution,isAudited)}
 
                 {RelationshipsTable(entity, noxSolution)}
 
@@ -77,7 +96,8 @@ public static class NoxSolutionMarkdownExtensions
     }
 
 
-    private static string AttributeTable(Entity entity, NoxSolution noxSolution)
+    private static string AttributeTable(Entity entity, 
+        NoxSolution noxSolution, bool isAudited)
     {
 
         var members = entity.GetAllMembers();
@@ -109,15 +129,19 @@ public static class NoxSolutionMarkdownExtensions
 
             var info = string.Join(", ", (new string[] { isRequired, isReadonly, fkKind, typeOptions }).Where(e => !string.IsNullOrWhiteSpace(e)));
 
-            sb.AppendLine($"{def.Name}|{def.Type}|{def.Description}|{info}");
+            sb.AppendLine($"{def.Name}|{def.Type}|{def.Description?.EnsureEndsWith('.')}|{info}");
         }
+        if (isAudited)
+        {
+            sb.AppendLine($"*(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*");
+        }
+
         return sb.ToString();
     }
 
     private static string GetTypeOptions(NoxSimpleTypeDefinition def, NoxSolution noxSolution)
     {
-        // noxSolution.GetSingleKeyTypeForEntity(def.EntityTypeOptions!.Entity) 
-        if (def.Type == NoxType.Entity)
+        if (def.Type == NoxType.EntityId)
             return string.Empty;
 
         var type = def.Type;

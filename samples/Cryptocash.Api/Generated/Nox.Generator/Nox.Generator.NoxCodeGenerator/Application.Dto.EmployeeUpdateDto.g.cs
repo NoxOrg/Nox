@@ -51,7 +51,13 @@ public partial class EmployeeUpdateDto
     public System.DateTime? LastWorkingDay { get; set; }
 
     /// <summary>
-    /// Employee Employee's phone numbers ZeroOrMany EmployeePhoneNumbers
+    /// Employee reviewing ExactlyOne CashStockOrders
+    /// </summary>
+    [Required(ErrorMessage = "EmployeeReviewingCashStockOrder is required")]
+    public System.Int64 CashStockOrderId { get; set; } = default!;
+
+    /// <summary>
+    /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
     /// </summary>
     public virtual List<EmployeePhoneNumberUpdateDto> EmployeePhoneNumbers { get; set; } = new();
 }

@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
-//using Cryptocash.Application.DataTransferObjects;
+using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -85,24 +89,23 @@ public partial class CurrencyDto
     public MoneyDto MinorToMajorValue { get; set; } = default!;
 
     /// <summary>
-    /// Currency Currency's bank notes OneOrMany BankNotes
-    /// </summary>
-    public virtual List<BankNotesDto> BankNotes { get; set; } = new();
-
-    /// <summary>
-    /// Currency Country's currency OneOrMany Countries
+    /// Currency used by OneOrMany Countries
     /// </summary>
     public virtual List<CountryDto> Countries { get; set; } = new();
 
     /// <summary>
-    /// Currency Cash stock currency ZeroOrMany MinimumCashStocks
+    /// Currency used by ZeroOrMany MinimumCashStocks
     /// </summary>
     public virtual List<MinimumCashStockDto> MinimumCashStocks { get; set; } = new();
 
     /// <summary>
-    /// Currency Exchanged from currency OneOrMany ExchangeRates
+    /// Currency commonly used ZeroOrMany BankNotes
+    /// </summary>
+    public virtual List<BankNoteDto> BankNotes { get; set; } = new();
+
+    /// <summary>
+    /// Currency exchanged from OneOrMany ExchangeRates
     /// </summary>
     public virtual List<ExchangeRateDto> ExchangeRates { get; set; } = new();
-
-    public System.DateTime? DeletedAtUtc { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

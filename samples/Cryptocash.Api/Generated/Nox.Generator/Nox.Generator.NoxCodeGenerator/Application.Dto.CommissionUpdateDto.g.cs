@@ -29,7 +29,7 @@ public partial class CommissionUpdateDto
     public System.DateTimeOffset EffectiveAt { get; set; } = default!;
 
     /// <summary>
-    /// Commission Commission's country ZeroOrOne Countries
+    /// Commission fees for ZeroOrOne Countries
     /// </summary>
     
     public System.String? CountryId { get; set; } = default!;

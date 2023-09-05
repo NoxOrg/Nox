@@ -13,17 +13,17 @@ using Cryptocash.Presentation.Api.OData;
 
 public static class NoxWebApplicationBuilderExtension
 {
-    public static WebApplicationBuilder AddNox(this WebApplicationBuilder appBuilder)
+    public static IServiceCollection AddNox(this IServiceCollection services)
     {
-        appBuilder.Services.AddNoxLib(Assembly.GetExecutingAssembly());
-        appBuilder.Services.AddNoxOdata();
-        appBuilder.Services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
-        appBuilder.Services.AddSingleton<DbContextOptions<CryptocashDbContext>>();
-        appBuilder.Services.AddSingleton<INoxDatabaseConfigurator, SqlServerDatabaseProvider>();
-        appBuilder.Services.AddSingleton<INoxDatabaseProvider, SqlServerDatabaseProvider>();
-        appBuilder.Services.AddDbContext<CryptocashDbContext>();
-        appBuilder.Services.AddDbContext<DtoDbContext>();
-        return appBuilder;
+        services.AddNoxLib(Assembly.GetExecutingAssembly());
+        services.AddNoxOdata();
+        services.AddSingleton(typeof(INoxClientAssemblyProvider), s => new NoxClientAssemblyProvider(Assembly.GetExecutingAssembly()));
+        services.AddSingleton<DbContextOptions<CryptocashDbContext>>();
+        services.AddSingleton<INoxDatabaseConfigurator, SqlServerDatabaseProvider>();
+        services.AddSingleton<INoxDatabaseProvider, SqlServerDatabaseProvider>();
+        services.AddDbContext<CryptocashDbContext>();
+        services.AddDbContext<DtoDbContext>();
+        return services;
     }
     
 }
