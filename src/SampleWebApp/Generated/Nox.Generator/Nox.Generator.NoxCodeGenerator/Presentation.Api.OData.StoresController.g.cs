@@ -41,7 +41,6 @@ public partial class StoresController : ODataController
         _mediator = mediator;
     }
     
-    [HttpGet]
     [EnableQuery]
     public async  Task<ActionResult<IQueryable<StoreDto>>> Get()
     {
@@ -49,7 +48,6 @@ public partial class StoresController : ODataController
         return Ok(result);
     }
     
-    [HttpGet]
     public async Task<ActionResult<StoreDto>> Get([FromRoute] System.String key)
     {
         var item = await _mediator.Send(new GetStoreByIdQuery(key));
@@ -62,7 +60,6 @@ public partial class StoresController : ODataController
         return Ok(item);
     }
     
-    [HttpPost]
     public async Task<ActionResult> Post([FromBody]StoreCreateDto store)
     {
         if (!ModelState.IsValid)
@@ -74,7 +71,6 @@ public partial class StoresController : ODataController
         return Created(createdKey);
     }
     
-    [HttpPut]
     public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] StoreUpdateDto store)
     {
         if (!ModelState.IsValid)
@@ -91,7 +87,6 @@ public partial class StoresController : ODataController
         return Updated(updated);
     }
     
-    [HttpPatch]
     public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<StoreUpdateDto> store)
     {
         if (!ModelState.IsValid)
@@ -117,7 +112,6 @@ public partial class StoresController : ODataController
         return Updated(updated);
     }
     
-    [HttpDelete]
     public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new DeleteStoreByIdCommand(key));

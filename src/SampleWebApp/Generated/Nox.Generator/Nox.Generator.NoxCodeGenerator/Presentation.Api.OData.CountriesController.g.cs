@@ -48,7 +48,6 @@ public partial class CountriesController : ODataController
         _getCountriesByContinent = getCountriesByContinent;
     }
     
-    [HttpGet]
     [EnableQuery]
     public async  Task<ActionResult<IQueryable<CountryDto>>> Get()
     {
@@ -56,7 +55,6 @@ public partial class CountriesController : ODataController
         return Ok(result);
     }
     
-    [HttpGet]
     public async Task<ActionResult<CountryDto>> Get([FromRoute] System.Int64 key)
     {
         var item = await _mediator.Send(new GetCountryByIdQuery(key));
@@ -69,7 +67,6 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
-    [HttpPost]
     public async Task<ActionResult> PostToCountryLocalNames([FromRoute] System.Int64 key, [FromBody] CountryLocalNameCreateDto countryLocalName)
     {
         if (!ModelState.IsValid)
@@ -86,7 +83,6 @@ public partial class CountriesController : ODataController
         return Created(new CountryLocalNameDto { Id = createdKey.keyId });
     }
     
-    [HttpPost]
     public async Task<ActionResult> Post([FromBody]CountryCreateDto country)
     {
         if (!ModelState.IsValid)
@@ -98,7 +94,6 @@ public partial class CountriesController : ODataController
         return Created(createdKey);
     }
     
-    [HttpPut]
     public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] CountryUpdateDto country)
     {
         if (!ModelState.IsValid)
@@ -115,7 +110,6 @@ public partial class CountriesController : ODataController
         return Updated(updated);
     }
     
-    [HttpPatch]
     public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CountryUpdateDto> country)
     {
         if (!ModelState.IsValid)
@@ -141,7 +135,6 @@ public partial class CountriesController : ODataController
         return Updated(updated);
     }
     
-    [HttpDelete]
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new DeleteCountryByIdCommand(key));

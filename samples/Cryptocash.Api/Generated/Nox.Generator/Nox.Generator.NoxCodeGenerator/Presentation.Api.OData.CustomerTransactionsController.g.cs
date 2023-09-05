@@ -41,7 +41,6 @@ public partial class CustomerTransactionsController : ODataController
         _mediator = mediator;
     }
     
-    [HttpGet]
     [EnableQuery]
     public async  Task<ActionResult<IQueryable<CustomerTransactionDto>>> Get()
     {
@@ -49,7 +48,6 @@ public partial class CustomerTransactionsController : ODataController
         return Ok(result);
     }
     
-    [HttpGet]
     public async Task<ActionResult<CustomerTransactionDto>> Get([FromRoute] System.Int64 key)
     {
         var item = await _mediator.Send(new GetCustomerTransactionByIdQuery(key));
@@ -62,7 +60,6 @@ public partial class CustomerTransactionsController : ODataController
         return Ok(item);
     }
     
-    [HttpPost]
     public async Task<ActionResult> Post([FromBody]CustomerTransactionCreateDto customertransaction)
     {
         if (!ModelState.IsValid)
@@ -74,7 +71,6 @@ public partial class CustomerTransactionsController : ODataController
         return Created(createdKey);
     }
     
-    [HttpPut]
     public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] CustomerTransactionUpdateDto customerTransaction)
     {
         if (!ModelState.IsValid)
@@ -91,7 +87,6 @@ public partial class CustomerTransactionsController : ODataController
         return Updated(updated);
     }
     
-    [HttpPatch]
     public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CustomerTransactionUpdateDto> customerTransaction)
     {
         if (!ModelState.IsValid)
@@ -117,7 +112,6 @@ public partial class CustomerTransactionsController : ODataController
         return Updated(updated);
     }
     
-    [HttpDelete]
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new DeleteCustomerTransactionByIdCommand(key));

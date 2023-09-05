@@ -41,7 +41,6 @@ public partial class WorkplacesController : ODataController
         _mediator = mediator;
     }
     
-    [HttpGet]
     [EnableQuery]
     public async  Task<ActionResult<IQueryable<WorkplaceDto>>> Get()
     {
@@ -49,7 +48,6 @@ public partial class WorkplacesController : ODataController
         return Ok(result);
     }
     
-    [HttpGet]
     public async Task<ActionResult<WorkplaceDto>> Get([FromRoute] System.Guid key)
     {
         var item = await _mediator.Send(new GetWorkplaceByIdQuery(key));
@@ -62,7 +60,6 @@ public partial class WorkplacesController : ODataController
         return Ok(item);
     }
     
-    [HttpPost]
     public async Task<ActionResult> Post([FromBody]WorkplaceCreateDto workplace)
     {
         if (!ModelState.IsValid)
@@ -74,7 +71,6 @@ public partial class WorkplacesController : ODataController
         return Created(createdKey);
     }
     
-    [HttpPut]
     public async Task<ActionResult> Put([FromRoute] System.Guid key, [FromBody] WorkplaceUpdateDto workplace)
     {
         if (!ModelState.IsValid)
@@ -91,7 +87,6 @@ public partial class WorkplacesController : ODataController
         return Updated(updated);
     }
     
-    [HttpPatch]
     public async Task<ActionResult> Patch([FromRoute] System.Guid key, [FromBody] Delta<WorkplaceUpdateDto> workplace)
     {
         if (!ModelState.IsValid)
@@ -117,7 +112,6 @@ public partial class WorkplacesController : ODataController
         return Updated(updated);
     }
     
-    [HttpDelete]
     public async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
         var result = await _mediator.Send(new DeleteWorkplaceByIdCommand(key));

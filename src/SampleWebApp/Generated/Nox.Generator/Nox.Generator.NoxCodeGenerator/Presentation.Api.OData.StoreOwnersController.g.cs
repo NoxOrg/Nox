@@ -41,7 +41,6 @@ public partial class StoreOwnersController : ODataController
         _mediator = mediator;
     }
     
-    [HttpGet]
     [EnableQuery]
     public async  Task<ActionResult<IQueryable<StoreOwnerDto>>> Get()
     {
@@ -49,7 +48,6 @@ public partial class StoreOwnersController : ODataController
         return Ok(result);
     }
     
-    [HttpGet]
     public async Task<ActionResult<StoreOwnerDto>> Get([FromRoute] System.String key)
     {
         var item = await _mediator.Send(new GetStoreOwnerByIdQuery(key));
@@ -62,7 +60,6 @@ public partial class StoreOwnersController : ODataController
         return Ok(item);
     }
     
-    [HttpPost]
     public async Task<ActionResult> Post([FromBody]StoreOwnerCreateDto storeowner)
     {
         if (!ModelState.IsValid)
@@ -74,7 +71,6 @@ public partial class StoreOwnersController : ODataController
         return Created(createdKey);
     }
     
-    [HttpPut]
     public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] StoreOwnerUpdateDto storeOwner)
     {
         if (!ModelState.IsValid)
@@ -91,7 +87,6 @@ public partial class StoreOwnersController : ODataController
         return Updated(updated);
     }
     
-    [HttpPatch]
     public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<StoreOwnerUpdateDto> storeOwner)
     {
         if (!ModelState.IsValid)
@@ -117,7 +112,6 @@ public partial class StoreOwnersController : ODataController
         return Updated(updated);
     }
     
-    [HttpDelete]
     public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new DeleteStoreOwnerByIdCommand(key));

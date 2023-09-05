@@ -41,7 +41,6 @@ public partial class CustomerPaymentDetailsController : ODataController
         _mediator = mediator;
     }
     
-    [HttpGet]
     [EnableQuery]
     public async  Task<ActionResult<IQueryable<CustomerPaymentDetailsDto>>> Get()
     {
@@ -49,7 +48,6 @@ public partial class CustomerPaymentDetailsController : ODataController
         return Ok(result);
     }
     
-    [HttpGet]
     public async Task<ActionResult<CustomerPaymentDetailsDto>> Get([FromRoute] System.Int64 key)
     {
         var item = await _mediator.Send(new GetCustomerPaymentDetailsByIdQuery(key));
@@ -62,7 +60,6 @@ public partial class CustomerPaymentDetailsController : ODataController
         return Ok(item);
     }
     
-    [HttpPost]
     public async Task<ActionResult> Post([FromBody]CustomerPaymentDetailsCreateDto customerpaymentdetails)
     {
         if (!ModelState.IsValid)
@@ -74,7 +71,6 @@ public partial class CustomerPaymentDetailsController : ODataController
         return Created(createdKey);
     }
     
-    [HttpPut]
     public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] CustomerPaymentDetailsUpdateDto customerPaymentDetails)
     {
         if (!ModelState.IsValid)
@@ -91,7 +87,6 @@ public partial class CustomerPaymentDetailsController : ODataController
         return Updated(updated);
     }
     
-    [HttpPatch]
     public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CustomerPaymentDetailsUpdateDto> customerPaymentDetails)
     {
         if (!ModelState.IsValid)
@@ -117,7 +112,6 @@ public partial class CustomerPaymentDetailsController : ODataController
         return Updated(updated);
     }
     
-    [HttpDelete]
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new DeleteCustomerPaymentDetailsByIdCommand(key));

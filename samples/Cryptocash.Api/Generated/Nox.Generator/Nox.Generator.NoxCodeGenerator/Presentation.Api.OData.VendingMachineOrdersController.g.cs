@@ -41,7 +41,6 @@ public partial class VendingMachineOrdersController : ODataController
         _mediator = mediator;
     }
     
-    [HttpGet]
     [EnableQuery]
     public async  Task<ActionResult<IQueryable<VendingMachineOrderDto>>> Get()
     {
@@ -49,7 +48,6 @@ public partial class VendingMachineOrdersController : ODataController
         return Ok(result);
     }
     
-    [HttpGet]
     public async Task<ActionResult<VendingMachineOrderDto>> Get([FromRoute] System.Int64 key)
     {
         var item = await _mediator.Send(new GetVendingMachineOrderByIdQuery(key));
@@ -62,7 +60,6 @@ public partial class VendingMachineOrdersController : ODataController
         return Ok(item);
     }
     
-    [HttpPost]
     public async Task<ActionResult> Post([FromBody]VendingMachineOrderCreateDto vendingmachineorder)
     {
         if (!ModelState.IsValid)
@@ -74,7 +71,6 @@ public partial class VendingMachineOrdersController : ODataController
         return Created(createdKey);
     }
     
-    [HttpPut]
     public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] VendingMachineOrderUpdateDto vendingMachineOrder)
     {
         if (!ModelState.IsValid)
@@ -91,7 +87,6 @@ public partial class VendingMachineOrdersController : ODataController
         return Updated(updated);
     }
     
-    [HttpPatch]
     public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<VendingMachineOrderUpdateDto> vendingMachineOrder)
     {
         if (!ModelState.IsValid)
@@ -117,7 +112,6 @@ public partial class VendingMachineOrdersController : ODataController
         return Updated(updated);
     }
     
-    [HttpDelete]
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new DeleteVendingMachineOrderByIdCommand(key));
