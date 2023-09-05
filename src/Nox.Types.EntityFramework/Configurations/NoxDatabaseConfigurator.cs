@@ -237,10 +237,7 @@ namespace Nox.Types.EntityFramework.Configurations
         protected virtual IList<IndexBuilder> ConfigureUniqueAttributeConstraints(IEntityBuilder builder, Entity entity)
         {
             var result = new List<IndexBuilder>();
-            if (entity.UniqueAttributeConstraints is not { Count: > 0 })
-            {
-                return result;
-            }
+
             if (entity.Persistence!.IsAudited)
             {
                 ConfigureConstraintsWithAuditProperties(builder, entity, result);

@@ -806,7 +806,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         const string secondCurrencyCode3 = "TRY";
         const int number = 123;
         const int secondNumber = 456;
-        TestEntityForUniqueConstraints testEntity1 = new TestEntityForUniqueConstraints()
+        var testEntity1 = new TestEntityForUniqueConstraints()
         {
             Id = Text.From(countryCode2),
             TextField = Text.From("TestTextValue"),
@@ -816,7 +816,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             UniqueCurrencyCode = CurrencyCode3.From(currencyCode3),
         };
         
-        TestEntityForUniqueConstraints testEntityWithSameUniqueNumber = new TestEntityForUniqueConstraints()
+        var testEntityWithSameUniqueNumber = new TestEntityForUniqueConstraints()
         {
             Id = Text.From(secondCountryCode2),
             TextField = Text.From("TestTextValue"),
@@ -826,7 +826,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             UniqueCurrencyCode = CurrencyCode3.From(secondCurrencyCode3),
         };
         
-        TestEntityForUniqueConstraints testEntityWithSameUniqueCountryCodeAndCurrencyCode = new TestEntityForUniqueConstraints()
+        var testEntityWithSameUniqueCountryCodeAndCurrencyCode = new TestEntityForUniqueConstraints()
         {
             Id = Text.From(thirdCountryCode2),
             TextField = Text.From("TestTextValue"),
