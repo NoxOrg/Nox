@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CryptocashApi.Application.Dto; 
+namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Exchange rate and related data.
@@ -16,13 +16,13 @@ public partial class ExchangeRateUpdateDto
 {
     //TODO Add owned Entities and update odata endpoints
     /// <summary>
-    /// The exchange rate conversion amount (Required).
+    /// Exchange rate conversion amount (Required).
     /// </summary>
     [Required(ErrorMessage = "EffectiveRate is required")]
     
     public System.Int32 EffectiveRate { get; set; } = default!;
     /// <summary>
-    /// The exchange rate conversion amount (Required).
+    /// Exchange rate conversion amount (Required).
     /// </summary>
     [Required(ErrorMessage = "EffectiveAt is required")]
     

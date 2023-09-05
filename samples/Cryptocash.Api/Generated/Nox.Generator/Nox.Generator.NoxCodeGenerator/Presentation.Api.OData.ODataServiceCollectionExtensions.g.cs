@@ -7,9 +7,9 @@ using Microsoft.AspNetCore.OData;
 using Microsoft.OData.ModelBuilder;
 using Microsoft.AspNetCore.OData.Formatter.Serialization;
 using Nox.Lib;
-using CryptocashApi.Application.Dto;
+using Cryptocash.Application.Dto;
 
-namespace CryptocashApi.Presentation.Api.OData;
+namespace Cryptocash.Presentation.Api.OData;
 
 public static class ODataServiceCollectionExtensions
 {
@@ -20,23 +20,21 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<BookingDto>().HasKey(e => new { e.Id });
         builder.EntityType<CommissionDto>().HasKey(e => new { e.Id });
         builder.EntityType<CountryDto>().HasKey(e => new { e.Id });
-        builder.EntityType<CountryHolidayDto>().HasKey(e => new { e.Id });
-        builder.EntityType<CountryTimeZonesDto>().HasKey(e => new { e.Id });
+        builder.EntityType<HolidayDto>().HasKey(e => new { e.Id });
+        builder.EntityType<CountryTimeZoneDto>().HasKey(e => new { e.Id });
         builder.EntityType<CurrencyDto>().HasKey(e => new { e.Id });
-        builder.EntityType<CurrencyBankNotesDto>().HasKey(e => new { e.Id });
-        builder.EntityType<CurrencyUnitsDto>().HasKey(e => new { e.Id });
+        builder.EntityType<BankNoteDto>().HasKey(e => new { e.Id });
         builder.EntityType<CustomerDto>().HasKey(e => new { e.Id });
-        builder.EntityType<CustomerPaymentDetailsDto>().HasKey(e => new { e.Id });
-        builder.EntityType<CustomerTransactionDto>().HasKey(e => new { e.Id });
+        builder.EntityType<PaymentDetailDto>().HasKey(e => new { e.Id });
+        builder.EntityType<TransactionDto>().HasKey(e => new { e.Id });
         builder.EntityType<EmployeeDto>().HasKey(e => new { e.Id });
         builder.EntityType<EmployeePhoneNumberDto>().HasKey(e => new { e.Id });
         builder.EntityType<ExchangeRateDto>().HasKey(e => new { e.Id });
-        builder.EntityType<HolidaysDto>().HasKey(e => new { e.Id });
         builder.EntityType<LandLordDto>().HasKey(e => new { e.Id });
         builder.EntityType<MinimumCashStockDto>().HasKey(e => new { e.Id });
         builder.EntityType<PaymentProviderDto>().HasKey(e => new { e.Id });
         builder.EntityType<VendingMachineDto>().HasKey(e => new { e.Id });
-        builder.EntityType<VendingMachineOrderDto>().HasKey(e => new { e.Id });
+        builder.EntityType<CashStockOrderDto>().HasKey(e => new { e.Id });
 
 
         builder.EntitySet<BookingDto>("Bookings");
@@ -52,40 +50,29 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<CommissionDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<CountryDto>("Countries");
+        builder.EntityType<CountryDto>().ContainsMany(e => e.CountryTimeZones).AutoExpand = true;
+        builder.EntityType<CountryDto>().ContainsMany(e => e.Holidays).AutoExpand = true;
 
         builder.EntityType<CountryDto>();
         builder.EntityType<CountryKeyDto>();
         builder.EntityType<CountryDto>().Ignore(e => e.DeletedAtUtc);
 
-        builder.EntitySet<CountryHolidayDto>("CountryHolidays");
+        builder.EntityType<HolidayDto>();
+        builder.EntityType<HolidayKeyDto>();
 
-        builder.EntityType<CountryHolidayDto>();
-        builder.EntityType<CountryHolidayKeyDto>();
-        builder.EntityType<CountryHolidayDto>().Ignore(e => e.DeletedAtUtc);
-
-        builder.EntitySet<CountryTimeZonesDto>("CountryTimeZones");
-
-        builder.EntityType<CountryTimeZonesDto>();
-        builder.EntityType<CountryTimeZonesKeyDto>();
-        builder.EntityType<CountryTimeZonesDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<CountryTimeZoneDto>();
+        builder.EntityType<CountryTimeZoneKeyDto>();
 
         builder.EntitySet<CurrencyDto>("Currencies");
+        builder.EntityType<CurrencyDto>().ContainsMany(e => e.BankNotes).AutoExpand = true;
+        builder.EntityType<CurrencyDto>().ContainsMany(e => e.ExchangeRates).AutoExpand = true;
 
         builder.EntityType<CurrencyDto>();
         builder.EntityType<CurrencyKeyDto>();
         builder.EntityType<CurrencyDto>().Ignore(e => e.DeletedAtUtc);
 
-        builder.EntitySet<CurrencyBankNotesDto>("CurrencyBankNotes");
-
-        builder.EntityType<CurrencyBankNotesDto>();
-        builder.EntityType<CurrencyBankNotesKeyDto>();
-        builder.EntityType<CurrencyBankNotesDto>().Ignore(e => e.DeletedAtUtc);
-
-        builder.EntitySet<CurrencyUnitsDto>("CurrencyUnits");
-
-        builder.EntityType<CurrencyUnitsDto>();
-        builder.EntityType<CurrencyUnitsKeyDto>();
-        builder.EntityType<CurrencyUnitsDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<BankNoteDto>();
+        builder.EntityType<BankNoteKeyDto>();
 
         builder.EntitySet<CustomerDto>("Customers");
 
@@ -93,17 +80,17 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<CustomerKeyDto>();
         builder.EntityType<CustomerDto>().Ignore(e => e.DeletedAtUtc);
 
-        builder.EntitySet<CustomerPaymentDetailsDto>("CustomerPaymentDetails");
+        builder.EntitySet<PaymentDetailDto>("PaymentDetails");
 
-        builder.EntityType<CustomerPaymentDetailsDto>();
-        builder.EntityType<CustomerPaymentDetailsKeyDto>();
-        builder.EntityType<CustomerPaymentDetailsDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<PaymentDetailDto>();
+        builder.EntityType<PaymentDetailKeyDto>();
+        builder.EntityType<PaymentDetailDto>().Ignore(e => e.DeletedAtUtc);
 
-        builder.EntitySet<CustomerTransactionDto>("CustomerTransactions");
+        builder.EntitySet<TransactionDto>("Transactions");
 
-        builder.EntityType<CustomerTransactionDto>();
-        builder.EntityType<CustomerTransactionKeyDto>();
-        builder.EntityType<CustomerTransactionDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<TransactionDto>();
+        builder.EntityType<TransactionKeyDto>();
+        builder.EntityType<TransactionDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<EmployeeDto>("Employees");
         builder.EntityType<EmployeeDto>().ContainsMany(e => e.EmployeePhoneNumbers).AutoExpand = true;
@@ -115,17 +102,8 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<EmployeePhoneNumberDto>();
         builder.EntityType<EmployeePhoneNumberKeyDto>();
 
-        builder.EntitySet<ExchangeRateDto>("ExchangeRates");
-
         builder.EntityType<ExchangeRateDto>();
         builder.EntityType<ExchangeRateKeyDto>();
-        builder.EntityType<ExchangeRateDto>().Ignore(e => e.DeletedAtUtc);
-
-        builder.EntitySet<HolidaysDto>("Holidays");
-
-        builder.EntityType<HolidaysDto>();
-        builder.EntityType<HolidaysKeyDto>();
-        builder.EntityType<HolidaysDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntitySet<LandLordDto>("LandLords");
 
@@ -151,11 +129,11 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<VendingMachineKeyDto>();
         builder.EntityType<VendingMachineDto>().Ignore(e => e.DeletedAtUtc);
 
-        builder.EntitySet<VendingMachineOrderDto>("VendingMachineOrders");
+        builder.EntitySet<CashStockOrderDto>("CashStockOrders");
 
-        builder.EntityType<VendingMachineOrderDto>();
-        builder.EntityType<VendingMachineOrderKeyDto>();
-        builder.EntityType<VendingMachineOrderDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<CashStockOrderDto>();
+        builder.EntityType<CashStockOrderKeyDto>();
+        builder.EntityType<CashStockOrderDto>().Ignore(e => e.DeletedAtUtc);
 
         services.AddControllers()
             .AddOData(options =>

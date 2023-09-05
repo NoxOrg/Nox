@@ -14,6 +14,7 @@ using Nox.Solution;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
+using Currency = SampleWebApp.Domain.Currency;
 
 namespace SampleWebApp.Application.Commands;
 public record CreateCurrencyCommand(CurrencyCreateDto EntityDto) : IRequest<CurrencyKeyDto>;
@@ -21,16 +22,13 @@ public record CreateCurrencyCommand(CurrencyCreateDto EntityDto) : IRequest<Curr
 public partial class CreateCurrencyCommandHandler: CommandBase<CreateCurrencyCommand,Currency>, IRequestHandler <CreateCurrencyCommand, CurrencyKeyDto>
 {
 	public SampleWebAppDbContext DbContext { get; }
-	public IEntityFactory<CurrencyCreateDto,Currency> EntityFactory { get; }
 
 	public CreateCurrencyCommandHandler(
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<CurrencyCreateDto,Currency> entityFactory): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory;
 	}
 
 	public async Task<CurrencyKeyDto> Handle(CreateCurrencyCommand request, CancellationToken cancellationToken)
@@ -38,7 +36,7 @@ public partial class CreateCurrencyCommandHandler: CommandBase<CreateCurrencyCom
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = request.EntityDto.ToEntity();
 		entityToCreate.EnsureId();
 	
 		OnCompleted(entityToCreate);

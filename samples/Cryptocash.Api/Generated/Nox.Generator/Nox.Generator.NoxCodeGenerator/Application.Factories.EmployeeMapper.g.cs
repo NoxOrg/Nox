@@ -14,14 +14,15 @@ using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
 using Nox.Exceptions;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Domain;
+using Cryptocash.Application.Dto;
+using Cryptocash.Domain;
+using Employee = Cryptocash.Domain.Employee;
 
-namespace CryptocashApi.Application;
+namespace Cryptocash.Application;
 
-public class EmployeeMapper: EntityMapperBase<Employee>
+public class EmployeeMapper : EntityMapperBase<Employee>
 {
-    public  EmployeeMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public EmployeeMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
     public override void MapToEntity(Employee entity, Entity entityDefinition, dynamic dto)
     {
@@ -29,44 +30,57 @@ public class EmployeeMapper: EntityMapperBase<Employee>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
     
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"FirstName",dto.FirstName);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "FirstName", dto.FirstName);
+        if (noxTypeValue != null)
         {        
             entity.FirstName = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"LastName",dto.LastName);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "LastName", dto.LastName);
+        if (noxTypeValue != null)
         {        
             entity.LastName = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"EmailAddress",dto.EmailAddress);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition, "EmailAddress", dto.EmailAddress);
+        if (noxTypeValue != null)
         {        
             entity.EmailAddress = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition,"Address",dto.Address);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "Address", dto.Address);
+        if (noxTypeValue != null)
         {        
             entity.Address = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition,"FirstWorkingDay",dto.FirstWorkingDay);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition, "FirstWorkingDay", dto.FirstWorkingDay);
+        if (noxTypeValue != null)
         {        
             entity.FirstWorkingDay = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition,"LastWorkingDay",dto.LastWorkingDay);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition, "LastWorkingDay", dto.LastWorkingDay);
+        if (noxTypeValue != null)
         {        
             entity.LastWorkingDay = noxTypeValue;
+        }
+    
+
+        /// <summary>
+        /// Employee reviewing ExactlyOne CashStockOrders
+        /// </summary>
+        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "EmployeeReviewingCashStockOrder", dto.CashStockOrderId);
+        if (noxTypeValue != null)
+        {        
+            entity.CashStockOrderId = noxTypeValue;
         }
     }
 
     public override void PartialMapToEntity(Employee entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+#pragma warning disable CS0168 // Variable is assigned but its value is never used
+        dynamic? value;
+#pragma warning restore CS0168 // Variable is assigned but its value is never used
         {
-            if (updatedProperties.TryGetValue("FirstName", out dynamic? value))
+            if (updatedProperties.TryGetValue("FirstName", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"FirstName",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "FirstName", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Employee", "FirstName");
@@ -78,9 +92,9 @@ public class EmployeeMapper: EntityMapperBase<Employee>
             }
         }
         {
-            if (updatedProperties.TryGetValue("LastName", out dynamic? value))
+            if (updatedProperties.TryGetValue("LastName", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition,"LastName",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "LastName", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Employee", "LastName");
@@ -92,9 +106,9 @@ public class EmployeeMapper: EntityMapperBase<Employee>
             }
         }
         {
-            if (updatedProperties.TryGetValue("EmailAddress", out dynamic? value))
+            if (updatedProperties.TryGetValue("EmailAddress", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition,"EmailAddress",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition, "EmailAddress", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Employee", "EmailAddress");
@@ -106,9 +120,9 @@ public class EmployeeMapper: EntityMapperBase<Employee>
             }
         }
         {
-            if (updatedProperties.TryGetValue("Address", out dynamic? value))
+            if (updatedProperties.TryGetValue("Address", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition,"Address",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "Address", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Employee", "Address");
@@ -120,9 +134,9 @@ public class EmployeeMapper: EntityMapperBase<Employee>
             }
         }
         {
-            if (updatedProperties.TryGetValue("FirstWorkingDay", out dynamic? value))
+            if (updatedProperties.TryGetValue("FirstWorkingDay", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition,"FirstWorkingDay",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition, "FirstWorkingDay", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("Employee", "FirstWorkingDay");
@@ -134,9 +148,9 @@ public class EmployeeMapper: EntityMapperBase<Employee>
             }
         }
         {
-            if (updatedProperties.TryGetValue("LastWorkingDay", out dynamic? value))
+            if (updatedProperties.TryGetValue("LastWorkingDay", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition,"LastWorkingDay",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition, "LastWorkingDay", value);
                 if(noxTypeValue == null)
                 {
                     entity.LastWorkingDay = null;
@@ -145,6 +159,19 @@ public class EmployeeMapper: EntityMapperBase<Employee>
                 {
                     entity.LastWorkingDay = noxTypeValue;
                 }
+            }
+        }
+    
+    
+        /// <summary>
+        /// Employee reviewing ExactlyOne CashStockOrders
+        /// </summary>
+        if (updatedProperties.TryGetValue("CashStockOrderId", out value))
+        {
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "EmployeeReviewingCashStockOrder", value);
+            if (noxRelationshipTypeValue != null)
+            {        
+                entity.CashStockOrderId = noxRelationshipTypeValue;
             }
         }
     }

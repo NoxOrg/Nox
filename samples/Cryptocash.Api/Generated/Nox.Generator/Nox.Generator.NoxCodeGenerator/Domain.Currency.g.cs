@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using Nox.Types;
 using Nox.Domain;
 
-namespace CryptocashApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
 /// Currency and related data.
@@ -16,82 +16,95 @@ namespace CryptocashApi.Domain;
 public partial class Currency : AuditableEntityBase
 {
     /// <summary>
-    /// The currency unique identifier (Required).
+    /// Currency unique identifier (Required).
     /// </summary>
     public CurrencyCode3 Id { get; set; } = null!;
 
     /// <summary>
-    /// The currency's name (Required).
+    /// Currency's name (Required).
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
-    /// The currency's iso number id (Required).
+    /// Currency's iso number id (Required).
     /// </summary>
     public Nox.Types.CurrencyNumber CurrencyIsoNumeric { get; set; } = null!;
 
     /// <summary>
-    /// The currency's symbol (Required).
+    /// Currency's symbol (Required).
     /// </summary>
     public Nox.Types.Text Symbol { get; set; } = null!;
 
     /// <summary>
-    /// The currency's numeric thousands notation separator (Required).
+    /// Currency's numeric thousands notation separator (Optional).
     /// </summary>
-    public Nox.Types.Text ThousandsSeperator { get; set; } = null!;
+    public Nox.Types.Text? ThousandsSeparator { get; set; } = null!;
 
     /// <summary>
-    /// The currency's numeric decimal notation separator (Required).
+    /// Currency's numeric decimal notation separator (Optional).
     /// </summary>
-    public Nox.Types.Text DecimalSeparator { get; set; } = null!;
+    public Nox.Types.Text? DecimalSeparator { get; set; } = null!;
 
     /// <summary>
-    /// The currency's numeric space between amount and symbol (Required).
+    /// Currency's numeric space between amount and symbol (Required).
     /// </summary>
     public Nox.Types.Boolean SpaceBetweenAmountAndSymbol { get; set; } = null!;
 
     /// <summary>
-    /// The currency's numeric decimal digits (Required).
+    /// Currency's numeric decimal digits (Required).
     /// </summary>
     public Nox.Types.Number DecimalDigits { get; set; } = null!;
 
     /// <summary>
-    /// Currency The currency's related units major and minor ExactlyOne CurrencyUnits
+    /// Currency's major name (Required).
     /// </summary>
-    public virtual CurrencyUnits CurrencyUnits { get; set; } = null!;
-
-    public CurrencyUnits Unit => CurrencyUnits;
+    public Nox.Types.Text MajorName { get; set; } = null!;
 
     /// <summary>
-    /// Foreign key for relationship ExactlyOne to entity CurrencyUnits
+    /// Currency's major display symbol (Required).
     /// </summary>
-    public Nox.Types.DatabaseNumber CurrencyUnitsId { get; set; } = null!;
+    public Nox.Types.Text MajorSymbol { get; set; } = null!;
 
     /// <summary>
-    /// Currency The currency's related bank notes OneOrMany CurrencyBankNotes
+    /// Currency's minor name (Required).
     /// </summary>
-    public virtual List<CurrencyBankNotes> CurrencyBankNotes { get; set; } = new();
-
-    public List<CurrencyBankNotes> BankNotes => CurrencyBankNotes;
+    public Nox.Types.Text MinorName { get; set; } = null!;
 
     /// <summary>
-    /// Currency The country's related currencies ZeroOrMany Countries
+    /// Currency's minor display symbol (Required).
+    /// </summary>
+    public Nox.Types.Text MinorSymbol { get; set; } = null!;
+
+    /// <summary>
+    /// Currency's minor value when converted to major (Required).
+    /// </summary>
+    public Nox.Types.Money MinorToMajorValue { get; set; } = null!;
+
+    /// <summary>
+    /// Currency used by OneOrMany Countries
     /// </summary>
     public virtual List<Country> Countries { get; set; } = new();
 
-    public List<Country> Country => Countries;
+    public List<Country> CurrencyUsedByCountry => Countries;
 
     /// <summary>
-    /// Currency The currency of the cash stock ZeroOrMany MinimumCashStocks
+    /// Currency used by ZeroOrMany MinimumCashStocks
     /// </summary>
     public virtual List<MinimumCashStock> MinimumCashStocks { get; set; } = new();
 
-    public List<MinimumCashStock> MinimumCashStock => MinimumCashStocks;
+    public List<MinimumCashStock> CurrencyUsedByMinimumCashStocks => MinimumCashStocks;
 
     /// <summary>
-    /// Currency The currency exchanged from ZeroOrMany ExchangeRates
+    /// Currency commonly used ZeroOrMany BankNotes
+    /// </summary>
+    public virtual List<BankNote> BankNotes { get; set; } = new();
+
+    public List<BankNote> CurrencyCommonBankNotes => BankNotes;
+
+    /// <summary>
+    /// Currency exchanged from OneOrMany ExchangeRates
     /// </summary>
     public virtual List<ExchangeRate> ExchangeRates { get; set; } = new();
 
-    public List<ExchangeRate> ExchangeRateFrom => ExchangeRates;
+    public List<ExchangeRate> CurrencyExchangedFromRates => ExchangeRates;
 }

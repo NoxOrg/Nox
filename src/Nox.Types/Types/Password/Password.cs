@@ -1,3 +1,5 @@
+using System;
+
 namespace Nox.Types;
 
 /// <summary>
@@ -23,6 +25,12 @@ public sealed class Password : ValueObject<(string HashedPassword, string Salt),
         get => Value.Salt;
         private set => Value = (Value.HashedPassword, Salt: value);
     }
+
+
+    public static Password From(IPassword value) => throw new NotImplementedException();
+    public static Password From(IPassword value, PasswordTypeOptions options) => throw new NotImplementedException();
+
+
     /// <summary>
     /// Creates a new instance of <see cref="Password"/> object with sent <see cref="PasswordTypeOptions"/>.
     /// </summary>
@@ -32,8 +40,6 @@ public sealed class Password : ValueObject<(string HashedPassword, string Salt),
     /// <exception cref="TypeValidationException"></exception>
     public static Password From(string value, PasswordTypeOptions options)
     {
-        options ??= new PasswordTypeOptions();
-
         var validationResult = Validate(value, options);
 
         if (!validationResult.IsValid)

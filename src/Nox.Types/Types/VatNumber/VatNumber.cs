@@ -63,10 +63,11 @@ public sealed class VatNumber : ValueObject<(string Number, CountryCode CountryC
         private set => Value = (Value.Number, value);
     }
 
-    /// <summary>
-    /// Initializes a new instance of the <see cref="VatNumber"/> class with default values.
-    /// </summary>
-    public VatNumber() { }
+    public static VatNumber From(IVatNumber value)
+        => From(value.Number, value.CountryCode);
+
+    public static VatNumber From(IVatNumber value, VatNumberTypeOptions options)
+        => From(value.Number, options);
 
     /// <summary>
     /// Creates a new instance of the <see cref="VatNumber"/> class with the specified values.

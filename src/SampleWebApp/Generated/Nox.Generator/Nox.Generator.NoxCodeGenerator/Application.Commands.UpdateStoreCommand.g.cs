@@ -11,6 +11,7 @@ using Nox.Factories;
 using SampleWebApp.Infrastructure.Persistence;
 using SampleWebApp.Domain;
 using SampleWebApp.Application.Dto;
+using Store = SampleWebApp.Domain.Store;
 
 namespace SampleWebApp.Application.Commands;
 

@@ -1,15 +1,19 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
-//using CryptocashApi.Application.DataTransferObjects;
-using CryptocashApi.Domain;
+using Nox.Extensions;
 
-namespace CryptocashApi.Application.Dto;
+using Cryptocash.Domain;
+
+namespace Cryptocash.Application.Dto;
 
 public record EmployeeKeyDto(System.Int64 keyId);
 
@@ -20,44 +24,50 @@ public partial class EmployeeDto
 {
 
     /// <summary>
-    /// The employee's unique identifier (Required).
+    /// Employee's unique identifier (Required).
     /// </summary>
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// The employee's first name (Required).
+    /// Employee's first name (Required).
     /// </summary>
     public System.String FirstName { get; set; } = default!;
 
     /// <summary>
-    /// The employee's last name (Required).
+    /// Employee's last name (Required).
     /// </summary>
     public System.String LastName { get; set; } = default!;
 
     /// <summary>
-    /// The employee's email (Required).
+    /// Employee's email address (Required).
     /// </summary>
     public System.String EmailAddress { get; set; } = default!;
 
     /// <summary>
-    /// The employee's address (Required).
+    /// Employee's street address (Required).
     /// </summary>
     public StreetAddressDto Address { get; set; } = default!;
 
     /// <summary>
-    /// The employee's first working day (Required).
+    /// Employee's first working day (Required).
     /// </summary>
     public System.DateTime FirstWorkingDay { get; set; } = default!;
 
     /// <summary>
-    /// The employee's last working day (Optional).
+    /// Employee's last working day (Optional).
     /// </summary>
     public System.DateTime? LastWorkingDay { get; set; }
 
     /// <summary>
-    /// Employee The employee's phone numbers ZeroOrMany EmployeePhoneNumbers
+    /// Employee reviewing ExactlyOne CashStockOrders
+    /// </summary>
+    //EF maps ForeignKey Automatically
+    public System.Int64 CashStockOrderId { get; set; } = default!;
+    public virtual CashStockOrderDto CashStockOrder { get; set; } = null!;
+
+    /// <summary>
+    /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
     /// </summary>
     public virtual List<EmployeePhoneNumberDto> EmployeePhoneNumbers { get; set; } = new();
-
-    public System.DateTime? DeletedAtUtc { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

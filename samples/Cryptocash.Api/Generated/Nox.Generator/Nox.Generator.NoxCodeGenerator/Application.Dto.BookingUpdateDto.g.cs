@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace CryptocashApi.Application.Dto; 
+namespace Cryptocash.Application.Dto;
 
 /// <summary>
 /// Exchange booking and related data.
@@ -16,39 +16,55 @@ public partial class BookingUpdateDto
 {
     //TODO Add owned Entities and update odata endpoints
     /// <summary>
-    /// The booking's amount exchanged from (Required).
+    /// Booking's amount exchanged from (Required).
     /// </summary>
     [Required(ErrorMessage = "AmountFrom is required")]
     
     public MoneyDto AmountFrom { get; set; } = default!;
     /// <summary>
-    /// The booking's amount exchanged to (Required).
+    /// Booking's amount exchanged to (Required).
     /// </summary>
     [Required(ErrorMessage = "AmountTo is required")]
     
     public MoneyDto AmountTo { get; set; } = default!;
     /// <summary>
-    /// The booking's requested pick up date (Required).
+    /// Booking's requested pick up date (Required).
     /// </summary>
     [Required(ErrorMessage = "RequestedPickUpDate is required")]
     
     public DateTimeRangeDto RequestedPickUpDate { get; set; } = default!;
     /// <summary>
-    /// The booking's actual pick up date (Optional).
+    /// Booking's actual pick up date (Optional).
     /// </summary>
-    public DateTimeRangeDto? PickedUpDateTime { get; set; } 
+    public DateTimeRangeDto? PickedUpDateTime { get; set; }
     /// <summary>
-    /// The booking's expiry date (Required).
+    /// Booking's expiry date (Optional).
     /// </summary>
-    [Required(ErrorMessage = "ExpiryDateTime is required")]
-    
-    public System.DateTimeOffset ExpiryDateTime { get; set; } = default!;
+    public System.DateTimeOffset? ExpiryDateTime { get; set; }
     /// <summary>
-    /// The booking's cancelled date (Optional).
+    /// Booking's cancelled date (Optional).
     /// </summary>
-    public System.DateTimeOffset? CancelledDateTime { get; set; } 
+    public System.DateTimeOffset? CancelledDateTime { get; set; }
     /// <summary>
-    /// The booking's related vat number (Optional).
+    /// Booking's related vat number (Optional).
     /// </summary>
-    public VatNumberDto? VatNumber { get; set; } 
+    public VatNumberDto? VatNumber { get; set; }
+
+    /// <summary>
+    /// Booking for ExactlyOne Customers
+    /// </summary>
+    [Required(ErrorMessage = "BookingForCustomer is required")]
+    public System.Int64 CustomerId { get; set; } = default!;
+
+    /// <summary>
+    /// Booking related to ExactlyOne VendingMachines
+    /// </summary>
+    [Required(ErrorMessage = "BookingRelatedVendingMachine is required")]
+    public System.Guid VendingMachineId { get; set; } = default!;
+
+    /// <summary>
+    /// Booking fees for ExactlyOne Commissions
+    /// </summary>
+    [Required(ErrorMessage = "BookingFeesForCommission is required")]
+    public System.Int64 CommissionId { get; set; } = default!;
 }

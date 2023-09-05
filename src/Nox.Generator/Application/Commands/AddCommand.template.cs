@@ -14,6 +14,7 @@ using Nox.Types;
 using {{codeGeneratorState.PersistenceNameSpace}};
 using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
+using {{entity.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 public record Add{{entity.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}CreateDto EntityDto) : IRequest <{{entity.Name}}KeyDto?>;
@@ -21,16 +22,13 @@ public record Add{{entity.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{en
 public partial class Add{{entity.Name}}CommandHandler: CommandBase<Add{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler <Add{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
 	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
-	public IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> EntityFactory { get; }
 
 	public Add{{entity.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> entityFactory): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
-		EntityFactory = entityFactory;
+		DbContext = dbContext;		
 	}
 
 	public async Task<{{entity.Name}}KeyDto?> Handle(Add{{entity.Name}}Command request, CancellationToken cancellationToken)
@@ -47,7 +45,7 @@ public partial class Add{{entity.Name}}CommandHandler: CommandBase<Add{{entity.N
 			return null;
 		}
 
-		var entity = EntityFactory.CreateEntity(request.EntityDto);
+		var entity = request.EntityDto.ToEntity();
 
 		{{- for key in entity.Keys ~}}
 		{{- if key.Type == "Nuid" }}

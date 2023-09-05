@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SampleWebApp.Application.Dto; 
+namespace SampleWebApp.Application.Dto;
 
 /// <summary>
 /// The list of countries.
@@ -48,15 +48,15 @@ public partial class CountryUpdateDto
     /// <summary>
     /// The country's phone dialing codes (comma-delimited) (Optional).
     /// </summary>
-    public System.String? DialingCodes { get; set; } 
+    public System.String? DialingCodes { get; set; }
     /// <summary>
     /// The capital city of the country (Optional).
     /// </summary>
-    public System.String? Capital { get; set; } 
+    public System.String? Capital { get; set; }
     /// <summary>
     /// Noun denoting the natives of the country (Optional).
     /// </summary>
-    public System.String? Demonym { get; set; } 
+    public System.String? Demonym { get; set; }
     /// <summary>
     /// Country area in square kilometers (Required).
     /// </summary>
@@ -66,7 +66,7 @@ public partial class CountryUpdateDto
     /// <summary>
     /// The the position of the workplace's point on the surface of the Earth (Optional).
     /// </summary>
-    public LatLongDto? GeoCoord { get; set; } 
+    public LatLongDto? GeoCoord { get; set; }
     /// <summary>
     /// The region the country is in (Required).
     /// </summary>
@@ -88,11 +88,11 @@ public partial class CountryUpdateDto
     /// <summary>
     /// The estimated population of the country (Optional).
     /// </summary>
-    public System.Int32? Population { get; set; } 
+    public System.Int32? Population { get; set; }
     /// <summary>
     /// The top level internet domains regitered to the country (comma-delimited) (Optional).
     /// </summary>
-    public System.String? TopLevelDomains { get; set; } 
+    public System.String? TopLevelDomains { get; set; }
 
     /// <summary>
     /// Country is also know as OneOrMany CountryLocalNames

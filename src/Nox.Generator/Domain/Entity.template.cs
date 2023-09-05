@@ -13,22 +13,22 @@ namespace {{codeGeneratorState.DomainNameSpace}};
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase{{else}}EntityBase{{end}}{{else}}:EntityBase, IOwnedEntity{{end}}
+public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase{{else}}EntityBase{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
 {
 {{- for key in entity.Keys }}
     /// <summary>
     /// {{key.Description}} (Required).
     /// </summary>
-    {{ if key.Type == "Entity" -}}
-    public {{SingleKeyTypeForEntity key.EntityTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
+    {{ if key.Type == "EntityId" -}}
+    public {{SingleKeyTypeForEntity key.EntityIdTypeOptions.Entity}} {{key.Name}} { get; set; } = null!;
     {{- # Navigation Property }}
 
-    public virtual {{key.EntityTypeOptions.Entity}} {{key.EntityTypeOptions.Entity}} { get; set; } = null!;
+    public virtual {{key.EntityIdTypeOptions.Entity}} {{key.EntityIdTypeOptions.Entity}} { get; set; } = null!;
 
     {{- else if key.Type == "Nuid" -}}
 	{{- prefix = key.NuidTypeOptions.Prefix | object.default entity.Name + key.NuidTypeOptions.Separator -}}
     {{- codeGeneratorNuidGetter = "Nuid.From(\""+prefix+"\" + string.Join(\""+key.NuidTypeOptions.Separator +"\", "+ (key.NuidTypeOptions.PropertyNames | array.join "," @(do; ret $0 + ".Value.ToString()"; end)) +"))" -}}
-    public {{key.Type}} {{key.Name}} {get; private set;} = null!;
+    public {{key.Type}} {{key.Name}} {get; set;} = null!;
 
 	public void Ensure{{ key.Name}}()
 	{

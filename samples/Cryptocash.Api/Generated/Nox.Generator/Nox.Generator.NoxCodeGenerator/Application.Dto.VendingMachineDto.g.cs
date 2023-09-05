@@ -1,15 +1,19 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
-//using CryptocashApi.Application.DataTransferObjects;
-using CryptocashApi.Domain;
+using Nox.Extensions;
 
-namespace CryptocashApi.Application.Dto;
+using Cryptocash.Domain;
+
+namespace Cryptocash.Application.Dto;
 
 public record VendingMachineKeyDto(System.Guid keyId);
 
@@ -20,73 +24,72 @@ public partial class VendingMachineDto
 {
 
     /// <summary>
-    /// The vending machine unique identifier (Required).
+    /// Vending machine unique identifier (Required).
     /// </summary>
     public System.Guid Id { get; set; } = default!;
 
     /// <summary>
-    /// The mac address of the vending machine (Required).
+    /// Vending machine mac address (Required).
     /// </summary>
     public System.String MacAddress { get; set; } = default!;
 
     /// <summary>
-    /// The public ip of the vending machine (Required).
+    /// Vending machine public ip (Required).
     /// </summary>
     public System.String PublicIp { get; set; } = default!;
 
     /// <summary>
-    /// The public ip of the vending machine (Required).
+    /// Vending machine geo location (Required).
     /// </summary>
     public LatLongDto GeoLocation { get; set; } = default!;
 
     /// <summary>
-    /// The address of the vending machine (Required).
+    /// Vending machine street address (Required).
     /// </summary>
     public StreetAddressDto StreetAddress { get; set; } = default!;
 
     /// <summary>
-    /// The serial number of the vending machine (Required).
+    /// Vending machine serial number (Required).
     /// </summary>
     public System.String SerialNumber { get; set; } = default!;
 
     /// <summary>
-    /// The area of the vending machine installation (Optional).
+    /// Vending machine installation area (Optional).
     /// </summary>
     public System.Decimal? InstallationFootPrint { get; set; }
 
     /// <summary>
-    /// The land lord rent amount related to the area of the vending machine installation (Optional).
+    /// Landlord rent amount based on area of the vending machine installation (Optional).
     /// </summary>
     public MoneyDto? RentPerSquareMetre { get; set; }
 
     /// <summary>
-    /// VendingMachine The country of the vending machine ExactlyOne Countries
+    /// VendingMachine installed in ExactlyOne Countries
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string CountryId { get; set; } = null!;
+    public System.String CountryId { get; set; } = default!;
     public virtual CountryDto Country { get; set; } = null!;
 
     /// <summary>
-    /// VendingMachine The Land Lord related to the area of the vending machine installation ExactlyOne LandLords
+    /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
     //EF maps ForeignKey Automatically
-    public virtual string LandLordId { get; set; } = null!;
+    public System.Int64 LandLordId { get; set; } = default!;
     public virtual LandLordDto LandLord { get; set; } = null!;
 
     /// <summary>
-    /// VendingMachine The booking's related vending machine ZeroOrMany Bookings
+    /// VendingMachine related to ZeroOrMany Bookings
     /// </summary>
     public virtual List<BookingDto> Bookings { get; set; } = new();
 
     /// <summary>
-    /// VendingMachine The order's related vending machine ZeroOrMany VendingMachineOrders
+    /// VendingMachine related to ZeroOrMany CashStockOrders
     /// </summary>
-    public virtual List<VendingMachineOrderDto> VendingMachineOrders { get; set; } = new();
+    public virtual List<CashStockOrderDto> CashStockOrders { get; set; } = new();
 
     /// <summary>
-    /// VendingMachine The related vending machine ZeroOrMany MinimumCashStocks
+    /// VendingMachine required ZeroOrMany MinimumCashStocks
     /// </summary>
     public virtual List<MinimumCashStockDto> MinimumCashStocks { get; set; } = new();
-
-    public System.DateTime? DeletedAtUtc { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

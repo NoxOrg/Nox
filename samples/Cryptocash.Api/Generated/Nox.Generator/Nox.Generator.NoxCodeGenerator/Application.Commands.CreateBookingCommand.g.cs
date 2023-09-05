@@ -11,26 +11,24 @@ using Nox.Application.Commands;
 using Nox.Factories;
 using Nox.Solution;
 
-using CryptocashApi.Infrastructure.Persistence;
-using CryptocashApi.Domain;
-using CryptocashApi.Application.Dto;
+using Cryptocash.Infrastructure.Persistence;
+using Cryptocash.Domain;
+using Cryptocash.Application.Dto;
+using Booking = Cryptocash.Domain.Booking;
 
-namespace CryptocashApi.Application.Commands;
+namespace Cryptocash.Application.Commands;
 public record CreateBookingCommand(BookingCreateDto EntityDto) : IRequest<BookingKeyDto>;
 
 public partial class CreateBookingCommandHandler: CommandBase<CreateBookingCommand,Booking>, IRequestHandler <CreateBookingCommand, BookingKeyDto>
 {
-	public CryptocashApiDbContext DbContext { get; }
-	public IEntityFactory<BookingCreateDto,Booking> EntityFactory { get; }
+	public CryptocashDbContext DbContext { get; }
 
 	public CreateBookingCommandHandler(
-		CryptocashApiDbContext dbContext,
+		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<BookingCreateDto,Booking> entityFactory): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory;
 	}
 
 	public async Task<BookingKeyDto> Handle(CreateBookingCommand request, CancellationToken cancellationToken)
@@ -38,7 +36,7 @@ public partial class CreateBookingCommandHandler: CommandBase<CreateBookingComma
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = request.EntityDto.ToEntity();
 	
 		OnCompleted(entityToCreate);
 		DbContext.Bookings.Add(entityToCreate);

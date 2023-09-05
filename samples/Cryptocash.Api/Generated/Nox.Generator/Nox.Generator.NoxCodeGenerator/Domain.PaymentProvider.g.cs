@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using Nox.Types;
 using Nox.Domain;
 
-namespace CryptocashApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
 /// Payment provider related data.
@@ -16,17 +16,24 @@ namespace CryptocashApi.Domain;
 public partial class PaymentProvider : AuditableEntityBase
 {
     /// <summary>
-    /// The payment provider unique identifier (Required).
+    /// Payment provider unique identifier (Required).
     /// </summary>
     public DatabaseNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// The payment provider name (Required).
+    /// Payment provider name (Required).
     /// </summary>
     public Nox.Types.Text PaymentProviderName { get; set; } = null!;
 
     /// <summary>
-    /// The payment account type (Required).
+    /// Payment provider account type (Required).
     /// </summary>
     public Nox.Types.Text PaymentProviderType { get; set; } = null!;
+
+    /// <summary>
+    /// PaymentProvider related to ZeroOrMany PaymentDetails
+    /// </summary>
+    public virtual List<PaymentDetail> PaymentDetails { get; set; } = new();
+
+    public List<PaymentDetail> PaymentProviderRelatedPaymentDetails => PaymentDetails;
 }

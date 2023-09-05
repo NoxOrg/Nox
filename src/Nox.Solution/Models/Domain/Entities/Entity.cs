@@ -46,12 +46,12 @@ public class Entity : DefinitionBase
     [Title("Defines relationships to other entities.")]
     [Description("Defines one way relationships to other entities. Remember to define the reverse relationship on the target entities.")]
     [AdditionalProperties(false)]
-    public IReadOnlyList<EntityRelationship>? Relationships { get; internal set; }
+    public IReadOnlyList<EntityRelationship> Relationships { get; internal set; } = Array.Empty<EntityRelationship>();
 
     [Title("Defines owned relationships to another entity.")]
     [Description("Defines relationship to owned entities. This entity will be treated as an aggregate root.")]
     [AdditionalProperties(false)]
-    public IReadOnlyList<EntityRelationship>? OwnedRelationships { get; internal set; }
+    public IReadOnlyList<EntityRelationship> OwnedRelationships { get; internal set; } = Array.Empty<EntityRelationship>();
 
     [Title("Domain queries for this entity.")]
     [Description("Define one or more domain querie(s) that operate on this entity. Queries should have no side effects and not mutate the domain state.")]
@@ -83,7 +83,10 @@ public class Entity : DefinitionBase
     public IReadOnlyList<UniqueAttributeConstraint>? UniqueAttributeConstraints { get; internal set; }
 
     [YamlIgnore]
-    public bool IsOwnedEntity { get; set; }
+    public bool IsOwnedEntity { get; internal set; }
+
+    [YamlIgnore]
+    public Entity? OwnerEntity { get; internal set; }
 
     internal bool ApplyDefaults()
     {
@@ -104,16 +107,48 @@ public class Entity : DefinitionBase
         return _attributesByName![entityName];
     }
 
-    public virtual NoxSimpleTypeDefinition? GetKeyByName(string entityName)
+    public virtual bool TryGetAttributeByName(string entityName, out NoxSimpleTypeDefinition? result)
+    {
+        EnsureAttributesByName();
+        return _attributesByName!.TryGetValue(entityName, out result);
+    }
+
+    public virtual bool TryGetKeyByName(string entityName, out NoxSimpleTypeDefinition? result)
     {
         EnsureKeyByName();
-        return _keysByName![entityName];
+        return _keysByName!.TryGetValue(entityName, out result);
     }
 
     public virtual bool IsKey(string keyName)
     {
         EnsureKeyByName();
         return _keysByName!.ContainsKey(keyName);
+    }
+
+    public virtual bool TryGetRelationshipByName(NoxSolution solution, string relationshipName, out NoxSimpleTypeDefinition? result)
+    {
+        result = null;
+        if (Relationships == null)
+        {
+            return false;
+        }
+
+        var rel = Relationships!.First(x => x.Name.Equals(relationshipName));
+        // TODO: possibly extend for other types
+        if (!rel.ShouldGenerateForeignOnThisSide ||
+            rel.WithMultiEntity)
+        {
+            return false;
+        }
+
+        var foreignEntityKeyDefinition = rel.Related.Entity.Keys![0].ShallowCopy();
+        foreignEntityKeyDefinition.Name = rel.Related.Entity.Name + "Id";
+        foreignEntityKeyDefinition.Description = "-";
+        foreignEntityKeyDefinition.IsRequired = false;
+        foreignEntityKeyDefinition.IsReadonly = false;
+
+        result = foreignEntityKeyDefinition;
+        return true;
     }
 
     public IEnumerable<KeyValuePair<EntityMemberType, NoxSimpleTypeDefinition>> GetAllMembers()
@@ -167,6 +202,7 @@ public class Entity : DefinitionBase
         {
             var relationships = Relationships
                 .Where(x => x.Related.Entity?.Keys is not null)
+                .Where(x => x.IsManyRelationshipOnOtherSide)
                 .Select(x => (x.Entity, Keys: x.Related.Entity.Keys!));
 
             foreach (var relationship in relationships)

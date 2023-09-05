@@ -1,15 +1,19 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
-//using CryptocashApi.Application.DataTransferObjects;
-using CryptocashApi.Domain;
+using Nox.Extensions;
 
-namespace CryptocashApi.Application.Dto;
+using Cryptocash.Domain;
+
+namespace Cryptocash.Application.Dto;
 
 public record PaymentProviderKeyDto(System.Int64 keyId);
 
@@ -20,19 +24,23 @@ public partial class PaymentProviderDto
 {
 
     /// <summary>
-    /// The payment provider unique identifier (Required).
+    /// Payment provider unique identifier (Required).
     /// </summary>
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// The payment provider name (Required).
+    /// Payment provider name (Required).
     /// </summary>
     public System.String PaymentProviderName { get; set; } = default!;
 
     /// <summary>
-    /// The payment account type (Required).
+    /// Payment provider account type (Required).
     /// </summary>
     public System.String PaymentProviderType { get; set; } = default!;
 
-    public System.DateTime? DeletedAtUtc { get; set; }
+    /// <summary>
+    /// PaymentProvider related to ZeroOrMany PaymentDetails
+    /// </summary>
+    public virtual List<PaymentDetailDto> PaymentDetails { get; set; } = new();
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

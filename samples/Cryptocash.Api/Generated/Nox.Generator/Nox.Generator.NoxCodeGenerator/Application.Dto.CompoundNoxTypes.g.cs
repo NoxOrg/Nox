@@ -4,7 +4,7 @@
 using Nox.Types;
 using Microsoft.EntityFrameworkCore;
 
-namespace CryptocashApi.Application.Dto;
+namespace Cryptocash.Application.Dto;
 
 [Owned]
 public record StreetAddressDto(System.String StreetNumber,System.String AddressLine1,System.String AddressLine2,System.String Route,System.String Locality,System.String Neighborhood,System.String AdministrativeArea1,System.String AdministrativeArea2,System.String PostalCode,Nox.Types.CountryCode CountryId) : IStreetAddress;
@@ -22,7 +22,7 @@ public record VatNumberDto(System.String Number,Nox.Types.CountryCode CountryCod
 public record PasswordDto(System.String HashedPassword,System.String Salt) : IPassword;
 
 [Owned]
-public record EntityDto(System.String Type,System.UInt32 Id) : IEntity;
+public record EntityIdDto(System.String Type,System.UInt32 Id) : IEntityId;
 
 [Owned]
 public record MoneyDto(System.Decimal Amount,Nox.Types.CurrencyCode CurrencyCode) : IMoney;

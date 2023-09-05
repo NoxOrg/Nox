@@ -1,43 +1,46 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
-//using CryptocashApi.Application.DataTransferObjects;
-using CryptocashApi.Domain;
+using Nox.Extensions;
 
-namespace CryptocashApi.Application.Dto;
+using Cryptocash.Domain;
+
+namespace Cryptocash.Application.Dto;
 
 public record LandLordKeyDto(System.Int64 keyId);
 
 /// <summary>
-/// Land Lord related data.
+/// Landlord related data.
 /// </summary>
 public partial class LandLordDto
 {
 
     /// <summary>
-    /// The Land Lord unique identifier (Required).
+    /// Landlord unique identifier (Required).
     /// </summary>
     public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
-    /// The Land Lord name (Required).
+    /// Landlord name (Required).
     /// </summary>
     public System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// The Land Lord's address (Required).
+    /// Landlord's street address (Required).
     /// </summary>
     public StreetAddressDto Address { get; set; } = default!;
 
     /// <summary>
-    /// LandLord The Land Lord related to the area of the vending machine installation ZeroOrMany VendingMachines
+    /// LandLord leases an area to house ZeroOrMany VendingMachines
     /// </summary>
     public virtual List<VendingMachineDto> VendingMachines { get; set; } = new();
-
-    public System.DateTime? DeletedAtUtc { get; set; }
+    public System.DateTime? DeletedAtUtc { get; set; }    
 }

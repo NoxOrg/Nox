@@ -7,14 +7,14 @@ description: The cash balance in Store
 keys:
 
   - name: StoreId
-    type: entity
-    entityTypeOptions:
+    type: entityId
+    entityIdTypeOptions:
       entity: Store
     isRequired: true
 
   - name: CurrencyId
-    type: entity
-    entityTypeOptions:
+    type: entityId
+    entityIdTypeOptions:
        entity: Currency
     isRequired: true
 

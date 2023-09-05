@@ -7,7 +7,7 @@ using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SampleWebApp.Application.Dto; 
+namespace SampleWebApp.Application.Dto;
 
 /// <summary>
 /// Entity to test all nox types.
@@ -212,7 +212,7 @@ public partial class AllNoxTypeUpdateDto
     /// </summary>
     [Required(ErrorMessage = "TimeField is required")]
     
-    public System.TimeSpan TimeField { get; set; } = default!;
+    public System.DateTime TimeField { get; set; } = default!;
     /// <summary>
     /// TimeZoneCode Nox Type (Required).
     /// </summary>
@@ -273,6 +273,12 @@ public partial class AllNoxTypeUpdateDto
     [Required(ErrorMessage = "ImageField is required")]
     
     public ImageDto ImageField { get; set; } = default!;
+    /// <summary>
+    /// LatLongField Nox Type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "LatLongField is required")]
+    
+    public LatLongDto LatLongField { get; set; } = default!;
     /// <summary>
     /// Money Nox Type (Required).
     /// </summary>

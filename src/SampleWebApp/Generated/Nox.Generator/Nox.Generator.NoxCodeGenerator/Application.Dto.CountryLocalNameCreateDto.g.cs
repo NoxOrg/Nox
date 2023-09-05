@@ -1,13 +1,17 @@
 ﻿// Generated
 
 #nullable enable
-
-using Nox.Abstractions;
-using Nox.Types;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
-namespace SampleWebApp.Application.Dto; 
+using Nox.Abstractions;
+using Nox.Domain;
+using Nox.Extensions;
+using Nox.Types;
+
+using SampleWebApp.Domain;
+
+namespace SampleWebApp.Application.Dto;
 
 /// <summary>
 /// The name of a country in other languages.
@@ -19,4 +23,11 @@ public partial class CountryLocalNameCreateDto : CountryLocalNameUpdateDto
     /// </summary>
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
+
+    public SampleWebApp.Domain.CountryLocalName ToEntity()
+    {
+        var entity = new SampleWebApp.Domain.CountryLocalName();
+        entity.Id = CountryLocalName.CreateId(Id);
+        return entity;
+    }
 }

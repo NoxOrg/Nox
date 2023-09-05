@@ -14,14 +14,15 @@ using Nox.Types;
 using Nox.Application;
 using Nox.Extensions;
 using Nox.Exceptions;
-using CryptocashApi.Application.Dto;
-using CryptocashApi.Domain;
+using Cryptocash.Application.Dto;
+using Cryptocash.Domain;
+using ExchangeRate = Cryptocash.Domain.ExchangeRate;
 
-namespace CryptocashApi.Application;
+namespace Cryptocash.Application;
 
-public class ExchangeRateMapper: EntityMapperBase<ExchangeRate>
+public class ExchangeRateMapper : EntityMapperBase<ExchangeRate>
 {
-    public  ExchangeRateMapper(NoxSolution noxSolution, IServiceProvider serviceProvider): base(noxSolution, serviceProvider) { }
+    public ExchangeRateMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
     public override void MapToEntity(ExchangeRate entity, Entity entityDefinition, dynamic dto)
     {
@@ -29,24 +30,28 @@ public class ExchangeRateMapper: EntityMapperBase<ExchangeRate>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
     
-        noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"EffectiveRate",dto.EffectiveRate);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "EffectiveRate", dto.EffectiveRate);
+        if (noxTypeValue != null)
         {        
             entity.EffectiveRate = noxTypeValue;
         }
-        noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition,"EffectiveAt",dto.EffectiveAt);
-        if(noxTypeValue != null)
+        noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "EffectiveAt", dto.EffectiveAt);
+        if (noxTypeValue != null)
         {        
             entity.EffectiveAt = noxTypeValue;
         }
+    
     }
 
     public override void PartialMapToEntity(ExchangeRate entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
     {
+#pragma warning disable CS0168 // Variable is assigned but its value is never used
+        dynamic? value;
+#pragma warning restore CS0168 // Variable is assigned but its value is never used
         {
-            if (updatedProperties.TryGetValue("EffectiveRate", out dynamic? value))
+            if (updatedProperties.TryGetValue("EffectiveRate", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition,"EffectiveRate",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "EffectiveRate", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("ExchangeRate", "EffectiveRate");
@@ -58,9 +63,9 @@ public class ExchangeRateMapper: EntityMapperBase<ExchangeRate>
             }
         }
         {
-            if (updatedProperties.TryGetValue("EffectiveAt", out dynamic? value))
+            if (updatedProperties.TryGetValue("EffectiveAt", out value))
             {
-                var noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition,"EffectiveAt",value);
+                var noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "EffectiveAt", value);
                 if(noxTypeValue == null)
                 {
                     throw new EntityAttributeIsNotNullableException("ExchangeRate", "EffectiveAt");
@@ -71,5 +76,7 @@ public class ExchangeRateMapper: EntityMapperBase<ExchangeRate>
                 }
             }
         }
+    
+    
     }
 }

@@ -264,7 +264,7 @@ public class NoxTypesEntityFrameworkTests : TestWithSqlite
         item.SecretPassword.DecryptText(encryptTypeOptions).Should().Be("12345678");
         item.DatabaseId.Value.Should().Be(10U);
         item.CurrencyNumber.Value.Should().Be(840);
-        item.Color.Value.Should().Equal(new byte[] { 255, 120, 95, 230 });
+        item.Color.ToHex().Should().Be("#785FE6");
         item.DayOfWeek.Value.Should().Be(1);
         item.DateTimeSchedule.Should().Be(newItem.DateTimeSchedule);
     }

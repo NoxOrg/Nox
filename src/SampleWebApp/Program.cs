@@ -32,14 +32,6 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// ======================================================
-// SAMPLE WEB APP Extensions
-builder.Services
-    .AddScoped<GetCountriesByContinentQueryBase, GetCountriesByContinentQuery>()
-    .AddScoped<UpdatePopulationStatisticsCommandHandlerBase, UpdatePopulationStatisticsCommandHandler>()
-    .AddScoped<INoxMessenger, NoxMessenger>();    
-// ======================================================
-
 builder.AddSeedData();
 
 var app = builder.Build();

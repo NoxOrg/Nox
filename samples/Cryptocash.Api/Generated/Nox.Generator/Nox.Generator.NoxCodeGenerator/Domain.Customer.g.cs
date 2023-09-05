@@ -8,7 +8,7 @@ using System.Collections.Generic;
 using Nox.Types;
 using Nox.Domain;
 
-namespace CryptocashApi.Domain;
+namespace Cryptocash.Domain;
 
 /// <summary>
 /// Customer definition and related data.
@@ -16,51 +16,65 @@ namespace CryptocashApi.Domain;
 public partial class Customer : AuditableEntityBase
 {
     /// <summary>
-    /// The customer's unique identifier (Required).
+    /// Customer's unique identifier (Required).
     /// </summary>
     public DatabaseNumber Id { get; set; } = null!;
 
     /// <summary>
-    /// The customer's first name (Required).
+    /// Customer's first name (Required).
     /// </summary>
     public Nox.Types.Text FirstName { get; set; } = null!;
 
     /// <summary>
-    /// The customer's last name (Required).
+    /// Customer's last name (Required).
     /// </summary>
     public Nox.Types.Text LastName { get; set; } = null!;
 
     /// <summary>
-    /// The customer's email (Required).
+    /// Customer's email address (Required).
     /// </summary>
     public Nox.Types.Email EmailAddress { get; set; } = null!;
 
     /// <summary>
-    /// The customer's address (Required).
+    /// Customer's street address (Required).
     /// </summary>
     public Nox.Types.StreetAddress Address { get; set; } = null!;
 
     /// <summary>
-    /// The customer's mobile number (Optional).
+    /// Customer's mobile number (Optional).
     /// </summary>
     public Nox.Types.PhoneNumber? MobileNumber { get; set; } = null!;
 
     /// <summary>
-    /// Customer The customer's payment details ZeroOrOne CustomerPaymentDetails
+    /// Customer related to ZeroOrMany PaymentDetails
     /// </summary>
-    public virtual CustomerPaymentDetails? CustomerPaymentDetails { get; set; } = null!;
+    public virtual List<PaymentDetail> PaymentDetails { get; set; } = new();
+
+    public List<PaymentDetail> CustomerRelatedPaymentDetails => PaymentDetails;
 
     /// <summary>
-    /// Customer The booking's related customer ZeroOrMany Bookings
+    /// Customer related to ZeroOrMany Bookings
     /// </summary>
     public virtual List<Booking> Bookings { get; set; } = new();
 
-    public List<Booking> Booking => Bookings;
+    public List<Booking> CustomerRelatedBookings => Bookings;
 
     /// <summary>
-    /// Customer The transaction's related customer ZeroOrMany CustomerTransactions
+    /// Customer related to ZeroOrMany Transactions
     /// </summary>
-    public virtual List<CustomerTransaction> CustomerTransactions { get; set; } = new();
+    public virtual List<Transaction> Transactions { get; set; } = new();
 
-    public List<CustomerTransaction> CustomerTransaction => CustomerTransactions;
+    public List<Transaction> CustomerRelatedTransactions => Transactions;
+
+    /// <summary>
+    /// Customer based in ExactlyOne Countries
+    /// </summary>
+    public virtual Country Country { get; set; } = null!;
+
+    public Country CustomerBaseCountry => Country;
+
+    /// <summary>
+    /// Foreign key for relationship ExactlyOne to entity Country
+    /// </summary>
+    public Nox.Types.CountryCode2 CountryId { get; set; } = null!;
 }

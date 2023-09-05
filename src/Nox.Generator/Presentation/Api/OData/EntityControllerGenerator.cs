@@ -75,6 +75,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
             code.AppendLine();
 
+            code.AppendLine("[Route(\"{controller}\")]");
             code.AppendLine($"public partial class {controllerName} : ODataController");
 
             // Class
@@ -186,6 +187,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GenerateDelete(Entity entity, string entityName, CodeBuilder code, NoxSolution solution)
     {
         // Method Delete
+        code.AppendLine("[HttpDelete]");
         code.AppendLine($"public async Task<ActionResult> Delete({PrimaryKeysFromRoute(entity, solution)})");
 
         // Method content
@@ -206,6 +208,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GeneratePut(Entity entity, CodeBuilder code, NoxSolution solution)
     {
         // Method Put
+        code.AppendLine("[HttpPut]");
         code.AppendLine($"public async Task<ActionResult> Put({PrimaryKeysFromRoute(entity, solution)}, [FromBody] {entity.Name}UpdateDto {entity.Name.ToLowerFirstChar()})");
 
         // Method content
@@ -232,6 +235,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GeneratePatch(Entity entity, string entityName, string pluralName, CodeBuilder code, NoxSolution solution)
     {
         // Method Patch
+        code.AppendLine("[HttpPatch]");
         code.AppendLine($"public async Task<ActionResult> Patch({PrimaryKeysFromRoute(entity, solution)}, [FromBody] Delta<{entityName}UpdateDto> {entity.Name.ToLowerFirstChar()})");
 
         // Method content
@@ -267,6 +271,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GeneratePost(string entityName, string variableName, CodeBuilder code)
     {
         // Method Post
+        code.AppendLine("[HttpPost]");
         code.AppendLine($"public async Task<ActionResult> Post([FromBody]{entityName}CreateDto {variableName})");
 
         // Method content
@@ -312,6 +317,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GenerateGet(Entity entity, CodeBuilder code, NoxSolution solution)
     {
         // Method Get
+        code.AppendLine("[HttpGet]");
         code.AppendLine($"[EnableQuery]");
         code.AppendLine($"public async  Task<ActionResult<IQueryable<{entity.Name}Dto>>> Get()");
 
