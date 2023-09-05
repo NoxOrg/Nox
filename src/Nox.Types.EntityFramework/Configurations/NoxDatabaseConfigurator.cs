@@ -237,28 +237,40 @@ namespace Nox.Types.EntityFramework.Configurations
         protected virtual IList<IndexBuilder> ConfigureUniqueAttributeConstraints(IEntityBuilder builder, Entity entity)
         {
             var result = new List<IndexBuilder>();
-            if (entity.UniqueAttributeConstraints is { Count: > 0 })
+            if (entity.UniqueAttributeConstraints is not { Count: > 0 })
             {
-                if (entity.Persistence!.IsAudited)
-                {
-                    foreach (var uniqueConstraint in entity.UniqueAttributeConstraints)
-                    {
-                        var auditProperties = new List<string>(uniqueConstraint.AttributeNames.Count + 1);
-                        auditProperties.AddRange(uniqueConstraint.AttributeNames);
-                        auditProperties.Add("DeletedAtUtc");
-                        result.Add( builder.HasUniqueAttributeConstraint(auditProperties.ToArray(), uniqueConstraint.Name));
-                    }
-                }
-                else
-                {
-                    foreach (var uniqueConstraint in entity.UniqueAttributeConstraints)
-                    {
-                        result.Add( builder.HasUniqueAttributeConstraint(uniqueConstraint.AttributeNames.ToArray(), uniqueConstraint.Name));
-                    }
-                }
+                return result;
+            }
+            if (entity.Persistence!.IsAudited)
+            {
+                ConfigureConstraintsWithAuditProperties(builder, entity, result);
+            }
+            else
+            {
+                ConfigureConstraints(builder, entity, result);
             }
 
             return result;
+        }
+
+        private static void ConfigureConstraints(IEntityBuilder builder, Entity entity, List<IndexBuilder> result)
+        {
+            foreach (var uniqueConstraint in entity.UniqueAttributeConstraints!)
+            {
+                result.Add(builder.HasUniqueAttributeConstraint(uniqueConstraint.AttributeNames.ToArray(),
+                    uniqueConstraint.Name));
+            }
+        }
+
+        private static void ConfigureConstraintsWithAuditProperties(IEntityBuilder builder, Entity entity, List<IndexBuilder> result)
+        {
+            foreach (var uniqueConstraint in entity.UniqueAttributeConstraints!)
+            {
+                var auditProperties = new List<string>(uniqueConstraint.AttributeNames.Count + 1);
+                auditProperties.AddRange(uniqueConstraint.AttributeNames);
+                auditProperties.Add("DeletedAtUtc");
+                result.Add(builder.HasUniqueAttributeConstraint(auditProperties.ToArray(), uniqueConstraint.Name));
+            }
         }
 
         protected virtual void ConfigureAttributes(

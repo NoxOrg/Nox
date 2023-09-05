@@ -22,28 +22,10 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
     {
     }
 
-    public override void ConfigureEntity(
-        NoxSolutionCodeGeneratorState codeGeneratorState,
-        IEntityBuilder builder,
-        Entity entity)
-    {
-        var relationshipsToCreate = codeGeneratorState.Solution.GetRelationshipsToCreate(codeGeneratorState, entity);
-        var ownedRelationshipsToCreate = codeGeneratorState.Solution.GetOwnedRelationshipsToCreate(codeGeneratorState, entity);
-
-        ConfigureKeys(codeGeneratorState, builder, entity);
-
-        ConfigureAttributes(codeGeneratorState, builder, entity);
-
-        ConfigureRelationships(codeGeneratorState, builder, entity, relationshipsToCreate);
-
-        ConfigureOwnedRelationships(codeGeneratorState, builder, entity, ownedRelationshipsToCreate);
-            
-        ConfigureUniqueAttributeConstraints(builder, entity);
-    }
-
     protected override IList<IndexBuilder> ConfigureUniqueAttributeConstraints(IEntityBuilder builder, Entity entity)
     {
         var result = base.ConfigureUniqueAttributeConstraints(builder, entity);
+
         foreach (var indexBuilder in result)
         {
             indexBuilder.HasFilter(null);

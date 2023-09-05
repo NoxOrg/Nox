@@ -22,25 +22,6 @@ public class PostgresDatabaseProvider: NoxDatabaseConfigurator, INoxDatabaseProv
         set => SetConnectionString(value);
     }
 
-    public override void ConfigureEntity(
-        NoxSolutionCodeGeneratorState codeGeneratorState,
-        IEntityBuilder builder,
-        Entity entity)
-    {
-        var relationshipsToCreate = codeGeneratorState.Solution.GetRelationshipsToCreate(codeGeneratorState, entity);
-        var ownedRelationshipsToCreate = codeGeneratorState.Solution.GetOwnedRelationshipsToCreate(codeGeneratorState, entity);
-
-        ConfigureKeys(codeGeneratorState, builder, entity);
-
-        ConfigureAttributes(codeGeneratorState, builder, entity);
-
-        ConfigureRelationships(codeGeneratorState, builder, entity, relationshipsToCreate);
-
-        ConfigureOwnedRelationships(codeGeneratorState, builder, entity, ownedRelationshipsToCreate);
-            
-        ConfigureUniqueAttributeConstraints(builder, entity);
-    }
-
     protected override IList<IndexBuilder> ConfigureUniqueAttributeConstraints(IEntityBuilder builder, Entity entity)
     {
         var result = base.ConfigureUniqueAttributeConstraints(builder, entity);
