@@ -16,8 +16,14 @@ namespace ClientApi.Application.Dto;
 /// <summary>
 /// Local names for countries.
 /// </summary>
-public partial class CountryLocalNameCreateDto : CountryLocalNameUpdateDto
-{
+public partial class CountryLocalNameCreateDto 
+{    
+    /// <summary>
+    /// Local name (Required).
+    /// </summary>
+    [Required(ErrorMessage = "Name is required")]
+    
+    public System.String Name { get; set; } = default!;
 
     public ClientApi.Domain.CountryLocalName ToEntity()
     {

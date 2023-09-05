@@ -14,7 +14,6 @@ namespace ClientApi.Application.Dto;
 /// </summary>
 public partial class CountryUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// The Country Name (Required).
     /// </summary>

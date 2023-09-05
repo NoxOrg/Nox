@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class CurrencyUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Currency's name (Required).
     /// </summary>

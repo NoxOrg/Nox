@@ -14,7 +14,6 @@ namespace SampleWebApp.Application.Dto;
 /// </summary>
 public partial class CountryLocalNameUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     ///  (Optional).
     /// </summary>

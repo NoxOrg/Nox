@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class CountryUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Country's name (Required).
     /// </summary>

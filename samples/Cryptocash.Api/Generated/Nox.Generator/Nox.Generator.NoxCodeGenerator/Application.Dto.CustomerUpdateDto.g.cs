@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class CustomerUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Customer's first name (Required).
     /// </summary>

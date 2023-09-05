@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class CashStockOrderUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Order amount (Required).
     /// </summary>

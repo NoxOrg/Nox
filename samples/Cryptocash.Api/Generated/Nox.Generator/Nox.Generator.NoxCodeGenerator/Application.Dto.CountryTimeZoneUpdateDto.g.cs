@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class CountryTimeZoneUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Country's related time zone code (Required).
     /// </summary>

@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class BookingUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Booking's amount exchanged from (Required).
     /// </summary>

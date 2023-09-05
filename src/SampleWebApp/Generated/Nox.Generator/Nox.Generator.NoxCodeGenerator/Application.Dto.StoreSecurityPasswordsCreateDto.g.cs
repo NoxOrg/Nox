@@ -16,13 +16,31 @@ namespace SampleWebApp.Application.Dto;
 /// <summary>
 /// A set of security passwords to store cameras and databases.
 /// </summary>
-public partial class StoreSecurityPasswordsCreateDto : StoreSecurityPasswordsUpdateDto
+public partial class StoreSecurityPasswordsCreateDto 
 {
     /// <summary>
     /// Passwords Primary Key (Required).
     /// </summary>
     [Required(ErrorMessage = "Id is required")]
-    public System.String Id { get; set; } = default!;
+    public System.String Id { get; set; } = default!;    
+    /// <summary>
+    ///  (Required).
+    /// </summary>
+    [Required(ErrorMessage = "Name is required")]
+    
+    public System.String Name { get; set; } = default!;    
+    /// <summary>
+    ///  (Required).
+    /// </summary>
+    [Required(ErrorMessage = "SecurityCamerasPassword is required")]
+    
+    public System.String SecurityCamerasPassword { get; set; } = default!;
+
+    /// <summary>
+    /// StoreSecurityPasswords Store with this set of passwords ExactlyOne Stores
+    /// </summary>
+    [Required(ErrorMessage = "StoreRel is required")]
+    public System.String StoreRelId { get; set; } = default!;
 
     public SampleWebApp.Domain.StoreSecurityPasswords ToEntity()
     {

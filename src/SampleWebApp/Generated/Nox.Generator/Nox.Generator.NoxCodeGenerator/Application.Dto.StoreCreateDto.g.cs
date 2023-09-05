@@ -16,13 +16,31 @@ namespace SampleWebApp.Application.Dto;
 /// <summary>
 /// Stores.
 /// </summary>
-public partial class StoreCreateDto : StoreUpdateDto
+public partial class StoreCreateDto 
 {
     /// <summary>
     /// Store Primary Key (Required).
     /// </summary>
     [Required(ErrorMessage = "Id is required")]
-    public System.String Id { get; set; } = default!;
+    public System.String Id { get; set; } = default!;    
+    /// <summary>
+    /// Store Name (Required).
+    /// </summary>
+    [Required(ErrorMessage = "Name is required")]
+    
+    public System.String Name { get; set; } = default!;    
+    /// <summary>
+    /// Physical Money in the Physical Store (Required).
+    /// </summary>
+    [Required(ErrorMessage = "PhysicalMoney is required")]
+    
+    public MoneyDto PhysicalMoney { get; set; } = default!;
+
+    /// <summary>
+    /// Store Store owner relationship ZeroOrOne StoreOwners
+    /// </summary>
+    
+    public System.String? OwnerRelId { get; set; } = default!;
 
     public SampleWebApp.Domain.Store ToEntity()
     {

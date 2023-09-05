@@ -16,8 +16,14 @@ namespace SampleWebApp.Application.Dto;
 /// <summary>
 /// The list of currencies.
 /// </summary>
-public partial class CurrencyCreateDto : CurrencyUpdateDto
-{
+public partial class CurrencyCreateDto 
+{    
+    /// <summary>
+    /// The currency's name (Required).
+    /// </summary>
+    [Required(ErrorMessage = "Name is required")]
+    
+    public System.String Name { get; set; } = default!;
 
     public SampleWebApp.Domain.Currency ToEntity()
     {

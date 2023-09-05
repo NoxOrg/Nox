@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class CommissionUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Commission rate (Required).
     /// </summary>
