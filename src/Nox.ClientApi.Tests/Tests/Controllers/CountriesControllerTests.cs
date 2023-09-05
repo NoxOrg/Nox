@@ -3,6 +3,7 @@ using ClientApi.Application.Dto;
 using AutoFixture;
 using Nox.Types;
 using System.Net;
+using System.Collections;
 
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
@@ -33,7 +34,38 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             result!.keyId.Should().BeGreaterThan(0);
         }
 
-        [Fact(Skip = "Fix issue with inner dto")]
+        [Fact]
+        public async Task Post_UseODataQuery_ReturnsData()
+        {
+            // Arrange
+            for (var i = 0; i < 5; i++)
+            {
+                var dto = new CountryCreateDto
+                {
+                    Name = _fixture.Create<string>(),
+                    Population = 1_000_000 * (i + 1)
+                };
+                await PostAsync<CountryCreateDto, CountryKeyDto>(CountryControllerName, dto);
+            }
+            // Act
+            const string oDataRequest = "$select=Name&$filter=population lt 3000000&$count=true";
+            var odataResponse = await GetAsync<ODataResponse<IEnumerable<CountryDto>>>($"{CountryControllerName}/?{oDataRequest}");
+            var results = odataResponse!.Value;
+
+            //Assert
+            const int expectedCountryCount = 2;
+
+            odataResponse.Count.Should().Be(expectedCountryCount);
+
+            results.Should()
+                .HaveCount(expectedCountryCount)
+                    .And
+                .AllSatisfy(x => x.Name.Should().NotBeNullOrEmpty())
+                    .And
+                .AllSatisfy(x=>x.Population.Should().BeNull());
+        }
+      
+        [Fact]
         public async Task Post_WithCompoundMoney_ReturnsDatabaseNumberId()
         {
             // Arrange
@@ -43,7 +75,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 Name = _fixture.Create<string>(),
                 CountryDebt = new MoneyDto(expectedAmount, CurrencyCode.AED)
             };
-
+             
             // Act
             var result = await PostAsync<CountryCreateDto, CountryKeyDto>(CountryControllerName, dto);
             var queryResult = await GetAsync<CountryDto>($"{CountryControllerName}/{result!.keyId}");

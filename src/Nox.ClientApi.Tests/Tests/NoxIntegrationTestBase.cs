@@ -1,4 +1,4 @@
-﻿using AutoFixture;
+﻿using Newtonsoft.Json;
 
 namespace Nox.ClientApi.Tests;
 
@@ -18,7 +18,8 @@ public abstract class NoxIntegrationTestBase : IClassFixture<NoxTestApplicationF
         var result = await httpClient.GetAsync(requestUrl);
         result.EnsureSuccessStatusCode();
 
-        var data = await result.Content.ReadFromJsonAsync<TResult>();
+        var content = await result.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<TResult>(content);
 
         return data;
     }
