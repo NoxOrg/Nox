@@ -8,7 +8,7 @@ using AutoFixture.AutoMoq;
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class CountriesControllerTests 
+    public class CountriesControllerTests
     {
         private const string CountryControllerName = "api/countries";
         private readonly Fixture _fixture;
@@ -66,9 +66,9 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                     .And
                 .AllSatisfy(x => x.Name.Should().NotBeNullOrEmpty())
                     .And
-                .AllSatisfy(x=>x.Population.Should().BeNull());
+                .AllSatisfy(x => x.Population.Should().BeNull());
         }
-      
+
         [Fact]
         public async Task Post_WithCompoundMoney_ReturnsDatabaseNumberId()
         {
@@ -79,7 +79,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 Name = _fixture.Create<string>(),
                 CountryDebt = new MoneyDto(expectedAmount, CurrencyCode.AED)
             };
-             
+
             // Act
             var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(CountryControllerName, dto);
             var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{CountryControllerName}/{result!.keyId}");
@@ -291,10 +291,71 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
 
             //Act
             var ownedResult = await _oDataFixture.PostAsync<CountryLocalNameCreateDto, CountryLocalNameDto>($"{CountryControllerName}/{result!.keyId}/CountryLocalNames", localNameDto);
-             
+
             //Assert
             ownedResult.Should().NotBeNull();
             ownedResult!.Id.Should().Be(expectedLocalNameId);
         }
+
+        #region Get
+
+        [Fact]
+        public async Task GetById_WhenSelect_ReturnsOnlySelectedFields()
+        {
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Population = 1_000_000,
+                CountryDebt = new MoneyDto(10, CurrencyCode.USD)
+            };
+            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(CountryControllerName, dto);
+
+            // Act
+            const string oDataRequest = "$select=Name";
+            var response = await _oDataFixture.GetAsync<CountryDto>($"{CountryControllerName}/{result!.keyId}/?{oDataRequest}");
+
+
+            //Assert
+            response.Should().NotBeNull();
+            response!.Name.Should().NotBeNullOrEmpty();
+            response.Population.Should().BeNull();
+            response.CountryDebt.Should().BeNull();
+
+        }
+
+        [Fact(Skip = "Needs Post for Owned entity")]
+        public async Task Get_WhenSelectOwnedEntity_ReturnsOnlySelectedOwnedEntityFields()
+        {
+            var expectedLocalName = "Lusitania";
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = "Portugal",
+                Population = 1_000_000,
+                CountryDebt = new MoneyDto(10, CurrencyCode.USD),
+                CountryLocalNames = new List<CountryLocalNameUpdateDto>() {
+                    new CountryLocalNameUpdateDto() { Name = "PT" },
+                        new CountryLocalNameUpdateDto() { Name = expectedLocalName }
+                }
+            };
+            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(CountryControllerName, dto);
+
+            // Act
+            const string oDataRequest = "$select=CountryLocalNames&$filter=CountryLocalNames(Name=Lusitania)";
+            var response = await _oDataFixture.GetAsync<CountryDto>($"{CountryControllerName}/{result!.keyId}/?{oDataRequest}");
+
+
+            //Assert
+            response.Should().NotBeNull();
+            response!.Name.Should().BeNull();
+            response.Population.Should().BeNull();
+            response.CountryDebt.Should().BeNull();
+
+            response.CountryLocalNames.Should().HaveCount(1);
+            response.CountryLocalNames.First().Name.Should().Be(expectedLocalName);
+
+        }
+        #endregion
     }
 }
