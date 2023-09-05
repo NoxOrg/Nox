@@ -39,10 +39,8 @@ public partial class PaymentProviderDto
     public System.String PaymentProviderType { get; set; } = default!;
 
     /// <summary>
-    /// PaymentProvider Payment provider ExactlyOne CustomerPaymentDetails
+    /// PaymentProvider related to ZeroOrMany PaymentDetails
     /// </summary>
-    //EF maps ForeignKey Automatically
-    public System.Int64 CustomerPaymentDetailsId { get; set; } = default!;
-    public virtual CustomerPaymentDetailsDto CustomerPaymentDetails { get; set; } = null!;
+    public virtual List<PaymentDetailDto> PaymentDetails { get; set; } = new();
     public System.DateTime? DeletedAtUtc { get; set; }    
 }

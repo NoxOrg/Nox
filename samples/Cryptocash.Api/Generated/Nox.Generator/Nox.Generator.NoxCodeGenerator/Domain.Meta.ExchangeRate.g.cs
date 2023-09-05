@@ -35,11 +35,4 @@ public partial class ExchangeRate
         => Nox.Types.DateTime.From(value);
     
 
-    /// <summary>
-    /// Type options and factory for property 'CurrencyId'
-    /// </summary>
-    public static Nox.Types.CurrencyCode3 CreateCurrencyId(System.String value)
-        => Nox.Types.CurrencyCode3.From(value);
-    
-
 }

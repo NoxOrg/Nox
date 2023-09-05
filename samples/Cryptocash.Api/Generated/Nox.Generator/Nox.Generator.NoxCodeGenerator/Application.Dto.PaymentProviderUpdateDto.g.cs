@@ -27,10 +27,4 @@ public partial class PaymentProviderUpdateDto
     [Required(ErrorMessage = "PaymentProviderType is required")]
     
     public System.String PaymentProviderType { get; set; } = default!;
-
-    /// <summary>
-    /// PaymentProvider Payment provider ExactlyOne CustomerPaymentDetails
-    /// </summary>
-    [Required(ErrorMessage = "CustomerPaymentDetails is required")]
-    public System.Int64 CustomerPaymentDetailsId { get; set; } = default!;
 }

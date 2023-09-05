@@ -19,11 +19,11 @@ namespace Cryptocash.Application.Dto;
 public partial class CommissionCreateDto : CommissionUpdateDto
 {
 
-    public Commission ToEntity()
+    public Cryptocash.Domain.Commission ToEntity()
     {
-        var entity = new Commission();
-        entity.Rate = Commission.CreateRate(Rate);
-        entity.EffectiveAt = Commission.CreateEffectiveAt(EffectiveAt);
+        var entity = new Cryptocash.Domain.Commission();
+        entity.Rate = Cryptocash.Domain.Commission.CreateRate(Rate);
+        entity.EffectiveAt = Cryptocash.Domain.Commission.CreateEffectiveAt(EffectiveAt);
         //entity.Country = Country?.ToEntity();
         //entity.Bookings = Bookings.Select(dto => dto.ToEntity()).ToList();
         return entity;

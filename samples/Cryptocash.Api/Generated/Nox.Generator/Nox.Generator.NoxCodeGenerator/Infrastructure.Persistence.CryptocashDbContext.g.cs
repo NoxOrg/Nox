@@ -48,23 +48,20 @@ public partial class CryptocashDbContext : DbContext
 
     public DbSet<Country> Countries { get; set; } = null!;
 
-    public DbSet<CountryHoliday> CountryHolidays { get; set; } = null!;
 
 
     public DbSet<Currency> Currencies { get; set; } = null!;
 
-    public DbSet<BankNotes> BankNotes { get; set; } = null!;
 
     public DbSet<Customer> Customers { get; set; } = null!;
 
-    public DbSet<CustomerPaymentDetails> CustomerPaymentDetails { get; set; } = null!;
+    public DbSet<PaymentDetail> PaymentDetails { get; set; } = null!;
 
-    public DbSet<CustomerTransaction> CustomerTransactions { get; set; } = null!;
+    public DbSet<Transaction> Transactions { get; set; } = null!;
 
     public DbSet<Employee> Employees { get; set; } = null!;
 
 
-    public DbSet<ExchangeRate> ExchangeRates { get; set; } = null!;
 
     public DbSet<LandLord> LandLords { get; set; } = null!;
 
@@ -74,7 +71,7 @@ public partial class CryptocashDbContext : DbContext
 
     public DbSet<VendingMachine> VendingMachines { get; set; } = null!;
 
-    public DbSet<VendingMachineOrder> VendingMachineOrders { get; set; } = null!;
+    public DbSet<CashStockOrder> CashStockOrders { get; set; } = null!;
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {

@@ -69,29 +69,29 @@ public partial class BookingDto
     public VatNumberDto? VatNumber { get; set; }
 
     /// <summary>
-    /// Booking Booking's customer ExactlyOne Customers
+    /// Booking for ExactlyOne Customers
     /// </summary>
     //EF maps ForeignKey Automatically
     public System.Int64 CustomerId { get; set; } = default!;
     public virtual CustomerDto Customer { get; set; } = null!;
 
     /// <summary>
-    /// Booking Booking's vending machine ExactlyOne VendingMachines
+    /// Booking related to ExactlyOne VendingMachines
     /// </summary>
     //EF maps ForeignKey Automatically
     public System.Guid VendingMachineId { get; set; } = default!;
     public virtual VendingMachineDto VendingMachine { get; set; } = null!;
 
     /// <summary>
-    /// Booking Booking's fee ExactlyOne Commissions
+    /// Booking fees for ExactlyOne Commissions
     /// </summary>
     //EF maps ForeignKey Automatically
     public System.Int64 FeeId { get; set; } = default!;
     public virtual CommissionDto Fee { get; set; } = null!;
 
     /// <summary>
-    /// Booking Transaction's booking ExactlyOne CustomerTransactions
+    /// Booking related to ExactlyOne Transactions
     /// </summary>
-    public virtual CustomerTransactionDto CustomerTransaction { get; set; } = null!;
+    public virtual TransactionDto Transaction { get; set; } = null!;
     public System.DateTime? DeletedAtUtc { get; set; }    
 }

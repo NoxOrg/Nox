@@ -39,14 +39,14 @@ public partial class CommissionDto
     public System.DateTimeOffset EffectiveAt { get; set; } = default!;
 
     /// <summary>
-    /// Commission Commission's country ZeroOrOne Countries
+    /// Commission fees for ZeroOrOne Countries
     /// </summary>
     //EF maps ForeignKey Automatically
     public System.String? CountryId { get; set; } = default!;
     public virtual CountryDto? Country { get; set; } = null!;
 
     /// <summary>
-    /// Commission Booking's fee ZeroOrMany Bookings
+    /// Commission fees for ZeroOrMany Bookings
     /// </summary>
     public virtual List<BookingDto> Booking { get; set; } = new();
     public System.DateTime? DeletedAtUtc { get; set; }    

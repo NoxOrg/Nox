@@ -61,6 +61,15 @@ public class EmployeeMapper : EntityMapperBase<Employee>
             entity.LastWorkingDay = noxTypeValue;
         }
     
+
+        /// <summary>
+        /// Employee reviewing ExactlyOne CashStockOrders
+        /// </summary>
+        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "EmployeeReviewingCashStockOrder", dto.CashStockOrderId);
+        if (noxTypeValue != null)
+        {        
+            entity.CashStockOrderId = noxTypeValue;
+        }
     }
 
     public override void PartialMapToEntity(Employee entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
@@ -154,5 +163,16 @@ public class EmployeeMapper : EntityMapperBase<Employee>
         }
     
     
+        /// <summary>
+        /// Employee reviewing ExactlyOne CashStockOrders
+        /// </summary>
+        if (updatedProperties.TryGetValue("CashStockOrderId", out value))
+        {
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "EmployeeReviewingCashStockOrder", value);
+            if (noxRelationshipTypeValue != null)
+            {        
+                entity.CashStockOrderId = noxRelationshipTypeValue;
+            }
+        }
     }
 }

@@ -68,18 +68,18 @@ public class VendingMachineMapper : EntityMapperBase<VendingMachine>
     
 
         /// <summary>
-        /// VendingMachine Vending machine's country ExactlyOne Countries
+        /// VendingMachine installed in ExactlyOne Countries
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "Country", dto.CountryId);
+        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "VendingMachineInstallationCountry", dto.CountryId);
         if (noxTypeValue != null)
         {        
             entity.CountryId = noxTypeValue;
         }
 
         /// <summary>
-        /// VendingMachine Area of the vending machine installation landlord ExactlyOne LandLords
+        /// VendingMachine contracted area leased by ExactlyOne LandLords
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "LandLord", dto.LandLordId);
+        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "VendingMachineContractedAreaLandLord", dto.LandLordId);
         if (noxTypeValue != null)
         {        
             entity.LandLordId = noxTypeValue;
@@ -192,22 +192,22 @@ public class VendingMachineMapper : EntityMapperBase<VendingMachine>
     
     
         /// <summary>
-        /// VendingMachine Vending machine's country ExactlyOne Countries
+        /// VendingMachine installed in ExactlyOne Countries
         /// </summary>
         if (updatedProperties.TryGetValue("CountryId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "Country", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "VendingMachineInstallationCountry", value);
             if (noxRelationshipTypeValue != null)
             {        
                 entity.CountryId = noxRelationshipTypeValue;
             }
         }
         /// <summary>
-        /// VendingMachine Area of the vending machine installation landlord ExactlyOne LandLords
+        /// VendingMachine contracted area leased by ExactlyOne LandLords
         /// </summary>
         if (updatedProperties.TryGetValue("LandLordId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "LandLord", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "VendingMachineContractedAreaLandLord", value);
             if (noxRelationshipTypeValue != null)
             {        
                 entity.LandLordId = noxRelationshipTypeValue;

@@ -38,18 +38,9 @@ public class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
     
 
         /// <summary>
-        /// MinimumCashStock Vending machine's minimum cash stock ExactlyOne VendingMachines
+        /// MinimumCashStock related to ExactlyOne Currencies
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "VendingMachine", dto.VendingMachineId);
-        if (noxTypeValue != null)
-        {        
-            entity.VendingMachineId = noxTypeValue;
-        }
-
-        /// <summary>
-        /// MinimumCashStock Cash stock's currency ExactlyOne Currencies
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "Currency", dto.CurrencyId);
+        noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "MinimumCashStockRelatedCurrency", dto.CurrencyId);
         if (noxTypeValue != null)
         {        
             entity.CurrencyId = noxTypeValue;
@@ -78,22 +69,11 @@ public class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
     
     
         /// <summary>
-        /// MinimumCashStock Vending machine's minimum cash stock ExactlyOne VendingMachines
-        /// </summary>
-        if (updatedProperties.TryGetValue("VendingMachineId", out value))
-        {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "VendingMachine", value);
-            if (noxRelationshipTypeValue != null)
-            {        
-                entity.VendingMachineId = noxRelationshipTypeValue;
-            }
-        }
-        /// <summary>
-        /// MinimumCashStock Cash stock's currency ExactlyOne Currencies
+        /// MinimumCashStock related to ExactlyOne Currencies
         /// </summary>
         if (updatedProperties.TryGetValue("CurrencyId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "Currency", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "MinimumCashStockRelatedCurrency", value);
             if (noxRelationshipTypeValue != null)
             {        
                 entity.CurrencyId = noxRelationshipTypeValue;

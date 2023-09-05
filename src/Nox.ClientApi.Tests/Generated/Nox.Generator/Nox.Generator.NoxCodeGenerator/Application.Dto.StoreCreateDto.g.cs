@@ -19,10 +19,10 @@ namespace ClientApi.Application.Dto;
 public partial class StoreCreateDto : StoreUpdateDto
 {
 
-    public Store ToEntity()
+    public ClientApi.Domain.Store ToEntity()
     {
-        var entity = new Store();
-        entity.Name = Store.CreateName(Name);
+        var entity = new ClientApi.Domain.Store();
+        entity.Name = ClientApi.Domain.Store.CreateName(Name);
         //entity.StoreOwner = StoreOwner?.ToEntity();
         //entity.EmailAddress = EmailAddress?.ToEntity();
         return entity;
