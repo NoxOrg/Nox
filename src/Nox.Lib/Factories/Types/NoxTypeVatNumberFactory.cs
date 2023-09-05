@@ -17,7 +17,7 @@ namespace Nox.Factories.Types
                 return null;
             }
 
-            return VatNumber.From(value.Number, value.CountryCode2);
+            return VatNumber.From(value.Number, value.CountryCode);
         }
     }
 }

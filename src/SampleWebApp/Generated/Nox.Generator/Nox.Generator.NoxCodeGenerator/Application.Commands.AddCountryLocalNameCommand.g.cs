@@ -22,16 +22,13 @@ public record AddCountryLocalNameCommand(CountryKeyDto ParentKeyDto, CountryLoca
 public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLocalNameCommand, CountryLocalName>, IRequestHandler <AddCountryLocalNameCommand, CountryLocalNameKeyDto?>
 {
 	public SampleWebAppDbContext DbContext { get; }
-	public IEntityFactory<CountryLocalNameCreateDto,CountryLocalName> EntityFactory { get; }
 
 	public AddCountryLocalNameCommandHandler(
 		SampleWebAppDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<CountryLocalNameCreateDto,CountryLocalName> entityFactory): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
-		EntityFactory = entityFactory;
+		DbContext = dbContext;		
 	}
 
 	public async Task<CountryLocalNameKeyDto?> Handle(AddCountryLocalNameCommand request, CancellationToken cancellationToken)
@@ -45,7 +42,7 @@ public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLo
 			return null;
 		}
 
-		var entity = EntityFactory.CreateEntity(request.EntityDto);
+		var entity = request.EntityDto.ToEntity();
 		
 		parentEntity.CountryLocalNames.Add(entity);
 

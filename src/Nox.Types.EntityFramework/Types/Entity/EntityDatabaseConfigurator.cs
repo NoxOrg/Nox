@@ -7,7 +7,7 @@ namespace Nox.Types.EntityFramework.Types;
 
 public class EntityDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
-    public NoxType ForNoxType => NoxType.Entity;
+    public NoxType ForNoxType => NoxType.EntityId;
     public bool IsDefault => true;
 
     public void ConfigureEntityProperty(
@@ -27,9 +27,9 @@ public class EntityDatabaseConfigurator : INoxTypeDatabaseConfigurator
         return $"{typeOptions.Entity}Id";
     }
 
-    private static EntityTypeOptions GetTypeOptions(NoxSimpleTypeDefinition property)
+    private static EntityIdTypeOptions GetTypeOptions(NoxSimpleTypeDefinition property)
     {
-        var typeOptions = property.EntityTypeOptions;
+        var typeOptions = property.EntityIdTypeOptions;
 
         if (typeOptions == null)
         {

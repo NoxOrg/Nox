@@ -1,12 +1,16 @@
 ﻿// Generated
 
 #nullable enable
-using MediatR;
+
 using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations.Schema;
+
+using MediatR;
+
 using Nox.Types;
 using Nox.Domain;
-//using Cryptocash.Application.DataTransferObjects;
+using Nox.Extensions;
+
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -32,5 +36,5 @@ public partial class EmployeePhoneNumberDto
     /// <summary>
     /// Employee's phone number (Required).
     /// </summary>
-    public System.String PhoneNumber { get; set; } = default!;
+    public System.String PhoneNumber { get; set; } = default!;    
 }

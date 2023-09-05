@@ -22,7 +22,7 @@ public record VatNumberDto(System.String Number,Nox.Types.CountryCode CountryCod
 public record PasswordDto(System.String HashedPassword,System.String Salt) : IPassword;
 
 [Owned]
-public record EntityDto(System.String Type,System.UInt32 Id) : IEntity;
+public record EntityIdDto(System.String Type,System.UInt32 Id) : IEntityId;
 
 [Owned]
 public record MoneyDto(System.Decimal Amount,Nox.Types.CurrencyCode CurrencyCode) : IMoney;

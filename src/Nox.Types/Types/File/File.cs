@@ -66,6 +66,17 @@ public sealed class File : ValueObject<(string Url, string PrettyName, ulong Siz
         return newObject;
     }
 
+
+    /// <summary>
+    /// Creates an instance of the <see cref="File"/> class with default options from the specified <see cref="IFile"/> value.
+    /// </summary>
+    /// <param name="value">A value conforming to the <see cref="IFile"/> interface.</param>
+    public static File From(IFile value) 
+        => From(value.Url, value.PrettyName, value.SizeInBytes);
+    
+    public static File From(IFile value, FileTypeOptions options) 
+        => From(value.Url, value.PrettyName, value.SizeInBytes, options);
+
     /// <summary>
     /// Creates an instance of the <see cref="File"/> class with default options from the specified URL, pretty name and size in bytes.
     /// </summary>

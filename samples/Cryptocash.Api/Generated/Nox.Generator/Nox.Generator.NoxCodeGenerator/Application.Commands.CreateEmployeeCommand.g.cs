@@ -22,16 +22,13 @@ public record CreateEmployeeCommand(EmployeeCreateDto EntityDto) : IRequest<Empl
 public partial class CreateEmployeeCommandHandler: CommandBase<CreateEmployeeCommand,Employee>, IRequestHandler <CreateEmployeeCommand, EmployeeKeyDto>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityFactory<EmployeeCreateDto,Employee> EntityFactory { get; }
 
 	public CreateEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<EmployeeCreateDto,Employee> entityFactory): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory;
 	}
 
 	public async Task<EmployeeKeyDto> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
@@ -39,7 +36,7 @@ public partial class CreateEmployeeCommandHandler: CommandBase<CreateEmployeeCom
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = request.EntityDto.ToEntity();
 	
 		OnCompleted(entityToCreate);
 		DbContext.Employees.Add(entityToCreate);
