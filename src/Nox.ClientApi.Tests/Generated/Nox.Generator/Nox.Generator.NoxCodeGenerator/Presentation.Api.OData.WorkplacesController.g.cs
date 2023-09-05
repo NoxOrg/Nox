@@ -48,6 +48,7 @@ public partial class WorkplacesController : ODataController
         return Ok(result);
     }
     
+    [EnableQuery]
     public async Task<ActionResult<WorkplaceDto>> Get([FromRoute] System.Guid key)
     {
         var item = await _mediator.Send(new GetWorkplaceByIdQuery(key));

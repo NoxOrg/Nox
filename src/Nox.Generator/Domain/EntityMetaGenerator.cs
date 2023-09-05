@@ -4,14 +4,11 @@ using Nox.Solution;
 using Nox.Solution.Extensions;
 using Nox.Types;
 using Nox.Types.Extensions;
-using System;
-using System.Collections;
 using System.Linq;
-using YamlDotNet.Core.Tokens;
 
 namespace Nox.Generator.Domain.ModelGenerator;
 
-internal class EntitiesMetaGenerator : INoxCodeGenerator
+internal class EntityMetaGenerator : INoxCodeGenerator
 {
     public NoxGeneratorKind GeneratorKind => NoxGeneratorKind.Domain;
 

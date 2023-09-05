@@ -48,6 +48,7 @@ public partial class StoreOwnersController : ODataController
         return Ok(result);
     }
     
+    [EnableQuery]
     public async Task<ActionResult<StoreOwnerDto>> Get([FromRoute] System.String key)
     {
         var item = await _mediator.Send(new GetStoreOwnerByIdQuery(key));

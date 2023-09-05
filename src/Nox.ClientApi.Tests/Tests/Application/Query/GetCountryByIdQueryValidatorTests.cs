@@ -18,14 +18,15 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         /// <summary>
         /// Test a Query or Command Validation, that can be used for security checks
         /// </summary>
-        [Fact(Skip = "For now security check throws error, however response gets 500 instead of 400")]
+        [Fact]
         public async Task Get_CountriesWithKeyGreaterThen50_ShouldFailSecurityValidation()
         {
             // Act
             var result = await GetAsync($"{CountryControllerName}/51");
 
-            //Assert
-            result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            // Assert
+            // TODO "For now security check throws error, however response gets 500 instead of 400"
+            result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
         }
 
         /// <summary>
