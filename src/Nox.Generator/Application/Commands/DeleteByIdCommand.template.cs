@@ -13,7 +13,7 @@ using {{entity.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public record Delete{{entity.Name }}ByIdCommand({{primaryKeys}}) : IRequest<bool>;
+public record Delete{{entity.Name }}ByIdCommand({{primaryKeys}}{{ if !entity.IsOwnedEntity }}, System.Guid? Etag{{end}}) : IRequest<bool>;
 
 public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase<Delete{{entity.Name}}ByIdCommand,{{entity.Name}}>, IRequestHandler<Delete{{entity.Name}}ByIdCommand, bool>
 {
@@ -42,6 +42,10 @@ public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase<Delete{{entity
 		{
 			return false;
 		}
+		{{- if !entity.IsOwnedEntity }}
+
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
+		{{- end }}
 
 		OnCompleted(entity);
 		

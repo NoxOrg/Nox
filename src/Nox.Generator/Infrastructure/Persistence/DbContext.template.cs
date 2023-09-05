@@ -5,6 +5,8 @@
 using Nox;
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Exceptions;
+using Nox.Extensions;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;
@@ -78,14 +80,25 @@ public partial class {{className}} : DbContext
                     ((INoxDatabaseConfigurator)_dbProvider).ConfigureEntity(codeGeneratorState, new EntityBuilderAdapter(modelBuilder.Entity(type)), entity);
                 }
             }
+
+            modelBuilder.ForEntitiesOfType<IConcurrent>(
+                builder => builder.Property(nameof(IConcurrent.Etag)).IsConcurrencyToken());
         }
     }
 
     /// <inheritdoc/>
     public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = new CancellationToken())
     {
-        AuditEntities();
-        return await base.SaveChangesAsync(cancellationToken);
+        try
+        {
+            AuditEntities();
+            return await base.SaveChangesAsync(cancellationToken);
+
+        }
+        catch(DbUpdateConcurrencyException)
+        {
+            throw new ConcurrencyException($"Latest value of {nameof(IConcurrent.Etag)} must be provided");
+        }
     }
 
     private void AuditEntities()
@@ -95,6 +108,11 @@ public partial class {{className}} : DbContext
         foreach (var entry in ChangeTracker.Entries<AuditableEntityBase>())
         {
             AuditEntity(entry);
+        }
+
+        foreach (var entry in ChangeTracker.Entries<IConcurrent>())
+        {
+            TrackConcurrency(entry);
         }
     }
 
@@ -116,6 +134,21 @@ public partial class {{className}} : DbContext
             case EntityState.Deleted:
                 entry.State = EntityState.Modified;
                 entry.Entity.Deleted(user, system);
+                break;
+        }
+    }
+
+    private void TrackConcurrency(EntityEntry<IConcurrent> entry)
+    {
+        switch (entry.State)
+        {
+            case EntityState.Added:
+                entry.Property(e => e.Etag).CurrentValue = Nox.Types.Guid.NewGuid();
+                break;
+
+            case EntityState.Modified:
+                entry.Property(e => e.Etag).OriginalValue = entry.Property(p => p.Etag).CurrentValue;
+                entry.Property(e => e.Etag).CurrentValue = Nox.Types.Guid.NewGuid();
                 break;
         }
     }

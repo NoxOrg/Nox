@@ -12,6 +12,7 @@ namespace Nox.Types.EntityFramework.Configurations
         protected readonly Dictionary<NoxType, INoxTypeDatabaseConfigurator> TypesDatabaseConfigurations = new();
 
         private static readonly NoxSimpleTypeDefinition[] AuditableEntityAttributes = new AuditableEntityBaseConfiguration().ToArray();
+        private static readonly NoxSimpleTypeDefinition[] ConcurrentEntityAttributes = new ConcurrentEntityConfiguration().ToArray();
 
         /// <summary>
         ///
@@ -258,7 +259,7 @@ namespace Nox.Types.EntityFramework.Configurations
 
         private static List<NoxSimpleTypeDefinition> GetAllEntityAttributes(Entity entity)
         {
-            var totalCapacity = entity.Attributes?.Count ?? 0 + AuditableEntityAttributes.Length;
+            var totalCapacity = entity.Attributes?.Count ?? 0 + AuditableEntityAttributes.Length + ConcurrentEntityAttributes.Length;
             var allEntityAttributes = new List<NoxSimpleTypeDefinition>(totalCapacity);
 
             if (entity.Attributes is { Count: > 0 })
@@ -270,6 +271,11 @@ namespace Nox.Types.EntityFramework.Configurations
             if (entity.Persistence?.IsAudited == true && !entity.IsOwnedEntity)
             {
                 allEntityAttributes.AddRange(AuditableEntityAttributes);
+            }
+
+            if (!entity.IsOwnedEntity)
+            {
+                allEntityAttributes.AddRange(ConcurrentEntityAttributes);
             }
 
             return allEntityAttributes;

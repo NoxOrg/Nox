@@ -77,5 +77,9 @@ public partial class {{className}}
 
 {{- if !entity.IsOwnedEntity && entity.Persistence?.IsAudited == true}}
     public System.DateTime? DeletedAtUtc { get; set; }
-{{- end }}    
+{{- end }}
+{{- if !entity.IsOwnedEntity }}
+
+    public System.Guid Etag { get; set; }
+{{- end }}
 }

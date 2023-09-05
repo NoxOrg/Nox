@@ -13,7 +13,7 @@ namespace {{codeGeneratorState.DomainNameSpace}};
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase{{else}}EntityBase{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
+public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.Persistence?.IsAudited}}AuditableEntityBase, IConcurrent{{else}}EntityBase, IConcurrent{{end}}{{else}} : EntityBase, IOwnedEntity{{end}}
 {
 {{- for key in entity.Keys }}
     /// <summary>
@@ -100,4 +100,11 @@ public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.P
      public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
     {{-end}}
 {{- end }}
+
+{{ if !entity.IsOwnedEntity ~}}
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
+{{ end ~}}
 }

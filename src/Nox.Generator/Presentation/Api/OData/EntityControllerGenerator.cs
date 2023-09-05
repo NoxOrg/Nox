@@ -190,8 +190,18 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand({PrimaryKeysQuery(entity)}));");
+        if (!entity.IsOwnedEntity)
+        {
+            code.AppendLine("var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();");
+            code.AppendLine("System.Guid? etag = System.Guid.TryParse(ifMatchValue, out System.Guid parsedValue) ? parsedValue : null; ");
+            code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand({PrimaryKeysQuery(entity)}, etag));");
+        }
+        else
+        {
+            code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand({PrimaryKeysQuery(entity)}));");
+        }
 
+        code.AppendLine();
         code.AppendLine($"if (!result)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
@@ -215,7 +225,18 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({PrimaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}));");
+
+        if (!entity.IsOwnedEntity)
+        {
+            code.AppendLine("var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();");
+            code.AppendLine("System.Guid? etag = System.Guid.TryParse(ifMatchValue, out System.Guid parsedValue) ? parsedValue : null; ");
+            code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({PrimaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}, etag));");
+        }
+        else
+        {
+            code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({PrimaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}));");
+        }
+
         code.AppendLine();
 
         code.AppendLine($"if (updated is null)");
@@ -240,6 +261,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.StartBlock();
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
+        code.AppendLine();
         code.AppendLine(@$"var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in {entity.Name.ToLowerFirstChar()}.GetChangedPropertyNames())
@@ -250,7 +272,18 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             }}           
         }}");
         code.AppendLine();
-        code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties));");
+
+        if (!entity.IsOwnedEntity)
+        {
+            code.AppendLine("var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();");
+            code.AppendLine("System.Guid? etag = System.Guid.TryParse(ifMatchValue, out System.Guid parsedValue) ? parsedValue : null; ");
+            code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties, etag));");
+        }
+        else
+        {
+            code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties));");
+        }
+
         code.AppendLine();
 
         code.AppendLine($"if (updated is null)");

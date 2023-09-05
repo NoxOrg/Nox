@@ -2,6 +2,8 @@
 using System.Text.Json;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+
+using Nox.Exceptions;
 using Nox.Types;
 
 namespace Nox.Lib;
@@ -29,6 +31,10 @@ public class NoxExceptionHanderMiddleware
         {
             await HandleTypeValidationExceptionAsync(httpContext, ex);
         }
+        catch(ConcurrencyException ex)
+        {
+            await HandleConcurrencyExceptionAsync(httpContext, ex);
+        }
         catch (Exception ex)
         {
             await CommonHandleExceptionAsync(httpContext, ex, ex.Message);
@@ -45,12 +51,17 @@ public class NoxExceptionHanderMiddleware
         await CommonHandleExceptionAsync(context, exception, message);
     }
 
-    private async Task CommonHandleExceptionAsync(HttpContext context, Exception exception, string? errorMessage)
+    private async Task HandleConcurrencyExceptionAsync(HttpContext context, ConcurrencyException exception)
+    {
+        await CommonHandleExceptionAsync(context, exception, exception.Message, HttpStatusCode.Conflict);
+    }
+
+    private async Task CommonHandleExceptionAsync(HttpContext context, Exception exception, string? errorMessage, HttpStatusCode httpStatusCode = HttpStatusCode.InternalServerError)
     {
         var message = $"Error occured during request: {context.Request?.Path}.Error: {errorMessage}";
         _logger.LogError(exception, message);
 
-        var statusCode = (int)HttpStatusCode.InternalServerError;
+        var statusCode = (int)httpStatusCode;
         if (!context.Response.HasStarted)
         {
             context.Response.ContentType = "application/json";
