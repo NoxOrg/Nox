@@ -31,12 +31,9 @@ public partial class PaymentProvider : AuditableEntityBase
     public Nox.Types.Text PaymentProviderType { get; set; } = null!;
 
     /// <summary>
-    /// PaymentProvider Payment provider ExactlyOne CustomerPaymentDetails
+    /// PaymentProvider related to ZeroOrMany PaymentDetails
     /// </summary>
-    public virtual CustomerPaymentDetails CustomerPaymentDetails { get; set; } = null!;
+    public virtual List<PaymentDetail> PaymentDetails { get; set; } = new();
 
-    /// <summary>
-    /// Foreign key for relationship ExactlyOne to entity CustomerPaymentDetails
-    /// </summary>
-    public Nox.Types.DatabaseNumber CustomerPaymentDetailsId { get; set; } = null!;
+    public List<PaymentDetail> PaymentProviderRelatedPaymentDetails => PaymentDetails;
 }

@@ -24,9 +24,9 @@ public partial class CountryLocalNameCreateDto : CountryLocalNameUpdateDto
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
 
-    public CountryLocalName ToEntity()
+    public SampleWebApp.Domain.CountryLocalName ToEntity()
     {
-        var entity = new CountryLocalName();
+        var entity = new SampleWebApp.Domain.CountryLocalName();
         entity.Id = CountryLocalName.CreateId(Id);
         return entity;
     }

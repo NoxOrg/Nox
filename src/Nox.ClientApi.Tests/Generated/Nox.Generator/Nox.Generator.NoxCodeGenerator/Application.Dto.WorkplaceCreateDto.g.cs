@@ -19,10 +19,10 @@ namespace ClientApi.Application.Dto;
 public partial class WorkplaceCreateDto : WorkplaceUpdateDto
 {
 
-    public Workplace ToEntity()
+    public ClientApi.Domain.Workplace ToEntity()
     {
-        var entity = new Workplace();
-        entity.Name = Workplace.CreateName(Name);
+        var entity = new ClientApi.Domain.Workplace();
+        entity.Name = ClientApi.Domain.Workplace.CreateName(Name);
         return entity;
     }
 }

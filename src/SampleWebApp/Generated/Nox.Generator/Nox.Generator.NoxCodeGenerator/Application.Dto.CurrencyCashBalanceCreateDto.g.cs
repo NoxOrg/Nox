@@ -29,13 +29,13 @@ public partial class CurrencyCashBalanceCreateDto : CurrencyCashBalanceUpdateDto
     [Required(ErrorMessage = "CurrencyId is required")]
     public System.UInt32 CurrencyId { get; set; } = default!;
 
-    public CurrencyCashBalance ToEntity()
+    public SampleWebApp.Domain.CurrencyCashBalance ToEntity()
     {
-        var entity = new CurrencyCashBalance();
+        var entity = new SampleWebApp.Domain.CurrencyCashBalance();
         entity.StoreId = CurrencyCashBalance.CreateStoreId(StoreId);
         entity.CurrencyId = CurrencyCashBalance.CreateCurrencyId(CurrencyId);
-        entity.Amount = CurrencyCashBalance.CreateAmount(Amount);
-        if (OperationLimit is not null)entity.OperationLimit = CurrencyCashBalance.CreateOperationLimit(OperationLimit.NonNullValue<System.Decimal>());
+        entity.Amount = SampleWebApp.Domain.CurrencyCashBalance.CreateAmount(Amount);
+        if (OperationLimit is not null)entity.OperationLimit = SampleWebApp.Domain.CurrencyCashBalance.CreateOperationLimit(OperationLimit.NonNullValue<System.Decimal>());
         return entity;
     }
 }

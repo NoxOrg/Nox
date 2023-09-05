@@ -31,9 +31,9 @@ public partial class LandLord : AuditableEntityBase
     public Nox.Types.StreetAddress Address { get; set; } = null!;
 
     /// <summary>
-    /// LandLord Landlord's area of the vending machine installation ZeroOrMany VendingMachines
+    /// LandLord leases an area to house ZeroOrMany VendingMachines
     /// </summary>
     public virtual List<VendingMachine> VendingMachines { get; set; } = new();
 
-    public List<VendingMachine> VendingMachine => VendingMachines;
+    public List<VendingMachine> ContractedAreasForVendingMachines => VendingMachines;
 }

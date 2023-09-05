@@ -24,25 +24,25 @@ public partial class CountryCreateDto : CountryUpdateDto
     [Required(ErrorMessage = "Id is required")]
     public System.String Id { get; set; } = default!;
 
-    public Country ToEntity()
+    public SampleWebApp.Domain.Country ToEntity()
     {
-        var entity = new Country();
+        var entity = new SampleWebApp.Domain.Country();
         entity.Id = Country.CreateId(Id);
-        entity.Name = Country.CreateName(Name);
-        entity.FormalName = Country.CreateFormalName(FormalName);
-        entity.AlphaCode3 = Country.CreateAlphaCode3(AlphaCode3);
-        entity.AlphaCode2 = Country.CreateAlphaCode2(AlphaCode2);
-        entity.NumericCode = Country.CreateNumericCode(NumericCode);
-        if (DialingCodes is not null)entity.DialingCodes = Country.CreateDialingCodes(DialingCodes.NonNullValue<System.String>());
-        if (Capital is not null)entity.Capital = Country.CreateCapital(Capital.NonNullValue<System.String>());
-        if (Demonym is not null)entity.Demonym = Country.CreateDemonym(Demonym.NonNullValue<System.String>());
-        entity.AreaInSquareKilometres = Country.CreateAreaInSquareKilometres(AreaInSquareKilometres);
-        if (GeoCoord is not null)entity.GeoCoord = Country.CreateGeoCoord(GeoCoord.NonNullValue<LatLongDto>());
-        entity.GeoRegion = Country.CreateGeoRegion(GeoRegion);
-        entity.GeoSubRegion = Country.CreateGeoSubRegion(GeoSubRegion);
-        entity.GeoWorldRegion = Country.CreateGeoWorldRegion(GeoWorldRegion);
-        if (Population is not null)entity.Population = Country.CreatePopulation(Population.NonNullValue<System.Int32>());
-        if (TopLevelDomains is not null)entity.TopLevelDomains = Country.CreateTopLevelDomains(TopLevelDomains.NonNullValue<System.String>());
+        entity.Name = SampleWebApp.Domain.Country.CreateName(Name);
+        entity.FormalName = SampleWebApp.Domain.Country.CreateFormalName(FormalName);
+        entity.AlphaCode3 = SampleWebApp.Domain.Country.CreateAlphaCode3(AlphaCode3);
+        entity.AlphaCode2 = SampleWebApp.Domain.Country.CreateAlphaCode2(AlphaCode2);
+        entity.NumericCode = SampleWebApp.Domain.Country.CreateNumericCode(NumericCode);
+        if (DialingCodes is not null)entity.DialingCodes = SampleWebApp.Domain.Country.CreateDialingCodes(DialingCodes.NonNullValue<System.String>());
+        if (Capital is not null)entity.Capital = SampleWebApp.Domain.Country.CreateCapital(Capital.NonNullValue<System.String>());
+        if (Demonym is not null)entity.Demonym = SampleWebApp.Domain.Country.CreateDemonym(Demonym.NonNullValue<System.String>());
+        entity.AreaInSquareKilometres = SampleWebApp.Domain.Country.CreateAreaInSquareKilometres(AreaInSquareKilometres);
+        if (GeoCoord is not null)entity.GeoCoord = SampleWebApp.Domain.Country.CreateGeoCoord(GeoCoord.NonNullValue<LatLongDto>());
+        entity.GeoRegion = SampleWebApp.Domain.Country.CreateGeoRegion(GeoRegion);
+        entity.GeoSubRegion = SampleWebApp.Domain.Country.CreateGeoSubRegion(GeoSubRegion);
+        entity.GeoWorldRegion = SampleWebApp.Domain.Country.CreateGeoWorldRegion(GeoWorldRegion);
+        if (Population is not null)entity.Population = SampleWebApp.Domain.Country.CreatePopulation(Population.NonNullValue<System.Int32>());
+        if (TopLevelDomains is not null)entity.TopLevelDomains = SampleWebApp.Domain.Country.CreateTopLevelDomains(TopLevelDomains.NonNullValue<System.String>());
         return entity;
     }
 }

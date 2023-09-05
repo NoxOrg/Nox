@@ -62,6 +62,38 @@ public partial class CurrenciesController : ODataController
         return Ok(item);
     }
     
+    public async Task<ActionResult> PostToBankNotes([FromRoute] System.String key, [FromBody] BankNoteCreateDto bankNote)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdKey = await _mediator.Send(new AddBankNoteCommand(new CurrencyKeyDto(key), bankNote));
+        if (createdKey == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(new BankNoteDto { Id = createdKey.keyId });
+    }
+    
+    public async Task<ActionResult> PostToExchangeRates([FromRoute] System.String key, [FromBody] ExchangeRateCreateDto exchangeRate)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdKey = await _mediator.Send(new AddExchangeRateCommand(new CurrencyKeyDto(key), exchangeRate));
+        if (createdKey == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(new ExchangeRateDto { Id = createdKey.keyId });
+    }
+    
     [HttpPost]
     public async Task<ActionResult> Post([FromBody]CurrencyCreateDto currency)
     {

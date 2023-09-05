@@ -31,9 +31,11 @@ public partial class Commission : AuditableEntityBase
     public Nox.Types.DateTime EffectiveAt { get; set; } = null!;
 
     /// <summary>
-    /// Commission Commission's country ZeroOrOne Countries
+    /// Commission fees for ZeroOrOne Countries
     /// </summary>
     public virtual Country? Country { get; set; } = null!;
+
+    public Country? CommissionFeesForCountry => Country;
 
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity Country
@@ -41,9 +43,9 @@ public partial class Commission : AuditableEntityBase
     public Nox.Types.CountryCode2? CountryId { get; set; } = null!;
 
     /// <summary>
-    /// Commission Booking's fee ZeroOrMany Bookings
+    /// Commission fees for ZeroOrMany Bookings
     /// </summary>
     public virtual List<Booking> Bookings { get; set; } = new();
 
-    public List<Booking> Booking => Bookings;
+    public List<Booking> CommissionFeesForBooking => Bookings;
 }
