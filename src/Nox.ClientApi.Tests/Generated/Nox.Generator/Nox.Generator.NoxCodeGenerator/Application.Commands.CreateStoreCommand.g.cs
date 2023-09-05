@@ -37,7 +37,7 @@ public partial class CreateStoreCommandHandler: CommandBase<CreateStoreCommand,S
 		OnExecuting(request);
 
 		var entityToCreate = request.EntityDto.ToEntity();
-		entityToCreate.EnsureId();
+		entityToCreate.EnsureId();		
 	
 		OnCompleted(entityToCreate);
 		DbContext.Stores.Add(entityToCreate);

@@ -77,6 +77,47 @@ public partial class EmployeesController : ODataController
         return Created(new EmployeePhoneNumberDto { Id = createdKey.keyId });
     }
     
+    public async Task<ActionResult> PutToEmployeePhoneNumbers([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromBody] EmployeePhoneNumberUpdateDto employeePhoneNumber)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var updatedKey = await _mediator.Send(new UpdateEmployeePhoneNumberCommand(new EmployeeKeyDto(key), new EmployeePhoneNumberKeyDto(relatedKey), employeePhoneNumber));
+        if (updatedKey == null)
+        {
+            return NotFound();
+        }
+        
+        return Updated(new EmployeePhoneNumberDto { Id = updatedKey.keyId });
+    }
+    
+    public async Task<ActionResult> PatchToEmployeePhoneNumbers([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<EmployeePhoneNumberUpdateDto> employeePhoneNumber)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in employeePhoneNumber.GetChangedPropertyNames())
+        {
+            if(employeePhoneNumber.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var updated = await _mediator.Send(new PartialUpdateEmployeePhoneNumberCommand(new EmployeeKeyDto(key), updateProperties));
+        
+        if (updated is null)
+        {
+            return NotFound();
+        }
+        return Updated(new EmployeePhoneNumberDto { Id = updated.keyId });
+    }
+    
     public async Task<ActionResult> Post([FromBody]EmployeeCreateDto employee)
     {
         if (!ModelState.IsValid)

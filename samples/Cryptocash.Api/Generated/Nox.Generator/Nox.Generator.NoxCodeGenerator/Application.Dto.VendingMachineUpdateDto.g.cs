@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class VendingMachineUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Vending machine mac address (Required).
     /// </summary>

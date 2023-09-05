@@ -72,7 +72,6 @@
 
 	<ItemGroup>
 	  <Folder Include="Generated\Nox.Generator\Nox.Generator.NoxCodeGenerator\" />
-	  <Folder Include="Migrations\" />
 	</ItemGroup>
 
 </Project>

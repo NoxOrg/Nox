@@ -36,7 +36,7 @@ public partial class CreateMinimumCashStockCommandHandler: CommandBase<CreateMin
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();
+		var entityToCreate = request.EntityDto.ToEntity();		
 	
 		OnCompleted(entityToCreate);
 		DbContext.MinimumCashStocks.Add(entityToCreate);

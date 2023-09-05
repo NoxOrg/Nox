@@ -84,6 +84,47 @@ public partial class CountriesController : ODataController
         return Created(new CountryLocalNameDto { Id = createdKey.keyId });
     }
     
+    public async Task<ActionResult> PutToCountryLocalNames([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey, [FromBody] CountryLocalNameUpdateDto countryLocalName)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var updatedKey = await _mediator.Send(new UpdateCountryLocalNameCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey), countryLocalName));
+        if (updatedKey == null)
+        {
+            return NotFound();
+        }
+        
+        return Updated(new CountryLocalNameDto { Id = updatedKey.keyId });
+    }
+    
+    public async Task<ActionResult> PatchToCountryLocalNames([FromRoute] System.Int64 key, [FromRoute] System.String relatedKey, [FromBody] Delta<CountryLocalNameUpdateDto> countryLocalName)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in countryLocalName.GetChangedPropertyNames())
+        {
+            if(countryLocalName.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var updated = await _mediator.Send(new PartialUpdateCountryLocalNameCommand(new CountryKeyDto(key), updateProperties));
+        
+        if (updated is null)
+        {
+            return NotFound();
+        }
+        return Updated(new CountryLocalNameDto { Id = updated.keyId });
+    }
+    
     public async Task<ActionResult> Post([FromBody]CountryCreateDto country)
     {
         if (!ModelState.IsValid)

@@ -31,9 +31,9 @@ public partial class Country : AuditableEntityBase
     public Nox.Types.Text FormalName { get; set; } = null!;
 
     /// <summary>
-    /// The country's official ISO 4217 alpha-3 code (Required).
+    /// The country's official ISO 4217 alpha-3 code (Optional).
     /// </summary>
-    public Nox.Types.CountryCode3 AlphaCode3 { get; set; } = null!;
+    public Nox.Types.CountryCode3? AlphaCode3 { get; set; } = null!;
 
     /// <summary>
     /// The country's official ISO 4217 alpha-2 code (Required).

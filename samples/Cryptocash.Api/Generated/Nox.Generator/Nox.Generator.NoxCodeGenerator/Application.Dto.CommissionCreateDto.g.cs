@@ -16,8 +16,26 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-public partial class CommissionCreateDto : CommissionUpdateDto
-{
+public partial class CommissionCreateDto 
+{    
+    /// <summary>
+    /// Commission rate (Required).
+    /// </summary>
+    [Required(ErrorMessage = "Rate is required")]
+    
+    public System.Single Rate { get; set; } = default!;    
+    /// <summary>
+    /// Exchange rate conversion amount (Required).
+    /// </summary>
+    [Required(ErrorMessage = "EffectiveAt is required")]
+    
+    public System.DateTimeOffset EffectiveAt { get; set; } = default!;
+
+    /// <summary>
+    /// Commission fees for ZeroOrOne Countries
+    /// </summary>
+    
+    public System.String? CommissionFeesForCountryId { get; set; } = default!;
 
     public Cryptocash.Domain.Commission ToEntity()
     {

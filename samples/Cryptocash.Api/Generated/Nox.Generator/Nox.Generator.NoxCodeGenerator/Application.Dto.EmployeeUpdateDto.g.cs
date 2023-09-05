@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class EmployeeUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Employee's first name (Required).
     /// </summary>
@@ -59,5 +58,5 @@ public partial class EmployeeUpdateDto
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
     /// </summary>
-    public virtual List<EmployeePhoneNumberUpdateDto> EmployeePhoneNumbers { get; set; } = new();
+    public virtual List<EmployeePhoneNumberDto> EmployeePhoneNumbers { get; set; } = new();
 }

@@ -36,7 +36,7 @@ public partial class CreateStoreOwnerCommandHandler: CommandBase<CreateStoreOwne
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();
+		var entityToCreate = request.EntityDto.ToEntity();		
 	
 		OnCompleted(entityToCreate);
 		DbContext.StoreOwners.Add(entityToCreate);

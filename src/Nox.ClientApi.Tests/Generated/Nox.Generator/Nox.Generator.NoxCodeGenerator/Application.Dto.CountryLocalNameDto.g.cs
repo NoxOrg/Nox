@@ -15,7 +15,7 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public record CountryLocalNameKeyDto(System.String keyId);
+public record CountryLocalNameKeyDto(System.Int64 keyId);
 
 /// <summary>
 /// Local names for countries.
@@ -26,7 +26,7 @@ public partial class CountryLocalNameDto
     /// <summary>
     /// The unique identifier (Required).
     /// </summary>
-    public System.String Id { get; set; } = default!;
+    public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
     /// Local name (Required).

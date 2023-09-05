@@ -21,14 +21,20 @@ public class UpdateCurrencyCommandHandler: CommandBase<UpdateCurrencyCommand, Cu
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Currency> EntityMapper { get; }
+	public IEntityMapper<BankNote> BankNoteEntityMapper { get; }
+	public IEntityMapper<ExchangeRate> ExchangeRateEntityMapper { get; }
 
 	public UpdateCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
+		IServiceProvider serviceProvider,	
+			IEntityMapper<BankNote> entityMapperBankNote,	
+			IEntityMapper<ExchangeRate> entityMapperExchangeRate,
 		IEntityMapper<Currency> entityMapper): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
+		DbContext = dbContext;	
+		BankNoteEntityMapper = entityMapperBankNote;	
+		ExchangeRateEntityMapper = entityMapperExchangeRate;
 		EntityMapper = entityMapper;
 	}
 	
@@ -44,14 +50,52 @@ public class UpdateCurrencyCommandHandler: CommandBase<UpdateCurrencyCommand, Cu
 			return null;
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Currency>(), request.EntityDto);
+		foreach(var ownedEntity in request.EntityDto.BankNotes)
+		{
+			UpdateBankNote(entity, ownedEntity);
+		}
+		foreach(var ownedEntity in request.EntityDto.ExchangeRates)
+		{
+			UpdateExchangeRate(entity, ownedEntity);
+		}
 
 		OnCompleted(entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if(result < 1)
+		if (result < 1)
+		{
 			return null;
+		}
 
 		return new CurrencyKeyDto(entity.Id.Value);
+	}
+	private void UpdateBankNote(Currency parent, BankNoteDto child)
+	{
+		var ownedId = CreateNoxTypeForKey<BankNote,DatabaseNumber>("Id", child.Id);
+
+		var entity = parent.BankNotes.SingleOrDefault(x =>
+			x.Id.Equals(ownedId) &&
+			true);
+		if (entity == null)
+		{
+			return;
+		}
+
+		BankNoteEntityMapper.MapToEntity(entity, GetEntityDefinition<BankNote>(), child);		
+	}
+	private void UpdateExchangeRate(Currency parent, ExchangeRateDto child)
+	{
+		var ownedId = CreateNoxTypeForKey<ExchangeRate,DatabaseNumber>("Id", child.Id);
+
+		var entity = parent.ExchangeRates.SingleOrDefault(x =>
+			x.Id.Equals(ownedId) &&
+			true);
+		if (entity == null)
+		{
+			return;
+		}
+
+		ExchangeRateEntityMapper.MapToEntity(entity, GetEntityDefinition<ExchangeRate>(), child);		
 	}
 }

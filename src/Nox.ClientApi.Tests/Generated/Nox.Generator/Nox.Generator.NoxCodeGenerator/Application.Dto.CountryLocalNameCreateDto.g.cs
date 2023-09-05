@@ -16,18 +16,18 @@ namespace ClientApi.Application.Dto;
 /// <summary>
 /// Local names for countries.
 /// </summary>
-public partial class CountryLocalNameCreateDto : CountryLocalNameUpdateDto
-{
+public partial class CountryLocalNameCreateDto 
+{    
     /// <summary>
-    /// The unique identifier (Required).
+    /// Local name (Required).
     /// </summary>
-    [Required(ErrorMessage = "Id is required")]
-    public System.String Id { get; set; } = default!;
+    [Required(ErrorMessage = "Name is required")]
+    
+    public System.String Name { get; set; } = default!;
 
     public ClientApi.Domain.CountryLocalName ToEntity()
     {
         var entity = new ClientApi.Domain.CountryLocalName();
-        entity.Id = CountryLocalName.CreateId(Id);
         entity.Name = ClientApi.Domain.CountryLocalName.CreateName(Name);
         return entity;
     }

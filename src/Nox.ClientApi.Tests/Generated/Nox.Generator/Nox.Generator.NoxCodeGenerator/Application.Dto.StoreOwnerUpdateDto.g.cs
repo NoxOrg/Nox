@@ -14,7 +14,6 @@ namespace ClientApi.Application.Dto;
 /// </summary>
 public partial class StoreOwnerUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Owner Name (Required).
     /// </summary>

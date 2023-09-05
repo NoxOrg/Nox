@@ -14,7 +14,6 @@ namespace SampleWebApp.Application.Dto;
 /// </summary>
 public partial class CurrencyCashBalanceUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// The amount (Required).
     /// </summary>

@@ -36,7 +36,7 @@ public partial class CreateLandLordCommandHandler: CommandBase<CreateLandLordCom
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();
+		var entityToCreate = request.EntityDto.ToEntity();		
 	
 		OnCompleted(entityToCreate);
 		DbContext.LandLords.Add(entityToCreate);

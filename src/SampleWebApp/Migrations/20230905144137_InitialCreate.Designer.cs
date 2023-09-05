@@ -12,7 +12,7 @@ using SampleWebApp.Infrastructure.Persistence;
 namespace SampleWebAppdeprecated.Migrations
 {
     [DbContext(typeof(SampleWebAppDbContext))]
-    [Migration("20230905082819_InitialCreate")]
+    [Migration("20230905144137_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -304,7 +304,6 @@ namespace SampleWebAppdeprecated.Migrations
                         .IsFixedLength();
 
                     b.Property<string>("AlphaCode3")
-                        .IsRequired()
                         .HasMaxLength(3)
                         .IsUnicode(false)
                         .HasColumnType("char(3)")
@@ -1071,6 +1070,11 @@ namespace SampleWebAppdeprecated.Migrations
 
                             b1.Property<long>("CountryId")
                                 .HasColumnType("bigint");
+
+                            b1.Property<string>("Name")
+                                .HasMaxLength(255)
+                                .IsUnicode(true)
+                                .HasColumnType("nvarchar(255)");
 
                             b1.HasKey("Id");
 
