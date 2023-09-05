@@ -4,5 +4,5 @@ namespace Nox.Types;
 
 public interface INoxTypeComponentsDiscover
 {
-    public Type GeUnderlyingType(NoxSimpleTypeDefinition attribute);
+    public Type GetUnderlyingType(NoxSimpleTypeDefinition attribute);
 }

@@ -18,7 +18,7 @@ public partial class Store : AuditableEntityBase
     /// <summary>
     /// NuidField Type (Required).
     /// </summary>
-    public Nuid Id {get; private set;} = null!;
+    public Nuid Id {get; set;} = null!;
     
     	public void EnsureId()
     	{

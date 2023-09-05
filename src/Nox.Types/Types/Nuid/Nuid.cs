@@ -14,18 +14,31 @@ namespace Nox.Types;
 /// <remarks>Placeholder, needs to be implemented</remarks>
 public sealed class Nuid : ValueObject<uint, Nuid>, IComparable, IComparable<Nuid>, IEquatable<Nuid>
 {
+
+    private NuidTypeOptions _options = new NuidTypeOptions();
+
+
     public static Nuid From(string textToEncode)
     {
-        return From(textToEncode, new NuidTypeOptions { });
+        return From(textToEncode, new NuidTypeOptions() );
     }
 
     public static Nuid From(string textToEncode, NuidTypeOptions options)
     {
         var unsignedValue = ToUInt32(textToEncode);
         var nuid = From(unsignedValue);
+        nuid._options = options;
 
         return nuid;
     }
+
+    public static Nuid From(uint value, NuidTypeOptions options)
+    {
+        var nuid = From(value);
+        nuid._options = options;
+        return nuid;
+    }
+
 
     public string ToHex()
     {

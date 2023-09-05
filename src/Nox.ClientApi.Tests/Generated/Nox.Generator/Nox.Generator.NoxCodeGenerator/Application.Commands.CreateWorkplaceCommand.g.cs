@@ -21,16 +21,13 @@ public record CreateWorkplaceCommand(WorkplaceCreateDto EntityDto) : IRequest<Wo
 public partial class CreateWorkplaceCommandHandler: CommandBase<CreateWorkplaceCommand,Workplace>, IRequestHandler <CreateWorkplaceCommand, WorkplaceKeyDto>
 {
 	public ClientApiDbContext DbContext { get; }
-	public IEntityFactory<WorkplaceCreateDto,Workplace> EntityFactory { get; }
 
 	public CreateWorkplaceCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityFactory<WorkplaceCreateDto,Workplace> entityFactory): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityFactory = entityFactory;
 	}
 
 	public async Task<WorkplaceKeyDto> Handle(CreateWorkplaceCommand request, CancellationToken cancellationToken)
@@ -38,7 +35,7 @@ public partial class CreateWorkplaceCommandHandler: CommandBase<CreateWorkplaceC
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = EntityFactory.CreateEntity(request.EntityDto);
+		var entityToCreate = request.EntityDto.ToEntity();
 	
 		OnCompleted(entityToCreate);
 		DbContext.Workplaces.Add(entityToCreate);

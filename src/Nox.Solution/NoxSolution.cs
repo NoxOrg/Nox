@@ -130,12 +130,12 @@ public class NoxSolution : Solution
     /// <returns></returns>
     public NoxType GetSingleTypeForKey(NoxSimpleTypeDefinition keyDefinition)
     {
-        if (keyDefinition.Type != NoxType.Entity)
+        if(keyDefinition.Type != NoxType.EntityId)
         {
             return keyDefinition.Type;
         }
         // Obtain the reference entity
-        var entity = Domain!.Entities.Single(entity => entity.Name.Equals(keyDefinition.EntityTypeOptions!.Entity));
+        var entity = Domain!.Entities.Single(entity => entity.Name.Equals(keyDefinition.EntityIdTypeOptions!.Entity));
 
         return GetSingleTypeForKey(entity.Keys![0]);
     }
@@ -147,12 +147,12 @@ public class NoxSolution : Solution
     /// <returns></returns>
     public string GetSinglePrimitiveTypeForKey(NoxSimpleTypeDefinition keyDefinition)
     {
-        if (keyDefinition.Type != NoxType.Entity)
+        if (keyDefinition.Type != NoxType.EntityId)
         {
             return keyDefinition.Type.GetComponents(keyDefinition).Single().Value.ToString();
         }
         // Obtain the reference entity
-        var entity = Domain!.Entities.Single(entity => entity.Name.Equals(keyDefinition.EntityTypeOptions!.Entity));
+        var entity = Domain!.Entities.Single(entity => entity.Name.Equals(keyDefinition.EntityIdTypeOptions!.Entity));
 
         return GetSinglePrimitiveTypeForKey(entity.Keys![0]);
     }
