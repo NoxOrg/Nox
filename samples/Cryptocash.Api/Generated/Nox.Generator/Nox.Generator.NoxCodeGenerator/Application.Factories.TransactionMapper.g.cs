@@ -55,19 +55,19 @@ public class TransactionMapper : EntityMapperBase<Transaction>
         /// <summary>
         /// Transaction for ExactlyOne Customers
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "TransactionForCustomer", dto.CustomerId);
+        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "TransactionForCustomer", dto.TransactionForCustomerId);
         if (noxTypeValue != null)
         {        
-            entity.CustomerId = noxTypeValue;
+            entity.TransactionForCustomerId = noxTypeValue;
         }
 
         /// <summary>
         /// Transaction for ExactlyOne Bookings
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "TransactionForBooking", dto.BookingId);
+        noxTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "TransactionForBooking", dto.TransactionForBookingId);
         if (noxTypeValue != null)
         {        
-            entity.BookingId = noxTypeValue;
+            entity.TransactionForBookingId = noxTypeValue;
         }
     }
 
@@ -142,7 +142,7 @@ public class TransactionMapper : EntityMapperBase<Transaction>
             var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "TransactionForCustomer", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.CustomerId = noxRelationshipTypeValue;
+                entity.TransactionForCustomerId = noxRelationshipTypeValue;
             }
         }
         /// <summary>
@@ -153,7 +153,7 @@ public class TransactionMapper : EntityMapperBase<Transaction>
             var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "TransactionForBooking", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.BookingId = noxRelationshipTypeValue;
+                entity.TransactionForBookingId = noxRelationshipTypeValue;
             }
         }
     }

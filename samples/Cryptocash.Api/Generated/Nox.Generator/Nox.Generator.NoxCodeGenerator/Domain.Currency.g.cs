@@ -81,22 +81,26 @@ public partial class Currency : AuditableEntityBase
     public Nox.Types.Money MinorToMajorValue { get; set; } = null!;
 
     /// <summary>
-    /// Currency Currency's bank notes OneOrMany BankNotes
+    /// Currency used by OneOrMany Countries
     /// </summary>
-    public virtual List<BankNotes> BankNotes { get; set; } = new();
+    public virtual List<Country> CurrencyUsedByCountry { get; set; } = new();
 
     /// <summary>
-    /// Currency Country's currency OneOrMany Countries
+    /// Currency used by ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<Country> Country { get; set; } = new();
+    public virtual List<MinimumCashStock> CurrencyUsedByMinimumCashStocks { get; set; } = new();
 
     /// <summary>
-    /// Currency Cash stock currency ZeroOrMany MinimumCashStocks
+    /// Currency commonly used ZeroOrMany BankNotes
     /// </summary>
-    public virtual List<MinimumCashStock> MinimumCashStock { get; set; } = new();
+    public virtual List<BankNote> BankNotes { get; set; } = new();
+
+    public List<BankNote> CurrencyCommonBankNotes => BankNotes;
 
     /// <summary>
-    /// Currency Exchanged from currency OneOrMany ExchangeRates
+    /// Currency exchanged from OneOrMany ExchangeRates
     /// </summary>
-    public virtual List<ExchangeRate> ExchangeRateFrom { get; set; } = new();
+    public virtual List<ExchangeRate> ExchangeRates { get; set; } = new();
+
+    public List<ExchangeRate> CurrencyExchangedFromRates => ExchangeRates;
 }

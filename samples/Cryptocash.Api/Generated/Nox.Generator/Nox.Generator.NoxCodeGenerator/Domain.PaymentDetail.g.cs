@@ -38,24 +38,20 @@ public partial class PaymentDetail : AuditableEntityBase
     /// <summary>
     /// PaymentDetail used by ExactlyOne Customers
     /// </summary>
-    public virtual Customer Customer { get; set; } = null!;
-
-    public Customer PaymentDetailsUsedByCustomer => Customer;
+    public virtual Customer PaymentDetailsUsedByCustomer { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
     /// </summary>
-    public Nox.Types.DatabaseNumber CustomerId { get; set; } = null!;
+    public Nox.Types.DatabaseNumber PaymentDetailsUsedByCustomerId { get; set; } = null!;
 
     /// <summary>
     /// PaymentDetail related to ExactlyOne PaymentProviders
     /// </summary>
-    public virtual PaymentProvider PaymentProvider { get; set; } = null!;
-
-    public PaymentProvider PaymentDetailsRelatedPaymentProvider => PaymentProvider;
+    public virtual PaymentProvider PaymentDetailsRelatedPaymentProvider { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity PaymentProvider
     /// </summary>
-    public Nox.Types.DatabaseNumber PaymentProviderId { get; set; } = null!;
+    public Nox.Types.DatabaseNumber PaymentDetailsRelatedPaymentProviderId { get; set; } = null!;
 }

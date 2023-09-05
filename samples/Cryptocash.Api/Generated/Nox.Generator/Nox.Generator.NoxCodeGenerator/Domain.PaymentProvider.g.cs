@@ -33,7 +33,5 @@ public partial class PaymentProvider : AuditableEntityBase
     /// <summary>
     /// PaymentProvider related to ZeroOrMany PaymentDetails
     /// </summary>
-    public virtual List<PaymentDetail> PaymentDetails { get; set; } = new();
-
-    public List<PaymentDetail> PaymentProviderRelatedPaymentDetails => PaymentDetails;
+    public virtual List<PaymentDetail> PaymentProviderRelatedPaymentDetails { get; set; } = new();
 }

@@ -46,27 +46,27 @@ public partial class Customer : AuditableEntityBase
     public Nox.Types.PhoneNumber? MobileNumber { get; set; } = null!;
 
     /// <summary>
-    /// Customer Customer's payment details ZeroOrMany CustomerPaymentDetails
+    /// Customer related to ZeroOrMany PaymentDetails
     /// </summary>
-    public virtual List<CustomerPaymentDetails> CustomerPaymentDetails { get; set; } = new();
+    public virtual List<PaymentDetail> CustomerRelatedPaymentDetails { get; set; } = new();
 
     /// <summary>
-    /// Customer Customer's booking ZeroOrMany Bookings
+    /// Customer related to ZeroOrMany Bookings
     /// </summary>
-    public virtual List<Booking> Booking { get; set; } = new();
+    public virtual List<Booking> CustomerRelatedBookings { get; set; } = new();
 
     /// <summary>
-    /// Customer Customer's transaction ZeroOrMany CustomerTransactions
+    /// Customer related to ZeroOrMany Transactions
     /// </summary>
-    public virtual List<CustomerTransaction> CustomerTransaction { get; set; } = new();
+    public virtual List<Transaction> CustomerRelatedTransactions { get; set; } = new();
 
     /// <summary>
-    /// Customer Customer's country ExactlyOne Countries
+    /// Customer based in ExactlyOne Countries
     /// </summary>
-    public virtual Country Country { get; set; } = null!;
+    public virtual Country CustomerBaseCountry { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Country
     /// </summary>
-    public Nox.Types.CountryCode2 CountryId { get; set; } = null!;
+    public Nox.Types.CountryCode2 CustomerBaseCountryId { get; set; } = null!;
 }

@@ -62,8 +62,8 @@ public partial class EmployeeDto
     /// Employee reviewing ExactlyOne CashStockOrders
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64 CashStockOrderId { get; set; } = default!;
-    public virtual CashStockOrderDto CashStockOrder { get; set; } = null!;
+    public System.Int64 EmployeeReviewingCashStockOrderId { get; set; } = default!;
+    public virtual CashStockOrderDto EmployeeReviewingCashStockOrder { get; set; } = null!;
 
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
