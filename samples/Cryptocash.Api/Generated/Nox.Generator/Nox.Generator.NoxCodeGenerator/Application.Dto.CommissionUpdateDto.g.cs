@@ -32,5 +32,5 @@ public partial class CommissionUpdateDto
     /// Commission fees for ZeroOrOne Countries
     /// </summary>
     
-    public System.String? CountryId { get; set; } = default!;
+    public System.String? CommissionFeesForCountryId { get; set; } = default!;
 }

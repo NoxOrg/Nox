@@ -76,7 +76,7 @@ public partial class CountryUpdateDto
     /// Country used by ExactlyOne Currencies
     /// </summary>
     [Required(ErrorMessage = "CountryUsedByCurrency is required")]
-    public System.String CurrencyId { get; set; } = default!;
+    public System.String CountryUsedByCurrencyId { get; set; } = default!;
 
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones

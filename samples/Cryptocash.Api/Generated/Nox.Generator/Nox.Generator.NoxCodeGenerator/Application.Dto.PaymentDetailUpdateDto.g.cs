@@ -36,11 +36,11 @@ public partial class PaymentDetailUpdateDto
     /// PaymentDetail used by ExactlyOne Customers
     /// </summary>
     [Required(ErrorMessage = "PaymentDetailsUsedByCustomer is required")]
-    public System.Int64 CustomerId { get; set; } = default!;
+    public System.Int64 PaymentDetailsUsedByCustomerId { get; set; } = default!;
 
     /// <summary>
     /// PaymentDetail related to ExactlyOne PaymentProviders
     /// </summary>
     [Required(ErrorMessage = "PaymentDetailsRelatedPaymentProvider is required")]
-    public System.Int64 PaymentProviderId { get; set; } = default!;
+    public System.Int64 PaymentDetailsRelatedPaymentProviderId { get; set; } = default!;
 }

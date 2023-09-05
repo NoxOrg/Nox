@@ -60,10 +60,10 @@ public class CustomerMapper : EntityMapperBase<Customer>
         /// <summary>
         /// Customer based in ExactlyOne Countries
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "CustomerBaseCountry", dto.CountryId);
+        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "CustomerBaseCountry", dto.CustomerBaseCountryId);
         if (noxTypeValue != null)
         {        
-            entity.CountryId = noxTypeValue;
+            entity.CustomerBaseCountryId = noxTypeValue;
         }
     }
 
@@ -152,7 +152,7 @@ public class CustomerMapper : EntityMapperBase<Customer>
             var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "CustomerBaseCountry", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.CountryId = noxRelationshipTypeValue;
+                entity.CustomerBaseCountryId = noxRelationshipTypeValue;
             }
         }
     }

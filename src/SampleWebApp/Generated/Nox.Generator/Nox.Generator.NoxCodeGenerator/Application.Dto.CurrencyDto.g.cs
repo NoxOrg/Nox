@@ -36,6 +36,6 @@ public partial class CurrencyDto
     /// <summary>
     /// Currency is legal tender for ZeroOrMany Countries
     /// </summary>
-    public virtual List<CountryDto> Countries { get; set; } = new();
+    public virtual List<CountryDto> CurrencyIsLegalTenderForCountry { get; set; } = new();
     public System.DateTime? DeletedAtUtc { get; set; }    
 }

@@ -20,7 +20,7 @@ internal class StoreSecurityPasswordsDataSeeder : SampleDataSeederBase<StoreSecu
             Id = Text.From(model.Id),
             Name = Text.From(model.Name),
             SecurityCamerasPassword = Text.From(model.SecurityCamerasPassword),
-            StoreId = Text.From(model.StoreId),
+            StoreRelId = Text.From(model.StoreId),
         };
     }
 }

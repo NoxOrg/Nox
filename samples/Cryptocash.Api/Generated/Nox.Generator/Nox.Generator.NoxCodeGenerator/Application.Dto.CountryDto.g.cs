@@ -97,23 +97,23 @@ public partial class CountryDto
     /// Country used by ExactlyOne Currencies
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String CurrencyId { get; set; } = default!;
-    public virtual CurrencyDto Currency { get; set; } = null!;
+    public System.String CountryUsedByCurrencyId { get; set; } = default!;
+    public virtual CurrencyDto CountryUsedByCurrency { get; set; } = null!;
 
     /// <summary>
     /// Country used by OneOrMany Commissions
     /// </summary>
-    public virtual List<CommissionDto> Commissions { get; set; } = new();
+    public virtual List<CommissionDto> CountryUsedByCommissions { get; set; } = new();
 
     /// <summary>
     /// Country used by ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachineDto> VendingMachines { get; set; } = new();
+    public virtual List<VendingMachineDto> CountryUsedByVendingMachines { get; set; } = new();
 
     /// <summary>
     /// Country used by ZeroOrMany Customers
     /// </summary>
-    public virtual List<CustomerDto> Customers { get; set; } = new();
+    public virtual List<CustomerDto> CountryUsedByCustomers { get; set; } = new();
 
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones

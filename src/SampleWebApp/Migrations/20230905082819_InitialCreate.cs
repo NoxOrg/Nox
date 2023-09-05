@@ -206,21 +206,21 @@ namespace SampleWebAppdeprecated.Migrations
                 name: "CountryCurrency",
                 columns: table => new
                 {
-                    CountriesId = table.Column<long>(type: "bigint", nullable: false),
-                    CurrenciesId = table.Column<long>(type: "bigint", nullable: false)
+                    CountryAcceptsCurrencyId = table.Column<long>(type: "bigint", nullable: false),
+                    CurrencyIsLegalTenderForCountryId = table.Column<long>(type: "bigint", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_CountryCurrency", x => new { x.CountriesId, x.CurrenciesId });
+                    table.PrimaryKey("PK_CountryCurrency", x => new { x.CountryAcceptsCurrencyId, x.CurrencyIsLegalTenderForCountryId });
                     table.ForeignKey(
-                        name: "FK_CountryCurrency_Countries_CountriesId",
-                        column: x => x.CountriesId,
+                        name: "FK_CountryCurrency_Countries_CurrencyIsLegalTenderForCountryId",
+                        column: x => x.CurrencyIsLegalTenderForCountryId,
                         principalTable: "Countries",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_CountryCurrency_Currencies_CurrenciesId",
-                        column: x => x.CurrenciesId,
+                        name: "FK_CountryCurrency_Currencies_CountryAcceptsCurrencyId",
+                        column: x => x.CountryAcceptsCurrencyId,
                         principalTable: "Currencies",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -234,7 +234,7 @@ namespace SampleWebAppdeprecated.Migrations
                     Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     PhysicalMoney_Amount = table.Column<decimal>(type: "decimal(15,5)", nullable: false),
                     PhysicalMoney_CurrencyCode = table.Column<int>(type: "int", nullable: false),
-                    StoreOwnerId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
+                    OwnerRelId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -249,8 +249,8 @@ namespace SampleWebAppdeprecated.Migrations
                 {
                     table.PrimaryKey("PK_Stores", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Stores_StoreOwners_StoreOwnerId",
-                        column: x => x.StoreOwnerId,
+                        name: "FK_Stores_StoreOwners_OwnerRelId",
+                        column: x => x.OwnerRelId,
                         principalTable: "StoreOwners",
                         principalColumn: "Id");
                 });
@@ -298,7 +298,7 @@ namespace SampleWebAppdeprecated.Migrations
                     Id = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     SecurityCamerasPassword = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    StoreId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
+                    StoreRelId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -313,16 +313,16 @@ namespace SampleWebAppdeprecated.Migrations
                 {
                     table.PrimaryKey("PK_StoreSecurityPasswords", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_StoreSecurityPasswords_Stores_StoreId",
-                        column: x => x.StoreId,
+                        name: "FK_StoreSecurityPasswords_Stores_StoreRelId",
+                        column: x => x.StoreRelId,
                         principalTable: "Stores",
                         principalColumn: "Id");
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_CountryCurrency_CurrenciesId",
+                name: "IX_CountryCurrency_CurrencyIsLegalTenderForCountryId",
                 table: "CountryCurrency",
-                column: "CurrenciesId");
+                column: "CurrencyIsLegalTenderForCountryId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_CountryLocalName_CountryId",
@@ -342,16 +342,16 @@ namespace SampleWebAppdeprecated.Migrations
                 unique: true);
 
             migrationBuilder.CreateIndex(
-                name: "IX_Stores_StoreOwnerId",
+                name: "IX_Stores_OwnerRelId",
                 table: "Stores",
-                column: "StoreOwnerId");
+                column: "OwnerRelId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_StoreSecurityPasswords_StoreId",
+                name: "IX_StoreSecurityPasswords_StoreRelId",
                 table: "StoreSecurityPasswords",
-                column: "StoreId",
+                column: "StoreRelId",
                 unique: true,
-                filter: "[StoreId] IS NOT NULL");
+                filter: "[StoreRelId] IS NOT NULL");
         }
 
         /// <inheritdoc />

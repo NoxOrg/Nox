@@ -28,7 +28,5 @@ public partial class TestEntityZeroOrManyToOneOrMany : AuditableEntityBase
     /// <summary>
     /// TestEntityZeroOrManyToOneOrMany Test entity relationship to TestEntityOneOrManyToZeroOrMany ZeroOrMany TestEntityOneOrManyToZeroOrManies
     /// </summary>
-    public virtual List<TestEntityOneOrManyToZeroOrMany> TestEntityOneOrManyToZeroOrManies { get; set; } = new();
-
-    public List<TestEntityOneOrManyToZeroOrMany> TestEntityOneOrManyToZeroOrMany => TestEntityOneOrManyToZeroOrManies;
+    public virtual List<TestEntityOneOrManyToZeroOrMany> TestEntityOneOrManyToZeroOrMany { get; set; } = new();
 }

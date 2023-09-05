@@ -45,10 +45,10 @@ public class CommissionMapper : EntityMapperBase<Commission>
         /// <summary>
         /// Commission fees for ZeroOrOne Countries
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "CommissionFeesForCountry", dto.CountryId);
+        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "CommissionFeesForCountry", dto.CommissionFeesForCountryId);
         if (noxTypeValue != null)
         {        
-            entity.CountryId = noxTypeValue;
+            entity.CommissionFeesForCountryId = noxTypeValue;
         }
     }
 
@@ -95,7 +95,7 @@ public class CommissionMapper : EntityMapperBase<Commission>
             var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "CommissionFeesForCountry", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.CountryId = noxRelationshipTypeValue;
+                entity.CommissionFeesForCountryId = noxRelationshipTypeValue;
             }
         }
     }

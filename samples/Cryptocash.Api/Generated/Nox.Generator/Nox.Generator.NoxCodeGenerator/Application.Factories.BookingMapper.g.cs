@@ -66,28 +66,28 @@ public class BookingMapper : EntityMapperBase<Booking>
         /// <summary>
         /// Booking for ExactlyOne Customers
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "BookingForCustomer", dto.CustomerId);
+        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "BookingForCustomer", dto.BookingForCustomerId);
         if (noxTypeValue != null)
         {        
-            entity.CustomerId = noxTypeValue;
+            entity.BookingForCustomerId = noxTypeValue;
         }
 
         /// <summary>
         /// Booking related to ExactlyOne VendingMachines
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "BookingRelatedVendingMachine", dto.VendingMachineId);
+        noxTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "BookingRelatedVendingMachine", dto.BookingRelatedVendingMachineId);
         if (noxTypeValue != null)
         {        
-            entity.VendingMachineId = noxTypeValue;
+            entity.BookingRelatedVendingMachineId = noxTypeValue;
         }
 
         /// <summary>
         /// Booking fees for ExactlyOne Commissions
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "BookingFeesForCommission", dto.CommissionId);
+        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "BookingFeesForCommission", dto.BookingFeesForCommissionId);
         if (noxTypeValue != null)
         {        
-            entity.CommissionId = noxTypeValue;
+            entity.BookingFeesForCommissionId = noxTypeValue;
         }
     }
 
@@ -204,7 +204,7 @@ public class BookingMapper : EntityMapperBase<Booking>
             var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "BookingForCustomer", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.CustomerId = noxRelationshipTypeValue;
+                entity.BookingForCustomerId = noxRelationshipTypeValue;
             }
         }
         /// <summary>
@@ -215,7 +215,7 @@ public class BookingMapper : EntityMapperBase<Booking>
             var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "BookingRelatedVendingMachine", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.VendingMachineId = noxRelationshipTypeValue;
+                entity.BookingRelatedVendingMachineId = noxRelationshipTypeValue;
             }
         }
         /// <summary>
@@ -226,7 +226,7 @@ public class BookingMapper : EntityMapperBase<Booking>
             var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "BookingFeesForCommission", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.CommissionId = noxRelationshipTypeValue;
+                entity.BookingFeesForCommissionId = noxRelationshipTypeValue;
             }
         }
     }

@@ -48,5 +48,5 @@ public partial class CustomerUpdateDto
     /// Customer based in ExactlyOne Countries
     /// </summary>
     [Required(ErrorMessage = "CustomerBaseCountry is required")]
-    public System.String CountryId { get; set; } = default!;
+    public System.String CustomerBaseCountryId { get; set; } = default!;
 }

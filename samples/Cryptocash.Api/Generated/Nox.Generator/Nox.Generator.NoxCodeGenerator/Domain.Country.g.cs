@@ -88,35 +88,27 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     /// Country used by ExactlyOne Currencies
     /// </summary>
-    public virtual Currency Currency { get; set; } = null!;
-
-    public Currency CountryUsedByCurrency => Currency;
+    public virtual Currency CountryUsedByCurrency { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Currency
     /// </summary>
-    public Nox.Types.CurrencyCode3 CurrencyId { get; set; } = null!;
+    public Nox.Types.CurrencyCode3 CountryUsedByCurrencyId { get; set; } = null!;
 
     /// <summary>
     /// Country used by OneOrMany Commissions
     /// </summary>
-    public virtual List<Commission> Commissions { get; set; } = new();
-
-    public List<Commission> CountryUsedByCommissions => Commissions;
+    public virtual List<Commission> CountryUsedByCommissions { get; set; } = new();
 
     /// <summary>
     /// Country used by ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachine> VendingMachines { get; set; } = new();
-
-    public List<VendingMachine> CountryUsedByVendingMachines => VendingMachines;
+    public virtual List<VendingMachine> CountryUsedByVendingMachines { get; set; } = new();
 
     /// <summary>
     /// Country used by ZeroOrMany Customers
     /// </summary>
-    public virtual List<Customer> Customers { get; set; } = new();
-
-    public List<Customer> CountryUsedByCustomers => Customers;
+    public virtual List<Customer> CountryUsedByCustomers { get; set; } = new();
 
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones

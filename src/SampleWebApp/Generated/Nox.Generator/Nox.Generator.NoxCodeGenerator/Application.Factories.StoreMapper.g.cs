@@ -50,10 +50,10 @@ public class StoreMapper : EntityMapperBase<Store>
         /// <summary>
         /// Store Store owner relationship ZeroOrOne StoreOwners
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "OwnerRel", dto.StoreOwnerId);
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "OwnerRel", dto.OwnerRelId);
         if (noxTypeValue != null)
         {        
-            entity.StoreOwnerId = noxTypeValue;
+            entity.OwnerRelId = noxTypeValue;
         }
     }
 
@@ -100,7 +100,7 @@ public class StoreMapper : EntityMapperBase<Store>
             var noxRelationshipTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "OwnerRel", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.StoreOwnerId = noxRelationshipTypeValue;
+                entity.OwnerRelId = noxRelationshipTypeValue;
             }
         }
     }

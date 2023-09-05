@@ -52,10 +52,10 @@ public class CashStockOrderMapper : EntityMapperBase<CashStockOrder>
         /// <summary>
         /// CashStockOrder for ExactlyOne VendingMachines
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "CashStockOrderForVendingMachine", dto.VendingMachineId);
+        noxTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "CashStockOrderForVendingMachine", dto.CashStockOrderForVendingMachineId);
         if (noxTypeValue != null)
         {        
-            entity.VendingMachineId = noxTypeValue;
+            entity.CashStockOrderForVendingMachineId = noxTypeValue;
         }
     }
 
@@ -116,7 +116,7 @@ public class CashStockOrderMapper : EntityMapperBase<CashStockOrder>
             var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "CashStockOrderForVendingMachine", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.VendingMachineId = noxRelationshipTypeValue;
+                entity.CashStockOrderForVendingMachineId = noxRelationshipTypeValue;
             }
         }
     }

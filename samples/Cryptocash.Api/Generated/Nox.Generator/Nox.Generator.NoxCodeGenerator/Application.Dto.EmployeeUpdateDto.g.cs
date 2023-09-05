@@ -54,7 +54,7 @@ public partial class EmployeeUpdateDto
     /// Employee reviewing ExactlyOne CashStockOrders
     /// </summary>
     [Required(ErrorMessage = "EmployeeReviewingCashStockOrder is required")]
-    public System.Int64 CashStockOrderId { get; set; } = default!;
+    public System.Int64 EmployeeReviewingCashStockOrderId { get; set; } = default!;
 
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
