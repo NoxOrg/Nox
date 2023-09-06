@@ -13,7 +13,7 @@ using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
-public record PartialUpdate{{entity.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties) : IRequest <{{entity.Name}}KeyDto?>;
+public record PartialUpdate{{entity.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
 
 public partial class PartialUpdate{{entity.Name}}CommandHandler: CommandBase<PartialUpdate{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler <PartialUpdate{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
@@ -55,7 +55,8 @@ public partial class PartialUpdate{{entity.Name}}CommandHandler: CommandBase<Par
 		}
 
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.UpdatedProperties);
-		
+		parentEntity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
+
 		OnCompleted(entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

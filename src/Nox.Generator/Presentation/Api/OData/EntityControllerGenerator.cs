@@ -124,6 +124,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
                         {
                             continue;
                         }
+
                         GenerateChildrenGet(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
                         GenerateChildrenPost(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
                         GenerateChildrenPut(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
@@ -355,8 +356,9 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
+        code.AppendLine("var etag = GetDecodedEtagHeader();");
         code.AppendLine($"var createdKey = await _mediator.Send(new Add{child.Name}Command(" +
-            $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), {child.Name.ToLowerFirstChar()}));");
+            $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), {child.Name.ToLowerFirstChar()}, etag));");
         code.AppendLine($"if (createdKey == null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
@@ -380,10 +382,11 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
+        code.AppendLine("var etag = GetDecodedEtagHeader();");
         code.AppendLine($"var updatedKey = await _mediator.Send(new Update{child.Name}Command(" +
             $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), " +
             $"new {child.Name}KeyDto({PrimaryKeysQuery(child, "relatedKey")}), " +
-            $"{child.Name.ToLowerFirstChar()}));");
+            $"{child.Name.ToLowerFirstChar()}, etag));");
         code.AppendLine($"if (updatedKey == null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
@@ -418,8 +421,9 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             }}           
         }}");
         code.AppendLine();
+        code.AppendLine("var etag = GetDecodedEtagHeader();");
         code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{child.Name}Command(" +
-            $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), updateProperties));");
+            $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), updateProperties, etag));");
         code.AppendLine();
 
         code.AppendLine($"if (updated is null)");
