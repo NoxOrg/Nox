@@ -12,7 +12,6 @@ internal class DomainValidator : AbstractValidator<Domain>
 
         RuleForEach(d => d.Entities)
             .SetValidator(v => new EntityValidator(v.Entities, app))
-            .SetValidator(v => new EntityRelationshipKeysValidator())
             .SetValidator(e => new UniquePropertyValidator<Entity>(e.Entities, x => x.Name, "entity"));
 
     }
