@@ -1,13 +1,13 @@
-﻿// Generated
+// Generated
 #nullable enable
 
 using Microsoft.EntityFrameworkCore;
 using Nox;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-using Cryptocash.Application.Dto;
+using {{codeGeneratorState.RootNameSpace}}.Application.Dto;
 
-namespace Cryptocash.Infrastructure.Persistence;
+namespace {{codeGeneratorState.RootNameSpace}}.Infrastructure.Persistence;
 
 public class DtoDbContext : DbContext
 {
@@ -38,40 +38,16 @@ public class DtoDbContext : DbContext
         _noxDtoDatabaseConfigurator = noxDtoDatabaseConfigurator;
     }
 
-    
-        public DbSet<BookingDto> Bookings { get; set; } = null!;
-        
-        public DbSet<CommissionDto> Commissions { get; set; } = null!;
-        
-        public DbSet<CountryDto> Countries { get; set; } = null!;
-        
-        public DbSet<CurrencyDto> Currencies { get; set; } = null!;
-        
-        public DbSet<CustomerDto> Customers { get; set; } = null!;
-        
-        public DbSet<PaymentDetailDto> PaymentDetails { get; set; } = null!;
-        
-        public DbSet<TransactionDto> Transactions { get; set; } = null!;
-        
-        public DbSet<EmployeeDto> Employees { get; set; } = null!;
-        
-        public DbSet<LandLordDto> LandLords { get; set; } = null!;
-        
-        public DbSet<MinimumCashStockDto> MinimumCashStocks { get; set; } = null!;
-        
-        public DbSet<PaymentProviderDto> PaymentProviders { get; set; } = null!;
-        
-        public DbSet<VendingMachineDto> VendingMachines { get; set; } = null!;
-        
-        public DbSet<CashStockOrderDto> CashStockOrders { get; set; } = null!;
-        
+    {{ for entity in entities }}
+    public DbSet<{{ entity.Name }}Dto> {{ entity.PluralName }} { get; set; } = null!;
+    {{ end }}
 
     protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
     {
         base.OnConfiguring(optionsBuilder);
         if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
-            _dbProvider.ConfigureDbContext(optionsBuilder, "Cryptocash", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
+            _dbProvider.ConfigureDbContext(optionsBuilder, "{{codeGeneratorState.RootNameSpace}}", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
         }
     }
 
