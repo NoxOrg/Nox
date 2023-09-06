@@ -54,9 +54,4 @@ public partial class EmployeeUpdateDto
     /// </summary>
     [Required(ErrorMessage = "EmployeeReviewingCashStockOrder is required")]
     public System.Int64 EmployeeReviewingCashStockOrderId { get; set; } = default!;
-
-    /// <summary>
-    /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
-    /// </summary>
-    public virtual List<EmployeePhoneNumberDto> EmployeePhoneNumbers { get; set; } = new();
 }

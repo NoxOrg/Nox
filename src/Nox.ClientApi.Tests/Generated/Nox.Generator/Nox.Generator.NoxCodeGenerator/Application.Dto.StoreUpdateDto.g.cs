@@ -26,9 +26,4 @@ public partial class StoreUpdateDto
     /// </summary>
     
     public System.String? OwnerRelId { get; set; } = default!;
-
-    /// <summary>
-    /// Store Verified emails ZeroOrOne EmailAddresses
-    /// </summary>
-    public virtual EmailAddressDto? EmailAddress { get; set; } = null!;
 }

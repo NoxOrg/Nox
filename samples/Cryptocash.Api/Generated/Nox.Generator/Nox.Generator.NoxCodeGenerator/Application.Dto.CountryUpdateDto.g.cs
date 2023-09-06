@@ -76,14 +76,4 @@ public partial class CountryUpdateDto
     /// </summary>
     [Required(ErrorMessage = "CountryUsedByCurrency is required")]
     public System.String CountryUsedByCurrencyId { get; set; } = default!;
-
-    /// <summary>
-    /// Country owned OneOrMany CountryTimeZones
-    /// </summary>
-    public virtual List<CountryTimeZoneDto> CountryTimeZones { get; set; } = new();
-
-    /// <summary>
-    /// Country owned ZeroOrMany Holidays
-    /// </summary>
-    public virtual List<HolidayDto> Holidays { get; set; } = new();
 }
