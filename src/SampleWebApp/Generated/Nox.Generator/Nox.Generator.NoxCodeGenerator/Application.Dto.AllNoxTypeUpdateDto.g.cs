@@ -14,7 +14,6 @@ namespace SampleWebApp.Application.Dto;
 /// </summary>
 public partial class AllNoxTypeUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Area Nox Type (Required).
     /// </summary>

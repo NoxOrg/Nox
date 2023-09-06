@@ -30,4 +30,11 @@ public partial class CountryLocalName
         => Nox.Types.Text.From(value, IdTypeOptions);
     
 
+    /// <summary>
+    /// Type options and factory for property 'Name'
+    /// </summary>
+    public static Nox.Types.Text CreateName(System.String value)
+        => Nox.Types.Text.From(value);
+    
+
 }

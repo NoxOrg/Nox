@@ -35,6 +35,11 @@ public class CountryLocalNameMapper : EntityMapperBase<CountryLocalName>
         {        
             entity.Id = noxTypeValue;
         }
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
+        if (noxTypeValue != null)
+        {        
+            entity.Name = noxTypeValue;
+        }
     
     }
 
@@ -43,6 +48,20 @@ public class CountryLocalNameMapper : EntityMapperBase<CountryLocalName>
 #pragma warning disable CS0168 // Variable is assigned but its value is never used
         dynamic? value;
 #pragma warning restore CS0168 // Variable is assigned but its value is never used
+        {
+            if (updatedProperties.TryGetValue("Name", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", value);
+                if(noxTypeValue == null)
+                {
+                    entity.Name = null;
+                }
+                else
+                {
+                    entity.Name = noxTypeValue;
+                }
+            }
+        }
     
     
     }

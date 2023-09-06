@@ -26,5 +26,10 @@ public partial class CountryLocalNameDto
     /// <summary>
     ///  (Required).
     /// </summary>
-    public System.String Id { get; set; } = default!;    
+    public System.String Id { get; set; } = default!;
+
+    /// <summary>
+    ///  (Optional).
+    /// </summary>
+    public System.String? Name { get; set; }    
 }

@@ -144,7 +144,7 @@ public class CountryMapper : EntityMapperBase<Country>
                 var noxTypeValue = CreateNoxType<Nox.Types.CountryCode3>(entityDefinition, "AlphaCode3", value);
                 if(noxTypeValue == null)
                 {
-                    throw new EntityAttributeIsNotNullableException("Country", "AlphaCode3");
+                    entity.AlphaCode3 = null;
                 }
                 else
                 {

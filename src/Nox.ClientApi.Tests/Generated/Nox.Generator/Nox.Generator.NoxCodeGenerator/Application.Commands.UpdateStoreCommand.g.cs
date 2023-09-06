@@ -21,14 +21,17 @@ public class UpdateStoreCommandHandler: CommandBase<UpdateStoreCommand, Store>, 
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<Store> EntityMapper { get; }
+	public IEntityMapper<EmailAddress> EmailAddressEntityMapper { get; }
 
 	public UpdateStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
+		IServiceProvider serviceProvider,	
+			IEntityMapper<EmailAddress> entityMapperEmailAddress,
 		IEntityMapper<Store> entityMapper): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
+		DbContext = dbContext;	
+		EmailAddressEntityMapper = entityMapperEmailAddress;
 		EntityMapper = entityMapper;
 	}
 	
@@ -51,9 +54,11 @@ public class UpdateStoreCommandHandler: CommandBase<UpdateStoreCommand, Store>, 
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if(result < 1)
+		if (result < 1)
+		{
 			return null;
+		}
 
 		return new StoreKeyDto(entity.Id.Value);
-	}
+	} 
 }

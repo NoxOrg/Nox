@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class HolidayUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Country holiday name (Required).
     /// </summary>

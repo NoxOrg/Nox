@@ -16,7 +16,7 @@ namespace SampleWebApp.Application.Dto;
 /// <summary>
 /// The cash balance in Store.
 /// </summary>
-public partial class CurrencyCashBalanceCreateDto : CurrencyCashBalanceUpdateDto
+public partial class CurrencyCashBalanceCreateDto 
 {
     /// <summary>
     ///  (Required).
@@ -27,7 +27,17 @@ public partial class CurrencyCashBalanceCreateDto : CurrencyCashBalanceUpdateDto
     ///  (Required).
     /// </summary>
     [Required(ErrorMessage = "CurrencyId is required")]
-    public System.UInt32 CurrencyId { get; set; } = default!;
+    public System.UInt32 CurrencyId { get; set; } = default!;    
+    /// <summary>
+    /// The amount (Required).
+    /// </summary>
+    [Required(ErrorMessage = "Amount is required")]
+    
+    public MoneyDto Amount { get; set; } = default!;    
+    /// <summary>
+    /// The Operation Limit (Optional).
+    /// </summary>
+    public System.Decimal? OperationLimit { get; set; }
 
     public SampleWebApp.Domain.CurrencyCashBalance ToEntity()
     {

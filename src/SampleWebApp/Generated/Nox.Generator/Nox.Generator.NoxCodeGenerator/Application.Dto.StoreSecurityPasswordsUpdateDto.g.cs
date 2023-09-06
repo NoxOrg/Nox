@@ -14,7 +14,6 @@ namespace SampleWebApp.Application.Dto;
 /// </summary>
 public partial class StoreSecurityPasswordsUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     ///  (Required).
     /// </summary>

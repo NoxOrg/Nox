@@ -50,6 +50,11 @@ public partial class AddExchangeRateCommandHandler: CommandBase<AddExchangeRateC
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
+		if (result < 1)
+		{
+			return null;
+		}
+
 		return new ExchangeRateKeyDto(entity.Id.Value);
 	}
 }

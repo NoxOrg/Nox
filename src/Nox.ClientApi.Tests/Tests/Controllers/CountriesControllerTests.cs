@@ -101,7 +101,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             var dto = new CountryCreateDto
             {
                 Name = _fixture.Create<string>(),
-                CountryLocalNames = new List<CountryLocalNameUpdateDto>() { new CountryLocalNameUpdateDto() { Name = expectedOwnedName } }
+                CountryLocalNames = new List<CountryLocalNameCreateDto>() { new CountryLocalNameCreateDto() { Name = expectedOwnedName } }
             };
             // Act
             var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(CountryControllerName, dto);
@@ -336,7 +336,6 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         public async Task PostToCountryLocalNames_ShouldAddToCountryLocalNames()
         {
             // Arrange
-            var expectedLocalNameId = "10";
             var expectedLocalName = "local UA";
 
             var createDto = new CountryCreateDto
@@ -347,7 +346,6 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
 
             var localNameDto = new CountryLocalNameCreateDto
             {
-                Id = expectedLocalNameId,
                 Name = expectedLocalName
             };
 
@@ -358,7 +356,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
 
             //Assert
             ownedResult.Should().NotBeNull();
-            ownedResult!.Id.Should().Be(expectedLocalNameId);
+            ownedResult!.Id.Should().BeGreaterThan(0);
         }
 
         #region Get
@@ -388,7 +386,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
 
         }
 
-        [Fact(Skip = "Needs Post for Owned entity")]
+        [Fact]
         public async Task Get_WhenSelectOwnedEntity_ReturnsOnlySelectedOwnedEntityFields()
         {
             var expectedLocalName = "Lusitania";
@@ -398,15 +396,16 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 Name = "Portugal",
                 Population = 1_000_000,
                 CountryDebt = new MoneyDto(10, CurrencyCode.USD),
-                CountryLocalNames = new List<CountryLocalNameUpdateDto>() {
-                    new CountryLocalNameUpdateDto() { Name = "PT" },
-                        new CountryLocalNameUpdateDto() { Name = expectedLocalName }
+                CountryLocalNames = new List<CountryLocalNameCreateDto>() {
+                    new CountryLocalNameCreateDto() { Name = "Iberia" },
+                    new CountryLocalNameCreateDto() { Name = expectedLocalName}
                 }
             };
             var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(CountryControllerName, dto);
 
             // Act
-            const string oDataRequest = "$select=CountryLocalNames&$filter=CountryLocalNames(Name=Lusitania)";
+            //const string oDataRequest = "$select=CountryLocalNames&$expand=CountryLocalNames($filter=Name eq 'Lusitania')";//&$filter=CountryLocalNames/";
+            const string oDataRequest = "$select=CountryLocalNames&$expand=CountryLocalNames($filter=Name eq 'Lusitania')";//&$filter=CountryLocalNames/";
             var response = await _oDataFixture.GetAsync<CountryDto>($"{CountryControllerName}/{result!.keyId}/?{oDataRequest}");
 
 
@@ -420,6 +419,36 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             response.CountryLocalNames.First().Name.Should().Be(expectedLocalName);
 
         }
+
+        [Fact]
+        public async Task GetOwnedEntitiesById_ReturnsOwnedEntitiesList()
+        {
+            var expectedCountryLocalNames = new List<CountryLocalNameCreateDto>() {
+                    new CountryLocalNameCreateDto() { Name = "Iberia" },
+                    new CountryLocalNameCreateDto() { Name = "Lusitania"}
+                };
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = "Portugal",
+                CountryLocalNames = expectedCountryLocalNames
+            };
+            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(CountryControllerName, dto);
+
+            // Act
+            var odataResponse = await _oDataFixture.GetAsync<ODataResponse<IEnumerable<CountryLocalNameDto>>>($"{CountryControllerName}/{result!.keyId}/CountryLocalNames");
+            var results = odataResponse!.Value;
+
+            //Assert
+            results.Should()
+                .HaveCount(expectedCountryLocalNames.Count())
+                    .And
+                .AllSatisfy(x => x.Name.Should().NotBeNullOrEmpty())
+                    .And
+                .AllSatisfy(x => x.Id.Should().BeGreaterThan(0));
+
+        }
+
         #endregion
 
         private async Task<System.Guid?> GetEtagAsync(CountryKeyDto? keyDto)

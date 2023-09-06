@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class PaymentDetailUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Payment account name (Required).
     /// </summary>

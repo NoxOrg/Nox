@@ -14,7 +14,6 @@ namespace ClientApi.Application.Dto;
 /// </summary>
 public partial class StoreUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Store Name (Required).
     /// </summary>
@@ -31,5 +30,5 @@ public partial class StoreUpdateDto
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
-     public virtual EmailAddressUpdateDto? EmailAddress { get; set; } = null!;
+    public virtual EmailAddressDto? EmailAddress { get; set; } = null!;
 }

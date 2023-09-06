@@ -49,8 +49,10 @@ public class UpdateStoreSecurityPasswordsCommandHandler: CommandBase<UpdateStore
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if(result < 1)
+		if (result < 1)
+		{
 			return null;
+		}
 
 		return new StoreSecurityPasswordsKeyDto(entity.Id.Value);
 	}

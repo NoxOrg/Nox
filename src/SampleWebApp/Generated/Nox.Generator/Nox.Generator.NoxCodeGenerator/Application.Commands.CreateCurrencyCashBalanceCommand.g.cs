@@ -36,7 +36,7 @@ public partial class CreateCurrencyCashBalanceCommandHandler: CommandBase<Create
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();
+		var entityToCreate = request.EntityDto.ToEntity();		
 	
 		OnCompleted(entityToCreate);
 		DbContext.CurrencyCashBalances.Add(entityToCreate);

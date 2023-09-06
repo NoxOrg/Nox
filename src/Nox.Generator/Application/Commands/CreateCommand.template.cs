@@ -44,7 +44,7 @@ public partial class Create{{entity.Name}}CommandHandler: CommandBase<Create{{en
 		{{- if key.Type == "Nuid" }}
 		entityToCreate.Ensure{{key.Name}}();
 		{{- end }}
-		{{- end }}
+		{{- end }}		
 	
 		OnCompleted(entityToCreate);
 		DbContext.{{entity.PluralName}}.Add(entityToCreate);

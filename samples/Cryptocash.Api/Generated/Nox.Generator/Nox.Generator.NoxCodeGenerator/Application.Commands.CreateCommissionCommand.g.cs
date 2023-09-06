@@ -36,7 +36,7 @@ public partial class CreateCommissionCommandHandler: CommandBase<CreateCommissio
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();
+		var entityToCreate = request.EntityDto.ToEntity();		
 	
 		OnCompleted(entityToCreate);
 		DbContext.Commissions.Add(entityToCreate);

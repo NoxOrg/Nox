@@ -1,5 +1,5 @@
 # Cryptocash
-## Decription
+## Description
 
 A sample solution for the imaginary Crypocash business.
 
@@ -79,7 +79,7 @@ Exchange booking and related data. *This entity is auditable and tracks info abo
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
-Member|Type|Decription|Info
+Member|Type|Description|Info
 ---------|----|----------|-------
 Id|DatabaseGuid|Booking unique identifier.|Required, Primary Key
 AmountFrom|Money|Booking's amount exchanged from.|Required
@@ -112,7 +112,7 @@ Vending machine cash stock order and related data. *This entity is auditable and
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
-Member|Type|Decription|Info
+Member|Type|Description|Info
 ---------|----|----------|-------
 Id|DatabaseNumber|Vending machine's order unique identifier.|Required, Primary Key
 Amount|Money|Order amount.|Required
@@ -137,7 +137,7 @@ Exchange commission rate and amount. *This entity is auditable and tracks info a
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
-Member|Type|Decription|Info
+Member|Type|Description|Info
 ---------|----|----------|-------
 Id|DatabaseNumber|Commission unique identifier.|Required, Primary Key
 Rate|Percentage|Commission rate.|Required
@@ -160,7 +160,7 @@ Country and related data. *This entity is auditable and tracks info about who, w
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
-Member|Type|Decription|Info
+Member|Type|Description|Info
 ---------|----|----------|-------
 Id|CountryCode2|Country unique identifier.|Required, Primary Key
 Name|Text|Country's name.|Required, MinLength: 4, MaxLength: 63
@@ -198,7 +198,7 @@ Time zone related to country.
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
-Member|Type|Decription|Info
+Member|Type|Description|Info
 ---------|----|----------|-------
 Id|DatabaseNumber|Country's time zone unique identifier.|Required, Primary Key
 TimeZoneCode|TimeZoneCode|Country's related time zone code.|Required
@@ -212,7 +212,7 @@ Holiday related to country.
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
-Member|Type|Decription|Info
+Member|Type|Description|Info
 ---------|----|----------|-------
 Id|DatabaseNumber|Country's holiday unique identifier.|Required, Primary Key
 Name|Text|Country holiday name.|Required, MinLength: 4, MaxLength: 63
@@ -228,7 +228,7 @@ Currency and related data. *This entity is auditable and tracks info about who, 
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
-Member|Type|Decription|Info
+Member|Type|Description|Info
 ---------|----|----------|-------
 Id|CurrencyCode3|Currency unique identifier.|Required, Primary Key
 Name|Text|Currency's name.|Required, MinLength: 4, MaxLength: 63
@@ -262,7 +262,7 @@ Currencies related frequent and rare bank notes.
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
-Member|Type|Decription|Info
+Member|Type|Description|Info
 ---------|----|----------|-------
 Id|DatabaseNumber|Currency bank note unique identifier.|Required, Primary Key
 CashNote|Text|Currency's cash bank note identifier.|Required, MinLength: 4, MaxLength: 63
@@ -277,7 +277,7 @@ Exchange rate and related data.
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
-Member|Type|Decription|Info
+Member|Type|Description|Info
 ---------|----|----------|-------
 Id|DatabaseNumber|Exchange rate unique identifier.|Required, Primary Key
 EffectiveRate|Number|Exchange rate conversion amount.|Required
@@ -292,7 +292,7 @@ Customer definition and related data. *This entity is auditable and tracks info 
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
-Member|Type|Decription|Info
+Member|Type|Description|Info
 ---------|----|----------|-------
 Id|DatabaseNumber|Customer's unique identifier.|Required, Primary Key
 FirstName|Text|Customer's first name.|Required, MinLength: 4, MaxLength: 63
@@ -320,7 +320,7 @@ Employee definition and related data. *This entity is auditable and tracks info 
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
-Member|Type|Decription|Info
+Member|Type|Description|Info
 ---------|----|----------|-------
 Id|DatabaseNumber|Employee's unique identifier.|Required, Primary Key
 FirstName|Text|Employee's first name.|Required, MinLength: 4, MaxLength: 63
@@ -346,7 +346,7 @@ Employee phone number and related data.
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
-Member|Type|Decription|Info
+Member|Type|Description|Info
 ---------|----|----------|-------
 Id|DatabaseNumber|Employee's phone number identifier.|Required, Primary Key
 PhoneNumberType|Text|Employee's phone number type.|Required, MinLength: 4, MaxLength: 63
@@ -361,7 +361,7 @@ Landlord related data. *This entity is auditable and tracks info about who, whic
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
-Member|Type|Decription|Info
+Member|Type|Description|Info
 ---------|----|----------|-------
 Id|DatabaseNumber|Landlord unique identifier.|Required, Primary Key
 Name|Text|Landlord name.|Required, MinLength: 4, MaxLength: 63
@@ -382,7 +382,7 @@ Minimum cash stock required for vending machine. *This entity is auditable and t
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
-Member|Type|Decription|Info
+Member|Type|Description|Info
 ---------|----|----------|-------
 Id|DatabaseNumber|Vending machine cash stock unique identifier.|Required, Primary Key
 Amount|Money|Cash stock amount.|Required
@@ -405,7 +405,7 @@ Customer payment account related data. *This entity is auditable and tracks info
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
-Member|Type|Decription|Info
+Member|Type|Description|Info
 ---------|----|----------|-------
 Id|DatabaseNumber|Customer payment account unique identifier.|Required, Primary Key
 PaymentAccountName|Text|Payment account name.|Required, MinLength: 4, MaxLength: 63
@@ -430,7 +430,7 @@ Payment provider related data. *This entity is auditable and tracks info about w
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
-Member|Type|Decription|Info
+Member|Type|Description|Info
 ---------|----|----------|-------
 Id|DatabaseNumber|Payment provider unique identifier.|Required, Primary Key
 PaymentProviderName|Text|Payment provider name.|Required, MinLength: 4, MaxLength: 63
@@ -451,7 +451,7 @@ Customer transaction log and related data. *This entity is auditable and tracks 
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
-Member|Type|Decription|Info
+Member|Type|Description|Info
 ---------|----|----------|-------
 Id|DatabaseNumber|Customer transaction unique identifier.|Required, Primary Key
 TransactionType|Text|Transaction type.|Required, MinLength: 4, MaxLength: 63
@@ -476,7 +476,7 @@ Vending machine definition and related data. *This entity is auditable and track
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
-Member|Type|Decription|Info
+Member|Type|Description|Info
 ---------|----|----------|-------
 Id|DatabaseGuid|Vending machine unique identifier.|Required, Primary Key
 MacAddress|MacAddress|Vending machine mac address.|Required
