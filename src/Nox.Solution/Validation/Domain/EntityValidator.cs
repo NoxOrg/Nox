@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using FluentValidation;
 using Nox.Types;
 
@@ -30,11 +28,13 @@ namespace Nox.Solution.Validation
                 .SetValidator(e => new UniquePropertyValidator<EntityRelationship>(e.Relationships, x => x.Name, "entity relation"));
 
             RuleForEach(e => e.OwnedRelationships)
-                .Must(x => x.Related.Entity.Keys.Count <= 1)
-                .WithMessage((x, r) => string.Format(ValidationResources.RelationEntityDependentMustHaveSingleKey, x.Name, r.Related.Entity.Name, r.Name))
                 .SetValidator(e => new EntityRelationshipValidator(e.Name, entities, requiresCorrespondingRelationship: false))
                 .SetValidator(x => new EntityItemUniquenessValidator<EntityRelationship>(x, t => t.Name, nameof(x.OwnedRelationships)))
                 .SetValidator(e => new UniquePropertyValidator<EntityRelationship>(e.OwnedRelationships, x => x.Name, "entity owned relation"));
+
+            RuleForEach(e => e.OwnedRelationships)
+                .Must(x => x.Related.Entity.Keys.Count <= 1)
+                .WithMessage((x, r) => string.Format(ValidationResources.RelationEntityDependentMustHaveSingleKey, x.Name, r.Related.Entity.Name, r.Name));
 
             RuleForEach(e => e.Queries)
                 .SetValidator(e => new DomainQueryValidator(e.Queries, e.Name));
