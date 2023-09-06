@@ -29,7 +29,6 @@ internal class DtoDbContextGenerator : INoxCodeGenerator
         new TemplateCodeBuilder(context, codeGeneratorState)
             .WithClassName(className)
             .WithFileNamePrefix($"Infrastructure.Persistence")
-            .WithObject("codeGeneratorState", codeGeneratorState)
             .WithObject("entities", entities)
             .GenerateSourceCodeFromResource(templateName);
     }
