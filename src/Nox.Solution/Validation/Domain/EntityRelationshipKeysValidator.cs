@@ -15,23 +15,23 @@ internal class EntityRelationshipKeysValidator : AbstractValidator<Entity>
 
         When(x => x.Relationships.Any(), () => 
         {
-            When(x => x.IsOwnedEntity && x.Relationships
-               .Any(x => x.Relationship == EntityRelationshipType.ZeroOrOne || x.Relationship == EntityRelationshipType.ExactlyOne),
+            When(x => x.IsOwnedEntity 
+                && x.Relationships.Any(x => x.Relationship == EntityRelationshipType.ZeroOrOne || x.Relationship == EntityRelationshipType.ExactlyOne),
                () =>
                {
                    RuleFor(x => x.Keys)
                    .Empty()
-                   .WithMessage(x=>string.Format(ValidationResources.OwnedEntityKeysMustBeNull,x.Name));
+                   .WithMessage(x => string.Format(ValidationResources.OwnedEntityKeysMustBeNull,x.Name));
                })
            .Otherwise(() => {
                RuleFor(x => x.Keys)
                .NotEmpty()
-               .WithMessage(x=> string.Format(ValidationResources.EntityKeysRequired,x.Name));
+               .WithMessage(x => string.Format(ValidationResources.EntityKeysRequired,x.Name));
            });
         });
 
         RuleForEach(x => x.OwnedRelationships)
-            .Must(x => x.Related.Entity.Keys.Count == 1)
+            .Must(x => x.Related.Entity.Keys.Count <= 1)
             .WithMessage((x, r) =>
                 string.Format(ValidationResources.RelationEntityDependentMustHaveSingleKey, x.Name, r.Related.Entity.Name, r.Name));
     }

@@ -22,7 +22,7 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<StoreDto>().HasKey(e => new { e.Id });
         builder.EntityType<WorkplaceDto>().HasKey(e => new { e.Id });
         builder.EntityType<StoreOwnerDto>().HasKey(e => new { e.Id });
-        builder.EntityType<EmailAddressDto>().HasKey(e => new { e.Id });
+        builder.EntityType<EmailAddressDto>().HasKey(e => new { });
 
 
         builder.EntitySet<CountryDto>("Countries");

@@ -15,13 +15,6 @@ namespace ClientApi.Domain;
 public partial class EmailAddress
 {
     /// <summary>
-    /// Type options and factory for property 'Id'
-    /// </summary>
-    public static Nox.Types.DatabaseNumber CreateId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
-    
-
-    /// <summary>
     /// Type options and factory for property 'Email'
     /// </summary>
     public static Nox.Types.Email CreateEmail(System.String value)

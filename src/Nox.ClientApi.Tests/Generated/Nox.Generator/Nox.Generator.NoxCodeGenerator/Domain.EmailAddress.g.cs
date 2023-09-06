@@ -15,10 +15,6 @@ namespace ClientApi.Domain;
 /// </summary>
 public partial class EmailAddress : EntityBase, IOwnedEntity
 {
-    /// <summary>
-    /// The unique identifier (Required).
-    /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Email (Optional).
