@@ -5,9 +5,9 @@ using Microsoft.EntityFrameworkCore;
 using Nox;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
-using {{RootNameSpace}}.Application.Dto;
+using {{codeGeneratorState.RootNameSpace}}.Application.Dto;
 
-namespace {{RootNameSpace}}.Infrastructure.Persistence;
+namespace {{codeGeneratorState.RootNameSpace}}.Infrastructure.Persistence;
 
 public class DtoDbContext : DbContext
 {
@@ -47,7 +47,7 @@ public class DtoDbContext : DbContext
         base.OnConfiguring(optionsBuilder);
         if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
-            _dbProvider.ConfigureDbContext(optionsBuilder, "{{RootNameSpace}}", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
+            _dbProvider.ConfigureDbContext(optionsBuilder, "{{codeGeneratorState.RootNameSpace}}", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
         }
     }
 
