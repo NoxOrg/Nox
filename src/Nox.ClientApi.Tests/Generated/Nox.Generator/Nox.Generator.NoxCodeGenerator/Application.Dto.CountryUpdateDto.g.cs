@@ -28,6 +28,10 @@ public partial class CountryUpdateDto
     /// The Money (Optional).
     /// </summary>
     public MoneyDto? CountryDebt { get; set; }
+    /// <summary>
+    /// First Official Language (Optional).
+    /// </summary>
+    public System.String? FirstLanguageCode { get; set; }
 
     /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames

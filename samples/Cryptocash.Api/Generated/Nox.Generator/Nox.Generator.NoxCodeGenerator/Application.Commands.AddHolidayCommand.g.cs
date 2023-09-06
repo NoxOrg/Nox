@@ -17,7 +17,7 @@ using Cryptocash.Application.Dto;
 using Holiday = Cryptocash.Domain.Holiday;
 
 namespace Cryptocash.Application.Commands;
-public record AddHolidayCommand(CountryKeyDto ParentKeyDto, HolidayCreateDto EntityDto) : IRequest <HolidayKeyDto?>;
+public record AddHolidayCommand(CountryKeyDto ParentKeyDto, HolidayCreateDto EntityDto, System.Guid? Etag) : IRequest <HolidayKeyDto?>;
 
 public partial class AddHolidayCommandHandler: CommandBase<AddHolidayCommand, Holiday>, IRequestHandler <AddHolidayCommand, HolidayKeyDto?>
 {
@@ -45,7 +45,7 @@ public partial class AddHolidayCommandHandler: CommandBase<AddHolidayCommand, Ho
 		var entity = request.EntityDto.ToEntity();
 		
 		parentEntity.Holidays.Add(entity);
-
+		parentEntity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 		OnCompleted(entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

@@ -86,7 +86,8 @@ public partial class CurrenciesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var createdKey = await _mediator.Send(new AddBankNoteCommand(new CurrencyKeyDto(key), bankNote));
+        var etag = GetDecodedEtagHeader();
+        var createdKey = await _mediator.Send(new AddBankNoteCommand(new CurrencyKeyDto(key), bankNote, etag));
         if (createdKey == null)
         {
             return NotFound();
@@ -102,7 +103,8 @@ public partial class CurrenciesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var updatedKey = await _mediator.Send(new UpdateBankNoteCommand(new CurrencyKeyDto(key), new BankNoteKeyDto(relatedKey), bankNote));
+        var etag = GetDecodedEtagHeader();
+        var updatedKey = await _mediator.Send(new UpdateBankNoteCommand(new CurrencyKeyDto(key), new BankNoteKeyDto(relatedKey), bankNote, etag));
         if (updatedKey == null)
         {
             return NotFound();
@@ -127,7 +129,8 @@ public partial class CurrenciesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateBankNoteCommand(new CurrencyKeyDto(key), updateProperties));
+        var etag = GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateBankNoteCommand(new CurrencyKeyDto(key), updateProperties, etag));
         
         if (updated is null)
         {
@@ -160,7 +163,8 @@ public partial class CurrenciesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var createdKey = await _mediator.Send(new AddExchangeRateCommand(new CurrencyKeyDto(key), exchangeRate));
+        var etag = GetDecodedEtagHeader();
+        var createdKey = await _mediator.Send(new AddExchangeRateCommand(new CurrencyKeyDto(key), exchangeRate, etag));
         if (createdKey == null)
         {
             return NotFound();
@@ -176,7 +180,8 @@ public partial class CurrenciesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var updatedKey = await _mediator.Send(new UpdateExchangeRateCommand(new CurrencyKeyDto(key), new ExchangeRateKeyDto(relatedKey), exchangeRate));
+        var etag = GetDecodedEtagHeader();
+        var updatedKey = await _mediator.Send(new UpdateExchangeRateCommand(new CurrencyKeyDto(key), new ExchangeRateKeyDto(relatedKey), exchangeRate, etag));
         if (updatedKey == null)
         {
             return NotFound();
@@ -201,7 +206,8 @@ public partial class CurrenciesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateExchangeRateCommand(new CurrencyKeyDto(key), updateProperties));
+        var etag = GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateExchangeRateCommand(new CurrencyKeyDto(key), updateProperties, etag));
         
         if (updated is null)
         {

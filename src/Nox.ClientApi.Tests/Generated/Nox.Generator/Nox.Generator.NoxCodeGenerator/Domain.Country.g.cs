@@ -36,6 +36,11 @@ public partial class Country : AuditableEntityBase, IConcurrent
     public Nox.Types.Money? CountryDebt { get; set; } = null!;
 
     /// <summary>
+    /// First Official Language (Optional).
+    /// </summary>
+    public Nox.Types.LanguageCode? FirstLanguageCode { get; set; } = null!;
+
+    /// <summary>
     /// The Formula (Optional).
     /// </summary>
     public String? ShortDescription

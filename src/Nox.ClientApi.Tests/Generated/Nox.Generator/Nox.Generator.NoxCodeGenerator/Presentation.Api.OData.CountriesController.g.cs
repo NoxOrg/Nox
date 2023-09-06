@@ -86,7 +86,8 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var createdKey = await _mediator.Send(new AddCountryLocalNameCommand(new CountryKeyDto(key), countryLocalName));
+        var etag = GetDecodedEtagHeader();
+        var createdKey = await _mediator.Send(new AddCountryLocalNameCommand(new CountryKeyDto(key), countryLocalName, etag));
         if (createdKey == null)
         {
             return NotFound();
@@ -102,7 +103,8 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var updatedKey = await _mediator.Send(new UpdateCountryLocalNameCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey), countryLocalName));
+        var etag = GetDecodedEtagHeader();
+        var updatedKey = await _mediator.Send(new UpdateCountryLocalNameCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey), countryLocalName, etag));
         if (updatedKey == null)
         {
             return NotFound();
@@ -127,7 +129,8 @@ public partial class CountriesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCountryLocalNameCommand(new CountryKeyDto(key), updateProperties));
+        var etag = GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCountryLocalNameCommand(new CountryKeyDto(key), updateProperties, etag));
         
         if (updated is null)
         {

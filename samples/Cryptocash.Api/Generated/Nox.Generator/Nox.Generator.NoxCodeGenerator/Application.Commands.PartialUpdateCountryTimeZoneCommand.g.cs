@@ -13,7 +13,7 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record PartialUpdateCountryTimeZoneCommand(CountryKeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CountryTimeZoneKeyDto?>;
+public record PartialUpdateCountryTimeZoneCommand(CountryKeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CountryTimeZoneKeyDto?>;
 
 public partial class PartialUpdateCountryTimeZoneCommandHandler: CommandBase<PartialUpdateCountryTimeZoneCommand, CountryTimeZone>, IRequestHandler <PartialUpdateCountryTimeZoneCommand, CountryTimeZoneKeyDto?>
 {
@@ -49,7 +49,8 @@ public partial class PartialUpdateCountryTimeZoneCommandHandler: CommandBase<Par
 		}
 
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<CountryTimeZone>(), request.UpdatedProperties);
-		
+		parentEntity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
+
 		OnCompleted(entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

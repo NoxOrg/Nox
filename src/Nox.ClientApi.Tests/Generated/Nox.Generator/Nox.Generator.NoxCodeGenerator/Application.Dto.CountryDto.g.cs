@@ -44,6 +44,11 @@ public partial class CountryDto
     public MoneyDto? CountryDebt { get; set; }
 
     /// <summary>
+    /// First Official Language (Optional).
+    /// </summary>
+    public System.String? FirstLanguageCode { get; set; }
+
+    /// <summary>
     /// The Formula (Optional).
     /// </summary>
     public System.String? ShortDescription { get; set; }

@@ -17,7 +17,7 @@ using Cryptocash.Application.Dto;
 using ExchangeRate = Cryptocash.Domain.ExchangeRate;
 
 namespace Cryptocash.Application.Commands;
-public record AddExchangeRateCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateCreateDto EntityDto) : IRequest <ExchangeRateKeyDto?>;
+public record AddExchangeRateCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateCreateDto EntityDto, System.Guid? Etag) : IRequest <ExchangeRateKeyDto?>;
 
 public partial class AddExchangeRateCommandHandler: CommandBase<AddExchangeRateCommand, ExchangeRate>, IRequestHandler <AddExchangeRateCommand, ExchangeRateKeyDto?>
 {
@@ -45,7 +45,7 @@ public partial class AddExchangeRateCommandHandler: CommandBase<AddExchangeRateC
 		var entity = request.EntityDto.ToEntity();
 		
 		parentEntity.ExchangeRates.Add(entity);
-
+		parentEntity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 		OnCompleted(entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

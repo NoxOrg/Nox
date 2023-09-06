@@ -5,6 +5,7 @@ using Nox.Types;
 using System.Net;
 using AutoFixture.AutoMoq;
 using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
@@ -444,6 +445,56 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             var queryResult = await _oDataFixture.GetAsync($"{EntityUrl}/{result!.keyId}");
 
             queryResult.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
+
+        [Fact]
+        public async Task Post_WhenLanguageIsSet_ShouldReturnSuccess()
+        {
+            var expectedLanguageCode = "pt";
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                FirstLanguageCode = expectedLanguageCode
+            };
+
+            // Act
+            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, dto);
+            var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{result!.keyId}");
+
+            //Assert
+            result.Should().NotBeNull();
+            result!.keyId.Should().BeGreaterThan(0);
+            queryResult!.FirstLanguageCode.Should().Be(expectedLanguageCode);
+        }
+
+        [Fact]
+        public async Task Put_WhenLanguageIsSet_ShouldReturnSuccess()
+        {
+            var createWithLanguage = "pt";
+            var updateWithLanguage = "en";
+            // Arrange
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                FirstLanguageCode = createWithLanguage
+            };
+            var updateDto = new CountryUpdateDto
+            {
+                Name = _fixture.Create<string>(),
+                FirstLanguageCode = updateWithLanguage
+            };
+
+            // Act
+            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, dto);
+            var etag = await GetEtagAsync(result);
+            var headers = _oDataFixture.CreateEtagHeader(etag);
+
+            await _oDataFixture.PutAsync($"{EntityUrl}/{result!.keyId}", updateDto, headers);
+            var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{result!.keyId}");
+
+            // Assert
+            queryResult!.FirstLanguageCode.Should().Be(updateWithLanguage);                      
         }
 
         [Fact]
