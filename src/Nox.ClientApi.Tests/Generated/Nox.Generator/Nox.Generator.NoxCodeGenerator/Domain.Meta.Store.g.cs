@@ -47,6 +47,13 @@ public partial class Store
     
 
     /// <summary>
+    /// Type options and factory for property 'EmailAddressId'
+    /// </summary>
+    public static Nox.Types.DatabaseNumber CreateEmailAddressId(System.Int64 value)
+        => Nox.Types.DatabaseNumber.From(value);
+    
+
+    /// <summary>
     /// Type options and factory for property 'StoreOwnerId'
     /// </summary>
     public static Nox.Types.TextTypeOptions StoreOwnerIdTypeOptions {get; private set;} = new ()

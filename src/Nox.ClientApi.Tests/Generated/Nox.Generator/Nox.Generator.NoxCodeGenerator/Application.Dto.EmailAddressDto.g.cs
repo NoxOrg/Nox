@@ -15,13 +15,18 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public record EmailAddressKeyDto();
+public record EmailAddressKeyDto(System.Int64 keyId);
 
 /// <summary>
 /// Verified Email Address.
 /// </summary>
 public partial class EmailAddressDto
 {
+
+    /// <summary>
+    /// The unique identifier (Required).
+    /// </summary>
+    public System.Int64 Id { get; set; } = default!;
 
     /// <summary>
     /// Email (Optional).

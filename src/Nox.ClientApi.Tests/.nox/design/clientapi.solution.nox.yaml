@@ -26,6 +26,11 @@ domain:
   
     - name: EmailAddress #owned by store
       description: Verified Email Address
+      keys:
+        - name: Id
+          isRequired: true
+          description: The unique identifier 
+          type: databaseNumber 
 
       # keys: Owned ZeroOrOne or ExactlyOne can not have defined keys
       attributes:
