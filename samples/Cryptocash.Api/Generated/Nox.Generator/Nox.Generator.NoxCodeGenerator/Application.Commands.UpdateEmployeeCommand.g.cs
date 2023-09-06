@@ -21,17 +21,14 @@ public class UpdateEmployeeCommandHandler: CommandBase<UpdateEmployeeCommand, Em
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Employee> EntityMapper { get; }
-	public IEntityMapper<EmployeePhoneNumber> EmployeePhoneNumberEntityMapper { get; }
 
 	public UpdateEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,	
-			IEntityMapper<EmployeePhoneNumber> entityMapperEmployeePhoneNumber,
+		IServiceProvider serviceProvider,
 		IEntityMapper<Employee> entityMapper): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;	
-		EmployeePhoneNumberEntityMapper = entityMapperEmployeePhoneNumber;
+		DbContext = dbContext;
 		EntityMapper = entityMapper;
 	}
 	
@@ -47,10 +44,6 @@ public class UpdateEmployeeCommandHandler: CommandBase<UpdateEmployeeCommand, Em
 			return null;
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Employee>(), request.EntityDto);
-		foreach(var ownedEntity in request.EntityDto.EmployeePhoneNumbers)
-		{
-			UpdateEmployeePhoneNumber(entity, ownedEntity);
-		}
 
 		OnCompleted(entity);
 
@@ -62,19 +55,5 @@ public class UpdateEmployeeCommandHandler: CommandBase<UpdateEmployeeCommand, Em
 		}
 
 		return new EmployeeKeyDto(entity.Id.Value);
-	}
-	private void UpdateEmployeePhoneNumber(Employee parent, EmployeePhoneNumberDto child)
-	{
-		var ownedId = CreateNoxTypeForKey<EmployeePhoneNumber,DatabaseNumber>("Id", child.Id);
-
-		var entity = parent.EmployeePhoneNumbers.SingleOrDefault(x =>
-			x.Id.Equals(ownedId) &&
-			true);
-		if (entity == null)
-		{
-			return;
-		}
-
-		EmployeePhoneNumberEntityMapper.MapToEntity(entity, GetEntityDefinition<EmployeePhoneNumber>(), child);		
 	}
 }

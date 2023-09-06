@@ -32,9 +32,4 @@ public partial class CountryUpdateDto
     /// First Official Language (Optional).
     /// </summary>
     public System.String? FirstLanguageCode { get; set; }
-
-    /// <summary>
-    /// Country is also know as ZeroOrMany CountryLocalNames
-    /// </summary>
-    public virtual List<CountryLocalNameDto> CountryLocalNames { get; set; } = new();
 }
