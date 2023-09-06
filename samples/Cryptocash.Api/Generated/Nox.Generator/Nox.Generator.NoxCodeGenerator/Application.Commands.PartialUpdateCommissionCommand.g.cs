@@ -16,7 +16,7 @@ using Commission = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Commands;
 
-public record PartialUpdateCommissionCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CommissionKeyDto?>;
+public record PartialUpdateCommissionCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CommissionKeyDto?>;
 
 public class PartialUpdateCommissionCommandHandler: CommandBase<PartialUpdateCommissionCommand, Commission>, IRequestHandler<PartialUpdateCommissionCommand, CommissionKeyDto?>
 {
@@ -45,6 +45,7 @@ public class PartialUpdateCommissionCommandHandler: CommandBase<PartialUpdateCom
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Commission>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 

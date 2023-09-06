@@ -10,7 +10,8 @@ using MediatR;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
@@ -31,5 +32,5 @@ public partial class CountryLocalNameDto
     /// <summary>
     ///  (Optional).
     /// </summary>
-    public System.String? Name { get; set; }    
+    public System.String? Name { get; set; }
 }

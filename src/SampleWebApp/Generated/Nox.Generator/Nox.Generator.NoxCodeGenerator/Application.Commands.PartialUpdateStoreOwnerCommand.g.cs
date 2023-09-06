@@ -16,7 +16,7 @@ using StoreOwner = SampleWebApp.Domain.StoreOwner;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateStoreOwnerCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <StoreOwnerKeyDto?>;
+public record PartialUpdateStoreOwnerCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <StoreOwnerKeyDto?>;
 
 public class PartialUpdateStoreOwnerCommandHandler: CommandBase<PartialUpdateStoreOwnerCommand, StoreOwner>, IRequestHandler<PartialUpdateStoreOwnerCommand, StoreOwnerKeyDto?>
 {
@@ -45,6 +45,7 @@ public class PartialUpdateStoreOwnerCommandHandler: CommandBase<PartialUpdateSto
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<StoreOwner>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 

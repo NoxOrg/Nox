@@ -13,7 +13,7 @@ using Commission = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Commands;
 
-public record DeleteCommissionByIdCommand(System.Int64 keyId) : IRequest<bool>;
+public record DeleteCommissionByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteCommissionByIdCommandHandler: CommandBase<DeleteCommissionByIdCommand,Commission>, IRequestHandler<DeleteCommissionByIdCommand, bool>
 {
@@ -38,6 +38,8 @@ public class DeleteCommissionByIdCommandHandler: CommandBase<DeleteCommissionByI
 		{
 			return false;
 		}
+
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;

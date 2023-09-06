@@ -15,7 +15,7 @@ using Currency = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Commands;
 
-public record UpdateCurrencyCommand(System.String keyId, CurrencyUpdateDto EntityDto) : IRequest<CurrencyKeyDto?>;
+public record UpdateCurrencyCommand(System.String keyId, CurrencyUpdateDto EntityDto, System.Guid? Etag) : IRequest<CurrencyKeyDto?>;
 
 public class UpdateCurrencyCommandHandler: CommandBase<UpdateCurrencyCommand, Currency>, IRequestHandler<UpdateCurrencyCommand, CurrencyKeyDto?>
 {
@@ -49,6 +49,7 @@ public class UpdateCurrencyCommandHandler: CommandBase<UpdateCurrencyCommand, Cu
 		{
 			return null;
 		}
+
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Currency>(), request.EntityDto);
 		foreach(var ownedEntity in request.EntityDto.BankNotes)
 		{
@@ -58,6 +59,7 @@ public class UpdateCurrencyCommandHandler: CommandBase<UpdateCurrencyCommand, Cu
 		{
 			UpdateExchangeRate(entity, ownedEntity);
 		}
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 

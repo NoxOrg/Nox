@@ -15,7 +15,7 @@ using Transaction = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application.Commands;
 
-public record UpdateTransactionCommand(System.Int64 keyId, TransactionUpdateDto EntityDto) : IRequest<TransactionKeyDto?>;
+public record UpdateTransactionCommand(System.Int64 keyId, TransactionUpdateDto EntityDto, System.Guid? Etag) : IRequest<TransactionKeyDto?>;
 
 public class UpdateTransactionCommandHandler: CommandBase<UpdateTransactionCommand, Transaction>, IRequestHandler<UpdateTransactionCommand, TransactionKeyDto?>
 {
@@ -43,7 +43,9 @@ public class UpdateTransactionCommandHandler: CommandBase<UpdateTransactionComma
 		{
 			return null;
 		}
+
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Transaction>(), request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 

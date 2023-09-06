@@ -16,7 +16,7 @@ using Customer = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Commands;
 
-public record PartialUpdateCustomerCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CustomerKeyDto?>;
+public record PartialUpdateCustomerCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CustomerKeyDto?>;
 
 public class PartialUpdateCustomerCommandHandler: CommandBase<PartialUpdateCustomerCommand, Customer>, IRequestHandler<PartialUpdateCustomerCommand, CustomerKeyDto?>
 {
@@ -45,6 +45,7 @@ public class PartialUpdateCustomerCommandHandler: CommandBase<PartialUpdateCusto
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Customer>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 

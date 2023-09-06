@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System.Net.Http.Headers;
 using Nox.Application;
 using SampleWebApp.Application;
 using SampleWebApp.Application.Dto;
@@ -79,7 +80,8 @@ public partial class AllNoxTypesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateAllNoxTypeCommand(keyId, keyTextId, allNoxType));
+        var etag = GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateAllNoxTypeCommand(keyId, keyTextId, allNoxType, etag));
         
         if (updated is null)
         {
@@ -94,6 +96,7 @@ public partial class AllNoxTypesController : ODataController
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in allNoxType.GetChangedPropertyNames())
@@ -104,7 +107,8 @@ public partial class AllNoxTypesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateAllNoxTypeCommand(keyId, keyTextId, updateProperties));
+        var etag = GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateAllNoxTypeCommand(keyId, keyTextId, updateProperties, etag));
         
         if (updated is null)
         {
@@ -115,12 +119,26 @@ public partial class AllNoxTypesController : ODataController
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 keyId, [FromRoute] System.String keyTextId)
     {
-        var result = await _mediator.Send(new DeleteAllNoxTypeByIdCommand(keyId, keyTextId));
+        var etag = GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteAllNoxTypeByIdCommand(keyId, keyTextId, etag));
+        
         if (!result)
         {
             return NotFound();
         }
         
         return NoContent();
+    }
+    
+    private System.Guid? GetDecodedEtagHeader()
+    {
+        var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();
+        string? rawEtag = ifMatchValue;
+        if (EntityTagHeaderValue.TryParse(ifMatchValue, out var encodedEtag))
+        {
+            rawEtag = encodedEtag.Tag.Trim('"');
+        }
+        
+        return System.Guid.TryParse(rawEtag, out var etag) ? etag : null;
     }
 }

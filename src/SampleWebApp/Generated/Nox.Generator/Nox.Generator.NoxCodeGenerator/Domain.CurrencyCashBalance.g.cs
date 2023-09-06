@@ -13,7 +13,7 @@ namespace SampleWebApp.Domain;
 /// <summary>
 /// The cash balance in Store.
 /// </summary>
-public partial class CurrencyCashBalance : AuditableEntityBase
+public partial class CurrencyCashBalance : AuditableEntityBase, IConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -37,4 +37,9 @@ public partial class CurrencyCashBalance : AuditableEntityBase
     /// The Operation Limit (Optional).
     /// </summary>
     public Nox.Types.Number? OperationLimit { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
 }

@@ -38,6 +38,7 @@ public partial class WorkplaceDto
     /// The Formula (Optional).
     /// </summary>
     public System.String? Greeting { get; set; }
+
     [JsonPropertyName("@odata.etag")]
     [JsonProperty("@odata.etag")]
     public System.Guid Etag { get; set; }

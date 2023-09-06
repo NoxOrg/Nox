@@ -13,7 +13,7 @@ namespace SampleWebApp.Domain;
 /// <summary>
 /// Entity to test all nox types.
 /// </summary>
-public partial class AllNoxType : AuditableEntityBase
+public partial class AllNoxType : AuditableEntityBase, IConcurrent
 {
     /// <summary>
     /// DatabaseNumber Nox Type (Required).
@@ -287,4 +287,9 @@ public partial class AllNoxType : AuditableEntityBase
     /// VatNumber Nox Type (Required).
     /// </summary>
     public Nox.Types.VatNumber VatNumberField { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
 }

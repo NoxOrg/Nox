@@ -13,7 +13,7 @@ namespace SampleWebApp.Domain;
 /// <summary>
 /// The list of currencies.
 /// </summary>
-public partial class Currency : AuditableEntityBase
+public partial class Currency : AuditableEntityBase, IConcurrent
 {
     /// <summary>
     /// The currency's primary key / identifier (Required).
@@ -45,4 +45,9 @@ public partial class Currency : AuditableEntityBase
     /// Currency is legal tender for ZeroOrMany Countries
     /// </summary>
     public virtual List<Country> CurrencyIsLegalTenderForCountry { get; set; } = new();
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
 }

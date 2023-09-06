@@ -10,7 +10,8 @@ using MediatR;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -93,5 +94,9 @@ public partial class BookingDto
     /// Booking related to ExactlyOne Transactions
     /// </summary>
     public virtual TransactionDto BookingRelatedTransaction { get; set; } = null!;
-    public System.DateTime? DeletedAtUtc { get; set; }    
+    public System.DateTime? DeletedAtUtc { get; set; }
+
+    [JsonPropertyName("@odata.etag")]
+    [JsonProperty("@odata.etag")]
+    public System.Guid Etag { get; set; }
 }

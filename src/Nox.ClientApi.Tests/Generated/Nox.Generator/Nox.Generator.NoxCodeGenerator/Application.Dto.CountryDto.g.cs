@@ -54,6 +54,7 @@ public partial class CountryDto
     /// </summary>
     public virtual List<CountryLocalNameDto> CountryLocalNames { get; set; } = new();
     public System.DateTime? DeletedAtUtc { get; set; }
+
     [JsonPropertyName("@odata.etag")]
     [JsonProperty("@odata.etag")]
     public System.Guid Etag { get; set; }

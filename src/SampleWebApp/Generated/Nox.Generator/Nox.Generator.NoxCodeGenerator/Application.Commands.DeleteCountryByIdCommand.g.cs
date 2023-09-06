@@ -13,7 +13,7 @@ using Country = SampleWebApp.Domain.Country;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteCountryByIdCommand(System.Int64 keyId) : IRequest<bool>;
+public record DeleteCountryByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteCountryByIdCommandHandler: CommandBase<DeleteCountryByIdCommand,Country>, IRequestHandler<DeleteCountryByIdCommand, bool>
 {
@@ -38,6 +38,8 @@ public class DeleteCountryByIdCommandHandler: CommandBase<DeleteCountryByIdComma
 		{
 			return false;
 		}
+
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;

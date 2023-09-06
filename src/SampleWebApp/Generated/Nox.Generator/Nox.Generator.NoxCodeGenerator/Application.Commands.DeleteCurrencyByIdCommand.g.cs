@@ -13,7 +13,7 @@ using Currency = SampleWebApp.Domain.Currency;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteCurrencyByIdCommand(System.UInt32 keyId) : IRequest<bool>;
+public record DeleteCurrencyByIdCommand(System.UInt32 keyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteCurrencyByIdCommandHandler: CommandBase<DeleteCurrencyByIdCommand,Currency>, IRequestHandler<DeleteCurrencyByIdCommand, bool>
 {
@@ -38,6 +38,8 @@ public class DeleteCurrencyByIdCommandHandler: CommandBase<DeleteCurrencyByIdCom
 		{
 			return false;
 		}
+
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;

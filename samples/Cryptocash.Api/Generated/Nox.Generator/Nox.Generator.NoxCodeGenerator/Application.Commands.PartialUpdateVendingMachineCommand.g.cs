@@ -16,7 +16,7 @@ using VendingMachine = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Commands;
 
-public record PartialUpdateVendingMachineCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <VendingMachineKeyDto?>;
+public record PartialUpdateVendingMachineCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <VendingMachineKeyDto?>;
 
 public class PartialUpdateVendingMachineCommandHandler: CommandBase<PartialUpdateVendingMachineCommand, VendingMachine>, IRequestHandler<PartialUpdateVendingMachineCommand, VendingMachineKeyDto?>
 {
@@ -45,6 +45,7 @@ public class PartialUpdateVendingMachineCommandHandler: CommandBase<PartialUpdat
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<VendingMachine>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 

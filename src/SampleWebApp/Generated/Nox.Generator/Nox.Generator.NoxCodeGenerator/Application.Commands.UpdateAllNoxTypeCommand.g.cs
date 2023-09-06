@@ -15,7 +15,7 @@ using AllNoxType = SampleWebApp.Domain.AllNoxType;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateAllNoxTypeCommand(System.Int64 keyId, System.String keyTextId, AllNoxTypeUpdateDto EntityDto) : IRequest<AllNoxTypeKeyDto?>;
+public record UpdateAllNoxTypeCommand(System.Int64 keyId, System.String keyTextId, AllNoxTypeUpdateDto EntityDto, System.Guid? Etag) : IRequest<AllNoxTypeKeyDto?>;
 
 public class UpdateAllNoxTypeCommandHandler: CommandBase<UpdateAllNoxTypeCommand, AllNoxType>, IRequestHandler<UpdateAllNoxTypeCommand, AllNoxTypeKeyDto?>
 {
@@ -44,7 +44,9 @@ public class UpdateAllNoxTypeCommandHandler: CommandBase<UpdateAllNoxTypeCommand
 		{
 			return null;
 		}
+
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<AllNoxType>(), request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 

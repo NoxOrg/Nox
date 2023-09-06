@@ -13,7 +13,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-public partial class Customer : AuditableEntityBase
+public partial class Customer : AuditableEntityBase, IConcurrent
 {
     /// <summary>
     /// Customer's unique identifier (Required).
@@ -69,4 +69,9 @@ public partial class Customer : AuditableEntityBase
     /// Foreign key for relationship ExactlyOne to entity Country
     /// </summary>
     public Nox.Types.CountryCode2 CustomerBaseCountryId { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
 }

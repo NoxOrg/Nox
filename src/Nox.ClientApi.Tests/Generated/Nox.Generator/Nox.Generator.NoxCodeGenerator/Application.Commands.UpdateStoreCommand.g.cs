@@ -47,7 +47,7 @@ public class UpdateStoreCommandHandler: CommandBase<UpdateStoreCommand, Store>, 
 			return null;
 		}
 
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<Store>(), request.EntityDto);
+		EntityMapper.MapToEntity(entity, GetEntityDefinition<Store>(), request.EntityDto); 
 		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);

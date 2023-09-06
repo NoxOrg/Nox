@@ -10,7 +10,8 @@ using MediatR;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
@@ -44,5 +45,9 @@ public partial class StoreSecurityPasswordsDto
     //EF maps ForeignKey Automatically
     public System.String StoreRelId { get; set; } = default!;
     public virtual StoreDto StoreRel { get; set; } = null!;
-    public System.DateTime? DeletedAtUtc { get; set; }    
+    public System.DateTime? DeletedAtUtc { get; set; }
+
+    [JsonPropertyName("@odata.etag")]
+    [JsonProperty("@odata.etag")]
+    public System.Guid Etag { get; set; }
 }

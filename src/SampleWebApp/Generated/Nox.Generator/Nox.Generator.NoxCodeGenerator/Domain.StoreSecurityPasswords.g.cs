@@ -13,7 +13,7 @@ namespace SampleWebApp.Domain;
 /// <summary>
 /// A set of security passwords to store cameras and databases.
 /// </summary>
-public partial class StoreSecurityPasswords : AuditableEntityBase
+public partial class StoreSecurityPasswords : AuditableEntityBase, IConcurrent
 {
     /// <summary>
     /// Passwords Primary Key (Required).
@@ -39,4 +39,9 @@ public partial class StoreSecurityPasswords : AuditableEntityBase
     /// Foreign key for relationship ExactlyOne to entity Store
     /// </summary>
     public Nox.Types.Text StoreRelId { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
 }

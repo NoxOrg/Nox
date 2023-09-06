@@ -16,7 +16,7 @@ using MinimumCashStock = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Commands;
 
-public record PartialUpdateMinimumCashStockCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <MinimumCashStockKeyDto?>;
+public record PartialUpdateMinimumCashStockCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <MinimumCashStockKeyDto?>;
 
 public class PartialUpdateMinimumCashStockCommandHandler: CommandBase<PartialUpdateMinimumCashStockCommand, MinimumCashStock>, IRequestHandler<PartialUpdateMinimumCashStockCommand, MinimumCashStockKeyDto?>
 {
@@ -45,6 +45,7 @@ public class PartialUpdateMinimumCashStockCommandHandler: CommandBase<PartialUpd
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<MinimumCashStock>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 

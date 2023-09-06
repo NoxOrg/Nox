@@ -46,6 +46,7 @@ public partial class StoreDto
     /// </summary>
     public virtual EmailAddressDto? EmailAddress { get; set; } = null!;
     public System.DateTime? DeletedAtUtc { get; set; }
+
     [JsonPropertyName("@odata.etag")]
     [JsonProperty("@odata.etag")]
     public System.Guid Etag { get; set; }

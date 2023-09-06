@@ -29,4 +29,5 @@ public partial class EmployeePhoneNumber : EntityBase, IOwnedEntity
     /// Employee's phone number (Required).
     /// </summary>
     public Nox.Types.PhoneNumber PhoneNumber { get; set; } = null!;
+
 }

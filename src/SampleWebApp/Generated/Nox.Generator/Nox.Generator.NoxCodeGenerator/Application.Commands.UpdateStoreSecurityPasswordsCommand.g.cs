@@ -15,7 +15,7 @@ using StoreSecurityPasswords = SampleWebApp.Domain.StoreSecurityPasswords;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateStoreSecurityPasswordsCommand(System.String keyId, StoreSecurityPasswordsUpdateDto EntityDto) : IRequest<StoreSecurityPasswordsKeyDto?>;
+public record UpdateStoreSecurityPasswordsCommand(System.String keyId, StoreSecurityPasswordsUpdateDto EntityDto, System.Guid? Etag) : IRequest<StoreSecurityPasswordsKeyDto?>;
 
 public class UpdateStoreSecurityPasswordsCommandHandler: CommandBase<UpdateStoreSecurityPasswordsCommand, StoreSecurityPasswords>, IRequestHandler<UpdateStoreSecurityPasswordsCommand, StoreSecurityPasswordsKeyDto?>
 {
@@ -43,7 +43,9 @@ public class UpdateStoreSecurityPasswordsCommandHandler: CommandBase<UpdateStore
 		{
 			return null;
 		}
+
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<StoreSecurityPasswords>(), request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 

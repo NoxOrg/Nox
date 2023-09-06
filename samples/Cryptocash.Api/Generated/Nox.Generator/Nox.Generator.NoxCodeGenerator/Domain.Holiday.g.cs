@@ -34,4 +34,5 @@ public partial class Holiday : EntityBase, IOwnedEntity
     /// Country holiday date (Required).
     /// </summary>
     public Nox.Types.Date Date { get; set; } = null!;
+
 }

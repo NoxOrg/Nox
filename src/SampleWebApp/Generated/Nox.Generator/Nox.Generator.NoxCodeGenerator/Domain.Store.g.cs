@@ -13,7 +13,7 @@ namespace SampleWebApp.Domain;
 /// <summary>
 /// Stores.
 /// </summary>
-public partial class Store : AuditableEntityBase
+public partial class Store : AuditableEntityBase, IConcurrent
 {
     /// <summary>
     /// Store Primary Key (Required).
@@ -44,4 +44,9 @@ public partial class Store : AuditableEntityBase
     /// Foreign key for relationship ZeroOrOne to entity StoreOwner
     /// </summary>
     public Nox.Types.Text? OwnerRelId { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
 }

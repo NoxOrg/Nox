@@ -15,7 +15,7 @@ using CurrencyCashBalance = SampleWebApp.Domain.CurrencyCashBalance;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateCurrencyCashBalanceCommand(System.String keyStoreId, System.UInt32 keyCurrencyId, CurrencyCashBalanceUpdateDto EntityDto) : IRequest<CurrencyCashBalanceKeyDto?>;
+public record UpdateCurrencyCashBalanceCommand(System.String keyStoreId, System.UInt32 keyCurrencyId, CurrencyCashBalanceUpdateDto EntityDto, System.Guid? Etag) : IRequest<CurrencyCashBalanceKeyDto?>;
 
 public class UpdateCurrencyCashBalanceCommandHandler: CommandBase<UpdateCurrencyCashBalanceCommand, CurrencyCashBalance>, IRequestHandler<UpdateCurrencyCashBalanceCommand, CurrencyCashBalanceKeyDto?>
 {
@@ -44,7 +44,9 @@ public class UpdateCurrencyCashBalanceCommandHandler: CommandBase<UpdateCurrency
 		{
 			return null;
 		}
+
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<CurrencyCashBalance>(), request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 

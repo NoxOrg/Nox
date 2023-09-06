@@ -13,7 +13,7 @@ using StoreSecurityPasswords = SampleWebApp.Domain.StoreSecurityPasswords;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteStoreSecurityPasswordsByIdCommand(System.String keyId) : IRequest<bool>;
+public record DeleteStoreSecurityPasswordsByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteStoreSecurityPasswordsByIdCommandHandler: CommandBase<DeleteStoreSecurityPasswordsByIdCommand,StoreSecurityPasswords>, IRequestHandler<DeleteStoreSecurityPasswordsByIdCommand, bool>
 {
@@ -38,6 +38,8 @@ public class DeleteStoreSecurityPasswordsByIdCommandHandler: CommandBase<DeleteS
 		{
 			return false;
 		}
+
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;

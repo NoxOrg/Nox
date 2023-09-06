@@ -16,7 +16,7 @@ using StoreSecurityPasswords = SampleWebApp.Domain.StoreSecurityPasswords;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateStoreSecurityPasswordsCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <StoreSecurityPasswordsKeyDto?>;
+public record PartialUpdateStoreSecurityPasswordsCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <StoreSecurityPasswordsKeyDto?>;
 
 public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase<PartialUpdateStoreSecurityPasswordsCommand, StoreSecurityPasswords>, IRequestHandler<PartialUpdateStoreSecurityPasswordsCommand, StoreSecurityPasswordsKeyDto?>
 {
@@ -45,6 +45,7 @@ public class PartialUpdateStoreSecurityPasswordsCommandHandler: CommandBase<Part
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<StoreSecurityPasswords>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 

@@ -13,7 +13,7 @@ using StoreOwner = SampleWebApp.Domain.StoreOwner;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteStoreOwnerByIdCommand(System.String keyId) : IRequest<bool>;
+public record DeleteStoreOwnerByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteStoreOwnerByIdCommandHandler: CommandBase<DeleteStoreOwnerByIdCommand,StoreOwner>, IRequestHandler<DeleteStoreOwnerByIdCommand, bool>
 {
@@ -38,6 +38,8 @@ public class DeleteStoreOwnerByIdCommandHandler: CommandBase<DeleteStoreOwnerByI
 		{
 			return false;
 		}
+
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;

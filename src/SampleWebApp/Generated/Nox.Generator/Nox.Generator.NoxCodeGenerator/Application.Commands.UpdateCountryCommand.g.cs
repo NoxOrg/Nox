@@ -15,7 +15,7 @@ using Country = SampleWebApp.Domain.Country;
 
 namespace SampleWebApp.Application.Commands;
 
-public record UpdateCountryCommand(System.Int64 keyId, CountryUpdateDto EntityDto) : IRequest<CountryKeyDto?>;
+public record UpdateCountryCommand(System.Int64 keyId, CountryUpdateDto EntityDto, System.Guid? Etag) : IRequest<CountryKeyDto?>;
 
 public class UpdateCountryCommandHandler: CommandBase<UpdateCountryCommand, Country>, IRequestHandler<UpdateCountryCommand, CountryKeyDto?>
 {
@@ -46,11 +46,13 @@ public class UpdateCountryCommandHandler: CommandBase<UpdateCountryCommand, Coun
 		{
 			return null;
 		}
+
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Country>(), request.EntityDto);
 		foreach(var ownedEntity in request.EntityDto.CountryLocalNames)
 		{
 			UpdateCountryLocalName(entity, ownedEntity);
 		}
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 

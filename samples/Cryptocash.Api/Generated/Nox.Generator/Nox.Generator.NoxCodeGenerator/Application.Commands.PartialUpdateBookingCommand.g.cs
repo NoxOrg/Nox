@@ -16,7 +16,7 @@ using Booking = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
 
-public record PartialUpdateBookingCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <BookingKeyDto?>;
+public record PartialUpdateBookingCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <BookingKeyDto?>;
 
 public class PartialUpdateBookingCommandHandler: CommandBase<PartialUpdateBookingCommand, Booking>, IRequestHandler<PartialUpdateBookingCommand, BookingKeyDto?>
 {
@@ -45,6 +45,7 @@ public class PartialUpdateBookingCommandHandler: CommandBase<PartialUpdateBookin
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Booking>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 

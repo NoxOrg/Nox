@@ -44,6 +44,7 @@ public partial class StoreOwnerDto
     /// </summary>
     public virtual List<StoreDto> StoreRel { get; set; } = new();
     public System.DateTime? DeletedAtUtc { get; set; }
+
     [JsonPropertyName("@odata.etag")]
     [JsonProperty("@odata.etag")]
     public System.Guid Etag { get; set; }

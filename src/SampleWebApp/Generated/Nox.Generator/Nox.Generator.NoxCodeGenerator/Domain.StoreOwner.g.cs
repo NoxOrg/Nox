@@ -13,7 +13,7 @@ namespace SampleWebApp.Domain;
 /// <summary>
 /// Store owners.
 /// </summary>
-public partial class StoreOwner : AuditableEntityBase
+public partial class StoreOwner : AuditableEntityBase, IConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -29,4 +29,9 @@ public partial class StoreOwner : AuditableEntityBase
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
     /// </summary>
     public virtual List<Store> StoreRel { get; set; } = new();
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
 }

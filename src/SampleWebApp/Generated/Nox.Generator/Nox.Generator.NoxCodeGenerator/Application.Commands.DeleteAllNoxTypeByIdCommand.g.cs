@@ -13,7 +13,7 @@ using AllNoxType = SampleWebApp.Domain.AllNoxType;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteAllNoxTypeByIdCommand(System.Int64 keyId, System.String keyTextId) : IRequest<bool>;
+public record DeleteAllNoxTypeByIdCommand(System.Int64 keyId, System.String keyTextId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteAllNoxTypeByIdCommandHandler: CommandBase<DeleteAllNoxTypeByIdCommand,AllNoxType>, IRequestHandler<DeleteAllNoxTypeByIdCommand, bool>
 {
@@ -39,6 +39,8 @@ public class DeleteAllNoxTypeByIdCommandHandler: CommandBase<DeleteAllNoxTypeByI
 		{
 			return false;
 		}
+
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;

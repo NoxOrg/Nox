@@ -13,7 +13,7 @@ using CurrencyCashBalance = SampleWebApp.Domain.CurrencyCashBalance;
 
 namespace SampleWebApp.Application.Commands;
 
-public record DeleteCurrencyCashBalanceByIdCommand(System.String keyStoreId, System.UInt32 keyCurrencyId) : IRequest<bool>;
+public record DeleteCurrencyCashBalanceByIdCommand(System.String keyStoreId, System.UInt32 keyCurrencyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteCurrencyCashBalanceByIdCommandHandler: CommandBase<DeleteCurrencyCashBalanceByIdCommand,CurrencyCashBalance>, IRequestHandler<DeleteCurrencyCashBalanceByIdCommand, bool>
 {
@@ -39,6 +39,8 @@ public class DeleteCurrencyCashBalanceByIdCommandHandler: CommandBase<DeleteCurr
 		{
 			return false;
 		}
+
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;

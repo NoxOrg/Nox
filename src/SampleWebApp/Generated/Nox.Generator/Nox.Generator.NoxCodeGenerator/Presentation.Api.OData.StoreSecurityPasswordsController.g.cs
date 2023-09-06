@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System.Net.Http.Headers;
 using Nox.Application;
 using SampleWebApp.Application;
 using SampleWebApp.Application.Dto;
@@ -79,7 +80,8 @@ public partial class StoreSecurityPasswordsController : ODataController
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateStoreSecurityPasswordsCommand(key, storeSecurityPasswords));
+        var etag = GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateStoreSecurityPasswordsCommand(key, storeSecurityPasswords, etag));
         
         if (updated is null)
         {
@@ -94,6 +96,7 @@ public partial class StoreSecurityPasswordsController : ODataController
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in storeSecurityPasswords.GetChangedPropertyNames())
@@ -104,7 +107,8 @@ public partial class StoreSecurityPasswordsController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateStoreSecurityPasswordsCommand(key, updateProperties));
+        var etag = GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateStoreSecurityPasswordsCommand(key, updateProperties, etag));
         
         if (updated is null)
         {
@@ -115,12 +119,26 @@ public partial class StoreSecurityPasswordsController : ODataController
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
-        var result = await _mediator.Send(new DeleteStoreSecurityPasswordsByIdCommand(key));
+        var etag = GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteStoreSecurityPasswordsByIdCommand(key, etag));
+        
         if (!result)
         {
             return NotFound();
         }
         
         return NoContent();
+    }
+    
+    private System.Guid? GetDecodedEtagHeader()
+    {
+        var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();
+        string? rawEtag = ifMatchValue;
+        if (EntityTagHeaderValue.TryParse(ifMatchValue, out var encodedEtag))
+        {
+            rawEtag = encodedEtag.Tag.Trim('"');
+        }
+        
+        return System.Guid.TryParse(rawEtag, out var etag) ? etag : null;
     }
 }

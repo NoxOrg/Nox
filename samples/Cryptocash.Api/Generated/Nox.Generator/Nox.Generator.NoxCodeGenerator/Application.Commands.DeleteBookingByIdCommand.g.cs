@@ -13,7 +13,7 @@ using Booking = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
 
-public record DeleteBookingByIdCommand(System.Guid keyId) : IRequest<bool>;
+public record DeleteBookingByIdCommand(System.Guid keyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteBookingByIdCommandHandler: CommandBase<DeleteBookingByIdCommand,Booking>, IRequestHandler<DeleteBookingByIdCommand, bool>
 {
@@ -38,6 +38,8 @@ public class DeleteBookingByIdCommandHandler: CommandBase<DeleteBookingByIdComma
 		{
 			return false;
 		}
+
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;

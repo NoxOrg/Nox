@@ -16,7 +16,7 @@ using AllNoxType = SampleWebApp.Domain.AllNoxType;
 
 namespace SampleWebApp.Application.Commands;
 
-public record PartialUpdateAllNoxTypeCommand(System.Int64 keyId, System.String keyTextId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <AllNoxTypeKeyDto?>;
+public record PartialUpdateAllNoxTypeCommand(System.Int64 keyId, System.String keyTextId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <AllNoxTypeKeyDto?>;
 
 public class PartialUpdateAllNoxTypeCommandHandler: CommandBase<PartialUpdateAllNoxTypeCommand, AllNoxType>, IRequestHandler<PartialUpdateAllNoxTypeCommand, AllNoxTypeKeyDto?>
 {
@@ -46,6 +46,7 @@ public class PartialUpdateAllNoxTypeCommandHandler: CommandBase<PartialUpdateAll
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<AllNoxType>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 
