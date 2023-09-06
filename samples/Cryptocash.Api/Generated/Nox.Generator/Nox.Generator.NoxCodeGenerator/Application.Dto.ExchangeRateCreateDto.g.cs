@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
@@ -16,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Exchange rate and related data.
 /// </summary>
-public partial class ExchangeRateCreateDto 
+public partial class ExchangeRateCreateDto : IEntityCreateDto <ExchangeRate>
 {    
     /// <summary>
     /// Exchange rate conversion amount (Required).

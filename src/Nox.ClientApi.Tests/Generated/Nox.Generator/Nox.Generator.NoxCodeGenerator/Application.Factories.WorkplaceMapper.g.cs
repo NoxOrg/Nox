@@ -20,7 +20,7 @@ using Workplace = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application;
 
-public class WorkplaceMapper : EntityMapperBase<Workplace>
+public partial class WorkplaceMapper : EntityMapperBase<Workplace>
 {
     public WorkplaceMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

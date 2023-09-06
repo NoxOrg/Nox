@@ -20,7 +20,7 @@ using StoreOwner = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application;
 
-public class StoreOwnerMapper : EntityMapperBase<StoreOwner>
+public partial class StoreOwnerMapper : EntityMapperBase<StoreOwner>
 {
     public StoreOwnerMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

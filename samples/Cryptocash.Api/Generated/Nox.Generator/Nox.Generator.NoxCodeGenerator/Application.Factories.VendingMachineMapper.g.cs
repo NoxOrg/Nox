@@ -20,7 +20,7 @@ using VendingMachine = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application;
 
-public class VendingMachineMapper : EntityMapperBase<VendingMachine>
+public partial class VendingMachineMapper : EntityMapperBase<VendingMachine>
 {
     public VendingMachineMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

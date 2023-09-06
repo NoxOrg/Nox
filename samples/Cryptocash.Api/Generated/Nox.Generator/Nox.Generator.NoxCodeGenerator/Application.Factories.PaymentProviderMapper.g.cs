@@ -20,7 +20,7 @@ using PaymentProvider = Cryptocash.Domain.PaymentProvider;
 
 namespace Cryptocash.Application;
 
-public class PaymentProviderMapper : EntityMapperBase<PaymentProvider>
+public partial class PaymentProviderMapper : EntityMapperBase<PaymentProvider>
 {
     public PaymentProviderMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

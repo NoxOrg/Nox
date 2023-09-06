@@ -20,7 +20,7 @@ using EmployeePhoneNumber = Cryptocash.Domain.EmployeePhoneNumber;
 
 namespace Cryptocash.Application;
 
-public class EmployeePhoneNumberMapper : EntityMapperBase<EmployeePhoneNumber>
+public partial class EmployeePhoneNumberMapper : EntityMapperBase<EmployeePhoneNumber>
 {
     public EmployeePhoneNumberMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

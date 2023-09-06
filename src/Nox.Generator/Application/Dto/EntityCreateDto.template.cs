@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
@@ -16,7 +17,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public partial class {{className}} 
+public partial class {{className}} : IEntityCreateDto <{{entity.Name}}>
 {
 {{- for key in entity.Keys }}
     {{- if key.Type == "Nuid" || key.Type == "DatabaseNumber" || key.Type == "DatabaseGuid" -}}

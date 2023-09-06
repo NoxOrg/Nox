@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
@@ -16,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public partial class TransactionCreateDto 
+public partial class TransactionCreateDto : IEntityCreateDto <Transaction>
 {    
     /// <summary>
     /// Transaction type (Required).

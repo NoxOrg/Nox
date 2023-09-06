@@ -20,7 +20,7 @@ using BankNote = Cryptocash.Domain.BankNote;
 
 namespace Cryptocash.Application;
 
-public class BankNoteMapper : EntityMapperBase<BankNote>
+public partial class BankNoteMapper : EntityMapperBase<BankNote>
 {
     public BankNoteMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

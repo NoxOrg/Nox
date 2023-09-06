@@ -21,14 +21,17 @@ public record AddHolidayCommand(CountryKeyDto ParentKeyDto, HolidayCreateDto Ent
 
 public partial class AddHolidayCommandHandler: CommandBase<AddHolidayCommand, Holiday>, IRequestHandler <AddHolidayCommand, HolidayKeyDto?>
 {
-	public CryptocashDbContext DbContext { get; }
+	private readonly CryptocashDbContext _dbContext;
+	private readonly IEntityFactory<HolidayCreateDto,Holiday> _entityFactory;
 
 	public AddHolidayCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<HolidayCreateDto,Holiday> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;		
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;	
 	}
 
 	public async Task<HolidayKeyDto?> Handle(AddHolidayCommand request, CancellationToken cancellationToken)
@@ -36,20 +39,20 @@ public partial class AddHolidayCommandHandler: CommandBase<AddHolidayCommand, Ho
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Country,CountryCode2>("Id", request.ParentKeyDto.keyId);
 
-		var parentEntity = await DbContext.Countries.FindAsync(keyId);
+		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
 
-		var entity = request.EntityDto.ToEntity();
+		var entity = _entityFactory.CreateEntity(request.EntityDto);
 		
 		parentEntity.Holidays.Add(entity);
 
 		OnCompleted(entity);
 	
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		_dbContext.Entry(parentEntity).State = EntityState.Modified;
+		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{
 			return null;

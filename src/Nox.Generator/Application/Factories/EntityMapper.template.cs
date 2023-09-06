@@ -20,7 +20,7 @@ using {{entity.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}};
 
-public class {{className}} : EntityMapperBase<{{entity.Name}}>
+public partial class {{className}} : EntityMapperBase<{{entity.Name}}>
 {
     public {{className}}(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
@@ -16,7 +17,7 @@ namespace ClientApi.Application.Dto;
 /// <summary>
 /// Workplace.
 /// </summary>
-public partial class WorkplaceCreateDto 
+public partial class WorkplaceCreateDto : IEntityCreateDto <Workplace>
 {    
     /// <summary>
     /// Workplace Name (Required).

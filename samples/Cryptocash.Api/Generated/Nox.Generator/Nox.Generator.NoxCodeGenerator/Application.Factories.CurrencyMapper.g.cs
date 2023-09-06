@@ -20,7 +20,7 @@ using Currency = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application;
 
-public class CurrencyMapper : EntityMapperBase<Currency>
+public partial class CurrencyMapper : EntityMapperBase<Currency>
 {
     public CurrencyMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

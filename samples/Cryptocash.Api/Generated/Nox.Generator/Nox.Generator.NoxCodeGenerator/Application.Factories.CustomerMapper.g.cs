@@ -20,7 +20,7 @@ using Customer = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application;
 
-public class CustomerMapper : EntityMapperBase<Customer>
+public partial class CustomerMapper : EntityMapperBase<Customer>
 {
     public CustomerMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

@@ -20,7 +20,7 @@ using Transaction = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application;
 
-public class TransactionMapper : EntityMapperBase<Transaction>
+public partial class TransactionMapper : EntityMapperBase<Transaction>
 {
     public TransactionMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

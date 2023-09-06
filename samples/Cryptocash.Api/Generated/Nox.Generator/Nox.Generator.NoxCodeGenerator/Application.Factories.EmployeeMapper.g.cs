@@ -20,7 +20,7 @@ using Employee = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application;
 
-public class EmployeeMapper : EntityMapperBase<Employee>
+public partial class EmployeeMapper : EntityMapperBase<Employee>
 {
     public EmployeeMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

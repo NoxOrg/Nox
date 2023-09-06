@@ -20,7 +20,7 @@ using Booking = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application;
 
-public class BookingMapper : EntityMapperBase<Booking>
+public partial class BookingMapper : EntityMapperBase<Booking>
 {
     public BookingMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

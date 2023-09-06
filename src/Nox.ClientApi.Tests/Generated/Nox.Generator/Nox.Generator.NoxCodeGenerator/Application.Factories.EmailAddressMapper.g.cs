@@ -20,7 +20,7 @@ using EmailAddress = ClientApi.Domain.EmailAddress;
 
 namespace ClientApi.Application;
 
-public class EmailAddressMapper : EntityMapperBase<EmailAddress>
+public partial class EmailAddressMapper : EntityMapperBase<EmailAddress>
 {
     public EmailAddressMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

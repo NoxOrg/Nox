@@ -20,7 +20,7 @@ using LandLord = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application;
 
-public class LandLordMapper : EntityMapperBase<LandLord>
+public partial class LandLordMapper : EntityMapperBase<LandLord>
 {
     public LandLordMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

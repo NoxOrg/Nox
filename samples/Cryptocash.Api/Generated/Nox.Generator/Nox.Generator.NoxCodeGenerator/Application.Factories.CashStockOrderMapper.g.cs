@@ -20,7 +20,7 @@ using CashStockOrder = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application;
 
-public class CashStockOrderMapper : EntityMapperBase<CashStockOrder>
+public partial class CashStockOrderMapper : EntityMapperBase<CashStockOrder>
 {
     public CashStockOrderMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

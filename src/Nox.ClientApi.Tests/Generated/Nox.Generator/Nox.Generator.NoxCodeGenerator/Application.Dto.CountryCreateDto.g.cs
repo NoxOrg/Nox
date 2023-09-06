@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
@@ -16,7 +17,7 @@ namespace ClientApi.Application.Dto;
 /// <summary>
 /// Country Entity.
 /// </summary>
-public partial class CountryCreateDto 
+public partial class CountryCreateDto : IEntityCreateDto <Country>
 {    
     /// <summary>
     /// The Country Name (Required).
