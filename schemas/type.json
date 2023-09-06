@@ -3184,6 +3184,7 @@
           "type": "string",
           "enum": [
             "array",
+            "autoNumber",
             "boolean",
             "collection",
             "color",
@@ -3194,7 +3195,6 @@
             "currencyCode3",
             "currencyNumber",
             "databaseGuid",
-            "databaseNumber",
             "dateTimeSchedule",
             "dayOfWeek",
             "email",
