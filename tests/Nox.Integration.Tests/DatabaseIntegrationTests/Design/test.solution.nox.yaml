@@ -1354,3 +1354,63 @@ domain:
 
         - name: ImageTestField
           type: image
+
+    - name: TestEntityForUniqueConstraints
+      description: Entity created for testing constraints
+
+      userInterface:
+        icon: world
+
+      persistence:
+        isAudited: false
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+
+        - name: TextField
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+        - name: NumberField
+          type: number
+          numberTypeOptions:
+            minValue: 4
+            maxValue: 894
+          isRequired: true
+          
+        - name: UniqueNumberField
+          type: number
+          numberTypeOptions:
+            minValue: 4
+            maxValue: 894
+          isRequired: true
+        
+        - name: UniqueCountryCode
+          type: countryCode2
+          isRequired: true
+          
+        - name: UniqueCurrencyCode
+          type: currencyCode3
+          isRequired: true
+          
+      uniqueAttributeConstraints:
+        - name: UniqueNumberField
+          attributeNames:
+            - UniqueNumberField
+        
+        - name: UniqueFields
+          attributeNames:
+            - UniqueCountryCode
+            - UniqueCurrencyCode

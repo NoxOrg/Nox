@@ -70,5 +70,11 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
         {
             OwnedNavigationBuilder!.OwnsMany(ownedType, navigationName, buildAction);
         }
+        
+       
+        public IndexBuilder HasUniqueAttributeConstraint(string[] propertyNames, string constraintName)
+        {
+            return OwnedNavigationBuilder!.HasIndex(propertyNames).HasDatabaseName(constraintName).IsUnique();
+        }
     }
 }
