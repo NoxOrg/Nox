@@ -29,7 +29,7 @@ public class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Amount", dto.Amount);
         if (noxTypeValue != null)
         {        
@@ -38,21 +38,12 @@ public class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
     
 
         /// <summary>
-        /// MinimumCashStock Vending machine's minimum cash stock ExactlyOne VendingMachines
+        /// MinimumCashStock related to ExactlyOne Currencies
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "VendingMachine", dto.VendingMachineId);
+        noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "MinimumCashStockRelatedCurrency", dto.MinimumCashStockRelatedCurrencyId);
         if (noxTypeValue != null)
         {        
-            entity.VendingMachineId = noxTypeValue;
-        }
-
-        /// <summary>
-        /// MinimumCashStock Cash stock's currency ExactlyOne Currencies
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "Currency", dto.CurrencyId);
-        if (noxTypeValue != null)
-        {        
-            entity.CurrencyId = noxTypeValue;
+            entity.MinimumCashStockRelatedCurrencyId = noxTypeValue;
         }
     }
 
@@ -78,25 +69,14 @@ public class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
     
     
         /// <summary>
-        /// MinimumCashStock Vending machine's minimum cash stock ExactlyOne VendingMachines
-        /// </summary>
-        if (updatedProperties.TryGetValue("VendingMachineId", out value))
-        {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "VendingMachine", value);
-            if (noxRelationshipTypeValue != null)
-            {        
-                entity.VendingMachineId = noxRelationshipTypeValue;
-            }
-        }
-        /// <summary>
-        /// MinimumCashStock Cash stock's currency ExactlyOne Currencies
+        /// MinimumCashStock related to ExactlyOne Currencies
         /// </summary>
         if (updatedProperties.TryGetValue("CurrencyId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "Currency", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "MinimumCashStockRelatedCurrency", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.CurrencyId = noxRelationshipTypeValue;
+                entity.MinimumCashStockRelatedCurrencyId = noxRelationshipTypeValue;
             }
         }
     }

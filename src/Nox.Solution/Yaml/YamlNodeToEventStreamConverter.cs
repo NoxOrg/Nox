@@ -5,7 +5,7 @@ using YamlDotNet.RepresentationModel;
 
 namespace Nox.Solution.Yaml;
 
-public class YamlNodeToEventStreamConverter
+public static class YamlNodeToEventStreamConverter
 {
     public static IEnumerable<ParsingEvent> ConvertToEventStream(YamlStream stream)
     {

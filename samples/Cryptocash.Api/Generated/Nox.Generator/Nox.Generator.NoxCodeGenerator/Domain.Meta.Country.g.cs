@@ -140,9 +140,16 @@ public partial class Country
     
 
     /// <summary>
-    /// Type options and factory for property 'CountryTimeZonesId'
+    /// Type options and factory for property 'CountryTimeZoneId'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreateCountryTimeZonesId(System.Int64 value)
+    public static Nox.Types.DatabaseNumber CreateCountryTimeZoneId(System.Int64 value)
+        => Nox.Types.DatabaseNumber.From(value);
+    
+
+    /// <summary>
+    /// Type options and factory for property 'HolidayId'
+    /// </summary>
+    public static Nox.Types.DatabaseNumber CreateHolidayId(System.Int64 value)
         => Nox.Types.DatabaseNumber.From(value);
     
 

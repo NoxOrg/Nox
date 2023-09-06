@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Nox.Generator.Tests;
 
@@ -40,6 +40,7 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests
                 "Domain.SecondTestEntityOneOrMany",
                 "Domain.ThirdTestEntityOneOrMany",
                 "Domain.TestEntityForTypes",
+                "Domain.TestEntityForUniqueConstraints",
                 "Domain.TestEntityWithNuid",
                 "Domain.TestEntityExactlyOne",
                 "Domain.SecondTestEntityExactlyOne",
@@ -67,6 +68,12 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests
                 "Domain.SecondTestEntityOwnedRelationshipOneOrMany",
                 "Domain.TestEntityOwnedRelationshipZeroOrMany",
                 "Domain.SecondTestEntityOwnedRelationshipZeroOrMany",
+                "Domain.TestEntityTwoRelationshipsOneToOne",
+                "Domain.SecondTestEntityTwoRelationshipsOneToOne",
+                "Domain.TestEntityTwoRelationshipsManyToMany",
+                "Domain.SecondTestEntityTwoRelationshipsManyToMany",
+                "Domain.TestEntityTwoRelationshipsOneToMany",
+                "Domain.SecondTestEntityTwoRelationshipsOneToMany",
             };
 
             foreach (var className in classNames)

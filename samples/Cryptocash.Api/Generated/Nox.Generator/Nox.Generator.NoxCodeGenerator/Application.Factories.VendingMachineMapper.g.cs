@@ -29,37 +29,37 @@ public class VendingMachineMapper : EntityMapperBase<VendingMachine>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
         noxTypeValue = CreateNoxType<Nox.Types.MacAddress>(entityDefinition, "MacAddress", dto.MacAddress);
         if (noxTypeValue != null)
         {        
             entity.MacAddress = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.IpAddress>(entityDefinition, "PublicIp", dto.PublicIp);
         if (noxTypeValue != null)
         {        
             entity.PublicIp = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "GeoLocation", dto.GeoLocation);
         if (noxTypeValue != null)
         {        
             entity.GeoLocation = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "StreetAddress", dto.StreetAddress);
         if (noxTypeValue != null)
         {        
             entity.StreetAddress = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "SerialNumber", dto.SerialNumber);
         if (noxTypeValue != null)
         {        
             entity.SerialNumber = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Area>(entityDefinition, "InstallationFootPrint", dto.InstallationFootPrint);
         if (noxTypeValue != null)
         {        
             entity.InstallationFootPrint = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "RentPerSquareMetre", dto.RentPerSquareMetre);
         if (noxTypeValue != null)
         {        
@@ -68,21 +68,21 @@ public class VendingMachineMapper : EntityMapperBase<VendingMachine>
     
 
         /// <summary>
-        /// VendingMachine Vending machine's country ExactlyOne Countries
+        /// VendingMachine installed in ExactlyOne Countries
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "Country", dto.CountryId);
+        noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "VendingMachineInstallationCountry", dto.VendingMachineInstallationCountryId);
         if (noxTypeValue != null)
         {        
-            entity.CountryId = noxTypeValue;
+            entity.VendingMachineInstallationCountryId = noxTypeValue;
         }
 
         /// <summary>
-        /// VendingMachine Area of the vending machine installation landlord ExactlyOne LandLords
+        /// VendingMachine contracted area leased by ExactlyOne LandLords
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "LandLord", dto.LandLordId);
+        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "VendingMachineContractedAreaLandLord", dto.VendingMachineContractedAreaLandLordId);
         if (noxTypeValue != null)
         {        
-            entity.LandLordId = noxTypeValue;
+            entity.VendingMachineContractedAreaLandLordId = noxTypeValue;
         }
     }
 
@@ -192,25 +192,25 @@ public class VendingMachineMapper : EntityMapperBase<VendingMachine>
     
     
         /// <summary>
-        /// VendingMachine Vending machine's country ExactlyOne Countries
+        /// VendingMachine installed in ExactlyOne Countries
         /// </summary>
         if (updatedProperties.TryGetValue("CountryId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "Country", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "VendingMachineInstallationCountry", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.CountryId = noxRelationshipTypeValue;
+                entity.VendingMachineInstallationCountryId = noxRelationshipTypeValue;
             }
         }
         /// <summary>
-        /// VendingMachine Area of the vending machine installation landlord ExactlyOne LandLords
+        /// VendingMachine contracted area leased by ExactlyOne LandLords
         /// </summary>
         if (updatedProperties.TryGetValue("LandLordId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "LandLord", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "VendingMachineContractedAreaLandLord", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.LandLordId = noxRelationshipTypeValue;
+                entity.VendingMachineContractedAreaLandLordId = noxRelationshipTypeValue;
             }
         }
     }

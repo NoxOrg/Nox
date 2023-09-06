@@ -11,7 +11,7 @@ using Nox.Domain;
 namespace Cryptocash.Domain;
 
 /// <summary>
-/// Employee phone numbers and related data.
+/// Employee phone number and related data.
 /// </summary>
 public partial class EmployeePhoneNumber : EntityBase, IOwnedEntity
 {

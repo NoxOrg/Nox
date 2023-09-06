@@ -1,15 +1,22 @@
 ﻿using FluentAssertions;
 using ClientApi.Application.Dto;
+using AutoFixture.AutoMoq;
+using AutoFixture;
 
 namespace Nox.ClientApi.Tests.Tests.Controllers;
 
 [Collection("Sequential")]
-public class CreateCountryCommandHandlerTests : NoxIntgrationTestBase
+public class CreateCountryCommandHandlerTests 
 {
     private const string CountryControllerName = "api/countries";
+    private readonly Fixture _fixture;
+    private readonly ODataFixture _oDataFixture;
 
-    public CreateCountryCommandHandlerTests(NoxTestApplicationFactory<StartupFixture> factory) : base(factory)
+    public CreateCountryCommandHandlerTests()
     {
+        _fixture = new Fixture();
+        _fixture.Customize(new AutoMoqCustomization());
+        _oDataFixture = _fixture.Create<ODataFixture>();
     }
 
     /// <summary>
@@ -33,9 +40,9 @@ public class CreateCountryCommandHandlerTests : NoxIntgrationTestBase
         };
         // Act
 
-        var result = await PostAsync<CountryCreateDto, CountryKeyDto>(CountryControllerName, countryDto);
-        await PutAsync($"{CountryControllerName}/{result!.keyId}", countryUpdateDto);
-        var queryResult = await GetAsync<CountryDto>($"{CountryControllerName}/{result!.keyId}");
+        var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(CountryControllerName, countryDto);
+        await _oDataFixture.PutAsync($"{CountryControllerName}/{result!.keyId}", countryUpdateDto);
+        var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{CountryControllerName}/{result!.keyId}");
 
         //Assert
 
@@ -60,8 +67,8 @@ public class CreateCountryCommandHandlerTests : NoxIntgrationTestBase
         };
 
         // Act
-        var result = await PostAsync<CountryCreateDto, CountryKeyDto>(CountryControllerName, countryDto);
-        var queryResult = await GetAsync<CountryDto>($"{CountryControllerName}/{result!.keyId}");
+        var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(CountryControllerName, countryDto);
+        var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{CountryControllerName}/{result!.keyId}");
 
         //Assert
         queryResult.Should().NotBeNull();

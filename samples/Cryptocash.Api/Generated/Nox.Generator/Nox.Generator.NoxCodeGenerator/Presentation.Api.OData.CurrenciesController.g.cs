@@ -19,7 +19,6 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-[Route("{controller}")]
 public partial class CurrenciesController : ODataController
 {
     
@@ -42,7 +41,6 @@ public partial class CurrenciesController : ODataController
         _mediator = mediator;
     }
     
-    [HttpGet]
     [EnableQuery]
     public async  Task<ActionResult<IQueryable<CurrencyDto>>> Get()
     {
@@ -50,6 +48,7 @@ public partial class CurrenciesController : ODataController
         return Ok(result);
     }
     
+    [EnableQuery]
     public async Task<ActionResult<CurrencyDto>> Get([FromRoute] System.String key)
     {
         var item = await _mediator.Send(new GetCurrencyByIdQuery(key));
@@ -62,7 +61,154 @@ public partial class CurrenciesController : ODataController
         return Ok(item);
     }
     
-    [HttpPost]
+    [EnableQuery]
+    public async Task<ActionResult<IQueryable<BankNoteDto>>> GetBankNotes([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var item = await _mediator.Send(new GetCurrencyByIdQuery(key));
+        
+        if (item is null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item.BankNotes);
+    }
+    
+    public async Task<ActionResult> PostToBankNotes([FromRoute] System.String key, [FromBody] BankNoteCreateDto bankNote)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdKey = await _mediator.Send(new AddBankNoteCommand(new CurrencyKeyDto(key), bankNote));
+        if (createdKey == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(new BankNoteDto { Id = createdKey.keyId });
+    }
+    
+    public async Task<ActionResult> PutToBankNotes([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] BankNoteUpdateDto bankNote)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var updatedKey = await _mediator.Send(new UpdateBankNoteCommand(new CurrencyKeyDto(key), new BankNoteKeyDto(relatedKey), bankNote));
+        if (updatedKey == null)
+        {
+            return NotFound();
+        }
+        
+        return Updated(new BankNoteDto { Id = updatedKey.keyId });
+    }
+    
+    public async Task<ActionResult> PatchToBankNotes([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<BankNoteUpdateDto> bankNote)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in bankNote.GetChangedPropertyNames())
+        {
+            if(bankNote.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var updated = await _mediator.Send(new PartialUpdateBankNoteCommand(new CurrencyKeyDto(key), updateProperties));
+        
+        if (updated is null)
+        {
+            return NotFound();
+        }
+        return Updated(new BankNoteDto { Id = updated.keyId });
+    }
+    
+    [EnableQuery]
+    public async Task<ActionResult<IQueryable<ExchangeRateDto>>> GetExchangeRates([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var item = await _mediator.Send(new GetCurrencyByIdQuery(key));
+        
+        if (item is null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item.ExchangeRates);
+    }
+    
+    public async Task<ActionResult> PostToExchangeRates([FromRoute] System.String key, [FromBody] ExchangeRateCreateDto exchangeRate)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var createdKey = await _mediator.Send(new AddExchangeRateCommand(new CurrencyKeyDto(key), exchangeRate));
+        if (createdKey == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(new ExchangeRateDto { Id = createdKey.keyId });
+    }
+    
+    public async Task<ActionResult> PutToExchangeRates([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] ExchangeRateUpdateDto exchangeRate)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var updatedKey = await _mediator.Send(new UpdateExchangeRateCommand(new CurrencyKeyDto(key), new ExchangeRateKeyDto(relatedKey), exchangeRate));
+        if (updatedKey == null)
+        {
+            return NotFound();
+        }
+        
+        return Updated(new ExchangeRateDto { Id = updatedKey.keyId });
+    }
+    
+    public async Task<ActionResult> PatchToExchangeRates([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<ExchangeRateUpdateDto> exchangeRate)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in exchangeRate.GetChangedPropertyNames())
+        {
+            if(exchangeRate.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var updated = await _mediator.Send(new PartialUpdateExchangeRateCommand(new CurrencyKeyDto(key), updateProperties));
+        
+        if (updated is null)
+        {
+            return NotFound();
+        }
+        return Updated(new ExchangeRateDto { Id = updated.keyId });
+    }
+    
     public async Task<ActionResult> Post([FromBody]CurrencyCreateDto currency)
     {
         if (!ModelState.IsValid)
@@ -74,7 +220,6 @@ public partial class CurrenciesController : ODataController
         return Created(createdKey);
     }
     
-    [HttpPut]
     public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] CurrencyUpdateDto currency)
     {
         if (!ModelState.IsValid)
@@ -91,7 +236,6 @@ public partial class CurrenciesController : ODataController
         return Updated(updated);
     }
     
-    [HttpPatch]
     public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<CurrencyUpdateDto> currency)
     {
         if (!ModelState.IsValid)
@@ -117,7 +261,6 @@ public partial class CurrenciesController : ODataController
         return Updated(updated);
     }
     
-    [HttpDelete]
     public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var result = await _mediator.Send(new DeleteCurrencyByIdCommand(key));

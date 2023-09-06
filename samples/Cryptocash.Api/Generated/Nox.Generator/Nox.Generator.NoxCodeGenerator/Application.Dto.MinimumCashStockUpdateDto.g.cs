@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class MinimumCashStockUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Cash stock amount (Required).
     /// </summary>
@@ -23,14 +22,8 @@ public partial class MinimumCashStockUpdateDto
     public MoneyDto Amount { get; set; } = default!;
 
     /// <summary>
-    /// MinimumCashStock Vending machine's minimum cash stock ExactlyOne VendingMachines
+    /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
-    [Required(ErrorMessage = "VendingMachine is required")]
-    public System.Guid VendingMachineId { get; set; } = default!;
-
-    /// <summary>
-    /// MinimumCashStock Cash stock's currency ExactlyOne Currencies
-    /// </summary>
-    [Required(ErrorMessage = "Currency is required")]
-    public System.String CurrencyId { get; set; } = default!;
+    [Required(ErrorMessage = "MinimumCashStockRelatedCurrency is required")]
+    public System.String MinimumCashStockRelatedCurrencyId { get; set; } = default!;
 }

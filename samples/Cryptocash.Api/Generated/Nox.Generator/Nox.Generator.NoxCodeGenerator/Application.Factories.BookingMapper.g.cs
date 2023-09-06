@@ -29,33 +29,37 @@ public class BookingMapper : EntityMapperBase<Booking>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "AmountFrom", dto.AmountFrom);
         if (noxTypeValue != null)
         {        
             entity.AmountFrom = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "AmountTo", dto.AmountTo);
         if (noxTypeValue != null)
         {        
             entity.AmountTo = noxTypeValue;
-        }
-
-        // TODO map RequestedPickUpDate DateTimeRange remaining types and remove if else
-
-        // TODO map PickedUpDateTime DateTimeRange remaining types and remove if else
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.DateTimeRange>(entityDefinition, "RequestedPickUpDate", dto.RequestedPickUpDate);
+        if (noxTypeValue != null)
+        {        
+            entity.RequestedPickUpDate = noxTypeValue;
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.DateTimeRange>(entityDefinition, "PickedUpDateTime", dto.PickedUpDateTime);
+        if (noxTypeValue != null)
+        {        
+            entity.PickedUpDateTime = noxTypeValue;
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "ExpiryDateTime", dto.ExpiryDateTime);
         if (noxTypeValue != null)
         {        
             entity.ExpiryDateTime = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "CancelledDateTime", dto.CancelledDateTime);
         if (noxTypeValue != null)
         {        
             entity.CancelledDateTime = noxTypeValue;
-        }
-
-        // TODO map Status Formula remaining types and remove if else
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.VatNumber>(entityDefinition, "VatNumber", dto.VatNumber);
         if (noxTypeValue != null)
         {        
@@ -64,30 +68,30 @@ public class BookingMapper : EntityMapperBase<Booking>
     
 
         /// <summary>
-        /// Booking Booking's customer ExactlyOne Customers
+        /// Booking for ExactlyOne Customers
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "Customer", dto.CustomerId);
+        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "BookingForCustomer", dto.BookingForCustomerId);
         if (noxTypeValue != null)
         {        
-            entity.CustomerId = noxTypeValue;
+            entity.BookingForCustomerId = noxTypeValue;
         }
 
         /// <summary>
-        /// Booking Booking's vending machine ExactlyOne VendingMachines
+        /// Booking related to ExactlyOne VendingMachines
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "VendingMachine", dto.VendingMachineId);
+        noxTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "BookingRelatedVendingMachine", dto.BookingRelatedVendingMachineId);
         if (noxTypeValue != null)
         {        
-            entity.VendingMachineId = noxTypeValue;
+            entity.BookingRelatedVendingMachineId = noxTypeValue;
         }
 
         /// <summary>
-        /// Booking Booking's fee ExactlyOne Commissions
+        /// Booking fees for ExactlyOne Commissions
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "Fee", dto.CommissionId);
+        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "BookingFeesForCommission", dto.BookingFeesForCommissionId);
         if (noxTypeValue != null)
         {        
-            entity.CommissionId = noxTypeValue;
+            entity.BookingFeesForCommissionId = noxTypeValue;
         }
     }
 
@@ -197,36 +201,36 @@ public class BookingMapper : EntityMapperBase<Booking>
     
     
         /// <summary>
-        /// Booking Booking's customer ExactlyOne Customers
+        /// Booking for ExactlyOne Customers
         /// </summary>
         if (updatedProperties.TryGetValue("CustomerId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "Customer", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "BookingForCustomer", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.CustomerId = noxRelationshipTypeValue;
+                entity.BookingForCustomerId = noxRelationshipTypeValue;
             }
         }
         /// <summary>
-        /// Booking Booking's vending machine ExactlyOne VendingMachines
+        /// Booking related to ExactlyOne VendingMachines
         /// </summary>
         if (updatedProperties.TryGetValue("VendingMachineId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "VendingMachine", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "BookingRelatedVendingMachine", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.VendingMachineId = noxRelationshipTypeValue;
+                entity.BookingRelatedVendingMachineId = noxRelationshipTypeValue;
             }
         }
         /// <summary>
-        /// Booking Booking's fee ExactlyOne Commissions
+        /// Booking fees for ExactlyOne Commissions
         /// </summary>
         if (updatedProperties.TryGetValue("CommissionId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "Fee", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "BookingFeesForCommission", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.CommissionId = noxRelationshipTypeValue;
+                entity.BookingFeesForCommissionId = noxRelationshipTypeValue;
             }
         }
     }

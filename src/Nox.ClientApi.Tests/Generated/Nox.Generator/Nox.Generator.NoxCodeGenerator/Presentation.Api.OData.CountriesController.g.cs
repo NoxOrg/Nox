@@ -19,7 +19,6 @@ using Nox.Types;
 
 namespace ClientApi.Presentation.Api.OData;
 
-[Route("{controller}")]
 public partial class CountriesController : ODataController
 {
     
@@ -42,7 +41,6 @@ public partial class CountriesController : ODataController
         _mediator = mediator;
     }
     
-    [HttpGet]
     [EnableQuery]
     public async  Task<ActionResult<IQueryable<CountryDto>>> Get()
     {
@@ -50,6 +48,7 @@ public partial class CountriesController : ODataController
         return Ok(result);
     }
     
+    [EnableQuery]
     public async Task<ActionResult<CountryDto>> Get([FromRoute] System.Int64 key)
     {
         var item = await _mediator.Send(new GetCountryByIdQuery(key));
@@ -60,6 +59,23 @@ public partial class CountriesController : ODataController
         }
         
         return Ok(item);
+    }
+    
+    [EnableQuery]
+    public async Task<ActionResult<IQueryable<CountryLocalNameDto>>> GetCountryLocalNames([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var item = await _mediator.Send(new GetCountryByIdQuery(key));
+        
+        if (item is null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item.CountryLocalNames);
     }
     
     public async Task<ActionResult> PostToCountryLocalNames([FromRoute] System.Int64 key, [FromBody] CountryLocalNameCreateDto countryLocalName)
@@ -78,7 +94,47 @@ public partial class CountriesController : ODataController
         return Created(new CountryLocalNameDto { Id = createdKey.keyId });
     }
     
-    [HttpPost]
+    public async Task<ActionResult> PutToCountryLocalNames([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromBody] CountryLocalNameUpdateDto countryLocalName)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var updatedKey = await _mediator.Send(new UpdateCountryLocalNameCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey), countryLocalName));
+        if (updatedKey == null)
+        {
+            return NotFound();
+        }
+        
+        return Updated(new CountryLocalNameDto { Id = updatedKey.keyId });
+    }
+    
+    public async Task<ActionResult> PatchToCountryLocalNames([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<CountryLocalNameUpdateDto> countryLocalName)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in countryLocalName.GetChangedPropertyNames())
+        {
+            if(countryLocalName.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var updated = await _mediator.Send(new PartialUpdateCountryLocalNameCommand(new CountryKeyDto(key), updateProperties));
+        
+        if (updated is null)
+        {
+            return NotFound();
+        }
+        return Updated(new CountryLocalNameDto { Id = updated.keyId });
+    }
+    
     public async Task<ActionResult> Post([FromBody]CountryCreateDto country)
     {
         if (!ModelState.IsValid)
@@ -90,7 +146,6 @@ public partial class CountriesController : ODataController
         return Created(createdKey);
     }
     
-    [HttpPut]
     public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] CountryUpdateDto country)
     {
         if (!ModelState.IsValid)
@@ -107,7 +162,6 @@ public partial class CountriesController : ODataController
         return Updated(updated);
     }
     
-    [HttpPatch]
     public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CountryUpdateDto> country)
     {
         if (!ModelState.IsValid)
@@ -133,7 +187,6 @@ public partial class CountriesController : ODataController
         return Updated(updated);
     }
     
-    [HttpDelete]
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new DeleteCountryByIdCommand(key));

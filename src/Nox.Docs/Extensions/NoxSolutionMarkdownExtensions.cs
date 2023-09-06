@@ -28,7 +28,7 @@ public static class NoxSolutionMarkdownExtensions
 
         var docs = $"""
         # {noxSolution.Name}
-        ## Decription
+        ## Description
 
         {noxSolution.Description}
 
@@ -110,7 +110,7 @@ public static class NoxSolutionMarkdownExtensions
         sb.AppendLine("#### <u>Members (Keys, Attributes & Relationships)</u>");
         sb.AppendLine("");
 
-        sb.AppendLine("Member|Type|Decription|Info");
+        sb.AppendLine("Member|Type|Description|Info");
         sb.AppendLine("---------|----|----------|-------");
 
         foreach (var (type, def) in members)

@@ -16,13 +16,23 @@ namespace ClientApi.Application.Dto;
 /// <summary>
 /// Workplace.
 /// </summary>
-public partial class WorkplaceCreateDto : WorkplaceUpdateDto
-{
+public partial class WorkplaceCreateDto 
+{    
+    /// <summary>
+    /// Workplace Name (Required).
+    /// </summary>
+    [Required(ErrorMessage = "Name is required")]
+    
+    public System.String Name { get; set; } = default!;    
+    /// <summary>
+    /// The Formula (Optional).
+    /// </summary>
+    public System.String? Greeting { get; set; }
 
-    public Workplace ToEntity()
+    public ClientApi.Domain.Workplace ToEntity()
     {
-        var entity = new Workplace();
-        entity.Name = Workplace.CreateName(Name);
+        var entity = new ClientApi.Domain.Workplace();
+        entity.Name = ClientApi.Domain.Workplace.CreateName(Name);
         return entity;
     }
 }

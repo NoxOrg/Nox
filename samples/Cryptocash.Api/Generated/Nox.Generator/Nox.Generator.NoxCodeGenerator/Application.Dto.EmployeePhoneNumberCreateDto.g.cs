@@ -14,16 +14,28 @@ using Cryptocash.Domain;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
-/// Employee phone numbers and related data.
+/// Employee phone number and related data.
 /// </summary>
-public partial class EmployeePhoneNumberCreateDto : EmployeePhoneNumberUpdateDto
-{
+public partial class EmployeePhoneNumberCreateDto 
+{    
+    /// <summary>
+    /// Employee's phone number type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "PhoneNumberType is required")]
+    
+    public System.String PhoneNumberType { get; set; } = default!;    
+    /// <summary>
+    /// Employee's phone number (Required).
+    /// </summary>
+    [Required(ErrorMessage = "PhoneNumber is required")]
+    
+    public System.String PhoneNumber { get; set; } = default!;
 
-    public EmployeePhoneNumber ToEntity()
+    public Cryptocash.Domain.EmployeePhoneNumber ToEntity()
     {
-        var entity = new EmployeePhoneNumber();
-        entity.PhoneNumberType = EmployeePhoneNumber.CreatePhoneNumberType(PhoneNumberType);
-        entity.PhoneNumber = EmployeePhoneNumber.CreatePhoneNumber(PhoneNumber);
+        var entity = new Cryptocash.Domain.EmployeePhoneNumber();
+        entity.PhoneNumberType = Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumberType(PhoneNumberType);
+        entity.PhoneNumber = Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumber(PhoneNumber);
         return entity;
     }
 }

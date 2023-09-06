@@ -29,27 +29,18 @@ public class PaymentProviderMapper : EntityMapperBase<PaymentProvider>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentProviderName", dto.PaymentProviderName);
         if (noxTypeValue != null)
         {        
             entity.PaymentProviderName = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentProviderType", dto.PaymentProviderType);
         if (noxTypeValue != null)
         {        
             entity.PaymentProviderType = noxTypeValue;
         }
     
-
-        /// <summary>
-        /// PaymentProvider Payment provider ExactlyOne CustomerPaymentDetails
-        /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "CustomerPaymentDetails", dto.CustomerPaymentDetailsId);
-        if (noxTypeValue != null)
-        {        
-            entity.CustomerPaymentDetailsId = noxTypeValue;
-        }
     }
 
     public override void PartialMapToEntity(PaymentProvider entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
@@ -87,16 +78,5 @@ public class PaymentProviderMapper : EntityMapperBase<PaymentProvider>
         }
     
     
-        /// <summary>
-        /// PaymentProvider Payment provider ExactlyOne CustomerPaymentDetails
-        /// </summary>
-        if (updatedProperties.TryGetValue("CustomerPaymentDetailsId", out value))
-        {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "CustomerPaymentDetails", value);
-            if (noxRelationshipTypeValue != null)
-            {        
-                entity.CustomerPaymentDetailsId = noxRelationshipTypeValue;
-            }
-        }
     }
 }

@@ -19,7 +19,6 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-[Route("{controller}")]
 public partial class CompoundKeysEntitiesController : ODataController
 {
     
@@ -42,7 +41,6 @@ public partial class CompoundKeysEntitiesController : ODataController
         _mediator = mediator;
     }
     
-    [HttpGet]
     [EnableQuery]
     public async  Task<ActionResult<IQueryable<CompoundKeysEntityDto>>> Get()
     {
@@ -50,6 +48,7 @@ public partial class CompoundKeysEntitiesController : ODataController
         return Ok(result);
     }
     
+    [EnableQuery]
     public async Task<ActionResult<CompoundKeysEntityDto>> Get([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)
     {
         var item = await _mediator.Send(new GetCompoundKeysEntityByIdQuery(keyId1, keyId2));
@@ -62,7 +61,6 @@ public partial class CompoundKeysEntitiesController : ODataController
         return Ok(item);
     }
     
-    [HttpPost]
     public async Task<ActionResult> Post([FromBody]CompoundKeysEntityCreateDto compoundkeysentity)
     {
         if (!ModelState.IsValid)
@@ -74,7 +72,6 @@ public partial class CompoundKeysEntitiesController : ODataController
         return Created(createdKey);
     }
     
-    [HttpPut]
     public async Task<ActionResult> Put([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] CompoundKeysEntityUpdateDto compoundKeysEntity)
     {
         if (!ModelState.IsValid)
@@ -91,7 +88,6 @@ public partial class CompoundKeysEntitiesController : ODataController
         return Updated(updated);
     }
     
-    [HttpPatch]
     public async Task<ActionResult> Patch([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] Delta<CompoundKeysEntityUpdateDto> compoundKeysEntity)
     {
         if (!ModelState.IsValid)
@@ -117,7 +113,6 @@ public partial class CompoundKeysEntitiesController : ODataController
         return Updated(updated);
     }
     
-    [HttpDelete]
     public async Task<ActionResult> Delete([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)
     {
         var result = await _mediator.Send(new DeleteCompoundKeysEntityByIdCommand(keyId1, keyId2));

@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class CustomerUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Customer's first name (Required).
     /// </summary>
@@ -45,8 +44,8 @@ public partial class CustomerUpdateDto
     public System.String? MobileNumber { get; set; }
 
     /// <summary>
-    /// Customer Customer's country ExactlyOne Countries
+    /// Customer based in ExactlyOne Countries
     /// </summary>
-    [Required(ErrorMessage = "Country is required")]
-    public System.String CountryId { get; set; } = default!;
+    [Required(ErrorMessage = "CustomerBaseCountry is required")]
+    public System.String CustomerBaseCountryId { get; set; } = default!;
 }

@@ -80,7 +80,7 @@ public class Entity : DefinitionBase
     [Title("Unique constraints for this entity.")]
     [Description("Define one or more unique constraints for this entity.")]
     [AdditionalProperties(false)]
-    public IReadOnlyList<UniqueAttributeConstraint>? UniqueAttributeConstraints { get; internal set; }
+    public IReadOnlyList<UniqueAttributeConstraint>? UniqueAttributeConstraints { get; internal set; } = Array.Empty<UniqueAttributeConstraint>();
 
     [YamlIgnore]
     public bool IsOwnedEntity { get; internal set; }
@@ -202,7 +202,7 @@ public class Entity : DefinitionBase
         {
             var relationships = Relationships
                 .Where(x => x.Related.Entity?.Keys is not null)
-                .Where(x => x.IsManyRelationshipOnOtherSide)
+                .Where(x => x.Related.EntityRelationship.WithMultiEntity)
                 .Select(x => (x.Entity, Keys: x.Related.Entity.Keys!));
 
             foreach (var relationship in relationships)

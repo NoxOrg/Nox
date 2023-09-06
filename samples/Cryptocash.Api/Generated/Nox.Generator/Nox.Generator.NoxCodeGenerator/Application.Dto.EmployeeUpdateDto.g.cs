@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class EmployeeUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Employee's first name (Required).
     /// </summary>
@@ -51,7 +50,8 @@ public partial class EmployeeUpdateDto
     public System.DateTime? LastWorkingDay { get; set; }
 
     /// <summary>
-    /// Employee Employee's phone numbers ZeroOrMany EmployeePhoneNumbers
+    /// Employee reviewing ExactlyOne CashStockOrders
     /// </summary>
-    public virtual List<EmployeePhoneNumberUpdateDto> EmployeePhoneNumbers { get; set; } = new();
+    [Required(ErrorMessage = "EmployeeReviewingCashStockOrder is required")]
+    public System.Int64 EmployeeReviewingCashStockOrderId { get; set; } = default!;
 }

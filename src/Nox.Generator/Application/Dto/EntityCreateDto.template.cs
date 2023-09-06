@@ -16,7 +16,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public partial class {{className}} : {{entity.Name}}UpdateDto
+public partial class {{className}} 
 {
 {{- for key in entity.Keys }}
     {{- if key.Type == "Nuid" || key.Type == "DatabaseNumber" || key.Type == "DatabaseGuid" -}}
@@ -32,10 +32,46 @@ public partial class {{className}} : {{entity.Name}}UpdateDto
     public {{SinglePrimitiveTypeForKey key}} {{key.Name}} { get; set; } = default!;
     {{- end}}
 {{- end }}
+   
+{{- for attribute in entity.Attributes }}    
+    /// <summary>
+    /// {{attribute.Description}} ({{if attribute.IsRequired}}Required{{else}}Optional{{end}}).
+    /// </summary>
+    {{- if attribute.IsRequired}}
+    [Required(ErrorMessage = "{{attribute.Name}} is required")]
+    {{ end}}
+    {{ if componentsInfo[attribute.Name].IsSimpleType -}}
+    public {{componentsInfo[attribute.Name].ComponentType}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
+    {{- else -}}
+    public {{attribute.Type}}Dto{{- if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
+    {{- end}}
+{{- end }}
 
-    public {{ entity.Name }} ToEntity()
+{{- for relationship in entity.Relationships}}
+    {{- if relationship.WithSingleEntity && relationship.ShouldGenerateForeignOnThisSide}}
+
+    /// <summary>
+    /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
+    /// </summary>
+    {{ if relationship.Relationship == "ExactlyOne" }}[Required(ErrorMessage = "{{relationship.Name}} is required")]{{-end}}
+    public System.{{relationship.ForeignKeyPrimitiveType}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}}Id { get; set; } = default!;
+    {{-end}}
+{{- end }}
+{{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}
+
+    /// <summary>
+    /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
+    /// </summary>
+    {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
+    public virtual List<{{relationship.Entity}}CreateDto> {{relationship.EntityPlural}} { get; set; } = new();
+    {{- else}}
+    public virtual {{relationship.Entity}}CreateDto{{- if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
+    {{-end}}
+{{- end }}
+
+    public {{codeGeneratorState.DomainNameSpace}}.{{ entity.Name }} ToEntity()
     {
-        var entity = new {{ entity.Name }}();
+        var entity = new {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}();
         {{- for key in entity.Keys }}
             {{- if key.Type == "Nuid" || key.Type == "DatabaseNumber" || key.Type == "DatabaseGuid" -}}
                 {{ continue; -}}
@@ -52,13 +88,13 @@ public partial class {{className}} : {{entity.Name}}UpdateDto
         {{- if !attribute.IsRequired }}
         if ({{ attribute.Name }} is not null)
     {{- if IsNoxTypeSimpleType attribute.Type -}}
-        entity.{{ attribute.Name}} = {{ entity.Name }}.Create{{ attribute.Name }}({{attribute.Name}}.NonNullValue<{{SinglePrimitiveTypeForKey attribute}}>());
+        entity.{{ attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{ entity.Name }}.Create{{ attribute.Name }}({{attribute.Name}}.NonNullValue<{{SinglePrimitiveTypeForKey attribute}}>());
     {{- else -}}
-        entity.{{attribute.Name}} = {{ entity.Name }}.Create{{ attribute.Name }}({{attribute.Name}}.NonNullValue<{{attribute.Type}}Dto>());
+        entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{ entity.Name }}.Create{{ attribute.Name }}({{attribute.Name}}.NonNullValue<{{attribute.Type}}Dto>());
     {{- end}}
 
         {{- else }}
-        entity.{{attribute.Name}} = {{ entity.Name }}.Create{{ attribute.Name }}({{ attribute.Name }});
+        entity.{{attribute.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{ entity.Name }}.Create{{ attribute.Name }}({{ attribute.Name }});
         {{- end }}
         {{- end }}
 
@@ -72,9 +108,9 @@ public partial class {{className}} : {{entity.Name}}UpdateDto
 
         {{- for relationship in entity.OwnedRelationships }}
             {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-        //entity.{{relationship.EntityPlural}} = {{relationship.EntityPlural}}.Select(dto => dto.ToEntity()).ToList();
+        entity.{{relationship.EntityPlural}} = {{relationship.EntityPlural}}.Select(dto => dto.ToEntity()).ToList();
             {{- else}}
-        //entity.{{relationship.Entity}} = {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}}.ToEntity();
+        entity.{{relationship.Entity}} = {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}}.ToEntity();
             {{-end}}
         {{- end }}
         return entity;

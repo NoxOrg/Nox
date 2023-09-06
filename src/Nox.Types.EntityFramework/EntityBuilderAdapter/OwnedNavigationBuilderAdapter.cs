@@ -26,6 +26,11 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
         {
             return OwnedNavigationBuilder!.HasOne(relatedTypeName, navigationName!);
         }
+        public CollectionNavigationBuilder HasMany(string navigationName)
+        {
+            // TODO: fix owned entity many to many realtionships
+            throw new NotImplementedException("HasMany is not supported for Owned navigation. Will be implemented later.");
+        }
 
         public IEntityBuilder Ignore(string propertyName)
         {
@@ -64,6 +69,12 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
             Action<OwnedNavigationBuilder> buildAction)
         {
             OwnedNavigationBuilder!.OwnsMany(ownedType, navigationName, buildAction);
+        }
+        
+       
+        public IndexBuilder HasUniqueAttributeConstraint(string[] propertyNames, string constraintName)
+        {
+            return OwnedNavigationBuilder!.HasIndex(propertyNames).HasDatabaseName(constraintName).IsUnique();
         }
     }
 }

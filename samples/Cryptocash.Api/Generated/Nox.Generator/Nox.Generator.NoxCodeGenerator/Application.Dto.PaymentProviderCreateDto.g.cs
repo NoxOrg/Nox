@@ -16,15 +16,27 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-public partial class PaymentProviderCreateDto : PaymentProviderUpdateDto
-{
+public partial class PaymentProviderCreateDto 
+{    
+    /// <summary>
+    /// Payment provider name (Required).
+    /// </summary>
+    [Required(ErrorMessage = "PaymentProviderName is required")]
+    
+    public System.String PaymentProviderName { get; set; } = default!;    
+    /// <summary>
+    /// Payment provider account type (Required).
+    /// </summary>
+    [Required(ErrorMessage = "PaymentProviderType is required")]
+    
+    public System.String PaymentProviderType { get; set; } = default!;
 
-    public PaymentProvider ToEntity()
+    public Cryptocash.Domain.PaymentProvider ToEntity()
     {
-        var entity = new PaymentProvider();
-        entity.PaymentProviderName = PaymentProvider.CreatePaymentProviderName(PaymentProviderName);
-        entity.PaymentProviderType = PaymentProvider.CreatePaymentProviderType(PaymentProviderType);
-        //entity.CustomerPaymentDetails = CustomerPaymentDetails.ToEntity();
+        var entity = new Cryptocash.Domain.PaymentProvider();
+        entity.PaymentProviderName = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderName(PaymentProviderName);
+        entity.PaymentProviderType = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderType(PaymentProviderType);
+        //entity.PaymentDetails = PaymentDetails.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }
 }

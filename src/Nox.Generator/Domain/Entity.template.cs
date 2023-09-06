@@ -73,23 +73,15 @@ public partial class {{className}}{{ if !entity.IsOwnedEntity }} : {{if entity.P
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
     {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<{{relationship.Entity}}> {{relationship.EntityPlural}} { get; set; } = new();
-    {{- if relationship.EntityPlural != relationship.Name}}
-
-    public List<{{relationship.Entity}}> {{relationship.Name}} => {{relationship.EntityPlural}};
-    {{- end}}
+    public virtual List<{{relationship.Entity}}> {{relationship.Name}} { get; set; } = new();
     {{- else}}
-    public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
-    {{- if relationship.Entity != relationship.Name}}
-
-    public {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} => {{relationship.Entity}};
-    {{- end}}
+    public virtual {{relationship.Entity}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}} { get; set; } = null!;
     {{- if relationship.ShouldGenerateForeignOnThisSide}}
 
     /// <summary>
     /// Foreign key for relationship {{relationship.Relationship}} to entity {{relationship.Entity}}
     /// </summary>
-    public Nox.Types.{{relationship.Related.Entity.Keys[0].Type}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}}Id { get; set; } = null!;
+    public Nox.Types.{{relationship.Related.Entity.Keys[0].Type}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}}Id { get; set; } = null!;
     {{- end}}
     {{-end}}
 {{- end }}

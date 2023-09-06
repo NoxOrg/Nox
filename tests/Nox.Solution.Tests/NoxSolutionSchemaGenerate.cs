@@ -5,11 +5,6 @@ namespace Nox.Solution.Tests;
 
 public class NoxSolutionSchemaGenerate
 {
-    private readonly JsonSerializerOptions _jsonConfig = new()
-    {
-        WriteIndented = true,
-    };
-
     private readonly string _path = FindOrCreateFolderInProjectRoot("schemas");
 
     [Fact]

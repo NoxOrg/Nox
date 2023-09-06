@@ -89,22 +89,22 @@ public partial class CurrencyDto
     public MoneyDto MinorToMajorValue { get; set; } = default!;
 
     /// <summary>
-    /// Currency Currency's bank notes OneOrMany BankNotes
+    /// Currency used by OneOrMany Countries
     /// </summary>
-    public virtual List<BankNotesDto> BankNotes { get; set; } = new();
+    public virtual List<CountryDto> CurrencyUsedByCountry { get; set; } = new();
 
     /// <summary>
-    /// Currency Country's currency OneOrMany Countries
+    /// Currency used by ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<CountryDto> Countries { get; set; } = new();
+    public virtual List<MinimumCashStockDto> CurrencyUsedByMinimumCashStocks { get; set; } = new();
 
     /// <summary>
-    /// Currency Cash stock currency ZeroOrMany MinimumCashStocks
+    /// Currency commonly used ZeroOrMany BankNotes
     /// </summary>
-    public virtual List<MinimumCashStockDto> MinimumCashStocks { get; set; } = new();
+    public virtual List<BankNoteDto> BankNotes { get; set; } = new();
 
     /// <summary>
-    /// Currency Exchanged from currency OneOrMany ExchangeRates
+    /// Currency exchanged from OneOrMany ExchangeRates
     /// </summary>
     public virtual List<ExchangeRateDto> ExchangeRates { get; set; } = new();
     public System.DateTime? DeletedAtUtc { get; set; }    

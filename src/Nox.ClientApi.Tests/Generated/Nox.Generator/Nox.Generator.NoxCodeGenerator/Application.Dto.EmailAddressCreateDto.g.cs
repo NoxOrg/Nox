@@ -16,14 +16,22 @@ namespace ClientApi.Application.Dto;
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-public partial class EmailAddressCreateDto : EmailAddressUpdateDto
-{
+public partial class EmailAddressCreateDto 
+{    
+    /// <summary>
+    /// Email (Optional).
+    /// </summary>
+    public System.String? Email { get; set; }    
+    /// <summary>
+    /// Verified (Optional).
+    /// </summary>
+    public System.Boolean? IsVerified { get; set; }
 
-    public EmailAddress ToEntity()
+    public ClientApi.Domain.EmailAddress ToEntity()
     {
-        var entity = new EmailAddress();
-        if (Email is not null)entity.Email = EmailAddress.CreateEmail(Email.NonNullValue<System.String>());
-        if (IsVerified is not null)entity.IsVerified = EmailAddress.CreateIsVerified(IsVerified.NonNullValue<System.Boolean>());
+        var entity = new ClientApi.Domain.EmailAddress();
+        if (Email is not null)entity.Email = ClientApi.Domain.EmailAddress.CreateEmail(Email.NonNullValue<System.String>());
+        if (IsVerified is not null)entity.IsVerified = ClientApi.Domain.EmailAddress.CreateIsVerified(IsVerified.NonNullValue<System.Boolean>());
         return entity;
     }
 }

@@ -16,21 +16,35 @@ namespace ClientApi.Application.Dto;
 /// <summary>
 /// Store owners.
 /// </summary>
-public partial class StoreOwnerCreateDto : StoreOwnerUpdateDto
+public partial class StoreOwnerCreateDto 
 {
     /// <summary>
     ///  (Required).
     /// </summary>
     [Required(ErrorMessage = "Id is required")]
-    public System.String Id { get; set; } = default!;
+    public System.String Id { get; set; } = default!;    
+    /// <summary>
+    /// Owner Name (Required).
+    /// </summary>
+    [Required(ErrorMessage = "Name is required")]
+    
+    public System.String Name { get; set; } = default!;    
+    /// <summary>
+    /// Vat Number (Optional).
+    /// </summary>
+    public VatNumberDto? VatNumber { get; set; }    
+    /// <summary>
+    /// Street Address (Optional).
+    /// </summary>
+    public StreetAddressDto? StreetAddress { get; set; }
 
-    public StoreOwner ToEntity()
+    public ClientApi.Domain.StoreOwner ToEntity()
     {
-        var entity = new StoreOwner();
+        var entity = new ClientApi.Domain.StoreOwner();
         entity.Id = StoreOwner.CreateId(Id);
-        entity.Name = StoreOwner.CreateName(Name);
-        if (VatNumber is not null)entity.VatNumber = StoreOwner.CreateVatNumber(VatNumber.NonNullValue<VatNumberDto>());
-        if (StreetAddress is not null)entity.StreetAddress = StoreOwner.CreateStreetAddress(StreetAddress.NonNullValue<StreetAddressDto>());
+        entity.Name = ClientApi.Domain.StoreOwner.CreateName(Name);
+        if (VatNumber is not null)entity.VatNumber = ClientApi.Domain.StoreOwner.CreateVatNumber(VatNumber.NonNullValue<VatNumberDto>());
+        if (StreetAddress is not null)entity.StreetAddress = ClientApi.Domain.StoreOwner.CreateStreetAddress(StreetAddress.NonNullValue<StreetAddressDto>());
         //entity.Stores = Stores.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }

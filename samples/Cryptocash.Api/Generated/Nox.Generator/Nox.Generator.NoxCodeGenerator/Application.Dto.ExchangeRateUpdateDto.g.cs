@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class ExchangeRateUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Exchange rate conversion amount (Required).
     /// </summary>
@@ -27,10 +26,4 @@ public partial class ExchangeRateUpdateDto
     [Required(ErrorMessage = "EffectiveAt is required")]
     
     public System.DateTimeOffset EffectiveAt { get; set; } = default!;
-
-    /// <summary>
-    /// ExchangeRate Exchange rate relative to CHF (Swiss Franc) ExactlyOne Currencies
-    /// </summary>
-    [Required(ErrorMessage = "CurrencyFrom is required")]
-    public System.String CurrencyId { get; set; } = default!;
 }

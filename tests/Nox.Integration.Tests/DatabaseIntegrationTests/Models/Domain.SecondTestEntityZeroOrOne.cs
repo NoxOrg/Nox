@@ -28,7 +28,5 @@ public partial class SecondTestEntityZeroOrOne : AuditableEntityBase
     /// <summary>
     /// SecondTestEntityZeroOrOne Test entity relationship to TestEntity ZeroOrOne TestEntityZeroOrOnes
     /// </summary>
-    public virtual TestEntityZeroOrOne? TestEntityZeroOrOne { get; set; } = null!;
-
-    public TestEntityZeroOrOne? TestEntityZeroOrOneRelationship => TestEntityZeroOrOne;
+    public virtual TestEntityZeroOrOne? TestEntityZeroOrOneRelationship { get; set; } = null!;
 }

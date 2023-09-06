@@ -1,8 +1,10 @@
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Nox.Solution;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.Configurations;
+using Nox.Types.EntityFramework.EntityBuilderAdapter;
 
 namespace Nox.EntityFramework.SqlServer;
 
@@ -18,6 +20,18 @@ public class SqlServerDatabaseProvider: NoxDatabaseConfigurator, INoxDatabasePro
     
     public SqlServerDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurators): base(configurators, typeof(ISqlServerNoxTypeDatabaseConfigurator))
     {
+    }
+
+    protected override IList<IndexBuilder> ConfigureUniqueAttributeConstraints(IEntityBuilder builder, Entity entity)
+    {
+        var result = base.ConfigureUniqueAttributeConstraints(builder, entity);
+
+        foreach (var indexBuilder in result)
+        {
+            indexBuilder.HasFilter(null);
+        }
+
+        return result;
     }
 
     public DbContextOptionsBuilder ConfigureDbContext(DbContextOptionsBuilder optionsBuilder, string applicationName, DatabaseServer dbServer)

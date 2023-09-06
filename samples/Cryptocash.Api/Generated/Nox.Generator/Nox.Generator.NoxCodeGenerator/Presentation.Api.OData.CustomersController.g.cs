@@ -19,7 +19,6 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-[Route("{controller}")]
 public partial class CustomersController : ODataController
 {
     
@@ -42,7 +41,6 @@ public partial class CustomersController : ODataController
         _mediator = mediator;
     }
     
-    [HttpGet]
     [EnableQuery]
     public async  Task<ActionResult<IQueryable<CustomerDto>>> Get()
     {
@@ -50,6 +48,7 @@ public partial class CustomersController : ODataController
         return Ok(result);
     }
     
+    [EnableQuery]
     public async Task<ActionResult<CustomerDto>> Get([FromRoute] System.Int64 key)
     {
         var item = await _mediator.Send(new GetCustomerByIdQuery(key));
@@ -62,7 +61,6 @@ public partial class CustomersController : ODataController
         return Ok(item);
     }
     
-    [HttpPost]
     public async Task<ActionResult> Post([FromBody]CustomerCreateDto customer)
     {
         if (!ModelState.IsValid)
@@ -74,7 +72,6 @@ public partial class CustomersController : ODataController
         return Created(createdKey);
     }
     
-    [HttpPut]
     public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] CustomerUpdateDto customer)
     {
         if (!ModelState.IsValid)
@@ -91,7 +88,6 @@ public partial class CustomersController : ODataController
         return Updated(updated);
     }
     
-    [HttpPatch]
     public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CustomerUpdateDto> customer)
     {
         if (!ModelState.IsValid)
@@ -117,7 +113,6 @@ public partial class CustomersController : ODataController
         return Updated(updated);
     }
     
-    [HttpDelete]
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var result = await _mediator.Send(new DeleteCustomerByIdCommand(key));

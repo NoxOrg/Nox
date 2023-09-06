@@ -10,11 +10,10 @@ using System.ComponentModel.DataAnnotations;
 namespace Cryptocash.Application.Dto;
 
 /// <summary>
-/// Employee phone numbers and related data.
+/// Employee phone number and related data.
 /// </summary>
 public partial class EmployeePhoneNumberUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Employee's phone number type (Required).
     /// </summary>

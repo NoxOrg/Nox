@@ -26,7 +26,10 @@ internal class EntityCreateDtoGenerator : INoxCodeGenerator
         {
             var attributes = entity.Attributes ?? Enumerable.Empty<NoxSimpleTypeDefinition>();
             var componentsInfo = attributes
-               .ToDictionary(r => r.Name, key => new { IsSimpleType = key.Type.IsSimpleType(), ComponentType = GetSingleComponentSimpleType(key) });
+               .ToDictionary(r => r.Name, key => new { 
+                   IsSimpleType = key.Type.IsSimpleType(),
+                   ComponentType = GetSingleComponentSimpleType(key)
+               });
 
             context.CancellationToken.ThrowIfCancellationRequested();
 
