@@ -29,12 +29,12 @@ public class BankNoteMapper : EntityMapperBase<BankNote>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "CashNote", dto.CashNote);
         if (noxTypeValue != null)
         {        
             entity.CashNote = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Value", dto.Value);
         if (noxTypeValue != null)
         {        
