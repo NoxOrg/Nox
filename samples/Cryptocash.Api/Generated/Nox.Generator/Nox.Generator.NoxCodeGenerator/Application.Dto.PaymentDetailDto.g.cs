@@ -47,14 +47,14 @@ public partial class PaymentDetailDto
     /// PaymentDetail used by ExactlyOne Customers
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64 CustomerId { get; set; } = default!;
-    public virtual CustomerDto Customer { get; set; } = null!;
+    public System.Int64 PaymentDetailsUsedByCustomerId { get; set; } = default!;
+    public virtual CustomerDto PaymentDetailsUsedByCustomer { get; set; } = null!;
 
     /// <summary>
     /// PaymentDetail related to ExactlyOne PaymentProviders
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Int64 PaymentProviderId { get; set; } = default!;
-    public virtual PaymentProviderDto PaymentProvider { get; set; } = null!;
+    public System.Int64 PaymentDetailsRelatedPaymentProviderId { get; set; } = default!;
+    public virtual PaymentProviderDto PaymentDetailsRelatedPaymentProvider { get; set; } = null!;
     public System.DateTime? DeletedAtUtc { get; set; }    
 }

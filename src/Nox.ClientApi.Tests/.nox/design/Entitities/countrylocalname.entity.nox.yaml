@@ -13,7 +13,7 @@ keys:
   - name: Id
     isRequired: true
     description: The unique identifier 
-    type: text
+    type: databaseNumber
 
 attributes:
 

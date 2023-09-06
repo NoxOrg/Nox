@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class CountryUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Country's name (Required).
     /// </summary>
@@ -76,15 +75,15 @@ public partial class CountryUpdateDto
     /// Country used by ExactlyOne Currencies
     /// </summary>
     [Required(ErrorMessage = "CountryUsedByCurrency is required")]
-    public System.String CurrencyId { get; set; } = default!;
+    public System.String CountryUsedByCurrencyId { get; set; } = default!;
 
     /// <summary>
     /// Country owned OneOrMany CountryTimeZones
     /// </summary>
-    public virtual List<CountryTimeZoneUpdateDto> CountryTimeZones { get; set; } = new();
+    public virtual List<CountryTimeZoneDto> CountryTimeZones { get; set; } = new();
 
     /// <summary>
     /// Country owned ZeroOrMany Holidays
     /// </summary>
-    public virtual List<HolidayUpdateDto> Holidays { get; set; } = new();
+    public virtual List<HolidayDto> Holidays { get; set; } = new();
 }

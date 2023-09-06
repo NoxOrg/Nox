@@ -48,33 +48,25 @@ public partial class Customer : AuditableEntityBase
     /// <summary>
     /// Customer related to ZeroOrMany PaymentDetails
     /// </summary>
-    public virtual List<PaymentDetail> PaymentDetails { get; set; } = new();
-
-    public List<PaymentDetail> CustomerRelatedPaymentDetails => PaymentDetails;
+    public virtual List<PaymentDetail> CustomerRelatedPaymentDetails { get; set; } = new();
 
     /// <summary>
     /// Customer related to ZeroOrMany Bookings
     /// </summary>
-    public virtual List<Booking> Bookings { get; set; } = new();
-
-    public List<Booking> CustomerRelatedBookings => Bookings;
+    public virtual List<Booking> CustomerRelatedBookings { get; set; } = new();
 
     /// <summary>
     /// Customer related to ZeroOrMany Transactions
     /// </summary>
-    public virtual List<Transaction> Transactions { get; set; } = new();
-
-    public List<Transaction> CustomerRelatedTransactions => Transactions;
+    public virtual List<Transaction> CustomerRelatedTransactions { get; set; } = new();
 
     /// <summary>
     /// Customer based in ExactlyOne Countries
     /// </summary>
-    public virtual Country Country { get; set; } = null!;
-
-    public Country CustomerBaseCountry => Country;
+    public virtual Country CustomerBaseCountry { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Country
     /// </summary>
-    public Nox.Types.CountryCode2 CountryId { get; set; } = null!;
+    public Nox.Types.CountryCode2 CustomerBaseCountryId { get; set; } = null!;
 }

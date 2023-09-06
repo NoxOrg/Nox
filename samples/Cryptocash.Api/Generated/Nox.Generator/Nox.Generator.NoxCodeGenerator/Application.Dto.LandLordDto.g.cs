@@ -41,6 +41,6 @@ public partial class LandLordDto
     /// <summary>
     /// LandLord leases an area to house ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachineDto> VendingMachines { get; set; } = new();
+    public virtual List<VendingMachineDto> ContractedAreasForVendingMachines { get; set; } = new();
     public System.DateTime? DeletedAtUtc { get; set; }    
 }

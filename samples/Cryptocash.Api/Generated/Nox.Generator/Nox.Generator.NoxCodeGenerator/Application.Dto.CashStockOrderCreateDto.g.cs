@@ -16,8 +16,34 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public partial class CashStockOrderCreateDto : CashStockOrderUpdateDto
-{
+public partial class CashStockOrderCreateDto 
+{    
+    /// <summary>
+    /// Order amount (Required).
+    /// </summary>
+    [Required(ErrorMessage = "Amount is required")]
+    
+    public MoneyDto Amount { get; set; } = default!;    
+    /// <summary>
+    /// Order requested delivery date (Required).
+    /// </summary>
+    [Required(ErrorMessage = "RequestedDeliveryDate is required")]
+    
+    public System.DateTime RequestedDeliveryDate { get; set; } = default!;    
+    /// <summary>
+    /// Order delivery date (Optional).
+    /// </summary>
+    public System.DateTimeOffset? DeliveryDateTime { get; set; }    
+    /// <summary>
+    /// Order status (Optional).
+    /// </summary>
+    public System.String? Status { get; set; }
+
+    /// <summary>
+    /// CashStockOrder for ExactlyOne VendingMachines
+    /// </summary>
+    [Required(ErrorMessage = "CashStockOrderForVendingMachine is required")]
+    public System.Guid CashStockOrderForVendingMachineId { get; set; } = default!;
 
     public Cryptocash.Domain.CashStockOrder ToEntity()
     {

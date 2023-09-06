@@ -60,12 +60,6 @@
         "null"
       ]
     },
-    "isManyRelationshipOnOtherSide": {    
-      "type": [
-        "boolean",
-        "null"
-      ]
-    },
     "withSingleEntity": {    
       "type": [
         "boolean",

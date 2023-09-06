@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class TransactionUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Transaction type (Required).
     /// </summary>
@@ -44,11 +43,11 @@ public partial class TransactionUpdateDto
     /// Transaction for ExactlyOne Customers
     /// </summary>
     [Required(ErrorMessage = "TransactionForCustomer is required")]
-    public System.Int64 CustomerId { get; set; } = default!;
+    public System.Int64 TransactionForCustomerId { get; set; } = default!;
 
     /// <summary>
     /// Transaction for ExactlyOne Bookings
     /// </summary>
     [Required(ErrorMessage = "TransactionForBooking is required")]
-    public System.Guid BookingId { get; set; } = default!;
+    public System.Guid TransactionForBookingId { get; set; } = default!;
 }

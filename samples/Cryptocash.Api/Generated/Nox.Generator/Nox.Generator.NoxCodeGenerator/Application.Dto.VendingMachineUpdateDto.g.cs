@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class VendingMachineUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Vending machine mac address (Required).
     /// </summary>
@@ -58,11 +57,11 @@ public partial class VendingMachineUpdateDto
     /// VendingMachine installed in ExactlyOne Countries
     /// </summary>
     [Required(ErrorMessage = "VendingMachineInstallationCountry is required")]
-    public System.String CountryId { get; set; } = default!;
+    public System.String VendingMachineInstallationCountryId { get; set; } = default!;
 
     /// <summary>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
     [Required(ErrorMessage = "VendingMachineContractedAreaLandLord is required")]
-    public System.Int64 LandLordId { get; set; } = default!;
+    public System.Int64 VendingMachineContractedAreaLandLordId { get; set; } = default!;
 }

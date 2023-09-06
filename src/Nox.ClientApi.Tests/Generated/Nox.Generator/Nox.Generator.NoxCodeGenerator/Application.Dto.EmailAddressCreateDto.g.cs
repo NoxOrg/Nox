@@ -16,8 +16,16 @@ namespace ClientApi.Application.Dto;
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-public partial class EmailAddressCreateDto : EmailAddressUpdateDto
-{
+public partial class EmailAddressCreateDto 
+{    
+    /// <summary>
+    /// Email (Optional).
+    /// </summary>
+    public System.String? Email { get; set; }    
+    /// <summary>
+    /// Verified (Optional).
+    /// </summary>
+    public System.Boolean? IsVerified { get; set; }
 
     public ClientApi.Domain.EmailAddress ToEntity()
     {

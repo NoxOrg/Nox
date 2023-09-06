@@ -16,13 +16,23 @@ namespace ClientApi.Application.Dto;
 /// <summary>
 /// Store owners.
 /// </summary>
-public partial class StoreOwnerCreateDto : StoreOwnerUpdateDto
+public partial class StoreOwnerCreateDto 
 {
     /// <summary>
     ///  (Required).
     /// </summary>
     [Required(ErrorMessage = "Id is required")]
-    public System.String Id { get; set; } = default!;
+    public System.String Id { get; set; } = default!;    
+    /// <summary>
+    /// Owner Name (Required).
+    /// </summary>
+    [Required(ErrorMessage = "Name is required")]
+    
+    public System.String Name { get; set; } = default!;    
+    /// <summary>
+    /// Vat Number (Optional).
+    /// </summary>
+    public VatNumberDto? VatNumber { get; set; }
 
     public ClientApi.Domain.StoreOwner ToEntity()
     {

@@ -41,6 +41,6 @@ public partial class StoreOwnerDto
     /// <summary>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
     /// </summary>
-    public virtual List<StoreDto> Stores { get; set; } = new();
+    public virtual List<StoreDto> StoreRel { get; set; } = new();
     public System.DateTime? DeletedAtUtc { get; set; }    
 }

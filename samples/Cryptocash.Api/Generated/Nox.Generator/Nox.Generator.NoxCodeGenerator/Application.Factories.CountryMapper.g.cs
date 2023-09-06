@@ -31,55 +31,70 @@ public class CountryMapper : EntityMapperBase<Country>
     #pragma warning restore CS0168 // Variable is declared but never used
             
         noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "Id", dto.Id);        
-        if (noxTypeValue != null)
-        {        
-            entity.Id = noxTypeValue;
-        }
+            if (noxTypeValue != null)
+            {        
+                entity.Id = noxTypeValue;
+            }        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
         if (noxTypeValue != null)
         {        
             entity.Name = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "OfficialName", dto.OfficialName);
         if (noxTypeValue != null)
         {        
             entity.OfficialName = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.CountryNumber>(entityDefinition, "CountryIsoNumeric", dto.CountryIsoNumeric);
         if (noxTypeValue != null)
         {        
             entity.CountryIsoNumeric = noxTypeValue;
-        }
-
-        // TODO map CountryIsoAlpha3 CountryCode3 remaining types and remove if else
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.CountryCode3>(entityDefinition, "CountryIsoAlpha3", dto.CountryIsoAlpha3);
+        if (noxTypeValue != null)
+        {        
+            entity.CountryIsoAlpha3 = noxTypeValue;
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "GeoCoords", dto.GeoCoords);
         if (noxTypeValue != null)
         {        
             entity.GeoCoords = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "FlagEmoji", dto.FlagEmoji);
         if (noxTypeValue != null)
         {        
             entity.FlagEmoji = noxTypeValue;
-        }
-
-        // TODO map FlagSvg Image remaining types and remove if else
-
-        // TODO map FlagPng Image remaining types and remove if else
-
-        // TODO map CoatOfArmsSvg Image remaining types and remove if else
-
-        // TODO map CoatOfArmsPng Image remaining types and remove if else
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.Image>(entityDefinition, "FlagSvg", dto.FlagSvg);
+        if (noxTypeValue != null)
+        {        
+            entity.FlagSvg = noxTypeValue;
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.Image>(entityDefinition, "FlagPng", dto.FlagPng);
+        if (noxTypeValue != null)
+        {        
+            entity.FlagPng = noxTypeValue;
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.Image>(entityDefinition, "CoatOfArmsSvg", dto.CoatOfArmsSvg);
+        if (noxTypeValue != null)
+        {        
+            entity.CoatOfArmsSvg = noxTypeValue;
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.Image>(entityDefinition, "CoatOfArmsPng", dto.CoatOfArmsPng);
+        if (noxTypeValue != null)
+        {        
+            entity.CoatOfArmsPng = noxTypeValue;
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition, "GoogleMapsUrl", dto.GoogleMapsUrl);
         if (noxTypeValue != null)
         {        
             entity.GoogleMapsUrl = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition, "OpenStreetMapsUrl", dto.OpenStreetMapsUrl);
         if (noxTypeValue != null)
         {        
             entity.OpenStreetMapsUrl = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.DayOfWeek>(entityDefinition, "StartOfWeek", dto.StartOfWeek);
         if (noxTypeValue != null)
         {        
@@ -90,10 +105,10 @@ public class CountryMapper : EntityMapperBase<Country>
         /// <summary>
         /// Country used by ExactlyOne Currencies
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "CountryUsedByCurrency", dto.CurrencyId);
+        noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "CountryUsedByCurrency", dto.CountryUsedByCurrencyId);
         if (noxTypeValue != null)
         {        
-            entity.CurrencyId = noxTypeValue;
+            entity.CountryUsedByCurrencyId = noxTypeValue;
         }
     }
 
@@ -294,7 +309,7 @@ public class CountryMapper : EntityMapperBase<Country>
             var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "CountryUsedByCurrency", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.CurrencyId = noxRelationshipTypeValue;
+                entity.CountryUsedByCurrencyId = noxRelationshipTypeValue;
             }
         }
     }

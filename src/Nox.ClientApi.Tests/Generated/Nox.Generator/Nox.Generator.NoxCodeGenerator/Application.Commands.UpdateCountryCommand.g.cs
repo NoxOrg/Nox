@@ -21,14 +21,17 @@ public class UpdateCountryCommandHandler: CommandBase<UpdateCountryCommand, Coun
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<Country> EntityMapper { get; }
+	public IEntityMapper<CountryLocalName> CountryLocalNameEntityMapper { get; }
 
 	public UpdateCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
+		IServiceProvider serviceProvider,	
+			IEntityMapper<CountryLocalName> entityMapperCountryLocalName,
 		IEntityMapper<Country> entityMapper): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
+		DbContext = dbContext;	
+		CountryLocalNameEntityMapper = entityMapperCountryLocalName;
 		EntityMapper = entityMapper;
 	}
 	
@@ -44,14 +47,34 @@ public class UpdateCountryCommandHandler: CommandBase<UpdateCountryCommand, Coun
 			return null;
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Country>(), request.EntityDto);
+		foreach(var ownedEntity in request.EntityDto.CountryLocalNames)
+		{
+			UpdateCountryLocalName(entity, ownedEntity);
+		}
 
 		OnCompleted(entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if(result < 1)
+		if (result < 1)
+		{
 			return null;
+		}
 
 		return new CountryKeyDto(entity.Id.Value);
+	}
+	private void UpdateCountryLocalName(Country parent, CountryLocalNameDto child)
+	{
+		var ownedId = CreateNoxTypeForKey<CountryLocalName,DatabaseNumber>("Id", child.Id);
+
+		var entity = parent.CountryLocalNames.SingleOrDefault(x =>
+			x.Id.Equals(ownedId) &&
+			true);
+		if (entity == null)
+		{
+			return;
+		}
+
+		CountryLocalNameEntityMapper.MapToEntity(entity, GetEntityDefinition<CountryLocalName>(), child);		
 	}
 }

@@ -28,6 +28,11 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
             return EntityTypeBuilder.HasOne(relatedTypeName, navigationName);
         }
 
+        public CollectionNavigationBuilder HasMany(string navigationName)
+        {
+            return EntityTypeBuilder.HasMany(navigationName);
+        }
+
         public IEntityBuilder Ignore(string propertyName)
         {
             return new EntityBuilderAdapter(EntityTypeBuilder.Ignore(propertyName));

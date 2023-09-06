@@ -49,8 +49,10 @@ public class UpdatePaymentDetailCommandHandler: CommandBase<UpdatePaymentDetailC
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if(result < 1)
+		if (result < 1)
+		{
 			return null;
+		}
 
 		return new PaymentDetailKeyDto(entity.Id.Value);
 	}

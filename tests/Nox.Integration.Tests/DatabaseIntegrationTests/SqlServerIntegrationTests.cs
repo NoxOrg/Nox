@@ -304,22 +304,22 @@ public /**/ class SqlServerIntegrationTests : SqlServerTestBase
             TextTestField2 = Text.From(text),
         };
 
-        newItem.SecondTestEntityZeroOrManies.Add(newItem2);
+        newItem.SecondTestEntityZeroOrManyRelationship.Add(newItem2);
         DbContext.SecondTestEntityZeroOrManies.Add(newItem2);
         DbContext.SaveChanges();
 
         // Force the recreation of DBContext and ensure we have fresh data from database
         RecreateDbContext();
 
-        var testEntity = DbContext.TestEntityZeroOrManies.Include(x => x.SecondTestEntityZeroOrManies).First();
-        var secondTestEntity = DbContext.SecondTestEntityZeroOrManies.Include(x => x.TestEntityZeroOrManies).First();
+        var testEntity = DbContext.TestEntityZeroOrManies.Include(x => x.SecondTestEntityZeroOrManyRelationship).First();
+        var secondTestEntity = DbContext.SecondTestEntityZeroOrManies.Include(x => x.TestEntityZeroOrManyRelationship).First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
-        Assert.NotEmpty(testEntity.SecondTestEntityZeroOrManies);
-        Assert.NotEmpty(secondTestEntity.TestEntityZeroOrManies);
-        Assert.Equal(testEntity.SecondTestEntityZeroOrManies[0].Id.Value, textId2);
-        Assert.Equal(secondTestEntity.TestEntityZeroOrManies[0].Id.Value, textId1);
+        Assert.NotEmpty(testEntity.SecondTestEntityZeroOrManyRelationship);
+        Assert.NotEmpty(secondTestEntity.TestEntityZeroOrManyRelationship);
+        Assert.Equal(testEntity.SecondTestEntityZeroOrManyRelationship[0].Id.Value, textId2);
+        Assert.Equal(secondTestEntity.TestEntityZeroOrManyRelationship[0].Id.Value, textId1);
     }
 
     [Fact]
@@ -343,22 +343,22 @@ public /**/ class SqlServerIntegrationTests : SqlServerTestBase
             TextTestField2 = Text.From(text),
         };
 
-        newItem.SecondTestEntityOneOrManies.Add(newItem2);
+        newItem.SecondTestEntityOneOrManyRelationship.Add(newItem2);
         DbContext.SecondTestEntityOneOrManies.Add(newItem2);
         DbContext.SaveChanges();
 
         // Force the recreation of DBContext and ensure we have fresh data from database
         RecreateDbContext();
 
-        var testEntity = DbContext.TestEntityOneOrManies.Include(x => x.SecondTestEntityOneOrManies).First();
-        var secondTestEntity = DbContext.SecondTestEntityOneOrManies.Include(x => x.TestEntityOneOrManies).First();
+        var testEntity = DbContext.TestEntityOneOrManies.Include(x => x.SecondTestEntityOneOrManyRelationship).First();
+        var secondTestEntity = DbContext.SecondTestEntityOneOrManies.Include(x => x.TestEntityOneOrManyRelationship).First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
-        Assert.NotEmpty(testEntity.SecondTestEntityOneOrManies);
-        Assert.NotEmpty(secondTestEntity.TestEntityOneOrManies);
-        Assert.Equal(testEntity.SecondTestEntityOneOrManies[0].Id.Value, textId2);
-        Assert.Equal(secondTestEntity.TestEntityOneOrManies[0].Id.Value, textId1);
+        Assert.NotEmpty(testEntity.SecondTestEntityOneOrManyRelationship);
+        Assert.NotEmpty(secondTestEntity.TestEntityOneOrManyRelationship);
+        Assert.Equal(testEntity.SecondTestEntityOneOrManyRelationship[0].Id.Value, textId2);
+        Assert.Equal(secondTestEntity.TestEntityOneOrManyRelationship[0].Id.Value, textId1);
     }
 
     [Fact]
@@ -379,8 +379,8 @@ public /**/ class SqlServerIntegrationTests : SqlServerTestBase
             TextTestField2 = Text.From(text),
         };
 
-        newItem.SecondTestEntityExactlyOne = newItem2;
-        newItem2.TestEntityExactlyOne = newItem;
+        newItem.SecondTestEntityExactlyOneRelationship = newItem2;
+        newItem2.TestEntityExactlyOneRelationship = newItem;
         DbContext.TestEntityExactlyOnes.Add(newItem);
         DbContext.SecondTestEntityExactlyOnes.Add(newItem2);
         DbContext.SaveChanges();
@@ -388,15 +388,15 @@ public /**/ class SqlServerIntegrationTests : SqlServerTestBase
         // Force the recreation of DBContext and ensure we have fresh data from database
         RecreateDbContext();
 
-        var testEntity = DbContext.TestEntityExactlyOnes.Include(x => x.SecondTestEntityExactlyOne).First();
-        var secondTestEntity = DbContext.SecondTestEntityExactlyOnes.Include(x => x.TestEntityExactlyOne).First();
+        var testEntity = DbContext.TestEntityExactlyOnes.Include(x => x.SecondTestEntityExactlyOneRelationship).First();
+        var secondTestEntity = DbContext.SecondTestEntityExactlyOnes.Include(x => x.TestEntityExactlyOneRelationship).First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
-        Assert.NotNull(testEntity.SecondTestEntityExactlyOne);
-        Assert.NotNull(secondTestEntity.TestEntityExactlyOne);
-        Assert.Equal(testEntity.SecondTestEntityExactlyOne.Id.Value, textId2);
-        Assert.Equal(secondTestEntity.TestEntityExactlyOne.Id.Value, textId1);
+        Assert.NotNull(testEntity.SecondTestEntityExactlyOneRelationship);
+        Assert.NotNull(secondTestEntity.TestEntityExactlyOneRelationship);
+        Assert.Equal(testEntity.SecondTestEntityExactlyOneRelationship.Id.Value, textId2);
+        Assert.Equal(secondTestEntity.TestEntityExactlyOneRelationship.Id.Value, textId1);
     }
 
     [Fact]
@@ -417,8 +417,8 @@ public /**/ class SqlServerIntegrationTests : SqlServerTestBase
             TextTestField2 = Text.From(text),
         };
 
-        newItem.SecondTestEntityZeroOrOne = newItem2;
-        newItem2.TestEntityZeroOrOne = newItem;
+        newItem.SecondTestEntityZeroOrOneRelationship = newItem2;
+        newItem2.TestEntityZeroOrOneRelationship = newItem;
         DbContext.TestEntityZeroOrOnes.Add(newItem);
         DbContext.SecondTestEntityZeroOrOnes.Add(newItem2);
         DbContext.SaveChanges();
@@ -426,15 +426,15 @@ public /**/ class SqlServerIntegrationTests : SqlServerTestBase
         // Force the recreation of DBContext and ensure we have fresh data from database
         RecreateDbContext();
 
-        var testEntity = DbContext.TestEntityZeroOrOnes.Include(x => x.SecondTestEntityZeroOrOne).First();
-        var secondTestEntity = DbContext.SecondTestEntityZeroOrOnes.Include(x => x.TestEntityZeroOrOne).First();
+        var testEntity = DbContext.TestEntityZeroOrOnes.Include(x => x.SecondTestEntityZeroOrOneRelationship).First();
+        var secondTestEntity = DbContext.SecondTestEntityZeroOrOnes.Include(x => x.TestEntityZeroOrOneRelationship).First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
-        Assert.NotNull(testEntity.SecondTestEntityZeroOrOne);
-        Assert.NotNull(secondTestEntity.TestEntityZeroOrOne);
-        Assert.Equal(testEntity.SecondTestEntityZeroOrOne.Id.Value, textId2);
-        Assert.Equal(secondTestEntity.TestEntityZeroOrOne.Id.Value, textId1);
+        Assert.NotNull(testEntity.SecondTestEntityZeroOrOneRelationship);
+        Assert.NotNull(secondTestEntity.TestEntityZeroOrOneRelationship);
+        Assert.Equal(testEntity.SecondTestEntityZeroOrOneRelationship.Id.Value, textId2);
+        Assert.Equal(secondTestEntity.TestEntityZeroOrOneRelationship.Id.Value, textId1);
     }
 
     [Fact]
@@ -465,14 +465,14 @@ public /**/ class SqlServerIntegrationTests : SqlServerTestBase
         RecreateDbContext();
 
         var testEntity = DbContext.TestEntityZeroOrOneToZeroOrManies.Include(x => x.TestEntityZeroOrManyToZeroOrOne).First();
-        var secondTestEntity = DbContext.TestEntityZeroOrManyToZeroOrOnes.Include(x => x.TestEntityZeroOrOneToZeroOrManies).First();
+        var secondTestEntity = DbContext.TestEntityZeroOrManyToZeroOrOnes.Include(x => x.TestEntityZeroOrOneToZeroOrMany).First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
         Assert.NotNull(testEntity.TestEntityZeroOrManyToZeroOrOne);
-        Assert.NotNull(secondTestEntity.TestEntityZeroOrOneToZeroOrManies);
+        Assert.NotNull(secondTestEntity.TestEntityZeroOrOneToZeroOrMany);
         Assert.Equal(testEntity.TestEntityZeroOrManyToZeroOrOne.Id.Value, textId2);
-        Assert.Equal(secondTestEntity.TestEntityZeroOrOneToZeroOrManies[0].Id.Value, textId1);
+        Assert.Equal(secondTestEntity.TestEntityZeroOrOneToZeroOrMany[0].Id.Value, textId1);
     }
 
     [Fact]
@@ -494,7 +494,7 @@ public /**/ class SqlServerIntegrationTests : SqlServerTestBase
         };
 
         newItem.TestEntityOneOrManyToZeroOrOne = newItem2;
-        newItem2.TestEntityZeroOrOneToOneOrManies.Add(newItem);
+        newItem2.TestEntityZeroOrOneToOneOrMany.Add(newItem);
         DbContext.TestEntityZeroOrOneToOneOrManies.Add(newItem);
         DbContext.TestEntityOneOrManyToZeroOrOnes.Add(newItem2);
         DbContext.SaveChanges();
@@ -503,14 +503,14 @@ public /**/ class SqlServerIntegrationTests : SqlServerTestBase
         RecreateDbContext();
 
         var testEntity = DbContext.TestEntityZeroOrOneToOneOrManies.Include(x => x.TestEntityOneOrManyToZeroOrOne).First();
-        var secondTestEntity = DbContext.TestEntityOneOrManyToZeroOrOnes.Include(x => x.TestEntityZeroOrOneToOneOrManies).First();
+        var secondTestEntity = DbContext.TestEntityOneOrManyToZeroOrOnes.Include(x => x.TestEntityZeroOrOneToOneOrMany).First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
         Assert.NotNull(testEntity.TestEntityOneOrManyToZeroOrOne);
-        Assert.NotNull(secondTestEntity.TestEntityZeroOrOneToOneOrManies);
+        Assert.NotNull(secondTestEntity.TestEntityZeroOrOneToOneOrMany);
         Assert.Equal(testEntity.TestEntityOneOrManyToZeroOrOne.Id.Value, textId2);
-        Assert.Equal(secondTestEntity.TestEntityZeroOrOneToOneOrManies[0].Id.Value, textId1);
+        Assert.Equal(secondTestEntity.TestEntityZeroOrOneToOneOrMany[0].Id.Value, textId1);
     }
 
     [Fact]
@@ -570,7 +570,7 @@ public /**/ class SqlServerIntegrationTests : SqlServerTestBase
         };
 
         newItem.TestEntityOneOrManyToExactlyOne = newItem2;
-        newItem2.TestEntityExactlyOneToOneOrManies.Add(newItem);
+        newItem2.TestEntityExactlyOneToOneOrMany.Add(newItem);
         DbContext.TestEntityExactlyOneToOneOrManies.Add(newItem);
         DbContext.TestEntityOneOrManyToExactlyOnes.Add(newItem2);
         DbContext.SaveChanges();
@@ -579,14 +579,14 @@ public /**/ class SqlServerIntegrationTests : SqlServerTestBase
         RecreateDbContext();
 
         var testEntity = DbContext.TestEntityExactlyOneToOneOrManies.Include(x => x.TestEntityOneOrManyToExactlyOne).First();
-        var secondTestEntity = DbContext.TestEntityOneOrManyToExactlyOnes.Include(x => x.TestEntityExactlyOneToOneOrManies).First();
+        var secondTestEntity = DbContext.TestEntityOneOrManyToExactlyOnes.Include(x => x.TestEntityExactlyOneToOneOrMany).First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
         Assert.NotNull(testEntity.TestEntityOneOrManyToExactlyOne);
-        Assert.NotNull(secondTestEntity.TestEntityExactlyOneToOneOrManies);
+        Assert.NotNull(secondTestEntity.TestEntityExactlyOneToOneOrMany);
         Assert.Equal(testEntity.TestEntityOneOrManyToExactlyOne.Id.Value, textId2);
-        Assert.Equal(secondTestEntity.TestEntityExactlyOneToOneOrManies[0].Id.Value, textId1);
+        Assert.Equal(secondTestEntity.TestEntityExactlyOneToOneOrMany[0].Id.Value, textId1);
     }
 
     [Fact]
@@ -607,7 +607,7 @@ public /**/ class SqlServerIntegrationTests : SqlServerTestBase
             TextTestField2 = Text.From(text),
         };
 
-        newItem.TestEntityExactlyOneToZeroOrManies.Add(newItem2);
+        newItem.TestEntityExactlyOneToZeroOrMany.Add(newItem2);
         newItem2.TestEntityZeroOrManyToExactlyOne = newItem;
         DbContext.TestEntityZeroOrManyToExactlyOnes.Add(newItem);
         DbContext.TestEntityExactlyOneToZeroOrManies.Add(newItem2);
@@ -616,14 +616,14 @@ public /**/ class SqlServerIntegrationTests : SqlServerTestBase
         // Force the recreation of DBContext and ensure we have fresh data from database
         RecreateDbContext();
 
-        var testEntity = DbContext.TestEntityZeroOrManyToExactlyOnes.Include(x => x.TestEntityExactlyOneToZeroOrManies).First();
+        var testEntity = DbContext.TestEntityZeroOrManyToExactlyOnes.Include(x => x.TestEntityExactlyOneToZeroOrMany).First();
         var secondTestEntity = DbContext.TestEntityExactlyOneToZeroOrManies.Include(x => x.TestEntityZeroOrManyToExactlyOne).First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
-        Assert.NotNull(testEntity.TestEntityExactlyOneToZeroOrManies);
+        Assert.NotNull(testEntity.TestEntityExactlyOneToZeroOrMany);
         Assert.NotNull(secondTestEntity.TestEntityZeroOrManyToExactlyOne);
-        Assert.Equal(testEntity.TestEntityExactlyOneToZeroOrManies[0].Id.Value, textId2);
+        Assert.Equal(testEntity.TestEntityExactlyOneToZeroOrMany[0].Id.Value, textId2);
         Assert.Equal(secondTestEntity.TestEntityZeroOrManyToExactlyOne.Id.Value, textId1);
     }
 
@@ -646,8 +646,8 @@ public /**/ class SqlServerIntegrationTests : SqlServerTestBase
             TextTestField = Text.From(text),
         };
 
-        newItem.TestEntityOneOrManyToZeroOrManies.Add(newItem2);
-        newItem2.TestEntityZeroOrManyToOneOrManies.Add(newItem);
+        newItem.TestEntityOneOrManyToZeroOrMany.Add(newItem2);
+        newItem2.TestEntityZeroOrManyToOneOrMany.Add(newItem);
         DbContext.TestEntityZeroOrManyToOneOrManies.Add(newItem);
         DbContext.TestEntityOneOrManyToZeroOrManies.Add(newItem2);
         DbContext.SaveChanges();
@@ -655,15 +655,15 @@ public /**/ class SqlServerIntegrationTests : SqlServerTestBase
         // Force the recreation of DBContext and ensure we have fresh data from database
         RecreateDbContext();
 
-        var testEntity = DbContext.TestEntityZeroOrManyToOneOrManies.Include(x => x.TestEntityOneOrManyToZeroOrManies).First();
-        var secondTestEntity = DbContext.TestEntityOneOrManyToZeroOrManies.Include(x => x.TestEntityZeroOrManyToOneOrManies).First();
+        var testEntity = DbContext.TestEntityZeroOrManyToOneOrManies.Include(x => x.TestEntityOneOrManyToZeroOrMany).First();
+        var secondTestEntity = DbContext.TestEntityOneOrManyToZeroOrManies.Include(x => x.TestEntityZeroOrManyToOneOrMany).First();
 
         Assert.Equal(testEntity.Id.Value, textId1);
         Assert.Equal(secondTestEntity.Id.Value, textId2);
-        Assert.NotEmpty(testEntity.TestEntityOneOrManyToZeroOrManies);
-        Assert.NotEmpty(secondTestEntity.TestEntityZeroOrManyToOneOrManies);
-        Assert.Equal(testEntity.TestEntityOneOrManyToZeroOrManies[0].Id.Value, textId2);
-        Assert.Equal(secondTestEntity.TestEntityZeroOrManyToOneOrManies[0].Id.Value, textId1);
+        Assert.NotEmpty(testEntity.TestEntityOneOrManyToZeroOrMany);
+        Assert.NotEmpty(secondTestEntity.TestEntityZeroOrManyToOneOrMany);
+        Assert.Equal(testEntity.TestEntityOneOrManyToZeroOrMany[0].Id.Value, textId2);
+        Assert.Equal(secondTestEntity.TestEntityZeroOrManyToOneOrMany[0].Id.Value, textId1);
     }
 
     [Fact]
@@ -795,6 +795,7 @@ public /**/ class SqlServerIntegrationTests : SqlServerTestBase
         Assert.NotNull(testEntity.SecondTestEntityOwnedRelationshipZeroOrOne);
         Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipZeroOrOne.TextTestField2.Value, text2);
     }
+<<<<<<< HEAD
     
     [Fact]
     public void UniqueConstraints_SameValue_ShouldThrowException()
@@ -849,5 +850,147 @@ public /**/ class SqlServerIntegrationTests : SqlServerTestBase
         //save should throw exception
         Action act2 = () => DbContext.SaveChanges();
         act2.Should().Throw<DbUpdateException>();
+=======
+
+    //[Fact]
+    public void GeneratedRelationship_SqlServer_TwoRelationshipsToTheSameEntityOneToOne()
+    {
+        var text = "TX";
+        var textId1 = "T1";
+        var text2 = "T2";
+        var text3 = "T3";
+
+        var newItem = new TestEntityTwoRelationshipsOneToOne()
+        {
+            Id = Text.From(textId1),
+            TextTestField = Text.From(text),
+        };
+        var newItem2 = new SecondTestEntityTwoRelationshipsOneToOne()
+        {
+            Id = Text.From(text2),
+            TextTestField2 = Text.From(text2),
+        };
+        var newItem3 = new SecondTestEntityTwoRelationshipsOneToOne()
+        {
+            Id = Text.From(text3),
+            TextTestField2 = Text.From(text3),
+        };
+
+        newItem.TestRelationshipOne = newItem2;
+        newItem.TestRelationshipTwo = newItem3;
+        DbContext.TestEntityTwoRelationshipsOneToOnes.Add(newItem);
+        DbContext.SaveChanges();
+
+        // Force the recreation of DBContext and ensure we have fresh data from database
+        RecreateDbContext();
+
+        var testEntity = DbContext.TestEntityTwoRelationshipsOneToOnes.Include(x => x.TestRelationshipOne).Include(x => x.TestRelationshipTwo).First();
+        var testEntity2 = DbContext.SecondTestEntityTwoRelationshipsOneToOnes.Include(x => x.TestRelationshipOneOnOtherSide).First();
+        var testEntity3 = DbContext.SecondTestEntityTwoRelationshipsOneToOnes.Include(x => x.TestRelationshipTwoOnOtherSide).Skip(1).First();
+
+        Assert.Equal(testEntity.Id.Value, textId1);
+        Assert.NotNull(testEntity.TestRelationshipOne);
+        Assert.NotNull(testEntity.TestRelationshipTwo);
+        Assert.Equal(testEntity2.Id.Value, text2);
+        Assert.Equal(testEntity3.Id.Value, text3);
+        Assert.NotNull(testEntity2.TestRelationshipOneOnOtherSide);
+        Assert.NotNull(testEntity3.TestRelationshipTwoOnOtherSide);
+        Assert.Equal(testEntity.TestRelationshipOne.Id.Value, text2);
+        Assert.Equal(testEntity.TestRelationshipTwo.Id.Value, text3);
+    }
+
+    //[Fact]
+    public void GeneratedRelationship_SqlServer_TwoRelationshipsToTheSameEntityManyToMany()
+    {
+        var text = "TX";
+        var textId1 = "T1";
+        var text2 = "T2";
+        var text3 = "T3";
+
+        var newItem = new TestEntityTwoRelationshipsManyToMany()
+        {
+            Id = Text.From(textId1),
+            TextTestField = Text.From(text),
+        };
+        var newItem2 = new SecondTestEntityTwoRelationshipsManyToMany()
+        {
+            Id = Text.From(text2),
+            TextTestField2 = Text.From(text2),
+        };
+        var newItem3 = new SecondTestEntityTwoRelationshipsManyToMany()
+        {
+            Id = Text.From(text3),
+            TextTestField2 = Text.From(text3),
+        };
+
+        newItem.TestRelationshipOne.Add(newItem2);
+        newItem.TestRelationshipTwo.Add(newItem3);
+        DbContext.TestEntityTwoRelationshipsManyToManies.Add(newItem);
+        DbContext.SaveChanges();
+
+        // Force the recreation of DBContext and ensure we have fresh data from database
+        RecreateDbContext();
+
+        var testEntity = DbContext.TestEntityTwoRelationshipsManyToManies.Include(x => x.TestRelationshipOne).Include(x => x.TestRelationshipTwo).First();
+        var testEntity2 = DbContext.SecondTestEntityTwoRelationshipsManyToManies.Include(x => x.TestRelationshipOneOnOtherSide).First();
+        var testEntity3 = DbContext.SecondTestEntityTwoRelationshipsManyToManies.Include(x => x.TestRelationshipTwoOnOtherSide).Skip(1).First();
+
+        Assert.Equal(testEntity.Id.Value, textId1);
+        Assert.NotNull(testEntity.TestRelationshipOne);
+        Assert.NotNull(testEntity.TestRelationshipTwo);
+        Assert.Equal(testEntity2.Id.Value, text2);
+        Assert.Equal(testEntity3.Id.Value, text3);
+        Assert.NotNull(testEntity2.TestRelationshipOneOnOtherSide);
+        Assert.NotNull(testEntity3.TestRelationshipTwoOnOtherSide);
+        Assert.Equal(testEntity.TestRelationshipOne[0].Id.Value, text2);
+        Assert.Equal(testEntity.TestRelationshipTwo[0].Id.Value, text3);
+    }
+
+    //[Fact]
+    public void GeneratedRelationship_SqlServer_TwoRelationshipsToTheSameEntityOneToMany()
+    {
+        var text = "TX";
+        var textId1 = "T1";
+        var text2 = "T2";
+        var text3 = "T3";
+
+        var newItem = new TestEntityTwoRelationshipsOneToMany()
+        {
+            Id = Text.From(textId1),
+            TextTestField = Text.From(text),
+        };
+        var newItem2 = new SecondTestEntityTwoRelationshipsOneToMany()
+        {
+            Id = Text.From(text2),
+            TextTestField2 = Text.From(text2),
+        };
+        var newItem3 = new SecondTestEntityTwoRelationshipsOneToMany()
+        {
+            Id = Text.From(text3),
+            TextTestField2 = Text.From(text3),
+        };
+
+        newItem.TestRelationshipOne.Add(newItem2);
+        newItem.TestRelationshipTwo.Add(newItem3);
+        DbContext.TestEntityTwoRelationshipsOneToManies.Add(newItem);
+        DbContext.SaveChanges();
+
+        // Force the recreation of DBContext and ensure we have fresh data from database
+        RecreateDbContext();
+
+        var testEntity = DbContext.TestEntityTwoRelationshipsOneToManies.Include(x => x.TestRelationshipOne).Include(x => x.TestRelationshipTwo).First();
+        var testEntity2 = DbContext.SecondTestEntityTwoRelationshipsOneToManies.Include(x => x.TestRelationshipOneOnOtherSide).First();
+        var testEntity3 = DbContext.SecondTestEntityTwoRelationshipsOneToManies.Include(x => x.TestRelationshipTwoOnOtherSide).Skip(1).First();
+
+        Assert.Equal(testEntity.Id.Value, textId1);
+        Assert.NotNull(testEntity.TestRelationshipOne);
+        Assert.NotNull(testEntity.TestRelationshipTwo);
+        Assert.Equal(testEntity2.Id.Value, text2);
+        Assert.Equal(testEntity3.Id.Value, text3);
+        Assert.NotNull(testEntity2.TestRelationshipOneOnOtherSide);
+        Assert.NotNull(testEntity3.TestRelationshipTwoOnOtherSide);
+        Assert.Equal(testEntity.TestRelationshipOne[0].Id.Value, text2);
+        Assert.Equal(testEntity.TestRelationshipTwo[0].Id.Value, text3);
+>>>>>>> main
     }
 }

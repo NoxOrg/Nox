@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class EmployeePhoneNumberUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Employee's phone number type (Required).
     /// </summary>

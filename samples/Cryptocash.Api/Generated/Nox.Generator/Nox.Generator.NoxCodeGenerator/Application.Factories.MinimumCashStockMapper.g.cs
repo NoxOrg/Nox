@@ -29,7 +29,7 @@ public class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Amount", dto.Amount);
         if (noxTypeValue != null)
         {        
@@ -40,10 +40,10 @@ public class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
         /// <summary>
         /// MinimumCashStock related to ExactlyOne Currencies
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "MinimumCashStockRelatedCurrency", dto.CurrencyId);
+        noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "MinimumCashStockRelatedCurrency", dto.MinimumCashStockRelatedCurrencyId);
         if (noxTypeValue != null)
         {        
-            entity.CurrencyId = noxTypeValue;
+            entity.MinimumCashStockRelatedCurrencyId = noxTypeValue;
         }
     }
 
@@ -76,7 +76,7 @@ public class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
             var noxRelationshipTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "MinimumCashStockRelatedCurrency", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.CurrencyId = noxRelationshipTypeValue;
+                entity.MinimumCashStockRelatedCurrencyId = noxRelationshipTypeValue;
             }
         }
     }

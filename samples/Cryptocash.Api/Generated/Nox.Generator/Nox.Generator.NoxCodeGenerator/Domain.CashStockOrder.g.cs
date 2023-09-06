@@ -47,19 +47,15 @@ public partial class CashStockOrder : AuditableEntityBase
     /// <summary>
     /// CashStockOrder for ExactlyOne VendingMachines
     /// </summary>
-    public virtual VendingMachine VendingMachine { get; set; } = null!;
-
-    public VendingMachine CashStockOrderForVendingMachine => VendingMachine;
+    public virtual VendingMachine CashStockOrderForVendingMachine { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity VendingMachine
     /// </summary>
-    public Nox.Types.DatabaseGuid VendingMachineId { get; set; } = null!;
+    public Nox.Types.DatabaseGuid CashStockOrderForVendingMachineId { get; set; } = null!;
 
     /// <summary>
     /// CashStockOrder reviewed by ExactlyOne Employees
     /// </summary>
-    public virtual Employee Employee { get; set; } = null!;
-
-    public Employee CashStockOrderReviewedByEmployee => Employee;
+    public virtual Employee CashStockOrderReviewedByEmployee { get; set; } = null!;
 }

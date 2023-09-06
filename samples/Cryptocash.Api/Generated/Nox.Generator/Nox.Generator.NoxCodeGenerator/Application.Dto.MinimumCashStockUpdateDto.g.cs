@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class MinimumCashStockUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Cash stock amount (Required).
     /// </summary>
@@ -26,5 +25,5 @@ public partial class MinimumCashStockUpdateDto
     /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
     [Required(ErrorMessage = "MinimumCashStockRelatedCurrency is required")]
-    public System.String CurrencyId { get; set; } = default!;
+    public System.String MinimumCashStockRelatedCurrencyId { get; set; } = default!;
 }

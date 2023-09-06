@@ -58,45 +58,35 @@ public partial class VendingMachine : AuditableEntityBase
     /// <summary>
     /// VendingMachine installed in ExactlyOne Countries
     /// </summary>
-    public virtual Country Country { get; set; } = null!;
-
-    public Country VendingMachineInstallationCountry => Country;
+    public virtual Country VendingMachineInstallationCountry { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Country
     /// </summary>
-    public Nox.Types.CountryCode2 CountryId { get; set; } = null!;
+    public Nox.Types.CountryCode2 VendingMachineInstallationCountryId { get; set; } = null!;
 
     /// <summary>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
-    public virtual LandLord LandLord { get; set; } = null!;
-
-    public LandLord VendingMachineContractedAreaLandLord => LandLord;
+    public virtual LandLord VendingMachineContractedAreaLandLord { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity LandLord
     /// </summary>
-    public Nox.Types.DatabaseNumber LandLordId { get; set; } = null!;
+    public Nox.Types.DatabaseNumber VendingMachineContractedAreaLandLordId { get; set; } = null!;
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany Bookings
     /// </summary>
-    public virtual List<Booking> Bookings { get; set; } = new();
-
-    public List<Booking> VendingMachineRelatedBookings => Bookings;
+    public virtual List<Booking> VendingMachineRelatedBookings { get; set; } = new();
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany CashStockOrders
     /// </summary>
-    public virtual List<CashStockOrder> CashStockOrders { get; set; } = new();
-
-    public List<CashStockOrder> VendingMachineRelatedCashStockOrders => CashStockOrders;
+    public virtual List<CashStockOrder> VendingMachineRelatedCashStockOrders { get; set; } = new();
 
     /// <summary>
     /// VendingMachine required ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<MinimumCashStock> MinimumCashStocks { get; set; } = new();
-
-    public List<MinimumCashStock> VendingMachineRequiredMinimumCashStocks => MinimumCashStocks;
+    public virtual List<MinimumCashStock> VendingMachineRequiredMinimumCashStocks { get; set; } = new();
 }

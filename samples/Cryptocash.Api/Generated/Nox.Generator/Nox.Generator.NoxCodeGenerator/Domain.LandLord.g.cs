@@ -33,7 +33,5 @@ public partial class LandLord : AuditableEntityBase
     /// <summary>
     /// LandLord leases an area to house ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachine> VendingMachines { get; set; } = new();
-
-    public List<VendingMachine> ContractedAreasForVendingMachines => VendingMachines;
+    public virtual List<VendingMachine> ContractedAreasForVendingMachines { get; set; } = new();
 }

@@ -52,6 +52,13 @@ public partial class Country
     
 
     /// <summary>
+    /// Type options and factory for property 'FirstLanguageCode'
+    /// </summary>
+    public static Nox.Types.LanguageCode CreateFirstLanguageCode(System.String value)
+        => Nox.Types.LanguageCode.From(value);
+    
+
+    /// <summary>
     /// Type options and factory for property 'ShortDescription'
     /// </summary>
     public static Nox.Types.FormulaTypeOptions ShortDescriptionTypeOptions {get; private set;} = new ()
@@ -67,8 +74,8 @@ public partial class Country
     /// <summary>
     /// Type options and factory for property 'CountryLocalNameId'
     /// </summary>
-    public static Nox.Types.Text CreateCountryLocalNameId(System.String value)
-        => Nox.Types.Text.From(value);
+    public static Nox.Types.DatabaseNumber CreateCountryLocalNameId(System.Int64 value)
+        => Nox.Types.DatabaseNumber.From(value);
     
 
 }

@@ -36,7 +36,7 @@ public partial class CreateCountryCommandHandler: CommandBase<CreateCountryComma
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();
+		var entityToCreate = request.EntityDto.ToEntity();		
 	
 		OnCompleted(entityToCreate);
 		DbContext.Countries.Add(entityToCreate);

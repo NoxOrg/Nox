@@ -29,22 +29,22 @@ public class TransactionMapper : EntityMapperBase<Transaction>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "TransactionType", dto.TransactionType);
         if (noxTypeValue != null)
         {        
             entity.TransactionType = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "ProcessedOnDateTime", dto.ProcessedOnDateTime);
         if (noxTypeValue != null)
         {        
             entity.ProcessedOnDateTime = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Amount", dto.Amount);
         if (noxTypeValue != null)
         {        
             entity.Amount = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Reference", dto.Reference);
         if (noxTypeValue != null)
         {        
@@ -55,19 +55,19 @@ public class TransactionMapper : EntityMapperBase<Transaction>
         /// <summary>
         /// Transaction for ExactlyOne Customers
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "TransactionForCustomer", dto.CustomerId);
+        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "TransactionForCustomer", dto.TransactionForCustomerId);
         if (noxTypeValue != null)
         {        
-            entity.CustomerId = noxTypeValue;
+            entity.TransactionForCustomerId = noxTypeValue;
         }
 
         /// <summary>
         /// Transaction for ExactlyOne Bookings
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "TransactionForBooking", dto.BookingId);
+        noxTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "TransactionForBooking", dto.TransactionForBookingId);
         if (noxTypeValue != null)
         {        
-            entity.BookingId = noxTypeValue;
+            entity.TransactionForBookingId = noxTypeValue;
         }
     }
 
@@ -142,7 +142,7 @@ public class TransactionMapper : EntityMapperBase<Transaction>
             var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "TransactionForCustomer", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.CustomerId = noxRelationshipTypeValue;
+                entity.TransactionForCustomerId = noxRelationshipTypeValue;
             }
         }
         /// <summary>
@@ -153,7 +153,7 @@ public class TransactionMapper : EntityMapperBase<Transaction>
             var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "TransactionForBooking", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.BookingId = noxRelationshipTypeValue;
+                entity.TransactionForBookingId = noxRelationshipTypeValue;
             }
         }
     }

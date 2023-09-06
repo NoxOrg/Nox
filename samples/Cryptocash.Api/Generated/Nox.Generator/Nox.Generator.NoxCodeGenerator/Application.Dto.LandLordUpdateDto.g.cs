@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class LandLordUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Landlord name (Required).
     /// </summary>
