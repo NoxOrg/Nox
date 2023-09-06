@@ -150,7 +150,130 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 .AllSatisfy(x => x.Id.Should().BeGreaterThan(0));
 
         }
-        #endregion  
+        #endregion
+
+        #endregion
+
+        #region POST
+
+        #region POST Entity With Owned Entities /api/{EntityPluralName} => api/countries
+        [Fact]
+        public async Task Post_WithManyOwnedEntity_ReturnsDatabaseNumberId()
+        {
+            // Arrange
+            var expectedOwnedName = _fixture.Create<string>();
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryLocalNames = new List<CountryLocalNameCreateDto>() { new CountryLocalNameCreateDto() { Name = expectedOwnedName } }
+            };
+            // Act
+            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, dto);
+            var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{result!.keyId}");
+
+            //Assert
+            result.Should().NotBeNull();
+            result!.keyId.Should().BeGreaterThan(0);
+
+            queryResult.Should().NotBeNull();
+            queryResult!.Id.Should().Be(result!.keyId);
+            queryResult!.CountryLocalNames!.Single().Name.Should().Be(expectedOwnedName);
+        }
+        #endregion
+
+        #region POST to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName} => api/countries/1/CountryLocalNames
+        [Fact]
+        public async Task PostToCountryLocalNames_ShouldAddToCountryLocalNames()
+        {
+            // Arrange
+            var expectedLocalName = "local UA";
+
+            var createDto = new CountryCreateDto
+            {
+                Name = "Ukraine",
+                Population = 44000000
+            };
+
+            var localNameDto = new CountryLocalNameCreateDto
+            {
+                Name = expectedLocalName
+            };
+
+            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, createDto);
+
+            //Act
+            var ownedResult = await _oDataFixture.PostAsync<CountryLocalNameCreateDto, CountryLocalNameDto>($"{EntityUrl}/{result!.keyId}/CountryLocalNames", localNameDto);
+
+            //Assert
+            ownedResult.Should().NotBeNull();
+            ownedResult!.Id.Should().BeGreaterThan(0);
+            ownedResult!.Name.Should().Be(expectedLocalName);
+        }
+        #endregion
+
+        #endregion
+
+        #region PUT
+
+        #region PUT to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
+        [Fact]
+        public async Task PutToCountryLocalNames_ShouldUpdateCountryLocalName()
+        {
+            // Arrange
+            var expectedOwnedName = _fixture.Create<string>();
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryLocalNames = new List<CountryLocalNameCreateDto>() { new CountryLocalNameCreateDto() { Name = expectedOwnedName } }
+            };
+            // Act
+            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, dto);
+            var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{result!.keyId}");
+            var ownedResult = await _oDataFixture.PutAsync<CountryLocalNameUpdateDto, CountryLocalNameDto>(
+                $"{EntityUrl}/{queryResult!.Id}/CountryLocalNames/{queryResult!.CountryLocalNames.First().Id}",
+                new CountryLocalNameUpdateDto
+                {
+                    Name = expectedOwnedName
+                });
+
+            //Assert
+            ownedResult.Should().NotBeNull();
+            ownedResult!.Id.Should().Be(queryResult!.CountryLocalNames.First().Id);
+            ownedResult!.Name.Should().Be(expectedOwnedName);
+        }
+        #endregion
+
+        #endregion
+
+        #region PATCH
+
+        #region PATCH to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
+        [Fact]
+        public async Task PatchToCountryLocalNames_ShouldUpdateCountryLocalName()
+        {
+            // Arrange
+            var expectedOwnedName = _fixture.Create<string>();
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryLocalNames = new List<CountryLocalNameCreateDto>() { new CountryLocalNameCreateDto() { Name = expectedOwnedName } }
+            };
+            // Act
+            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, dto);
+            var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{result!.keyId}");
+            var ownedResult = await _oDataFixture.PatchAsync<CountryLocalNameUpdateDto, CountryLocalNameDto>(
+                $"{EntityUrl}/{queryResult!.Id}/CountryLocalNames/{queryResult!.CountryLocalNames.First().Id}",
+                new CountryLocalNameUpdateDto
+                {
+                    Name = expectedOwnedName
+                });
+
+            //Assert
+            ownedResult.Should().NotBeNull();
+            ownedResult!.Id.Should().Be(queryResult!.CountryLocalNames.First().Id);
+            ownedResult!.Name.Should().Be(expectedOwnedName);
+        }
+        #endregion
 
         #endregion
 
@@ -226,31 +349,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
 
             queryResult.Should().NotBeNull();
             queryResult!.CountryDebt!.Amount.Should().Be(expectedAmount);
-        }
-
-        [Fact]
-        public async Task Post_WithManyOwnedEntity_ReturnsDatabaseNumberId()
-        {
-            // Arrange
-            var expectedOwnedName = _fixture.Create<string>();
-            var dto = new CountryCreateDto
-            {
-                Name = _fixture.Create<string>(),
-                CountryLocalNames = new List<CountryLocalNameCreateDto>() { new CountryLocalNameCreateDto() { Name = expectedOwnedName } }
-            };
-            // Act
-            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, dto);
-            var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{result!.keyId}");
-
-            //Assert
-            result.Should().NotBeNull();
-            result!.keyId.Should().BeGreaterThan(0);
-
-            queryResult.Should().NotBeNull();
-            queryResult!.Id.Should().Be(result!.keyId);
-            // TODO: add odata controller to test include properly
-            //queryResult!.ToDto().OwnedEntities!.Single().Name.Should().Be(expectedOwnedName);
-        }
+        }        
 
         [Fact]
         public async Task Post_NameAndPopulation_ShouldPopulateShortDescription()
@@ -448,34 +547,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
 
             // Assert
             queryResult!.FirstLanguageCode.Should().Be(updateWithLanguage);                      
-        }
-
-        [Fact(Skip = "Test fails when post local names.  The property 'Name[Nullable=False]' of type 'Edm.String' has a null value, which is not allowed.'")]
-        public async Task PostToCountryLocalNames_ShouldAddToCountryLocalNames()
-        {
-            // Arrange
-            var expectedLocalName = "local UA";
-
-            var createDto = new CountryCreateDto
-            {
-                Name = "Ukraine",
-                Population = 44000000
-            };
-
-            var localNameDto = new CountryLocalNameCreateDto
-            {
-                Name = expectedLocalName
-            };
-
-            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(EntityUrl, createDto);
-
-            //Act
-            var ownedResult = await _oDataFixture.PostAsync<CountryLocalNameCreateDto, CountryLocalNameDto>($"{EntityUrl}/{result!.keyId}/CountryLocalNames", localNameDto);
-
-            //Assert
-            ownedResult.Should().NotBeNull();
-            ownedResult!.Id.Should().BeGreaterThan(0);
-        }
+        }        
 
         #endregion
     }

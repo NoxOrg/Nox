@@ -13,7 +13,7 @@ using ClientApi.Domain;
 using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
-public record PartialUpdateCountryLocalNameCommand(CountryKeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CountryLocalNameKeyDto?>;
+public record PartialUpdateCountryLocalNameCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CountryLocalNameKeyDto?>;
 
 public partial class PartialUpdateCountryLocalNameCommandHandler: CommandBase<PartialUpdateCountryLocalNameCommand, CountryLocalName>, IRequestHandler <PartialUpdateCountryLocalNameCommand, CountryLocalNameKeyDto?>
 {
@@ -41,7 +41,7 @@ public partial class PartialUpdateCountryLocalNameCommandHandler: CommandBase<Pa
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<CountryLocalName,DatabaseNumber>("Id", request.UpdatedProperties["Id"]);
+		var ownedId = CreateNoxTypeForKey<CountryLocalName,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.CountryLocalNames.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{

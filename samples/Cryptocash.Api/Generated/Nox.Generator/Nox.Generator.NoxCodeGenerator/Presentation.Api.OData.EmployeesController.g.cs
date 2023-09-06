@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
+using Microsoft.AspNetCore.OData.Routing.Attributes;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Nox.Application;
@@ -91,9 +92,17 @@ public partial class EmployeesController : ODataController
             return NotFound();
         }
         
-        return Created(new EmployeePhoneNumberDto { Id = createdKey.keyId });
+        var child = await TryGetEmployeePhoneNumber(key, createdKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(child);
     }
     
+    [ODataIgnored]
+    [HttpPut("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
     public async Task<ActionResult> PutToEmployeePhoneNumbers([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromBody] EmployeePhoneNumberUpdateDto employeePhoneNumber)
     {
         if (!ModelState.IsValid)
@@ -107,9 +116,17 @@ public partial class EmployeesController : ODataController
             return NotFound();
         }
         
-        return Updated(new EmployeePhoneNumberDto { Id = updatedKey.keyId });
+        var child = await TryGetEmployeePhoneNumber(key, updatedKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
     }
     
+    [ODataIgnored]
+    [HttpPatch("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
     public async Task<ActionResult> PatchToEmployeePhoneNumbers([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<EmployeePhoneNumberUpdateDto> employeePhoneNumber)
     {
         if (!ModelState.IsValid)
@@ -126,13 +143,25 @@ public partial class EmployeesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateEmployeePhoneNumberCommand(new EmployeeKeyDto(key), updateProperties));
+        var updated = await _mediator.Send(new PartialUpdateEmployeePhoneNumberCommand(new EmployeeKeyDto(key), new EmployeePhoneNumberKeyDto(relatedKey), updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(new EmployeePhoneNumberDto { Id = updated.keyId });
+        var child = await TryGetEmployeePhoneNumber(key, updated);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    private async Task<EmployeePhoneNumberDto?> TryGetEmployeePhoneNumber( System.Int64 key, EmployeePhoneNumberKeyDto childKeyDto)
+    {
+        var parent = await _mediator.Send(new GetEmployeeByIdQuery(key));
+        return parent?.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     
     public async Task<ActionResult> Post([FromBody]EmployeeCreateDto employee)

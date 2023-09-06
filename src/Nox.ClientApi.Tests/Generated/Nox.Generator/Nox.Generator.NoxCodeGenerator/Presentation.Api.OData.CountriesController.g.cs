@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
+using Microsoft.AspNetCore.OData.Routing.Attributes;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Nox.Application;
@@ -91,9 +92,17 @@ public partial class CountriesController : ODataController
             return NotFound();
         }
         
-        return Created(new CountryLocalNameDto { Id = createdKey.keyId });
+        var child = await TryGetCountryLocalName(key, createdKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(child);
     }
     
+    [ODataIgnored]
+    [HttpPut("/api/Countries/{key}/CountryLocalNames/{relatedKey}")]
     public async Task<ActionResult> PutToCountryLocalNames([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromBody] CountryLocalNameUpdateDto countryLocalName)
     {
         if (!ModelState.IsValid)
@@ -107,9 +116,17 @@ public partial class CountriesController : ODataController
             return NotFound();
         }
         
-        return Updated(new CountryLocalNameDto { Id = updatedKey.keyId });
+        var child = await TryGetCountryLocalName(key, updatedKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
     }
     
+    [ODataIgnored]
+    [HttpPatch("/api/Countries/{key}/CountryLocalNames/{relatedKey}")]
     public async Task<ActionResult> PatchToCountryLocalNames([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<CountryLocalNameUpdateDto> countryLocalName)
     {
         if (!ModelState.IsValid)
@@ -126,13 +143,25 @@ public partial class CountriesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCountryLocalNameCommand(new CountryKeyDto(key), updateProperties));
+        var updated = await _mediator.Send(new PartialUpdateCountryLocalNameCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey), updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(new CountryLocalNameDto { Id = updated.keyId });
+        var child = await TryGetCountryLocalName(key, updated);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    private async Task<CountryLocalNameDto?> TryGetCountryLocalName( System.Int64 key, CountryLocalNameKeyDto childKeyDto)
+    {
+        var parent = await _mediator.Send(new GetCountryByIdQuery(key));
+        return parent?.CountryLocalNames.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     
     public async Task<ActionResult> Post([FromBody]CountryCreateDto country)
