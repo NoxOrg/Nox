@@ -10,7 +10,6 @@ public class StreetAddressDatabaseConfigurator : INoxTypeDatabaseConfigurator
     public NoxType ForNoxType => NoxType.StreetAddress;
     public bool IsDefault => true;
 
-
     public void ConfigureEntityProperty(
         NoxSolutionCodeGeneratorState noxSolutionCodeGeneratorState,
         IEntityBuilder builder,
@@ -22,29 +21,47 @@ public class StreetAddressDatabaseConfigurator : INoxTypeDatabaseConfigurator
             x =>
             {
                 x.Ignore(nameof(StreetAddress.Value));
+
                 x.Property(nameof(StreetAddress.CountryId))
                     .HasConversion(new EnumToStringConverter<CountryCode>())
-                    .IsRequired();
+                    .HasMaxLength(2)
+                    .IsRequired(true);
+
                 x.Property(nameof(StreetAddress.AddressLine1))
                     .HasMaxLength(StreetAddress.AddressLine1MaxLength)
-                    .IsRequired();
+                    .IsRequired(true);
+
                 x.Property(nameof(StreetAddress.PostalCode))
                     .HasMaxLength(StreetAddress.PostalCodeMaxLength)
-                    .IsRequired();
+                    .IsRequired(true);
+
                 x.Property(nameof(StreetAddress.StreetNumber))
-                    .HasMaxLength(StreetAddress.StreetNumberMaxLength);
+                    .HasMaxLength(StreetAddress.StreetNumberMaxLength)
+                    .IsRequired(false);
+
                 x.Property(nameof(StreetAddress.AddressLine2))
-                    .HasMaxLength(StreetAddress.AddressLine2MaxLength);
+                    .HasMaxLength(StreetAddress.AddressLine2MaxLength)
+                    .IsRequired(false);
+
                 x.Property(nameof(StreetAddress.Route))
-                    .HasMaxLength(StreetAddress.RouteMaxLength);
+                    .HasMaxLength(StreetAddress.RouteMaxLength)
+                    .IsRequired(false);
+
                 x.Property(nameof(StreetAddress.Locality))
-                    .HasMaxLength(StreetAddress.LocalityMaxLength);
+                    .HasMaxLength(StreetAddress.LocalityMaxLength)
+                    .IsRequired(false);
+
                 x.Property(nameof(StreetAddress.Neighborhood))
-                    .HasMaxLength(StreetAddress.NeighborhoodMaxLength);
+                    .HasMaxLength(StreetAddress.NeighborhoodMaxLength)
+                    .IsRequired(false);
+
                 x.Property(nameof(StreetAddress.AdministrativeArea1))
-                    .HasMaxLength(StreetAddress.AdministrativeArea1MaxLength);
+                    .HasMaxLength(StreetAddress.AdministrativeArea1MaxLength)
+                    .IsRequired(false);
+
                 x.Property(nameof(StreetAddress.AdministrativeArea2))
-                    .HasMaxLength(StreetAddress.AdministrativeArea2MaxLength);
+                    .HasMaxLength(StreetAddress.AdministrativeArea2MaxLength)
+                    .IsRequired(false);
             });
     }
 

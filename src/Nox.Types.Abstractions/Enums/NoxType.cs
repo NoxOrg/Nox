@@ -55,14 +55,14 @@ public enum NoxType : uint
     Password = 1755902638,
 
     [CompoundType]
-    [CompoundComponent("StreetNumber",typeof(string))]
+    [CompoundComponent("StreetNumber",typeof(string), true)]
     [CompoundComponent("AddressLine1", typeof(string))]
-    [CompoundComponent("AddressLine2", typeof(string))]
-    [CompoundComponent("Route", typeof(string))]
-    [CompoundComponent("Locality", typeof(string))]
-    [CompoundComponent("Neighborhood", typeof(string))]
-    [CompoundComponent("AdministrativeArea1", typeof(string))]
-    [CompoundComponent("AdministrativeArea2", typeof(string))]
+    [CompoundComponent("AddressLine2", typeof(string), true)]
+    [CompoundComponent("Route", typeof(string), true)]
+    [CompoundComponent("Locality", typeof(string), true)]
+    [CompoundComponent("Neighborhood", typeof(string), true)]
+    [CompoundComponent("AdministrativeArea1", typeof(string), true)]
+    [CompoundComponent("AdministrativeArea2", typeof(string), true)]
     [CompoundComponent("PostalCode", typeof(string))]
     [CompoundComponent("CountryId", typeof(CountryCode))]
     StreetAddress = 499179285,

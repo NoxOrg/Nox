@@ -73,7 +73,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             {
                 Id = "002",
                 Name = _objectFixture.Create<string>(),
-                VatNumber = new VatNumberDto(expectedVatNumber, Nox.Types.CountryCode.PT)
+                VatNumber = new VatNumberDto(expectedVatNumber, Nox.Types.CountryCode.PT),
             };
 
             // Act
@@ -87,6 +87,41 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
 
             queryResult.Should().NotBeNull();
             queryResult!.VatNumber!.Number.Should().Be(expectedVatNumber);
+        }
+
+        [Fact]
+        public async Task Post_StreetAddressIsCreated()
+        {
+            // Arrange
+            var expectedStreetAddressDto = new StreetAddressDto(
+                StreetNumber: "3000",
+                AddressLine1: "Hillswood Business Park",
+                AddressLine2: null!,
+                Route: "Hillswood Drive",
+                Locality: "Lyne",
+                Neighborhood: null!,
+                AdministrativeArea1: "England",
+                AdministrativeArea2: "Surrey",
+                PostalCode: "KT16 0RS",
+                CountryId: Types.CountryCode.GB);
+
+            var createDto = new StoreOwnerCreateDto
+            {
+                Id = "002",
+                Name = _objectFixture.Create<string>(),
+                StreetAddress = expectedStreetAddressDto,
+            };
+
+            // Act
+            var result = await PostAsync<StoreOwnerCreateDto, StoreOwnerKeyDto>(StoreOwnersControllerName, createDto);
+            var queryResult = await GetAsync<StoreOwnerDto>($"{StoreOwnersControllerName}/{result!.keyId}");
+
+            //Assert
+            result.Should().NotBeNull();
+            result.Should().BeOfType<StoreOwnerKeyDto>();
+
+            queryResult.Should().NotBeNull();
+            queryResult!.StreetAddress!.Should().BeEquivalentTo(expectedStreetAddressDto);
         }
     }
 }

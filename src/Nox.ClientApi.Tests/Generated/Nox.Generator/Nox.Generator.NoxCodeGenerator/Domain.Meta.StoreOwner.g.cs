@@ -53,4 +53,11 @@ public partial class StoreOwner
         => Nox.Types.VatNumber.From(value);
     
 
+    /// <summary>
+    /// Type options and factory for property 'StreetAddress'
+    /// </summary>
+    public static Nox.Types.StreetAddress CreateStreetAddress(IStreetAddress value)
+        => Nox.Types.StreetAddress.From(value);
+    
+
 }

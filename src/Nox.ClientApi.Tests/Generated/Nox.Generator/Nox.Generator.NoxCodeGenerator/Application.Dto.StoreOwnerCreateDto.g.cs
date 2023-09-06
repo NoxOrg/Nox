@@ -30,6 +30,7 @@ public partial class StoreOwnerCreateDto : StoreOwnerUpdateDto
         entity.Id = StoreOwner.CreateId(Id);
         entity.Name = StoreOwner.CreateName(Name);
         if (VatNumber is not null)entity.VatNumber = StoreOwner.CreateVatNumber(VatNumber.NonNullValue<VatNumberDto>());
+        if (StreetAddress is not null)entity.StreetAddress = StoreOwner.CreateStreetAddress(StreetAddress.NonNullValue<StreetAddressDto>());
         //entity.Stores = Stores.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }

@@ -39,6 +39,11 @@ public partial class StoreOwnerDto
     public VatNumberDto? VatNumber { get; set; }
 
     /// <summary>
+    /// Street Address (Optional).
+    /// </summary>
+    public StreetAddressDto? StreetAddress { get; set; }
+
+    /// <summary>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
     /// </summary>
     public virtual List<StoreDto> Stores { get; set; } = new();

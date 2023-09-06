@@ -4,7 +4,10 @@ using Nox.Solution;
 using Nox.Types;
 using Nox.Types.Extensions;
 using System;
+using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 
 namespace Nox.Generator.Application.Dto;
 
@@ -25,11 +28,11 @@ internal class NoxTypeDtoGenerator : INoxCodeGenerator
 
         var compoundTypes = Enum.GetValues(typeof(NoxType))
            .Cast<NoxType>()
-           .Where( x => x.IsCompoundType() )
-           .Select(x =>
+           .Where(noxType => noxType.IsCompoundType())
+           .Select(noxType =>
            {
-               var components = x.GetCompoundComponents().Select(c => c.Value + " " + c.Key);
-               return new { NoxType = x, Components = components };
+               var noxTypeComponents = GetNoxTypeCompoundComponents(noxType);
+               return new { NoxType = noxType, Components = noxTypeComponents };
            })
            .ToArray();
 
@@ -40,5 +43,13 @@ internal class NoxTypeDtoGenerator : INoxCodeGenerator
             .WithFileNamePrefix("Application.Dto")
             .WithObject("compoundTypes", compoundTypes)
             .GenerateSourceCodeFromResource(templateName);
+    }
+
+    private static IEnumerable<string> GetNoxTypeCompoundComponents(NoxType noxType)
+    {
+        return noxType
+            .ToMemberInfo()
+            .GetCustomAttributes<CompoundComponent>()
+            .Select(c => $"{c.UnderlyingType}{(c.IsNullable ? "? " : " ")}{c.Name}");
     }
 }
