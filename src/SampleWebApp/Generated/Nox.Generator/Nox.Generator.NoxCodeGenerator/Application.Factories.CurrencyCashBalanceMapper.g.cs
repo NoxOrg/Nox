@@ -31,20 +31,20 @@ public class CurrencyCashBalanceMapper : EntityMapperBase<CurrencyCashBalance>
     #pragma warning restore CS0168 // Variable is declared but never used
             
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "StoreId", dto.StoreId);        
-        if (noxTypeValue != null)
-        {        
-            entity.StoreId = noxTypeValue;
-        }        
+            if (noxTypeValue != null)
+            {        
+                entity.StoreId = noxTypeValue;
+            }        
         noxTypeValue = CreateNoxType<Nox.Types.Nuid>(entityDefinition, "CurrencyId", dto.CurrencyId);        
-        if (noxTypeValue != null)
-        {        
-            entity.CurrencyId = noxTypeValue;
-        }
+            if (noxTypeValue != null)
+            {        
+                entity.CurrencyId = noxTypeValue;
+            }        
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Amount", dto.Amount);
         if (noxTypeValue != null)
         {        
             entity.Amount = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "OperationLimit", dto.OperationLimit);
         if (noxTypeValue != null)
         {        

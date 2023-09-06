@@ -29,12 +29,12 @@ public class ExchangeRateMapper : EntityMapperBase<ExchangeRate>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
         noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "EffectiveRate", dto.EffectiveRate);
         if (noxTypeValue != null)
         {        
             entity.EffectiveRate = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "EffectiveAt", dto.EffectiveAt);
         if (noxTypeValue != null)
         {        

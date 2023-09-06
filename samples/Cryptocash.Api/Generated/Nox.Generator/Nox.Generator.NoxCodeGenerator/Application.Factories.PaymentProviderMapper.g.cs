@@ -29,12 +29,12 @@ public class PaymentProviderMapper : EntityMapperBase<PaymentProvider>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentProviderName", dto.PaymentProviderName);
         if (noxTypeValue != null)
         {        
             entity.PaymentProviderName = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentProviderType", dto.PaymentProviderType);
         if (noxTypeValue != null)
         {        

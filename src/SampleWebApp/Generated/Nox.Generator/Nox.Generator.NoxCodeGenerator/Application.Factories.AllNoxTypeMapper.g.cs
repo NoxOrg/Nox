@@ -31,238 +31,260 @@ public class AllNoxTypeMapper : EntityMapperBase<AllNoxType>
     #pragma warning restore CS0168 // Variable is declared but never used
             
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "TextId", dto.TextId);        
-        if (noxTypeValue != null)
-        {        
-            entity.TextId = noxTypeValue;
-        }
+            if (noxTypeValue != null)
+            {        
+                entity.TextId = noxTypeValue;
+            }        
         noxTypeValue = CreateNoxType<Nox.Types.Area>(entityDefinition, "AreaField", dto.AreaField);
         if (noxTypeValue != null)
         {        
             entity.AreaField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition, "BooleanField", dto.BooleanField);
         if (noxTypeValue != null)
         {        
             entity.BooleanField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.CountryCode2>(entityDefinition, "CountryCode2Field", dto.CountryCode2Field);
         if (noxTypeValue != null)
         {        
             entity.CountryCode2Field = noxTypeValue;
-        }
-
-        // TODO map CountryCode3Field CountryCode3 remaining types and remove if else
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.CountryCode3>(entityDefinition, "CountryCode3Field", dto.CountryCode3Field);
+        if (noxTypeValue != null)
+        {        
+            entity.CountryCode3Field = noxTypeValue;
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.CountryNumber>(entityDefinition, "CountryNumberField", dto.CountryNumberField);
         if (noxTypeValue != null)
         {        
             entity.CountryNumberField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.CultureCode>(entityDefinition, "CultureCodeField", dto.CultureCodeField);
         if (noxTypeValue != null)
         {        
             entity.CultureCodeField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "CurrencyCode3Field", dto.CurrencyCode3Field);
         if (noxTypeValue != null)
         {        
             entity.CurrencyCode3Field = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.CurrencyNumber>(entityDefinition, "CurrencyNumberField", dto.CurrencyNumberField);
         if (noxTypeValue != null)
         {        
             entity.CurrencyNumberField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition, "DateField", dto.DateField);
         if (noxTypeValue != null)
         {        
             entity.DateField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "DateTimeField", dto.DateTimeField);
         if (noxTypeValue != null)
         {        
             entity.DateTimeField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.DateTimeDuration>(entityDefinition, "DateTimeDurationField", dto.DateTimeDurationField);
         if (noxTypeValue != null)
         {        
             entity.DateTimeDurationField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.DateTimeSchedule>(entityDefinition, "DateTimeScheduleField", dto.DateTimeScheduleField);
         if (noxTypeValue != null)
         {        
             entity.DateTimeScheduleField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.DayOfWeek>(entityDefinition, "DayOfWeekField", dto.DayOfWeekField);
         if (noxTypeValue != null)
         {        
             entity.DayOfWeekField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Distance>(entityDefinition, "DistanceField", dto.DistanceField);
         if (noxTypeValue != null)
         {        
             entity.DistanceField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition, "EmailField", dto.EmailField);
         if (noxTypeValue != null)
         {        
             entity.EmailField = noxTypeValue;
-        }
-
-        // TODO map FormulaField Formula remaining types and remove if else
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Guid>(entityDefinition, "GuidField", dto.GuidField);
         if (noxTypeValue != null)
         {        
             entity.GuidField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Html>(entityDefinition, "HtmlField", dto.HtmlField);
         if (noxTypeValue != null)
         {        
             entity.HtmlField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.InternetDomain>(entityDefinition, "InternetDomainField", dto.InternetDomainField);
         if (noxTypeValue != null)
         {        
             entity.InternetDomainField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.IpAddress>(entityDefinition, "IpAddressField", dto.IpAddressField);
         if (noxTypeValue != null)
         {        
             entity.IpAddressField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Json>(entityDefinition, "JsonField", dto.JsonField);
         if (noxTypeValue != null)
         {        
             entity.JsonField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.JwtToken>(entityDefinition, "JwtTokenField", dto.JwtTokenField);
         if (noxTypeValue != null)
         {        
             entity.JwtTokenField = noxTypeValue;
-        }
-
-        // TODO map LanguageCodeField LanguageCode remaining types and remove if else
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.LanguageCode>(entityDefinition, "LanguageCodeField", dto.LanguageCodeField);
+        if (noxTypeValue != null)
+        {        
+            entity.LanguageCodeField = noxTypeValue;
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Length>(entityDefinition, "LengthField", dto.LengthField);
         if (noxTypeValue != null)
         {        
             entity.LengthField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.MacAddress>(entityDefinition, "MacAddressField", dto.MacAddressField);
         if (noxTypeValue != null)
         {        
             entity.MacAddressField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Markdown>(entityDefinition, "MarkdownField", dto.MarkdownField);
         if (noxTypeValue != null)
         {        
             entity.MarkdownField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Month>(entityDefinition, "MonthField", dto.MonthField);
         if (noxTypeValue != null)
         {        
             entity.MonthField = noxTypeValue;
-        }
-
-        // TODO map NuidField Nuid remaining types and remove if else
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.Nuid>(entityDefinition, "NuidField", dto.NuidField);
+        if (noxTypeValue != null)
+        {        
+            entity.NuidField = noxTypeValue;
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "NumberField", dto.NumberField);
         if (noxTypeValue != null)
         {        
             entity.NumberField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Percentage>(entityDefinition, "PercentageField", dto.PercentageField);
         if (noxTypeValue != null)
         {        
             entity.PercentageField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.PhoneNumber>(entityDefinition, "PhoneNumberField", dto.PhoneNumberField);
         if (noxTypeValue != null)
         {        
             entity.PhoneNumberField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Temperature>(entityDefinition, "TemperatureField", dto.TemperatureField);
         if (noxTypeValue != null)
         {        
             entity.TemperatureField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "TextField", dto.TextField);
         if (noxTypeValue != null)
         {        
             entity.TextField = noxTypeValue;
-        }
-
-        // TODO map TimeField Time remaining types and remove if else
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.Time>(entityDefinition, "TimeField", dto.TimeField);
+        if (noxTypeValue != null)
+        {        
+            entity.TimeField = noxTypeValue;
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.TimeZoneCode>(entityDefinition, "TimeZoneCodeField", dto.TimeZoneCodeField);
         if (noxTypeValue != null)
         {        
             entity.TimeZoneCodeField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Uri>(entityDefinition, "UriField", dto.UriField);
         if (noxTypeValue != null)
         {        
             entity.UriField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Url>(entityDefinition, "UrlField", dto.UrlField);
         if (noxTypeValue != null)
         {        
             entity.UrlField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.User>(entityDefinition, "UserField", dto.UserField);
         if (noxTypeValue != null)
         {        
             entity.UserField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Volume>(entityDefinition, "VolumeField", dto.VolumeField);
         if (noxTypeValue != null)
         {        
             entity.VolumeField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Weight>(entityDefinition, "WeightField", dto.WeightField);
         if (noxTypeValue != null)
         {        
             entity.WeightField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Yaml>(entityDefinition, "YamlField", dto.YamlField);
         if (noxTypeValue != null)
         {        
             entity.YamlField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Year>(entityDefinition, "YearField", dto.YearField);
         if (noxTypeValue != null)
         {        
             entity.YearField = noxTypeValue;
-        }
-
-        // TODO map EncryptedTextField EncryptedText remaining types and remove if else
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.EncryptedText>(entityDefinition, "EncryptedTextField", dto.EncryptedTextField);
+        if (noxTypeValue != null)
+        {        
+            entity.EncryptedTextField = noxTypeValue;
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.File>(entityDefinition, "FileField", dto.FileField);
         if (noxTypeValue != null)
         {        
             entity.FileField = noxTypeValue;
-        }
-
-        // TODO map HashedTexField HashedText remaining types and remove if else
-
-        // TODO map ImageField Image remaining types and remove if else
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.HashedText>(entityDefinition, "HashedTexField", dto.HashedTexField);
+        if (noxTypeValue != null)
+        {        
+            entity.HashedTexField = noxTypeValue;
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.Image>(entityDefinition, "ImageField", dto.ImageField);
+        if (noxTypeValue != null)
+        {        
+            entity.ImageField = noxTypeValue;
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "LatLongField", dto.LatLongField);
         if (noxTypeValue != null)
         {        
             entity.LatLongField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "MoneyField", dto.MoneyField);
         if (noxTypeValue != null)
         {        
             entity.MoneyField = noxTypeValue;
-        }
-
-        // TODO map PasswordField Password remaining types and remove if else
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.Password>(entityDefinition, "PasswordField", dto.PasswordField);
+        if (noxTypeValue != null)
+        {        
+            entity.PasswordField = noxTypeValue;
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "StreetAddressField", dto.StreetAddressField);
         if (noxTypeValue != null)
         {        
             entity.StreetAddressField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.TranslatedText>(entityDefinition, "TranslatedTextField", dto.TranslatedTextField);
         if (noxTypeValue != null)
         {        
             entity.TranslatedTextField = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.VatNumber>(entityDefinition, "VatNumberField", dto.VatNumberField);
         if (noxTypeValue != null)
         {        

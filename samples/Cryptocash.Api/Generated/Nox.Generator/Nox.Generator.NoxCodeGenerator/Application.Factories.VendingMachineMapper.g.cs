@@ -29,37 +29,37 @@ public class VendingMachineMapper : EntityMapperBase<VendingMachine>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
         noxTypeValue = CreateNoxType<Nox.Types.MacAddress>(entityDefinition, "MacAddress", dto.MacAddress);
         if (noxTypeValue != null)
         {        
             entity.MacAddress = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.IpAddress>(entityDefinition, "PublicIp", dto.PublicIp);
         if (noxTypeValue != null)
         {        
             entity.PublicIp = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "GeoLocation", dto.GeoLocation);
         if (noxTypeValue != null)
         {        
             entity.GeoLocation = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "StreetAddress", dto.StreetAddress);
         if (noxTypeValue != null)
         {        
             entity.StreetAddress = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "SerialNumber", dto.SerialNumber);
         if (noxTypeValue != null)
         {        
             entity.SerialNumber = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Area>(entityDefinition, "InstallationFootPrint", dto.InstallationFootPrint);
         if (noxTypeValue != null)
         {        
             entity.InstallationFootPrint = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "RentPerSquareMetre", dto.RentPerSquareMetre);
         if (noxTypeValue != null)
         {        
