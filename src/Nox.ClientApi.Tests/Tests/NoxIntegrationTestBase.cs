@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 
 using System.Net.Http.Headers;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Nox.ClientApi.Tests;
 
@@ -21,7 +23,7 @@ public class ODataFixture
         result.EnsureSuccessStatusCode();
 
         var content = await result.Content.ReadAsStringAsync();
-        var data = JsonConvert.DeserializeObject<TResult>(content);
+        var data = DeserializeResponse<TResult>(content);
 
         return data;
     }
@@ -109,5 +111,13 @@ public class ODataFixture
                 httpClient.DefaultRequestHeaders.Add(header.Key, header.Value);
             }
         }
+    }
+
+    private TResult? DeserializeResponse<TResult>(string? response)
+    {
+        if (response == null)
+            return default;
+
+        return System.Text.Json.JsonSerializer.Deserialize<TResult>(response!, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new JsonStringEnumConverter() } });
     }
 }

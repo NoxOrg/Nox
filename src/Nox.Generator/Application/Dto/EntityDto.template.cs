@@ -11,7 +11,6 @@ using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
-using Newtonsoft.Json;
 using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
@@ -82,7 +81,6 @@ public partial class {{className}}
 {{- if !entity.IsOwnedEntity }}
 
     [JsonPropertyName("@odata.etag")]
-    [JsonProperty("@odata.etag")]
     public System.Guid Etag { get; set; }
 {{- end }}
 }

@@ -11,7 +11,6 @@ using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
 using System.Text.Json.Serialization;
-using Newtonsoft.Json;
 using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
