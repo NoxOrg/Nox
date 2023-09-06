@@ -70,7 +70,7 @@ public partial class BookingMapper : EntityMapperBase<Booking>
         /// <summary>
         /// Booking for ExactlyOne Customers
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "BookingForCustomer", dto.BookingForCustomerId);
+        noxTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "BookingForCustomer", dto.BookingForCustomerId);
         if (noxTypeValue != null)
         {        
             entity.BookingForCustomerId = noxTypeValue;
@@ -88,7 +88,7 @@ public partial class BookingMapper : EntityMapperBase<Booking>
         /// <summary>
         /// Booking fees for ExactlyOne Commissions
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "BookingFeesForCommission", dto.BookingFeesForCommissionId);
+        noxTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "BookingFeesForCommission", dto.BookingFeesForCommissionId);
         if (noxTypeValue != null)
         {        
             entity.BookingFeesForCommissionId = noxTypeValue;
@@ -205,7 +205,7 @@ public partial class BookingMapper : EntityMapperBase<Booking>
         /// </summary>
         if (updatedProperties.TryGetValue("CustomerId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "BookingForCustomer", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "BookingForCustomer", value);
             if (noxRelationshipTypeValue != null)
             {        
                 entity.BookingForCustomerId = noxRelationshipTypeValue;
@@ -227,7 +227,7 @@ public partial class BookingMapper : EntityMapperBase<Booking>
         /// </summary>
         if (updatedProperties.TryGetValue("CommissionId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "BookingFeesForCommission", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "BookingFeesForCommission", value);
             if (noxRelationshipTypeValue != null)
             {        
                 entity.BookingFeesForCommissionId = noxRelationshipTypeValue;

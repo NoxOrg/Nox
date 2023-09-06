@@ -41,7 +41,7 @@ public partial class PartialUpdateBankNoteCommandHandler: CommandBase<PartialUpd
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<BankNote,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
+		var ownedId = CreateNoxTypeForKey<BankNote,AutoNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{

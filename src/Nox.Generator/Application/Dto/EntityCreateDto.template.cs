@@ -20,7 +20,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
 public partial class {{className}} : IEntityCreateDto <{{entity.Name}}>
 {
 {{- for key in entity.Keys }}
-    {{- if key.Type == "Nuid" || key.Type == "DatabaseNumber" || key.Type == "DatabaseGuid" -}}
+    {{- if key.Type == "Nuid" || key.Type == "AutoNumber" || key.Type == "DatabaseGuid" -}}
     {{ continue; -}}
     {{- end }}
     /// <summary>
@@ -68,5 +68,5 @@ public partial class {{className}} : IEntityCreateDto <{{entity.Name}}>
     {{- else}}
     public virtual {{relationship.Entity}}CreateDto{{- if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
     {{-end}}
-{{- end }}   
+{{- end }}
 }

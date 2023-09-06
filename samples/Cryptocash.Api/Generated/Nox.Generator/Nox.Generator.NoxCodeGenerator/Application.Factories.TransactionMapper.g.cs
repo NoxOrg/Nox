@@ -55,7 +55,7 @@ public partial class TransactionMapper : EntityMapperBase<Transaction>
         /// <summary>
         /// Transaction for ExactlyOne Customers
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "TransactionForCustomer", dto.TransactionForCustomerId);
+        noxTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "TransactionForCustomer", dto.TransactionForCustomerId);
         if (noxTypeValue != null)
         {        
             entity.TransactionForCustomerId = noxTypeValue;
@@ -139,7 +139,7 @@ public partial class TransactionMapper : EntityMapperBase<Transaction>
         /// </summary>
         if (updatedProperties.TryGetValue("CustomerId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "TransactionForCustomer", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "TransactionForCustomer", value);
             if (noxRelationshipTypeValue != null)
             {        
                 entity.TransactionForCustomerId = noxRelationshipTypeValue;

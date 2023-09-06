@@ -65,7 +65,7 @@ public partial class EmployeeMapper : EntityMapperBase<Employee>
         /// <summary>
         /// Employee reviewing ExactlyOne CashStockOrders
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "EmployeeReviewingCashStockOrder", dto.EmployeeReviewingCashStockOrderId);
+        noxTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "EmployeeReviewingCashStockOrder", dto.EmployeeReviewingCashStockOrderId);
         if (noxTypeValue != null)
         {        
             entity.EmployeeReviewingCashStockOrderId = noxTypeValue;
@@ -168,7 +168,7 @@ public partial class EmployeeMapper : EntityMapperBase<Employee>
         /// </summary>
         if (updatedProperties.TryGetValue("CashStockOrderId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "EmployeeReviewingCashStockOrder", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "EmployeeReviewingCashStockOrder", value);
             if (noxRelationshipTypeValue != null)
             {        
                 entity.EmployeeReviewingCashStockOrderId = noxRelationshipTypeValue;
