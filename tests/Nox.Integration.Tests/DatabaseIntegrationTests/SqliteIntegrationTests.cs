@@ -795,8 +795,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         Assert.NotNull(testEntity.SecondTestEntityOwnedRelationshipZeroOrOne);
         Assert.Equal(testEntity.SecondTestEntityOwnedRelationshipZeroOrOne.TextTestField2.Value, text2);
     }
-<<<<<<< HEAD
-    
+
     [Fact]
     public void UniqueConstraints_SameValue_ShouldThrowException()
     {
@@ -816,7 +815,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             UniqueCountryCode = CountryCode2.From(countryCode2),
             UniqueCurrencyCode = CurrencyCode3.From(currencyCode3),
         };
-        
+
         var testEntityWithSameUniqueNumber = new TestEntityForUniqueConstraints()
         {
             Id = Text.From(secondCountryCode2),
@@ -826,7 +825,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             UniqueCountryCode = CountryCode2.From(secondCountryCode2),
             UniqueCurrencyCode = CurrencyCode3.From(secondCurrencyCode3),
         };
-        
+
         var testEntityWithSameUniqueCountryCodeAndCurrencyCode = new TestEntityForUniqueConstraints()
         {
             Id = Text.From(thirdCountryCode2),
@@ -836,21 +835,22 @@ public class SqliteIntegrationTests : SqliteTestBase
             UniqueCountryCode = CountryCode2.From(countryCode2),
             UniqueCurrencyCode = CurrencyCode3.From(currencyCode3),
         };
-        
+
         DbContext.TestEntityForUniqueConstraints.Add(testEntity1);
         DbContext.SaveChanges();
-        
+
         DbContext.TestEntityForUniqueConstraints.Add(testEntityWithSameUniqueNumber);
         //save should throw exception
         Action act = () => DbContext.SaveChanges();
         act.Should().Throw<DbUpdateException>();
-        
-        
+
+
         DbContext.TestEntityForUniqueConstraints.Add(testEntityWithSameUniqueCountryCodeAndCurrencyCode);
         //save should throw exception
         Action act2 = () => DbContext.SaveChanges();
         act2.Should().Throw<DbUpdateException>();
-=======
+
+    }
 
     [Fact]
     public void GeneratedRelationship_Sqlite_TwoRelationshipsToTheSameEntityOneToOne()
@@ -991,6 +991,5 @@ public class SqliteIntegrationTests : SqliteTestBase
         Assert.NotNull(testEntity3.TestRelationshipTwoOnOtherSide);
         Assert.Equal(testEntity.TestRelationshipOne[0].Id.Value, text2);
         Assert.Equal(testEntity.TestRelationshipTwo[0].Id.Value, text3);
->>>>>>> main
     }
 }

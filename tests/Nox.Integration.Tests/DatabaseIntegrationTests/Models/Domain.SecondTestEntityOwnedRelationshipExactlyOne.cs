@@ -13,11 +13,7 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// .
 /// </summary>
-<<<<<<< HEAD:tests/Nox.Integration.Tests/DatabaseIntegrationTests/Models/Entities.SecondTestEntityOwnedRelationshipExactlyOne.cs
-public partial class SecondTestEntityOwnedRelationshipExactlyOne:EntityBase, IOwnedEntity
-=======
 public partial class SecondTestEntityOwnedRelationshipExactlyOne : EntityBase, IOwnedEntity
->>>>>>> main:tests/Nox.Integration.Tests/DatabaseIntegrationTests/Models/Domain.SecondTestEntityOwnedRelationshipExactlyOne.cs
 {
     /// <summary>
     ///  (Required).
