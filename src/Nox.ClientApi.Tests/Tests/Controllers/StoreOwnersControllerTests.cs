@@ -166,36 +166,6 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             queryResult!.StreetAddress!.Should().BeEquivalentTo(expectedStreetAddressDto);
         }
 
-        [Theory]
-        [InlineData(null!, "KT16 0RS")]
-        [InlineData("3000 Hillswood Business Park", null!)]
-        public async Task Post_StreetAddressRequiredFieldsNoSet_IsNotCreated(string addressLine1, string postalCode)
-        {
-            // Arrange
-            var createDto = new StoreOwnerCreateDto
-            {
-                Id = "002",
-                Name = _fixture.Create<string>(),
-                StreetAddress = new StreetAddressDto(
-                    StreetNumber: null!,
-                    AddressLine1: addressLine1,
-                    AddressLine2: null!,
-                    Route: null!,
-                    Locality: null!,
-                    Neighborhood: null!,
-                    AdministrativeArea1: null!,
-                    AdministrativeArea2: null!,
-                    PostalCode: postalCode,
-                    CountryId: CountryCode.GB),
-            };
-
-            // Act
-            var result = await _oDataFixture.PostAsync(StoreOwnersControllerName, createDto);
-
-            //Assert
-            result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
-        }
-
         [Fact]
         public async Task Post_StreetAddressAddressLine1NotSet_IsNotCreated()
         {
