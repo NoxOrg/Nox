@@ -41,25 +41,7 @@ public partial class CountriesController : ODataController
         _mediator = mediator;
     }
     
-    [EnableQuery]
-    public async  Task<ActionResult<IQueryable<CountryDto>>> Get()
-    {
-        var result = await _mediator.Send(new GetCountriesQuery());
-        return Ok(result);
-    }
-    
-    [EnableQuery]
-    public async Task<ActionResult<CountryDto>> Get([FromRoute] System.String key)
-    {
-        var item = await _mediator.Send(new GetCountryByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
-    }
+    #region Owned Relationships
     
     [EnableQuery]
     public async Task<ActionResult<IQueryable<CountryTimeZoneDto>>> GetCountryTimeZones([FromRoute] System.String key)
@@ -91,10 +73,17 @@ public partial class CountriesController : ODataController
             return NotFound();
         }
         
-        return Created(new CountryTimeZoneDto { Id = createdKey.keyId });
+        var child = await TryGetCountryTimeZone(key, createdKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(child);
     }
     
-    public async Task<ActionResult> PutToCountryTimeZones([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] CountryTimeZoneUpdateDto countryTimeZone)
+    [HttpPut("/api/Countries/{key}/CountryTimeZones/{relatedKey}")]
+    public async Task<ActionResult> PutToCountryTimeZonesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] CountryTimeZoneUpdateDto countryTimeZone)
     {
         if (!ModelState.IsValid)
         {
@@ -107,10 +96,17 @@ public partial class CountriesController : ODataController
             return NotFound();
         }
         
-        return Updated(new CountryTimeZoneDto { Id = updatedKey.keyId });
+        var child = await TryGetCountryTimeZone(key, updatedKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
     }
     
-    public async Task<ActionResult> PatchToCountryTimeZones([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<CountryTimeZoneUpdateDto> countryTimeZone)
+    [HttpPatch("/api/Countries/{key}/CountryTimeZones/{relatedKey}")]
+    public async Task<ActionResult> PatchToCountryTimeZonesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<CountryTimeZoneUpdateDto> countryTimeZone)
     {
         if (!ModelState.IsValid)
         {
@@ -126,13 +122,25 @@ public partial class CountriesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCountryTimeZoneCommand(new CountryKeyDto(key), updateProperties));
+        var updated = await _mediator.Send(new PartialUpdateCountryTimeZoneCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey), updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(new CountryTimeZoneDto { Id = updated.keyId });
+        var child = await TryGetCountryTimeZone(key, updated);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    private async Task<CountryTimeZoneDto?> TryGetCountryTimeZone(System.String key, CountryTimeZoneKeyDto childKeyDto)
+    {
+        var parent = await _mediator.Send(new GetCountryByIdQuery(key));
+        return parent?.CountryTimeZones.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     
     [EnableQuery]
@@ -165,10 +173,17 @@ public partial class CountriesController : ODataController
             return NotFound();
         }
         
-        return Created(new HolidayDto { Id = createdKey.keyId });
+        var child = await TryGetHoliday(key, createdKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(child);
     }
     
-    public async Task<ActionResult> PutToHolidays([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] HolidayUpdateDto holiday)
+    [HttpPut("/api/Countries/{key}/Holidays/{relatedKey}")]
+    public async Task<ActionResult> PutToHolidaysNonConventional(System.String key, System.Int64 relatedKey, [FromBody] HolidayUpdateDto holiday)
     {
         if (!ModelState.IsValid)
         {
@@ -181,10 +196,17 @@ public partial class CountriesController : ODataController
             return NotFound();
         }
         
-        return Updated(new HolidayDto { Id = updatedKey.keyId });
+        var child = await TryGetHoliday(key, updatedKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
     }
     
-    public async Task<ActionResult> PatchToHolidays([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<HolidayUpdateDto> holiday)
+    [HttpPatch("/api/Countries/{key}/Holidays/{relatedKey}")]
+    public async Task<ActionResult> PatchToHolidaysNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<HolidayUpdateDto> holiday)
     {
         if (!ModelState.IsValid)
         {
@@ -200,13 +222,47 @@ public partial class CountriesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateHolidayCommand(new CountryKeyDto(key), updateProperties));
+        var updated = await _mediator.Send(new PartialUpdateHolidayCommand(new CountryKeyDto(key), new HolidayKeyDto(relatedKey), updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(new HolidayDto { Id = updated.keyId });
+        var child = await TryGetHoliday(key, updated);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    private async Task<HolidayDto?> TryGetHoliday(System.String key, HolidayKeyDto childKeyDto)
+    {
+        var parent = await _mediator.Send(new GetCountryByIdQuery(key));
+        return parent?.Holidays.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+    }
+    
+    #endregion
+    
+    [EnableQuery]
+    public async  Task<ActionResult<IQueryable<CountryDto>>> Get()
+    {
+        var result = await _mediator.Send(new GetCountriesQuery());
+        return Ok(result);
+    }
+    
+    [EnableQuery]
+    public async Task<ActionResult<CountryDto>> Get([FromRoute] System.String key)
+    {
+        var item = await _mediator.Send(new GetCountryByIdQuery(key));
+        
+        if (item == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item);
     }
     
     public async Task<ActionResult> Post([FromBody]CountryCreateDto country)

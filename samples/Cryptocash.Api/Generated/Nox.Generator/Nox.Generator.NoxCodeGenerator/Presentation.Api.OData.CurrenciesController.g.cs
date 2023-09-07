@@ -41,25 +41,7 @@ public partial class CurrenciesController : ODataController
         _mediator = mediator;
     }
     
-    [EnableQuery]
-    public async  Task<ActionResult<IQueryable<CurrencyDto>>> Get()
-    {
-        var result = await _mediator.Send(new GetCurrenciesQuery());
-        return Ok(result);
-    }
-    
-    [EnableQuery]
-    public async Task<ActionResult<CurrencyDto>> Get([FromRoute] System.String key)
-    {
-        var item = await _mediator.Send(new GetCurrencyByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
-    }
+    #region Owned Relationships
     
     [EnableQuery]
     public async Task<ActionResult<IQueryable<BankNoteDto>>> GetBankNotes([FromRoute] System.String key)
@@ -91,10 +73,17 @@ public partial class CurrenciesController : ODataController
             return NotFound();
         }
         
-        return Created(new BankNoteDto { Id = createdKey.keyId });
+        var child = await TryGetBankNote(key, createdKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(child);
     }
     
-    public async Task<ActionResult> PutToBankNotes([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] BankNoteUpdateDto bankNote)
+    [HttpPut("/api/Currencies/{key}/BankNotes/{relatedKey}")]
+    public async Task<ActionResult> PutToBankNotesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] BankNoteUpdateDto bankNote)
     {
         if (!ModelState.IsValid)
         {
@@ -107,10 +96,17 @@ public partial class CurrenciesController : ODataController
             return NotFound();
         }
         
-        return Updated(new BankNoteDto { Id = updatedKey.keyId });
+        var child = await TryGetBankNote(key, updatedKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
     }
     
-    public async Task<ActionResult> PatchToBankNotes([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<BankNoteUpdateDto> bankNote)
+    [HttpPatch("/api/Currencies/{key}/BankNotes/{relatedKey}")]
+    public async Task<ActionResult> PatchToBankNotesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<BankNoteUpdateDto> bankNote)
     {
         if (!ModelState.IsValid)
         {
@@ -126,13 +122,25 @@ public partial class CurrenciesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateBankNoteCommand(new CurrencyKeyDto(key), updateProperties));
+        var updated = await _mediator.Send(new PartialUpdateBankNoteCommand(new CurrencyKeyDto(key), new BankNoteKeyDto(relatedKey), updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(new BankNoteDto { Id = updated.keyId });
+        var child = await TryGetBankNote(key, updated);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    private async Task<BankNoteDto?> TryGetBankNote(System.String key, BankNoteKeyDto childKeyDto)
+    {
+        var parent = await _mediator.Send(new GetCurrencyByIdQuery(key));
+        return parent?.BankNotes.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     
     [EnableQuery]
@@ -165,10 +173,17 @@ public partial class CurrenciesController : ODataController
             return NotFound();
         }
         
-        return Created(new ExchangeRateDto { Id = createdKey.keyId });
+        var child = await TryGetExchangeRate(key, createdKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(child);
     }
     
-    public async Task<ActionResult> PutToExchangeRates([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] ExchangeRateUpdateDto exchangeRate)
+    [HttpPut("/api/Currencies/{key}/ExchangeRates/{relatedKey}")]
+    public async Task<ActionResult> PutToExchangeRatesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] ExchangeRateUpdateDto exchangeRate)
     {
         if (!ModelState.IsValid)
         {
@@ -181,10 +196,17 @@ public partial class CurrenciesController : ODataController
             return NotFound();
         }
         
-        return Updated(new ExchangeRateDto { Id = updatedKey.keyId });
+        var child = await TryGetExchangeRate(key, updatedKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
     }
     
-    public async Task<ActionResult> PatchToExchangeRates([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<ExchangeRateUpdateDto> exchangeRate)
+    [HttpPatch("/api/Currencies/{key}/ExchangeRates/{relatedKey}")]
+    public async Task<ActionResult> PatchToExchangeRatesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<ExchangeRateUpdateDto> exchangeRate)
     {
         if (!ModelState.IsValid)
         {
@@ -200,13 +222,47 @@ public partial class CurrenciesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateExchangeRateCommand(new CurrencyKeyDto(key), updateProperties));
+        var updated = await _mediator.Send(new PartialUpdateExchangeRateCommand(new CurrencyKeyDto(key), new ExchangeRateKeyDto(relatedKey), updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(new ExchangeRateDto { Id = updated.keyId });
+        var child = await TryGetExchangeRate(key, updated);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    private async Task<ExchangeRateDto?> TryGetExchangeRate(System.String key, ExchangeRateKeyDto childKeyDto)
+    {
+        var parent = await _mediator.Send(new GetCurrencyByIdQuery(key));
+        return parent?.ExchangeRates.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+    }
+    
+    #endregion
+    
+    [EnableQuery]
+    public async  Task<ActionResult<IQueryable<CurrencyDto>>> Get()
+    {
+        var result = await _mediator.Send(new GetCurrenciesQuery());
+        return Ok(result);
+    }
+    
+    [EnableQuery]
+    public async Task<ActionResult<CurrencyDto>> Get([FromRoute] System.String key)
+    {
+        var item = await _mediator.Send(new GetCurrencyByIdQuery(key));
+        
+        if (item == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item);
     }
     
     public async Task<ActionResult> Post([FromBody]CurrencyCreateDto currency)

@@ -41,25 +41,7 @@ public partial class CountriesController : ODataController
         _mediator = mediator;
     }
     
-    [EnableQuery]
-    public async  Task<ActionResult<IQueryable<CountryDto>>> Get()
-    {
-        var result = await _mediator.Send(new GetCountriesQuery());
-        return Ok(result);
-    }
-    
-    [EnableQuery]
-    public async Task<ActionResult<CountryDto>> Get([FromRoute] System.Int64 key)
-    {
-        var item = await _mediator.Send(new GetCountryByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
-    }
+    #region Owned Relationships
     
     [EnableQuery]
     public async Task<ActionResult<IQueryable<CountryLocalNameDto>>> GetCountryLocalNames([FromRoute] System.Int64 key)
@@ -91,10 +73,17 @@ public partial class CountriesController : ODataController
             return NotFound();
         }
         
-        return Created(new CountryLocalNameDto { Id = createdKey.keyId });
+        var child = await TryGetCountryLocalName(key, createdKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(child);
     }
     
-    public async Task<ActionResult> PutToCountryLocalNames([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromBody] CountryLocalNameUpdateDto countryLocalName)
+    [HttpPut("/api/Countries/{key}/CountryLocalNames/{relatedKey}")]
+    public async Task<ActionResult> PutToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] CountryLocalNameUpdateDto countryLocalName)
     {
         if (!ModelState.IsValid)
         {
@@ -107,10 +96,17 @@ public partial class CountriesController : ODataController
             return NotFound();
         }
         
-        return Updated(new CountryLocalNameDto { Id = updatedKey.keyId });
+        var child = await TryGetCountryLocalName(key, updatedKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
     }
     
-    public async Task<ActionResult> PatchToCountryLocalNames([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<CountryLocalNameUpdateDto> countryLocalName)
+    [HttpPatch("/api/Countries/{key}/CountryLocalNames/{relatedKey}")]
+    public async Task<ActionResult> PatchToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<CountryLocalNameUpdateDto> countryLocalName)
     {
         if (!ModelState.IsValid)
         {
@@ -126,13 +122,47 @@ public partial class CountriesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCountryLocalNameCommand(new CountryKeyDto(key), updateProperties));
+        var updated = await _mediator.Send(new PartialUpdateCountryLocalNameCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey), updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(new CountryLocalNameDto { Id = updated.keyId });
+        var child = await TryGetCountryLocalName(key, updated);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    private async Task<CountryLocalNameDto?> TryGetCountryLocalName(System.Int64 key, CountryLocalNameKeyDto childKeyDto)
+    {
+        var parent = await _mediator.Send(new GetCountryByIdQuery(key));
+        return parent?.CountryLocalNames.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+    }
+    
+    #endregion
+    
+    [EnableQuery]
+    public async  Task<ActionResult<IQueryable<CountryDto>>> Get()
+    {
+        var result = await _mediator.Send(new GetCountriesQuery());
+        return Ok(result);
+    }
+    
+    [EnableQuery]
+    public async Task<ActionResult<CountryDto>> Get([FromRoute] System.Int64 key)
+    {
+        var item = await _mediator.Send(new GetCountryByIdQuery(key));
+        
+        if (item == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item);
     }
     
     public async Task<ActionResult> Post([FromBody]CountryCreateDto country)

@@ -41,6 +41,10 @@ public partial class StoresController : ODataController
         _mediator = mediator;
     }
     
+    #region Owned Relationships
+    
+    #endregion
+    
     [EnableQuery]
     public async  Task<ActionResult<IQueryable<StoreDto>>> Get()
     {

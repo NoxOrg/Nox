@@ -112,10 +112,10 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             if (entity.Persistence is null ||
                 entity.Persistence.Read.IsEnabled)
             {
-                GenerateGet(entity, code, codeGeneratorState.Solution);
-
-                if (entity.OwnedRelationships != null)
+                if (entity.OwnedRelationships != null && entity.OwnedRelationships.Count() > 0)
                 {
+                    code.AppendLine($"#region Owned Relationships"); 
+                    code.AppendLine();
                     foreach (var relationship in entity.OwnedRelationships)
                     {
                         // Owned single entitities are returned with parent
@@ -127,8 +127,13 @@ internal class EntityControllerGenerator : INoxCodeGenerator
                         GenerateChildrenPost(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
                         GenerateChildrenPut(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
                         GenerateChildrenPatch(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
+                        GenerateChildrenGetById(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
                     }
+                    code.AppendLine($"#endregion");
+                    code.AppendLine();
                 }
+
+                GenerateGet(entity, code, codeGeneratorState.Solution);
             }
 
             if (entity.Persistence is null ||
@@ -288,6 +293,20 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine();
     }
 
+    private static void GenerateChildrenGetById(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
+    {
+        code.AppendLine($"private async Task<{child.Name}Dto?> TryGet{child.Name}({PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, {child.Name}KeyDto childKeyDto)");
+
+        code.StartBlock();
+        code.AppendLine($"var parent = await _mediator.Send(new Get{parent.Name}ByIdQuery({PrimaryKeysQuery(parent)}));");
+
+        var param = string.Join(" && ", child.Keys.Select(k => $"x.{k.Name} == childKeyDto.key{k.Name}"));
+        code.AppendLine($"return parent?.{child.PluralName}.SingleOrDefault(x => {param});");
+
+        code.EndBlock();
+        code.AppendLine();
+    }
+
     private static void GenerateChildrenGet(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
     {
         code.AppendLine($"[EnableQuery]");
@@ -329,9 +348,13 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"return NotFound();");
         code.EndBlock();
         code.AppendLine();
-
-        var childDtoParams = string.Join(", ", child.Keys.Select(k => $"{k.Name} = createdKey.key{k.Name}"));
-        code.AppendLine($"return Created(new {child.Name}Dto {{ {childDtoParams} }});");
+        code.AppendLine($"var child = await TryGet{child.Name}({PrimaryKeysQuery(parent)}, createdKey);");
+        code.AppendLine($"if (child == null)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine($"return Created(child);");
 
         code.EndBlock();
         code.AppendLine();
@@ -339,7 +362,11 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
     private static void GenerateChildrenPut(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
     {
-        code.AppendLine($"public async Task<ActionResult> PutTo{child.PluralName}({PrimaryKeysFromRoute(parent, solution)}, {PrimaryKeysFromRoute(child, solution, "relatedKey")}, [FromBody] {child.Name}UpdateDto {child.Name.ToLowerFirstChar()})");
+        code.AppendLine($"[HttpPut(\"/api/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+        code.AppendLine($"public async Task<ActionResult> PutTo{child.PluralName}NonConventional(" +
+            $"{PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, " +
+            $"{PrimaryKeysFromRoute(child, solution, "relatedKey", "")}, " +
+            $"[FromBody] {child.Name}UpdateDto {child.Name.ToLowerFirstChar()})");
 
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid)");
@@ -356,9 +383,13 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"return NotFound();");
         code.EndBlock();
         code.AppendLine();
-
-        var childDtoParams = string.Join(", ", child.Keys.Select(k => $"{k.Name} = updatedKey.key{k.Name}"));
-        code.AppendLine($"return Updated(new {child.Name}Dto {{ {childDtoParams} }});");
+        code.AppendLine($"var child = await TryGet{child.Name}({PrimaryKeysQuery(parent)}, updatedKey);");
+        code.AppendLine($"if (child == null)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine($"return Ok(child);");
 
         code.EndBlock();
         code.AppendLine();
@@ -367,7 +398,11 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GenerateChildrenPatch(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
     {
         // Method Patch
-        code.AppendLine($"public async Task<ActionResult> PatchTo{child.PluralName}({PrimaryKeysFromRoute(parent, solution)}, {PrimaryKeysFromRoute(child, solution, "relatedKey")}, [FromBody] Delta<{child.Name}UpdateDto> {child.Name.ToLowerFirstChar()})");
+        code.AppendLine($"[HttpPatch(\"/api/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+        code.AppendLine($"public async Task<ActionResult> PatchTo{child.PluralName}NonConventional(" +
+            $"{PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, " +
+            $"{PrimaryKeysFromRoute(child, solution, "relatedKey", "")}, " +
+            $"[FromBody] Delta<{child.Name}UpdateDto> {child.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();
@@ -386,16 +421,22 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         }}");
         code.AppendLine();
         code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{child.Name}Command(" +
-            $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), updateProperties));");
+            $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), " +
+            $"new {child.Name}KeyDto({PrimaryKeysQuery(child, "relatedKey")}), " +
+            $"updateProperties));");
         code.AppendLine();
 
         code.AppendLine($"if (updated is null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
-
-        var childDtoParams = string.Join(", ", child.Keys.Select(k => $"{k.Name} = updated.key{k.Name}"));
-        code.AppendLine($"return Updated(new {child.Name}Dto {{ {childDtoParams} }});");
+        code.AppendLine($"var child = await TryGet{child.Name}({PrimaryKeysQuery(parent)}, updated);");
+        code.AppendLine($"if (child == null)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine($"return Ok(child);");
 
         // End method
         code.EndBlock();
@@ -444,12 +485,14 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine();
     }
 
-    private static string PrimaryKeysFromRoute(Entity entity, NoxSolution solution, string prefix = "key")
+    private static string PrimaryKeysFromRoute(Entity entity, NoxSolution solution, string keyPrefix = "key", string attributePrefix = "[FromRoute]")
     {
         if (entity.Keys.Count() > 1)
-            return string.Join(", ", entity.Keys.Select(k => $"[FromRoute] {solution.GetSinglePrimitiveTypeForKey(k)} {prefix}{k.Name}"));
+            return string.Join(", ", entity.Keys.Select(k => $"{attributePrefix} {solution.GetSinglePrimitiveTypeForKey(k)} {keyPrefix}{k.Name}"))
+                .Trim();
         else if (entity.Keys is not null)
-            return $"[FromRoute] {solution.GetSinglePrimitiveTypeForKey(entity.Keys[0])} {prefix}";
+            return $"{attributePrefix} {solution.GetSinglePrimitiveTypeForKey(entity.Keys[0])} {keyPrefix}"
+                .Trim();
 
         return "";
     }
@@ -459,5 +502,15 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         return entity.Keys.Count() > 1 ?
             string.Join(", ", entity.Keys.Select(k => $"{prefix}{k.Name}")) :
             $"{prefix}";
+    }
+
+    private static string PrimaryKeysAttribute(Entity entity, string prefix = "key")
+    {
+        if (entity.Keys.Count() > 1)
+            return string.Join(",", entity.Keys.Select(k => $"{k.Name}={{{prefix}{k.Name}}}"));
+        else if (entity.Keys is not null)
+            return $"{{{prefix}}}";
+
+        return "";
     }
 }

@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
+using Newtonsoft.Json;
 
 namespace Nox.ClientApi.Tests;
 
@@ -61,6 +62,18 @@ public class ODataFixture
         message.EnsureSuccessStatusCode();
     }
 
+    public async Task<TResult?> PutAsync<TValue, TResult>(string requestUrl, TValue data)
+    {
+        using var httpClient = _appFactory.CreateClient();
+
+        var message = await httpClient.PutAsJsonAsync(requestUrl, data);
+        message.EnsureSuccessStatusCode();
+
+        var result = await message.Content.ReadFromJsonAsync<TResult>();
+
+        return result;
+    }
+
     public async Task PatchAsync<TValue>(string requestUrl, TValue delta)
         where TValue : class
     {
@@ -68,6 +81,19 @@ public class ODataFixture
 
         var request = await httpClient.PatchAsJsonAsync(requestUrl, delta);
         request.EnsureSuccessStatusCode();
+    }
+
+    public async Task<TResult?> PatchAsync<TValue, TResult>(string requestUrl, TValue delta)
+    where TValue : class
+    {
+        using var httpClient = _appFactory.CreateClient();
+
+        var request = await httpClient.PatchAsJsonAsync(requestUrl, delta);
+        request.EnsureSuccessStatusCode();
+
+        var result = await request.Content.ReadFromJsonAsync<TResult>();
+
+        return result;
     }
 
     public async Task DeleteAsync(string requestUrl)

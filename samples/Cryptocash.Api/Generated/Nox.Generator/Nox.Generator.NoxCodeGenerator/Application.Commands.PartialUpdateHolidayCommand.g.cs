@@ -13,7 +13,7 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record PartialUpdateHolidayCommand(CountryKeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties) : IRequest <HolidayKeyDto?>;
+public record PartialUpdateHolidayCommand(CountryKeyDto ParentKeyDto, HolidayKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties) : IRequest <HolidayKeyDto?>;
 
 public partial class PartialUpdateHolidayCommandHandler: CommandBase<PartialUpdateHolidayCommand, Holiday>, IRequestHandler <PartialUpdateHolidayCommand, HolidayKeyDto?>
 {
@@ -41,7 +41,7 @@ public partial class PartialUpdateHolidayCommandHandler: CommandBase<PartialUpda
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<Holiday,DatabaseNumber>("Id", request.UpdatedProperties["Id"]);
+		var ownedId = CreateNoxTypeForKey<Holiday,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.Holidays.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
