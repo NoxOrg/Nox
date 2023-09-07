@@ -7,12 +7,12 @@ public class CompoundComponent : Attribute
 {
     public string Name { get; }
     public Type UnderlyingType { get; }
-    public bool IsNullable { get; set; }
+    public bool IsRequired { get; set; }
 
-    public CompoundComponent(string name, Type type, bool isNullable = false)
+    public CompoundComponent(string name, Type type, bool isRequired = true)
     {
         Name = name;
         UnderlyingType = type;
-        IsNullable = isNullable;
+        IsRequired = isRequired;
     }
 }

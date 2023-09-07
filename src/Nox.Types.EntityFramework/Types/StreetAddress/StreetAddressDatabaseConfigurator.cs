@@ -1,13 +1,18 @@
 ﻿using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Nox.Solution;
+using Nox.Types.Extensions;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
+using System.Reflection;
 
 namespace Nox.Types.EntityFramework.Types;
 
 public class StreetAddressDatabaseConfigurator : INoxTypeDatabaseConfigurator
 {
-    public NoxType ForNoxType => NoxType.StreetAddress;
+    private static readonly NoxType StreetAddressNoxType = NoxType.StreetAddress;
+    private static readonly Dictionary<string, CompoundComponent> ComponentsByPropertyName = GetComponentsByPropertyName();
+
+    public NoxType ForNoxType => StreetAddressNoxType;
     public bool IsDefault => true;
 
     public void ConfigureEntityProperty(
@@ -25,45 +30,59 @@ public class StreetAddressDatabaseConfigurator : INoxTypeDatabaseConfigurator
                 x.Property(nameof(StreetAddress.CountryId))
                     .HasConversion(new EnumToStringConverter<CountryCode>())
                     .HasMaxLength(2)
-                    .IsRequired(true);
+                    .IsRequired(GetRequiredFlag(nameof(StreetAddress.CountryId)));
 
                 x.Property(nameof(StreetAddress.AddressLine1))
                     .HasMaxLength(StreetAddress.AddressLine1MaxLength)
-                    .IsRequired(true);
+                    .IsRequired(GetRequiredFlag(nameof(StreetAddress.AddressLine1)));
 
                 x.Property(nameof(StreetAddress.PostalCode))
                     .HasMaxLength(StreetAddress.PostalCodeMaxLength)
-                    .IsRequired(true);
+                    .IsRequired(GetRequiredFlag(nameof(StreetAddress.PostalCode)));
 
                 x.Property(nameof(StreetAddress.StreetNumber))
                     .HasMaxLength(StreetAddress.StreetNumberMaxLength)
-                    .IsRequired(false);
+                    .IsRequired(GetRequiredFlag(nameof(StreetAddress.StreetNumber)));
 
                 x.Property(nameof(StreetAddress.AddressLine2))
                     .HasMaxLength(StreetAddress.AddressLine2MaxLength)
-                    .IsRequired(false);
+                    .IsRequired(GetRequiredFlag(nameof(StreetAddress.AddressLine2)));
 
                 x.Property(nameof(StreetAddress.Route))
                     .HasMaxLength(StreetAddress.RouteMaxLength)
-                    .IsRequired(false);
+                    .IsRequired(GetRequiredFlag(nameof(StreetAddress.Route)));
 
                 x.Property(nameof(StreetAddress.Locality))
                     .HasMaxLength(StreetAddress.LocalityMaxLength)
-                    .IsRequired(false);
+                    .IsRequired(GetRequiredFlag(nameof(StreetAddress.Locality)));
 
                 x.Property(nameof(StreetAddress.Neighborhood))
                     .HasMaxLength(StreetAddress.NeighborhoodMaxLength)
-                    .IsRequired(false);
+                    .IsRequired(GetRequiredFlag(nameof(StreetAddress.Neighborhood)));
 
                 x.Property(nameof(StreetAddress.AdministrativeArea1))
                     .HasMaxLength(StreetAddress.AdministrativeArea1MaxLength)
-                    .IsRequired(false);
+                    .IsRequired(GetRequiredFlag(nameof(StreetAddress.AdministrativeArea1)));
 
                 x.Property(nameof(StreetAddress.AdministrativeArea2))
                     .HasMaxLength(StreetAddress.AdministrativeArea2MaxLength)
-                    .IsRequired(false);
+                    .IsRequired(GetRequiredFlag(nameof(StreetAddress.AdministrativeArea2)));
             });
     }
 
     public string GetKeyPropertyName(NoxSimpleTypeDefinition key) => key.Name;
+
+    private static bool GetRequiredFlag(string propertyName)
+    {
+        ComponentsByPropertyName.TryGetValue(propertyName, out var component);
+        return component?.IsRequired ?? true;
+    }
+
+    private static Dictionary<string, CompoundComponent> GetComponentsByPropertyName()
+    {
+        return StreetAddressNoxType
+            .ToMemberInfo()
+            .GetCustomAttributes<CompoundComponent>()
+            .ToDictionary(x => x.Name, x => x);
+    }
 }

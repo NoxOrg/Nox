@@ -50,6 +50,6 @@ internal class NoxTypeDtoGenerator : INoxCodeGenerator
         return noxType
             .ToMemberInfo()
             .GetCustomAttributes<CompoundComponent>()
-            .Select(c => $"{c.UnderlyingType}{(c.IsNullable ? "? " : " ")}{c.Name}");
+            .Select(c => $"{c.UnderlyingType}{(c.IsRequired ? " " : "? ")}{c.Name}");
     }
 }
