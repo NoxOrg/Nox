@@ -31,6 +31,11 @@ public partial class StoreOwner : AuditableEntityBase
     public Nox.Types.VatNumber? VatNumber { get; set; } = null!;
 
     /// <summary>
+    /// Street Address (Optional).
+    /// </summary>
+    public Nox.Types.StreetAddress? StreetAddress { get; set; } = null!;
+
+    /// <summary>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
     /// </summary>
     public virtual List<Store> StoreRel { get; set; } = new();

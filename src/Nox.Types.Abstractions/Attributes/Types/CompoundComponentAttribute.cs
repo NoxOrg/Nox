@@ -7,10 +7,12 @@ public class CompoundComponent : Attribute
 {
     public string Name { get; }
     public Type UnderlyingType { get; }
-    public CompoundComponent(string name, Type type)
+    public bool IsRequired { get; set; }
+
+    public CompoundComponent(string name, Type type, bool isRequired = true)
     {
         Name = name;
         UnderlyingType = type;
+        IsRequired = isRequired;
     }
-
 }
