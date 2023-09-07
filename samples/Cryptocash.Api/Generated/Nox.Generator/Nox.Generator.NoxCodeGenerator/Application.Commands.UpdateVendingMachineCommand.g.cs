@@ -49,8 +49,10 @@ public class UpdateVendingMachineCommandHandler: CommandBase<UpdateVendingMachin
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if(result < 1)
+		if (result < 1)
+		{
 			return null;
+		}
 
 		return new VendingMachineKeyDto(entity.Id.Value);
 	}

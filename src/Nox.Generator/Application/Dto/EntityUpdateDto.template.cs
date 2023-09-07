@@ -13,8 +13,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
 /// {{entity.Description}}.
 /// </summary>
 public partial class {{className}}
-{
-    //TODO Add owned Entities and update odata endpoints
+{    
 {{- for attribute in entity.Attributes }}
     {{- if componentsInfo[attribute.Name].IsUpdatable == false -}}
     {{ continue; }}
@@ -38,18 +37,7 @@ public partial class {{className}}
     /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
     /// </summary>
     {{ if relationship.Relationship == "ExactlyOne" }}[Required(ErrorMessage = "{{relationship.Name}} is required")]{{-end}}
-    public System.{{relationship.ForeignKeyPrimitiveType}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}}Id { get; set; } = default!;
-    {{-end}}
-{{- end }}
-{{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}
-
-    /// <summary>
-    /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
-    /// </summary>
-    {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<{{relationship.Entity}}UpdateDto> {{relationship.EntityPlural}} { get; set; } = new();
-    {{- else}}
-     public virtual {{relationship.Entity}}UpdateDto{{- if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
+    public System.{{relationship.ForeignKeyPrimitiveType}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}}Id { get; set; } = default!;
     {{-end}}
 {{- end }}
 }

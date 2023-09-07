@@ -20,7 +20,7 @@ using Workplace = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application;
 
-public class WorkplaceMapper : EntityMapperBase<Workplace>
+public partial class WorkplaceMapper : EntityMapperBase<Workplace>
 {
     public WorkplaceMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
@@ -29,14 +29,12 @@ public class WorkplaceMapper : EntityMapperBase<Workplace>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
         if (noxTypeValue != null)
         {        
             entity.Name = noxTypeValue;
         }
-
-        // TODO map Greeting Formula remaining types and remove if else
     
     }
 

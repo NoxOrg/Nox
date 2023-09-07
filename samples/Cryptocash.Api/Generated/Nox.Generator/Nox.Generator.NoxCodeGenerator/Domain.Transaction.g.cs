@@ -43,24 +43,20 @@ public partial class Transaction : AuditableEntityBase
     /// <summary>
     /// Transaction for ExactlyOne Customers
     /// </summary>
-    public virtual Customer Customer { get; set; } = null!;
-
-    public Customer TransactionForCustomer => Customer;
+    public virtual Customer TransactionForCustomer { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
     /// </summary>
-    public Nox.Types.DatabaseNumber CustomerId { get; set; } = null!;
+    public Nox.Types.DatabaseNumber TransactionForCustomerId { get; set; } = null!;
 
     /// <summary>
     /// Transaction for ExactlyOne Bookings
     /// </summary>
-    public virtual Booking Booking { get; set; } = null!;
-
-    public Booking TransactionForBooking => Booking;
+    public virtual Booking TransactionForBooking { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Booking
     /// </summary>
-    public Nox.Types.DatabaseGuid BookingId { get; set; } = null!;
+    public Nox.Types.DatabaseGuid TransactionForBookingId { get; set; } = null!;
 }

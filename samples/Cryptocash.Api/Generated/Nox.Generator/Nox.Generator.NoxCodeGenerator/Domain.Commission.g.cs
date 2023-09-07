@@ -33,19 +33,15 @@ public partial class Commission : AuditableEntityBase
     /// <summary>
     /// Commission fees for ZeroOrOne Countries
     /// </summary>
-    public virtual Country? Country { get; set; } = null!;
-
-    public Country? CommissionFeesForCountry => Country;
+    public virtual Country? CommissionFeesForCountry { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity Country
     /// </summary>
-    public Nox.Types.CountryCode2? CountryId { get; set; } = null!;
+    public Nox.Types.CountryCode2? CommissionFeesForCountryId { get; set; } = null!;
 
     /// <summary>
     /// Commission fees for ZeroOrMany Bookings
     /// </summary>
-    public virtual List<Booking> Bookings { get; set; } = new();
-
-    public List<Booking> CommissionFeesForBooking => Bookings;
+    public virtual List<Booking> CommissionFeesForBooking { get; set; } = new();
 }

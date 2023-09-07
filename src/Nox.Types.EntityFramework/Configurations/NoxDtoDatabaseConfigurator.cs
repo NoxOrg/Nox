@@ -50,29 +50,35 @@ public class NoxDtoDatabaseConfigurator : INoxDtoDatabaseConfigurator
     {
         foreach (var relationshipToCreate in entity.Relationships)
         {
-            // One to ?? (// Many to Many are setup by EF)
-            if (relationshipToCreate.ShouldGenerateForeignKeyOnThisSide() && relationshipToCreate.WithSingleEntity())
+            // ManyToMany
+            // Currently, configured bi-directionally, shouldn't cause any issues.
+            if (relationshipToCreate.WithMultiEntity &&
+                relationshipToCreate.Related.EntityRelationship.WithMultiEntity)
+            {
+                builder
+                    .HasMany(relationshipToCreate.Name)
+                    .WithMany(relationshipToCreate.Related.EntityRelationship.Name);
+            }
+            // OneToOne and OneToMany, setup should be done only on foreign key side
+            else if (relationshipToCreate.ShouldGenerateForeignKeyOnThisSide() &&
+                relationshipToCreate.WithSingleEntity())
             {
                 //One to Many
-                if (relationshipToCreate.IsManyRelationshipOnOtherSide())
+                if (relationshipToCreate.Related.EntityRelationship.WithMultiEntity)
                 {
                     builder
-                        .HasOne($"{codeGeneratorState.DtoNameSpace}.{relationshipToCreate.Entity}Dto", relationshipToCreate.Entity)
-                        .WithMany(entity.PluralName)
-                        .HasForeignKey($"{relationshipToCreate.Entity}Id");
+                        .HasOne($"{codeGeneratorState.DtoNameSpace}.{relationshipToCreate.Entity}Dto", relationshipToCreate.Name)
+                        .WithMany(relationshipToCreate.Related.EntityRelationship.Name)
+                        .HasForeignKey($"{relationshipToCreate.Name}Id");
                 }
-                else //One to One
+                //One to One
+                else
                 {
                     builder
-                        .HasOne($"{codeGeneratorState.DtoNameSpace}.{relationshipToCreate.Entity}Dto", relationshipToCreate.Entity)
-                        .WithOne(entity.Name)
-                        .HasForeignKey($"{codeGeneratorState.DtoNameSpace}.{entity.Name}Dto", $"{relationshipToCreate.Entity}Id");
+                        .HasOne($"{codeGeneratorState.DtoNameSpace}.{relationshipToCreate.Entity}Dto", relationshipToCreate.Name)
+                        .WithOne(relationshipToCreate.Related.EntityRelationship.Name)
+                        .HasForeignKey($"{codeGeneratorState.DtoNameSpace}.{entity.Name}Dto", $"{relationshipToCreate.Name}Id");
                 }
-            }
-
-            if (!relationshipToCreate.ShouldUseRelationshipNameAsNavigation())
-            {
-                builder.Ignore(relationshipToCreate.Name);
             }
         }
     }

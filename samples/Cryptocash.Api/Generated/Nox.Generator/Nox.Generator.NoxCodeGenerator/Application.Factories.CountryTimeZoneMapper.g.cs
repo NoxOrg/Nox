@@ -20,7 +20,7 @@ using CountryTimeZone = Cryptocash.Domain.CountryTimeZone;
 
 namespace Cryptocash.Application;
 
-public class CountryTimeZoneMapper : EntityMapperBase<CountryTimeZone>
+public partial class CountryTimeZoneMapper : EntityMapperBase<CountryTimeZone>
 {
     public CountryTimeZoneMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
@@ -29,7 +29,7 @@ public class CountryTimeZoneMapper : EntityMapperBase<CountryTimeZone>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
         noxTypeValue = CreateNoxType<Nox.Types.TimeZoneCode>(entityDefinition, "TimeZoneCode", dto.TimeZoneCode);
         if (noxTypeValue != null)
         {        

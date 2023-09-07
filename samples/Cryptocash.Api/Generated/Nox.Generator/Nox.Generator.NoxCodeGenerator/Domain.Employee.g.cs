@@ -53,14 +53,12 @@ public partial class Employee : AuditableEntityBase
     /// <summary>
     /// Employee reviewing ExactlyOne CashStockOrders
     /// </summary>
-    public virtual CashStockOrder CashStockOrder { get; set; } = null!;
-
-    public CashStockOrder EmployeeReviewingCashStockOrder => CashStockOrder;
+    public virtual CashStockOrder EmployeeReviewingCashStockOrder { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity CashStockOrder
     /// </summary>
-    public Nox.Types.DatabaseNumber CashStockOrderId { get; set; } = null!;
+    public Nox.Types.DatabaseNumber EmployeeReviewingCashStockOrderId { get; set; } = null!;
 
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers

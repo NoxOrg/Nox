@@ -20,7 +20,7 @@ using EmployeePhoneNumber = Cryptocash.Domain.EmployeePhoneNumber;
 
 namespace Cryptocash.Application;
 
-public class EmployeePhoneNumberMapper : EntityMapperBase<EmployeePhoneNumber>
+public partial class EmployeePhoneNumberMapper : EntityMapperBase<EmployeePhoneNumber>
 {
     public EmployeePhoneNumberMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
@@ -29,12 +29,12 @@ public class EmployeePhoneNumberMapper : EntityMapperBase<EmployeePhoneNumber>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PhoneNumberType", dto.PhoneNumberType);
         if (noxTypeValue != null)
         {        
             entity.PhoneNumberType = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.PhoneNumber>(entityDefinition, "PhoneNumber", dto.PhoneNumber);
         if (noxTypeValue != null)
         {        

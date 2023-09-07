@@ -185,7 +185,7 @@ domain:
         - name: AlphaCode3
           description: The country's official ISO 4217 alpha-3 code
           type: countryCode3
-          isRequired: true
+          isRequired: false
 
         - name: AlphaCode2
           description: The country's official ISO 4217 alpha-2 code
@@ -296,6 +296,11 @@ domain:
             isUnicode: false
             minLength: 2
             maxLength: 2
+
+      attributes:
+        - name: Name
+          isRequired: false
+          type: text
 
 application:
   dataTransferObjects:

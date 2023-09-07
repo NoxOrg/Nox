@@ -16,18 +16,22 @@ using ClientApi.Application.Dto;
 using Workplace = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
+
 public record CreateWorkplaceCommand(WorkplaceCreateDto EntityDto) : IRequest<WorkplaceKeyDto>;
 
 public partial class CreateWorkplaceCommandHandler: CommandBase<CreateWorkplaceCommand,Workplace>, IRequestHandler <CreateWorkplaceCommand, WorkplaceKeyDto>
 {
-	public ClientApiDbContext DbContext { get; }
+	private readonly ClientApiDbContext _dbContext;
+	private readonly IEntityFactory<WorkplaceCreateDto,Workplace> _entityFactory;
 
 	public CreateWorkplaceCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<WorkplaceCreateDto,Workplace> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;
 	}
 
 	public async Task<WorkplaceKeyDto> Handle(CreateWorkplaceCommand request, CancellationToken cancellationToken)
@@ -35,11 +39,11 @@ public partial class CreateWorkplaceCommandHandler: CommandBase<CreateWorkplaceC
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);		
 	
 		OnCompleted(entityToCreate);
-		DbContext.Workplaces.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		_dbContext.Workplaces.Add(entityToCreate);
+		await _dbContext.SaveChangesAsync();
 		return new WorkplaceKeyDto(entityToCreate.Id.Value);
 	}
 }

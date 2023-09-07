@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class CurrencyUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Currency's name (Required).
     /// </summary>
@@ -83,14 +82,4 @@ public partial class CurrencyUpdateDto
     [Required(ErrorMessage = "MinorToMajorValue is required")]
     
     public MoneyDto MinorToMajorValue { get; set; } = default!;
-
-    /// <summary>
-    /// Currency commonly used ZeroOrMany BankNotes
-    /// </summary>
-    public virtual List<BankNoteUpdateDto> BankNotes { get; set; } = new();
-
-    /// <summary>
-    /// Currency exchanged from OneOrMany ExchangeRates
-    /// </summary>
-    public virtual List<ExchangeRateUpdateDto> ExchangeRates { get; set; } = new();
 }

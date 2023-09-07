@@ -37,8 +37,8 @@ public partial class StoreDto
     /// Store Store owner relationship ZeroOrOne StoreOwners
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String? StoreOwnerId { get; set; } = default!;
-    public virtual StoreOwnerDto? StoreOwner { get; set; } = null!;
+    public System.String? OwnerRelId { get; set; } = default!;
+    public virtual StoreOwnerDto? OwnerRel { get; set; } = null!;
 
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses

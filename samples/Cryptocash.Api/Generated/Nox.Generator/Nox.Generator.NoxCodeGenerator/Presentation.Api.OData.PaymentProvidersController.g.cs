@@ -48,6 +48,7 @@ public partial class PaymentProvidersController : ODataController
         return Ok(result);
     }
     
+    [EnableQuery]
     public async Task<ActionResult<PaymentProviderDto>> Get([FromRoute] System.Int64 key)
     {
         var item = await _mediator.Send(new GetPaymentProviderByIdQuery(key));

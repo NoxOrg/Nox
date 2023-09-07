@@ -42,12 +42,12 @@ public partial class CommissionDto
     /// Commission fees for ZeroOrOne Countries
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String? CountryId { get; set; } = default!;
-    public virtual CountryDto? Country { get; set; } = null!;
+    public System.String? CommissionFeesForCountryId { get; set; } = default!;
+    public virtual CountryDto? CommissionFeesForCountry { get; set; } = null!;
 
     /// <summary>
     /// Commission fees for ZeroOrMany Bookings
     /// </summary>
-    public virtual List<BookingDto> Bookings { get; set; } = new();
+    public virtual List<BookingDto> CommissionFeesForBooking { get; set; } = new();
     public System.DateTime? DeletedAtUtc { get; set; }    
 }

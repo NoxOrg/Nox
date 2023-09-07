@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class CashStockOrderUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Order amount (Required).
     /// </summary>
@@ -36,5 +35,5 @@ public partial class CashStockOrderUpdateDto
     /// CashStockOrder for ExactlyOne VendingMachines
     /// </summary>
     [Required(ErrorMessage = "CashStockOrderForVendingMachine is required")]
-    public System.Guid VendingMachineId { get; set; } = default!;
+    public System.Guid CashStockOrderForVendingMachineId { get; set; } = default!;
 }

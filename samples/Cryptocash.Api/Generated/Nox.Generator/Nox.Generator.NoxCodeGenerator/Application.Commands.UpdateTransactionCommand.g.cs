@@ -49,8 +49,10 @@ public class UpdateTransactionCommandHandler: CommandBase<UpdateTransactionComma
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
-		if(result < 1)
+		if (result < 1)
+		{
 			return null;
+		}
 
 		return new TransactionKeyDto(entity.Id.Value);
 	}

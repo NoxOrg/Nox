@@ -17,18 +17,22 @@ using Cryptocash.Application.Dto;
 using Country = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<CountryKeyDto>;
 
 public partial class CreateCountryCommandHandler: CommandBase<CreateCountryCommand,Country>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
 {
-	public CryptocashDbContext DbContext { get; }
+	private readonly CryptocashDbContext _dbContext;
+	private readonly IEntityFactory<CountryCreateDto,Country> _entityFactory;
 
 	public CreateCountryCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<CountryCreateDto,Country> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;
 	}
 
 	public async Task<CountryKeyDto> Handle(CreateCountryCommand request, CancellationToken cancellationToken)
@@ -36,11 +40,11 @@ public partial class CreateCountryCommandHandler: CommandBase<CreateCountryComma
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);		
 	
 		OnCompleted(entityToCreate);
-		DbContext.Countries.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		_dbContext.Countries.Add(entityToCreate);
+		await _dbContext.SaveChangesAsync();
 		return new CountryKeyDto(entityToCreate.Id.Value);
 	}
 }

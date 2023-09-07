@@ -14,7 +14,6 @@ namespace ClientApi.Application.Dto;
 /// </summary>
 public partial class EmailAddressUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Email (Optional).
     /// </summary>

@@ -48,6 +48,7 @@ public partial class CustomersController : ODataController
         return Ok(result);
     }
     
+    [EnableQuery]
     public async Task<ActionResult<CustomerDto>> Get([FromRoute] System.Int64 key)
     {
         var item = await _mediator.Send(new GetCustomerByIdQuery(key));

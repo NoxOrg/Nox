@@ -21,14 +21,17 @@ public record AddExchangeRateCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateCr
 
 public partial class AddExchangeRateCommandHandler: CommandBase<AddExchangeRateCommand, ExchangeRate>, IRequestHandler <AddExchangeRateCommand, ExchangeRateKeyDto?>
 {
-	public CryptocashDbContext DbContext { get; }
+	private readonly CryptocashDbContext _dbContext;
+	private readonly IEntityFactory<ExchangeRateCreateDto,ExchangeRate> _entityFactory;
 
 	public AddExchangeRateCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<ExchangeRateCreateDto,ExchangeRate> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;		
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;	
 	}
 
 	public async Task<ExchangeRateKeyDto?> Handle(AddExchangeRateCommand request, CancellationToken cancellationToken)
@@ -36,20 +39,25 @@ public partial class AddExchangeRateCommandHandler: CommandBase<AddExchangeRateC
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Currency,CurrencyCode3>("Id", request.ParentKeyDto.keyId);
 
-		var parentEntity = await DbContext.Currencies.FindAsync(keyId);
+		var parentEntity = await _dbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
 
-		var entity = request.EntityDto.ToEntity();
+		var entity = _entityFactory.CreateEntity(request.EntityDto);
 		
 		parentEntity.ExchangeRates.Add(entity);
 
 		OnCompleted(entity);
 	
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		_dbContext.Entry(parentEntity).State = EntityState.Modified;
+		var result = await _dbContext.SaveChangesAsync();
+		if (result < 1)
+		{
+			return null;
+		}
+
 		return new ExchangeRateKeyDto(entity.Id.Value);
 	}
 }

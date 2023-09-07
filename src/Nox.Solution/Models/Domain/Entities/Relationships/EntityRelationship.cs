@@ -43,12 +43,6 @@ public class EntityRelationship : DefinitionBase
     public bool ShouldGenerateForeignOnThisSide => EntityRelationshipExtensions.ShouldGenerateForeignKeyOnThisSide(this);
 
     /// <summary>
-    /// Is the related entity a *OrMany relationship to this  
-    /// </summary>
-    [YamlIgnore]
-    public bool IsManyRelationshipOnOtherSide => EntityRelationshipExtensions.IsManyRelationshipOnOtherSide(this);
-
-    /// <summary>
     /// This relationship is a zero or one relation to the other entity
     /// </summary>
     [YamlIgnore]

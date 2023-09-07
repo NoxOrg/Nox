@@ -17,8 +17,8 @@ public partial class CountryLocalName
     /// <summary>
     /// Type options and factory for property 'Id'
     /// </summary>
-    public static Nox.Types.Text CreateId(System.String value)
-        => Nox.Types.Text.From(value);
+    public static Nox.Types.DatabaseNumber CreateId(System.Int64 value)
+        => Nox.Types.DatabaseNumber.From(value);
     
 
     /// <summary>

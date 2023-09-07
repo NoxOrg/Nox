@@ -52,12 +52,12 @@ public partial class CashStockOrderDto
     /// CashStockOrder for ExactlyOne VendingMachines
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.Guid VendingMachineId { get; set; } = default!;
-    public virtual VendingMachineDto VendingMachine { get; set; } = null!;
+    public System.Guid CashStockOrderForVendingMachineId { get; set; } = default!;
+    public virtual VendingMachineDto CashStockOrderForVendingMachine { get; set; } = null!;
 
     /// <summary>
     /// CashStockOrder reviewed by ExactlyOne Employees
     /// </summary>
-    public virtual EmployeeDto Employee { get; set; } = null!;
+    public virtual EmployeeDto CashStockOrderReviewedByEmployee { get; set; } = null!;
     public System.DateTime? DeletedAtUtc { get; set; }    
 }

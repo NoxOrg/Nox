@@ -48,6 +48,7 @@ public partial class StoresController : ODataController
         return Ok(result);
     }
     
+    [EnableQuery]
     public async Task<ActionResult<StoreDto>> Get([FromRoute] System.UInt32 key)
     {
         var item = await _mediator.Send(new GetStoreByIdQuery(key));

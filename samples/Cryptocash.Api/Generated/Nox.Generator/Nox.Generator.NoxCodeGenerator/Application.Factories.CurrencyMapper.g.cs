@@ -20,7 +20,7 @@ using Currency = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application;
 
-public class CurrencyMapper : EntityMapperBase<Currency>
+public partial class CurrencyMapper : EntityMapperBase<Currency>
 {
     public CurrencyMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
@@ -31,65 +31,65 @@ public class CurrencyMapper : EntityMapperBase<Currency>
     #pragma warning restore CS0168 // Variable is declared but never used
             
         noxTypeValue = CreateNoxType<Nox.Types.CurrencyCode3>(entityDefinition, "Id", dto.Id);        
-        if (noxTypeValue != null)
-        {        
-            entity.Id = noxTypeValue;
-        }
+            if (noxTypeValue != null)
+            {        
+                entity.Id = noxTypeValue;
+            }        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
         if (noxTypeValue != null)
         {        
             entity.Name = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.CurrencyNumber>(entityDefinition, "CurrencyIsoNumeric", dto.CurrencyIsoNumeric);
         if (noxTypeValue != null)
         {        
             entity.CurrencyIsoNumeric = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Symbol", dto.Symbol);
         if (noxTypeValue != null)
         {        
             entity.Symbol = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "ThousandsSeparator", dto.ThousandsSeparator);
         if (noxTypeValue != null)
         {        
             entity.ThousandsSeparator = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "DecimalSeparator", dto.DecimalSeparator);
         if (noxTypeValue != null)
         {        
             entity.DecimalSeparator = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition, "SpaceBetweenAmountAndSymbol", dto.SpaceBetweenAmountAndSymbol);
         if (noxTypeValue != null)
         {        
             entity.SpaceBetweenAmountAndSymbol = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "DecimalDigits", dto.DecimalDigits);
         if (noxTypeValue != null)
         {        
             entity.DecimalDigits = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MajorName", dto.MajorName);
         if (noxTypeValue != null)
         {        
             entity.MajorName = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MajorSymbol", dto.MajorSymbol);
         if (noxTypeValue != null)
         {        
             entity.MajorSymbol = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MinorName", dto.MinorName);
         if (noxTypeValue != null)
         {        
             entity.MinorName = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MinorSymbol", dto.MinorSymbol);
         if (noxTypeValue != null)
         {        
             entity.MinorSymbol = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "MinorToMajorValue", dto.MinorToMajorValue);
         if (noxTypeValue != null)
         {        

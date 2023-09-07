@@ -67,43 +67,35 @@ public partial class Booking : AuditableEntityBase
     /// <summary>
     /// Booking for ExactlyOne Customers
     /// </summary>
-    public virtual Customer Customer { get; set; } = null!;
-
-    public Customer BookingForCustomer => Customer;
+    public virtual Customer BookingForCustomer { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
     /// </summary>
-    public Nox.Types.DatabaseNumber CustomerId { get; set; } = null!;
+    public Nox.Types.DatabaseNumber BookingForCustomerId { get; set; } = null!;
 
     /// <summary>
     /// Booking related to ExactlyOne VendingMachines
     /// </summary>
-    public virtual VendingMachine VendingMachine { get; set; } = null!;
-
-    public VendingMachine BookingRelatedVendingMachine => VendingMachine;
+    public virtual VendingMachine BookingRelatedVendingMachine { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity VendingMachine
     /// </summary>
-    public Nox.Types.DatabaseGuid VendingMachineId { get; set; } = null!;
+    public Nox.Types.DatabaseGuid BookingRelatedVendingMachineId { get; set; } = null!;
 
     /// <summary>
     /// Booking fees for ExactlyOne Commissions
     /// </summary>
-    public virtual Commission Commission { get; set; } = null!;
-
-    public Commission BookingFeesForCommission => Commission;
+    public virtual Commission BookingFeesForCommission { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Commission
     /// </summary>
-    public Nox.Types.DatabaseNumber CommissionId { get; set; } = null!;
+    public Nox.Types.DatabaseNumber BookingFeesForCommissionId { get; set; } = null!;
 
     /// <summary>
     /// Booking related to ExactlyOne Transactions
     /// </summary>
-    public virtual Transaction Transaction { get; set; } = null!;
-
-    public Transaction BookingRelatedTransaction => Transaction;
+    public virtual Transaction BookingRelatedTransaction { get; set; } = null!;
 }

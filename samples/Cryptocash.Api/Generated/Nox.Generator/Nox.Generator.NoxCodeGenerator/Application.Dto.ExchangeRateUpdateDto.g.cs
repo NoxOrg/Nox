@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class ExchangeRateUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Exchange rate conversion amount (Required).
     /// </summary>

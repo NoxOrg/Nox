@@ -14,7 +14,6 @@ namespace ClientApi.Application.Dto;
 /// </summary>
 public partial class CountryUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// The Country Name (Required).
     /// </summary>
@@ -29,9 +28,8 @@ public partial class CountryUpdateDto
     /// The Money (Optional).
     /// </summary>
     public MoneyDto? CountryDebt { get; set; }
-
     /// <summary>
-    /// Country is also know as ZeroOrMany CountryLocalNames
+    /// First Official Language (Optional).
     /// </summary>
-    public virtual List<CountryLocalNameUpdateDto> CountryLocalNames { get; set; } = new();
+    public System.String? FirstLanguageCode { get; set; }
 }

@@ -41,6 +41,6 @@ public partial class PaymentProviderDto
     /// <summary>
     /// PaymentProvider related to ZeroOrMany PaymentDetails
     /// </summary>
-    public virtual List<PaymentDetailDto> PaymentDetails { get; set; } = new();
+    public virtual List<PaymentDetailDto> PaymentProviderRelatedPaymentDetails { get; set; } = new();
     public System.DateTime? DeletedAtUtc { get; set; }    
 }

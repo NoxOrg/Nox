@@ -1,15 +1,23 @@
 ﻿using FluentAssertions;
 using ClientApi.Application.Dto;
+using AutoFixture.AutoMoq;
+using AutoFixture;
 
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class StoresControllerTests : NoxIntegrationTestBase
+    public class StoresControllerTests 
     {
         private const string StoresControllerName = "api/stores";
 
-        public StoresControllerTests(NoxTestApplicationFactory<StartupFixture> appFactory) : base(appFactory)
+        private readonly Fixture _fixture;
+        private readonly ODataFixture _oDataFixture;
+
+        public StoresControllerTests()
         {
+            _fixture = new Fixture();
+            _fixture.Customize(new AutoMoqCustomization());
+            _oDataFixture = _fixture.Create<ODataFixture>();
         }
 
         [Fact]
@@ -27,7 +35,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await PostAsync<StoreCreateDto, StoreKeyDto>(StoresControllerName, createDto);
+            var result = await _oDataFixture.PostAsync<StoreCreateDto, StoreKeyDto>(StoresControllerName, createDto);
 
             //Assert
             result.Should().NotBeNull();

@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class BookingUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Booking's amount exchanged from (Required).
     /// </summary>
@@ -54,17 +53,17 @@ public partial class BookingUpdateDto
     /// Booking for ExactlyOne Customers
     /// </summary>
     [Required(ErrorMessage = "BookingForCustomer is required")]
-    public System.Int64 CustomerId { get; set; } = default!;
+    public System.Int64 BookingForCustomerId { get; set; } = default!;
 
     /// <summary>
     /// Booking related to ExactlyOne VendingMachines
     /// </summary>
     [Required(ErrorMessage = "BookingRelatedVendingMachine is required")]
-    public System.Guid VendingMachineId { get; set; } = default!;
+    public System.Guid BookingRelatedVendingMachineId { get; set; } = default!;
 
     /// <summary>
     /// Booking fees for ExactlyOne Commissions
     /// </summary>
     [Required(ErrorMessage = "BookingFeesForCommission is required")]
-    public System.Int64 CommissionId { get; set; } = default!;
+    public System.Int64 BookingFeesForCommissionId { get; set; } = default!;
 }

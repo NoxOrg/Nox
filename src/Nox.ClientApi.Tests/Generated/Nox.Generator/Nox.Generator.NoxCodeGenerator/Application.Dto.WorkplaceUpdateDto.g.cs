@@ -14,7 +14,6 @@ namespace ClientApi.Application.Dto;
 /// </summary>
 public partial class WorkplaceUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Workplace Name (Required).
     /// </summary>

@@ -2,16 +2,16 @@
 
 namespace Nox.ClientApi.Tests;
 
-public abstract class NoxIntegrationTestBase : IClassFixture<NoxTestApplicationFactory<StartupFixture>>
+public class ODataFixture
 {
     private readonly NoxTestApplicationFactory<StartupFixture> _appFactory;
 
-    protected NoxIntegrationTestBase(NoxTestApplicationFactory<StartupFixture> appFactory)
+    public ODataFixture(NoxTestApplicationFactory<StartupFixture> appFactory)
     {
         _appFactory = appFactory;
     }
 
-    protected async Task<TResult?> GetAsync<TResult>(string requestUrl)
+    public async Task<TResult?> GetAsync<TResult>(string requestUrl)
     {
         using var httpClient = _appFactory.CreateClient();
 
@@ -24,7 +24,7 @@ public abstract class NoxIntegrationTestBase : IClassFixture<NoxTestApplicationF
         return data;
     }
 
-    protected async Task<HttpResponseMessage> GetAsync(string requestUrl)
+    public async Task<HttpResponseMessage> GetAsync(string requestUrl)
     {
         using var httpClient = _appFactory.CreateClient();
         var result = await httpClient.GetAsync(requestUrl);
@@ -32,7 +32,7 @@ public abstract class NoxIntegrationTestBase : IClassFixture<NoxTestApplicationF
         return result;
     }
 
-    protected async Task<HttpResponseMessage> PostAsync<TValue>(string requestUrl, TValue data)
+    public async Task<HttpResponseMessage> PostAsync<TValue>(string requestUrl, TValue data)
     {
         using var httpClient = _appFactory.CreateClient();
 
@@ -41,7 +41,7 @@ public abstract class NoxIntegrationTestBase : IClassFixture<NoxTestApplicationF
         return result;
     }
 
-    protected async Task<TResult?> PostAsync<TValue, TResult>(string requestUrl, TValue data)
+    public async Task<TResult?> PostAsync<TValue, TResult>(string requestUrl, TValue data)
     {
         using var httpClient = _appFactory.CreateClient();
 
@@ -53,7 +53,7 @@ public abstract class NoxIntegrationTestBase : IClassFixture<NoxTestApplicationF
         return result;
     }
 
-    protected async Task PutAsync<TValue>(string requestUrl, TValue data)
+    public async Task PutAsync<TValue>(string requestUrl, TValue data)
     {
         using var httpClient = _appFactory.CreateClient();
 
@@ -61,7 +61,7 @@ public abstract class NoxIntegrationTestBase : IClassFixture<NoxTestApplicationF
         message.EnsureSuccessStatusCode();
     }
 
-    protected async Task PatchAsync<TValue>(string requestUrl, TValue delta)
+    public async Task PatchAsync<TValue>(string requestUrl, TValue delta)
         where TValue : class
     {
         using var httpClient = _appFactory.CreateClient();
@@ -70,7 +70,7 @@ public abstract class NoxIntegrationTestBase : IClassFixture<NoxTestApplicationF
         request.EnsureSuccessStatusCode();
     }
 
-    protected async Task DeleteAsync(string requestUrl)
+    public async Task DeleteAsync(string requestUrl)
     {
         using var httpClient = _appFactory.CreateClient();
 

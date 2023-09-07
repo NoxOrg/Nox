@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
+
 namespace Nox.Types.EntityFramework.EntityBuilderAdapter
 {
     public class EntityBuilderAdapter : IEntityBuilder
@@ -25,6 +26,11 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
         public ReferenceNavigationBuilder HasOne(string relatedTypeName, string? navigationName)
         {
             return EntityTypeBuilder.HasOne(relatedTypeName, navigationName);
+        }
+
+        public CollectionNavigationBuilder HasMany(string navigationName)
+        {
+            return EntityTypeBuilder.HasMany(navigationName);
         }
 
         public IEntityBuilder Ignore(string propertyName)
@@ -64,6 +70,11 @@ namespace Nox.Types.EntityFramework.EntityBuilderAdapter
             Action<OwnedNavigationBuilder> buildAction)
         {
             EntityTypeBuilder.OwnsMany(ownedType, navigationName, buildAction);
+        }
+        
+        public IndexBuilder HasUniqueAttributeConstraint(string[] propertyNames, string constraintName)
+        {
+            return EntityTypeBuilder.HasIndex(propertyNames).HasDatabaseName(constraintName).IsUnique();
         }
     }
 }

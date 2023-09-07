@@ -83,16 +83,12 @@ public partial class Currency : AuditableEntityBase
     /// <summary>
     /// Currency used by OneOrMany Countries
     /// </summary>
-    public virtual List<Country> Countries { get; set; } = new();
-
-    public List<Country> CurrencyUsedByCountry => Countries;
+    public virtual List<Country> CurrencyUsedByCountry { get; set; } = new();
 
     /// <summary>
     /// Currency used by ZeroOrMany MinimumCashStocks
     /// </summary>
-    public virtual List<MinimumCashStock> MinimumCashStocks { get; set; } = new();
-
-    public List<MinimumCashStock> CurrencyUsedByMinimumCashStocks => MinimumCashStocks;
+    public virtual List<MinimumCashStock> CurrencyUsedByMinimumCashStocks { get; set; } = new();
 
     /// <summary>
     /// Currency commonly used ZeroOrMany BankNotes

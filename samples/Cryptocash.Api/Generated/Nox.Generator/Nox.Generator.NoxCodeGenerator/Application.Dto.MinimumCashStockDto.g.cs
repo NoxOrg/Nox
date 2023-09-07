@@ -36,13 +36,13 @@ public partial class MinimumCashStockDto
     /// <summary>
     /// MinimumCashStock required by ZeroOrMany VendingMachines
     /// </summary>
-    public virtual List<VendingMachineDto> VendingMachines { get; set; } = new();
+    public virtual List<VendingMachineDto> MinimumCashStocksRequiredByVendingMachines { get; set; } = new();
 
     /// <summary>
     /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String CurrencyId { get; set; } = default!;
-    public virtual CurrencyDto Currency { get; set; } = null!;
+    public System.String MinimumCashStockRelatedCurrencyId { get; set; } = default!;
+    public virtual CurrencyDto MinimumCashStockRelatedCurrency { get; set; } = null!;
     public System.DateTime? DeletedAtUtc { get; set; }    
 }

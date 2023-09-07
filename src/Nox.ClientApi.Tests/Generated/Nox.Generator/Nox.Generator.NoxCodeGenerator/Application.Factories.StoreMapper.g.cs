@@ -20,7 +20,7 @@ using Store = ClientApi.Domain.Store;
 
 namespace ClientApi.Application;
 
-public class StoreMapper : EntityMapperBase<Store>
+public partial class StoreMapper : EntityMapperBase<Store>
 {
     public StoreMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
@@ -29,7 +29,7 @@ public class StoreMapper : EntityMapperBase<Store>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
         if (noxTypeValue != null)
         {        
@@ -40,10 +40,10 @@ public class StoreMapper : EntityMapperBase<Store>
         /// <summary>
         /// Store Store owner relationship ZeroOrOne StoreOwners
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "OwnerRel", dto.StoreOwnerId);
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "OwnerRel", dto.OwnerRelId);
         if (noxTypeValue != null)
         {        
-            entity.StoreOwnerId = noxTypeValue;
+            entity.OwnerRelId = noxTypeValue;
         }
     }
 
@@ -76,7 +76,7 @@ public class StoreMapper : EntityMapperBase<Store>
             var noxRelationshipTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "OwnerRel", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.StoreOwnerId = noxRelationshipTypeValue;
+                entity.OwnerRelId = noxRelationshipTypeValue;
             }
         }
     }

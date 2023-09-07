@@ -14,7 +14,6 @@ namespace Cryptocash.Application.Dto;
 /// </summary>
 public partial class BankNoteUpdateDto
 {
-    //TODO Add owned Entities and update odata endpoints
     /// <summary>
     /// Currency's cash bank note identifier (Required).
     /// </summary>

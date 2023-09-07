@@ -6,6 +6,9 @@
 name: CountryLocalNames
 description: The name of a country in other languages
 
+persistence:
+  isAudited: false
+
 keys:
 
   - name: Id

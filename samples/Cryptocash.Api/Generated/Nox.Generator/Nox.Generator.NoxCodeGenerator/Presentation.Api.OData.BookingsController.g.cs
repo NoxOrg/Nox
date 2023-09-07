@@ -48,6 +48,7 @@ public partial class BookingsController : ODataController
         return Ok(result);
     }
     
+    [EnableQuery]
     public async Task<ActionResult<BookingDto>> Get([FromRoute] System.Guid key)
     {
         var item = await _mediator.Send(new GetBookingByIdQuery(key));

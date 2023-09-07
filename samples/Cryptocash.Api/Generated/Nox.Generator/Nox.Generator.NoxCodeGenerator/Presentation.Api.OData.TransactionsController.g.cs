@@ -48,6 +48,7 @@ public partial class TransactionsController : ODataController
         return Ok(result);
     }
     
+    [EnableQuery]
     public async Task<ActionResult<TransactionDto>> Get([FromRoute] System.Int64 key)
     {
         var item = await _mediator.Send(new GetTransactionByIdQuery(key));

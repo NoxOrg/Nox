@@ -21,14 +21,17 @@ public record AddBankNoteCommand(CurrencyKeyDto ParentKeyDto, BankNoteCreateDto 
 
 public partial class AddBankNoteCommandHandler: CommandBase<AddBankNoteCommand, BankNote>, IRequestHandler <AddBankNoteCommand, BankNoteKeyDto?>
 {
-	public CryptocashDbContext DbContext { get; }
+	private readonly CryptocashDbContext _dbContext;
+	private readonly IEntityFactory<BankNoteCreateDto,BankNote> _entityFactory;
 
 	public AddBankNoteCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<BankNoteCreateDto,BankNote> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;		
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;	
 	}
 
 	public async Task<BankNoteKeyDto?> Handle(AddBankNoteCommand request, CancellationToken cancellationToken)
@@ -36,20 +39,25 @@ public partial class AddBankNoteCommandHandler: CommandBase<AddBankNoteCommand, 
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Currency,CurrencyCode3>("Id", request.ParentKeyDto.keyId);
 
-		var parentEntity = await DbContext.Currencies.FindAsync(keyId);
+		var parentEntity = await _dbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
 
-		var entity = request.EntityDto.ToEntity();
+		var entity = _entityFactory.CreateEntity(request.EntityDto);
 		
 		parentEntity.BankNotes.Add(entity);
 
 		OnCompleted(entity);
 	
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		_dbContext.Entry(parentEntity).State = EntityState.Modified;
+		var result = await _dbContext.SaveChangesAsync();
+		if (result < 1)
+		{
+			return null;
+		}
+
 		return new BankNoteKeyDto(entity.Id.Value);
 	}
 }
