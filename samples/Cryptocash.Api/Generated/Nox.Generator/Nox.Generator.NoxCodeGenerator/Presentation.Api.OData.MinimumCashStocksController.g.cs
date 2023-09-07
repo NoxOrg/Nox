@@ -94,7 +94,8 @@ public partial class MinimumCashStocksController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<MinimumCashStockUpdateDto> minimumCashStock)
+    [EnableQuery]
+    public async Task<ActionResult<MinimumCashStockDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<MinimumCashStockUpdateDto> minimumCashStock)
     {
         if (!ModelState.IsValid)
         {
@@ -116,7 +117,8 @@ public partial class MinimumCashStocksController : ODataController
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetMinimumCashStockByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)

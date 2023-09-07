@@ -94,7 +94,8 @@ public partial class LandLordsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<LandLordUpdateDto> landLord)
+    [EnableQuery]
+    public async Task<ActionResult<LandLordDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<LandLordUpdateDto> landLord)
     {
         if (!ModelState.IsValid)
         {
@@ -116,7 +117,8 @@ public partial class LandLordsController : ODataController
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetLandLordByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)

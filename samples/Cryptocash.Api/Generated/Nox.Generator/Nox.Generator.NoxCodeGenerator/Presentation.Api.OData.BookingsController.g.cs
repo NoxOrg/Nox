@@ -94,7 +94,8 @@ public partial class BookingsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Guid key, [FromBody] Delta<BookingUpdateDto> booking)
+    [EnableQuery]
+    public async Task<ActionResult<BookingDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<BookingUpdateDto> booking)
     {
         if (!ModelState.IsValid)
         {
@@ -116,7 +117,8 @@ public partial class BookingsController : ODataController
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetBookingByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Guid key)

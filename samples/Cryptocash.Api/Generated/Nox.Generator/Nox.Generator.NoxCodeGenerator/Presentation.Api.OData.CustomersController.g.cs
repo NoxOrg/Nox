@@ -94,7 +94,8 @@ public partial class CustomersController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CustomerUpdateDto> customer)
+    [EnableQuery]
+    public async Task<ActionResult<CustomerDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CustomerUpdateDto> customer)
     {
         if (!ModelState.IsValid)
         {
@@ -116,7 +117,8 @@ public partial class CustomersController : ODataController
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetCustomerByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)

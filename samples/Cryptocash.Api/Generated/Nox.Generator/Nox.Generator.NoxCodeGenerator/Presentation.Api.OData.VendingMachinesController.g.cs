@@ -94,7 +94,8 @@ public partial class VendingMachinesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Guid key, [FromBody] Delta<VendingMachineUpdateDto> vendingMachine)
+    [EnableQuery]
+    public async Task<ActionResult<VendingMachineDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<VendingMachineUpdateDto> vendingMachine)
     {
         if (!ModelState.IsValid)
         {
@@ -116,7 +117,8 @@ public partial class VendingMachinesController : ODataController
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetVendingMachineByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Guid key)

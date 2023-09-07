@@ -68,7 +68,8 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]CountryCreateDto country)
+    [EnableQuery]
+    public async Task<ActionResult<CountryDto>> Post([FromBody]CountryCreateDto country)
     {
         if (!ModelState.IsValid)
         {
@@ -76,10 +77,13 @@ public partial class CountriesController : ODataController
         }
         var createdKey = await _mediator.Send(new CreateCountryCommand(country));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] CountryUpdateDto country)
+    [EnableQuery]
+    public async Task<ActionResult<CountryDto>> Put([FromRoute] System.String key, [FromBody] CountryUpdateDto country)
     {
         if (!ModelState.IsValid)
         {
@@ -87,15 +91,18 @@ public partial class CountriesController : ODataController
         }
         
         var updated = await _mediator.Send(new UpdateCountryCommand(key, country));
-        
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetCountryByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<CountryUpdateDto> country)
+    [EnableQuery]
+    public async Task<ActionResult<CountryDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CountryUpdateDto> country)
     {
         if (!ModelState.IsValid)
         {
@@ -117,7 +124,8 @@ public partial class CountriesController : ODataController
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetCountryByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)

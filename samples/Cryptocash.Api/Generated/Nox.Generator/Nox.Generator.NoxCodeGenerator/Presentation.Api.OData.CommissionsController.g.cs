@@ -94,7 +94,8 @@ public partial class CommissionsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CommissionUpdateDto> commission)
+    [EnableQuery]
+    public async Task<ActionResult<CommissionDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CommissionUpdateDto> commission)
     {
         if (!ModelState.IsValid)
         {
@@ -116,7 +117,8 @@ public partial class CommissionsController : ODataController
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetCommissionByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)

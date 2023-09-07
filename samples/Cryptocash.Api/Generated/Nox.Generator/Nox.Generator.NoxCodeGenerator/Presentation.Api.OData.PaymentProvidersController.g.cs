@@ -94,7 +94,8 @@ public partial class PaymentProvidersController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<PaymentProviderUpdateDto> paymentProvider)
+    [EnableQuery]
+    public async Task<ActionResult<PaymentProviderDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<PaymentProviderUpdateDto> paymentProvider)
     {
         if (!ModelState.IsValid)
         {
@@ -116,7 +117,8 @@ public partial class PaymentProvidersController : ODataController
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetPaymentProviderByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)

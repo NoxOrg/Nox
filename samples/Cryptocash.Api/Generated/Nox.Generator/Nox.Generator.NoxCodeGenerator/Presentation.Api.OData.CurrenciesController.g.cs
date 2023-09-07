@@ -298,7 +298,8 @@ public partial class CurrenciesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<CurrencyUpdateDto> currency)
+    [EnableQuery]
+    public async Task<ActionResult<CurrencyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CurrencyUpdateDto> currency)
     {
         if (!ModelState.IsValid)
         {
@@ -320,7 +321,8 @@ public partial class CurrenciesController : ODataController
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetCurrencyByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)
