@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
-using Microsoft.AspNetCore.OData.Routing.Attributes;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Nox.Application;
@@ -42,25 +41,7 @@ public partial class CountriesController : ODataController
         _mediator = mediator;
     }
     
-    [EnableQuery]
-    public async  Task<ActionResult<IQueryable<CountryDto>>> Get()
-    {
-        var result = await _mediator.Send(new GetCountriesQuery());
-        return Ok(result);
-    }
-    
-    [EnableQuery]
-    public async Task<ActionResult<CountryDto>> Get([FromRoute] System.String key)
-    {
-        var item = await _mediator.Send(new GetCountryByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
-    }
+    #region Owned Relationships
     
     [EnableQuery]
     public async Task<ActionResult<IQueryable<CountryTimeZoneDto>>> GetCountryTimeZones([FromRoute] System.String key)
@@ -101,9 +82,8 @@ public partial class CountriesController : ODataController
         return Created(child);
     }
     
-    [ODataIgnored]
     [HttpPut("/api/Countries/{key}/CountryTimeZones/{relatedKey}")]
-    public async Task<ActionResult> PutToCountryTimeZones([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] CountryTimeZoneUpdateDto countryTimeZone)
+    public async Task<ActionResult> PutToCountryTimeZonesNonConventional( System.String key,  System.Int64 relatedKey, [FromBody] CountryTimeZoneUpdateDto countryTimeZone)
     {
         if (!ModelState.IsValid)
         {
@@ -125,9 +105,8 @@ public partial class CountriesController : ODataController
         return Ok(child);
     }
     
-    [ODataIgnored]
     [HttpPatch("/api/Countries/{key}/CountryTimeZones/{relatedKey}")]
-    public async Task<ActionResult> PatchToCountryTimeZones([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<CountryTimeZoneUpdateDto> countryTimeZone)
+    public async Task<ActionResult> PatchToCountryTimeZonesNonConventional( System.String key,  System.Int64 relatedKey, [FromBody] Delta<CountryTimeZoneUpdateDto> countryTimeZone)
     {
         if (!ModelState.IsValid)
         {
@@ -203,9 +182,8 @@ public partial class CountriesController : ODataController
         return Created(child);
     }
     
-    [ODataIgnored]
     [HttpPut("/api/Countries/{key}/Holidays/{relatedKey}")]
-    public async Task<ActionResult> PutToHolidays([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] HolidayUpdateDto holiday)
+    public async Task<ActionResult> PutToHolidaysNonConventional( System.String key,  System.Int64 relatedKey, [FromBody] HolidayUpdateDto holiday)
     {
         if (!ModelState.IsValid)
         {
@@ -227,9 +205,8 @@ public partial class CountriesController : ODataController
         return Ok(child);
     }
     
-    [ODataIgnored]
     [HttpPatch("/api/Countries/{key}/Holidays/{relatedKey}")]
-    public async Task<ActionResult> PatchToHolidays([FromRoute] System.String key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<HolidayUpdateDto> holiday)
+    public async Task<ActionResult> PatchToHolidaysNonConventional( System.String key,  System.Int64 relatedKey, [FromBody] Delta<HolidayUpdateDto> holiday)
     {
         if (!ModelState.IsValid)
         {
@@ -264,6 +241,28 @@ public partial class CountriesController : ODataController
     {
         var parent = await _mediator.Send(new GetCountryByIdQuery(key));
         return parent?.Holidays.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+    }
+    
+    #endregion
+    
+    [EnableQuery]
+    public async  Task<ActionResult<IQueryable<CountryDto>>> Get()
+    {
+        var result = await _mediator.Send(new GetCountriesQuery());
+        return Ok(result);
+    }
+    
+    [EnableQuery]
+    public async Task<ActionResult<CountryDto>> Get([FromRoute] System.String key)
+    {
+        var item = await _mediator.Send(new GetCountryByIdQuery(key));
+        
+        if (item == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item);
     }
     
     public async Task<ActionResult> Post([FromBody]CountryCreateDto country)

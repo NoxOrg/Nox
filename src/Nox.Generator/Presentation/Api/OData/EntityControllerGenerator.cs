@@ -58,7 +58,6 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             code.AppendLine($"using Microsoft.AspNetCore.OData.Deltas;");
             code.AppendLine($"using Microsoft.AspNetCore.OData.Query;");
             code.AppendLine($"using Microsoft.AspNetCore.OData.Routing.Controllers;");
-            code.AppendLine($"using Microsoft.AspNetCore.OData.Routing.Attributes;");
             code.AppendLine($"using Microsoft.EntityFrameworkCore;");
             code.AppendLine("using MediatR;");
             code.AppendLine("using Nox.Application;");
@@ -113,10 +112,10 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             if (entity.Persistence is null ||
                 entity.Persistence.Read.IsEnabled)
             {
-                GenerateGet(entity, code, codeGeneratorState.Solution);
-
-                if (entity.OwnedRelationships != null)
+                if (entity.OwnedRelationships != null && entity.OwnedRelationships.Count() > 0)
                 {
+                    code.AppendLine($"#region Owned Relationships"); 
+                    code.AppendLine();
                     foreach (var relationship in entity.OwnedRelationships)
                     {
                         // Owned single entitities are returned with parent
@@ -130,7 +129,11 @@ internal class EntityControllerGenerator : INoxCodeGenerator
                         GenerateChildrenPatch(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
                         GenerateChildrenGetById(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
                     }
+                    code.AppendLine($"#endregion");
+                    code.AppendLine();
                 }
+
+                GenerateGet(entity, code, codeGeneratorState.Solution);
             }
 
             if (entity.Persistence is null ||
@@ -359,10 +362,10 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
     private static void GenerateChildrenPut(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
     {
-        code.AppendLine($"[ODataIgnored]");
         code.AppendLine($"[HttpPut(\"/api/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
-        code.AppendLine($"public async Task<ActionResult> PutTo{child.PluralName}({PrimaryKeysFromRoute(parent, solution)}, " +
-            $"{PrimaryKeysFromRoute(child, solution, "relatedKey")}, " +
+        code.AppendLine($"public async Task<ActionResult> PutTo{child.PluralName}NonConventional(" +
+            $"{PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, " +
+            $"{PrimaryKeysFromRoute(child, solution, "relatedKey", "")}, " +
             $"[FromBody] {child.Name}UpdateDto {child.Name.ToLowerFirstChar()})");
 
         code.StartBlock();
@@ -395,11 +398,10 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GenerateChildrenPatch(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
     {
         // Method Patch
-        code.AppendLine($"[ODataIgnored]");
         code.AppendLine($"[HttpPatch(\"/api/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
-        code.AppendLine($"public async Task<ActionResult> PatchTo{child.PluralName}(" +
-            $"{PrimaryKeysFromRoute(parent, solution)}, " +
-            $"{PrimaryKeysFromRoute(child, solution, "relatedKey")}, " +
+        code.AppendLine($"public async Task<ActionResult> PatchTo{child.PluralName}NonConventional(" +
+            $"{PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, " +
+            $"{PrimaryKeysFromRoute(child, solution, "relatedKey", "")}, " +
             $"[FromBody] Delta<{child.Name}UpdateDto> {child.Name.ToLowerFirstChar()})");
 
         // Method content
@@ -504,8 +506,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static string PrimaryKeysAttribute(Entity entity, string prefix = "key")
     {
         if (entity.Keys.Count() > 1)
-            return string.Join(",", entity.Keys.Select(k => $"{k.Name}={{{prefix}{k.Name}}}"))
-                .Trim();
+            return string.Join(",", entity.Keys.Select(k => $"{k.Name}={{{prefix}{k.Name}}}"));
         else if (entity.Keys is not null)
             return $"{{{prefix}}}";
 

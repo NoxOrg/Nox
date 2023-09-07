@@ -6,7 +6,6 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Deltas;
 using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
-using Microsoft.AspNetCore.OData.Routing.Attributes;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
 using Nox.Application;
@@ -42,25 +41,7 @@ public partial class EmployeesController : ODataController
         _mediator = mediator;
     }
     
-    [EnableQuery]
-    public async  Task<ActionResult<IQueryable<EmployeeDto>>> Get()
-    {
-        var result = await _mediator.Send(new GetEmployeesQuery());
-        return Ok(result);
-    }
-    
-    [EnableQuery]
-    public async Task<ActionResult<EmployeeDto>> Get([FromRoute] System.Int64 key)
-    {
-        var item = await _mediator.Send(new GetEmployeeByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
-    }
+    #region Owned Relationships
     
     [EnableQuery]
     public async Task<ActionResult<IQueryable<EmployeePhoneNumberDto>>> GetEmployeePhoneNumbers([FromRoute] System.Int64 key)
@@ -101,9 +82,8 @@ public partial class EmployeesController : ODataController
         return Created(child);
     }
     
-    [ODataIgnored]
     [HttpPut("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
-    public async Task<ActionResult> PutToEmployeePhoneNumbers([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromBody] EmployeePhoneNumberUpdateDto employeePhoneNumber)
+    public async Task<ActionResult> PutToEmployeePhoneNumbersNonConventional( System.Int64 key,  System.Int64 relatedKey, [FromBody] EmployeePhoneNumberUpdateDto employeePhoneNumber)
     {
         if (!ModelState.IsValid)
         {
@@ -125,9 +105,8 @@ public partial class EmployeesController : ODataController
         return Ok(child);
     }
     
-    [ODataIgnored]
     [HttpPatch("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
-    public async Task<ActionResult> PatchToEmployeePhoneNumbers([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<EmployeePhoneNumberUpdateDto> employeePhoneNumber)
+    public async Task<ActionResult> PatchToEmployeePhoneNumbersNonConventional( System.Int64 key,  System.Int64 relatedKey, [FromBody] Delta<EmployeePhoneNumberUpdateDto> employeePhoneNumber)
     {
         if (!ModelState.IsValid)
         {
@@ -162,6 +141,28 @@ public partial class EmployeesController : ODataController
     {
         var parent = await _mediator.Send(new GetEmployeeByIdQuery(key));
         return parent?.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+    }
+    
+    #endregion
+    
+    [EnableQuery]
+    public async  Task<ActionResult<IQueryable<EmployeeDto>>> Get()
+    {
+        var result = await _mediator.Send(new GetEmployeesQuery());
+        return Ok(result);
+    }
+    
+    [EnableQuery]
+    public async Task<ActionResult<EmployeeDto>> Get([FromRoute] System.Int64 key)
+    {
+        var item = await _mediator.Send(new GetEmployeeByIdQuery(key));
+        
+        if (item == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item);
     }
     
     public async Task<ActionResult> Post([FromBody]EmployeeCreateDto employee)
