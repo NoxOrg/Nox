@@ -21,7 +21,6 @@ public class StreetAddressTests
         string administrativeArea1,
         string expectedAddress)
     {
-        var countryCode2 = System.Enum.Parse<CountryCode>(countryCode);
         var address = StreetAddress.From(new StreetAddressItem
         {
             StreetNumber = streetNumber,
@@ -31,10 +30,10 @@ public class StreetAddressTests
             Locality = locality,
             AdministrativeArea1 = administrativeArea1,
             PostalCode = postalCode,
-            CountryId = countryCode2
+            CountryId = System.Enum.Parse<CountryCode>(countryCode)
         });
 
-        Assert.Equal(expectedAddress, address.ToString());
+        address.ToString().Should().Be(expectedAddress);
     }
 
     [Theory]
@@ -44,14 +43,19 @@ public class StreetAddressTests
     [InlineData("GB")]
     public void StreetAddress_WrongPostalCode_ThrowsException(string countryCode)
     {
-        var exception = Assert.Throws<TypeValidationException>(() => StreetAddress.From(new StreetAddressItem
+        var action = () => StreetAddress.From(new StreetAddressItem
         {
             PostalCode = "123456",
             CountryId = System.Enum.Parse<CountryCode>(countryCode),
             AddressLine1 = "Line 1"
-        }));
+        });
 
-        exception.Errors.First().Variable.Should().Be("PostalCode");
+        action.Should().Throw<TypeValidationException>()
+            .WithMessage("The Nox type validation failed with 1 error(s).")
+            .And.Errors.Should().BeEquivalentTo(new[]
+            {
+                new ValidationFailure("PostalCode", $"PostalCode '123456' for country with ID '{countryCode}' is invalid.")
+            });
     }
 
     [Theory]
@@ -74,7 +78,7 @@ public class StreetAddressTests
     [Fact]
     public void StreetAddress_WithPropertyAboveMaxLength_ThrowsException()
     {
-        var exception = Assert.Throws<TypeValidationException>(() => StreetAddress.From(new StreetAddressItem
+        var action = () => StreetAddress.From(new StreetAddressItem
         {
             StreetNumber = new string('a', 33),
             AddressLine1 = new string('a', 129),
@@ -82,12 +86,89 @@ public class StreetAddressTests
             Route = new string('a', 65),
             Locality = new string('a', 65),
             AdministrativeArea1 = new string('a', 65),
+            AdministrativeArea2 = new string('a', 65),
             PostalCode = "1234",
             CountryId = CountryCode.CH
-        }));
+        });
 
-        exception.Errors.All(x => x.ErrorMessage.Contains(
-            $"Could not create a Nox StreetAddress type with a {x.Variable} with length greater than max allowed length of "
-        )).Should().BeTrue();
+        action.Should().Throw<TypeValidationException>()
+            .WithMessage("The Nox type validation failed with 7 error(s).")
+            .And.Errors.Should().BeEquivalentTo(new[]
+            {
+                new ValidationFailure("StreetNumber", "Could not create a Nox StreetAddress type with a StreetNumber with length greater than max allowed length of 32."),
+                new ValidationFailure("AddressLine1", "Could not create a Nox StreetAddress type with a AddressLine1 with length greater than max allowed length of 128."),
+                new ValidationFailure("AddressLine2", "Could not create a Nox StreetAddress type with a AddressLine2 with length greater than max allowed length of 128."),
+                new ValidationFailure("Route", "Could not create a Nox StreetAddress type with a Route with length greater than max allowed length of 64."),
+                new ValidationFailure("Locality", "Could not create a Nox StreetAddress type with a Locality with length greater than max allowed length of 64."),
+                new ValidationFailure("AdministrativeArea1", "Could not create a Nox StreetAddress type with a AdministrativeArea1 with length greater than max allowed length of 64."),
+                new ValidationFailure("AdministrativeArea2", "Could not create a Nox StreetAddress type with a AdministrativeArea2 with length greater than max allowed length of 64."),
+            });
+    }
+
+    [Fact]
+    public void StreetAddress_WhenStreetAddresLine1IsNotSpecified_ThrowsException()
+    {
+        var action = () => StreetAddress.From(new StreetAddressItem
+        {
+            StreetNumber = "3000",
+            Route = "Hillswood Drive",
+            Locality = "Lyne",
+            AdministrativeArea1 = "England",
+            AdministrativeArea2 = "Surrey",
+            PostalCode = "KT16 0RS",
+            CountryId = CountryCode.GB
+        });
+
+        action.Should().Throw<TypeValidationException>()
+            .WithMessage("The Nox type validation failed with 1 error(s).")
+            .And.Errors.Should().BeEquivalentTo(new[]
+            {
+                new ValidationFailure("AddressLine1", "Could not create a Nox StreetAddress type with an empty AddressLine1.")
+            });
+    }
+
+    [Fact]
+    public void StreetAddress_WhenPostalCodeIsNotSpecified_ThrowsException()
+    {
+        var action = () => StreetAddress.From(new StreetAddressItem
+        {
+            StreetNumber = "3000",
+            AddressLine1 = "Hillswood Business Park",
+            Route = "Hillswood Drive",
+            Locality = "Lyne",
+            AdministrativeArea1 = "England",
+            AdministrativeArea2 = "Surrey",
+            CountryId = CountryCode.GB
+        });
+
+        action.Should().Throw<TypeValidationException>()
+            .WithMessage("The Nox type validation failed with 2 error(s).")
+            .And.Errors.Should().BeEquivalentTo(new[]
+            {
+                new ValidationFailure("PostalCode", "Could not create a Nox StreetAddress type with an empty PostalCode."),
+                new ValidationFailure("PostalCode", "PostalCode '' for country with ID 'GB' is invalid.")
+            });
+    }
+
+    [Fact]
+    public void StreetAddress_WhenCountryIdIsNotSpecified_ThrowsException()
+    {
+        var action = () => StreetAddress.From(new StreetAddressItem
+        {
+            StreetNumber = "3000",
+            AddressLine1 = "Hillswood Business Park",
+            Route = "Hillswood Drive",
+            Locality = "Lyne",
+            AdministrativeArea1 = "England",
+            AdministrativeArea2 = "Surrey",
+            PostalCode = "KT16 0RS",
+        });
+
+        action.Should().Throw<TypeValidationException>()
+            .WithMessage("The Nox type validation failed with 1 error(s).")
+            .And.Errors.Should().BeEquivalentTo(new[]
+            {
+                new ValidationFailure("CountryId", "Country with ID '0' is invalid.")
+            });
     }
 }

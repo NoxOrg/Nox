@@ -24,4 +24,8 @@ public partial class StoreOwnerUpdateDto
     /// Vat Number (Optional).
     /// </summary>
     public VatNumberDto? VatNumber { get; set; }
+    /// <summary>
+    /// Street Address (Optional).
+    /// </summary>
+    public StreetAddressDto? StreetAddress { get; set; }
 }

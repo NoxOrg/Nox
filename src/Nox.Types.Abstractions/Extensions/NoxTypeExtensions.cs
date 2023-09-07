@@ -8,7 +8,8 @@ namespace Nox.Types.Extensions;
 public static class NoxTypeExtensions
 {
     private static Dictionary<string, Type> EmptyComponents => new();
-    private static MemberInfo ToMemberInfo(this NoxType noxType)
+    
+    public static MemberInfo ToMemberInfo(this NoxType noxType)
     {
         var memberInfo = typeof(NoxType).GetMember(noxType.ToString());
         var fullMemberInfo = memberInfo.First(m => m.DeclaringType == typeof(NoxType));
