@@ -459,4 +459,13 @@
   <data name="EntityOwnedCannotBeAuditable" xml:space="preserve">
     <value>The owned entity '{0}' cannot be auditable.</value>
   </data>
+  <data name="EntityKeysRequired" xml:space="preserve">
+    <value>Keys are mandatory for entity {0}. Except owned entities with ZeroOrOne or ExactlyOne relationships.</value>
+  </data>
+  <data name="OwnedEntityKeysMustBeNull" xml:space="preserve">
+    <value>Owned entity {0} with ZeroOrOne or ExactlyOne relationship can not have key(s).</value>
+  </data>
+  <data name="RelationEntityDependentMustHaveSingleKey" xml:space="preserve">
+    <value>Entity {0}. The dependant entity {1}  in relation {2} can only have a single key.</value>
+  </data>
 </root>

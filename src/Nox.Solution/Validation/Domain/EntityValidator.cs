@@ -1,7 +1,5 @@
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using FluentValidation;
 using Nox.Types;
 
@@ -33,6 +31,14 @@ namespace Nox.Solution.Validation
                 .SetValidator(e => new EntityRelationshipValidator(e.Name, entities, requiresCorrespondingRelationship: false))
                 .SetValidator(x => new EntityItemUniquenessValidator<EntityRelationship>(x, t => t.Name, nameof(x.OwnedRelationships)))
                 .SetValidator(e => new UniquePropertyValidator<EntityRelationship>(e.OwnedRelationships, x => x.Name, "entity owned relation"));
+
+            RuleForEach(e => e.OwnedRelationships)
+                .Must(x => x.Related.Entity.Keys.Count <= 1)
+                .WithMessage((x, r) => string.Format(ValidationResources.RelationEntityDependentMustHaveSingleKey, x.Name, r.Related.Entity.Name, r.Name));
+
+            RuleForEach(e => e.Relationships)
+                .Must(x => x.Related.Entity.Keys.Count <= 1)
+                .WithMessage((x, r) => string.Format(ValidationResources.RelationEntityDependentMustHaveSingleKey, x.Name, r.Related.Entity.Name, r.Name));
 
             RuleForEach(e => e.Queries)
                 .SetValidator(e => new DomainQueryValidator(e.Queries, e.Name));
@@ -73,6 +79,28 @@ namespace Nox.Solution.Validation
                 .SetValidator(v => new UniqueAttributeConstraintValidator(v))
                 .SetValidator(e => new UniquePropertyValidator<UniqueAttributeConstraint>(e.UniqueAttributeConstraints, x => x.Name, "unique attribute constraint"))
                 .SetValidator(e => new UniquePropertyValidator<UniqueAttributeConstraint>(e.UniqueAttributeConstraints, x => string.Join(",", x.AttributeNames.OrderBy(a => a)), "unique attribute constraint attribute names"));
+
+            /*
+            1. Owned entity with ZeroOrOne or ExactlyOne relationship keys must be null. 
+            2. Keys are mandatory for all other entity usages
+            3. Keys must be single for Entity used a Foreign Key 
+            */
+            When(x => x.Relationships.Any(), () =>
+            {
+                When(x => x.IsOwnedEntity
+                    && x.Relationships.Any(x => x.Relationship == EntityRelationshipType.ZeroOrOne || x.Relationship == EntityRelationshipType.ExactlyOne),
+                   () =>
+                   {
+                       RuleFor(x => x.Keys)
+                       .Empty()
+                       .WithMessage(x => string.Format(ValidationResources.OwnedEntityKeysMustBeNull, x.Name));
+                   })
+               .Otherwise(() => {
+                   RuleFor(x => x.Keys)
+                   .NotEmpty()
+                   .WithMessage(x => string.Format(ValidationResources.EntityKeysRequired, x.Name));
+               });
+            });
         }
     }
 }
