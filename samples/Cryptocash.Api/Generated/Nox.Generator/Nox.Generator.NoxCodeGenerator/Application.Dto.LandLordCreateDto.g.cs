@@ -30,14 +30,5 @@ public partial class LandLordCreateDto : IEntityCreateDto <LandLord>
     /// </summary>
     [Required(ErrorMessage = "Address is required")]
     
-    public StreetAddressDto Address { get; set; } = default!;
-
-    public Cryptocash.Domain.LandLord ToEntity()
-    {
-        var entity = new Cryptocash.Domain.LandLord();
-        entity.Name = Cryptocash.Domain.LandLord.CreateName(Name);
-        entity.Address = Cryptocash.Domain.LandLord.CreateAddress(Address);
-        //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
-        return entity;
-    }
+    public StreetAddressDto Address { get; set; } = default!;   
 }

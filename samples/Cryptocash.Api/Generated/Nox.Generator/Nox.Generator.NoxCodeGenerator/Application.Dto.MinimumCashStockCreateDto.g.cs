@@ -30,14 +30,5 @@ public partial class MinimumCashStockCreateDto : IEntityCreateDto <MinimumCashSt
     /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
     [Required(ErrorMessage = "MinimumCashStockRelatedCurrency is required")]
-    public System.String MinimumCashStockRelatedCurrencyId { get; set; } = default!;
-
-    public Cryptocash.Domain.MinimumCashStock ToEntity()
-    {
-        var entity = new Cryptocash.Domain.MinimumCashStock();
-        entity.Amount = Cryptocash.Domain.MinimumCashStock.CreateAmount(Amount);
-        //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
-        //entity.Currency = Currency.ToEntity();
-        return entity;
-    }
+    public System.String MinimumCashStockRelatedCurrencyId { get; set; } = default!;   
 }

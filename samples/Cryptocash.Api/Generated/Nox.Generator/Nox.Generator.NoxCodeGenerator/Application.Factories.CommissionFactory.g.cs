@@ -23,7 +23,30 @@ using Commission = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Factories;
 
-public partial class CommissionFactory : EntityFactoryBase<CommissionCreateDto,Commission>
+public abstract class CommissionFactoryBase: IEntityFactory<CommissionCreateDto,Commission>
 {
-    
+
+    public CommissionFactoryBase
+    (
+        )
+    {
+    }
+
+    public virtual Commission CreateEntity(CommissionCreateDto createDto)
+    {
+        return ToEntity(createDto);
+    }
+    private Cryptocash.Domain.Commission ToEntity(CommissionCreateDto createDto)
+    {
+        var entity = new Cryptocash.Domain.Commission();
+        entity.Rate = Cryptocash.Domain.Commission.CreateRate(createDto.Rate);
+        entity.EffectiveAt = Cryptocash.Domain.Commission.CreateEffectiveAt(createDto.EffectiveAt);
+        //entity.Country = Country?.ToEntity();
+        //entity.Bookings = Bookings.Select(dto => dto.ToEntity()).ToList();
+        return entity;
+    }
+}
+
+public partial class CommissionFactory : CommissionFactoryBase
+{
 }

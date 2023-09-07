@@ -24,12 +24,5 @@ public partial class CountryLocalNameCreateDto : IEntityCreateDto <CountryLocalN
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public System.String Name { get; set; } = default!;
-
-    public ClientApi.Domain.CountryLocalName ToEntity()
-    {
-        var entity = new ClientApi.Domain.CountryLocalName();
-        entity.Name = ClientApi.Domain.CountryLocalName.CreateName(Name);
-        return entity;
-    }
+    public System.String Name { get; set; } = default!;   
 }

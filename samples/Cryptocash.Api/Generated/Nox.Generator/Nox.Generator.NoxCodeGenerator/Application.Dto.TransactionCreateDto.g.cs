@@ -54,17 +54,5 @@ public partial class TransactionCreateDto : IEntityCreateDto <Transaction>
     /// Transaction for ExactlyOne Bookings
     /// </summary>
     [Required(ErrorMessage = "TransactionForBooking is required")]
-    public System.Guid TransactionForBookingId { get; set; } = default!;
-
-    public Cryptocash.Domain.Transaction ToEntity()
-    {
-        var entity = new Cryptocash.Domain.Transaction();
-        entity.TransactionType = Cryptocash.Domain.Transaction.CreateTransactionType(TransactionType);
-        entity.ProcessedOnDateTime = Cryptocash.Domain.Transaction.CreateProcessedOnDateTime(ProcessedOnDateTime);
-        entity.Amount = Cryptocash.Domain.Transaction.CreateAmount(Amount);
-        entity.Reference = Cryptocash.Domain.Transaction.CreateReference(Reference);
-        //entity.Customer = Customer.ToEntity();
-        //entity.Booking = Booking.ToEntity();
-        return entity;
-    }
+    public System.Guid TransactionForBookingId { get; set; } = default!;   
 }

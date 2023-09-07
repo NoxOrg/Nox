@@ -30,13 +30,5 @@ public partial class ExchangeRateCreateDto : IEntityCreateDto <ExchangeRate>
     /// </summary>
     [Required(ErrorMessage = "EffectiveAt is required")]
     
-    public System.DateTimeOffset EffectiveAt { get; set; } = default!;
-
-    public Cryptocash.Domain.ExchangeRate ToEntity()
-    {
-        var entity = new Cryptocash.Domain.ExchangeRate();
-        entity.EffectiveRate = Cryptocash.Domain.ExchangeRate.CreateEffectiveRate(EffectiveRate);
-        entity.EffectiveAt = Cryptocash.Domain.ExchangeRate.CreateEffectiveAt(EffectiveAt);
-        return entity;
-    }
+    public System.DateTimeOffset EffectiveAt { get; set; } = default!;   
 }

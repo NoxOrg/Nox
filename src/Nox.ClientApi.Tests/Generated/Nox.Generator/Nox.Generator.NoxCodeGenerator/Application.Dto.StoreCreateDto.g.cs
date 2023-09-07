@@ -35,15 +35,5 @@ public partial class StoreCreateDto : IEntityCreateDto <Store>
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
-    public virtual EmailAddressCreateDto? EmailAddress { get; set; } = null!;
-
-    public ClientApi.Domain.Store ToEntity()
-    {
-        var entity = new ClientApi.Domain.Store();
-        entity.Name = ClientApi.Domain.Store.CreateName(Name);
-		entity.EnsureId();
-        //entity.StoreOwner = StoreOwner?.ToEntity();
-        entity.EmailAddress = EmailAddress?.ToEntity();
-        return entity;
-    }
+    public virtual EmailAddressCreateDto? EmailAddress { get; set; } = null!;   
 }

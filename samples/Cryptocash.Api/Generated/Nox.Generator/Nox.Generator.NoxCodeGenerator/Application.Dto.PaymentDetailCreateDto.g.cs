@@ -46,16 +46,5 @@ public partial class PaymentDetailCreateDto : IEntityCreateDto <PaymentDetail>
     /// PaymentDetail related to ExactlyOne PaymentProviders
     /// </summary>
     [Required(ErrorMessage = "PaymentDetailsRelatedPaymentProvider is required")]
-    public System.Int64 PaymentDetailsRelatedPaymentProviderId { get; set; } = default!;
-
-    public Cryptocash.Domain.PaymentDetail ToEntity()
-    {
-        var entity = new Cryptocash.Domain.PaymentDetail();
-        entity.PaymentAccountName = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountName(PaymentAccountName);
-        entity.PaymentAccountNumber = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountNumber(PaymentAccountNumber);
-        if (PaymentAccountSortCode is not null)entity.PaymentAccountSortCode = Cryptocash.Domain.PaymentDetail.CreatePaymentAccountSortCode(PaymentAccountSortCode.NonNullValue<System.String>());
-        //entity.Customer = Customer.ToEntity();
-        //entity.PaymentProvider = PaymentProvider.ToEntity();
-        return entity;
-    }
+    public System.Int64 PaymentDetailsRelatedPaymentProviderId { get; set; } = default!;   
 }

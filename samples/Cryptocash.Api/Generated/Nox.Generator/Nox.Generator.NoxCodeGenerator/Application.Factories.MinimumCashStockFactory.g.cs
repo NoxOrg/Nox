@@ -23,7 +23,29 @@ using MinimumCashStock = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Factories;
 
-public partial class MinimumCashStockFactory : EntityFactoryBase<MinimumCashStockCreateDto,MinimumCashStock>
+public abstract class MinimumCashStockFactoryBase: IEntityFactory<MinimumCashStockCreateDto,MinimumCashStock>
 {
-    
+
+    public MinimumCashStockFactoryBase
+    (
+        )
+    {
+    }
+
+    public virtual MinimumCashStock CreateEntity(MinimumCashStockCreateDto createDto)
+    {
+        return ToEntity(createDto);
+    }
+    private Cryptocash.Domain.MinimumCashStock ToEntity(MinimumCashStockCreateDto createDto)
+    {
+        var entity = new Cryptocash.Domain.MinimumCashStock();
+        entity.Amount = Cryptocash.Domain.MinimumCashStock.CreateAmount(createDto.Amount);
+        //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
+        //entity.Currency = Currency.ToEntity();
+        return entity;
+    }
+}
+
+public partial class MinimumCashStockFactory : MinimumCashStockFactoryBase
+{
 }

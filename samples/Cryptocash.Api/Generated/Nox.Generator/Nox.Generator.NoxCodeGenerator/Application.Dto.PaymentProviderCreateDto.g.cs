@@ -30,14 +30,5 @@ public partial class PaymentProviderCreateDto : IEntityCreateDto <PaymentProvide
     /// </summary>
     [Required(ErrorMessage = "PaymentProviderType is required")]
     
-    public System.String PaymentProviderType { get; set; } = default!;
-
-    public Cryptocash.Domain.PaymentProvider ToEntity()
-    {
-        var entity = new Cryptocash.Domain.PaymentProvider();
-        entity.PaymentProviderName = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderName(PaymentProviderName);
-        entity.PaymentProviderType = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderType(PaymentProviderType);
-        //entity.PaymentDetails = PaymentDetails.Select(dto => dto.ToEntity()).ToList();
-        return entity;
-    }
+    public System.String PaymentProviderType { get; set; } = default!;   
 }

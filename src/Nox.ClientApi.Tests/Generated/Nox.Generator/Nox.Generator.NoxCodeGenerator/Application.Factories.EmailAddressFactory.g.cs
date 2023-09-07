@@ -23,7 +23,28 @@ using EmailAddress = ClientApi.Domain.EmailAddress;
 
 namespace ClientApi.Application.Factories;
 
-public partial class EmailAddressFactory : EntityFactoryBase<EmailAddressCreateDto,EmailAddress>
+public abstract class EmailAddressFactoryBase: IEntityFactory<EmailAddressCreateDto,EmailAddress>
 {
-    
+
+    public EmailAddressFactoryBase
+    (
+        )
+    {
+    }
+
+    public virtual EmailAddress CreateEntity(EmailAddressCreateDto createDto)
+    {
+        return ToEntity(createDto);
+    }
+    private ClientApi.Domain.EmailAddress ToEntity(EmailAddressCreateDto createDto)
+    {
+        var entity = new ClientApi.Domain.EmailAddress();
+        if (createDto.Email is not null)entity.Email = ClientApi.Domain.EmailAddress.CreateEmail(createDto.Email.NonNullValue<System.String>());
+        if (createDto.IsVerified is not null)entity.IsVerified = ClientApi.Domain.EmailAddress.CreateIsVerified(createDto.IsVerified.NonNullValue<System.Boolean>());
+        return entity;
+    }
+}
+
+public partial class EmailAddressFactory : EmailAddressFactoryBase
+{
 }
