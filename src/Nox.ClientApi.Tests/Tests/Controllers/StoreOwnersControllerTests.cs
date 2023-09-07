@@ -84,16 +84,13 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerKeyDto>(StoreOwnersControllerName, createDto);
-            var queryResult = await _oDataFixture.GetAsync<StoreOwnerDto>($"{StoreOwnersControllerName}/{result!.keyId}");
+            var result = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerName, createDto);
 
             //Assert
             result.Should().NotBeNull();
             result.Should()
-                .BeOfType<StoreOwnerKeyDto>();
-
-            queryResult.Should().NotBeNull();
-            queryResult!.VatNumber!.Number.Should().Be(expectedVatNumber);
+                .BeOfType<StoreOwnerDto>();
+            result!.VatNumber!.Number.Should().Be(expectedVatNumber);
         }
 
         [Fact]
@@ -120,15 +117,12 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerKeyDto>(StoreOwnersControllerName, createDto);
-            var queryResult = await _oDataFixture.GetAsync<StoreOwnerDto>($"{StoreOwnersControllerName}/{result!.keyId}");
+            var result = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerName, createDto);
 
             //Assert
             result.Should().NotBeNull();
-            result.Should().BeOfType<StoreOwnerKeyDto>();
-
-            queryResult.Should().NotBeNull();
-            queryResult!.StreetAddress!.Should().BeEquivalentTo(expectedStreetAddressDto);
+            result.Should().BeOfType<StoreOwnerDto>();
+            result!.StreetAddress!.Should().BeEquivalentTo(expectedStreetAddressDto);
         }
 
         [Fact]
@@ -155,15 +149,12 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerKeyDto>(StoreOwnersControllerName, createDto);
-            var queryResult = await _oDataFixture.GetAsync<StoreOwnerDto>($"{StoreOwnersControllerName}/{result!.keyId}");
+            var result = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerName, createDto);
 
             //Assert
             result.Should().NotBeNull();
-            result.Should().BeOfType<StoreOwnerKeyDto>();
-
-            queryResult.Should().NotBeNull();
-            queryResult!.StreetAddress!.Should().BeEquivalentTo(expectedStreetAddressDto);
+            result.Should().BeOfType<StoreOwnerDto>();
+            result!.StreetAddress!.Should().BeEquivalentTo(expectedStreetAddressDto);
         }
 
         [Fact]

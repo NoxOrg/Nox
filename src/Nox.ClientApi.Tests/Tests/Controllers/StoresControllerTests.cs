@@ -35,13 +35,13 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<StoreCreateDto, StoreKeyDto>(StoresControllerName, createDto);
+            var result = await _oDataFixture.PostAsync<StoreCreateDto, StoreDto>(StoresControllerName, createDto);
 
             //Assert
             result.Should().NotBeNull();
             result.Should()
-                .BeOfType<StoreKeyDto>()
-                .Which.keyId.Should().Be(expectedId);
+                .BeOfType<StoreDto>()
+                .Which.Id.Should().Be(expectedId);
         }
     }
 }

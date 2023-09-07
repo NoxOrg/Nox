@@ -40,14 +40,13 @@ public class CreateCountryCommandHandlerTests
         };
         // Act
 
-        var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(CountryControllerName, countryDto);
-        await _oDataFixture.PutAsync($"{CountryControllerName}/{result!.keyId}", countryUpdateDto);
-        var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{CountryControllerName}/{result!.keyId}");
+        var postResult = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(CountryControllerName, countryDto);
+        var putResult = await _oDataFixture.PutAsync<CountryUpdateDto, CountryDto>($"{CountryControllerName}/{postResult!.Id}", countryUpdateDto);
 
         //Assert
 
-        queryResult.Should().NotBeNull();
-        queryResult!.Population.Should().Be(expectedNumber);
+        putResult.Should().NotBeNull();
+        putResult!.Population.Should().Be(expectedNumber);
     }
 
     /// <summary>
@@ -67,11 +66,10 @@ public class CreateCountryCommandHandlerTests
         };
 
         // Act
-        var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(CountryControllerName, countryDto);
-        var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{CountryControllerName}/{result!.keyId}");
+        var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(CountryControllerName, countryDto);
 
         //Assert
-        queryResult.Should().NotBeNull();
-        queryResult!.Name.Should().Be(expectedName);
+        result.Should().NotBeNull();
+        result!.Name.Should().Be(expectedName);
     }
 }

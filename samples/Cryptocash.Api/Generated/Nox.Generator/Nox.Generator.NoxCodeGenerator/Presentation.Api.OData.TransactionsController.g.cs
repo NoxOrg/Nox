@@ -61,7 +61,8 @@ public partial class TransactionsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]TransactionCreateDto transaction)
+    [EnableQuery]
+    public async Task<ActionResult<TransactionDto>> Post([FromBody]TransactionCreateDto transaction)
     {
         if (!ModelState.IsValid)
         {
@@ -69,10 +70,13 @@ public partial class TransactionsController : ODataController
         }
         var createdKey = await _mediator.Send(new CreateTransactionCommand(transaction));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetTransactionByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] TransactionUpdateDto transaction)
+    [EnableQuery]
+    public async Task<ActionResult<TransactionDto>> Put([FromRoute] System.Int64 key, [FromBody] TransactionUpdateDto transaction)
     {
         if (!ModelState.IsValid)
         {
@@ -80,12 +84,14 @@ public partial class TransactionsController : ODataController
         }
         
         var updated = await _mediator.Send(new UpdateTransactionCommand(key, transaction));
-        
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetTransactionByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<TransactionUpdateDto> transaction)

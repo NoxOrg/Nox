@@ -61,18 +61,22 @@ public partial class VendingMachinesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]VendingMachineCreateDto vendingmachine)
+    [EnableQuery]
+    public async Task<ActionResult<VendingMachineDto>> Post([FromBody]VendingMachineCreateDto vendingMachine)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingmachine));
+        var createdKey = await _mediator.Send(new CreateVendingMachineCommand(vendingMachine));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetVendingMachineByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Guid key, [FromBody] VendingMachineUpdateDto vendingMachine)
+    [EnableQuery]
+    public async Task<ActionResult<VendingMachineDto>> Put([FromRoute] System.Guid key, [FromBody] VendingMachineUpdateDto vendingMachine)
     {
         if (!ModelState.IsValid)
         {
@@ -80,12 +84,14 @@ public partial class VendingMachinesController : ODataController
         }
         
         var updated = await _mediator.Send(new UpdateVendingMachineCommand(key, vendingMachine));
-        
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetVendingMachineByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.Guid key, [FromBody] Delta<VendingMachineUpdateDto> vendingMachine)

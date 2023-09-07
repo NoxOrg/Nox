@@ -49,7 +49,8 @@ public class ODataFixture
         var message = await httpClient.PostAsJsonAsync(requestUrl, data);
         message.EnsureSuccessStatusCode();
 
-        var result = await message.Content.ReadFromJsonAsync<TResult>();
+        var content = await message.Content.ReadAsStringAsync();
+        var result = JsonConvert.DeserializeObject<TResult>(content);
 
         return result;
     }
@@ -69,7 +70,8 @@ public class ODataFixture
         var message = await httpClient.PutAsJsonAsync(requestUrl, data);
         message.EnsureSuccessStatusCode();
 
-        var result = await message.Content.ReadFromJsonAsync<TResult>();
+        var content = await message.Content.ReadAsStringAsync();
+        var result = JsonConvert.DeserializeObject<TResult>(content);
 
         return result;
     }
@@ -91,7 +93,8 @@ public class ODataFixture
         var request = await httpClient.PatchAsJsonAsync(requestUrl, delta);
         request.EnsureSuccessStatusCode();
 
-        var result = await request.Content.ReadFromJsonAsync<TResult>();
+        var content = await request.Content.ReadAsStringAsync();
+        var result = JsonConvert.DeserializeObject<TResult>(content);
 
         return result;
     }

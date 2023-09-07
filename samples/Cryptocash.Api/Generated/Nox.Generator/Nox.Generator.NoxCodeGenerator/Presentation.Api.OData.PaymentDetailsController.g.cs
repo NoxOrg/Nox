@@ -61,18 +61,22 @@ public partial class PaymentDetailsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]PaymentDetailCreateDto paymentdetail)
+    [EnableQuery]
+    public async Task<ActionResult<PaymentDetailDto>> Post([FromBody]PaymentDetailCreateDto paymentDetail)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreatePaymentDetailCommand(paymentdetail));
+        var createdKey = await _mediator.Send(new CreatePaymentDetailCommand(paymentDetail));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetPaymentDetailByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] PaymentDetailUpdateDto paymentDetail)
+    [EnableQuery]
+    public async Task<ActionResult<PaymentDetailDto>> Put([FromRoute] System.Int64 key, [FromBody] PaymentDetailUpdateDto paymentDetail)
     {
         if (!ModelState.IsValid)
         {
@@ -80,12 +84,14 @@ public partial class PaymentDetailsController : ODataController
         }
         
         var updated = await _mediator.Send(new UpdatePaymentDetailCommand(key, paymentDetail));
-        
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetPaymentDetailByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<PaymentDetailUpdateDto> paymentDetail)

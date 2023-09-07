@@ -61,18 +61,22 @@ public partial class CashStockOrdersController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]CashStockOrderCreateDto cashstockorder)
+    [EnableQuery]
+    public async Task<ActionResult<CashStockOrderDto>> Post([FromBody]CashStockOrderCreateDto cashStockOrder)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateCashStockOrderCommand(cashstockorder));
+        var createdKey = await _mediator.Send(new CreateCashStockOrderCommand(cashStockOrder));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetCashStockOrderByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] CashStockOrderUpdateDto cashStockOrder)
+    [EnableQuery]
+    public async Task<ActionResult<CashStockOrderDto>> Put([FromRoute] System.Int64 key, [FromBody] CashStockOrderUpdateDto cashStockOrder)
     {
         if (!ModelState.IsValid)
         {
@@ -80,12 +84,14 @@ public partial class CashStockOrdersController : ODataController
         }
         
         var updated = await _mediator.Send(new UpdateCashStockOrderCommand(key, cashStockOrder));
-        
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetCashStockOrderByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CashStockOrderUpdateDto> cashStockOrder)

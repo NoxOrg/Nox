@@ -30,13 +30,13 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceKeyDto>(WorkplacesControllerName, createDto);
+            var result = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceDto>(WorkplacesControllerName, createDto);
 
             //Assert
             result.Should().NotBeNull();
             result.Should()
-                .BeOfType<WorkplaceKeyDto>()
-                .Which.keyId.Should().NotBeEmpty();
+                .BeOfType<WorkplaceDto>()
+                .Which.Id.Should().NotBeEmpty();
         }
 
         [Fact]
@@ -53,14 +53,13 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 Name = _fixture.Create<string>(),
             };
 
-            var result = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceKeyDto>(WorkplacesControllerName, createDto);
+            var postResult = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceDto>(WorkplacesControllerName, createDto);
 
             // Act
-            await _oDataFixture.PutAsync<WorkplaceUpdateDto>($"{WorkplacesControllerName}/{result!.keyId}", updateDto);
-            var queryResult = await _oDataFixture.GetAsync<WorkplaceDto>($"{WorkplacesControllerName}/{result!.keyId}");
+            var putResult = await _oDataFixture.PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{WorkplacesControllerName}/{postResult!.Id}", updateDto);
 
             //Assert
-            queryResult.Should().NotBeNull();
+            putResult.Should().NotBeNull();
         }
 
         [Fact(Skip = "Fix issue with delta serialization")]
@@ -79,16 +78,15 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 Name = expectedName
             };
 
-            var result = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceKeyDto>(WorkplacesControllerName, createDto);
+            var postResult = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceDto>(WorkplacesControllerName, createDto);
 
             // Act
 
-            await _oDataFixture.PatchAsync($"{WorkplacesControllerName}/{result!.keyId}", updateDto);
-            var queryResult = await _oDataFixture.GetAsync<WorkplaceDto>($"{WorkplacesControllerName}/{result!.keyId}");
+            var patchResult = await _oDataFixture.PatchAsync<WorkplaceUpdateDto, WorkplaceDto>($"{WorkplacesControllerName}/{postResult!.Id}", updateDto);
 
             //Assert
-            queryResult.Should().NotBeNull();
-            queryResult!.Name.Should().Be(expectedName);
+            patchResult.Should().NotBeNull();
+            patchResult!.Name.Should().Be(expectedName);
         }
 
         [Fact]
@@ -100,11 +98,11 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 Name = _fixture.Create<string>(),
             };
 
-            var result = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceKeyDto>(WorkplacesControllerName, createDto);
+            var result = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceDto>(WorkplacesControllerName, createDto);
 
             // Act
-            await _oDataFixture.DeleteAsync($"{WorkplacesControllerName}/{result!.keyId}");
-            var queryResult = await _oDataFixture.GetAsync($"{WorkplacesControllerName}/{result!.keyId}");
+            await _oDataFixture.DeleteAsync($"{WorkplacesControllerName}/{result!.Id}");
+            var queryResult = await _oDataFixture.GetAsync($"{WorkplacesControllerName}/{result!.Id}");
 
             // Assert
 

@@ -165,7 +165,8 @@ public partial class EmployeesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]EmployeeCreateDto employee)
+    [EnableQuery]
+    public async Task<ActionResult<EmployeeDto>> Post([FromBody]EmployeeCreateDto employee)
     {
         if (!ModelState.IsValid)
         {
@@ -173,10 +174,13 @@ public partial class EmployeesController : ODataController
         }
         var createdKey = await _mediator.Send(new CreateEmployeeCommand(employee));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetEmployeeByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] EmployeeUpdateDto employee)
+    [EnableQuery]
+    public async Task<ActionResult<EmployeeDto>> Put([FromRoute] System.Int64 key, [FromBody] EmployeeUpdateDto employee)
     {
         if (!ModelState.IsValid)
         {
@@ -184,12 +188,14 @@ public partial class EmployeesController : ODataController
         }
         
         var updated = await _mediator.Send(new UpdateEmployeeCommand(key, employee));
-        
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetEmployeeByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
     public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<EmployeeUpdateDto> employee)
