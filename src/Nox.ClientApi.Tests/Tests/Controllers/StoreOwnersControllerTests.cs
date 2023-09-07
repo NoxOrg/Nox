@@ -37,7 +37,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
         [Fact]
-        public async Task Post_WhenInvalidId_ReturnsInternalServerError()
+        public async Task Post_WhenInvalidId_ReturnsBadRequestError()
         {
             // Arrange
             var createDto = new StoreOwnerCreateDto
@@ -51,7 +51,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
 
             // Assert
             // represent a nox type exception
-            result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+            result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
         [Fact]
         public async Task Post_WhenValidId_ReturnCreated()
@@ -247,7 +247,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             var result = await _oDataFixture.PostAsync(StoreOwnersControllerName, createDto);
 
             //Assert
-            result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+            result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
     }
 }
