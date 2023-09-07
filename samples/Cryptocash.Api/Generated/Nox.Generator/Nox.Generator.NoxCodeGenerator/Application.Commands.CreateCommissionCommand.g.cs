@@ -40,8 +40,8 @@ public partial class CreateCommissionCommandHandler: CommandBase<CreateCommissio
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);		
-	
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
 		OnCompleted(entityToCreate);
 		_dbContext.Commissions.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

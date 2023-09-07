@@ -34,6 +34,7 @@ public partial class WorkplaceCreateDto : IEntityCreateDto <Workplace>
     {
         var entity = new ClientApi.Domain.Workplace();
         entity.Name = ClientApi.Domain.Workplace.CreateName(Name);
+		entity.EnsureId();
         return entity;
     }
 }

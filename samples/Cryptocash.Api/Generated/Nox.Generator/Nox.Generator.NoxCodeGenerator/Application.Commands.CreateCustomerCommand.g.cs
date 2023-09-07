@@ -40,8 +40,8 @@ public partial class CreateCustomerCommandHandler: CommandBase<CreateCustomerCom
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);		
-	
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
 		OnCompleted(entityToCreate);
 		_dbContext.Customers.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

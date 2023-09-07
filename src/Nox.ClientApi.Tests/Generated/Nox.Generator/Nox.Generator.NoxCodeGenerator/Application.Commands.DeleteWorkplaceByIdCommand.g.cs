@@ -13,7 +13,7 @@ using Workplace = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
 
-public record DeleteWorkplaceByIdCommand(System.Guid keyId) : IRequest<bool>;
+public record DeleteWorkplaceByIdCommand(System.UInt32 keyId) : IRequest<bool>;
 
 public class DeleteWorkplaceByIdCommandHandler: CommandBase<DeleteWorkplaceByIdCommand,Workplace>, IRequestHandler<DeleteWorkplaceByIdCommand, bool>
 {
@@ -31,7 +31,7 @@ public class DeleteWorkplaceByIdCommandHandler: CommandBase<DeleteWorkplaceByIdC
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Workplace,DatabaseGuid>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Workplace,Nuid>("Id", request.keyId);
 
 		var entity = await DbContext.Workplaces.FindAsync(keyId);
 		if (entity == null)

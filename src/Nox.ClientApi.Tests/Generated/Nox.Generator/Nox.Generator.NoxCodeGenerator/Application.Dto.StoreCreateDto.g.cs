@@ -41,6 +41,7 @@ public partial class StoreCreateDto : IEntityCreateDto <Store>
     {
         var entity = new ClientApi.Domain.Store();
         entity.Name = ClientApi.Domain.Store.CreateName(Name);
+		entity.EnsureId();
         //entity.StoreOwner = StoreOwner?.ToEntity();
         entity.EmailAddress = EmailAddress?.ToEntity();
         return entity;

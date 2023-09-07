@@ -15,7 +15,7 @@ using Workplace = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
 
-public record UpdateWorkplaceCommand(System.Guid keyId, WorkplaceUpdateDto EntityDto) : IRequest<WorkplaceKeyDto?>;
+public record UpdateWorkplaceCommand(System.UInt32 keyId, WorkplaceUpdateDto EntityDto) : IRequest<WorkplaceKeyDto?>;
 
 public class UpdateWorkplaceCommandHandler: CommandBase<UpdateWorkplaceCommand, Workplace>, IRequestHandler<UpdateWorkplaceCommand, WorkplaceKeyDto?>
 {
@@ -36,7 +36,7 @@ public class UpdateWorkplaceCommandHandler: CommandBase<UpdateWorkplaceCommand, 
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Workplace,DatabaseGuid>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Workplace,Nuid>("Id", request.keyId);
 	
 		var entity = await DbContext.Workplaces.FindAsync(keyId);
 		if (entity == null)

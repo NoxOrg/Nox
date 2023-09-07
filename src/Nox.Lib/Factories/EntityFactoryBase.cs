@@ -9,7 +9,7 @@ namespace Nox.Factories
     /// </summary>
     public abstract class EntityFactoryBase<T, E> : IEntityFactory<T, E> where T : class, IEntityCreateDto<E> where E : IEntity, new()
     {        
-        public E CreateEntity(T createDto)
+        public virtual E CreateEntity(T createDto)
         {
             return createDto.ToEntity();
         }

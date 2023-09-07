@@ -99,6 +99,11 @@ public partial class {{className}} : IEntityCreateDto <{{entity.Name}}>
         {{- end }}
         {{- end }}
 
+        {{- for key in entity.Keys ~}}
+		{{- if key.Type == "Nuid" }}
+		entity.Ensure{{key.Name}}();
+		{{- end }}
+		{{- end }}
         {{- for relationship in entity.Relationships }}
             {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
         //entity.{{relationship.EntityPlural}} = {{relationship.EntityPlural}}.Select(dto => dto.ToEntity()).ToList();

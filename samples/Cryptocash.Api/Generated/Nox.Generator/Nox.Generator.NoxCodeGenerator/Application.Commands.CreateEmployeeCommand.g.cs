@@ -40,8 +40,8 @@ public partial class CreateEmployeeCommandHandler: CommandBase<CreateEmployeeCom
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);		
-	
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
 		OnCompleted(entityToCreate);
 		_dbContext.Employees.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
