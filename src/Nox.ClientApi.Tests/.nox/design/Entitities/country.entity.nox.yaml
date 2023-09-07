@@ -35,6 +35,11 @@ attributes:
     type: money    
     isRequired: false
 
+  - name: FirstLanguageCode
+    description: First Official Language
+    type: languageCode    
+    isRequired: false
+
   - name: ShortDescription
     description: The Formula
     type: formula

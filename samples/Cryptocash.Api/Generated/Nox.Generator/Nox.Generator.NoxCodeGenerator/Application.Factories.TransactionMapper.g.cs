@@ -20,7 +20,7 @@ using Transaction = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application;
 
-public class TransactionMapper : EntityMapperBase<Transaction>
+public partial class TransactionMapper : EntityMapperBase<Transaction>
 {
     public TransactionMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
@@ -29,22 +29,22 @@ public class TransactionMapper : EntityMapperBase<Transaction>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "TransactionType", dto.TransactionType);
         if (noxTypeValue != null)
         {        
             entity.TransactionType = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "ProcessedOnDateTime", dto.ProcessedOnDateTime);
         if (noxTypeValue != null)
         {        
             entity.ProcessedOnDateTime = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Amount", dto.Amount);
         if (noxTypeValue != null)
         {        
             entity.Amount = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Reference", dto.Reference);
         if (noxTypeValue != null)
         {        

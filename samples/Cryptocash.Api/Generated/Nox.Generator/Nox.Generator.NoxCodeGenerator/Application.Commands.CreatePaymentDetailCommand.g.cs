@@ -17,18 +17,22 @@ using Cryptocash.Application.Dto;
 using PaymentDetail = Cryptocash.Domain.PaymentDetail;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreatePaymentDetailCommand(PaymentDetailCreateDto EntityDto) : IRequest<PaymentDetailKeyDto>;
 
 public partial class CreatePaymentDetailCommandHandler: CommandBase<CreatePaymentDetailCommand,PaymentDetail>, IRequestHandler <CreatePaymentDetailCommand, PaymentDetailKeyDto>
 {
-	public CryptocashDbContext DbContext { get; }
+	private readonly CryptocashDbContext _dbContext;
+	private readonly IEntityFactory<PaymentDetailCreateDto,PaymentDetail> _entityFactory;
 
 	public CreatePaymentDetailCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<PaymentDetailCreateDto,PaymentDetail> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;
 	}
 
 	public async Task<PaymentDetailKeyDto> Handle(CreatePaymentDetailCommand request, CancellationToken cancellationToken)
@@ -36,11 +40,11 @@ public partial class CreatePaymentDetailCommandHandler: CommandBase<CreatePaymen
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();		
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);		
 	
 		OnCompleted(entityToCreate);
-		DbContext.PaymentDetails.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		_dbContext.PaymentDetails.Add(entityToCreate);
+		await _dbContext.SaveChangesAsync();
 		return new PaymentDetailKeyDto(entityToCreate.Id.Value);
 	}
 }

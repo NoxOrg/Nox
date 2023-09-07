@@ -17,18 +17,22 @@ using Cryptocash.Application.Dto;
 using VendingMachine = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateVendingMachineCommand(VendingMachineCreateDto EntityDto) : IRequest<VendingMachineKeyDto>;
 
 public partial class CreateVendingMachineCommandHandler: CommandBase<CreateVendingMachineCommand,VendingMachine>, IRequestHandler <CreateVendingMachineCommand, VendingMachineKeyDto>
 {
-	public CryptocashDbContext DbContext { get; }
+	private readonly CryptocashDbContext _dbContext;
+	private readonly IEntityFactory<VendingMachineCreateDto,VendingMachine> _entityFactory;
 
 	public CreateVendingMachineCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<VendingMachineCreateDto,VendingMachine> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;
 	}
 
 	public async Task<VendingMachineKeyDto> Handle(CreateVendingMachineCommand request, CancellationToken cancellationToken)
@@ -36,11 +40,11 @@ public partial class CreateVendingMachineCommandHandler: CommandBase<CreateVendi
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();		
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);		
 	
 		OnCompleted(entityToCreate);
-		DbContext.VendingMachines.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		_dbContext.VendingMachines.Add(entityToCreate);
+		await _dbContext.SaveChangesAsync();
 		return new VendingMachineKeyDto(entityToCreate.Id.Value);
 	}
 }

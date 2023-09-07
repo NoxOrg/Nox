@@ -20,7 +20,7 @@ using Commission = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application;
 
-public class CommissionMapper : EntityMapperBase<Commission>
+public partial class CommissionMapper : EntityMapperBase<Commission>
 {
     public CommissionMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
@@ -29,12 +29,12 @@ public class CommissionMapper : EntityMapperBase<Commission>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
         noxTypeValue = CreateNoxType<Nox.Types.Percentage>(entityDefinition, "Rate", dto.Rate);
         if (noxTypeValue != null)
         {        
             entity.Rate = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "EffectiveAt", dto.EffectiveAt);
         if (noxTypeValue != null)
         {        

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
@@ -16,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-public partial class BookingCreateDto 
+public partial class BookingCreateDto : IEntityCreateDto <Booking>
 {    
     /// <summary>
     /// Booking's amount exchanged from (Required).

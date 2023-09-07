@@ -1,4 +1,4 @@
-﻿using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Nox.Generator.Tests;
 
@@ -8,7 +8,7 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests
     {
         private const string BasePath = "../../../DatabaseIntegrationTests/Models/";
 
-        // [Fact]
+        [Fact]
         public void GenerateIntegrationTestModels()
         {
             var _fixture = new GeneratorFixture();
@@ -40,6 +40,7 @@ namespace Nox.Integration.Tests.DatabaseIntegrationTests
                 "Domain.SecondTestEntityOneOrMany",
                 "Domain.ThirdTestEntityOneOrMany",
                 "Domain.TestEntityForTypes",
+                "Domain.TestEntityForUniqueConstraints",
                 "Domain.TestEntityWithNuid",
                 "Domain.TestEntityExactlyOne",
                 "Domain.SecondTestEntityExactlyOne",

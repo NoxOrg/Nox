@@ -21,14 +21,17 @@ public record AddCountryLocalNameCommand(CountryKeyDto ParentKeyDto, CountryLoca
 
 public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLocalNameCommand, CountryLocalName>, IRequestHandler <AddCountryLocalNameCommand, CountryLocalNameKeyDto?>
 {
-	public ClientApiDbContext DbContext { get; }
+	private readonly ClientApiDbContext _dbContext;
+	private readonly IEntityFactory<CountryLocalNameCreateDto,CountryLocalName> _entityFactory;
 
 	public AddCountryLocalNameCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<CountryLocalNameCreateDto,CountryLocalName> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;		
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;	
 	}
 
 	public async Task<CountryLocalNameKeyDto?> Handle(AddCountryLocalNameCommand request, CancellationToken cancellationToken)
@@ -36,20 +39,20 @@ public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLo
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Country,DatabaseNumber>("Id", request.ParentKeyDto.keyId);
 
-		var parentEntity = await DbContext.Countries.FindAsync(keyId);
+		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
 
-		var entity = request.EntityDto.ToEntity();
+		var entity = _entityFactory.CreateEntity(request.EntityDto);
 		
 		parentEntity.CountryLocalNames.Add(entity);
 
 		OnCompleted(entity);
 	
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		_dbContext.Entry(parentEntity).State = EntityState.Modified;
+		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{
 			return null;

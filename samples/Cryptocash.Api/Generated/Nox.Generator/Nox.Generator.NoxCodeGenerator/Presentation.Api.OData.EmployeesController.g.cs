@@ -61,6 +61,23 @@ public partial class EmployeesController : ODataController
         return Ok(item);
     }
     
+    [EnableQuery]
+    public async Task<ActionResult<IQueryable<EmployeePhoneNumberDto>>> GetEmployeePhoneNumbers([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var item = await _mediator.Send(new GetEmployeeByIdQuery(key));
+        
+        if (item is null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item.EmployeePhoneNumbers);
+    }
+    
     public async Task<ActionResult> PostToEmployeePhoneNumbers([FromRoute] System.Int64 key, [FromBody] EmployeePhoneNumberCreateDto employeePhoneNumber)
     {
         if (!ModelState.IsValid)

@@ -20,7 +20,7 @@ using Booking = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application;
 
-public class BookingMapper : EntityMapperBase<Booking>
+public partial class BookingMapper : EntityMapperBase<Booking>
 {
     public BookingMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
@@ -29,33 +29,37 @@ public class BookingMapper : EntityMapperBase<Booking>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "AmountFrom", dto.AmountFrom);
         if (noxTypeValue != null)
         {        
             entity.AmountFrom = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "AmountTo", dto.AmountTo);
         if (noxTypeValue != null)
         {        
             entity.AmountTo = noxTypeValue;
-        }
-
-        // TODO map RequestedPickUpDate DateTimeRange remaining types and remove if else
-
-        // TODO map PickedUpDateTime DateTimeRange remaining types and remove if else
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.DateTimeRange>(entityDefinition, "RequestedPickUpDate", dto.RequestedPickUpDate);
+        if (noxTypeValue != null)
+        {        
+            entity.RequestedPickUpDate = noxTypeValue;
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.DateTimeRange>(entityDefinition, "PickedUpDateTime", dto.PickedUpDateTime);
+        if (noxTypeValue != null)
+        {        
+            entity.PickedUpDateTime = noxTypeValue;
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "ExpiryDateTime", dto.ExpiryDateTime);
         if (noxTypeValue != null)
         {        
             entity.ExpiryDateTime = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "CancelledDateTime", dto.CancelledDateTime);
         if (noxTypeValue != null)
         {        
             entity.CancelledDateTime = noxTypeValue;
-        }
-
-        // TODO map Status Formula remaining types and remove if else
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.VatNumber>(entityDefinition, "VatNumber", dto.VatNumber);
         if (noxTypeValue != null)
         {        

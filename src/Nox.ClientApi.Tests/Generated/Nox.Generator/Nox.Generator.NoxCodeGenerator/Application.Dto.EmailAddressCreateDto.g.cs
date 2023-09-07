@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
@@ -16,7 +17,7 @@ namespace ClientApi.Application.Dto;
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-public partial class EmailAddressCreateDto 
+public partial class EmailAddressCreateDto : IEntityCreateDto <EmailAddress>
 {    
     /// <summary>
     /// Email (Optional).

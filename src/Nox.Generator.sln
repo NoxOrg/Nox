@@ -5,8 +5,6 @@ VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Generator", "Nox.Generator\Nox.Generator.csproj", "{D51EC17D-12C3-4101-BCF1-4EC65822CC5B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SampleWebApp(deprecated)", "SampleWebApp\SampleWebApp(deprecated).csproj", "{8FC400B5-B768-4712-BDBA-359BC2606B1B}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Lib", "Nox.Lib\Nox.Lib.csproj", "{15AAEF8D-469F-4EA3-80D3-8D746A53E18A}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Nox.Monitoring.ElasticApm", "Nox.Monitoring.ElasticApm\Nox.Monitoring.ElasticApm.csproj", "{23D83C90-BC4D-4D55-982E-67A55EE97D0D}"
@@ -112,10 +110,6 @@ Global
 		{D51EC17D-12C3-4101-BCF1-4EC65822CC5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{D51EC17D-12C3-4101-BCF1-4EC65822CC5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{D51EC17D-12C3-4101-BCF1-4EC65822CC5B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8FC400B5-B768-4712-BDBA-359BC2606B1B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8FC400B5-B768-4712-BDBA-359BC2606B1B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8FC400B5-B768-4712-BDBA-359BC2606B1B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8FC400B5-B768-4712-BDBA-359BC2606B1B}.Release|Any CPU.Build.0 = Release|Any CPU
 		{15AAEF8D-469F-4EA3-80D3-8D746A53E18A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{15AAEF8D-469F-4EA3-80D3-8D746A53E18A}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15AAEF8D-469F-4EA3-80D3-8D746A53E18A}.Release|Any CPU.ActiveCfg = Release|Any CPU

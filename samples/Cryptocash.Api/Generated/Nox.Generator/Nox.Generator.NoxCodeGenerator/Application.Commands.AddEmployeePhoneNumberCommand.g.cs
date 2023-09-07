@@ -21,14 +21,17 @@ public record AddEmployeePhoneNumberCommand(EmployeeKeyDto ParentKeyDto, Employe
 
 public partial class AddEmployeePhoneNumberCommandHandler: CommandBase<AddEmployeePhoneNumberCommand, EmployeePhoneNumber>, IRequestHandler <AddEmployeePhoneNumberCommand, EmployeePhoneNumberKeyDto?>
 {
-	public CryptocashDbContext DbContext { get; }
+	private readonly CryptocashDbContext _dbContext;
+	private readonly IEntityFactory<EmployeePhoneNumberCreateDto,EmployeePhoneNumber> _entityFactory;
 
 	public AddEmployeePhoneNumberCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<EmployeePhoneNumberCreateDto,EmployeePhoneNumber> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;		
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;	
 	}
 
 	public async Task<EmployeePhoneNumberKeyDto?> Handle(AddEmployeePhoneNumberCommand request, CancellationToken cancellationToken)
@@ -36,20 +39,20 @@ public partial class AddEmployeePhoneNumberCommandHandler: CommandBase<AddEmploy
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Employee,DatabaseNumber>("Id", request.ParentKeyDto.keyId);
 
-		var parentEntity = await DbContext.Employees.FindAsync(keyId);
+		var parentEntity = await _dbContext.Employees.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
 
-		var entity = request.EntityDto.ToEntity();
+		var entity = _entityFactory.CreateEntity(request.EntityDto);
 		
 		parentEntity.EmployeePhoneNumbers.Add(entity);
 
 		OnCompleted(entity);
 	
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		_dbContext.Entry(parentEntity).State = EntityState.Modified;
+		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{
 			return null;

@@ -40,15 +40,4 @@ public partial class {{className}}
     public System.{{relationship.ForeignKeyPrimitiveType}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}}Id { get; set; } = default!;
     {{-end}}
 {{- end }}
-{{- for relationship in entity.OwnedRelationships #TODO how to reuse as partial template?}}
-
-    /// <summary>
-    /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
-    /// </summary>
-    {{- if relationship.Relationship == "ZeroOrMany" || relationship.Relationship == "OneOrMany"}}
-    public virtual List<{{relationship.Entity}}Dto> {{relationship.EntityPlural}} { get; set; } = new();
-    {{- else}}
-    public virtual {{relationship.Entity}}Dto{{- if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
-    {{-end}}
-{{- end }}
 }

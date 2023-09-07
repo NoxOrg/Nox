@@ -61,6 +61,23 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
+    [EnableQuery]
+    public async Task<ActionResult<IQueryable<CountryLocalNameDto>>> GetCountryLocalNames([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var item = await _mediator.Send(new GetCountryByIdQuery(key));
+        
+        if (item is null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item.CountryLocalNames);
+    }
+    
     public async Task<ActionResult> PostToCountryLocalNames([FromRoute] System.Int64 key, [FromBody] CountryLocalNameCreateDto countryLocalName)
     {
         if (!ModelState.IsValid)

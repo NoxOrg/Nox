@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
@@ -16,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-public partial class BankNoteCreateDto 
+public partial class BankNoteCreateDto : IEntityCreateDto <BankNote>
 {    
     /// <summary>
     /// Currency's cash bank note identifier (Required).

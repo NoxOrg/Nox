@@ -61,6 +61,23 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
+    [EnableQuery]
+    public async Task<ActionResult<IQueryable<CountryTimeZoneDto>>> GetCountryTimeZones([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var item = await _mediator.Send(new GetCountryByIdQuery(key));
+        
+        if (item is null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item.CountryTimeZones);
+    }
+    
     public async Task<ActionResult> PostToCountryTimeZones([FromRoute] System.String key, [FromBody] CountryTimeZoneCreateDto countryTimeZone)
     {
         if (!ModelState.IsValid)
@@ -116,6 +133,23 @@ public partial class CountriesController : ODataController
             return NotFound();
         }
         return Updated(new CountryTimeZoneDto { Id = updated.keyId });
+    }
+    
+    [EnableQuery]
+    public async Task<ActionResult<IQueryable<HolidayDto>>> GetHolidays([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var item = await _mediator.Send(new GetCountryByIdQuery(key));
+        
+        if (item is null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item.Holidays);
     }
     
     public async Task<ActionResult> PostToHolidays([FromRoute] System.String key, [FromBody] HolidayCreateDto holiday)

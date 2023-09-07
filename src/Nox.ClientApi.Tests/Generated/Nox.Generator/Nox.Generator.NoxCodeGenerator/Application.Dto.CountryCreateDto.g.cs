@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
@@ -16,7 +17,7 @@ namespace ClientApi.Application.Dto;
 /// <summary>
 /// Country Entity.
 /// </summary>
-public partial class CountryCreateDto 
+public partial class CountryCreateDto : IEntityCreateDto <Country>
 {    
     /// <summary>
     /// The Country Name (Required).
@@ -33,6 +34,10 @@ public partial class CountryCreateDto
     /// </summary>
     public MoneyDto? CountryDebt { get; set; }    
     /// <summary>
+    /// First Official Language (Optional).
+    /// </summary>
+    public System.String? FirstLanguageCode { get; set; }    
+    /// <summary>
     /// The Formula (Optional).
     /// </summary>
     public System.String? ShortDescription { get; set; }
@@ -48,6 +53,7 @@ public partial class CountryCreateDto
         entity.Name = ClientApi.Domain.Country.CreateName(Name);
         if (Population is not null)entity.Population = ClientApi.Domain.Country.CreatePopulation(Population.NonNullValue<System.Int32>());
         if (CountryDebt is not null)entity.CountryDebt = ClientApi.Domain.Country.CreateCountryDebt(CountryDebt.NonNullValue<MoneyDto>());
+        if (FirstLanguageCode is not null)entity.FirstLanguageCode = ClientApi.Domain.Country.CreateFirstLanguageCode(FirstLanguageCode.NonNullValue<System.String>());
         entity.CountryLocalNames = CountryLocalNames.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }

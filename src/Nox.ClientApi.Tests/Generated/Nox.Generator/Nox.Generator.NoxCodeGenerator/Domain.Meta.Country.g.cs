@@ -52,6 +52,13 @@ public partial class Country
     
 
     /// <summary>
+    /// Type options and factory for property 'FirstLanguageCode'
+    /// </summary>
+    public static Nox.Types.LanguageCode CreateFirstLanguageCode(System.String value)
+        => Nox.Types.LanguageCode.From(value);
+    
+
+    /// <summary>
     /// Type options and factory for property 'ShortDescription'
     /// </summary>
     public static Nox.Types.FormulaTypeOptions ShortDescriptionTypeOptions {get; private set;} = new ()

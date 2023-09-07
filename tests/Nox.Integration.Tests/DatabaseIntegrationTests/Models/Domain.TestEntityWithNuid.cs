@@ -18,7 +18,7 @@ public partial class TestEntityWithNuid : AuditableEntityBase
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Nuid Id {get; private set;} = null!;
+    public Nuid Id {get; set;} = null!;
     
     	public void EnsureId()
     	{

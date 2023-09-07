@@ -20,7 +20,7 @@ using Store = ClientApi.Domain.Store;
 
 namespace ClientApi.Application;
 
-public class StoreMapper : EntityMapperBase<Store>
+public partial class StoreMapper : EntityMapperBase<Store>
 {
     public StoreMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
@@ -29,7 +29,7 @@ public class StoreMapper : EntityMapperBase<Store>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
         if (noxTypeValue != null)
         {        

@@ -20,7 +20,7 @@ using CashStockOrder = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application;
 
-public class CashStockOrderMapper : EntityMapperBase<CashStockOrder>
+public partial class CashStockOrderMapper : EntityMapperBase<CashStockOrder>
 {
     public CashStockOrderMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
@@ -29,24 +29,22 @@ public class CashStockOrderMapper : EntityMapperBase<CashStockOrder>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Amount", dto.Amount);
         if (noxTypeValue != null)
         {        
             entity.Amount = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition, "RequestedDeliveryDate", dto.RequestedDeliveryDate);
         if (noxTypeValue != null)
         {        
             entity.RequestedDeliveryDate = noxTypeValue;
-        }
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "DeliveryDateTime", dto.DeliveryDateTime);
         if (noxTypeValue != null)
         {        
             entity.DeliveryDateTime = noxTypeValue;
         }
-
-        // TODO map Status Formula remaining types and remove if else
     
 
         /// <summary>

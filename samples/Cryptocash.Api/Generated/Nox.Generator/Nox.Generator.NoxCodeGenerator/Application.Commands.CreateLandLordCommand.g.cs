@@ -17,18 +17,22 @@ using Cryptocash.Application.Dto;
 using LandLord = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateLandLordCommand(LandLordCreateDto EntityDto) : IRequest<LandLordKeyDto>;
 
 public partial class CreateLandLordCommandHandler: CommandBase<CreateLandLordCommand,LandLord>, IRequestHandler <CreateLandLordCommand, LandLordKeyDto>
 {
-	public CryptocashDbContext DbContext { get; }
+	private readonly CryptocashDbContext _dbContext;
+	private readonly IEntityFactory<LandLordCreateDto,LandLord> _entityFactory;
 
 	public CreateLandLordCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<LandLordCreateDto,LandLord> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;
 	}
 
 	public async Task<LandLordKeyDto> Handle(CreateLandLordCommand request, CancellationToken cancellationToken)
@@ -36,11 +40,11 @@ public partial class CreateLandLordCommandHandler: CommandBase<CreateLandLordCom
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();		
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);		
 	
 		OnCompleted(entityToCreate);
-		DbContext.LandLords.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		_dbContext.LandLords.Add(entityToCreate);
+		await _dbContext.SaveChangesAsync();
 		return new LandLordKeyDto(entityToCreate.Id.Value);
 	}
 }

@@ -51,6 +51,7 @@ public class YamlFileValidationTests
         Assert.Equal(22, errorCount);
     }
 
+    
     [Theory]
     [InlineData("application.solution.nox.yaml", "TestService")]
     [InlineData("domain.solution.nox.yaml", "TestService")]

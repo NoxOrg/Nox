@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
@@ -16,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public partial class VendingMachineCreateDto 
+public partial class VendingMachineCreateDto : IEntityCreateDto <VendingMachine>
 {    
     /// <summary>
     /// Vending machine mac address (Required).

@@ -61,6 +61,23 @@ public partial class CurrenciesController : ODataController
         return Ok(item);
     }
     
+    [EnableQuery]
+    public async Task<ActionResult<IQueryable<BankNoteDto>>> GetBankNotes([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var item = await _mediator.Send(new GetCurrencyByIdQuery(key));
+        
+        if (item is null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item.BankNotes);
+    }
+    
     public async Task<ActionResult> PostToBankNotes([FromRoute] System.String key, [FromBody] BankNoteCreateDto bankNote)
     {
         if (!ModelState.IsValid)
@@ -116,6 +133,23 @@ public partial class CurrenciesController : ODataController
             return NotFound();
         }
         return Updated(new BankNoteDto { Id = updated.keyId });
+    }
+    
+    [EnableQuery]
+    public async Task<ActionResult<IQueryable<ExchangeRateDto>>> GetExchangeRates([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var item = await _mediator.Send(new GetCurrencyByIdQuery(key));
+        
+        if (item is null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item.ExchangeRates);
     }
     
     public async Task<ActionResult> PostToExchangeRates([FromRoute] System.String key, [FromBody] ExchangeRateCreateDto exchangeRate)

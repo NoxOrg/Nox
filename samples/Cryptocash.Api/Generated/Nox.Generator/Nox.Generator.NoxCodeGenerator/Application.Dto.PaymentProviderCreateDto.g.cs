@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
@@ -16,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-public partial class PaymentProviderCreateDto 
+public partial class PaymentProviderCreateDto : IEntityCreateDto <PaymentProvider>
 {    
     /// <summary>
     /// Payment provider name (Required).

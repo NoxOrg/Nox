@@ -20,7 +20,7 @@ using MinimumCashStock = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application;
 
-public class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
+public partial class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
 {
     public MinimumCashStockMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
@@ -29,7 +29,7 @@ public class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    
+            
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Amount", dto.Amount);
         if (noxTypeValue != null)
         {        

@@ -21,20 +21,14 @@ public class UpdateCountryCommandHandler: CommandBase<UpdateCountryCommand, Coun
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Country> EntityMapper { get; }
-	public IEntityMapper<CountryTimeZone> CountryTimeZoneEntityMapper { get; }
-	public IEntityMapper<Holiday> HolidayEntityMapper { get; }
 
 	public UpdateCountryCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,	
-			IEntityMapper<CountryTimeZone> entityMapperCountryTimeZone,	
-			IEntityMapper<Holiday> entityMapperHoliday,
+		IServiceProvider serviceProvider,
 		IEntityMapper<Country> entityMapper): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;	
-		CountryTimeZoneEntityMapper = entityMapperCountryTimeZone;	
-		HolidayEntityMapper = entityMapperHoliday;
+		DbContext = dbContext;
 		EntityMapper = entityMapper;
 	}
 	
@@ -50,14 +44,6 @@ public class UpdateCountryCommandHandler: CommandBase<UpdateCountryCommand, Coun
 			return null;
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Country>(), request.EntityDto);
-		foreach(var ownedEntity in request.EntityDto.CountryTimeZones)
-		{
-			UpdateCountryTimeZone(entity, ownedEntity);
-		}
-		foreach(var ownedEntity in request.EntityDto.Holidays)
-		{
-			UpdateHoliday(entity, ownedEntity);
-		}
 
 		OnCompleted(entity);
 
@@ -69,33 +55,5 @@ public class UpdateCountryCommandHandler: CommandBase<UpdateCountryCommand, Coun
 		}
 
 		return new CountryKeyDto(entity.Id.Value);
-	}
-	private void UpdateCountryTimeZone(Country parent, CountryTimeZoneDto child)
-	{
-		var ownedId = CreateNoxTypeForKey<CountryTimeZone,DatabaseNumber>("Id", child.Id);
-
-		var entity = parent.CountryTimeZones.SingleOrDefault(x =>
-			x.Id.Equals(ownedId) &&
-			true);
-		if (entity == null)
-		{
-			return;
-		}
-
-		CountryTimeZoneEntityMapper.MapToEntity(entity, GetEntityDefinition<CountryTimeZone>(), child);		
-	}
-	private void UpdateHoliday(Country parent, HolidayDto child)
-	{
-		var ownedId = CreateNoxTypeForKey<Holiday,DatabaseNumber>("Id", child.Id);
-
-		var entity = parent.Holidays.SingleOrDefault(x =>
-			x.Id.Equals(ownedId) &&
-			true);
-		if (entity == null)
-		{
-			return;
-		}
-
-		HolidayEntityMapper.MapToEntity(entity, GetEntityDefinition<Holiday>(), child);		
 	}
 }
