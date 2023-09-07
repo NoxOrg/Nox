@@ -39,8 +39,8 @@ public partial class CreateWorkplaceCommandHandler: CommandBase<CreateWorkplaceC
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);		
-	
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
 		OnCompleted(entityToCreate);
 		_dbContext.Workplaces.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

@@ -30,13 +30,5 @@ public partial class BankNoteCreateDto : IEntityCreateDto <BankNote>
     /// </summary>
     [Required(ErrorMessage = "Value is required")]
     
-    public MoneyDto Value { get; set; } = default!;
-
-    public Cryptocash.Domain.BankNote ToEntity()
-    {
-        var entity = new Cryptocash.Domain.BankNote();
-        entity.CashNote = Cryptocash.Domain.BankNote.CreateCashNote(CashNote);
-        entity.Value = Cryptocash.Domain.BankNote.CreateValue(Value);
-        return entity;
-    }
+    public MoneyDto Value { get; set; } = default!;   
 }

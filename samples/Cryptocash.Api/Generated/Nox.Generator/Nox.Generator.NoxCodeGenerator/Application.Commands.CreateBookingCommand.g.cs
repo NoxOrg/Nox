@@ -40,8 +40,8 @@ public partial class CreateBookingCommandHandler: CommandBase<CreateBookingComma
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);		
-	
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
 		OnCompleted(entityToCreate);
 		_dbContext.Bookings.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

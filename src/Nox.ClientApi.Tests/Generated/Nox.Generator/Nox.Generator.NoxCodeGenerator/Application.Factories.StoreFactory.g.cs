@@ -23,7 +23,41 @@ using Store = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Factories;
 
-public partial class StoreFactory : EntityFactoryBase<StoreCreateDto,Store>
+public abstract class StoreFactoryBase: IEntityFactory<StoreCreateDto,Store>
 {
-    
+    protected IEntityFactory<EmailAddressCreateDto,EmailAddress> EmailAddressFactory {get;}
+
+    public StoreFactoryBase
+    (
+        IEntityFactory<EmailAddressCreateDto,EmailAddress> emailaddressfactory
+        )
+    {        
+        EmailAddressFactory = emailaddressfactory;
+    }
+
+    public virtual Store CreateEntity(StoreCreateDto createDto)
+    {
+        return ToEntity(createDto);
+    }
+    private ClientApi.Domain.Store ToEntity(StoreCreateDto createDto)
+    {
+        var entity = new ClientApi.Domain.Store();
+        entity.Name = ClientApi.Domain.Store.CreateName(createDto.Name);
+		entity.EnsureId();
+        //entity.StoreOwner = StoreOwner?.ToEntity();
+        if(createDto.EmailAddress is not null)
+        {
+            entity.EmailAddress = EmailAddressFactory.CreateEntity(createDto.EmailAddress);
+        }
+        return entity;
+    }
+}
+
+public partial class StoreFactory : StoreFactoryBase
+{
+    public StoreFactory
+    (
+        IEntityFactory<EmailAddressCreateDto,EmailAddress> emailaddressfactory
+    ): base(emailaddressfactory)                      
+    {}
 }

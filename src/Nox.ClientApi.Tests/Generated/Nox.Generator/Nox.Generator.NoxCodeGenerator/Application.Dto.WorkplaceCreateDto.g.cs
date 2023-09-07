@@ -28,12 +28,5 @@ public partial class WorkplaceCreateDto : IEntityCreateDto <Workplace>
     /// <summary>
     /// The Formula (Optional).
     /// </summary>
-    public System.String? Greeting { get; set; }
-
-    public ClientApi.Domain.Workplace ToEntity()
-    {
-        var entity = new ClientApi.Domain.Workplace();
-        entity.Name = ClientApi.Domain.Workplace.CreateName(Name);
-        return entity;
-    }
+    public System.String? Greeting { get; set; }   
 }

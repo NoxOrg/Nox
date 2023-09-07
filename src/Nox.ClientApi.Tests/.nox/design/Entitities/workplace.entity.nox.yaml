@@ -11,9 +11,13 @@ description: Workplace
 keys:
 
   - name: Id
-    type: databaseGuid
+    type: nuid
     description: Workplace unique identifier 
     isRequired: true
+    nuidTypeOptions:
+        separator: "-"
+        propertyNames:
+            - "Name"
 
 attributes:
 

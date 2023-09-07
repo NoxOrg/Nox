@@ -40,8 +40,8 @@ public partial class CreateVendingMachineCommandHandler: CommandBase<CreateVendi
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);		
-	
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
 		OnCompleted(entityToCreate);
 		_dbContext.VendingMachines.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

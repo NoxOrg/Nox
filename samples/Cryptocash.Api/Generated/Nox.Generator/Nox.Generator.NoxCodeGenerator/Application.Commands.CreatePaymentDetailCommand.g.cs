@@ -40,8 +40,8 @@ public partial class CreatePaymentDetailCommandHandler: CommandBase<CreatePaymen
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);		
-	
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
 		OnCompleted(entityToCreate);
 		_dbContext.PaymentDetails.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

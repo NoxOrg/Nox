@@ -19,6 +19,7 @@ public class SolutionBuilderTests
     [Fact]
     public void Can_get_instance_after_builder_build()
     {
+
         _ = new NoxSolutionBuilder()
             .UseYamlFile("./files/minimal.solution.nox.yaml")
             .Build();

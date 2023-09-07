@@ -43,13 +43,7 @@ public partial class Create{{entity.Name}}CommandHandler: CommandBase<Create{{en
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-
-		{{- for key in entity.Keys ~}}
-		{{- if key.Type == "Nuid" }}
-		entityToCreate.Ensure{{key.Name}}();
-		{{- end }}
-		{{- end }}		
-	
+					
 		OnCompleted(entityToCreate);
 		_dbContext.{{entity.PluralName}}.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

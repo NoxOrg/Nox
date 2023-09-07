@@ -45,16 +45,5 @@ public partial class CountryCreateDto : IEntityCreateDto <Country>
     /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalNameCreateDto> CountryLocalNames { get; set; } = new();
-
-    public ClientApi.Domain.Country ToEntity()
-    {
-        var entity = new ClientApi.Domain.Country();
-        entity.Name = ClientApi.Domain.Country.CreateName(Name);
-        if (Population is not null)entity.Population = ClientApi.Domain.Country.CreatePopulation(Population.NonNullValue<System.Int32>());
-        if (CountryDebt is not null)entity.CountryDebt = ClientApi.Domain.Country.CreateCountryDebt(CountryDebt.NonNullValue<MoneyDto>());
-        if (FirstLanguageCode is not null)entity.FirstLanguageCode = ClientApi.Domain.Country.CreateFirstLanguageCode(FirstLanguageCode.NonNullValue<System.String>());
-        entity.CountryLocalNames = CountryLocalNames.Select(dto => dto.ToEntity()).ToList();
-        return entity;
-    }
+    public virtual List<CountryLocalNameCreateDto> CountryLocalNames { get; set; } = new();   
 }

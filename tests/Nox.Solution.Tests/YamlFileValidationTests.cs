@@ -48,7 +48,7 @@ public class YamlFileValidationTests
         Assert.Contains("[\"name\"]", exception.Message);
         Assert.Contains("[\"serverUri\"]", exception.Message);
         Assert.Contains("dataConnection", exception.Message);
-        Assert.Equal(22, errorCount);
+        Assert.Equal(25, errorCount);
     }
 
     
@@ -186,7 +186,7 @@ public class YamlFileValidationTests
             "Attribute name 'NonExistentAttribute' in unique attribute constraint not found in neither entity attribute(s)",
         };
 
-        errors.Count().Should().BePositive();
+        errors.Length.Should().BePositive();
 
         errors.Should()
             .NotBeEmpty()

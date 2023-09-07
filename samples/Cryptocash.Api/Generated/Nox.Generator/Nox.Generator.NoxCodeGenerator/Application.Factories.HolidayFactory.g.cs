@@ -23,7 +23,29 @@ using Holiday = Cryptocash.Domain.Holiday;
 
 namespace Cryptocash.Application.Factories;
 
-public partial class HolidayFactory : EntityFactoryBase<HolidayCreateDto,Holiday>
+public abstract class HolidayFactoryBase: IEntityFactory<HolidayCreateDto,Holiday>
 {
-    
+
+    public HolidayFactoryBase
+    (
+        )
+    {
+    }
+
+    public virtual Holiday CreateEntity(HolidayCreateDto createDto)
+    {
+        return ToEntity(createDto);
+    }
+    private Cryptocash.Domain.Holiday ToEntity(HolidayCreateDto createDto)
+    {
+        var entity = new Cryptocash.Domain.Holiday();
+        entity.Name = Cryptocash.Domain.Holiday.CreateName(createDto.Name);
+        entity.Type = Cryptocash.Domain.Holiday.CreateType(createDto.Type);
+        entity.Date = Cryptocash.Domain.Holiday.CreateDate(createDto.Date);
+        return entity;
+    }
+}
+
+public partial class HolidayFactory : HolidayFactoryBase
+{
 }

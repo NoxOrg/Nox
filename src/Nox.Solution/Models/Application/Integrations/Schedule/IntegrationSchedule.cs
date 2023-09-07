@@ -20,5 +20,5 @@ public class IntegrationSchedule
 
     [Title("Check the ETL source for updates at appliation startup.")]
     [Description("Specify here whether the ETL source is checked for updates when the application starts.")]
-    public bool? RunOnStartup { get; internal set; }
+    public bool? RunOnStartup { get; internal set; } = false;
 }

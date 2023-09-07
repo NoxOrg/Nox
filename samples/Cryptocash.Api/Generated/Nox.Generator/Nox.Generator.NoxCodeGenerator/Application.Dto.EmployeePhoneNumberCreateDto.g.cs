@@ -30,13 +30,5 @@ public partial class EmployeePhoneNumberCreateDto : IEntityCreateDto <EmployeePh
     /// </summary>
     [Required(ErrorMessage = "PhoneNumber is required")]
     
-    public System.String PhoneNumber { get; set; } = default!;
-
-    public Cryptocash.Domain.EmployeePhoneNumber ToEntity()
-    {
-        var entity = new Cryptocash.Domain.EmployeePhoneNumber();
-        entity.PhoneNumberType = Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumberType(PhoneNumberType);
-        entity.PhoneNumber = Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumber(PhoneNumber);
-        return entity;
-    }
+    public System.String PhoneNumber { get; set; } = default!;   
 }

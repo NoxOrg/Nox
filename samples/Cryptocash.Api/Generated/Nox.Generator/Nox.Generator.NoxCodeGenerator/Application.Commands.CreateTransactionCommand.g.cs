@@ -40,8 +40,8 @@ public partial class CreateTransactionCommandHandler: CommandBase<CreateTransact
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);		
-	
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
 		OnCompleted(entityToCreate);
 		_dbContext.Transactions.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

@@ -23,7 +23,27 @@ using CountryLocalName = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Factories;
 
-public partial class CountryLocalNameFactory : EntityFactoryBase<CountryLocalNameCreateDto,CountryLocalName>
+public abstract class CountryLocalNameFactoryBase: IEntityFactory<CountryLocalNameCreateDto,CountryLocalName>
 {
-    
+
+    public CountryLocalNameFactoryBase
+    (
+        )
+    {
+    }
+
+    public virtual CountryLocalName CreateEntity(CountryLocalNameCreateDto createDto)
+    {
+        return ToEntity(createDto);
+    }
+    private ClientApi.Domain.CountryLocalName ToEntity(CountryLocalNameCreateDto createDto)
+    {
+        var entity = new ClientApi.Domain.CountryLocalName();
+        entity.Name = ClientApi.Domain.CountryLocalName.CreateName(createDto.Name);
+        return entity;
+    }
+}
+
+public partial class CountryLocalNameFactory : CountryLocalNameFactoryBase
+{
 }

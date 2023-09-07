@@ -40,8 +40,8 @@ public partial class CreateCashStockOrderCommandHandler: CommandBase<CreateCashS
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);		
-	
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
 		OnCompleted(entityToCreate);
 		_dbContext.CashStockOrders.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

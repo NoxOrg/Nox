@@ -7,7 +7,9 @@
     "null"
   ],
   "required": [
-    "name"
+    "name",
+    "source",
+    "target"
   ],
   "properties": {
     "name": {    

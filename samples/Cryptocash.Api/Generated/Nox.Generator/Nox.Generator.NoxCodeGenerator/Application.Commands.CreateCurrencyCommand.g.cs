@@ -40,8 +40,8 @@ public partial class CreateCurrencyCommandHandler: CommandBase<CreateCurrencyCom
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);		
-	
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
 		OnCompleted(entityToCreate);
 		_dbContext.Currencies.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();

@@ -44,16 +44,5 @@ public partial class CashStockOrderCreateDto : IEntityCreateDto <CashStockOrder>
     /// CashStockOrder for ExactlyOne VendingMachines
     /// </summary>
     [Required(ErrorMessage = "CashStockOrderForVendingMachine is required")]
-    public System.Guid CashStockOrderForVendingMachineId { get; set; } = default!;
-
-    public Cryptocash.Domain.CashStockOrder ToEntity()
-    {
-        var entity = new Cryptocash.Domain.CashStockOrder();
-        entity.Amount = Cryptocash.Domain.CashStockOrder.CreateAmount(Amount);
-        entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrder.CreateRequestedDeliveryDate(RequestedDeliveryDate);
-        if (DeliveryDateTime is not null)entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrder.CreateDeliveryDateTime(DeliveryDateTime.NonNullValue<System.DateTimeOffset>());
-        //entity.VendingMachine = VendingMachine.ToEntity();
-        //entity.Employee = Employee.ToEntity();
-        return entity;
-    }
+    public System.Guid CashStockOrderForVendingMachineId { get; set; } = default!;   
 }
