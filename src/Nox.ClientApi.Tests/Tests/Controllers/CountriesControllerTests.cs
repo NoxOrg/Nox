@@ -5,6 +5,7 @@ using Nox.Types;
 using System.Net;
 using AutoFixture.AutoMoq;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Nox.ClientApi.Tests.Models;
 
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {

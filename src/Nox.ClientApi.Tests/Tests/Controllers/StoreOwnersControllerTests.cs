@@ -3,6 +3,7 @@ using ClientApi.Application.Dto;
 using AutoFixture;
 using System.Net;
 using AutoFixture.AutoMoq;
+using Nox.ClientApi.Tests.Models;
 
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
@@ -36,7 +37,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
         [Fact]
-        public async Task Post_WhenInvalidId_ReturnsInternalServerError()
+        public async Task Post_WhenInvalidId_ReturnsBadRequestError()
         {
             // Arrange
             var createDto = new StoreOwnerCreateDto
@@ -47,10 +48,11 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
 
             // Act
             var result = await _oDataFixture.PostAsync(StoreOwnersControllerName, createDto);
-
+            var response = await result.Content.ReadFromJsonAsync<SimpleResponse>();
             // Assert
             // represent a nox type exception
-            result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+            response!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            response!.Message.Should().Contain("Could not create a Nox Text type that is 1 characters long and shorter than the minimum specified length of 3");
         }
         [Fact]
         public async Task Post_WhenValidId_ReturnCreated()

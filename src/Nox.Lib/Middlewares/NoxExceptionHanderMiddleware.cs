@@ -42,19 +42,21 @@ public class NoxExceptionHanderMiddleware
     private async Task HandleTypeValidationExceptionAsync(HttpContext context, TypeValidationException exception)
     {
         var message = string.Join("\n", exception.Errors.Select(x => $"PropertyName: {x.Variable}. Error: {x.ErrorMessage}"));
-        await CommonHandleExceptionAsync(context, exception, message);
+        await CommonHandleExceptionAsync(context, exception, message, HttpStatusCode.BadRequest);
     }
 
-    private async Task CommonHandleExceptionAsync(HttpContext context, Exception exception, string? errorMessage)
+    private async Task CommonHandleExceptionAsync(HttpContext context,
+        Exception exception,
+        string errorMessage,
+        HttpStatusCode statusCode = HttpStatusCode.InternalServerError)
     {
         var message = $"Error occured during request: {context.Request?.Path}.Error: {errorMessage}";
         _logger.LogError(exception, message);
 
-        var statusCode = (int)HttpStatusCode.InternalServerError;
         if (!context.Response.HasStarted)
         {
             context.Response.ContentType = "application/json";
-            context.Response.StatusCode = statusCode;
+            context.Response.StatusCode = (int)statusCode;
         }
 
         var error = JsonSerializer.Serialize(new
