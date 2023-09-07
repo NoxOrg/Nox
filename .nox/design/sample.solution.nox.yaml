@@ -331,6 +331,7 @@ application:
         name: CountryJsonSource
         description: Sources Country data from a json file
         dataConnectionName: CountryJsonData
+        sourceType: file
         fileOptions:
           filename: country-seed-data.json
         schedule:
@@ -363,7 +364,10 @@ application:
             targetAttribute: GeoRegion
       target:
         name: Country
+        dataConnectionName: SampleCurrencyDb
         targetType: entity
+        entityOptions:
+            entity: Country         
 
 #  localization:
 #

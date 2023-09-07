@@ -21,23 +21,32 @@ public class IntegrationTarget
     [Required]
     [Title("The type of target.")]
     [Description("Specify the type of target. Options include entity, database, file, webAPI and message queue.")]
-    public IntegrationTargetType TargetType { get; internal set; } = IntegrationTargetType.Database;
+    public IntegrationType TargetType { get; internal set; } = default;
 
     [Title("The name of the ETL target data connection. Contains no spaces.")]
     [Description("The name should be a commonly used singular noun and be unique within a solution.")]
     [Pattern(@"^[^\s]*$")]
+    [Required]
     [AdditionalProperties(false)]
-    public string? DataConnectionName { get; internal set; }
+    public string DataConnectionName { get; internal set; } = null!;
 
     [AdditionalProperties(false)]
+    [IfEquals(nameof(TargetType),IntegrationType.Database)]
     public IntegrationTargetDatabaseOptions? DatabaseOptions { get; set; }
 
     [AdditionalProperties(false)]
+    [IfEquals(nameof(TargetType),IntegrationType.File)]
     public IntegrationTargetFileOptions? FileOptions { get; set; }
 
     [AdditionalProperties(false)]
+    [IfEquals(nameof(TargetType), IntegrationType.WebApi)]
     public IntegrationTargetWebApiOptions? WebApiOptions { get; set; }
 
     [AdditionalProperties(false)]
+    [IfEquals(nameof(TargetType), IntegrationType.MessageQueue)]
     public IntegrationTargetMessageQueueOptions? MessageQueueOptions { get; set; }
+
+    [AdditionalProperties(false)]
+    [IfEquals(nameof(TargetType), IntegrationType.Entity)]
+    public IntegrationTargetEntityOptions? EntityOptions { get; set; }
 }

@@ -718,7 +718,7 @@ namespace Nox.Solution {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The source &apos;{0}&apos; for integration &apos;{1}&apos; does not have a data connection specified. All integration sources must have a data connection specified in the Infrastructure section of your yaml definition...
+        ///   Looks up a localized string similar to The source &apos;{0}&apos; on integration &apos;{2}&apos; does not have a data connection specified. All integration sources must have a data connection specified in the Infrastructure section of your yaml definition...
         /// </summary>
         internal static string IntegrationSourceDataConnectionEmpty {
             get {
@@ -727,7 +727,7 @@ namespace Nox.Solution {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The data connection for source &apos;{0}&apos; for integration &apos;{1}&apos; is not defined. All data connections must be defined in the Infrastructure section of your yaml definition..
+        ///   Looks up a localized string similar to The data connection &apos;{1}&apos; in source &apos;{0}&apos; for integration &apos;{2}&apos; is not defined. All data connections must be defined in the Infrastructure section of your yaml definition..
         /// </summary>
         internal static string IntegrationSourceDataConnectionMissing {
             get {

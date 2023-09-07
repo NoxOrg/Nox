@@ -1,6 +1,6 @@
 namespace Nox;
 
-public enum IntegrationTargetType
+public enum IntegrationType
 {
     Database,
     Entity,

@@ -15,3 +15,7 @@ dataTransferObjects:
           casing: lower
           maxLength: 2
           minLength: 2
+
+integrations:
+
+  - $ref: ./integrations/CountrySync.integration.nox.yaml

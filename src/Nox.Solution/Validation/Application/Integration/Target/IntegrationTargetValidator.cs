@@ -11,18 +11,19 @@ namespace Nox.Solution.Validation
         public IntegrationTargetValidator(string integrationName, IEnumerable<DataConnection>? dataConnections)
         {
             _dataConnections = dataConnections;
-            
+
             RuleFor(p => p.Name)
                 .NotEmpty()
                 .WithMessage(m => string.Format(ValidationResources.IntegrationTargetNameEmpty, integrationName));
 
             RuleFor(p => p.TargetType)
-                .NotNull()
-                .WithMessage(p => string.Format(ValidationResources.IntegrationTargetTypeEmpty, p.Name, integrationName, IntegrationTargetType.Entity.ToNameList()));
+                .IsInEnum()
+                .WithMessage(p => string.Format(ValidationResources.IntegrationTargetTypeEmpty, p.Name, integrationName, IntegrationType.Entity.ToNameList()));
             
             RuleFor(p => p.DataConnectionName)
                 .Must(HaveValidDataConnection)
                 .WithMessage(m => string.Format(ValidationResources.IntegrationTargetDataConnectionMissing, m.Name, integrationName, m.DataConnectionName));
+
         }
         
         private bool HaveValidDataConnection(string? dataConnectionName)
