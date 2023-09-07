@@ -83,7 +83,7 @@ public partial class EmployeesController : ODataController
     }
     
     [HttpPut("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
-    public async Task<ActionResult> PutToEmployeePhoneNumbersNonConventional( System.Int64 key,  System.Int64 relatedKey, [FromBody] EmployeePhoneNumberUpdateDto employeePhoneNumber)
+    public async Task<ActionResult> PutToEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] EmployeePhoneNumberUpdateDto employeePhoneNumber)
     {
         if (!ModelState.IsValid)
         {
@@ -106,7 +106,7 @@ public partial class EmployeesController : ODataController
     }
     
     [HttpPatch("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
-    public async Task<ActionResult> PatchToEmployeePhoneNumbersNonConventional( System.Int64 key,  System.Int64 relatedKey, [FromBody] Delta<EmployeePhoneNumberUpdateDto> employeePhoneNumber)
+    public async Task<ActionResult> PatchToEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<EmployeePhoneNumberUpdateDto> employeePhoneNumber)
     {
         if (!ModelState.IsValid)
         {
@@ -137,7 +137,7 @@ public partial class EmployeesController : ODataController
         return Ok(child);
     }
     
-    private async Task<EmployeePhoneNumberDto?> TryGetEmployeePhoneNumber( System.Int64 key, EmployeePhoneNumberKeyDto childKeyDto)
+    private async Task<EmployeePhoneNumberDto?> TryGetEmployeePhoneNumber(System.Int64 key, EmployeePhoneNumberKeyDto childKeyDto)
     {
         var parent = await _mediator.Send(new GetEmployeeByIdQuery(key));
         return parent?.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == childKeyDto.keyId);

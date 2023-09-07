@@ -83,7 +83,7 @@ public partial class CountriesController : ODataController
     }
     
     [HttpPut("/api/Countries/{key}/CountryTimeZones/{relatedKey}")]
-    public async Task<ActionResult> PutToCountryTimeZonesNonConventional( System.String key,  System.Int64 relatedKey, [FromBody] CountryTimeZoneUpdateDto countryTimeZone)
+    public async Task<ActionResult> PutToCountryTimeZonesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] CountryTimeZoneUpdateDto countryTimeZone)
     {
         if (!ModelState.IsValid)
         {
@@ -106,7 +106,7 @@ public partial class CountriesController : ODataController
     }
     
     [HttpPatch("/api/Countries/{key}/CountryTimeZones/{relatedKey}")]
-    public async Task<ActionResult> PatchToCountryTimeZonesNonConventional( System.String key,  System.Int64 relatedKey, [FromBody] Delta<CountryTimeZoneUpdateDto> countryTimeZone)
+    public async Task<ActionResult> PatchToCountryTimeZonesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<CountryTimeZoneUpdateDto> countryTimeZone)
     {
         if (!ModelState.IsValid)
         {
@@ -137,7 +137,7 @@ public partial class CountriesController : ODataController
         return Ok(child);
     }
     
-    private async Task<CountryTimeZoneDto?> TryGetCountryTimeZone( System.String key, CountryTimeZoneKeyDto childKeyDto)
+    private async Task<CountryTimeZoneDto?> TryGetCountryTimeZone(System.String key, CountryTimeZoneKeyDto childKeyDto)
     {
         var parent = await _mediator.Send(new GetCountryByIdQuery(key));
         return parent?.CountryTimeZones.SingleOrDefault(x => x.Id == childKeyDto.keyId);
@@ -183,7 +183,7 @@ public partial class CountriesController : ODataController
     }
     
     [HttpPut("/api/Countries/{key}/Holidays/{relatedKey}")]
-    public async Task<ActionResult> PutToHolidaysNonConventional( System.String key,  System.Int64 relatedKey, [FromBody] HolidayUpdateDto holiday)
+    public async Task<ActionResult> PutToHolidaysNonConventional(System.String key, System.Int64 relatedKey, [FromBody] HolidayUpdateDto holiday)
     {
         if (!ModelState.IsValid)
         {
@@ -206,7 +206,7 @@ public partial class CountriesController : ODataController
     }
     
     [HttpPatch("/api/Countries/{key}/Holidays/{relatedKey}")]
-    public async Task<ActionResult> PatchToHolidaysNonConventional( System.String key,  System.Int64 relatedKey, [FromBody] Delta<HolidayUpdateDto> holiday)
+    public async Task<ActionResult> PatchToHolidaysNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<HolidayUpdateDto> holiday)
     {
         if (!ModelState.IsValid)
         {
@@ -237,7 +237,7 @@ public partial class CountriesController : ODataController
         return Ok(child);
     }
     
-    private async Task<HolidayDto?> TryGetHoliday( System.String key, HolidayKeyDto childKeyDto)
+    private async Task<HolidayDto?> TryGetHoliday(System.String key, HolidayKeyDto childKeyDto)
     {
         var parent = await _mediator.Send(new GetCountryByIdQuery(key));
         return parent?.Holidays.SingleOrDefault(x => x.Id == childKeyDto.keyId);

@@ -491,7 +491,8 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             return string.Join(", ", entity.Keys.Select(k => $"{attributePrefix} {solution.GetSinglePrimitiveTypeForKey(k)} {keyPrefix}{k.Name}"))
                 .Trim();
         else if (entity.Keys is not null)
-            return $"{attributePrefix} {solution.GetSinglePrimitiveTypeForKey(entity.Keys[0])} {keyPrefix}";
+            return $"{attributePrefix} {solution.GetSinglePrimitiveTypeForKey(entity.Keys[0])} {keyPrefix}"
+                .Trim();
 
         return "";
     }
