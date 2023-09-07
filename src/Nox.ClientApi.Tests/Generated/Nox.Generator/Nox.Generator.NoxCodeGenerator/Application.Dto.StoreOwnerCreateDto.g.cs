@@ -33,7 +33,11 @@ public partial class StoreOwnerCreateDto : IEntityCreateDto <StoreOwner>
     /// <summary>
     /// Vat Number (Optional).
     /// </summary>
-    public VatNumberDto? VatNumber { get; set; }
+    public VatNumberDto? VatNumber { get; set; }    
+    /// <summary>
+    /// Street Address (Optional).
+    /// </summary>
+    public StreetAddressDto? StreetAddress { get; set; }
 
     public ClientApi.Domain.StoreOwner ToEntity()
     {
@@ -41,6 +45,7 @@ public partial class StoreOwnerCreateDto : IEntityCreateDto <StoreOwner>
         entity.Id = StoreOwner.CreateId(Id);
         entity.Name = ClientApi.Domain.StoreOwner.CreateName(Name);
         if (VatNumber is not null)entity.VatNumber = ClientApi.Domain.StoreOwner.CreateVatNumber(VatNumber.NonNullValue<VatNumberDto>());
+        if (StreetAddress is not null)entity.StreetAddress = ClientApi.Domain.StoreOwner.CreateStreetAddress(StreetAddress.NonNullValue<StreetAddressDto>());
         //entity.Stores = Stores.Select(dto => dto.ToEntity()).ToList();
         return entity;
     }
