@@ -36,6 +36,10 @@ namespace Nox.Solution.Validation
                 .Must(x => x.Related.Entity.Keys.Count <= 1)
                 .WithMessage((x, r) => string.Format(ValidationResources.RelationEntityDependentMustHaveSingleKey, x.Name, r.Related.Entity.Name, r.Name));
 
+            RuleForEach(e => e.Relationships)
+                .Must(x => x.Related.Entity.Keys.Count <= 1)
+                .WithMessage((x, r) => string.Format(ValidationResources.RelationEntityDependentMustHaveSingleKey, x.Name, r.Related.Entity.Name, r.Name));
+
             RuleForEach(e => e.Queries)
                 .SetValidator(e => new DomainQueryValidator(e.Queries, e.Name));
 

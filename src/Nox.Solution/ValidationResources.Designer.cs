@@ -376,7 +376,7 @@ namespace Nox.Solution {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Keys are mandatory for entity {0} if only it&apos;s not Owned entity with ZeroOrOne or ExactlyOne relationship keys..
+        ///   Looks up a localized string similar to Keys are mandatory for entity {0}. Except owned entities with ZeroOrOne or ExactlyOne relationships..
         /// </summary>
         internal static string EntityKeysRequired {
             get {
@@ -916,7 +916,7 @@ namespace Nox.Solution {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Owned entity {0} with ZeroOrOne or ExactlyOne relationship keys must be null.
+        ///   Looks up a localized string similar to Owned entity {0} with ZeroOrOne or ExactlyOne relationship can not have key(s)..
         /// </summary>
         internal static string OwnedEntityKeysMustBeNull {
             get {

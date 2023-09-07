@@ -159,7 +159,7 @@ public class YamlFileValidationTests
         
         errors.Should()
             .NotBeEmpty()
-            .And.HaveCount(16)
+            .And.HaveCount(18)
             .And.Subject.Select(x => x.ErrorMessage)
            .Should()
            .Contain(x => expectedErrors.Any(t => x.StartsWith(t)));
