@@ -49,10 +49,10 @@ public class SolutionBuilderTests
     [Fact]
     public void Error_if_solution_not_found_in_nox_folder()
     {
-        TestHelpers.RenameFilesInFolder("../../../../../.nox/design", "*.nox.yaml", "zaml");
-        var noxConfigBuilder = new NoxSolutionBuilder();
+        var noxConfigBuilder = new NoxSolutionBuilder()
+       .UseYamlFile(".files/invalidextension.solution.nox.zaml");
+
         Assert.Throws<NoxSolutionConfigurationException>(() => noxConfigBuilder.Build());
-        TestHelpers.RenameFilesInFolder("../../../../../.nox/design", "*.nox.zaml", "yaml");
     }
 
     [Fact]

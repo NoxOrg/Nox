@@ -4,9 +4,9 @@
 # yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
 #
 
-name: SampleWebApp
+name: NoxSolutionTests
 
-description: Sample Nox solution yaml configuration
+description: NoxSolution tests
 
 variables:
    DATABASE_PROVIDER: slqServer
@@ -88,14 +88,6 @@ domain:
         delete:
           isEnabled: true
           raiseEvents: true
-
-      relationships:
-
-        - name: CountryAcceptsCurrency
-          description: accepts as legal tender
-          relationship: oneOrMany
-          entity: Currency
-          canNavigate: true
 
       ownedRelationships:
 
@@ -267,19 +259,7 @@ domain:
           description: The top level internet domains regitered to the country (comma-delimited)
           type: text
           textTypeOptions:
-            maxLength: 31
-
-    - $ref: currency.entity.nox.yaml
-
-    - $ref: store.entity.nox.yaml
-
-    - $ref: store-security-passwords.entity.nox.yaml
-
-    - $ref: store-owner.entity.nox.yaml
-
-    - $ref: allnoxtypes.entity.nox.yaml
-
-    - $ref: currencyCashBalance.entity.nox.yaml
+            maxLength: 31    
 
     - name: CountryLocalName
       description: The name of a country in other languages
@@ -373,19 +353,6 @@ application:
         targetType: entity
         entityOptions:
             entity: Country         
-
-#  localization:
-#
-#    supportedCultures:
-#      - en-GB
-#      - en-US
-#      - de-CH
-#      - fr-CH
-#      - it-CH
-#      - fr-FR
-#
-#    defaultCulture: en-GB
-
 
 infrastructure:
 
@@ -496,23 +463,3 @@ infrastructure:
         provider: jsonFile
         serverUri: file:///C:/my-data-files
         options: Source=File;Filename=country-data.json;
-
-### This section is optional.
-### In order to use secrets in the sample you have to start the hashicorp vault docker instance by running 'docker-compose -f docker-compose.hashicorp.yaml up -d'
-#  security:
-#    secrets:
-#      organizationSecretsServer:
-#        name: org-vault
-#        provider: hashicorpVault
-#        serverUri: http://localhost:8300
-#        password: root
-#        validFor:
-#          minutes: 10
-#
-#      solutionSecretsServer:
-#        name: sln-vault
-#        provider: hashicorpVault
-#        serverUri: http://localhost:8300
-#        password: root
-#        validFor:
-#          minutes: 10
