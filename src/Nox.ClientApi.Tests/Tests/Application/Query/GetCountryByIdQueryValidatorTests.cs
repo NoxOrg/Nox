@@ -56,10 +56,10 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             }
 
             // Act
-            var result = await _oDataFixture.GetAsync<ODataResponse<IEnumerable<CountryDto>>>(CountryControllerName);
+            var result = await _oDataFixture.GetODataCollectionResponseAsync<IEnumerable<CountryDto>>(CountryControllerName);
 
             //Assert
-            result!.Value.Should().HaveCount(expectedCount);
+            result!.Should().HaveCount(expectedCount);
         }
     }
 }

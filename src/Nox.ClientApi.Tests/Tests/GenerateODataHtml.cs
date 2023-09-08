@@ -6,6 +6,7 @@ using AutoFixture.AutoMoq;
 
 namespace Nox.ClientApi.Tests.Tests
 {
+    [Collection("Sequential")]
     public class GenerateODataEndPointHtmlRoutingTests
     {
         private readonly Fixture _fixture;

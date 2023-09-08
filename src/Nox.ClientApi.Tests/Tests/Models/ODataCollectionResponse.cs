@@ -2,7 +2,7 @@
 
 namespace Nox.ClientApi.Tests.Tests.Models;
 
-public class ODataResponse<T>
+public class ODataCollectionResponse<T>
 {
     public T Value { get; set; } = default!;
     [JsonProperty("@odata.count")]
