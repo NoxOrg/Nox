@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
@@ -66,9 +67,10 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
 
     private void CheckController(string controllerFileName, ImmutableArray<GeneratedSourceResult> generatedSources)
     {
+        File.WriteAllText($"ATEST-{DateTime.UtcNow.Minute}-{DateTime.UtcNow.Second}-{controllerFileName}.txt", generatedSources.First(s => s.HintName == controllerFileName).SourceText.ToString());
+        
         Assert.True(generatedSources.Any(s => s.HintName == controllerFileName), $"{controllerFileName} not generated");
         Assert.Equal(File.ReadAllText($"./ExpectedGeneratedFiles/{controllerFileName}"), 
             generatedSources.First(s => s.HintName == controllerFileName).SourceText.ToString());
-
     }
 }

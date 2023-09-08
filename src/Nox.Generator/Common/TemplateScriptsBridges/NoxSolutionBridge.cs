@@ -39,6 +39,10 @@ internal static class NoxSolutionBridge
         scriptObject7.Import("IsNoxTypeSimpleType", new Func<NoxType,
             bool>(type => type.IsSimpleType()));
 
+        var scriptObject8 = new ScriptObject();
+            scriptObject8.Import("ToLowerFirstCharAndAddUnderscore", new Func<string, string>(
+                input => input.ToLowerFirstCharAndAddUnderscore()));
+
         context.PushGlobal(scriptObject1);
         context.PushGlobal(scriptObject2);
         context.PushGlobal(scriptObject3);
@@ -46,5 +50,6 @@ internal static class NoxSolutionBridge
         context.PushGlobal(scriptObject5);
         context.PushGlobal(scriptObject6);
         context.PushGlobal(scriptObject7);
+        context.PushGlobal(scriptObject8);
     }
 }

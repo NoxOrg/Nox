@@ -24,6 +24,48 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             return;
         }
 
+        const string templateName = @"Presentation.Api.OData.EntityController";
+
+        foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
+        {
+            context.CancellationToken.ThrowIfCancellationRequested();
+
+            if (codeGeneratorState.Solution.Domain.Entities.Any(e => e.OwnedRelationships != null && e.OwnedRelationships.Any(r => r.Entity.Equals(entity.Name))))
+            {
+                continue;
+            }
+
+            //var entityName = entity.Name;
+            //var pluralName = entity.PluralName;
+            //var variableName = entity.Name.ToLower();
+            //var dbContextName = $"DtoDbContext";
+            //var controllerName = $"{pluralName}Controller";
+            //var keyName = entity.Keys.FirstOrDefault().Name;
+            //// TODO: fix composite key
+            ////var keyType = entityName + "Id";
+            ////var keyUnderlyingType = entity.Keys?.FirstOrDefault()?.Type;
+            //// TODO Evaluate how to generate a Named ID Type
+            ////if (!keyUnderlyingType.HasValue)
+            ////{
+            ////    parsingLogic = $"var parsedKey = {keyType}.From(key);";
+            ////}
+
+            new TemplateCodeBuilder(context, codeGeneratorState)
+                .WithClassName($"{entity.PluralName}Controller")
+                .WithFileNamePrefix("Presentation.Api.OData")
+                .WithObject("entity", entity)
+                .GenerateSourceCodeFromResource(templateName);
+        }
+    }
+    public void Generate_OLD(SourceProductionContext context, NoxSolutionCodeGeneratorState codeGeneratorState, GeneratorConfig config)
+    {
+        context.CancellationToken.ThrowIfCancellationRequested();
+
+        if (codeGeneratorState.Solution.Domain is null)
+        {
+            return;
+        }
+
         foreach (var entity in codeGeneratorState.Solution.Domain.Entities)
         {
             context.CancellationToken.ThrowIfCancellationRequested();
