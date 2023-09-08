@@ -3,7 +3,7 @@ using AutoFixture.Xunit2;
 using AutoFixture;
 
 
-namespace Nox.ClientApi.Tests.FixtureConfig
+namespace Nox.ClientApi.Tests.Tests.FixtureConfig
 {
     public class AutoMoqDataAttribute : AutoDataAttribute
     {
@@ -17,6 +17,6 @@ namespace Nox.ClientApi.Tests.FixtureConfig
             var fixture = new Fixture();
             fixture.Customize(new AutoMoqCustomization());
             return fixture;
-        }      
+        }
     }
 }

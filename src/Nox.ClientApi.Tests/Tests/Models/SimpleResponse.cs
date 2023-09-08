@@ -1,7 +1,7 @@
 ﻿
 using System.Net;
 
-namespace Nox.ClientApi.Tests.Models;
+namespace Nox.ClientApi.Tests.Tests.Models;
 
 public class SimpleResponse
 {

@@ -1,28 +1,25 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.OData.Formatter;
-using Microsoft.AspNetCore.OData.Routing.Controllers;
+
 
 namespace ClientApi.Presentation.Api.OData;
 
+/// <summary>
+/// Example of extending a controller with additional end points
+/// </summary>
 public partial class CountriesController 
 {
 
-    //TODO Example custom Action
-   // [HttpPost("odata/Books({key})/Rate")]
-    //public IActionResult Rate([FromODataUri] string key, ODataActionParameters parameters)
-    //{
-    //    if (!ModelState.IsValid)
-    //    {
-    //        return BadRequest();
-    //    }
-
-    //    int rating = (int)parameters["rating"];
-
-    //    if (rating < 0)
-    //    {
-    //        return BadRequest();
-    //    }
-
-    //    return Ok(new BookRating() { BookID = key, Rating = rating });
-    //}
+    [HttpGet("api/Countries/CountriesWithDebt")]
+    public async Task<ActionResult<IEnumerable<Application.Dto.CountryDto>>> CountriesWithDebt()
+    {
+        // Simulate some work
+        await Task.Delay(1);
+        return new List<Application.Dto.CountryDto>() {
+            new Application.Dto.CountryDto()
+            {
+                Id = 1
+            }
+        };
+    }
 }

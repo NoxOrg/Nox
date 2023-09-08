@@ -3,7 +3,7 @@ using ClientApi.Application.Dto;
 using AutoFixture;
 using System.Net;
 using AutoFixture.AutoMoq;
-using Nox.ClientApi.Tests.Models;
+using Nox.ClientApi.Tests.Tests.Models;
 
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {

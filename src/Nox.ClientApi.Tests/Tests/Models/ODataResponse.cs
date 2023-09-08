@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace Nox.ClientApi.Tests.Models;
+namespace Nox.ClientApi.Tests.Tests.Models;
 
 public class ODataResponse<T>
 {
