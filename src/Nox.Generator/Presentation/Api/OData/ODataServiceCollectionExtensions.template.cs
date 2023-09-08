@@ -20,8 +20,7 @@ public static class ODataServiceCollectionExtensions
         {{ hasKeyForCompoundKeys -}}
 
         {{- for entity in solution.Domain.Entities }}
-        {{- if !entity.IsOwnedEntity }}
-
+        {{- if (array.size entity.Keys) > 0 #we can not have entityset without keys}}
         builder.EntitySet<{{entity.Name}}Dto>("{{entity.PluralName}}");
         {{- end }}
         {{- if entity.OwnedRelationships != null }}

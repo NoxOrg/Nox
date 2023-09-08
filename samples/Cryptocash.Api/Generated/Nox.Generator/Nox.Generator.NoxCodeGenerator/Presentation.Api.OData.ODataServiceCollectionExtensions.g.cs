@@ -36,82 +36,74 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<VendingMachineDto>().HasKey(e => new { e.Id });
         builder.EntityType<CashStockOrderDto>().HasKey(e => new { e.Id });
 
-
         builder.EntitySet<BookingDto>("Bookings");
 
         builder.EntityType<BookingDto>();
         builder.EntityType<BookingDto>().Ignore(e => e.DeletedAtUtc);
-
         builder.EntitySet<CommissionDto>("Commissions");
 
         builder.EntityType<CommissionDto>();
         builder.EntityType<CommissionDto>().Ignore(e => e.DeletedAtUtc);
-
         builder.EntitySet<CountryDto>("Countries");
         builder.EntityType<CountryDto>().ContainsMany(e => e.CountryTimeZones).AutoExpand = true;
         builder.EntityType<CountryDto>().ContainsMany(e => e.Holidays).AutoExpand = true;
 
         builder.EntityType<CountryDto>();
         builder.EntityType<CountryDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntitySet<HolidayDto>("Holidays");
 
         builder.EntityType<HolidayDto>();
+        builder.EntitySet<CountryTimeZoneDto>("CountryTimeZones");
 
         builder.EntityType<CountryTimeZoneDto>();
-
         builder.EntitySet<CurrencyDto>("Currencies");
         builder.EntityType<CurrencyDto>().ContainsMany(e => e.BankNotes).AutoExpand = true;
         builder.EntityType<CurrencyDto>().ContainsMany(e => e.ExchangeRates).AutoExpand = true;
 
         builder.EntityType<CurrencyDto>();
         builder.EntityType<CurrencyDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntitySet<BankNoteDto>("BankNotes");
 
         builder.EntityType<BankNoteDto>();
-
         builder.EntitySet<CustomerDto>("Customers");
 
         builder.EntityType<CustomerDto>();
         builder.EntityType<CustomerDto>().Ignore(e => e.DeletedAtUtc);
-
         builder.EntitySet<PaymentDetailDto>("PaymentDetails");
 
         builder.EntityType<PaymentDetailDto>();
         builder.EntityType<PaymentDetailDto>().Ignore(e => e.DeletedAtUtc);
-
         builder.EntitySet<TransactionDto>("Transactions");
 
         builder.EntityType<TransactionDto>();
         builder.EntityType<TransactionDto>().Ignore(e => e.DeletedAtUtc);
-
         builder.EntitySet<EmployeeDto>("Employees");
         builder.EntityType<EmployeeDto>().ContainsMany(e => e.EmployeePhoneNumbers).AutoExpand = true;
 
         builder.EntityType<EmployeeDto>();
         builder.EntityType<EmployeeDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntitySet<EmployeePhoneNumberDto>("EmployeePhoneNumbers");
 
         builder.EntityType<EmployeePhoneNumberDto>();
+        builder.EntitySet<ExchangeRateDto>("ExchangeRates");
 
         builder.EntityType<ExchangeRateDto>();
-
         builder.EntitySet<LandLordDto>("LandLords");
 
         builder.EntityType<LandLordDto>();
         builder.EntityType<LandLordDto>().Ignore(e => e.DeletedAtUtc);
-
         builder.EntitySet<MinimumCashStockDto>("MinimumCashStocks");
 
         builder.EntityType<MinimumCashStockDto>();
         builder.EntityType<MinimumCashStockDto>().Ignore(e => e.DeletedAtUtc);
-
         builder.EntitySet<PaymentProviderDto>("PaymentProviders");
 
         builder.EntityType<PaymentProviderDto>();
         builder.EntityType<PaymentProviderDto>().Ignore(e => e.DeletedAtUtc);
-
         builder.EntitySet<VendingMachineDto>("VendingMachines");
 
         builder.EntityType<VendingMachineDto>();
         builder.EntityType<VendingMachineDto>().Ignore(e => e.DeletedAtUtc);
-
         builder.EntitySet<CashStockOrderDto>("CashStockOrders");
 
         builder.EntityType<CashStockOrderDto>();
