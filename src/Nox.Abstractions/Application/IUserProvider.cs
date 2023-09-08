@@ -4,5 +4,5 @@ namespace Nox.Abstractions;
 
 public interface IUserProvider
 {
-    User GetUser();
+    string GetUser();
 }

@@ -34,7 +34,7 @@ public class DeleteBookingByIdCommandHandler: CommandBase<DeleteBookingByIdComma
 		var keyId = CreateNoxTypeForKey<Booking,DatabaseGuid>("Id", request.keyId);
 
 		var entity = await DbContext.Bookings.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}

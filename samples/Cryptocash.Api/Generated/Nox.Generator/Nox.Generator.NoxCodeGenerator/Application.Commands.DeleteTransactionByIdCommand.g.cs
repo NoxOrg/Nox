@@ -34,7 +34,7 @@ public class DeleteTransactionByIdCommandHandler: CommandBase<DeleteTransactionB
 		var keyId = CreateNoxTypeForKey<Transaction,DatabaseNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Transactions.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}

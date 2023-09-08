@@ -286,7 +286,7 @@ namespace Nox.Solution
             }
 
             //look in .nox/design or Design folder from current Directory
-            var designFolder = FindNoxDesignFolder("./");
+            var designFolder = FindNoxDesignFolder("../.");
             if (designFolder != null)
             {
                 rootYaml = FindSolutionYamlFile(designFolder);

@@ -34,7 +34,7 @@ public class DeleteCurrencyByIdCommandHandler: CommandBase<DeleteCurrencyByIdCom
 		var keyId = CreateNoxTypeForKey<Currency,CurrencyCode3>("Id", request.keyId);
 
 		var entity = await DbContext.Currencies.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}

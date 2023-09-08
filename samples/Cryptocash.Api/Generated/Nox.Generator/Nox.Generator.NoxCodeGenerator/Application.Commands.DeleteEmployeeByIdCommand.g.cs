@@ -34,7 +34,7 @@ public class DeleteEmployeeByIdCommandHandler: CommandBase<DeleteEmployeeByIdCom
 		var keyId = CreateNoxTypeForKey<Employee,DatabaseNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Employees.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}

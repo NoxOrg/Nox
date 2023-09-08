@@ -34,7 +34,7 @@ public class DeletePaymentProviderByIdCommandHandler: CommandBase<DeletePaymentP
 		var keyId = CreateNoxTypeForKey<PaymentProvider,DatabaseNumber>("Id", request.keyId);
 
 		var entity = await DbContext.PaymentProviders.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}

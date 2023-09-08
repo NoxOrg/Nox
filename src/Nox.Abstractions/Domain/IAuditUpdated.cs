@@ -2,7 +2,7 @@
 
 public interface IAuditUpdated
 {
-    Types.User? LastUpdatedBy { get; }
-    Types.Text? LastUpdatedVia { get; }
-    Types.DateTime? LastUpdatedAtUtc { get; }
+    string? LastUpdatedBy { get; }
+    string? LastUpdatedVia { get; }
+    System.DateTime? LastUpdatedAtUtc { get; }
 }

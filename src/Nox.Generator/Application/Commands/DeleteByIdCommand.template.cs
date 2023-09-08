@@ -38,7 +38,7 @@ public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase<Delete{{entity
 		{{- end }}
 
 		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysQuery}});
-		if (entity == null{{if (entity.Persistence?.IsAudited ?? true)}} || entity.IsDeleted.Value == true{{end}})
+		if (entity == null{{if (entity.Persistence?.IsAudited ?? true)}} || entity.IsDeleted == true{{end}})
 		{
 			return false;
 		}

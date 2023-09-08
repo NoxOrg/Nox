@@ -34,7 +34,7 @@ public class DeleteCashStockOrderByIdCommandHandler: CommandBase<DeleteCashStock
 		var keyId = CreateNoxTypeForKey<CashStockOrder,DatabaseNumber>("Id", request.keyId);
 
 		var entity = await DbContext.CashStockOrders.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}

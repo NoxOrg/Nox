@@ -34,7 +34,7 @@ public class DeleteStoreOwnerByIdCommandHandler: CommandBase<DeleteStoreOwnerByI
 		var keyId = CreateNoxTypeForKey<StoreOwner,Text>("Id", request.keyId);
 
 		var entity = await DbContext.StoreOwners.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}

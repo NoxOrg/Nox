@@ -34,7 +34,7 @@ public class DeleteVendingMachineByIdCommandHandler: CommandBase<DeleteVendingMa
 		var keyId = CreateNoxTypeForKey<VendingMachine,DatabaseGuid>("Id", request.keyId);
 
 		var entity = await DbContext.VendingMachines.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}

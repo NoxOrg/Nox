@@ -34,7 +34,7 @@ public class DeleteLandLordByIdCommandHandler: CommandBase<DeleteLandLordByIdCom
 		var keyId = CreateNoxTypeForKey<LandLord,DatabaseNumber>("Id", request.keyId);
 
 		var entity = await DbContext.LandLords.FindAsync(keyId);
-		if (entity == null || entity.IsDeleted.Value == true)
+		if (entity == null || entity.IsDeleted == true)
 		{
 			return false;
 		}

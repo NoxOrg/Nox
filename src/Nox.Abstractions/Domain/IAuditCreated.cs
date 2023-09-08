@@ -2,7 +2,7 @@
 
 public interface IAuditCreated
 {
-    Types.User CreatedBy { get; }
-    Types.Text CreatedVia { get; }
-    Types.DateTime CreatedAtUtc { get; }
+    string CreatedBy { get; }
+    string CreatedVia { get; }
+    System.DateTime CreatedAtUtc { get; }
 }
