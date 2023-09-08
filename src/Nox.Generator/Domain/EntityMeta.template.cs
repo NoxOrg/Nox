@@ -14,11 +14,23 @@ namespace {{codeGeneratorState.DomainNameSpace}};
 /// </summary>
 public partial class {{className}}
 {
-{{- for entry in propertiesWithSource }}
+{{- for td in typeDef }}
+    {{ if td.OptionsOutput != "" }}
     /// <summary>
-    /// Type options and factory for property '{{entry.TypeDef.Name}}'
+    /// Type options for property '{{td.Name}}'
     /// </summary>
-    {{entry.Source}}
-
+    public static {{td.OptionsOutput}}
+    /// <summary>
+    /// Factory for property '{{td.Name}}'
+    /// </summary>
+    public static {{td.Type}} Create{{td.Name}}({{td.InParams}})
+        => Nox.Types.{{td.Type}}.From(value, {{td.Name}}TypeOptions);
+    {{ else }}
+    /// <summary>
+    /// Factory for property '{{td.Name}}'
+    /// </summary>
+    public static Nox.Types.{{td.Type}} Create{{td.Name}}({{td.InParams}})
+        => Nox.Types.{{td.Type}}.From(value);
+    {{ end }}
 {{- end }}
 }

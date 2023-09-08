@@ -30,17 +30,17 @@ public partial class TestWebAppDbContext : DbContext
             DbContextOptions<TestWebAppDbContext> options,
             NoxSolution noxSolution,
             INoxDatabaseProvider databaseProvider,
-            INoxClientAssemblyProvider clientAssemblyProvider, 
+            INoxClientAssemblyProvider clientAssemblyProvider,
             IUserProvider userProvider,
             ISystemProvider systemProvider
         ) : base(options)
-        {
-            _noxSolution = noxSolution;
-            _dbProvider = databaseProvider;
-            _clientAssemblyProvider = clientAssemblyProvider;
-            _userProvider = userProvider;
-            _systemProvider = systemProvider;
-        }
+    {
+        _noxSolution = noxSolution;
+        _dbProvider = databaseProvider;
+        _clientAssemblyProvider = clientAssemblyProvider;
+        _userProvider = userProvider;
+        _systemProvider = systemProvider;
+    }
 
     public DbSet<TestEntityZeroOrOne> TestEntityZeroOrOnes { get; set; } = null!;
 
@@ -125,7 +125,7 @@ public partial class TestWebAppDbContext : DbContext
         base.OnConfiguring(optionsBuilder);
         if (_noxSolution.Infrastructure is { Persistence.DatabaseServer: not null })
         {
-            _dbProvider.ConfigureDbContext(optionsBuilder, "TestWebApp", _noxSolution.Infrastructure!.Persistence.DatabaseServer); 
+            _dbProvider.ConfigureDbContext(optionsBuilder, "TestWebApp", _noxSolution.Infrastructure!.Persistence.DatabaseServer);
         }
     }
 
