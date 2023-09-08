@@ -1,11 +1,10 @@
-﻿using Nox.Abstractions;
-using Nox.Domain;
+﻿using Nox.Domain;
 using Nox.Solution;
 
 namespace Nox.Factories;
 
 /// <summary>
-/// Service to set the entity properties 
+/// Map Dtos to the entities 
 /// </summary>
 public interface IEntityMapper<E> where E : IEntity
 {
@@ -14,7 +13,7 @@ public interface IEntityMapper<E> where E : IEntity
     /// </summary>
     void MapToEntity(E entity, Entity entityDefinition, dynamic dto);
     /// <summary>
-    /// Update some entity properties
+    /// Update a subset of the entity properties
     /// </summary>    
     /// <param name="entity">Entity to update</param>
     /// <param name="entityDefinition">Entity Definition</param>

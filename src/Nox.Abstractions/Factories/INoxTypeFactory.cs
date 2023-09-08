@@ -1,6 +1,4 @@
-﻿using Nox.Domain;
-using Nox.Types;
-using Nox.Extensions;
+﻿using Nox.Types;
 
 namespace Nox.Factories
 {
