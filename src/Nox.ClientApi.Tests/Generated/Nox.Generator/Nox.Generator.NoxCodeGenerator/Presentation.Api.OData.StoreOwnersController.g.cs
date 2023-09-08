@@ -61,18 +61,22 @@ public partial class StoreOwnersController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]StoreOwnerCreateDto storeowner)
+    [EnableQuery]
+    public async Task<ActionResult<StoreOwnerDto>> Post([FromBody]StoreOwnerCreateDto storeOwner)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateStoreOwnerCommand(storeowner));
+        var createdKey = await _mediator.Send(new CreateStoreOwnerCommand(storeOwner));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetStoreOwnerByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] StoreOwnerUpdateDto storeOwner)
+    [EnableQuery]
+    public async Task<ActionResult<StoreOwnerDto>> Put([FromRoute] System.String key, [FromBody] StoreOwnerUpdateDto storeOwner)
     {
         if (!ModelState.IsValid)
         {
@@ -80,15 +84,18 @@ public partial class StoreOwnersController : ODataController
         }
         
         var updated = await _mediator.Send(new UpdateStoreOwnerCommand(key, storeOwner));
-        
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetStoreOwnerByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<StoreOwnerUpdateDto> storeOwner)
+    [EnableQuery]
+    public async Task<ActionResult<StoreOwnerDto>> Patch([FromRoute] System.String key, [FromBody] Delta<StoreOwnerUpdateDto> storeOwner)
     {
         if (!ModelState.IsValid)
         {
@@ -110,7 +117,8 @@ public partial class StoreOwnersController : ODataController
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetStoreOwnerByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)

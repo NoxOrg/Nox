@@ -139,7 +139,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             if (entity.Persistence is null ||
                 entity.Persistence.Create.IsEnabled)
             {
-                GeneratePost(entityName, variableName, code);
+                GeneratePost(entity, code);
             }
 
             if (entity.Persistence is null ||
@@ -214,7 +214,8 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GeneratePut(Entity entity, CodeBuilder code, NoxSolution solution)
     {
         // Method Put
-        code.AppendLine($"public async Task<ActionResult> Put({PrimaryKeysFromRoute(entity, solution)}, [FromBody] {entity.Name}UpdateDto {entity.Name.ToLowerFirstChar()})");
+        code.AppendLine($"[EnableQuery]");
+        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Put({PrimaryKeysFromRoute(entity, solution)}, [FromBody] {entity.Name}UpdateDto {entity.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();
@@ -224,13 +225,15 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.EndBlock();
         code.AppendLine();
         code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({PrimaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}));");
-        code.AppendLine();
-
         code.AppendLine($"if (updated is null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
-        code.AppendLine($"return Updated(updated);");
+        code.AppendLine();
+        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity, "updated.key", true)}));");
+        code.AppendLine();
+
+        code.AppendLine($"return Ok(item);");
 
         // End method
         code.EndBlock();
@@ -240,7 +243,8 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GeneratePatch(Entity entity, string entityName, string pluralName, CodeBuilder code, NoxSolution solution)
     {
         // Method Patch
-        code.AppendLine($"public async Task<ActionResult> Patch({PrimaryKeysFromRoute(entity, solution)}, [FromBody] Delta<{entityName}UpdateDto> {entity.Name.ToLowerFirstChar()})");
+        code.AppendLine($"[EnableQuery]");
+        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Patch({PrimaryKeysFromRoute(entity, solution)}, [FromBody] Delta<{entityName}UpdateDto> {entity.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();
@@ -265,17 +269,19 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.StartBlock();
         code.AppendLine($"return NotFound();");
         code.EndBlock();
-        code.AppendLine($"return Updated(updated);");
+        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity, "updated.key", true)}));");
+        code.AppendLine($"return Ok(item);");
 
         // End method
         code.EndBlock();
         code.AppendLine();
     }
 
-    private static void GeneratePost(string entityName, string variableName, CodeBuilder code)
+    private static void GeneratePost(Entity entity, CodeBuilder code)
     {
         // Method Post
-        code.AppendLine($"public async Task<ActionResult> Post([FromBody]{entityName}CreateDto {variableName})");
+        code.AppendLine($"[EnableQuery]");
+        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Post([FromBody]{entity.Name}CreateDto {entity.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();
@@ -283,10 +289,12 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.StartBlock();
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
-        code.AppendLine($"var createdKey = await _mediator.Send(new Create{entityName}Command({variableName}));");
-
+        code.AppendLine($"var createdKey = await _mediator.Send(new Create{entity.Name}Command({entity.Name.ToLowerFirstChar()}));");
         code.AppendLine();
-        code.AppendLine($"return Created(createdKey);");
+        code.AppendLine($"var item = await _mediator.Send(new Get{entity.Name}ByIdQuery({PrimaryKeysQuery(entity, "createdKey.key", true)}));");
+        code.AppendLine();
+        
+        code.AppendLine($"return Created(item);");
 
         // End method
         code.EndBlock();
@@ -497,11 +505,14 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         return "";
     }
 
-    private static string PrimaryKeysQuery(Entity entity, string prefix = "key")
+    private static string PrimaryKeysQuery(Entity entity, string prefix = "key", bool withKeyName = false)
     {
-        return entity.Keys.Count() > 1 ?
-            string.Join(", ", entity.Keys.Select(k => $"{prefix}{k.Name}")) :
-            $"{prefix}";
+        if (entity.Keys.Count() > 1)
+            return string.Join(", ", entity.Keys.Select(k => $"{prefix}{k.Name}"));
+        else if (entity.Keys is not null)
+            return withKeyName ? $"{prefix}{entity.Keys[0].Name}" : $"{prefix}";
+
+        return "";
     }
 
     private static string PrimaryKeysAttribute(Entity entity, string prefix = "key")

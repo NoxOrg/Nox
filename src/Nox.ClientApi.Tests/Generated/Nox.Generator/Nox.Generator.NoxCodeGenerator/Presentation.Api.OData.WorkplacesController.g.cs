@@ -61,7 +61,8 @@ public partial class WorkplacesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]WorkplaceCreateDto workplace)
+    [EnableQuery]
+    public async Task<ActionResult<WorkplaceDto>> Post([FromBody]WorkplaceCreateDto workplace)
     {
         if (!ModelState.IsValid)
         {
@@ -69,10 +70,13 @@ public partial class WorkplacesController : ODataController
         }
         var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetWorkplaceByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.UInt32 key, [FromBody] WorkplaceUpdateDto workplace)
+    [EnableQuery]
+    public async Task<ActionResult<WorkplaceDto>> Put([FromRoute] System.UInt32 key, [FromBody] WorkplaceUpdateDto workplace)
     {
         if (!ModelState.IsValid)
         {
@@ -80,15 +84,18 @@ public partial class WorkplacesController : ODataController
         }
         
         var updated = await _mediator.Send(new UpdateWorkplaceCommand(key, workplace));
-        
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetWorkplaceByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<WorkplaceUpdateDto> workplace)
+    [EnableQuery]
+    public async Task<ActionResult<WorkplaceDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<WorkplaceUpdateDto> workplace)
     {
         if (!ModelState.IsValid)
         {
@@ -110,7 +117,8 @@ public partial class WorkplacesController : ODataController
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetWorkplaceByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.UInt32 key)

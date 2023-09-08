@@ -61,18 +61,22 @@ public partial class CompoundKeysEntitiesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]CompoundKeysEntityCreateDto compoundkeysentity)
+    [EnableQuery]
+    public async Task<ActionResult<CompoundKeysEntityDto>> Post([FromBody]CompoundKeysEntityCreateDto compoundKeysEntity)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateCompoundKeysEntityCommand(compoundkeysentity));
+        var createdKey = await _mediator.Send(new CreateCompoundKeysEntityCommand(compoundKeysEntity));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetCompoundKeysEntityByIdQuery(createdKey.keyId1, createdKey.keyId2));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] CompoundKeysEntityUpdateDto compoundKeysEntity)
+    [EnableQuery]
+    public async Task<ActionResult<CompoundKeysEntityDto>> Put([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] CompoundKeysEntityUpdateDto compoundKeysEntity)
     {
         if (!ModelState.IsValid)
         {
@@ -80,15 +84,18 @@ public partial class CompoundKeysEntitiesController : ODataController
         }
         
         var updated = await _mediator.Send(new UpdateCompoundKeysEntityCommand(keyId1, keyId2, compoundKeysEntity));
-        
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetCompoundKeysEntityByIdQuery(updated.keyId1, updated.keyId2));
+        
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] Delta<CompoundKeysEntityUpdateDto> compoundKeysEntity)
+    [EnableQuery]
+    public async Task<ActionResult<CompoundKeysEntityDto>> Patch([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] Delta<CompoundKeysEntityUpdateDto> compoundKeysEntity)
     {
         if (!ModelState.IsValid)
         {
@@ -110,7 +117,8 @@ public partial class CompoundKeysEntitiesController : ODataController
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetCompoundKeysEntityByIdQuery(updated.keyId1, updated.keyId2));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)

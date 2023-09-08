@@ -65,7 +65,8 @@ public partial class StoresController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]StoreCreateDto store)
+    [EnableQuery]
+    public async Task<ActionResult<StoreDto>> Post([FromBody]StoreCreateDto store)
     {
         if (!ModelState.IsValid)
         {
@@ -73,10 +74,13 @@ public partial class StoresController : ODataController
         }
         var createdKey = await _mediator.Send(new CreateStoreCommand(store));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetStoreByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.UInt32 key, [FromBody] StoreUpdateDto store)
+    [EnableQuery]
+    public async Task<ActionResult<StoreDto>> Put([FromRoute] System.UInt32 key, [FromBody] StoreUpdateDto store)
     {
         if (!ModelState.IsValid)
         {
@@ -84,15 +88,18 @@ public partial class StoresController : ODataController
         }
         
         var updated = await _mediator.Send(new UpdateStoreCommand(key, store));
-        
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetStoreByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<StoreUpdateDto> store)
+    [EnableQuery]
+    public async Task<ActionResult<StoreDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<StoreUpdateDto> store)
     {
         if (!ModelState.IsValid)
         {
@@ -114,7 +121,8 @@ public partial class StoresController : ODataController
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetStoreByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.UInt32 key)

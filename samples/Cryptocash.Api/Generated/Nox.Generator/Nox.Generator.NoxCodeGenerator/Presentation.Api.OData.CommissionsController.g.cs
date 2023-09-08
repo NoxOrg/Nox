@@ -61,7 +61,8 @@ public partial class CommissionsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]CommissionCreateDto commission)
+    [EnableQuery]
+    public async Task<ActionResult<CommissionDto>> Post([FromBody]CommissionCreateDto commission)
     {
         if (!ModelState.IsValid)
         {
@@ -69,10 +70,13 @@ public partial class CommissionsController : ODataController
         }
         var createdKey = await _mediator.Send(new CreateCommissionCommand(commission));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetCommissionByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] CommissionUpdateDto commission)
+    [EnableQuery]
+    public async Task<ActionResult<CommissionDto>> Put([FromRoute] System.Int64 key, [FromBody] CommissionUpdateDto commission)
     {
         if (!ModelState.IsValid)
         {
@@ -80,15 +84,18 @@ public partial class CommissionsController : ODataController
         }
         
         var updated = await _mediator.Send(new UpdateCommissionCommand(key, commission));
-        
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetCommissionByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CommissionUpdateDto> commission)
+    [EnableQuery]
+    public async Task<ActionResult<CommissionDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CommissionUpdateDto> commission)
     {
         if (!ModelState.IsValid)
         {
@@ -110,7 +117,8 @@ public partial class CommissionsController : ODataController
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetCommissionByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)

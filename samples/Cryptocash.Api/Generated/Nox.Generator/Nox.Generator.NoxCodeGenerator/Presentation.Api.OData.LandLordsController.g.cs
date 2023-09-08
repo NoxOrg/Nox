@@ -61,18 +61,22 @@ public partial class LandLordsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]LandLordCreateDto landlord)
+    [EnableQuery]
+    public async Task<ActionResult<LandLordDto>> Post([FromBody]LandLordCreateDto landLord)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateLandLordCommand(landlord));
+        var createdKey = await _mediator.Send(new CreateLandLordCommand(landLord));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetLandLordByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] LandLordUpdateDto landLord)
+    [EnableQuery]
+    public async Task<ActionResult<LandLordDto>> Put([FromRoute] System.Int64 key, [FromBody] LandLordUpdateDto landLord)
     {
         if (!ModelState.IsValid)
         {
@@ -80,15 +84,18 @@ public partial class LandLordsController : ODataController
         }
         
         var updated = await _mediator.Send(new UpdateLandLordCommand(key, landLord));
-        
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetLandLordByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<LandLordUpdateDto> landLord)
+    [EnableQuery]
+    public async Task<ActionResult<LandLordDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<LandLordUpdateDto> landLord)
     {
         if (!ModelState.IsValid)
         {
@@ -110,7 +117,8 @@ public partial class LandLordsController : ODataController
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetLandLordByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)

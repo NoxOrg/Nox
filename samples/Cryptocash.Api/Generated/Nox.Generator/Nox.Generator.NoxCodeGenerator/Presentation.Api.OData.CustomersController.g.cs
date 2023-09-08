@@ -61,7 +61,8 @@ public partial class CustomersController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]CustomerCreateDto customer)
+    [EnableQuery]
+    public async Task<ActionResult<CustomerDto>> Post([FromBody]CustomerCreateDto customer)
     {
         if (!ModelState.IsValid)
         {
@@ -69,10 +70,13 @@ public partial class CustomersController : ODataController
         }
         var createdKey = await _mediator.Send(new CreateCustomerCommand(customer));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetCustomerByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] CustomerUpdateDto customer)
+    [EnableQuery]
+    public async Task<ActionResult<CustomerDto>> Put([FromRoute] System.Int64 key, [FromBody] CustomerUpdateDto customer)
     {
         if (!ModelState.IsValid)
         {
@@ -80,15 +84,18 @@ public partial class CustomersController : ODataController
         }
         
         var updated = await _mediator.Send(new UpdateCustomerCommand(key, customer));
-        
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetCustomerByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CustomerUpdateDto> customer)
+    [EnableQuery]
+    public async Task<ActionResult<CustomerDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CustomerUpdateDto> customer)
     {
         if (!ModelState.IsValid)
         {
@@ -110,7 +117,8 @@ public partial class CustomersController : ODataController
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetCustomerByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
