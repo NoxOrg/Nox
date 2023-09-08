@@ -60,4 +60,11 @@ public partial class StoreOwner
         => Nox.Types.StreetAddress.From(value);
     
 
+    /// <summary>
+    /// Type options and factory for property 'LocalGreeting'
+    /// </summary>
+    public static Nox.Types.TranslatedText CreateLocalGreeting(ITranslatedText value)
+        => Nox.Types.TranslatedText.From(value);
+    
+
 }

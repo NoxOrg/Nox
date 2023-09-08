@@ -82,7 +82,7 @@ public partial class CountriesController : ODataController
         return Created(child);
     }
     
-    [HttpPut("/api/Countries/{key}/CountryLocalNames/{relatedKey}")]
+    [HttpPut("/api/[controller]/{key}/CountryLocalNames/{relatedKey}")]
     public async Task<ActionResult> PutToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] CountryLocalNameUpdateDto countryLocalName)
     {
         if (!ModelState.IsValid)
@@ -105,7 +105,7 @@ public partial class CountriesController : ODataController
         return Ok(child);
     }
     
-    [HttpPatch("/api/Countries/{key}/CountryLocalNames/{relatedKey}")]
+    [HttpPatch("/api/[controller]/{key}/CountryLocalNames/{relatedKey}")]
     public async Task<ActionResult> PatchToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<CountryLocalNameUpdateDto> countryLocalName)
     {
         if (!ModelState.IsValid)

@@ -82,7 +82,7 @@ public partial class EmployeesController : ODataController
         return Created(child);
     }
     
-    [HttpPut("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
+    [HttpPut("/api/[controller]/{key}/EmployeePhoneNumbers/{relatedKey}")]
     public async Task<ActionResult> PutToEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] EmployeePhoneNumberUpdateDto employeePhoneNumber)
     {
         if (!ModelState.IsValid)
@@ -105,7 +105,7 @@ public partial class EmployeesController : ODataController
         return Ok(child);
     }
     
-    [HttpPatch("/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
+    [HttpPatch("/api/[controller]/{key}/EmployeePhoneNumbers/{relatedKey}")]
     public async Task<ActionResult> PatchToEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<EmployeePhoneNumberUpdateDto> employeePhoneNumber)
     {
         if (!ModelState.IsValid)

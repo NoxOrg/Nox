@@ -37,6 +37,11 @@ attributes:
     type: streetAddress
     isRequired: false
 
+  - name: LocalGreeting
+    description: Owner Greeting
+    type: translatedText
+    isRequired: false
+
 relationships:
 
     - name: StoreRel

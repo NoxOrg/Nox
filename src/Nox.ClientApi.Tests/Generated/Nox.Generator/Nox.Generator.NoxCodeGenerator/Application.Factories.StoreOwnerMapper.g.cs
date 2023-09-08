@@ -49,6 +49,11 @@ public partial class StoreOwnerMapper : EntityMapperBase<StoreOwner>
         if (noxTypeValue != null)
         {        
             entity.StreetAddress = noxTypeValue;
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.TranslatedText>(entityDefinition, "LocalGreeting", dto.LocalGreeting);
+        if (noxTypeValue != null)
+        {        
+            entity.LocalGreeting = noxTypeValue;
         }
     
     }
@@ -97,6 +102,20 @@ public partial class StoreOwnerMapper : EntityMapperBase<StoreOwner>
                 else
                 {
                     entity.StreetAddress = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("LocalGreeting", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.TranslatedText>(entityDefinition, "LocalGreeting", value);
+                if(noxTypeValue == null)
+                {
+                    entity.LocalGreeting = null;
+                }
+                else
+                {
+                    entity.LocalGreeting = noxTypeValue;
                 }
             }
         }

@@ -44,6 +44,11 @@ public partial class StoreOwnerDto
     public StreetAddressDto? StreetAddress { get; set; }
 
     /// <summary>
+    /// Owner Greeting (Optional).
+    /// </summary>
+    public TranslatedTextDto? LocalGreeting { get; set; }
+
+    /// <summary>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
     /// </summary>
     public virtual List<StoreDto> StoreRel { get; set; } = new();

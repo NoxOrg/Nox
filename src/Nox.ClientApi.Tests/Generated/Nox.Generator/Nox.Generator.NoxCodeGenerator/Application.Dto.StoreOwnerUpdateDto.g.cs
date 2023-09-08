@@ -28,4 +28,8 @@ public partial class StoreOwnerUpdateDto
     /// Street Address (Optional).
     /// </summary>
     public StreetAddressDto? StreetAddress { get; set; }
+    /// <summary>
+    /// Owner Greeting (Optional).
+    /// </summary>
+    public TranslatedTextDto? LocalGreeting { get; set; }
 }
