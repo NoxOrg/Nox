@@ -22,12 +22,12 @@ public record AddEmployeePhoneNumberCommand(EmployeeKeyDto ParentKeyDto, Employe
 public partial class AddEmployeePhoneNumberCommandHandler: CommandBase<AddEmployeePhoneNumberCommand, EmployeePhoneNumber>, IRequestHandler <AddEmployeePhoneNumberCommand, EmployeePhoneNumberKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<EmployeePhoneNumberCreateDto,EmployeePhoneNumber> _entityFactory;
+	private readonly IEntityFactory<EmployeePhoneNumber,EmployeePhoneNumberCreateDto> _entityFactory;
 
 	public AddEmployeePhoneNumberCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<EmployeePhoneNumberCreateDto,EmployeePhoneNumber> entityFactory,
+        IEntityFactory<EmployeePhoneNumber,EmployeePhoneNumberCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;

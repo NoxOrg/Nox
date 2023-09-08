@@ -23,12 +23,12 @@ public record CreateCustomerCommand(CustomerCreateDto EntityDto) : IRequest<Cust
 public partial class CreateCustomerCommandHandler: CommandBase<CreateCustomerCommand,Customer>, IRequestHandler <CreateCustomerCommand, CustomerKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<CustomerCreateDto,Customer> _entityFactory;
+	private readonly IEntityFactory<Customer,CustomerCreateDto> _entityFactory;
 
 	public CreateCustomerCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<CustomerCreateDto,Customer> entityFactory,
+        IEntityFactory<Customer,CustomerCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;

@@ -23,12 +23,12 @@ public record CreateStoreOwnerCommand(StoreOwnerCreateDto EntityDto) : IRequest<
 public partial class CreateStoreOwnerCommandHandler: CommandBase<CreateStoreOwnerCommand,StoreOwner>, IRequestHandler <CreateStoreOwnerCommand, StoreOwnerKeyDto>
 {
 	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<StoreOwnerCreateDto,StoreOwner> _entityFactory;
+	private readonly IEntityFactory<StoreOwner,StoreOwnerCreateDto> _entityFactory;
 
 	public CreateStoreOwnerCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<StoreOwnerCreateDto,StoreOwner> entityFactory,
+        IEntityFactory<StoreOwner,StoreOwnerCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;

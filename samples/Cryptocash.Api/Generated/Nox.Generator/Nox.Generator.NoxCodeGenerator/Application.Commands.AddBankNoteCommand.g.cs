@@ -22,12 +22,12 @@ public record AddBankNoteCommand(CurrencyKeyDto ParentKeyDto, BankNoteCreateDto 
 public partial class AddBankNoteCommandHandler: CommandBase<AddBankNoteCommand, BankNote>, IRequestHandler <AddBankNoteCommand, BankNoteKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<BankNoteCreateDto,BankNote> _entityFactory;
+	private readonly IEntityFactory<BankNote,BankNoteCreateDto> _entityFactory;
 
 	public AddBankNoteCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<BankNoteCreateDto,BankNote> entityFactory,
+        IEntityFactory<BankNote,BankNoteCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;

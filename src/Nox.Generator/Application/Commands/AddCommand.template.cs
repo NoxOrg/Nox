@@ -22,12 +22,12 @@ public record Add{{entity.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{en
 public partial class Add{{entity.Name}}CommandHandler: CommandBase<Add{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler <Add{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
 	private readonly {{codeGeneratorState.Solution.Name}}DbContext _dbContext;
-	private readonly IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> _entityFactory;
+	private readonly IEntityFactory<{{entity.Name}},{{entity.Name}}CreateDto> _entityFactory;
 
 	public Add{{entity.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> entityFactory,
+        IEntityFactory<{{entity.Name}},{{entity.Name}}CreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;

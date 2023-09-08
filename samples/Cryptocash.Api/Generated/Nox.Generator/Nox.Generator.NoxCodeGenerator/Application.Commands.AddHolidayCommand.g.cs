@@ -22,12 +22,12 @@ public record AddHolidayCommand(CountryKeyDto ParentKeyDto, HolidayCreateDto Ent
 public partial class AddHolidayCommandHandler: CommandBase<AddHolidayCommand, Holiday>, IRequestHandler <AddHolidayCommand, HolidayKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<HolidayCreateDto,Holiday> _entityFactory;
+	private readonly IEntityFactory<Holiday,HolidayCreateDto> _entityFactory;
 
 	public AddHolidayCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<HolidayCreateDto,Holiday> entityFactory,
+        IEntityFactory<Holiday,HolidayCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;

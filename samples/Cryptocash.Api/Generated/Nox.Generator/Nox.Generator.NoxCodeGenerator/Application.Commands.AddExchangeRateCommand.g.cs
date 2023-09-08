@@ -22,12 +22,12 @@ public record AddExchangeRateCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateCr
 public partial class AddExchangeRateCommandHandler: CommandBase<AddExchangeRateCommand, ExchangeRate>, IRequestHandler <AddExchangeRateCommand, ExchangeRateKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<ExchangeRateCreateDto,ExchangeRate> _entityFactory;
+	private readonly IEntityFactory<ExchangeRate,ExchangeRateCreateDto> _entityFactory;
 
 	public AddExchangeRateCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<ExchangeRateCreateDto,ExchangeRate> entityFactory,
+        IEntityFactory<ExchangeRate,ExchangeRateCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;

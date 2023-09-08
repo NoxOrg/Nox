@@ -23,13 +23,13 @@ using Employee = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class EmployeeFactoryBase: IEntityFactory<EmployeeCreateDto,Employee>
+public abstract class EmployeeFactoryBase: IEntityFactory<Employee,EmployeeCreateDto>
 {
-    protected IEntityFactory<EmployeePhoneNumberCreateDto,EmployeePhoneNumber> EmployeePhoneNumberFactory {get;}
+    protected IEntityFactory<EmployeePhoneNumber,EmployeePhoneNumberCreateDto> EmployeePhoneNumberFactory {get;}
 
     public EmployeeFactoryBase
     (
-        IEntityFactory<EmployeePhoneNumberCreateDto,EmployeePhoneNumber> employeephonenumberfactory
+        IEntityFactory<EmployeePhoneNumber,EmployeePhoneNumberCreateDto> employeephonenumberfactory
         )
     {        
         EmployeePhoneNumberFactory = employeephonenumberfactory;
@@ -58,7 +58,7 @@ public partial class EmployeeFactory : EmployeeFactoryBase
 {
     public EmployeeFactory
     (
-        IEntityFactory<EmployeePhoneNumberCreateDto,EmployeePhoneNumber> employeephonenumberfactory
+        IEntityFactory<EmployeePhoneNumber,EmployeePhoneNumberCreateDto> employeephonenumberfactory
     ): base(employeephonenumberfactory)                      
     {}
 }

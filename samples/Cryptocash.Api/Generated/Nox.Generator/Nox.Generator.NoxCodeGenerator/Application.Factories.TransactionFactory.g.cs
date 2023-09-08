@@ -23,7 +23,7 @@ using Transaction = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class TransactionFactoryBase: IEntityFactory<TransactionCreateDto,Transaction>
+public abstract class TransactionFactoryBase: IEntityFactory<Transaction,TransactionCreateDto>
 {
 
     public TransactionFactoryBase

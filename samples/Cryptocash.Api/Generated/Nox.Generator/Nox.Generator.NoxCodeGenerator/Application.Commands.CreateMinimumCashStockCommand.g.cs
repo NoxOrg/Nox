@@ -23,12 +23,12 @@ public record CreateMinimumCashStockCommand(MinimumCashStockCreateDto EntityDto)
 public partial class CreateMinimumCashStockCommandHandler: CommandBase<CreateMinimumCashStockCommand,MinimumCashStock>, IRequestHandler <CreateMinimumCashStockCommand, MinimumCashStockKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<MinimumCashStockCreateDto,MinimumCashStock> _entityFactory;
+	private readonly IEntityFactory<MinimumCashStock,MinimumCashStockCreateDto> _entityFactory;
 
 	public CreateMinimumCashStockCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<MinimumCashStockCreateDto,MinimumCashStock> entityFactory,
+        IEntityFactory<MinimumCashStock,MinimumCashStockCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;

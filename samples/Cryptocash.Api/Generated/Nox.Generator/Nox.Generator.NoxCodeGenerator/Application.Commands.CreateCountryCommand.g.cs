@@ -23,12 +23,12 @@ public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<Countr
 public partial class CreateCountryCommandHandler: CommandBase<CreateCountryCommand,Country>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<CountryCreateDto,Country> _entityFactory;
+	private readonly IEntityFactory<Country,CountryCreateDto> _entityFactory;
 
 	public CreateCountryCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<CountryCreateDto,Country> entityFactory,
+        IEntityFactory<Country,CountryCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;

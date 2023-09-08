@@ -23,7 +23,7 @@ using PaymentProvider = Cryptocash.Domain.PaymentProvider;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class PaymentProviderFactoryBase: IEntityFactory<PaymentProviderCreateDto,PaymentProvider>
+public abstract class PaymentProviderFactoryBase: IEntityFactory<PaymentProvider,PaymentProviderCreateDto>
 {
 
     public PaymentProviderFactoryBase

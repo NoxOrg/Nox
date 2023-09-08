@@ -22,12 +22,12 @@ public record AddCountryTimeZoneCommand(CountryKeyDto ParentKeyDto, CountryTimeZ
 public partial class AddCountryTimeZoneCommandHandler: CommandBase<AddCountryTimeZoneCommand, CountryTimeZone>, IRequestHandler <AddCountryTimeZoneCommand, CountryTimeZoneKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<CountryTimeZoneCreateDto,CountryTimeZone> _entityFactory;
+	private readonly IEntityFactory<CountryTimeZone,CountryTimeZoneCreateDto> _entityFactory;
 
 	public AddCountryTimeZoneCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<CountryTimeZoneCreateDto,CountryTimeZone> entityFactory,
+        IEntityFactory<CountryTimeZone,CountryTimeZoneCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;

@@ -23,12 +23,12 @@ public record CreateCurrencyCommand(CurrencyCreateDto EntityDto) : IRequest<Curr
 public partial class CreateCurrencyCommandHandler: CommandBase<CreateCurrencyCommand,Currency>, IRequestHandler <CreateCurrencyCommand, CurrencyKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<CurrencyCreateDto,Currency> _entityFactory;
+	private readonly IEntityFactory<Currency,CurrencyCreateDto> _entityFactory;
 
 	public CreateCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<CurrencyCreateDto,Currency> entityFactory,
+        IEntityFactory<Currency,CurrencyCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;

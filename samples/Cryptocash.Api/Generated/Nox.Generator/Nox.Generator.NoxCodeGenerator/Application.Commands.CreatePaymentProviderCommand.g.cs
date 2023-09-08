@@ -23,12 +23,12 @@ public record CreatePaymentProviderCommand(PaymentProviderCreateDto EntityDto) :
 public partial class CreatePaymentProviderCommandHandler: CommandBase<CreatePaymentProviderCommand,PaymentProvider>, IRequestHandler <CreatePaymentProviderCommand, PaymentProviderKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<PaymentProviderCreateDto,PaymentProvider> _entityFactory;
+	private readonly IEntityFactory<PaymentProvider,PaymentProviderCreateDto> _entityFactory;
 
 	public CreatePaymentProviderCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<PaymentProviderCreateDto,PaymentProvider> entityFactory,
+        IEntityFactory<PaymentProvider,PaymentProviderCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;

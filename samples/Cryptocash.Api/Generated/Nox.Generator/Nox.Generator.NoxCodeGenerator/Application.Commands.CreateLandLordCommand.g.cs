@@ -23,12 +23,12 @@ public record CreateLandLordCommand(LandLordCreateDto EntityDto) : IRequest<Land
 public partial class CreateLandLordCommandHandler: CommandBase<CreateLandLordCommand,LandLord>, IRequestHandler <CreateLandLordCommand, LandLordKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<LandLordCreateDto,LandLord> _entityFactory;
+	private readonly IEntityFactory<LandLord,LandLordCreateDto> _entityFactory;
 
 	public CreateLandLordCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<LandLordCreateDto,LandLord> entityFactory,
+        IEntityFactory<LandLord,LandLordCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;

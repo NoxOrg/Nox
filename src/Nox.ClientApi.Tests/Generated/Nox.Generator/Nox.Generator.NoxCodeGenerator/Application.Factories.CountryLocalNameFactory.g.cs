@@ -23,7 +23,7 @@ using CountryLocalName = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class CountryLocalNameFactoryBase: IEntityFactory<CountryLocalNameCreateDto,CountryLocalName>
+public abstract class CountryLocalNameFactoryBase: IEntityFactory<CountryLocalName,CountryLocalNameCreateDto>
 {
 
     public CountryLocalNameFactoryBase

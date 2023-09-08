@@ -22,12 +22,12 @@ public record AddCountryLocalNameCommand(CountryKeyDto ParentKeyDto, CountryLoca
 public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLocalNameCommand, CountryLocalName>, IRequestHandler <AddCountryLocalNameCommand, CountryLocalNameKeyDto?>
 {
 	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<CountryLocalNameCreateDto,CountryLocalName> _entityFactory;
+	private readonly IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> _entityFactory;
 
 	public AddCountryLocalNameCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<CountryLocalNameCreateDto,CountryLocalName> entityFactory,
+        IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;

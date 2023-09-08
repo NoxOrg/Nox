@@ -27,16 +27,16 @@ using {{entity.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Factories;
 
-public abstract class {{className}}Base: IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}>
+public abstract class {{className}}Base: IEntityFactory<{{entity.Name}},{{entity.Name}}CreateDto>
 {
     {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
-    protected IEntityFactory<{{ownedEntity}}CreateDto,{{ownedEntity}}> {{ownedEntity}}Factory {get;}
+    protected IEntityFactory<{{ownedEntity}},{{ownedEntity}}CreateDto> {{ownedEntity}}Factory {get;}
     {{- end }}
 
     public {{className}}Base
     (
         {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
-        IEntityFactory<{{ownedEntity}}CreateDto,{{ownedEntity}}> {{fieldFactoryName ownedEntity}}{{if !for.last}},{{end}}
+        IEntityFactory<{{ownedEntity}},{{ownedEntity}}CreateDto> {{fieldFactoryName ownedEntity}}{{if !for.last}},{{end}}
         {{- end }}
         )
     {
@@ -108,7 +108,7 @@ public partial class {{className}} : {{className}}Base
     public {{className}}
     (
         {{- for ownedEntity in ownedEntities #Factories Properties for owned entitites}}
-        IEntityFactory<{{ownedEntity}}CreateDto,{{ownedEntity}}> {{fieldFactoryName ownedEntity}}{{if !for.last}},{{end}}
+        IEntityFactory<{{ownedEntity}},{{ownedEntity}}CreateDto> {{fieldFactoryName ownedEntity}}{{if !for.last}},{{end}}
         {{- end }}
     ): base({{ ownedEntities | array.each @fieldFactoryName | array.join "," }})                      
     {}

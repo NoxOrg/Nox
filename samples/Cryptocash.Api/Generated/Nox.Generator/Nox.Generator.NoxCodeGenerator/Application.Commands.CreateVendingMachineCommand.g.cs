@@ -23,12 +23,12 @@ public record CreateVendingMachineCommand(VendingMachineCreateDto EntityDto) : I
 public partial class CreateVendingMachineCommandHandler: CommandBase<CreateVendingMachineCommand,VendingMachine>, IRequestHandler <CreateVendingMachineCommand, VendingMachineKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<VendingMachineCreateDto,VendingMachine> _entityFactory;
+	private readonly IEntityFactory<VendingMachine,VendingMachineCreateDto> _entityFactory;
 
 	public CreateVendingMachineCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<VendingMachineCreateDto,VendingMachine> entityFactory,
+        IEntityFactory<VendingMachine,VendingMachineCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
