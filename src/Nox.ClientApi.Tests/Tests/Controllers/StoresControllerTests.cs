@@ -3,7 +3,7 @@ using ClientApi.Application.Dto;
 using AutoFixture.AutoMoq;
 using AutoFixture;
 
-namespace Nox.ClientApi.Tests.Tests.Controllers
+namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
     public class StoresControllerTests 

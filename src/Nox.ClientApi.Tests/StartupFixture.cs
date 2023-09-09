@@ -1,6 +1,7 @@
 ﻿using ClientApi.Infrastructure.Persistence;
+using Nox;
 
-namespace Nox.ClientApi.Tests;
+namespace ClientApi.Tests;
 
 public class StartupFixture
 {
@@ -14,7 +15,9 @@ public class StartupFixture
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddNox();
+        services.AddNox((oDataBuilder) => {
+            oDataBuilder.Function("countriesWithDebt").ReturnsCollectionFromEntitySet<Application.Dto.CountryDto>("Countries");
+        });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

@@ -4,7 +4,7 @@ using AutoFixture;
 using System.Net;
 using AutoFixture.AutoMoq;
 
-namespace Nox.ClientApi.Tests.Tests.Controllers
+namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
     public class WorkplacesControllerTests 

@@ -4,10 +4,9 @@ using AutoFixture;
 using Nox.Types;
 using System.Net;
 using AutoFixture.AutoMoq;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Nox.ClientApi.Tests.Tests.Models;
 
-namespace Nox.ClientApi.Tests.Tests.Controllers
+
+namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
     public class CountriesControllerTests

@@ -1,9 +1,8 @@
-﻿using FluentAssertions;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
+﻿using ClientApi.Tests.Tests.Models;
+using FluentAssertions;
 using Newtonsoft.Json;
-using Nox.ClientApi.Tests.Tests.Models;
 
-namespace Nox.ClientApi.Tests;
+namespace ClientApi.Tests;
 
 public class ODataFixture
 {
