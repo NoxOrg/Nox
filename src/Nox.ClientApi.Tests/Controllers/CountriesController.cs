@@ -4,12 +4,12 @@ using Microsoft.AspNetCore.OData.Query;
 namespace ClientApi.Presentation.Api.OData;
 
 /// <summary>
-/// Example of extending a controller with additional end points
+/// Example of extending a Nox generated controller with additional end points
 /// </summary>
 public partial class CountriesController
 {
     /// <summary>
-    /// Example o a OData Function with query enable
+    /// Example of a OData Function / end point with Query enable
     /// <seealso cref="ClientApi.Tests.StartupFixture"/> how to add nox and configure a OData End point
     /// </summary>
     /// <returns>Prefer using Nox Solution Entity Definition (yaml) to register custom function</returns>

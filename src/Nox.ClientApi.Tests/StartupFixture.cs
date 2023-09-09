@@ -1,5 +1,7 @@
 ﻿using ClientApi.Infrastructure.Persistence;
+using ClientApi.Application.Dto;
 using Nox;
+using ClientApi.Tests.Application.Dto;
 
 namespace ClientApi.Tests;
 
@@ -16,7 +18,11 @@ public class StartupFixture
     public void ConfigureServices(IServiceCollection services)
     {
         services.AddNox((oDataBuilder) => {
-            oDataBuilder.Function("countriesWithDebt").ReturnsCollectionFromEntitySet<Application.Dto.CountryDto>("Countries");
+            //Example register a custom odata function
+            oDataBuilder.Function("countriesWithDebt").ReturnsCollectionFromEntitySet<CountryDto>("Countries");
+            //example registering custom dto in Odata
+            oDataBuilder.EntitySet<HouseDto>("Houses");
+            oDataBuilder.EntityType<HouseDto>().HasKey(e => new { e.Id });
         });
     }
 
