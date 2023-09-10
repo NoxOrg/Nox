@@ -1,4 +1,5 @@
-﻿using Microsoft.CodeAnalysis;
+﻿using System;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using Nox.Generator.Common.TemplateScriptsBridges;
 using Nox.Solution;
@@ -9,6 +10,9 @@ using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using System.Text;
+using Microsoft.CodeAnalysis.CSharp;
+using Microsoft.CodeAnalysis.Formatting;
+using Microsoft.CodeAnalysis.Options;
 
 namespace Nox.Generator.Common;
 
@@ -20,7 +24,7 @@ internal class TemplateCodeBuilder
     private readonly SourceProductionContext _context;
 
     private readonly NoxSolutionCodeGeneratorState _codeGeneratorState;
-
+    
     private string? _className;
     private string? _fileNamePrefix;
 
@@ -37,7 +41,8 @@ internal class TemplateCodeBuilder
             ["codeGeneratorState"] = _codeGeneratorState,
             ["solution"] = _codeGeneratorState.Solution
         };
-        //comment for testing
+        
+       
     }
 
     /// <summary>
@@ -127,8 +132,33 @@ internal class TemplateCodeBuilder
         // Add Delegate functions to instance objects
         NoxSolutionBridge.AddFunctions(context, _codeGeneratorState.Solution);
 
+        var sourceText = FormatGeneratedCode( strongTemplate.Render(context));
+        
         _context.AddSource(sourceFileName,
-            SourceText.From(strongTemplate.Render(context),
+            SourceText.From(sourceText,
             Encoding.UTF8));
+    }
+
+    private string FormatGeneratedCode(string plainText)
+    {
+        try
+        {
+            var syntaxTree = CSharpSyntaxTree.ParseText(plainText);
+            
+            var workspace = new AdhocWorkspace();
+            return plainText;
+            // var optionSet = workspace.Options
+            //     .WithChangedOption(FormattingOptions.IndentationSize, LanguageNames.CSharp, 4)
+            //     .WithChangedOption(FormattingOptions.UseTabs, LanguageNames.CSharp, false);
+            //
+            // var syntaxNode =  Formatter.Format(syntaxTree.GetRoot(), workspace, optionSet);
+            //
+            // return syntaxNode.ToFullString();
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+            return plainText;
+        }
     }
 }
