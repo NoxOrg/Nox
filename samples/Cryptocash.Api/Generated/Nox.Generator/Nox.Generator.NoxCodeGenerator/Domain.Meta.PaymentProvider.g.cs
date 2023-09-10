@@ -14,43 +14,51 @@ namespace Cryptocash.Domain;
 /// </summary>
 public partial class PaymentProvider
 {
-    /// <summary>
-    /// Type options and factory for property 'Id'
-    /// </summary>
-    public static Nox.Types.DatabaseNumber CreateId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
     
-
-    /// <summary>
-    /// Type options and factory for property 'PaymentProviderName'
-    /// </summary>
-    public static Nox.Types.TextTypeOptions PaymentProviderNameTypeOptions {get; private set;} = new ()
-    {
-        MinLength = 4,
-        MaxLength = 63,
-        IsUnicode = true,
-        IsLocalized = true,
-        Casing = Nox.Types.TextTypeCasing.Normal,
-    };
+        /// <summary>
+        /// Factory for property 'Id'
+        /// </summary>
+        public static Nox.Types.DatabaseNumber CreateId(System.Int64 value)
+            => Nox.Types.DatabaseNumber.From(value);
+        
     
-    public static Text CreatePaymentProviderName(System.String value)
-        => Nox.Types.Text.From(value, PaymentProviderNameTypeOptions);
+        /// <summary>
+        /// Type options for property 'PaymentProviderName'
+        /// </summary>
+        public static Nox.Types.TextTypeOptions PaymentProviderNameTypeOptions {get; private set;} = new ()
+        {
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
+        };
+        
+        
+        /// <summary>
+        /// Factory for property 'PaymentProviderName'
+        /// </summary>
+        public static Text CreatePaymentProviderName(System.String value)
+            => Nox.Types.Text.From(value, PaymentProviderNameTypeOptions);
+        
     
-
-    /// <summary>
-    /// Type options and factory for property 'PaymentProviderType'
-    /// </summary>
-    public static Nox.Types.TextTypeOptions PaymentProviderTypeTypeOptions {get; private set;} = new ()
-    {
-        MinLength = 4,
-        MaxLength = 63,
-        IsUnicode = true,
-        IsLocalized = true,
-        Casing = Nox.Types.TextTypeCasing.Normal,
-    };
-    
-    public static Text CreatePaymentProviderType(System.String value)
-        => Nox.Types.Text.From(value, PaymentProviderTypeTypeOptions);
-    
-
+        /// <summary>
+        /// Type options for property 'PaymentProviderType'
+        /// </summary>
+        public static Nox.Types.TextTypeOptions PaymentProviderTypeTypeOptions {get; private set;} = new ()
+        {
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
+        };
+        
+        
+        /// <summary>
+        /// Factory for property 'PaymentProviderType'
+        /// </summary>
+        public static Text CreatePaymentProviderType(System.String value)
+            => Nox.Types.Text.From(value, PaymentProviderTypeTypeOptions);
+        
 }

@@ -26,6 +26,8 @@ public partial class TestEntityForTypes
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
+    
+    
         /// <summary>
         /// Factory for property 'Id'
         /// </summary>
@@ -44,6 +46,8 @@ public partial class TestEntityForTypes
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
+    
+    
         /// <summary>
         /// Factory for property 'TextTestField'
         /// </summary>
@@ -60,6 +64,8 @@ public partial class TestEntityForTypes
             MaxValue = 894m,
             DecimalDigits = 0,
         };
+    
+    
         /// <summary>
         /// Factory for property 'NumberTestField'
         /// </summary>
@@ -418,6 +424,8 @@ public partial class TestEntityForTypes
             Expression = "2 + 2",
             Returns = Nox.Types.FormulaReturnType.Int,
         };
+    
+    
         /// <summary>
         /// Factory for property 'FormulaTestField'
         /// </summary>

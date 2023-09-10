@@ -279,7 +279,7 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public int? FormulaTestField
-    {
+    { 
         get { return 2 + 2; }
         private set { }
     }

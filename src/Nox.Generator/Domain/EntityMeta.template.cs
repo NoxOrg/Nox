@@ -25,6 +25,8 @@ public partial class {{className}}
             {{property}}
         {{- end }}
     };
+
+
     /// <summary>
     /// Factory for property '{{td.Name}}'
     /// </summary>
