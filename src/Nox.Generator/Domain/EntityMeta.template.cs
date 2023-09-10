@@ -20,6 +20,11 @@ public partial class {{className}}
     /// Type options for property '{{td.Name}}'
     /// </summary>
     public static {{td.OptionsOutput}}
+    {
+        {{- for property in td.OptionsProperties }}
+            {{property}}
+        {{- end }}
+    };
     /// <summary>
     /// Factory for property '{{td.Name}}'
     /// </summary>

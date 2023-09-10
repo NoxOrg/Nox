@@ -23,8 +23,6 @@ internal class TemplateCodeBuilder
     private readonly SourceProductionContext _context;
 
     private readonly NoxSolutionCodeGeneratorState _codeGeneratorState;
-    private readonly AdhocWorkspace _workspace;
-    private readonly OptionSet _optionSet;
     
     private string? _className;
     private string? _fileNamePrefix;
@@ -42,11 +40,6 @@ internal class TemplateCodeBuilder
             ["codeGeneratorState"] = _codeGeneratorState,
             ["solution"] = _codeGeneratorState.Solution
         };
-        
-        _workspace = new AdhocWorkspace();
-        _optionSet = _workspace.Options
-            .WithChangedOption(FormattingOptions.IndentationSize, LanguageNames.CSharp, 4)
-            .WithChangedOption(FormattingOptions.UseTabs, LanguageNames.CSharp, false);
     }
 
     /// <summary>
@@ -136,19 +129,12 @@ internal class TemplateCodeBuilder
         // Add Delegate functions to instance objects
         NoxSolutionBridge.AddFunctions(context, _codeGeneratorState.Solution);
 
-        var sourceText = FormatGeneratedCode(strongTemplate.Render(context));
+        var sourceText = strongTemplate.Render(context);
         
         _context.AddSource(sourceFileName,
             SourceText.From(sourceText,
             Encoding.UTF8));
     }
 
-    private string FormatGeneratedCode(string plainText)
-    {
-        var syntaxTree = CSharpSyntaxTree.ParseText(plainText);
-        
-        var syntaxNode =  Formatter.Format(syntaxTree.GetRoot(), _workspace, _optionSet);
-
-        return syntaxNode.ToFullString();
-    }
+    
 }

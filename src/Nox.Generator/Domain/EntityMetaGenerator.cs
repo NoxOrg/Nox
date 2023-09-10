@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 using Nox.Generator.Common;
 using Nox.Solution;
@@ -6,6 +7,7 @@ using Nox.Solution.Extensions;
 using Nox.Types;
 using Nox.Types.Extensions;
 using System.Linq;
+using System.Reflection;
 
 namespace Nox.Generator.Domain.ModelGenerator;
 
@@ -46,6 +48,8 @@ internal class EntityMetaGenerator : INoxCodeGenerator
         var options = typeof(NoxSimpleTypeDefinition).GetProperty(typeOptions);
 
         var optionsOutput = string.Empty;
+        
+        var optionsProperties = Array.Empty<string>();
 
         var components = type.GetComponents(typeDef).ToArray();
 
@@ -56,12 +60,7 @@ internal class EntityMetaGenerator : INoxCodeGenerator
        
         if (options != null)
         {
-            var optionsValue = options.GetValue(typeDef, null);
-
-            if (optionsValue != null)
-            {
-                optionsOutput = optionsValue.ToSourceCode($"{typeDef.Name}TypeOptions {{get; private set;}}");
-            }
+            optionsProperties = GetOptionsOutputAndProperties(typeDef, options, optionsProperties, ref optionsOutput);
         }
         
         return new EntityMetaData
@@ -69,7 +68,31 @@ internal class EntityMetaGenerator : INoxCodeGenerator
             Name = typeDef.Name,
             Type = type.ToString(),
             InParams = inParams,
-            OptionsOutput = optionsOutput
+            OptionsOutput = optionsOutput,
+            OptionsProperties = optionsProperties
         };
+    }
+
+    private static string[] GetOptionsOutputAndProperties(
+        NoxSimpleTypeDefinition typeDef, 
+        PropertyInfo options,
+        string[] optionsProperties, 
+        ref string optionsOutput)
+    {
+        var optionsValue = options.GetValue(typeDef, null);
+
+        if (optionsValue != null)
+        {
+            var output = optionsValue.ToSourceCode($"{typeDef.Name}TypeOptions {{get; private set;}}");
+            var optionsOutputLines = output.Split('\n');
+            optionsProperties = optionsOutputLines
+                .SkipWhile(s => !s.StartsWith("{"))
+                .Skip(1)
+                .TakeWhile(s => !s.StartsWith("}"))
+                .Select(s => s.Trim()).ToArray();
+            optionsOutput = optionsOutputLines[0];
+        }
+
+        return optionsProperties;
     }
 }
