@@ -37,6 +37,7 @@ internal class TemplateCodeBuilder
             ["codeGeneratorState"] = _codeGeneratorState,
             ["solution"] = _codeGeneratorState.Solution
         };
+        //comment for testing
     }
 
     /// <summary>
