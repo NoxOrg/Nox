@@ -1,4 +1,5 @@
 ﻿using System;
+using System.ComponentModel;
 
 namespace Nox.Types;
 
@@ -7,12 +8,19 @@ namespace Nox.Types;
 /// </summary>
 public enum FormulaReturnType
 {
+    [Description("string")]
     String,
+    [Description("int")]
     Int,
+    [Description("long")]
     Long,
+    [Description("double")]
     Double,
+    [Description("decimal")]
     Decimal,
+    [Description("bool")]
     Bool,
+    [Description("DateTime")]
     DateTime,
 }
 

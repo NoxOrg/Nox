@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using Nox.Types.Schema;
 
 namespace Nox.Types.Extensions;
 
@@ -74,4 +75,12 @@ public static class NoxTypeExtensions
         return null;
     }
 
+    public static string ToPrimitiveType(this FormulaReturnType value)
+    {
+        var memberInfo = value.GetType().GetMember(value.ToString());
+        var attributes = memberInfo.First().GetCustomAttributes(typeof(Attribute), false);
+        return attributes.Any() ?
+            ((System.ComponentModel.DescriptionAttribute)attributes.First()).Description :
+            throw new NotImplementedException($"All {nameof(FormulaReturnType)} should have a description attribute with its primitive type.");
+    }
 }
