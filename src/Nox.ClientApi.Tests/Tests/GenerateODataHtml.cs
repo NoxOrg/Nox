@@ -27,5 +27,13 @@ namespace ClientApi.Tests.Tests
                        
             File.WriteAllText("../../../odata.html", content);
         }
+        [Fact]
+        public async Task Generate_OdataMetadata()
+        {
+            var result = await _oDataFixture.GetAsync("api/$metadata");
+            var content = await result.Content.ReadAsStringAsync();
+
+            File.WriteAllText("../../../metadata.xml", content);
+        }
     }
 }
