@@ -52,16 +52,16 @@ namespace Cryptocash.Api.Migrations
                     Id = table.Column<long>(type: "bigint", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Name = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
-                    Address_StreetNumber = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    Address_StreetNumber = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
                     Address_AddressLine1 = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Address_AddressLine2 = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Address_Route = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Address_Locality = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Address_Neighborhood = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Address_AdministrativeArea1 = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Address_AdministrativeArea2 = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Address_AddressLine2 = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    Address_Route = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
+                    Address_Locality = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
+                    Address_Neighborhood = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
+                    Address_AdministrativeArea1 = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
+                    Address_AdministrativeArea2 = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
                     Address_PostalCode = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    Address_CountryId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address_CountryId = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
                     Etag = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
@@ -153,10 +153,7 @@ namespace Cryptocash.Api.Migrations
                     OpenStreetMapsUrl = table.Column<string>(type: "nvarchar(2083)", maxLength: 2083, nullable: true),
                     StartOfWeek = table.Column<int>(type: "int", nullable: false),
                     CountryUsedByCurrencyId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
-<<<<<<<< HEAD:samples/Cryptocash.Api/Migrations/20230906081928_InitialCreate.cs
                     Etag = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
-========
->>>>>>>> main:samples/Cryptocash.Api/Migrations/20230906161650_InitialCreate.cs
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -208,10 +205,7 @@ namespace Cryptocash.Api.Migrations
                     Amount_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: false),
                     Amount_CurrencyCode = table.Column<int>(type: "int", nullable: false),
                     MinimumCashStockRelatedCurrencyId = table.Column<string>(type: "char(3)", unicode: false, fixedLength: true, maxLength: 3, nullable: true),
-<<<<<<<< HEAD:samples/Cryptocash.Api/Migrations/20230906081928_InitialCreate.cs
                     Etag = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
-========
->>>>>>>> main:samples/Cryptocash.Api/Migrations/20230906161650_InitialCreate.cs
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -241,10 +235,7 @@ namespace Cryptocash.Api.Migrations
                     Rate = table.Column<float>(type: "real", maxLength: 2, nullable: false),
                     EffectiveAt = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CommissionFeesForCountryId = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
-<<<<<<<< HEAD:samples/Cryptocash.Api/Migrations/20230906081928_InitialCreate.cs
                     Etag = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
-========
->>>>>>>> main:samples/Cryptocash.Api/Migrations/20230906161650_InitialCreate.cs
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -295,22 +286,19 @@ namespace Cryptocash.Api.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     EmailAddress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Address_StreetNumber = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    Address_StreetNumber = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
                     Address_AddressLine1 = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Address_AddressLine2 = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Address_Route = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Address_Locality = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Address_Neighborhood = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Address_AdministrativeArea1 = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Address_AdministrativeArea2 = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Address_AddressLine2 = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    Address_Route = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
+                    Address_Locality = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
+                    Address_Neighborhood = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
+                    Address_AdministrativeArea1 = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
+                    Address_AdministrativeArea2 = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
                     Address_PostalCode = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    Address_CountryId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address_CountryId = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
                     MobileNumber = table.Column<string>(type: "nvarchar(30)", maxLength: 30, nullable: true),
                     CustomerBaseCountryId = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
-<<<<<<<< HEAD:samples/Cryptocash.Api/Migrations/20230906081928_InitialCreate.cs
                     Etag = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
-========
->>>>>>>> main:samples/Cryptocash.Api/Migrations/20230906161650_InitialCreate.cs
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -363,26 +351,23 @@ namespace Cryptocash.Api.Migrations
                     PublicIp = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     GeoLocation_Latitude = table.Column<double>(type: "float", nullable: false),
                     GeoLocation_Longitude = table.Column<double>(type: "float", nullable: false),
-                    StreetAddress_StreetNumber = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    StreetAddress_StreetNumber = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
                     StreetAddress_AddressLine1 = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    StreetAddress_AddressLine2 = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    StreetAddress_Route = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    StreetAddress_Locality = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    StreetAddress_Neighborhood = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    StreetAddress_AdministrativeArea1 = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    StreetAddress_AdministrativeArea2 = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    StreetAddress_AddressLine2 = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    StreetAddress_Route = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
+                    StreetAddress_Locality = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
+                    StreetAddress_Neighborhood = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
+                    StreetAddress_AdministrativeArea1 = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
+                    StreetAddress_AdministrativeArea2 = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
                     StreetAddress_PostalCode = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    StreetAddress_CountryId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    StreetAddress_CountryId = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
                     SerialNumber = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     InstallationFootPrint = table.Column<decimal>(type: "DECIMAL(21,6)", nullable: true),
                     RentPerSquareMetre_Amount = table.Column<decimal>(type: "decimal(13,4)", nullable: true),
                     RentPerSquareMetre_CurrencyCode = table.Column<int>(type: "int", nullable: true),
                     VendingMachineInstallationCountryId = table.Column<string>(type: "char(2)", unicode: false, fixedLength: true, maxLength: 2, nullable: true),
                     VendingMachineContractedAreaLandLordId = table.Column<long>(type: "bigint", nullable: true),
-<<<<<<<< HEAD:samples/Cryptocash.Api/Migrations/20230906081928_InitialCreate.cs
                     Etag = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
-========
->>>>>>>> main:samples/Cryptocash.Api/Migrations/20230906161650_InitialCreate.cs
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -419,10 +404,7 @@ namespace Cryptocash.Api.Migrations
                     PaymentAccountSortCode = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: true),
                     PaymentDetailsUsedByCustomerId = table.Column<long>(type: "bigint", nullable: true),
                     PaymentDetailsRelatedPaymentProviderId = table.Column<long>(type: "bigint", nullable: true),
-<<<<<<<< HEAD:samples/Cryptocash.Api/Migrations/20230906081928_InitialCreate.cs
                     Etag = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
-========
->>>>>>>> main:samples/Cryptocash.Api/Migrations/20230906161650_InitialCreate.cs
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -469,10 +451,7 @@ namespace Cryptocash.Api.Migrations
                     BookingForCustomerId = table.Column<long>(type: "bigint", nullable: true),
                     BookingRelatedVendingMachineId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
                     BookingFeesForCommissionId = table.Column<long>(type: "bigint", nullable: true),
-<<<<<<<< HEAD:samples/Cryptocash.Api/Migrations/20230906081928_InitialCreate.cs
                     Etag = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
-========
->>>>>>>> main:samples/Cryptocash.Api/Migrations/20230906161650_InitialCreate.cs
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -515,10 +494,7 @@ namespace Cryptocash.Api.Migrations
                     DeliveryDateTime = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: true),
                     Status = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CashStockOrderForVendingMachineId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-<<<<<<<< HEAD:samples/Cryptocash.Api/Migrations/20230906081928_InitialCreate.cs
                     Etag = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
-========
->>>>>>>> main:samples/Cryptocash.Api/Migrations/20230906161650_InitialCreate.cs
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -576,10 +552,7 @@ namespace Cryptocash.Api.Migrations
                     Reference = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     TransactionForCustomerId = table.Column<long>(type: "bigint", nullable: true),
                     TransactionForBookingId = table.Column<Guid>(type: "uniqueidentifier", nullable: true),
-<<<<<<<< HEAD:samples/Cryptocash.Api/Migrations/20230906081928_InitialCreate.cs
                     Etag = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
-========
->>>>>>>> main:samples/Cryptocash.Api/Migrations/20230906161650_InitialCreate.cs
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),
@@ -614,23 +587,20 @@ namespace Cryptocash.Api.Migrations
                     FirstName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     LastName = table.Column<string>(type: "nvarchar(63)", maxLength: 63, nullable: false),
                     EmailAddress = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
-                    Address_StreetNumber = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
+                    Address_StreetNumber = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: true),
                     Address_AddressLine1 = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Address_AddressLine2 = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: false),
-                    Address_Route = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Address_Locality = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Address_Neighborhood = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Address_AdministrativeArea1 = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
-                    Address_AdministrativeArea2 = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: false),
+                    Address_AddressLine2 = table.Column<string>(type: "nvarchar(128)", maxLength: 128, nullable: true),
+                    Address_Route = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
+                    Address_Locality = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
+                    Address_Neighborhood = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
+                    Address_AdministrativeArea1 = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
+                    Address_AdministrativeArea2 = table.Column<string>(type: "nvarchar(64)", maxLength: 64, nullable: true),
                     Address_PostalCode = table.Column<string>(type: "nvarchar(32)", maxLength: 32, nullable: false),
-                    Address_CountryId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Address_CountryId = table.Column<string>(type: "nvarchar(2)", maxLength: 2, nullable: false),
                     FirstWorkingDay = table.Column<DateTime>(type: "date", nullable: false),
                     LastWorkingDay = table.Column<DateTime>(type: "date", nullable: true),
                     EmployeeReviewingCashStockOrderId = table.Column<long>(type: "bigint", nullable: true),
-<<<<<<<< HEAD:samples/Cryptocash.Api/Migrations/20230906081928_InitialCreate.cs
                     Etag = table.Column<Guid>(type: "uniqueidentifier", unicode: false, nullable: false),
-========
->>>>>>>> main:samples/Cryptocash.Api/Migrations/20230906161650_InitialCreate.cs
                     CreatedAtUtc = table.Column<DateTimeOffset>(type: "datetimeoffset", nullable: false),
                     CreatedBy = table.Column<string>(type: "nvarchar(255)", maxLength: 255, nullable: false),
                     CreatedVia = table.Column<string>(type: "varchar(255)", unicode: false, maxLength: 255, nullable: false),

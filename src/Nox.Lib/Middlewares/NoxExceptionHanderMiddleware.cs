@@ -66,7 +66,6 @@ public class NoxExceptionHanderMiddleware
         var message = $"Error occured during request: {context.Request?.Path}.Error: {errorMessage}";
         _logger.LogError(exception, message);
 
-        var statusCode = (int)HttpStatusCode.InternalServerError;
         if (!context.Response.HasStarted)
         {
             context.Response.ContentType = "application/json";

@@ -84,7 +84,9 @@ public partial class CompoundKeysEntitiesController : ODataController
             return BadRequest(ModelState);
         }
         
+        var etag = GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCompoundKeysEntityCommand(keyId1, keyId2, compoundKeysEntity, etag));
+        
         if (updated is null)
         {
             return NotFound();

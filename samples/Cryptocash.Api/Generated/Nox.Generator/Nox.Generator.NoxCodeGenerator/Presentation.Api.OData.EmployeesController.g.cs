@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System.Net.Http.Headers;
 using Nox.Application;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
@@ -67,7 +68,8 @@ public partial class EmployeesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var createdKey = await _mediator.Send(new AddEmployeePhoneNumberCommand(new EmployeeKeyDto(key), employeePhoneNumber));
+        var etag = GetDecodedEtagHeader();
+        var createdKey = await _mediator.Send(new AddEmployeePhoneNumberCommand(new EmployeeKeyDto(key), employeePhoneNumber, etag));
         if (createdKey == null)
         {
             return NotFound();
@@ -90,7 +92,8 @@ public partial class EmployeesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var updatedKey = await _mediator.Send(new UpdateEmployeePhoneNumberCommand(new EmployeeKeyDto(key), new EmployeePhoneNumberKeyDto(relatedKey), employeePhoneNumber));
+        var etag = GetDecodedEtagHeader();
+        var updatedKey = await _mediator.Send(new UpdateEmployeePhoneNumberCommand(new EmployeeKeyDto(key), new EmployeePhoneNumberKeyDto(relatedKey), employeePhoneNumber, etag));
         if (updatedKey == null)
         {
             return NotFound();
@@ -122,7 +125,8 @@ public partial class EmployeesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateEmployeePhoneNumberCommand(new EmployeeKeyDto(key), new EmployeePhoneNumberKeyDto(relatedKey), updateProperties));
+        var etag = GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateEmployeePhoneNumberCommand(new EmployeeKeyDto(key), new EmployeePhoneNumberKeyDto(relatedKey), updateProperties, etag));
         
         if (updated is null)
         {
@@ -187,7 +191,9 @@ public partial class EmployeesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateEmployeeCommand(key, employee));
+        var etag = GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateEmployeeCommand(key, employee, etag));
+        
         if (updated is null)
         {
             return NotFound();
@@ -205,6 +211,7 @@ public partial class EmployeesController : ODataController
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in employee.GetChangedPropertyNames())
@@ -215,7 +222,8 @@ public partial class EmployeesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateEmployeeCommand(key, updateProperties));
+        var etag = GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateEmployeeCommand(key, updateProperties, etag));
         
         if (updated is null)
         {
@@ -227,12 +235,26 @@ public partial class EmployeesController : ODataController
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var result = await _mediator.Send(new DeleteEmployeeByIdCommand(key));
+        var etag = GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteEmployeeByIdCommand(key, etag));
+        
         if (!result)
         {
             return NotFound();
         }
         
         return NoContent();
+    }
+    
+    private System.Guid? GetDecodedEtagHeader()
+    {
+        var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();
+        string? rawEtag = ifMatchValue;
+        if (EntityTagHeaderValue.TryParse(ifMatchValue, out var encodedEtag))
+        {
+            rawEtag = encodedEtag.Tag.Trim('"');
+        }
+        
+        return System.Guid.TryParse(rawEtag, out var etag) ? etag : null;
     }
 }

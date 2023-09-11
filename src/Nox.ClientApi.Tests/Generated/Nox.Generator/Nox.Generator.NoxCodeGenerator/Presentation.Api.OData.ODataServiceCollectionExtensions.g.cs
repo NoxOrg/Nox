@@ -29,6 +29,7 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntityType<CountryDto>();
         builder.EntityType<CountryDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<CountryDto>().Ignore(e => e.Etag);
         builder.EntitySet<CountryLocalNameDto>("CountryLocalNames");
 
         builder.EntityType<CountryLocalNameDto>();
@@ -37,6 +38,7 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntityType<StoreDto>();
         builder.EntityType<StoreDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<StoreDto>().Ignore(e => e.Etag);
         builder.EntitySet<WorkplaceDto>("Workplaces");
 
         builder.EntityType<WorkplaceDto>();
@@ -44,6 +46,7 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntityType<StoreOwnerDto>();
         builder.EntityType<StoreOwnerDto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<StoreOwnerDto>().Ignore(e => e.Etag);
 
         builder.EntityType<EmailAddressDto>();
 
@@ -58,7 +61,10 @@ public static class ODataServiceCollectionExtensions
                         .Expand()
                         .SkipToken()
                         .SetMaxTop(100);
-                    var routeOptions = options.AddRouteComponents("api", builder.GetEdmModel(), service => service.AddSingleton<IODataSerializerProvider, NoxODataSerializerProvider>()).RouteOptions;
+                    var routeOptions = options.AddRouteComponents("api", builder.GetEdmModel(),
+                        service => service
+                            .AddSingleton<IODataSerializerProvider, NoxODataSerializerProvider>())
+                        .RouteOptions;
                     routeOptions.EnableKeyInParenthesis = false;
                 }
             );

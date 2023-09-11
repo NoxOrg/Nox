@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System.Net.Http.Headers;
 using Nox.Application;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
@@ -83,7 +84,9 @@ public partial class CashStockOrdersController : ODataController
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateCashStockOrderCommand(key, cashStockOrder));
+        var etag = GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateCashStockOrderCommand(key, cashStockOrder, etag));
+        
         if (updated is null)
         {
             return NotFound();
@@ -101,6 +104,7 @@ public partial class CashStockOrdersController : ODataController
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in cashStockOrder.GetChangedPropertyNames())
@@ -111,7 +115,8 @@ public partial class CashStockOrdersController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCashStockOrderCommand(key, updateProperties));
+        var etag = GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCashStockOrderCommand(key, updateProperties, etag));
         
         if (updated is null)
         {
@@ -123,12 +128,26 @@ public partial class CashStockOrdersController : ODataController
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var result = await _mediator.Send(new DeleteCashStockOrderByIdCommand(key));
+        var etag = GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteCashStockOrderByIdCommand(key, etag));
+        
         if (!result)
         {
             return NotFound();
         }
         
         return NoContent();
+    }
+    
+    private System.Guid? GetDecodedEtagHeader()
+    {
+        var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();
+        string? rawEtag = ifMatchValue;
+        if (EntityTagHeaderValue.TryParse(ifMatchValue, out var encodedEtag))
+        {
+            rawEtag = encodedEtag.Tag.Trim('"');
+        }
+        
+        return System.Guid.TryParse(rawEtag, out var etag) ? etag : null;
     }
 }

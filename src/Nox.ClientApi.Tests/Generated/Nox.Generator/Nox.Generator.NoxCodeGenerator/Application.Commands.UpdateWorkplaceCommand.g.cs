@@ -15,7 +15,7 @@ using Workplace = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
 
-public record UpdateWorkplaceCommand(System.UInt32 keyId, WorkplaceUpdateDto EntityDto) : IRequest<WorkplaceKeyDto?>;
+public record UpdateWorkplaceCommand(System.UInt32 keyId, WorkplaceUpdateDto EntityDto, System.Guid? Etag) : IRequest<WorkplaceKeyDto?>;
 
 public class UpdateWorkplaceCommandHandler: CommandBase<UpdateWorkplaceCommand, Workplace>, IRequestHandler<UpdateWorkplaceCommand, WorkplaceKeyDto?>
 {
@@ -43,7 +43,9 @@ public class UpdateWorkplaceCommandHandler: CommandBase<UpdateWorkplaceCommand, 
 		{
 			return null;
 		}
+
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Workplace>(), request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 

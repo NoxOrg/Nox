@@ -41,7 +41,8 @@ public class CreateCountryCommandHandlerTests
         // Act
 
         var postResult = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(CountryControllerName, countryDto);
-        var putResult = await _oDataFixture.PutAsync<CountryUpdateDto, CountryDto>($"{CountryControllerName}/{postResult!.Id}", countryUpdateDto);
+        var headers = _oDataFixture.CreateEtagHeader(postResult?.Etag);
+        var putResult = await _oDataFixture.PutAsync<CountryUpdateDto, CountryDto>($"{CountryControllerName}/{postResult!.Id}", countryUpdateDto, headers);
 
         //Assert
 

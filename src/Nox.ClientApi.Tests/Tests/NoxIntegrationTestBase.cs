@@ -48,15 +48,17 @@ public class ODataFixture
         return result;
     }
 
-    public async Task<TResult?> PostAsync<TValue, TResult>(string requestUrl, TValue data)
+    public async Task<TResult?> PostAsync<TValue, TResult>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>>? headers = null)
     {
         using var httpClient = _appFactory.CreateClient();
+
+        AddHeaders(httpClient, headers);
 
         var message = await httpClient.PostAsJsonAsync(requestUrl, data);
         message.EnsureSuccessStatusCode();
 
         var content = await message.Content.ReadAsStringAsync();
-        var result = JsonConvert.DeserializeObject<TResult>(content);
+        var result = DeserializeResponse<TResult>(content);
 
         return result;
     }
@@ -75,20 +77,22 @@ public class ODataFixture
         return message;
     }
 
-    public async Task<TResult?> PutAsync<TValue, TResult>(string requestUrl, TValue data)
+    public async Task<TResult?> PutAsync<TValue, TResult>(string requestUrl, TValue data, Dictionary<string, IEnumerable<string>>? headers = null)
     {
         using var httpClient = _appFactory.CreateClient();
+
+        AddHeaders(httpClient, headers);
 
         var message = await httpClient.PutAsJsonAsync(requestUrl, data);
         message.EnsureSuccessStatusCode();
 
         var content = await message.Content.ReadAsStringAsync();
-        var result = JsonConvert.DeserializeObject<TResult>(content);
+        var result = DeserializeResponse<TResult>(content);
 
         return result;
     }
 
-    public async Task PatchAsync<TValue>(string requestUrl, TValue delta)
+    public async Task PatchAsync<TValue>(string requestUrl, TValue delta, Dictionary<string, IEnumerable<string>>? headers = null)
         where TValue : class
     {
         using var httpClient = _appFactory.CreateClient();
@@ -99,16 +103,18 @@ public class ODataFixture
         request.EnsureSuccessStatusCode();
     }
 
-    public async Task<TResult?> PatchAsync<TValue, TResult>(string requestUrl, TValue delta)
-    where TValue : class
+    public async Task<TResult?> PatchAsync<TValue, TResult>(string requestUrl, TValue delta, Dictionary<string, IEnumerable<string>>? headers = null)
+        where TValue : class
     {
         using var httpClient = _appFactory.CreateClient();
+
+        AddHeaders(httpClient, headers);
 
         var request = await httpClient.PatchAsJsonAsync(requestUrl, delta);
         request.EnsureSuccessStatusCode();
 
         var content = await request.Content.ReadAsStringAsync();
-        var result = JsonConvert.DeserializeObject<TResult>(content);
+        var result = DeserializeResponse<TResult>(content);
 
         return result;
     }
@@ -127,7 +133,7 @@ public class ODataFixture
         return message;
     }
 
-    public Dictionary<string, IEnumerable<string>>? CreateEtagHeader(System.Guid? etag)
+    public Dictionary<string, IEnumerable<string>> CreateEtagHeader(System.Guid? etag)
         => new()
         {
                 { "If-Match", new List<string> { $"\"{etag}\"" } }

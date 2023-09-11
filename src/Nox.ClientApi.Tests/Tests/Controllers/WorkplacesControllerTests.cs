@@ -55,12 +55,12 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 Name = _fixture.Create<string>(),
             };
 
-            var result = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceKeyDto>(WorkplacesControllerName, createDto);
-            var etag = await GetEtagAsync(result);
-            var headers = _oDataFixture.CreateEtagHeader(etag);
+            var postResult = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, createDto);
+
+            var headers = _oDataFixture.CreateEtagHeader(postResult?.Etag);
 
             // Act
-            var putResult = await _oDataFixture.PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{EntityUrl}/{postResult!.Id}", updateDto);
+            var putResult = await _oDataFixture.PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{EntityUrl}/{postResult!.Id}", updateDto, headers);
 
             //Assert
             putResult.Should().NotBeNull();
@@ -103,23 +103,15 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             };
 
             var result = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, createDto);
+            var headers = _oDataFixture.CreateEtagHeader(result?.Etag);
 
             // Act
-            await _oDataFixture.DeleteAsync($"{EntityUrl}/{result!.Id}");
+            await _oDataFixture.DeleteAsync($"{EntityUrl}/{result!.Id}", headers);
             var queryResult = await _oDataFixture.GetAsync($"{EntityUrl}/{result!.Id}");
 
             // Assert
 
             queryResult.StatusCode.Should().Be(HttpStatusCode.NotFound);
-        }
-
-        private async Task<System.Guid?> GetEtagAsync(WorkplaceKeyDto? keyDto)
-        {
-            if (keyDto == null)
-                return null;
-
-            var result = await _oDataFixture.GetAsync<WorkplaceDto>($"{WorkplacesControllerName}/{keyDto!.keyId}");
-            return result?.Etag;
         }
     }
 }
