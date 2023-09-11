@@ -76,10 +76,6 @@ public partial class TransactionsController : ODataController
     
     public async Task<ActionResult<TransactionDto>> Put([FromRoute] System.Int64 key, [FromBody] TransactionUpdateDto transaction)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var updated = await _mediator.Send(new UpdateTransactionCommand(key, transaction));
         if (updated is null)

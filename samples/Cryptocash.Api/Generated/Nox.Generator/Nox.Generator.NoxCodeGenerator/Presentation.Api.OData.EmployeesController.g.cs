@@ -213,10 +213,6 @@ public partial class EmployeesController : ODataController
     
     public async Task<ActionResult<EmployeeDto>> Put([FromRoute] System.Int64 key, [FromBody] EmployeeUpdateDto employee)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var updated = await _mediator.Send(new UpdateEmployeeCommand(key, employee));
         if (updated is null)

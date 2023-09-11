@@ -76,10 +76,6 @@ public partial class PaymentProvidersController : ODataController
     
     public async Task<ActionResult<PaymentProviderDto>> Put([FromRoute] System.Int64 key, [FromBody] PaymentProviderUpdateDto paymentProvider)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var updated = await _mediator.Send(new UpdatePaymentProviderCommand(key, paymentProvider));
         if (updated is null)

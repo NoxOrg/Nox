@@ -76,10 +76,6 @@ public partial class StoreOwnersController : ODataController
     
     public async Task<ActionResult<StoreOwnerDto>> Put([FromRoute] System.String key, [FromBody] StoreOwnerUpdateDto storeOwner)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var updated = await _mediator.Send(new UpdateStoreOwnerCommand(key, storeOwner));
         if (updated is null)

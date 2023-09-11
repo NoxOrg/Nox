@@ -76,10 +76,6 @@ public partial class MinimumCashStocksController : ODataController
     
     public async Task<ActionResult<MinimumCashStockDto>> Put([FromRoute] System.Int64 key, [FromBody] MinimumCashStockUpdateDto minimumCashStock)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var updated = await _mediator.Send(new UpdateMinimumCashStockCommand(key, minimumCashStock));
         if (updated is null)

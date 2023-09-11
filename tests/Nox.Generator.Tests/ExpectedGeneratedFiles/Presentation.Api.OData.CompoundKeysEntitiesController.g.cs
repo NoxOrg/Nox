@@ -76,10 +76,6 @@ public partial class CompoundKeysEntitiesController : ODataController
     
     public async Task<ActionResult<CompoundKeysEntityDto>> Put([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] CompoundKeysEntityUpdateDto compoundKeysEntity)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var updated = await _mediator.Send(new UpdateCompoundKeysEntityCommand(keyId1, keyId2, compoundKeysEntity));
         if (updated is null)

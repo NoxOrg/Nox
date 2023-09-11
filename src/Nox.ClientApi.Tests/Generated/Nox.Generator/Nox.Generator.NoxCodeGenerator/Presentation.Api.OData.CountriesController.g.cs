@@ -213,10 +213,6 @@ public partial class CountriesController : ODataController
     
     public async Task<ActionResult<CountryDto>> Put([FromRoute] System.Int64 key, [FromBody] CountryUpdateDto country)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var updated = await _mediator.Send(new UpdateCountryCommand(key, country));
         if (updated is null)

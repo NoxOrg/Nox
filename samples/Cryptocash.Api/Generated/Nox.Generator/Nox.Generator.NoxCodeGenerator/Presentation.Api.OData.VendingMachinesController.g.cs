@@ -76,10 +76,6 @@ public partial class VendingMachinesController : ODataController
     
     public async Task<ActionResult<VendingMachineDto>> Put([FromRoute] System.Guid key, [FromBody] VendingMachineUpdateDto vendingMachine)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var updated = await _mediator.Send(new UpdateVendingMachineCommand(key, vendingMachine));
         if (updated is null)

@@ -80,10 +80,6 @@ public partial class StoresController : ODataController
     
     public async Task<ActionResult<StoreDto>> Put([FromRoute] System.UInt32 key, [FromBody] StoreUpdateDto store)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var updated = await _mediator.Send(new UpdateStoreCommand(key, store));
         if (updated is null)

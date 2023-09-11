@@ -220,10 +220,6 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"if (!ModelState.IsValid)");
-        code.StartBlock();
-        code.AppendLine($"return BadRequest(ModelState);");
-        code.EndBlock();
         code.AppendLine();
         code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({PrimaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}));");
         code.AppendLine($"if (updated is null)");

@@ -76,10 +76,6 @@ public partial class WorkplacesController : ODataController
     
     public async Task<ActionResult<WorkplaceDto>> Put([FromRoute] System.UInt32 key, [FromBody] WorkplaceUpdateDto workplace)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var updated = await _mediator.Send(new UpdateWorkplaceCommand(key, workplace));
         if (updated is null)

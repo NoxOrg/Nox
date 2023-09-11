@@ -76,10 +76,6 @@ public partial class CommissionsController : ODataController
     
     public async Task<ActionResult<CommissionDto>> Put([FromRoute] System.Int64 key, [FromBody] CommissionUpdateDto commission)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var updated = await _mediator.Send(new UpdateCommissionCommand(key, commission));
         if (updated is null)

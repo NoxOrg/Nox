@@ -27,6 +27,7 @@ public partial class CreateStoreCommandHandler
         if (request.EntityDto.IsTemporary)
         {
             // do your code
+            // Notify some onw that a temporary store was created
         }
     }
 }

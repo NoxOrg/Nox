@@ -76,10 +76,6 @@ public partial class CashStockOrdersController : ODataController
     
     public async Task<ActionResult<CashStockOrderDto>> Put([FromRoute] System.Int64 key, [FromBody] CashStockOrderUpdateDto cashStockOrder)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var updated = await _mediator.Send(new UpdateCashStockOrderCommand(key, cashStockOrder));
         if (updated is null)
