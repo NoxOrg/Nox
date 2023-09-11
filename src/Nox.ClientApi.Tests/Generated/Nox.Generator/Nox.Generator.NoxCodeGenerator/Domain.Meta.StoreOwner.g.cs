@@ -63,8 +63,15 @@ public partial class StoreOwner
     /// <summary>
     /// Type options and factory for property 'LocalGreeting'
     /// </summary>
-    public static Nox.Types.TranslatedText CreateLocalGreeting(ITranslatedText value)
-        => Nox.Types.TranslatedText.From(value);
+    public static Nox.Types.TranslatedTextTypeOptions LocalGreetingTypeOptions {get; private set;} = new ()
+    {
+        MinLength = 4,
+        MaxLength = 63,
+        CharacterCasing = Nox.Types.TextTypeCasing.Normal,
+    };
+    
+    public static TranslatedText CreateLocalGreeting(ITranslatedText value)
+        => Nox.Types.TranslatedText.From(value, LocalGreetingTypeOptions);
     
 
 }
