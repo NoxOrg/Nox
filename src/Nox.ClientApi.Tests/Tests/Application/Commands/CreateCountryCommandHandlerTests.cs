@@ -3,7 +3,7 @@ using ClientApi.Application.Dto;
 using AutoFixture.AutoMoq;
 using AutoFixture;
 
-namespace Nox.ClientApi.Tests.Tests.Controllers;
+namespace ClientApi.Tests.Tests.Controllers;
 
 [Collection("Sequential")]
 public class CreateCountryCommandHandlerTests 
@@ -72,14 +72,5 @@ public class CreateCountryCommandHandlerTests
         //Assert
         result.Should().NotBeNull();
         result!.Name.Should().Be(expectedName);
-    }
-
-    private async Task<System.Guid?> GetEtagAsync(CountryKeyDto? keyDto)
-    {
-        if (keyDto == null)
-            return null;
-
-        var result = await _oDataFixture.GetAsync<CountryDto>($"{CountryControllerName}/{keyDto!.keyId}");
-        return result?.Etag;
     }
 }

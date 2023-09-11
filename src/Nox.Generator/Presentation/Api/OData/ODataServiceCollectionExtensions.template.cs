@@ -15,6 +15,10 @@ public static class ODataServiceCollectionExtensions
 {
     public static void AddNoxOdata(this IServiceCollection services)
     {
+        services.AddNoxOdata(null);
+    }
+    public static void AddNoxOdata(this IServiceCollection services, Action<ODataModelBuilder>? configure)
+    {
         ODataModelBuilder builder = new ODataConventionModelBuilder();
 
         {{ hasKeyForCompoundKeys -}}
@@ -43,6 +47,8 @@ public static class ODataServiceCollectionExtensions
 
         {{- end }}
         {{- end }}
+
+        if(configure != null) configure(builder);
 
         services.AddControllers()
             .AddOData(options =>

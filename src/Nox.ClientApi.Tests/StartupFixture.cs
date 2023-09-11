@@ -1,6 +1,9 @@
 ﻿using ClientApi.Infrastructure.Persistence;
+using ClientApi.Application.Dto;
+using Nox;
+using ClientApi.Tests.Application.Dto;
 
-namespace Nox.ClientApi.Tests;
+namespace ClientApi.Tests;
 
 public class StartupFixture
 {
@@ -14,7 +17,13 @@ public class StartupFixture
     // This method gets called by the runtime. Use this method to add services to the container.
     public void ConfigureServices(IServiceCollection services)
     {
-        services.AddNox();
+        services.AddNox((oDataBuilder) => {
+            //Example register a custom odata function
+            oDataBuilder.Function("countriesWithDebt").ReturnsCollectionFromEntitySet<CountryDto>("Countries");
+            //example registering custom dto in Odata
+            oDataBuilder.EntitySet<HouseDto>("Houses");
+            oDataBuilder.EntityType<HouseDto>().HasKey(e => new { e.Id });
+        });
     }
 
     // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

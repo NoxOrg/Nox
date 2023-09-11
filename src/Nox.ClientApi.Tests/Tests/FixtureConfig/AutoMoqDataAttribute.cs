@@ -3,7 +3,7 @@ using AutoFixture.Xunit2;
 using AutoFixture;
 
 
-namespace Nox.ClientApi.Tests.Tests.FixtureConfig
+namespace ClientApi.Tests.Tests.FixtureConfig
 {
     public class AutoMoqDataAttribute : AutoDataAttribute
     {

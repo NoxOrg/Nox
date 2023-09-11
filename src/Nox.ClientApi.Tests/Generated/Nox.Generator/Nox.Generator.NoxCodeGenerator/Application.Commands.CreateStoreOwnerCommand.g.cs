@@ -42,7 +42,7 @@ public partial class CreateStoreOwnerCommandHandler: CommandBase<CreateStoreOwne
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 					
-		OnCompleted(entityToCreate);
+		OnCompleted(request, entityToCreate);
 		_dbContext.StoreOwners.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new StoreOwnerKeyDto(entityToCreate.Id.Value);

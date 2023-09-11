@@ -4,8 +4,9 @@ using AutoFixture;
 using System.Net;
 using AutoFixture.AutoMoq;
 
-namespace Nox.ClientApi.Tests.Tests
+namespace ClientApi.Tests.Tests
 {
+    [Collection("Sequential")]
     public class GenerateODataEndPointHtmlRoutingTests
     {
         private readonly Fixture _fixture;

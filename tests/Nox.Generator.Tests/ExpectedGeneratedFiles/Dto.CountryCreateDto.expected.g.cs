@@ -17,7 +17,7 @@ namespace SampleWebApp.Application.Dto;
 /// <summary>
 /// The list of countries.
 /// </summary>
-public partial class CountryCreateDto : IEntityCreateDto <Country>
+public partial class CountryCreateDto : IEntityCreateDto<Country>
 {
     /// <summary>
     ///  (Required).

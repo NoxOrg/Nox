@@ -17,7 +17,7 @@ namespace ClientApi.Application.Dto;
 /// <summary>
 /// Store owners.
 /// </summary>
-public partial class StoreOwnerCreateDto : IEntityCreateDto <StoreOwner>
+public partial class StoreOwnerCreateDto : IEntityCreateDto<StoreOwner>
 {
     /// <summary>
     ///  (Required).

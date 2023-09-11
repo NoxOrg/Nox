@@ -47,7 +47,7 @@ public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase<Delete{{entity
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		{{- end }}
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 		
 		{{- if (entity.Persistence?.IsAudited ?? true) }}
 		DbContext.Entry(entity).State = EntityState.Deleted;
