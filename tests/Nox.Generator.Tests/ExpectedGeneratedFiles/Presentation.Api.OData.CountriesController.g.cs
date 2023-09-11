@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using MediatR;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using SampleWebApp.Application;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Application.Queries;
@@ -91,7 +92,7 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCountryCommand(key, country, etag));
         
         if (updated is null)
@@ -122,7 +123,7 @@ public partial class CountriesController : ODataController
             }           
         }
         
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties, etag));
         
         if (updated is null)
@@ -135,7 +136,7 @@ public partial class CountriesController : ODataController
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteCountryByIdCommand(key, etag));
         
         if (!result)
@@ -154,17 +155,5 @@ public partial class CountriesController : ODataController
     {
         var result = await _getCountriesByContinent.ExecuteAsync(continentName);
         return Results.Ok(result);
-    }
-    
-    private System.Guid? GetDecodedEtagHeader()
-    {
-        var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();
-        string? rawEtag = ifMatchValue;
-        if (EntityTagHeaderValue.TryParse(ifMatchValue, out var encodedEtag))
-        {
-            rawEtag = encodedEtag.Tag.Trim('"');
-        }
-        
-        return System.Guid.TryParse(rawEtag, out var etag) ? etag : null;
     }
 }

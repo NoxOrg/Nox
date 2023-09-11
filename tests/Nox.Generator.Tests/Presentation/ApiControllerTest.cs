@@ -66,7 +66,6 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
 
     private void CheckController(string controllerFileName, ImmutableArray<GeneratedSourceResult> generatedSources)
     {
-        File.WriteAllText($"{controllerFileName}.txt", generatedSources.First(s => s.HintName == controllerFileName).SourceText.ToString());
         Assert.True(generatedSources.Any(s => s.HintName == controllerFileName), $"{controllerFileName} not generated");
         Assert.Equal(File.ReadAllText($"./ExpectedGeneratedFiles/{controllerFileName}"),
             generatedSources.First(s => s.HintName == controllerFileName).SourceText.ToString());

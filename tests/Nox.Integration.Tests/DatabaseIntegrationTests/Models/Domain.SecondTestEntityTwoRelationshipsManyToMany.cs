@@ -38,5 +38,5 @@ public partial class SecondTestEntityTwoRelationshipsManyToMany : EntityBase, IE
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
-    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

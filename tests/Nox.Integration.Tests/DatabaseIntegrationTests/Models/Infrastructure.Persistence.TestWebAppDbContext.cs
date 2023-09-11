@@ -216,13 +216,13 @@ public partial class TestWebAppDbContext : DbContext
         switch (entry.State)
         {
             case EntityState.Added:
-                entry.Property(e => e.Etag).CurrentValue = Nox.Types.Guid.NewGuid();
+                entry.Property(e => e.Etag).CurrentValue = System.Guid.NewGuid();
                 break;
 
             case EntityState.Modified:
             case EntityState.Deleted:
                 entry.Property(e => e.Etag).OriginalValue = entry.Property(p => p.Etag).CurrentValue;
-                entry.Property(e => e.Etag).CurrentValue = Nox.Types.Guid.NewGuid();
+                entry.Property(e => e.Etag).CurrentValue = System.Guid.NewGuid();
                 break;
         }
     }
