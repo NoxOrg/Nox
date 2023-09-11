@@ -1,0 +1,38 @@
+name: "Scheduled release"
+
+permissions: write-all
+
+on:
+  schedule:
+    # Each day at 01:00 UTC
+    - cron:  '0 1 * * *'
+  workflow_dispatch:
+  push:
+    branches:
+      - "main"
+
+jobs:
+  pre-release:
+    name: "Pre Release"
+    runs-on: "ubuntu-latest"
+
+    steps:
+      - name: Get next version
+        uses: MCKanpolat/auto-semver-action@v1
+        id: versioning
+        with:
+          releaseType: patch
+          incrementPerCommit: false
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: "Build & test"
+        run: |
+          echo "done!"
+
+      - uses: "marvinpinto/action-automatic-releases@latest"
+        with:
+          repo_token: "${{ secrets.GITHUB_TOKEN }}"
+          automatic_release_tag: "${{ steps.versioning.outputs.version }}"
+          prerelease: false
+          title: "${{ steps.versioning.outputs.version }}"
+          # Can be extended with published file types, see docs for details
