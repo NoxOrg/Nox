@@ -53,7 +53,7 @@ public abstract class {{className}}Base: IEntityFactory<{{entity.Name}},{{entity
     {
         var entity = new {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}}();
         {{- for key in entity.Keys }}
-            {{- if key.Type == "Nuid" || key.Type == "DatabaseNumber" || key.Type == "DatabaseGuid" -}}
+            {{- if key.Type == "Nuid" || key.Type == "AutoNumber" || key.Type == "DatabaseGuid" -}}
                 {{ continue; -}}
             {{- end }}
         entity.{{key.Name}} = {{ entity.Name }}.Create{{key.Name}}(createDto.{{key.Name}});

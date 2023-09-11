@@ -113,5 +113,5 @@ public partial class CountryCreateDto : IEntityCreateDto<Country>
     /// <summary>
     /// Password Nox Type (Optional).
     /// </summary>
-    public PasswordDto? PasswordField { get; set; }   
+    public PasswordDto? PasswordField { get; set; }
 }

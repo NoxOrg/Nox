@@ -41,7 +41,7 @@ public partial class PartialUpdateHolidayCommandHandler: CommandBase<PartialUpda
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<Holiday,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
+		var ownedId = CreateNoxTypeForKey<Holiday,AutoNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.Holidays.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{

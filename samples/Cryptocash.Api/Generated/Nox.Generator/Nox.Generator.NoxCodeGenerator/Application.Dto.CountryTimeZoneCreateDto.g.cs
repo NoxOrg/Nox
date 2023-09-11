@@ -24,5 +24,5 @@ public partial class CountryTimeZoneCreateDto : IEntityCreateDto<CountryTimeZone
     /// </summary>
     [Required(ErrorMessage = "TimeZoneCode is required")]
     
-    public System.String TimeZoneCode { get; set; } = default!;   
+    public System.String TimeZoneCode { get; set; } = default!;
 }

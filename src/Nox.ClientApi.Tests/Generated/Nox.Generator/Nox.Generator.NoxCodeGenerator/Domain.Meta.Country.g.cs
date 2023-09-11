@@ -17,8 +17,8 @@ public partial class Country
     /// <summary>
     /// Type options and factory for property 'Id'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreateId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
+    public static Nox.Types.AutoNumber CreateId(System.Int64 value)
+        => Nox.Types.AutoNumber.From(value);
     
 
     /// <summary>
@@ -74,8 +74,8 @@ public partial class Country
     /// <summary>
     /// Type options and factory for property 'CountryLocalNameId'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreateCountryLocalNameId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
+    public static Nox.Types.AutoNumber CreateCountryLocalNameId(System.Int64 value)
+        => Nox.Types.AutoNumber.From(value);
     
 
 }

@@ -37,7 +37,7 @@ public class PartialUpdateMinimumCashStockCommandHandler: CommandBase<PartialUpd
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<MinimumCashStock,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<MinimumCashStock,AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.MinimumCashStocks.FindAsync(keyId);
 		if (entity == null)

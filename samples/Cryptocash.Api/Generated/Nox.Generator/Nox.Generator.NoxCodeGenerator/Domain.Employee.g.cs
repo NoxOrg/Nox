@@ -18,7 +18,7 @@ public partial class Employee : AuditableEntityBase
     /// <summary>
     /// Employee's unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Employee's first name (Required).
@@ -58,7 +58,7 @@ public partial class Employee : AuditableEntityBase
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity CashStockOrder
     /// </summary>
-    public Nox.Types.DatabaseNumber EmployeeReviewingCashStockOrderId { get; set; } = null!;
+    public Nox.Types.AutoNumber EmployeeReviewingCashStockOrderId { get; set; } = null!;
 
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers

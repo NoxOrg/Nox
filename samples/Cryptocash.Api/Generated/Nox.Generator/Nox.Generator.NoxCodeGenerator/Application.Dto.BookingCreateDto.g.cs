@@ -74,5 +74,5 @@ public partial class BookingCreateDto : IEntityCreateDto<Booking>
     /// Booking fees for ExactlyOne Commissions
     /// </summary>
     [Required(ErrorMessage = "BookingFeesForCommission is required")]
-    public System.Int64 BookingFeesForCommissionId { get; set; } = default!;   
+    public System.Int64 BookingFeesForCommissionId { get; set; } = default!;
 }

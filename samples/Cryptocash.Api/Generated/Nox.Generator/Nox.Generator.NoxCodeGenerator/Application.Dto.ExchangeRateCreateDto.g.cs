@@ -30,5 +30,5 @@ public partial class ExchangeRateCreateDto : IEntityCreateDto<ExchangeRate>
     /// </summary>
     [Required(ErrorMessage = "EffectiveAt is required")]
     
-    public System.DateTimeOffset EffectiveAt { get; set; } = default!;   
+    public System.DateTimeOffset EffectiveAt { get; set; } = default!;
 }

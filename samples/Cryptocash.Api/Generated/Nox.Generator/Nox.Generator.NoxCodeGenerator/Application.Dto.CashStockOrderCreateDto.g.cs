@@ -44,5 +44,5 @@ public partial class CashStockOrderCreateDto : IEntityCreateDto<CashStockOrder>
     /// CashStockOrder for ExactlyOne VendingMachines
     /// </summary>
     [Required(ErrorMessage = "CashStockOrderForVendingMachine is required")]
-    public System.Guid CashStockOrderForVendingMachineId { get; set; } = default!;   
+    public System.Guid CashStockOrderForVendingMachineId { get; set; } = default!;
 }

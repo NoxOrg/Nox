@@ -17,8 +17,8 @@ public partial class PaymentDetail
     /// <summary>
     /// Type options and factory for property 'Id'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreateId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
+    public static Nox.Types.AutoNumber CreateId(System.Int64 value)
+        => Nox.Types.AutoNumber.From(value);
     
 
     /// <summary>
@@ -72,15 +72,15 @@ public partial class PaymentDetail
     /// <summary>
     /// Type options and factory for property 'CustomerId'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreateCustomerId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
+    public static Nox.Types.AutoNumber CreateCustomerId(System.Int64 value)
+        => Nox.Types.AutoNumber.From(value);
     
 
     /// <summary>
     /// Type options and factory for property 'PaymentProviderId'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreatePaymentProviderId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
+    public static Nox.Types.AutoNumber CreatePaymentProviderId(System.Int64 value)
+        => Nox.Types.AutoNumber.From(value);
     
 
 }

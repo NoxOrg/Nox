@@ -31,7 +31,7 @@ public class DeleteCommissionByIdCommandHandler: CommandBase<DeleteCommissionByI
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Commission,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Commission,AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Commissions.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted.Value == true)

@@ -37,7 +37,7 @@ public partial class DeleteCountryTimeZoneCommandHandler: CommandBase<DeleteCoun
 		{
 			return false;
 		}
-		var ownedId = CreateNoxTypeForKey<CountryTimeZone,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
+		var ownedId = CreateNoxTypeForKey<CountryTimeZone,AutoNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{

@@ -37,7 +37,7 @@ public class PartialUpdateCashStockOrderCommandHandler: CommandBase<PartialUpdat
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<CashStockOrder,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<CashStockOrder,AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.CashStockOrders.FindAsync(keyId);
 		if (entity == null)

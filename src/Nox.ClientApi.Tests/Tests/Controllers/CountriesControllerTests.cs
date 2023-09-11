@@ -106,7 +106,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
 
             // Act
-            var results = await _oDataFixture.GetODataCollectionResponseAsync<IEnumerable<CountryLocalNameDto>>($"{EntityUrl}/{result!.Id}/CountryLocalNames");            
+            var results = await _oDataFixture.GetODataCollectionResponseAsync<IEnumerable<CountryLocalNameDto>>($"{EntityUrl}/{result!.Id}/CountryLocalNames");
 
             // Assert
             results.Should()
@@ -183,7 +183,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region POST Entity With Owned Entities /api/{EntityPluralName} => api/countries
         [Fact]
-        public async Task Post_WithManyOwnedEntity_ReturnsDatabaseNumberId()
+        public async Task Post_WithManyOwnedEntity_ReturnsAutoNumberId()
         {
             // Arrange
             var expectedOwnedName = _fixture.Create<string>();
@@ -336,7 +336,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region TESTS 
         [Fact]
-        public async Task Post_ReturnsDatabaseNumberId()
+        public async Task Post_ReturnsAutoNumberId()
         {
             // Arrange
             var dto = new CountryCreateDto
@@ -381,7 +381,7 @@ namespace ClientApi.Tests.Tests.Controllers
         }
 
         [Fact]
-        public async Task Post_WithCompoundMoney_ReturnsDatabaseNumberId()
+        public async Task Post_WithCompoundMoney_ReturnsAutoNumberId()
         {
             // Arrange
             var expectedAmount = 100;
@@ -401,7 +401,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             queryResult.Should().NotBeNull();
             queryResult!.CountryDebt!.Amount.Should().Be(expectedAmount);
-        }        
+        }
 
         [Fact]
         public async Task Post_NameAndPopulation_ShouldPopulateShortDescription()
@@ -593,8 +593,8 @@ namespace ClientApi.Tests.Tests.Controllers
             var putResult = await _oDataFixture.PutAsync<CountryUpdateDto, CountryDto>($"{EntityUrl}/{postResult!.Id}", updateDto);
 
             // Assert
-            putResult!.FirstLanguageCode.Should().Be(updateWithLanguage);                      
-        }        
+            putResult!.FirstLanguageCode.Should().Be(updateWithLanguage);
+        }
 
         #endregion
     }

@@ -13,7 +13,7 @@ keys:
   - name: Id
     isRequired: true
     description: Vending machine cash stock unique identifier 
-    type: databaseNumber 
+    type: autoNumber
     userInterface:
       showInSearchResults: never
       canSearch: true

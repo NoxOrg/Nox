@@ -36,7 +36,7 @@ public class UpdatePaymentDetailCommandHandler: CommandBase<UpdatePaymentDetailC
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<PaymentDetail,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<PaymentDetail,AutoNumber>("Id", request.keyId);
 	
 		var entity = await DbContext.PaymentDetails.FindAsync(keyId);
 		if (entity == null)

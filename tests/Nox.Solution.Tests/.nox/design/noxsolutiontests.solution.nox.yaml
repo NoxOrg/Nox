@@ -153,7 +153,7 @@ domain:
       keys:
 
         - name: Id
-          type: databaseNumber
+          type: autoNumber
           isRequired: true
 
       attributes:
