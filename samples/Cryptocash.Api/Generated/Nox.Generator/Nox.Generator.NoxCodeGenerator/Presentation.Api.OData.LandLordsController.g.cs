@@ -61,7 +61,6 @@ public partial class LandLordsController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<LandLordDto>> Post([FromBody]LandLordCreateDto landLord)
     {
         if (!ModelState.IsValid)
@@ -75,7 +74,6 @@ public partial class LandLordsController : ODataController
         return Created(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<LandLordDto>> Put([FromRoute] System.Int64 key, [FromBody] LandLordUpdateDto landLord)
     {
         if (!ModelState.IsValid)
@@ -94,7 +92,6 @@ public partial class LandLordsController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<LandLordDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<LandLordUpdateDto> landLord)
     {
         if (!ModelState.IsValid)

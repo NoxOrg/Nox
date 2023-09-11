@@ -61,7 +61,6 @@ public partial class TransactionsController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<TransactionDto>> Post([FromBody]TransactionCreateDto transaction)
     {
         if (!ModelState.IsValid)
@@ -75,7 +74,6 @@ public partial class TransactionsController : ODataController
         return Created(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<TransactionDto>> Put([FromRoute] System.Int64 key, [FromBody] TransactionUpdateDto transaction)
     {
         if (!ModelState.IsValid)
@@ -94,7 +92,6 @@ public partial class TransactionsController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<TransactionDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<TransactionUpdateDto> transaction)
     {
         if (!ModelState.IsValid)

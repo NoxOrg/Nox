@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public partial class TransactionCreateDto : IEntityCreateDto <Transaction>
+public partial class TransactionCreateDto : IEntityCreateDto<Transaction>
 {    
     /// <summary>
     /// Transaction type (Required).

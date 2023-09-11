@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-public partial class CustomerCreateDto : IEntityCreateDto <Customer>
+public partial class CustomerCreateDto : IEntityCreateDto<Customer>
 {    
     /// <summary>
     /// Customer's first name (Required).

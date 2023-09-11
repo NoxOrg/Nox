@@ -61,7 +61,6 @@ public partial class MinimumCashStocksController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<MinimumCashStockDto>> Post([FromBody]MinimumCashStockCreateDto minimumCashStock)
     {
         if (!ModelState.IsValid)
@@ -75,7 +74,6 @@ public partial class MinimumCashStocksController : ODataController
         return Created(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<MinimumCashStockDto>> Put([FromRoute] System.Int64 key, [FromBody] MinimumCashStockUpdateDto minimumCashStock)
     {
         if (!ModelState.IsValid)
@@ -94,7 +92,6 @@ public partial class MinimumCashStocksController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<MinimumCashStockDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<MinimumCashStockUpdateDto> minimumCashStock)
     {
         if (!ModelState.IsValid)

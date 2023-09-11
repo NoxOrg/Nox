@@ -46,7 +46,7 @@ public class PartialUpdateCashStockOrderCommandHandler: CommandBase<PartialUpdat
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<CashStockOrder>(), request.UpdatedProperties);
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

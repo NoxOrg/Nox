@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cryptocash.Api.Migrations
 {
     [DbContext(typeof(CryptocashDbContext))]
-    [Migration("20230906161650_InitialCreate")]
+    [Migration("20230908142614_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
@@ -1566,31 +1566,27 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("nvarchar(128)");
 
                             b1.Property<string>("AddressLine2")
-                                .IsRequired()
                                 .HasMaxLength(128)
                                 .HasColumnType("nvarchar(128)");
 
                             b1.Property<string>("AdministrativeArea1")
-                                .IsRequired()
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("AdministrativeArea2")
-                                .IsRequired()
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("CountryId")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(2)
+                                .HasColumnType("nvarchar(2)");
 
                             b1.Property<string>("Locality")
-                                .IsRequired()
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("Neighborhood")
-                                .IsRequired()
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
 
@@ -1600,12 +1596,10 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("nvarchar(32)");
 
                             b1.Property<string>("Route")
-                                .IsRequired()
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("StreetNumber")
-                                .IsRequired()
                                 .HasMaxLength(32)
                                 .HasColumnType("nvarchar(32)");
 
@@ -1640,31 +1634,27 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("nvarchar(128)");
 
                             b1.Property<string>("AddressLine2")
-                                .IsRequired()
                                 .HasMaxLength(128)
                                 .HasColumnType("nvarchar(128)");
 
                             b1.Property<string>("AdministrativeArea1")
-                                .IsRequired()
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("AdministrativeArea2")
-                                .IsRequired()
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("CountryId")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(2)
+                                .HasColumnType("nvarchar(2)");
 
                             b1.Property<string>("Locality")
-                                .IsRequired()
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("Neighborhood")
-                                .IsRequired()
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
 
@@ -1674,12 +1664,10 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("nvarchar(32)");
 
                             b1.Property<string>("Route")
-                                .IsRequired()
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("StreetNumber")
-                                .IsRequired()
                                 .HasMaxLength(32)
                                 .HasColumnType("nvarchar(32)");
 
@@ -1747,31 +1735,27 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("nvarchar(128)");
 
                             b1.Property<string>("AddressLine2")
-                                .IsRequired()
                                 .HasMaxLength(128)
                                 .HasColumnType("nvarchar(128)");
 
                             b1.Property<string>("AdministrativeArea1")
-                                .IsRequired()
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("AdministrativeArea2")
-                                .IsRequired()
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("CountryId")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(2)
+                                .HasColumnType("nvarchar(2)");
 
                             b1.Property<string>("Locality")
-                                .IsRequired()
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("Neighborhood")
-                                .IsRequired()
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
 
@@ -1781,12 +1765,10 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("nvarchar(32)");
 
                             b1.Property<string>("Route")
-                                .IsRequired()
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("StreetNumber")
-                                .IsRequired()
                                 .HasMaxLength(32)
                                 .HasColumnType("nvarchar(32)");
 
@@ -1944,31 +1926,27 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("nvarchar(128)");
 
                             b1.Property<string>("AddressLine2")
-                                .IsRequired()
                                 .HasMaxLength(128)
                                 .HasColumnType("nvarchar(128)");
 
                             b1.Property<string>("AdministrativeArea1")
-                                .IsRequired()
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("AdministrativeArea2")
-                                .IsRequired()
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("CountryId")
                                 .IsRequired()
-                                .HasColumnType("nvarchar(max)");
+                                .HasMaxLength(2)
+                                .HasColumnType("nvarchar(2)");
 
                             b1.Property<string>("Locality")
-                                .IsRequired()
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("Neighborhood")
-                                .IsRequired()
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
 
@@ -1978,12 +1956,10 @@ namespace Cryptocash.Api.Migrations
                                 .HasColumnType("nvarchar(32)");
 
                             b1.Property<string>("Route")
-                                .IsRequired()
                                 .HasMaxLength(64)
                                 .HasColumnType("nvarchar(64)");
 
                             b1.Property<string>("StreetNumber")
-                                .IsRequired()
                                 .HasMaxLength(32)
                                 .HasColumnType("nvarchar(32)");
 

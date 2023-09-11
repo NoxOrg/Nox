@@ -42,7 +42,7 @@ public partial class CreateCashStockOrderCommandHandler: CommandBase<CreateCashS
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 					
-		OnCompleted(entityToCreate);
+		OnCompleted(request, entityToCreate);
 		_dbContext.CashStockOrders.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new CashStockOrderKeyDto(entityToCreate.Id.Value);

@@ -13,24 +13,21 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record UpdateExchangeRateCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateKeyDto EntityKeyDto, ExchangeRateUpdateDto EntityDto) : IRequest <ExchangeRateKeyDto?>;
+public record DeleteExchangeRateCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateKeyDto EntityKeyDto) : IRequest <bool>;
 
-public partial class UpdateExchangeRateCommandHandler: CommandBase<UpdateExchangeRateCommand, ExchangeRate>, IRequestHandler <UpdateExchangeRateCommand, ExchangeRateKeyDto?>
+public partial class DeleteExchangeRateCommandHandler: CommandBase<DeleteExchangeRateCommand, ExchangeRate>, IRequestHandler <DeleteExchangeRateCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<ExchangeRate> EntityMapper { get; }
 
-	public UpdateExchangeRateCommandHandler(
+	public DeleteExchangeRateCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityMapper<ExchangeRate> entityMapper): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
 	}
 
-	public async Task<ExchangeRateKeyDto?> Handle(UpdateExchangeRateCommand request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(DeleteExchangeRateCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
@@ -38,26 +35,26 @@ public partial class UpdateExchangeRateCommandHandler: CommandBase<UpdateExchang
 		var parentEntity = await DbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			return false;
 		}
 		var ownedId = CreateNoxTypeForKey<ExchangeRate,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.ExchangeRates.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
-			return null;
+			return false;
 		}
 
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<ExchangeRate>(), request.EntityDto);
+		parentEntity.ExchangeRates.Remove(entity);
 		
 		OnCompleted(request, entity);
-	
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+
+		DbContext.Entry(entity).State = EntityState.Deleted;
+		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)
 		{
-			return null;
+			return false;
 		}
 
-		return new ExchangeRateKeyDto(entity.Id.Value);
+		return true;
 	}
 }

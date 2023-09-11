@@ -61,7 +61,6 @@ public partial class PaymentDetailsController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<PaymentDetailDto>> Post([FromBody]PaymentDetailCreateDto paymentDetail)
     {
         if (!ModelState.IsValid)
@@ -75,7 +74,6 @@ public partial class PaymentDetailsController : ODataController
         return Created(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<PaymentDetailDto>> Put([FromRoute] System.Int64 key, [FromBody] PaymentDetailUpdateDto paymentDetail)
     {
         if (!ModelState.IsValid)
@@ -94,7 +92,6 @@ public partial class PaymentDetailsController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<PaymentDetailDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<PaymentDetailUpdateDto> paymentDetail)
     {
         if (!ModelState.IsValid)

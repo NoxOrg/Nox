@@ -42,7 +42,7 @@ public partial class CreateMinimumCashStockCommandHandler: CommandBase<CreateMin
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 					
-		OnCompleted(entityToCreate);
+		OnCompleted(request, entityToCreate);
 		_dbContext.MinimumCashStocks.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new MinimumCashStockKeyDto(entityToCreate.Id.Value);

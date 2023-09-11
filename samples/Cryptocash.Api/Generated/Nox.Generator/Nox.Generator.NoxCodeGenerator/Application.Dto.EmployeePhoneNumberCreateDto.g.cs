@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Employee phone number and related data.
 /// </summary>
-public partial class EmployeePhoneNumberCreateDto : IEntityCreateDto <EmployeePhoneNumber>
+public partial class EmployeePhoneNumberCreateDto : IEntityCreateDto<EmployeePhoneNumber>
 {    
     /// <summary>
     /// Employee's phone number type (Required).

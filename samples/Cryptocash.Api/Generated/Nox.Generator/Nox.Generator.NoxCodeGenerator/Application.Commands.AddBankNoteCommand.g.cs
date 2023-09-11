@@ -49,7 +49,7 @@ public partial class AddBankNoteCommandHandler: CommandBase<AddBankNoteCommand, 
 		
 		parentEntity.BankNotes.Add(entity);
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 	
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await _dbContext.SaveChangesAsync();

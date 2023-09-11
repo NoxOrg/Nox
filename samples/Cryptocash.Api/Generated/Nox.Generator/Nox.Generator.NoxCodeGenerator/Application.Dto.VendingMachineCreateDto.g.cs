@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public partial class VendingMachineCreateDto : IEntityCreateDto <VendingMachine>
+public partial class VendingMachineCreateDto : IEntityCreateDto<VendingMachine>
 {    
     /// <summary>
     /// Vending machine mac address (Required).

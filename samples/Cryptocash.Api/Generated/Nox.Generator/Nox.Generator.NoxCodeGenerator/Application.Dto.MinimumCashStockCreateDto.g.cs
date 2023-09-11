@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>
-public partial class MinimumCashStockCreateDto : IEntityCreateDto <MinimumCashStock>
+public partial class MinimumCashStockCreateDto : IEntityCreateDto<MinimumCashStock>
 {    
     /// <summary>
     /// Cash stock amount (Required).

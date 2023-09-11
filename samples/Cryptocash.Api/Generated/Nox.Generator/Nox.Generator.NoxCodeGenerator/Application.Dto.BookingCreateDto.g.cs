@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-public partial class BookingCreateDto : IEntityCreateDto <Booking>
+public partial class BookingCreateDto : IEntityCreateDto<Booking>
 {    
     /// <summary>
     /// Booking's amount exchanged from (Required).

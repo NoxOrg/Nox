@@ -42,7 +42,7 @@ public partial class CreateCustomerCommandHandler: CommandBase<CreateCustomerCom
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 					
-		OnCompleted(entityToCreate);
+		OnCompleted(request, entityToCreate);
 		_dbContext.Customers.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new CustomerKeyDto(entityToCreate.Id.Value);

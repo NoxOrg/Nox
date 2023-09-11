@@ -13,24 +13,21 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record UpdateBankNoteCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto, BankNoteUpdateDto EntityDto) : IRequest <BankNoteKeyDto?>;
+public record DeleteBankNoteCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto) : IRequest <bool>;
 
-public partial class UpdateBankNoteCommandHandler: CommandBase<UpdateBankNoteCommand, BankNote>, IRequestHandler <UpdateBankNoteCommand, BankNoteKeyDto?>
+public partial class DeleteBankNoteCommandHandler: CommandBase<DeleteBankNoteCommand, BankNote>, IRequestHandler <DeleteBankNoteCommand, bool>
 {
 	public CryptocashDbContext DbContext { get; }
-	public IEntityMapper<BankNote> EntityMapper { get; }
 
-	public UpdateBankNoteCommandHandler(
+	public DeleteBankNoteCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,
-		IEntityMapper<BankNote> entityMapper): base(noxSolution, serviceProvider)
+		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		DbContext = dbContext;
-		EntityMapper = entityMapper;
 	}
 
-	public async Task<BankNoteKeyDto?> Handle(UpdateBankNoteCommand request, CancellationToken cancellationToken)
+	public async Task<bool> Handle(DeleteBankNoteCommand request, CancellationToken cancellationToken)
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
@@ -38,26 +35,26 @@ public partial class UpdateBankNoteCommandHandler: CommandBase<UpdateBankNoteCom
 		var parentEntity = await DbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)
 		{
-			return null;
+			return false;
 		}
 		var ownedId = CreateNoxTypeForKey<BankNote,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
-			return null;
+			return false;
 		}
 
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<BankNote>(), request.EntityDto);
+		parentEntity.BankNotes.Remove(entity);
 		
 		OnCompleted(request, entity);
-	
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+
+		DbContext.Entry(entity).State = EntityState.Deleted;
+		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)
 		{
-			return null;
+			return false;
 		}
 
-		return new BankNoteKeyDto(entity.Id.Value);
+		return true;
 	}
 }
