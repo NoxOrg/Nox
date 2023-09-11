@@ -1,7 +1,11 @@
 ﻿using System.Net;
 using System.Text.Json;
+using System.Threading.Tasks;
+
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Logging;
+
+using Nox.Exceptions;
 using Nox.Types;
 
 namespace Nox.Lib;
@@ -29,6 +33,10 @@ public class NoxExceptionHanderMiddleware
         {
             await HandleTypeValidationExceptionAsync(httpContext, ex);
         }
+        catch(ConcurrencyException ex)
+        {
+            await HandleConcurrencyExceptionAsync(httpContext, ex);
+        }
         catch (Exception ex)
         {
             await CommonHandleExceptionAsync(httpContext, ex, ex.Message);
@@ -43,6 +51,11 @@ public class NoxExceptionHanderMiddleware
     {
         var message = string.Join("\n", exception.Errors.Select(x => $"PropertyName: {x.Variable}. Error: {x.ErrorMessage}"));
         await CommonHandleExceptionAsync(context, exception, message, HttpStatusCode.BadRequest);
+    }
+
+    private async Task HandleConcurrencyExceptionAsync(HttpContext context, ConcurrencyException exception)
+    {
+        await CommonHandleExceptionAsync(context, exception, exception.Message, HttpStatusCode.Conflict);
     }
 
     private async Task CommonHandleExceptionAsync(HttpContext context,

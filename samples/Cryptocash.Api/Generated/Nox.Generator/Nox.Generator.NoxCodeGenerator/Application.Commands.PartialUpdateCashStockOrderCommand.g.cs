@@ -16,7 +16,7 @@ using CashStockOrder = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application.Commands;
 
-public record PartialUpdateCashStockOrderCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CashStockOrderKeyDto?>;
+public record PartialUpdateCashStockOrderCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CashStockOrderKeyDto?>;
 
 public class PartialUpdateCashStockOrderCommandHandler: CommandBase<PartialUpdateCashStockOrderCommand, CashStockOrder>, IRequestHandler<PartialUpdateCashStockOrderCommand, CashStockOrderKeyDto?>
 {
@@ -37,7 +37,7 @@ public class PartialUpdateCashStockOrderCommandHandler: CommandBase<PartialUpdat
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<CashStockOrder,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<CashStockOrder,AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.CashStockOrders.FindAsync(keyId);
 		if (entity == null)
@@ -45,6 +45,7 @@ public class PartialUpdateCashStockOrderCommandHandler: CommandBase<PartialUpdat
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<CashStockOrder>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 

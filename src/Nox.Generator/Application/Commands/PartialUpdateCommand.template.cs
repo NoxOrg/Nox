@@ -16,7 +16,7 @@ using {{entity.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public record PartialUpdate{{entity.Name}}Command({{primaryKeys}}, Dictionary<string, dynamic> UpdatedProperties) : IRequest <{{entity.Name}}KeyDto?>;
+public record PartialUpdate{{entity.Name}}Command({{primaryKeys}}, Dictionary<string, dynamic> UpdatedProperties{{ if !entity.IsOwnedEntity }}, System.Guid? Etag{{end}}) : IRequest <{{entity.Name}}KeyDto?>;
 
 public class PartialUpdate{{entity.Name}}CommandHandler: CommandBase<PartialUpdate{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler<PartialUpdate{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
@@ -48,6 +48,9 @@ public class PartialUpdate{{entity.Name}}CommandHandler: CommandBase<PartialUpda
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.UpdatedProperties);
+		{{- if !entity.IsOwnedEntity }}
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		{{- end }}
 
 		OnCompleted(request, entity);
 

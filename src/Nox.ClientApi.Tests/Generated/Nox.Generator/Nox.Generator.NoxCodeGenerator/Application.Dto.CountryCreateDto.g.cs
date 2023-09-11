@@ -45,5 +45,5 @@ public partial class CountryCreateDto : IEntityCreateDto<Country>
     /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
-    public virtual List<CountryLocalNameCreateDto> CountryLocalNames { get; set; } = new();   
+    public virtual List<CountryLocalNameCreateDto> CountryLocalNames { get; set; } = new();
 }

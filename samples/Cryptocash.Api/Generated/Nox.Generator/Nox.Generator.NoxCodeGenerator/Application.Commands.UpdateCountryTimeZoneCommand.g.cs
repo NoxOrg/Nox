@@ -13,7 +13,8 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record UpdateCountryTimeZoneCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneKeyDto EntityKeyDto, CountryTimeZoneUpdateDto EntityDto) : IRequest <CountryTimeZoneKeyDto?>;
+
+public record UpdateCountryTimeZoneCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneKeyDto EntityKeyDto, CountryTimeZoneUpdateDto EntityDto, System.Guid? Etag) : IRequest <CountryTimeZoneKeyDto?>;
 
 public partial class UpdateCountryTimeZoneCommandHandler: CommandBase<UpdateCountryTimeZoneCommand, CountryTimeZone>, IRequestHandler <UpdateCountryTimeZoneCommand, CountryTimeZoneKeyDto?>
 {
@@ -40,7 +41,7 @@ public partial class UpdateCountryTimeZoneCommandHandler: CommandBase<UpdateCoun
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<CountryTimeZone,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
+		var ownedId = CreateNoxTypeForKey<CountryTimeZone,AutoNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.CountryTimeZones.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
@@ -48,7 +49,7 @@ public partial class UpdateCountryTimeZoneCommandHandler: CommandBase<UpdateCoun
 		}
 
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<CountryTimeZone>(), request.EntityDto);
-		
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

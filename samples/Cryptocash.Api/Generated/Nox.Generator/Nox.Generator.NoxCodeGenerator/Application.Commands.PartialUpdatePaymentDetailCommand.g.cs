@@ -16,7 +16,7 @@ using PaymentDetail = Cryptocash.Domain.PaymentDetail;
 
 namespace Cryptocash.Application.Commands;
 
-public record PartialUpdatePaymentDetailCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <PaymentDetailKeyDto?>;
+public record PartialUpdatePaymentDetailCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <PaymentDetailKeyDto?>;
 
 public class PartialUpdatePaymentDetailCommandHandler: CommandBase<PartialUpdatePaymentDetailCommand, PaymentDetail>, IRequestHandler<PartialUpdatePaymentDetailCommand, PaymentDetailKeyDto?>
 {
@@ -37,7 +37,7 @@ public class PartialUpdatePaymentDetailCommandHandler: CommandBase<PartialUpdate
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<PaymentDetail,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<PaymentDetail,AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.PaymentDetails.FindAsync(keyId);
 		if (entity == null)
@@ -45,6 +45,7 @@ public class PartialUpdatePaymentDetailCommandHandler: CommandBase<PartialUpdate
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<PaymentDetail>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 

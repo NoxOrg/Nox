@@ -13,12 +13,12 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-public partial class Employee : AuditableEntityBase
+public partial class Employee : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Employee's unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Employee's first name (Required).
@@ -58,7 +58,7 @@ public partial class Employee : AuditableEntityBase
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity CashStockOrder
     /// </summary>
-    public Nox.Types.DatabaseNumber EmployeeReviewingCashStockOrderId { get; set; } = null!;
+    public Nox.Types.AutoNumber EmployeeReviewingCashStockOrderId { get; set; } = null!;
 
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
@@ -66,4 +66,9 @@ public partial class Employee : AuditableEntityBase
     public virtual List<EmployeePhoneNumber> EmployeePhoneNumbers { get; set; } = new();
 
     public List<EmployeePhoneNumber> EmployeeContactPhoneNumbers => EmployeePhoneNumbers;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

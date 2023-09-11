@@ -17,8 +17,8 @@ public partial class Employee
     /// <summary>
     /// Type options and factory for property 'Id'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreateId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
+    public static Nox.Types.AutoNumber CreateId(System.Int64 value)
+        => Nox.Types.AutoNumber.From(value);
     
 
     /// <summary>
@@ -84,8 +84,8 @@ public partial class Employee
     /// <summary>
     /// Type options and factory for property 'EmployeePhoneNumberId'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreateEmployeePhoneNumberId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
+    public static Nox.Types.AutoNumber CreateEmployeePhoneNumberId(System.Int64 value)
+        => Nox.Types.AutoNumber.From(value);
     
 
 }

@@ -15,7 +15,7 @@ using CashStockOrder = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application.Commands;
 
-public record UpdateCashStockOrderCommand(System.Int64 keyId, CashStockOrderUpdateDto EntityDto) : IRequest<CashStockOrderKeyDto?>;
+public record UpdateCashStockOrderCommand(System.Int64 keyId, CashStockOrderUpdateDto EntityDto, System.Guid? Etag) : IRequest<CashStockOrderKeyDto?>;
 
 public class UpdateCashStockOrderCommandHandler: CommandBase<UpdateCashStockOrderCommand, CashStockOrder>, IRequestHandler<UpdateCashStockOrderCommand, CashStockOrderKeyDto?>
 {
@@ -36,14 +36,16 @@ public class UpdateCashStockOrderCommandHandler: CommandBase<UpdateCashStockOrde
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<CashStockOrder,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<CashStockOrder,AutoNumber>("Id", request.keyId);
 	
 		var entity = await DbContext.CashStockOrders.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
 		}
+
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<CashStockOrder>(), request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 

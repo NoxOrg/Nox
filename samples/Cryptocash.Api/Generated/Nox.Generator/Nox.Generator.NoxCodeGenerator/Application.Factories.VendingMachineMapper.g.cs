@@ -79,7 +79,7 @@ public partial class VendingMachineMapper : EntityMapperBase<VendingMachine>
         /// <summary>
         /// VendingMachine contracted area leased by ExactlyOne LandLords
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "VendingMachineContractedAreaLandLord", dto.VendingMachineContractedAreaLandLordId);
+        noxTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "VendingMachineContractedAreaLandLord", dto.VendingMachineContractedAreaLandLordId);
         if (noxTypeValue != null)
         {        
             entity.VendingMachineContractedAreaLandLordId = noxTypeValue;
@@ -207,7 +207,7 @@ public partial class VendingMachineMapper : EntityMapperBase<VendingMachine>
         /// </summary>
         if (updatedProperties.TryGetValue("LandLordId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "VendingMachineContractedAreaLandLord", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "VendingMachineContractedAreaLandLord", value);
             if (noxRelationshipTypeValue != null)
             {        
                 entity.VendingMachineContractedAreaLandLordId = noxRelationshipTypeValue;

@@ -54,5 +54,5 @@ public partial class TransactionCreateDto : IEntityCreateDto<Transaction>
     /// Transaction for ExactlyOne Bookings
     /// </summary>
     [Required(ErrorMessage = "TransactionForBooking is required")]
-    public System.Guid TransactionForBookingId { get; set; } = default!;   
+    public System.Guid TransactionForBookingId { get; set; } = default!;
 }

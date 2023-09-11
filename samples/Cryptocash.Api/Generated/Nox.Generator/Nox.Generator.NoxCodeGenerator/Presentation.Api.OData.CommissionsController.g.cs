@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -77,7 +79,9 @@ public partial class CommissionsController : ODataController
     public async Task<ActionResult<CommissionDto>> Put([FromRoute] System.Int64 key, [FromBody] CommissionUpdateDto commission)
     {
         
-        var updated = await _mediator.Send(new UpdateCommissionCommand(key, commission));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateCommissionCommand(key, commission, etag));
+        
         if (updated is null)
         {
             return NotFound();
@@ -94,6 +98,7 @@ public partial class CommissionsController : ODataController
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in commission.GetChangedPropertyNames())
@@ -104,7 +109,8 @@ public partial class CommissionsController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCommissionCommand(key, updateProperties));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCommissionCommand(key, updateProperties, etag));
         
         if (updated is null)
         {
@@ -116,7 +122,9 @@ public partial class CommissionsController : ODataController
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var result = await _mediator.Send(new DeleteCommissionByIdCommand(key));
+        var etag = Request.GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteCommissionByIdCommand(key, etag));
+        
         if (!result)
         {
             return NotFound();

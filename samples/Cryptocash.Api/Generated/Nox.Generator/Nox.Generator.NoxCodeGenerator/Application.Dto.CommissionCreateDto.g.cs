@@ -36,5 +36,5 @@ public partial class CommissionCreateDto : IEntityCreateDto<Commission>
     /// Commission fees for ZeroOrOne Countries
     /// </summary>
     
-    public System.String? CommissionFeesForCountryId { get; set; } = default!;   
+    public System.String? CommissionFeesForCountryId { get; set; } = default!;
 }

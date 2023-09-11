@@ -13,7 +13,8 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record UpdateHolidayCommand(CountryKeyDto ParentKeyDto, HolidayKeyDto EntityKeyDto, HolidayUpdateDto EntityDto) : IRequest <HolidayKeyDto?>;
+
+public record UpdateHolidayCommand(CountryKeyDto ParentKeyDto, HolidayKeyDto EntityKeyDto, HolidayUpdateDto EntityDto, System.Guid? Etag) : IRequest <HolidayKeyDto?>;
 
 public partial class UpdateHolidayCommandHandler: CommandBase<UpdateHolidayCommand, Holiday>, IRequestHandler <UpdateHolidayCommand, HolidayKeyDto?>
 {
@@ -40,7 +41,7 @@ public partial class UpdateHolidayCommandHandler: CommandBase<UpdateHolidayComma
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<Holiday,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
+		var ownedId = CreateNoxTypeForKey<Holiday,AutoNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.Holidays.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
@@ -48,7 +49,7 @@ public partial class UpdateHolidayCommandHandler: CommandBase<UpdateHolidayComma
 		}
 
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Holiday>(), request.EntityDto);
-		
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

@@ -18,7 +18,7 @@ public partial class ExchangeRate : EntityBase, IOwnedEntity
     /// <summary>
     /// Exchange rate unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Exchange rate conversion amount (Required).
@@ -29,4 +29,5 @@ public partial class ExchangeRate : EntityBase, IOwnedEntity
     /// Exchange rate conversion amount (Required).
     /// </summary>
     public Nox.Types.DateTime EffectiveAt { get; set; } = null!;
+
 }

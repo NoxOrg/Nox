@@ -30,5 +30,5 @@ public partial class PaymentProviderCreateDto : IEntityCreateDto<PaymentProvider
     /// </summary>
     [Required(ErrorMessage = "PaymentProviderType is required")]
     
-    public System.String PaymentProviderType { get; set; } = default!;   
+    public System.String PaymentProviderType { get; set; } = default!;
 }

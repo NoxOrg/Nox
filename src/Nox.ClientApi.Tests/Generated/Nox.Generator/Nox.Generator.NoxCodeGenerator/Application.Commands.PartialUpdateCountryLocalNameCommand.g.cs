@@ -13,7 +13,7 @@ using ClientApi.Domain;
 using ClientApi.Application.Dto;
 
 namespace ClientApi.Application.Commands;
-public record PartialUpdateCountryLocalNameCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CountryLocalNameKeyDto?>;
+public record PartialUpdateCountryLocalNameCommand(CountryKeyDto ParentKeyDto, CountryLocalNameKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
 
 public partial class PartialUpdateCountryLocalNameCommandHandler: CommandBase<PartialUpdateCountryLocalNameCommand, CountryLocalName>, IRequestHandler <PartialUpdateCountryLocalNameCommand, CountryLocalNameKeyDto?>
 {
@@ -34,14 +34,14 @@ public partial class PartialUpdateCountryLocalNameCommandHandler: CommandBase<Pa
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,DatabaseNumber>("Id", request.ParentKeyDto.keyId);
+		var keyId = CreateNoxTypeForKey<Country,AutoNumber>("Id", request.ParentKeyDto.keyId);
 
 		var parentEntity = await DbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<CountryLocalName,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
+		var ownedId = CreateNoxTypeForKey<CountryLocalName,AutoNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.CountryLocalNames.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
@@ -49,7 +49,8 @@ public partial class PartialUpdateCountryLocalNameCommandHandler: CommandBase<Pa
 		}
 
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<CountryLocalName>(), request.UpdatedProperties);
-		
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
 		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

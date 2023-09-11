@@ -13,7 +13,7 @@ using Store = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
 
-public record DeleteStoreByIdCommand(System.UInt32 keyId) : IRequest<bool>;
+public record DeleteStoreByIdCommand(System.UInt32 keyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteStoreByIdCommandHandler: CommandBase<DeleteStoreByIdCommand,Store>, IRequestHandler<DeleteStoreByIdCommand, bool>
 {
@@ -38,6 +38,8 @@ public class DeleteStoreByIdCommandHandler: CommandBase<DeleteStoreByIdCommand,S
 		{
 			return false;
 		}
+
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;

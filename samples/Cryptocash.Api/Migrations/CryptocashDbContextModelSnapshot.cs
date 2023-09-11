@@ -71,6 +71,10 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTimeOffset?>("ExpiryDateTime")
                         .HasColumnType("datetimeoffset");
 
@@ -141,6 +145,10 @@ namespace Cryptocash.Api.Migrations
                     b.Property<DateTimeOffset?>("DeliveryDateTime")
                         .HasColumnType("datetimeoffset");
 
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
                         .HasColumnType("datetimeoffset");
 
@@ -208,6 +216,10 @@ namespace Cryptocash.Api.Migrations
 
                     b.Property<DateTimeOffset>("EffectiveAt")
                         .HasColumnType("datetimeoffset");
+
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
                         .HasColumnType("datetimeoffset");
@@ -280,6 +292,10 @@ namespace Cryptocash.Api.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
+
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FlagEmoji")
                         .HasMaxLength(63)
@@ -371,6 +387,10 @@ namespace Cryptocash.Api.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
+
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
                         .HasColumnType("datetimeoffset");
@@ -479,6 +499,10 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(true)
                         .HasColumnType("nvarchar(255)");
 
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(63)
@@ -559,6 +583,10 @@ namespace Cryptocash.Api.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.None);
 
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("FirstName")
                         .IsRequired()
                         .HasMaxLength(63)
@@ -632,6 +660,10 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
                         .HasColumnType("datetimeoffset");
 
@@ -688,6 +720,10 @@ namespace Cryptocash.Api.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
+
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
                         .HasColumnType("datetimeoffset");
@@ -747,6 +783,10 @@ namespace Cryptocash.Api.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
+
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
                         .HasColumnType("datetimeoffset");
@@ -830,6 +870,10 @@ namespace Cryptocash.Api.Migrations
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
 
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
                         .HasColumnType("datetimeoffset");
 
@@ -892,6 +936,10 @@ namespace Cryptocash.Api.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
+
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
                         .HasColumnType("datetimeoffset");
@@ -971,6 +1019,10 @@ namespace Cryptocash.Api.Migrations
                         .HasMaxLength(255)
                         .IsUnicode(false)
                         .HasColumnType("varchar(255)");
+
+                    b.Property<Guid>("Etag")
+                        .IsConcurrencyToken()
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal?>("InstallationFootPrint")
                         .HasColumnType("DECIMAL(21, 6)");

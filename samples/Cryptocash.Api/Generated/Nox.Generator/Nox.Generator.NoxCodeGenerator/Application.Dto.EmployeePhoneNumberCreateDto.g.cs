@@ -30,5 +30,5 @@ public partial class EmployeePhoneNumberCreateDto : IEntityCreateDto<EmployeePho
     /// </summary>
     [Required(ErrorMessage = "PhoneNumber is required")]
     
-    public System.String PhoneNumber { get; set; } = default!;   
+    public System.String PhoneNumber { get; set; } = default!;
 }

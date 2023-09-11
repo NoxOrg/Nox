@@ -13,7 +13,7 @@ using MinimumCashStock = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Commands;
 
-public record DeleteMinimumCashStockByIdCommand(System.Int64 keyId) : IRequest<bool>;
+public record DeleteMinimumCashStockByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteMinimumCashStockByIdCommandHandler: CommandBase<DeleteMinimumCashStockByIdCommand,MinimumCashStock>, IRequestHandler<DeleteMinimumCashStockByIdCommand, bool>
 {
@@ -31,13 +31,15 @@ public class DeleteMinimumCashStockByIdCommandHandler: CommandBase<DeleteMinimum
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<MinimumCashStock,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<MinimumCashStock,AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.MinimumCashStocks.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted.Value == true)
 		{
 			return false;
 		}
+
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;

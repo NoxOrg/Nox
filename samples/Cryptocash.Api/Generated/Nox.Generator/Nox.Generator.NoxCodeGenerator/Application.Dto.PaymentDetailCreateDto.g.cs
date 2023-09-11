@@ -46,5 +46,5 @@ public partial class PaymentDetailCreateDto : IEntityCreateDto<PaymentDetail>
     /// PaymentDetail related to ExactlyOne PaymentProviders
     /// </summary>
     [Required(ErrorMessage = "PaymentDetailsRelatedPaymentProvider is required")]
-    public System.Int64 PaymentDetailsRelatedPaymentProviderId { get; set; } = default!;   
+    public System.Int64 PaymentDetailsRelatedPaymentProviderId { get; set; } = default!;
 }

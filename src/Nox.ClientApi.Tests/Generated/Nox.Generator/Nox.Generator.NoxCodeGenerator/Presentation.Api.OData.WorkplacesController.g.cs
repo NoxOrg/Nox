@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
 using ClientApi.Application.Queries;
@@ -77,7 +79,9 @@ public partial class WorkplacesController : ODataController
     public async Task<ActionResult<WorkplaceDto>> Put([FromRoute] System.UInt32 key, [FromBody] WorkplaceUpdateDto workplace)
     {
         
-        var updated = await _mediator.Send(new UpdateWorkplaceCommand(key, workplace));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateWorkplaceCommand(key, workplace, etag));
+        
         if (updated is null)
         {
             return NotFound();
@@ -94,6 +98,7 @@ public partial class WorkplacesController : ODataController
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in workplace.GetChangedPropertyNames())
@@ -104,7 +109,8 @@ public partial class WorkplacesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateWorkplaceCommand(key, updateProperties));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateWorkplaceCommand(key, updateProperties, etag));
         
         if (updated is null)
         {
@@ -116,7 +122,9 @@ public partial class WorkplacesController : ODataController
     
     public async Task<ActionResult> Delete([FromRoute] System.UInt32 key)
     {
-        var result = await _mediator.Send(new DeleteWorkplaceByIdCommand(key));
+        var etag = Request.GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteWorkplaceByIdCommand(key, etag));
+        
         if (!result)
         {
             return NotFound();

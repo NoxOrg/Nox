@@ -30,5 +30,5 @@ public partial class MinimumCashStockCreateDto : IEntityCreateDto<MinimumCashSto
     /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
     [Required(ErrorMessage = "MinimumCashStockRelatedCurrency is required")]
-    public System.String MinimumCashStockRelatedCurrencyId { get; set; } = default!;   
+    public System.String MinimumCashStockRelatedCurrencyId { get; set; } = default!;
 }

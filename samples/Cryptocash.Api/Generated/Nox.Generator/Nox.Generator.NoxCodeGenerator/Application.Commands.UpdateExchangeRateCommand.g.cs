@@ -13,7 +13,8 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record UpdateExchangeRateCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateKeyDto EntityKeyDto, ExchangeRateUpdateDto EntityDto) : IRequest <ExchangeRateKeyDto?>;
+
+public record UpdateExchangeRateCommand(CurrencyKeyDto ParentKeyDto, ExchangeRateKeyDto EntityKeyDto, ExchangeRateUpdateDto EntityDto, System.Guid? Etag) : IRequest <ExchangeRateKeyDto?>;
 
 public partial class UpdateExchangeRateCommandHandler: CommandBase<UpdateExchangeRateCommand, ExchangeRate>, IRequestHandler <UpdateExchangeRateCommand, ExchangeRateKeyDto?>
 {
@@ -40,7 +41,7 @@ public partial class UpdateExchangeRateCommandHandler: CommandBase<UpdateExchang
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<ExchangeRate,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
+		var ownedId = CreateNoxTypeForKey<ExchangeRate,AutoNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.ExchangeRates.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
@@ -48,7 +49,7 @@ public partial class UpdateExchangeRateCommandHandler: CommandBase<UpdateExchang
 		}
 
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<ExchangeRate>(), request.EntityDto);
-		
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

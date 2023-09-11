@@ -31,7 +31,7 @@ Looking at [NoxType.cs](https://github.com/NoxOrg/Nox.Generator/blob/feature/nox
 Area = 998304025,
 
 [SimpleType(typeof(int))] 
-DatabaseNumber = 963275927,
+AutoNumber = 24779567,
 
 [SimpleType(typeof(bool))]
 Boolean = 2157507194,

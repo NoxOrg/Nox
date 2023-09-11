@@ -63,5 +63,5 @@ public partial class EmployeeCreateDto : IEntityCreateDto<Employee>
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
     /// </summary>
-    public virtual List<EmployeePhoneNumberCreateDto> EmployeePhoneNumbers { get; set; } = new();   
+    public virtual List<EmployeePhoneNumberCreateDto> EmployeePhoneNumbers { get; set; } = new();
 }

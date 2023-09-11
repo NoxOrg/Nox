@@ -30,5 +30,5 @@ public partial class BankNoteCreateDto : IEntityCreateDto<BankNote>
     /// </summary>
     [Required(ErrorMessage = "Value is required")]
     
-    public MoneyDto Value { get; set; } = default!;   
+    public MoneyDto Value { get; set; } = default!;
 }

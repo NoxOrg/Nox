@@ -86,8 +86,8 @@ public partial class Booking
     /// <summary>
     /// Type options and factory for property 'CustomerId'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreateCustomerId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
+    public static Nox.Types.AutoNumber CreateCustomerId(System.Int64 value)
+        => Nox.Types.AutoNumber.From(value);
     
 
     /// <summary>
@@ -100,8 +100,8 @@ public partial class Booking
     /// <summary>
     /// Type options and factory for property 'CommissionId'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreateCommissionId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
+    public static Nox.Types.AutoNumber CreateCommissionId(System.Int64 value)
+        => Nox.Types.AutoNumber.From(value);
     
 
 }

@@ -16,7 +16,7 @@ using StoreOwner = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Commands;
 
-public record PartialUpdateStoreOwnerCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <StoreOwnerKeyDto?>;
+public record PartialUpdateStoreOwnerCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <StoreOwnerKeyDto?>;
 
 public class PartialUpdateStoreOwnerCommandHandler: CommandBase<PartialUpdateStoreOwnerCommand, StoreOwner>, IRequestHandler<PartialUpdateStoreOwnerCommand, StoreOwnerKeyDto?>
 {
@@ -45,6 +45,7 @@ public class PartialUpdateStoreOwnerCommandHandler: CommandBase<PartialUpdateSto
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<StoreOwner>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 

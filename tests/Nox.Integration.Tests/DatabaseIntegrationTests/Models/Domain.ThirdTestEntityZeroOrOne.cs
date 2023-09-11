@@ -13,7 +13,7 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// .
 /// </summary>
-public partial class ThirdTestEntityZeroOrOne : AuditableEntityBase
+public partial class ThirdTestEntityZeroOrOne : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -29,4 +29,9 @@ public partial class ThirdTestEntityZeroOrOne : AuditableEntityBase
     /// ThirdTestEntityZeroOrOne Test entity relationship to ThirdTestEntityExactlyOne ZeroOrOne ThirdTestEntityExactlyOnes
     /// </summary>
     public virtual ThirdTestEntityExactlyOne? ThirdTestEntityExactlyOneRelationship { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

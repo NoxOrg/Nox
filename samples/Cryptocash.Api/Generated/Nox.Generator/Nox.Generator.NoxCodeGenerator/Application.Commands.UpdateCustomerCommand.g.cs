@@ -15,7 +15,7 @@ using Customer = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Commands;
 
-public record UpdateCustomerCommand(System.Int64 keyId, CustomerUpdateDto EntityDto) : IRequest<CustomerKeyDto?>;
+public record UpdateCustomerCommand(System.Int64 keyId, CustomerUpdateDto EntityDto, System.Guid? Etag) : IRequest<CustomerKeyDto?>;
 
 public class UpdateCustomerCommandHandler: CommandBase<UpdateCustomerCommand, Customer>, IRequestHandler<UpdateCustomerCommand, CustomerKeyDto?>
 {
@@ -36,14 +36,16 @@ public class UpdateCustomerCommandHandler: CommandBase<UpdateCustomerCommand, Cu
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Customer,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Customer,AutoNumber>("Id", request.keyId);
 	
 		var entity = await DbContext.Customers.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
 		}
+
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Customer>(), request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 

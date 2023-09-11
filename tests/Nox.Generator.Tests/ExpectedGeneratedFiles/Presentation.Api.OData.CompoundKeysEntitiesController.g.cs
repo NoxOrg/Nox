@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using SampleWebApp.Application;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Application.Queries;
@@ -77,7 +79,9 @@ public partial class CompoundKeysEntitiesController : ODataController
     public async Task<ActionResult<CompoundKeysEntityDto>> Put([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] CompoundKeysEntityUpdateDto compoundKeysEntity)
     {
         
-        var updated = await _mediator.Send(new UpdateCompoundKeysEntityCommand(keyId1, keyId2, compoundKeysEntity));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateCompoundKeysEntityCommand(keyId1, keyId2, compoundKeysEntity, etag));
+        
         if (updated is null)
         {
             return NotFound();
@@ -94,6 +98,7 @@ public partial class CompoundKeysEntitiesController : ODataController
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in compoundKeysEntity.GetChangedPropertyNames())
@@ -104,7 +109,8 @@ public partial class CompoundKeysEntitiesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCompoundKeysEntityCommand(keyId1, keyId2, updateProperties));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCompoundKeysEntityCommand(keyId1, keyId2, updateProperties, etag));
         
         if (updated is null)
         {
@@ -116,7 +122,9 @@ public partial class CompoundKeysEntitiesController : ODataController
     
     public async Task<ActionResult> Delete([FromRoute] System.String keyId1, [FromRoute] System.String keyId2)
     {
-        var result = await _mediator.Send(new DeleteCompoundKeysEntityByIdCommand(keyId1, keyId2));
+        var etag = Request.GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteCompoundKeysEntityByIdCommand(keyId1, keyId2, etag));
+        
         if (!result)
         {
             return NotFound();

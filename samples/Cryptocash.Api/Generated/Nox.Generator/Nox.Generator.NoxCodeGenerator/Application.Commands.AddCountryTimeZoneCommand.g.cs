@@ -17,7 +17,7 @@ using Cryptocash.Application.Dto;
 using CountryTimeZone = Cryptocash.Domain.CountryTimeZone;
 
 namespace Cryptocash.Application.Commands;
-public record AddCountryTimeZoneCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneCreateDto EntityDto) : IRequest <CountryTimeZoneKeyDto?>;
+public record AddCountryTimeZoneCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneCreateDto EntityDto, System.Guid? Etag) : IRequest <CountryTimeZoneKeyDto?>;
 
 public partial class AddCountryTimeZoneCommandHandler: CommandBase<AddCountryTimeZoneCommand, CountryTimeZone>, IRequestHandler <AddCountryTimeZoneCommand, CountryTimeZoneKeyDto?>
 {
@@ -48,7 +48,7 @@ public partial class AddCountryTimeZoneCommandHandler: CommandBase<AddCountryTim
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
 		
 		parentEntity.CountryTimeZones.Add(entity);
-
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
 	
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;

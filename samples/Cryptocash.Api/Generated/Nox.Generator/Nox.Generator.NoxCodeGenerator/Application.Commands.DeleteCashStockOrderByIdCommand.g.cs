@@ -13,7 +13,7 @@ using CashStockOrder = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application.Commands;
 
-public record DeleteCashStockOrderByIdCommand(System.Int64 keyId) : IRequest<bool>;
+public record DeleteCashStockOrderByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteCashStockOrderByIdCommandHandler: CommandBase<DeleteCashStockOrderByIdCommand,CashStockOrder>, IRequestHandler<DeleteCashStockOrderByIdCommand, bool>
 {
@@ -31,13 +31,15 @@ public class DeleteCashStockOrderByIdCommandHandler: CommandBase<DeleteCashStock
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<CashStockOrder,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<CashStockOrder,AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.CashStockOrders.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted.Value == true)
 		{
 			return false;
 		}
+
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;

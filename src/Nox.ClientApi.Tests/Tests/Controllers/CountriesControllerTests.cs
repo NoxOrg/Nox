@@ -4,7 +4,8 @@ using AutoFixture;
 using Nox.Types;
 using System.Net;
 using AutoFixture.AutoMoq;
-
+using System.Net.Http.Headers;
+using Microsoft.AspNetCore.Http.HttpResults;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
@@ -13,7 +14,7 @@ namespace ClientApi.Tests.Tests.Controllers
     {
         private const string EntityPluralName = "countries";
         private const string EntityUrl = $"api/{EntityPluralName}";
-          
+
         private readonly Fixture _fixture;
         private readonly ODataFixture _oDataFixture;
 
@@ -106,7 +107,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
 
             // Act
-            var results = await _oDataFixture.GetODataCollectionResponseAsync<IEnumerable<CountryLocalNameDto>>($"{EntityUrl}/{result!.Id}/CountryLocalNames");            
+            var results = await _oDataFixture.GetODataCollectionResponseAsync<IEnumerable<CountryLocalNameDto>>($"{EntityUrl}/{result!.Id}/CountryLocalNames");
 
             // Assert
             results.Should()
@@ -183,7 +184,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region POST Entity With Owned Entities /api/{EntityPluralName} => api/countries
         [Fact]
-        public async Task Post_WithManyOwnedEntity_ReturnsDatabaseNumberId()
+        public async Task Post_WithManyOwnedEntity_ReturnsAutoNumberId()
         {
             // Arrange
             var expectedOwnedName = _fixture.Create<string>();
@@ -225,9 +226,10 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, createDto);
+            var headers = _oDataFixture.CreateEtagHeader(result?.Etag);
 
             //Act
-            var ownedResult = await _oDataFixture.PostAsync<CountryLocalNameCreateDto, CountryLocalNameDto>($"{EntityUrl}/{result!.Id}/CountryLocalNames", localNameDto);
+            var ownedResult = await _oDataFixture.PostAsync<CountryLocalNameCreateDto, CountryLocalNameDto>($"{EntityUrl}/{result!.Id}/CountryLocalNames", localNameDto, headers);
 
             //Assert
             ownedResult.Should().NotBeNull();
@@ -254,12 +256,13 @@ namespace ClientApi.Tests.Tests.Controllers
             // Act
             var postCountryResponse = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
             var getCountryResponse = await _oDataFixture.GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{postCountryResponse!.Id}");
+			var headers = _oDataFixture.CreateEtagHeader(getCountryResponse?.Etag);
             var ownedResult = await _oDataFixture.PutAsync<CountryLocalNameUpdateDto, CountryLocalNameDto>(
                 $"{EntityUrl}/{getCountryResponse!.Id}/CountryLocalNames/{getCountryResponse!.CountryLocalNames.First().Id}",
                 new CountryLocalNameUpdateDto
                 {
                     Name = expectedOwnedName
-                });
+                }, headers);
 
             //Assert
             ownedResult.Should().NotBeNull();
@@ -286,12 +289,13 @@ namespace ClientApi.Tests.Tests.Controllers
             // Act
             var postCountryResponse = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
             var getCountryResponse = await _oDataFixture.GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{postCountryResponse!.Id}");
+			var headers = _oDataFixture.CreateEtagHeader(getCountryResponse?.Etag);
             var ownedResult = await _oDataFixture.PatchAsync<CountryLocalNameUpdateDto, CountryLocalNameDto>(
                 $"{EntityUrl}/{getCountryResponse!.Id}/CountryLocalNames/{getCountryResponse!.CountryLocalNames.First().Id}",
                 new CountryLocalNameUpdateDto
                 {
                     Name = expectedOwnedName
-                });
+                }, headers);
 
             //Assert
             ownedResult.Should().NotBeNull();
@@ -336,7 +340,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region TESTS 
         [Fact]
-        public async Task Post_ReturnsDatabaseNumberId()
+        public async Task Post_ReturnsAutoNumberId()
         {
             // Arrange
             var dto = new CountryCreateDto
@@ -381,7 +385,7 @@ namespace ClientApi.Tests.Tests.Controllers
         }
 
         [Fact]
-        public async Task Post_WithCompoundMoney_ReturnsDatabaseNumberId()
+        public async Task Post_WithCompoundMoney_ReturnsAutoNumberId()
         {
             // Arrange
             var expectedAmount = 100;
@@ -401,7 +405,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             queryResult.Should().NotBeNull();
             queryResult!.CountryDebt!.Amount.Should().Be(expectedAmount);
-        }        
+        }
 
         [Fact]
         public async Task Post_NameAndPopulation_ShouldPopulateShortDescription()
@@ -438,7 +442,8 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var postResult = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, createDto);
-            var putResult = await _oDataFixture.PutAsync<CountryUpdateDto, CountryDto>($"{EntityUrl}/{postResult!.Id}", updateDto);
+            var headers = _oDataFixture.CreateEtagHeader(postResult?.Etag);
+            var putResult = await _oDataFixture.PutAsync<CountryUpdateDto, CountryDto>($"{EntityUrl}/{postResult!.Id}", updateDto, headers);
 
             //Assert
             putResult!.Population.Should().Be(expectedNumber);
@@ -461,9 +466,9 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var postResult = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, createDto);
-            var putResult = await _oDataFixture.PutAsync<CountryUpdateDto, CountryDto>($"{EntityUrl}/{postResult!.Id}", updateDto);
+            var headers = _oDataFixture.CreateEtagHeader(postResult?.Etag);
 
-            var queryResult = await _oDataFixture.GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{postResult!.Id}");
+            var putResult = await _oDataFixture.PutAsync<CountryUpdateDto, CountryDto>($"{EntityUrl}/{postResult!.Id}", updateDto, headers);
 
             //Assert
             putResult!.ShortDescription.Should().Be("Portugal has a population of 10350000 people.");
@@ -485,11 +490,39 @@ namespace ClientApi.Tests.Tests.Controllers
             };
             // Act
             var postResult = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, createDto);
-            var putResult = await _oDataFixture.PutAsync<CountryUpdateDto, CountryDto>($"{EntityUrl}/{postResult!.Id}", updateDto);
+            var headers = _oDataFixture.CreateEtagHeader(postResult?.Etag);
+            var putResult = await _oDataFixture.PutAsync<CountryUpdateDto, CountryDto>($"{EntityUrl}/{postResult!.Id}", updateDto, headers);
 
             //Assert
             putResult.Should().NotBeNull();
             putResult!.ShortDescription.Should().Be("Portugal has a population of 10350000 people.");
+        }
+
+        [Fact]
+        public async Task Put_NumberWithoutLatestEtag_ShouldReturnConflict()
+        {
+            var expectedNumber = 1;
+            // Arrange
+            var createDto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Population = 1
+            };
+            var updateDto = new CountryUpdateDto
+            {
+                Name = _fixture.Create<string>(),
+                Population = 50
+            };
+
+            // Act
+            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, createDto);
+
+            var updateResult = await _oDataFixture.PutAsync($"{EntityUrl}/{result!.Id}", updateDto, false);
+            var queryResult = await _oDataFixture.GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}");
+
+            //Assert
+            updateResult!.StatusCode.Should().Be(HttpStatusCode.Conflict);
+            queryResult!.Population.Should().Be(expectedNumber);
         }
 
         [Fact(Skip = "Fix issue with delta serialization")]
@@ -508,6 +541,7 @@ namespace ClientApi.Tests.Tests.Controllers
             {
                 Population = expectedNumber
             };
+
             // Act
             var postResult = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, createDto);
             var patchResult = await _oDataFixture.PatchAsync<CountryUpdateDto, CountryDto>($"{EntityUrl}/{postResult!.Id}", updateDto);
@@ -543,7 +577,9 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, createDto);
-            await _oDataFixture.DeleteAsync($"{EntityUrl}/{result!.Id}");
+            var headers = _oDataFixture.CreateEtagHeader(result?.Etag);
+
+            await _oDataFixture.DeleteAsync($"{EntityUrl}/{result!.Id}", headers);
 
             // Assert
             var queryResult = await _oDataFixture.GetAsync($"{EntityUrl}/{result!.Id}");
@@ -590,12 +626,33 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var postResult = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
-            var putResult = await _oDataFixture.PutAsync<CountryUpdateDto, CountryDto>($"{EntityUrl}/{postResult!.Id}", updateDto);
+            var headers = _oDataFixture.CreateEtagHeader(postResult?.Etag);
+            var putResult = await _oDataFixture.PutAsync<CountryUpdateDto, CountryDto>($"{EntityUrl}/{postResult!.Id}", updateDto, headers);
 
             // Assert
-            putResult!.FirstLanguageCode.Should().Be(updateWithLanguage);                      
-        }        
+            putResult!.FirstLanguageCode.Should().Be(updateWithLanguage);
+        }
 
+        [Fact]
+        public async Task Delete_WithoutLatestEtag_ShouldReturnConflict()
+        {
+            // Arrange
+            var createDto = new CountryCreateDto
+            {
+                Name = "Portugal",
+                Population = 1,
+            };
+
+            // Act
+            var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, createDto);
+
+            var deleteResult = await _oDataFixture.DeleteAsync($"{EntityUrl}/{result!.Id}", false);
+            var queryResult = await _oDataFixture.GetAsync($"{EntityUrl}/{result!.Id}");
+
+            // Assert
+            deleteResult!.StatusCode.Should().Be(HttpStatusCode.Conflict);
+            queryResult.StatusCode.Should().Be(HttpStatusCode.OK);
+        }
         #endregion
     }
 }

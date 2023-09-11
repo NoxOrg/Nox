@@ -15,7 +15,7 @@ using PaymentProvider = Cryptocash.Domain.PaymentProvider;
 
 namespace Cryptocash.Application.Commands;
 
-public record UpdatePaymentProviderCommand(System.Int64 keyId, PaymentProviderUpdateDto EntityDto) : IRequest<PaymentProviderKeyDto?>;
+public record UpdatePaymentProviderCommand(System.Int64 keyId, PaymentProviderUpdateDto EntityDto, System.Guid? Etag) : IRequest<PaymentProviderKeyDto?>;
 
 public class UpdatePaymentProviderCommandHandler: CommandBase<UpdatePaymentProviderCommand, PaymentProvider>, IRequestHandler<UpdatePaymentProviderCommand, PaymentProviderKeyDto?>
 {
@@ -36,14 +36,16 @@ public class UpdatePaymentProviderCommandHandler: CommandBase<UpdatePaymentProvi
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<PaymentProvider,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<PaymentProvider,AutoNumber>("Id", request.keyId);
 	
 		var entity = await DbContext.PaymentProviders.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
 		}
+
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<PaymentProvider>(), request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 

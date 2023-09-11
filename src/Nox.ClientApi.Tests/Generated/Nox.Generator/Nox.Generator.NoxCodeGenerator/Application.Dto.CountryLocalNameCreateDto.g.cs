@@ -24,5 +24,5 @@ public partial class CountryLocalNameCreateDto : IEntityCreateDto<CountryLocalNa
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public System.String Name { get; set; } = default!;   
+    public System.String Name { get; set; } = default!;
 }

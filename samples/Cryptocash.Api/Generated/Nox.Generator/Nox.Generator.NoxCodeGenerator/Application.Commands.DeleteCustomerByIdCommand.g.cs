@@ -13,7 +13,7 @@ using Customer = Cryptocash.Domain.Customer;
 
 namespace Cryptocash.Application.Commands;
 
-public record DeleteCustomerByIdCommand(System.Int64 keyId) : IRequest<bool>;
+public record DeleteCustomerByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteCustomerByIdCommandHandler: CommandBase<DeleteCustomerByIdCommand,Customer>, IRequestHandler<DeleteCustomerByIdCommand, bool>
 {
@@ -31,13 +31,15 @@ public class DeleteCustomerByIdCommandHandler: CommandBase<DeleteCustomerByIdCom
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Customer,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Customer,AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Customers.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted.Value == true)
 		{
 			return false;
 		}
+
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;

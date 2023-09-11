@@ -60,7 +60,9 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             code.AppendLine($"using Microsoft.AspNetCore.OData.Routing.Controllers;");
             code.AppendLine($"using Microsoft.EntityFrameworkCore;");
             code.AppendLine("using MediatR;");
+            code.AppendLine("using System.Net.Http.Headers;");
             code.AppendLine("using Nox.Application;");
+            code.AppendLine("using Nox.Extensions;");
 
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace};");
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Dto;");
@@ -123,6 +125,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
                         {
                             continue;
                         }
+
                         GenerateChildrenGet(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
                         GenerateChildrenGetById(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
                         GenerateChildrenPost(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
@@ -200,8 +203,17 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand({PrimaryKeysQuery(entity)}));");
+        if (!entity.IsOwnedEntity)
+        {
+            code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
+            code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand({PrimaryKeysQuery(entity)}, etag));");
+        }
+        else
+        {
+            code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand({PrimaryKeysQuery(entity)}));");
+        }
 
+        code.AppendLine();
         code.AppendLine($"if (!result)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
@@ -221,7 +233,19 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         // Method content
         code.StartBlock();
         code.AppendLine();
-        code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({PrimaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}));");
+
+        if (!entity.IsOwnedEntity)
+        {
+            code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
+            code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({PrimaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}, etag));");
+        }
+        else
+        {
+            code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({PrimaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}));");
+        }
+
+        code.AppendLine();
+
         code.AppendLine($"if (updated is null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
@@ -248,6 +272,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.StartBlock();
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
+        code.AppendLine();
         code.AppendLine(@$"var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in {entity.Name.ToLowerFirstChar()}.GetChangedPropertyNames())
@@ -258,7 +283,17 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             }}           
         }}");
         code.AppendLine();
-        code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties));");
+
+        if (!entity.IsOwnedEntity)
+        {
+            code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
+            code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties, etag));");
+        }
+        else
+        {
+            code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties));");
+        }
+
         code.AppendLine();
 
         code.AppendLine($"if (updated is null)");
@@ -372,8 +407,9 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
+        code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
         code.AppendLine($"var createdKey = await _mediator.Send(new Add{child.Name}Command(" +
-            $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), {child.Name.ToLowerFirstChar()}));");
+            $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), {child.Name.ToLowerFirstChar()}, etag));");
         code.AppendLine($"if (createdKey == null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
@@ -405,10 +441,11 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
+        code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
         code.AppendLine($"var updatedKey = await _mediator.Send(new Update{child.Name}Command(" +
             $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), " +
             $"new {child.Name}KeyDto({PrimaryKeysQuery(child, "relatedKey")}), " +
-            $"{child.Name.ToLowerFirstChar()}));");
+            $"{child.Name.ToLowerFirstChar()}, etag));");
         code.AppendLine($"if (updatedKey == null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
@@ -451,10 +488,11 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             }}           
         }}");
         code.AppendLine();
+        code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
         code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{child.Name}Command(" +
             $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), " +
             $"new {child.Name}KeyDto({PrimaryKeysQuery(child, "relatedKey")}), " +
-            $"updateProperties));");
+            $"updateProperties, etag));");
         code.AppendLine();
 
         code.AppendLine($"if (updated is null)");

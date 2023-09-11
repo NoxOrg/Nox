@@ -13,7 +13,7 @@ using Country = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Commands;
 
-public record DeleteCountryByIdCommand(System.Int64 keyId) : IRequest<bool>;
+public record DeleteCountryByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteCountryByIdCommandHandler: CommandBase<DeleteCountryByIdCommand,Country>, IRequestHandler<DeleteCountryByIdCommand, bool>
 {
@@ -31,13 +31,15 @@ public class DeleteCountryByIdCommandHandler: CommandBase<DeleteCountryByIdComma
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Country,AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Countries.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted.Value == true)
 		{
 			return false;
 		}
+
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;

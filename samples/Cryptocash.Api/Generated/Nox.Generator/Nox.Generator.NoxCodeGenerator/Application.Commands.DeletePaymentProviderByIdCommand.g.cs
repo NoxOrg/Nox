@@ -13,7 +13,7 @@ using PaymentProvider = Cryptocash.Domain.PaymentProvider;
 
 namespace Cryptocash.Application.Commands;
 
-public record DeletePaymentProviderByIdCommand(System.Int64 keyId) : IRequest<bool>;
+public record DeletePaymentProviderByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeletePaymentProviderByIdCommandHandler: CommandBase<DeletePaymentProviderByIdCommand,PaymentProvider>, IRequestHandler<DeletePaymentProviderByIdCommand, bool>
 {
@@ -31,13 +31,15 @@ public class DeletePaymentProviderByIdCommandHandler: CommandBase<DeletePaymentP
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<PaymentProvider,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<PaymentProvider,AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.PaymentProviders.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted.Value == true)
 		{
 			return false;
 		}
+
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;

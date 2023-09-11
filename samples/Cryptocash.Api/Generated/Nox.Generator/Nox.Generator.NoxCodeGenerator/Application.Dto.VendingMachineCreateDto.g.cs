@@ -68,5 +68,5 @@ public partial class VendingMachineCreateDto : IEntityCreateDto<VendingMachine>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
     [Required(ErrorMessage = "VendingMachineContractedAreaLandLord is required")]
-    public System.Int64 VendingMachineContractedAreaLandLordId { get; set; } = default!;   
+    public System.Int64 VendingMachineContractedAreaLandLordId { get; set; } = default!;
 }

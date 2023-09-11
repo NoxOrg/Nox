@@ -15,7 +15,7 @@ using Employee = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Commands;
 
-public record UpdateEmployeeCommand(System.Int64 keyId, EmployeeUpdateDto EntityDto) : IRequest<EmployeeKeyDto?>;
+public record UpdateEmployeeCommand(System.Int64 keyId, EmployeeUpdateDto EntityDto, System.Guid? Etag) : IRequest<EmployeeKeyDto?>;
 
 public class UpdateEmployeeCommandHandler: CommandBase<UpdateEmployeeCommand, Employee>, IRequestHandler<UpdateEmployeeCommand, EmployeeKeyDto?>
 {
@@ -36,14 +36,16 @@ public class UpdateEmployeeCommandHandler: CommandBase<UpdateEmployeeCommand, Em
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Employee,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Employee,AutoNumber>("Id", request.keyId);
 	
 		var entity = await DbContext.Employees.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
 		}
+
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Employee>(), request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 

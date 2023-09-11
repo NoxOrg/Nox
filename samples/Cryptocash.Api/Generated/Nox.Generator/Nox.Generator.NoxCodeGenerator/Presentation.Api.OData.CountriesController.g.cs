@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -84,7 +86,8 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var createdKey = await _mediator.Send(new AddCountryTimeZoneCommand(new CountryKeyDto(key), countryTimeZone));
+        var etag = Request.GetDecodedEtagHeader();
+        var createdKey = await _mediator.Send(new AddCountryTimeZoneCommand(new CountryKeyDto(key), countryTimeZone, etag));
         if (createdKey == null)
         {
             return NotFound();
@@ -107,7 +110,8 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var updatedKey = await _mediator.Send(new UpdateCountryTimeZoneCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey), countryTimeZone));
+        var etag = Request.GetDecodedEtagHeader();
+        var updatedKey = await _mediator.Send(new UpdateCountryTimeZoneCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey), countryTimeZone, etag));
         if (updatedKey == null)
         {
             return NotFound();
@@ -139,7 +143,8 @@ public partial class CountriesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCountryTimeZoneCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey), updateProperties));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCountryTimeZoneCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey), updateProperties, etag));
         
         if (updated is null)
         {
@@ -217,7 +222,8 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var createdKey = await _mediator.Send(new AddHolidayCommand(new CountryKeyDto(key), holiday));
+        var etag = Request.GetDecodedEtagHeader();
+        var createdKey = await _mediator.Send(new AddHolidayCommand(new CountryKeyDto(key), holiday, etag));
         if (createdKey == null)
         {
             return NotFound();
@@ -240,7 +246,8 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var updatedKey = await _mediator.Send(new UpdateHolidayCommand(new CountryKeyDto(key), new HolidayKeyDto(relatedKey), holiday));
+        var etag = Request.GetDecodedEtagHeader();
+        var updatedKey = await _mediator.Send(new UpdateHolidayCommand(new CountryKeyDto(key), new HolidayKeyDto(relatedKey), holiday, etag));
         if (updatedKey == null)
         {
             return NotFound();
@@ -272,7 +279,8 @@ public partial class CountriesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateHolidayCommand(new CountryKeyDto(key), new HolidayKeyDto(relatedKey), updateProperties));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateHolidayCommand(new CountryKeyDto(key), new HolidayKeyDto(relatedKey), updateProperties, etag));
         
         if (updated is null)
         {
@@ -347,7 +355,9 @@ public partial class CountriesController : ODataController
     public async Task<ActionResult<CountryDto>> Put([FromRoute] System.String key, [FromBody] CountryUpdateDto country)
     {
         
-        var updated = await _mediator.Send(new UpdateCountryCommand(key, country));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateCountryCommand(key, country, etag));
+        
         if (updated is null)
         {
             return NotFound();
@@ -364,6 +374,7 @@ public partial class CountriesController : ODataController
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in country.GetChangedPropertyNames())
@@ -374,7 +385,8 @@ public partial class CountriesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties, etag));
         
         if (updated is null)
         {
@@ -386,7 +398,9 @@ public partial class CountriesController : ODataController
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
-        var result = await _mediator.Send(new DeleteCountryByIdCommand(key));
+        var etag = Request.GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteCountryByIdCommand(key, etag));
+        
         if (!result)
         {
             return NotFound();
