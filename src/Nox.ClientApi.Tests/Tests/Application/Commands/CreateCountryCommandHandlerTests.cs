@@ -21,7 +21,7 @@ public class CreateCountryCommandHandlerTests
 
     /// <summary>
     /// Test a command extension for <see cref="CreateCountryCommandHandler"/>
-    /// For Request Validation, before command handler is executed use <see cref="IValidator"/> instead IValidator<CreateClientDatabaseNumberCommand>.
+    /// For Request Validation, before command handler is executed use <see cref="IValidator"/> instead IValidator<CreateClientAutoNumberCommand>.
     /// </summary>
     [Fact]
     public async Task Put_PopulationNegative_ShouldUpdateTo0()

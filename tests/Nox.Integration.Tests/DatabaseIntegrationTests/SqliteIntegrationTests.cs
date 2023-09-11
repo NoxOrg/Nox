@@ -106,7 +106,7 @@ public class SqliteIntegrationTests : SqliteTestBase
 
         var weight = 20.58M;
         var persistWeightUnitAs = WeightTypeUnit.Kilogram;
-        var databaseNumber = 1U;
+        var autoNumber = 1U;
         var databaseGuid = System.Guid.NewGuid();
 
         var distance = 80.481727;
@@ -179,7 +179,7 @@ public class SqliteIntegrationTests : SqliteTestBase
             JwtTokenTestField = JwtToken.From(jwtToken),
             WeightTestField = Weight.From(weight, new WeightTypeOptions() { Units = WeightTypeUnit.Pound, PersistAs = persistWeightUnitAs }),
             DistanceTestField = Distance.From(distance, new DistanceTypeOptions() { Units = DistanceTypeUnit.Mile, PersistAs = persistDistanceUnitAs }),
-            DatabaseNumberTestField = DatabaseNumber.FromDatabase(databaseNumber), //SQLite supports AutoIncrement only for column of type INTEGER PRIMARY KEY  https://www.sqlite.org/autoinc.html
+            AutoNumberTestField = AutoNumber.FromDatabase(autoNumber), //SQLite supports AutoIncrement only for column of type INTEGER PRIMARY KEY  https://www.sqlite.org/autoinc.html
             DatabaseGuidTestField = DatabaseGuid.FromDatabase(databaseGuid),
             UriTestField = Types.Uri.From(sampleUri),
             GeoCoordTestField = LatLong.From(latitude, longitude),
@@ -262,7 +262,7 @@ public class SqliteIntegrationTests : SqliteTestBase
         testEntity.WeightTestField!.ToPounds().Should().Be(weight);
         testEntity.DistanceTestField!.ToMiles().Should().Be(distance);
         testEntity.DistanceTestField!.Unit.Should().Be(persistDistanceUnitAs);
-        testEntity.DatabaseNumberTestField!.Value.Should().BeGreaterThan(0);
+        testEntity.AutoNumberTestField!.Value.Should().BeGreaterThan(0);
         testEntity.DatabaseGuidTestField!.Value.Should().NotBe(System.Guid.Empty);
         testEntity.UriTestField!.Value.Should().BeEquivalentTo(new System.Uri(sampleUri));
         testEntity.GeoCoordTestField!.Latitude.Should().Be(latitude);

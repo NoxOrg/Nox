@@ -18,7 +18,7 @@ public partial class LandLord : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Landlord unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Landlord name (Required).

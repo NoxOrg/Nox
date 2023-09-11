@@ -41,7 +41,7 @@ public partial class UpdateBankNoteCommandHandler: CommandBase<UpdateBankNoteCom
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<BankNote,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
+		var ownedId = CreateNoxTypeForKey<BankNote,AutoNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
@@ -50,7 +50,7 @@ public partial class UpdateBankNoteCommandHandler: CommandBase<UpdateBankNoteCom
 
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<BankNote>(), request.EntityDto);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

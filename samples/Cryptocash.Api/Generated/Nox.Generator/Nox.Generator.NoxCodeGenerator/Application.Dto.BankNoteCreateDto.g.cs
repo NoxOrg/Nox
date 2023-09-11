@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-public partial class BankNoteCreateDto : IEntityCreateDto <BankNote>
+public partial class BankNoteCreateDto : IEntityCreateDto<BankNote>
 {    
     /// <summary>
     /// Currency's cash bank note identifier (Required).
@@ -30,5 +30,5 @@ public partial class BankNoteCreateDto : IEntityCreateDto <BankNote>
     /// </summary>
     [Required(ErrorMessage = "Value is required")]
     
-    public MoneyDto Value { get; set; } = default!;   
+    public MoneyDto Value { get; set; } = default!;
 }

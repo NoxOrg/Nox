@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public partial class VendingMachineCreateDto : IEntityCreateDto <VendingMachine>
+public partial class VendingMachineCreateDto : IEntityCreateDto<VendingMachine>
 {    
     /// <summary>
     /// Vending machine mac address (Required).
@@ -68,5 +68,5 @@ public partial class VendingMachineCreateDto : IEntityCreateDto <VendingMachine>
     /// VendingMachine contracted area leased by ExactlyOne LandLords
     /// </summary>
     [Required(ErrorMessage = "VendingMachineContractedAreaLandLord is required")]
-    public System.Int64 VendingMachineContractedAreaLandLordId { get; set; } = default!;   
+    public System.Int64 VendingMachineContractedAreaLandLordId { get; set; } = default!;
 }

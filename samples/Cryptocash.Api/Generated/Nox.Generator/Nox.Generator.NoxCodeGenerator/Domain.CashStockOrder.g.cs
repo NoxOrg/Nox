@@ -18,7 +18,7 @@ public partial class CashStockOrder : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Vending machine's order unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Order amount (Required).

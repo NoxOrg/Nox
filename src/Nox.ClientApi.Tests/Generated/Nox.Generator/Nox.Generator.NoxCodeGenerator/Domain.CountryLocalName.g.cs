@@ -18,7 +18,7 @@ public partial class CountryLocalName : EntityBase, IOwnedEntity
     /// <summary>
     /// The unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Local name (Required).

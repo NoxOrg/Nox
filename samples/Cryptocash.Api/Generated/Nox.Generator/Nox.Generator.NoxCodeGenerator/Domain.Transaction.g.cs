@@ -18,7 +18,7 @@ public partial class Transaction : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Customer transaction unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Transaction type (Required).
@@ -48,7 +48,7 @@ public partial class Transaction : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
     /// </summary>
-    public Nox.Types.DatabaseNumber TransactionForCustomerId { get; set; } = null!;
+    public Nox.Types.AutoNumber TransactionForCustomerId { get; set; } = null!;
 
     /// <summary>
     /// Transaction for ExactlyOne Bookings

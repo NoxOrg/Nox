@@ -18,7 +18,7 @@ public partial class Holiday : EntityBase, IOwnedEntity
     /// <summary>
     /// Country's holiday unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Country holiday name (Required).

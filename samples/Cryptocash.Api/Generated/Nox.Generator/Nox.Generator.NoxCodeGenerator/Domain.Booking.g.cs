@@ -72,7 +72,7 @@ public partial class Booking : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
     /// </summary>
-    public Nox.Types.DatabaseNumber BookingForCustomerId { get; set; } = null!;
+    public Nox.Types.AutoNumber BookingForCustomerId { get; set; } = null!;
 
     /// <summary>
     /// Booking related to ExactlyOne VendingMachines
@@ -92,7 +92,7 @@ public partial class Booking : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Commission
     /// </summary>
-    public Nox.Types.DatabaseNumber BookingFeesForCommissionId { get; set; } = null!;
+    public Nox.Types.AutoNumber BookingFeesForCommissionId { get; set; } = null!;
 
     /// <summary>
     /// Booking related to ExactlyOne Transactions

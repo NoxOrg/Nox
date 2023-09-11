@@ -37,7 +37,7 @@ public class PartialUpdateLandLordCommandHandler: CommandBase<PartialUpdateLandL
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<LandLord,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<LandLord,AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.LandLords.FindAsync(keyId);
 		if (entity == null)
@@ -47,7 +47,7 @@ public class PartialUpdateLandLordCommandHandler: CommandBase<PartialUpdateLandL
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<LandLord>(), request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

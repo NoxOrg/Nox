@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Currency and related data.
 /// </summary>
-public partial class CurrencyCreateDto : IEntityCreateDto <Currency>
+public partial class CurrencyCreateDto : IEntityCreateDto<Currency>
 {
     /// <summary>
     /// Currency unique identifier (Required).
@@ -101,5 +101,5 @@ public partial class CurrencyCreateDto : IEntityCreateDto <Currency>
     /// <summary>
     /// Currency exchanged from OneOrMany ExchangeRates
     /// </summary>
-    public virtual List<ExchangeRateCreateDto> ExchangeRates { get; set; } = new();   
+    public virtual List<ExchangeRateCreateDto> ExchangeRates { get; set; } = new();
 }

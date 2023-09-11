@@ -42,7 +42,7 @@ public partial class CreateCurrencyCommandHandler: CommandBase<CreateCurrencyCom
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 					
-		OnCompleted(entityToCreate);
+		OnCompleted(request, entityToCreate);
 		_dbContext.Currencies.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new CurrencyKeyDto(entityToCreate.Id.Value);

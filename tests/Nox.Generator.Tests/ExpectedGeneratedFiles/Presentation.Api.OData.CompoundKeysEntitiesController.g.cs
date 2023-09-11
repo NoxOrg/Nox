@@ -63,7 +63,6 @@ public partial class CompoundKeysEntitiesController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<CompoundKeysEntityDto>> Post([FromBody]CompoundKeysEntityCreateDto compoundKeysEntity)
     {
         if (!ModelState.IsValid)
@@ -77,13 +76,8 @@ public partial class CompoundKeysEntitiesController : ODataController
         return Created(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<CompoundKeysEntityDto>> Put([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] CompoundKeysEntityUpdateDto compoundKeysEntity)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCompoundKeysEntityCommand(keyId1, keyId2, compoundKeysEntity, etag));
@@ -98,7 +92,6 @@ public partial class CompoundKeysEntitiesController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<CompoundKeysEntityDto>> Patch([FromRoute] System.String keyId1, [FromRoute] System.String keyId2, [FromBody] Delta<CompoundKeysEntityUpdateDto> compoundKeysEntity)
     {
         if (!ModelState.IsValid)

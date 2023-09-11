@@ -37,7 +37,7 @@ public class PartialUpdateCustomerCommandHandler: CommandBase<PartialUpdateCusto
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Customer,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Customer,AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Customers.FindAsync(keyId);
 		if (entity == null)
@@ -47,7 +47,7 @@ public class PartialUpdateCustomerCommandHandler: CommandBase<PartialUpdateCusto
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Customer>(), request.UpdatedProperties);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

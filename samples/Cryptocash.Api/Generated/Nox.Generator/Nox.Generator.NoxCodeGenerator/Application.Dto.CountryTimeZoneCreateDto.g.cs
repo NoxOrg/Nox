@@ -17,12 +17,12 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Time zone related to country.
 /// </summary>
-public partial class CountryTimeZoneCreateDto : IEntityCreateDto <CountryTimeZone>
+public partial class CountryTimeZoneCreateDto : IEntityCreateDto<CountryTimeZone>
 {    
     /// <summary>
     /// Country's related time zone code (Required).
     /// </summary>
     [Required(ErrorMessage = "TimeZoneCode is required")]
     
-    public System.String TimeZoneCode { get; set; } = default!;   
+    public System.String TimeZoneCode { get; set; } = default!;
 }

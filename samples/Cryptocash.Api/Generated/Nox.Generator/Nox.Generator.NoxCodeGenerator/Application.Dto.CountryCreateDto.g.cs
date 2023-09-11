@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Country and related data.
 /// </summary>
-public partial class CountryCreateDto : IEntityCreateDto <Country>
+public partial class CountryCreateDto : IEntityCreateDto<Country>
 {
     /// <summary>
     /// Country unique identifier (Required).
@@ -95,5 +95,5 @@ public partial class CountryCreateDto : IEntityCreateDto <Country>
     /// <summary>
     /// Country owned ZeroOrMany Holidays
     /// </summary>
-    public virtual List<HolidayCreateDto> Holidays { get; set; } = new();   
+    public virtual List<HolidayCreateDto> Holidays { get; set; } = new();
 }

@@ -18,7 +18,7 @@ public partial class CountryTimeZone : EntityBase, IOwnedEntity
     /// <summary>
     /// Country's time zone unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Country's related time zone code (Required).

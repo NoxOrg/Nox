@@ -42,7 +42,7 @@ public partial class CreateEmployeeCommandHandler: CommandBase<CreateEmployeeCom
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 					
-		OnCompleted(entityToCreate);
+		OnCompleted(request, entityToCreate);
 		_dbContext.Employees.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new EmployeeKeyDto(entityToCreate.Id.Value);

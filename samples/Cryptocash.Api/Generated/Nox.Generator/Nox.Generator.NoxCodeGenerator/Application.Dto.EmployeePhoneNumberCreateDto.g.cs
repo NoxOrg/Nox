@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Employee phone number and related data.
 /// </summary>
-public partial class EmployeePhoneNumberCreateDto : IEntityCreateDto <EmployeePhoneNumber>
+public partial class EmployeePhoneNumberCreateDto : IEntityCreateDto<EmployeePhoneNumber>
 {    
     /// <summary>
     /// Employee's phone number type (Required).
@@ -30,5 +30,5 @@ public partial class EmployeePhoneNumberCreateDto : IEntityCreateDto <EmployeePh
     /// </summary>
     [Required(ErrorMessage = "PhoneNumber is required")]
     
-    public System.String PhoneNumber { get; set; } = default!;   
+    public System.String PhoneNumber { get; set; } = default!;
 }

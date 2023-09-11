@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Landlord related data.
 /// </summary>
-public partial class LandLordCreateDto : IEntityCreateDto <LandLord>
+public partial class LandLordCreateDto : IEntityCreateDto<LandLord>
 {    
     /// <summary>
     /// Landlord name (Required).
@@ -30,5 +30,5 @@ public partial class LandLordCreateDto : IEntityCreateDto <LandLord>
     /// </summary>
     [Required(ErrorMessage = "Address is required")]
     
-    public StreetAddressDto Address { get; set; } = default!;   
+    public StreetAddressDto Address { get; set; } = default!;
 }

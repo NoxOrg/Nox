@@ -47,7 +47,7 @@ public class UpdateVendingMachineCommandHandler: CommandBase<UpdateVendingMachin
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<VendingMachine>(), request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

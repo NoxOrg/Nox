@@ -89,15 +89,15 @@ public partial class VendingMachine
     /// <summary>
     /// Type options and factory for property 'LandLordId'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreateLandLordId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
+    public static Nox.Types.AutoNumber CreateLandLordId(System.Int64 value)
+        => Nox.Types.AutoNumber.From(value);
     
 
     /// <summary>
     /// Type options and factory for property 'MinimumCashStockId'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreateMinimumCashStockId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
+    public static Nox.Types.AutoNumber CreateMinimumCashStockId(System.Int64 value)
+        => Nox.Types.AutoNumber.From(value);
     
 
 }

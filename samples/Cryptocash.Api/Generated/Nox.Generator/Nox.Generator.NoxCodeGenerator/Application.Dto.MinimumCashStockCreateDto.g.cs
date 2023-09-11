@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>
-public partial class MinimumCashStockCreateDto : IEntityCreateDto <MinimumCashStock>
+public partial class MinimumCashStockCreateDto : IEntityCreateDto<MinimumCashStock>
 {    
     /// <summary>
     /// Cash stock amount (Required).
@@ -30,5 +30,5 @@ public partial class MinimumCashStockCreateDto : IEntityCreateDto <MinimumCashSt
     /// MinimumCashStock related to ExactlyOne Currencies
     /// </summary>
     [Required(ErrorMessage = "MinimumCashStockRelatedCurrency is required")]
-    public System.String MinimumCashStockRelatedCurrencyId { get; set; } = default!;   
+    public System.String MinimumCashStockRelatedCurrencyId { get; set; } = default!;
 }

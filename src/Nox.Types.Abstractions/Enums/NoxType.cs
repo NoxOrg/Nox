@@ -110,7 +110,7 @@ public enum NoxType : uint
     DatabaseGuid = 2076277156,
 
     [SimpleType(typeof(long))]
-    DatabaseNumber = 963275927,
+    AutoNumber = 24779567,
 
     [SimpleType(typeof(DateTime))]
     Date = 463099971,

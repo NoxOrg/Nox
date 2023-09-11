@@ -62,6 +62,23 @@ public partial class CurrenciesController : ODataController
         return Ok(item.BankNotes);
     }
     
+    [EnableQuery]
+    [HttpGet("/api/[controller]/{key}/BankNotes/{relatedKey}")]
+    public async Task<ActionResult<BankNoteDto>> GetBankNoteNonConventional(System.String key, System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var child = await TryGetBankNote(key, new BankNoteKeyDto(relatedKey));
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
     public async Task<ActionResult> PostToBankNotes([FromRoute] System.String key, [FromBody] BankNoteCreateDto bankNote)
     {
         if (!ModelState.IsValid)
@@ -86,7 +103,7 @@ public partial class CurrenciesController : ODataController
     }
     
     [HttpPut("/api/[controller]/{key}/BankNotes/{relatedKey}")]
-    public async Task<ActionResult> PutToBankNotesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] BankNoteUpdateDto bankNote)
+    public async Task<ActionResult<BankNoteDto>> PutToBankNotesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] BankNoteUpdateDto bankNote)
     {
         if (!ModelState.IsValid)
         {
@@ -142,6 +159,22 @@ public partial class CurrenciesController : ODataController
         return Ok(child);
     }
     
+    [HttpDelete("/api/[controller]/{key}/BankNotes/{relatedKey}")]
+    public async Task<ActionResult> DeleteBankNoteNonConventional(System.String key, System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var result = await _mediator.Send(new DeleteBankNoteCommand(new CurrencyKeyDto(key), new BankNoteKeyDto(relatedKey)));
+        if (!result)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     private async Task<BankNoteDto?> TryGetBankNote(System.String key, BankNoteKeyDto childKeyDto)
     {
         var parent = await _mediator.Send(new GetCurrencyByIdQuery(key));
@@ -163,6 +196,23 @@ public partial class CurrenciesController : ODataController
         }
         
         return Ok(item.ExchangeRates);
+    }
+    
+    [EnableQuery]
+    [HttpGet("/api/[controller]/{key}/ExchangeRates/{relatedKey}")]
+    public async Task<ActionResult<ExchangeRateDto>> GetExchangeRateNonConventional(System.String key, System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var child = await TryGetExchangeRate(key, new ExchangeRateKeyDto(relatedKey));
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
     }
     
     public async Task<ActionResult> PostToExchangeRates([FromRoute] System.String key, [FromBody] ExchangeRateCreateDto exchangeRate)
@@ -189,7 +239,7 @@ public partial class CurrenciesController : ODataController
     }
     
     [HttpPut("/api/[controller]/{key}/ExchangeRates/{relatedKey}")]
-    public async Task<ActionResult> PutToExchangeRatesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] ExchangeRateUpdateDto exchangeRate)
+    public async Task<ActionResult<ExchangeRateDto>> PutToExchangeRatesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] ExchangeRateUpdateDto exchangeRate)
     {
         if (!ModelState.IsValid)
         {
@@ -245,6 +295,22 @@ public partial class CurrenciesController : ODataController
         return Ok(child);
     }
     
+    [HttpDelete("/api/[controller]/{key}/ExchangeRates/{relatedKey}")]
+    public async Task<ActionResult> DeleteExchangeRateNonConventional(System.String key, System.Int64 relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var result = await _mediator.Send(new DeleteExchangeRateCommand(new CurrencyKeyDto(key), new ExchangeRateKeyDto(relatedKey)));
+        if (!result)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     private async Task<ExchangeRateDto?> TryGetExchangeRate(System.String key, ExchangeRateKeyDto childKeyDto)
     {
         var parent = await _mediator.Send(new GetCurrencyByIdQuery(key));
@@ -273,7 +339,6 @@ public partial class CurrenciesController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<CurrencyDto>> Post([FromBody]CurrencyCreateDto currency)
     {
         if (!ModelState.IsValid)
@@ -287,13 +352,8 @@ public partial class CurrenciesController : ODataController
         return Created(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<CurrencyDto>> Put([FromRoute] System.String key, [FromBody] CurrencyUpdateDto currency)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCurrencyCommand(key, currency, etag));
@@ -308,7 +368,6 @@ public partial class CurrenciesController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<CurrencyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CurrencyUpdateDto> currency)
     {
         if (!ModelState.IsValid)

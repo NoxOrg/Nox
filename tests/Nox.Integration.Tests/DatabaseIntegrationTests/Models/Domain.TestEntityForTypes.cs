@@ -287,7 +287,7 @@ public partial class TestEntityForTypes : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     ///  (Required).
     /// </summary>
-    public Nox.Types.DatabaseNumber DatabaseNumberTestField { get; set; } = null!;
+    public Nox.Types.AutoNumber AutoNumberTestField { get; set; } = null!;
 
     /// <summary>
     ///  (Required).

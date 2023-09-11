@@ -18,7 +18,7 @@ public partial class Country : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// The unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// The Country Name (Required).

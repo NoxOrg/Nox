@@ -18,7 +18,7 @@ public partial class Commission : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Commission unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Commission rate (Required).

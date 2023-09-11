@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-public partial class PaymentProviderCreateDto : IEntityCreateDto <PaymentProvider>
+public partial class PaymentProviderCreateDto : IEntityCreateDto<PaymentProvider>
 {    
     /// <summary>
     /// Payment provider name (Required).
@@ -30,5 +30,5 @@ public partial class PaymentProviderCreateDto : IEntityCreateDto <PaymentProvide
     /// </summary>
     [Required(ErrorMessage = "PaymentProviderType is required")]
     
-    public System.String PaymentProviderType { get; set; } = default!;   
+    public System.String PaymentProviderType { get; set; } = default!;
 }

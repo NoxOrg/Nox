@@ -63,7 +63,6 @@ public partial class StoreOwnersController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<StoreOwnerDto>> Post([FromBody]StoreOwnerCreateDto storeOwner)
     {
         if (!ModelState.IsValid)
@@ -77,13 +76,8 @@ public partial class StoreOwnersController : ODataController
         return Created(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<StoreOwnerDto>> Put([FromRoute] System.String key, [FromBody] StoreOwnerUpdateDto storeOwner)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateStoreOwnerCommand(key, storeOwner, etag));
@@ -98,7 +92,6 @@ public partial class StoreOwnersController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<StoreOwnerDto>> Patch([FromRoute] System.String key, [FromBody] Delta<StoreOwnerUpdateDto> storeOwner)
     {
         if (!ModelState.IsValid)

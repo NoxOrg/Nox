@@ -63,7 +63,6 @@ public partial class PaymentProvidersController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<PaymentProviderDto>> Post([FromBody]PaymentProviderCreateDto paymentProvider)
     {
         if (!ModelState.IsValid)
@@ -77,13 +76,8 @@ public partial class PaymentProvidersController : ODataController
         return Created(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<PaymentProviderDto>> Put([FromRoute] System.Int64 key, [FromBody] PaymentProviderUpdateDto paymentProvider)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdatePaymentProviderCommand(key, paymentProvider, etag));
@@ -98,7 +92,6 @@ public partial class PaymentProvidersController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<PaymentProviderDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<PaymentProviderUpdateDto> paymentProvider)
     {
         if (!ModelState.IsValid)

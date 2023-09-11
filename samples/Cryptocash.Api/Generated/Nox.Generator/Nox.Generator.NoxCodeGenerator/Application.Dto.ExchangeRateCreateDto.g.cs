@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Exchange rate and related data.
 /// </summary>
-public partial class ExchangeRateCreateDto : IEntityCreateDto <ExchangeRate>
+public partial class ExchangeRateCreateDto : IEntityCreateDto<ExchangeRate>
 {    
     /// <summary>
     /// Exchange rate conversion amount (Required).
@@ -30,5 +30,5 @@ public partial class ExchangeRateCreateDto : IEntityCreateDto <ExchangeRate>
     /// </summary>
     [Required(ErrorMessage = "EffectiveAt is required")]
     
-    public System.DateTimeOffset EffectiveAt { get; set; } = default!;   
+    public System.DateTimeOffset EffectiveAt { get; set; } = default!;
 }

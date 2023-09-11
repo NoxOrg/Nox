@@ -35,5 +35,5 @@ public partial class StoreCreateDto : IEntityCreateDto<Store>
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
-    public virtual EmailAddressCreateDto? EmailAddress { get; set; } = null!;   
+    public virtual EmailAddressCreateDto? EmailAddress { get; set; } = null!;
 }

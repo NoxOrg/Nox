@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public partial class TransactionCreateDto : IEntityCreateDto <Transaction>
+public partial class TransactionCreateDto : IEntityCreateDto<Transaction>
 {    
     /// <summary>
     /// Transaction type (Required).
@@ -54,5 +54,5 @@ public partial class TransactionCreateDto : IEntityCreateDto <Transaction>
     /// Transaction for ExactlyOne Bookings
     /// </summary>
     [Required(ErrorMessage = "TransactionForBooking is required")]
-    public System.Guid TransactionForBookingId { get; set; } = default!;   
+    public System.Guid TransactionForBookingId { get; set; } = default!;
 }

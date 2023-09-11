@@ -36,7 +36,7 @@ public class UpdateCommissionCommandHandler: CommandBase<UpdateCommissionCommand
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Commission,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Commission,AutoNumber>("Id", request.keyId);
 	
 		var entity = await DbContext.Commissions.FindAsync(keyId);
 		if (entity == null)
@@ -47,7 +47,7 @@ public class UpdateCommissionCommandHandler: CommandBase<UpdateCommissionCommand
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Commission>(), request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

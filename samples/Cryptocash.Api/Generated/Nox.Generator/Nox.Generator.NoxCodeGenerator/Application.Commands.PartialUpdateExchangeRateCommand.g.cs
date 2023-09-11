@@ -41,7 +41,7 @@ public partial class PartialUpdateExchangeRateCommandHandler: CommandBase<Partia
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<ExchangeRate,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
+		var ownedId = CreateNoxTypeForKey<ExchangeRate,AutoNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.ExchangeRates.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
@@ -51,7 +51,7 @@ public partial class PartialUpdateExchangeRateCommandHandler: CommandBase<Partia
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<ExchangeRate>(), request.UpdatedProperties);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

@@ -36,7 +36,7 @@ public class UpdateTransactionCommandHandler: CommandBase<UpdateTransactionComma
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Transaction,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Transaction,AutoNumber>("Id", request.keyId);
 	
 		var entity = await DbContext.Transactions.FindAsync(keyId);
 		if (entity == null)
@@ -47,7 +47,7 @@ public class UpdateTransactionCommandHandler: CommandBase<UpdateTransactionComma
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Transaction>(), request.EntityDto);
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

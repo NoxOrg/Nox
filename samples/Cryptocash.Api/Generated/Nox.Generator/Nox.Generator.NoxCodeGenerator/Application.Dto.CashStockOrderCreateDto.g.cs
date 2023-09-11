@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public partial class CashStockOrderCreateDto : IEntityCreateDto <CashStockOrder>
+public partial class CashStockOrderCreateDto : IEntityCreateDto<CashStockOrder>
 {    
     /// <summary>
     /// Order amount (Required).
@@ -44,5 +44,5 @@ public partial class CashStockOrderCreateDto : IEntityCreateDto <CashStockOrder>
     /// CashStockOrder for ExactlyOne VendingMachines
     /// </summary>
     [Required(ErrorMessage = "CashStockOrderForVendingMachine is required")]
-    public System.Guid CashStockOrderForVendingMachineId { get; set; } = default!;   
+    public System.Guid CashStockOrderForVendingMachineId { get; set; } = default!;
 }

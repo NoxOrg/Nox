@@ -73,7 +73,7 @@ public partial class VendingMachine : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity LandLord
     /// </summary>
-    public Nox.Types.DatabaseNumber VendingMachineContractedAreaLandLordId { get; set; } = null!;
+    public Nox.Types.AutoNumber VendingMachineContractedAreaLandLordId { get; set; } = null!;
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany Bookings

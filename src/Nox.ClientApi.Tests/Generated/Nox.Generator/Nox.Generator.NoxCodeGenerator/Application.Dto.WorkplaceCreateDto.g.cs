@@ -28,5 +28,5 @@ public partial class WorkplaceCreateDto : IEntityCreateDto<Workplace>
     /// <summary>
     /// The Formula (Optional).
     /// </summary>
-    public System.String? Greeting { get; set; }   
+    public System.String? Greeting { get; set; }
 }

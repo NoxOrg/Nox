@@ -41,7 +41,7 @@ public partial class UpdateHolidayCommandHandler: CommandBase<UpdateHolidayComma
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<Holiday,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
+		var ownedId = CreateNoxTypeForKey<Holiday,AutoNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.Holidays.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
@@ -50,7 +50,7 @@ public partial class UpdateHolidayCommandHandler: CommandBase<UpdateHolidayComma
 
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Holiday>(), request.EntityDto);
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

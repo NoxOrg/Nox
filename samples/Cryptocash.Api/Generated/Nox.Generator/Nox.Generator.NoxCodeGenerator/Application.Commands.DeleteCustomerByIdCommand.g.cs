@@ -31,7 +31,7 @@ public class DeleteCustomerByIdCommandHandler: CommandBase<DeleteCustomerByIdCom
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Customer,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Customer,AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Customers.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted.Value == true)
@@ -41,7 +41,7 @@ public class DeleteCustomerByIdCommandHandler: CommandBase<DeleteCustomerByIdCom
 
 		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;

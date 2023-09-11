@@ -4172,6 +4172,7 @@
                   "type": "string",
                   "enum": [
                     "array",
+                    "autoNumber",
                     "boolean",
                     "collection",
                     "color",
@@ -4182,7 +4183,6 @@
                     "currencyCode3",
                     "currencyNumber",
                     "databaseGuid",
-                    "databaseNumber",
                     "dateTimeSchedule",
                     "dayOfWeek",
                     "email",
@@ -8351,6 +8351,7 @@
                   "type": "string",
                   "enum": [
                     "array",
+                    "autoNumber",
                     "boolean",
                     "collection",
                     "color",
@@ -8361,7 +8362,6 @@
                     "currencyCode3",
                     "currencyNumber",
                     "databaseGuid",
-                    "databaseNumber",
                     "dateTimeSchedule",
                     "dayOfWeek",
                     "email",
@@ -11595,6 +11595,7 @@
         "type": {    
           "type": "string",
           "enum": [
+            "autoNumber",
             "boolean",
             "color",
             "countryCode2",
@@ -11604,7 +11605,6 @@
             "currencyCode3",
             "currencyNumber",
             "databaseGuid",
-            "databaseNumber",
             "dateTimeSchedule",
             "dayOfWeek",
             "email",

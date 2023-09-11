@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Holiday related to country.
 /// </summary>
-public partial class HolidayCreateDto : IEntityCreateDto <Holiday>
+public partial class HolidayCreateDto : IEntityCreateDto<Holiday>
 {    
     /// <summary>
     /// Country holiday name (Required).
@@ -36,5 +36,5 @@ public partial class HolidayCreateDto : IEntityCreateDto <Holiday>
     /// </summary>
     [Required(ErrorMessage = "Date is required")]
     
-    public System.DateTime Date { get; set; } = default!;   
+    public System.DateTime Date { get; set; } = default!;
 }
