@@ -13,7 +13,7 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// .
 /// </summary>
-public partial class TestEntityTwoRelationshipsOneToOne : AuditableEntityBase, IConcurrent
+public partial class TestEntityTwoRelationshipsOneToOne : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

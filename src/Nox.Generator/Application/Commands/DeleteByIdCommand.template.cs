@@ -44,7 +44,7 @@ public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase<Delete{{entity
 		}
 		{{- if !entity.IsOwnedEntity }}
 
-		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		{{- end }}
 
 		OnCompleted(entity);

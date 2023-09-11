@@ -13,7 +13,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Exchange booking and related data.
 /// </summary>
-public partial class Booking : AuditableEntityBase, IConcurrent
+public partial class Booking : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Booking unique identifier (Required).
@@ -102,5 +102,5 @@ public partial class Booking : AuditableEntityBase, IConcurrent
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
-    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

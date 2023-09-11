@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using MediatR;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -68,7 +69,7 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var createdKey = await _mediator.Send(new AddCountryTimeZoneCommand(new CountryKeyDto(key), countryTimeZone, etag));
         if (createdKey == null)
         {
@@ -92,7 +93,7 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateCountryTimeZoneCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey), countryTimeZone, etag));
         if (updatedKey == null)
         {
@@ -125,7 +126,7 @@ public partial class CountriesController : ODataController
             }           
         }
         
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new PartialUpdateCountryTimeZoneCommand(new CountryKeyDto(key), new CountryTimeZoneKeyDto(relatedKey), updateProperties, etag));
         
         if (updated is null)
@@ -171,7 +172,7 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var createdKey = await _mediator.Send(new AddHolidayCommand(new CountryKeyDto(key), holiday, etag));
         if (createdKey == null)
         {
@@ -195,7 +196,7 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateHolidayCommand(new CountryKeyDto(key), new HolidayKeyDto(relatedKey), holiday, etag));
         if (updatedKey == null)
         {
@@ -228,7 +229,7 @@ public partial class CountriesController : ODataController
             }           
         }
         
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new PartialUpdateHolidayCommand(new CountryKeyDto(key), new HolidayKeyDto(relatedKey), updateProperties, etag));
         
         if (updated is null)
@@ -294,7 +295,7 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCountryCommand(key, country, etag));
         
         if (updated is null)
@@ -325,7 +326,7 @@ public partial class CountriesController : ODataController
             }           
         }
         
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties, etag));
         
         if (updated is null)
@@ -338,7 +339,7 @@ public partial class CountriesController : ODataController
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteCountryByIdCommand(key, etag));
         
         if (!result)
@@ -347,17 +348,5 @@ public partial class CountriesController : ODataController
         }
         
         return NoContent();
-    }
-    
-    private System.Guid? GetDecodedEtagHeader()
-    {
-        var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();
-        string? rawEtag = ifMatchValue;
-        if (EntityTagHeaderValue.TryParse(ifMatchValue, out var encodedEtag))
-        {
-            rawEtag = encodedEtag.Tag.Trim('"');
-        }
-        
-        return System.Guid.TryParse(rawEtag, out var etag) ? etag : null;
     }
 }

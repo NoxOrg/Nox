@@ -73,7 +73,6 @@ namespace Cryptocash.Api.Migrations
 
                     b.Property<Guid>("Etag")
                         .IsConcurrencyToken()
-                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("ExpiryDateTime")
@@ -148,7 +147,6 @@ namespace Cryptocash.Api.Migrations
 
                     b.Property<Guid>("Etag")
                         .IsConcurrencyToken()
-                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
@@ -221,7 +219,6 @@ namespace Cryptocash.Api.Migrations
 
                     b.Property<Guid>("Etag")
                         .IsConcurrencyToken()
-                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
@@ -298,7 +295,6 @@ namespace Cryptocash.Api.Migrations
 
                     b.Property<Guid>("Etag")
                         .IsConcurrencyToken()
-                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FlagEmoji")
@@ -394,7 +390,6 @@ namespace Cryptocash.Api.Migrations
 
                     b.Property<Guid>("Etag")
                         .IsConcurrencyToken()
-                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
@@ -506,7 +501,6 @@ namespace Cryptocash.Api.Migrations
 
                     b.Property<Guid>("Etag")
                         .IsConcurrencyToken()
-                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FirstName")
@@ -591,7 +585,6 @@ namespace Cryptocash.Api.Migrations
 
                     b.Property<Guid>("Etag")
                         .IsConcurrencyToken()
-                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FirstName")
@@ -669,7 +662,6 @@ namespace Cryptocash.Api.Migrations
 
                     b.Property<Guid>("Etag")
                         .IsConcurrencyToken()
-                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
@@ -731,7 +723,6 @@ namespace Cryptocash.Api.Migrations
 
                     b.Property<Guid>("Etag")
                         .IsConcurrencyToken()
-                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
@@ -795,7 +786,6 @@ namespace Cryptocash.Api.Migrations
 
                     b.Property<Guid>("Etag")
                         .IsConcurrencyToken()
-                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
@@ -882,7 +872,6 @@ namespace Cryptocash.Api.Migrations
 
                     b.Property<Guid>("Etag")
                         .IsConcurrencyToken()
-                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
@@ -950,7 +939,6 @@ namespace Cryptocash.Api.Migrations
 
                     b.Property<Guid>("Etag")
                         .IsConcurrencyToken()
-                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<DateTimeOffset?>("LastUpdatedAtUtc")
@@ -1034,7 +1022,6 @@ namespace Cryptocash.Api.Migrations
 
                     b.Property<Guid>("Etag")
                         .IsConcurrencyToken()
-                        .IsUnicode(false)
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<decimal?>("InstallationFootPrint")

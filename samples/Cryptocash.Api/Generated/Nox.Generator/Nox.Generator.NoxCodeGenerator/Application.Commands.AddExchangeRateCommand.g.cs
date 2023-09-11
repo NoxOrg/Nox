@@ -48,7 +48,7 @@ public partial class AddExchangeRateCommandHandler: CommandBase<AddExchangeRateC
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
 		
 		parentEntity.ExchangeRates.Add(entity);
-		parentEntity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(entity);
 	
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;

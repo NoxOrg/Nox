@@ -13,7 +13,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public partial class CashStockOrder : AuditableEntityBase, IConcurrent
+public partial class CashStockOrder : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Vending machine's order unique identifier (Required).
@@ -62,5 +62,5 @@ public partial class CashStockOrder : AuditableEntityBase, IConcurrent
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
-    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

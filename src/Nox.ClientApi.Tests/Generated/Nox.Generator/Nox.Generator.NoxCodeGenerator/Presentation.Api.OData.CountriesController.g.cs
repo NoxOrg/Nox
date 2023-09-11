@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using MediatR;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
 using ClientApi.Application.Queries;
@@ -68,7 +69,7 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var createdKey = await _mediator.Send(new AddCountryLocalNameCommand(new CountryKeyDto(key), countryLocalName, etag));
         if (createdKey == null)
         {
@@ -92,7 +93,7 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var updatedKey = await _mediator.Send(new UpdateCountryLocalNameCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey), countryLocalName, etag));
         if (updatedKey == null)
         {
@@ -125,7 +126,7 @@ public partial class CountriesController : ODataController
             }           
         }
         
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new PartialUpdateCountryLocalNameCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey), updateProperties, etag));
         
         if (updated is null)
@@ -191,7 +192,7 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCountryCommand(key, country, etag));
         
         if (updated is null)
@@ -222,7 +223,7 @@ public partial class CountriesController : ODataController
             }           
         }
         
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties, etag));
         
         if (updated is null)
@@ -235,7 +236,7 @@ public partial class CountriesController : ODataController
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteCountryByIdCommand(key, etag));
         
         if (!result)
@@ -244,17 +245,5 @@ public partial class CountriesController : ODataController
         }
         
         return NoContent();
-    }
-    
-    private System.Guid? GetDecodedEtagHeader()
-    {
-        var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();
-        string? rawEtag = ifMatchValue;
-        if (EntityTagHeaderValue.TryParse(ifMatchValue, out var encodedEtag))
-        {
-            rawEtag = encodedEtag.Tag.Trim('"');
-        }
-        
-        return System.Guid.TryParse(rawEtag, out var etag) ? etag : null;
     }
 }

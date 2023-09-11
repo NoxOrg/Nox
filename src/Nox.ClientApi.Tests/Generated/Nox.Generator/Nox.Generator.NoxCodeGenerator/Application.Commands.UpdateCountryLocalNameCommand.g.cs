@@ -49,7 +49,7 @@ public partial class UpdateCountryLocalNameCommandHandler: CommandBase<UpdateCou
 		}
 
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<CountryLocalName>(), request.EntityDto);
-		parentEntity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

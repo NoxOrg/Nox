@@ -45,7 +45,7 @@ public class UpdateEmployeeCommandHandler: CommandBase<UpdateEmployeeCommand, Em
 		}
 
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Employee>(), request.EntityDto);
-		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(entity);
 

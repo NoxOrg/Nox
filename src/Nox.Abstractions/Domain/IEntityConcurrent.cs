@@ -3,10 +3,10 @@
 /// <summary>
 /// Entities whose updates need to be handled with optimistic concurrency
 /// </summary>
-public interface IConcurrent
+public interface IEntityConcurrent
 {
     /// <summary>
     /// Gets the entity tag.
     /// </summary>
-    Types.Guid Etag { get; }
+    System.Guid Etag { get; }
 }

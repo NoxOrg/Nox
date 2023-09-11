@@ -13,7 +13,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Currency and related data.
 /// </summary>
-public partial class Currency : AuditableEntityBase, IConcurrent
+public partial class Currency : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Currency unique identifier (Required).
@@ -107,5 +107,5 @@ public partial class Currency : AuditableEntityBase, IConcurrent
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
-    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

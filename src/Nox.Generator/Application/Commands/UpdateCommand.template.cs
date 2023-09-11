@@ -50,7 +50,7 @@ public class Update{{entity.Name}}CommandHandler: CommandBase<Update{{entity.Nam
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.EntityDto);
 
 		{{- if !entity.IsOwnedEntity }}
-		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		{{- end }}
 
 		OnCompleted(entity);

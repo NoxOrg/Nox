@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using MediatR;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -84,7 +85,7 @@ public partial class BookingsController : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateBookingCommand(key, booking, etag));
         
         if (updated is null)
@@ -115,7 +116,7 @@ public partial class BookingsController : ODataController
             }           
         }
         
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new PartialUpdateBookingCommand(key, updateProperties, etag));
         
         if (updated is null)
@@ -128,7 +129,7 @@ public partial class BookingsController : ODataController
     
     public async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteBookingByIdCommand(key, etag));
         
         if (!result)
@@ -137,17 +138,5 @@ public partial class BookingsController : ODataController
         }
         
         return NoContent();
-    }
-    
-    private System.Guid? GetDecodedEtagHeader()
-    {
-        var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();
-        string? rawEtag = ifMatchValue;
-        if (EntityTagHeaderValue.TryParse(ifMatchValue, out var encodedEtag))
-        {
-            rawEtag = encodedEtag.Tag.Trim('"');
-        }
-        
-        return System.Guid.TryParse(rawEtag, out var etag) ? etag : null;
     }
 }

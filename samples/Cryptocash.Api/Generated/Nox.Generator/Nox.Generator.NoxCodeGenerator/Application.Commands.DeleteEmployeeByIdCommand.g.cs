@@ -39,7 +39,7 @@ public class DeleteEmployeeByIdCommandHandler: CommandBase<DeleteEmployeeByIdCom
 			return false;
 		}
 
-		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;

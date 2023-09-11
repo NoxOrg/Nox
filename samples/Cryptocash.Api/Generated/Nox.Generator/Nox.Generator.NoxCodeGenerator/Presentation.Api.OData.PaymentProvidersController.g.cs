@@ -10,6 +10,7 @@ using Microsoft.EntityFrameworkCore;
 using MediatR;
 using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -84,7 +85,7 @@ public partial class PaymentProvidersController : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdatePaymentProviderCommand(key, paymentProvider, etag));
         
         if (updated is null)
@@ -115,7 +116,7 @@ public partial class PaymentProvidersController : ODataController
             }           
         }
         
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new PartialUpdatePaymentProviderCommand(key, updateProperties, etag));
         
         if (updated is null)
@@ -128,7 +129,7 @@ public partial class PaymentProvidersController : ODataController
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var etag = GetDecodedEtagHeader();
+        var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeletePaymentProviderByIdCommand(key, etag));
         
         if (!result)
@@ -137,17 +138,5 @@ public partial class PaymentProvidersController : ODataController
         }
         
         return NoContent();
-    }
-    
-    private System.Guid? GetDecodedEtagHeader()
-    {
-        var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();
-        string? rawEtag = ifMatchValue;
-        if (EntityTagHeaderValue.TryParse(ifMatchValue, out var encodedEtag))
-        {
-            rawEtag = encodedEtag.Tag.Trim('"');
-        }
-        
-        return System.Guid.TryParse(rawEtag, out var etag) ? etag : null;
     }
 }

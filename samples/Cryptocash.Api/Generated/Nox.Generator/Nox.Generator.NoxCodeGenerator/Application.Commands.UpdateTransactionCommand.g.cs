@@ -45,7 +45,7 @@ public class UpdateTransactionCommandHandler: CommandBase<UpdateTransactionComma
 		}
 
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Transaction>(), request.EntityDto);
-		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(entity);
 

@@ -81,6 +81,6 @@ public partial class {{className}}
 {{- if !entity.IsOwnedEntity }}
 
     [JsonPropertyName("@odata.etag")]
-    public System.Guid Etag { get; set; }
+    public System.Guid Etag { get; init; }
 {{- end }}
 }

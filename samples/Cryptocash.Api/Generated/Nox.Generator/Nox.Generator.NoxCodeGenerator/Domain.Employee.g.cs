@@ -13,7 +13,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-public partial class Employee : AuditableEntityBase, IConcurrent
+public partial class Employee : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Employee's unique identifier (Required).
@@ -70,5 +70,5 @@ public partial class Employee : AuditableEntityBase, IConcurrent
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
-    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

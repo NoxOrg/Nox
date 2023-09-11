@@ -13,7 +13,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public partial class VendingMachine : AuditableEntityBase, IConcurrent
+public partial class VendingMachine : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Vending machine unique identifier (Required).
@@ -93,5 +93,5 @@ public partial class VendingMachine : AuditableEntityBase, IConcurrent
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
-    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

@@ -86,8 +86,8 @@ public partial class ClientApiDbContext : DbContext
                 }
             }
 
-            modelBuilder.ForEntitiesOfType<IConcurrent>(
-                builder => builder.Property(nameof(IConcurrent.Etag)).IsConcurrencyToken());
+            modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
+                builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
         }
     }
 
@@ -102,7 +102,7 @@ public partial class ClientApiDbContext : DbContext
         }
         catch(DbUpdateConcurrencyException)
         {
-            throw new ConcurrencyException($"Latest value of {nameof(IConcurrent.Etag)} must be provided");
+            throw new ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided");
         }
     }
 
@@ -115,7 +115,7 @@ public partial class ClientApiDbContext : DbContext
             AuditEntity(entry);
         }
 
-        foreach (var entry in ChangeTracker.Entries<IConcurrent>())
+        foreach (var entry in ChangeTracker.Entries<IEntityConcurrent>())
         {
             TrackConcurrency(entry);
         }
@@ -143,18 +143,18 @@ public partial class ClientApiDbContext : DbContext
         }
     }
 
-    private void TrackConcurrency(EntityEntry<IConcurrent> entry)
+    private void TrackConcurrency(EntityEntry<IEntityConcurrent> entry)
     {
         switch (entry.State)
         {
             case EntityState.Added:
-                entry.Property(e => e.Etag).CurrentValue = Nox.Types.Guid.NewGuid();
+                entry.Property(e => e.Etag).CurrentValue = System.Guid.NewGuid();
                 break;
 
             case EntityState.Modified:
             case EntityState.Deleted:
                 entry.Property(e => e.Etag).OriginalValue = entry.Property(p => p.Etag).CurrentValue;
-                entry.Property(e => e.Etag).CurrentValue = Nox.Types.Guid.NewGuid();
+                entry.Property(e => e.Etag).CurrentValue = System.Guid.NewGuid();
                 break;
         }
     }

@@ -45,7 +45,7 @@ public class UpdateStoreOwnerCommandHandler: CommandBase<UpdateStoreOwnerCommand
 		}
 
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<StoreOwner>(), request.EntityDto);
-		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(entity);
 

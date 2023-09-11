@@ -39,5 +39,5 @@ public partial class WorkplaceDto
     public System.String? Greeting { get; set; }
 
     [JsonPropertyName("@odata.etag")]
-    public System.Guid Etag { get; set; }
+    public System.Guid Etag { get; init; }
 }

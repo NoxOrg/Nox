@@ -13,7 +13,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Country and related data.
 /// </summary>
-public partial class Country : AuditableEntityBase, IConcurrent
+public partial class Country : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Country unique identifier (Required).
@@ -127,5 +127,5 @@ public partial class Country : AuditableEntityBase, IConcurrent
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
-    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

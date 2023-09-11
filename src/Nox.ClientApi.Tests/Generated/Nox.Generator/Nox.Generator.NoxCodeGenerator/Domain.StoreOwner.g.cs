@@ -13,7 +13,7 @@ namespace ClientApi.Domain;
 /// <summary>
 /// Store owners.
 /// </summary>
-public partial class StoreOwner : AuditableEntityBase, IConcurrent
+public partial class StoreOwner : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -48,5 +48,5 @@ public partial class StoreOwner : AuditableEntityBase, IConcurrent
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
-    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

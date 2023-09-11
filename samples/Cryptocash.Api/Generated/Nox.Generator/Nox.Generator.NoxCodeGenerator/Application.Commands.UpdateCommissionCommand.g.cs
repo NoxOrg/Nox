@@ -45,7 +45,7 @@ public class UpdateCommissionCommandHandler: CommandBase<UpdateCommissionCommand
 		}
 
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Commission>(), request.EntityDto);
-		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(entity);
 

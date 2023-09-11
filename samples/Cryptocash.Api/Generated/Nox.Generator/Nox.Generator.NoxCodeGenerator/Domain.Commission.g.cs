@@ -13,7 +13,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-public partial class Commission : AuditableEntityBase, IConcurrent
+public partial class Commission : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Commission unique identifier (Required).
@@ -48,5 +48,5 @@ public partial class Commission : AuditableEntityBase, IConcurrent
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
-    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

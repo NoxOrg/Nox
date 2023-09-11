@@ -52,5 +52,5 @@ public partial class CommissionDto
     public System.DateTime? DeletedAtUtc { get; set; }
 
     [JsonPropertyName("@odata.etag")]
-    public System.Guid Etag { get; set; }
+    public System.Guid Etag { get; init; }
 }

@@ -13,7 +13,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public partial class Transaction : AuditableEntityBase, IConcurrent
+public partial class Transaction : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Customer transaction unique identifier (Required).
@@ -63,5 +63,5 @@ public partial class Transaction : AuditableEntityBase, IConcurrent
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
-    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

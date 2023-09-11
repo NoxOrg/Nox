@@ -45,7 +45,7 @@ public class UpdateLandLordCommandHandler: CommandBase<UpdateLandLordCommand, La
 		}
 
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<LandLord>(), request.EntityDto);
-		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(entity);
 

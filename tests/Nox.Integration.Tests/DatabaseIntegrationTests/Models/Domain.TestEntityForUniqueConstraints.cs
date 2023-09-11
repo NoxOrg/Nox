@@ -13,7 +13,7 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// Entity created for testing constraints.
 /// </summary>
-public partial class TestEntityForUniqueConstraints : EntityBase, IConcurrent
+public partial class TestEntityForUniqueConstraints : EntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

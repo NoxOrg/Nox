@@ -13,7 +13,7 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// Entity created for testing nuid.
 /// </summary>
-public partial class TestEntityWithNuid : AuditableEntityBase, IConcurrent
+public partial class TestEntityWithNuid : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).

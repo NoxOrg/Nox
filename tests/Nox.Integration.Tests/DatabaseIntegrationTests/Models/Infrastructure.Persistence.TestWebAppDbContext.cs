@@ -154,8 +154,8 @@ public partial class TestWebAppDbContext : DbContext
                 }
             }
 
-            modelBuilder.ForEntitiesOfType<IConcurrent>(
-                builder => builder.Property(nameof(IConcurrent.Etag)).IsConcurrencyToken());
+            modelBuilder.ForEntitiesOfType<IEntityConcurrent>(
+                builder => builder.Property(nameof(IEntityConcurrent.Etag)).IsConcurrencyToken());
         }
     }
 
@@ -170,7 +170,7 @@ public partial class TestWebAppDbContext : DbContext
         }
         catch(DbUpdateConcurrencyException)
         {
-            throw new ConcurrencyException($"Latest value of {nameof(IConcurrent.Etag)} must be provided");
+            throw new ConcurrencyException($"Latest value of {nameof(IEntityConcurrent.Etag)} must be provided");
         }
     }
 
@@ -183,7 +183,7 @@ public partial class TestWebAppDbContext : DbContext
             AuditEntity(entry);
         }
 
-        foreach (var entry in ChangeTracker.Entries<IConcurrent>())
+        foreach (var entry in ChangeTracker.Entries<IEntityConcurrent>())
         {
             TrackConcurrency(entry);
         }
@@ -211,7 +211,7 @@ public partial class TestWebAppDbContext : DbContext
         }
     }
 
-    private void TrackConcurrency(EntityEntry<IConcurrent> entry)
+    private void TrackConcurrency(EntityEntry<IEntityConcurrent> entry)
     {
         switch (entry.State)
         {

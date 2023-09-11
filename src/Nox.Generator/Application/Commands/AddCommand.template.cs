@@ -57,7 +57,7 @@ public partial class Add{{entity.Name}}CommandHandler: CommandBase<Add{{entity.N
 		{{- end }}
 		
 		parentEntity.{{entity.PluralName}}.Add(entity);
-		parentEntity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(entity);
 	
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;

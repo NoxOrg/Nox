@@ -13,7 +13,7 @@ namespace ClientApi.Domain;
 /// <summary>
 /// Workplace.
 /// </summary>
-public partial class Workplace : EntityBase, IConcurrent
+public partial class Workplace : EntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Workplace unique identifier (Required).
@@ -53,5 +53,5 @@ public partial class Workplace : EntityBase, IConcurrent
     /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
-    public Nox.Types.Guid Etag { get; set; } = Nox.Types.Guid.NewGuid();
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

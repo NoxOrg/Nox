@@ -49,7 +49,7 @@ public class PartialUpdate{{entity.Name}}CommandHandler: CommandBase<PartialUpda
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.UpdatedProperties);
 		{{- if !entity.IsOwnedEntity }}
-		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		{{- end }}
 
 		OnCompleted(entity);
