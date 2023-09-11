@@ -17,7 +17,7 @@ namespace ClientApi.Application.Dto;
 /// <summary>
 /// Stores.
 /// </summary>
-public partial class StoreCreateDto : IEntityCreateDto <Store>
+public partial class StoreCreateDto : IEntityCreateDto<Store>
 {    
     /// <summary>
     /// Store Name (Required).

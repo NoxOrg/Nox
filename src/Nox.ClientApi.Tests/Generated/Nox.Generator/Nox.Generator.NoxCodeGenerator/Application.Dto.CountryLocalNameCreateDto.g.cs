@@ -17,7 +17,7 @@ namespace ClientApi.Application.Dto;
 /// <summary>
 /// Local names for countries.
 /// </summary>
-public partial class CountryLocalNameCreateDto : IEntityCreateDto <CountryLocalName>
+public partial class CountryLocalNameCreateDto : IEntityCreateDto<CountryLocalName>
 {    
     /// <summary>
     /// Local name (Required).

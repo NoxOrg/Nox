@@ -17,7 +17,7 @@ namespace ClientApi.Application.Dto;
 /// <summary>
 /// Workplace.
 /// </summary>
-public partial class WorkplaceCreateDto : IEntityCreateDto <Workplace>
+public partial class WorkplaceCreateDto : IEntityCreateDto<Workplace>
 {    
     /// <summary>
     /// Workplace Name (Required).

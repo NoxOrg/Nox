@@ -17,7 +17,7 @@ namespace ClientApi.Application.Dto;
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-public partial class EmailAddressCreateDto : IEntityCreateDto <EmailAddress>
+public partial class EmailAddressCreateDto : IEntityCreateDto<EmailAddress>
 {    
     /// <summary>
     /// Email (Optional).
