@@ -44,11 +44,8 @@ public class ODataFixture
         result.Headers.Single(h => h.Key == "OData-Version").Value.First().Should().Be("4.0");
 
         var content = await result.Content.ReadAsStringAsync();
+        EnsureOdataSingleResponse(content);
 
-        var oDataResponse = JsonConvert.DeserializeObject<ODataSigleResponse>(content);
-        oDataResponse.Should().NotBeNull();
-        oDataResponse!.Context.Should().NotBeNullOrEmpty();
-        
         var data = JsonConvert.DeserializeObject<TResult>(content);
 
         return data;
@@ -78,7 +75,9 @@ public class ODataFixture
         var message = await httpClient.PostAsJsonAsync(requestUrl, data);
         message.EnsureSuccessStatusCode();
 
-        var content = await message.Content.ReadAsStringAsync();        
+        var content = await message.Content.ReadAsStringAsync();
+        EnsureOdataSingleResponse(content);
+
         var result = JsonConvert.DeserializeObject<TResult>(content);
 
         return result;
@@ -100,6 +99,8 @@ public class ODataFixture
         message.EnsureSuccessStatusCode();
 
         var content = await message.Content.ReadAsStringAsync();
+        EnsureOdataSingleResponse(content);
+
         var result = JsonConvert.DeserializeObject<TResult>(content);
 
         return result;
@@ -123,6 +124,8 @@ public class ODataFixture
         request.EnsureSuccessStatusCode();
 
         var content = await request.Content.ReadAsStringAsync();
+        EnsureOdataSingleResponse(content);
+
         var result = JsonConvert.DeserializeObject<TResult>(content);
 
         return result;
@@ -134,5 +137,12 @@ public class ODataFixture
 
         var message = await httpClient.DeleteAsync(requestUrl);
         message.EnsureSuccessStatusCode();
+    }
+
+    private void EnsureOdataSingleResponse(string content)
+    {
+        var oDataResponse = JsonConvert.DeserializeObject<ODataSigleResponse>(content);
+        oDataResponse.Should().NotBeNull();
+        oDataResponse!.Context.Should().NotBeNullOrEmpty();
     }
 }
