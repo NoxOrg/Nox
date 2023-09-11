@@ -15,23 +15,20 @@ using Store = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
 
-public record UpdateStoreCommand(System.UInt32 keyId, StoreUpdateDto EntityDto, System.Guid? Etag) : IRequest<StoreKeyDto?>;
+public record UpdateStoreCommand(System.UInt32 keyId, StoreUpdateDto EntityDto) : IRequest<StoreKeyDto?>;
 
 public class UpdateStoreCommandHandler: CommandBase<UpdateStoreCommand, Store>, IRequestHandler<UpdateStoreCommand, StoreKeyDto?>
 {
 	public ClientApiDbContext DbContext { get; }
 	public IEntityMapper<Store> EntityMapper { get; }
-	public IEntityMapper<EmailAddress> EmailAddressEntityMapper { get; }
 
 	public UpdateStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,	
-			IEntityMapper<EmailAddress> entityMapperEmailAddress,
+		IServiceProvider serviceProvider,
 		IEntityMapper<Store> entityMapper): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;	
-		EmailAddressEntityMapper = entityMapperEmailAddress;
+		DbContext = dbContext;
 		EntityMapper = entityMapper;
 	}
 	
@@ -46,9 +43,7 @@ public class UpdateStoreCommandHandler: CommandBase<UpdateStoreCommand, Store>, 
 		{
 			return null;
 		}
-
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<Store>(), request.EntityDto); 
-		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
+		EntityMapper.MapToEntity(entity, GetEntityDefinition<Store>(), request.EntityDto);
 
 		OnCompleted(entity);
 
@@ -60,5 +55,5 @@ public class UpdateStoreCommandHandler: CommandBase<UpdateStoreCommand, Store>, 
 		}
 
 		return new StoreKeyDto(entity.Id.Value);
-	} 
+	}
 }

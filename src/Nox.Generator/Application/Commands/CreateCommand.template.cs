@@ -19,18 +19,22 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 using {{entity.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
+
 public record Create{{entity.Name}}Command({{entity.Name}}CreateDto EntityDto) : IRequest<{{entity.Name}}KeyDto>;
 
 public partial class Create{{entity.Name}}CommandHandler: CommandBase<Create{{entity.Name}}Command,{{entity.Name}}>, IRequestHandler <Create{{entity.Name}}Command, {{entity.Name}}KeyDto>
 {
-	public {{codeGeneratorState.Solution.Name}}DbContext DbContext { get; }
+	private readonly {{codeGeneratorState.Solution.Name}}DbContext _dbContext;
+	private readonly IEntityFactory<{{entity.Name}},{{entity.Name}}CreateDto> _entityFactory;
 
 	public Create{{entity.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<{{entity.Name}},{{entity.Name}}CreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;
 	}
 
 	public async Task<{{entity.Name}}KeyDto> Handle(Create{{entity.Name}}Command request, CancellationToken cancellationToken)
@@ -38,17 +42,11 @@ public partial class Create{{entity.Name}}CommandHandler: CommandBase<Create{{en
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();
-
-		{{- for key in entity.Keys ~}}
-		{{- if key.Type == "Nuid" }}
-		entityToCreate.Ensure{{key.Name}}();
-		{{- end }}
-		{{- end }}		
-	
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
 		OnCompleted(entityToCreate);
-		DbContext.{{entity.PluralName}}.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		_dbContext.{{entity.PluralName}}.Add(entityToCreate);
+		await _dbContext.SaveChangesAsync();
 		return new {{entity.Name}}KeyDto({{primaryKeysQuery}});
 	}
 }

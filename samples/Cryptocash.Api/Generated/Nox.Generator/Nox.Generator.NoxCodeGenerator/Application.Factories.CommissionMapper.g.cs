@@ -20,7 +20,7 @@ using Commission = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application;
 
-public class CommissionMapper : EntityMapperBase<Commission>
+public partial class CommissionMapper : EntityMapperBase<Commission>
 {
     public CommissionMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

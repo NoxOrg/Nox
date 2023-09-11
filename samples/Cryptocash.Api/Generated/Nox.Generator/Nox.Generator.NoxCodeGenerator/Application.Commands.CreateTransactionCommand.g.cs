@@ -17,18 +17,22 @@ using Cryptocash.Application.Dto;
 using Transaction = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateTransactionCommand(TransactionCreateDto EntityDto) : IRequest<TransactionKeyDto>;
 
 public partial class CreateTransactionCommandHandler: CommandBase<CreateTransactionCommand,Transaction>, IRequestHandler <CreateTransactionCommand, TransactionKeyDto>
 {
-	public CryptocashDbContext DbContext { get; }
+	private readonly CryptocashDbContext _dbContext;
+	private readonly IEntityFactory<Transaction,TransactionCreateDto> _entityFactory;
 
 	public CreateTransactionCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<Transaction,TransactionCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;
 	}
 
 	public async Task<TransactionKeyDto> Handle(CreateTransactionCommand request, CancellationToken cancellationToken)
@@ -36,11 +40,11 @@ public partial class CreateTransactionCommandHandler: CommandBase<CreateTransact
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();		
-	
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
 		OnCompleted(entityToCreate);
-		DbContext.Transactions.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		_dbContext.Transactions.Add(entityToCreate);
+		await _dbContext.SaveChangesAsync();
 		return new TransactionKeyDto(entityToCreate.Id.Value);
 	}
 }

@@ -13,7 +13,7 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record PartialUpdateBankNoteCommand(CurrencyKeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
+public record PartialUpdateBankNoteCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties) : IRequest <BankNoteKeyDto?>;
 
 public partial class PartialUpdateBankNoteCommandHandler: CommandBase<PartialUpdateBankNoteCommand, BankNote>, IRequestHandler <PartialUpdateBankNoteCommand, BankNoteKeyDto?>
 {
@@ -41,7 +41,7 @@ public partial class PartialUpdateBankNoteCommandHandler: CommandBase<PartialUpd
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<BankNote,DatabaseNumber>("Id", request.UpdatedProperties["Id"]);
+		var ownedId = CreateNoxTypeForKey<BankNote,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.BankNotes.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
@@ -49,8 +49,7 @@ public partial class PartialUpdateBankNoteCommandHandler: CommandBase<PartialUpd
 		}
 
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<BankNote>(), request.UpdatedProperties);
-		parentEntity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
-
+		
 		OnCompleted(entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

@@ -15,23 +15,20 @@ using Employee = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Commands;
 
-public record UpdateEmployeeCommand(System.Int64 keyId, EmployeeUpdateDto EntityDto, System.Guid? Etag) : IRequest<EmployeeKeyDto?>;
+public record UpdateEmployeeCommand(System.Int64 keyId, EmployeeUpdateDto EntityDto) : IRequest<EmployeeKeyDto?>;
 
 public class UpdateEmployeeCommandHandler: CommandBase<UpdateEmployeeCommand, Employee>, IRequestHandler<UpdateEmployeeCommand, EmployeeKeyDto?>
 {
 	public CryptocashDbContext DbContext { get; }
 	public IEntityMapper<Employee> EntityMapper { get; }
-	public IEntityMapper<EmployeePhoneNumber> EmployeePhoneNumberEntityMapper { get; }
 
 	public UpdateEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-		IServiceProvider serviceProvider,	
-			IEntityMapper<EmployeePhoneNumber> entityMapperEmployeePhoneNumber,
+		IServiceProvider serviceProvider,
 		IEntityMapper<Employee> entityMapper): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;	
-		EmployeePhoneNumberEntityMapper = entityMapperEmployeePhoneNumber;
+		DbContext = dbContext;
 		EntityMapper = entityMapper;
 	}
 	
@@ -46,13 +43,7 @@ public class UpdateEmployeeCommandHandler: CommandBase<UpdateEmployeeCommand, Em
 		{
 			return null;
 		}
-
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Employee>(), request.EntityDto);
-		foreach(var ownedEntity in request.EntityDto.EmployeePhoneNumbers)
-		{
-			UpdateEmployeePhoneNumber(entity, ownedEntity);
-		}
-		entity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 
 		OnCompleted(entity);
 
@@ -64,19 +55,5 @@ public class UpdateEmployeeCommandHandler: CommandBase<UpdateEmployeeCommand, Em
 		}
 
 		return new EmployeeKeyDto(entity.Id.Value);
-	}
-	private void UpdateEmployeePhoneNumber(Employee parent, EmployeePhoneNumberDto child)
-	{
-		var ownedId = CreateNoxTypeForKey<EmployeePhoneNumber,DatabaseNumber>("Id", child.Id);
-
-		var entity = parent.EmployeePhoneNumbers.SingleOrDefault(x =>
-			x.Id.Equals(ownedId) &&
-			true);
-		if (entity == null)
-		{
-			return;
-		}
-
-		EmployeePhoneNumberEntityMapper.MapToEntity(entity, GetEntityDefinition<EmployeePhoneNumber>(), child);		
 	}
 }

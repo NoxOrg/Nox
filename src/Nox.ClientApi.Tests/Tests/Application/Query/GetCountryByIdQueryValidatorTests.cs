@@ -3,6 +3,7 @@ using ClientApi.Application.Dto;
 using AutoFixture;
 using System.Net;
 using AutoFixture.AutoMoq;
+using Nox.ClientApi.Tests.Tests.Models;
 
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
@@ -28,10 +29,10 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         {
             // Act
             var result = await _oDataFixture.GetAsync($"{CountryControllerName}/51");
-
+            var response = await result.Content.ReadFromJsonAsync<SimpleResponse>();
             // Assert
-            // TODO "For now security check throws error, however response gets 500 instead of 400"
-            result.StatusCode.Should().Be(HttpStatusCode.InternalServerError);
+            response!.StatusCode.Should().Be(HttpStatusCode.BadRequest);
+            response!.Message.Should().Contain("No permissions for keys greater then 50");
         }
 
         /// <summary>

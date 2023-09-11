@@ -20,7 +20,7 @@ using StoreOwner = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application;
 
-public class StoreOwnerMapper : EntityMapperBase<StoreOwner>
+public partial class StoreOwnerMapper : EntityMapperBase<StoreOwner>
 {
     public StoreOwnerMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 
@@ -44,6 +44,16 @@ public class StoreOwnerMapper : EntityMapperBase<StoreOwner>
         if (noxTypeValue != null)
         {        
             entity.VatNumber = noxTypeValue;
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "StreetAddress", dto.StreetAddress);
+        if (noxTypeValue != null)
+        {        
+            entity.StreetAddress = noxTypeValue;
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.TranslatedText>(entityDefinition, "LocalGreeting", dto.LocalGreeting);
+        if (noxTypeValue != null)
+        {        
+            entity.LocalGreeting = noxTypeValue;
         }
     
     }
@@ -78,6 +88,34 @@ public class StoreOwnerMapper : EntityMapperBase<StoreOwner>
                 else
                 {
                     entity.VatNumber = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("StreetAddress", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "StreetAddress", value);
+                if(noxTypeValue == null)
+                {
+                    entity.StreetAddress = null;
+                }
+                else
+                {
+                    entity.StreetAddress = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("LocalGreeting", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.TranslatedText>(entityDefinition, "LocalGreeting", value);
+                if(noxTypeValue == null)
+                {
+                    entity.LocalGreeting = null;
+                }
+                else
+                {
+                    entity.LocalGreeting = noxTypeValue;
                 }
             }
         }

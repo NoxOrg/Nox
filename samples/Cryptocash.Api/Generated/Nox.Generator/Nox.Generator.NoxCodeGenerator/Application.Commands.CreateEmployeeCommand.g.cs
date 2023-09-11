@@ -17,18 +17,22 @@ using Cryptocash.Application.Dto;
 using Employee = Cryptocash.Domain.Employee;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateEmployeeCommand(EmployeeCreateDto EntityDto) : IRequest<EmployeeKeyDto>;
 
 public partial class CreateEmployeeCommandHandler: CommandBase<CreateEmployeeCommand,Employee>, IRequestHandler <CreateEmployeeCommand, EmployeeKeyDto>
 {
-	public CryptocashDbContext DbContext { get; }
+	private readonly CryptocashDbContext _dbContext;
+	private readonly IEntityFactory<Employee,EmployeeCreateDto> _entityFactory;
 
 	public CreateEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<Employee,EmployeeCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;
 	}
 
 	public async Task<EmployeeKeyDto> Handle(CreateEmployeeCommand request, CancellationToken cancellationToken)
@@ -36,11 +40,11 @@ public partial class CreateEmployeeCommandHandler: CommandBase<CreateEmployeeCom
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();		
-	
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
 		OnCompleted(entityToCreate);
-		DbContext.Employees.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		_dbContext.Employees.Add(entityToCreate);
+		await _dbContext.SaveChangesAsync();
 		return new EmployeeKeyDto(entityToCreate.Id.Value);
 	}
 }

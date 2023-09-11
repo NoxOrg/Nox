@@ -21,6 +21,11 @@ public class IntegrationSource
     public IntegrationSchedule? Schedule { get; internal set; }
 
     [Required]
+    [Title("The type of source.")]
+    [Description("Specify the type of the source. Options include entity, database, file, webAPI and message queue.")]
+    public IntegrationType SourceType { get; internal set; } = default;
+
+    [Required]
     [Title("The name of the integration source. Contains no spaces.")]
     [Description("The name of the data connection for this integration source. This must refer to an existing data connection in infrastructure, dependencies, dataConnections.")]
     [Pattern(@"^[^\s]*$")]
@@ -29,11 +34,15 @@ public class IntegrationSource
 
     public IntegrationSourceDatabaseWatermark? Watermark { get; internal set; }
 
+    [IfEquals(nameof(SourceType),IntegrationType.Database)]
     public IntegrationSourceDatabaseOptions? DatabaseOptions { get; set; }
 
+    [IfEquals(nameof(SourceType),IntegrationType.File)]
     public IntegrationSourceFileOptions? FileOptions { get; set; }
 
+    [IfEquals(nameof(SourceType),IntegrationType.MessageQueue)]
     public IntegrationSourceMessageQueueOptions? MessageQueueOptions { get; set; }
 
+    [IfEquals(nameof(SourceType),IntegrationType.WebApi)]
     public IntegrationSourceWebApiOptions? WebApiOptions { get; set; }
 }

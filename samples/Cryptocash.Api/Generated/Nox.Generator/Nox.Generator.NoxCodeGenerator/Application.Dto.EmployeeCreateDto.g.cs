@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
@@ -16,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Employee definition and related data.
 /// </summary>
-public partial class EmployeeCreateDto 
+public partial class EmployeeCreateDto : IEntityCreateDto <Employee>
 {    
     /// <summary>
     /// Employee's first name (Required).
@@ -62,19 +63,5 @@ public partial class EmployeeCreateDto
     /// <summary>
     /// Employee contacted by ZeroOrMany EmployeePhoneNumbers
     /// </summary>
-    public virtual List<EmployeePhoneNumberCreateDto> EmployeePhoneNumbers { get; set; } = new();
-
-    public Cryptocash.Domain.Employee ToEntity()
-    {
-        var entity = new Cryptocash.Domain.Employee();
-        entity.FirstName = Cryptocash.Domain.Employee.CreateFirstName(FirstName);
-        entity.LastName = Cryptocash.Domain.Employee.CreateLastName(LastName);
-        entity.EmailAddress = Cryptocash.Domain.Employee.CreateEmailAddress(EmailAddress);
-        entity.Address = Cryptocash.Domain.Employee.CreateAddress(Address);
-        entity.FirstWorkingDay = Cryptocash.Domain.Employee.CreateFirstWorkingDay(FirstWorkingDay);
-        if (LastWorkingDay is not null)entity.LastWorkingDay = Cryptocash.Domain.Employee.CreateLastWorkingDay(LastWorkingDay.NonNullValue<System.DateTime>());
-        //entity.CashStockOrder = CashStockOrder.ToEntity();
-        entity.EmployeePhoneNumbers = EmployeePhoneNumbers.Select(dto => dto.ToEntity()).ToList();
-        return entity;
-    }
+    public virtual List<EmployeePhoneNumberCreateDto> EmployeePhoneNumbers { get; set; } = new();   
 }

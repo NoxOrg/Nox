@@ -21,14 +21,17 @@ public record AddCountryTimeZoneCommand(CountryKeyDto ParentKeyDto, CountryTimeZ
 
 public partial class AddCountryTimeZoneCommandHandler: CommandBase<AddCountryTimeZoneCommand, CountryTimeZone>, IRequestHandler <AddCountryTimeZoneCommand, CountryTimeZoneKeyDto?>
 {
-	public CryptocashDbContext DbContext { get; }
+	private readonly CryptocashDbContext _dbContext;
+	private readonly IEntityFactory<CountryTimeZone,CountryTimeZoneCreateDto> _entityFactory;
 
 	public AddCountryTimeZoneCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<CountryTimeZone,CountryTimeZoneCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;		
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;	
 	}
 
 	public async Task<CountryTimeZoneKeyDto?> Handle(AddCountryTimeZoneCommand request, CancellationToken cancellationToken)
@@ -36,20 +39,20 @@ public partial class AddCountryTimeZoneCommandHandler: CommandBase<AddCountryTim
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Country,CountryCode2>("Id", request.ParentKeyDto.keyId);
 
-		var parentEntity = await DbContext.Countries.FindAsync(keyId);
+		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
 
-		var entity = request.EntityDto.ToEntity();
+		var entity = _entityFactory.CreateEntity(request.EntityDto);
 		
 		parentEntity.CountryTimeZones.Add(entity);
 		parentEntity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
 		OnCompleted(entity);
 	
-		DbContext.Entry(parentEntity).State = EntityState.Modified;
-		var result = await DbContext.SaveChangesAsync();
+		_dbContext.Entry(parentEntity).State = EntityState.Modified;
+		var result = await _dbContext.SaveChangesAsync();
 		if (result < 1)
 		{
 			return null;

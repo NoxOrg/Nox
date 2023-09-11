@@ -17,18 +17,22 @@ using Cryptocash.Application.Dto;
 using CashStockOrder = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateCashStockOrderCommand(CashStockOrderCreateDto EntityDto) : IRequest<CashStockOrderKeyDto>;
 
 public partial class CreateCashStockOrderCommandHandler: CommandBase<CreateCashStockOrderCommand,CashStockOrder>, IRequestHandler <CreateCashStockOrderCommand, CashStockOrderKeyDto>
 {
-	public CryptocashDbContext DbContext { get; }
+	private readonly CryptocashDbContext _dbContext;
+	private readonly IEntityFactory<CashStockOrder,CashStockOrderCreateDto> _entityFactory;
 
 	public CreateCashStockOrderCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<CashStockOrder,CashStockOrderCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;
 	}
 
 	public async Task<CashStockOrderKeyDto> Handle(CreateCashStockOrderCommand request, CancellationToken cancellationToken)
@@ -36,11 +40,11 @@ public partial class CreateCashStockOrderCommandHandler: CommandBase<CreateCashS
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();		
-	
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
 		OnCompleted(entityToCreate);
-		DbContext.CashStockOrders.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		_dbContext.CashStockOrders.Add(entityToCreate);
+		await _dbContext.SaveChangesAsync();
 		return new CashStockOrderKeyDto(entityToCreate.Id.Value);
 	}
 }

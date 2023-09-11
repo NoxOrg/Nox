@@ -24,4 +24,12 @@ public partial class StoreOwnerUpdateDto
     /// Vat Number (Optional).
     /// </summary>
     public VatNumberDto? VatNumber { get; set; }
+    /// <summary>
+    /// Street Address (Optional).
+    /// </summary>
+    public StreetAddressDto? StreetAddress { get; set; }
+    /// <summary>
+    /// Owner Greeting (Optional).
+    /// </summary>
+    public TranslatedTextDto? LocalGreeting { get; set; }
 }

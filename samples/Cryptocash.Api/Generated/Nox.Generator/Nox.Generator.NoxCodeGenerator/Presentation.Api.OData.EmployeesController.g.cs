@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
-using System.Net.Http.Headers;
 using Nox.Application;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
@@ -42,25 +41,7 @@ public partial class EmployeesController : ODataController
         _mediator = mediator;
     }
     
-    [EnableQuery]
-    public async  Task<ActionResult<IQueryable<EmployeeDto>>> Get()
-    {
-        var result = await _mediator.Send(new GetEmployeesQuery());
-        return Ok(result);
-    }
-    
-    [EnableQuery]
-    public async Task<ActionResult<EmployeeDto>> Get([FromRoute] System.Int64 key)
-    {
-        var item = await _mediator.Send(new GetEmployeeByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
-    }
+    #region Owned Relationships
     
     [EnableQuery]
     public async Task<ActionResult<IQueryable<EmployeePhoneNumberDto>>> GetEmployeePhoneNumbers([FromRoute] System.Int64 key)
@@ -86,34 +67,46 @@ public partial class EmployeesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new AddEmployeePhoneNumberCommand(new EmployeeKeyDto(key), employeePhoneNumber, etag));
+        var createdKey = await _mediator.Send(new AddEmployeePhoneNumberCommand(new EmployeeKeyDto(key), employeePhoneNumber));
         if (createdKey == null)
         {
             return NotFound();
         }
         
-        return Created(new EmployeePhoneNumberDto { Id = createdKey.keyId });
+        var child = await TryGetEmployeePhoneNumber(key, createdKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(child);
     }
     
-    public async Task<ActionResult> PutToEmployeePhoneNumbers([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromBody] EmployeePhoneNumberUpdateDto employeePhoneNumber)
+    [HttpPut("/api/[controller]/{key}/EmployeePhoneNumbers/{relatedKey}")]
+    public async Task<ActionResult> PutToEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] EmployeePhoneNumberUpdateDto employeePhoneNumber)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateEmployeePhoneNumberCommand(new EmployeeKeyDto(key), new EmployeePhoneNumberKeyDto(relatedKey), employeePhoneNumber, etag));
+        var updatedKey = await _mediator.Send(new UpdateEmployeePhoneNumberCommand(new EmployeeKeyDto(key), new EmployeePhoneNumberKeyDto(relatedKey), employeePhoneNumber));
         if (updatedKey == null)
         {
             return NotFound();
         }
         
-        return Updated(new EmployeePhoneNumberDto { Id = updatedKey.keyId });
+        var child = await TryGetEmployeePhoneNumber(key, updatedKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
     }
     
-    public async Task<ActionResult> PatchToEmployeePhoneNumbers([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<EmployeePhoneNumberUpdateDto> employeePhoneNumber)
+    [HttpPatch("/api/[controller]/{key}/EmployeePhoneNumbers/{relatedKey}")]
+    public async Task<ActionResult> PatchToEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<EmployeePhoneNumberUpdateDto> employeePhoneNumber)
     {
         if (!ModelState.IsValid)
         {
@@ -129,17 +122,51 @@ public partial class EmployeesController : ODataController
             }           
         }
         
-        var etag = GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateEmployeePhoneNumberCommand(new EmployeeKeyDto(key), updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateEmployeePhoneNumberCommand(new EmployeeKeyDto(key), new EmployeePhoneNumberKeyDto(relatedKey), updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(new EmployeePhoneNumberDto { Id = updated.keyId });
+        var child = await TryGetEmployeePhoneNumber(key, updated);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
     }
     
-    public async Task<ActionResult> Post([FromBody]EmployeeCreateDto employee)
+    private async Task<EmployeePhoneNumberDto?> TryGetEmployeePhoneNumber(System.Int64 key, EmployeePhoneNumberKeyDto childKeyDto)
+    {
+        var parent = await _mediator.Send(new GetEmployeeByIdQuery(key));
+        return parent?.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+    }
+    
+    #endregion
+    
+    [EnableQuery]
+    public async  Task<ActionResult<IQueryable<EmployeeDto>>> Get()
+    {
+        var result = await _mediator.Send(new GetEmployeesQuery());
+        return Ok(result);
+    }
+    
+    [EnableQuery]
+    public async Task<ActionResult<EmployeeDto>> Get([FromRoute] System.Int64 key)
+    {
+        var item = await _mediator.Send(new GetEmployeeByIdQuery(key));
+        
+        if (item == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item);
+    }
+    
+    [EnableQuery]
+    public async Task<ActionResult<EmployeeDto>> Post([FromBody]EmployeeCreateDto employee)
     {
         if (!ModelState.IsValid)
         {
@@ -147,33 +174,37 @@ public partial class EmployeesController : ODataController
         }
         var createdKey = await _mediator.Send(new CreateEmployeeCommand(employee));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetEmployeeByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] EmployeeUpdateDto employee)
+    [EnableQuery]
+    public async Task<ActionResult<EmployeeDto>> Put([FromRoute] System.Int64 key, [FromBody] EmployeeUpdateDto employee)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new UpdateEmployeeCommand(key, employee, etag));
-        
+        var updated = await _mediator.Send(new UpdateEmployeeCommand(key, employee));
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetEmployeeByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<EmployeeUpdateDto> employee)
+    [EnableQuery]
+    public async Task<ActionResult<EmployeeDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<EmployeeUpdateDto> employee)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in employee.GetChangedPropertyNames())
@@ -184,38 +215,24 @@ public partial class EmployeesController : ODataController
             }           
         }
         
-        var etag = GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateEmployeeCommand(key, updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateEmployeeCommand(key, updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetEmployeeByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var etag = GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteEmployeeByIdCommand(key, etag));
-        
+        var result = await _mediator.Send(new DeleteEmployeeByIdCommand(key));
         if (!result)
         {
             return NotFound();
         }
         
         return NoContent();
-    }
-    
-    private System.Guid? GetDecodedEtagHeader()
-    {
-        var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();
-        string? rawEtag = ifMatchValue;
-        if (EntityTagHeaderValue.TryParse(ifMatchValue, out var encodedEtag))
-        {
-            rawEtag = encodedEtag.Tag.Trim('"');
-        }
-        
-        return System.Guid.TryParse(rawEtag, out var etag) ? etag : null;
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
@@ -16,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public partial class TransactionCreateDto 
+public partial class TransactionCreateDto : IEntityCreateDto <Transaction>
 {    
     /// <summary>
     /// Transaction type (Required).
@@ -53,17 +54,5 @@ public partial class TransactionCreateDto
     /// Transaction for ExactlyOne Bookings
     /// </summary>
     [Required(ErrorMessage = "TransactionForBooking is required")]
-    public System.Guid TransactionForBookingId { get; set; } = default!;
-
-    public Cryptocash.Domain.Transaction ToEntity()
-    {
-        var entity = new Cryptocash.Domain.Transaction();
-        entity.TransactionType = Cryptocash.Domain.Transaction.CreateTransactionType(TransactionType);
-        entity.ProcessedOnDateTime = Cryptocash.Domain.Transaction.CreateProcessedOnDateTime(ProcessedOnDateTime);
-        entity.Amount = Cryptocash.Domain.Transaction.CreateAmount(Amount);
-        entity.Reference = Cryptocash.Domain.Transaction.CreateReference(Reference);
-        //entity.Customer = Customer.ToEntity();
-        //entity.Booking = Booking.ToEntity();
-        return entity;
-    }
+    public System.Guid TransactionForBookingId { get; set; } = default!;   
 }

@@ -20,7 +20,7 @@ using Country = ClientApi.Domain.Country;
 
 namespace ClientApi.Application;
 
-public class CountryMapper : EntityMapperBase<Country>
+public partial class CountryMapper : EntityMapperBase<Country>
 {
     public CountryMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

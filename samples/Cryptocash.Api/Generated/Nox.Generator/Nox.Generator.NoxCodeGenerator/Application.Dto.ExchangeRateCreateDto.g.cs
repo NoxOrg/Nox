@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
@@ -16,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Exchange rate and related data.
 /// </summary>
-public partial class ExchangeRateCreateDto 
+public partial class ExchangeRateCreateDto : IEntityCreateDto <ExchangeRate>
 {    
     /// <summary>
     /// Exchange rate conversion amount (Required).
@@ -29,13 +30,5 @@ public partial class ExchangeRateCreateDto
     /// </summary>
     [Required(ErrorMessage = "EffectiveAt is required")]
     
-    public System.DateTimeOffset EffectiveAt { get; set; } = default!;
-
-    public Cryptocash.Domain.ExchangeRate ToEntity()
-    {
-        var entity = new Cryptocash.Domain.ExchangeRate();
-        entity.EffectiveRate = Cryptocash.Domain.ExchangeRate.CreateEffectiveRate(EffectiveRate);
-        entity.EffectiveAt = Cryptocash.Domain.ExchangeRate.CreateEffectiveAt(EffectiveAt);
-        return entity;
-    }
+    public System.DateTimeOffset EffectiveAt { get; set; } = default!;   
 }

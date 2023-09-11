@@ -13,7 +13,7 @@ using {{codeGeneratorState.DomainNameSpace}};
 using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
-public record PartialUpdate{{entity.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
+public record PartialUpdate{{entity.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}KeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
 
 public partial class PartialUpdate{{entity.Name}}CommandHandler: CommandBase<PartialUpdate{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler <PartialUpdate{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
@@ -46,7 +46,7 @@ public partial class PartialUpdate{{entity.Name}}CommandHandler: CommandBase<Par
 		}
 
 		{{- for key in entity.Keys }}
-		var owned{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.UpdatedProperties["{{key.Name}}"]);
+		var owned{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
 		var entity = parentEntity.{{entity.PluralName}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
 		if (entity == null)

@@ -3,6 +3,7 @@ using Nox.Solution.Extensions;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using System.Diagnostics;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
 namespace Nox.Types.EntityFramework.Configurations
 {
@@ -56,9 +57,11 @@ namespace Nox.Types.EntityFramework.Configurations
             ConfigureRelationships(codeGeneratorState, builder, entity, relationshipsToCreate);
 
             ConfigureOwnedRelationships(codeGeneratorState, builder, entity, ownedRelationshipsToCreate);
+            
+            ConfigureUniqueAttributeConstraints(builder, entity);
         }
 
-        public virtual void ConfigureRelationships(
+        protected virtual void ConfigureRelationships(
             NoxSolutionCodeGeneratorState codeGeneratorState,
             IEntityBuilder builder,
             Entity entity,
@@ -118,7 +121,7 @@ namespace Nox.Types.EntityFramework.Configurations
             }
         }
 
-        public virtual void ConfigureOwnedRelationships(
+        protected virtual void ConfigureOwnedRelationships(
             NoxSolutionCodeGeneratorState codeGeneratorState,
             IEntityBuilder builder,
             Entity entity,
@@ -175,7 +178,7 @@ namespace Nox.Types.EntityFramework.Configurations
             }
         }
 
-        private void ConfigureKeys(
+        protected virtual void ConfigureKeys(
             NoxSolutionCodeGeneratorState codeGeneratorState,
             IEntityBuilder builder,
             Entity entity)
@@ -209,7 +212,7 @@ namespace Nox.Types.EntityFramework.Configurations
             }
         }
 
-        private void ConfigureEntityKeyForEntityForeignKey(
+        protected virtual void ConfigureEntityKeyForEntityForeignKey(
             NoxSolutionCodeGeneratorState codeGeneratorState,
             IEntityBuilder builder,
             Entity entity,
@@ -235,8 +238,44 @@ namespace Nox.Types.EntityFramework.Configurations
                 databaseConfigurationForForeignKey.ConfigureEntityProperty(codeGeneratorState, builder, foreignEntityKeyDefinition, entity, false);
             }
         }
+        
+        protected virtual IList<IndexBuilder> ConfigureUniqueAttributeConstraints(IEntityBuilder builder, Entity entity)
+        {
+            var result = new List<IndexBuilder>();
 
-        private void ConfigureAttributes(
+            if (entity.Persistence!.IsAudited)
+            {
+                ConfigureConstraintsWithAuditProperties(builder, entity, result);
+            }
+            else
+            {
+                ConfigureConstraints(builder, entity, result);
+            }
+
+            return result;
+        }
+
+        private static void ConfigureConstraints(IEntityBuilder builder, Entity entity, List<IndexBuilder> result)
+        {
+            foreach (var uniqueConstraint in entity.UniqueAttributeConstraints!)
+            {
+                result.Add(builder.HasUniqueAttributeConstraint(uniqueConstraint.AttributeNames.ToArray(),
+                    uniqueConstraint.Name));
+            }
+        }
+
+        private static void ConfigureConstraintsWithAuditProperties(IEntityBuilder builder, Entity entity, List<IndexBuilder> result)
+        {
+            foreach (var uniqueConstraint in entity.UniqueAttributeConstraints!)
+            {
+                var auditProperties = new List<string>(uniqueConstraint.AttributeNames.Count + 1);
+                auditProperties.AddRange(uniqueConstraint.AttributeNames);
+                auditProperties.Add("DeletedAtUtc");
+                result.Add(builder.HasUniqueAttributeConstraint(auditProperties.ToArray(), uniqueConstraint.Name));
+            }
+        }
+
+        protected virtual void ConfigureAttributes(
             NoxSolutionCodeGeneratorState codeGeneratorState,
             IEntityBuilder builder,
             Entity entity)

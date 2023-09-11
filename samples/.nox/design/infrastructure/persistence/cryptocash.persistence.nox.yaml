@@ -5,7 +5,7 @@
 #
 
 databaseServer:
-    name: Cryptocash
+    name: CryptocashDb
     provider: sqlServer
     options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True
     serverUri: localhost

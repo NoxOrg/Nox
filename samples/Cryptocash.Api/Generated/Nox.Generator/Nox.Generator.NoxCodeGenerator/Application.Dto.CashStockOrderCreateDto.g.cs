@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
@@ -16,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public partial class CashStockOrderCreateDto 
+public partial class CashStockOrderCreateDto : IEntityCreateDto <CashStockOrder>
 {    
     /// <summary>
     /// Order amount (Required).
@@ -43,16 +44,5 @@ public partial class CashStockOrderCreateDto
     /// CashStockOrder for ExactlyOne VendingMachines
     /// </summary>
     [Required(ErrorMessage = "CashStockOrderForVendingMachine is required")]
-    public System.Guid CashStockOrderForVendingMachineId { get; set; } = default!;
-
-    public Cryptocash.Domain.CashStockOrder ToEntity()
-    {
-        var entity = new Cryptocash.Domain.CashStockOrder();
-        entity.Amount = Cryptocash.Domain.CashStockOrder.CreateAmount(Amount);
-        entity.RequestedDeliveryDate = Cryptocash.Domain.CashStockOrder.CreateRequestedDeliveryDate(RequestedDeliveryDate);
-        if (DeliveryDateTime is not null)entity.DeliveryDateTime = Cryptocash.Domain.CashStockOrder.CreateDeliveryDateTime(DeliveryDateTime.NonNullValue<System.DateTimeOffset>());
-        //entity.VendingMachine = VendingMachine.ToEntity();
-        //entity.Employee = Employee.ToEntity();
-        return entity;
-    }
+    public System.Guid CashStockOrderForVendingMachineId { get; set; } = default!;   
 }

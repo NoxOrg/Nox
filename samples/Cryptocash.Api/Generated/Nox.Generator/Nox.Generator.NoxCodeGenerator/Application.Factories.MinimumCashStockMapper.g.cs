@@ -20,7 +20,7 @@ using MinimumCashStock = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application;
 
-public class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
+public partial class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
 {
     public MinimumCashStockMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

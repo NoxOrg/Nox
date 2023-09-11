@@ -31,7 +31,17 @@ attributes:
     description: Vat Number
     type: vatNumber    
     isRequired: false
-    
+
+  - name: StreetAddress
+    description: Street Address
+    type: streetAddress
+    isRequired: false
+
+  - name: LocalGreeting
+    description: Owner Greeting
+    type: translatedText
+    isRequired: false
+
 relationships:
 
     - name: StoreRel

@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
-using System.Net.Http.Headers;
 using Nox.Application;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
@@ -62,41 +61,46 @@ public partial class CashStockOrdersController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]CashStockOrderCreateDto cashstockorder)
+    [EnableQuery]
+    public async Task<ActionResult<CashStockOrderDto>> Post([FromBody]CashStockOrderCreateDto cashStockOrder)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateCashStockOrderCommand(cashstockorder));
+        var createdKey = await _mediator.Send(new CreateCashStockOrderCommand(cashStockOrder));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetCashStockOrderByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] CashStockOrderUpdateDto cashStockOrder)
+    [EnableQuery]
+    public async Task<ActionResult<CashStockOrderDto>> Put([FromRoute] System.Int64 key, [FromBody] CashStockOrderUpdateDto cashStockOrder)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new UpdateCashStockOrderCommand(key, cashStockOrder, etag));
-        
+        var updated = await _mediator.Send(new UpdateCashStockOrderCommand(key, cashStockOrder));
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetCashStockOrderByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CashStockOrderUpdateDto> cashStockOrder)
+    [EnableQuery]
+    public async Task<ActionResult<CashStockOrderDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CashStockOrderUpdateDto> cashStockOrder)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in cashStockOrder.GetChangedPropertyNames())
@@ -107,38 +111,24 @@ public partial class CashStockOrdersController : ODataController
             }           
         }
         
-        var etag = GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateCashStockOrderCommand(key, updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateCashStockOrderCommand(key, updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetCashStockOrderByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var etag = GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteCashStockOrderByIdCommand(key, etag));
-        
+        var result = await _mediator.Send(new DeleteCashStockOrderByIdCommand(key));
         if (!result)
         {
             return NotFound();
         }
         
         return NoContent();
-    }
-    
-    private System.Guid? GetDecodedEtagHeader()
-    {
-        var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();
-        string? rawEtag = ifMatchValue;
-        if (EntityTagHeaderValue.TryParse(ifMatchValue, out var encodedEtag))
-        {
-            rawEtag = encodedEtag.Tag.Trim('"');
-        }
-        
-        return System.Guid.TryParse(rawEtag, out var etag) ? etag : null;
     }
 }

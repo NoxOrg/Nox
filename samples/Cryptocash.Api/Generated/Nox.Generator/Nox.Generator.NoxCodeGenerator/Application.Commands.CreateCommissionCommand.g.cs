@@ -17,18 +17,22 @@ using Cryptocash.Application.Dto;
 using Commission = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateCommissionCommand(CommissionCreateDto EntityDto) : IRequest<CommissionKeyDto>;
 
 public partial class CreateCommissionCommandHandler: CommandBase<CreateCommissionCommand,Commission>, IRequestHandler <CreateCommissionCommand, CommissionKeyDto>
 {
-	public CryptocashDbContext DbContext { get; }
+	private readonly CryptocashDbContext _dbContext;
+	private readonly IEntityFactory<Commission,CommissionCreateDto> _entityFactory;
 
 	public CreateCommissionCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<Commission,CommissionCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;
 	}
 
 	public async Task<CommissionKeyDto> Handle(CreateCommissionCommand request, CancellationToken cancellationToken)
@@ -36,11 +40,11 @@ public partial class CreateCommissionCommandHandler: CommandBase<CreateCommissio
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();		
-	
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
 		OnCompleted(entityToCreate);
-		DbContext.Commissions.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		_dbContext.Commissions.Add(entityToCreate);
+		await _dbContext.SaveChangesAsync();
 		return new CommissionKeyDto(entityToCreate.Id.Value);
 	}
 }

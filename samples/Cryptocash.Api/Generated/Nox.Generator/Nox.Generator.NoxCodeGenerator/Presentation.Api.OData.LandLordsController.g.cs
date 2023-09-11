@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
-using System.Net.Http.Headers;
 using Nox.Application;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
@@ -62,41 +61,46 @@ public partial class LandLordsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]LandLordCreateDto landlord)
+    [EnableQuery]
+    public async Task<ActionResult<LandLordDto>> Post([FromBody]LandLordCreateDto landLord)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateLandLordCommand(landlord));
+        var createdKey = await _mediator.Send(new CreateLandLordCommand(landLord));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetLandLordByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] LandLordUpdateDto landLord)
+    [EnableQuery]
+    public async Task<ActionResult<LandLordDto>> Put([FromRoute] System.Int64 key, [FromBody] LandLordUpdateDto landLord)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new UpdateLandLordCommand(key, landLord, etag));
-        
+        var updated = await _mediator.Send(new UpdateLandLordCommand(key, landLord));
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetLandLordByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<LandLordUpdateDto> landLord)
+    [EnableQuery]
+    public async Task<ActionResult<LandLordDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<LandLordUpdateDto> landLord)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in landLord.GetChangedPropertyNames())
@@ -107,38 +111,24 @@ public partial class LandLordsController : ODataController
             }           
         }
         
-        var etag = GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateLandLordCommand(key, updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateLandLordCommand(key, updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetLandLordByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var etag = GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteLandLordByIdCommand(key, etag));
-        
+        var result = await _mediator.Send(new DeleteLandLordByIdCommand(key));
         if (!result)
         {
             return NotFound();
         }
         
         return NoContent();
-    }
-    
-    private System.Guid? GetDecodedEtagHeader()
-    {
-        var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();
-        string? rawEtag = ifMatchValue;
-        if (EntityTagHeaderValue.TryParse(ifMatchValue, out var encodedEtag))
-        {
-            rawEtag = encodedEtag.Tag.Trim('"');
-        }
-        
-        return System.Guid.TryParse(rawEtag, out var etag) ? etag : null;
     }
 }

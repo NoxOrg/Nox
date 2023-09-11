@@ -4,6 +4,7 @@
 
 // Found files ->
 //  - cryptocash.application.nox.yaml
+//  - CountrySync.integration.nox.yaml
 //  - cryptocash.solution.nox.yaml
 //  - cryptocash.domain.nox.yaml
 //  - BankNote.entity.nox.yaml
@@ -25,6 +26,8 @@
 //  - Transaction.entity.nox.yaml
 //  - VendingMachine.entity.nox.yaml
 //  - cryptocash.infrastructure.nox.yaml
+//  - cryptocash.dependencies.nox.yaml
+//  - NoxReferenceData.dataConnection.nox.yaml
 //  - cryptocash.persistence.nox.yaml
 //  - generator.nox.yaml
 // SUCCESS.

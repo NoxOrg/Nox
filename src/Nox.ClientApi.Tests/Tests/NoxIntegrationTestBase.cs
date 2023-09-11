@@ -1,8 +1,11 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
+using Newtonsoft.Json;
 
+using System.Collections.Generic;
 using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
+using System.Threading.Tasks;
 
 namespace Nox.ClientApi.Tests;
 
@@ -52,7 +55,8 @@ public class ODataFixture
         var message = await httpClient.PostAsJsonAsync(requestUrl, data);
         message.EnsureSuccessStatusCode();
 
-        var result = await message.Content.ReadFromJsonAsync<TResult>();
+        var content = await message.Content.ReadAsStringAsync();
+        var result = JsonConvert.DeserializeObject<TResult>(content);
 
         return result;
     }
@@ -71,7 +75,20 @@ public class ODataFixture
         return message;
     }
 
-    public async Task PatchAsync<TValue>(string requestUrl, TValue delta, Dictionary<string, IEnumerable<string>>? headers = null)
+    public async Task<TResult?> PutAsync<TValue, TResult>(string requestUrl, TValue data)
+    {
+        using var httpClient = _appFactory.CreateClient();
+
+        var message = await httpClient.PutAsJsonAsync(requestUrl, data);
+        message.EnsureSuccessStatusCode();
+
+        var content = await message.Content.ReadAsStringAsync();
+        var result = JsonConvert.DeserializeObject<TResult>(content);
+
+        return result;
+    }
+
+    public async Task PatchAsync<TValue>(string requestUrl, TValue delta)
         where TValue : class
     {
         using var httpClient = _appFactory.CreateClient();
@@ -80,6 +97,20 @@ public class ODataFixture
 
         var request = await httpClient.PatchAsJsonAsync(requestUrl, delta);
         request.EnsureSuccessStatusCode();
+    }
+
+    public async Task<TResult?> PatchAsync<TValue, TResult>(string requestUrl, TValue delta)
+    where TValue : class
+    {
+        using var httpClient = _appFactory.CreateClient();
+
+        var request = await httpClient.PatchAsJsonAsync(requestUrl, delta);
+        request.EnsureSuccessStatusCode();
+
+        var content = await request.Content.ReadAsStringAsync();
+        var result = JsonConvert.DeserializeObject<TResult>(content);
+
+        return result;
     }
 
     public async Task<HttpResponseMessage?> DeleteAsync(string requestUrl, Dictionary<string, IEnumerable<string>>? headers = null, bool throwOnError = true)

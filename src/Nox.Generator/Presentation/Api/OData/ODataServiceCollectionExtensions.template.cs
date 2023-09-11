@@ -20,8 +20,7 @@ public static class ODataServiceCollectionExtensions
         {{ hasKeyForCompoundKeys -}}
 
         {{- for entity in solution.Domain.Entities }}
-        {{- if !entity.IsOwnedEntity }}
-
+        {{- if (array.size entity.Keys) > 0 #we can not have entityset without keys}}
         builder.EntitySet<{{entity.Name}}Dto>("{{entity.PluralName}}");
         {{- end }}
         {{- if entity.OwnedRelationships != null }}
@@ -37,7 +36,6 @@ public static class ODataServiceCollectionExtensions
         {{- end }}
 
         builder.EntityType<{{entity.Name}}Dto>();
-        builder.EntityType<{{entity.Name}}KeyDto>();
         {{- if !entity.IsOwnedEntity && entity.Persistence?.IsAudited ~}}
 
         builder.EntityType<{{entity.Name}}Dto>().Ignore(e => e.DeletedAtUtc);

@@ -13,7 +13,7 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record PartialUpdateEmployeePhoneNumberCommand(EmployeeKeyDto ParentKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto?>;
+public record PartialUpdateEmployeePhoneNumberCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties) : IRequest <EmployeePhoneNumberKeyDto?>;
 
 public partial class PartialUpdateEmployeePhoneNumberCommandHandler: CommandBase<PartialUpdateEmployeePhoneNumberCommand, EmployeePhoneNumber>, IRequestHandler <PartialUpdateEmployeePhoneNumberCommand, EmployeePhoneNumberKeyDto?>
 {
@@ -41,7 +41,7 @@ public partial class PartialUpdateEmployeePhoneNumberCommandHandler: CommandBase
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<EmployeePhoneNumber,DatabaseNumber>("Id", request.UpdatedProperties["Id"]);
+		var ownedId = CreateNoxTypeForKey<EmployeePhoneNumber,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
@@ -49,8 +49,7 @@ public partial class PartialUpdateEmployeePhoneNumberCommandHandler: CommandBase
 		}
 
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<EmployeePhoneNumber>(), request.UpdatedProperties);
-		parentEntity.Etag = request.Etag.HasValue ? Nox.Types.Guid.From(request.Etag.Value) : Nox.Types.Guid.Empty;
-
+		
 		OnCompleted(entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
-using System.Net.Http.Headers;
 using Nox.Application;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
@@ -42,25 +41,7 @@ public partial class CountriesController : ODataController
         _mediator = mediator;
     }
     
-    [EnableQuery]
-    public async  Task<ActionResult<IQueryable<CountryDto>>> Get()
-    {
-        var result = await _mediator.Send(new GetCountriesQuery());
-        return Ok(result);
-    }
-    
-    [EnableQuery]
-    public async Task<ActionResult<CountryDto>> Get([FromRoute] System.Int64 key)
-    {
-        var item = await _mediator.Send(new GetCountryByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
-    }
+    #region Owned Relationships
     
     [EnableQuery]
     public async Task<ActionResult<IQueryable<CountryLocalNameDto>>> GetCountryLocalNames([FromRoute] System.Int64 key)
@@ -86,34 +67,46 @@ public partial class CountriesController : ODataController
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
-        var createdKey = await _mediator.Send(new AddCountryLocalNameCommand(new CountryKeyDto(key), countryLocalName, etag));
+        var createdKey = await _mediator.Send(new AddCountryLocalNameCommand(new CountryKeyDto(key), countryLocalName));
         if (createdKey == null)
         {
             return NotFound();
         }
         
-        return Created(new CountryLocalNameDto { Id = createdKey.keyId });
+        var child = await TryGetCountryLocalName(key, createdKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(child);
     }
     
-    public async Task<ActionResult> PutToCountryLocalNames([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromBody] CountryLocalNameUpdateDto countryLocalName)
+    [HttpPut("/api/[controller]/{key}/CountryLocalNames/{relatedKey}")]
+    public async Task<ActionResult> PutToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] CountryLocalNameUpdateDto countryLocalName)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
-        var updatedKey = await _mediator.Send(new UpdateCountryLocalNameCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey), countryLocalName, etag));
+        var updatedKey = await _mediator.Send(new UpdateCountryLocalNameCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey), countryLocalName));
         if (updatedKey == null)
         {
             return NotFound();
         }
         
-        return Updated(new CountryLocalNameDto { Id = updatedKey.keyId });
+        var child = await TryGetCountryLocalName(key, updatedKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
     }
     
-    public async Task<ActionResult> PatchToCountryLocalNames([FromRoute] System.Int64 key, [FromRoute] System.Int64 relatedKey, [FromBody] Delta<CountryLocalNameUpdateDto> countryLocalName)
+    [HttpPatch("/api/[controller]/{key}/CountryLocalNames/{relatedKey}")]
+    public async Task<ActionResult> PatchToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<CountryLocalNameUpdateDto> countryLocalName)
     {
         if (!ModelState.IsValid)
         {
@@ -129,17 +122,51 @@ public partial class CountriesController : ODataController
             }           
         }
         
-        var etag = GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateCountryLocalNameCommand(new CountryKeyDto(key), updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateCountryLocalNameCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey), updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(new CountryLocalNameDto { Id = updated.keyId });
+        var child = await TryGetCountryLocalName(key, updated);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
     }
     
-    public async Task<ActionResult> Post([FromBody]CountryCreateDto country)
+    private async Task<CountryLocalNameDto?> TryGetCountryLocalName(System.Int64 key, CountryLocalNameKeyDto childKeyDto)
+    {
+        var parent = await _mediator.Send(new GetCountryByIdQuery(key));
+        return parent?.CountryLocalNames.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+    }
+    
+    #endregion
+    
+    [EnableQuery]
+    public async  Task<ActionResult<IQueryable<CountryDto>>> Get()
+    {
+        var result = await _mediator.Send(new GetCountriesQuery());
+        return Ok(result);
+    }
+    
+    [EnableQuery]
+    public async Task<ActionResult<CountryDto>> Get([FromRoute] System.Int64 key)
+    {
+        var item = await _mediator.Send(new GetCountryByIdQuery(key));
+        
+        if (item == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item);
+    }
+    
+    [EnableQuery]
+    public async Task<ActionResult<CountryDto>> Post([FromBody]CountryCreateDto country)
     {
         if (!ModelState.IsValid)
         {
@@ -147,33 +174,37 @@ public partial class CountriesController : ODataController
         }
         var createdKey = await _mediator.Send(new CreateCountryCommand(country));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] CountryUpdateDto country)
+    [EnableQuery]
+    public async Task<ActionResult<CountryDto>> Put([FromRoute] System.Int64 key, [FromBody] CountryUpdateDto country)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new UpdateCountryCommand(key, country, etag));
-        
+        var updated = await _mediator.Send(new UpdateCountryCommand(key, country));
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetCountryByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CountryUpdateDto> country)
+    [EnableQuery]
+    public async Task<ActionResult<CountryDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CountryUpdateDto> country)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in country.GetChangedPropertyNames())
@@ -184,38 +215,24 @@ public partial class CountriesController : ODataController
             }           
         }
         
-        var etag = GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetCountryByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var etag = GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteCountryByIdCommand(key, etag));
-        
+        var result = await _mediator.Send(new DeleteCountryByIdCommand(key));
         if (!result)
         {
             return NotFound();
         }
         
         return NoContent();
-    }
-    
-    private System.Guid? GetDecodedEtagHeader()
-    {
-        var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();
-        string? rawEtag = ifMatchValue;
-        if (EntityTagHeaderValue.TryParse(ifMatchValue, out var encodedEtag))
-        {
-            rawEtag = encodedEtag.Tag.Trim('"');
-        }
-        
-        return System.Guid.TryParse(rawEtag, out var etag) ? etag : null;
     }
 }

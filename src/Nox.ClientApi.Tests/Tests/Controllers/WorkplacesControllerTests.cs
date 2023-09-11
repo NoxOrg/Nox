@@ -9,7 +9,9 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
     [Collection("Sequential")]
     public class WorkplacesControllerTests 
     {
-        private const string WorkplacesControllerName = "api/workplaces";
+        private const string EntityPluralName = "workplaces";
+        private const string EntityUrl = $"api/{EntityPluralName}";
+
         private readonly Fixture _fixture;
         private readonly ODataFixture _oDataFixture;
 
@@ -21,22 +23,22 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         }
 
         [Fact]
-        public async Task Post_ReturnsDatabaseGuidId()
+        public async Task Post_ToEntityWithNuid_NuidIsCreated()
         {
             // Arrange
             var createDto = new WorkplaceCreateDto
             {
-                Name = _fixture.Create<string>()
+                Name = "Portugal"
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceKeyDto>(WorkplacesControllerName, createDto);
+            var result = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, createDto);
 
             //Assert
             result.Should().NotBeNull();
             result.Should()
-                .BeOfType<WorkplaceKeyDto>()
-                .Which.keyId.Should().NotBeEmpty();
+                .BeOfType<WorkplaceDto>()
+                .Which.Id.Should().Be(3891835289); // We can pre compute the expected nuid
         }
 
         [Fact]
@@ -58,11 +60,10 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             var headers = _oDataFixture.CreateEtagHeader(etag);
 
             // Act
-            await _oDataFixture.PutAsync<WorkplaceUpdateDto>($"{WorkplacesControllerName}/{result!.keyId}", updateDto, headers);
-            var queryResult = await _oDataFixture.GetAsync<WorkplaceDto>($"{WorkplacesControllerName}/{result!.keyId}");
+            var putResult = await _oDataFixture.PutAsync<WorkplaceUpdateDto, WorkplaceDto>($"{EntityUrl}/{postResult!.Id}", updateDto);
 
             //Assert
-            queryResult.Should().NotBeNull();
+            putResult.Should().NotBeNull();
         }
 
         [Fact(Skip = "Fix issue with delta serialization")]
@@ -81,16 +82,15 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 Name = expectedName
             };
 
-            var result = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceKeyDto>(WorkplacesControllerName, createDto);
+            var postResult = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, createDto);
 
             // Act
 
-            await _oDataFixture.PatchAsync($"{WorkplacesControllerName}/{result!.keyId}", updateDto);
-            var queryResult = await _oDataFixture.GetAsync<WorkplaceDto>($"{WorkplacesControllerName}/{result!.keyId}");
+            var patchResult = await _oDataFixture.PatchAsync<WorkplaceUpdateDto, WorkplaceDto>($"{EntityUrl}/{postResult!.Id}", updateDto);
 
             //Assert
-            queryResult.Should().NotBeNull();
-            queryResult!.Name.Should().Be(expectedName);
+            patchResult.Should().NotBeNull();
+            patchResult!.Name.Should().Be(expectedName);
         }
 
         [Fact]
@@ -102,14 +102,11 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
                 Name = _fixture.Create<string>(),
             };
 
-            var result = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceKeyDto>(WorkplacesControllerName, createDto);
-            var etag = await GetEtagAsync(result);
-            var headers = _oDataFixture.CreateEtagHeader(etag);
+            var result = await _oDataFixture.PostAsync<WorkplaceCreateDto, WorkplaceDto>(EntityUrl, createDto);
 
             // Act
-            await _oDataFixture.DeleteAsync($"{WorkplacesControllerName}/{result!.keyId}", headers);
-            
-            var queryResult = await _oDataFixture.GetAsync($"{WorkplacesControllerName}/{result!.keyId}");
+            await _oDataFixture.DeleteAsync($"{EntityUrl}/{result!.Id}");
+            var queryResult = await _oDataFixture.GetAsync($"{EntityUrl}/{result!.Id}");
 
             // Assert
 

@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
-using System.Net.Http.Headers;
 using Nox.Application;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
@@ -62,41 +61,46 @@ public partial class StoreOwnersController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]StoreOwnerCreateDto storeowner)
+    [EnableQuery]
+    public async Task<ActionResult<StoreOwnerDto>> Post([FromBody]StoreOwnerCreateDto storeOwner)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateStoreOwnerCommand(storeowner));
+        var createdKey = await _mediator.Send(new CreateStoreOwnerCommand(storeOwner));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetStoreOwnerByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] StoreOwnerUpdateDto storeOwner)
+    [EnableQuery]
+    public async Task<ActionResult<StoreOwnerDto>> Put([FromRoute] System.String key, [FromBody] StoreOwnerUpdateDto storeOwner)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new UpdateStoreOwnerCommand(key, storeOwner, etag));
-        
+        var updated = await _mediator.Send(new UpdateStoreOwnerCommand(key, storeOwner));
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetStoreOwnerByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<StoreOwnerUpdateDto> storeOwner)
+    [EnableQuery]
+    public async Task<ActionResult<StoreOwnerDto>> Patch([FromRoute] System.String key, [FromBody] Delta<StoreOwnerUpdateDto> storeOwner)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in storeOwner.GetChangedPropertyNames())
@@ -107,38 +111,24 @@ public partial class StoreOwnersController : ODataController
             }           
         }
         
-        var etag = GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateStoreOwnerCommand(key, updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateStoreOwnerCommand(key, updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetStoreOwnerByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
-        var etag = GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteStoreOwnerByIdCommand(key, etag));
-        
+        var result = await _mediator.Send(new DeleteStoreOwnerByIdCommand(key));
         if (!result)
         {
             return NotFound();
         }
         
         return NoContent();
-    }
-    
-    private System.Guid? GetDecodedEtagHeader()
-    {
-        var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();
-        string? rawEtag = ifMatchValue;
-        if (EntityTagHeaderValue.TryParse(ifMatchValue, out var encodedEtag))
-        {
-            rawEtag = encodedEtag.Tag.Trim('"');
-        }
-        
-        return System.Guid.TryParse(rawEtag, out var etag) ? etag : null;
     }
 }

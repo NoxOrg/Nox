@@ -53,4 +53,18 @@ public partial class StoreOwner
         => Nox.Types.VatNumber.From(value);
     
 
+    /// <summary>
+    /// Type options and factory for property 'StreetAddress'
+    /// </summary>
+    public static Nox.Types.StreetAddress CreateStreetAddress(IStreetAddress value)
+        => Nox.Types.StreetAddress.From(value);
+    
+
+    /// <summary>
+    /// Type options and factory for property 'LocalGreeting'
+    /// </summary>
+    public static Nox.Types.TranslatedText CreateLocalGreeting(ITranslatedText value)
+        => Nox.Types.TranslatedText.From(value);
+    
+
 }

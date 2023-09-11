@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
-using System.Net.Http.Headers;
 using Nox.Application;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
@@ -62,7 +61,8 @@ public partial class CustomersController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]CustomerCreateDto customer)
+    [EnableQuery]
+    public async Task<ActionResult<CustomerDto>> Post([FromBody]CustomerCreateDto customer)
     {
         if (!ModelState.IsValid)
         {
@@ -70,33 +70,37 @@ public partial class CustomersController : ODataController
         }
         var createdKey = await _mediator.Send(new CreateCustomerCommand(customer));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetCustomerByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] CustomerUpdateDto customer)
+    [EnableQuery]
+    public async Task<ActionResult<CustomerDto>> Put([FromRoute] System.Int64 key, [FromBody] CustomerUpdateDto customer)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new UpdateCustomerCommand(key, customer, etag));
-        
+        var updated = await _mediator.Send(new UpdateCustomerCommand(key, customer));
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetCustomerByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CustomerUpdateDto> customer)
+    [EnableQuery]
+    public async Task<ActionResult<CustomerDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CustomerUpdateDto> customer)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in customer.GetChangedPropertyNames())
@@ -107,38 +111,24 @@ public partial class CustomersController : ODataController
             }           
         }
         
-        var etag = GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateCustomerCommand(key, updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateCustomerCommand(key, updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetCustomerByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var etag = GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteCustomerByIdCommand(key, etag));
-        
+        var result = await _mediator.Send(new DeleteCustomerByIdCommand(key));
         if (!result)
         {
             return NotFound();
         }
         
         return NoContent();
-    }
-    
-    private System.Guid? GetDecodedEtagHeader()
-    {
-        var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();
-        string? rawEtag = ifMatchValue;
-        if (EntityTagHeaderValue.TryParse(ifMatchValue, out var encodedEtag))
-        {
-            rawEtag = encodedEtag.Tag.Trim('"');
-        }
-        
-        return System.Guid.TryParse(rawEtag, out var etag) ? etag : null;
     }
 }

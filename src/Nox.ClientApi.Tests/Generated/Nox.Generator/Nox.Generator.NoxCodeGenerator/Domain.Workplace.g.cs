@@ -18,7 +18,23 @@ public partial class Workplace : EntityBase, IConcurrent
     /// <summary>
     /// Workplace unique identifier (Required).
     /// </summary>
-    public DatabaseGuid Id { get; set; } = null!;
+    public Nuid Id {get; set;} = null!;
+    
+    	public void EnsureId()
+    	{
+    		if(Id is null)
+    		{
+    			Id = Nuid.From("Workplace-" + string.Join("-", Name.Value.ToString()));
+    		}
+    		else
+    		{
+    			var currentNuid = Nuid.From("Workplace-" + string.Join("-", Name.Value.ToString()));
+    			if(Id != currentNuid)
+    			{
+    				throw new NoxNuidTypeException("Immutable nuid property Id value is different since it has been initialized");
+    			}
+    		}
+    	}
 
     /// <summary>
     /// Workplace Name (Required).

@@ -20,7 +20,7 @@ using ExchangeRate = Cryptocash.Domain.ExchangeRate;
 
 namespace Cryptocash.Application;
 
-public class ExchangeRateMapper : EntityMapperBase<ExchangeRate>
+public partial class ExchangeRateMapper : EntityMapperBase<ExchangeRate>
 {
     public ExchangeRateMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

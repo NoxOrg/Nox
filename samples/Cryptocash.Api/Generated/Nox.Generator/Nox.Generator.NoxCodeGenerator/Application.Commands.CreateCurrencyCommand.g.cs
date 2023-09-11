@@ -17,18 +17,22 @@ using Cryptocash.Application.Dto;
 using Currency = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Commands;
+
 public record CreateCurrencyCommand(CurrencyCreateDto EntityDto) : IRequest<CurrencyKeyDto>;
 
 public partial class CreateCurrencyCommandHandler: CommandBase<CreateCurrencyCommand,Currency>, IRequestHandler <CreateCurrencyCommand, CurrencyKeyDto>
 {
-	public CryptocashDbContext DbContext { get; }
+	private readonly CryptocashDbContext _dbContext;
+	private readonly IEntityFactory<Currency,CurrencyCreateDto> _entityFactory;
 
 	public CreateCurrencyCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<Currency,CurrencyCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;
 	}
 
 	public async Task<CurrencyKeyDto> Handle(CreateCurrencyCommand request, CancellationToken cancellationToken)
@@ -36,11 +40,11 @@ public partial class CreateCurrencyCommandHandler: CommandBase<CreateCurrencyCom
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();		
-	
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
 		OnCompleted(entityToCreate);
-		DbContext.Currencies.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		_dbContext.Currencies.Add(entityToCreate);
+		await _dbContext.SaveChangesAsync();
 		return new CurrencyKeyDto(entityToCreate.Id.Value);
 	}
 }

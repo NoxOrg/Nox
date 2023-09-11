@@ -20,7 +20,7 @@ using CountryTimeZone = Cryptocash.Domain.CountryTimeZone;
 
 namespace Cryptocash.Application;
 
-public class CountryTimeZoneMapper : EntityMapperBase<CountryTimeZone>
+public partial class CountryTimeZoneMapper : EntityMapperBase<CountryTimeZone>
 {
     public CountryTimeZoneMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

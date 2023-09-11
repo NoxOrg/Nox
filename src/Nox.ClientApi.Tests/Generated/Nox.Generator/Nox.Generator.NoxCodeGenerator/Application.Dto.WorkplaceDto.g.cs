@@ -15,7 +15,7 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public record WorkplaceKeyDto(System.Guid keyId);
+public record WorkplaceKeyDto(System.UInt32 keyId);
 
 /// <summary>
 /// Workplace.
@@ -26,7 +26,7 @@ public partial class WorkplaceDto
     /// <summary>
     /// Workplace unique identifier (Required).
     /// </summary>
-    public System.Guid Id { get; set; } = default!;
+    public System.UInt32 Id { get; set; } = default!;
 
     /// <summary>
     /// Workplace Name (Required).

@@ -20,7 +20,7 @@ using Country = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application;
 
-public class CountryMapper : EntityMapperBase<Country>
+public partial class CountryMapper : EntityMapperBase<Country>
 {
     public CountryMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

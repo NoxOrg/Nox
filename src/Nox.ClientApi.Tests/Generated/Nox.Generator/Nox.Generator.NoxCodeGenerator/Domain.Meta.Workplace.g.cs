@@ -17,8 +17,17 @@ public partial class Workplace
     /// <summary>
     /// Type options and factory for property 'Id'
     /// </summary>
-    public static Nox.Types.DatabaseGuid CreateId(System.Guid value)
-        => Nox.Types.DatabaseGuid.From(value);
+    public static Nox.Types.NuidTypeOptions IdTypeOptions {get; private set;} = new ()
+    {
+        Separator = "-",
+        PropertyNames = new System.String[]
+        {
+            "Name",
+        },
+    };
+    
+    public static Nuid CreateId(System.UInt32 value)
+        => Nox.Types.Nuid.From(value, IdTypeOptions);
     
 
     /// <summary>

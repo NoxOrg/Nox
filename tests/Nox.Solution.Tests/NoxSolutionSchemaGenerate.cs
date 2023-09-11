@@ -5,6 +5,7 @@ namespace Nox.Solution.Tests;
 
 public class NoxSolutionSchemaGenerate
 {
+
     private readonly string _path = FindOrCreateFolderInProjectRoot("schemas");
 
     [Fact]

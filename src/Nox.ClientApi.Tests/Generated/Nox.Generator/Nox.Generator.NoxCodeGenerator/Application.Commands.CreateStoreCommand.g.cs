@@ -17,18 +17,22 @@ using ClientApi.Application.Dto;
 using Store = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
+
 public record CreateStoreCommand(StoreCreateDto EntityDto) : IRequest<StoreKeyDto>;
 
 public partial class CreateStoreCommandHandler: CommandBase<CreateStoreCommand,Store>, IRequestHandler <CreateStoreCommand, StoreKeyDto>
 {
-	public ClientApiDbContext DbContext { get; }
+	private readonly ClientApiDbContext _dbContext;
+	private readonly IEntityFactory<Store,StoreCreateDto> _entityFactory;
 
 	public CreateStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
+        IEntityFactory<Store,StoreCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
-		DbContext = dbContext;
+		_dbContext = dbContext;
+		_entityFactory = entityFactory;
 	}
 
 	public async Task<StoreKeyDto> Handle(CreateStoreCommand request, CancellationToken cancellationToken)
@@ -36,12 +40,11 @@ public partial class CreateStoreCommandHandler: CommandBase<CreateStoreCommand,S
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = request.EntityDto.ToEntity();
-		entityToCreate.EnsureId();		
-	
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
 		OnCompleted(entityToCreate);
-		DbContext.Stores.Add(entityToCreate);
-		await DbContext.SaveChangesAsync();
+		_dbContext.Stores.Add(entityToCreate);
+		await _dbContext.SaveChangesAsync();
 		return new StoreKeyDto(entityToCreate.Id.Value);
 	}
 }

@@ -20,7 +20,7 @@ using Holiday = Cryptocash.Domain.Holiday;
 
 namespace Cryptocash.Application;
 
-public class HolidayMapper : EntityMapperBase<Holiday>
+public partial class HolidayMapper : EntityMapperBase<Holiday>
 {
     public HolidayMapper(NoxSolution noxSolution, IServiceProvider serviceProvider) : base(noxSolution, serviceProvider) { }
 

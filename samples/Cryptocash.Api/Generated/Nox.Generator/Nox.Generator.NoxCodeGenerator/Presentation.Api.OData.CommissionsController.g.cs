@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
-using System.Net.Http.Headers;
 using Nox.Application;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
@@ -62,7 +61,8 @@ public partial class CommissionsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]CommissionCreateDto commission)
+    [EnableQuery]
+    public async Task<ActionResult<CommissionDto>> Post([FromBody]CommissionCreateDto commission)
     {
         if (!ModelState.IsValid)
         {
@@ -70,33 +70,37 @@ public partial class CommissionsController : ODataController
         }
         var createdKey = await _mediator.Send(new CreateCommissionCommand(commission));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetCommissionByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] CommissionUpdateDto commission)
+    [EnableQuery]
+    public async Task<ActionResult<CommissionDto>> Put([FromRoute] System.Int64 key, [FromBody] CommissionUpdateDto commission)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var etag = GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new UpdateCommissionCommand(key, commission, etag));
-        
+        var updated = await _mediator.Send(new UpdateCommissionCommand(key, commission));
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetCommissionByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CommissionUpdateDto> commission)
+    [EnableQuery]
+    public async Task<ActionResult<CommissionDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CommissionUpdateDto> commission)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in commission.GetChangedPropertyNames())
@@ -107,38 +111,24 @@ public partial class CommissionsController : ODataController
             }           
         }
         
-        var etag = GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateCommissionCommand(key, updateProperties, etag));
+        var updated = await _mediator.Send(new PartialUpdateCommissionCommand(key, updateProperties));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetCommissionByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
     public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var etag = GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteCommissionByIdCommand(key, etag));
-        
+        var result = await _mediator.Send(new DeleteCommissionByIdCommand(key));
         if (!result)
         {
             return NotFound();
         }
         
         return NoContent();
-    }
-    
-    private System.Guid? GetDecodedEtagHeader()
-    {
-        var ifMatchValue = Request.Headers.IfMatch.FirstOrDefault();
-        string? rawEtag = ifMatchValue;
-        if (EntityTagHeaderValue.TryParse(ifMatchValue, out var encodedEtag))
-        {
-            rawEtag = encodedEtag.Tag.Trim('"');
-        }
-        
-        return System.Guid.TryParse(rawEtag, out var etag) ? etag : null;
     }
 }

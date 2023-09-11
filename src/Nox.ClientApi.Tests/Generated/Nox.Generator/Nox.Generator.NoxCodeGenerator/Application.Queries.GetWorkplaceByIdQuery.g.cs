@@ -12,7 +12,7 @@ using ClientApi.Infrastructure.Persistence;
 
 namespace ClientApi.Application.Queries;
 
-public record GetWorkplaceByIdQuery(System.Guid keyId) : IRequest <WorkplaceDto?>;
+public record GetWorkplaceByIdQuery(System.UInt32 keyId) : IRequest <WorkplaceDto?>;
 
 public partial class GetWorkplaceByIdQueryHandler:  QueryBase<WorkplaceDto?>, IRequestHandler<GetWorkplaceByIdQuery, WorkplaceDto?>
 {

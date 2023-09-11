@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 using Nox.Abstractions;
+using Nox.Application.Dto;
 using Nox.Domain;
 using Nox.Extensions;
 using Nox.Types;
@@ -16,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Employee phone number and related data.
 /// </summary>
-public partial class EmployeePhoneNumberCreateDto 
+public partial class EmployeePhoneNumberCreateDto : IEntityCreateDto <EmployeePhoneNumber>
 {    
     /// <summary>
     /// Employee's phone number type (Required).
@@ -29,13 +30,5 @@ public partial class EmployeePhoneNumberCreateDto
     /// </summary>
     [Required(ErrorMessage = "PhoneNumber is required")]
     
-    public System.String PhoneNumber { get; set; } = default!;
-
-    public Cryptocash.Domain.EmployeePhoneNumber ToEntity()
-    {
-        var entity = new Cryptocash.Domain.EmployeePhoneNumber();
-        entity.PhoneNumberType = Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumberType(PhoneNumberType);
-        entity.PhoneNumber = Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumber(PhoneNumber);
-        return entity;
-    }
+    public System.String PhoneNumber { get; set; } = default!;   
 }
