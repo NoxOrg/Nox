@@ -26,5 +26,5 @@ public partial class EmailAddressCreateDto : IEntityCreateDto<EmailAddress>
     /// <summary>
     /// Verified (Optional).
     /// </summary>
-    public System.Boolean? IsVerified { get; set; }   
+    public System.Boolean? IsVerified { get; set; }
 }

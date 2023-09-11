@@ -37,7 +37,7 @@ public partial class DeleteExchangeRateCommandHandler: CommandBase<DeleteExchang
 		{
 			return false;
 		}
-		var ownedId = CreateNoxTypeForKey<ExchangeRate,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
+		var ownedId = CreateNoxTypeForKey<ExchangeRate,AutoNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.ExchangeRates.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{

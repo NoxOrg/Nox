@@ -36,5 +36,5 @@ public partial class HolidayCreateDto : IEntityCreateDto<Holiday>
     /// </summary>
     [Required(ErrorMessage = "Date is required")]
     
-    public System.DateTime Date { get; set; } = default!;   
+    public System.DateTime Date { get; set; } = default!;
 }

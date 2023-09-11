@@ -41,5 +41,5 @@ public partial class StoreOwnerCreateDto : IEntityCreateDto<StoreOwner>
     /// <summary>
     /// Owner Greeting (Optional).
     /// </summary>
-    public TranslatedTextDto? LocalGreeting { get; set; }   
+    public TranslatedTextDto? LocalGreeting { get; set; }
 }

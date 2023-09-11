@@ -52,5 +52,5 @@ public partial class CustomerCreateDto : IEntityCreateDto<Customer>
     /// Customer based in ExactlyOne Countries
     /// </summary>
     [Required(ErrorMessage = "CustomerBaseCountry is required")]
-    public System.String CustomerBaseCountryId { get; set; } = default!;   
+    public System.String CustomerBaseCountryId { get; set; } = default!;
 }
