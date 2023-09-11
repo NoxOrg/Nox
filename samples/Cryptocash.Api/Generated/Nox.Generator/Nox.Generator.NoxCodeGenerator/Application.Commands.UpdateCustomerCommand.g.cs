@@ -45,7 +45,7 @@ public class UpdateCustomerCommandHandler: CommandBase<UpdateCustomerCommand, Cu
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Customer>(), request.EntityDto);
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

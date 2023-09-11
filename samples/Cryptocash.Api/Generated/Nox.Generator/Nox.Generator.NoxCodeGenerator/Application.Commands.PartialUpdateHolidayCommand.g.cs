@@ -50,7 +50,7 @@ public partial class PartialUpdateHolidayCommandHandler: CommandBase<PartialUpda
 
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Holiday>(), request.UpdatedProperties);
 		
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

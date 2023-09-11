@@ -50,7 +50,7 @@ public partial class PartialUpdateExchangeRateCommandHandler: CommandBase<Partia
 
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<ExchangeRate>(), request.UpdatedProperties);
 		
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

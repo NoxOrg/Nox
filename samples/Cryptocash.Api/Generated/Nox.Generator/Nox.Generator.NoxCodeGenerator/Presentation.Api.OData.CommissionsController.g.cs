@@ -61,7 +61,6 @@ public partial class CommissionsController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<CommissionDto>> Post([FromBody]CommissionCreateDto commission)
     {
         if (!ModelState.IsValid)
@@ -75,13 +74,8 @@ public partial class CommissionsController : ODataController
         return Created(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<CommissionDto>> Put([FromRoute] System.Int64 key, [FromBody] CommissionUpdateDto commission)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var updated = await _mediator.Send(new UpdateCommissionCommand(key, commission));
         if (updated is null)
@@ -94,7 +88,6 @@ public partial class CommissionsController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<CommissionDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CommissionUpdateDto> commission)
     {
         if (!ModelState.IsValid)

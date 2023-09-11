@@ -45,7 +45,7 @@ public class UpdatePaymentProviderCommandHandler: CommandBase<UpdatePaymentProvi
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<PaymentProvider>(), request.EntityDto);
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

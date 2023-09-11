@@ -68,7 +68,6 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<CountryDto>> Post([FromBody]CountryCreateDto country)
     {
         if (!ModelState.IsValid)
@@ -82,13 +81,8 @@ public partial class CountriesController : ODataController
         return Created(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<CountryDto>> Put([FromRoute] System.String key, [FromBody] CountryUpdateDto country)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var updated = await _mediator.Send(new UpdateCountryCommand(key, country));
         if (updated is null)
@@ -101,7 +95,6 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<CountryDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CountryUpdateDto> country)
     {
         if (!ModelState.IsValid)

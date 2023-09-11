@@ -50,7 +50,7 @@ public partial class PartialUpdateEmployeePhoneNumberCommandHandler: CommandBase
 
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<EmployeePhoneNumber>(), request.UpdatedProperties);
 		
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

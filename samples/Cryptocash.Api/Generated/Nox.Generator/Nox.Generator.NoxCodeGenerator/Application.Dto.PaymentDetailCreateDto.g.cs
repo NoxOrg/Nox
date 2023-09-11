@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Customer payment account related data.
 /// </summary>
-public partial class PaymentDetailCreateDto : IEntityCreateDto <PaymentDetail>
+public partial class PaymentDetailCreateDto : IEntityCreateDto<PaymentDetail>
 {    
     /// <summary>
     /// Payment account name (Required).

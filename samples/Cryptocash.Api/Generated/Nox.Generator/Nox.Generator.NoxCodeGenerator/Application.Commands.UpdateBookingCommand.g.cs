@@ -45,7 +45,7 @@ public class UpdateBookingCommandHandler: CommandBase<UpdateBookingCommand, Book
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Booking>(), request.EntityDto);
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

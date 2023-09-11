@@ -45,7 +45,7 @@ public class UpdateCommissionCommandHandler: CommandBase<UpdateCommissionCommand
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Commission>(), request.EntityDto);
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

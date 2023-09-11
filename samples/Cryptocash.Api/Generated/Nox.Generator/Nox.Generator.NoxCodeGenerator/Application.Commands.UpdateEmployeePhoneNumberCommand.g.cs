@@ -49,7 +49,7 @@ public partial class UpdateEmployeePhoneNumberCommandHandler: CommandBase<Update
 
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<EmployeePhoneNumber>(), request.EntityDto);
 		
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

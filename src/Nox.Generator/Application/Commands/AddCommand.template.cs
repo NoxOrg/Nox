@@ -58,7 +58,7 @@ public partial class Add{{entity.Name}}CommandHandler: CommandBase<Add{{entity.N
 		
 		parentEntity.{{entity.PluralName}}.Add(entity);
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 	
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await _dbContext.SaveChangesAsync();

@@ -61,7 +61,6 @@ public partial class CashStockOrdersController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<CashStockOrderDto>> Post([FromBody]CashStockOrderCreateDto cashStockOrder)
     {
         if (!ModelState.IsValid)
@@ -75,13 +74,8 @@ public partial class CashStockOrdersController : ODataController
         return Created(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<CashStockOrderDto>> Put([FromRoute] System.Int64 key, [FromBody] CashStockOrderUpdateDto cashStockOrder)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var updated = await _mediator.Send(new UpdateCashStockOrderCommand(key, cashStockOrder));
         if (updated is null)
@@ -94,7 +88,6 @@ public partial class CashStockOrdersController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<CashStockOrderDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CashStockOrderUpdateDto> cashStockOrder)
     {
         if (!ModelState.IsValid)

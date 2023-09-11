@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-public partial class BankNoteCreateDto : IEntityCreateDto <BankNote>
+public partial class BankNoteCreateDto : IEntityCreateDto<BankNote>
 {    
     /// <summary>
     /// Currency's cash bank note identifier (Required).

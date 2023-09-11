@@ -61,7 +61,6 @@ public partial class CustomersController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<CustomerDto>> Post([FromBody]CustomerCreateDto customer)
     {
         if (!ModelState.IsValid)
@@ -75,13 +74,8 @@ public partial class CustomersController : ODataController
         return Created(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<CustomerDto>> Put([FromRoute] System.Int64 key, [FromBody] CustomerUpdateDto customer)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var updated = await _mediator.Send(new UpdateCustomerCommand(key, customer));
         if (updated is null)
@@ -94,7 +88,6 @@ public partial class CustomersController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<CustomerDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CustomerUpdateDto> customer)
     {
         if (!ModelState.IsValid)

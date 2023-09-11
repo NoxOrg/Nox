@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public partial class CashStockOrderCreateDto : IEntityCreateDto <CashStockOrder>
+public partial class CashStockOrderCreateDto : IEntityCreateDto<CashStockOrder>
 {    
     /// <summary>
     /// Order amount (Required).

@@ -1,5 +1,4 @@
 ﻿namespace ClientApi.Tests.Application.Dto
 {
-    public record HouseDto(int Id, string Name);
-    
+    public record HouseDto(int Id, string Name);    
 }

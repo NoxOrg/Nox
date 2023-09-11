@@ -46,7 +46,7 @@ public class PartialUpdateBookingCommandHandler: CommandBase<PartialUpdateBookin
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Booking>(), request.UpdatedProperties);
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

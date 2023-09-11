@@ -50,7 +50,7 @@ public partial class PartialUpdateCountryTimeZoneCommandHandler: CommandBase<Par
 
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<CountryTimeZone>(), request.UpdatedProperties);
 		
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

@@ -45,7 +45,7 @@ public class UpdateStoreOwnerCommandHandler: CommandBase<UpdateStoreOwnerCommand
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<StoreOwner>(), request.EntityDto);
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

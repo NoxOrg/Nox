@@ -46,7 +46,7 @@ public class PartialUpdateWorkplaceCommandHandler: CommandBase<PartialUpdateWork
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Workplace>(), request.UpdatedProperties);
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

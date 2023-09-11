@@ -61,7 +61,6 @@ public partial class BookingsController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<BookingDto>> Post([FromBody]BookingCreateDto booking)
     {
         if (!ModelState.IsValid)
@@ -75,13 +74,8 @@ public partial class BookingsController : ODataController
         return Created(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<BookingDto>> Put([FromRoute] System.Guid key, [FromBody] BookingUpdateDto booking)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var updated = await _mediator.Send(new UpdateBookingCommand(key, booking));
         if (updated is null)
@@ -94,7 +88,6 @@ public partial class BookingsController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<BookingDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<BookingUpdateDto> booking)
     {
         if (!ModelState.IsValid)

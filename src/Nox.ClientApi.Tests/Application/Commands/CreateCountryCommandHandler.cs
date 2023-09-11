@@ -20,8 +20,7 @@ public partial class CreateCountryCommandHandler
     /// <summary>
     /// Example to Ensure or validate invariants for an entity
     /// </summary>
-    /// <param name="entity"></param>
-    protected override void OnCompleted(Country entity)
+    protected override void OnCompleted(CreateCountryCommand request,Country entity)
     {
         entity.Name = Nox.Types.Text.From(entity.Name.Value.Titleize());
     }

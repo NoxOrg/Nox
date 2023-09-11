@@ -42,7 +42,7 @@ public partial class CreateCountryCommandHandler: CommandBase<CreateCountryComma
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 					
-		OnCompleted(entityToCreate);
+		OnCompleted(request, entityToCreate);
 		_dbContext.Countries.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new CountryKeyDto(entityToCreate.Id.Value);

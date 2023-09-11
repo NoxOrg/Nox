@@ -61,7 +61,6 @@ public partial class WorkplacesController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<WorkplaceDto>> Post([FromBody]WorkplaceCreateDto workplace)
     {
         if (!ModelState.IsValid)
@@ -75,13 +74,8 @@ public partial class WorkplacesController : ODataController
         return Created(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<WorkplaceDto>> Put([FromRoute] System.UInt32 key, [FromBody] WorkplaceUpdateDto workplace)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var updated = await _mediator.Send(new UpdateWorkplaceCommand(key, workplace));
         if (updated is null)
@@ -94,7 +88,6 @@ public partial class WorkplacesController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<WorkplaceDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<WorkplaceUpdateDto> workplace)
     {
         if (!ModelState.IsValid)

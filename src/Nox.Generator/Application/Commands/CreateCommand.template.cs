@@ -44,7 +44,7 @@ public partial class Create{{entity.Name}}CommandHandler: CommandBase<Create{{en
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 					
-		OnCompleted(entityToCreate);
+		OnCompleted(request, entityToCreate);
 		_dbContext.{{entity.PluralName}}.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new {{entity.Name}}KeyDto({{primaryKeysQuery}});

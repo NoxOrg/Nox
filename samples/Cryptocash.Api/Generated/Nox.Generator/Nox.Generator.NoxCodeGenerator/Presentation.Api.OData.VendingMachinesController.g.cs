@@ -61,7 +61,6 @@ public partial class VendingMachinesController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<VendingMachineDto>> Post([FromBody]VendingMachineCreateDto vendingMachine)
     {
         if (!ModelState.IsValid)
@@ -75,13 +74,8 @@ public partial class VendingMachinesController : ODataController
         return Created(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<VendingMachineDto>> Put([FromRoute] System.Guid key, [FromBody] VendingMachineUpdateDto vendingMachine)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         
         var updated = await _mediator.Send(new UpdateVendingMachineCommand(key, vendingMachine));
         if (updated is null)
@@ -94,7 +88,6 @@ public partial class VendingMachinesController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
     public async Task<ActionResult<VendingMachineDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<VendingMachineUpdateDto> vendingMachine)
     {
         if (!ModelState.IsValid)

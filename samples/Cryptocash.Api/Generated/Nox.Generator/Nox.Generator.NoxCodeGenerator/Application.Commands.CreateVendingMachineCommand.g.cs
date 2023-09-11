@@ -42,7 +42,7 @@ public partial class CreateVendingMachineCommandHandler: CommandBase<CreateVendi
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 					
-		OnCompleted(entityToCreate);
+		OnCompleted(request, entityToCreate);
 		_dbContext.VendingMachines.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new VendingMachineKeyDto(entityToCreate.Id.Value);

@@ -49,7 +49,7 @@ public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLo
 		
 		parentEntity.CountryLocalNames.Add(entity);
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 	
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await _dbContext.SaveChangesAsync();
