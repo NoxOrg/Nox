@@ -45,7 +45,7 @@ public class UpdateTransactionCommandHandler: CommandBase<UpdateTransactionComma
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Transaction>(), request.EntityDto);
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

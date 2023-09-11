@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Currency and related data.
 /// </summary>
-public partial class CurrencyCreateDto : IEntityCreateDto <Currency>
+public partial class CurrencyCreateDto : IEntityCreateDto<Currency>
 {
     /// <summary>
     /// Currency unique identifier (Required).

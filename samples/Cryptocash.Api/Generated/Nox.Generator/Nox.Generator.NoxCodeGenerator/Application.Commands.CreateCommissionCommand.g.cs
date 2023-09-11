@@ -42,7 +42,7 @@ public partial class CreateCommissionCommandHandler: CommandBase<CreateCommissio
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 					
-		OnCompleted(entityToCreate);
+		OnCompleted(request, entityToCreate);
 		_dbContext.Commissions.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new CommissionKeyDto(entityToCreate.Id.Value);

@@ -46,7 +46,7 @@ public class PartialUpdateTransactionCommandHandler: CommandBase<PartialUpdateTr
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Transaction>(), request.UpdatedProperties);
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

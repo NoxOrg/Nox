@@ -52,7 +52,7 @@ public partial class Delete{{entity.Name}}CommandHandler: CommandBase<Delete{{en
 
 		parentEntity.{{entity.PluralName}}.Remove(entity);
 		
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;
 		var result = await DbContext.SaveChangesAsync(cancellationToken);

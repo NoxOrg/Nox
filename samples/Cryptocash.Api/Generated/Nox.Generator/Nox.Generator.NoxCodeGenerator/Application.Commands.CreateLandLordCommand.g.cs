@@ -42,7 +42,7 @@ public partial class CreateLandLordCommandHandler: CommandBase<CreateLandLordCom
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 					
-		OnCompleted(entityToCreate);
+		OnCompleted(request, entityToCreate);
 		_dbContext.LandLords.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new LandLordKeyDto(entityToCreate.Id.Value);

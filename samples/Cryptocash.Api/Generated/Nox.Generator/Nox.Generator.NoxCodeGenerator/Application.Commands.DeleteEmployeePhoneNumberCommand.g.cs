@@ -46,7 +46,7 @@ public partial class DeleteEmployeePhoneNumberCommandHandler: CommandBase<Delete
 
 		parentEntity.EmployeePhoneNumbers.Remove(entity);
 		
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;
 		var result = await DbContext.SaveChangesAsync(cancellationToken);

@@ -49,7 +49,7 @@ public partial class UpdateHolidayCommandHandler: CommandBase<UpdateHolidayComma
 
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Holiday>(), request.EntityDto);
 		
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

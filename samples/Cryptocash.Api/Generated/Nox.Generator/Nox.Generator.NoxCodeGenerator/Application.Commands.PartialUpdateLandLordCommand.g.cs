@@ -46,7 +46,7 @@ public class PartialUpdateLandLordCommandHandler: CommandBase<PartialUpdateLandL
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<LandLord>(), request.UpdatedProperties);
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

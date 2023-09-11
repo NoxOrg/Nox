@@ -17,7 +17,7 @@ namespace Cryptocash.Application.Dto;
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-public partial class PaymentProviderCreateDto : IEntityCreateDto <PaymentProvider>
+public partial class PaymentProviderCreateDto : IEntityCreateDto<PaymentProvider>
 {    
     /// <summary>
     /// Payment provider name (Required).

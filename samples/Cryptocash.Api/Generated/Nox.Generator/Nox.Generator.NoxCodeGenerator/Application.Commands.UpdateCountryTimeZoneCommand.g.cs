@@ -49,7 +49,7 @@ public partial class UpdateCountryTimeZoneCommandHandler: CommandBase<UpdateCoun
 
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<CountryTimeZone>(), request.EntityDto);
 		
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

@@ -49,7 +49,7 @@ public partial class UpdateBankNoteCommandHandler: CommandBase<UpdateBankNoteCom
 
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<BankNote>(), request.EntityDto);
 		
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

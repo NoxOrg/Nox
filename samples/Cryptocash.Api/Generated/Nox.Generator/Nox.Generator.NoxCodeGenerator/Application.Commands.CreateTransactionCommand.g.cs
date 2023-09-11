@@ -42,7 +42,7 @@ public partial class CreateTransactionCommandHandler: CommandBase<CreateTransact
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 					
-		OnCompleted(entityToCreate);
+		OnCompleted(request, entityToCreate);
 		_dbContext.Transactions.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new TransactionKeyDto(entityToCreate.Id.Value);

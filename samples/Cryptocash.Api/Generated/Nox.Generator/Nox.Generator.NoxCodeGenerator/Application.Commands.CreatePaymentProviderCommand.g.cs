@@ -42,7 +42,7 @@ public partial class CreatePaymentProviderCommandHandler: CommandBase<CreatePaym
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 					
-		OnCompleted(entityToCreate);
+		OnCompleted(request, entityToCreate);
 		_dbContext.PaymentProviders.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new PaymentProviderKeyDto(entityToCreate.Id.Value);

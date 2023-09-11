@@ -45,7 +45,7 @@ public class UpdateMinimumCashStockCommandHandler: CommandBase<UpdateMinimumCash
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<MinimumCashStock>(), request.EntityDto);
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

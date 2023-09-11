@@ -42,7 +42,7 @@ public partial class CreatePaymentDetailCommandHandler: CommandBase<CreatePaymen
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 					
-		OnCompleted(entityToCreate);
+		OnCompleted(request, entityToCreate);
 		_dbContext.PaymentDetails.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new PaymentDetailKeyDto(entityToCreate.Id.Value);

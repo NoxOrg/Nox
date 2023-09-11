@@ -42,7 +42,7 @@ public partial class CreateBookingCommandHandler: CommandBase<CreateBookingComma
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 					
-		OnCompleted(entityToCreate);
+		OnCompleted(request, entityToCreate);
 		_dbContext.Bookings.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new BookingKeyDto(entityToCreate.Id.Value);

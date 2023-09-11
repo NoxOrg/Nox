@@ -45,7 +45,7 @@ public class UpdateCountryCommandHandler: CommandBase<UpdateCountryCommand, Coun
 		}
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Country>(), request.EntityDto);
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();
