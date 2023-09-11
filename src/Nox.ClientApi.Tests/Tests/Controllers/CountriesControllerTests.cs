@@ -156,7 +156,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region POST Entity With Owned Entities /api/{EntityPluralName} => api/countries
         [Fact]
-        public async Task Post_WithManyOwnedEntity_ReturnsDatabaseNumberId()
+        public async Task Post_WithManyOwnedEntity_ReturnsAutoNumberId()
         {
             // Arrange
             var expectedOwnedName = _fixture.Create<string>();
