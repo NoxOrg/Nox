@@ -10,7 +10,7 @@ using MediatR;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-
+using System.Text.Json.Serialization;
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -36,5 +36,5 @@ public partial class ExchangeRateDto
     /// <summary>
     /// Exchange rate conversion amount (Required).
     /// </summary>
-    public System.DateTimeOffset EffectiveAt { get; set; } = default!;    
+    public System.DateTimeOffset EffectiveAt { get; set; } = default!;
 }

@@ -13,7 +13,7 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// Entity created for testing nuid.
 /// </summary>
-public partial class TestEntityWithNuid : AuditableEntityBase
+public partial class TestEntityWithNuid : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -40,4 +40,9 @@ public partial class TestEntityWithNuid : AuditableEntityBase
     ///  (Required).
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

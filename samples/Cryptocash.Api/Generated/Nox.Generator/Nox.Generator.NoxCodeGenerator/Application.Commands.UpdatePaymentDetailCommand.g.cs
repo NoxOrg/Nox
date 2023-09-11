@@ -15,7 +15,7 @@ using PaymentDetail = Cryptocash.Domain.PaymentDetail;
 
 namespace Cryptocash.Application.Commands;
 
-public record UpdatePaymentDetailCommand(System.Int64 keyId, PaymentDetailUpdateDto EntityDto) : IRequest<PaymentDetailKeyDto?>;
+public record UpdatePaymentDetailCommand(System.Int64 keyId, PaymentDetailUpdateDto EntityDto, System.Guid? Etag) : IRequest<PaymentDetailKeyDto?>;
 
 public class UpdatePaymentDetailCommandHandler: CommandBase<UpdatePaymentDetailCommand, PaymentDetail>, IRequestHandler<UpdatePaymentDetailCommand, PaymentDetailKeyDto?>
 {
@@ -43,7 +43,9 @@ public class UpdatePaymentDetailCommandHandler: CommandBase<UpdatePaymentDetailC
 		{
 			return null;
 		}
+
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<PaymentDetail>(), request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 

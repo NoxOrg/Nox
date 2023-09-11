@@ -10,7 +10,7 @@ using MediatR;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-
+using System.Text.Json.Serialization;
 using SampleWebApp.Domain;
 
 namespace SampleWebApp.Application.Dto;
@@ -102,5 +102,8 @@ public partial class CountryDto
     /// The top level internet domains regitered to the country (comma-delimited) (Optional).
     /// </summary>
     public System.String? TopLevelDomains { get; set; }
-    public System.DateTime? DeletedAtUtc { get; set; }    
+    public System.DateTime? DeletedAtUtc { get; set; }
+
+    [JsonPropertyName("@odata.etag")]
+    public System.Guid Etag { get; init; }
 }

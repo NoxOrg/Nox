@@ -10,7 +10,7 @@ using MediatR;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-
+using System.Text.Json.Serialization;
 using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Dto;
@@ -77,5 +77,10 @@ public partial class {{className}}
 
 {{- if !entity.IsOwnedEntity && entity.Persistence?.IsAudited == true}}
     public System.DateTime? DeletedAtUtc { get; set; }
-{{- end }}    
+{{- end }}
+{{- if !entity.IsOwnedEntity }}
+
+    [JsonPropertyName("@odata.etag")]
+    public System.Guid Etag { get; init; }
+{{- end }}
 }

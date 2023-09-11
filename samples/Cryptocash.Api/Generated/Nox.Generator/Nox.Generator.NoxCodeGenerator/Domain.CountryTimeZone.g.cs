@@ -24,4 +24,5 @@ public partial class CountryTimeZone : EntityBase, IOwnedEntity
     /// Country's related time zone code (Required).
     /// </summary>
     public Nox.Types.TimeZoneCode TimeZoneCode { get; set; } = null!;
+
 }

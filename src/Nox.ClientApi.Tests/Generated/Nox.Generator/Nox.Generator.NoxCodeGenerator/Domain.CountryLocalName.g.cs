@@ -24,4 +24,5 @@ public partial class CountryLocalName : EntityBase, IOwnedEntity
     /// Local name (Required).
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
+
 }

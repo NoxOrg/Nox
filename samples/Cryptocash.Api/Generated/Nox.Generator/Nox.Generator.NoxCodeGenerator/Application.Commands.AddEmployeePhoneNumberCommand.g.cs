@@ -17,7 +17,7 @@ using Cryptocash.Application.Dto;
 using EmployeePhoneNumber = Cryptocash.Domain.EmployeePhoneNumber;
 
 namespace Cryptocash.Application.Commands;
-public record AddEmployeePhoneNumberCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberCreateDto EntityDto) : IRequest <EmployeePhoneNumberKeyDto?>;
+public record AddEmployeePhoneNumberCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberCreateDto EntityDto, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto?>;
 
 public partial class AddEmployeePhoneNumberCommandHandler: CommandBase<AddEmployeePhoneNumberCommand, EmployeePhoneNumber>, IRequestHandler <AddEmployeePhoneNumberCommand, EmployeePhoneNumberKeyDto?>
 {
@@ -48,7 +48,7 @@ public partial class AddEmployeePhoneNumberCommandHandler: CommandBase<AddEmploy
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
 		
 		parentEntity.EmployeePhoneNumbers.Add(entity);
-
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
 	
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;

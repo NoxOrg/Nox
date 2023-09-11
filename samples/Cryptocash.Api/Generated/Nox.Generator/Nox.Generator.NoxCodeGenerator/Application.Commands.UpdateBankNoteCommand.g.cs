@@ -13,7 +13,8 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record UpdateBankNoteCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto, BankNoteUpdateDto EntityDto) : IRequest <BankNoteKeyDto?>;
+
+public record UpdateBankNoteCommand(CurrencyKeyDto ParentKeyDto, BankNoteKeyDto EntityKeyDto, BankNoteUpdateDto EntityDto, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
 
 public partial class UpdateBankNoteCommandHandler: CommandBase<UpdateBankNoteCommand, BankNote>, IRequestHandler <UpdateBankNoteCommand, BankNoteKeyDto?>
 {
@@ -48,7 +49,7 @@ public partial class UpdateBankNoteCommandHandler: CommandBase<UpdateBankNoteCom
 		}
 
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<BankNote>(), request.EntityDto);
-		
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

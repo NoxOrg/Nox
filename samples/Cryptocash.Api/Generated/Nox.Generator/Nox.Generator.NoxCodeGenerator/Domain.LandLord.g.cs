@@ -13,7 +13,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Landlord related data.
 /// </summary>
-public partial class LandLord : AuditableEntityBase
+public partial class LandLord : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Landlord unique identifier (Required).
@@ -34,4 +34,9 @@ public partial class LandLord : AuditableEntityBase
     /// LandLord leases an area to house ZeroOrMany VendingMachines
     /// </summary>
     public virtual List<VendingMachine> ContractedAreasForVendingMachines { get; set; } = new();
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

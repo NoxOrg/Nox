@@ -17,7 +17,7 @@ using ClientApi.Application.Dto;
 using CountryLocalName = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Commands;
-public record AddCountryLocalNameCommand(CountryKeyDto ParentKeyDto, CountryLocalNameCreateDto EntityDto) : IRequest <CountryLocalNameKeyDto?>;
+public record AddCountryLocalNameCommand(CountryKeyDto ParentKeyDto, CountryLocalNameCreateDto EntityDto, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
 
 public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLocalNameCommand, CountryLocalName>, IRequestHandler <AddCountryLocalNameCommand, CountryLocalNameKeyDto?>
 {
@@ -48,7 +48,7 @@ public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLo
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
 		
 		parentEntity.CountryLocalNames.Add(entity);
-
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
 	
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;

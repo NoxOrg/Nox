@@ -13,7 +13,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-public partial class PaymentProvider : AuditableEntityBase
+public partial class PaymentProvider : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Payment provider unique identifier (Required).
@@ -34,4 +34,9 @@ public partial class PaymentProvider : AuditableEntityBase
     /// PaymentProvider related to ZeroOrMany PaymentDetails
     /// </summary>
     public virtual List<PaymentDetail> PaymentProviderRelatedPaymentDetails { get; set; } = new();
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

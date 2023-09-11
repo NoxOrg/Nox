@@ -10,7 +10,7 @@ using MediatR;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-
+using System.Text.Json.Serialization;
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -56,5 +56,8 @@ public partial class PaymentDetailDto
     //EF maps ForeignKey Automatically
     public System.Int64 PaymentDetailsRelatedPaymentProviderId { get; set; } = default!;
     public virtual PaymentProviderDto PaymentDetailsRelatedPaymentProvider { get; set; } = null!;
-    public System.DateTime? DeletedAtUtc { get; set; }    
+    public System.DateTime? DeletedAtUtc { get; set; }
+
+    [JsonPropertyName("@odata.etag")]
+    public System.Guid Etag { get; init; }
 }

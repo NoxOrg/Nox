@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -77,7 +79,9 @@ public partial class BookingsController : ODataController
     public async Task<ActionResult<BookingDto>> Put([FromRoute] System.Guid key, [FromBody] BookingUpdateDto booking)
     {
         
-        var updated = await _mediator.Send(new UpdateBookingCommand(key, booking));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateBookingCommand(key, booking, etag));
+        
         if (updated is null)
         {
             return NotFound();
@@ -94,6 +98,7 @@ public partial class BookingsController : ODataController
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in booking.GetChangedPropertyNames())
@@ -104,7 +109,8 @@ public partial class BookingsController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateBookingCommand(key, updateProperties));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateBookingCommand(key, updateProperties, etag));
         
         if (updated is null)
         {
@@ -116,7 +122,9 @@ public partial class BookingsController : ODataController
     
     public async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
-        var result = await _mediator.Send(new DeleteBookingByIdCommand(key));
+        var etag = Request.GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteBookingByIdCommand(key, etag));
+        
         if (!result)
         {
             return NotFound();

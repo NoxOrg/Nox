@@ -13,7 +13,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public partial class CashStockOrder : AuditableEntityBase
+public partial class CashStockOrder : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Vending machine's order unique identifier (Required).
@@ -58,4 +58,9 @@ public partial class CashStockOrder : AuditableEntityBase
     /// CashStockOrder reviewed by ExactlyOne Employees
     /// </summary>
     public virtual Employee CashStockOrderReviewedByEmployee { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

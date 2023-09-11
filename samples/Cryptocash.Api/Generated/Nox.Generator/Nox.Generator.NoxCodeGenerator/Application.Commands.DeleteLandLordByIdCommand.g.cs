@@ -13,7 +13,7 @@ using LandLord = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application.Commands;
 
-public record DeleteLandLordByIdCommand(System.Int64 keyId) : IRequest<bool>;
+public record DeleteLandLordByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteLandLordByIdCommandHandler: CommandBase<DeleteLandLordByIdCommand,LandLord>, IRequestHandler<DeleteLandLordByIdCommand, bool>
 {
@@ -38,6 +38,8 @@ public class DeleteLandLordByIdCommandHandler: CommandBase<DeleteLandLordByIdCom
 		{
 			return false;
 		}
+
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;

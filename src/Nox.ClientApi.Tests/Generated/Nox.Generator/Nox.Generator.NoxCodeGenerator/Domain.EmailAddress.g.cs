@@ -25,4 +25,5 @@ public partial class EmailAddress : EntityBase, IOwnedEntity
     /// Verified (Optional).
     /// </summary>
     public Nox.Types.Boolean? IsVerified { get; set; } = null!;
+
 }

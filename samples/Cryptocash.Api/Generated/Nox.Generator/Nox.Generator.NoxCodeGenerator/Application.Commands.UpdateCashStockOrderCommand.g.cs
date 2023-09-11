@@ -15,7 +15,7 @@ using CashStockOrder = Cryptocash.Domain.CashStockOrder;
 
 namespace Cryptocash.Application.Commands;
 
-public record UpdateCashStockOrderCommand(System.Int64 keyId, CashStockOrderUpdateDto EntityDto) : IRequest<CashStockOrderKeyDto?>;
+public record UpdateCashStockOrderCommand(System.Int64 keyId, CashStockOrderUpdateDto EntityDto, System.Guid? Etag) : IRequest<CashStockOrderKeyDto?>;
 
 public class UpdateCashStockOrderCommandHandler: CommandBase<UpdateCashStockOrderCommand, CashStockOrder>, IRequestHandler<UpdateCashStockOrderCommand, CashStockOrderKeyDto?>
 {
@@ -43,7 +43,9 @@ public class UpdateCashStockOrderCommandHandler: CommandBase<UpdateCashStockOrde
 		{
 			return null;
 		}
+
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<CashStockOrder>(), request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 

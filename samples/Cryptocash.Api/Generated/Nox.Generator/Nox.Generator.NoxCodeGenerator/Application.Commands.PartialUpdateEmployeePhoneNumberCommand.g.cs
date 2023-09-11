@@ -13,7 +13,7 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record PartialUpdateEmployeePhoneNumberCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties) : IRequest <EmployeePhoneNumberKeyDto?>;
+public record PartialUpdateEmployeePhoneNumberCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto?>;
 
 public partial class PartialUpdateEmployeePhoneNumberCommandHandler: CommandBase<PartialUpdateEmployeePhoneNumberCommand, EmployeePhoneNumber>, IRequestHandler <PartialUpdateEmployeePhoneNumberCommand, EmployeePhoneNumberKeyDto?>
 {
@@ -49,7 +49,8 @@ public partial class PartialUpdateEmployeePhoneNumberCommandHandler: CommandBase
 		}
 
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<EmployeePhoneNumber>(), request.UpdatedProperties);
-		
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
 		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

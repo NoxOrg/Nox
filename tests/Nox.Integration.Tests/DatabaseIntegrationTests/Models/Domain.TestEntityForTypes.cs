@@ -13,7 +13,7 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public partial class TestEntityForTypes : AuditableEntityBase
+public partial class TestEntityForTypes : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -303,4 +303,9 @@ public partial class TestEntityForTypes : AuditableEntityBase
     ///  (Optional).
     /// </summary>
     public Nox.Types.Image? ImageTestField { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

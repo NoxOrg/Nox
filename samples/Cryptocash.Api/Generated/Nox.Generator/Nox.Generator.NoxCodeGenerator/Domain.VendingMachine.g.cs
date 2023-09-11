@@ -13,7 +13,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public partial class VendingMachine : AuditableEntityBase
+public partial class VendingMachine : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Vending machine unique identifier (Required).
@@ -89,4 +89,9 @@ public partial class VendingMachine : AuditableEntityBase
     /// VendingMachine required ZeroOrMany MinimumCashStocks
     /// </summary>
     public virtual List<MinimumCashStock> VendingMachineRequiredMinimumCashStocks { get; set; } = new();
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

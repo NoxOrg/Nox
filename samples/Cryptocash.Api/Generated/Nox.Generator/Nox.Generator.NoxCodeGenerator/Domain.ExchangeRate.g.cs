@@ -29,4 +29,5 @@ public partial class ExchangeRate : EntityBase, IOwnedEntity
     /// Exchange rate conversion amount (Required).
     /// </summary>
     public Nox.Types.DateTime EffectiveAt { get; set; } = null!;
+
 }

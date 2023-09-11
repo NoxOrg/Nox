@@ -10,7 +10,7 @@ using MediatR;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-
+using System.Text.Json.Serialization;
 using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
@@ -52,5 +52,8 @@ public partial class StoreOwnerDto
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
     /// </summary>
     public virtual List<StoreDto> StoreRel { get; set; } = new();
-    public System.DateTime? DeletedAtUtc { get; set; }    
+    public System.DateTime? DeletedAtUtc { get; set; }
+
+    [JsonPropertyName("@odata.etag")]
+    public System.Guid Etag { get; init; }
 }

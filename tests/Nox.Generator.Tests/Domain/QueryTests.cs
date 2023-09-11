@@ -54,6 +54,7 @@ public class QueryTests: IClassFixture<GeneratorFixture>
         Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/GetCountriesByContinentQueryBase.expected.g.cs"), generatedSources.First(s => s.HintName == queryFileName).SourceText.ToString());
 
         var generated = generatedSources.First(s => s.HintName == "Application.Dto.CountryDto.g.cs").SourceText.ToString();
+        File.WriteAllText("aaa.txt", generated);
         Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/Application.Dto.CountryDto.expected.g.cs"), generated);
         Assert.Equal(File.ReadAllText("./ExpectedGeneratedFiles/Dto.CountryCreateDto.expected.g.cs"), generatedSources.First(s => s.HintName == "Application.Dto.CountryCreateDto.g.cs").SourceText.ToString());        
         //can further extend this test to verify contents of source files.

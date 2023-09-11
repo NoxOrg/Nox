@@ -17,7 +17,7 @@ using {{codeGeneratorState.ApplicationNameSpace}}.Dto;
 using {{entity.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
-public record Add{{entity.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}CreateDto EntityDto) : IRequest <{{entity.Name}}KeyDto?>;
+public record Add{{entity.Name}}Command({{parent.Name}}KeyDto ParentKeyDto, {{entity.Name}}CreateDto EntityDto, System.Guid? Etag) : IRequest <{{entity.Name}}KeyDto?>;
 
 public partial class Add{{entity.Name}}CommandHandler: CommandBase<Add{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler <Add{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
@@ -57,7 +57,7 @@ public partial class Add{{entity.Name}}CommandHandler: CommandBase<Add{{entity.N
 		{{- end }}
 		
 		parentEntity.{{entity.PluralName}}.Add(entity);
-
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
 	
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;

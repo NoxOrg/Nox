@@ -15,7 +15,7 @@ using Country = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Commands;
 
-public record UpdateCountryCommand(System.String keyId, CountryUpdateDto EntityDto) : IRequest<CountryKeyDto?>;
+public record UpdateCountryCommand(System.String keyId, CountryUpdateDto EntityDto, System.Guid? Etag) : IRequest<CountryKeyDto?>;
 
 public class UpdateCountryCommandHandler: CommandBase<UpdateCountryCommand, Country>, IRequestHandler<UpdateCountryCommand, CountryKeyDto?>
 {
@@ -43,7 +43,9 @@ public class UpdateCountryCommandHandler: CommandBase<UpdateCountryCommand, Coun
 		{
 			return null;
 		}
+
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<Country>(), request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
 		OnCompleted(request, entity);
 

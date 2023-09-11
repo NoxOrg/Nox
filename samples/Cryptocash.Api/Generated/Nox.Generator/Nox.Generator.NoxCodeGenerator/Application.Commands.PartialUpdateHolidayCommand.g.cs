@@ -13,7 +13,7 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record PartialUpdateHolidayCommand(CountryKeyDto ParentKeyDto, HolidayKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties) : IRequest <HolidayKeyDto?>;
+public record PartialUpdateHolidayCommand(CountryKeyDto ParentKeyDto, HolidayKeyDto EntityKeyDto, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <HolidayKeyDto?>;
 
 public partial class PartialUpdateHolidayCommandHandler: CommandBase<PartialUpdateHolidayCommand, Holiday>, IRequestHandler <PartialUpdateHolidayCommand, HolidayKeyDto?>
 {
@@ -49,7 +49,8 @@ public partial class PartialUpdateHolidayCommandHandler: CommandBase<PartialUpda
 		}
 
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Holiday>(), request.UpdatedProperties);
-		
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
 		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;

@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
 using ClientApi.Application.Queries;
@@ -77,7 +79,9 @@ public partial class StoreOwnersController : ODataController
     public async Task<ActionResult<StoreOwnerDto>> Put([FromRoute] System.String key, [FromBody] StoreOwnerUpdateDto storeOwner)
     {
         
-        var updated = await _mediator.Send(new UpdateStoreOwnerCommand(key, storeOwner));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateStoreOwnerCommand(key, storeOwner, etag));
+        
         if (updated is null)
         {
             return NotFound();
@@ -94,6 +98,7 @@ public partial class StoreOwnersController : ODataController
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in storeOwner.GetChangedPropertyNames())
@@ -104,7 +109,8 @@ public partial class StoreOwnersController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateStoreOwnerCommand(key, updateProperties));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateStoreOwnerCommand(key, updateProperties, etag));
         
         if (updated is null)
         {
@@ -116,7 +122,9 @@ public partial class StoreOwnersController : ODataController
     
     public async Task<ActionResult> Delete([FromRoute] System.String key)
     {
-        var result = await _mediator.Send(new DeleteStoreOwnerByIdCommand(key));
+        var etag = Request.GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteStoreOwnerByIdCommand(key, etag));
+        
         if (!result)
         {
             return NotFound();

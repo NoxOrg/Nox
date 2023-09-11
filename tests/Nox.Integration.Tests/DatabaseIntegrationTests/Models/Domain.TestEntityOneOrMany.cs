@@ -13,7 +13,7 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// Entity created for testing database.
 /// </summary>
-public partial class TestEntityOneOrMany : AuditableEntityBase
+public partial class TestEntityOneOrMany : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -29,4 +29,9 @@ public partial class TestEntityOneOrMany : AuditableEntityBase
     /// TestEntityOneOrMany Test entity relationship to SecondTestEntityOneOrMany OneOrMany SecondTestEntityOneOrManies
     /// </summary>
     public virtual List<SecondTestEntityOneOrMany> SecondTestEntityOneOrManyRelationship { get; set; } = new();
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

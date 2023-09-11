@@ -29,4 +29,5 @@ public partial class BankNote : EntityBase, IOwnedEntity
     /// Bank note value (Required).
     /// </summary>
     public Nox.Types.Money Value { get; set; } = null!;
+
 }

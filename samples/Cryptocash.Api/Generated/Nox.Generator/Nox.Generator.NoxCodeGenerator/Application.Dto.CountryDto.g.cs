@@ -10,7 +10,7 @@ using MediatR;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-
+using System.Text.Json.Serialization;
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -124,5 +124,8 @@ public partial class CountryDto
     /// Country owned ZeroOrMany Holidays
     /// </summary>
     public virtual List<HolidayDto> Holidays { get; set; } = new();
-    public System.DateTime? DeletedAtUtc { get; set; }    
+    public System.DateTime? DeletedAtUtc { get; set; }
+
+    [JsonPropertyName("@odata.etag")]
+    public System.Guid Etag { get; init; }
 }

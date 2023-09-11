@@ -10,7 +10,7 @@ using MediatR;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-
+using System.Text.Json.Serialization;
 using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
@@ -31,5 +31,5 @@ public partial class CountryLocalNameDto
     /// <summary>
     /// Local name (Required).
     /// </summary>
-    public System.String Name { get; set; } = default!;    
+    public System.String Name { get; set; } = default!;
 }

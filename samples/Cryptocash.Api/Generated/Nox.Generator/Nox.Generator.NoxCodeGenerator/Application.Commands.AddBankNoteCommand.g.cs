@@ -17,7 +17,7 @@ using Cryptocash.Application.Dto;
 using BankNote = Cryptocash.Domain.BankNote;
 
 namespace Cryptocash.Application.Commands;
-public record AddBankNoteCommand(CurrencyKeyDto ParentKeyDto, BankNoteCreateDto EntityDto) : IRequest <BankNoteKeyDto?>;
+public record AddBankNoteCommand(CurrencyKeyDto ParentKeyDto, BankNoteCreateDto EntityDto, System.Guid? Etag) : IRequest <BankNoteKeyDto?>;
 
 public partial class AddBankNoteCommandHandler: CommandBase<AddBankNoteCommand, BankNote>, IRequestHandler <AddBankNoteCommand, BankNoteKeyDto?>
 {
@@ -48,7 +48,7 @@ public partial class AddBankNoteCommandHandler: CommandBase<AddBankNoteCommand, 
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
 		
 		parentEntity.BankNotes.Add(entity);
-
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
 	
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
