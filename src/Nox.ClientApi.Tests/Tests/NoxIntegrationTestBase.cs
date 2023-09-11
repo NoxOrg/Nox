@@ -1,7 +1,8 @@
-﻿using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
+﻿using ClientApi.Tests.Tests.Models;
+using FluentAssertions;
 using Newtonsoft.Json;
 
-namespace Nox.ClientApi.Tests;
+namespace ClientApi.Tests;
 
 public class ODataFixture
 {
@@ -12,7 +13,10 @@ public class ODataFixture
         _appFactory = appFactory;
     }
 
-    public async Task<TResult?> GetAsync<TResult>(string requestUrl)
+    /// <summary>
+    ///  Get collection result from Odata End Point
+    /// </summary>
+    public async Task<TResult?> GetODataCollectionResponseAsync<TResult>(string requestUrl)
     {
         using var httpClient = _appFactory.CreateClient();
 
@@ -20,6 +24,31 @@ public class ODataFixture
         result.EnsureSuccessStatusCode();
 
         var content = await result.Content.ReadAsStringAsync();
+        var data = JsonConvert.DeserializeObject<ODataCollectionResponse<TResult>>(content);
+
+        return data!.Value;
+    }
+
+    /// <summary>
+    ///  Get single result from Odata End Point
+    ///  Asserts is a valid Odata Response
+    /// </summary>
+    public async Task<TResult?> GetODataSimpleResponseAsync<TResult>(string requestUrl)
+    {
+        using var httpClient = _appFactory.CreateClient();
+
+        var result = await httpClient.GetAsync(requestUrl);
+
+        result.EnsureSuccessStatusCode();
+
+        result.Headers.Single(h => h.Key == "OData-Version").Value.First().Should().Be("4.0");
+
+        var content = await result.Content.ReadAsStringAsync();
+
+        var oDataResponse = JsonConvert.DeserializeObject<ODataSigleResponse>(content);
+        oDataResponse.Should().NotBeNull();
+        oDataResponse!.Context.Should().NotBeNullOrEmpty();
+        
         var data = JsonConvert.DeserializeObject<TResult>(content);
 
         return data;
@@ -29,7 +58,7 @@ public class ODataFixture
     {
         using var httpClient = _appFactory.CreateClient();
         var result = await httpClient.GetAsync(requestUrl);
-
+        
         return result;
     }
 
@@ -49,7 +78,7 @@ public class ODataFixture
         var message = await httpClient.PostAsJsonAsync(requestUrl, data);
         message.EnsureSuccessStatusCode();
 
-        var content = await message.Content.ReadAsStringAsync();
+        var content = await message.Content.ReadAsStringAsync();        
         var result = JsonConvert.DeserializeObject<TResult>(content);
 
         return result;

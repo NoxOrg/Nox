@@ -15,6 +15,10 @@ public static class ODataServiceCollectionExtensions
 {
     public static void AddNoxOdata(this IServiceCollection services)
     {
+        services.AddNoxOdata(null);
+    }
+    public static void AddNoxOdata(this IServiceCollection services, Action<ODataModelBuilder>? configure)
+    {
         ODataModelBuilder builder = new ODataConventionModelBuilder();
 
         builder.EntityType<CountryDto>().HasKey(e => new { e.Id });
@@ -46,6 +50,8 @@ public static class ODataServiceCollectionExtensions
         builder.EntityType<StoreOwnerDto>().Ignore(e => e.DeletedAtUtc);
 
         builder.EntityType<EmailAddressDto>();
+
+        if(configure != null) configure(builder);
 
         services.AddControllers()
             .AddOData(options =>

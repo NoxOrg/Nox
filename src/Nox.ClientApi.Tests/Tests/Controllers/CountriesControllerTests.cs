@@ -4,10 +4,9 @@ using AutoFixture;
 using Nox.Types;
 using System.Net;
 using AutoFixture.AutoMoq;
-using Microsoft.AspNetCore.Http.HttpResults;
-using Nox.ClientApi.Tests.Models;
 
-namespace Nox.ClientApi.Tests.Tests.Controllers
+
+namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
     public class CountriesControllerTests
@@ -44,7 +43,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
 
             // Act
             const string oDataRequest = "$select=Name";
-            var response = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{result!.Id}?{oDataRequest}");
+            var response = await _oDataFixture.GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}?{oDataRequest}");
 
 
             //Assert
@@ -76,7 +75,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
 
             // Act            
             const string oDataRequest = "$select=CountryLocalNames&$expand=CountryLocalNames($filter=Name eq 'Lusitania')";
-            var response = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{result!.Id}?{oDataRequest}");
+            var response = await _oDataFixture.GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}?{oDataRequest}");
 
 
             //Assert
@@ -107,8 +106,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
 
             // Act
-            var odataResponse = await _oDataFixture.GetAsync<ODataResponse<IEnumerable<CountryLocalNameDto>>>($"{EntityUrl}/{result!.Id}/CountryLocalNames");
-            var results = odataResponse!.Value;
+            var results = await _oDataFixture.GetODataCollectionResponseAsync<IEnumerable<CountryLocalNameDto>>($"{EntityUrl}/{result!.Id}/CountryLocalNames");            
 
             // Assert
             results.Should()
@@ -139,8 +137,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
 
             // Act
-            var odataResponse = await _oDataFixture.GetAsync<ODataResponse<IEnumerable<CountryLocalNameDto>>>($"{EntityUrl}/{result!.Id}/CountryLocalNames?$filter=Name eq '{expectedName}'");
-            var results = odataResponse!.Value;
+            var results = await _oDataFixture.GetODataCollectionResponseAsync<IEnumerable<CountryLocalNameDto>>($"{EntityUrl}/{result!.Id}/CountryLocalNames?$filter=Name eq '{expectedName}'");
 
             // Assert
             results.Should()
@@ -370,13 +367,10 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             }
             // Act
             const string oDataRequest = "$select=Name&$filter=population lt 3000000&$count=true";
-            var odataResponse = await _oDataFixture.GetAsync<ODataResponse<IEnumerable<CountryDto>>>($"{EntityUrl}/?{oDataRequest}");
-            var results = odataResponse!.Value;
+            var results = await _oDataFixture.GetODataCollectionResponseAsync<IEnumerable<CountryDto>>($"{EntityUrl}/?{oDataRequest}");
 
             //Assert
             const int expectedCountryCount = 2;
-
-            odataResponse.Count.Should().Be(expectedCountryCount);
 
             results.Should()
                 .HaveCount(expectedCountryCount)
@@ -399,7 +393,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
 
             // Act
             var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
-            var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{result!.Id}");
+            var queryResult = await _oDataFixture.GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{result!.Id}");
 
             //Assert
             result.Should().NotBeNull();
@@ -469,7 +463,7 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             var postResult = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, createDto);
             var putResult = await _oDataFixture.PutAsync<CountryUpdateDto, CountryDto>($"{EntityUrl}/{postResult!.Id}", updateDto);
 
-            var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{EntityUrl}/{postResult!.Id}");
+            var queryResult = await _oDataFixture.GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{postResult!.Id}");
 
             //Assert
             putResult!.ShortDescription.Should().Be("Portugal has a population of 10350000 people.");

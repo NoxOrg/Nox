@@ -17,7 +17,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public partial class {{className}} : IEntityCreateDto <{{entity.Name}}>
+public partial class {{className}} : IEntityCreateDto<{{entity.Name}}>
 {
 {{- for key in entity.Keys }}
     {{- if key.Type == "Nuid" || key.Type == "DatabaseNumber" || key.Type == "DatabaseGuid" -}}

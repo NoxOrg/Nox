@@ -17,7 +17,7 @@ namespace ClientApi.Application.Dto;
 /// <summary>
 /// Country Entity.
 /// </summary>
-public partial class CountryCreateDto : IEntityCreateDto <Country>
+public partial class CountryCreateDto : IEntityCreateDto<Country>
 {    
     /// <summary>
     /// The Country Name (Required).

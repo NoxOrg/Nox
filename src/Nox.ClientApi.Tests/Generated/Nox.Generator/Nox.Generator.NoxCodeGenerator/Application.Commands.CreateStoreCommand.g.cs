@@ -42,7 +42,7 @@ public partial class CreateStoreCommandHandler: CommandBase<CreateStoreCommand,S
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 					
-		OnCompleted(entityToCreate);
+		OnCompleted(request, entityToCreate);
 		_dbContext.Stores.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new StoreKeyDto(entityToCreate.Id.Value);

@@ -39,7 +39,7 @@ public class DeleteStoreOwnerByIdCommandHandler: CommandBase<DeleteStoreOwnerByI
 			return false;
 		}
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;

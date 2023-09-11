@@ -6,5 +6,5 @@ namespace Nox.Types;
 public class ObjectTypeOptions : INoxTypeOptions
 {
     [Required] 
-    public IReadOnlyList<NoxSimpleTypeDefinition> Attributes { get; internal set; } = new List<NoxSimpleTypeDefinition>();
+    public IReadOnlyList<NoxSimpleTypeDefinition> Attributes { get; set; } = new List<NoxSimpleTypeDefinition>();
 }
