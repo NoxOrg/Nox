@@ -29,11 +29,8 @@ jobs:
         with:
           useConfigFile: true
 
-      - name: "Calculating patch version"
-        run: echo "IncrementedPatch=$(( ${{steps.gitversion.outputs.patch}} + 1))" >> "$GITHUB_ENV"
-
       - name: "Calculating incremented version"
-        run: echo "IncrementedVersion=v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{env.IncrementedPatch}}" >> "$GITHUB_ENV"
+        run: echo "IncrementedVersion=v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{steps.gitversion.outputs.patch}}" >> "$GITHUB_ENV"
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
