@@ -14,17 +14,22 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+public partial class StoreCreateDto: StoreCreateDtoBase
+{
+
+}
+
 /// <summary>
 /// Stores.
 /// </summary>
-public partial class StoreCreateDto : IEntityCreateDto<Store>
+public abstract class StoreCreateDtoBase : IEntityCreateDto<Store>
 {    
     /// <summary>
     /// Store Name (Required).
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public System.String Name { get; set; } = default!;
+    public virtual System.String Name { get; set; } = default!;
 
     /// <summary>
     /// Store Store owner relationship ZeroOrOne StoreOwners

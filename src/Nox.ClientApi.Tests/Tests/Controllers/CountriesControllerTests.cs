@@ -28,7 +28,7 @@ namespace ClientApi.Tests.Tests.Controllers
         #region EXAMPLES
 
         #region GET
-
+       
         #region GET Entity By Key With Query /api/{EntityPluralName}/{EntityKey}?Query => api/countries/1?$select=Name
         [Fact]
         public async Task GetById_WhenSelect_ReturnsOnlySelectedFields()
@@ -242,7 +242,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region PUT
 
-        #region PUT to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
+        #region PUT to Owned Entities /api/{EntityPluralName}/{key}/{OwnedEntityPluralName}/{relatedKey} => api/countries/1/CountryLocalNames/1
         [Fact]
         public async Task PutToCountryLocalNames_ShouldUpdateCountryLocalName()
         {

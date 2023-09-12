@@ -21,7 +21,12 @@ using Nox.Types;
 
 namespace ClientApi.Presentation.Api.OData;
 
-public partial class StoresController : ODataController
+public partial class StoresController : StoresControllerBase
+            {
+                public StoresController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+                {}
+            }
+public abstract class StoresControllerBase : ODataController
 {
     
     /// <summary>
@@ -34,7 +39,7 @@ public partial class StoresController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public StoresController(
+    public StoresControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -48,7 +53,7 @@ public partial class StoresController : ODataController
     #endregion
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<StoreDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<StoreDto>>> Get()
     {
         var result = await _mediator.Send(new GetStoresQuery());
         return Ok(result);
@@ -67,7 +72,7 @@ public partial class StoresController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<StoreDto>> Post([FromBody]StoreCreateDto store)
+    public virtual async Task<ActionResult<StoreDto>> Post([FromBody]StoreCreateDto store)
     {
         if (!ModelState.IsValid)
         {
@@ -80,8 +85,12 @@ public partial class StoresController : ODataController
         return Created(item);
     }
     
-    public async Task<ActionResult<StoreDto>> Put([FromRoute] System.UInt32 key, [FromBody] StoreUpdateDto store)
+    public virtual async Task<ActionResult<StoreDto>> Put([FromRoute] System.UInt32 key, [FromBody] StoreUpdateDto store)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateStoreCommand(key, store, etag));
@@ -96,7 +105,7 @@ public partial class StoresController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<StoreDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<StoreUpdateDto> store)
+    public virtual async Task<ActionResult<StoreDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<StoreUpdateDto> store)
     {
         if (!ModelState.IsValid)
         {
@@ -124,7 +133,7 @@ public partial class StoresController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.UInt32 key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.UInt32 key)
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteStoreByIdCommand(key, etag));

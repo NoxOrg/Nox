@@ -14,49 +14,54 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+public partial class VendingMachineCreateDto: VendingMachineCreateDtoBase
+{
+
+}
+
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public partial class VendingMachineCreateDto : IEntityCreateDto<VendingMachine>
+public abstract class VendingMachineCreateDtoBase : IEntityCreateDto<VendingMachine>
 {    
     /// <summary>
     /// Vending machine mac address (Required).
     /// </summary>
     [Required(ErrorMessage = "MacAddress is required")]
     
-    public System.String MacAddress { get; set; } = default!;    
+    public virtual System.String MacAddress { get; set; } = default!;    
     /// <summary>
     /// Vending machine public ip (Required).
     /// </summary>
     [Required(ErrorMessage = "PublicIp is required")]
     
-    public System.String PublicIp { get; set; } = default!;    
+    public virtual System.String PublicIp { get; set; } = default!;    
     /// <summary>
     /// Vending machine geo location (Required).
     /// </summary>
     [Required(ErrorMessage = "GeoLocation is required")]
     
-    public LatLongDto GeoLocation { get; set; } = default!;    
+    public virtual LatLongDto GeoLocation { get; set; } = default!;    
     /// <summary>
     /// Vending machine street address (Required).
     /// </summary>
     [Required(ErrorMessage = "StreetAddress is required")]
     
-    public StreetAddressDto StreetAddress { get; set; } = default!;    
+    public virtual StreetAddressDto StreetAddress { get; set; } = default!;    
     /// <summary>
     /// Vending machine serial number (Required).
     /// </summary>
     [Required(ErrorMessage = "SerialNumber is required")]
     
-    public System.String SerialNumber { get; set; } = default!;    
+    public virtual System.String SerialNumber { get; set; } = default!;    
     /// <summary>
     /// Vending machine installation area (Optional).
     /// </summary>
-    public System.Decimal? InstallationFootPrint { get; set; }    
+    public virtual System.Decimal? InstallationFootPrint { get; set; }    
     /// <summary>
     /// Landlord rent amount based on area of the vending machine installation (Optional).
     /// </summary>
-    public MoneyDto? RentPerSquareMetre { get; set; }
+    public virtual MoneyDto? RentPerSquareMetre { get; set; }
 
     /// <summary>
     /// VendingMachine installed in ExactlyOne Countries

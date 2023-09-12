@@ -26,6 +26,11 @@ public partial class StoreOwner : AuditableEntityBase, IEntityConcurrent
     public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
+    /// Temporary Owner Name (Required).
+    /// </summary>
+    public Nox.Types.Text TemporaryOwnerName { get; set; } = null!;
+
+    /// <summary>
     /// Vat Number (Optional).
     /// </summary>
     public Nox.Types.VatNumber? VatNumber { get; set; } = null!;
@@ -39,6 +44,11 @@ public partial class StoreOwner : AuditableEntityBase, IEntityConcurrent
     /// Owner Greeting (Optional).
     /// </summary>
     public Nox.Types.TranslatedText? LocalGreeting { get; set; } = null!;
+
+    /// <summary>
+    /// Notes (Optional).
+    /// </summary>
+    public Nox.Types.Text? Notes { get; set; } = null!;
 
     /// <summary>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores

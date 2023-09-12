@@ -34,6 +34,11 @@ public partial class StoreOwnerDto
     public System.String Name { get; set; } = default!;
 
     /// <summary>
+    /// Temporary Owner Name (Required).
+    /// </summary>
+    public System.String TemporaryOwnerName { get; set; } = default!;
+
+    /// <summary>
     /// Vat Number (Optional).
     /// </summary>
     public VatNumberDto? VatNumber { get; set; }
@@ -47,6 +52,11 @@ public partial class StoreOwnerDto
     /// Owner Greeting (Optional).
     /// </summary>
     public TranslatedTextDto? LocalGreeting { get; set; }
+
+    /// <summary>
+    /// Notes (Optional).
+    /// </summary>
+    public System.String? Notes { get; set; }
 
     /// <summary>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores

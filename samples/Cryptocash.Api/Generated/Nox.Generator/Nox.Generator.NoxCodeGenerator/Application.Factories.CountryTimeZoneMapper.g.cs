@@ -28,13 +28,13 @@ public partial class CountryTimeZoneMapper : EntityMapperBase<CountryTimeZone>
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-            
+    #pragma warning restore CS0168 // Variable is declared but never used        
         noxTypeValue = CreateNoxType<Nox.Types.TimeZoneCode>(entityDefinition, "TimeZoneCode", dto.TimeZoneCode);
-        if (noxTypeValue != null)
-        {        
-            entity.TimeZoneCode = noxTypeValue;
-        }
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("TimeZoneCode is required can not be set to null");
+        }     
+        entity.TimeZoneCode = noxTypeValue;
     
     }
 

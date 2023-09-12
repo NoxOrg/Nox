@@ -28,18 +28,11 @@ public partial class EmailAddressMapper : EntityMapperBase<EmailAddress>
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-            
-        noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition, "Email", dto.Email);
-        if (noxTypeValue != null)
-        {        
-            entity.Email = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition, "IsVerified", dto.IsVerified);
-        if (noxTypeValue != null)
-        {        
-            entity.IsVerified = noxTypeValue;
-        }
+    #pragma warning restore CS0168 // Variable is declared but never used        
+        noxTypeValue = CreateNoxType<Nox.Types.Email>(entityDefinition, "Email", dto.Email);     
+        entity.Email = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition, "IsVerified", dto.IsVerified);     
+        entity.IsVerified = noxTypeValue;
     
     }
 

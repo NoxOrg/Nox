@@ -21,7 +21,12 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-public partial class BookingsController : ODataController
+public partial class BookingsController : BookingsControllerBase
+            {
+                public BookingsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+                {}
+            }
+public abstract class BookingsControllerBase : ODataController
 {
     
     /// <summary>
@@ -34,7 +39,7 @@ public partial class BookingsController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public BookingsController(
+    public BookingsControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -44,7 +49,7 @@ public partial class BookingsController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<BookingDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<BookingDto>>> Get()
     {
         var result = await _mediator.Send(new GetBookingsQuery());
         return Ok(result);
@@ -63,7 +68,7 @@ public partial class BookingsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<BookingDto>> Post([FromBody]BookingCreateDto booking)
+    public virtual async Task<ActionResult<BookingDto>> Post([FromBody]BookingCreateDto booking)
     {
         if (!ModelState.IsValid)
         {
@@ -76,8 +81,12 @@ public partial class BookingsController : ODataController
         return Created(item);
     }
     
-    public async Task<ActionResult<BookingDto>> Put([FromRoute] System.Guid key, [FromBody] BookingUpdateDto booking)
+    public virtual async Task<ActionResult<BookingDto>> Put([FromRoute] System.Guid key, [FromBody] BookingUpdateDto booking)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateBookingCommand(key, booking, etag));
@@ -92,7 +101,7 @@ public partial class BookingsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<BookingDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<BookingUpdateDto> booking)
+    public virtual async Task<ActionResult<BookingDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<BookingUpdateDto> booking)
     {
         if (!ModelState.IsValid)
         {
@@ -120,7 +129,7 @@ public partial class BookingsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteBookingByIdCommand(key, etag));

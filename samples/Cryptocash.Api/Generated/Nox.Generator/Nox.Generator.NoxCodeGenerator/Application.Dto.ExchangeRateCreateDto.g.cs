@@ -14,21 +14,26 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+public partial class ExchangeRateCreateDto: ExchangeRateCreateDtoBase
+{
+
+}
+
 /// <summary>
 /// Exchange rate and related data.
 /// </summary>
-public partial class ExchangeRateCreateDto : IEntityCreateDto<ExchangeRate>
+public abstract class ExchangeRateCreateDtoBase : IEntityCreateDto<ExchangeRate>
 {    
     /// <summary>
     /// Exchange rate conversion amount (Required).
     /// </summary>
     [Required(ErrorMessage = "EffectiveRate is required")]
     
-    public System.Int32 EffectiveRate { get; set; } = default!;    
+    public virtual System.Int32 EffectiveRate { get; set; } = default!;    
     /// <summary>
     /// Exchange rate conversion amount (Required).
     /// </summary>
     [Required(ErrorMessage = "EffectiveAt is required")]
     
-    public System.DateTimeOffset EffectiveAt { get; set; } = default!;
+    public virtual System.DateTimeOffset EffectiveAt { get; set; } = default!;
 }

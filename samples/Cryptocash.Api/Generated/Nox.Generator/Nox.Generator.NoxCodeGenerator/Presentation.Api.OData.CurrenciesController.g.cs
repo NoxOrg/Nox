@@ -21,7 +21,12 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-public partial class CurrenciesController : ODataController
+public partial class CurrenciesController : CurrenciesControllerBase
+            {
+                public CurrenciesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+                {}
+            }
+public abstract class CurrenciesControllerBase : ODataController
 {
     
     /// <summary>
@@ -34,7 +39,7 @@ public partial class CurrenciesController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public CurrenciesController(
+    public CurrenciesControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -46,7 +51,7 @@ public partial class CurrenciesController : ODataController
     #region Owned Relationships
     
     [EnableQuery]
-    public async Task<ActionResult<IQueryable<BankNoteDto>>> GetBankNotes([FromRoute] System.String key)
+    public virtual async Task<ActionResult<IQueryable<BankNoteDto>>> GetBankNotes([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -64,7 +69,7 @@ public partial class CurrenciesController : ODataController
     
     [EnableQuery]
     [HttpGet("api/Currencies/{key}/BankNotes/{relatedKey}")]
-    public async Task<ActionResult<BankNoteDto>> GetBankNoteNonConventional(System.String key, System.Int64 relatedKey)
+    public virtual async Task<ActionResult<BankNoteDto>> GetBankNoteNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -79,7 +84,7 @@ public partial class CurrenciesController : ODataController
         return Ok(child);
     }
     
-    public async Task<ActionResult> PostToBankNotes([FromRoute] System.String key, [FromBody] BankNoteCreateDto bankNote)
+    public virtual async Task<ActionResult> PostToBankNotes([FromRoute] System.String key, [FromBody] BankNoteCreateDto bankNote)
     {
         if (!ModelState.IsValid)
         {
@@ -103,7 +108,7 @@ public partial class CurrenciesController : ODataController
     }
     
     [HttpPut("api/Currencies/{key}/BankNotes/{relatedKey}")]
-    public async Task<ActionResult<BankNoteDto>> PutToBankNotesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] BankNoteUpdateDto bankNote)
+    public virtual async Task<ActionResult<BankNoteDto>> PutToBankNotesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] BankNoteUpdateDto bankNote)
     {
         if (!ModelState.IsValid)
         {
@@ -127,7 +132,7 @@ public partial class CurrenciesController : ODataController
     }
     
     [HttpPatch("api/Currencies/{key}/BankNotes/{relatedKey}")]
-    public async Task<ActionResult> PatchToBankNotesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<BankNoteUpdateDto> bankNote)
+    public virtual async Task<ActionResult> PatchToBankNotesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<BankNoteUpdateDto> bankNote)
     {
         if (!ModelState.IsValid)
         {
@@ -160,7 +165,7 @@ public partial class CurrenciesController : ODataController
     }
     
     [HttpDelete("api/Currencies/{key}/BankNotes/{relatedKey}")]
-    public async Task<ActionResult> DeleteBankNoteNonConventional(System.String key, System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteBankNoteNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -182,7 +187,7 @@ public partial class CurrenciesController : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<IQueryable<ExchangeRateDto>>> GetExchangeRates([FromRoute] System.String key)
+    public virtual async Task<ActionResult<IQueryable<ExchangeRateDto>>> GetExchangeRates([FromRoute] System.String key)
     {
         if (!ModelState.IsValid)
         {
@@ -200,7 +205,7 @@ public partial class CurrenciesController : ODataController
     
     [EnableQuery]
     [HttpGet("api/Currencies/{key}/ExchangeRates/{relatedKey}")]
-    public async Task<ActionResult<ExchangeRateDto>> GetExchangeRateNonConventional(System.String key, System.Int64 relatedKey)
+    public virtual async Task<ActionResult<ExchangeRateDto>> GetExchangeRateNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -215,7 +220,7 @@ public partial class CurrenciesController : ODataController
         return Ok(child);
     }
     
-    public async Task<ActionResult> PostToExchangeRates([FromRoute] System.String key, [FromBody] ExchangeRateCreateDto exchangeRate)
+    public virtual async Task<ActionResult> PostToExchangeRates([FromRoute] System.String key, [FromBody] ExchangeRateCreateDto exchangeRate)
     {
         if (!ModelState.IsValid)
         {
@@ -239,7 +244,7 @@ public partial class CurrenciesController : ODataController
     }
     
     [HttpPut("api/Currencies/{key}/ExchangeRates/{relatedKey}")]
-    public async Task<ActionResult<ExchangeRateDto>> PutToExchangeRatesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] ExchangeRateUpdateDto exchangeRate)
+    public virtual async Task<ActionResult<ExchangeRateDto>> PutToExchangeRatesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] ExchangeRateUpdateDto exchangeRate)
     {
         if (!ModelState.IsValid)
         {
@@ -263,7 +268,7 @@ public partial class CurrenciesController : ODataController
     }
     
     [HttpPatch("api/Currencies/{key}/ExchangeRates/{relatedKey}")]
-    public async Task<ActionResult> PatchToExchangeRatesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<ExchangeRateUpdateDto> exchangeRate)
+    public virtual async Task<ActionResult> PatchToExchangeRatesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<ExchangeRateUpdateDto> exchangeRate)
     {
         if (!ModelState.IsValid)
         {
@@ -296,7 +301,7 @@ public partial class CurrenciesController : ODataController
     }
     
     [HttpDelete("api/Currencies/{key}/ExchangeRates/{relatedKey}")]
-    public async Task<ActionResult> DeleteExchangeRateNonConventional(System.String key, System.Int64 relatedKey)
+    public virtual async Task<ActionResult> DeleteExchangeRateNonConventional(System.String key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
         {
@@ -320,7 +325,7 @@ public partial class CurrenciesController : ODataController
     #endregion
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<CurrencyDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<CurrencyDto>>> Get()
     {
         var result = await _mediator.Send(new GetCurrenciesQuery());
         return Ok(result);
@@ -339,7 +344,7 @@ public partial class CurrenciesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<CurrencyDto>> Post([FromBody]CurrencyCreateDto currency)
+    public virtual async Task<ActionResult<CurrencyDto>> Post([FromBody]CurrencyCreateDto currency)
     {
         if (!ModelState.IsValid)
         {
@@ -352,8 +357,12 @@ public partial class CurrenciesController : ODataController
         return Created(item);
     }
     
-    public async Task<ActionResult<CurrencyDto>> Put([FromRoute] System.String key, [FromBody] CurrencyUpdateDto currency)
+    public virtual async Task<ActionResult<CurrencyDto>> Put([FromRoute] System.String key, [FromBody] CurrencyUpdateDto currency)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdateCurrencyCommand(key, currency, etag));
@@ -368,7 +377,7 @@ public partial class CurrenciesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<CurrencyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CurrencyUpdateDto> currency)
+    public virtual async Task<ActionResult<CurrencyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CurrencyUpdateDto> currency)
     {
         if (!ModelState.IsValid)
         {
@@ -396,7 +405,7 @@ public partial class CurrenciesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.String key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteCurrencyByIdCommand(key, etag));

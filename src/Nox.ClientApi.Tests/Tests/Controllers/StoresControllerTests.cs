@@ -2,13 +2,15 @@
 using ClientApi.Application.Dto;
 using AutoFixture.AutoMoq;
 using AutoFixture;
+using Nox.Types;
+using System.Runtime.ConstrainedExecution;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
     public class StoresControllerTests 
     {
-        private const string StoresControllerName = "api/stores";
+        private const string EntityUrl = "api/stores";
 
         private readonly Fixture _fixture;
         private readonly ODataFixture _oDataFixture;
@@ -19,6 +21,28 @@ namespace ClientApi.Tests.Tests.Controllers
             _fixture.Customize(new AutoMoqCustomization());
             _oDataFixture = _fixture.Create<ODataFixture>();
         }
+
+        #region GET Entity By Key (Returns by default owned entitites) /api/{EntityPluralName}/{EntityKey} => api/stores/1
+        [Fact]
+        public async Task GetById_ReturnsOwnedEntitites()
+        {
+            // Arrange
+            var expectedEmail = new EmailAddressCreateDto() { Email = "test@gmail.com", IsVerified = false };
+            var createDto = new StoreCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                EmailAddress = expectedEmail,
+            };
+            var postResult = await _oDataFixture.PostAsync<StoreCreateDto, StoreDto>(EntityUrl, createDto);
+            // Act
+            var response = await _oDataFixture.GetODataSimpleResponseAsync<StoreDto>($"{EntityUrl}/{postResult!.Id}");
+
+
+            //Assert
+            response.Should().NotBeNull();
+            response!.EmailAddress.Should().BeEquivalentTo(expectedEmail);  
+        }
+        #endregion
 
         [Fact]
         public async Task Post_ReturnsNuidId()
@@ -35,7 +59,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<StoreCreateDto, StoreDto>(StoresControllerName, createDto);
+            var result = await _oDataFixture.PostAsync<StoreCreateDto, StoreDto>(EntityUrl, createDto);
 
             //Assert
             result.Should().NotBeNull();
@@ -43,5 +67,7 @@ namespace ClientApi.Tests.Tests.Controllers
                 .BeOfType<StoreDto>()
                 .Which.Id.Should().Be(expectedId);
         }
+
+
     }
 }

@@ -14,35 +14,40 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+public partial class TransactionCreateDto: TransactionCreateDtoBase
+{
+
+}
+
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public partial class TransactionCreateDto : IEntityCreateDto<Transaction>
+public abstract class TransactionCreateDtoBase : IEntityCreateDto<Transaction>
 {    
     /// <summary>
     /// Transaction type (Required).
     /// </summary>
     [Required(ErrorMessage = "TransactionType is required")]
     
-    public System.String TransactionType { get; set; } = default!;    
+    public virtual System.String TransactionType { get; set; } = default!;    
     /// <summary>
     /// Transaction processed datetime (Required).
     /// </summary>
     [Required(ErrorMessage = "ProcessedOnDateTime is required")]
     
-    public System.DateTimeOffset ProcessedOnDateTime { get; set; } = default!;    
+    public virtual System.DateTimeOffset ProcessedOnDateTime { get; set; } = default!;    
     /// <summary>
     /// Transaction amount (Required).
     /// </summary>
     [Required(ErrorMessage = "Amount is required")]
     
-    public MoneyDto Amount { get; set; } = default!;    
+    public virtual MoneyDto Amount { get; set; } = default!;    
     /// <summary>
     /// Transaction external reference (Required).
     /// </summary>
     [Required(ErrorMessage = "Reference is required")]
     
-    public System.String Reference { get; set; } = default!;
+    public virtual System.String Reference { get; set; } = default!;
 
     /// <summary>
     /// Transaction for ExactlyOne Customers

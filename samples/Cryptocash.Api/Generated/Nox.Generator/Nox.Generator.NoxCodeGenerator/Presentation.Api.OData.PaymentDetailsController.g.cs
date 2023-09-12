@@ -21,7 +21,12 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-public partial class PaymentDetailsController : ODataController
+public partial class PaymentDetailsController : PaymentDetailsControllerBase
+            {
+                public PaymentDetailsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+                {}
+            }
+public abstract class PaymentDetailsControllerBase : ODataController
 {
     
     /// <summary>
@@ -34,7 +39,7 @@ public partial class PaymentDetailsController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public PaymentDetailsController(
+    public PaymentDetailsControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -44,7 +49,7 @@ public partial class PaymentDetailsController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<PaymentDetailDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<PaymentDetailDto>>> Get()
     {
         var result = await _mediator.Send(new GetPaymentDetailsQuery());
         return Ok(result);
@@ -63,7 +68,7 @@ public partial class PaymentDetailsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<PaymentDetailDto>> Post([FromBody]PaymentDetailCreateDto paymentDetail)
+    public virtual async Task<ActionResult<PaymentDetailDto>> Post([FromBody]PaymentDetailCreateDto paymentDetail)
     {
         if (!ModelState.IsValid)
         {
@@ -76,8 +81,12 @@ public partial class PaymentDetailsController : ODataController
         return Created(item);
     }
     
-    public async Task<ActionResult<PaymentDetailDto>> Put([FromRoute] System.Int64 key, [FromBody] PaymentDetailUpdateDto paymentDetail)
+    public virtual async Task<ActionResult<PaymentDetailDto>> Put([FromRoute] System.Int64 key, [FromBody] PaymentDetailUpdateDto paymentDetail)
     {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         
         var etag = Request.GetDecodedEtagHeader();
         var updated = await _mediator.Send(new UpdatePaymentDetailCommand(key, paymentDetail, etag));
@@ -92,7 +101,7 @@ public partial class PaymentDetailsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<PaymentDetailDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<PaymentDetailUpdateDto> paymentDetail)
+    public virtual async Task<ActionResult<PaymentDetailDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<PaymentDetailUpdateDto> paymentDetail)
     {
         if (!ModelState.IsValid)
         {
@@ -120,7 +129,7 @@ public partial class PaymentDetailsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeletePaymentDetailByIdCommand(key, etag));
