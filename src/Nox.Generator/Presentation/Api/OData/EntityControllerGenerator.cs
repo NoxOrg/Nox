@@ -77,7 +77,13 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
             code.AppendLine();
 
-            code.AppendLine($"public partial class {controllerName} : ODataController");
+            code.AppendLine(@$"public partial class {controllerName} : {controllerName}Base
+            {{
+                public {controllerName}(IMediator mediator, {dbContextName} databaseContext):base(databaseContext, mediator)
+                {{}}
+            }}");
+
+            code.AppendLine($"public abstract class {controllerName}Base : ODataController");
 
             // Class
             code.StartBlock();
@@ -107,7 +113,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             //}
 
             // Add constructor
-            AddConstructor(code, controllerName, constructorParameters);
+            AddConstructor(code, $"{controllerName}Base", constructorParameters);
 
             code.AppendLine();
 
@@ -199,7 +205,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GenerateDelete(Entity entity, string entityName, CodeBuilder code, NoxSolution solution)
     {
         // Method Delete
-        code.AppendLine($"public async Task<ActionResult> Delete({PrimaryKeysFromRoute(entity, solution)})");
+        code.AppendLine($"public virtual async Task<ActionResult> Delete({PrimaryKeysFromRoute(entity, solution)})");
 
         // Method content
         code.StartBlock();
@@ -228,10 +234,14 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GeneratePut(Entity entity, CodeBuilder code, NoxSolution solution)
     {
         // Method Put
-        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Put({PrimaryKeysFromRoute(entity, solution)}, [FromBody] {entity.Name}UpdateDto {entity.Name.ToLowerFirstChar()})");
+        code.AppendLine($"public virtual async Task<ActionResult<{entity.Name}Dto>> Put({PrimaryKeysFromRoute(entity, solution)}, [FromBody] {entity.Name}UpdateDto {entity.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
         code.AppendLine();
 
         if (!entity.IsOwnedEntity)
@@ -264,7 +274,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GeneratePatch(Entity entity, string entityName, string pluralName, CodeBuilder code, NoxSolution solution)
     {
         // Method Patch
-        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Patch({PrimaryKeysFromRoute(entity, solution)}, [FromBody] Delta<{entityName}UpdateDto> {entity.Name.ToLowerFirstChar()})");
+        code.AppendLine($"public virtual async Task<ActionResult<{entity.Name}Dto>> Patch({PrimaryKeysFromRoute(entity, solution)}, [FromBody] Delta<{entityName}UpdateDto> {entity.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();
@@ -311,7 +321,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GeneratePost(Entity entity, CodeBuilder code)
     {
         // Method Post
-        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Post([FromBody]{entity.Name}CreateDto {entity.Name.ToLowerFirstChar()})");
+        code.AppendLine($"public virtual async Task<ActionResult<{entity.Name}Dto>> Post([FromBody]{entity.Name}CreateDto {entity.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();
@@ -349,7 +359,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     {
         code.AppendLine($"[EnableQuery]");
         code.AppendLine($"[HttpGet(\"/api/[controller]/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
-        code.AppendLine($"public async Task<ActionResult<{child.Name}Dto>> Get{child.Name}NonConventional(" +
+        code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> Get{child.Name}NonConventional(" +
             $"{PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, " +
             $"{PrimaryKeysFromRoute(child, solution, "relatedKey", "")})");
 
@@ -376,7 +386,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GenerateChildrenGet(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
     {
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public async Task<ActionResult<IQueryable<{child.Name}Dto>>> Get{child.PluralName}({PrimaryKeysFromRoute(parent, solution)})");
+        code.AppendLine($"public virtual async Task<ActionResult<IQueryable<{child.Name}Dto>>> Get{child.PluralName}({PrimaryKeysFromRoute(parent, solution)})");
 
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid)");
@@ -399,7 +409,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
     private static void GenerateChildrenPost(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
     {
-        code.AppendLine($"public async Task<ActionResult> PostTo{child.PluralName}({PrimaryKeysFromRoute(parent, solution)}, [FromBody] {child.Name}CreateDto {child.Name.ToLowerFirstChar()})");
+        code.AppendLine($"public virtual async Task<ActionResult> PostTo{child.PluralName}({PrimaryKeysFromRoute(parent, solution)}, [FromBody] {child.Name}CreateDto {child.Name.ToLowerFirstChar()})");
 
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid)");
@@ -430,7 +440,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GenerateChildrenPut(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
     {
         code.AppendLine($"[HttpPut(\"/api/[controller]/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
-        code.AppendLine($"public async Task<ActionResult<{child.Name}Dto>> PutTo{child.PluralName}NonConventional(" +
+        code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> PutTo{child.PluralName}NonConventional(" +
             $"{PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, " +
             $"{PrimaryKeysFromRoute(child, solution, "relatedKey", "")}, " +
             $"[FromBody] {child.Name}UpdateDto {child.Name.ToLowerFirstChar()})");
@@ -467,7 +477,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     {
         // Method Patch
         code.AppendLine($"[HttpPatch(\"/api/[controller]/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
-        code.AppendLine($"public async Task<ActionResult> PatchTo{child.PluralName}NonConventional(" +
+        code.AppendLine($"public virtual async Task<ActionResult> PatchTo{child.PluralName}NonConventional(" +
             $"{PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, " +
             $"{PrimaryKeysFromRoute(child, solution, "relatedKey", "")}, " +
             $"[FromBody] Delta<{child.Name}UpdateDto> {child.Name.ToLowerFirstChar()})");
@@ -515,7 +525,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GenerateChildrenDelete(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
     {
         code.AppendLine($"[HttpDelete(\"/api/[controller]/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
-        code.AppendLine($"public async Task<ActionResult> Delete{child.Name}NonConventional(" +
+        code.AppendLine($"public virtual async Task<ActionResult> Delete{child.Name}NonConventional(" +
             $"{PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, " +
             $"{PrimaryKeysFromRoute(child, solution, "relatedKey", "")})");
 
@@ -544,7 +554,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     {
         // Method Get
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public async  Task<ActionResult<IQueryable<{entity.Name}Dto>>> Get()");
+        code.AppendLine($"public virtual async Task<ActionResult<IQueryable<{entity.Name}Dto>>> Get()");
 
         // Method content
         code.StartBlock();

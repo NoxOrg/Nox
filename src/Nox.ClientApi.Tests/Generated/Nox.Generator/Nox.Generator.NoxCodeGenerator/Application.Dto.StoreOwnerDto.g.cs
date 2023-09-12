@@ -34,6 +34,11 @@ public partial class StoreOwnerDto
     public System.String Name { get; set; } = default!;
 
     /// <summary>
+    /// Temporary Owner Name (Required).
+    /// </summary>
+    public System.String TemporaryOwnerName { get; set; } = default!;
+
+    /// <summary>
     /// Vat Number (Optional).
     /// </summary>
     public VatNumberDto? VatNumber { get; set; }

@@ -14,10 +14,15 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+public partial class StoreOwnerCreateDto: StoreOwnerCreateDtoBase
+{
+
+}
+
 /// <summary>
 /// Store owners.
 /// </summary>
-public partial class StoreOwnerCreateDto : IEntityCreateDto<StoreOwner>
+public abstract class StoreOwnerCreateDtoBase : IEntityCreateDto<StoreOwner>
 {
     /// <summary>
     ///  (Required).
@@ -29,17 +34,23 @@ public partial class StoreOwnerCreateDto : IEntityCreateDto<StoreOwner>
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public System.String Name { get; set; } = default!;    
+    public virtual System.String Name { get; set; } = default!;    
+    /// <summary>
+    /// Temporary Owner Name (Required).
+    /// </summary>
+    [Required(ErrorMessage = "TemporaryOwnerName is required")]
+    
+    public virtual System.String TemporaryOwnerName { get; set; } = default!;    
     /// <summary>
     /// Vat Number (Optional).
     /// </summary>
-    public VatNumberDto? VatNumber { get; set; }    
+    public virtual VatNumberDto? VatNumber { get; set; }    
     /// <summary>
     /// Street Address (Optional).
     /// </summary>
-    public StreetAddressDto? StreetAddress { get; set; }    
+    public virtual StreetAddressDto? StreetAddress { get; set; }    
     /// <summary>
     /// Owner Greeting (Optional).
     /// </summary>
-    public TranslatedTextDto? LocalGreeting { get; set; }
+    public virtual TranslatedTextDto? LocalGreeting { get; set; }
 }

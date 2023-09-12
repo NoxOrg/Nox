@@ -47,6 +47,13 @@ public partial class StoreOwner
     
 
     /// <summary>
+    /// Type options and factory for property 'TemporaryOwnerName'
+    /// </summary>
+    public static Nox.Types.Text CreateTemporaryOwnerName(System.String value)
+        => Nox.Types.Text.From(value);
+    
+
+    /// <summary>
     /// Type options and factory for property 'VatNumber'
     /// </summary>
     public static Nox.Types.VatNumber CreateVatNumber(IVatNumber value)

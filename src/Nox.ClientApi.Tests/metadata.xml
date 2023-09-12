@@ -46,6 +46,7 @@
 				</Key>
 				<Property Name="Id" Type="Edm.String" Nullable="false" />
 				<Property Name="Name" Type="Edm.String" Nullable="false" />
+				<Property Name="TemporaryOwnerName" Type="Edm.String" Nullable="false" />
 				<Property Name="VatNumber" Type="ClientApi.Application.Dto.VatNumberDto" />
 				<Property Name="StreetAddress" Type="ClientApi.Application.Dto.StreetAddressDto" />
 				<Property Name="LocalGreeting" Type="ClientApi.Application.Dto.TranslatedTextDto" />

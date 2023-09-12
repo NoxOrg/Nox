@@ -27,6 +27,11 @@ attributes:
       maxLength: 63
     isRequired: true
 
+  - name: TemporaryOwnerName
+    description: Temporary Owner Name
+    type: text      
+    isRequired: true
+
   - name: VatNumber
     description: Vat Number
     type: vatNumber    

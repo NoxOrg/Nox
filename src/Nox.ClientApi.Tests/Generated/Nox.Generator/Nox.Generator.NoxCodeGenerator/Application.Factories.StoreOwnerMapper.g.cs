@@ -40,6 +40,11 @@ public partial class StoreOwnerMapper : EntityMapperBase<StoreOwner>
         {        
             entity.Name = noxTypeValue;
         }        
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "TemporaryOwnerName", dto.TemporaryOwnerName);
+        if (noxTypeValue != null)
+        {        
+            entity.TemporaryOwnerName = noxTypeValue;
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.VatNumber>(entityDefinition, "VatNumber", dto.VatNumber);
         if (noxTypeValue != null)
         {        
@@ -74,6 +79,20 @@ public partial class StoreOwnerMapper : EntityMapperBase<StoreOwner>
                 else
                 {
                     entity.Name = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("TemporaryOwnerName", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "TemporaryOwnerName", value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("StoreOwner", "TemporaryOwnerName");
+                }
+                else
+                {
+                    entity.TemporaryOwnerName = noxTypeValue;
                 }
             }
         }

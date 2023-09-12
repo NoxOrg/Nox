@@ -21,6 +21,12 @@ public partial class StoreOwnerUpdateDto
     
     public System.String Name { get; set; } = default!;
     /// <summary>
+    /// Temporary Owner Name (Required).
+    /// </summary>
+    [Required(ErrorMessage = "TemporaryOwnerName is required")]
+    
+    public System.String TemporaryOwnerName { get; set; } = default!;
+    /// <summary>
     /// Vat Number (Optional).
     /// </summary>
     public VatNumberDto? VatNumber { get; set; }
