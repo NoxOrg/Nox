@@ -56,13 +56,13 @@ public class FormulaTests
     }
 
     [Theory]
-    [InlineData(FormulaReturnType.String, typeof(string), "string")]
-    [InlineData(FormulaReturnType.Int, typeof(int), "int")]
-    [InlineData(FormulaReturnType.Long, typeof(long), "long")]
-    [InlineData(FormulaReturnType.Double, typeof(double), "double")]
-    [InlineData(FormulaReturnType.Bool, typeof(bool), "bool")]
-    [InlineData(FormulaReturnType.DateTime, typeof(System.DateTime), "DateTime")]
-    public void ExpressionAndReturnsProperties_WithValidObjet_ReturnValue(FormulaReturnType returnType, Type expectedType, string typeName)
+    [InlineData(FormulaReturnType.String, typeof(string))]
+    [InlineData(FormulaReturnType.Int, typeof(int))]
+    [InlineData(FormulaReturnType.Long, typeof(long))]
+    [InlineData(FormulaReturnType.Double, typeof(double))]
+    [InlineData(FormulaReturnType.Bool, typeof(bool))]
+    [InlineData(FormulaReturnType.DateTime, typeof(System.DateTime))]
+    public void ExpressionAndReturnsProperties_WithValidObjet_ReturnValue(FormulaReturnType returnType, Type expectedType)
     {
         var formula = Formula.From(new FormulaTypeOptions
         {
@@ -72,7 +72,6 @@ public class FormulaTests
 
         formula.Expression.Should().Be("Attr");
         formula.ReturnType.Should().Be(expectedType);
-        formula.ToString().Should().StartWith($"({typeName})");
     }
 
     [Fact]
@@ -85,7 +84,7 @@ public class FormulaTests
 
         });
 
-        formula.ToString().Should().Be("(string):FirstName.ToString() + LastName.ToString()");
+        formula.ToString().Should().Be("(String):FirstName.ToString() + LastName.ToString()");
     }
 
     [Fact]

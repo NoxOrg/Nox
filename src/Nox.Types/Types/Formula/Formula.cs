@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Nox.Types.Extensions;
 
 namespace Nox.Types;
 
@@ -63,7 +62,7 @@ public class Formula : ValueObject<string, Formula>
     /// Converts the instance of the object to string in format (returnType):expression.
     /// </summary>
     public override string ToString()
-        => $"({_formulaTypeOptions.Returns.ToPrimitiveType()}):{Value}";
+        => $"({_formulaTypeOptions.Returns}):{Value}";
 
     protected override IEnumerable<KeyValuePair<string, object>> GetEqualityComponents()
     {
