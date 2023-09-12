@@ -290,11 +290,6 @@ public partial class TestEntityForTypes : AuditableEntityBase
     public Nox.Types.AutoNumber AutoNumberTestField { get; set; } = null!;
 
     /// <summary>
-    ///  (Required).
-    /// </summary>
-    public Nox.Types.DatabaseGuid DatabaseGuidTestField { get; set; } = null!;
-
-    /// <summary>
     ///  (Optional).
     /// </summary>
     public Nox.Types.Html? HtmlTestField { get; set; } = null!;
