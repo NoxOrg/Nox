@@ -101,7 +101,7 @@ public abstract class CountriesControllerBase : ODataController
         return Ok(item);
     }
     
-    public virtual async Task<ActionResult<CountryDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CountryUpdateDto> country)
+    public virtual async Task<ActionResult<CountryDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CountryDto> country)
     {
         if (!ModelState.IsValid)
         {
@@ -141,6 +141,7 @@ public abstract class CountriesControllerBase : ODataController
         
         return NoContent();
     }
+    
     #region Owned Relationships
     
     [EnableQuery]
@@ -225,7 +226,7 @@ public abstract class CountriesControllerBase : ODataController
     }
     
     [HttpPatch("api/Countries/{key}/CountryTimeZones/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToCountryTimeZonesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<CountryTimeZoneUpdateDto> countryTimeZone)
+    public virtual async Task<ActionResult> PatchToCountryTimeZonesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<CountryTimeZoneDto> countryTimeZone)
     {
         if (!ModelState.IsValid)
         {
@@ -361,7 +362,7 @@ public abstract class CountriesControllerBase : ODataController
     }
     
     [HttpPatch("api/Countries/{key}/Holidays/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToHolidaysNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<HolidayUpdateDto> holiday)
+    public virtual async Task<ActionResult> PatchToHolidaysNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<HolidayDto> holiday)
     {
         if (!ModelState.IsValid)
         {

@@ -37,4 +37,20 @@ public partial class CountryLocalName
         => Nox.Types.Text.From(value, NameTypeOptions);
     
 
+    /// <summary>
+    /// Type options and factory for property 'NativeName'
+    /// </summary>
+    public static Nox.Types.TextTypeOptions NativeNameTypeOptions {get; private set;} = new ()
+    {
+        MinLength = 4,
+        MaxLength = 63,
+        IsUnicode = true,
+        IsLocalized = true,
+        Casing = Nox.Types.TextTypeCasing.Normal,
+    };
+    
+    public static Text CreateNativeName(System.String value)
+        => Nox.Types.Text.From(value, NativeNameTypeOptions);
+    
+
 }

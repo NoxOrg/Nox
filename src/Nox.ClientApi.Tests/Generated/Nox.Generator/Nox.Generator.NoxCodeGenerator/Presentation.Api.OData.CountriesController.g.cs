@@ -101,7 +101,7 @@ public abstract class CountriesControllerBase : ODataController
         return Ok(item);
     }
     
-    public virtual async Task<ActionResult<CountryDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CountryUpdateDto> country)
+    public virtual async Task<ActionResult<CountryDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CountryDto> country)
     {
         if (!ModelState.IsValid)
         {
@@ -226,7 +226,7 @@ public abstract class CountriesControllerBase : ODataController
     }
     
     [HttpPatch("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<CountryLocalNameUpdateDto> countryLocalName)
+    public virtual async Task<ActionResult> PatchToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<CountryLocalNameDto> countryLocalName)
     {
         if (!ModelState.IsValid)
         {

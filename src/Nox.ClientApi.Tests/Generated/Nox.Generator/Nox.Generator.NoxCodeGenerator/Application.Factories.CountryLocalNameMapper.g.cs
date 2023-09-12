@@ -34,7 +34,9 @@ public partial class CountryLocalNameMapper : EntityMapperBase<CountryLocalName>
         {
             throw new NullReferenceException("Name is required can not be set to null");
         }     
-        entity.Name = noxTypeValue;
+        entity.Name = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "NativeName", dto.NativeName);     
+        entity.NativeName = noxTypeValue;
     
     }
 
@@ -54,6 +56,20 @@ public partial class CountryLocalNameMapper : EntityMapperBase<CountryLocalName>
                 else
                 {
                     entity.Name = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("NativeName", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "NativeName", value);
+                if(noxTypeValue == null)
+                {
+                    entity.NativeName = null;
+                }
+                else
+                {
+                    entity.NativeName = noxTypeValue;
                 }
             }
         }

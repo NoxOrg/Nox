@@ -32,4 +32,9 @@ public partial class CountryLocalNameDto
     /// Local name (Required).
     /// </summary>
     public System.String Name { get; set; } = default!;
+
+    /// <summary>
+    /// Local name in native tongue (Optional).
+    /// </summary>
+    public System.String? NativeName { get; set; }
 }

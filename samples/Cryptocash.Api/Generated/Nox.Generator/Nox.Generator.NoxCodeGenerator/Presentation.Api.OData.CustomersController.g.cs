@@ -101,7 +101,7 @@ public abstract class CustomersControllerBase : ODataController
         return Ok(item);
     }
     
-    public virtual async Task<ActionResult<CustomerDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CustomerUpdateDto> customer)
+    public virtual async Task<ActionResult<CustomerDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CustomerDto> customer)
     {
         if (!ModelState.IsValid)
         {
