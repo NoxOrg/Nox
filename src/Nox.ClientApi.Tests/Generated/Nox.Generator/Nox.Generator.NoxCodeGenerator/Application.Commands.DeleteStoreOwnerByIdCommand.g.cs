@@ -13,7 +13,7 @@ using StoreOwner = ClientApi.Domain.StoreOwner;
 
 namespace ClientApi.Application.Commands;
 
-public record DeleteStoreOwnerByIdCommand(System.String keyId) : IRequest<bool>;
+public record DeleteStoreOwnerByIdCommand(System.String keyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteStoreOwnerByIdCommandHandler: CommandBase<DeleteStoreOwnerByIdCommand,StoreOwner>, IRequestHandler<DeleteStoreOwnerByIdCommand, bool>
 {
@@ -39,7 +39,9 @@ public class DeleteStoreOwnerByIdCommandHandler: CommandBase<DeleteStoreOwnerByI
 			return false;
 		}
 
-		OnCompleted(entity);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+		OnCompleted(request, entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;

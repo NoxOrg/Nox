@@ -5,7 +5,7 @@ using System.Net;
 using AutoFixture.AutoMoq;
 using Nox.Types;
 
-namespace Nox.ClientApi.Tests.Tests.Controllers
+namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
     public class StoreOwnersControllerTests 
@@ -53,6 +53,10 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             // represent a nox type exception
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+        /// <summary>
+        /// TemporaryOwnerName is required but not for the post, see StoreOwnersController extension
+        /// </summary>
+        /// <returns></returns>
         [Fact]
         public async Task Post_WhenValidId_ReturnCreated()
         {
@@ -68,6 +72,21 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
 
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.Created);
+        }
+        [Fact]
+        public async Task Post_WhenNotRequiredFields_ReturnBadRequest()
+        {
+            // Arrange
+            var createDto = new StoreOwnerCreateDto
+            {
+                Id = "001",                
+            };
+
+            // Act
+            var result = await _oDataFixture.PostAsync(StoreOwnersControllerName, createDto);
+
+            // Assert
+            result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
 
 

@@ -1341,8 +1341,8 @@ domain:
             expression: "2 + 2"
             returns: int
 
-        - name: DatabaseNumberTestField
-          type: databaseNumber
+        - name: AutoNumberTestField
+          type: autoNumber
           isRequired: true
 
         - name: DatabaseGuidTestField

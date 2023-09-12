@@ -180,15 +180,15 @@ public partial class Currency
     /// <summary>
     /// Type options and factory for property 'BankNoteId'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreateBankNoteId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
+    public static Nox.Types.AutoNumber CreateBankNoteId(System.Int64 value)
+        => Nox.Types.AutoNumber.From(value);
     
 
     /// <summary>
     /// Type options and factory for property 'ExchangeRateId'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreateExchangeRateId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
+    public static Nox.Types.AutoNumber CreateExchangeRateId(System.Int64 value)
+        => Nox.Types.AutoNumber.From(value);
     
 
 }

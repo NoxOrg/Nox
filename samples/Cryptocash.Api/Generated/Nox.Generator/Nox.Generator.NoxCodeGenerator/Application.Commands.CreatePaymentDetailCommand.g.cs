@@ -23,12 +23,12 @@ public record CreatePaymentDetailCommand(PaymentDetailCreateDto EntityDto) : IRe
 public partial class CreatePaymentDetailCommandHandler: CommandBase<CreatePaymentDetailCommand,PaymentDetail>, IRequestHandler <CreatePaymentDetailCommand, PaymentDetailKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<PaymentDetailCreateDto,PaymentDetail> _entityFactory;
+	private readonly IEntityFactory<PaymentDetail,PaymentDetailCreateDto> _entityFactory;
 
 	public CreatePaymentDetailCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<PaymentDetailCreateDto,PaymentDetail> entityFactory,
+        IEntityFactory<PaymentDetail,PaymentDetailCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
@@ -42,7 +42,7 @@ public partial class CreatePaymentDetailCommandHandler: CommandBase<CreatePaymen
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 					
-		OnCompleted(entityToCreate);
+		OnCompleted(request, entityToCreate);
 		_dbContext.PaymentDetails.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new PaymentDetailKeyDto(entityToCreate.Id.Value);

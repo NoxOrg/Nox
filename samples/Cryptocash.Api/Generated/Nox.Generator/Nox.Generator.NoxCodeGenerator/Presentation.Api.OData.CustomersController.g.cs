@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -19,7 +21,12 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-public partial class CustomersController : ODataController
+public partial class CustomersController : CustomersControllerBase
+            {
+                public CustomersController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+                {}
+            }
+public abstract class CustomersControllerBase : ODataController
 {
     
     /// <summary>
@@ -32,7 +39,7 @@ public partial class CustomersController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public CustomersController(
+    public CustomersControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -42,7 +49,7 @@ public partial class CustomersController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<CustomerDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<CustomerDto>>> Get()
     {
         var result = await _mediator.Send(new GetCustomersQuery());
         return Ok(result);
@@ -61,8 +68,7 @@ public partial class CustomersController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
-    public async Task<ActionResult<CustomerDto>> Post([FromBody]CustomerCreateDto customer)
+    public virtual async Task<ActionResult<CustomerDto>> Post([FromBody]CustomerCreateDto customer)
     {
         if (!ModelState.IsValid)
         {
@@ -75,15 +81,16 @@ public partial class CustomersController : ODataController
         return Created(item);
     }
     
-    [EnableQuery]
-    public async Task<ActionResult<CustomerDto>> Put([FromRoute] System.Int64 key, [FromBody] CustomerUpdateDto customer)
+    public virtual async Task<ActionResult<CustomerDto>> Put([FromRoute] System.Int64 key, [FromBody] CustomerUpdateDto customer)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateCustomerCommand(key, customer));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateCustomerCommand(key, customer, etag));
+        
         if (updated is null)
         {
             return NotFound();
@@ -94,13 +101,13 @@ public partial class CustomersController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
-    public async Task<ActionResult<CustomerDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CustomerUpdateDto> customer)
+    public virtual async Task<ActionResult<CustomerDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<CustomerUpdateDto> customer)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in customer.GetChangedPropertyNames())
@@ -111,7 +118,8 @@ public partial class CustomersController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCustomerCommand(key, updateProperties));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCustomerCommand(key, updateProperties, etag));
         
         if (updated is null)
         {
@@ -121,9 +129,11 @@ public partial class CustomersController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var result = await _mediator.Send(new DeleteCustomerByIdCommand(key));
+        var etag = Request.GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteCustomerByIdCommand(key, etag));
+        
         if (!result)
         {
             return NotFound();

@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
 using ClientApi.Application.Queries;
@@ -19,7 +21,12 @@ using Nox.Types;
 
 namespace ClientApi.Presentation.Api.OData;
 
-public partial class StoresController : ODataController
+public partial class StoresController : StoresControllerBase
+            {
+                public StoresController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+                {}
+            }
+public abstract class StoresControllerBase : ODataController
 {
     
     /// <summary>
@@ -32,7 +39,7 @@ public partial class StoresController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public StoresController(
+    public StoresControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -46,7 +53,7 @@ public partial class StoresController : ODataController
     #endregion
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<StoreDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<StoreDto>>> Get()
     {
         var result = await _mediator.Send(new GetStoresQuery());
         return Ok(result);
@@ -65,8 +72,7 @@ public partial class StoresController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
-    public async Task<ActionResult<StoreDto>> Post([FromBody]StoreCreateDto store)
+    public virtual async Task<ActionResult<StoreDto>> Post([FromBody]StoreCreateDto store)
     {
         if (!ModelState.IsValid)
         {
@@ -79,15 +85,16 @@ public partial class StoresController : ODataController
         return Created(item);
     }
     
-    [EnableQuery]
-    public async Task<ActionResult<StoreDto>> Put([FromRoute] System.Guid key, [FromBody] StoreUpdateDto store)
+    public virtual async Task<ActionResult<StoreDto>> Put([FromRoute] System.Guid key, [FromBody] StoreUpdateDto store)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateStoreCommand(key, store));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateStoreCommand(key, store, etag));
+        
         if (updated is null)
         {
             return NotFound();
@@ -98,13 +105,13 @@ public partial class StoresController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
-    public async Task<ActionResult<StoreDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<StoreUpdateDto> store)
+    public virtual async Task<ActionResult<StoreDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<StoreUpdateDto> store)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in store.GetChangedPropertyNames())
@@ -115,7 +122,8 @@ public partial class StoresController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateStoreCommand(key, updateProperties));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateStoreCommand(key, updateProperties, etag));
         
         if (updated is null)
         {
@@ -125,9 +133,11 @@ public partial class StoresController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
-        var result = await _mediator.Send(new DeleteStoreByIdCommand(key));
+        var etag = Request.GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteStoreByIdCommand(key, etag));
+        
         if (!result)
         {
             return NotFound();

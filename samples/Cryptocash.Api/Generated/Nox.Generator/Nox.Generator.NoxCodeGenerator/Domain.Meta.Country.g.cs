@@ -142,15 +142,15 @@ public partial class Country
     /// <summary>
     /// Type options and factory for property 'CountryTimeZoneId'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreateCountryTimeZoneId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
+    public static Nox.Types.AutoNumber CreateCountryTimeZoneId(System.Int64 value)
+        => Nox.Types.AutoNumber.From(value);
     
 
     /// <summary>
     /// Type options and factory for property 'HolidayId'
     /// </summary>
-    public static Nox.Types.DatabaseNumber CreateHolidayId(System.Int64 value)
-        => Nox.Types.DatabaseNumber.From(value);
+    public static Nox.Types.AutoNumber CreateHolidayId(System.Int64 value)
+        => Nox.Types.AutoNumber.From(value);
     
 
     /// <summary>

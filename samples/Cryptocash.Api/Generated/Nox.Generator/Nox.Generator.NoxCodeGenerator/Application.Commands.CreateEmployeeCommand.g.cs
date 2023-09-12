@@ -23,12 +23,12 @@ public record CreateEmployeeCommand(EmployeeCreateDto EntityDto) : IRequest<Empl
 public partial class CreateEmployeeCommandHandler: CommandBase<CreateEmployeeCommand,Employee>, IRequestHandler <CreateEmployeeCommand, EmployeeKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<EmployeeCreateDto,Employee> _entityFactory;
+	private readonly IEntityFactory<Employee,EmployeeCreateDto> _entityFactory;
 
 	public CreateEmployeeCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<EmployeeCreateDto,Employee> entityFactory,
+        IEntityFactory<Employee,EmployeeCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
@@ -42,7 +42,7 @@ public partial class CreateEmployeeCommandHandler: CommandBase<CreateEmployeeCom
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
 					
-		OnCompleted(entityToCreate);
+		OnCompleted(request, entityToCreate);
 		_dbContext.Employees.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new EmployeeKeyDto(entityToCreate.Id.Value);

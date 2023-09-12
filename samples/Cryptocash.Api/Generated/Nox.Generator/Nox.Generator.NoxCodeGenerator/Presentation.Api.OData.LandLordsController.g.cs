@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -19,7 +21,12 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-public partial class LandLordsController : ODataController
+public partial class LandLordsController : LandLordsControllerBase
+            {
+                public LandLordsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+                {}
+            }
+public abstract class LandLordsControllerBase : ODataController
 {
     
     /// <summary>
@@ -32,7 +39,7 @@ public partial class LandLordsController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public LandLordsController(
+    public LandLordsControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -42,7 +49,7 @@ public partial class LandLordsController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<LandLordDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<LandLordDto>>> Get()
     {
         var result = await _mediator.Send(new GetLandLordsQuery());
         return Ok(result);
@@ -61,8 +68,7 @@ public partial class LandLordsController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
-    public async Task<ActionResult<LandLordDto>> Post([FromBody]LandLordCreateDto landLord)
+    public virtual async Task<ActionResult<LandLordDto>> Post([FromBody]LandLordCreateDto landLord)
     {
         if (!ModelState.IsValid)
         {
@@ -75,15 +81,16 @@ public partial class LandLordsController : ODataController
         return Created(item);
     }
     
-    [EnableQuery]
-    public async Task<ActionResult<LandLordDto>> Put([FromRoute] System.Int64 key, [FromBody] LandLordUpdateDto landLord)
+    public virtual async Task<ActionResult<LandLordDto>> Put([FromRoute] System.Int64 key, [FromBody] LandLordUpdateDto landLord)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateLandLordCommand(key, landLord));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateLandLordCommand(key, landLord, etag));
+        
         if (updated is null)
         {
             return NotFound();
@@ -94,13 +101,13 @@ public partial class LandLordsController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
-    public async Task<ActionResult<LandLordDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<LandLordUpdateDto> landLord)
+    public virtual async Task<ActionResult<LandLordDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<LandLordUpdateDto> landLord)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in landLord.GetChangedPropertyNames())
@@ -111,7 +118,8 @@ public partial class LandLordsController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateLandLordCommand(key, updateProperties));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateLandLordCommand(key, updateProperties, etag));
         
         if (updated is null)
         {
@@ -121,9 +129,11 @@ public partial class LandLordsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var result = await _mediator.Send(new DeleteLandLordByIdCommand(key));
+        var etag = Request.GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteLandLordByIdCommand(key, etag));
+        
         if (!result)
         {
             return NotFound();

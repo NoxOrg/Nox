@@ -10,7 +10,7 @@ using MediatR;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-
+using System.Text.Json.Serialization;
 using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
@@ -31,5 +31,5 @@ public partial class CountryTimeZoneDto
     /// <summary>
     /// Country's related time zone code (Required).
     /// </summary>
-    public System.String TimeZoneCode { get; set; } = default!;    
+    public System.String TimeZoneCode { get; set; } = default!;
 }

@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using SampleWebApp.Application;
 using SampleWebApp.Application.Dto;
 using SampleWebApp.Application.Queries;
@@ -19,7 +21,12 @@ using Nox.Types;
 
 namespace SampleWebApp.Presentation.Api.OData;
 
-public partial class CountriesController : ODataController
+public partial class CountriesController : CountriesControllerBase
+            {
+                public CountriesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+                {}
+            }
+public abstract class CountriesControllerBase : ODataController
 {
     
     /// <summary>
@@ -37,7 +44,7 @@ public partial class CountriesController : ODataController
     /// </summary>
     protected readonly GetCountriesByContinentQueryBase _getCountriesByContinent;
     
-    public CountriesController(
+    public CountriesControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator,
         GetCountriesByContinentQueryBase getCountriesByContinent
@@ -49,7 +56,7 @@ public partial class CountriesController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<CountryDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<CountryDto>>> Get()
     {
         var result = await _mediator.Send(new GetCountriesQuery());
         return Ok(result);
@@ -68,8 +75,7 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
-    public async Task<ActionResult<CountryDto>> Post([FromBody]CountryCreateDto country)
+    public virtual async Task<ActionResult<CountryDto>> Post([FromBody]CountryCreateDto country)
     {
         if (!ModelState.IsValid)
         {
@@ -82,15 +88,16 @@ public partial class CountriesController : ODataController
         return Created(item);
     }
     
-    [EnableQuery]
-    public async Task<ActionResult<CountryDto>> Put([FromRoute] System.String key, [FromBody] CountryUpdateDto country)
+    public virtual async Task<ActionResult<CountryDto>> Put([FromRoute] System.String key, [FromBody] CountryUpdateDto country)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateCountryCommand(key, country));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateCountryCommand(key, country, etag));
+        
         if (updated is null)
         {
             return NotFound();
@@ -101,13 +108,13 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
-    [EnableQuery]
-    public async Task<ActionResult<CountryDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CountryUpdateDto> country)
+    public virtual async Task<ActionResult<CountryDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CountryUpdateDto> country)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in country.GetChangedPropertyNames())
@@ -118,7 +125,8 @@ public partial class CountriesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties, etag));
         
         if (updated is null)
         {
@@ -128,9 +136,11 @@ public partial class CountriesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.String key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
     {
-        var result = await _mediator.Send(new DeleteCountryByIdCommand(key));
+        var etag = Request.GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteCountryByIdCommand(key, etag));
+        
         if (!result)
         {
             return NotFound();

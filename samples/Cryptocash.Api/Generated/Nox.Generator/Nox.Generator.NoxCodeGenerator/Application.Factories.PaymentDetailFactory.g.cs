@@ -23,7 +23,7 @@ using PaymentDetail = Cryptocash.Domain.PaymentDetail;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class PaymentDetailFactoryBase: IEntityFactory<PaymentDetailCreateDto,PaymentDetail>
+public abstract class PaymentDetailFactoryBase: IEntityFactory<PaymentDetail,PaymentDetailCreateDto>
 {
 
     public PaymentDetailFactoryBase

@@ -14,29 +14,34 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+public partial class StoreCreateDto: StoreCreateDtoBase
+{
+
+}
+
 /// <summary>
 /// Stores.
 /// </summary>
-public partial class StoreCreateDto : IEntityCreateDto <Store>
+public abstract class StoreCreateDtoBase : IEntityCreateDto<Store>
 {    
     /// <summary>
     /// Store Name (Required).
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public System.String Name { get; set; } = default!;    
+    public virtual System.String Name { get; set; } = default!;    
     /// <summary>
     /// Street Address (Required).
     /// </summary>
     [Required(ErrorMessage = "Address is required")]
     
-    public StreetAddressDto Address { get; set; } = default!;    
+    public virtual StreetAddressDto Address { get; set; } = default!;    
     /// <summary>
     /// Location (Required).
     /// </summary>
     [Required(ErrorMessage = "Location is required")]
     
-    public LatLongDto Location { get; set; } = default!;
+    public virtual LatLongDto Location { get; set; } = default!;
 
     /// <summary>
     /// Store Store owner relationship ZeroOrOne StoreOwners
@@ -47,5 +52,5 @@ public partial class StoreCreateDto : IEntityCreateDto <Store>
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
-    public virtual EmailAddressCreateDto? EmailAddress { get; set; } = null!;   
+    public virtual EmailAddressCreateDto? EmailAddress { get; set; } = null!;
 }

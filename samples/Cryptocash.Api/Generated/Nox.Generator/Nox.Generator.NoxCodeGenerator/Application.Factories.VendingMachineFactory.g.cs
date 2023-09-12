@@ -23,7 +23,7 @@ using VendingMachine = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class VendingMachineFactoryBase: IEntityFactory<VendingMachineCreateDto,VendingMachine>
+public abstract class VendingMachineFactoryBase: IEntityFactory<VendingMachine,VendingMachineCreateDto>
 {
 
     public VendingMachineFactoryBase

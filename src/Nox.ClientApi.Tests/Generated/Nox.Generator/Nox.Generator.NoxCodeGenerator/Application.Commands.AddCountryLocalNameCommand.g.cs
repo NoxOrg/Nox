@@ -17,17 +17,17 @@ using ClientApi.Application.Dto;
 using CountryLocalName = ClientApi.Domain.CountryLocalName;
 
 namespace ClientApi.Application.Commands;
-public record AddCountryLocalNameCommand(CountryKeyDto ParentKeyDto, CountryLocalNameCreateDto EntityDto) : IRequest <CountryLocalNameKeyDto?>;
+public record AddCountryLocalNameCommand(CountryKeyDto ParentKeyDto, CountryLocalNameCreateDto EntityDto, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
 
 public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLocalNameCommand, CountryLocalName>, IRequestHandler <AddCountryLocalNameCommand, CountryLocalNameKeyDto?>
 {
 	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<CountryLocalNameCreateDto,CountryLocalName> _entityFactory;
+	private readonly IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> _entityFactory;
 
 	public AddCountryLocalNameCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<CountryLocalNameCreateDto,CountryLocalName> entityFactory,
+        IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
@@ -37,7 +37,7 @@ public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLo
 	public async Task<CountryLocalNameKeyDto?> Handle(AddCountryLocalNameCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,DatabaseNumber>("Id", request.ParentKeyDto.keyId);
+		var keyId = CreateNoxTypeForKey<Country,AutoNumber>("Id", request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)
@@ -48,8 +48,8 @@ public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLo
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
 		
 		parentEntity.CountryLocalNames.Add(entity);
-
-		OnCompleted(entity);
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		OnCompleted(request, entity);
 	
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await _dbContext.SaveChangesAsync();

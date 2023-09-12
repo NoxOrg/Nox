@@ -13,12 +13,12 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>
-public partial class MinimumCashStock : AuditableEntityBase
+public partial class MinimumCashStock : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Vending machine cash stock unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Cash stock amount (Required).
@@ -39,4 +39,9 @@ public partial class MinimumCashStock : AuditableEntityBase
     /// Foreign key for relationship ExactlyOne to entity Currency
     /// </summary>
     public Nox.Types.CurrencyCode3 MinimumCashStockRelatedCurrencyId { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

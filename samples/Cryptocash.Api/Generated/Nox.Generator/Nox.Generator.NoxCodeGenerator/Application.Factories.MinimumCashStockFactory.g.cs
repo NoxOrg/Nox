@@ -23,7 +23,7 @@ using MinimumCashStock = Cryptocash.Domain.MinimumCashStock;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class MinimumCashStockFactoryBase: IEntityFactory<MinimumCashStockCreateDto,MinimumCashStock>
+public abstract class MinimumCashStockFactoryBase: IEntityFactory<MinimumCashStock,MinimumCashStockCreateDto>
 {
 
     public MinimumCashStockFactoryBase

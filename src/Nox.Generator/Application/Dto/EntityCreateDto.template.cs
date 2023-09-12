@@ -14,13 +14,18 @@ using {{codeGeneratorState.DomainNameSpace}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
 
+public partial class {{className}}: {{className}}Base
+{
+
+}
+
 /// <summary>
 /// {{entity.Description}}.
 /// </summary>
-public partial class {{className}} : IEntityCreateDto <{{entity.Name}}>
+public abstract class {{className}}Base : IEntityCreateDto<{{entity.Name}}>
 {
 {{- for key in entity.Keys }}
-    {{- if key.Type == "Nuid" || key.Type == "DatabaseNumber" || key.Type == "DatabaseGuid" -}}
+    {{- if key.Type == "Nuid" || key.Type == "AutoNumber" || key.Type == "DatabaseGuid" -}}
     {{ continue; -}}
     {{- end }}
     /// <summary>
@@ -42,9 +47,9 @@ public partial class {{className}} : IEntityCreateDto <{{entity.Name}}>
     [Required(ErrorMessage = "{{attribute.Name}} is required")]
     {{ end}}
     {{ if componentsInfo[attribute.Name].IsSimpleType -}}
-    public {{componentsInfo[attribute.Name].ComponentType}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
+    public virtual {{componentsInfo[attribute.Name].ComponentType}}{{ if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
     {{- else -}}
-    public {{attribute.Type}}Dto{{- if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
+    public virtual {{attribute.Type}}Dto{{- if !attribute.IsRequired}}?{{end}} {{attribute.Name}} { get; set; }{{if attribute.IsRequired}} = default!;{{end}}
     {{- end}}
 {{- end }}
 
@@ -68,5 +73,5 @@ public partial class {{className}} : IEntityCreateDto <{{entity.Name}}>
     {{- else}}
     public virtual {{relationship.Entity}}CreateDto{{- if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
     {{-end}}
-{{- end }}   
+{{- end }}
 }

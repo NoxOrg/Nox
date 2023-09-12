@@ -23,7 +23,7 @@ using EmployeePhoneNumber = Cryptocash.Domain.EmployeePhoneNumber;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class EmployeePhoneNumberFactoryBase: IEntityFactory<EmployeePhoneNumberCreateDto,EmployeePhoneNumber>
+public abstract class EmployeePhoneNumberFactoryBase: IEntityFactory<EmployeePhoneNumber,EmployeePhoneNumberCreateDto>
 {
 
     public EmployeePhoneNumberFactoryBase

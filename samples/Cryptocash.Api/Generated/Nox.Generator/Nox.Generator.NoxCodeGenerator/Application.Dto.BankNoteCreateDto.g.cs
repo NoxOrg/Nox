@@ -14,21 +14,26 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+public partial class BankNoteCreateDto: BankNoteCreateDtoBase
+{
+
+}
+
 /// <summary>
 /// Currencies related frequent and rare bank notes.
 /// </summary>
-public partial class BankNoteCreateDto : IEntityCreateDto <BankNote>
+public abstract class BankNoteCreateDtoBase : IEntityCreateDto<BankNote>
 {    
     /// <summary>
     /// Currency's cash bank note identifier (Required).
     /// </summary>
     [Required(ErrorMessage = "CashNote is required")]
     
-    public System.String CashNote { get; set; } = default!;    
+    public virtual System.String CashNote { get; set; } = default!;    
     /// <summary>
     /// Bank note value (Required).
     /// </summary>
     [Required(ErrorMessage = "Value is required")]
     
-    public MoneyDto Value { get; set; } = default!;   
+    public virtual MoneyDto Value { get; set; } = default!;
 }

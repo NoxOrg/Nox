@@ -17,17 +17,17 @@ using Cryptocash.Application.Dto;
 using Holiday = Cryptocash.Domain.Holiday;
 
 namespace Cryptocash.Application.Commands;
-public record AddHolidayCommand(CountryKeyDto ParentKeyDto, HolidayCreateDto EntityDto) : IRequest <HolidayKeyDto?>;
+public record AddHolidayCommand(CountryKeyDto ParentKeyDto, HolidayCreateDto EntityDto, System.Guid? Etag) : IRequest <HolidayKeyDto?>;
 
 public partial class AddHolidayCommandHandler: CommandBase<AddHolidayCommand, Holiday>, IRequestHandler <AddHolidayCommand, HolidayKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<HolidayCreateDto,Holiday> _entityFactory;
+	private readonly IEntityFactory<Holiday,HolidayCreateDto> _entityFactory;
 
 	public AddHolidayCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<HolidayCreateDto,Holiday> entityFactory,
+        IEntityFactory<Holiday,HolidayCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
@@ -48,8 +48,8 @@ public partial class AddHolidayCommandHandler: CommandBase<AddHolidayCommand, Ho
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
 		
 		parentEntity.Holidays.Add(entity);
-
-		OnCompleted(entity);
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		OnCompleted(request, entity);
 	
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await _dbContext.SaveChangesAsync();

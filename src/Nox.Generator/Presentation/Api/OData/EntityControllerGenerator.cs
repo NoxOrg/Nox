@@ -60,7 +60,9 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             code.AppendLine($"using Microsoft.AspNetCore.OData.Routing.Controllers;");
             code.AppendLine($"using Microsoft.EntityFrameworkCore;");
             code.AppendLine("using MediatR;");
+            code.AppendLine("using System.Net.Http.Headers;");
             code.AppendLine("using Nox.Application;");
+            code.AppendLine("using Nox.Extensions;");
 
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace};");
             code.AppendLine($"using {codeGeneratorState.ApplicationNameSpace}.Dto;");
@@ -75,7 +77,13 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             code.AppendLine($"namespace {codeGeneratorState.ODataNameSpace};");
             code.AppendLine();
 
-            code.AppendLine($"public partial class {controllerName} : ODataController");
+            code.AppendLine(@$"public partial class {controllerName} : {controllerName}Base
+            {{
+                public {controllerName}(IMediator mediator, {dbContextName} databaseContext):base(databaseContext, mediator)
+                {{}}
+            }}");
+
+            code.AppendLine($"public abstract class {controllerName}Base : ODataController");
 
             // Class
             code.StartBlock();
@@ -105,7 +113,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             //}
 
             // Add constructor
-            AddConstructor(code, controllerName, constructorParameters);
+            AddConstructor(code, $"{controllerName}Base", constructorParameters);
 
             code.AppendLine();
 
@@ -123,11 +131,14 @@ internal class EntityControllerGenerator : INoxCodeGenerator
                         {
                             continue;
                         }
+
                         GenerateChildrenGet(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
+                        GenerateChildrenGetById(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
                         GenerateChildrenPost(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
                         GenerateChildrenPut(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
                         GenerateChildrenPatch(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
-                        GenerateChildrenGetById(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
+                        GenerateChildrenDelete(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
+                        GeneratePrivateChildrenGetById(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
                     }
                     code.AppendLine($"#endregion");
                     code.AppendLine();
@@ -194,12 +205,21 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GenerateDelete(Entity entity, string entityName, CodeBuilder code, NoxSolution solution)
     {
         // Method Delete
-        code.AppendLine($"public async Task<ActionResult> Delete({PrimaryKeysFromRoute(entity, solution)})");
+        code.AppendLine($"public virtual async Task<ActionResult> Delete({PrimaryKeysFromRoute(entity, solution)})");
 
         // Method content
         code.StartBlock();
-        code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand({PrimaryKeysQuery(entity)}));");
+        if (!entity.IsOwnedEntity)
+        {
+            code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
+            code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand({PrimaryKeysQuery(entity)}, etag));");
+        }
+        else
+        {
+            code.AppendLine($"var result = await _mediator.Send(new Delete{entityName}ByIdCommand({PrimaryKeysQuery(entity)}));");
+        }
 
+        code.AppendLine();
         code.AppendLine($"if (!result)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
@@ -214,8 +234,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GeneratePut(Entity entity, CodeBuilder code, NoxSolution solution)
     {
         // Method Put
-        code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Put({PrimaryKeysFromRoute(entity, solution)}, [FromBody] {entity.Name}UpdateDto {entity.Name.ToLowerFirstChar()})");
+        code.AppendLine($"public virtual async Task<ActionResult<{entity.Name}Dto>> Put({PrimaryKeysFromRoute(entity, solution)}, [FromBody] {entity.Name}UpdateDto {entity.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();
@@ -224,7 +243,19 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
-        code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({PrimaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}));");
+
+        if (!entity.IsOwnedEntity)
+        {
+            code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
+            code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({PrimaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}, etag));");
+        }
+        else
+        {
+            code.AppendLine($"var updated = await _mediator.Send(new Update{entity.Name}Command({PrimaryKeysQuery(entity)}, {entity.Name.ToLowerFirstChar()}));");
+        }
+
+        code.AppendLine();
+
         code.AppendLine($"if (updated is null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
@@ -243,8 +274,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GeneratePatch(Entity entity, string entityName, string pluralName, CodeBuilder code, NoxSolution solution)
     {
         // Method Patch
-        code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Patch({PrimaryKeysFromRoute(entity, solution)}, [FromBody] Delta<{entityName}UpdateDto> {entity.Name.ToLowerFirstChar()})");
+        code.AppendLine($"public virtual async Task<ActionResult<{entity.Name}Dto>> Patch({PrimaryKeysFromRoute(entity, solution)}, [FromBody] Delta<{entityName}UpdateDto> {entity.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();
@@ -252,6 +282,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.StartBlock();
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
+        code.AppendLine();
         code.AppendLine(@$"var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in {entity.Name.ToLowerFirstChar()}.GetChangedPropertyNames())
@@ -262,7 +293,17 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             }}           
         }}");
         code.AppendLine();
-        code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties));");
+
+        if (!entity.IsOwnedEntity)
+        {
+            code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
+            code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties, etag));");
+        }
+        else
+        {
+            code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{entity.Name}Command({PrimaryKeysQuery(entity)}, updateProperties));");
+        }
+
         code.AppendLine();
 
         code.AppendLine($"if (updated is null)");
@@ -280,8 +321,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GeneratePost(Entity entity, CodeBuilder code)
     {
         // Method Post
-        code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public async Task<ActionResult<{entity.Name}Dto>> Post([FromBody]{entity.Name}CreateDto {entity.Name.ToLowerFirstChar()})");
+        code.AppendLine($"public virtual async Task<ActionResult<{entity.Name}Dto>> Post([FromBody]{entity.Name}CreateDto {entity.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();
@@ -301,7 +341,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine();
     }
 
-    private static void GenerateChildrenGetById(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
+    private static void GeneratePrivateChildrenGetById(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
     {
         code.AppendLine($"private async Task<{child.Name}Dto?> TryGet{child.Name}({PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, {child.Name}KeyDto childKeyDto)");
 
@@ -315,10 +355,38 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine();
     }
 
+    private static void GenerateChildrenGetById(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
+    {
+        code.AppendLine($"[EnableQuery]");
+        code.AppendLine($"[HttpGet(\"/api/[controller]/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+        code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> Get{child.Name}NonConventional(" +
+            $"{PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, " +
+            $"{PrimaryKeysFromRoute(child, solution, "relatedKey", "")})");
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
+
+        code.AppendLine($"var child = await TryGet{child.Name}(" +
+            $"{PrimaryKeysQuery(parent)}, " +
+            $"new {child.Name}KeyDto({PrimaryKeysQuery(child, "relatedKey")}));");
+        code.AppendLine($"if (child == null)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine($"return Ok(child);");
+
+        code.EndBlock();
+        code.AppendLine();
+    }
+
     private static void GenerateChildrenGet(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
     {
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public async Task<ActionResult<IQueryable<{child.Name}Dto>>> Get{child.PluralName}({PrimaryKeysFromRoute(parent, solution)})");
+        code.AppendLine($"public virtual async Task<ActionResult<IQueryable<{child.Name}Dto>>> Get{child.PluralName}({PrimaryKeysFromRoute(parent, solution)})");
 
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid)");
@@ -341,7 +409,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
     private static void GenerateChildrenPost(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
     {
-        code.AppendLine($"public async Task<ActionResult> PostTo{child.PluralName}({PrimaryKeysFromRoute(parent, solution)}, [FromBody] {child.Name}CreateDto {child.Name.ToLowerFirstChar()})");
+        code.AppendLine($"public virtual async Task<ActionResult> PostTo{child.PluralName}({PrimaryKeysFromRoute(parent, solution)}, [FromBody] {child.Name}CreateDto {child.Name.ToLowerFirstChar()})");
 
         code.StartBlock();
         code.AppendLine($"if (!ModelState.IsValid)");
@@ -349,8 +417,9 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
+        code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
         code.AppendLine($"var createdKey = await _mediator.Send(new Add{child.Name}Command(" +
-            $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), {child.Name.ToLowerFirstChar()}));");
+            $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), {child.Name.ToLowerFirstChar()}, etag));");
         code.AppendLine($"if (createdKey == null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
@@ -370,8 +439,8 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
     private static void GenerateChildrenPut(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
     {
-        code.AppendLine($"[HttpPut(\"/api/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
-        code.AppendLine($"public async Task<ActionResult> PutTo{child.PluralName}NonConventional(" +
+        code.AppendLine($"[HttpPut(\"/api/[controller]/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+        code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> PutTo{child.PluralName}NonConventional(" +
             $"{PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, " +
             $"{PrimaryKeysFromRoute(child, solution, "relatedKey", "")}, " +
             $"[FromBody] {child.Name}UpdateDto {child.Name.ToLowerFirstChar()})");
@@ -382,10 +451,11 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"return BadRequest(ModelState);");
         code.EndBlock();
         code.AppendLine();
+        code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
         code.AppendLine($"var updatedKey = await _mediator.Send(new Update{child.Name}Command(" +
             $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), " +
             $"new {child.Name}KeyDto({PrimaryKeysQuery(child, "relatedKey")}), " +
-            $"{child.Name.ToLowerFirstChar()}));");
+            $"{child.Name.ToLowerFirstChar()}, etag));");
         code.AppendLine($"if (updatedKey == null)");
         code.StartBlock();
         code.AppendLine($"return NotFound();");
@@ -406,8 +476,8 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GenerateChildrenPatch(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
     {
         // Method Patch
-        code.AppendLine($"[HttpPatch(\"/api/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
-        code.AppendLine($"public async Task<ActionResult> PatchTo{child.PluralName}NonConventional(" +
+        code.AppendLine($"[HttpPatch(\"/api/[controller]/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+        code.AppendLine($"public virtual async Task<ActionResult> PatchTo{child.PluralName}NonConventional(" +
             $"{PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, " +
             $"{PrimaryKeysFromRoute(child, solution, "relatedKey", "")}, " +
             $"[FromBody] Delta<{child.Name}UpdateDto> {child.Name.ToLowerFirstChar()})");
@@ -428,10 +498,11 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             }}           
         }}");
         code.AppendLine();
+        code.AppendLine("var etag = Request.GetDecodedEtagHeader();");
         code.AppendLine($"var updated = await _mediator.Send(new PartialUpdate{child.Name}Command(" +
             $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), " +
             $"new {child.Name}KeyDto({PrimaryKeysQuery(child, "relatedKey")}), " +
-            $"updateProperties));");
+            $"updateProperties, etag));");
         code.AppendLine();
 
         code.AppendLine($"if (updated is null)");
@@ -451,11 +522,39 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine();
     }
 
+    private static void GenerateChildrenDelete(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
+    {
+        code.AppendLine($"[HttpDelete(\"/api/[controller]/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+        code.AppendLine($"public virtual async Task<ActionResult> Delete{child.Name}NonConventional(" +
+            $"{PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, " +
+            $"{PrimaryKeysFromRoute(child, solution, "relatedKey", "")})");
+
+        code.StartBlock();
+        code.AppendLine($"if (!ModelState.IsValid)");
+        code.StartBlock();
+        code.AppendLine($"return BadRequest(ModelState);");
+        code.EndBlock();
+
+        code.AppendLine($"var result = await _mediator.Send(new Delete{child.Name}Command(" +
+            $"new {parent.Name}KeyDto({PrimaryKeysQuery(parent)}), " +
+            $"new {child.Name}KeyDto({PrimaryKeysQuery(child, "relatedKey")})));");
+
+        code.AppendLine($"if (!result)");
+        code.StartBlock();
+        code.AppendLine($"return NotFound();");
+        code.EndBlock();
+        code.AppendLine();
+        code.AppendLine($"return NoContent();");
+
+        code.EndBlock();
+        code.AppendLine();
+    }
+
     private static void GenerateGet(Entity entity, CodeBuilder code, NoxSolution solution)
     {
         // Method Get
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"public async  Task<ActionResult<IQueryable<{entity.Name}Dto>>> Get()");
+        code.AppendLine($"public virtual async Task<ActionResult<IQueryable<{entity.Name}Dto>>> Get()");
 
         // Method content
         code.StartBlock();

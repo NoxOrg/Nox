@@ -23,7 +23,7 @@ using Holiday = Cryptocash.Domain.Holiday;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class HolidayFactoryBase: IEntityFactory<HolidayCreateDto,Holiday>
+public abstract class HolidayFactoryBase: IEntityFactory<Holiday,HolidayCreateDto>
 {
 
     public HolidayFactoryBase

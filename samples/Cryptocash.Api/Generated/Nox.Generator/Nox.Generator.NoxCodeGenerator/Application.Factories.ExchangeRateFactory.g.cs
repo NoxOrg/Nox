@@ -23,7 +23,7 @@ using ExchangeRate = Cryptocash.Domain.ExchangeRate;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class ExchangeRateFactoryBase: IEntityFactory<ExchangeRateCreateDto,ExchangeRate>
+public abstract class ExchangeRateFactoryBase: IEntityFactory<ExchangeRate,ExchangeRateCreateDto>
 {
 
     public ExchangeRateFactoryBase

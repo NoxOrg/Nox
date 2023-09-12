@@ -1,0 +1,90 @@
+<html>
+<head>
+    <title>OData Endpoint Routing Debugger</title>
+    <style>
+        table {
+            font-family: arial, sans-serif;
+            border-collapse: collapse;
+            width: 100%;
+        }
+        td,
+        th {
+            border: 1px solid #dddddd;
+            text-align: left;
+            padding: 8px;
+        }
+        tr:nth-child(even) {
+            background-color: #dddddd;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="odata">OData Endpoint Mappings</h1>
+    <p>
+        <a href="#standard">Go to non-OData endpoint mappings</a>
+    </p>
+    <table>
+        <tr>
+            <th> Controller & Action </th>
+            <th> HttpMethods </th>
+            <th> Template </th> 
+            <th> IsConventional </th>
+        </tr>
+        <tr><td>ClientApi.Controllers.HousesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Houses">api/Houses</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Controllers.HousesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Houses/$count">api/Houses/$count</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.CountriesWithDebt (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/CountriesWithDebt">api/CountriesWithDebt</a></td><td>-</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.GetCountryLocalNames (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Countries/{key}/CountryLocalNames">api/Countries/{key}/CountryLocalNames</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.GetCountryLocalNames (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Countries/{key}/CountryLocalNames/$count">api/Countries/{key}/CountryLocalNames/$count</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.PostToCountryLocalNames (Nox.ClientApi.Tests)</td><td>POST</td><td>api/Countries/{key}/CountryLocalNames</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Countries">api/Countries</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Countries/$count">api/Countries/$count</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Countries/{key}">api/Countries/{key}</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.Post (Nox.ClientApi.Tests)</td><td>POST</td><td>api/Countries</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.Put (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/Countries/{key}</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.Patch (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/Countries/{key}</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.Delete (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Countries/{key}</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreOwnersController.Post (Nox.ClientApi.Tests)</td><td>POST</td><td>api/StoreOwners</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreOwnersController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/StoreOwners">api/StoreOwners</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreOwnersController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/StoreOwners/$count">api/StoreOwners/$count</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreOwnersController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/StoreOwners/{key}">api/StoreOwners/{key}</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreOwnersController.Put (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/StoreOwners/{key}</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreOwnersController.Patch (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/StoreOwners/{key}</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoreOwnersController.Delete (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/StoreOwners/{key}</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Stores">api/Stores</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Stores/$count">api/Stores/$count</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Stores/{key}">api/Stores/{key}</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.Post (Nox.ClientApi.Tests)</td><td>POST</td><td>api/Stores</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.Put (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/Stores/{key}</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.Patch (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/Stores/{key}</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.StoresController.Delete (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Stores/{key}</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Workplaces">api/Workplaces</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Workplaces/$count">api/Workplaces/$count</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Get (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Workplaces/{key}">api/Workplaces/{key}</a></td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Post (Nox.ClientApi.Tests)</td><td>POST</td><td>api/Workplaces</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Put (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/Workplaces/{key}</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Patch (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/Workplaces/{key}</td><td>Yes</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.WorkplacesController.Delete (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Workplaces/{key}</td><td>Yes</td></tr>
+<tr><td>Microsoft.AspNetCore.OData.Routing.Controllers.MetadataController.GetMetadata (Microsoft.AspNetCore.OData)</td><td>GET</td><td><a href="api/$metadata">api/$metadata</a></td><td>Yes</td></tr>
+<tr><td>Microsoft.AspNetCore.OData.Routing.Controllers.MetadataController.GetServiceDocument (Microsoft.AspNetCore.OData)</td><td>GET</td><td><a href="api">api</a></td><td>Yes</td></tr>
+
+    </table>
+    <h1 id="standard">Non-OData Endpoint Mappings</h1>
+    <p>
+        <a href="#odata">Go to OData endpoint mappings</a>
+    </p>
+    <table>
+        <tr>
+            <th> Controller </th>
+            <th> HttpMethods </th>
+            <th> Template </th>
+        </tr>
+        <tr><td>ClientApi.Controllers.HousesController.HousesToRent (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Houses/HousesToRent">api/Houses/HousesToRent</a></td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.CountriesWithDebt2 (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Countries/CountriesWithDebt2">api/Countries/CountriesWithDebt2</a></td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.GetCountryLocalNameNonConventional (Nox.ClientApi.Tests)</td><td>GET</td><td><a href="api/Countries/{key}/CountryLocalNames/{relatedKey}">api/Countries/{key}/CountryLocalNames/{relatedKey}</a></td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.PutToCountryLocalNamesNonConventional (Nox.ClientApi.Tests)</td><td>PUT</td><td>api/Countries/{key}/CountryLocalNames/{relatedKey}</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.PatchToCountryLocalNamesNonConventional (Nox.ClientApi.Tests)</td><td>PATCH</td><td>api/Countries/{key}/CountryLocalNames/{relatedKey}</td></tr>
+<tr><td>ClientApi.Presentation.Api.OData.CountriesController.DeleteCountryLocalNameNonConventional (Nox.ClientApi.Tests)</td><td>DELETE</td><td>api/Countries/{key}/CountryLocalNames/{relatedKey}</td></tr>
+
+    </table>
+</body>
+</html>

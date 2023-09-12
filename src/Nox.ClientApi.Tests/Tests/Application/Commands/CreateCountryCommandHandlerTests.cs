@@ -3,7 +3,7 @@ using ClientApi.Application.Dto;
 using AutoFixture.AutoMoq;
 using AutoFixture;
 
-namespace Nox.ClientApi.Tests.Tests.Controllers;
+namespace ClientApi.Tests.Tests.Controllers;
 
 [Collection("Sequential")]
 public class CreateCountryCommandHandlerTests 
@@ -21,7 +21,7 @@ public class CreateCountryCommandHandlerTests
 
     /// <summary>
     /// Test a command extension for <see cref="CreateCountryCommandHandler"/>
-    /// For Request Validation, before command handler is executed use <see cref="IValidator"/> instead IValidator<CreateClientDatabaseNumberCommand>.
+    /// For Request Validation, before command handler is executed use <see cref="IValidator"/> instead IValidator<CreateClientAutoNumberCommand>.
     /// </summary>
     [Fact]
     public async Task Put_PopulationNegative_ShouldUpdateTo0()
@@ -41,7 +41,8 @@ public class CreateCountryCommandHandlerTests
         // Act
 
         var postResult = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(CountryControllerName, countryDto);
-        var putResult = await _oDataFixture.PutAsync<CountryUpdateDto, CountryDto>($"{CountryControllerName}/{postResult!.Id}", countryUpdateDto);
+        var headers = _oDataFixture.CreateEtagHeader(postResult?.Etag);
+        var putResult = await _oDataFixture.PutAsync<CountryUpdateDto, CountryDto>($"{CountryControllerName}/{postResult!.Id}", countryUpdateDto, headers);
 
         //Assert
 

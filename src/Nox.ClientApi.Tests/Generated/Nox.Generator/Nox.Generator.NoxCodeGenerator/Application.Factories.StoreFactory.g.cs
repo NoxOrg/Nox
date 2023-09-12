@@ -23,13 +23,13 @@ using Store = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class StoreFactoryBase: IEntityFactory<StoreCreateDto,Store>
+public abstract class StoreFactoryBase: IEntityFactory<Store,StoreCreateDto>
 {
-    protected IEntityFactory<EmailAddressCreateDto,EmailAddress> EmailAddressFactory {get;}
+    protected IEntityFactory<EmailAddress,EmailAddressCreateDto> EmailAddressFactory {get;}
 
     public StoreFactoryBase
     (
-        IEntityFactory<EmailAddressCreateDto,EmailAddress> emailaddressfactory
+        IEntityFactory<EmailAddress,EmailAddressCreateDto> emailaddressfactory
         )
     {        
         EmailAddressFactory = emailaddressfactory;
@@ -58,7 +58,7 @@ public partial class StoreFactory : StoreFactoryBase
 {
     public StoreFactory
     (
-        IEntityFactory<EmailAddressCreateDto,EmailAddress> emailaddressfactory
+        IEntityFactory<EmailAddress,EmailAddressCreateDto> emailaddressfactory
     ): base(emailaddressfactory)                      
     {}
 }

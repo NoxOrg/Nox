@@ -40,6 +40,11 @@ public partial class StoreOwnerMapper : EntityMapperBase<StoreOwner>
         {        
             entity.Name = noxTypeValue;
         }        
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "TemporaryOwnerName", dto.TemporaryOwnerName);
+        if (noxTypeValue != null)
+        {        
+            entity.TemporaryOwnerName = noxTypeValue;
+        }        
         noxTypeValue = CreateNoxType<Nox.Types.VatNumber>(entityDefinition, "VatNumber", dto.VatNumber);
         if (noxTypeValue != null)
         {        
@@ -49,6 +54,11 @@ public partial class StoreOwnerMapper : EntityMapperBase<StoreOwner>
         if (noxTypeValue != null)
         {        
             entity.StreetAddress = noxTypeValue;
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.TranslatedText>(entityDefinition, "LocalGreeting", dto.LocalGreeting);
+        if (noxTypeValue != null)
+        {        
+            entity.LocalGreeting = noxTypeValue;
         }
     
     }
@@ -69,6 +79,20 @@ public partial class StoreOwnerMapper : EntityMapperBase<StoreOwner>
                 else
                 {
                     entity.Name = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("TemporaryOwnerName", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "TemporaryOwnerName", value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("StoreOwner", "TemporaryOwnerName");
+                }
+                else
+                {
+                    entity.TemporaryOwnerName = noxTypeValue;
                 }
             }
         }
@@ -97,6 +121,20 @@ public partial class StoreOwnerMapper : EntityMapperBase<StoreOwner>
                 else
                 {
                     entity.StreetAddress = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("LocalGreeting", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.TranslatedText>(entityDefinition, "LocalGreeting", value);
+                if(noxTypeValue == null)
+                {
+                    entity.LocalGreeting = null;
+                }
+                else
+                {
+                    entity.LocalGreeting = noxTypeValue;
                 }
             }
         }

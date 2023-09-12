@@ -14,27 +14,32 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+public partial class PaymentDetailCreateDto: PaymentDetailCreateDtoBase
+{
+
+}
+
 /// <summary>
 /// Customer payment account related data.
 /// </summary>
-public partial class PaymentDetailCreateDto : IEntityCreateDto <PaymentDetail>
+public abstract class PaymentDetailCreateDtoBase : IEntityCreateDto<PaymentDetail>
 {    
     /// <summary>
     /// Payment account name (Required).
     /// </summary>
     [Required(ErrorMessage = "PaymentAccountName is required")]
     
-    public System.String PaymentAccountName { get; set; } = default!;    
+    public virtual System.String PaymentAccountName { get; set; } = default!;    
     /// <summary>
     /// Payment account reference number (Required).
     /// </summary>
     [Required(ErrorMessage = "PaymentAccountNumber is required")]
     
-    public System.String PaymentAccountNumber { get; set; } = default!;    
+    public virtual System.String PaymentAccountNumber { get; set; } = default!;    
     /// <summary>
     /// Payment account sort code (Optional).
     /// </summary>
-    public System.String? PaymentAccountSortCode { get; set; }
+    public virtual System.String? PaymentAccountSortCode { get; set; }
 
     /// <summary>
     /// PaymentDetail used by ExactlyOne Customers
@@ -46,5 +51,5 @@ public partial class PaymentDetailCreateDto : IEntityCreateDto <PaymentDetail>
     /// PaymentDetail related to ExactlyOne PaymentProviders
     /// </summary>
     [Required(ErrorMessage = "PaymentDetailsRelatedPaymentProvider is required")]
-    public System.Int64 PaymentDetailsRelatedPaymentProviderId { get; set; } = default!;   
+    public System.Int64 PaymentDetailsRelatedPaymentProviderId { get; set; } = default!;
 }

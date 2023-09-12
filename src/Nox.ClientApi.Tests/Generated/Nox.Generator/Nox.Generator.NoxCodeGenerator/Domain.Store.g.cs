@@ -13,7 +13,7 @@ namespace ClientApi.Domain;
 /// <summary>
 /// Stores.
 /// </summary>
-public partial class Store : AuditableEntityBase
+public partial class Store : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -49,4 +49,9 @@ public partial class Store : AuditableEntityBase
     /// Store Verified emails ZeroOrOne EmailAddresses
     /// </summary>
      public virtual EmailAddress? EmailAddress { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

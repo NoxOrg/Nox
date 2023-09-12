@@ -13,7 +13,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Currency and related data.
 /// </summary>
-public partial class Currency : AuditableEntityBase
+public partial class Currency : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Currency unique identifier (Required).
@@ -103,4 +103,9 @@ public partial class Currency : AuditableEntityBase
     public virtual List<ExchangeRate> ExchangeRates { get; set; } = new();
 
     public List<ExchangeRate> CurrencyExchangedFromRates => ExchangeRates;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

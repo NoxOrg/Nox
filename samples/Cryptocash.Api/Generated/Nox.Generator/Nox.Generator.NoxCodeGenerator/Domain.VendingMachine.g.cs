@@ -13,7 +13,7 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Vending machine definition and related data.
 /// </summary>
-public partial class VendingMachine : AuditableEntityBase
+public partial class VendingMachine : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Vending machine unique identifier (Required).
@@ -73,7 +73,7 @@ public partial class VendingMachine : AuditableEntityBase
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity LandLord
     /// </summary>
-    public Nox.Types.DatabaseNumber VendingMachineContractedAreaLandLordId { get; set; } = null!;
+    public Nox.Types.AutoNumber VendingMachineContractedAreaLandLordId { get; set; } = null!;
 
     /// <summary>
     /// VendingMachine related to ZeroOrMany Bookings
@@ -89,4 +89,9 @@ public partial class VendingMachine : AuditableEntityBase
     /// VendingMachine required ZeroOrMany MinimumCashStocks
     /// </summary>
     public virtual List<MinimumCashStock> VendingMachineRequiredMinimumCashStocks { get; set; } = new();
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

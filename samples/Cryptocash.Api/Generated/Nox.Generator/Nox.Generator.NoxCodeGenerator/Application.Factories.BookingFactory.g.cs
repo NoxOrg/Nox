@@ -23,7 +23,7 @@ using Booking = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Factories;
 
-public abstract class BookingFactoryBase: IEntityFactory<BookingCreateDto,Booking>
+public abstract class BookingFactoryBase: IEntityFactory<Booking,BookingCreateDto>
 {
 
     public BookingFactoryBase

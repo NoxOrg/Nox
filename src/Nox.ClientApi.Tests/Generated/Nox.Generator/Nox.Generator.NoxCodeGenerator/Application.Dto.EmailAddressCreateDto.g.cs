@@ -14,17 +14,22 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+public partial class EmailAddressCreateDto: EmailAddressCreateDtoBase
+{
+
+}
+
 /// <summary>
 /// Verified Email Address.
 /// </summary>
-public partial class EmailAddressCreateDto : IEntityCreateDto <EmailAddress>
+public abstract class EmailAddressCreateDtoBase : IEntityCreateDto<EmailAddress>
 {    
     /// <summary>
     /// Email (Optional).
     /// </summary>
-    public System.String? Email { get; set; }    
+    public virtual System.String? Email { get; set; }    
     /// <summary>
     /// Verified (Optional).
     /// </summary>
-    public System.Boolean? IsVerified { get; set; }   
+    public virtual System.Boolean? IsVerified { get; set; }
 }

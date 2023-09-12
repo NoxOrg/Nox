@@ -23,7 +23,7 @@ using EmailAddress = ClientApi.Domain.EmailAddress;
 
 namespace ClientApi.Application.Factories;
 
-public abstract class EmailAddressFactoryBase: IEntityFactory<EmailAddressCreateDto,EmailAddress>
+public abstract class EmailAddressFactoryBase: IEntityFactory<EmailAddress,EmailAddressCreateDto>
 {
 
     public EmailAddressFactoryBase

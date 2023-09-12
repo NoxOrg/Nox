@@ -13,12 +13,12 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Customer transaction log and related data.
 /// </summary>
-public partial class Transaction : AuditableEntityBase
+public partial class Transaction : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Customer transaction unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Transaction type (Required).
@@ -48,7 +48,7 @@ public partial class Transaction : AuditableEntityBase
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
     /// </summary>
-    public Nox.Types.DatabaseNumber TransactionForCustomerId { get; set; } = null!;
+    public Nox.Types.AutoNumber TransactionForCustomerId { get; set; } = null!;
 
     /// <summary>
     /// Transaction for ExactlyOne Bookings
@@ -59,4 +59,9 @@ public partial class Transaction : AuditableEntityBase
     /// Foreign key for relationship ExactlyOne to entity Booking
     /// </summary>
     public Nox.Types.DatabaseGuid TransactionForBookingId { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }
