@@ -283,7 +283,9 @@ namespace ClientApi.Tests.Tests.Controllers
 
             // Act
             var result = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerName, createDto);
-            await _oDataFixture.DeleteAsync($"{StoreOwnersControllerName}/{result!.Id}");
+            var headers = _oDataFixture.CreateEtagHeader(result?.Etag);
+
+            await _oDataFixture.DeleteAsync($"{StoreOwnersControllerName}/{result!.Id}", headers);
 
             // Assert
             var queryResult = await _oDataFixture.GetAsync($"{StoreOwnersControllerName}/{result!.Id}");
