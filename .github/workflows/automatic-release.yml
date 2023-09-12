@@ -7,9 +7,6 @@ on:
     # Each day at 01:00 UTC
     - cron:  '0 1 * * *'
   workflow_dispatch:
-  push:
-    branches:
-      - "main"
 
 jobs:
   pre-release:
@@ -17,22 +14,31 @@ jobs:
     runs-on: "ubuntu-latest"
 
     steps:
-      - name: Get next version
-        uses: MCKanpolat/auto-semver-action@v1
-        id: versioning
+      - uses: actions/checkout@v3
         with:
-          releaseType: patch
-          incrementPerCommit: false
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 0
 
-      - name: "Build & test"
-        run: |
-          echo "done!"
+      - name: Install GitVersion # https://github.com/GitTools/actions/blob/main/docs/examples/github/gitversion/setup/usage-examples.md
+        uses: gittools/actions/gitversion/setup@v0
+        with:
+          versionSpec: '5.x'
+
+      - name: Determine Version
+        id:   gitversion
+        uses: gittools/actions/gitversion/execute@v0
+        with:
+          useConfigFile: true
+
+      - name: "Calculating patch version"
+        run: echo "IncrementedPatch=$(( ${{steps.gitversion.outputs.patch}} + 1))" >> "$GITHUB_ENV"
+
+      - name: "Calculating incremented version"
+        run: echo "IncrementedVersion=v${{ steps.gitversion.outputs.major }}.${{ steps.gitversion.outputs.minor }}.${{env.IncrementedPatch}}" >> "$GITHUB_ENV"
 
       - uses: "marvinpinto/action-automatic-releases@latest"
         with:
           repo_token: "${{ secrets.GITHUB_TOKEN }}"
-          automatic_release_tag: "${{ steps.versioning.outputs.version }}"
+          automatic_release_tag: ${{env.IncrementedVersion}}
           prerelease: false
-          title: "${{ steps.versioning.outputs.version }}"
+          title: ${{env.IncrementedVersion}}
           # Can be extended with published file types, see docs for details
