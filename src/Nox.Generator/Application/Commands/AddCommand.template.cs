@@ -39,7 +39,7 @@ public partial class Add{{entity.Name}}CommandHandler: CommandBase<Add{{entity.N
 		OnExecuting(request);
 
 		{{- for key in parent.Keys }}
-		var key{{key.Name}} = CreateNoxTypeForKey<{{parent.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.ParentKeyDto.key{{key.Name}});
+		var key{{key.Name}} = CreateNoxTypeForKey<{{parent.Name}},Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.ParentKeyDto.key{{key.Name}});
 		{{- end }}
 
 		var parentEntity = await _dbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});

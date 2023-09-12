@@ -34,7 +34,7 @@ public class Delete{{entity.Name}}ByIdCommandHandler: CommandBase<Delete{{entity
 
 		{{- for key in entity.Keys }}
 		{{- keyType = SingleTypeForKey key }}
-		var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{keyType}}>("{{key.Name}}", request.key{{key.Name}});
+		var key{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},Nox.Types.{{keyType}}>("{{key.Name}}", request.key{{key.Name}});
 		{{- end }}
 
 		var entity = await DbContext.{{entity.PluralName}}.FindAsync({{primaryKeysQuery}});

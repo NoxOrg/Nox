@@ -36,7 +36,7 @@ public partial class PartialUpdate{{entity.Name}}CommandHandler: CommandBase<Par
 		OnExecuting(request);
 
 		{{- for key in parent.Keys }}
-		var key{{key.Name}} = CreateNoxTypeForKey<{{parent.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.ParentKeyDto.key{{key.Name}});
+		var key{{key.Name}} = CreateNoxTypeForKey<{{parent.Name}},Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.ParentKeyDto.key{{key.Name}});
 		{{- end }}
 
 		var parentEntity = await DbContext.{{parent.PluralName}}.FindAsync({{parentKeysFindQuery}});
@@ -46,7 +46,7 @@ public partial class PartialUpdate{{entity.Name}}CommandHandler: CommandBase<Par
 		}
 
 		{{- for key in entity.Keys }}
-		var owned{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},{{SingleTypeForKey key}}>("{{key.Name}}", request.EntityKeyDto.key{{key.Name}});
+		var owned{{key.Name}} = CreateNoxTypeForKey<{{entity.Name}},Nox.Types.{{SingleTypeForKey key}}>("{{key.Name}}", request.EntityKeyDto.key{{key.Name}});
 		{{- end }}
 		var entity = parentEntity.{{entity.PluralName}}.SingleOrDefault(x => {{ownedKeysFindQuery}});
 		if (entity == null)
