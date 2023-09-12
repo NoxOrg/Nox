@@ -64,7 +64,7 @@ public partial class Country
     public static Nox.Types.FormulaTypeOptions ShortDescriptionTypeOptions {get; private set;} = new ()
     {
         Expression = "$\"{Name} has a population of {Population} people.\"",
-        Returns = Nox.Types.FormulaReturnType.String,
+        Returns = Nox.Types.FormulaReturnType.@string,
     };
     
     public static Formula CreateShortDescription(System.String value)

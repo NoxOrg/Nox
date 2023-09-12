@@ -52,7 +52,7 @@ public partial class Workplace
     public static Nox.Types.FormulaTypeOptions GreetingTypeOptions {get; private set;} = new ()
     {
         Expression = "$\"Hello, {Name.Value}!\"",
-        Returns = Nox.Types.FormulaReturnType.String,
+        Returns = Nox.Types.FormulaReturnType.@string,
     };
     
     public static Formula CreateGreeting(System.String value)

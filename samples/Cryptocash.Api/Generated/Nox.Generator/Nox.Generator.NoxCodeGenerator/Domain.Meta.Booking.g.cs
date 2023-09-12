@@ -69,7 +69,7 @@ public partial class Booking
     public static Nox.Types.FormulaTypeOptions StatusTypeOptions {get; private set;} = new ()
     {
         Expression = "CancelledDateTime != null ? \"cancelled\" : (PickedUpDateTime != null ? \"picked-up\" : (ExpiryDateTime != null ? \"expired\" : \"booked\"))",
-        Returns = Nox.Types.FormulaReturnType.String,
+        Returns = Nox.Types.FormulaReturnType.@string,
     };
     
     public static Formula CreateStatus(System.String value)
