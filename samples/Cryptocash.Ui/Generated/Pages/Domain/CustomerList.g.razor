@@ -1,18 +1,18 @@
 ﻿@using Cryptocash.Ui
 @using System.Dynamic
 @using System.Data
-@using Cryptocash.Ui.Generated.Data.Customer;
+@using Cryptocash.Ui.Generated.Data.Domain;
 @using Cryptocash.Ui.Generated.Pages.Generic
 @using MudBlazor
 
-@page "/Customer"
+@page "/Customers"
 
 @inherits ListEntityPageBase<CustomerEntity>
 
 @if (!IsLoading)
 {
     <MudPaper Class="d-flex align-center justify-center mud-width-full" Style="padding:100px;" Elevation="0">
-        <MudText Class="ms-2">Placeholder for @GlobalData?.CurrentApiDefinition?.Name Api</MudText>
+        <MudText Class="ms-2">Placeholder for Customers</MudText>
     </MudPaper>
 }
 else
