@@ -38,4 +38,8 @@ public partial class StoreOwnerUpdateDto
     /// Owner Greeting (Optional).
     /// </summary>
     public TranslatedTextDto? LocalGreeting { get; set; }
+    /// <summary>
+    /// Notes (Optional).
+    /// </summary>
+    public System.String? Notes { get; set; }
 }

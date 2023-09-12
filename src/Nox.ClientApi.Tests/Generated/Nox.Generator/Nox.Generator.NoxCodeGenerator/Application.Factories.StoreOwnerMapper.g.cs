@@ -29,37 +29,38 @@ public partial class StoreOwnerMapper : EntityMapperBase<StoreOwner>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
+
             
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Id", dto.Id);        
+            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
             if (noxTypeValue != null)
             {        
-                entity.Id = noxTypeValue;
+                entity.Name = noxTypeValue;
             }        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
-        if (noxTypeValue != null)
-        {        
-            entity.Name = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "TemporaryOwnerName", dto.TemporaryOwnerName);
-        if (noxTypeValue != null)
-        {        
-            entity.TemporaryOwnerName = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.VatNumber>(entityDefinition, "VatNumber", dto.VatNumber);
-        if (noxTypeValue != null)
-        {        
-            entity.VatNumber = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "StreetAddress", dto.StreetAddress);
-        if (noxTypeValue != null)
-        {        
-            entity.StreetAddress = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.TranslatedText>(entityDefinition, "LocalGreeting", dto.LocalGreeting);
-        if (noxTypeValue != null)
-        {        
-            entity.LocalGreeting = noxTypeValue;
-        }
+            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "TemporaryOwnerName", dto.TemporaryOwnerName);
+            if (noxTypeValue != null)
+            {        
+                entity.TemporaryOwnerName = noxTypeValue;
+            }        
+            noxTypeValue = CreateNoxType<Nox.Types.VatNumber>(entityDefinition, "VatNumber", dto.VatNumber);
+            if (noxTypeValue != null)
+            {        
+                entity.VatNumber = noxTypeValue;
+            }        
+            noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "StreetAddress", dto.StreetAddress);
+            if (noxTypeValue != null)
+            {        
+                entity.StreetAddress = noxTypeValue;
+            }        
+            noxTypeValue = CreateNoxType<Nox.Types.TranslatedText>(entityDefinition, "LocalGreeting", dto.LocalGreeting);
+            if (noxTypeValue != null)
+            {        
+                entity.LocalGreeting = noxTypeValue;
+            }        
+            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Notes", dto.Notes);
+            if (noxTypeValue != null)
+            {        
+                entity.Notes = noxTypeValue;
+            }
     
     }
 
@@ -135,6 +136,20 @@ public partial class StoreOwnerMapper : EntityMapperBase<StoreOwner>
                 else
                 {
                     entity.LocalGreeting = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("Notes", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Notes", value);
+                if(noxTypeValue == null)
+                {
+                    entity.Notes = null;
+                }
+                else
+                {
+                    entity.Notes = noxTypeValue;
                 }
             }
         }

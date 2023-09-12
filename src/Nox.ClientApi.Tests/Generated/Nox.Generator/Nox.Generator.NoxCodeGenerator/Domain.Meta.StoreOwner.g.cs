@@ -81,4 +81,11 @@ public partial class StoreOwner
         => Nox.Types.TranslatedText.From(value, LocalGreetingTypeOptions);
     
 
+    /// <summary>
+    /// Type options and factory for property 'Notes'
+    /// </summary>
+    public static Nox.Types.Text CreateNotes(System.String value)
+        => Nox.Types.Text.From(value);
+    
+
 }

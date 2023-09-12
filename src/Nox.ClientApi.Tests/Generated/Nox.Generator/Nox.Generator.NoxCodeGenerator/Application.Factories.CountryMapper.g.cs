@@ -29,27 +29,28 @@ public partial class CountryMapper : EntityMapperBase<Country>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
+
             
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
-        if (noxTypeValue != null)
-        {        
-            entity.Name = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "Population", dto.Population);
-        if (noxTypeValue != null)
-        {        
-            entity.Population = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "CountryDebt", dto.CountryDebt);
-        if (noxTypeValue != null)
-        {        
-            entity.CountryDebt = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.LanguageCode>(entityDefinition, "FirstLanguageCode", dto.FirstLanguageCode);
-        if (noxTypeValue != null)
-        {        
-            entity.FirstLanguageCode = noxTypeValue;
-        }
+            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
+            if (noxTypeValue != null)
+            {        
+                entity.Name = noxTypeValue;
+            }        
+            noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "Population", dto.Population);
+            if (noxTypeValue != null)
+            {        
+                entity.Population = noxTypeValue;
+            }        
+            noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "CountryDebt", dto.CountryDebt);
+            if (noxTypeValue != null)
+            {        
+                entity.CountryDebt = noxTypeValue;
+            }        
+            noxTypeValue = CreateNoxType<Nox.Types.LanguageCode>(entityDefinition, "FirstLanguageCode", dto.FirstLanguageCode);
+            if (noxTypeValue != null)
+            {        
+                entity.FirstLanguageCode = noxTypeValue;
+            }
     
     }
 

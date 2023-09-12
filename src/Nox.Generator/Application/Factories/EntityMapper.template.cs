@@ -29,20 +29,6 @@ public partial class {{className}} : EntityMapperBase<{{entity.Name}}>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
-    {{ for key in entity.Keys -}}
-    {{- if key.Type == "Nuid" || key.Type == "AutoNumber" || key.Type == "DatabaseGuid" || key.Type == "Formula" -}}
-    {{ continue; -}}
-    {{- end }}        
-    {{ if key.Type == "EntityId" -}}
-        noxTypeValue = CreateNoxType<Nox.Types.{{SingleKeyTypeForEntity key.EntityIdTypeOptions.Entity}}>(entityDefinition, "{{key.Name}}", dto.{{key.Name}});
-    {{- else -}}
-        noxTypeValue = CreateNoxType<Nox.Types.{{key.Type}}>(entityDefinition, "{{key.Name}}", dto.{{key.Name}});
-    {{- end}}        
-        if (noxTypeValue != null)
-        {        
-            entity.{{key.Name}} = noxTypeValue;
-        }
-    {{- end -}}
 
     {{ for attribute in entity.Attributes }}  
     {{- if attribute.Type == "Formula" -}}

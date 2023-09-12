@@ -21,7 +21,4 @@ public partial class StoreOwnersController
 
         return await base.Post(storeOwner);
     }
-
 }
-
-

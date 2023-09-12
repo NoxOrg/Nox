@@ -52,5 +52,9 @@ public abstract class StoreOwnerCreateDtoBase : IEntityCreateDto<StoreOwner>
     /// <summary>
     /// Owner Greeting (Optional).
     /// </summary>
-    public virtual TranslatedTextDto? LocalGreeting { get; set; }
+    public virtual TranslatedTextDto? LocalGreeting { get; set; }    
+    /// <summary>
+    /// Notes (Optional).
+    /// </summary>
+    public virtual System.String? Notes { get; set; }
 }
