@@ -37,7 +37,7 @@ public class PartialUpdateLandLordCommandHandler: CommandBase<PartialUpdateLandL
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<LandLord,AutoNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<LandLord,Nox.Types.AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.LandLords.FindAsync(keyId);
 		if (entity == null)

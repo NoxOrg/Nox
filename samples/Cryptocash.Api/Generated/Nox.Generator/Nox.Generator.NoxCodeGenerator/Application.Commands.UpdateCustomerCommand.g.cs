@@ -36,7 +36,7 @@ public class UpdateCustomerCommandHandler: CommandBase<UpdateCustomerCommand, Cu
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Customer,AutoNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Customer,Nox.Types.AutoNumber>("Id", request.keyId);
 	
 		var entity = await DbContext.Customers.FindAsync(keyId);
 		if (entity == null)

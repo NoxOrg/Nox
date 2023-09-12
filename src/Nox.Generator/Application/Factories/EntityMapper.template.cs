@@ -30,7 +30,7 @@ public partial class {{className}} : EntityMapperBase<{{entity.Name}}>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
     {{ for key in entity.Keys -}}
-    {{- if key.Type == "Nuid" || key.Type == "AutoNumber" || key.Type == "DatabaseGuid" || key.Type == "Formula" -}}
+    {{- if key.Type == "Nuid" || key.Type == "AutoNumber" || key.Type == "Formula" -}}
     {{ continue; -}}
     {{- end }}        
     {{ if key.Type == "EntityId" -}}

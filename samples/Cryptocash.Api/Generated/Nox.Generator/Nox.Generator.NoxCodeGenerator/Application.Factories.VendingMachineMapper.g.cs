@@ -30,6 +30,11 @@ public partial class VendingMachineMapper : EntityMapperBase<VendingMachine>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
             
+        noxTypeValue = CreateNoxType<Nox.Types.Guid>(entityDefinition, "Id", dto.Id);        
+            if (noxTypeValue != null)
+            {        
+                entity.Id = noxTypeValue;
+            }        
         noxTypeValue = CreateNoxType<Nox.Types.MacAddress>(entityDefinition, "MacAddress", dto.MacAddress);
         if (noxTypeValue != null)
         {        

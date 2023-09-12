@@ -37,7 +37,7 @@ public partial class AddHolidayCommandHandler: CommandBase<AddHolidayCommand, Ho
 	public async Task<HolidayKeyDto?> Handle(AddHolidayCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Country,CountryCode2>("Id", request.ParentKeyDto.keyId);
+		var keyId = CreateNoxTypeForKey<Country,Nox.Types.CountryCode2>("Id", request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Countries.FindAsync(keyId);
 		if (parentEntity == null)

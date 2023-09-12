@@ -58,5 +58,5 @@ public partial class Transaction : AuditableEntityBase
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Booking
     /// </summary>
-    public Nox.Types.DatabaseGuid TransactionForBookingId { get; set; } = null!;
+    public Nox.Types.Guid TransactionForBookingId { get; set; } = null!;
 }

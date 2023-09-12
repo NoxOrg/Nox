@@ -20,7 +20,7 @@ namespace {{codeGeneratorState.ApplicationNameSpace }}.Dto;
 public partial class {{className}} : IEntityCreateDto<{{entity.Name}}>
 {
 {{- for key in entity.Keys }}
-    {{- if key.Type == "Nuid" || key.Type == "AutoNumber" || key.Type == "DatabaseGuid" -}}
+    {{- if key.Type == "Nuid" || key.Type == "AutoNumber" || key.Type == "Guid" -}}
     {{ continue; -}}
     {{- end }}
     /// <summary>

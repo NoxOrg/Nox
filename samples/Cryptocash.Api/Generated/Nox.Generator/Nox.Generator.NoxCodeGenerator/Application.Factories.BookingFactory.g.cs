@@ -39,6 +39,7 @@ public abstract class BookingFactoryBase: IEntityFactory<Booking,BookingCreateDt
     private Cryptocash.Domain.Booking ToEntity(BookingCreateDto createDto)
     {
         var entity = new Cryptocash.Domain.Booking();
+        entity.Id = Nox.Types.Guid.From(System.Guid.NewGuid());
         entity.AmountFrom = Cryptocash.Domain.Booking.CreateAmountFrom(createDto.AmountFrom);
         entity.AmountTo = Cryptocash.Domain.Booking.CreateAmountTo(createDto.AmountTo);
         entity.RequestedPickUpDate = Cryptocash.Domain.Booking.CreateRequestedPickUpDate(createDto.RequestedPickUpDate);

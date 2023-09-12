@@ -31,8 +31,8 @@ public partial class MinimumCashStock
     /// <summary>
     /// Type options and factory for property 'VendingMachineId'
     /// </summary>
-    public static Nox.Types.DatabaseGuid CreateVendingMachineId(System.Guid value)
-        => Nox.Types.DatabaseGuid.From(value);
+    public static Nox.Types.Guid CreateVendingMachineId(System.Guid value)
+        => Nox.Types.Guid.From(value);
     
 
     /// <summary>

@@ -37,7 +37,7 @@ public class PartialUpdateBookingCommandHandler: CommandBase<PartialUpdateBookin
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Booking,DatabaseGuid>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Booking,Nox.Types.Guid>("Id", request.keyId);
 
 		var entity = await DbContext.Bookings.FindAsync(keyId);
 		if (entity == null)

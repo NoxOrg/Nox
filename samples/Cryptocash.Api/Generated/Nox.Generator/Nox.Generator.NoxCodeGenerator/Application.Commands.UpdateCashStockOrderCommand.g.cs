@@ -36,7 +36,7 @@ public class UpdateCashStockOrderCommandHandler: CommandBase<UpdateCashStockOrde
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<CashStockOrder,AutoNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<CashStockOrder,Nox.Types.AutoNumber>("Id", request.keyId);
 	
 		var entity = await DbContext.CashStockOrders.FindAsync(keyId);
 		if (entity == null)

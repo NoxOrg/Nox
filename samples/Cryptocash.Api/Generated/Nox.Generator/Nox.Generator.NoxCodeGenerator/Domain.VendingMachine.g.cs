@@ -18,7 +18,7 @@ public partial class VendingMachine : AuditableEntityBase
     /// <summary>
     /// Vending machine unique identifier (Required).
     /// </summary>
-    public DatabaseGuid Id { get; set; } = null!;
+    public Nox.Types.Guid Id { get; set; } = null!;
 
     /// <summary>
     /// Vending machine mac address (Required).

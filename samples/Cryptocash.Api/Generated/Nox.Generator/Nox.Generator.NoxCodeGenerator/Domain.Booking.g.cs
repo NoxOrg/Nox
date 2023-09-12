@@ -18,7 +18,7 @@ public partial class Booking : AuditableEntityBase
     /// <summary>
     /// Booking unique identifier (Required).
     /// </summary>
-    public DatabaseGuid Id { get; set; } = null!;
+    public Nox.Types.Guid Id { get; set; } = null!;
 
     /// <summary>
     /// Booking's amount exchanged from (Required).
@@ -82,7 +82,7 @@ public partial class Booking : AuditableEntityBase
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity VendingMachine
     /// </summary>
-    public Nox.Types.DatabaseGuid BookingRelatedVendingMachineId { get; set; } = null!;
+    public Nox.Types.Guid BookingRelatedVendingMachineId { get; set; } = null!;
 
     /// <summary>
     /// Booking fees for ExactlyOne Commissions

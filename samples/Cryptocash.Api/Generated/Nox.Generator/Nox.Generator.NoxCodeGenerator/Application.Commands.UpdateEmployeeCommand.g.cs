@@ -36,7 +36,7 @@ public class UpdateEmployeeCommandHandler: CommandBase<UpdateEmployeeCommand, Em
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Employee,AutoNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Employee,Nox.Types.AutoNumber>("Id", request.keyId);
 	
 		var entity = await DbContext.Employees.FindAsync(keyId);
 		if (entity == null)

@@ -17,8 +17,8 @@ public partial class Booking
     /// <summary>
     /// Type options and factory for property 'Id'
     /// </summary>
-    public static Nox.Types.DatabaseGuid CreateId(System.Guid value)
-        => Nox.Types.DatabaseGuid.From(value);
+    public static Nox.Types.Guid CreateId(System.Guid value)
+        => Nox.Types.Guid.From(value);
     
 
     /// <summary>
@@ -93,8 +93,8 @@ public partial class Booking
     /// <summary>
     /// Type options and factory for property 'VendingMachineId'
     /// </summary>
-    public static Nox.Types.DatabaseGuid CreateVendingMachineId(System.Guid value)
-        => Nox.Types.DatabaseGuid.From(value);
+    public static Nox.Types.Guid CreateVendingMachineId(System.Guid value)
+        => Nox.Types.Guid.From(value);
     
 
     /// <summary>

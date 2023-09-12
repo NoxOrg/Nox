@@ -30,6 +30,11 @@ public partial class BookingMapper : EntityMapperBase<Booking>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
             
+        noxTypeValue = CreateNoxType<Nox.Types.Guid>(entityDefinition, "Id", dto.Id);        
+            if (noxTypeValue != null)
+            {        
+                entity.Id = noxTypeValue;
+            }        
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "AmountFrom", dto.AmountFrom);
         if (noxTypeValue != null)
         {        
@@ -79,7 +84,7 @@ public partial class BookingMapper : EntityMapperBase<Booking>
         /// <summary>
         /// Booking related to ExactlyOne VendingMachines
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "BookingRelatedVendingMachine", dto.BookingRelatedVendingMachineId);
+        noxTypeValue = CreateNoxType<Nox.Types.Guid>(entityDefinition, "BookingRelatedVendingMachine", dto.BookingRelatedVendingMachineId);
         if (noxTypeValue != null)
         {        
             entity.BookingRelatedVendingMachineId = noxTypeValue;
@@ -216,7 +221,7 @@ public partial class BookingMapper : EntityMapperBase<Booking>
         /// </summary>
         if (updatedProperties.TryGetValue("VendingMachineId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseGuid>(entityDefinition, "BookingRelatedVendingMachine", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.Guid>(entityDefinition, "BookingRelatedVendingMachine", value);
             if (noxRelationshipTypeValue != null)
             {        
                 entity.BookingRelatedVendingMachineId = noxRelationshipTypeValue;

@@ -36,7 +36,7 @@ public class UpdateBookingCommandHandler: CommandBase<UpdateBookingCommand, Book
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Booking,DatabaseGuid>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Booking,Nox.Types.Guid>("Id", request.keyId);
 	
 		var entity = await DbContext.Bookings.FindAsync(keyId);
 		if (entity == null)

@@ -37,7 +37,7 @@ public partial class AddBankNoteCommandHandler: CommandBase<AddBankNoteCommand, 
 	public async Task<BankNoteKeyDto?> Handle(AddBankNoteCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Currency,CurrencyCode3>("Id", request.ParentKeyDto.keyId);
+		var keyId = CreateNoxTypeForKey<Currency,Nox.Types.CurrencyCode3>("Id", request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Currencies.FindAsync(keyId);
 		if (parentEntity == null)

@@ -52,7 +52,7 @@ public partial class CashStockOrder : AuditableEntityBase
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity VendingMachine
     /// </summary>
-    public Nox.Types.DatabaseGuid CashStockOrderForVendingMachineId { get; set; } = null!;
+    public Nox.Types.Guid CashStockOrderForVendingMachineId { get; set; } = null!;
 
     /// <summary>
     /// CashStockOrder reviewed by ExactlyOne Employees
