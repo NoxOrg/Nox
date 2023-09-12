@@ -48,10 +48,6 @@ public abstract class StoresControllerBase : ODataController
         _mediator = mediator;
     }
     
-    #region Owned Relationships
-    
-    #endregion
-    
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<StoreDto>>> Get()
     {
@@ -145,4 +141,9 @@ public abstract class StoresControllerBase : ODataController
         
         return NoContent();
     }
+    
+    #region Owned Relationships
+    
+    #endregion
+    
 }
