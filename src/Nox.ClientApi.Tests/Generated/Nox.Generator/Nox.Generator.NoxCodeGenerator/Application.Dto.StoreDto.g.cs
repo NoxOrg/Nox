@@ -15,7 +15,7 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public record StoreKeyDto(System.UInt32 keyId);
+public record StoreKeyDto(System.Guid keyId);
 
 /// <summary>
 /// Stores.
@@ -24,14 +24,24 @@ public partial class StoreDto
 {
 
     /// <summary>
-    /// NuidField Type (Required).
+    ///  (Required).
     /// </summary>
-    public System.UInt32 Id { get; set; } = default!;
+    public System.Guid Id { get; set; } = default!;
 
     /// <summary>
     /// Store Name (Required).
     /// </summary>
     public System.String Name { get; set; } = default!;
+
+    /// <summary>
+    /// Street Address (Required).
+    /// </summary>
+    public StreetAddressDto Address { get; set; } = default!;
+
+    /// <summary>
+    /// Location (Required).
+    /// </summary>
+    public LatLongDto Location { get; set; } = default!;
 
     /// <summary>
     /// Store Store owner relationship ZeroOrOne StoreOwners

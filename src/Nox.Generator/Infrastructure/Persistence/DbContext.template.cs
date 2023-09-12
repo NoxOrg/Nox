@@ -5,6 +5,7 @@
 using Nox;
 using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;
@@ -116,7 +117,22 @@ public partial class {{className}} : DbContext
             case EntityState.Deleted:
                 entry.State = EntityState.Modified;
                 entry.Entity.Deleted(user, system);
+                ReattachCompoundTypes(entry);
                 break;
+        }
+    }
+
+    private void ReattachCompoundTypes(EntityEntry<AuditableEntityBase> parentEntry)
+    {
+        foreach (var navigationEntry in parentEntry.Navigations)
+        {
+            foreach (var typeEntry in ChangeTracker.Entries<INoxType>())
+            {
+                if (typeEntry.Metadata.IsOwned() && typeEntry.State == EntityState.Deleted && typeEntry.Entity == navigationEntry.CurrentValue)
+                {
+                    typeEntry.State = EntityState.Unchanged;
+                }
+            }
         }
     }
 }

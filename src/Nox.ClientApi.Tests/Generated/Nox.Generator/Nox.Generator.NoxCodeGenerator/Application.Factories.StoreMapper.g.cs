@@ -34,6 +34,16 @@ public partial class StoreMapper : EntityMapperBase<Store>
         if (noxTypeValue != null)
         {        
             entity.Name = noxTypeValue;
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "Address", dto.Address);
+        if (noxTypeValue != null)
+        {        
+            entity.Address = noxTypeValue;
+        }        
+        noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "Location", dto.Location);
+        if (noxTypeValue != null)
+        {        
+            entity.Location = noxTypeValue;
         }
     
 
@@ -63,6 +73,34 @@ public partial class StoreMapper : EntityMapperBase<Store>
                 else
                 {
                     entity.Name = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("Address", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "Address", value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("Store", "Address");
+                }
+                else
+                {
+                    entity.Address = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("Location", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "Location", value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("Store", "Location");
+                }
+                else
+                {
+                    entity.Location = noxTypeValue;
                 }
             }
         }

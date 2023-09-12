@@ -53,7 +53,7 @@ public partial class StoresController : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<StoreDto>> Get([FromRoute] System.UInt32 key)
+    public async Task<ActionResult<StoreDto>> Get([FromRoute] System.Guid key)
     {
         var item = await _mediator.Send(new GetStoreByIdQuery(key));
         
@@ -80,7 +80,7 @@ public partial class StoresController : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<StoreDto>> Put([FromRoute] System.UInt32 key, [FromBody] StoreUpdateDto store)
+    public async Task<ActionResult<StoreDto>> Put([FromRoute] System.Guid key, [FromBody] StoreUpdateDto store)
     {
         if (!ModelState.IsValid)
         {
@@ -99,7 +99,7 @@ public partial class StoresController : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<StoreDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<StoreUpdateDto> store)
+    public async Task<ActionResult<StoreDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<StoreUpdateDto> store)
     {
         if (!ModelState.IsValid)
         {
@@ -125,7 +125,7 @@ public partial class StoresController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.UInt32 key)
+    public async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
         var result = await _mediator.Send(new DeleteStoreByIdCommand(key));
         if (!result)

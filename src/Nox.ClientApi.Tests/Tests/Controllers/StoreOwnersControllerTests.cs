@@ -240,5 +240,36 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             //Assert
             result.StatusCode.Should().Be(HttpStatusCode.BadRequest);
         }
+
+        [Fact]
+        public async Task Deleted_ShouldPerformSoftDelete()
+        {
+            // Arrange
+            var createDto = new StoreOwnerCreateDto
+            {
+                Id = "002",
+                Name = _fixture.Create<string>(),
+                StreetAddress = new StreetAddressDto(
+                    StreetNumber: null!,
+                    AddressLine1: "3000 Hillswood Business Park",
+                    AddressLine2: null!,
+                    Route: null!,
+                    Locality: null!,
+                    Neighborhood: null!,
+                    AdministrativeArea1: null!,
+                    AdministrativeArea2: null!,
+                    PostalCode: "KT16 0RS",
+                    CountryId: CountryCode.GB),
+            };
+
+            // Act
+            var result = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerName, createDto);
+            await _oDataFixture.DeleteAsync($"{StoreOwnersControllerName}/{result!.Id}");
+
+            // Assert
+            var queryResult = await _oDataFixture.GetAsync($"{StoreOwnersControllerName}/{result!.Id}");
+
+            queryResult.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
     }
 }

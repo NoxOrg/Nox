@@ -20,6 +20,18 @@ public partial class StoreUpdateDto
     [Required(ErrorMessage = "Name is required")]
     
     public System.String Name { get; set; } = default!;
+    /// <summary>
+    /// Street Address (Required).
+    /// </summary>
+    [Required(ErrorMessage = "Address is required")]
+    
+    public StreetAddressDto Address { get; set; } = default!;
+    /// <summary>
+    /// Location (Required).
+    /// </summary>
+    [Required(ErrorMessage = "Location is required")]
+    
+    public LatLongDto Location { get; set; } = default!;
 
     /// <summary>
     /// Store Store owner relationship ZeroOrOne StoreOwners

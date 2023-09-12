@@ -2,6 +2,8 @@
 using ClientApi.Application.Dto;
 using AutoFixture.AutoMoq;
 using AutoFixture;
+using System.Net;
+using Nox.Types;
 
 namespace Nox.ClientApi.Tests.Tests.Controllers
 {
@@ -21,17 +23,24 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
         }
 
         [Fact]
-        public async Task Post_ReturnsNuidId()
+        public async Task Post_ReturnsId()
         {
             // Arrange
-            string name = "MySpecialName";
-            uint expectedId = 2519540169u;
-
             var createDto = new StoreCreateDto
             {
-                Name = name,
-                // TODO make email mandatory
-                //EmailAddress = new EmailAddressUpdateDto()
+                Name = _fixture.Create<string>(),
+                Address = new StreetAddressDto(
+                    StreetNumber: null!,
+                    AddressLine1: "3000 Hillswood Business Park",
+                    AddressLine2: null!,
+                    Route: null!,
+                    Locality: null!,
+                    Neighborhood: null!,
+                    AdministrativeArea1: null!,
+                    AdministrativeArea2: null!,
+                    PostalCode: "KT16 0RS",
+                    CountryId: CountryCode.GB),
+                Location = new LatLongDto(51.3728033, -0.5389749),
             };
 
             // Act
@@ -41,7 +50,38 @@ namespace Nox.ClientApi.Tests.Tests.Controllers
             result.Should().NotBeNull();
             result.Should()
                 .BeOfType<StoreDto>()
-                .Which.Id.Should().Be(expectedId);
+                .Which.Id.Should().NotBeEmpty();
+        }
+
+        [Fact]
+        public async Task Deleted_ShouldPerformSoftDelete()
+        {
+            // Arrange
+            var createDto = new StoreCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Address = new StreetAddressDto(
+                    StreetNumber: null!,
+                    AddressLine1: "3000 Hillswood Business Park",
+                    AddressLine2: null!,
+                    Route: null!,
+                    Locality: null!,
+                    Neighborhood: null!,
+                    AdministrativeArea1: null!,
+                    AdministrativeArea2: null!,
+                    PostalCode: "KT16 0RS",
+                    CountryId: CountryCode.GB),
+                Location = new LatLongDto(51.3728033, -0.5389749),
+            };
+
+            // Act
+            var result = await _oDataFixture.PostAsync<StoreCreateDto, StoreDto>(StoresControllerName, createDto);
+            await _oDataFixture.DeleteAsync($"{StoresControllerName}/{result!.Id}");
+
+            // Assert
+            var queryResult = await _oDataFixture.GetAsync($"{StoresControllerName}/{result!.Id}");
+
+            queryResult.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
     }
 }
