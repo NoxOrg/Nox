@@ -28,21 +28,19 @@ public partial class BankNoteMapper : EntityMapperBase<BankNote>
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-
-            
-            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "CashNote", dto.CashNote);
+    #pragma warning restore CS0168 // Variable is declared but never used        
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "CashNote", dto.CashNote);
         if (noxTypeValue == null)
         {
-            throw new Exception("CashNote is required can not be set to null");
+            throw new NullReferenceException("CashNote is required can not be set to null");
         }     
-            entity.CashNote = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Value", dto.Value);
+        entity.CashNote = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Value", dto.Value);
         if (noxTypeValue == null)
         {
-            throw new Exception("Value is required can not be set to null");
+            throw new NullReferenceException("Value is required can not be set to null");
         }     
-            entity.Value = noxTypeValue;
+        entity.Value = noxTypeValue;
     
     }
 

@@ -28,21 +28,19 @@ public partial class CommissionMapper : EntityMapperBase<Commission>
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-
-            
-            noxTypeValue = CreateNoxType<Nox.Types.Percentage>(entityDefinition, "Rate", dto.Rate);
+    #pragma warning restore CS0168 // Variable is declared but never used        
+        noxTypeValue = CreateNoxType<Nox.Types.Percentage>(entityDefinition, "Rate", dto.Rate);
         if (noxTypeValue == null)
         {
-            throw new Exception("Rate is required can not be set to null");
+            throw new NullReferenceException("Rate is required can not be set to null");
         }     
-            entity.Rate = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "EffectiveAt", dto.EffectiveAt);
+        entity.Rate = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "EffectiveAt", dto.EffectiveAt);
         if (noxTypeValue == null)
         {
-            throw new Exception("EffectiveAt is required can not be set to null");
+            throw new NullReferenceException("EffectiveAt is required can not be set to null");
         }     
-            entity.EffectiveAt = noxTypeValue;
+        entity.EffectiveAt = noxTypeValue;
     
 
         /// <summary>

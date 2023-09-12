@@ -50,10 +50,7 @@ public class ODataFixture
         result.Headers.Single(h => h.Key == "OData-Version").Value.First().Should().Be("4.0");
 
         var content = await result.Content.ReadAsStringAsync();
-
-        var oDataResponse = DeserializeResponse<ODataSigleResponse>(content);
-        oDataResponse.Should().NotBeNull();
-        oDataResponse!.Context.Should().NotBeNullOrEmpty();
+        EnsureOdataSingleResponse(content);
         
         var data = DeserializeResponse<TResult>(content);
 
@@ -87,6 +84,8 @@ public class ODataFixture
         message.EnsureSuccessStatusCode();
 
         var content = await message.Content.ReadAsStringAsync();
+        EnsureOdataSingleResponse(content);
+
         var result = DeserializeResponse<TResult>(content);
 
         return result;
@@ -126,6 +125,8 @@ public class ODataFixture
         message.EnsureSuccessStatusCode();
 
         var content = await message.Content.ReadAsStringAsync();
+        EnsureOdataSingleResponse(content);
+
         var result = DeserializeResponse<TResult>(content);
 
         return result;
@@ -164,6 +165,8 @@ public class ODataFixture
         request.EnsureSuccessStatusCode();
 
         var content = await request.Content.ReadAsStringAsync();
+        EnsureOdataSingleResponse(content);
+
         var result = DeserializeResponse<TResult>(content);
 
         return result;
@@ -214,5 +217,12 @@ public class ODataFixture
             return default;
 
         return System.Text.Json.JsonSerializer.Deserialize<TResult>(response!, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new JsonStringEnumConverter() } });
+    }
+
+    private void EnsureOdataSingleResponse(string content)
+    {
+        var oDataResponse = DeserializeResponse<ODataSigleResponse>(content);
+        oDataResponse.Should().NotBeNull();
+        oDataResponse!.Context.Should().NotBeNullOrEmpty();
     }
 }

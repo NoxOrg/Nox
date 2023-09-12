@@ -152,8 +152,7 @@ namespace ClientApi.Tests.Tests.Controllers
         #endregion
 
         #region GET Owned Entity via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
-        [Fact(Skip = "Sequence contains no matching element")]
-        //[Fact]
+        [Fact]
         public async Task Get_OwnedEntityByParentKey_ReturnsOwnedEntity()
         {
             var expectedCountryLocalName = _fixture.Create<string>();

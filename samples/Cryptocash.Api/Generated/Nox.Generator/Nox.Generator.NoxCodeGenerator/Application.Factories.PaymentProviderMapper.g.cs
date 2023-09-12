@@ -28,21 +28,19 @@ public partial class PaymentProviderMapper : EntityMapperBase<PaymentProvider>
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-
-            
-            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentProviderName", dto.PaymentProviderName);
+    #pragma warning restore CS0168 // Variable is declared but never used        
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentProviderName", dto.PaymentProviderName);
         if (noxTypeValue == null)
         {
-            throw new Exception("PaymentProviderName is required can not be set to null");
+            throw new NullReferenceException("PaymentProviderName is required can not be set to null");
         }     
-            entity.PaymentProviderName = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentProviderType", dto.PaymentProviderType);
+        entity.PaymentProviderName = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentProviderType", dto.PaymentProviderType);
         if (noxTypeValue == null)
         {
-            throw new Exception("PaymentProviderType is required can not be set to null");
+            throw new NullReferenceException("PaymentProviderType is required can not be set to null");
         }     
-            entity.PaymentProviderType = noxTypeValue;
+        entity.PaymentProviderType = noxTypeValue;
     
     }
 

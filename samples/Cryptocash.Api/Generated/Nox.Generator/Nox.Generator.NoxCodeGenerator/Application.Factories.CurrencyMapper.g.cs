@@ -28,73 +28,71 @@ public partial class CurrencyMapper : EntityMapperBase<Currency>
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-
-            
-            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
+    #pragma warning restore CS0168 // Variable is declared but never used        
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
         if (noxTypeValue == null)
         {
-            throw new Exception("Name is required can not be set to null");
+            throw new NullReferenceException("Name is required can not be set to null");
         }     
-            entity.Name = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.CurrencyNumber>(entityDefinition, "CurrencyIsoNumeric", dto.CurrencyIsoNumeric);
+        entity.Name = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.CurrencyNumber>(entityDefinition, "CurrencyIsoNumeric", dto.CurrencyIsoNumeric);
         if (noxTypeValue == null)
         {
-            throw new Exception("CurrencyIsoNumeric is required can not be set to null");
+            throw new NullReferenceException("CurrencyIsoNumeric is required can not be set to null");
         }     
-            entity.CurrencyIsoNumeric = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Symbol", dto.Symbol);
+        entity.CurrencyIsoNumeric = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Symbol", dto.Symbol);
         if (noxTypeValue == null)
         {
-            throw new Exception("Symbol is required can not be set to null");
+            throw new NullReferenceException("Symbol is required can not be set to null");
         }     
-            entity.Symbol = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "ThousandsSeparator", dto.ThousandsSeparator);     
-            entity.ThousandsSeparator = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "DecimalSeparator", dto.DecimalSeparator);     
-            entity.DecimalSeparator = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition, "SpaceBetweenAmountAndSymbol", dto.SpaceBetweenAmountAndSymbol);
+        entity.Symbol = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "ThousandsSeparator", dto.ThousandsSeparator);     
+        entity.ThousandsSeparator = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "DecimalSeparator", dto.DecimalSeparator);     
+        entity.DecimalSeparator = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Boolean>(entityDefinition, "SpaceBetweenAmountAndSymbol", dto.SpaceBetweenAmountAndSymbol);
         if (noxTypeValue == null)
         {
-            throw new Exception("SpaceBetweenAmountAndSymbol is required can not be set to null");
+            throw new NullReferenceException("SpaceBetweenAmountAndSymbol is required can not be set to null");
         }     
-            entity.SpaceBetweenAmountAndSymbol = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "DecimalDigits", dto.DecimalDigits);
+        entity.SpaceBetweenAmountAndSymbol = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Number>(entityDefinition, "DecimalDigits", dto.DecimalDigits);
         if (noxTypeValue == null)
         {
-            throw new Exception("DecimalDigits is required can not be set to null");
+            throw new NullReferenceException("DecimalDigits is required can not be set to null");
         }     
-            entity.DecimalDigits = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MajorName", dto.MajorName);
+        entity.DecimalDigits = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MajorName", dto.MajorName);
         if (noxTypeValue == null)
         {
-            throw new Exception("MajorName is required can not be set to null");
+            throw new NullReferenceException("MajorName is required can not be set to null");
         }     
-            entity.MajorName = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MajorSymbol", dto.MajorSymbol);
+        entity.MajorName = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MajorSymbol", dto.MajorSymbol);
         if (noxTypeValue == null)
         {
-            throw new Exception("MajorSymbol is required can not be set to null");
+            throw new NullReferenceException("MajorSymbol is required can not be set to null");
         }     
-            entity.MajorSymbol = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MinorName", dto.MinorName);
+        entity.MajorSymbol = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MinorName", dto.MinorName);
         if (noxTypeValue == null)
         {
-            throw new Exception("MinorName is required can not be set to null");
+            throw new NullReferenceException("MinorName is required can not be set to null");
         }     
-            entity.MinorName = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MinorSymbol", dto.MinorSymbol);
+        entity.MinorName = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "MinorSymbol", dto.MinorSymbol);
         if (noxTypeValue == null)
         {
-            throw new Exception("MinorSymbol is required can not be set to null");
+            throw new NullReferenceException("MinorSymbol is required can not be set to null");
         }     
-            entity.MinorSymbol = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "MinorToMajorValue", dto.MinorToMajorValue);
+        entity.MinorSymbol = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "MinorToMajorValue", dto.MinorToMajorValue);
         if (noxTypeValue == null)
         {
-            throw new Exception("MinorToMajorValue is required can not be set to null");
+            throw new NullReferenceException("MinorToMajorValue is required can not be set to null");
         }     
-            entity.MinorToMajorValue = noxTypeValue;
+        entity.MinorToMajorValue = noxTypeValue;
     
     }
 

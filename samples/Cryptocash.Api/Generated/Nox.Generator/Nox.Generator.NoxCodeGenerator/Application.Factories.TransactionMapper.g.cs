@@ -28,33 +28,31 @@ public partial class TransactionMapper : EntityMapperBase<Transaction>
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-
-            
-            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "TransactionType", dto.TransactionType);
+    #pragma warning restore CS0168 // Variable is declared but never used        
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "TransactionType", dto.TransactionType);
         if (noxTypeValue == null)
         {
-            throw new Exception("TransactionType is required can not be set to null");
+            throw new NullReferenceException("TransactionType is required can not be set to null");
         }     
-            entity.TransactionType = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "ProcessedOnDateTime", dto.ProcessedOnDateTime);
+        entity.TransactionType = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "ProcessedOnDateTime", dto.ProcessedOnDateTime);
         if (noxTypeValue == null)
         {
-            throw new Exception("ProcessedOnDateTime is required can not be set to null");
+            throw new NullReferenceException("ProcessedOnDateTime is required can not be set to null");
         }     
-            entity.ProcessedOnDateTime = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Amount", dto.Amount);
+        entity.ProcessedOnDateTime = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Amount", dto.Amount);
         if (noxTypeValue == null)
         {
-            throw new Exception("Amount is required can not be set to null");
+            throw new NullReferenceException("Amount is required can not be set to null");
         }     
-            entity.Amount = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Reference", dto.Reference);
+        entity.Amount = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Reference", dto.Reference);
         if (noxTypeValue == null)
         {
-            throw new Exception("Reference is required can not be set to null");
+            throw new NullReferenceException("Reference is required can not be set to null");
         }     
-            entity.Reference = noxTypeValue;
+        entity.Reference = noxTypeValue;
     
 
         /// <summary>

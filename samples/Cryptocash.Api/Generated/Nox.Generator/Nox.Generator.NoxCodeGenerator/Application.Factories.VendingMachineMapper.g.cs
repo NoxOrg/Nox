@@ -28,43 +28,41 @@ public partial class VendingMachineMapper : EntityMapperBase<VendingMachine>
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-
-            
-            noxTypeValue = CreateNoxType<Nox.Types.MacAddress>(entityDefinition, "MacAddress", dto.MacAddress);
+    #pragma warning restore CS0168 // Variable is declared but never used        
+        noxTypeValue = CreateNoxType<Nox.Types.MacAddress>(entityDefinition, "MacAddress", dto.MacAddress);
         if (noxTypeValue == null)
         {
-            throw new Exception("MacAddress is required can not be set to null");
+            throw new NullReferenceException("MacAddress is required can not be set to null");
         }     
-            entity.MacAddress = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.IpAddress>(entityDefinition, "PublicIp", dto.PublicIp);
+        entity.MacAddress = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.IpAddress>(entityDefinition, "PublicIp", dto.PublicIp);
         if (noxTypeValue == null)
         {
-            throw new Exception("PublicIp is required can not be set to null");
+            throw new NullReferenceException("PublicIp is required can not be set to null");
         }     
-            entity.PublicIp = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "GeoLocation", dto.GeoLocation);
+        entity.PublicIp = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "GeoLocation", dto.GeoLocation);
         if (noxTypeValue == null)
         {
-            throw new Exception("GeoLocation is required can not be set to null");
+            throw new NullReferenceException("GeoLocation is required can not be set to null");
         }     
-            entity.GeoLocation = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "StreetAddress", dto.StreetAddress);
+        entity.GeoLocation = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "StreetAddress", dto.StreetAddress);
         if (noxTypeValue == null)
         {
-            throw new Exception("StreetAddress is required can not be set to null");
+            throw new NullReferenceException("StreetAddress is required can not be set to null");
         }     
-            entity.StreetAddress = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "SerialNumber", dto.SerialNumber);
+        entity.StreetAddress = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "SerialNumber", dto.SerialNumber);
         if (noxTypeValue == null)
         {
-            throw new Exception("SerialNumber is required can not be set to null");
+            throw new NullReferenceException("SerialNumber is required can not be set to null");
         }     
-            entity.SerialNumber = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.Area>(entityDefinition, "InstallationFootPrint", dto.InstallationFootPrint);     
-            entity.InstallationFootPrint = noxTypeValue;        
-            noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "RentPerSquareMetre", dto.RentPerSquareMetre);     
-            entity.RentPerSquareMetre = noxTypeValue;
+        entity.SerialNumber = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Area>(entityDefinition, "InstallationFootPrint", dto.InstallationFootPrint);     
+        entity.InstallationFootPrint = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "RentPerSquareMetre", dto.RentPerSquareMetre);     
+        entity.RentPerSquareMetre = noxTypeValue;
     
 
         /// <summary>

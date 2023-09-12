@@ -358,7 +358,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GenerateChildrenGetById(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
     {
         code.AppendLine($"[EnableQuery]");
-        code.AppendLine($"[HttpGet(\"/api/[controller]/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+        code.AppendLine($"[HttpGet(\"api/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
         code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> Get{child.Name}NonConventional(" +
             $"{PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, " +
             $"{PrimaryKeysFromRoute(child, solution, "relatedKey", "")})");
@@ -439,7 +439,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
     private static void GenerateChildrenPut(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
     {
-        code.AppendLine($"[HttpPut(\"/api/[controller]/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+        code.AppendLine($"[HttpPut(\"api/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
         code.AppendLine($"public virtual async Task<ActionResult<{child.Name}Dto>> PutTo{child.PluralName}NonConventional(" +
             $"{PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, " +
             $"{PrimaryKeysFromRoute(child, solution, "relatedKey", "")}, " +
@@ -476,7 +476,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GenerateChildrenPatch(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
     {
         // Method Patch
-        code.AppendLine($"[HttpPatch(\"/api/[controller]/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+        code.AppendLine($"[HttpPatch(\"api/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
         code.AppendLine($"public virtual async Task<ActionResult> PatchTo{child.PluralName}NonConventional(" +
             $"{PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, " +
             $"{PrimaryKeysFromRoute(child, solution, "relatedKey", "")}, " +
@@ -524,7 +524,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
 
     private static void GenerateChildrenDelete(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)
     {
-        code.AppendLine($"[HttpDelete(\"/api/[controller]/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
+        code.AppendLine($"[HttpDelete(\"api/{parent.PluralName}/{PrimaryKeysAttribute(parent)}/{child.PluralName}/{PrimaryKeysAttribute(child, "relatedKey")}\")]");
         code.AppendLine($"public virtual async Task<ActionResult> Delete{child.Name}NonConventional(" +
             $"{PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, " +
             $"{PrimaryKeysFromRoute(child, solution, "relatedKey", "")})");

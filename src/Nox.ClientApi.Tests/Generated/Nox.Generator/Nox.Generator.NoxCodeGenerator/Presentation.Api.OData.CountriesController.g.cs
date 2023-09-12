@@ -68,7 +68,7 @@ public abstract class CountriesControllerBase : ODataController
     }
     
     [EnableQuery]
-    [HttpGet("/api/[controller]/{key}/CountryLocalNames/{relatedKey}")]
+    [HttpGet("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
     public virtual async Task<ActionResult<CountryLocalNameDto>> GetCountryLocalNameNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
@@ -107,7 +107,7 @@ public abstract class CountriesControllerBase : ODataController
         return Created(child);
     }
     
-    [HttpPut("/api/[controller]/{key}/CountryLocalNames/{relatedKey}")]
+    [HttpPut("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
     public virtual async Task<ActionResult<CountryLocalNameDto>> PutToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] CountryLocalNameUpdateDto countryLocalName)
     {
         if (!ModelState.IsValid)
@@ -131,7 +131,7 @@ public abstract class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpPatch("/api/[controller]/{key}/CountryLocalNames/{relatedKey}")]
+    [HttpPatch("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
     public virtual async Task<ActionResult> PatchToCountryLocalNamesNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<CountryLocalNameUpdateDto> countryLocalName)
     {
         if (!ModelState.IsValid)
@@ -164,7 +164,7 @@ public abstract class CountriesControllerBase : ODataController
         return Ok(child);
     }
     
-    [HttpDelete("/api/[controller]/{key}/CountryLocalNames/{relatedKey}")]
+    [HttpDelete("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
     public virtual async Task<ActionResult> DeleteCountryLocalNameNonConventional(System.Int64 key, System.Int64 relatedKey)
     {
         if (!ModelState.IsValid)
