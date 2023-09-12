@@ -48,6 +48,99 @@ public abstract class CountriesControllerBase : ODataController
         _mediator = mediator;
     }
     
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<CountryDto>>> Get()
+    {
+        var result = await _mediator.Send(new GetCountriesQuery());
+        return Ok(result);
+    }
+    
+    [EnableQuery]
+    public async Task<ActionResult<CountryDto>> Get([FromRoute] System.String key)
+    {
+        var item = await _mediator.Send(new GetCountryByIdQuery(key));
+        
+        if (item == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item);
+    }
+    
+    public virtual async Task<ActionResult<CountryDto>> Post([FromBody]CountryCreateDto country)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var createdKey = await _mediator.Send(new CreateCountryCommand(country));
+        
+        var item = await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId));
+        
+        return Created(item);
+    }
+    
+    public virtual async Task<ActionResult<CountryDto>> Put([FromRoute] System.String key, [FromBody] CountryUpdateDto country)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateCountryCommand(key, country, etag));
+        
+        if (updated is null)
+        {
+            return NotFound();
+        }
+        
+        var item = await _mediator.Send(new GetCountryByIdQuery(updated.keyId));
+        
+        return Ok(item);
+    }
+    
+    public virtual async Task<ActionResult<CountryDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CountryUpdateDto> country)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in country.GetChangedPropertyNames())
+        {
+            if(country.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties, etag));
+        
+        if (updated is null)
+        {
+            return NotFound();
+        }
+        var item = await _mediator.Send(new GetCountryByIdQuery(updated.keyId));
+        return Ok(item);
+    }
+    
+    public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
+    {
+        var etag = Request.GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteCountryByIdCommand(key, etag));
+        
+        if (!result)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
     #region Owned Relationships
     
     [EnableQuery]
@@ -324,97 +417,4 @@ public abstract class CountriesControllerBase : ODataController
     
     #endregion
     
-    [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<CountryDto>>> Get()
-    {
-        var result = await _mediator.Send(new GetCountriesQuery());
-        return Ok(result);
-    }
-    
-    [EnableQuery]
-    public async Task<ActionResult<CountryDto>> Get([FromRoute] System.String key)
-    {
-        var item = await _mediator.Send(new GetCountryByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
-    }
-    
-    public virtual async Task<ActionResult<CountryDto>> Post([FromBody]CountryCreateDto country)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        var createdKey = await _mediator.Send(new CreateCountryCommand(country));
-        
-        var item = await _mediator.Send(new GetCountryByIdQuery(createdKey.keyId));
-        
-        return Created(item);
-    }
-    
-    public virtual async Task<ActionResult<CountryDto>> Put([FromRoute] System.String key, [FromBody] CountryUpdateDto country)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new UpdateCountryCommand(key, country, etag));
-        
-        if (updated is null)
-        {
-            return NotFound();
-        }
-        
-        var item = await _mediator.Send(new GetCountryByIdQuery(updated.keyId));
-        
-        return Ok(item);
-    }
-    
-    public virtual async Task<ActionResult<CountryDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CountryUpdateDto> country)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var updateProperties = new Dictionary<string, dynamic>();
-        
-        foreach (var propertyName in country.GetChangedPropertyNames())
-        {
-            if(country.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateCountryCommand(key, updateProperties, etag));
-        
-        if (updated is null)
-        {
-            return NotFound();
-        }
-        var item = await _mediator.Send(new GetCountryByIdQuery(updated.keyId));
-        return Ok(item);
-    }
-    
-    public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
-    {
-        var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteCountryByIdCommand(key, etag));
-        
-        if (!result)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
-    }
 }

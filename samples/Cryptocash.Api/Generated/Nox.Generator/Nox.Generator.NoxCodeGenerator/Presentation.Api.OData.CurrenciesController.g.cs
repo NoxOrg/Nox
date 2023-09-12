@@ -48,6 +48,99 @@ public abstract class CurrenciesControllerBase : ODataController
         _mediator = mediator;
     }
     
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<CurrencyDto>>> Get()
+    {
+        var result = await _mediator.Send(new GetCurrenciesQuery());
+        return Ok(result);
+    }
+    
+    [EnableQuery]
+    public async Task<ActionResult<CurrencyDto>> Get([FromRoute] System.String key)
+    {
+        var item = await _mediator.Send(new GetCurrencyByIdQuery(key));
+        
+        if (item == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item);
+    }
+    
+    public virtual async Task<ActionResult<CurrencyDto>> Post([FromBody]CurrencyCreateDto currency)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency));
+        
+        var item = await _mediator.Send(new GetCurrencyByIdQuery(createdKey.keyId));
+        
+        return Created(item);
+    }
+    
+    public virtual async Task<ActionResult<CurrencyDto>> Put([FromRoute] System.String key, [FromBody] CurrencyUpdateDto currency)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateCurrencyCommand(key, currency, etag));
+        
+        if (updated is null)
+        {
+            return NotFound();
+        }
+        
+        var item = await _mediator.Send(new GetCurrencyByIdQuery(updated.keyId));
+        
+        return Ok(item);
+    }
+    
+    public virtual async Task<ActionResult<CurrencyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CurrencyUpdateDto> currency)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in currency.GetChangedPropertyNames())
+        {
+            if(currency.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCurrencyCommand(key, updateProperties, etag));
+        
+        if (updated is null)
+        {
+            return NotFound();
+        }
+        var item = await _mediator.Send(new GetCurrencyByIdQuery(updated.keyId));
+        return Ok(item);
+    }
+    
+    public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
+    {
+        var etag = Request.GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteCurrencyByIdCommand(key, etag));
+        
+        if (!result)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
     #region Owned Relationships
     
     [EnableQuery]
@@ -324,97 +417,4 @@ public abstract class CurrenciesControllerBase : ODataController
     
     #endregion
     
-    [EnableQuery]
-    public virtual async Task<ActionResult<IQueryable<CurrencyDto>>> Get()
-    {
-        var result = await _mediator.Send(new GetCurrenciesQuery());
-        return Ok(result);
-    }
-    
-    [EnableQuery]
-    public async Task<ActionResult<CurrencyDto>> Get([FromRoute] System.String key)
-    {
-        var item = await _mediator.Send(new GetCurrencyByIdQuery(key));
-        
-        if (item == null)
-        {
-            return NotFound();
-        }
-        
-        return Ok(item);
-    }
-    
-    public virtual async Task<ActionResult<CurrencyDto>> Post([FromBody]CurrencyCreateDto currency)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        var createdKey = await _mediator.Send(new CreateCurrencyCommand(currency));
-        
-        var item = await _mediator.Send(new GetCurrencyByIdQuery(createdKey.keyId));
-        
-        return Created(item);
-    }
-    
-    public virtual async Task<ActionResult<CurrencyDto>> Put([FromRoute] System.String key, [FromBody] CurrencyUpdateDto currency)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new UpdateCurrencyCommand(key, currency, etag));
-        
-        if (updated is null)
-        {
-            return NotFound();
-        }
-        
-        var item = await _mediator.Send(new GetCurrencyByIdQuery(updated.keyId));
-        
-        return Ok(item);
-    }
-    
-    public virtual async Task<ActionResult<CurrencyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CurrencyUpdateDto> currency)
-    {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
-        var updateProperties = new Dictionary<string, dynamic>();
-        
-        foreach (var propertyName in currency.GetChangedPropertyNames())
-        {
-            if(currency.TryGetPropertyValue(propertyName, out dynamic value))
-            {
-                updateProperties[propertyName] = value;                
-            }           
-        }
-        
-        var etag = Request.GetDecodedEtagHeader();
-        var updated = await _mediator.Send(new PartialUpdateCurrencyCommand(key, updateProperties, etag));
-        
-        if (updated is null)
-        {
-            return NotFound();
-        }
-        var item = await _mediator.Send(new GetCurrencyByIdQuery(updated.keyId));
-        return Ok(item);
-    }
-    
-    public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
-    {
-        var etag = Request.GetDecodedEtagHeader();
-        var result = await _mediator.Send(new DeleteCurrencyByIdCommand(key, etag));
-        
-        if (!result)
-        {
-            return NotFound();
-        }
-        
-        return NoContent();
-    }
 }

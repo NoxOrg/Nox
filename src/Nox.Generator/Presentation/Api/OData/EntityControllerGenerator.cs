@@ -120,30 +120,6 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             if (entity.Persistence is null ||
                 entity.Persistence.Read.IsEnabled)
             {
-                if (entity.OwnedRelationships != null && entity.OwnedRelationships.Count() > 0)
-                {
-                    code.AppendLine($"#region Owned Relationships"); 
-                    code.AppendLine();
-                    foreach (var relationship in entity.OwnedRelationships)
-                    {
-                        // Owned single entitities are returned with parent
-                        if (relationship.WithSingleEntity())
-                        {
-                            continue;
-                        }
-
-                        GenerateChildrenGet(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
-                        GenerateChildrenGetById(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
-                        GenerateChildrenPost(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
-                        GenerateChildrenPut(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
-                        GenerateChildrenPatch(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
-                        GenerateChildrenDelete(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
-                        GeneratePrivateChildrenGetById(codeGeneratorState.Solution, relationship.Related.Entity, entity, code);
-                    }
-                    code.AppendLine($"#endregion");
-                    code.AppendLine();
-                }
-
                 GenerateGet(entity, code, codeGeneratorState.Solution);
             }
 
@@ -157,7 +133,6 @@ internal class EntityControllerGenerator : INoxCodeGenerator
                 entity.Persistence.Update.IsEnabled)
             {
                 GeneratePut(entity, code, codeGeneratorState.Solution);
-
                 GeneratePatch(entity, entityName, pluralName, code, codeGeneratorState.Solution);
             }
 
@@ -166,6 +141,8 @@ internal class EntityControllerGenerator : INoxCodeGenerator
             {
                 GenerateDelete(entity, entityName, code, codeGeneratorState.Solution);
             }
+
+            GenerateOwnedEntities(codeGeneratorState.Solution, code, entity);
 
             // Generate GET request mapping for Queries
             foreach (var query in queries)
@@ -339,6 +316,52 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         // End method
         code.EndBlock();
         code.AppendLine();
+    }
+
+    private static void GenerateOwnedEntities(NoxSolution solution, CodeBuilder code, Entity entity)
+    {
+        if (entity.OwnedRelationships != null && entity.OwnedRelationships.Count() > 0)
+        {
+            code.AppendLine();
+            code.AppendLine($"#region Owned Relationships");
+            code.AppendLine();
+            foreach (var relationship in entity.OwnedRelationships)
+            {
+                // Owned single entitities are returned with parent
+                if (relationship.WithSingleEntity())
+                {
+                    continue;
+                }
+
+                var child = relationship.Related.Entity;
+
+                if (child.Persistence is null || child.Persistence.Read.IsEnabled)
+                {
+                    GenerateChildrenGet(solution, child, entity, code);
+                    GenerateChildrenGetById(solution, child, entity, code);
+                }
+
+                if (child.Persistence is null || child.Persistence.Create.IsEnabled)
+                {
+                    GenerateChildrenPost(solution, child, entity, code);
+                }
+
+                if (child.Persistence is null || child.Persistence.Update.IsEnabled)
+                {
+                    GenerateChildrenPut(solution, child, entity, code);
+                    GenerateChildrenPatch(solution, child, entity, code);
+                }
+
+                if (child.Persistence is null || child.Persistence.Delete.IsEnabled)
+                {
+                    GenerateChildrenDelete(solution, child, entity, code);
+                }
+
+                GeneratePrivateChildrenGetById(solution, child, entity, code);
+            }
+            code.AppendLine($"#endregion");
+            code.AppendLine();
+        }
     }
 
     private static void GeneratePrivateChildrenGetById(NoxSolution solution, Entity child, Entity parent, CodeBuilder code)

@@ -69,6 +69,13 @@ domain:
                     description: The country name
                     type: text
 
+      ownedRelationships:
+
+        - name: CountryLocalNames
+          description: is also know as
+          relationship: zeroOrMany
+          entity: CountryLocalName
+
       keys:
 
         - name: Id
@@ -221,5 +228,37 @@ domain:
           type: text
           textTypeOptions:
             minLength: 4
+            maxLength: 63
+          isRequired: true
+
+    - name: CountryLocalName
+
+      persistence:
+        isAudited: false
+        create:
+          isEnabled: true
+          raiseEvents: true
+        read:
+          isEnabled: true
+        update:
+          isEnabled: false
+          raiseEvents: false
+        delete:
+          isEnabled: true
+          raiseEvents: true
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+
+      attributes:
+
+        - name: Name
+          description: The country's local name
+          type: text
+          textTypeOptions:
+            minLength: 1
             maxLength: 63
           isRequired: true
