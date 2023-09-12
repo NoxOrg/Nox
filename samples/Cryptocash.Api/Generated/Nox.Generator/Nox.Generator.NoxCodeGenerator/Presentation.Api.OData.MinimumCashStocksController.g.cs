@@ -21,7 +21,12 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-public partial class MinimumCashStocksController : ODataController
+public partial class MinimumCashStocksController : MinimumCashStocksControllerBase
+            {
+                public MinimumCashStocksController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+                {}
+            }
+public abstract class MinimumCashStocksControllerBase : ODataController
 {
     
     /// <summary>
@@ -34,7 +39,7 @@ public partial class MinimumCashStocksController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public MinimumCashStocksController(
+    public MinimumCashStocksControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -44,7 +49,7 @@ public partial class MinimumCashStocksController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<MinimumCashStockDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<MinimumCashStockDto>>> Get()
     {
         var result = await _mediator.Send(new GetMinimumCashStocksQuery());
         return Ok(result);
@@ -63,7 +68,7 @@ public partial class MinimumCashStocksController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<MinimumCashStockDto>> Post([FromBody]MinimumCashStockCreateDto minimumCashStock)
+    public virtual async Task<ActionResult<MinimumCashStockDto>> Post([FromBody]MinimumCashStockCreateDto minimumCashStock)
     {
         if (!ModelState.IsValid)
         {
@@ -76,7 +81,7 @@ public partial class MinimumCashStocksController : ODataController
         return Created(item);
     }
     
-    public async Task<ActionResult<MinimumCashStockDto>> Put([FromRoute] System.Int64 key, [FromBody] MinimumCashStockUpdateDto minimumCashStock)
+    public virtual async Task<ActionResult<MinimumCashStockDto>> Put([FromRoute] System.Int64 key, [FromBody] MinimumCashStockUpdateDto minimumCashStock)
     {
         if (!ModelState.IsValid)
         {
@@ -96,7 +101,7 @@ public partial class MinimumCashStocksController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<MinimumCashStockDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<MinimumCashStockUpdateDto> minimumCashStock)
+    public virtual async Task<ActionResult<MinimumCashStockDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<MinimumCashStockUpdateDto> minimumCashStock)
     {
         if (!ModelState.IsValid)
         {
@@ -124,7 +129,7 @@ public partial class MinimumCashStocksController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteMinimumCashStockByIdCommand(key, etag));

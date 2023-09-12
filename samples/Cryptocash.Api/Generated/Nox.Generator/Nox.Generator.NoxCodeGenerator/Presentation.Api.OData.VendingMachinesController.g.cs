@@ -21,7 +21,12 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-public partial class VendingMachinesController : ODataController
+public partial class VendingMachinesController : VendingMachinesControllerBase
+            {
+                public VendingMachinesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+                {}
+            }
+public abstract class VendingMachinesControllerBase : ODataController
 {
     
     /// <summary>
@@ -34,7 +39,7 @@ public partial class VendingMachinesController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public VendingMachinesController(
+    public VendingMachinesControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -44,7 +49,7 @@ public partial class VendingMachinesController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<VendingMachineDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<VendingMachineDto>>> Get()
     {
         var result = await _mediator.Send(new GetVendingMachinesQuery());
         return Ok(result);
@@ -63,7 +68,7 @@ public partial class VendingMachinesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<VendingMachineDto>> Post([FromBody]VendingMachineCreateDto vendingMachine)
+    public virtual async Task<ActionResult<VendingMachineDto>> Post([FromBody]VendingMachineCreateDto vendingMachine)
     {
         if (!ModelState.IsValid)
         {
@@ -76,7 +81,7 @@ public partial class VendingMachinesController : ODataController
         return Created(item);
     }
     
-    public async Task<ActionResult<VendingMachineDto>> Put([FromRoute] System.Guid key, [FromBody] VendingMachineUpdateDto vendingMachine)
+    public virtual async Task<ActionResult<VendingMachineDto>> Put([FromRoute] System.Guid key, [FromBody] VendingMachineUpdateDto vendingMachine)
     {
         if (!ModelState.IsValid)
         {
@@ -96,7 +101,7 @@ public partial class VendingMachinesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<VendingMachineDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<VendingMachineUpdateDto> vendingMachine)
+    public virtual async Task<ActionResult<VendingMachineDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<VendingMachineUpdateDto> vendingMachine)
     {
         if (!ModelState.IsValid)
         {
@@ -124,7 +129,7 @@ public partial class VendingMachinesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteVendingMachineByIdCommand(key, etag));

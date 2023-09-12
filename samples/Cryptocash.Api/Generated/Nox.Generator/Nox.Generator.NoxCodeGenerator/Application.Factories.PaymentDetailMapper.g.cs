@@ -29,22 +29,22 @@ public partial class PaymentDetailMapper : EntityMapperBase<PaymentDetail>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
+
             
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentAccountName", dto.PaymentAccountName);
-        if (noxTypeValue != null)
-        {        
-            entity.PaymentAccountName = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentAccountNumber", dto.PaymentAccountNumber);
-        if (noxTypeValue != null)
-        {        
-            entity.PaymentAccountNumber = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentAccountSortCode", dto.PaymentAccountSortCode);
-        if (noxTypeValue != null)
-        {        
+            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentAccountName", dto.PaymentAccountName);
+        if (noxTypeValue == null)
+        {
+            throw new Exception("PaymentAccountName is required can not be set to null");
+        }     
+            entity.PaymentAccountName = noxTypeValue;        
+            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentAccountNumber", dto.PaymentAccountNumber);
+        if (noxTypeValue == null)
+        {
+            throw new Exception("PaymentAccountNumber is required can not be set to null");
+        }     
+            entity.PaymentAccountNumber = noxTypeValue;        
+            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentAccountSortCode", dto.PaymentAccountSortCode);     
             entity.PaymentAccountSortCode = noxTypeValue;
-        }
     
 
         /// <summary>

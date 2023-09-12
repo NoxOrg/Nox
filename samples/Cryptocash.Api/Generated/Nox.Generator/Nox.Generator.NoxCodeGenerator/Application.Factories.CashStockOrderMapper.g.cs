@@ -29,22 +29,22 @@ public partial class CashStockOrderMapper : EntityMapperBase<CashStockOrder>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
+
             
-        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Amount", dto.Amount);
-        if (noxTypeValue != null)
-        {        
-            entity.Amount = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition, "RequestedDeliveryDate", dto.RequestedDeliveryDate);
-        if (noxTypeValue != null)
-        {        
-            entity.RequestedDeliveryDate = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "DeliveryDateTime", dto.DeliveryDateTime);
-        if (noxTypeValue != null)
-        {        
+            noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Amount", dto.Amount);
+        if (noxTypeValue == null)
+        {
+            throw new Exception("Amount is required can not be set to null");
+        }     
+            entity.Amount = noxTypeValue;        
+            noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition, "RequestedDeliveryDate", dto.RequestedDeliveryDate);
+        if (noxTypeValue == null)
+        {
+            throw new Exception("RequestedDeliveryDate is required can not be set to null");
+        }     
+            entity.RequestedDeliveryDate = noxTypeValue;        
+            noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "DeliveryDateTime", dto.DeliveryDateTime);     
             entity.DeliveryDateTime = noxTypeValue;
-        }
     
 
         /// <summary>

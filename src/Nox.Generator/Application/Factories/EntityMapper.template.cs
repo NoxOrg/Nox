@@ -30,15 +30,18 @@ public partial class {{className}} : EntityMapperBase<{{entity.Name}}>
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
 
-    {{ for attribute in entity.Attributes }}  
+    {{- for attribute in entity.Attributes }}  
     {{- if attribute.Type == "Formula" -}}
-    {{ continue; -}}
+    {{- continue; }}
     {{- end }}        
         noxTypeValue = CreateNoxType<Nox.Types.{{attribute.Type}}>(entityDefinition, "{{attribute.Name}}", dto.{{attribute.Name}});
-        if (noxTypeValue != null)
-        {        
-            entity.{{attribute.Name}} = noxTypeValue;
-        }        
+        {{- if attribute.IsRequired }}
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("{{attribute.Name}} is required can not be set to null");
+        } 
+        {{- end }}     
+        entity.{{attribute.Name}} = noxTypeValue;
     {{- end }}
     {{ for relationship in entity.Relationships }}
     {{- if relationship.WithSingleEntity && relationship.ShouldGenerateForeignOnThisSide}}
@@ -51,7 +54,7 @@ public partial class {{className}} : EntityMapperBase<{{entity.Name}}>
         {        
             entity.{{relationship.Name}}Id = noxTypeValue;
         }
-    {{-end}}
+    {{- end }}
     {{- end }}
     }
 

@@ -29,22 +29,26 @@ public partial class HolidayMapper : EntityMapperBase<Holiday>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
+
             
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
-        if (noxTypeValue != null)
-        {        
-            entity.Name = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Type", dto.Type);
-        if (noxTypeValue != null)
-        {        
-            entity.Type = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition, "Date", dto.Date);
-        if (noxTypeValue != null)
-        {        
+            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
+        if (noxTypeValue == null)
+        {
+            throw new Exception("Name is required can not be set to null");
+        }     
+            entity.Name = noxTypeValue;        
+            noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Type", dto.Type);
+        if (noxTypeValue == null)
+        {
+            throw new Exception("Type is required can not be set to null");
+        }     
+            entity.Type = noxTypeValue;        
+            noxTypeValue = CreateNoxType<Nox.Types.Date>(entityDefinition, "Date", dto.Date);
+        if (noxTypeValue == null)
+        {
+            throw new Exception("Date is required can not be set to null");
+        }     
             entity.Date = noxTypeValue;
-        }
     
     }
 

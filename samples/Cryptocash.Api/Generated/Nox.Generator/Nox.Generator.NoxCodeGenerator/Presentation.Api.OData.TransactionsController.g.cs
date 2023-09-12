@@ -21,7 +21,12 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-public partial class TransactionsController : ODataController
+public partial class TransactionsController : TransactionsControllerBase
+            {
+                public TransactionsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+                {}
+            }
+public abstract class TransactionsControllerBase : ODataController
 {
     
     /// <summary>
@@ -34,7 +39,7 @@ public partial class TransactionsController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public TransactionsController(
+    public TransactionsControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -44,7 +49,7 @@ public partial class TransactionsController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<TransactionDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<TransactionDto>>> Get()
     {
         var result = await _mediator.Send(new GetTransactionsQuery());
         return Ok(result);
@@ -63,7 +68,7 @@ public partial class TransactionsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<TransactionDto>> Post([FromBody]TransactionCreateDto transaction)
+    public virtual async Task<ActionResult<TransactionDto>> Post([FromBody]TransactionCreateDto transaction)
     {
         if (!ModelState.IsValid)
         {
@@ -76,7 +81,7 @@ public partial class TransactionsController : ODataController
         return Created(item);
     }
     
-    public async Task<ActionResult<TransactionDto>> Put([FromRoute] System.Int64 key, [FromBody] TransactionUpdateDto transaction)
+    public virtual async Task<ActionResult<TransactionDto>> Put([FromRoute] System.Int64 key, [FromBody] TransactionUpdateDto transaction)
     {
         if (!ModelState.IsValid)
         {
@@ -96,7 +101,7 @@ public partial class TransactionsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult<TransactionDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<TransactionUpdateDto> transaction)
+    public virtual async Task<ActionResult<TransactionDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<TransactionUpdateDto> transaction)
     {
         if (!ModelState.IsValid)
         {
@@ -124,7 +129,7 @@ public partial class TransactionsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteTransactionByIdCommand(key, etag));

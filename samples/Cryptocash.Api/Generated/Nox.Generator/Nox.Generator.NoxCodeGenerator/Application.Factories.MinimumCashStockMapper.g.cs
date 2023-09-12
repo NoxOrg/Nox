@@ -29,12 +29,14 @@ public partial class MinimumCashStockMapper : EntityMapperBase<MinimumCashStock>
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
     #pragma warning restore CS0168 // Variable is declared but never used
+
             
-        noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Amount", dto.Amount);
-        if (noxTypeValue != null)
-        {        
+            noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Amount", dto.Amount);
+        if (noxTypeValue == null)
+        {
+            throw new Exception("Amount is required can not be set to null");
+        }     
             entity.Amount = noxTypeValue;
-        }
     
 
         /// <summary>
