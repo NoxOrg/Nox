@@ -23,3 +23,7 @@ This document provides information about the various endpoints available in our 
 ### Delete PaymentProvider
 - **DELETE** `/api/PaymentProviders/{key}`
   - Description: Delete an existing PaymentProvider by its ID.
+
+### Relationships Endpoints
+
+[PaymentDetail Endpoints](PaymentDetailEndpoints.md)

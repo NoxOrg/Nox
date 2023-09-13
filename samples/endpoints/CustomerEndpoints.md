@@ -23,3 +23,13 @@ This document provides information about the various endpoints available in our 
 ### Delete Customer
 - **DELETE** `/api/Customers/{key}`
   - Description: Delete an existing Customer by its ID.
+
+### Relationships Endpoints
+
+[PaymentDetail Endpoints](PaymentDetailEndpoints.md)
+
+[Booking Endpoints](BookingEndpoints.md)
+
+[Transaction Endpoints](TransactionEndpoints.md)
+
+[Country Endpoints](CountryEndpoints.md)

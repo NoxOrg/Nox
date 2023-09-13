@@ -23,3 +23,15 @@ This document provides information about the various endpoints available in our 
 ### Delete VendingMachine
 - **DELETE** `/api/VendingMachines/{key}`
   - Description: Delete an existing VendingMachine by its ID.
+
+### Relationships Endpoints
+
+[Country Endpoints](CountryEndpoints.md)
+
+[LandLord Endpoints](LandLordEndpoints.md)
+
+[Booking Endpoints](BookingEndpoints.md)
+
+[CashStockOrder Endpoints](CashStockOrderEndpoints.md)
+
+[MinimumCashStock Endpoints](MinimumCashStockEndpoints.md)

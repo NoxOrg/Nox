@@ -46,7 +46,7 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}/{relatedKey}`
   - Description: Delete an existing {{ownedRelationship.Entity}} by its ID for a specific {{entity.Name}}.
 {{ end -}}
-{{ end}}{{ if entity.OwnedRelationships | array.size > 0 }}
+{{ end}}{{ if entity.Relationships | array.size > 0 }}
 ### Relationships Endpoints
 {{ for relationship in entity.Relationships }}
 [{{relationship.Entity}} Endpoints]({{relationship.Entity}}Endpoints.md)

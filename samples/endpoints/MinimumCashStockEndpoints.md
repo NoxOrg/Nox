@@ -23,3 +23,9 @@ This document provides information about the various endpoints available in our 
 ### Delete MinimumCashStock
 - **DELETE** `/api/MinimumCashStocks/{key}`
   - Description: Delete an existing MinimumCashStock by its ID.
+
+### Relationships Endpoints
+
+[VendingMachine Endpoints](VendingMachineEndpoints.md)
+
+[Currency Endpoints](CurrencyEndpoints.md)

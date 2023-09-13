@@ -23,3 +23,9 @@ This document provides information about the various endpoints available in our 
 ### Delete Commission
 - **DELETE** `/api/Commissions/{key}`
   - Description: Delete an existing Commission by its ID.
+
+### Relationships Endpoints
+
+[Country Endpoints](CountryEndpoints.md)
+
+[Booking Endpoints](BookingEndpoints.md)

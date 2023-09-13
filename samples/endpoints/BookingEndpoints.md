@@ -23,3 +23,13 @@ This document provides information about the various endpoints available in our 
 ### Delete Booking
 - **DELETE** `/api/Bookings/{key}`
   - Description: Delete an existing Booking by its ID.
+
+### Relationships Endpoints
+
+[Customer Endpoints](CustomerEndpoints.md)
+
+[VendingMachine Endpoints](VendingMachineEndpoints.md)
+
+[Commission Endpoints](CommissionEndpoints.md)
+
+[Transaction Endpoints](TransactionEndpoints.md)

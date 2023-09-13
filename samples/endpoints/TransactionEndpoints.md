@@ -23,3 +23,9 @@ This document provides information about the various endpoints available in our 
 ### Delete Transaction
 - **DELETE** `/api/Transactions/{key}`
   - Description: Delete an existing Transaction by its ID.
+
+### Relationships Endpoints
+
+[Customer Endpoints](CustomerEndpoints.md)
+
+[Booking Endpoints](BookingEndpoints.md)
