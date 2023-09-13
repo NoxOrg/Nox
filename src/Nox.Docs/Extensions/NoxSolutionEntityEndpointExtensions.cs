@@ -15,8 +15,11 @@ public static class NoxSolutionEntityEndpointExtensions
     {
         var template = ReadScribanTemplate(ResourceName);
 
-        var entities = noxSolution.Domain?.Entities ?? Array.Empty<Entity>();
-        var markdowns = new List<EntityMarkdownFile>(entities.Count);
+        var entities = noxSolution.Domain?.Entities?
+            .Where(x => !x.IsOwnedEntity).ToArray() 
+            ?? Array.Empty<Entity>();
+        
+        var markdowns = new List<EntityMarkdownFile>(entities.Length);
         foreach (var entity in entities)
         {
             var model = new Dictionary<string, object>

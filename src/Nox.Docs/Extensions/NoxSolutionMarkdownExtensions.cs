@@ -65,8 +65,8 @@ public static class NoxSolutionMarkdownExtensions
             return sb.ToString();
 
         var entities = noxSolution.Domain.Entities
-            .OrderBy(e => e.IsOwnedEntity 
-                ? $"{e.OwnerEntity?.Name}.{e.Name}" 
+            .OrderBy(e => e.IsOwnedEntity
+                ? $"{e.OwnerEntity?.Name}.{e.Name}"
                 : e.Name
             );
 
@@ -76,8 +76,8 @@ public static class NoxSolutionMarkdownExtensions
                 ? $"{entity.OwnerEntity?.Name}."
                 : string.Empty;
 
-            var ownedInfo = entity.IsOwnedEntity 
-                ? $" (Owned by {owner.TrimEnd('.')})" 
+            var ownedInfo = entity.IsOwnedEntity
+                ? $" (Owned by {owner.TrimEnd('.')})"
                 : string.Empty;
 
             var isAudited = !entity.IsOwnedEntity &&
@@ -87,15 +87,14 @@ public static class NoxSolutionMarkdownExtensions
                 ? " *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*"
                 : string.Empty;
 
-            var entityEndpointsMarkdown = entityEndpoints
-                .First(x => x.EntityName == entity.Name);
+            var endpointInfo = entity.IsOwnedEntity
+                ? string.Empty
+                : $"\n\n[Endpoints]({entityEndpoints.First(x => x.EntityName == entity.Name).Name})";
 
             sb.AppendLine($"""
                 ### {owner}{entity.Name}{ownedInfo}
 
-                {entity.Description?.EnsureEndsWith('.')}{auditInfo}
-
-                [Endpoints]({entityEndpointsMarkdown.Name})
+                {entity.Description?.EnsureEndsWith('.')}{auditInfo}{endpointInfo}
 
                 {AttributeTable(entity, isAudited)}
 

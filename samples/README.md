@@ -204,8 +204,6 @@ used by|ZeroOrMany|Customer|CountryUsedByCustomers|Yes
 
 Time zone related to country.
 
-[Endpoints](./endpoints/CountryTimeZoneEndpoints.md)
-
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
@@ -219,8 +217,6 @@ TimeZoneCode|TimeZoneCode|Country's related time zone code.|Required
 ### Country.Holiday (Owned by Country)
 
 Holiday related to country.
-
-[Endpoints](./endpoints/HolidayEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -274,8 +270,6 @@ used by|ZeroOrMany|MinimumCashStock|CurrencyUsedByMinimumCashStocks|Yes
 
 Currencies related frequent and rare bank notes.
 
-[Endpoints](./endpoints/BankNoteEndpoints.md)
-
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
 Member|Type|Description|Info
@@ -290,8 +284,6 @@ Value|Money|Bank note value.|Required
 ### Currency.ExchangeRate (Owned by Currency)
 
 Exchange rate and related data.
-
-[Endpoints](./endpoints/ExchangeRateEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -365,8 +357,6 @@ reviewing|ExactlyOne|CashStockOrder|EmployeeReviewingCashStockOrder|Yes
 ### Employee.EmployeePhoneNumber (Owned by Employee)
 
 Employee phone number and related data.
-
-[Endpoints](./endpoints/EmployeePhoneNumberEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
