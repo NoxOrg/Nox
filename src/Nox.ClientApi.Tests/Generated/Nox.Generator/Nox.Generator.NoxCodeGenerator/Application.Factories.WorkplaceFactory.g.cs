@@ -41,6 +41,7 @@ public abstract class WorkplaceFactoryBase: IEntityFactory<Workplace,WorkplaceCr
         var entity = new ClientApi.Domain.Workplace();
         entity.Name = ClientApi.Domain.Workplace.CreateName(createDto.Name);
 		entity.EnsureId();
+        //entity.Country = Country?.ToEntity();
         return entity;
     }
 }

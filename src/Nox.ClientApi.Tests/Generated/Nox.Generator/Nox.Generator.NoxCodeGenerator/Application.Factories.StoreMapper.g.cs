@@ -38,12 +38,12 @@ public partial class StoreMapper : EntityMapperBase<Store>
     
 
         /// <summary>
-        /// Store Store owner relationship ZeroOrOne StoreOwners
+        /// Store Owner of the Store ZeroOrOne StoreOwners
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "OwnerRel", dto.OwnerRelId);
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Ownership", dto.OwnershipId);
         if (noxTypeValue != null)
         {        
-            entity.OwnerRelId = noxTypeValue;
+            entity.OwnershipId = noxTypeValue;
         }
     }
 
@@ -69,14 +69,14 @@ public partial class StoreMapper : EntityMapperBase<Store>
     
     
         /// <summary>
-        /// Store Store owner relationship ZeroOrOne StoreOwners
+        /// Store Owner of the Store ZeroOrOne StoreOwners
         /// </summary>
         if (updatedProperties.TryGetValue("StoreOwnerId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "OwnerRel", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Ownership", value);
             if (noxRelationshipTypeValue != null)
             {        
-                entity.OwnerRelId = noxRelationshipTypeValue;
+                entity.OwnershipId = noxRelationshipTypeValue;
             }
         }
     }

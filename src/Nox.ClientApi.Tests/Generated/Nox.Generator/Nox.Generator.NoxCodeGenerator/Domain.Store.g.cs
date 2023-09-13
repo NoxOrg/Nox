@@ -42,14 +42,14 @@ public partial class Store : AuditableEntityBase, IEntityConcurrent
     public Nox.Types.Text Name { get; set; } = null!;
 
     /// <summary>
-    /// Store Store owner relationship ZeroOrOne StoreOwners
+    /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
-    public virtual StoreOwner? OwnerRel { get; set; } = null!;
+    public virtual StoreOwner? Ownership { get; set; } = null!;
 
     /// <summary>
     /// Foreign key for relationship ZeroOrOne to entity StoreOwner
     /// </summary>
-    public Nox.Types.Text? OwnerRelId { get; set; } = null!;
+    public Nox.Types.Text? OwnershipId { get; set; } = null!;
 
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses

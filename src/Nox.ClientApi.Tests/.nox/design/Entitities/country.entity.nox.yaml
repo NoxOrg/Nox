@@ -59,6 +59,13 @@ ownedRelationships:
     relationship: zeroOrOne
     entity: CountryBarCode
 
+relationships:
+
+    - name: PhysicalWorkplaces
+      description: Country workplaces
+      relationship: zeroOrMany
+      entity: Workplace
+
 persistence:
     isAudited: true    
     create:

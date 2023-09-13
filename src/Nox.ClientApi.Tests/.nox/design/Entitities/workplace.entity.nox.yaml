@@ -36,6 +36,12 @@ attributes:
       expression: "$\"Hello, {Name.Value}!\""
       returns: string
 
+relationships:
+
+    - name: BelongsToCountry
+      description: Workplace country 
+      relationship: zeroOrOne
+      entity: Country
 persistence:
     isAudited: false    
     create:

@@ -32,10 +32,10 @@ public abstract class StoreCreateDtoBase : IEntityCreateDto<Store>
     public virtual System.String Name { get; set; } = default!;
 
     /// <summary>
-    /// Store Store owner relationship ZeroOrOne StoreOwners
+    /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
     
-    public System.String? OwnerRelId { get; set; } = default!;
+    public System.String? OwnershipId { get; set; } = default!;
 
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses

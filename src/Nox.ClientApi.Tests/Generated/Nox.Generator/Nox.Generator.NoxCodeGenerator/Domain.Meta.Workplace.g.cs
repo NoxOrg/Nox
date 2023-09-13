@@ -59,4 +59,11 @@ public partial class Workplace
         => Nox.Types.Formula.From(value, GreetingTypeOptions);
     
 
+    /// <summary>
+    /// Type options and factory for property 'CountryId'
+    /// </summary>
+    public static Nox.Types.AutoNumber CreateCountryId(System.Int64 value)
+        => Nox.Types.AutoNumber.From(value);
+    
+
 }

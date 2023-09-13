@@ -1068,82 +1068,82 @@
           "content": {
             "application/json;odata.metadata=minimal;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json;odata.metadata=full": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json;odata.metadata=none": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "text/plain": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryDtoDelta"
               }
             }
           }
@@ -2020,82 +2020,82 @@
           "content": {
             "application/json;odata.metadata=minimal;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json;odata.metadata=full": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json;odata.metadata=none": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "text/plain": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CountryLocalNameUpdateDtoDelta"
+                "$ref": "#/components/schemas/CountryLocalNameDtoDelta"
               }
             }
           }
@@ -3533,82 +3533,82 @@
           "content": {
             "application/json;odata.metadata=minimal;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json;odata.metadata=full": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json;odata.metadata=none": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "text/plain": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/StoreOwnerUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreOwnerDtoDelta"
               }
             }
           }
@@ -4503,82 +4503,82 @@
           "content": {
             "application/json;odata.metadata=minimal;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json;odata.metadata=full": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json;odata.metadata=none": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "text/plain": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/StoreUpdateDtoDelta"
+                "$ref": "#/components/schemas/StoreDtoDelta"
               }
             }
           }
@@ -5474,82 +5474,82 @@
           "content": {
             "application/json;odata.metadata=minimal;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json;odata.metadata=minimal": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json;odata.metadata=full;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json;odata.metadata=full": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json;odata.metadata=none;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json;odata.metadata=none": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json;odata.streaming=true": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json;odata.streaming=false": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/xml": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "text/plain": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/WorkplaceUpdateDtoDelta"
+                "$ref": "#/components/schemas/WorkplaceDtoDelta"
               }
             }
           }
@@ -5912,6 +5912,57 @@
         },
         "additionalProperties": false
       },
+      "CountryBarCodeCreateDto": {
+        "required": [
+          "barCodeName"
+        ],
+        "type": "object",
+        "properties": {
+          "barCodeName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "barCodeNumber": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CountryBarCodeDto": {
+        "type": "object",
+        "properties": {
+          "barCodeName": {
+            "type": "string",
+            "nullable": true
+          },
+          "barCodeNumber": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CountryBarCodeUpdateDto": {
+        "required": [
+          "barCodeName"
+        ],
+        "type": "object",
+        "properties": {
+          "barCodeName": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "barCodeNumber": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "CountryCode": {
         "enum": [
           4,
@@ -6199,6 +6250,9 @@
               "$ref": "#/components/schemas/CountryLocalNameCreateDto"
             },
             "nullable": true
+          },
+          "countryBarCode": {
+            "$ref": "#/components/schemas/CountryBarCodeCreateDto"
           }
         },
         "additionalProperties": false
@@ -6230,12 +6284,22 @@
             "type": "string",
             "nullable": true
           },
+          "physicalWorkplaces": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkplaceDto"
+            },
+            "nullable": true
+          },
           "countryLocalNames": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/CountryLocalNameDto"
             },
             "nullable": true
+          },
+          "countryBarCode": {
+            "$ref": "#/components/schemas/CountryBarCodeDto"
           },
           "deletedAtUtc": {
             "type": "string",
@@ -6249,47 +6313,7 @@
         },
         "additionalProperties": false
       },
-      "CountryLocalNameCreateDto": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "CountryLocalNameDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "name": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CountryLocalNameUpdateDto": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "CountryLocalNameUpdateDtoDelta": {
+      "CountryDtoDelta": {
         "type": "object",
         "properties": {
           "kind": {
@@ -6308,6 +6332,81 @@
             },
             "nullable": true,
             "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CountryLocalNameCreateDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "nativeName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CountryLocalNameDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "name": {
+            "type": "string",
+            "nullable": true
+          },
+          "nativeName": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CountryLocalNameDtoDelta": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "$ref": "#/components/schemas/DeltaItemKind"
+          },
+          "structuredType": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "expectedClrType": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "updatableProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CountryLocalNameUpdateDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "nativeName": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -6333,29 +6432,9 @@
           "firstLanguageCode": {
             "type": "string",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CountryUpdateDtoDelta": {
-        "type": "object",
-        "properties": {
-          "kind": {
-            "$ref": "#/components/schemas/DeltaItemKind"
           },
-          "structuredType": {
-            "$ref": "#/components/schemas/Type"
-          },
-          "expectedClrType": {
-            "$ref": "#/components/schemas/Type"
-          },
-          "updatableProperties": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true,
-            "readOnly": true
+          "countryBarCode": {
+            "$ref": "#/components/schemas/CountryBarCodeUpdateDto"
           }
         },
         "additionalProperties": false
@@ -6704,6 +6783,20 @@
         "additionalProperties": false
       },
       "EmailAddressDto": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "nullable": true
+          },
+          "isVerified": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "EmailAddressUpdateDto": {
         "type": "object",
         "properties": {
           "email": {
@@ -7935,7 +8028,7 @@
             "minLength": 1,
             "type": "string"
           },
-          "ownerRelId": {
+          "ownershipId": {
             "type": "string",
             "nullable": true
           },
@@ -7959,11 +8052,11 @@
             "type": "string",
             "nullable": true
           },
-          "ownerRelId": {
+          "ownershipId": {
             "type": "string",
             "nullable": true
           },
-          "ownerRel": {
+          "ownership": {
             "$ref": "#/components/schemas/StoreOwnerDto"
           },
           "emailAddress": {
@@ -7977,6 +8070,29 @@
           "@odata.etag": {
             "type": "string",
             "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StoreDtoDelta": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "$ref": "#/components/schemas/DeltaItemKind"
+          },
+          "structuredType": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "expectedClrType": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "updatableProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -8045,7 +8161,7 @@
             "type": "string",
             "nullable": true
           },
-          "storeRel": {
+          "stores": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/StoreDto"
@@ -8060,6 +8176,29 @@
           "@odata.etag": {
             "type": "string",
             "format": "uuid"
+          }
+        },
+        "additionalProperties": false
+      },
+      "StoreOwnerDtoDelta": {
+        "type": "object",
+        "properties": {
+          "kind": {
+            "$ref": "#/components/schemas/DeltaItemKind"
+          },
+          "structuredType": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "expectedClrType": {
+            "$ref": "#/components/schemas/Type"
+          },
+          "updatableProperties": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true,
+            "readOnly": true
           }
         },
         "additionalProperties": false
@@ -8095,29 +8234,6 @@
         },
         "additionalProperties": false
       },
-      "StoreOwnerUpdateDtoDelta": {
-        "type": "object",
-        "properties": {
-          "kind": {
-            "$ref": "#/components/schemas/DeltaItemKind"
-          },
-          "structuredType": {
-            "$ref": "#/components/schemas/Type"
-          },
-          "expectedClrType": {
-            "$ref": "#/components/schemas/Type"
-          },
-          "updatableProperties": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true,
-            "readOnly": true
-          }
-        },
-        "additionalProperties": false
-      },
       "StoreUpdateDto": {
         "required": [
           "name"
@@ -8128,32 +8244,12 @@
             "minLength": 1,
             "type": "string"
           },
-          "ownerRelId": {
+          "ownershipId": {
             "type": "string",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "StoreUpdateDtoDelta": {
-        "type": "object",
-        "properties": {
-          "kind": {
-            "$ref": "#/components/schemas/DeltaItemKind"
           },
-          "structuredType": {
-            "$ref": "#/components/schemas/Type"
-          },
-          "expectedClrType": {
-            "$ref": "#/components/schemas/Type"
-          },
-          "updatableProperties": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "nullable": true,
-            "readOnly": true
+          "emailAddress": {
+            "$ref": "#/components/schemas/EmailAddressUpdateDto"
           }
         },
         "additionalProperties": false
@@ -8944,6 +9040,11 @@
           "greeting": {
             "type": "string",
             "nullable": true
+          },
+          "belongsToCountryId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -8963,6 +9064,14 @@
             "type": "string",
             "nullable": true
           },
+          "belongsToCountryId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "belongsToCountry": {
+            "$ref": "#/components/schemas/CountryDto"
+          },
           "@odata.etag": {
             "type": "string",
             "format": "uuid"
@@ -8970,20 +9079,7 @@
         },
         "additionalProperties": false
       },
-      "WorkplaceUpdateDto": {
-        "required": [
-          "name"
-        ],
-        "type": "object",
-        "properties": {
-          "name": {
-            "minLength": 1,
-            "type": "string"
-          }
-        },
-        "additionalProperties": false
-      },
-      "WorkplaceUpdateDtoDelta": {
+      "WorkplaceDtoDelta": {
         "type": "object",
         "properties": {
           "kind": {
@@ -9002,6 +9098,24 @@
             },
             "nullable": true,
             "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "WorkplaceUpdateDto": {
+        "required": [
+          "name"
+        ],
+        "type": "object",
+        "properties": {
+          "name": {
+            "minLength": 1,
+            "type": "string"
+          },
+          "belongsToCountryId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
           }
         },
         "additionalProperties": false

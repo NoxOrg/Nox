@@ -57,7 +57,7 @@ attributes:
 
 relationships:
 
-    - name: StoreRel
+    - name: Stores
       description: Set of stores that this owner owns
       relationship: zeroOrMany
       entity: Store

@@ -10,7 +10,7 @@ namespace ClientApi.Tests.Tests.Controllers
     [Collection("Sequential")]
     public class StoreOwnersControllerTests 
     {
-        private const string EntityUrl = "api/storeowners";
+        public const string EntityUrl = "api/storeowners";
         private readonly Fixture _fixture;
         private readonly ODataFixture _oDataFixture;
 
