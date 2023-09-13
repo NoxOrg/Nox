@@ -95,7 +95,7 @@ public static class NoxSolutionMarkdownExtensions
 
                 {entity.Description?.EnsureEndsWith('.')}{auditInfo}
 
-                [Endpoints] ({entityEndpointsMarkdown.Name})
+                [Endpoints]({entityEndpointsMarkdown.Name})
 
                 {AttributeTable(entity, isAudited)}
 

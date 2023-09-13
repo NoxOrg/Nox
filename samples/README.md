@@ -77,7 +77,7 @@ erDiagram
 
 Exchange booking and related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
-[Endpoints] (./endpoints/BookingEndpoints.md)
+[Endpoints](./endpoints/BookingEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -112,7 +112,7 @@ related to|ExactlyOne|Transaction|BookingRelatedTransaction|Yes
 
 Vending machine cash stock order and related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
-[Endpoints] (./endpoints/CashStockOrderEndpoints.md)
+[Endpoints](./endpoints/CashStockOrderEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -139,7 +139,7 @@ reviewed by|ExactlyOne|Employee|CashStockOrderReviewedByEmployee|Yes
 
 Exchange commission rate and amount. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
-[Endpoints] (./endpoints/CommissionEndpoints.md)
+[Endpoints](./endpoints/CommissionEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -164,7 +164,7 @@ fees for|ZeroOrMany|Booking|CommissionFeesForBooking|Yes
 
 Country and related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
-[Endpoints] (./endpoints/CountryEndpoints.md)
+[Endpoints](./endpoints/CountryEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -204,7 +204,7 @@ used by|ZeroOrMany|Customer|CountryUsedByCustomers|Yes
 
 Time zone related to country.
 
-[Endpoints] (./endpoints/CountryTimeZoneEndpoints.md)
+[Endpoints](./endpoints/CountryTimeZoneEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -220,7 +220,7 @@ TimeZoneCode|TimeZoneCode|Country's related time zone code.|Required
 
 Holiday related to country.
 
-[Endpoints] (./endpoints/HolidayEndpoints.md)
+[Endpoints](./endpoints/HolidayEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -238,7 +238,7 @@ Date|Date|Country holiday date.|Required
 
 Currency and related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
-[Endpoints] (./endpoints/CurrencyEndpoints.md)
+[Endpoints](./endpoints/CurrencyEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -274,7 +274,7 @@ used by|ZeroOrMany|MinimumCashStock|CurrencyUsedByMinimumCashStocks|Yes
 
 Currencies related frequent and rare bank notes.
 
-[Endpoints] (./endpoints/BankNoteEndpoints.md)
+[Endpoints](./endpoints/BankNoteEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -291,7 +291,7 @@ Value|Money|Bank note value.|Required
 
 Exchange rate and related data.
 
-[Endpoints] (./endpoints/ExchangeRateEndpoints.md)
+[Endpoints](./endpoints/ExchangeRateEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -308,7 +308,7 @@ EffectiveAt|DateTime|Exchange rate conversion amount.|Required
 
 Customer definition and related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
-[Endpoints] (./endpoints/CustomerEndpoints.md)
+[Endpoints](./endpoints/CustomerEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -338,7 +338,7 @@ based in|ExactlyOne|Country|CustomerBaseCountry|Yes
 
 Employee definition and related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
-[Endpoints] (./endpoints/EmployeeEndpoints.md)
+[Endpoints](./endpoints/EmployeeEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -366,7 +366,7 @@ reviewing|ExactlyOne|CashStockOrder|EmployeeReviewingCashStockOrder|Yes
 
 Employee phone number and related data.
 
-[Endpoints] (./endpoints/EmployeePhoneNumberEndpoints.md)
+[Endpoints](./endpoints/EmployeePhoneNumberEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -383,7 +383,7 @@ PhoneNumber|PhoneNumber|Employee's phone number.|Required
 
 Landlord related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
-[Endpoints] (./endpoints/LandLordEndpoints.md)
+[Endpoints](./endpoints/LandLordEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -406,7 +406,7 @@ leases an area to house|ZeroOrMany|VendingMachine|ContractedAreasForVendingMachi
 
 Minimum cash stock required for vending machine. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
-[Endpoints] (./endpoints/MinimumCashStockEndpoints.md)
+[Endpoints](./endpoints/MinimumCashStockEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -431,7 +431,7 @@ related to|ExactlyOne|Currency|MinimumCashStockRelatedCurrency|Yes
 
 Customer payment account related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
-[Endpoints] (./endpoints/PaymentDetailEndpoints.md)
+[Endpoints](./endpoints/PaymentDetailEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -458,7 +458,7 @@ related to|ExactlyOne|PaymentProvider|PaymentDetailsRelatedPaymentProvider|Yes
 
 Payment provider related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
-[Endpoints] (./endpoints/PaymentProviderEndpoints.md)
+[Endpoints](./endpoints/PaymentProviderEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -481,7 +481,7 @@ related to|ZeroOrMany|PaymentDetail|PaymentProviderRelatedPaymentDetails|Yes
 
 Customer transaction log and related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
-[Endpoints] (./endpoints/TransactionEndpoints.md)
+[Endpoints](./endpoints/TransactionEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
@@ -508,7 +508,7 @@ for|ExactlyOne|Booking|TransactionForBooking|Yes
 
 Vending machine definition and related data. *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*
 
-[Endpoints] (./endpoints/VendingMachineEndpoints.md)
+[Endpoints](./endpoints/VendingMachineEndpoints.md)
 
 #### <u>Members (Keys, Attributes & Relationships)</u>
 
