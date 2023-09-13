@@ -14,30 +14,26 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+public partial class LandLordCreateDto: LandLordCreateDtoBase
+{
+
+}
+
 /// <summary>
 /// Landlord related data.
 /// </summary>
-public partial class LandLordCreateDto : IEntityCreateDto <LandLord>
+public abstract class LandLordCreateDtoBase : IEntityCreateDto<LandLord>
 {    
     /// <summary>
     /// Landlord name (Required).
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public System.String Name { get; set; } = default!;    
+    public virtual System.String Name { get; set; } = default!;    
     /// <summary>
     /// Landlord's street address (Required).
     /// </summary>
     [Required(ErrorMessage = "Address is required")]
     
-    public StreetAddressDto Address { get; set; } = default!;
-
-    public Cryptocash.Domain.LandLord ToEntity()
-    {
-        var entity = new Cryptocash.Domain.LandLord();
-        entity.Name = Cryptocash.Domain.LandLord.CreateName(Name);
-        entity.Address = Cryptocash.Domain.LandLord.CreateAddress(Address);
-        //entity.VendingMachines = VendingMachines.Select(dto => dto.ToEntity()).ToList();
-        return entity;
-    }
+    public virtual StreetAddressDto Address { get; set; } = default!;
 }

@@ -231,7 +231,7 @@ public sealed class Country
     /// <summary>
     /// Gets or sets the MainId property.
     /// </summary>
-    public DatabaseNumber DatabaseId { get; set; } = null!;
+    public AutoNumber AutoId { get; set; } = null!;
 
     /// <summary>
     /// Gets or sets the Guid property.

@@ -13,7 +13,7 @@ using VendingMachine = Cryptocash.Domain.VendingMachine;
 
 namespace Cryptocash.Application.Commands;
 
-public record DeleteVendingMachineByIdCommand(System.Guid keyId) : IRequest<bool>;
+public record DeleteVendingMachineByIdCommand(System.Guid keyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteVendingMachineByIdCommandHandler: CommandBase<DeleteVendingMachineByIdCommand,VendingMachine>, IRequestHandler<DeleteVendingMachineByIdCommand, bool>
 {
@@ -39,7 +39,9 @@ public class DeleteVendingMachineByIdCommandHandler: CommandBase<DeleteVendingMa
 			return false;
 		}
 
-		OnCompleted(entity);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+		OnCompleted(request, entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;

@@ -14,30 +14,26 @@ using Cryptocash.Domain;
 
 namespace Cryptocash.Application.Dto;
 
+public partial class PaymentProviderCreateDto: PaymentProviderCreateDtoBase
+{
+
+}
+
 /// <summary>
 /// Payment provider related data.
 /// </summary>
-public partial class PaymentProviderCreateDto : IEntityCreateDto <PaymentProvider>
+public abstract class PaymentProviderCreateDtoBase : IEntityCreateDto<PaymentProvider>
 {    
     /// <summary>
     /// Payment provider name (Required).
     /// </summary>
     [Required(ErrorMessage = "PaymentProviderName is required")]
     
-    public System.String PaymentProviderName { get; set; } = default!;    
+    public virtual System.String PaymentProviderName { get; set; } = default!;    
     /// <summary>
     /// Payment provider account type (Required).
     /// </summary>
     [Required(ErrorMessage = "PaymentProviderType is required")]
     
-    public System.String PaymentProviderType { get; set; } = default!;
-
-    public Cryptocash.Domain.PaymentProvider ToEntity()
-    {
-        var entity = new Cryptocash.Domain.PaymentProvider();
-        entity.PaymentProviderName = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderName(PaymentProviderName);
-        entity.PaymentProviderType = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderType(PaymentProviderType);
-        //entity.PaymentDetails = PaymentDetails.Select(dto => dto.ToEntity()).ToList();
-        return entity;
-    }
+    public virtual System.String PaymentProviderType { get; set; } = default!;
 }

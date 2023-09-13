@@ -23,7 +23,28 @@ using Workplace = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Factories;
 
-public partial class WorkplaceFactory : EntityFactoryBase<WorkplaceCreateDto,Workplace>
+public abstract class WorkplaceFactoryBase: IEntityFactory<Workplace,WorkplaceCreateDto>
 {
-    
+
+    public WorkplaceFactoryBase
+    (
+        )
+    {
+    }
+
+    public virtual Workplace CreateEntity(WorkplaceCreateDto createDto)
+    {
+        return ToEntity(createDto);
+    }
+    private ClientApi.Domain.Workplace ToEntity(WorkplaceCreateDto createDto)
+    {
+        var entity = new ClientApi.Domain.Workplace();
+        entity.Name = ClientApi.Domain.Workplace.CreateName(createDto.Name);
+		entity.EnsureId();
+        return entity;
+    }
+}
+
+public partial class WorkplaceFactory : WorkplaceFactoryBase
+{
 }

@@ -16,7 +16,7 @@ using Currency = Cryptocash.Domain.Currency;
 
 namespace Cryptocash.Application.Commands;
 
-public record PartialUpdateCurrencyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CurrencyKeyDto?>;
+public record PartialUpdateCurrencyCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CurrencyKeyDto?>;
 
 public class PartialUpdateCurrencyCommandHandler: CommandBase<PartialUpdateCurrencyCommand, Currency>, IRequestHandler<PartialUpdateCurrencyCommand, CurrencyKeyDto?>
 {
@@ -45,8 +45,9 @@ public class PartialUpdateCurrencyCommandHandler: CommandBase<PartialUpdateCurre
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Currency>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

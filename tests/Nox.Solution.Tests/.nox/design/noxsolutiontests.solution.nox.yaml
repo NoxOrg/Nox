@@ -1,0 +1,465 @@
+#
+# sample.solution.nox.yaml
+#
+# yaml-language-server: $schema=https://noxorg.dev/schemas/solution.json
+#
+
+name: NoxSolutionTests
+
+description: NoxSolution tests
+
+variables:
+   DATABASE_PROVIDER: slqServer
+   DATABASE_SERVER: 127.0.0.1
+   DATABASE_USER: sa
+   DATABASE_PASSWORD: Developer*123
+   DATABASE_PORT: 1433
+
+environments:
+
+  - name: dev
+    description: Used for development and testing
+
+  - name: test
+    description: Test environment
+
+  - name: uat
+    description: For them end users to check it works
+
+  - name: prod
+    description: Production environment used for, well - the real thing!
+    isProduction: true
+
+versionControl:
+  provider: azureDevops
+  host: https://dev.azure.com/iwgplc
+  folders:
+    sourceCode: /src
+    containers: /docker
+
+team:
+
+  - name: Andre Sharpe
+    userName: andre.sharpe@iwgplc.com
+    roles: [architect, owner, administrator, developer, manager]
+
+  - name: Jan Schutte
+    userName: jan.schutte@iwgplc.com
+    roles: [architect, administrator, developer, devOpsEngineer]
+
+  - name: Anton Du Plessis
+    userName: anton.duplessis@iwgplc.com
+    roles: [projectManager]
+
+  - name: Morne Van Zyl
+    userName: morne.vanzyl@iwgplc.com
+    roles: [technicalWriter]
+
+  - name: Dmytro Dorodnykh
+    userName: dmytro.dorodnykh@iwgplc.com
+    roles: [developer]
+
+  - name: Oleksandr Vlasenko
+    userName: oleksandr.vlasenko@regus.com
+    roles: [architect, developer]
+
+domain:
+
+  entities:
+
+    - name: Country
+      description: The list of countries
+
+      userInterface:
+        icon: world
+
+      persistence:
+        isAudited: true
+        tableName: Country
+        schema: dbo
+        create:
+          isEnabled: true
+          raiseEvents: true
+        read:
+          isEnabled: true
+        update:
+          isEnabled: true
+          raiseEvents: true
+        delete:
+          isEnabled: true
+          raiseEvents: true
+
+      ownedRelationships:
+
+        - name: CountryLocalName
+          description: is also know as
+          relationship: oneOrMany
+          entity: CountryLocalName
+
+      queries:
+
+        - name: GetCountriesByContinent
+          description: Returns a list of countries for a given continent
+
+          requestInput:
+            - name: continentName
+              description: Africa, Europe, Asia, Australia, North America, or South America
+              type: text
+              textTypeOptions:
+                isUnicode: false
+
+          responseOutput:
+            name: countriesByContinentDto
+            type: collection
+            collectionTypeOptions:
+              name: CountryInfo
+              type: object
+              objectTypeOptions:
+                attributes:
+
+                  - name: CountryId
+                    description: The country's Id
+                    type: countryCode2
+
+                  - name: CountryName
+                    description: The country name
+                    type: text
+
+      commands:
+
+        - name: UpdatePopulationStatistics
+          description: Instructs the service to collect updated population statistics
+          type: object
+          objectTypeOptions:
+            attributes:
+              - name: CountryCode
+                type: countryCode2
+          emitEvents: [CountryNameUpdatedEvent]
+
+      events:
+        - name: CountryNameUpdatedEvent
+          description: Raised when the name of a country is changes
+          type: object
+          objectTypeOptions:
+            attributes:
+              - name: CountryId
+                description: The identifier of the country. The Iso Alpha2 code of the country
+                type: countryCode2
+
+              - name: NewCountryName
+                description: The new name of the country
+                type: text
+
+      keys:
+
+        - name: Id
+          type: autoNumber
+          isRequired: true
+
+      attributes:
+
+        - name: Name
+          description: The country's common name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+        - name: FormalName
+          description: The country's official name
+          type: text
+          textTypeOptions:
+            minLength: 4
+            maxLength: 63
+          isRequired: true
+
+        - name: AlphaCode3
+          description: The country's official ISO 4217 alpha-3 code
+          type: countryCode3
+          isRequired: false
+
+        - name: AlphaCode2
+          description: The country's official ISO 4217 alpha-2 code
+          type: countryCode2
+          isRequired: true
+
+        - name: NumericCode
+          description: The country's official ISO 4217 alpha-3 code
+          type: number
+          numberTypeOptions:
+            minValue: 4
+            maxValue: 894
+          isRequired: true
+
+        - name: DialingCodes
+          description: The country's phone dialing codes (comma-delimited)
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            maxLength: 31
+
+        - name: Capital
+          description: The capital city of the country
+          type: text
+          textTypeOptions:
+            maxLength: 63
+
+        - name: Demonym
+          description: Noun denoting the natives of the country
+          type: text
+          textTypeOptions:
+            maxLength: 63
+
+        - name: AreaInSquareKilometres
+          description: Country area in square kilometers
+          type: area
+          areaTypeOptions:
+            minValue: 0
+            maxValue: 20000000 # 20,000,000 > Russia
+            units: squareFoot
+            persistAs: squareFoot
+          isRequired: true
+
+        - name: GeoCoord
+          description: The the position of the workplace's point on the surface of the Earth
+          type: latLong
+
+        - name: GeoRegion
+          description: The region the country is in
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            maxLength: 8
+          isRequired: true
+
+        - name: GeoSubRegion
+          description: The sub-region the country is in
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            maxLength: 32
+          isRequired: true
+
+        - name: GeoWorldRegion
+          description: The world region the country is in
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            maxLength: 4
+          isRequired: true
+
+        - name: Population
+          description: The estimated population of the country
+          type: number
+          numberTypeOptions:
+            minValue: 0
+
+        - name: TopLevelDomains
+          description: The top level internet domains regitered to the country (comma-delimited)
+          type: text
+          textTypeOptions:
+            maxLength: 31    
+
+    - name: CountryLocalName
+      description: The name of a country in other languages
+
+      persistence:
+        isAudited: false
+
+      keys:
+
+        - name: Id
+          isRequired: true
+          type: text
+          textTypeOptions:
+            isUnicode: false
+            minLength: 2
+            maxLength: 2
+
+      attributes:
+        - name: Name
+          isRequired: false
+          type: text
+
+application:
+  dataTransferObjects:
+    - name: CustomCountryDto
+      description: Dto for country information
+      attributes:
+        - name: Id
+          description: The identity of the country, the Iso Alpha 2 code
+          type: text
+          textTypeOptions:
+            casing: lower
+            maxLength: 2
+            minLength: 2
+
+  events:
+    - name: CountryNameChangedAppEvent
+      description: An application event raised when the name of a country changes
+      type: object
+      objectTypeOptions:
+        attributes:
+          - name: CountryId
+            type: countryCode2
+            description: The identifier of the country. The Iso alpha 2 code
+
+          - name: CountryName
+            description: The new name of the country
+            type: text
+
+  integrations:
+    - name: SampleEtl
+      description: a Sample Etl
+      source:
+        name: CountryJsonSource
+        description: Sources Country data from a json file
+        dataConnectionName: CountryJsonData
+        sourceType: file
+        fileOptions:
+          filename: country-seed-data.json
+        schedule:
+          start: every day at 2am
+          retry:
+            limit: 5
+            delaySeconds: 5
+            doubleDelayLimit: 10
+          runOnStartup: true
+        watermark:
+          dateColumns:
+            - "CreateDate"
+            - "EditDate"
+          sequentialKeyColumn: CountryId
+      transform:
+        mappings:
+          - sourceColumn: IsoAlpha2Code
+            targetAttribute: Id
+            converter: upperCase
+          - sourceColumn: CountryName
+            targetAttribute: Name
+          - sourceColumn: CountryFullName
+            targetAttribute: FormalName
+        lookups:
+          - sourceColumn: RegionId
+            match:
+              table: GeoRegions
+              lookupColumn: Id
+              returnColumn: Name
+            targetAttribute: GeoRegion
+      target:
+        name: Country
+        dataConnectionName: SampleCurrencyDb
+        targetType: entity
+        entityOptions:
+            entity: Country         
+
+infrastructure:
+
+  persistence:
+
+    databaseServer:
+      name: SampleCurrencyDb
+
+      # Sql Server
+      serverUri: ${{ env.DATABASE_SERVER }}
+      provider: sqlServer
+      port: 1433
+      user: sa
+      password: ${{ env.DATABASE_PASSWORD}}
+      options: Trusted_Connection=no;connection timeout=120;TrustServerCertificate=True;
+
+      # Postgres
+      #serverUri: localhost
+      #provider: postgres
+      #port: 54320
+      #user: sa
+      #password: Developer*123
+
+      ### MySql
+      #provider: mySql
+
+    cacheServer:
+      name: SampleCache
+      provider: azureRedis
+      serverUri: redis.iwgplc.com
+      user: RedisUser
+      password: RedisPassword*123
+
+    searchServer:
+      name: SampleSearch
+      provider: elasticSearch
+      serverUri: elastic.igwplc.com
+      user: ElasticUser
+      password: ElasticPassword
+
+    eventSourceServer:
+      name: SampleEvtSrc
+      serverUri: SampleEvt.iwgplc.com
+      provider: eventStoreDb
+      user: EvtUser
+      password: EvtPassword
+
+  messaging:
+
+    integrationEventServer:
+      name: IntegrationBus
+      provider: rabbitMq
+      serverUri: rabbitmq://localhost
+      port: 5672
+      user: guest
+      password: guest
+
+  endpoints:
+
+    apiServer:
+      name: SampleApiServer
+      provider: oData
+      serverUri: workplace.iwgplc.com
+      port: 8080
+
+    bffServer:
+      name: SampleBffServer
+      provider: blazor
+      serverUri: SampleBff.iwgplc.com
+      port: 8080
+
+  dependencies:
+    notifications:
+      emailServer:
+        name: SampleEmailServer
+        provider: sendGrid
+        serverUri: sendgrid.igwplc.com
+        user: SendGridUser
+        password: SendGridPassword
+      smsServer:
+        name: SampleSmsServer
+        provider: twilio
+        serverUri: https://twilio.com
+        port: 8080
+        user: TwilioUser
+        password: TwilioPassword
+      imServer:
+        name: SampleImServer
+        provider: whatsApp
+        serverUri: https://whatsapp.com
+        port: 8080
+        user: whatsappUser
+        password: whatsappPassword
+
+### This section is optional.
+### In order to use elastic monitoring in the sample you have to start the elastic stack docker instance by running 'docker-compose -f docker-compose.elastic.yaml up -d'
+#    monitoring:
+#      $ref: elastic.monitoring.nox.yaml
+
+    uiLocalizations:
+      name: SampleTranslationService
+      provider: sqlServer
+      serverUri: translator.iwgplc.com
+      port: 1433
+
+    dataConnections:
+      - name: CountryJsonData
+        provider: jsonFile
+        serverUri: file:///C:/my-data-files
+        options: Source=File;Filename=country-data.json;

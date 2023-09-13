@@ -23,12 +23,12 @@ public record CreateStoreCommand(StoreCreateDto EntityDto) : IRequest<StoreKeyDt
 public partial class CreateStoreCommandHandler: CommandBase<CreateStoreCommand,Store>, IRequestHandler <CreateStoreCommand, StoreKeyDto>
 {
 	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<StoreCreateDto,Store> _entityFactory;
+	private readonly IEntityFactory<Store,StoreCreateDto> _entityFactory;
 
 	public CreateStoreCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<StoreCreateDto,Store> entityFactory,
+        IEntityFactory<Store,StoreCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
@@ -41,9 +41,8 @@ public partial class CreateStoreCommandHandler: CommandBase<CreateStoreCommand,S
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-		entityToCreate.EnsureId();		
-	
-		OnCompleted(entityToCreate);
+					
+		OnCompleted(request, entityToCreate);
 		_dbContext.Stores.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new StoreKeyDto(entityToCreate.Id.Value);

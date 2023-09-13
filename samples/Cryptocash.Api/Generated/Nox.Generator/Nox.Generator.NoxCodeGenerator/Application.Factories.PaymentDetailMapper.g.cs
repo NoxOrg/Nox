@@ -28,29 +28,27 @@ public partial class PaymentDetailMapper : EntityMapperBase<PaymentDetail>
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-            
+    #pragma warning restore CS0168 // Variable is declared but never used        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentAccountName", dto.PaymentAccountName);
-        if (noxTypeValue != null)
-        {        
-            entity.PaymentAccountName = noxTypeValue;
-        }        
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("PaymentAccountName is required can not be set to null");
+        }     
+        entity.PaymentAccountName = noxTypeValue;        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentAccountNumber", dto.PaymentAccountNumber);
-        if (noxTypeValue != null)
-        {        
-            entity.PaymentAccountNumber = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentAccountSortCode", dto.PaymentAccountSortCode);
-        if (noxTypeValue != null)
-        {        
-            entity.PaymentAccountSortCode = noxTypeValue;
-        }
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("PaymentAccountNumber is required can not be set to null");
+        }     
+        entity.PaymentAccountNumber = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "PaymentAccountSortCode", dto.PaymentAccountSortCode);     
+        entity.PaymentAccountSortCode = noxTypeValue;
     
 
         /// <summary>
         /// PaymentDetail used by ExactlyOne Customers
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "PaymentDetailsUsedByCustomer", dto.PaymentDetailsUsedByCustomerId);
+        noxTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "PaymentDetailsUsedByCustomer", dto.PaymentDetailsUsedByCustomerId);
         if (noxTypeValue != null)
         {        
             entity.PaymentDetailsUsedByCustomerId = noxTypeValue;
@@ -59,7 +57,7 @@ public partial class PaymentDetailMapper : EntityMapperBase<PaymentDetail>
         /// <summary>
         /// PaymentDetail related to ExactlyOne PaymentProviders
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "PaymentDetailsRelatedPaymentProvider", dto.PaymentDetailsRelatedPaymentProviderId);
+        noxTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "PaymentDetailsRelatedPaymentProvider", dto.PaymentDetailsRelatedPaymentProviderId);
         if (noxTypeValue != null)
         {        
             entity.PaymentDetailsRelatedPaymentProviderId = noxTypeValue;
@@ -120,7 +118,7 @@ public partial class PaymentDetailMapper : EntityMapperBase<PaymentDetail>
         /// </summary>
         if (updatedProperties.TryGetValue("CustomerId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "PaymentDetailsUsedByCustomer", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "PaymentDetailsUsedByCustomer", value);
             if (noxRelationshipTypeValue != null)
             {        
                 entity.PaymentDetailsUsedByCustomerId = noxRelationshipTypeValue;
@@ -131,7 +129,7 @@ public partial class PaymentDetailMapper : EntityMapperBase<PaymentDetail>
         /// </summary>
         if (updatedProperties.TryGetValue("PaymentProviderId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "PaymentDetailsRelatedPaymentProvider", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "PaymentDetailsRelatedPaymentProvider", value);
             if (noxRelationshipTypeValue != null)
             {        
                 entity.PaymentDetailsRelatedPaymentProviderId = noxRelationshipTypeValue;

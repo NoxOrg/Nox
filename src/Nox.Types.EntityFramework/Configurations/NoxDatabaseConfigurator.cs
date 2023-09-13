@@ -4,6 +4,7 @@ using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using System.Diagnostics;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using Microsoft.EntityFrameworkCore;
 
 namespace Nox.Types.EntityFramework.Configurations
 {

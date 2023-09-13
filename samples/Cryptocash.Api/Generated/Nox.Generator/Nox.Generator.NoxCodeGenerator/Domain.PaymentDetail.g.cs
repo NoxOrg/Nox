@@ -13,12 +13,12 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Customer payment account related data.
 /// </summary>
-public partial class PaymentDetail : AuditableEntityBase
+public partial class PaymentDetail : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Customer payment account unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Payment account name (Required).
@@ -43,7 +43,7 @@ public partial class PaymentDetail : AuditableEntityBase
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity Customer
     /// </summary>
-    public Nox.Types.DatabaseNumber PaymentDetailsUsedByCustomerId { get; set; } = null!;
+    public Nox.Types.AutoNumber PaymentDetailsUsedByCustomerId { get; set; } = null!;
 
     /// <summary>
     /// PaymentDetail related to ExactlyOne PaymentProviders
@@ -53,5 +53,10 @@ public partial class PaymentDetail : AuditableEntityBase
     /// <summary>
     /// Foreign key for relationship ExactlyOne to entity PaymentProvider
     /// </summary>
-    public Nox.Types.DatabaseNumber PaymentDetailsRelatedPaymentProviderId { get; set; } = null!;
+    public Nox.Types.AutoNumber PaymentDetailsRelatedPaymentProviderId { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

@@ -23,7 +23,28 @@ using EmployeePhoneNumber = Cryptocash.Domain.EmployeePhoneNumber;
 
 namespace Cryptocash.Application.Factories;
 
-public partial class EmployeePhoneNumberFactory : EntityFactoryBase<EmployeePhoneNumberCreateDto,EmployeePhoneNumber>
+public abstract class EmployeePhoneNumberFactoryBase: IEntityFactory<EmployeePhoneNumber,EmployeePhoneNumberCreateDto>
 {
-    
+
+    public EmployeePhoneNumberFactoryBase
+    (
+        )
+    {
+    }
+
+    public virtual EmployeePhoneNumber CreateEntity(EmployeePhoneNumberCreateDto createDto)
+    {
+        return ToEntity(createDto);
+    }
+    private Cryptocash.Domain.EmployeePhoneNumber ToEntity(EmployeePhoneNumberCreateDto createDto)
+    {
+        var entity = new Cryptocash.Domain.EmployeePhoneNumber();
+        entity.PhoneNumberType = Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumberType(createDto.PhoneNumberType);
+        entity.PhoneNumber = Cryptocash.Domain.EmployeePhoneNumber.CreatePhoneNumber(createDto.PhoneNumber);
+        return entity;
+    }
+}
+
+public partial class EmployeePhoneNumberFactory : EmployeePhoneNumberFactoryBase
+{
 }

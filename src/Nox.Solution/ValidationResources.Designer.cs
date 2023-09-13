@@ -376,6 +376,15 @@ namespace Nox.Solution {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Keys are mandatory for entity {0}. Except owned entities with ZeroOrOne or ExactlyOne relationships..
+        /// </summary>
+        internal static string EntityKeysRequired {
+            get {
+                return ResourceManager.GetString("EntityKeysRequired", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The entity name: {0} is duplicated. Entity names must be unique in a solution..
         /// </summary>
         internal static string EntityNameDuplicate {
@@ -718,7 +727,7 @@ namespace Nox.Solution {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The source &apos;{0}&apos; for integration &apos;{1}&apos; does not have a data connection specified. All integration sources must have a data connection specified in the Infrastructure section of your yaml definition...
+        ///   Looks up a localized string similar to The source &apos;{0}&apos; on integration &apos;{2}&apos; does not have a data connection specified. All integration sources must have a data connection specified in the Infrastructure section of your yaml definition...
         /// </summary>
         internal static string IntegrationSourceDataConnectionEmpty {
             get {
@@ -727,7 +736,7 @@ namespace Nox.Solution {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to The data connection for source &apos;{0}&apos; for integration &apos;{1}&apos; is not defined. All data connections must be defined in the Infrastructure section of your yaml definition..
+        ///   Looks up a localized string similar to The data connection &apos;{1}&apos; in source &apos;{0}&apos; for integration &apos;{2}&apos; is not defined. All data connections must be defined in the Infrastructure section of your yaml definition..
         /// </summary>
         internal static string IntegrationSourceDataConnectionMissing {
             get {
@@ -898,11 +907,29 @@ namespace Nox.Solution {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Owned entity {0} with ZeroOrOne or ExactlyOne relationship can not have key(s)..
+        /// </summary>
+        internal static string OwnedEntityKeysMustBeNull {
+            get {
+                return ResourceManager.GetString("OwnedEntityKeysMustBeNull", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to The database server for infrastructure persistence has not been specified. a Nox solution must always have a database definition..
         /// </summary>
         internal static string PersistenceDatabaseServerEmpty {
             get {
                 return ResourceManager.GetString("PersistenceDatabaseServerEmpty", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Entity {0}. The dependant entity {1}  in relation {2} can only have a single key..
+        /// </summary>
+        internal static string RelationEntityDependentMustHaveSingleKey {
+            get {
+                return ResourceManager.GetString("RelationEntityDependentMustHaveSingleKey", resourceCulture);
             }
         }
         

@@ -23,7 +23,28 @@ using BankNote = Cryptocash.Domain.BankNote;
 
 namespace Cryptocash.Application.Factories;
 
-public partial class BankNoteFactory : EntityFactoryBase<BankNoteCreateDto,BankNote>
+public abstract class BankNoteFactoryBase: IEntityFactory<BankNote,BankNoteCreateDto>
 {
-    
+
+    public BankNoteFactoryBase
+    (
+        )
+    {
+    }
+
+    public virtual BankNote CreateEntity(BankNoteCreateDto createDto)
+    {
+        return ToEntity(createDto);
+    }
+    private Cryptocash.Domain.BankNote ToEntity(BankNoteCreateDto createDto)
+    {
+        var entity = new Cryptocash.Domain.BankNote();
+        entity.CashNote = Cryptocash.Domain.BankNote.CreateCashNote(createDto.CashNote);
+        entity.Value = Cryptocash.Domain.BankNote.CreateValue(createDto.Value);
+        return entity;
+    }
+}
+
+public partial class BankNoteFactory : BankNoteFactoryBase
+{
 }

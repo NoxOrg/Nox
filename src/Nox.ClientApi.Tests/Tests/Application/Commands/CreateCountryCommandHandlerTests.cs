@@ -3,7 +3,7 @@ using ClientApi.Application.Dto;
 using AutoFixture.AutoMoq;
 using AutoFixture;
 
-namespace Nox.ClientApi.Tests.Tests.Controllers;
+namespace ClientApi.Tests.Tests.Controllers;
 
 [Collection("Sequential")]
 public class CreateCountryCommandHandlerTests 
@@ -21,7 +21,7 @@ public class CreateCountryCommandHandlerTests
 
     /// <summary>
     /// Test a command extension for <see cref="CreateCountryCommandHandler"/>
-    /// For Request Validation, before command handler is executed use <see cref="IValidator"/> instead IValidator<CreateClientDatabaseNumberCommand>.
+    /// For Request Validation, before command handler is executed use <see cref="IValidator"/> instead IValidator<CreateClientAutoNumberCommand>.
     /// </summary>
     [Fact]
     public async Task Put_PopulationNegative_ShouldUpdateTo0()
@@ -40,14 +40,14 @@ public class CreateCountryCommandHandlerTests
         };
         // Act
 
-        var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(CountryControllerName, countryDto);
-        await _oDataFixture.PutAsync($"{CountryControllerName}/{result!.keyId}", countryUpdateDto);
-        var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{CountryControllerName}/{result!.keyId}");
+        var postResult = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(CountryControllerName, countryDto);
+        var headers = _oDataFixture.CreateEtagHeader(postResult?.Etag);
+        var putResult = await _oDataFixture.PutAsync<CountryUpdateDto, CountryDto>($"{CountryControllerName}/{postResult!.Id}", countryUpdateDto, headers);
 
         //Assert
 
-        queryResult.Should().NotBeNull();
-        queryResult!.Population.Should().Be(expectedNumber);
+        putResult.Should().NotBeNull();
+        putResult!.Population.Should().Be(expectedNumber);
     }
 
     /// <summary>
@@ -67,11 +67,10 @@ public class CreateCountryCommandHandlerTests
         };
 
         // Act
-        var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryKeyDto>(CountryControllerName, countryDto);
-        var queryResult = await _oDataFixture.GetAsync<CountryDto>($"{CountryControllerName}/{result!.keyId}");
+        var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(CountryControllerName, countryDto);
 
         //Assert
-        queryResult.Should().NotBeNull();
-        queryResult!.Name.Should().Be(expectedName);
+        result.Should().NotBeNull();
+        result!.Name.Should().Be(expectedName);
     }
 }

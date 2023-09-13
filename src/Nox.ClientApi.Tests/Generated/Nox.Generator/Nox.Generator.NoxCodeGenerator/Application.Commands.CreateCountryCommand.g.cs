@@ -23,12 +23,12 @@ public record CreateCountryCommand(CountryCreateDto EntityDto) : IRequest<Countr
 public partial class CreateCountryCommandHandler: CommandBase<CreateCountryCommand,Country>, IRequestHandler <CreateCountryCommand, CountryKeyDto>
 {
 	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<CountryCreateDto,Country> _entityFactory;
+	private readonly IEntityFactory<Country,CountryCreateDto> _entityFactory;
 
 	public CreateCountryCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<CountryCreateDto,Country> entityFactory,
+        IEntityFactory<Country,CountryCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
@@ -40,9 +40,9 @@ public partial class CreateCountryCommandHandler: CommandBase<CreateCountryComma
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);		
-	
-		OnCompleted(entityToCreate);
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
+		OnCompleted(request, entityToCreate);
 		_dbContext.Countries.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new CountryKeyDto(entityToCreate.Id.Value);

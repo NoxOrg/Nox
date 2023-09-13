@@ -23,12 +23,12 @@ public record CreateBookingCommand(BookingCreateDto EntityDto) : IRequest<Bookin
 public partial class CreateBookingCommandHandler: CommandBase<CreateBookingCommand,Booking>, IRequestHandler <CreateBookingCommand, BookingKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<BookingCreateDto,Booking> _entityFactory;
+	private readonly IEntityFactory<Booking,BookingCreateDto> _entityFactory;
 
 	public CreateBookingCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<BookingCreateDto,Booking> entityFactory,
+        IEntityFactory<Booking,BookingCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
@@ -40,9 +40,9 @@ public partial class CreateBookingCommandHandler: CommandBase<CreateBookingComma
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);		
-	
-		OnCompleted(entityToCreate);
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
+		OnCompleted(request, entityToCreate);
 		_dbContext.Bookings.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new BookingKeyDto(entityToCreate.Id.Value);

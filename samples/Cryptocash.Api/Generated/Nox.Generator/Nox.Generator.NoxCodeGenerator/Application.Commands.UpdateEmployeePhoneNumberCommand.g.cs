@@ -13,7 +13,8 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-public record UpdateEmployeePhoneNumberCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberKeyDto EntityKeyDto, EmployeePhoneNumberUpdateDto EntityDto) : IRequest <EmployeePhoneNumberKeyDto?>;
+
+public record UpdateEmployeePhoneNumberCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberKeyDto EntityKeyDto, EmployeePhoneNumberUpdateDto EntityDto, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto?>;
 
 public partial class UpdateEmployeePhoneNumberCommandHandler: CommandBase<UpdateEmployeePhoneNumberCommand, EmployeePhoneNumber>, IRequestHandler <UpdateEmployeePhoneNumberCommand, EmployeePhoneNumberKeyDto?>
 {
@@ -34,13 +35,13 @@ public partial class UpdateEmployeePhoneNumberCommandHandler: CommandBase<Update
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Employee,DatabaseNumber>("Id", request.ParentKeyDto.keyId);
+		var keyId = CreateNoxTypeForKey<Employee,AutoNumber>("Id", request.ParentKeyDto.keyId);
 		var parentEntity = await DbContext.Employees.FindAsync(keyId);
 		if (parentEntity == null)
 		{
 			return null;
 		}
-		var ownedId = CreateNoxTypeForKey<EmployeePhoneNumber,DatabaseNumber>("Id", request.EntityKeyDto.keyId);
+		var ownedId = CreateNoxTypeForKey<EmployeePhoneNumber,AutoNumber>("Id", request.EntityKeyDto.keyId);
 		var entity = parentEntity.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == ownedId);
 		if (entity == null)
 		{
@@ -48,8 +49,8 @@ public partial class UpdateEmployeePhoneNumberCommandHandler: CommandBase<Update
 		}
 
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<EmployeePhoneNumber>(), request.EntityDto);
-		
-		OnCompleted(entity);
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		OnCompleted(request, entity);
 	
 		DbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

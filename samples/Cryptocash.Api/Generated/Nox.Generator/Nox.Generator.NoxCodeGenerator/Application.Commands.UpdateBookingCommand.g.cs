@@ -15,7 +15,7 @@ using Booking = Cryptocash.Domain.Booking;
 
 namespace Cryptocash.Application.Commands;
 
-public record UpdateBookingCommand(System.Guid keyId, BookingUpdateDto EntityDto) : IRequest<BookingKeyDto?>;
+public record UpdateBookingCommand(System.Guid keyId, BookingUpdateDto EntityDto, System.Guid? Etag) : IRequest<BookingKeyDto?>;
 
 public class UpdateBookingCommandHandler: CommandBase<UpdateBookingCommand, Booking>, IRequestHandler<UpdateBookingCommand, BookingKeyDto?>
 {
@@ -43,9 +43,11 @@ public class UpdateBookingCommandHandler: CommandBase<UpdateBookingCommand, Book
 		{
 			return null;
 		}
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<Booking>(), request.EntityDto);
 
-		OnCompleted(entity);
+		EntityMapper.MapToEntity(entity, GetEntityDefinition<Booking>(), request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

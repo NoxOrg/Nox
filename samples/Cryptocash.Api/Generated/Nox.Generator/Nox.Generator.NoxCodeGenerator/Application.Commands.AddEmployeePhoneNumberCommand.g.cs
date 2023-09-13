@@ -17,17 +17,17 @@ using Cryptocash.Application.Dto;
 using EmployeePhoneNumber = Cryptocash.Domain.EmployeePhoneNumber;
 
 namespace Cryptocash.Application.Commands;
-public record AddEmployeePhoneNumberCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberCreateDto EntityDto) : IRequest <EmployeePhoneNumberKeyDto?>;
+public record AddEmployeePhoneNumberCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberCreateDto EntityDto, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto?>;
 
 public partial class AddEmployeePhoneNumberCommandHandler: CommandBase<AddEmployeePhoneNumberCommand, EmployeePhoneNumber>, IRequestHandler <AddEmployeePhoneNumberCommand, EmployeePhoneNumberKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<EmployeePhoneNumberCreateDto,EmployeePhoneNumber> _entityFactory;
+	private readonly IEntityFactory<EmployeePhoneNumber,EmployeePhoneNumberCreateDto> _entityFactory;
 
 	public AddEmployeePhoneNumberCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<EmployeePhoneNumberCreateDto,EmployeePhoneNumber> entityFactory,
+        IEntityFactory<EmployeePhoneNumber,EmployeePhoneNumberCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
@@ -37,7 +37,7 @@ public partial class AddEmployeePhoneNumberCommandHandler: CommandBase<AddEmploy
 	public async Task<EmployeePhoneNumberKeyDto?> Handle(AddEmployeePhoneNumberCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Employee,DatabaseNumber>("Id", request.ParentKeyDto.keyId);
+		var keyId = CreateNoxTypeForKey<Employee,AutoNumber>("Id", request.ParentKeyDto.keyId);
 
 		var parentEntity = await _dbContext.Employees.FindAsync(keyId);
 		if (parentEntity == null)
@@ -48,8 +48,8 @@ public partial class AddEmployeePhoneNumberCommandHandler: CommandBase<AddEmploy
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
 		
 		parentEntity.EmployeePhoneNumbers.Add(entity);
-
-		OnCompleted(entity);
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		OnCompleted(request, entity);
 	
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await _dbContext.SaveChangesAsync();

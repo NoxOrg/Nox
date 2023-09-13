@@ -13,12 +13,28 @@ namespace ClientApi.Domain;
 /// <summary>
 /// Workplace.
 /// </summary>
-public partial class Workplace : EntityBase
+public partial class Workplace : EntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Workplace unique identifier (Required).
     /// </summary>
-    public DatabaseGuid Id { get; set; } = null!;
+    public Nuid Id {get; set;} = null!;
+    
+    	public void EnsureId()
+    	{
+    		if(Id is null)
+    		{
+    			Id = Nuid.From("Workplace-" + string.Join("-", Name.Value.ToString()));
+    		}
+    		else
+    		{
+    			var currentNuid = Nuid.From("Workplace-" + string.Join("-", Name.Value.ToString()));
+    			if(Id != currentNuid)
+    			{
+    				throw new NoxNuidTypeException("Immutable nuid property Id value is different since it has been initialized");
+    			}
+    		}
+    	}
 
     /// <summary>
     /// Workplace Name (Required).
@@ -33,4 +49,9 @@ public partial class Workplace : EntityBase
         get { return $"Hello, {Name.Value}!"; }
         private set { }
     }
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

@@ -23,12 +23,12 @@ public record CreateCashStockOrderCommand(CashStockOrderCreateDto EntityDto) : I
 public partial class CreateCashStockOrderCommandHandler: CommandBase<CreateCashStockOrderCommand,CashStockOrder>, IRequestHandler <CreateCashStockOrderCommand, CashStockOrderKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<CashStockOrderCreateDto,CashStockOrder> _entityFactory;
+	private readonly IEntityFactory<CashStockOrder,CashStockOrderCreateDto> _entityFactory;
 
 	public CreateCashStockOrderCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<CashStockOrderCreateDto,CashStockOrder> entityFactory,
+        IEntityFactory<CashStockOrder,CashStockOrderCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
@@ -40,9 +40,9 @@ public partial class CreateCashStockOrderCommandHandler: CommandBase<CreateCashS
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);		
-	
-		OnCompleted(entityToCreate);
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
+		OnCompleted(request, entityToCreate);
 		_dbContext.CashStockOrders.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new CashStockOrderKeyDto(entityToCreate.Id.Value);

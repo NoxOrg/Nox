@@ -28,49 +28,39 @@ public partial class BookingMapper : EntityMapperBase<Booking>
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-            
+    #pragma warning restore CS0168 // Variable is declared but never used        
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "AmountFrom", dto.AmountFrom);
-        if (noxTypeValue != null)
-        {        
-            entity.AmountFrom = noxTypeValue;
-        }        
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("AmountFrom is required can not be set to null");
+        }     
+        entity.AmountFrom = noxTypeValue;        
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "AmountTo", dto.AmountTo);
-        if (noxTypeValue != null)
-        {        
-            entity.AmountTo = noxTypeValue;
-        }        
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("AmountTo is required can not be set to null");
+        }     
+        entity.AmountTo = noxTypeValue;        
         noxTypeValue = CreateNoxType<Nox.Types.DateTimeRange>(entityDefinition, "RequestedPickUpDate", dto.RequestedPickUpDate);
-        if (noxTypeValue != null)
-        {        
-            entity.RequestedPickUpDate = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.DateTimeRange>(entityDefinition, "PickedUpDateTime", dto.PickedUpDateTime);
-        if (noxTypeValue != null)
-        {        
-            entity.PickedUpDateTime = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "ExpiryDateTime", dto.ExpiryDateTime);
-        if (noxTypeValue != null)
-        {        
-            entity.ExpiryDateTime = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "CancelledDateTime", dto.CancelledDateTime);
-        if (noxTypeValue != null)
-        {        
-            entity.CancelledDateTime = noxTypeValue;
-        }        
-        noxTypeValue = CreateNoxType<Nox.Types.VatNumber>(entityDefinition, "VatNumber", dto.VatNumber);
-        if (noxTypeValue != null)
-        {        
-            entity.VatNumber = noxTypeValue;
-        }
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("RequestedPickUpDate is required can not be set to null");
+        }     
+        entity.RequestedPickUpDate = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.DateTimeRange>(entityDefinition, "PickedUpDateTime", dto.PickedUpDateTime);     
+        entity.PickedUpDateTime = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "ExpiryDateTime", dto.ExpiryDateTime);     
+        entity.ExpiryDateTime = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "CancelledDateTime", dto.CancelledDateTime);     
+        entity.CancelledDateTime = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.VatNumber>(entityDefinition, "VatNumber", dto.VatNumber);     
+        entity.VatNumber = noxTypeValue;
     
 
         /// <summary>
         /// Booking for ExactlyOne Customers
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "BookingForCustomer", dto.BookingForCustomerId);
+        noxTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "BookingForCustomer", dto.BookingForCustomerId);
         if (noxTypeValue != null)
         {        
             entity.BookingForCustomerId = noxTypeValue;
@@ -88,7 +78,7 @@ public partial class BookingMapper : EntityMapperBase<Booking>
         /// <summary>
         /// Booking fees for ExactlyOne Commissions
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "BookingFeesForCommission", dto.BookingFeesForCommissionId);
+        noxTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "BookingFeesForCommission", dto.BookingFeesForCommissionId);
         if (noxTypeValue != null)
         {        
             entity.BookingFeesForCommissionId = noxTypeValue;
@@ -205,7 +195,7 @@ public partial class BookingMapper : EntityMapperBase<Booking>
         /// </summary>
         if (updatedProperties.TryGetValue("CustomerId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "BookingForCustomer", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "BookingForCustomer", value);
             if (noxRelationshipTypeValue != null)
             {        
                 entity.BookingForCustomerId = noxRelationshipTypeValue;
@@ -227,7 +217,7 @@ public partial class BookingMapper : EntityMapperBase<Booking>
         /// </summary>
         if (updatedProperties.TryGetValue("CommissionId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "BookingFeesForCommission", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "BookingFeesForCommission", value);
             if (noxRelationshipTypeValue != null)
             {        
                 entity.BookingFeesForCommissionId = noxRelationshipTypeValue;

@@ -23,12 +23,12 @@ public record CreateCommissionCommand(CommissionCreateDto EntityDto) : IRequest<
 public partial class CreateCommissionCommandHandler: CommandBase<CreateCommissionCommand,Commission>, IRequestHandler <CreateCommissionCommand, CommissionKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<CommissionCreateDto,Commission> _entityFactory;
+	private readonly IEntityFactory<Commission,CommissionCreateDto> _entityFactory;
 
 	public CreateCommissionCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<CommissionCreateDto,Commission> entityFactory,
+        IEntityFactory<Commission,CommissionCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
@@ -40,9 +40,9 @@ public partial class CreateCommissionCommandHandler: CommandBase<CreateCommissio
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);		
-	
-		OnCompleted(entityToCreate);
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
+		OnCompleted(request, entityToCreate);
 		_dbContext.Commissions.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new CommissionKeyDto(entityToCreate.Id.Value);

@@ -13,12 +13,12 @@ namespace Cryptocash.Domain;
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-public partial class Commission : AuditableEntityBase
+public partial class Commission : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Commission unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Commission rate (Required).
@@ -44,4 +44,9 @@ public partial class Commission : AuditableEntityBase
     /// Commission fees for ZeroOrMany Bookings
     /// </summary>
     public virtual List<Booking> CommissionFeesForBooking { get; set; } = new();
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

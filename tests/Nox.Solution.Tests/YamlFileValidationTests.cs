@@ -48,7 +48,7 @@ public class YamlFileValidationTests
         Assert.Contains("[\"name\"]", exception.Message);
         Assert.Contains("[\"serverUri\"]", exception.Message);
         Assert.Contains("dataConnection", exception.Message);
-        Assert.Equal(22, errorCount);
+        Assert.Equal(25, errorCount);
     }
 
     
@@ -154,12 +154,13 @@ public class YamlFileValidationTests
             "The Attributes 'Id' is duplicated",
             "The Attributes 'CurrenciesCountryLegal' is duplicated",
             "The Relationships 'CurrenciesCountryLegal' is duplicated",
-            "The OwnedRelationships 'Id' is duplicated"
+            "The OwnedRelationships 'Id' is duplicated",
+            "The dependant entity Currency  in relation Id can only have a single key."
         };
-
+        
         errors.Should()
             .NotBeEmpty()
-            .And.HaveCount(14)
+            .And.HaveCount(18)
             .And.Subject.Select(x => x.ErrorMessage)
            .Should()
            .Contain(x => expectedErrors.Any(t => x.StartsWith(t)));
@@ -185,7 +186,7 @@ public class YamlFileValidationTests
             "Attribute name 'NonExistentAttribute' in unique attribute constraint not found in neither entity attribute(s)",
         };
 
-        errors.Count().Should().BePositive();
+        errors.Length.Should().BePositive();
 
         errors.Should()
             .NotBeEmpty()

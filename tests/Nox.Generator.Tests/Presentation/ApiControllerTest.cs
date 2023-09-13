@@ -43,7 +43,7 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
         Assert.Single(allOutputs);
 
         var generatedSources = result.GeneratedSources;
-        Assert.Equal(36, generatedSources.Length);
+        Assert.Equal(47, generatedSources.Length);
         Assert.True(generatedSources.Any(s => s.HintName == "Application.NoxWebApplicationExtensions.g.cs"), "NoxWebApplicationExtensions.g.cs not generated");
 
         // Check base files
@@ -67,7 +67,7 @@ public class ApiControllerTest : IClassFixture<GeneratorFixture>
     private void CheckController(string controllerFileName, ImmutableArray<GeneratedSourceResult> generatedSources)
     {
         Assert.True(generatedSources.Any(s => s.HintName == controllerFileName), $"{controllerFileName} not generated");
-        Assert.Equal(File.ReadAllText($"./ExpectedGeneratedFiles/{controllerFileName}"), 
+        Assert.Equal(File.ReadAllText($"./ExpectedGeneratedFiles/{controllerFileName}"),
             generatedSources.First(s => s.HintName == controllerFileName).SourceText.ToString());
 
     }

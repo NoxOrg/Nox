@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using Cryptocash.Application;
 using Cryptocash.Application.Dto;
 using Cryptocash.Application.Queries;
@@ -19,7 +21,12 @@ using Nox.Types;
 
 namespace Cryptocash.Presentation.Api.OData;
 
-public partial class PaymentDetailsController : ODataController
+public partial class PaymentDetailsController : PaymentDetailsControllerBase
+            {
+                public PaymentDetailsController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+                {}
+            }
+public abstract class PaymentDetailsControllerBase : ODataController
 {
     
     /// <summary>
@@ -32,7 +39,7 @@ public partial class PaymentDetailsController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public PaymentDetailsController(
+    public PaymentDetailsControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -42,7 +49,7 @@ public partial class PaymentDetailsController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<PaymentDetailDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<PaymentDetailDto>>> Get()
     {
         var result = await _mediator.Send(new GetPaymentDetailsQuery());
         return Ok(result);
@@ -61,39 +68,46 @@ public partial class PaymentDetailsController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]PaymentDetailCreateDto paymentdetail)
+    public virtual async Task<ActionResult<PaymentDetailDto>> Post([FromBody]PaymentDetailCreateDto paymentDetail)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreatePaymentDetailCommand(paymentdetail));
+        var createdKey = await _mediator.Send(new CreatePaymentDetailCommand(paymentDetail));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetPaymentDetailByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Int64 key, [FromBody] PaymentDetailUpdateDto paymentDetail)
+    public virtual async Task<ActionResult<PaymentDetailDto>> Put([FromRoute] System.Int64 key, [FromBody] PaymentDetailUpdateDto paymentDetail)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdatePaymentDetailCommand(key, paymentDetail));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdatePaymentDetailCommand(key, paymentDetail, etag));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetPaymentDetailByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Int64 key, [FromBody] Delta<PaymentDetailUpdateDto> paymentDetail)
+    public virtual async Task<ActionResult<PaymentDetailDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<PaymentDetailDto> paymentDetail)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in paymentDetail.GetChangedPropertyNames())
@@ -104,18 +118,22 @@ public partial class PaymentDetailsController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdatePaymentDetailCommand(key, updateProperties));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdatePaymentDetailCommand(key, updateProperties, etag));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetPaymentDetailByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.Int64 key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Int64 key)
     {
-        var result = await _mediator.Send(new DeletePaymentDetailByIdCommand(key));
+        var etag = Request.GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeletePaymentDetailByIdCommand(key, etag));
+        
         if (!result)
         {
             return NotFound();

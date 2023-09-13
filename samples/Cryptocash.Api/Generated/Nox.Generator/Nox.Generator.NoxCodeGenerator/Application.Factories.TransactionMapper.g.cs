@@ -28,34 +28,37 @@ public partial class TransactionMapper : EntityMapperBase<Transaction>
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-            
+    #pragma warning restore CS0168 // Variable is declared but never used        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "TransactionType", dto.TransactionType);
-        if (noxTypeValue != null)
-        {        
-            entity.TransactionType = noxTypeValue;
-        }        
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("TransactionType is required can not be set to null");
+        }     
+        entity.TransactionType = noxTypeValue;        
         noxTypeValue = CreateNoxType<Nox.Types.DateTime>(entityDefinition, "ProcessedOnDateTime", dto.ProcessedOnDateTime);
-        if (noxTypeValue != null)
-        {        
-            entity.ProcessedOnDateTime = noxTypeValue;
-        }        
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("ProcessedOnDateTime is required can not be set to null");
+        }     
+        entity.ProcessedOnDateTime = noxTypeValue;        
         noxTypeValue = CreateNoxType<Nox.Types.Money>(entityDefinition, "Amount", dto.Amount);
-        if (noxTypeValue != null)
-        {        
-            entity.Amount = noxTypeValue;
-        }        
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("Amount is required can not be set to null");
+        }     
+        entity.Amount = noxTypeValue;        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Reference", dto.Reference);
-        if (noxTypeValue != null)
-        {        
-            entity.Reference = noxTypeValue;
-        }
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("Reference is required can not be set to null");
+        }     
+        entity.Reference = noxTypeValue;
     
 
         /// <summary>
         /// Transaction for ExactlyOne Customers
         /// </summary>
-        noxTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "TransactionForCustomer", dto.TransactionForCustomerId);
+        noxTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "TransactionForCustomer", dto.TransactionForCustomerId);
         if (noxTypeValue != null)
         {        
             entity.TransactionForCustomerId = noxTypeValue;
@@ -139,7 +142,7 @@ public partial class TransactionMapper : EntityMapperBase<Transaction>
         /// </summary>
         if (updatedProperties.TryGetValue("CustomerId", out value))
         {
-            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.DatabaseNumber>(entityDefinition, "TransactionForCustomer", value);
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "TransactionForCustomer", value);
             if (noxRelationshipTypeValue != null)
             {        
                 entity.TransactionForCustomerId = noxRelationshipTypeValue;

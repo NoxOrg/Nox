@@ -13,7 +13,7 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// Entity created for testing constraints.
 /// </summary>
-public partial class TestEntityForUniqueConstraints : EntityBase
+public partial class TestEntityForUniqueConstraints : EntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -44,4 +44,9 @@ public partial class TestEntityForUniqueConstraints : EntityBase
     ///  (Required).
     /// </summary>
     public Nox.Types.CurrencyCode3 UniqueCurrencyCode { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

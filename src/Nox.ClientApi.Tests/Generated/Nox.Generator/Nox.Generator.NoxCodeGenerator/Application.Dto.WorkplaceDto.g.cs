@@ -10,12 +10,12 @@ using MediatR;
 using Nox.Types;
 using Nox.Domain;
 using Nox.Extensions;
-
+using System.Text.Json.Serialization;
 using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
-public record WorkplaceKeyDto(System.Guid keyId);
+public record WorkplaceKeyDto(System.UInt32 keyId);
 
 /// <summary>
 /// Workplace.
@@ -26,7 +26,7 @@ public partial class WorkplaceDto
     /// <summary>
     /// Workplace unique identifier (Required).
     /// </summary>
-    public System.Guid Id { get; set; } = default!;
+    public System.UInt32 Id { get; set; } = default!;
 
     /// <summary>
     /// Workplace Name (Required).
@@ -36,5 +36,8 @@ public partial class WorkplaceDto
     /// <summary>
     /// The Formula (Optional).
     /// </summary>
-    public System.String? Greeting { get; set; }    
+    public System.String? Greeting { get; set; }
+
+    [JsonPropertyName("@odata.etag")]
+    public System.Guid Etag { get; init; }
 }

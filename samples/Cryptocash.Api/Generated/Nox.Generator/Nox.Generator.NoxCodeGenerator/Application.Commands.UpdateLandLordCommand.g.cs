@@ -15,7 +15,7 @@ using LandLord = Cryptocash.Domain.LandLord;
 
 namespace Cryptocash.Application.Commands;
 
-public record UpdateLandLordCommand(System.Int64 keyId, LandLordUpdateDto EntityDto) : IRequest<LandLordKeyDto?>;
+public record UpdateLandLordCommand(System.Int64 keyId, LandLordUpdateDto EntityDto, System.Guid? Etag) : IRequest<LandLordKeyDto?>;
 
 public class UpdateLandLordCommandHandler: CommandBase<UpdateLandLordCommand, LandLord>, IRequestHandler<UpdateLandLordCommand, LandLordKeyDto?>
 {
@@ -36,16 +36,18 @@ public class UpdateLandLordCommandHandler: CommandBase<UpdateLandLordCommand, La
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<LandLord,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<LandLord,AutoNumber>("Id", request.keyId);
 	
 		var entity = await DbContext.LandLords.FindAsync(keyId);
 		if (entity == null)
 		{
 			return null;
 		}
-		EntityMapper.MapToEntity(entity, GetEntityDefinition<LandLord>(), request.EntityDto);
 
-		OnCompleted(entity);
+		EntityMapper.MapToEntity(entity, GetEntityDefinition<LandLord>(), request.EntityDto);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

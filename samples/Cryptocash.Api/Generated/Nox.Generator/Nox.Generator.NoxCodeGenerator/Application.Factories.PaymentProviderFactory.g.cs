@@ -23,7 +23,29 @@ using PaymentProvider = Cryptocash.Domain.PaymentProvider;
 
 namespace Cryptocash.Application.Factories;
 
-public partial class PaymentProviderFactory : EntityFactoryBase<PaymentProviderCreateDto,PaymentProvider>
+public abstract class PaymentProviderFactoryBase: IEntityFactory<PaymentProvider,PaymentProviderCreateDto>
 {
-    
+
+    public PaymentProviderFactoryBase
+    (
+        )
+    {
+    }
+
+    public virtual PaymentProvider CreateEntity(PaymentProviderCreateDto createDto)
+    {
+        return ToEntity(createDto);
+    }
+    private Cryptocash.Domain.PaymentProvider ToEntity(PaymentProviderCreateDto createDto)
+    {
+        var entity = new Cryptocash.Domain.PaymentProvider();
+        entity.PaymentProviderName = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderName(createDto.PaymentProviderName);
+        entity.PaymentProviderType = Cryptocash.Domain.PaymentProvider.CreatePaymentProviderType(createDto.PaymentProviderType);
+        //entity.PaymentDetails = PaymentDetails.Select(dto => dto.ToEntity()).ToList();
+        return entity;
+    }
+}
+
+public partial class PaymentProviderFactory : PaymentProviderFactoryBase
+{
 }

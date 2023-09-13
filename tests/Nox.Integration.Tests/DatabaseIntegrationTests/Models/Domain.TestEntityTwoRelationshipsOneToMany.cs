@@ -13,7 +13,7 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// .
 /// </summary>
-public partial class TestEntityTwoRelationshipsOneToMany : AuditableEntityBase
+public partial class TestEntityTwoRelationshipsOneToMany : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -34,4 +34,9 @@ public partial class TestEntityTwoRelationshipsOneToMany : AuditableEntityBase
     /// TestEntityTwoRelationshipsOneToMany Second relationship to the same entity ZeroOrMany SecondTestEntityTwoRelationshipsOneToManies
     /// </summary>
     public virtual List<SecondTestEntityTwoRelationshipsOneToMany> TestRelationshipTwo { get; set; } = new();
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

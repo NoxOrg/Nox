@@ -16,7 +16,7 @@ using Transaction = Cryptocash.Domain.Transaction;
 
 namespace Cryptocash.Application.Commands;
 
-public record PartialUpdateTransactionCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <TransactionKeyDto?>;
+public record PartialUpdateTransactionCommand(System.Int64 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <TransactionKeyDto?>;
 
 public class PartialUpdateTransactionCommandHandler: CommandBase<PartialUpdateTransactionCommand, Transaction>, IRequestHandler<PartialUpdateTransactionCommand, TransactionKeyDto?>
 {
@@ -37,7 +37,7 @@ public class PartialUpdateTransactionCommandHandler: CommandBase<PartialUpdateTr
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Transaction,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Transaction,AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Transactions.FindAsync(keyId);
 		if (entity == null)
@@ -45,8 +45,9 @@ public class PartialUpdateTransactionCommandHandler: CommandBase<PartialUpdateTr
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Transaction>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

@@ -28,13 +28,13 @@ public partial class WorkplaceMapper : EntityMapperBase<Workplace>
     {
     #pragma warning disable CS0168 // Variable is declared but never used        
         dynamic? noxTypeValue;
-    #pragma warning restore CS0168 // Variable is declared but never used
-            
+    #pragma warning restore CS0168 // Variable is declared but never used        
         noxTypeValue = CreateNoxType<Nox.Types.Text>(entityDefinition, "Name", dto.Name);
-        if (noxTypeValue != null)
-        {        
-            entity.Name = noxTypeValue;
-        }
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("Name is required can not be set to null");
+        }     
+        entity.Name = noxTypeValue;
     
     }
 

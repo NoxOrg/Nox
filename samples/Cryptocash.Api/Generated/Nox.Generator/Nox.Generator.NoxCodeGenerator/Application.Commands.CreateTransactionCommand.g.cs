@@ -23,12 +23,12 @@ public record CreateTransactionCommand(TransactionCreateDto EntityDto) : IReques
 public partial class CreateTransactionCommandHandler: CommandBase<CreateTransactionCommand,Transaction>, IRequestHandler <CreateTransactionCommand, TransactionKeyDto>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<TransactionCreateDto,Transaction> _entityFactory;
+	private readonly IEntityFactory<Transaction,TransactionCreateDto> _entityFactory;
 
 	public CreateTransactionCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<TransactionCreateDto,Transaction> entityFactory,
+        IEntityFactory<Transaction,TransactionCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
@@ -40,9 +40,9 @@ public partial class CreateTransactionCommandHandler: CommandBase<CreateTransact
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
 
-		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);		
-	
-		OnCompleted(entityToCreate);
+		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
+					
+		OnCompleted(request, entityToCreate);
 		_dbContext.Transactions.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new TransactionKeyDto(entityToCreate.Id.Value);

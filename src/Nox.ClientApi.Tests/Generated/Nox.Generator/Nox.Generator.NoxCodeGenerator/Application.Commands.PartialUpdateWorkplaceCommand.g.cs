@@ -16,7 +16,7 @@ using Workplace = ClientApi.Domain.Workplace;
 
 namespace ClientApi.Application.Commands;
 
-public record PartialUpdateWorkplaceCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <WorkplaceKeyDto?>;
+public record PartialUpdateWorkplaceCommand(System.UInt32 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <WorkplaceKeyDto?>;
 
 public class PartialUpdateWorkplaceCommandHandler: CommandBase<PartialUpdateWorkplaceCommand, Workplace>, IRequestHandler<PartialUpdateWorkplaceCommand, WorkplaceKeyDto?>
 {
@@ -37,7 +37,7 @@ public class PartialUpdateWorkplaceCommandHandler: CommandBase<PartialUpdateWork
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Workplace,DatabaseGuid>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Workplace,Nuid>("Id", request.keyId);
 
 		var entity = await DbContext.Workplaces.FindAsync(keyId);
 		if (entity == null)
@@ -45,8 +45,9 @@ public class PartialUpdateWorkplaceCommandHandler: CommandBase<PartialUpdateWork
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Workplace>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

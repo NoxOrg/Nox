@@ -98,14 +98,15 @@ namespace Nox.Tests.ProjectDependencies
             }
         }
         [Fact]
-        public void Nox_Abstraction_References_Nox_Types_Only()
+        public void Nox_Abstraction_References_Nox_Types_And_Solution_Only()
         {
             var projectDependencies =
                 _fixture.ProjectDependencyGraph.GetProjectsThatThisProjectDirectlyDependsOn(_fixture.NoxAbstractions.Id);
 
-            projectDependencies.Should().HaveCount(1);
+            projectDependencies.Should().HaveCount(2);
 
-            (projectDependencies.Single() == _fixture.NoxTypesProject.Id).Should().BeTrue();
+            projectDependencies.SingleOrDefault(d=> d.Id == _fixture.NoxTypesProject.Id.Id).Should().NotBeNull();
+            projectDependencies.SingleOrDefault(d => d.Id == _fixture.NoxSolutionNetStd20.Id.Id || d.Id == _fixture.NoxSolutionNet7.Id.Id).Should().NotBeNull();
         }
     }
 }

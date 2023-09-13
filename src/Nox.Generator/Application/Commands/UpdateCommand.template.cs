@@ -15,7 +15,7 @@ using {{entity.Name}} = {{codeGeneratorState.DomainNameSpace}}.{{entity.Name}};
 
 namespace {{codeGeneratorState.ApplicationNameSpace}}.Commands;
 
-public record Update{{entity.Name}}Command({{primaryKeys}}, {{entity.Name}}UpdateDto EntityDto) : IRequest<{{entity.Name}}KeyDto?>;
+public record Update{{entity.Name}}Command({{primaryKeys}}, {{entity.Name}}UpdateDto EntityDto{{ if !entity.IsOwnedEntity}}, System.Guid? Etag{{end}}) : IRequest<{{entity.Name}}KeyDto?>;
 
 public class Update{{entity.Name}}CommandHandler: CommandBase<Update{{entity.Name}}Command, {{entity.Name}}>, IRequestHandler<Update{{entity.Name}}Command, {{entity.Name}}KeyDto?>
 {
@@ -46,9 +46,14 @@ public class Update{{entity.Name}}CommandHandler: CommandBase<Update{{entity.Nam
 		{
 			return null;
 		}
+
 		EntityMapper.MapToEntity(entity, GetEntityDefinition<{{entity.Name}}>(), request.EntityDto);
 
-		OnCompleted(entity);
+		{{- if !entity.IsOwnedEntity }}
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		{{- end }}
+
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

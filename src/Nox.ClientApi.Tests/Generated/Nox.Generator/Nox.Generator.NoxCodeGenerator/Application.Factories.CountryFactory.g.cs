@@ -23,7 +23,47 @@ using Country = ClientApi.Domain.Country;
 
 namespace ClientApi.Application.Factories;
 
-public partial class CountryFactory : EntityFactoryBase<CountryCreateDto,Country>
+public abstract class CountryFactoryBase: IEntityFactory<Country,CountryCreateDto>
 {
-    
+    protected IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> CountryLocalNameFactory {get;}
+    protected IEntityFactory<CountryBarCode,CountryBarCodeCreateDto> CountryBarCodeFactory {get;}
+
+    public CountryFactoryBase
+    (
+        IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> countrylocalnamefactory,
+        IEntityFactory<CountryBarCode,CountryBarCodeCreateDto> countrybarcodefactory
+        )
+    {        
+        CountryLocalNameFactory = countrylocalnamefactory;        
+        CountryBarCodeFactory = countrybarcodefactory;
+    }
+
+    public virtual Country CreateEntity(CountryCreateDto createDto)
+    {
+        return ToEntity(createDto);
+    }
+    private ClientApi.Domain.Country ToEntity(CountryCreateDto createDto)
+    {
+        var entity = new ClientApi.Domain.Country();
+        entity.Name = ClientApi.Domain.Country.CreateName(createDto.Name);
+        if (createDto.Population is not null)entity.Population = ClientApi.Domain.Country.CreatePopulation(createDto.Population.NonNullValue<System.Int32>());
+        if (createDto.CountryDebt is not null)entity.CountryDebt = ClientApi.Domain.Country.CreateCountryDebt(createDto.CountryDebt.NonNullValue<MoneyDto>());
+        if (createDto.FirstLanguageCode is not null)entity.FirstLanguageCode = ClientApi.Domain.Country.CreateFirstLanguageCode(createDto.FirstLanguageCode.NonNullValue<System.String>());
+        entity.CountryLocalNames = createDto.CountryLocalNames.Select(dto => CountryLocalNameFactory.CreateEntity(dto)).ToList();
+        if(createDto.CountryBarCode is not null)
+        {
+            entity.CountryBarCode = CountryBarCodeFactory.CreateEntity(createDto.CountryBarCode);
+        }
+        return entity;
+    }
+}
+
+public partial class CountryFactory : CountryFactoryBase
+{
+    public CountryFactory
+    (
+        IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> countrylocalnamefactory,
+        IEntityFactory<CountryBarCode,CountryBarCodeCreateDto> countrybarcodefactory
+    ): base(countrylocalnamefactory,countrybarcodefactory)                      
+    {}
 }

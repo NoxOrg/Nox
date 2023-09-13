@@ -17,17 +17,17 @@ using Cryptocash.Application.Dto;
 using CountryTimeZone = Cryptocash.Domain.CountryTimeZone;
 
 namespace Cryptocash.Application.Commands;
-public record AddCountryTimeZoneCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneCreateDto EntityDto) : IRequest <CountryTimeZoneKeyDto?>;
+public record AddCountryTimeZoneCommand(CountryKeyDto ParentKeyDto, CountryTimeZoneCreateDto EntityDto, System.Guid? Etag) : IRequest <CountryTimeZoneKeyDto?>;
 
 public partial class AddCountryTimeZoneCommandHandler: CommandBase<AddCountryTimeZoneCommand, CountryTimeZone>, IRequestHandler <AddCountryTimeZoneCommand, CountryTimeZoneKeyDto?>
 {
 	private readonly CryptocashDbContext _dbContext;
-	private readonly IEntityFactory<CountryTimeZoneCreateDto,CountryTimeZone> _entityFactory;
+	private readonly IEntityFactory<CountryTimeZone,CountryTimeZoneCreateDto> _entityFactory;
 
 	public AddCountryTimeZoneCommandHandler(
 		CryptocashDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<CountryTimeZoneCreateDto,CountryTimeZone> entityFactory,
+        IEntityFactory<CountryTimeZone,CountryTimeZoneCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
@@ -48,8 +48,8 @@ public partial class AddCountryTimeZoneCommandHandler: CommandBase<AddCountryTim
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
 		
 		parentEntity.CountryTimeZones.Add(entity);
-
-		OnCompleted(entity);
+		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+		OnCompleted(request, entity);
 	
 		_dbContext.Entry(parentEntity).State = EntityState.Modified;
 		var result = await _dbContext.SaveChangesAsync();

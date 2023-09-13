@@ -13,7 +13,7 @@ namespace TestWebApp.Domain;
 /// <summary>
 /// .
 /// </summary>
-public partial class SecondTestEntityTwoRelationshipsManyToMany : EntityBase
+public partial class SecondTestEntityTwoRelationshipsManyToMany : EntityBase, IEntityConcurrent
 {
     /// <summary>
     ///  (Required).
@@ -34,4 +34,9 @@ public partial class SecondTestEntityTwoRelationshipsManyToMany : EntityBase
     /// SecondTestEntityTwoRelationshipsManyToMany Second relationship to the same entity on the other side ZeroOrMany TestEntityTwoRelationshipsManyToManies
     /// </summary>
     public virtual List<TestEntityTwoRelationshipsManyToMany> TestRelationshipTwoOnOtherSide { get; set; } = new();
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

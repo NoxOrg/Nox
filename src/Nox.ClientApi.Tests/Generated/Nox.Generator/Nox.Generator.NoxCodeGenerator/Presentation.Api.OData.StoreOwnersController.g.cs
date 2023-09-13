@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
 using ClientApi.Application.Queries;
@@ -19,7 +21,12 @@ using Nox.Types;
 
 namespace ClientApi.Presentation.Api.OData;
 
-public partial class StoreOwnersController : ODataController
+public partial class StoreOwnersController : StoreOwnersControllerBase
+            {
+                public StoreOwnersController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+                {}
+            }
+public abstract class StoreOwnersControllerBase : ODataController
 {
     
     /// <summary>
@@ -32,7 +39,7 @@ public partial class StoreOwnersController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public StoreOwnersController(
+    public StoreOwnersControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -42,7 +49,7 @@ public partial class StoreOwnersController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<StoreOwnerDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<StoreOwnerDto>>> Get()
     {
         var result = await _mediator.Send(new GetStoreOwnersQuery());
         return Ok(result);
@@ -61,39 +68,46 @@ public partial class StoreOwnersController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]StoreOwnerCreateDto storeowner)
+    public virtual async Task<ActionResult<StoreOwnerDto>> Post([FromBody]StoreOwnerCreateDto storeOwner)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
-        var createdKey = await _mediator.Send(new CreateStoreOwnerCommand(storeowner));
+        var createdKey = await _mediator.Send(new CreateStoreOwnerCommand(storeOwner));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetStoreOwnerByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.String key, [FromBody] StoreOwnerUpdateDto storeOwner)
+    public virtual async Task<ActionResult<StoreOwnerDto>> Put([FromRoute] System.String key, [FromBody] StoreOwnerUpdateDto storeOwner)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateStoreOwnerCommand(key, storeOwner));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateStoreOwnerCommand(key, storeOwner, etag));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetStoreOwnerByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.String key, [FromBody] Delta<StoreOwnerUpdateDto> storeOwner)
+    public virtual async Task<ActionResult<StoreOwnerDto>> Patch([FromRoute] System.String key, [FromBody] Delta<StoreOwnerDto> storeOwner)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in storeOwner.GetChangedPropertyNames())
@@ -104,18 +118,22 @@ public partial class StoreOwnersController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateStoreOwnerCommand(key, updateProperties));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateStoreOwnerCommand(key, updateProperties, etag));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetStoreOwnerByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.String key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.String key)
     {
-        var result = await _mediator.Send(new DeleteStoreOwnerByIdCommand(key));
+        var etag = Request.GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteStoreOwnerByIdCommand(key, etag));
+        
         if (!result)
         {
             return NotFound();

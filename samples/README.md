@@ -90,9 +90,9 @@ ExpiryDateTime|DateTime|Booking's expiry date.|
 CancelledDateTime|DateTime|Booking's cancelled date.|
 Status|Formula|Booking's status.|
 VatNumber|VatNumber|Booking's related vat number.|
-CustomerId|DatabaseNumber|Customer's unique identifier.|Required, Foreign Key
+CustomerId|AutoNumber|Customer's unique identifier.|Required, Foreign Key
 VendingMachineId|DatabaseGuid|Vending machine unique identifier.|Required, Foreign Key
-CommissionId|DatabaseNumber|Commission unique identifier.|Required, Foreign Key
+CommissionId|AutoNumber|Commission unique identifier.|Required, Foreign Key
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -114,7 +114,7 @@ Vending machine cash stock order and related data. *This entity is auditable and
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|DatabaseNumber|Vending machine's order unique identifier.|Required, Primary Key
+Id|AutoNumber|Vending machine's order unique identifier.|Required, Primary Key
 Amount|Money|Order amount.|Required
 RequestedDeliveryDate|Date|Order requested delivery date.|Required
 DeliveryDateTime|DateTime|Order delivery date.|
@@ -139,7 +139,7 @@ Exchange commission rate and amount. *This entity is auditable and tracks info a
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|DatabaseNumber|Commission unique identifier.|Required, Primary Key
+Id|AutoNumber|Commission unique identifier.|Required, Primary Key
 Rate|Percentage|Commission rate.|Required
 EffectiveAt|DateTime|Exchange rate conversion amount.|Required
 CountryId|CountryCode2|Country unique identifier.|Required, Foreign Key
@@ -176,8 +176,8 @@ CoatOfArmsPng|Image|Country's coat of arms in png format.|
 GoogleMapsUrl|Url|Country's map via google maps.|
 OpenStreetMapsUrl|Url|Country's map via open street maps.|
 StartOfWeek|DayOfWeek|Country's start of week day.|Required
-CountryTimeZoneId|DatabaseNumber|Country's time zone unique identifier.|Required, Owned Entity
-HolidayId|DatabaseNumber|Country's holiday unique identifier.|Required, Owned Entity
+CountryTimeZoneId|AutoNumber|Country's time zone unique identifier.|Required, Owned Entity
+HolidayId|AutoNumber|Country's holiday unique identifier.|Required, Owned Entity
 CurrencyId|CurrencyCode3|Currency unique identifier.|Required, Foreign Key
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
@@ -200,7 +200,7 @@ Time zone related to country.
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|DatabaseNumber|Country's time zone unique identifier.|Required, Primary Key
+Id|AutoNumber|Country's time zone unique identifier.|Required, Primary Key
 TimeZoneCode|TimeZoneCode|Country's related time zone code.|Required
 
 
@@ -214,7 +214,7 @@ Holiday related to country.
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|DatabaseNumber|Country's holiday unique identifier.|Required, Primary Key
+Id|AutoNumber|Country's holiday unique identifier.|Required, Primary Key
 Name|Text|Country holiday name.|Required, MinLength: 4, MaxLength: 63
 Type|Text|Country holiday type.|Required, MinLength: 4, MaxLength: 63
 Date|Date|Country holiday date.|Required
@@ -243,8 +243,8 @@ MajorSymbol|Text|Currency's major display symbol.|Required, MinLength: 4, MaxLen
 MinorName|Text|Currency's minor name.|Required, MinLength: 4, MaxLength: 63
 MinorSymbol|Text|Currency's minor display symbol.|Required, MinLength: 4, MaxLength: 63
 MinorToMajorValue|Money|Currency's minor value when converted to major.|Required
-BankNoteId|DatabaseNumber|Currency bank note unique identifier.|Required, Owned Entity
-ExchangeRateId|DatabaseNumber|Exchange rate unique identifier.|Required, Owned Entity
+BankNoteId|AutoNumber|Currency bank note unique identifier.|Required, Owned Entity
+ExchangeRateId|AutoNumber|Exchange rate unique identifier.|Required, Owned Entity
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -264,7 +264,7 @@ Currencies related frequent and rare bank notes.
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|DatabaseNumber|Currency bank note unique identifier.|Required, Primary Key
+Id|AutoNumber|Currency bank note unique identifier.|Required, Primary Key
 CashNote|Text|Currency's cash bank note identifier.|Required, MinLength: 4, MaxLength: 63
 Value|Money|Bank note value.|Required
 
@@ -279,7 +279,7 @@ Exchange rate and related data.
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|DatabaseNumber|Exchange rate unique identifier.|Required, Primary Key
+Id|AutoNumber|Exchange rate unique identifier.|Required, Primary Key
 EffectiveRate|Number|Exchange rate conversion amount.|Required
 EffectiveAt|DateTime|Exchange rate conversion amount.|Required
 
@@ -294,7 +294,7 @@ Customer definition and related data. *This entity is auditable and tracks info 
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|DatabaseNumber|Customer's unique identifier.|Required, Primary Key
+Id|AutoNumber|Customer's unique identifier.|Required, Primary Key
 FirstName|Text|Customer's first name.|Required, MinLength: 4, MaxLength: 63
 LastName|Text|Customer's last name.|Required, MinLength: 4, MaxLength: 63
 EmailAddress|Email|Customer's email address.|Required
@@ -322,14 +322,14 @@ Employee definition and related data. *This entity is auditable and tracks info 
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|DatabaseNumber|Employee's unique identifier.|Required, Primary Key
+Id|AutoNumber|Employee's unique identifier.|Required, Primary Key
 FirstName|Text|Employee's first name.|Required, MinLength: 4, MaxLength: 63
 LastName|Text|Employee's last name.|Required, MinLength: 4, MaxLength: 63
 EmailAddress|Email|Employee's email address.|Required
 Address|StreetAddress|Employee's street address.|Required
 FirstWorkingDay|Date|Employee's first working day.|Required
 LastWorkingDay|Date|Employee's last working day.|
-EmployeePhoneNumberId|DatabaseNumber|Employee's phone number identifier.|Required, Owned Entity
+EmployeePhoneNumberId|AutoNumber|Employee's phone number identifier.|Required, Owned Entity
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -348,7 +348,7 @@ Employee phone number and related data.
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|DatabaseNumber|Employee's phone number identifier.|Required, Primary Key
+Id|AutoNumber|Employee's phone number identifier.|Required, Primary Key
 PhoneNumberType|Text|Employee's phone number type.|Required, MinLength: 4, MaxLength: 63
 PhoneNumber|PhoneNumber|Employee's phone number.|Required
 
@@ -363,7 +363,7 @@ Landlord related data. *This entity is auditable and tracks info about who, whic
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|DatabaseNumber|Landlord unique identifier.|Required, Primary Key
+Id|AutoNumber|Landlord unique identifier.|Required, Primary Key
 Name|Text|Landlord name.|Required, MinLength: 4, MaxLength: 63
 Address|StreetAddress|Landlord's street address.|Required
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
@@ -384,7 +384,7 @@ Minimum cash stock required for vending machine. *This entity is auditable and t
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|DatabaseNumber|Vending machine cash stock unique identifier.|Required, Primary Key
+Id|AutoNumber|Vending machine cash stock unique identifier.|Required, Primary Key
 Amount|Money|Cash stock amount.|Required
 VendingMachineId|DatabaseGuid|Vending machine unique identifier.|Required, Foreign Key
 CurrencyId|CurrencyCode3|Currency unique identifier.|Required, Foreign Key
@@ -407,12 +407,12 @@ Customer payment account related data. *This entity is auditable and tracks info
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|DatabaseNumber|Customer payment account unique identifier.|Required, Primary Key
+Id|AutoNumber|Customer payment account unique identifier.|Required, Primary Key
 PaymentAccountName|Text|Payment account name.|Required, MinLength: 4, MaxLength: 63
 PaymentAccountNumber|Text|Payment account reference number.|Required, MinLength: 4, MaxLength: 63
 PaymentAccountSortCode|Text|Payment account sort code.|MinLength: 4, MaxLength: 63
-CustomerId|DatabaseNumber|Customer's unique identifier.|Required, Foreign Key
-PaymentProviderId|DatabaseNumber|Payment provider unique identifier.|Required, Foreign Key
+CustomerId|AutoNumber|Customer's unique identifier.|Required, Foreign Key
+PaymentProviderId|AutoNumber|Payment provider unique identifier.|Required, Foreign Key
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -432,7 +432,7 @@ Payment provider related data. *This entity is auditable and tracks info about w
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|DatabaseNumber|Payment provider unique identifier.|Required, Primary Key
+Id|AutoNumber|Payment provider unique identifier.|Required, Primary Key
 PaymentProviderName|Text|Payment provider name.|Required, MinLength: 4, MaxLength: 63
 PaymentProviderType|Text|Payment provider account type.|Required, MinLength: 4, MaxLength: 63
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
@@ -453,12 +453,12 @@ Customer transaction log and related data. *This entity is auditable and tracks 
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|DatabaseNumber|Customer transaction unique identifier.|Required, Primary Key
+Id|AutoNumber|Customer transaction unique identifier.|Required, Primary Key
 TransactionType|Text|Transaction type.|Required, MinLength: 4, MaxLength: 63
 ProcessedOnDateTime|DateTime|Transaction processed datetime.|Required
 Amount|Money|Transaction amount.|Required
 Reference|Text|Transaction external reference.|Required, MinLength: 4, MaxLength: 63
-CustomerId|DatabaseNumber|Customer's unique identifier.|Required, Foreign Key
+CustomerId|AutoNumber|Customer's unique identifier.|Required, Foreign Key
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
@@ -487,8 +487,8 @@ SerialNumber|Text|Vending machine serial number.|Required, MinLength: 4, MaxLeng
 InstallationFootPrint|Area|Vending machine installation area.|
 RentPerSquareMetre|Money|Landlord rent amount based on area of the vending machine installation.|
 CountryId|CountryCode2|Country unique identifier.|Required, Foreign Key
-LandLordId|DatabaseNumber|Landlord unique identifier.|Required, Foreign Key
-MinimumCashStockId|DatabaseNumber|Vending machine cash stock unique identifier.|Required, Foreign Key
+LandLordId|AutoNumber|Landlord unique identifier.|Required, Foreign Key
+MinimumCashStockId|AutoNumber|Vending machine cash stock unique identifier.|Required, Foreign Key
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 

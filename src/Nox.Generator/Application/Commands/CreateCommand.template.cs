@@ -25,12 +25,12 @@ public record Create{{entity.Name}}Command({{entity.Name}}CreateDto EntityDto) :
 public partial class Create{{entity.Name}}CommandHandler: CommandBase<Create{{entity.Name}}Command,{{entity.Name}}>, IRequestHandler <Create{{entity.Name}}Command, {{entity.Name}}KeyDto>
 {
 	private readonly {{codeGeneratorState.Solution.Name}}DbContext _dbContext;
-	private readonly IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> _entityFactory;
+	private readonly IEntityFactory<{{entity.Name}},{{entity.Name}}CreateDto> _entityFactory;
 
 	public Create{{entity.Name}}CommandHandler(
 		{{codeGeneratorState.Solution.Name}}DbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<{{entity.Name}}CreateDto,{{entity.Name}}> entityFactory,
+        IEntityFactory<{{entity.Name}},{{entity.Name}}CreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
@@ -43,14 +43,8 @@ public partial class Create{{entity.Name}}CommandHandler: CommandBase<Create{{en
 		OnExecuting(request);
 
 		var entityToCreate = _entityFactory.CreateEntity(request.EntityDto);
-
-		{{- for key in entity.Keys ~}}
-		{{- if key.Type == "Nuid" }}
-		entityToCreate.Ensure{{key.Name}}();
-		{{- end }}
-		{{- end }}		
-	
-		OnCompleted(entityToCreate);
+					
+		OnCompleted(request, entityToCreate);
 		_dbContext.{{entity.PluralName}}.Add(entityToCreate);
 		await _dbContext.SaveChangesAsync();
 		return new {{entity.Name}}KeyDto({{primaryKeysQuery}});

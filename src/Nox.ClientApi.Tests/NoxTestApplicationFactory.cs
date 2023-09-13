@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Mvc.Testing;
 
-namespace Nox.ClientApi.Tests;
+namespace ClientApi.Tests;
 
 public class NoxTestApplicationFactory<TStartup> : WebApplicationFactory<TStartup> where TStartup : class
 {

@@ -15,13 +15,16 @@ public static class ODataServiceCollectionExtensions
 {
     public static void AddNoxOdata(this IServiceCollection services)
     {
+        services.AddNoxOdata(null);
+    }
+    public static void AddNoxOdata(this IServiceCollection services, Action<ODataModelBuilder>? configure)
+    {
         ODataModelBuilder builder = new ODataConventionModelBuilder();
 
         {{ hasKeyForCompoundKeys -}}
 
         {{- for entity in solution.Domain.Entities }}
-        {{- if !entity.IsOwnedEntity }}
-
+        {{- if (array.size entity.Keys) > 0 #we can not have entityset without keys}}
         builder.EntitySet<{{entity.Name}}Dto>("{{entity.PluralName}}");
         {{- end }}
         {{- if entity.OwnedRelationships != null }}
@@ -37,13 +40,15 @@ public static class ODataServiceCollectionExtensions
         {{- end }}
 
         builder.EntityType<{{entity.Name}}Dto>();
-        builder.EntityType<{{entity.Name}}KeyDto>();
         {{- if !entity.IsOwnedEntity && entity.Persistence?.IsAudited ~}}
 
         builder.EntityType<{{entity.Name}}Dto>().Ignore(e => e.DeletedAtUtc);
+        builder.EntityType<{{entity.Name}}Dto>().Ignore(e => e.Etag);
 
         {{- end }}
         {{- end }}
+
+        if(configure != null) configure(builder);
 
         services.AddControllers()
             .AddOData(options =>
@@ -56,7 +61,10 @@ public static class ODataServiceCollectionExtensions
                         .Expand()
                         .SkipToken()
                         .SetMaxTop(100);
-                    var routeOptions = options.AddRouteComponents("api", builder.GetEdmModel(), service => service.AddSingleton<IODataSerializerProvider, NoxODataSerializerProvider>()).RouteOptions;
+                    var routeOptions = options.AddRouteComponents("api", builder.GetEdmModel(),
+                        service => service
+                            .AddSingleton<IODataSerializerProvider, NoxODataSerializerProvider>())
+                        .RouteOptions;
                     routeOptions.EnableKeyInParenthesis = false;
                 }
             );

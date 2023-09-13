@@ -13,7 +13,7 @@ keys:
   - name: Id
     isRequired: true
     description: The unique identifier 
-    type: databaseNumber
+    type: autoNumber
 
 attributes:
 
@@ -53,6 +53,11 @@ ownedRelationships:
     description: is also know as
     relationship: zeroOrMany
     entity: CountryLocalName
+
+  - name: CountryBarCode
+    description: is also coded as
+    relationship: zeroOrOne
+    entity: CountryBarCode
 
 persistence:
     isAudited: true    

@@ -13,7 +13,7 @@ using Commission = Cryptocash.Domain.Commission;
 
 namespace Cryptocash.Application.Commands;
 
-public record DeleteCommissionByIdCommand(System.Int64 keyId) : IRequest<bool>;
+public record DeleteCommissionByIdCommand(System.Int64 keyId, System.Guid? Etag) : IRequest<bool>;
 
 public class DeleteCommissionByIdCommandHandler: CommandBase<DeleteCommissionByIdCommand,Commission>, IRequestHandler<DeleteCommissionByIdCommand, bool>
 {
@@ -31,7 +31,7 @@ public class DeleteCommissionByIdCommandHandler: CommandBase<DeleteCommissionByI
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Commission,DatabaseNumber>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Commission,AutoNumber>("Id", request.keyId);
 
 		var entity = await DbContext.Commissions.FindAsync(keyId);
 		if (entity == null || entity.IsDeleted.Value == true)
@@ -39,7 +39,9 @@ public class DeleteCommissionByIdCommandHandler: CommandBase<DeleteCommissionByI
 			return false;
 		}
 
-		OnCompleted(entity);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
+
+		OnCompleted(request, entity);
 		DbContext.Entry(entity).State = EntityState.Deleted;
 		await DbContext.SaveChangesAsync(cancellationToken);
 		return true;

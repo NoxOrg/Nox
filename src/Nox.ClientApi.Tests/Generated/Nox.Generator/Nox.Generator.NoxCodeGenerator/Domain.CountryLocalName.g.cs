@@ -18,10 +18,16 @@ public partial class CountryLocalName : EntityBase, IOwnedEntity
     /// <summary>
     /// The unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// Local name (Required).
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
+
+    /// <summary>
+    /// Local name in native tongue (Optional).
+    /// </summary>
+    public Nox.Types.Text? NativeName { get; set; } = null!;
+
 }

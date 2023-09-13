@@ -16,7 +16,7 @@ using Country = Cryptocash.Domain.Country;
 
 namespace Cryptocash.Application.Commands;
 
-public record PartialUpdateCountryCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties) : IRequest <CountryKeyDto?>;
+public record PartialUpdateCountryCommand(System.String keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <CountryKeyDto?>;
 
 public class PartialUpdateCountryCommandHandler: CommandBase<PartialUpdateCountryCommand, Country>, IRequestHandler<PartialUpdateCountryCommand, CountryKeyDto?>
 {
@@ -45,8 +45,9 @@ public class PartialUpdateCountryCommandHandler: CommandBase<PartialUpdateCountr
 			return null;
 		}
 		EntityMapper.PartialMapToEntity(entity, GetEntityDefinition<Country>(), request.UpdatedProperties);
+		entity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 
-		OnCompleted(entity);
+		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Modified;
 		var result = await DbContext.SaveChangesAsync();

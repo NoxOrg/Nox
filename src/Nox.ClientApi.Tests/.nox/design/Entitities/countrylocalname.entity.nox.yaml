@@ -13,7 +13,7 @@ keys:
   - name: Id
     isRequired: true
     description: The unique identifier 
-    type: databaseNumber
+    type: autoNumber
 
 attributes:
 
@@ -23,7 +23,15 @@ attributes:
     textTypeOptions:
       minLength: 4
       maxLength: 63
-    isRequired: true 
+    isRequired: true   
+
+  - name: NativeName
+    description: Local name in native tongue
+    type: text
+    textTypeOptions:
+      minLength: 4
+      maxLength: 63
+    isRequired: false   
 
 persistence:
     isAudited: false    

@@ -24,4 +24,5 @@ public partial class SecondTestEntityOwnedRelationshipOneOrMany : EntityBase, IO
     ///  (Required).
     /// </summary>
     public Nox.Types.Text TextTestField2 { get; set; } = null!;
+
 }

@@ -6,14 +6,19 @@
 
 name: Employee
 
+pluralName: Employees
+
 description: Employee definition and related data
+
+userInterface: 
+  icon: Employees
 
 keys:
 
   - name: Id
     isRequired: true
     description: Employee's unique identifier 
-    type: databaseNumber
+    type: autoNumber
     userInterface:
       showInSearchResults: never
       canSearch: true

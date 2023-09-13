@@ -8,7 +8,9 @@ using Microsoft.AspNetCore.OData.Query;
 using Microsoft.AspNetCore.OData.Routing.Controllers;
 using Microsoft.EntityFrameworkCore;
 using MediatR;
+using System.Net.Http.Headers;
 using Nox.Application;
+using Nox.Extensions;
 using ClientApi.Application;
 using ClientApi.Application.Dto;
 using ClientApi.Application.Queries;
@@ -19,7 +21,12 @@ using Nox.Types;
 
 namespace ClientApi.Presentation.Api.OData;
 
-public partial class WorkplacesController : ODataController
+public partial class WorkplacesController : WorkplacesControllerBase
+            {
+                public WorkplacesController(IMediator mediator, DtoDbContext databaseContext):base(databaseContext, mediator)
+                {}
+            }
+public abstract class WorkplacesControllerBase : ODataController
 {
     
     /// <summary>
@@ -32,7 +39,7 @@ public partial class WorkplacesController : ODataController
     /// </summary>
     protected readonly IMediator _mediator;
     
-    public WorkplacesController(
+    public WorkplacesControllerBase(
         DtoDbContext databaseContext,
         IMediator mediator
     )
@@ -42,14 +49,14 @@ public partial class WorkplacesController : ODataController
     }
     
     [EnableQuery]
-    public async  Task<ActionResult<IQueryable<WorkplaceDto>>> Get()
+    public virtual async Task<ActionResult<IQueryable<WorkplaceDto>>> Get()
     {
         var result = await _mediator.Send(new GetWorkplacesQuery());
         return Ok(result);
     }
     
     [EnableQuery]
-    public async Task<ActionResult<WorkplaceDto>> Get([FromRoute] System.Guid key)
+    public async Task<ActionResult<WorkplaceDto>> Get([FromRoute] System.UInt32 key)
     {
         var item = await _mediator.Send(new GetWorkplaceByIdQuery(key));
         
@@ -61,7 +68,7 @@ public partial class WorkplacesController : ODataController
         return Ok(item);
     }
     
-    public async Task<ActionResult> Post([FromBody]WorkplaceCreateDto workplace)
+    public virtual async Task<ActionResult<WorkplaceDto>> Post([FromBody]WorkplaceCreateDto workplace)
     {
         if (!ModelState.IsValid)
         {
@@ -69,31 +76,38 @@ public partial class WorkplacesController : ODataController
         }
         var createdKey = await _mediator.Send(new CreateWorkplaceCommand(workplace));
         
-        return Created(createdKey);
+        var item = await _mediator.Send(new GetWorkplaceByIdQuery(createdKey.keyId));
+        
+        return Created(item);
     }
     
-    public async Task<ActionResult> Put([FromRoute] System.Guid key, [FromBody] WorkplaceUpdateDto workplace)
+    public virtual async Task<ActionResult<WorkplaceDto>> Put([FromRoute] System.UInt32 key, [FromBody] WorkplaceUpdateDto workplace)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
         
-        var updated = await _mediator.Send(new UpdateWorkplaceCommand(key, workplace));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new UpdateWorkplaceCommand(key, workplace, etag));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        
+        var item = await _mediator.Send(new GetWorkplaceByIdQuery(updated.keyId));
+        
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Patch([FromRoute] System.Guid key, [FromBody] Delta<WorkplaceUpdateDto> workplace)
+    public virtual async Task<ActionResult<WorkplaceDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<WorkplaceDto> workplace)
     {
         if (!ModelState.IsValid)
         {
             return BadRequest(ModelState);
         }
+        
         var updateProperties = new Dictionary<string, dynamic>();
         
         foreach (var propertyName in workplace.GetChangedPropertyNames())
@@ -104,18 +118,22 @@ public partial class WorkplacesController : ODataController
             }           
         }
         
-        var updated = await _mediator.Send(new PartialUpdateWorkplaceCommand(key, updateProperties));
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateWorkplaceCommand(key, updateProperties, etag));
         
         if (updated is null)
         {
             return NotFound();
         }
-        return Updated(updated);
+        var item = await _mediator.Send(new GetWorkplaceByIdQuery(updated.keyId));
+        return Ok(item);
     }
     
-    public async Task<ActionResult> Delete([FromRoute] System.Guid key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.UInt32 key)
     {
-        var result = await _mediator.Send(new DeleteWorkplaceByIdCommand(key));
+        var etag = Request.GetDecodedEtagHeader();
+        var result = await _mediator.Send(new DeleteWorkplaceByIdCommand(key, etag));
+        
         if (!result)
         {
             return NotFound();

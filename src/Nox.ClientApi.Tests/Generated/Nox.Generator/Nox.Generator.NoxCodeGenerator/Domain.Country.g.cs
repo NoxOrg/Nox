@@ -13,12 +13,12 @@ namespace ClientApi.Domain;
 /// <summary>
 /// Country Entity.
 /// </summary>
-public partial class Country : AuditableEntityBase
+public partial class Country : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// The unique identifier (Required).
     /// </summary>
-    public DatabaseNumber Id { get; set; } = null!;
+    public AutoNumber Id { get; set; } = null!;
 
     /// <summary>
     /// The Country Name (Required).
@@ -53,4 +53,14 @@ public partial class Country : AuditableEntityBase
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
     public virtual List<CountryLocalName> CountryLocalNames { get; set; } = new();
+
+    /// <summary>
+    /// Country is also coded as ZeroOrOne CountryBarCodes
+    /// </summary>
+     public virtual CountryBarCode? CountryBarCode { get; set; } = null!;
+
+    /// <summary>
+    /// Entity tag used as concurrency token.
+    /// </summary>
+    public System.Guid Etag { get; set; } = System.Guid.NewGuid();
 }

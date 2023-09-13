@@ -14,26 +14,24 @@ using ClientApi.Domain;
 
 namespace ClientApi.Application.Dto;
 
+public partial class WorkplaceCreateDto: WorkplaceCreateDtoBase
+{
+
+}
+
 /// <summary>
 /// Workplace.
 /// </summary>
-public partial class WorkplaceCreateDto : IEntityCreateDto <Workplace>
+public abstract class WorkplaceCreateDtoBase : IEntityCreateDto<Workplace>
 {    
     /// <summary>
     /// Workplace Name (Required).
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public System.String Name { get; set; } = default!;    
+    public virtual System.String Name { get; set; } = default!;    
     /// <summary>
     /// The Formula (Optional).
     /// </summary>
-    public System.String? Greeting { get; set; }
-
-    public ClientApi.Domain.Workplace ToEntity()
-    {
-        var entity = new ClientApi.Domain.Workplace();
-        entity.Name = ClientApi.Domain.Workplace.CreateName(Name);
-        return entity;
-    }
+    public virtual System.String? Greeting { get; set; }
 }
