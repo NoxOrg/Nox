@@ -34,7 +34,19 @@ public partial class StoreMapper : EntityMapperBase<Store>
         {
             throw new NullReferenceException("Name is required can not be set to null");
         }     
-        entity.Name = noxTypeValue;
+        entity.Name = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "Address", dto.Address);
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("Address is required can not be set to null");
+        }     
+        entity.Address = noxTypeValue;        
+        noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "Location", dto.Location);
+        if (noxTypeValue == null)
+        {
+            throw new NullReferenceException("Location is required can not be set to null");
+        }     
+        entity.Location = noxTypeValue;
     
 
         /// <summary>
@@ -63,6 +75,34 @@ public partial class StoreMapper : EntityMapperBase<Store>
                 else
                 {
                     entity.Name = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("Address", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.StreetAddress>(entityDefinition, "Address", value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("Store", "Address");
+                }
+                else
+                {
+                    entity.Address = noxTypeValue;
+                }
+            }
+        }
+        {
+            if (updatedProperties.TryGetValue("Location", out value))
+            {
+                var noxTypeValue = CreateNoxType<Nox.Types.LatLong>(entityDefinition, "Location", value);
+                if(noxTypeValue == null)
+                {
+                    throw new EntityAttributeIsNotNullableException("Store", "Location");
+                }
+                else
+                {
+                    entity.Location = noxTypeValue;
                 }
             }
         }

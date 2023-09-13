@@ -4200,8 +4200,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -4305,8 +4305,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -4494,8 +4494,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -4683,8 +4683,8 @@
             "required": true,
             "style": "simple",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string",
+              "format": "uuid"
             }
           }
         ],
@@ -7250,6 +7250,20 @@
         "type": "object",
         "additionalProperties": false
       },
+      "LatLongDto": {
+        "type": "object",
+        "properties": {
+          "latitude": {
+            "type": "number",
+            "format": "double"
+          },
+          "longitude": {
+            "type": "number",
+            "format": "double"
+          }
+        },
+        "additionalProperties": false
+      },
       "LayoutKind": {
         "enum": [
           0,
@@ -8019,7 +8033,9 @@
       },
       "StoreCreateDto": {
         "required": [
+          "address",
           "isTemporary",
+          "location",
           "name"
         ],
         "type": "object",
@@ -8027,6 +8043,12 @@
           "name": {
             "minLength": 1,
             "type": "string"
+          },
+          "address": {
+            "$ref": "#/components/schemas/StreetAddressDto"
+          },
+          "location": {
+            "$ref": "#/components/schemas/LatLongDto"
           },
           "ownershipId": {
             "type": "string",
@@ -8045,12 +8067,18 @@
         "type": "object",
         "properties": {
           "id": {
-            "type": "integer",
-            "format": "int32"
+            "type": "string",
+            "format": "uuid"
           },
           "name": {
             "type": "string",
             "nullable": true
+          },
+          "address": {
+            "$ref": "#/components/schemas/StreetAddressDto"
+          },
+          "location": {
+            "$ref": "#/components/schemas/LatLongDto"
           },
           "ownershipId": {
             "type": "string",
@@ -8236,6 +8264,8 @@
       },
       "StoreUpdateDto": {
         "required": [
+          "address",
+          "location",
           "name"
         ],
         "type": "object",
@@ -8243,6 +8273,12 @@
           "name": {
             "minLength": 1,
             "type": "string"
+          },
+          "address": {
+            "$ref": "#/components/schemas/StreetAddressDto"
+          },
+          "location": {
+            "$ref": "#/components/schemas/LatLongDto"
           },
           "ownershipId": {
             "type": "string",

@@ -43,7 +43,8 @@ public abstract class StoreFactoryBase: IEntityFactory<Store,StoreCreateDto>
     {
         var entity = new ClientApi.Domain.Store();
         entity.Name = ClientApi.Domain.Store.CreateName(createDto.Name);
-		entity.EnsureId();
+        entity.Address = ClientApi.Domain.Store.CreateAddress(createDto.Address);
+        entity.Location = ClientApi.Domain.Store.CreateLocation(createDto.Location);
         //entity.StoreOwner = StoreOwner?.ToEntity();
         if(createDto.EmailAddress is not null)
         {

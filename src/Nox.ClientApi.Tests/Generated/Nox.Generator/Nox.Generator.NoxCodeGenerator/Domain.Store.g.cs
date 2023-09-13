@@ -16,30 +16,24 @@ namespace ClientApi.Domain;
 public partial class Store : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
-    /// NuidField Type (Required).
+    ///  (Required).
     /// </summary>
-    public Nuid Id {get; set;} = null!;
-    
-    	public void EnsureId()
-    	{
-    		if(Id is null)
-    		{
-    			Id = Nuid.From("Store." + string.Join(".", Name.Value.ToString()));
-    		}
-    		else
-    		{
-    			var currentNuid = Nuid.From("Store." + string.Join(".", Name.Value.ToString()));
-    			if(Id != currentNuid)
-    			{
-    				throw new NoxNuidTypeException("Immutable nuid property Id value is different since it has been initialized");
-    			}
-    		}
-    	}
+    public DatabaseGuid Id { get; set; } = null!;
 
     /// <summary>
     /// Store Name (Required).
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
+
+    /// <summary>
+    /// Street Address (Required).
+    /// </summary>
+    public Nox.Types.StreetAddress Address { get; set; } = null!;
+
+    /// <summary>
+    /// Location (Required).
+    /// </summary>
+    public Nox.Types.LatLong Location { get; set; } = null!;
 
     /// <summary>
     /// Store Owner of the Store ZeroOrOne StoreOwners
