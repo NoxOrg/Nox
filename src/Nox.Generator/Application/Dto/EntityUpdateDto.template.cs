@@ -40,4 +40,12 @@ public partial class {{className}}
     public System.{{relationship.ForeignKeyPrimitiveType}}{{if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Name}}Id { get; set; } = default!;
     {{-end}}
 {{- end }}
+{{- for relationship in entity.OwnedRelationships}}
+    {{- if relationship.Relationship == "ZeroOrOne" || relationship.Relationship == "ExactlyOne"}}
+    /// <summary>
+    /// {{entity.Name}} {{relationship.Description}} {{relationship.Relationship}} {{relationship.EntityPlural}}
+    /// </summary>
+    public {{relationship.Entity}}UpdateDto{{- if relationship.Relationship == "ZeroOrOne"}}?{{end}} {{relationship.Entity}} { get; set; } = null!;
+    {{-end}}
+{{- end }}
 }

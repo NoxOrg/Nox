@@ -47,6 +47,7 @@ public partial class ClientApiDbContext : DbContext
     public DbSet<Country> Countries { get; set; } = null!;
 
 
+
     public DbSet<Store> Stores { get; set; } = null!;
 
     public DbSet<Workplace> Workplaces { get; set; } = null!;

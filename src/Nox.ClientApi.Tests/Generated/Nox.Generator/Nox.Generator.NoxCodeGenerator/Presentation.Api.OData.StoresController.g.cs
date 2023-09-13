@@ -101,7 +101,7 @@ public abstract class StoresControllerBase : ODataController
         return Ok(item);
     }
     
-    public virtual async Task<ActionResult<StoreDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<StoreUpdateDto> store)
+    public virtual async Task<ActionResult<StoreDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<StoreDto> store)
     {
         if (!ModelState.IsValid)
         {

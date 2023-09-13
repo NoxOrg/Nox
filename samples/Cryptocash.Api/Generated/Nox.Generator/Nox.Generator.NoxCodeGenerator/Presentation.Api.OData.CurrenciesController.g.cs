@@ -101,7 +101,7 @@ public abstract class CurrenciesControllerBase : ODataController
         return Ok(item);
     }
     
-    public virtual async Task<ActionResult<CurrencyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CurrencyUpdateDto> currency)
+    public virtual async Task<ActionResult<CurrencyDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CurrencyDto> currency)
     {
         if (!ModelState.IsValid)
         {
@@ -141,6 +141,7 @@ public abstract class CurrenciesControllerBase : ODataController
         
         return NoContent();
     }
+    
     #region Owned Relationships
     
     [EnableQuery]
@@ -225,7 +226,7 @@ public abstract class CurrenciesControllerBase : ODataController
     }
     
     [HttpPatch("api/Currencies/{key}/BankNotes/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToBankNotesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<BankNoteUpdateDto> bankNote)
+    public virtual async Task<ActionResult> PatchToBankNotesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<BankNoteDto> bankNote)
     {
         if (!ModelState.IsValid)
         {
@@ -361,7 +362,7 @@ public abstract class CurrenciesControllerBase : ODataController
     }
     
     [HttpPatch("api/Currencies/{key}/ExchangeRates/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToExchangeRatesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<ExchangeRateUpdateDto> exchangeRate)
+    public virtual async Task<ActionResult> PatchToExchangeRatesNonConventional(System.String key, System.Int64 relatedKey, [FromBody] Delta<ExchangeRateDto> exchangeRate)
     {
         if (!ModelState.IsValid)
         {

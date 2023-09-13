@@ -251,7 +251,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
     private static void GeneratePatch(Entity entity, string entityName, string pluralName, CodeBuilder code, NoxSolution solution)
     {
         // Method Patch
-        code.AppendLine($"public virtual async Task<ActionResult<{entity.Name}Dto>> Patch({PrimaryKeysFromRoute(entity, solution)}, [FromBody] Delta<{entityName}UpdateDto> {entity.Name.ToLowerFirstChar()})");
+        code.AppendLine($"public virtual async Task<ActionResult<{entity.Name}Dto>> Patch({PrimaryKeysFromRoute(entity, solution)}, [FromBody] Delta<{entityName}Dto> {entity.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();
@@ -503,7 +503,7 @@ internal class EntityControllerGenerator : INoxCodeGenerator
         code.AppendLine($"public virtual async Task<ActionResult> PatchTo{child.PluralName}NonConventional(" +
             $"{PrimaryKeysFromRoute(parent, solution, attributePrefix: "")}, " +
             $"{PrimaryKeysFromRoute(child, solution, "relatedKey", "")}, " +
-            $"[FromBody] Delta<{child.Name}UpdateDto> {child.Name.ToLowerFirstChar()})");
+            $"[FromBody] Delta<{child.Name}Dto> {child.Name.ToLowerFirstChar()})");
 
         // Method content
         code.StartBlock();

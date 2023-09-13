@@ -101,7 +101,7 @@ public abstract class EmployeesControllerBase : ODataController
         return Ok(item);
     }
     
-    public virtual async Task<ActionResult<EmployeeDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<EmployeeUpdateDto> employee)
+    public virtual async Task<ActionResult<EmployeeDto>> Patch([FromRoute] System.Int64 key, [FromBody] Delta<EmployeeDto> employee)
     {
         if (!ModelState.IsValid)
         {
@@ -141,6 +141,7 @@ public abstract class EmployeesControllerBase : ODataController
         
         return NoContent();
     }
+    
     #region Owned Relationships
     
     [EnableQuery]
@@ -225,7 +226,7 @@ public abstract class EmployeesControllerBase : ODataController
     }
     
     [HttpPatch("api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}")]
-    public virtual async Task<ActionResult> PatchToEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<EmployeePhoneNumberUpdateDto> employeePhoneNumber)
+    public virtual async Task<ActionResult> PatchToEmployeePhoneNumbersNonConventional(System.Int64 key, System.Int64 relatedKey, [FromBody] Delta<EmployeePhoneNumberDto> employeePhoneNumber)
     {
         if (!ModelState.IsValid)
         {

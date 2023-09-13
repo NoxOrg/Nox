@@ -51,4 +51,9 @@ public abstract class CountryCreateDtoBase : IEntityCreateDto<Country>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
     public virtual List<CountryLocalNameCreateDto> CountryLocalNames { get; set; } = new();
+
+    /// <summary>
+    /// Country is also coded as ZeroOrOne CountryBarCodes
+    /// </summary>
+    public virtual CountryBarCodeCreateDto? CountryBarCode { get; set; } = null!;
 }

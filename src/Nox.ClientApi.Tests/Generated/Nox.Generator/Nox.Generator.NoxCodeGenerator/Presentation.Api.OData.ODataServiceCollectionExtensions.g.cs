@@ -23,6 +23,7 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntityType<CountryDto>().HasKey(e => new { e.Id });
         builder.EntityType<CountryLocalNameDto>().HasKey(e => new { e.Id });
+        builder.EntityType<CountryBarCodeDto>().HasKey(e => new { });
         builder.EntityType<StoreDto>().HasKey(e => new { e.Id });
         builder.EntityType<WorkplaceDto>().HasKey(e => new { e.Id });
         builder.EntityType<StoreOwnerDto>().HasKey(e => new { e.Id });
@@ -30,6 +31,7 @@ public static class ODataServiceCollectionExtensions
 
         builder.EntitySet<CountryDto>("Countries");
         builder.EntityType<CountryDto>().ContainsMany(e => e.CountryLocalNames).AutoExpand = true;
+        builder.EntityType<CountryDto>().ContainsOptional(e => e.CountryBarCode).AutoExpand = true;
 
         builder.EntityType<CountryDto>();
         builder.EntityType<CountryDto>().Ignore(e => e.DeletedAtUtc);
@@ -37,6 +39,8 @@ public static class ODataServiceCollectionExtensions
         builder.EntitySet<CountryLocalNameDto>("CountryLocalNames");
 
         builder.EntityType<CountryLocalNameDto>();
+
+        builder.EntityType<CountryBarCodeDto>();
         builder.EntitySet<StoreDto>("Stores");
         builder.EntityType<StoreDto>().ContainsOptional(e => e.EmailAddress).AutoExpand = true;
 

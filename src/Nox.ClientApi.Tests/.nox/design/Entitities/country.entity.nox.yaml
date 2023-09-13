@@ -54,6 +54,11 @@ ownedRelationships:
     relationship: zeroOrMany
     entity: CountryLocalName
 
+  - name: CountryBarCode
+    description: is also coded as
+    relationship: zeroOrOne
+    entity: CountryBarCode
+
 persistence:
     isAudited: true    
     create:
