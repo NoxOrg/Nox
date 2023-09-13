@@ -4,13 +4,14 @@ using AutoFixture.AutoMoq;
 using AutoFixture;
 using System.Net;
 using Nox.Types;
+using System.Runtime.ConstrainedExecution;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
     public class StoresControllerTests 
     {
-        private const string StoresControllerName = "api/stores";
+        private const string EntityUrl = "api/stores";
 
         private readonly Fixture _fixture;
         private readonly ODataFixture _oDataFixture;
@@ -21,6 +22,40 @@ namespace ClientApi.Tests.Tests.Controllers
             _fixture.Customize(new AutoMoqCustomization());
             _oDataFixture = _fixture.Create<ODataFixture>();
         }
+
+        #region GET Entity By Key (Returns by default owned entitites) /api/{EntityPluralName}/{EntityKey} => api/stores/1
+        [Fact]
+        public async Task GetById_ReturnsOwnedEntitites()
+        {
+            // Arrange
+            var expectedEmail = new EmailAddressCreateDto() { Email = "test@gmail.com", IsVerified = false };
+            var createDto = new StoreCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                Address = new StreetAddressDto(
+                    StreetNumber: null!,
+                    AddressLine1: "3000 Hillswood Business Park",
+                    AddressLine2: null!,
+                    Route: null!,
+                    Locality: null!,
+                    Neighborhood: null!,
+                    AdministrativeArea1: null!,
+                    AdministrativeArea2: null!,
+                    PostalCode: "KT16 0RS",
+                    CountryId: CountryCode.GB),
+                Location = new LatLongDto(51.3728033, -0.5389749),
+                EmailAddress = expectedEmail,
+            };
+            var postResult = await _oDataFixture.PostAsync<StoreCreateDto, StoreDto>(EntityUrl, createDto);
+            // Act
+            var response = await _oDataFixture.GetODataSimpleResponseAsync<StoreDto>($"{EntityUrl}/{postResult!.Id}");
+
+
+            //Assert
+            response.Should().NotBeNull();
+            response!.EmailAddress.Should().BeEquivalentTo(expectedEmail);  
+        }
+        #endregion
 
         [Fact]
         public async Task Post_ReturnsId()
@@ -44,7 +79,7 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<StoreCreateDto, StoreDto>(StoresControllerName, createDto);
+            var result = await _oDataFixture.PostAsync<StoreCreateDto, StoreDto>(EntityUrl, createDto);
 
             //Assert
             result.Should().NotBeNull();
@@ -75,15 +110,17 @@ namespace ClientApi.Tests.Tests.Controllers
             };
 
             // Act
-            var result = await _oDataFixture.PostAsync<StoreCreateDto, StoreDto>(StoresControllerName, createDto);
+            var result = await _oDataFixture.PostAsync<StoreCreateDto, StoreDto>(EntityUrl, createDto);
             var headers = _oDataFixture.CreateEtagHeader(result?.Etag);
 
-            await _oDataFixture.DeleteAsync($"{StoresControllerName}/{result!.Id}", headers);
+            await _oDataFixture.DeleteAsync($"{EntityUrl}/{result!.Id}", headers);
 
             // Assert
-            var queryResult = await _oDataFixture.GetAsync($"{StoresControllerName}/{result!.Id}");
+            var queryResult = await _oDataFixture.GetAsync($"{EntityUrl}/{result!.Id}");
 
             queryResult.StatusCode.Should().Be(HttpStatusCode.NotFound);
         }
+
+
     }
 }

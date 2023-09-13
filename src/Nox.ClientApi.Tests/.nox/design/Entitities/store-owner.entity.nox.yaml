@@ -50,6 +50,11 @@ attributes:
       maxLength: 63
     isRequired: false
 
+  - name: Notes
+    description: Notes
+    type: text      
+    isRequired: false
+
 relationships:
 
     - name: StoreRel

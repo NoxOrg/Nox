@@ -55,6 +55,11 @@ public partial class Country : AuditableEntityBase, IEntityConcurrent
     public virtual List<CountryLocalName> CountryLocalNames { get; set; } = new();
 
     /// <summary>
+    /// Country is also coded as ZeroOrOne CountryBarCodes
+    /// </summary>
+     public virtual CountryBarCode? CountryBarCode { get; set; } = null!;
+
+    /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
     public System.Guid Etag { get; set; } = System.Guid.NewGuid();

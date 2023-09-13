@@ -48,10 +48,6 @@ public abstract class StoresControllerBase : ODataController
         _mediator = mediator;
     }
     
-    #region Owned Relationships
-    
-    #endregion
-    
     [EnableQuery]
     public virtual async Task<ActionResult<IQueryable<StoreDto>>> Get()
     {
@@ -105,7 +101,7 @@ public abstract class StoresControllerBase : ODataController
         return Ok(item);
     }
     
-    public virtual async Task<ActionResult<StoreDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<StoreUpdateDto> store)
+    public virtual async Task<ActionResult<StoreDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<StoreDto> store)
     {
         if (!ModelState.IsValid)
         {
@@ -145,4 +141,9 @@ public abstract class StoresControllerBase : ODataController
         
         return NoContent();
     }
+    
+    #region Owned Relationships
+    
+    #endregion
+    
 }

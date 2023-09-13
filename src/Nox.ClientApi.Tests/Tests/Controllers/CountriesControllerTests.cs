@@ -6,6 +6,7 @@ using System.Net;
 using AutoFixture.AutoMoq;
 using System.Net.Http.Headers;
 using Microsoft.AspNetCore.Http.HttpResults;
+using Microsoft.AspNetCore.OData.Deltas;
 
 namespace ClientApi.Tests.Tests.Controllers
 {
@@ -25,10 +26,10 @@ namespace ClientApi.Tests.Tests.Controllers
             _oDataFixture = _fixture.Create<ODataFixture>();
         }
 
-        #region EXAMPLES
+        #region OWNED ENTITIES EXAMPLES
 
         #region GET
-
+       
         #region GET Entity By Key With Query /api/{EntityPluralName}/{EntityKey}?Query => api/countries/1?$select=Name
         [Fact]
         public async Task GetById_WhenSelect_ReturnsOnlySelectedFields()
@@ -61,6 +62,7 @@ namespace ClientApi.Tests.Tests.Controllers
         public async Task Get_OwnedEntityByParentEntity_ReturnsOnlySelectedOwnedEntityFields()
         {
             var expectedLocalName = "Lusitania";
+            var expectedBarCodeName = "Lusitania";
             // Arrange
             var dto = new CountryCreateDto
             {
@@ -70,7 +72,8 @@ namespace ClientApi.Tests.Tests.Controllers
                 CountryLocalNames = new List<CountryLocalNameCreateDto>() {
                     new CountryLocalNameCreateDto() { Name = "Iberia" },
                     new CountryLocalNameCreateDto() { Name = expectedLocalName}
-                }
+                },
+                CountryBarCode = new CountryBarCodeCreateDto() { BarCodeName = expectedBarCodeName }
             };
             var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
 
@@ -87,6 +90,8 @@ namespace ClientApi.Tests.Tests.Controllers
 
             response.CountryLocalNames.Should().HaveCount(1);
             response.CountryLocalNames.First().Name.Should().Be(expectedLocalName);
+            response.CountryBarCode.Should().NotBeNull();
+            response.CountryBarCode!.BarCodeName.Should().Be(expectedBarCodeName);
         }
         #endregion
 
@@ -152,7 +157,7 @@ namespace ClientApi.Tests.Tests.Controllers
         #endregion
 
         #region GET Owned Entity via Parent Key /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
-        [Fact(Skip = "Sequence contains no matching element")]
+        [Fact]
         public async Task Get_OwnedEntityByParentKey_ReturnsOwnedEntity()
         {
             var expectedCountryLocalName = _fixture.Create<string>();
@@ -187,11 +192,13 @@ namespace ClientApi.Tests.Tests.Controllers
         public async Task Post_WithManyOwnedEntity_ReturnsAutoNumberId()
         {
             // Arrange
-            var expectedOwnedName = _fixture.Create<string>();
+            var expectedCountryLocalName = _fixture.Create<string>();
+            var expectedBarCodeName = _fixture.Create<string>();
             var dto = new CountryCreateDto
             {
                 Name = _fixture.Create<string>(),
-                CountryLocalNames = new List<CountryLocalNameCreateDto>() { new CountryLocalNameCreateDto() { Name = expectedOwnedName } }
+                CountryLocalNames = new List<CountryLocalNameCreateDto>() { new CountryLocalNameCreateDto() { Name = expectedCountryLocalName } },
+                CountryBarCode = new CountryBarCodeCreateDto() { BarCodeName = expectedBarCodeName }
             };
             // Act
             var result = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
@@ -203,7 +210,9 @@ namespace ClientApi.Tests.Tests.Controllers
 
             getCountryResponse.Should().NotBeNull();
             getCountryResponse!.Id.Should().BeGreaterThan(0);
-            getCountryResponse!.CountryLocalNames!.Single().Name.Should().Be(expectedOwnedName);
+            getCountryResponse!.CountryLocalNames!.Single().Name.Should().Be(expectedCountryLocalName);
+            getCountryResponse!.CountryBarCode.Should().NotBeNull();
+            getCountryResponse!.CountryBarCode!.BarCodeName.Should().Be(expectedBarCodeName);
         }
         #endregion
 
@@ -242,7 +251,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
         #region PUT
 
-        #region PUT to Owned Entities /api/{EntityPluralName}/{EntityKey}/{OwnedEntityPluralName}/{OwnedEntityKey} => api/countries/1/CountryLocalNames/1
+        #region PUT to Owned Entities /api/{EntityPluralName}/{key}/{OwnedEntityPluralName}/{relatedKey} => api/countries/1/CountryLocalNames/1
         [Fact]
         public async Task PutToCountryLocalNames_ShouldUpdateCountryLocalName()
         {
@@ -251,7 +260,7 @@ namespace ClientApi.Tests.Tests.Controllers
             var dto = new CountryCreateDto
             {
                 Name = _fixture.Create<string>(),
-                CountryLocalNames = new List<CountryLocalNameCreateDto>() { new CountryLocalNameCreateDto() { Name = expectedOwnedName } }
+                CountryLocalNames = new List<CountryLocalNameCreateDto>() { new CountryLocalNameCreateDto() { Name = _fixture.Create<string>() } }
             };
             // Act
             var postCountryResponse = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
@@ -271,6 +280,42 @@ namespace ClientApi.Tests.Tests.Controllers
         }
         #endregion
 
+        #region PUT ZeroOrOne Owned Entity /api/{EntityPluralName}/{key} => api/countries/1
+        [Fact]
+        public async Task Put_WithCountryBarCode_ShouldUpdateCountryBarCode()
+         {
+            // Arrange
+            var expectedBarCode = _fixture.Create<string>();
+            var dto = new CountryCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                CountryBarCode = new CountryBarCodeCreateDto() { BarCodeName = _fixture.Create<string>() }
+            };
+            // Act
+            var postCountryResponse = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
+            var headers = _oDataFixture.CreateEtagHeader(postCountryResponse?.Etag);
+            var putCountryResponse = await _oDataFixture.PutAsync<CountryUpdateDto, CountryDto>(
+                $"{EntityUrl}/{postCountryResponse!.Id}",
+                new CountryUpdateDto
+                {
+                    Name = postCountryResponse!.Name,
+                    CountryBarCode = new CountryBarCodeUpdateDto() { BarCodeName = expectedBarCode }
+
+                }, headers);
+
+            var getCountryResponse = await _oDataFixture.GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{postCountryResponse!.Id}");
+
+            //Assert
+            putCountryResponse.Should().NotBeNull();
+            putCountryResponse!.Id.Should().Be(postCountryResponse!.Id);
+            putCountryResponse!.Name.Should().Be(postCountryResponse!.Name);
+
+            getCountryResponse!.Id.Should().Be(postCountryResponse!.Id);
+            getCountryResponse!.Name.Should().Be(postCountryResponse!.Name);
+            //getCountryResponse!.CountryBarCode!.BarCodeName.Should().Be(expectedBarCode);
+        }
+        #endregion
+
         #endregion
 
         #region PATCH
@@ -281,26 +326,32 @@ namespace ClientApi.Tests.Tests.Controllers
         {
             // Arrange
             var expectedOwnedName = _fixture.Create<string>();
+            var expectedOwnedNativeName = _fixture.Create<string>();
             var dto = new CountryCreateDto
             {
                 Name = _fixture.Create<string>(),
-                CountryLocalNames = new List<CountryLocalNameCreateDto>() { new CountryLocalNameCreateDto() { Name = expectedOwnedName } }
+                CountryLocalNames = new List<CountryLocalNameCreateDto>() { new CountryLocalNameCreateDto() {
+                    Name = _fixture.Create<string>(),
+                    NativeName = expectedOwnedNativeName
+                } }
             };
+            var dictionary = new Dictionary<string, object>();
+            dictionary.Add("Name", expectedOwnedName);
+
             // Act
             var postCountryResponse = await _oDataFixture.PostAsync<CountryCreateDto, CountryDto>(EntityUrl, dto);
             var getCountryResponse = await _oDataFixture.GetODataSimpleResponseAsync<CountryDto>($"{EntityUrl}/{postCountryResponse!.Id}");
 			var headers = _oDataFixture.CreateEtagHeader(getCountryResponse?.Etag);
-            var ownedResult = await _oDataFixture.PatchAsync<CountryLocalNameUpdateDto, CountryLocalNameDto>(
+            var ownedResult = await _oDataFixture.PatchAsync<Dictionary<string, object>, CountryLocalNameDto>(
                 $"{EntityUrl}/{getCountryResponse!.Id}/CountryLocalNames/{getCountryResponse!.CountryLocalNames.First().Id}",
-                new CountryLocalNameUpdateDto
-                {
-                    Name = expectedOwnedName
-                }, headers);
+                dictionary, 
+                headers);
 
             //Assert
             ownedResult.Should().NotBeNull();
             ownedResult!.Id.Should().Be(getCountryResponse!.CountryLocalNames.First().Id);
             ownedResult!.Name.Should().Be(expectedOwnedName);
+            ownedResult!.NativeName.Should().Be(expectedOwnedNativeName);
         }
         #endregion
 

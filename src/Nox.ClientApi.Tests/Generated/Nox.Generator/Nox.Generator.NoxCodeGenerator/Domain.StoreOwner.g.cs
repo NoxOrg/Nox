@@ -46,6 +46,11 @@ public partial class StoreOwner : AuditableEntityBase, IEntityConcurrent
     public Nox.Types.TranslatedText? LocalGreeting { get; set; } = null!;
 
     /// <summary>
+    /// Notes (Optional).
+    /// </summary>
+    public Nox.Types.Text? Notes { get; set; } = null!;
+
+    /// <summary>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
     /// </summary>
     public virtual List<Store> StoreRel { get; set; } = new();

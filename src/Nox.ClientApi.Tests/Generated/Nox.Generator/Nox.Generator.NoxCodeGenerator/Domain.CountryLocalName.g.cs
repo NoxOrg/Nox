@@ -25,4 +25,9 @@ public partial class CountryLocalName : EntityBase, IOwnedEntity
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
 
+    /// <summary>
+    /// Local name in native tongue (Optional).
+    /// </summary>
+    public Nox.Types.Text? NativeName { get; set; } = null!;
+
 }

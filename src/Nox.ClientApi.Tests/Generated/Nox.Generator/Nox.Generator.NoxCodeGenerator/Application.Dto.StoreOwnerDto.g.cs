@@ -54,6 +54,11 @@ public partial class StoreOwnerDto
     public TranslatedTextDto? LocalGreeting { get; set; }
 
     /// <summary>
+    /// Notes (Optional).
+    /// </summary>
+    public System.String? Notes { get; set; }
+
+    /// <summary>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
     /// </summary>
     public virtual List<StoreDto> StoreRel { get; set; } = new();

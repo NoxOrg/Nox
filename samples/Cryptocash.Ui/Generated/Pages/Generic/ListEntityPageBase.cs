@@ -45,17 +45,10 @@ namespace Cryptocash.Ui.Generated.Pages.Generic
         /// </summary>
         private void UpdateHeaderApiName()
         {
-            if (GlobalData != null
-                && GlobalData!.ApiDefinitions != null)
+            if (GlobalData != null)
             {
-                ApiDefinition? CurrentApiDefinition = GlobalData!.ApiDefinitions!
-                    .FirstOrDefault(ApiDefinition => ApiDefinition.PageLink!.Equals(CurrentEntityName, StringComparison.OrdinalIgnoreCase));
-
-                if (CurrentApiDefinition != null)
-                {
-                    GlobalData.CurrentApiDefinition = CurrentApiDefinition;
-                    GlobalData.ValuesChanged?.Invoke();
-                }
+                GlobalData.CurrentDomainEntity = CurrentEntityName;
+                GlobalData.ValuesChanged?.Invoke();                
             }
         }
 

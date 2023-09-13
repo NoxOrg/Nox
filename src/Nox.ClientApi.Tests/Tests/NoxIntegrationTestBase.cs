@@ -1,12 +1,7 @@
 ﻿using ClientApi.Tests.Tests.Models;
 using FluentAssertions;
-using Newtonsoft.Json;
-
-using System.Collections.Generic;
-using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace ClientApi.Tests;
 
@@ -50,11 +45,8 @@ public class ODataFixture
         result.Headers.Single(h => h.Key == "OData-Version").Value.First().Should().Be("4.0");
 
         var content = await result.Content.ReadAsStringAsync();
+        EnsureOdataSingleResponse(content);
 
-        var oDataResponse = DeserializeResponse<ODataSigleResponse>(content);
-        oDataResponse.Should().NotBeNull();
-        oDataResponse!.Context.Should().NotBeNullOrEmpty();
-        
         var data = DeserializeResponse<TResult>(content);
 
         return data;
@@ -64,7 +56,7 @@ public class ODataFixture
     {
         using var httpClient = _appFactory.CreateClient();
         var result = await httpClient.GetAsync(requestUrl);
-        
+
         return result;
     }
 
@@ -87,6 +79,8 @@ public class ODataFixture
         message.EnsureSuccessStatusCode();
 
         var content = await message.Content.ReadAsStringAsync();
+        EnsureOdataSingleResponse(content);
+
         var result = DeserializeResponse<TResult>(content);
 
         return result;
@@ -126,6 +120,8 @@ public class ODataFixture
         message.EnsureSuccessStatusCode();
 
         var content = await message.Content.ReadAsStringAsync();
+        EnsureOdataSingleResponse(content);
+
         var result = DeserializeResponse<TResult>(content);
 
         return result;
@@ -164,6 +160,8 @@ public class ODataFixture
         request.EnsureSuccessStatusCode();
 
         var content = await request.Content.ReadAsStringAsync();
+        EnsureOdataSingleResponse(content);
+
         var result = DeserializeResponse<TResult>(content);
 
         return result;
@@ -214,5 +212,12 @@ public class ODataFixture
             return default;
 
         return System.Text.Json.JsonSerializer.Deserialize<TResult>(response!, new JsonSerializerOptions { PropertyNameCaseInsensitive = true, Converters = { new JsonStringEnumConverter() } });
+    }
+
+    private void EnsureOdataSingleResponse(string content)
+    {
+        var oDataResponse = DeserializeResponse<ODataSigleResponse>(content);
+        oDataResponse.Should().NotBeNull();
+        oDataResponse!.Context.Should().NotBeNullOrEmpty();
     }
 }

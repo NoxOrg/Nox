@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cryptocash.Api.Migrations
 {
     [DbContext(typeof(CryptocashDbContext))]
-    [Migration("20230911140802_InitialCreate")]
+    [Migration("20230912180401_InitialCreate")]
     partial class InitialCreate
     {
         /// <inheritdoc />
