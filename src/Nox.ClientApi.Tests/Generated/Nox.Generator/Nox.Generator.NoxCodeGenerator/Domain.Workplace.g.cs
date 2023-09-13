@@ -44,7 +44,7 @@ public partial class Workplace : EntityBase
     /// <summary>
     /// The Formula (Optional).
     /// </summary>
-    public String? Greeting
+    public string? Greeting
     { 
         get { return $"Hello, {Name.Value}!"; }
         private set { }

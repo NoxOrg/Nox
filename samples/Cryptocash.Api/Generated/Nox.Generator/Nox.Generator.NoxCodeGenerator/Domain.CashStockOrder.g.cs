@@ -38,7 +38,7 @@ public partial class CashStockOrder : AuditableEntityBase
     /// <summary>
     /// Order status (Optional).
     /// </summary>
-    public String? Status
+    public string? Status
     { 
         get { return DeliveryDateTime != null ? "delivered" : "ordered"; }
         private set { }

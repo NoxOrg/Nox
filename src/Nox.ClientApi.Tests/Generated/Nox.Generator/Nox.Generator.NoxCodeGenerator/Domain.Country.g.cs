@@ -43,7 +43,7 @@ public partial class Country : AuditableEntityBase
     /// <summary>
     /// The Formula (Optional).
     /// </summary>
-    public String? ShortDescription
+    public string? ShortDescription
     { 
         get { return $"{Name} has a population of {Population} people."; }
         private set { }
