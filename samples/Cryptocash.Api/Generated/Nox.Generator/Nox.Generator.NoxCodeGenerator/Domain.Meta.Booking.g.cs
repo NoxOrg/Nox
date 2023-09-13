@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -72,8 +72,8 @@ public partial class Booking
             Expression = "CancelledDateTime != null ? \"cancelled\" : (PickedUpDateTime != null ? \"picked-up\" : (ExpiryDateTime != null ? \"expired\" : \"booked\"))",
             Returns = Nox.Types.FormulaReturnType.String,
         };
-        
-        
+    
+    
         /// <summary>
         /// Factory for property 'Status'
         /// </summary>
@@ -91,8 +91,8 @@ public partial class Booking
         /// <summary>
         /// Factory for property 'CustomerId'
         /// </summary>
-        public static Nox.Types.DatabaseNumber CreateCustomerId(System.Int64 value)
-            => Nox.Types.DatabaseNumber.From(value);
+        public static Nox.Types.AutoNumber CreateCustomerId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
         
     
         /// <summary>
@@ -105,7 +105,7 @@ public partial class Booking
         /// <summary>
         /// Factory for property 'CommissionId'
         /// </summary>
-        public static Nox.Types.DatabaseNumber CreateCommissionId(System.Int64 value)
-            => Nox.Types.DatabaseNumber.From(value);
+        public static Nox.Types.AutoNumber CreateCommissionId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
         
 }

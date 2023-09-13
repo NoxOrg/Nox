@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -33,8 +33,8 @@ public partial class Country
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
-        
-        
+    
+    
         /// <summary>
         /// Factory for property 'Name'
         /// </summary>
@@ -53,8 +53,8 @@ public partial class Country
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
-        
-        
+    
+    
         /// <summary>
         /// Factory for property 'OfficialName'
         /// </summary>
@@ -94,8 +94,8 @@ public partial class Country
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
-        
-        
+    
+    
         /// <summary>
         /// Factory for property 'FlagEmoji'
         /// </summary>
@@ -155,15 +155,15 @@ public partial class Country
         /// <summary>
         /// Factory for property 'CountryTimeZoneId'
         /// </summary>
-        public static Nox.Types.DatabaseNumber CreateCountryTimeZoneId(System.Int64 value)
-            => Nox.Types.DatabaseNumber.From(value);
+        public static Nox.Types.AutoNumber CreateCountryTimeZoneId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
         
     
         /// <summary>
         /// Factory for property 'HolidayId'
         /// </summary>
-        public static Nox.Types.DatabaseNumber CreateHolidayId(System.Int64 value)
-            => Nox.Types.DatabaseNumber.From(value);
+        public static Nox.Types.AutoNumber CreateHolidayId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
         
     
         /// <summary>

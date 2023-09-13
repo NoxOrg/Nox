@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,8 +18,8 @@ public partial class Commission
         /// <summary>
         /// Factory for property 'Id'
         /// </summary>
-        public static Nox.Types.DatabaseNumber CreateId(System.Int64 value)
-            => Nox.Types.DatabaseNumber.From(value);
+        public static Nox.Types.AutoNumber CreateId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
         
     
         /// <summary>

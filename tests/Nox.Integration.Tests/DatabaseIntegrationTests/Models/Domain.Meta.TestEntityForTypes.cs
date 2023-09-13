@@ -434,10 +434,10 @@ public partial class TestEntityForTypes
         
     
         /// <summary>
-        /// Factory for property 'DatabaseNumberTestField'
+        /// Factory for property 'AutoNumberTestField'
         /// </summary>
-        public static Nox.Types.DatabaseNumber CreateDatabaseNumberTestField(System.Int64 value)
-            => Nox.Types.DatabaseNumber.From(value);
+        public static Nox.Types.AutoNumber CreateAutoNumberTestField(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
         
     
         /// <summary>

@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,8 +18,8 @@ public partial class Transaction
         /// <summary>
         /// Factory for property 'Id'
         /// </summary>
-        public static Nox.Types.DatabaseNumber CreateId(System.Int64 value)
-            => Nox.Types.DatabaseNumber.From(value);
+        public static Nox.Types.AutoNumber CreateId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
         
     
         /// <summary>
@@ -33,8 +33,8 @@ public partial class Transaction
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
-        
-        
+    
+    
         /// <summary>
         /// Factory for property 'TransactionType'
         /// </summary>
@@ -67,8 +67,8 @@ public partial class Transaction
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
-        
-        
+    
+    
         /// <summary>
         /// Factory for property 'Reference'
         /// </summary>
@@ -79,7 +79,7 @@ public partial class Transaction
         /// <summary>
         /// Factory for property 'CustomerId'
         /// </summary>
-        public static Nox.Types.DatabaseNumber CreateCustomerId(System.Int64 value)
-            => Nox.Types.DatabaseNumber.From(value);
+        public static Nox.Types.AutoNumber CreateCustomerId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
         
 }

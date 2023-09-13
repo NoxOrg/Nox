@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -61,8 +61,8 @@ public partial class VendingMachine
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
-        
-        
+    
+    
         /// <summary>
         /// Factory for property 'SerialNumber'
         /// </summary>
@@ -94,14 +94,14 @@ public partial class VendingMachine
         /// <summary>
         /// Factory for property 'LandLordId'
         /// </summary>
-        public static Nox.Types.DatabaseNumber CreateLandLordId(System.Int64 value)
-            => Nox.Types.DatabaseNumber.From(value);
+        public static Nox.Types.AutoNumber CreateLandLordId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
         
     
         /// <summary>
         /// Factory for property 'MinimumCashStockId'
         /// </summary>
-        public static Nox.Types.DatabaseNumber CreateMinimumCashStockId(System.Int64 value)
-            => Nox.Types.DatabaseNumber.From(value);
+        public static Nox.Types.AutoNumber CreateMinimumCashStockId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
         
 }

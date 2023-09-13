@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,8 +18,8 @@ public partial class Holiday
         /// <summary>
         /// Factory for property 'Id'
         /// </summary>
-        public static Nox.Types.DatabaseNumber CreateId(System.Int64 value)
-            => Nox.Types.DatabaseNumber.From(value);
+        public static Nox.Types.AutoNumber CreateId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
         
     
         /// <summary>
@@ -33,8 +33,8 @@ public partial class Holiday
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
-        
-        
+    
+    
         /// <summary>
         /// Factory for property 'Name'
         /// </summary>
@@ -53,6 +53,8 @@ public partial class Holiday
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
+    
+    
         /// <summary>
         /// Factory for property 'Type'
         /// </summary>

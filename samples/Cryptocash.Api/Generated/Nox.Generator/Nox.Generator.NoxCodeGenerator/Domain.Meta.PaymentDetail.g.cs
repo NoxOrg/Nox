@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,8 +18,8 @@ public partial class PaymentDetail
         /// <summary>
         /// Factory for property 'Id'
         /// </summary>
-        public static Nox.Types.DatabaseNumber CreateId(System.Int64 value)
-            => Nox.Types.DatabaseNumber.From(value);
+        public static Nox.Types.AutoNumber CreateId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
         
     
         /// <summary>
@@ -33,8 +33,8 @@ public partial class PaymentDetail
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
-        
-        
+    
+    
         /// <summary>
         /// Factory for property 'PaymentAccountName'
         /// </summary>
@@ -53,8 +53,8 @@ public partial class PaymentDetail
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
-        
-        
+    
+    
         /// <summary>
         /// Factory for property 'PaymentAccountNumber'
         /// </summary>
@@ -73,8 +73,8 @@ public partial class PaymentDetail
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
-        
-        
+    
+    
         /// <summary>
         /// Factory for property 'PaymentAccountSortCode'
         /// </summary>
@@ -85,14 +85,14 @@ public partial class PaymentDetail
         /// <summary>
         /// Factory for property 'CustomerId'
         /// </summary>
-        public static Nox.Types.DatabaseNumber CreateCustomerId(System.Int64 value)
-            => Nox.Types.DatabaseNumber.From(value);
+        public static Nox.Types.AutoNumber CreateCustomerId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
         
     
         /// <summary>
         /// Factory for property 'PaymentProviderId'
         /// </summary>
-        public static Nox.Types.DatabaseNumber CreatePaymentProviderId(System.Int64 value)
-            => Nox.Types.DatabaseNumber.From(value);
+        public static Nox.Types.AutoNumber CreatePaymentProviderId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
         
 }

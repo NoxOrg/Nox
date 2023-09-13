@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -18,8 +18,8 @@ public partial class CashStockOrder
         /// <summary>
         /// Factory for property 'Id'
         /// </summary>
-        public static Nox.Types.DatabaseNumber CreateId(System.Int64 value)
-            => Nox.Types.DatabaseNumber.From(value);
+        public static Nox.Types.AutoNumber CreateId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
         
     
         /// <summary>
@@ -51,8 +51,8 @@ public partial class CashStockOrder
             Expression = "DeliveryDateTime != null ? \"delivered\" : \"ordered\"",
             Returns = Nox.Types.FormulaReturnType.String,
         };
-        
-        
+    
+    
         /// <summary>
         /// Factory for property 'Status'
         /// </summary>

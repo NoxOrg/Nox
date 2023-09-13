@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -33,8 +33,8 @@ public partial class Currency
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
-        
-        
+    
+    
         /// <summary>
         /// Factory for property 'Name'
         /// </summary>
@@ -60,8 +60,8 @@ public partial class Currency
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
-        
-        
+    
+    
         /// <summary>
         /// Factory for property 'Symbol'
         /// </summary>
@@ -80,8 +80,8 @@ public partial class Currency
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
-        
-        
+    
+    
         /// <summary>
         /// Factory for property 'ThousandsSeparator'
         /// </summary>
@@ -100,8 +100,8 @@ public partial class Currency
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
-        
-        
+    
+    
         /// <summary>
         /// Factory for property 'DecimalSeparator'
         /// </summary>
@@ -134,8 +134,8 @@ public partial class Currency
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
-        
-        
+    
+    
         /// <summary>
         /// Factory for property 'MajorName'
         /// </summary>
@@ -154,8 +154,8 @@ public partial class Currency
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
-        
-        
+    
+    
         /// <summary>
         /// Factory for property 'MajorSymbol'
         /// </summary>
@@ -174,8 +174,8 @@ public partial class Currency
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
-        
-        
+    
+    
         /// <summary>
         /// Factory for property 'MinorName'
         /// </summary>
@@ -194,8 +194,8 @@ public partial class Currency
             IsLocalized = true,
             Casing = Nox.Types.TextTypeCasing.Normal,
         };
-        
-        
+    
+    
         /// <summary>
         /// Factory for property 'MinorSymbol'
         /// </summary>
@@ -213,14 +213,14 @@ public partial class Currency
         /// <summary>
         /// Factory for property 'BankNoteId'
         /// </summary>
-        public static Nox.Types.DatabaseNumber CreateBankNoteId(System.Int64 value)
-            => Nox.Types.DatabaseNumber.From(value);
+        public static Nox.Types.AutoNumber CreateBankNoteId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
         
     
         /// <summary>
         /// Factory for property 'ExchangeRateId'
         /// </summary>
-        public static Nox.Types.DatabaseNumber CreateExchangeRateId(System.Int64 value)
-            => Nox.Types.DatabaseNumber.From(value);
+        public static Nox.Types.AutoNumber CreateExchangeRateId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
         
 }
