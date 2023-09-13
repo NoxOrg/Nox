@@ -7,7 +7,7 @@ using AutoFixture.AutoMoq;
 namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class WorkplacesControllerTests 
+    public class WorkplacesControllerTests : IClassFixture<NoxTestApplicationFactory>
     {
         private const string EntityPluralName = "workplaces";
         private const string EntityUrl = $"api/{EntityPluralName}";
@@ -15,11 +15,11 @@ namespace ClientApi.Tests.Tests.Controllers
         private readonly Fixture _fixture;
         private readonly ODataFixture _oDataFixture;
 
-        public WorkplacesControllerTests()
+        public WorkplacesControllerTests(NoxTestApplicationFactory appFactory)
         {
             _fixture = new Fixture();
             _fixture.Customize(new AutoMoqCustomization());
-            _oDataFixture = _fixture.Create<ODataFixture>();
+            _oDataFixture = new ODataFixture(appFactory);
         }
 
         [Fact]

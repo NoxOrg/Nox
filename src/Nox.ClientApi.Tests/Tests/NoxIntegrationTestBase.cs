@@ -1,4 +1,5 @@
-﻿using ClientApi.Tests.Tests.Models;
+﻿using AutoFixture;
+using ClientApi.Tests.Tests.Models;
 using FluentAssertions;
 using Newtonsoft.Json;
 
@@ -7,14 +8,16 @@ using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using Testcontainers.PostgreSql;
 
 namespace ClientApi.Tests;
 
+
 public class ODataFixture
 {
-    private readonly NoxTestApplicationFactory<StartupFixture> _appFactory;
+    private readonly NoxTestApplicationFactory _appFactory;
 
-    public ODataFixture(NoxTestApplicationFactory<StartupFixture> appFactory)
+    public ODataFixture(NoxTestApplicationFactory appFactory)
     {
         _appFactory = appFactory;
     }
