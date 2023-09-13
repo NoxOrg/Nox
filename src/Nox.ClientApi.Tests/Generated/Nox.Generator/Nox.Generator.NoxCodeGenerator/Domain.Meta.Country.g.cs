@@ -14,68 +14,76 @@ namespace ClientApi.Domain;
 /// </summary>
 public partial class Country
 {
-    /// <summary>
-    /// Type options and factory for property 'Id'
-    /// </summary>
-    public static Nox.Types.AutoNumber CreateId(System.Int64 value)
-        => Nox.Types.AutoNumber.From(value);
     
-
-    /// <summary>
-    /// Type options and factory for property 'Name'
-    /// </summary>
-    public static Nox.Types.TextTypeOptions NameTypeOptions {get; private set;} = new ()
-    {
-        MinLength = 4,
-        MaxLength = 63,
-        IsUnicode = true,
-        IsLocalized = true,
-        Casing = Nox.Types.TextTypeCasing.Normal,
-    };
+        /// <summary>
+        /// Factory for property 'Id'
+        /// </summary>
+        public static Nox.Types.AutoNumber CreateId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
+        
     
-    public static Text CreateName(System.String value)
-        => Nox.Types.Text.From(value, NameTypeOptions);
+        /// <summary>
+        /// Type options for property 'Name'
+        /// </summary>
+        public static Nox.Types.TextTypeOptions NameTypeOptions {get; private set;} = new ()
+        {
+            MinLength = 4,
+            MaxLength = 63,
+            IsUnicode = true,
+            IsLocalized = true,
+            Casing = Nox.Types.TextTypeCasing.Normal,
+        };
     
-
-    /// <summary>
-    /// Type options and factory for property 'Population'
-    /// </summary>
-    public static Nox.Types.Number CreatePopulation(System.Int32 value)
-        => Nox.Types.Number.From(value);
     
-
-    /// <summary>
-    /// Type options and factory for property 'CountryDebt'
-    /// </summary>
-    public static Nox.Types.Money CreateCountryDebt(IMoney value)
-        => Nox.Types.Money.From(value);
+        /// <summary>
+        /// Factory for property 'Name'
+        /// </summary>
+        public static Text CreateName(System.String value)
+            => Nox.Types.Text.From(value, NameTypeOptions);
+        
     
-
-    /// <summary>
-    /// Type options and factory for property 'FirstLanguageCode'
-    /// </summary>
-    public static Nox.Types.LanguageCode CreateFirstLanguageCode(System.String value)
-        => Nox.Types.LanguageCode.From(value);
+        /// <summary>
+        /// Factory for property 'Population'
+        /// </summary>
+        public static Nox.Types.Number CreatePopulation(System.Int32 value)
+            => Nox.Types.Number.From(value);
+        
     
-
-    /// <summary>
-    /// Type options and factory for property 'ShortDescription'
-    /// </summary>
-    public static Nox.Types.FormulaTypeOptions ShortDescriptionTypeOptions {get; private set;} = new ()
-    {
-        Expression = "$\"{Name} has a population of {Population} people.\"",
-        Returns = Nox.Types.FormulaReturnType.String,
-    };
+        /// <summary>
+        /// Factory for property 'CountryDebt'
+        /// </summary>
+        public static Nox.Types.Money CreateCountryDebt(IMoney value)
+            => Nox.Types.Money.From(value);
+        
     
-    public static Formula CreateShortDescription(System.String value)
-        => Nox.Types.Formula.From(value, ShortDescriptionTypeOptions);
+        /// <summary>
+        /// Factory for property 'FirstLanguageCode'
+        /// </summary>
+        public static Nox.Types.LanguageCode CreateFirstLanguageCode(System.String value)
+            => Nox.Types.LanguageCode.From(value);
+        
     
-
-    /// <summary>
-    /// Type options and factory for property 'CountryLocalNameId'
-    /// </summary>
-    public static Nox.Types.AutoNumber CreateCountryLocalNameId(System.Int64 value)
-        => Nox.Types.AutoNumber.From(value);
+        /// <summary>
+        /// Type options for property 'ShortDescription'
+        /// </summary>
+        public static Nox.Types.FormulaTypeOptions ShortDescriptionTypeOptions {get; private set;} = new ()
+        {
+            Expression = "$\"{Name} has a population of {Population} people.\"",
+            Returns = Nox.Types.FormulaReturnType.String,
+        };
     
-
+    
+        /// <summary>
+        /// Factory for property 'ShortDescription'
+        /// </summary>
+        public static Formula CreateShortDescription(System.String value)
+            => Nox.Types.Formula.From(value, ShortDescriptionTypeOptions);
+        
+    
+        /// <summary>
+        /// Factory for property 'CountryLocalNameId'
+        /// </summary>
+        public static Nox.Types.AutoNumber CreateCountryLocalNameId(System.Int64 value)
+            => Nox.Types.AutoNumber.From(value);
+        
 }
