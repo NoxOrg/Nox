@@ -24,6 +24,6 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/LandLords/{key}`
   - Description: Delete an existing LandLord by its ID.
 
-### Relationships Endpoints
+## Relationships Endpoints
 
 [VendingMachine Endpoints](VendingMachineEndpoints.md)

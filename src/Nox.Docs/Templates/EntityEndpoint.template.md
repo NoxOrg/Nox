@@ -24,7 +24,7 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/{{entity.PluralName}}/{key}`
   - Description: Delete an existing {{entity.Name}} by its ID.
 {{ end }}{{ if entity.OwnedRelationships | array.size > 0 }}
-### Owned Relationships Endpoints
+## Owned Relationships Endpoints
 {{ for ownedRelationship in entity.OwnedRelationships }}
 ### Get {{ownedRelationship.EntityPlural}}
 - **GET** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
@@ -47,19 +47,19 @@ This document provides information about the various endpoints available in our 
   - Description: Delete an existing {{ownedRelationship.Entity}} by its ID for a specific {{entity.Name}}.
 {{ end -}}
 {{ end}}{{ if entity.Relationships | array.size > 0 }}
-### Relationships Endpoints
+## Relationships Endpoints
 {{ for relationship in entity.Relationships }}
 [{{relationship.Entity}} Endpoints]({{relationship.Entity}}Endpoints.md)
 {{ end -}}
 {{ end }}{{ if entity.Commands | array.size > 0 }}
-### Custom Commands
+## Custom Commands
 {{ for command in entity.Commands }}
 ### {{command.Name}}
 - **POST** `/{{command.Name}}`
   - Description: {{command.Description}}
 {{ end -}}
 {{ end}}{{ if entity.Queries | array.size > 0 }}
-### Custom Queries
+## Custom Queries
 {{ for query in entity.Queries }}
 ### {{query.Name}}
 - **GET** `/{{query.Name}}`

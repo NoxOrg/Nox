@@ -24,7 +24,7 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Currencies/{key}`
   - Description: Delete an existing Currency by its ID.
 
-### Owned Relationships Endpoints
+## Owned Relationships Endpoints
 
 ### Get BankNotes
 - **GET** `/api/Currencies/{key}/BankNotes`
@@ -66,7 +66,7 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Currencies/{key}/ExchangeRates/{relatedKey}`
   - Description: Delete an existing ExchangeRate by its ID for a specific Currency.
 
-### Relationships Endpoints
+## Relationships Endpoints
 
 [Country Endpoints](CountryEndpoints.md)
 

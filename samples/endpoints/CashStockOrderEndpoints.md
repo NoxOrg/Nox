@@ -24,7 +24,7 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/CashStockOrders/{key}`
   - Description: Delete an existing CashStockOrder by its ID.
 
-### Relationships Endpoints
+## Relationships Endpoints
 
 [VendingMachine Endpoints](VendingMachineEndpoints.md)
 

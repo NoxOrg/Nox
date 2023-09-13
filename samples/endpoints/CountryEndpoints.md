@@ -24,7 +24,7 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Countries/{key}`
   - Description: Delete an existing Country by its ID.
 
-### Owned Relationships Endpoints
+## Owned Relationships Endpoints
 
 ### Get CountryTimeZones
 - **GET** `/api/Countries/{key}/CountryTimeZones`
@@ -66,7 +66,7 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Countries/{key}/Holidays/{relatedKey}`
   - Description: Delete an existing Holiday by its ID for a specific Country.
 
-### Relationships Endpoints
+## Relationships Endpoints
 
 [Currency Endpoints](CurrencyEndpoints.md)
 

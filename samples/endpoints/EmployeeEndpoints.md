@@ -24,7 +24,7 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Employees/{key}`
   - Description: Delete an existing Employee by its ID.
 
-### Owned Relationships Endpoints
+## Owned Relationships Endpoints
 
 ### Get EmployeePhoneNumbers
 - **GET** `/api/Employees/{key}/EmployeePhoneNumbers`
@@ -46,6 +46,6 @@ This document provides information about the various endpoints available in our 
 - **DELETE** `/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}`
   - Description: Delete an existing EmployeePhoneNumber by its ID for a specific Employee.
 
-### Relationships Endpoints
+## Relationships Endpoints
 
 [CashStockOrder Endpoints](CashStockOrderEndpoints.md)
