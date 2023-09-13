@@ -1,12 +1,7 @@
 ﻿using ClientApi.Tests.Tests.Models;
 using FluentAssertions;
-using Newtonsoft.Json;
-
-using System.Collections.Generic;
-using System.Net.Http.Headers;
 using System.Text.Json;
 using System.Text.Json.Serialization;
-using System.Threading.Tasks;
 
 namespace ClientApi.Tests;
 
@@ -51,7 +46,7 @@ public class ODataFixture
 
         var content = await result.Content.ReadAsStringAsync();
         EnsureOdataSingleResponse(content);
-        
+
         var data = DeserializeResponse<TResult>(content);
 
         return data;
@@ -61,7 +56,7 @@ public class ODataFixture
     {
         using var httpClient = _appFactory.CreateClient();
         var result = await httpClient.GetAsync(requestUrl);
-        
+
         return result;
     }
 
