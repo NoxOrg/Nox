@@ -1,6 +1,6 @@
 ﻿namespace Nox.Domain;
 
-public abstract partial class AuditableEntityBase : IEntity, IAuditCreated, IAuditUpdated, IAuditDeleted
+public abstract partial class AuditableEntityBase : IEntity, IEntityAuditCreated, IEntityAuditUpdated, IEntityAuditDeleted
 {
     private static readonly Types.User DefaultUser = Types.User.From(Guid.Empty.ToString());
     private static readonly Types.Text DefaultSystem = Types.Text.From("N/A");

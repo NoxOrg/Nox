@@ -1,6 +1,6 @@
 ﻿namespace Nox.Domain;
 
-public interface IAuditCreated
+public interface IEntityAuditCreated
 {
     Types.User CreatedBy { get; }
     Types.Text CreatedVia { get; }
