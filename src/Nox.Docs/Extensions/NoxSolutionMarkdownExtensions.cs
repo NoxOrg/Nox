@@ -1,4 +1,5 @@
-﻿using Nox.Solution;
+﻿using Nox.Docs.Models;
+using Nox.Solution;
 using Nox.Types;
 using System;
 using System.Collections.Generic;
@@ -22,9 +23,10 @@ public enum MarkdownDetail
 
 public static class NoxSolutionMarkdownExtensions
 {
-    public static string ToMarkdownReadme(this NoxSolution noxSolution, MarkdownDetail detail = MarkdownDetail.Normal)
+    public static MarkdownReadme ToMarkdownReadme(this NoxSolution noxSolution, MarkdownDetail detail = MarkdownDetail.Normal)
     {
         var mermaidText = noxSolution.ToMermaidErd(ErdDetail.Summary);
+        var entityEndpoints = noxSolution.ToMarkdownEntityEndpoints();
 
         var docs = $"""
         # {noxSolution.Name}
@@ -43,14 +45,19 @@ public static class NoxSolutionMarkdownExtensions
 
         ## Definitions for Domain Entities
 
-        {DomainDecription(noxSolution)}
+        {DomainDecription(noxSolution, entityEndpoints!)}
         
         """;
 
-        return docs;
+        return new MarkdownReadme
+        {
+            Name = "README.md",
+            Content = docs,
+            ReferencedMarkdowns = entityEndpoints.Select(x => (MarkdownFile)x).ToArray(),
+        };
     }
 
-    private static string DomainDecription(NoxSolution noxSolution)
+    private static string DomainDecription(NoxSolution noxSolution, EntityMarkdownFile[] entityEndpoints)
     {
         var sb = new StringBuilder();
 
@@ -80,14 +87,19 @@ public static class NoxSolutionMarkdownExtensions
                 ? " *This entity is auditable and tracks info about who, which system and when state changes (create/update/delete) were effected.*"
                 : string.Empty;
 
+            var entityEndpointsMarkdown = entityEndpoints
+                .First(x => x.EntityName == entity.Name);
+
             sb.AppendLine($"""
                 ### {owner}{entity.Name}{ownedInfo}
 
                 {entity.Description?.EnsureEndsWith('.')}{auditInfo}
 
-                {AttributeTable(entity, noxSolution,isAudited)}
+                [Endpoints] ({entityEndpointsMarkdown.Name})
 
-                {RelationshipsTable(entity, noxSolution)}
+                {AttributeTable(entity, isAudited)}
+
+                {RelationshipsTable(entity)}
 
                 """);
         }
@@ -96,13 +108,12 @@ public static class NoxSolutionMarkdownExtensions
     }
 
 
-    private static string AttributeTable(Entity entity, 
-        NoxSolution noxSolution, bool isAudited)
+    private static string AttributeTable(Entity entity, bool isAudited)
     {
 
         var members = entity.GetAllMembers();
 
-        if (members.Count() == 0)
+        if (!members.Any())
             return string.Empty;
 
         var sb = new StringBuilder();
@@ -125,7 +136,7 @@ public static class NoxSolutionMarkdownExtensions
                 EntityMemberType.OwnedRelationship => "Owned Entity",
                 _ => string.Empty
             };
-            var typeOptions = GetTypeOptions(def, noxSolution);
+            var typeOptions = GetTypeOptions(def);
 
             var info = string.Join(", ", (new string[] { isRequired, isReadonly, fkKind, typeOptions }).Where(e => !string.IsNullOrWhiteSpace(e)));
 
@@ -139,7 +150,7 @@ public static class NoxSolutionMarkdownExtensions
         return sb.ToString();
     }
 
-    private static string GetTypeOptions(NoxSimpleTypeDefinition def, NoxSolution noxSolution)
+    private static string GetTypeOptions(NoxSimpleTypeDefinition def)
     {
         if (def.Type == NoxType.EntityId)
             return string.Empty;
@@ -186,7 +197,7 @@ public static class NoxSolutionMarkdownExtensions
 
     }
 
-    private static string RelationshipsTable(Entity entity, NoxSolution noxSolution)
+    private static string RelationshipsTable(Entity entity)
     {
 
         var relationships = entity.Relationships;

@@ -1,8 +1,8 @@
 ﻿using FluentAssertions;
-using ClientApi.Application.Dto;
 using AutoFixture;
-using System.Net;
 using AutoFixture.AutoMoq;
+using System.Text;
+using System.Xml;
 
 namespace ClientApi.Tests.Tests
 {
@@ -24,16 +24,63 @@ namespace ClientApi.Tests.Tests
         {
             var result = await _oDataFixture.GetAsync("$odata");
             var content = await result.Content.ReadAsStringAsync();
-                       
-            File.WriteAllText("../../../odata.html", content);
+
+            content.Should().NotBeNull();
+            File.WriteAllText("../../../odata.html", BeautifyXml(content));
         }
+
         [Fact]
         public async Task Generate_OdataMetadata()
         {
             var result = await _oDataFixture.GetAsync("api/$metadata");
             var content = await result.Content.ReadAsStringAsync();
 
-            File.WriteAllText("../../../metadata.xml", content);
+            content.Should().NotBeNull();
+            File.WriteAllText("../../../metadata.xml", BeautifyXml(content));
+        }
+
+        public static string BeautifyXml(string xmlString)
+            => new XmlBeautifier().Beautify(xmlString);
+
+        public class XmlBeautifier
+        {
+            private static readonly XmlWriterSettings _settings = new()
+            {
+                Indent = true,        // Enable indentation
+                IndentChars = "    ", // Set the indentation characters (four spaces)
+                NewLineChars = "\r\n" // Set the newline characters (carriage return + line feed)
+            };
+
+            public string Beautify(string xmlString)
+            {
+                try
+                {
+                    var xmlDoc = ReadXml(xmlString);
+                    return BeautifyXmlDoc(xmlDoc);
+                }
+                catch (Exception)
+                {
+                    return xmlString;
+                }
+            }
+
+            private static string BeautifyXmlDoc(XmlDocument xmlDoc)
+            {
+                var text = new StringBuilder();
+
+                var writer = XmlWriter.Create(text, _settings);
+                xmlDoc.Save(writer);
+
+                return text.ToString();
+            }
+
+            private static XmlDocument ReadXml(string xmlString)
+            {
+                var xmlDoc = new XmlDocument();
+                xmlDoc.LoadXml(xmlString);
+
+                return xmlDoc;
+            }
         }
     }
 }
