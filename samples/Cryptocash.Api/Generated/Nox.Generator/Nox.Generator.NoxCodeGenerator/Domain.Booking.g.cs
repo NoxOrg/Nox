@@ -5,10 +5,26 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
+
+/// <summary>
+/// Record for Booking created event.
+/// </summary>
+public record BookingCreated(Booking Booking) : IDomainEvent;
+
+/// <summary>
+/// Record for Booking updated event.
+/// </summary>
+public record BookingUpdated(Booking Booking) : IDomainEvent;
+
+/// <summary>
+/// Record for Booking deleted event.
+/// </summary>
+public record BookingDeleted(Booking Booking) : IDomainEvent;
 
 /// <summary>
 /// Exchange booking and related data.

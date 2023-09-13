@@ -5,10 +5,26 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace TestWebApp.Domain;
+
+/// <summary>
+/// Record for SecondTestEntityTwoRelationshipsOneToOne created event.
+/// </summary>
+public record SecondTestEntityTwoRelationshipsOneToOneCreated(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent;
+
+/// <summary>
+/// Record for SecondTestEntityTwoRelationshipsOneToOne updated event.
+/// </summary>
+public record SecondTestEntityTwoRelationshipsOneToOneUpdated(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent;
+
+/// <summary>
+/// Record for SecondTestEntityTwoRelationshipsOneToOne deleted event.
+/// </summary>
+public record SecondTestEntityTwoRelationshipsOneToOneDeleted(SecondTestEntityTwoRelationshipsOneToOne SecondTestEntityTwoRelationshipsOneToOne) : IDomainEvent;
 
 /// <summary>
 /// .

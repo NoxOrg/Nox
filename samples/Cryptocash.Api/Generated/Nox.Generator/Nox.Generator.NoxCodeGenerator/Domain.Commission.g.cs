@@ -5,10 +5,26 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
+
+/// <summary>
+/// Record for Commission created event.
+/// </summary>
+public record CommissionCreated(Commission Commission) : IDomainEvent;
+
+/// <summary>
+/// Record for Commission updated event.
+/// </summary>
+public record CommissionUpdated(Commission Commission) : IDomainEvent;
+
+/// <summary>
+/// Record for Commission deleted event.
+/// </summary>
+public record CommissionDeleted(Commission Commission) : IDomainEvent;
 
 /// <summary>
 /// Exchange commission rate and amount.

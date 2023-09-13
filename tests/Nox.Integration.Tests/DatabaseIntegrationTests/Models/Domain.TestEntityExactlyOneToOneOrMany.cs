@@ -5,10 +5,26 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace TestWebApp.Domain;
+
+/// <summary>
+/// Record for TestEntityExactlyOneToOneOrMany created event.
+/// </summary>
+public record TestEntityExactlyOneToOneOrManyCreated(TestEntityExactlyOneToOneOrMany TestEntityExactlyOneToOneOrMany) : IDomainEvent;
+
+/// <summary>
+/// Record for TestEntityExactlyOneToOneOrMany updated event.
+/// </summary>
+public record TestEntityExactlyOneToOneOrManyUpdated(TestEntityExactlyOneToOneOrMany TestEntityExactlyOneToOneOrMany) : IDomainEvent;
+
+/// <summary>
+/// Record for TestEntityExactlyOneToOneOrMany deleted event.
+/// </summary>
+public record TestEntityExactlyOneToOneOrManyDeleted(TestEntityExactlyOneToOneOrMany TestEntityExactlyOneToOneOrMany) : IDomainEvent;
 
 /// <summary>
 /// Entity created for testing database.

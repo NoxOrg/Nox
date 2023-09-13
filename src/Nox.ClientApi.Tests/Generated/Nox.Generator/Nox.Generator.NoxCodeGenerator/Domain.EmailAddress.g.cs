@@ -5,10 +5,26 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace ClientApi.Domain;
+
+/// <summary>
+/// Record for EmailAddress created event.
+/// </summary>
+public record EmailAddressCreated(EmailAddress EmailAddress) : IDomainEvent;
+
+/// <summary>
+/// Record for EmailAddress updated event.
+/// </summary>
+public record EmailAddressUpdated(EmailAddress EmailAddress) : IDomainEvent;
+
+/// <summary>
+/// Record for EmailAddress deleted event.
+/// </summary>
+public record EmailAddressDeleted(EmailAddress EmailAddress) : IDomainEvent;
 
 /// <summary>
 /// Verified Email Address.

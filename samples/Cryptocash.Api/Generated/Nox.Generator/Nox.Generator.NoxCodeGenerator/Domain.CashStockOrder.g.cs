@@ -5,10 +5,26 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
+
+/// <summary>
+/// Record for CashStockOrder created event.
+/// </summary>
+public record CashStockOrderCreated(CashStockOrder CashStockOrder) : IDomainEvent;
+
+/// <summary>
+/// Record for CashStockOrder updated event.
+/// </summary>
+public record CashStockOrderUpdated(CashStockOrder CashStockOrder) : IDomainEvent;
+
+/// <summary>
+/// Record for CashStockOrder deleted event.
+/// </summary>
+public record CashStockOrderDeleted(CashStockOrder CashStockOrder) : IDomainEvent;
 
 /// <summary>
 /// Vending machine cash stock order and related data.

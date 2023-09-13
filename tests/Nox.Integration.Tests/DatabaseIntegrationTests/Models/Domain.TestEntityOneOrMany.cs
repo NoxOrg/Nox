@@ -5,10 +5,26 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace TestWebApp.Domain;
+
+/// <summary>
+/// Record for TestEntityOneOrMany created event.
+/// </summary>
+public record TestEntityOneOrManyCreated(TestEntityOneOrMany TestEntityOneOrMany) : IDomainEvent;
+
+/// <summary>
+/// Record for TestEntityOneOrMany updated event.
+/// </summary>
+public record TestEntityOneOrManyUpdated(TestEntityOneOrMany TestEntityOneOrMany) : IDomainEvent;
+
+/// <summary>
+/// Record for TestEntityOneOrMany deleted event.
+/// </summary>
+public record TestEntityOneOrManyDeleted(TestEntityOneOrMany TestEntityOneOrMany) : IDomainEvent;
 
 /// <summary>
 /// Entity created for testing database.

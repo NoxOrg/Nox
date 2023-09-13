@@ -1,4 +1,4 @@
-// Generated
+﻿// Generated
 
 #nullable enable
 
@@ -7,6 +7,7 @@ using Nox.Abstractions;
 using Nox.Domain;
 using Nox.Exceptions;
 using Nox.Extensions;
+using Nox.Types;
 using Nox.Types.EntityFramework.Abstractions;
 using Nox.Types.EntityFramework.EntityBuilderAdapter;
 using Nox.Solution;
@@ -207,7 +208,27 @@ public partial class TestWebAppDbContext : DbContext
             case EntityState.Deleted:
                 entry.State = EntityState.Modified;
                 entry.Entity.Deleted(user, system);
+                ReattachOwnedEntries<IOwnedEntity>(entry);
+                ReattachOwnedEntries<INoxType>(entry);
                 break;
+        }
+    }
+
+    private void ReattachOwnedEntries<T>(EntityEntry<AuditableEntityBase> parentEntry)
+        where T : class
+    {
+        foreach (var navigationEntry in parentEntry.Navigations)
+        {
+            foreach (var ownedEntry in ChangeTracker.Entries<T>())
+            {
+                var isOwnedAndDeltetedEntry = ownedEntry.Metadata.IsOwned() && ownedEntry.State == EntityState.Deleted;
+                var isOwnedByCurrentParentEntry = ownedEntry.Entity == navigationEntry.CurrentValue || (navigationEntry.CurrentValue as IEnumerable<T>)?.Contains(ownedEntry.Entity) == true;
+
+                if (isOwnedAndDeltetedEntry && isOwnedByCurrentParentEntry)
+                {
+                    ownedEntry.State = EntityState.Unchanged;
+                }
+            }
         }
     }
 

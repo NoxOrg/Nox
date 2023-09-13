@@ -5,10 +5,26 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace TestWebApp.Domain;
+
+/// <summary>
+/// Record for SecondTestEntityExactlyOne created event.
+/// </summary>
+public record SecondTestEntityExactlyOneCreated(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent;
+
+/// <summary>
+/// Record for SecondTestEntityExactlyOne updated event.
+/// </summary>
+public record SecondTestEntityExactlyOneUpdated(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent;
+
+/// <summary>
+/// Record for SecondTestEntityExactlyOne deleted event.
+/// </summary>
+public record SecondTestEntityExactlyOneDeleted(SecondTestEntityExactlyOne SecondTestEntityExactlyOne) : IDomainEvent;
 
 /// <summary>
 /// .

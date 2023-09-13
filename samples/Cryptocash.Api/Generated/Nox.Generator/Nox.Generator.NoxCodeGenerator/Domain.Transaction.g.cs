@@ -5,10 +5,26 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
+
+/// <summary>
+/// Record for Transaction created event.
+/// </summary>
+public record TransactionCreated(Transaction Transaction) : IDomainEvent;
+
+/// <summary>
+/// Record for Transaction updated event.
+/// </summary>
+public record TransactionUpdated(Transaction Transaction) : IDomainEvent;
+
+/// <summary>
+/// Record for Transaction deleted event.
+/// </summary>
+public record TransactionDeleted(Transaction Transaction) : IDomainEvent;
 
 /// <summary>
 /// Customer transaction log and related data.

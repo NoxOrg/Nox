@@ -5,10 +5,26 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
+
+/// <summary>
+/// Record for BankNote created event.
+/// </summary>
+public record BankNoteCreated(BankNote BankNote) : IDomainEvent;
+
+/// <summary>
+/// Record for BankNote updated event.
+/// </summary>
+public record BankNoteUpdated(BankNote BankNote) : IDomainEvent;
+
+/// <summary>
+/// Record for BankNote deleted event.
+/// </summary>
+public record BankNoteDeleted(BankNote BankNote) : IDomainEvent;
 
 /// <summary>
 /// Currencies related frequent and rare bank notes.

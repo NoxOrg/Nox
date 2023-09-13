@@ -5,10 +5,26 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace ClientApi.Domain;
+
+/// <summary>
+/// Record for Store created event.
+/// </summary>
+public record StoreCreated(Store Store) : IDomainEvent;
+
+/// <summary>
+/// Record for Store updated event.
+/// </summary>
+public record StoreUpdated(Store Store) : IDomainEvent;
+
+/// <summary>
+/// Record for Store deleted event.
+/// </summary>
+public record StoreDeleted(Store Store) : IDomainEvent;
 
 /// <summary>
 /// Stores.

@@ -5,10 +5,26 @@
 using System;
 using System.Collections.Generic;
 
-using Nox.Types;
+using Nox.Abstractions;
 using Nox.Domain;
+using Nox.Types;
 
 namespace Cryptocash.Domain;
+
+/// <summary>
+/// Record for Country created event.
+/// </summary>
+public record CountryCreated(Country Country) : IDomainEvent;
+
+/// <summary>
+/// Record for Country updated event.
+/// </summary>
+public record CountryUpdated(Country Country) : IDomainEvent;
+
+/// <summary>
+/// Record for Country deleted event.
+/// </summary>
+public record CountryDeleted(Country Country) : IDomainEvent;
 
 /// <summary>
 /// Country and related data.
