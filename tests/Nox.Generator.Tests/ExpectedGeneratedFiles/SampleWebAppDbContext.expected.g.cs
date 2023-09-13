@@ -132,20 +132,25 @@ public partial class SampleWebAppDbContext : DbContext
             case EntityState.Deleted:
                 entry.State = EntityState.Modified;
                 entry.Entity.Deleted(user, system);
-                ReattachCompoundTypes(entry);
+                ReattachOwnedEntries<IOwnedEntity>(entry);
+                ReattachOwnedEntries<INoxType>(entry);
                 break;
         }
     }
 
-    private void ReattachCompoundTypes(EntityEntry<AuditableEntityBase> parentEntry)
+    private void ReattachOwnedEntries<T>(EntityEntry<AuditableEntityBase> parentEntry)
+        where T : class
     {
         foreach (var navigationEntry in parentEntry.Navigations)
         {
-            foreach (var typeEntry in ChangeTracker.Entries<INoxType>())
+            foreach (var ownedEntry in ChangeTracker.Entries<T>())
             {
-                if (typeEntry.Metadata.IsOwned() && typeEntry.State == EntityState.Deleted && typeEntry.Entity == navigationEntry.CurrentValue)
+                var isOwnedAndDeltetedEntry = ownedEntry.Metadata.IsOwned() && ownedEntry.State == EntityState.Deleted;
+                var isOwnedByCurrentParentEntry = ownedEntry.Entity == navigationEntry.CurrentValue || (navigationEntry.CurrentValue as IEnumerable<T>)?.Contains(ownedEntry.Entity) == true;
+
+                if (isOwnedAndDeltetedEntry && isOwnedByCurrentParentEntry)
                 {
-                    typeEntry.State = EntityState.Unchanged;
+                    ownedEntry.State = EntityState.Unchanged;
                 }
             }
         }

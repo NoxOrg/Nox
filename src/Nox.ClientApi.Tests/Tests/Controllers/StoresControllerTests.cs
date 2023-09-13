@@ -9,7 +9,7 @@ using System.Runtime.ConstrainedExecution;
 namespace ClientApi.Tests.Tests.Controllers
 {
     [Collection("Sequential")]
-    public class StoresControllerTests 
+    public class StoresControllerTests
     {
         private const string EntityUrl = "api/stores";
 
@@ -53,7 +53,7 @@ namespace ClientApi.Tests.Tests.Controllers
 
             //Assert
             response.Should().NotBeNull();
-            response!.EmailAddress.Should().BeEquivalentTo(expectedEmail);  
+            response!.EmailAddress.Should().BeEquivalentTo(expectedEmail);
         }
         #endregion
 
@@ -107,6 +107,11 @@ namespace ClientApi.Tests.Tests.Controllers
                     PostalCode: "KT16 0RS",
                     CountryId: CountryCode.GB),
                 Location = new LatLongDto(51.3728033, -0.5389749),
+                EmailAddress = new EmailAddressCreateDto
+                {
+                    Email = "test@gmail.com",
+                    IsVerified = false
+                }
             };
 
             // Act
