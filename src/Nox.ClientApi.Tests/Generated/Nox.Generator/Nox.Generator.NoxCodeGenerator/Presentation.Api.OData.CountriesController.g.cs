@@ -280,6 +280,117 @@ public abstract class CountriesControllerBase : ODataController
         return parent?.CountryLocalNames.SingleOrDefault(x => x.Id == childKeyDto.keyId);
     }
     
+    [EnableQuery]
+    public virtual async Task<ActionResult<CountryBarCodeDto>> GetCountryBarCode([FromRoute] System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var item = await _mediator.Send(new GetCountryByIdQuery(key));
+        
+        if (item is null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item.CountryBarCode);
+    }
+    
+    public virtual async Task<ActionResult> PostToCountryBarCode([FromRoute] System.Int64 key, [FromBody] CountryBarCodeCreateDto countryBarCode)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var createdKey = await _mediator.Send(new AddCountryBarCodeCommand(new CountryKeyDto(key), countryBarCode, etag));
+        if (createdKey == null)
+        {
+            return NotFound();
+        }
+        
+        var child = (await _mediator.Send(new GetCountryByIdQuery(key)))?.CountryBarCode;
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(child);
+    }
+    
+    public virtual async Task<ActionResult<CountryBarCodeDto>> PutToCountryBarCode(System.Int64 key, [FromBody] CountryBarCodeUpdateDto countryBarCode)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updatedKey = await _mediator.Send(new UpdateCountryBarCodeCommand(new CountryKeyDto(key), countryBarCode, etag));
+        if (updatedKey == null)
+        {
+            return NotFound();
+        }
+        
+        var child = (await _mediator.Send(new GetCountryByIdQuery(key)))?.CountryBarCode;
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    public virtual async Task<ActionResult> PatchToCountryBarCode(System.Int64 key, [FromBody] Delta<CountryBarCodeDto> countryBarCode)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var updateProperties = new Dictionary<string, dynamic>();
+        
+        foreach (var propertyName in countryBarCode.GetChangedPropertyNames())
+        {
+            if(countryBarCode.TryGetPropertyValue(propertyName, out dynamic value))
+            {
+                updateProperties[propertyName] = value;                
+            }           
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var updated = await _mediator.Send(new PartialUpdateCountryBarCodeCommand(new CountryKeyDto(key), updateProperties, etag));
+        
+        if (updated is null)
+        {
+            return NotFound();
+        }
+        var child = (await _mediator.Send(new GetCountryByIdQuery(key)))?.CountryBarCode;
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    [HttpDelete("api/Countries/{key}/CountryBarCode")]
+    public virtual async Task<ActionResult> DeleteCountryBarCodeNonConventional(System.Int64 key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var result = await _mediator.Send(new DeleteCountryBarCodeCommand(new CountryKeyDto(key)));
+        if (!result)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
     #endregion
     
 }

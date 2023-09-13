@@ -29,6 +29,8 @@ internal class PartialUpdateOwnedCommandGenerator : INoxCodeGenerator
             if (parent is null)
                 continue;
 
+            var isSingleRelationship = parent.OwnedRelationships.First(o => o.Entity == entity.Name).WithSingleEntity;
+
             var primaryKeysReturnQuery = string.Join(", ", entity.Keys.Select(k => $"entity.{k.Name}.Value"));
             var parentKeysFindQuery = string.Join(", ", parent.Keys.Select(k => $"key{k.Name}"));
             var ownedKeysFindQuery = string.Join(" && ", entity.Keys.Select(k => $"x.{k.Name} == owned{k.Name}"));
@@ -38,6 +40,7 @@ internal class PartialUpdateOwnedCommandGenerator : INoxCodeGenerator
                 .WithFileNamePrefix($"Application.Commands")
                 .WithObject("entity", entity)
                 .WithObject("parent", parent)
+                .WithObject("isSingleRelationship", isSingleRelationship)
                 .WithObject("primaryKeysReturnQuery", primaryKeysReturnQuery)
                 .WithObject("parentKeysFindQuery", parentKeysFindQuery)
                 .WithObject("ownedKeysFindQuery", ownedKeysFindQuery)

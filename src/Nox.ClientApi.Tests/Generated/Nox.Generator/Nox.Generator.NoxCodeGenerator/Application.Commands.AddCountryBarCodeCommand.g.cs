@@ -14,27 +14,27 @@ using Nox.Types;
 using ClientApi.Infrastructure.Persistence;
 using ClientApi.Domain;
 using ClientApi.Application.Dto;
-using CountryLocalName = ClientApi.Domain.CountryLocalName;
+using CountryBarCode = ClientApi.Domain.CountryBarCode;
 
 namespace ClientApi.Application.Commands;
-public record AddCountryLocalNameCommand(CountryKeyDto ParentKeyDto, CountryLocalNameCreateDto EntityDto, System.Guid? Etag) : IRequest <CountryLocalNameKeyDto?>;
+public record AddCountryBarCodeCommand(CountryKeyDto ParentKeyDto, CountryBarCodeCreateDto EntityDto, System.Guid? Etag) : IRequest <CountryBarCodeKeyDto?>;
 
-public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLocalNameCommand, CountryLocalName>, IRequestHandler <AddCountryLocalNameCommand, CountryLocalNameKeyDto?>
+public partial class AddCountryBarCodeCommandHandler: CommandBase<AddCountryBarCodeCommand, CountryBarCode>, IRequestHandler <AddCountryBarCodeCommand, CountryBarCodeKeyDto?>
 {
 	private readonly ClientApiDbContext _dbContext;
-	private readonly IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> _entityFactory;
+	private readonly IEntityFactory<CountryBarCode,CountryBarCodeCreateDto> _entityFactory;
 
-	public AddCountryLocalNameCommandHandler(
+	public AddCountryBarCodeCommandHandler(
 		ClientApiDbContext dbContext,
 		NoxSolution noxSolution,
-        IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> entityFactory,
+        IEntityFactory<CountryBarCode,CountryBarCodeCreateDto> entityFactory,
 		IServiceProvider serviceProvider): base(noxSolution, serviceProvider)
 	{
 		_dbContext = dbContext;
 		_entityFactory = entityFactory;	
 	}
 
-	public async Task<CountryLocalNameKeyDto?> Handle(AddCountryLocalNameCommand request, CancellationToken cancellationToken)
+	public async Task<CountryBarCodeKeyDto?> Handle(AddCountryBarCodeCommand request, CancellationToken cancellationToken)
 	{
 		OnExecuting(request);
 		var keyId = CreateNoxTypeForKey<Country,AutoNumber>("Id", request.ParentKeyDto.keyId);
@@ -46,7 +46,7 @@ public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLo
 		}
 
 		var entity = _entityFactory.CreateEntity(request.EntityDto);
-		parentEntity.CountryLocalNames.Add(entity);
+		parentEntity.CountryBarCode = entity;
 		parentEntity.Etag = request.Etag.HasValue ? request.Etag.Value : System.Guid.Empty;
 		OnCompleted(request, entity);
 	
@@ -57,6 +57,6 @@ public partial class AddCountryLocalNameCommandHandler: CommandBase<AddCountryLo
 			return null;
 		}
 
-		return new CountryLocalNameKeyDto(entity.Id.Value);
+		return new CountryBarCodeKeyDto();
 	}
 }

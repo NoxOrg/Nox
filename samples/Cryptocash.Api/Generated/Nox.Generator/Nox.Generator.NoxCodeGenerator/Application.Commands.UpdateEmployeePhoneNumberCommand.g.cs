@@ -13,7 +13,6 @@ using Cryptocash.Domain;
 using Cryptocash.Application.Dto;
 
 namespace Cryptocash.Application.Commands;
-
 public record UpdateEmployeePhoneNumberCommand(EmployeeKeyDto ParentKeyDto, EmployeePhoneNumberKeyDto EntityKeyDto, EmployeePhoneNumberUpdateDto EntityDto, System.Guid? Etag) : IRequest <EmployeePhoneNumberKeyDto?>;
 
 public partial class UpdateEmployeePhoneNumberCommandHandler: CommandBase<UpdateEmployeePhoneNumberCommand, EmployeePhoneNumber>, IRequestHandler <UpdateEmployeePhoneNumberCommand, EmployeePhoneNumberKeyDto?>
@@ -42,7 +41,7 @@ public partial class UpdateEmployeePhoneNumberCommandHandler: CommandBase<Update
 			return null;
 		}
 		var ownedId = CreateNoxTypeForKey<EmployeePhoneNumber,AutoNumber>("Id", request.EntityKeyDto.keyId);
-		var entity = parentEntity.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == ownedId);
+		var entity = parentEntity.EmployeePhoneNumbers.SingleOrDefault(x => x.Id == ownedId);		
 		if (entity == null)
 		{
 			return null;

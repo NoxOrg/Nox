@@ -43,12 +43,11 @@ public partial class DeleteEmployeePhoneNumberCommandHandler: CommandBase<Delete
 		{
 			return false;
 		}
-
 		parentEntity.EmployeePhoneNumbers.Remove(entity);
-		
 		OnCompleted(request, entity);
 
 		DbContext.Entry(entity).State = EntityState.Deleted;
+	
 		var result = await DbContext.SaveChangesAsync(cancellationToken);
 		if (result < 1)
 		{
