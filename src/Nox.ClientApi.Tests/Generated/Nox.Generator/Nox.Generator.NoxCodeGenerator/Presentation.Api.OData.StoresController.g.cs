@@ -56,7 +56,7 @@ public abstract class StoresControllerBase : ODataController
     }
     
     [EnableQuery]
-    public async Task<ActionResult<StoreDto>> Get([FromRoute] System.UInt32 key)
+    public async Task<ActionResult<StoreDto>> Get([FromRoute] System.Guid key)
     {
         var item = await _mediator.Send(new GetStoreByIdQuery(key));
         
@@ -81,7 +81,7 @@ public abstract class StoresControllerBase : ODataController
         return Created(item);
     }
     
-    public virtual async Task<ActionResult<StoreDto>> Put([FromRoute] System.UInt32 key, [FromBody] StoreUpdateDto store)
+    public virtual async Task<ActionResult<StoreDto>> Put([FromRoute] System.Guid key, [FromBody] StoreUpdateDto store)
     {
         if (!ModelState.IsValid)
         {
@@ -101,7 +101,7 @@ public abstract class StoresControllerBase : ODataController
         return Ok(item);
     }
     
-    public virtual async Task<ActionResult<StoreDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<StoreDto> store)
+    public virtual async Task<ActionResult<StoreDto>> Patch([FromRoute] System.Guid key, [FromBody] Delta<StoreDto> store)
     {
         if (!ModelState.IsValid)
         {
@@ -129,7 +129,7 @@ public abstract class StoresControllerBase : ODataController
         return Ok(item);
     }
     
-    public virtual async Task<ActionResult> Delete([FromRoute] System.UInt32 key)
+    public virtual async Task<ActionResult> Delete([FromRoute] System.Guid key)
     {
         var etag = Request.GetDecodedEtagHeader();
         var result = await _mediator.Send(new DeleteStoreByIdCommand(key, etag));
