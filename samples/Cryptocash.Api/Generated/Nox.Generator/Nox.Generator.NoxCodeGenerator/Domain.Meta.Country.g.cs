@@ -38,7 +38,7 @@ public partial class Country
         /// <summary>
         /// Factory for property 'Name'
         /// </summary>
-        public static Text CreateName(System.String value)
+        public static Nox.Types.Text CreateName(System.String value)
             => Nox.Types.Text.From(value, NameTypeOptions);
         
     
@@ -58,7 +58,7 @@ public partial class Country
         /// <summary>
         /// Factory for property 'OfficialName'
         /// </summary>
-        public static Text CreateOfficialName(System.String value)
+        public static Nox.Types.Text CreateOfficialName(System.String value)
             => Nox.Types.Text.From(value, OfficialNameTypeOptions);
         
     
@@ -99,7 +99,7 @@ public partial class Country
         /// <summary>
         /// Factory for property 'FlagEmoji'
         /// </summary>
-        public static Text CreateFlagEmoji(System.String value)
+        public static Nox.Types.Text CreateFlagEmoji(System.String value)
             => Nox.Types.Text.From(value, FlagEmojiTypeOptions);
         
     

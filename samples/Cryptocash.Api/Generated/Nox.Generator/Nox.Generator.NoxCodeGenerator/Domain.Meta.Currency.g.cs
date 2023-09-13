@@ -38,7 +38,7 @@ public partial class Currency
         /// <summary>
         /// Factory for property 'Name'
         /// </summary>
-        public static Text CreateName(System.String value)
+        public static Nox.Types.Text CreateName(System.String value)
             => Nox.Types.Text.From(value, NameTypeOptions);
         
     
@@ -65,7 +65,7 @@ public partial class Currency
         /// <summary>
         /// Factory for property 'Symbol'
         /// </summary>
-        public static Text CreateSymbol(System.String value)
+        public static Nox.Types.Text CreateSymbol(System.String value)
             => Nox.Types.Text.From(value, SymbolTypeOptions);
         
     
@@ -85,7 +85,7 @@ public partial class Currency
         /// <summary>
         /// Factory for property 'ThousandsSeparator'
         /// </summary>
-        public static Text CreateThousandsSeparator(System.String value)
+        public static Nox.Types.Text CreateThousandsSeparator(System.String value)
             => Nox.Types.Text.From(value, ThousandsSeparatorTypeOptions);
         
     
@@ -105,7 +105,7 @@ public partial class Currency
         /// <summary>
         /// Factory for property 'DecimalSeparator'
         /// </summary>
-        public static Text CreateDecimalSeparator(System.String value)
+        public static Nox.Types.Text CreateDecimalSeparator(System.String value)
             => Nox.Types.Text.From(value, DecimalSeparatorTypeOptions);
         
     
@@ -139,7 +139,7 @@ public partial class Currency
         /// <summary>
         /// Factory for property 'MajorName'
         /// </summary>
-        public static Text CreateMajorName(System.String value)
+        public static Nox.Types.Text CreateMajorName(System.String value)
             => Nox.Types.Text.From(value, MajorNameTypeOptions);
         
     
@@ -159,7 +159,7 @@ public partial class Currency
         /// <summary>
         /// Factory for property 'MajorSymbol'
         /// </summary>
-        public static Text CreateMajorSymbol(System.String value)
+        public static Nox.Types.Text CreateMajorSymbol(System.String value)
             => Nox.Types.Text.From(value, MajorSymbolTypeOptions);
         
     
@@ -179,7 +179,7 @@ public partial class Currency
         /// <summary>
         /// Factory for property 'MinorName'
         /// </summary>
-        public static Text CreateMinorName(System.String value)
+        public static Nox.Types.Text CreateMinorName(System.String value)
             => Nox.Types.Text.From(value, MinorNameTypeOptions);
         
     
@@ -199,7 +199,7 @@ public partial class Currency
         /// <summary>
         /// Factory for property 'MinorSymbol'
         /// </summary>
-        public static Text CreateMinorSymbol(System.String value)
+        public static Nox.Types.Text CreateMinorSymbol(System.String value)
             => Nox.Types.Text.From(value, MinorSymbolTypeOptions);
         
     

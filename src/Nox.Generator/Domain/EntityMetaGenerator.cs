@@ -26,20 +26,20 @@ internal class EntityMetaGenerator : INoxCodeGenerator
         {
             context.CancellationToken.ThrowIfCancellationRequested();
             
-            var typeDef = entity.GetAllMembers()
-                .Select( t =>  GenerateStaticTypeOptions(t.Value, codeGeneratorState.Solution) )
+            var entitiesMetaData = entity.GetAllMembers()
+                .Select( t =>  GeneraEntityMetaData(t.Value, codeGeneratorState.Solution) )
                 .ToList();
             
             new TemplateCodeBuilder(context, codeGeneratorState)
                 .WithClassName(entity.Name)
                 .WithFileNamePrefix($"Domain.Meta")
                 .WithObject("entity", entity)
-                .WithObject("typeDef", typeDef)
+                .WithObject("entitiesMetaData", entitiesMetaData)
                 .GenerateSourceCodeFromResource("Domain.EntityMeta");
         }
     }
 
-    private EntityMetaData GenerateStaticTypeOptions(NoxSimpleTypeDefinition typeDef, NoxSolution solution)
+    private static EntityMetaData GeneraEntityMetaData(NoxSimpleTypeDefinition typeDef, NoxSolution solution)
     {
         var type = typeDef.Type == NoxType.EntityId ? solution.GetSingleKeyTypeForEntity(typeDef.EntityIdTypeOptions!.Entity) : typeDef.Type;
 
@@ -47,10 +47,7 @@ internal class EntityMetaGenerator : INoxCodeGenerator
 
         var options = typeof(NoxSimpleTypeDefinition).GetProperty(typeOptions);
 
-        var optionsOutput = string.Empty;
-        
         var optionsProperties = Array.Empty<string>();
-
         var components = type.GetComponents(typeDef).ToArray();
 
         var inParams = components.Length == 1 
@@ -60,7 +57,7 @@ internal class EntityMetaGenerator : INoxCodeGenerator
        
         if (options != null)
         {
-            optionsProperties = GetOptionsOutputAndProperties(typeDef, options, optionsProperties, ref optionsOutput);
+            optionsProperties = GetTypeOptionProperties(typeDef, options);
         }
         
         return new EntityMetaData
@@ -68,17 +65,16 @@ internal class EntityMetaGenerator : INoxCodeGenerator
             Name = typeDef.Name,
             Type = type.ToString(),
             InParams = inParams,
-            OptionsOutput = optionsOutput,
+            HasTypeOptions = optionsProperties.Any(),
             OptionsProperties = optionsProperties
         };
     }
 
-    private static string[] GetOptionsOutputAndProperties(
+    private static string[] GetTypeOptionProperties(
         NoxSimpleTypeDefinition typeDef, 
-        PropertyInfo options,
-        string[] optionsProperties, 
-        ref string optionsOutput)
+        PropertyInfo options)
     {
+        var optionsProperties = Array.Empty<string>();
         var optionsValue = options.GetValue(typeDef, null);
 
         if (optionsValue != null)
@@ -88,9 +84,8 @@ internal class EntityMetaGenerator : INoxCodeGenerator
             optionsProperties = optionsOutputLines
                 .SkipWhile(s => !s.StartsWith("{"))
                 .Skip(1)
-                .TakeWhile(s => !s.StartsWith("}"))
-                .Select(s => s.Trim()).ToArray();
-            optionsOutput = optionsOutputLines[0];
+                .TakeWhile(s=> !s.StartsWith("}"))
+                .ToArray();
         }
 
         return optionsProperties;

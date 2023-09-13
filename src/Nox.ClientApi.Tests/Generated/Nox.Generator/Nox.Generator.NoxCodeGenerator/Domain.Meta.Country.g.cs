@@ -38,7 +38,7 @@ public partial class Country
         /// <summary>
         /// Factory for property 'Name'
         /// </summary>
-        public static Text CreateName(System.String value)
+        public static Nox.Types.Text CreateName(System.String value)
             => Nox.Types.Text.From(value, NameTypeOptions);
         
     
@@ -76,7 +76,7 @@ public partial class Country
         /// <summary>
         /// Factory for property 'ShortDescription'
         /// </summary>
-        public static Formula CreateShortDescription(System.String value)
+        public static Nox.Types.Formula CreateShortDescription(System.String value)
             => Nox.Types.Formula.From(value, ShortDescriptionTypeOptions);
         
     

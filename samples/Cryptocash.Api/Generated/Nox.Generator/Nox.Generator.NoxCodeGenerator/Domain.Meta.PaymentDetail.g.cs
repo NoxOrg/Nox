@@ -38,7 +38,7 @@ public partial class PaymentDetail
         /// <summary>
         /// Factory for property 'PaymentAccountName'
         /// </summary>
-        public static Text CreatePaymentAccountName(System.String value)
+        public static Nox.Types.Text CreatePaymentAccountName(System.String value)
             => Nox.Types.Text.From(value, PaymentAccountNameTypeOptions);
         
     
@@ -58,7 +58,7 @@ public partial class PaymentDetail
         /// <summary>
         /// Factory for property 'PaymentAccountNumber'
         /// </summary>
-        public static Text CreatePaymentAccountNumber(System.String value)
+        public static Nox.Types.Text CreatePaymentAccountNumber(System.String value)
             => Nox.Types.Text.From(value, PaymentAccountNumberTypeOptions);
         
     
@@ -78,7 +78,7 @@ public partial class PaymentDetail
         /// <summary>
         /// Factory for property 'PaymentAccountSortCode'
         /// </summary>
-        public static Text CreatePaymentAccountSortCode(System.String value)
+        public static Nox.Types.Text CreatePaymentAccountSortCode(System.String value)
             => Nox.Types.Text.From(value, PaymentAccountSortCodeTypeOptions);
         
     

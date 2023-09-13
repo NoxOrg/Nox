@@ -38,7 +38,7 @@ public partial class EmployeePhoneNumber
         /// <summary>
         /// Factory for property 'PhoneNumberType'
         /// </summary>
-        public static Text CreatePhoneNumberType(System.String value)
+        public static Nox.Types.Text CreatePhoneNumberType(System.String value)
             => Nox.Types.Text.From(value, PhoneNumberTypeTypeOptions);
         
     

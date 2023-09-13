@@ -56,7 +56,7 @@ public partial class CashStockOrder
         /// <summary>
         /// Factory for property 'Status'
         /// </summary>
-        public static Formula CreateStatus(System.String value)
+        public static Nox.Types.Formula CreateStatus(System.String value)
             => Nox.Types.Formula.From(value, StatusTypeOptions);
         
     

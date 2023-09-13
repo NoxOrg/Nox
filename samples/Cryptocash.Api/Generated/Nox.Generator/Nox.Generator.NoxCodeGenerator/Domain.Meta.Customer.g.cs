@@ -38,7 +38,7 @@ public partial class Customer
         /// <summary>
         /// Factory for property 'FirstName'
         /// </summary>
-        public static Text CreateFirstName(System.String value)
+        public static Nox.Types.Text CreateFirstName(System.String value)
             => Nox.Types.Text.From(value, FirstNameTypeOptions);
         
     
@@ -58,7 +58,7 @@ public partial class Customer
         /// <summary>
         /// Factory for property 'LastName'
         /// </summary>
-        public static Text CreateLastName(System.String value)
+        public static Nox.Types.Text CreateLastName(System.String value)
             => Nox.Types.Text.From(value, LastNameTypeOptions);
         
     

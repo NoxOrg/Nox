@@ -14,30 +14,30 @@ namespace {{codeGeneratorState.DomainNameSpace}};
 /// </summary>
 public partial class {{className}}
 {
-{{- for td in typeDef }}
-    {{ if td.OptionsOutput != "" }}
+{{- for entityMetaData in entitiesMetaData }}
+    {{ if entityMetaData.HasTypeOptions == true }}
     /// <summary>
-    /// Type options for property '{{td.Name}}'
+    /// Type options for property '{{entityMetaData.Name}}'
     /// </summary>
-    public static {{td.OptionsOutput}}
+    public static Nox.Types.{{entityMetaData.Type}}TypeOptions {{entityMetaData.Name}}TypeOptions {get; private set;} = new ()
     {
-        {{- for property in td.OptionsProperties }}
-            {{property}}
+        {{- for property in entityMetaData.OptionsProperties }}
+        {{property}}
         {{- end }}
     };
 
 
     /// <summary>
-    /// Factory for property '{{td.Name}}'
+    /// Factory for property '{{entityMetaData.Name}}'
     /// </summary>
-    public static {{td.Type}} Create{{td.Name}}({{td.InParams}})
-        => Nox.Types.{{td.Type}}.From(value, {{td.Name}}TypeOptions);
+    public static Nox.Types.{{entityMetaData.Type}} Create{{entityMetaData.Name}}({{entityMetaData.InParams}})
+        => Nox.Types.{{entityMetaData.Type}}.From(value, {{entityMetaData.Name}}TypeOptions);
     {{ else }}
     /// <summary>
-    /// Factory for property '{{td.Name}}'
+    /// Factory for property '{{entityMetaData.Name}}'
     /// </summary>
-    public static Nox.Types.{{td.Type}} Create{{td.Name}}({{td.InParams}})
-        => Nox.Types.{{td.Type}}.From(value);
+    public static Nox.Types.{{entityMetaData.Type}} Create{{entityMetaData.Name}}({{entityMetaData.InParams}})
+        => Nox.Types.{{entityMetaData.Type}}.From(value);
     {{ end }}
 {{- end }}
 }

@@ -38,7 +38,7 @@ public partial class PaymentProvider
         /// <summary>
         /// Factory for property 'PaymentProviderName'
         /// </summary>
-        public static Text CreatePaymentProviderName(System.String value)
+        public static Nox.Types.Text CreatePaymentProviderName(System.String value)
             => Nox.Types.Text.From(value, PaymentProviderNameTypeOptions);
         
     
@@ -58,7 +58,7 @@ public partial class PaymentProvider
         /// <summary>
         /// Factory for property 'PaymentProviderType'
         /// </summary>
-        public static Text CreatePaymentProviderType(System.String value)
+        public static Nox.Types.Text CreatePaymentProviderType(System.String value)
             => Nox.Types.Text.From(value, PaymentProviderTypeTypeOptions);
         
 }

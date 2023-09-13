@@ -31,7 +31,7 @@ public partial class TestEntityForTypes
         /// <summary>
         /// Factory for property 'Id'
         /// </summary>
-        public static Text CreateId(System.String value)
+        public static Nox.Types.Text CreateId(System.String value)
             => Nox.Types.Text.From(value, IdTypeOptions);
         
     
@@ -51,7 +51,7 @@ public partial class TestEntityForTypes
         /// <summary>
         /// Factory for property 'TextTestField'
         /// </summary>
-        public static Text CreateTextTestField(System.String value)
+        public static Nox.Types.Text CreateTextTestField(System.String value)
             => Nox.Types.Text.From(value, TextTestFieldTypeOptions);
         
     
@@ -69,7 +69,7 @@ public partial class TestEntityForTypes
         /// <summary>
         /// Factory for property 'NumberTestField'
         /// </summary>
-        public static Number CreateNumberTestField(System.Int16 value)
+        public static Nox.Types.Number CreateNumberTestField(System.Int16 value)
             => Nox.Types.Number.From(value, NumberTestFieldTypeOptions);
         
     
@@ -429,7 +429,7 @@ public partial class TestEntityForTypes
         /// <summary>
         /// Factory for property 'FormulaTestField'
         /// </summary>
-        public static Formula CreateFormulaTestField(System.String value)
+        public static Nox.Types.Formula CreateFormulaTestField(System.String value)
             => Nox.Types.Formula.From(value, FormulaTestFieldTypeOptions);
         
     

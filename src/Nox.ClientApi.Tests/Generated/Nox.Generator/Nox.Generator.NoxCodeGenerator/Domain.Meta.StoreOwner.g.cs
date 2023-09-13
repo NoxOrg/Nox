@@ -31,7 +31,7 @@ public partial class StoreOwner
         /// <summary>
         /// Factory for property 'Id'
         /// </summary>
-        public static Text CreateId(System.String value)
+        public static Nox.Types.Text CreateId(System.String value)
             => Nox.Types.Text.From(value, IdTypeOptions);
         
     
@@ -51,7 +51,7 @@ public partial class StoreOwner
         /// <summary>
         /// Factory for property 'Name'
         /// </summary>
-        public static Text CreateName(System.String value)
+        public static Nox.Types.Text CreateName(System.String value)
             => Nox.Types.Text.From(value, NameTypeOptions);
         
     
@@ -90,7 +90,7 @@ public partial class StoreOwner
         /// <summary>
         /// Factory for property 'LocalGreeting'
         /// </summary>
-        public static TranslatedText CreateLocalGreeting(ITranslatedText value)
+        public static Nox.Types.TranslatedText CreateLocalGreeting(ITranslatedText value)
             => Nox.Types.TranslatedText.From(value, LocalGreetingTypeOptions);
         
     

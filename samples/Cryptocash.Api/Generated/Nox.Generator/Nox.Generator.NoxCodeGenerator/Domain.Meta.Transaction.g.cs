@@ -38,7 +38,7 @@ public partial class Transaction
         /// <summary>
         /// Factory for property 'TransactionType'
         /// </summary>
-        public static Text CreateTransactionType(System.String value)
+        public static Nox.Types.Text CreateTransactionType(System.String value)
             => Nox.Types.Text.From(value, TransactionTypeTypeOptions);
         
     
@@ -72,7 +72,7 @@ public partial class Transaction
         /// <summary>
         /// Factory for property 'Reference'
         /// </summary>
-        public static Text CreateReference(System.String value)
+        public static Nox.Types.Text CreateReference(System.String value)
             => Nox.Types.Text.From(value, ReferenceTypeOptions);
         
     

@@ -66,7 +66,7 @@ public partial class VendingMachine
         /// <summary>
         /// Factory for property 'SerialNumber'
         /// </summary>
-        public static Text CreateSerialNumber(System.String value)
+        public static Nox.Types.Text CreateSerialNumber(System.String value)
             => Nox.Types.Text.From(value, SerialNumberTypeOptions);
         
     

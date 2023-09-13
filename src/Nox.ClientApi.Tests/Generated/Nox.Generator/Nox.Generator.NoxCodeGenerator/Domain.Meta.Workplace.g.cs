@@ -31,7 +31,7 @@ public partial class Workplace
         /// <summary>
         /// Factory for property 'Id'
         /// </summary>
-        public static Nuid CreateId(System.UInt32 value)
+        public static Nox.Types.Nuid CreateId(System.UInt32 value)
             => Nox.Types.Nuid.From(value, IdTypeOptions);
         
     
@@ -51,7 +51,7 @@ public partial class Workplace
         /// <summary>
         /// Factory for property 'Name'
         /// </summary>
-        public static Text CreateName(System.String value)
+        public static Nox.Types.Text CreateName(System.String value)
             => Nox.Types.Text.From(value, NameTypeOptions);
         
     
@@ -68,7 +68,7 @@ public partial class Workplace
         /// <summary>
         /// Factory for property 'Greeting'
         /// </summary>
-        public static Formula CreateGreeting(System.String value)
+        public static Nox.Types.Formula CreateGreeting(System.String value)
             => Nox.Types.Formula.From(value, GreetingTypeOptions);
         
 }

@@ -38,7 +38,7 @@ public partial class Holiday
         /// <summary>
         /// Factory for property 'Name'
         /// </summary>
-        public static Text CreateName(System.String value)
+        public static Nox.Types.Text CreateName(System.String value)
             => Nox.Types.Text.From(value, NameTypeOptions);
         
     
@@ -58,7 +58,7 @@ public partial class Holiday
         /// <summary>
         /// Factory for property 'Type'
         /// </summary>
-        public static Text CreateType(System.String value)
+        public static Nox.Types.Text CreateType(System.String value)
             => Nox.Types.Text.From(value, TypeTypeOptions);
         
     

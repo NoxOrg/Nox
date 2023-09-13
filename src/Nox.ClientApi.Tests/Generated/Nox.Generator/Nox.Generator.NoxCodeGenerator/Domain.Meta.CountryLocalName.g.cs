@@ -38,7 +38,7 @@ public partial class CountryLocalName
         /// <summary>
         /// Factory for property 'Name'
         /// </summary>
-        public static Text CreateName(System.String value)
+        public static Nox.Types.Text CreateName(System.String value)
             => Nox.Types.Text.From(value, NameTypeOptions);
         
     
@@ -58,7 +58,7 @@ public partial class CountryLocalName
         /// <summary>
         /// Factory for property 'NativeName'
         /// </summary>
-        public static Text CreateNativeName(System.String value)
+        public static Nox.Types.Text CreateNativeName(System.String value)
             => Nox.Types.Text.From(value, NativeNameTypeOptions);
         
 }

@@ -23,7 +23,7 @@ public partial class Store
             Separator = ".",
             PropertyNames = new System.String[]
             {
-            "Name",
+                "Name",
             },
         };
     
@@ -31,7 +31,7 @@ public partial class Store
         /// <summary>
         /// Factory for property 'Id'
         /// </summary>
-        public static Nuid CreateId(System.UInt32 value)
+        public static Nox.Types.Nuid CreateId(System.UInt32 value)
             => Nox.Types.Nuid.From(value, IdTypeOptions);
         
     
@@ -51,7 +51,7 @@ public partial class Store
         /// <summary>
         /// Factory for property 'Name'
         /// </summary>
-        public static Text CreateName(System.String value)
+        public static Nox.Types.Text CreateName(System.String value)
             => Nox.Types.Text.From(value, NameTypeOptions);
         
     
@@ -71,7 +71,7 @@ public partial class Store
         /// <summary>
         /// Factory for property 'StoreOwnerId'
         /// </summary>
-        public static Text CreateStoreOwnerId(System.String value)
+        public static Nox.Types.Text CreateStoreOwnerId(System.String value)
             => Nox.Types.Text.From(value, StoreOwnerIdTypeOptions);
         
 }

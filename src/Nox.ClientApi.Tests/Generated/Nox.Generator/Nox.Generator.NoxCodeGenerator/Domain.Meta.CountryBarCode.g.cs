@@ -31,7 +31,7 @@ public partial class CountryBarCode
         /// <summary>
         /// Factory for property 'BarCodeName'
         /// </summary>
-        public static Text CreateBarCodeName(System.String value)
+        public static Nox.Types.Text CreateBarCodeName(System.String value)
             => Nox.Types.Text.From(value, BarCodeNameTypeOptions);
         
     

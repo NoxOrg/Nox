@@ -38,7 +38,7 @@ public partial class BankNote
         /// <summary>
         /// Factory for property 'CashNote'
         /// </summary>
-        public static Text CreateCashNote(System.String value)
+        public static Nox.Types.Text CreateCashNote(System.String value)
             => Nox.Types.Text.From(value, CashNoteTypeOptions);
         
     
