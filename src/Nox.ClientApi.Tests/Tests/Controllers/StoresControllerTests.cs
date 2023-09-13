@@ -23,6 +23,8 @@ namespace ClientApi.Tests.Tests.Controllers
             _oDataFixture = _fixture.Create<ODataFixture>();
         }
 
+        #region Store Examples
+
         #region GET Entity By Key (Returns by default owned entitites) /api/{EntityPluralName}/{EntityKey} => api/stores/1
         [Fact]
         public async Task GetById_ReturnsOwnedEntitites()
@@ -55,6 +57,55 @@ namespace ClientApi.Tests.Tests.Controllers
             response.Should().NotBeNull();
             response!.EmailAddress.Should().BeEquivalentTo(expectedEmail);
         }
+        #endregion
+
+        #endregion
+
+        #region Relationship Examples
+        #region GET Expand Relation /api/{EntityPluralName}/{EntityKey} => api/stores/1?$expand=Ownership
+        [Fact]
+        public async Task Get_StoreOwnerOdataQuery_ReturnOwner()
+        {
+            var ownerExpectedName = _fixture.Create<string>();
+            // Arrange
+            var createOwner = new StoreOwnerCreateDto
+            {
+                Id = "002",
+                Name = ownerExpectedName,
+                
+            };
+            var storeOwner = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(StoreOwnersControllerTests.EntityUrl, createOwner);
+            var createStore = new StoreCreateDto
+            {
+                Name = _fixture.Create<string>(),
+                OwnershipId = createOwner.Id,
+                Address = new StreetAddressDto(
+                    StreetNumber: null!,
+                    AddressLine1: "3000 Hillswood Business Park",
+                    AddressLine2: null!,
+                    Route: null!,
+                    Locality: null!,
+                    Neighborhood: null!,
+                    AdministrativeArea1: null!,
+                    AdministrativeArea2: null!,
+                    PostalCode: "KT16 0RS",
+                    CountryId: CountryCode.GB),
+                Location = new LatLongDto(51.3728033, -0.5389749),
+            };
+            var store = await _oDataFixture.PostAsync<StoreCreateDto, StoreDto>(EntityUrl, createStore);
+
+            // Act
+            const string oDataRequest = $"$expand={nameof(StoreDto.Ownership)}";
+            var response = await _oDataFixture.GetODataSimpleResponseAsync<StoreDto>($"{EntityUrl}/{store!.Id}?{oDataRequest}");
+
+
+            //Assert
+            response.Should().NotBeNull();            
+            // TODO uncomment when we are able to create a relation
+            //response!.OwnerRel.Should().NotBeNull();
+            //response.OwnerRel!.Name.Should().Be(ownerExpectedName);
+        }
+        #endregion
         #endregion
 
         [Fact]

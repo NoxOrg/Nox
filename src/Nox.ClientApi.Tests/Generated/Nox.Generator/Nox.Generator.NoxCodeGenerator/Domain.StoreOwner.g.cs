@@ -53,7 +53,7 @@ public partial class StoreOwner : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// StoreOwner Set of stores that this owner owns ZeroOrMany Stores
     /// </summary>
-    public virtual List<Store> StoreRel { get; set; } = new();
+    public virtual List<Store> Stores { get; set; } = new();
 
     /// <summary>
     /// Entity tag used as concurrency token.

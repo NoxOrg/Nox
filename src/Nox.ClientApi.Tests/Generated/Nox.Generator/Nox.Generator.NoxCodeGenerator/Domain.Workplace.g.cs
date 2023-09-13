@@ -51,6 +51,16 @@ public partial class Workplace : EntityBase, IEntityConcurrent
     }
 
     /// <summary>
+    /// Workplace Workplace country ZeroOrOne Countries
+    /// </summary>
+    public virtual Country? BelongsToCountry { get; set; } = null!;
+
+    /// <summary>
+    /// Foreign key for relationship ZeroOrOne to entity Country
+    /// </summary>
+    public Nox.Types.AutoNumber? BelongsToCountryId { get; set; } = null!;
+
+    /// <summary>
     /// Entity tag used as concurrency token.
     /// </summary>
     public System.Guid Etag { get; set; } = System.Guid.NewGuid();

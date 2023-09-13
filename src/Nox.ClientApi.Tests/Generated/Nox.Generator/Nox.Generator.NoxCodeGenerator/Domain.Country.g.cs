@@ -50,9 +50,16 @@ public partial class Country : AuditableEntityBase, IEntityConcurrent
     }
 
     /// <summary>
+    /// Country Country workplaces ZeroOrMany Workplaces
+    /// </summary>
+    public virtual List<Workplace> PhysicalWorkplaces { get; set; } = new();
+
+    /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
     public virtual List<CountryLocalName> CountryLocalNames { get; set; } = new();
+
+    public List<CountryLocalName> CountryShortNames => CountryLocalNames;
 
     /// <summary>
     /// Country is also coded as ZeroOrOne CountryBarCodes

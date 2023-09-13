@@ -6284,6 +6284,13 @@
             "type": "string",
             "nullable": true
           },
+          "physicalWorkplaces": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/WorkplaceDto"
+            },
+            "nullable": true
+          },
           "countryLocalNames": {
             "type": "array",
             "items": {
@@ -8043,7 +8050,7 @@
           "location": {
             "$ref": "#/components/schemas/LatLongDto"
           },
-          "ownerRelId": {
+          "ownershipId": {
             "type": "string",
             "nullable": true
           },
@@ -8073,11 +8080,11 @@
           "location": {
             "$ref": "#/components/schemas/LatLongDto"
           },
-          "ownerRelId": {
+          "ownershipId": {
             "type": "string",
             "nullable": true
           },
-          "ownerRel": {
+          "ownership": {
             "$ref": "#/components/schemas/StoreOwnerDto"
           },
           "emailAddress": {
@@ -8182,7 +8189,7 @@
             "type": "string",
             "nullable": true
           },
-          "storeRel": {
+          "stores": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/StoreDto"
@@ -8273,7 +8280,7 @@
           "location": {
             "$ref": "#/components/schemas/LatLongDto"
           },
-          "ownerRelId": {
+          "ownershipId": {
             "type": "string",
             "nullable": true
           },
@@ -9069,6 +9076,11 @@
           "greeting": {
             "type": "string",
             "nullable": true
+          },
+          "belongsToCountryId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -9087,6 +9099,14 @@
           "greeting": {
             "type": "string",
             "nullable": true
+          },
+          "belongsToCountryId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "belongsToCountry": {
+            "$ref": "#/components/schemas/CountryDto"
           },
           "@odata.etag": {
             "type": "string",
@@ -9127,6 +9147,11 @@
           "name": {
             "minLength": 1,
             "type": "string"
+          },
+          "belongsToCountryId": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
           }
         },
         "additionalProperties": false

@@ -44,11 +44,11 @@ public partial class StoreDto
     public LatLongDto Location { get; set; } = default!;
 
     /// <summary>
-    /// Store Store owner relationship ZeroOrOne StoreOwners
+    /// Store Owner of the Store ZeroOrOne StoreOwners
     /// </summary>
     //EF maps ForeignKey Automatically
-    public System.String? OwnerRelId { get; set; } = default!;
-    public virtual StoreOwnerDto? OwnerRel { get; set; } = null!;
+    public System.String? OwnershipId { get; set; } = default!;
+    public virtual StoreOwnerDto? Ownership { get; set; } = null!;
 
     /// <summary>
     /// Store Verified emails ZeroOrOne EmailAddresses
