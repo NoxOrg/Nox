@@ -26,43 +26,47 @@ This document provides information about the various endpoints available in our 
 
 ## Owned Relationships Endpoints
 
-### Get BankNotes
+### BankNote
+
+#### Get BankNotes
 - **GET** `/api/Currencies/{key}/BankNotes`
   - Description: Retrieve all BankNotes for a specific Currency.
   
-### Create BankNote
+#### Create BankNote
 - **POST** `/api/Currencies/{key}/BankNotes/{relatedKey}`
   - Description: Create a new BankNote for a specific Currency.
   
-### Update BankNote
+#### Update BankNote
 - **PUT** `/api/Currencies/{key}/BankNotes/{relatedKey}`
   - Description: Update an existing BankNote for a specific Currency.
   
-### Partially Update BankNote
+#### Partially Update BankNote
 - **PATCH** `/api/Currencies/{key}/BankNotes/{relatedKey}`
   - Description: Partially update an existing BankNote for a specific Currency.
 
-### Delete BankNote
+#### Delete BankNote
 - **DELETE** `/api/Currencies/{key}/BankNotes/{relatedKey}`
   - Description: Delete an existing BankNote by its ID for a specific Currency.
 
-### Get ExchangeRates
+### ExchangeRate
+
+#### Get ExchangeRates
 - **GET** `/api/Currencies/{key}/ExchangeRates`
   - Description: Retrieve all ExchangeRates for a specific Currency.
   
-### Create ExchangeRate
+#### Create ExchangeRate
 - **POST** `/api/Currencies/{key}/ExchangeRates/{relatedKey}`
   - Description: Create a new ExchangeRate for a specific Currency.
   
-### Update ExchangeRate
+#### Update ExchangeRate
 - **PUT** `/api/Currencies/{key}/ExchangeRates/{relatedKey}`
   - Description: Update an existing ExchangeRate for a specific Currency.
   
-### Partially Update ExchangeRate
+#### Partially Update ExchangeRate
 - **PATCH** `/api/Currencies/{key}/ExchangeRates/{relatedKey}`
   - Description: Partially update an existing ExchangeRate for a specific Currency.
 
-### Delete ExchangeRate
+#### Delete ExchangeRate
 - **DELETE** `/api/Currencies/{key}/ExchangeRates/{relatedKey}`
   - Description: Delete an existing ExchangeRate by its ID for a specific Currency.
 

@@ -26,23 +26,25 @@ This document provides information about the various endpoints available in our 
 
 ## Owned Relationships Endpoints
 
-### Get EmployeePhoneNumbers
+### EmployeePhoneNumber
+
+#### Get EmployeePhoneNumbers
 - **GET** `/api/Employees/{key}/EmployeePhoneNumbers`
   - Description: Retrieve all EmployeePhoneNumbers for a specific Employee.
   
-### Create EmployeePhoneNumber
+#### Create EmployeePhoneNumber
 - **POST** `/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}`
   - Description: Create a new EmployeePhoneNumber for a specific Employee.
   
-### Update EmployeePhoneNumber
+#### Update EmployeePhoneNumber
 - **PUT** `/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}`
   - Description: Update an existing EmployeePhoneNumber for a specific Employee.
   
-### Partially Update EmployeePhoneNumber
+#### Partially Update EmployeePhoneNumber
 - **PATCH** `/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}`
   - Description: Partially update an existing EmployeePhoneNumber for a specific Employee.
 
-### Delete EmployeePhoneNumber
+#### Delete EmployeePhoneNumber
 - **DELETE** `/api/Employees/{key}/EmployeePhoneNumbers/{relatedKey}`
   - Description: Delete an existing EmployeePhoneNumber by its ID for a specific Employee.
 

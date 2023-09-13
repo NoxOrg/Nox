@@ -26,23 +26,25 @@ This document provides information about the various endpoints available in our 
 {{ end }}{{ if entity.OwnedRelationships | array.size > 0 }}
 ## Owned Relationships Endpoints
 {{ for ownedRelationship in entity.OwnedRelationships }}
-### Get {{ownedRelationship.EntityPlural}}
+### {{ownedRelationship.Entity}}
+
+#### Get {{ownedRelationship.EntityPlural}}
 - **GET** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}`
   - Description: Retrieve all {{ownedRelationship.EntityPlural}} for a specific {{entity.Name}}.
   
-### Create {{ownedRelationship.Entity}}
+#### Create {{ownedRelationship.Entity}}
 - **POST** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}/{relatedKey}`
   - Description: Create a new {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
   
-### Update {{ownedRelationship.Entity}}
+#### Update {{ownedRelationship.Entity}}
 - **PUT** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}/{relatedKey}`
   - Description: Update an existing {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
   
-### Partially Update {{ownedRelationship.Entity}}
+#### Partially Update {{ownedRelationship.Entity}}
 - **PATCH** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}/{relatedKey}`
   - Description: Partially update an existing {{ownedRelationship.Entity}} for a specific {{entity.Name}}.
 
-### Delete {{ownedRelationship.Entity}}
+#### Delete {{ownedRelationship.Entity}}
 - **DELETE** `/api/{{entity.PluralName}}/{key}/{{ownedRelationship.EntityPlural}}/{relatedKey}`
   - Description: Delete an existing {{ownedRelationship.Entity}} by its ID for a specific {{entity.Name}}.
 {{ end -}}
