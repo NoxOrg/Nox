@@ -3,16 +3,17 @@ using ClientApi.Application.Dto;
 using AutoFixture;
 using System.Net;
 using AutoFixture.AutoMoq;
+using ClientApi.Tests;
 
-namespace ClientApi.Tests.Tests
+namespace ClientApi.ServiceMetadata
 {
     [Collection("Sequential")]
-    public class GenerateODataEndPointHtmlRoutingTests
+    public class GenerateMetadataTests
     {
         private readonly Fixture _fixture;
         private readonly ODataFixture _oDataFixture;
 
-        public GenerateODataEndPointHtmlRoutingTests()
+        public GenerateMetadataTests()
         {
             _fixture = new Fixture();
             _fixture.Customize(new AutoMoqCustomization());
@@ -24,8 +25,8 @@ namespace ClientApi.Tests.Tests
         {
             var result = await _oDataFixture.GetAsync("$odata");
             var content = await result.Content.ReadAsStringAsync();
-                       
-            File.WriteAllText("../../../odata.html", content);
+
+            File.WriteAllText("../../../ServiceMetadata/odata.html", content);
         }
         [Fact]
         public async Task Generate_OdataMetadata()
@@ -33,7 +34,15 @@ namespace ClientApi.Tests.Tests
             var result = await _oDataFixture.GetAsync("api/$metadata");
             var content = await result.Content.ReadAsStringAsync();
 
-            File.WriteAllText("../../../metadata.xml", content);
+            File.WriteAllText("../../../ServiceMetadata/oDataMetadata.xml", content);
+        }
+        [Fact]
+        public async Task Generate_Swagger_Html()
+        {
+            var result = await _oDataFixture.GetAsync("swagger/v1/swagger.json");
+            var content = await result.Content.ReadAsStringAsync();
+
+            File.WriteAllText("../../../ServiceMetadata/swagger.json", content);
         }
     }
 }
