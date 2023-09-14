@@ -20,7 +20,7 @@ public abstract class NoxIntegrationTestBase :  IClassFixture<NoxTestContainerSe
         _fixture.Customize(new AutoMoqCustomization());
 
         _appFactory = _fixture.Create<NoxTestApplicationFactory>();
-        _appFactory.ConnectionStringGetter = () => containerService.ConnectionString;
+        _appFactory.UseContainer(containerService);
     }
 
     /// <summary>

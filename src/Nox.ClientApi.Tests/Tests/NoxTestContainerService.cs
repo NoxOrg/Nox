@@ -1,5 +1,6 @@
 ﻿using DotNet.Testcontainers.Containers;
 using Nox;
+using Nox.Types.EntityFramework.Abstractions;
 using Testcontainers.MsSql;
 using Testcontainers.PostgreSql;
 
@@ -8,9 +9,18 @@ namespace ClientApi.Tests;
 public class NoxTestContainerService : IAsyncLifetime
 {
     private DockerContainer? _dockerContainer;
-    private Func<string> ConnectionStringGetter = () => string.Empty;
+    private Func<string> _connectionStringGetter = () => string.Empty;
     private readonly DatabaseServerProvider _dbProvider = DatabaseServerProvider.Postgres;
 
+    public INoxDatabaseProvider GetDatabaseProvider(IEnumerable<INoxTypeDatabaseConfigurator> configurations)
+    {
+        return _dbProvider switch
+        {
+            DatabaseServerProvider.Postgres => new PostgreSqlTestProvider(_connectionStringGetter(), configurations),
+            DatabaseServerProvider.SqlServer => new MsSqlTestProvider(_connectionStringGetter(), configurations),
+            _ => throw new NotImplementedException($"{_dbProvider} is not suported"),
+        };
+    }
 
     public Task InitializeAsync()
     {
@@ -22,27 +32,26 @@ public class NoxTestContainerService : IAsyncLifetime
                   .WithDatabase("db")
                   .WithUsername("postgres")
                   .WithPassword("postgres")
-                .WithAutoRemove(true)
-                .WithCleanUp(true)
-                .Build();
+                  .WithAutoRemove(true)
+                  .WithCleanUp(true)
+                  .Build();
 
-                ConnectionStringGetter = () => postgreContainer.GetConnectionString();
+                _connectionStringGetter = () => postgreContainer.GetConnectionString();
                 _dockerContainer = postgreContainer;
 
                 break;
             case DatabaseServerProvider.SqlServer:
                 var sqlContainer = new MsSqlBuilder()
-                .WithImage("mcr.microsoft.com/mssql/server:2022-latest")
-                .WithEnvironment("ACCEPT_EULA", "Y")
-                .WithAutoRemove(true)
-                .Build();
+                  .WithAutoRemove(true)
+                  .WithCleanUp(true)
+                  .Build();
 
-                ConnectionStringGetter = () => sqlContainer.GetConnectionString();
+                _connectionStringGetter = () => sqlContainer.GetConnectionString();
                 _dockerContainer = sqlContainer;
 
                 break;
             default:
-                throw new ArgumentOutOfRangeException($"{_dbProvider} is not suported");
+                throw new NotImplementedException($"{_dbProvider} is not suported");
         }
 
         return _dockerContainer.StartAsync();
@@ -56,7 +65,4 @@ public class NoxTestContainerService : IAsyncLifetime
         }
         return _dockerContainer.DisposeAsync().AsTask();
     }
-
-    public string ConnectionString  => ConnectionStringGetter();
-
 }
