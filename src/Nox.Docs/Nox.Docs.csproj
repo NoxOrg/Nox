@@ -1,33 +1,29 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net7.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	</PropertyGroup>
 
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
-    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
-  </PropertyGroup>
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="Templates\EntityEndpoint.template.md" />
-  </ItemGroup>
+	<ItemGroup>
+		<EmbeddedResource Include="**\**\*.template.md" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <EmbeddedResource Include="Templates\EntityEndpoint.template.md" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="Scriban" Version="5.9.0" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Scriban" Version="5.9.0" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
-  </ItemGroup>
+	<ItemGroup>
+		<ProjectReference Include="..\Nox.Solution\Nox.Solution.csproj" />
+	</ItemGroup>
 
 </Project>
