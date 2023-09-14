@@ -26,13 +26,16 @@ namespace ClientApi.Application.Factories;
 public abstract class CountryFactoryBase: IEntityFactory<Country,CountryCreateDto>
 {
     protected IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> CountryLocalNameFactory {get;}
+    protected IEntityFactory<CountryBarCode,CountryBarCodeCreateDto> CountryBarCodeFactory {get;}
 
     public CountryFactoryBase
     (
-        IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> countrylocalnamefactory
+        IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> countrylocalnamefactory,
+        IEntityFactory<CountryBarCode,CountryBarCodeCreateDto> countrybarcodefactory
         )
     {        
-        CountryLocalNameFactory = countrylocalnamefactory;
+        CountryLocalNameFactory = countrylocalnamefactory;        
+        CountryBarCodeFactory = countrybarcodefactory;
     }
 
     public virtual Country CreateEntity(CountryCreateDto createDto)
@@ -46,7 +49,12 @@ public abstract class CountryFactoryBase: IEntityFactory<Country,CountryCreateDt
         if (createDto.Population is not null)entity.Population = ClientApi.Domain.Country.CreatePopulation(createDto.Population.NonNullValue<System.Int32>());
         if (createDto.CountryDebt is not null)entity.CountryDebt = ClientApi.Domain.Country.CreateCountryDebt(createDto.CountryDebt.NonNullValue<MoneyDto>());
         if (createDto.FirstLanguageCode is not null)entity.FirstLanguageCode = ClientApi.Domain.Country.CreateFirstLanguageCode(createDto.FirstLanguageCode.NonNullValue<System.String>());
+        //entity.Workplaces = Workplaces.Select(dto => dto.ToEntity()).ToList();
         entity.CountryLocalNames = createDto.CountryLocalNames.Select(dto => CountryLocalNameFactory.CreateEntity(dto)).ToList();
+        if(createDto.CountryBarCode is not null)
+        {
+            entity.CountryBarCode = CountryBarCodeFactory.CreateEntity(createDto.CountryBarCode);
+        }
         return entity;
     }
 }
@@ -55,7 +63,8 @@ public partial class CountryFactory : CountryFactoryBase
 {
     public CountryFactory
     (
-        IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> countrylocalnamefactory
-    ): base(countrylocalnamefactory)                      
+        IEntityFactory<CountryLocalName,CountryLocalNameCreateDto> countrylocalnamefactory,
+        IEntityFactory<CountryBarCode,CountryBarCodeCreateDto> countrybarcodefactory
+    ): base(countrylocalnamefactory,countrybarcodefactory)                      
     {}
 }

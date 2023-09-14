@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace ClientApi.Domain;
+public partial class CountryLocalName:CountryLocalNameBase
+{
 
+}
 /// <summary>
 /// Local names for countries.
 /// </summary>
-public partial class CountryLocalName : EntityBase, IOwnedEntity
+public abstract class CountryLocalNameBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// The unique identifier (Required).
@@ -24,5 +27,10 @@ public partial class CountryLocalName : EntityBase, IOwnedEntity
     /// Local name (Required).
     /// </summary>
     public Nox.Types.Text Name { get; set; } = null!;
+
+    /// <summary>
+    /// Local name in native tongue (Optional).
+    /// </summary>
+    public Nox.Types.Text? NativeName { get; set; } = null!;
 
 }

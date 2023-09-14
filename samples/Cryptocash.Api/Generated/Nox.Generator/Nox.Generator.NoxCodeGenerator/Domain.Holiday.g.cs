@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace Cryptocash.Domain;
+public partial class Holiday:HolidayBase
+{
 
+}
 /// <summary>
 /// Holiday related to country.
 /// </summary>
-public partial class Holiday : EntityBase, IOwnedEntity
+public abstract class HolidayBase : EntityBase, IOwnedEntity
 {
     /// <summary>
     /// Country's holiday unique identifier (Required).

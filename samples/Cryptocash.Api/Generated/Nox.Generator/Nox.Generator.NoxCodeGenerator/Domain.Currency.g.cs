@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace Cryptocash.Domain;
+public partial class Currency:CurrencyBase
+{
 
+}
 /// <summary>
 /// Currency and related data.
 /// </summary>
-public partial class Currency : AuditableEntityBase, IEntityConcurrent
+public abstract class CurrencyBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Currency unique identifier (Required).

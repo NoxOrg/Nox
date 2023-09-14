@@ -48,7 +48,7 @@ public partial class CashStockOrder
     public static Nox.Types.FormulaTypeOptions StatusTypeOptions {get; private set;} = new ()
     {
         Expression = "DeliveryDateTime != null ? \"delivered\" : \"ordered\"",
-        Returns = Nox.Types.FormulaReturnType.String,
+        Returns = Nox.Types.FormulaReturnType.@string,
     };
     
     public static Formula CreateStatus(System.String value)

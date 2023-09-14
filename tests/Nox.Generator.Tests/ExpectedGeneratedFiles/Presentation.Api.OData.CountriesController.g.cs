@@ -108,7 +108,7 @@ public abstract class CountriesControllerBase : ODataController
         return Ok(item);
     }
     
-    public virtual async Task<ActionResult<CountryDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CountryUpdateDto> country)
+    public virtual async Task<ActionResult<CountryDto>> Patch([FromRoute] System.String key, [FromBody] Delta<CountryDto> country)
     {
         if (!ModelState.IsValid)
         {
@@ -148,6 +148,90 @@ public abstract class CountriesControllerBase : ODataController
         
         return NoContent();
     }
+    
+    #region Owned Relationships
+    
+    [EnableQuery]
+    public virtual async Task<ActionResult<IQueryable<CountryLocalNameDto>>> GetCountryLocalNames([FromRoute] System.String key)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var item = await _mediator.Send(new GetCountryByIdQuery(key));
+        
+        if (item is null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(item.CountryLocalNames);
+    }
+    
+    [EnableQuery]
+    [HttpGet("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
+    public virtual async Task<ActionResult<CountryLocalNameDto>> GetCountryLocalNameNonConventional(System.String key, System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var child = await TryGetCountryLocalName(key, new CountryLocalNameKeyDto(relatedKey));
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Ok(child);
+    }
+    
+    public virtual async Task<ActionResult> PostToCountryLocalNames([FromRoute] System.String key, [FromBody] CountryLocalNameCreateDto countryLocalName)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        var etag = Request.GetDecodedEtagHeader();
+        var createdKey = await _mediator.Send(new CreateCountryLocalNameForCountryCommand(new CountryKeyDto(key), countryLocalName, etag));
+        if (createdKey == null)
+        {
+            return NotFound();
+        }
+        
+        var child = await TryGetCountryLocalName(key, createdKey);
+        if (child == null)
+        {
+            return NotFound();
+        }
+        
+        return Created(child);
+    }
+    
+    [HttpDelete("api/Countries/{key}/CountryLocalNames/{relatedKey}")]
+    public virtual async Task<ActionResult> DeleteCountryLocalNameNonConventional(System.String key, System.String relatedKey)
+    {
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var result = await _mediator.Send(new DeleteCountryLocalNameForCountryCommand(new CountryKeyDto(key), new CountryLocalNameKeyDto(relatedKey)));
+        if (!result)
+        {
+            return NotFound();
+        }
+        
+        return NoContent();
+    }
+    
+    private async Task<CountryLocalNameDto?> TryGetCountryLocalName(System.String key, CountryLocalNameKeyDto childKeyDto)
+    {
+        var parent = await _mediator.Send(new GetCountryByIdQuery(key));
+        return parent?.CountryLocalNames.SingleOrDefault(x => x.Id == childKeyDto.keyId);
+    }
+    
+    #endregion
+    
     
     /// <summary>
     /// Returns a list of countries for a given continent.

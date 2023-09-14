@@ -49,10 +49,22 @@ attributes:
 
 ownedRelationships:
 
-  - name: CountryLocalNames
+  - name: CountryShortNames
     description: is also know as
     relationship: zeroOrMany
     entity: CountryLocalName
+
+  - name: CountryBarCode
+    description: is also coded as
+    relationship: zeroOrOne
+    entity: CountryBarCode
+
+relationships:
+
+    - name: PhysicalWorkplaces
+      description: Country workplaces
+      relationship: zeroOrMany
+      entity: Workplace
 
 persistence:
     isAudited: true    

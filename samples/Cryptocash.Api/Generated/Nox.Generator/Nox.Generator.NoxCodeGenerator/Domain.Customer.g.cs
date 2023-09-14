@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace Cryptocash.Domain;
+public partial class Customer:CustomerBase
+{
 
+}
 /// <summary>
 /// Customer definition and related data.
 /// </summary>
-public partial class Customer : AuditableEntityBase, IEntityConcurrent
+public abstract class CustomerBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Customer's unique identifier (Required).

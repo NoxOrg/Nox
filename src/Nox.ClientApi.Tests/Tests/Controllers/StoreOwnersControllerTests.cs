@@ -10,7 +10,7 @@ namespace ClientApi.Tests.Tests.Controllers
     [Collection("Sequential")]
     public class StoreOwnersControllerTests 
     {
-        private const string EntityUrl = "api/storeowners";
+        public const string EntityUrl = "api/storeowners";
         private readonly Fixture _fixture;
         private readonly ODataFixture _oDataFixture;
 
@@ -288,5 +288,38 @@ namespace ClientApi.Tests.Tests.Controllers
             putResult!.Notes.Should().BeNull();
         }
         #endregion
+
+        [Fact]
+        public async Task Deleted_ShouldPerformSoftDelete()
+        {
+            // Arrange
+            var createDto = new StoreOwnerCreateDto
+            {
+                Id = "002",
+                Name = _fixture.Create<string>(),
+                StreetAddress = new StreetAddressDto(
+                    StreetNumber: null!,
+                    AddressLine1: "3000 Hillswood Business Park",
+                    AddressLine2: null!,
+                    Route: null!,
+                    Locality: null!,
+                    Neighborhood: null!,
+                    AdministrativeArea1: null!,
+                    AdministrativeArea2: null!,
+                    PostalCode: "KT16 0RS",
+                    CountryId: CountryCode.GB),
+            };
+
+            // Act
+            var result = await _oDataFixture.PostAsync<StoreOwnerCreateDto, StoreOwnerDto>(EntityUrl, createDto);
+            var headers = _oDataFixture.CreateEtagHeader(result?.Etag);
+
+            await _oDataFixture.DeleteAsync($"{EntityUrl}/{result!.Id}", headers);
+
+            // Assert
+            var queryResult = await _oDataFixture.GetAsync($"{EntityUrl}/{result!.Id}");
+
+            queryResult.StatusCode.Should().Be(HttpStatusCode.NotFound);
+        }
     }
 }

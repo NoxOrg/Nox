@@ -20,4 +20,10 @@ public partial class WorkplaceUpdateDto
     [Required(ErrorMessage = "Name is required")]
     
     public System.String Name { get; set; } = default!;
+
+    /// <summary>
+    /// Workplace Workplace country ZeroOrOne Countries
+    /// </summary>
+    
+    public System.Int64? BelongsToCountryId { get; set; } = default!;
 }

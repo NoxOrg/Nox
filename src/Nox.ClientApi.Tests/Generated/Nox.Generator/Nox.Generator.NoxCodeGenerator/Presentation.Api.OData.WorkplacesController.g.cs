@@ -101,7 +101,7 @@ public abstract class WorkplacesControllerBase : ODataController
         return Ok(item);
     }
     
-    public virtual async Task<ActionResult<WorkplaceDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<WorkplaceUpdateDto> workplace)
+    public virtual async Task<ActionResult<WorkplaceDto>> Patch([FromRoute] System.UInt32 key, [FromBody] Delta<WorkplaceDto> workplace)
     {
         if (!ModelState.IsValid)
         {

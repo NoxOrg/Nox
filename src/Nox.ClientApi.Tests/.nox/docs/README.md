@@ -13,13 +13,17 @@ erDiagram
     Country {
     }
     Country||--o{CountryLocalName : "is also know as"
+    Country||--o|CountryBarCode : "is also coded as"
     CountryLocalName {
+    }
+    CountryBarCode {
     }
     Store {
     }
     Store||--o|EmailAddress : "Verified emails"
     Workplace {
     }
+    Workplace}o..o|Country : "Workplace country"
     StoreOwner {
     }
     StoreOwner|o..o{Store : "Set of stores that this owner owns"
@@ -50,6 +54,25 @@ CountryLocalNameId|AutoNumber|The unique identifier.|Required, Owned Entity
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
 
+#### <u>Relationships</u>
+
+Description|Cardinality|Related Entity|Name|Can Navigate?
+-----------|-----------|--------------|----|-------------
+Country workplaces|ZeroOrMany|Workplace|PhysicalWorkplaces|Yes
+
+
+### Country.CountryBarCode (Owned by Country)
+
+Bar code for country.
+
+#### <u>Members (Keys, Attributes & Relationships)</u>
+
+Member|Type|Description|Info
+---------|----|----------|-------
+BarCodeName|Text|Bar code name.|Required, MinLength: 1, MaxLength: 63
+BarCodeNumber|Number|Bar code number.|
+
+
 
 
 ### Country.CountryLocalName (Owned by Country)
@@ -62,6 +85,7 @@ Member|Type|Description|Info
 ---------|----|----------|-------
 Id|AutoNumber|The unique identifier.|Required, Primary Key
 Name|Text|Local name.|Required, MinLength: 4, MaxLength: 63
+NativeName|Text|Local name in native tongue.|MinLength: 4, MaxLength: 63
 
 
 
@@ -76,8 +100,10 @@ Stores. *This entity is auditable and tracks info about who, which system and wh
 
 Member|Type|Description|Info
 ---------|----|----------|-------
-Id|Nuid|NuidField Type.|Required, Primary Key, Separator: ., PropertyNames: System.String[]
+Id|DatabaseGuid||Required, Primary Key
 Name|Text|Store Name.|Required, MinLength: 4, MaxLength: 63
+Address|StreetAddress|Street Address.|Required
+Location|LatLong|Location.|Required
 StoreOwnerId|Text||Required, Foreign Key, MinLength: 3, MaxLength: 3, IsUnicode: false
 *(AuditInfo)*||*Contains date/time, user and system info on state changes.*|*Created, Updated, Deleted*
 
@@ -86,7 +112,7 @@ StoreOwnerId|Text||Required, Foreign Key, MinLength: 3, MaxLength: 3, IsUnicode:
 
 Description|Cardinality|Related Entity|Name|Can Navigate?
 -----------|-----------|--------------|----|-------------
-Store owner relationship|ZeroOrOne|StoreOwner|OwnerRel|Yes
+Owner of the Store|ZeroOrOne|StoreOwner|Ownership|Yes
 
 
 ### Store.EmailAddress (Owned by Store)
@@ -127,7 +153,7 @@ Notes|Text|Notes.|
 
 Description|Cardinality|Related Entity|Name|Can Navigate?
 -----------|-----------|--------------|----|-------------
-Set of stores that this owner owns|ZeroOrMany|Store|StoreRel|Yes
+Set of stores that this owner owns|ZeroOrMany|Store|Stores|Yes
 
 
 ### Workplace
@@ -143,8 +169,14 @@ Member|Type|Description|Info
 Id|Nuid|Workplace unique identifier.|Required, Primary Key, Separator: -, PropertyNames: System.String[]
 Name|Text|Workplace Name.|Required, MinLength: 4, MaxLength: 63
 Greeting|Formula|The Formula.|
+CountryId|AutoNumber|The unique identifier.|Required, Foreign Key
 
 
+#### <u>Relationships</u>
+
+Description|Cardinality|Related Entity|Name|Can Navigate?
+-----------|-----------|--------------|----|-------------
+Workplace country|ZeroOrOne|Country|BelongsToCountry|Yes
 
 
 

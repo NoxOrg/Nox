@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace Cryptocash.Domain;
+public partial class PaymentDetail:PaymentDetailBase
+{
 
+}
 /// <summary>
 /// Customer payment account related data.
 /// </summary>
-public partial class PaymentDetail : AuditableEntityBase, IEntityConcurrent
+public abstract class PaymentDetailBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Customer payment account unique identifier (Required).

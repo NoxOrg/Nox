@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace Cryptocash.Domain;
+public partial class CashStockOrder:CashStockOrderBase
+{
 
+}
 /// <summary>
 /// Vending machine cash stock order and related data.
 /// </summary>
-public partial class CashStockOrder : AuditableEntityBase, IEntityConcurrent
+public abstract class CashStockOrderBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Vending machine's order unique identifier (Required).
@@ -38,7 +41,7 @@ public partial class CashStockOrder : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// Order status (Optional).
     /// </summary>
-    public String? Status
+    public string? Status
     { 
         get { return DeliveryDateTime != null ? "delivered" : "ordered"; }
         private set { }

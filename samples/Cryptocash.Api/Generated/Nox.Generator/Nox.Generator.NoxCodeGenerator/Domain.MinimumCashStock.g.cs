@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace Cryptocash.Domain;
+public partial class MinimumCashStock:MinimumCashStockBase
+{
 
+}
 /// <summary>
 /// Minimum cash stock required for vending machine.
 /// </summary>
-public partial class MinimumCashStock : AuditableEntityBase, IEntityConcurrent
+public abstract class MinimumCashStockBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Vending machine cash stock unique identifier (Required).

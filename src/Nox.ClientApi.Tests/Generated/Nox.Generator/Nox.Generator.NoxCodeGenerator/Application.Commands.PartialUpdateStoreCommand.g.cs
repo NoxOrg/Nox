@@ -16,7 +16,7 @@ using Store = ClientApi.Domain.Store;
 
 namespace ClientApi.Application.Commands;
 
-public record PartialUpdateStoreCommand(System.UInt32 keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <StoreKeyDto?>;
+public record PartialUpdateStoreCommand(System.Guid keyId, Dictionary<string, dynamic> UpdatedProperties, System.Guid? Etag) : IRequest <StoreKeyDto?>;
 
 public class PartialUpdateStoreCommandHandler: CommandBase<PartialUpdateStoreCommand, Store>, IRequestHandler<PartialUpdateStoreCommand, StoreKeyDto?>
 {
@@ -37,7 +37,7 @@ public class PartialUpdateStoreCommandHandler: CommandBase<PartialUpdateStoreCom
 	{
 		cancellationToken.ThrowIfCancellationRequested();
 		OnExecuting(request);
-		var keyId = CreateNoxTypeForKey<Store,Nuid>("Id", request.keyId);
+		var keyId = CreateNoxTypeForKey<Store,DatabaseGuid>("Id", request.keyId);
 
 		var entity = await DbContext.Stores.FindAsync(keyId);
 		if (entity == null)

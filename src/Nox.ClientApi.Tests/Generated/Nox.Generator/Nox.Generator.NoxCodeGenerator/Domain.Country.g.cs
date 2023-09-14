@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace ClientApi.Domain;
+public partial class Country:CountryBase
+{
 
+}
 /// <summary>
 /// Country Entity.
 /// </summary>
-public partial class Country : AuditableEntityBase, IEntityConcurrent
+public abstract class CountryBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// The unique identifier (Required).
@@ -43,16 +46,28 @@ public partial class Country : AuditableEntityBase, IEntityConcurrent
     /// <summary>
     /// The Formula (Optional).
     /// </summary>
-    public String? ShortDescription
+    public string? ShortDescription
     { 
         get { return $"{Name} has a population of {Population} people."; }
         private set { }
     }
 
     /// <summary>
+    /// Country Country workplaces ZeroOrMany Workplaces
+    /// </summary>
+    public virtual List<Workplace> PhysicalWorkplaces { get; set; } = new();
+
+    /// <summary>
     /// Country is also know as ZeroOrMany CountryLocalNames
     /// </summary>
     public virtual List<CountryLocalName> CountryLocalNames { get; set; } = new();
+
+    public List<CountryLocalName> CountryShortNames => CountryLocalNames;
+
+    /// <summary>
+    /// Country is also coded as ZeroOrOne CountryBarCodes
+    /// </summary>
+     public virtual CountryBarCode? CountryBarCode { get; set; } = null!;
 
     /// <summary>
     /// Entity tag used as concurrency token.

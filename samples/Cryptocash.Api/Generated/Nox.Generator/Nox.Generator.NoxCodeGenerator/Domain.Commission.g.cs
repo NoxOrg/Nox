@@ -9,11 +9,14 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace Cryptocash.Domain;
+public partial class Commission:CommissionBase
+{
 
+}
 /// <summary>
 /// Exchange commission rate and amount.
 /// </summary>
-public partial class Commission : AuditableEntityBase, IEntityConcurrent
+public abstract class CommissionBase : AuditableEntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Commission unique identifier (Required).

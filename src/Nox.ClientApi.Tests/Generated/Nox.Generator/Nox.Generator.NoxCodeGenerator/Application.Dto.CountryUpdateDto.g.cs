@@ -32,4 +32,8 @@ public partial class CountryUpdateDto
     /// First Official Language (Optional).
     /// </summary>
     public System.String? FirstLanguageCode { get; set; }
+    /// <summary>
+    /// Country is also coded as ZeroOrOne CountryBarCodes
+    /// </summary>
+    public CountryBarCodeUpdateDto? CountryBarCode { get; set; } = null!;
 }

@@ -29,5 +29,9 @@ public abstract class CountryLocalNameCreateDtoBase : IEntityCreateDto<CountryLo
     /// </summary>
     [Required(ErrorMessage = "Name is required")]
     
-    public virtual System.String Name { get; set; } = default!;
+    public virtual System.String Name { get; set; } = default!;    
+    /// <summary>
+    /// Local name in native tongue (Optional).
+    /// </summary>
+    public virtual System.String? NativeName { get; set; }
 }

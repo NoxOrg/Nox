@@ -14,7 +14,11 @@ public static class LoggingOptionsBuilderExtensions
             .ReadFrom.Configuration(builder.Configuration)
             .Enrich.FromLogContext()
             .Enrich.WithExceptionDetails()
-            .WriteTo.Console();
+            .WriteTo.Console()
+#if (DEBUG)
+            .WriteTo.File("log.txt", rollingInterval: RollingInterval.Hour)
+#endif
+            ;
         var logger = loggerConfig.CreateLogger();
         builder.Services.AddSingleton(loggerConfig);
         builder.Logging.AddSerilog(logger);

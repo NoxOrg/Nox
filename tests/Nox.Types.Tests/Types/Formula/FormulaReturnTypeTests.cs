@@ -5,11 +5,11 @@ namespace Nox.Types.Tests.Types;
 public class FormulaReturnTypeTests
 {
     [Theory]
-    [InlineData(FormulaReturnType.String, typeof(string))]
-    [InlineData(FormulaReturnType.Int, typeof(int))]
-    [InlineData(FormulaReturnType.Long, typeof(long))]
-    [InlineData(FormulaReturnType.Double, typeof(double))]
-    [InlineData(FormulaReturnType.Bool, typeof(bool))]
+    [InlineData(FormulaReturnType.@string, typeof(string))]
+    [InlineData(FormulaReturnType.@int, typeof(int))]
+    [InlineData(FormulaReturnType.@long, typeof(long))]
+    [InlineData(FormulaReturnType.@double, typeof(double))]
+    [InlineData(FormulaReturnType.@bool, typeof(bool))]
     [InlineData(FormulaReturnType.@DateTime, typeof(System.DateTime))]
     public void AsNativeType_WithVariousFormulaReturnTypes_ReturnsNativeType(FormulaReturnType returnType, Type expectedType)
     {

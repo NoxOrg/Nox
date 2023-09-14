@@ -52,11 +52,18 @@ public partial class Workplace
     public static Nox.Types.FormulaTypeOptions GreetingTypeOptions {get; private set;} = new ()
     {
         Expression = "$\"Hello, {Name.Value}!\"",
-        Returns = Nox.Types.FormulaReturnType.String,
+        Returns = Nox.Types.FormulaReturnType.@string,
     };
     
     public static Formula CreateGreeting(System.String value)
         => Nox.Types.Formula.From(value, GreetingTypeOptions);
+    
+
+    /// <summary>
+    /// Type options and factory for property 'CountryId'
+    /// </summary>
+    public static Nox.Types.AutoNumber CreateCountryId(System.Int64 value)
+        => Nox.Types.AutoNumber.From(value);
     
 
 }

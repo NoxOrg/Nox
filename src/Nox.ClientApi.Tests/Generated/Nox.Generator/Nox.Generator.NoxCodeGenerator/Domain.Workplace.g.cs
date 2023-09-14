@@ -9,18 +9,21 @@ using Nox.Types;
 using Nox.Domain;
 
 namespace ClientApi.Domain;
+public partial class Workplace:WorkplaceBase
+{
 
+}
 /// <summary>
 /// Workplace.
 /// </summary>
-public partial class Workplace : EntityBase, IEntityConcurrent
+public abstract class WorkplaceBase : EntityBase, IEntityConcurrent
 {
     /// <summary>
     /// Workplace unique identifier (Required).
     /// </summary>
     public Nuid Id {get; set;} = null!;
     
-    	public void EnsureId()
+    	public virtual void EnsureId()
     	{
     		if(Id is null)
     		{
@@ -44,11 +47,21 @@ public partial class Workplace : EntityBase, IEntityConcurrent
     /// <summary>
     /// The Formula (Optional).
     /// </summary>
-    public String? Greeting
+    public string? Greeting
     { 
         get { return $"Hello, {Name.Value}!"; }
         private set { }
     }
+
+    /// <summary>
+    /// Workplace Workplace country ZeroOrOne Countries
+    /// </summary>
+    public virtual Country? BelongsToCountry { get; set; } = null!;
+
+    /// <summary>
+    /// Foreign key for relationship ZeroOrOne to entity Country
+    /// </summary>
+    public Nox.Types.AutoNumber? BelongsToCountryId { get; set; } = null!;
 
     /// <summary>
     /// Entity tag used as concurrency token.

@@ -36,6 +36,15 @@ public partial class WorkplaceMapper : EntityMapperBase<Workplace>
         }     
         entity.Name = noxTypeValue;
     
+
+        /// <summary>
+        /// Workplace Workplace country ZeroOrOne Countries
+        /// </summary>
+        noxTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "BelongsToCountry", dto.BelongsToCountryId);
+        if (noxTypeValue != null)
+        {        
+            entity.BelongsToCountryId = noxTypeValue;
+        }
     }
 
     public override void PartialMapToEntity(Workplace entity, Entity entityDefinition, Dictionary<string, dynamic> updatedProperties)
@@ -59,5 +68,16 @@ public partial class WorkplaceMapper : EntityMapperBase<Workplace>
         }
     
     
+        /// <summary>
+        /// Workplace Workplace country ZeroOrOne Countries
+        /// </summary>
+        if (updatedProperties.TryGetValue("CountryId", out value))
+        {
+            var noxRelationshipTypeValue = CreateNoxType<Nox.Types.AutoNumber>(entityDefinition, "BelongsToCountry", value);
+            if (noxRelationshipTypeValue != null)
+            {        
+                entity.BelongsToCountryId = noxRelationshipTypeValue;
+            }
+        }
     }
 }
